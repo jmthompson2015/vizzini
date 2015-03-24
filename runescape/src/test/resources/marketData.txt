@@ -1,0 +1,61 @@
+0 0 Adamant bar
+0 0 Adamantite ore
+0 0 Blurite bar
+0 0 Blurite ore
+0 0 Bronze bar
+0 0 Coal
+0 0 Copper ore
+0 0 Diamond
+0 0 Diamond amulet
+0 0 Diamond bracelet
+0 0 Diamond necklace
+0 0 Diamond ring
+0 0 Dragonstone
+0 0 Dragonstone amulet
+0 0 Dragonstone bracelet
+0 0 Dragonstone necklace
+0 0 Dragonstone ring
+0 0 Elemental bar
+0 0 Elemental ore
+0 0 Emerald
+0 0 Emerald amulet
+0 0 Emerald bracelet
+0 0 Emerald necklace
+0 0 Emerald ring
+0 0 Gold amulet
+0 0 Gold bar
+0 0 Gold bracelet
+0 0 Gold necklace
+0 0 Gold ore
+0 0 Gold ring
+0 0 Iron bar
+0 0 Iron ore
+0 0 Mithril bar
+0 0 Mithril ore
+0 0 Onxy
+0 0 Onxy amulet
+0 0 Onxy bracelet
+0 0 Onxy necklace
+0 0 Onxy ring
+0 0 Ruby
+0 0 Ruby amulet
+0 0 Ruby bracelet
+0 0 Ruby necklace
+0 0 Ruby ring
+0 0 Rune bar
+0 0 Runite ore
+0 0 Sapphire
+0 0 Sapphire amulet
+0 0 Sapphire bracelet
+0 0 Sapphire necklace
+0 0 Sapphire ring
+0 0 Silver bar
+0 0 Silver ore
+0 0 Steel bar
+0 0 Tin ore
+0 0 Uncut diamond
+0 0 Uncut dragonstone
+0 0 Uncut emerald
+0 0 Uncut onxy
+0 0 Uncut ruby
+0 0 Uncut sapphire
