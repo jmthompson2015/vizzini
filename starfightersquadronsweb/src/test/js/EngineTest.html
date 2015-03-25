@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>EngineTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="../../main/css/ManeuverChooser.css">
+<link rel="stylesheet" href="../../main/css/PlanningPanel.css">
+
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../main/js/util/Logger.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+<script src="../../main/js/util/ArrayUtilities.js"></script>
+<script src="../../main/js/util/HtmlUtilities.js"></script>
+
+<script src="../../main/js/Phase.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/DamageCard.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/Environment.js"></script>
+<script src="../../main/js/Adjudicator.js"></script>
+<script src="../../main/js/ManeuverAction.js"></script>
+<script src="../../main/js/PlanningAction.js"></script>
+<script src="../../main/js/AttackDice.js"></script>
+<script src="../../main/js/DefenseDice.js"></script>
+<script src="../../main/js/CombatAction.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+<script src="../../main/js/Engine.js"></script>
+
+<script src="../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../main/js/ui/ManeuverChooser.js"></script>
+<script src="../../main/js/ui/PlanningPanel.js"></script>
+<script src="../../main/js/ui/HumanAgent.js"></script>
+<script src="../../main/js/ui/PlayAreaUI.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit.test("Engine.start()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = new Environment();
+        var adjudicator = new Adjudicator();
+        var engine = new Engine(environment, adjudicator);
+
+        // Run.
+        environment.setPhase(Phase.PLANNING_START);
+
+        // Verify.
+        assert.equal(0, 0);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+	<div id="inputArea"
+		style="background-color: lightBlue; display: inline-block;"></div>
+</body>
+</html>

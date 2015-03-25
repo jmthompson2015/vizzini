@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestPlayAreaUI</title>
+
+<script src="../../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/ArrayUtilities.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+
+<script src="../../../main/js/Phase.js"></script>
+<script src="../../../main/js/Team.js"></script>
+<script src="../../../main/js/Maneuver.js"></script>
+<script src="../../../main/js/ManeuverAction.js"></script>
+<script src="../../../main/js/ShipAction.js"></script>
+<script src="../../../main/js/Ship.js"></script>
+<script src="../../../main/js/Path.js"></script>
+<script src="../../../main/js/RangeRuler.js"></script>
+<script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/Pilot.js"></script>
+<script src="../../../main/js/DamageCard.js"></script>
+<script src="../../../main/js/UpgradeCard.js"></script>
+<script src="../../../main/js/Token.js"></script>
+<script src="../../../main/js/Position.js"></script>
+<script src="../../../main/js/SquadBuilder.js"></script>
+<script src="../../../main/js/Environment.js"></script>
+<script src="../../../main/js/SimpleAgent.js"></script>
+
+<script src="../../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../../main/js/ui/HumanAgent.js"></script>
+<script src="../../../main/js/ui/PlayAreaUI.js"></script>
+<script src="../../../main/js/ui/PlayState.js"></script>
+
+</head>
+<body>
+
+	<canvas id="playAreaCanvas" width="915" height="915"></canvas>
+
+	<script>
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+
+        var environment = Environment.createCoreSetEnvironment();
+        var imageUtils = new ImageUtilities();
+        var playAreaUI = new PlayAreaUI(environment, imageUtils);
+
+        var round = environment.getRound();
+        var phase = Phase.ACTIVATION_EXECUTE_MANEUVER;
+        var activeToken = environment.getActiveToken();
+        var tokenPositions = PlayState.createTokenPositions(environment);
+        var playState = new PlayState(round, phase, activeToken, tokenPositions);
+
+        var canvas = document.getElementById("playAreaCanvas");
+        var context = canvas.getContext("2d");
+        playAreaUI.paintComponent(context, playState);
+
+        setTimeout(function()
+        {
+            LOGGER.info("timer expired");
+            var round = environment.getRound();
+            var phase = environment.getPhase();
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState = new PlayState(round, phase, activeToken, tokenPositions);
+            playAreaUI.paintComponent(context, playState);
+        }, 2000);
+    </script>
+</body>
+</html>

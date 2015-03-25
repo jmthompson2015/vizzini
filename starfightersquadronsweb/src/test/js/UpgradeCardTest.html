@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>UpgradeCardTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
+
+<script>
+    QUnit.test("UpgradeType properties Astromech", function(assert)
+    {
+        var type = UpgradeType.ASTROMECH;
+        var properties = UpgradeType.properties[type];
+        assert.equal(properties.displayName, "Astromech");
+        assert.equal(properties.value, "astromech");
+    });
+
+    QUnit.test("UpgradeType.values()", function(assert)
+    {
+        assert.ok(UpgradeType.values);
+        assert.equal(UpgradeType.values.length, 14);
+        assert.equal(UpgradeType.values[0], UpgradeType.ASTROMECH);
+        assert.equal(UpgradeType.values[13], UpgradeType.TURRET);
+    });
+
+    QUnit.test("UpgradeCard properties Adrenaline Rush", function(
+            assert)
+    {
+        var upgrade = UpgradeCard.ADRENALINE_RUSH;
+        var properties = UpgradeCard.properties[upgrade];
+        assert.equal(properties.name, "Adrenaline Rush");
+        assert.equal(properties.type, UpgradeType.ELITE);
+        assert.equal(properties.description, "When you reveal a red maneuver, you may discard this card to treat that manuever as a white maneuver until the end of the Activation phase.");
+        assert.equal(properties.squadPointCost, 1);
+        assert.equal(properties.value, "adrenalineRush");
+    });
+
+    QUnit.test("UpgradeCard.values()", function(assert)
+    {
+        assert.ok(UpgradeCard.values);
+        assert.equal(UpgradeCard.values.length, 91);
+        assert.equal(UpgradeCard.values[0], UpgradeCard.ADRENALINE_RUSH);
+        assert.equal(UpgradeCard.values[90], UpgradeCard.PROTON_TORPEDOES);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

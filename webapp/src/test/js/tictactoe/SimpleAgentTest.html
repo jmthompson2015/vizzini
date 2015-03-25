@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SimpleAgentTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/ArrayAugments.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../main/js/util/NumberAugments.js"></script>
+<script src="../../../main/js/util/StringAugments.js"></script>
+
+<script src="../../../main/js/tictactoe/SimpleAgent.js"></script>
+<script src="../../../main/js/tictactoe/BoardUtilities.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("getMove()", function(assert)
+    {
+        // Setup.
+        var board = "X2/1o1/3 X";
+        var agent = new SimpleAgent("X");
+
+        // Run.
+        var result = agent.getMove(board);
+        LOGGER.debug("result = "+result);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(0 <= result && result < 9);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

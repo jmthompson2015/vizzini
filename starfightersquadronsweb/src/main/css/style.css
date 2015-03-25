@@ -1,0 +1,46 @@
+body {
+    font-family: sans-serif;
+}
+
+.dialog {
+    border: 2px solid black;
+    width: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+#imperialPilots {
+    margin: 0px;
+    padding: 1px;
+    vertical-align: top;
+}
+
+#inputArea {
+    background-color: lightBlue;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.planningOk {
+    vertical-align: bottom;
+}
+
+#playArea {
+    vertical-align: top;
+}
+
+#rebelPilots {
+    margin: 0px;
+    padding: 1px;
+    vertical-align: top;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: center;
+}

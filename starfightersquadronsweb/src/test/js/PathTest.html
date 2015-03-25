@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PathTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+
+<script>
+    QUnit.test("Path properties", function(assert)
+    {
+        var result = new Path();
+        result.add(20, -20);
+        result.add(20, 20);
+        result.add(-20, 20);
+        result.add(-20, -20);
+        result.close();
+
+        assert.ok(result);
+        assert.equal(result.getPointsLength(), 10);
+
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+    });
+
+    QUnit.test("RectanglePath properties", function(assert)
+    {
+        var result = new RectanglePath(40, 40);
+
+        assert.ok(result);
+        assert.equal(result.getPointsLength(), 10);
+
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

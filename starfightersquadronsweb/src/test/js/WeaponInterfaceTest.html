@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>WeaponInterfaceTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../main/js/util/Logger.js"></script>
+<script src="../../main/js/util/ArrayUtilities.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/Token.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+
+    QUnit.test("Weapon interface", function(assert)
+    {
+        // Setup.
+        var name = "myWeapon";
+        var isPrimary = true;
+        var weaponValue = 12;
+        var ranges = [ Range.TWO, Range.THREE ];
+
+        var weapon0 = new Weapon(name, isPrimary, weaponValue, ranges);
+        var weapon1 = new TurretWeapon(name, isPrimary, weaponValue, ranges);
+        var weapons = [ weapon0, weapon1 ];
+
+        // Run / Verify.
+        for (var i = 0; i < weapons.length; i++)
+        {
+            var weapon = weapons[i];
+
+            // Verify the functions exist.
+            assert.ok(weapon.getName);
+            assert.ok(weapon.isPrimary);
+            assert.ok(weapon.getWeaponValue);
+            assert.ok(weapon.getRanges);
+            assert.ok(weapon.isDefenderInRange);
+            assert.ok(weapon.isDefenderVulnerable);
+            assert.ok(weapon.isDefenderTargetable);
+            assert.ok(weapon.toString);
+        }
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

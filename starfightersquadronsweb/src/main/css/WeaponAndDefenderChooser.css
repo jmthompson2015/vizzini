@@ -1,0 +1,32 @@
+#attackerTitle {
+    background-color: white;
+    border: 2px solid rgb(191, 191, 191);
+    text-align: center;
+}
+
+#combatTable {
+    font-size: small;
+}
+
+.rangePanel {
+    background-color: white;
+    border: 2px solid rgb(191, 191, 191);
+    border-collapse: collapse;
+    font-size: medium;
+}
+
+#weaponAndDefenderChooser {
+    text-align: left;
+}
+
+.weaponName {
+    
+}
+
+.weaponPanel {
+    background-color: lightGray;
+    border: 2px solid rgb(191, 191, 191);
+    border-collapse: collapse;
+    display: table;
+    text-align: left;
+}

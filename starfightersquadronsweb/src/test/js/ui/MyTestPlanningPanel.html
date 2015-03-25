@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestPlanningPanel</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+<link rel="stylesheet" href="../../../main/css/ManeuverChooser.css">
+<link rel="stylesheet" href="../../../main/css/PlanningPanel.css">
+
+<script src="../../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../main/js/util/ArrayUtilities.js"></script>
+<script src="../../../main/js/util/HtmlUtilities.js"></script>
+
+<script src="../../../main/js/Team.js"></script>
+<script src="../../../main/js/Maneuver.js"></script>
+<script src="../../../main/js/ShipAction.js"></script>
+<script src="../../../main/js/Ship.js"></script>
+<script src="../../../main/js/RangeRuler.js"></script>
+<script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/Pilot.js"></script>
+<script src="../../../main/js/DamageCard.js"></script>
+<script src="../../../main/js/Token.js"></script>
+<script src="../../../main/js/PlanningAction.js"></script>
+<script src="../../../main/js/SquadBuilder.js"></script>
+<script src="../../../main/js/SimpleAgent.js"></script>
+
+<script src="../../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../../main/js/ui/ManeuverChooser.js"></script>
+<script src="../../../main/js/ui/PlanningPanel.js"></script>
+
+</head>
+<body>
+	<div id="inputArea"
+		style="background-color: lightBlue; display: inline-block;"></div>
+	<script>
+        var LOGGER = new Logger();
+
+        var environment;
+        var adjudicator;
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                CoreSetImperialSquadBuilder);
+        var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var token1 = new Token(Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
+        var token2 = new Token(Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);
+        var tokens = [ token0, token1, token2 ];
+        var imageUtils = new ImageUtilities();
+        var caller = {};
+        caller.callback = function(planningAction)
+        {
+            LOGGER.info("caller.callback() start");
+
+            for (var i = 0; i < tokens.length; i++)
+            {
+                var token = tokens[i];
+                var maneuver = planningAction.getManeuver(token);
+                LOGGER.info(token + ": " + maneuver);
+            }
+
+            LOGGER.info("caller.callback() end");
+        }
+
+        var planningPanel = new PlanningPanel(environment, adjudicator,
+                imperialAgent, tokens, imageUtils, caller.callback);
+
+        var element = document.getElementById("inputArea");
+        HtmlUtilities.addClass(element, "dialog");
+        element.innerHTML = planningPanel.paintComponent();
+    </script>
+</body>
+</html>

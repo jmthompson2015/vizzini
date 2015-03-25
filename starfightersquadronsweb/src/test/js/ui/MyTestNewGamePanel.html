@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestNewGamePanel</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+<link rel="stylesheet" href="../../../main/css/NewGamePanel.css">
+
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+
+<script src="../../../main/js/Team.js"></script>
+<script src="../../../main/js/SquadBuilder.js"></script>
+<script src="../../../main/js/SimpleAgent.js"></script>
+
+<script src="../../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../../main/js/ui/HumanAgent.js"></script>
+<script src="../../../main/js/ui/NewGamePanel.js"></script>
+
+</head>
+<body>
+	<div id="inputArea"></div>
+
+	<script>
+        var LOGGER = new Logger();
+
+        var imageUtils = new ImageUtilities();
+        function callback(agents)
+        {
+            LOGGER.info("callback() start");
+
+            LOGGER.info("agents[0] = " + agents[0]);
+            LOGGER.info("agents[1] = " + agents[1]);
+
+            LOGGER.info("callback() end");
+        }
+
+        var panel = new NewGamePanel(imageUtils, callback);
+
+        var element = document.getElementById("inputArea");
+        element.innerHTML = panel.paintComponent();
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestPilotsUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+<link rel="stylesheet" href="../../../main/css/PilotCardUI.css">
+
+<script src="../../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../main/js/util/ArrayUtilities.js"></script>
+
+<script src="../../../main/js/Phase.js"></script>
+<script src="../../../main/js/Team.js"></script>
+<script src="../../../main/js/Maneuver.js"></script>
+<script src="../../../main/js/ShipAction.js"></script>
+<script src="../../../main/js/Ship.js"></script>
+<script src="../../../main/js/Path.js"></script>
+<script src="../../../main/js/RangeRuler.js"></script>
+<script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/Pilot.js"></script>
+<script src="../../../main/js/DamageCard.js"></script>
+<script src="../../../main/js/UpgradeCard.js"></script>
+<script src="../../../main/js/Token.js"></script>
+<script src="../../../main/js/Position.js"></script>
+<script src="../../../main/js/SquadBuilder.js"></script>
+<script src="../../../main/js/Environment.js"></script>
+<script src="../../../main/js/SimpleAgent.js"></script>
+
+<script src="../../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../../main/js/ui/HumanAgent.js"></script>
+<script src="../../../main/js/ui/PilotCardUI.js"></script>
+<script src="../../../main/js/ui/PilotsUI.js"></script>
+<script src="../../../main/js/ui/PlayState.js"></script>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="imperialPilots" style="vertical-align: top">Imperial
+				Pilots</td>
+		</tr>
+	</table>
+
+	<script>
+        var LOGGER = new Logger();
+
+        var environment = Environment.createCoreSetEnvironment();
+        var team = Team.IMPERIAL;
+        var imageUtils = new ImageUtilities();
+
+        var pilotsUI = new PilotsUI(team, imageUtils);
+        var round = 1;
+        var phase = Phase.ACTIVATION_START;
+        var activeToken;
+        var tokenPositions = PlayState.createTokenPositions(environment);
+        var playState = new PlayState(round, phase, activeToken, tokenPositions);
+        pilotsUI.paintComponent(playState);
+
+        setTimeout(function()
+        {
+            LOGGER.info("timer expired");
+            var round = environment.getRound();
+            var phase = environment.getPhase();
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState = new PlayState(round, phase, activeToken,
+                    tokenPositions);
+            playAreaUI.paintComponent(context, playState);
+        }, 2000);
+    </script>
+</body>
+</html>

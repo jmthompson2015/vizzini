@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SquadBuilderTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+
+<script src="../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../main/js/ui/HumanAgent.js"></script>
+
+<script>
+    QUnit.test("CoreSetImperialSquadBuilder buildSquad()", function(assert)
+    {
+        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                CoreSetImperialSquadBuilder);
+        var result = CoreSetImperialSquadBuilder.buildSquad(agent);
+        assert.equal(result.length, 2);
+
+        assert.equal(result[0].getPilot(), Pilot.MAULER_MITHEL);
+        assert.equal(result[1].getPilot(), Pilot.DARK_CURSE);
+
+        for (var i = 0; i < 2; i++)
+        {
+            assert.equal(result[i].getShip(), Ship.TIE_FIGHTER);
+        }
+    });
+
+    QUnit.test("CoreSetImperialSquadBuilder getDescription()", function(assert)
+    {
+        var result = CoreSetImperialSquadBuilder.getDescription();
+        assert.equal(result, "TIE Fighters x2");
+    });
+
+    QUnit.test("CoreSetImperialSquadBuilder getName()", function(assert)
+    {
+        var result = CoreSetImperialSquadBuilder.getName();
+        assert.equal(result, "Core Set Imperial: 36 Points");
+    });
+
+    QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
+    {
+        var agent = new HumanAgent("Rebel Agent", Team.REBEL,
+                CoreSetRebelSquadBuilder, new ImageUtilities());
+        var result = CoreSetRebelSquadBuilder.buildSquad(agent);
+        assert.equal(result.length, 1);
+
+        assert.equal(result[0].getPilot(), Pilot.LUKE_SKYWALKER);
+        assert.equal(result[0].getShip(), Ship.X_WING);
+    });
+
+    QUnit.test("CoreSetRebelSquadBuilder getDescription()", function(assert)
+    {
+        var result = CoreSetRebelSquadBuilder.getDescription();
+        assert.equal(result, "X-Wing");
+    });
+
+    QUnit.test("CoreSetRebelSquadBuilder getName()", function(assert)
+    {
+        var result = CoreSetRebelSquadBuilder.getName();
+        assert.equal(result, "Core Set Rebel: 36 Points");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

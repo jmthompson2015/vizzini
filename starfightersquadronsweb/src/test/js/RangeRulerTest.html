@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>RangeRulerTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../main/js/util/Logger.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
+<script src="../../main/js/Environment.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+
+    QUnit.test("Range.findRange()", function(assert)
+    {
+        assert.ok(!Range.findRange(-1));
+        assert.equal(Range.findRange(0), Range.ONE);
+        assert.equal(Range.findRange(100), Range.ONE);
+        assert.equal(Range.findRange(101), Range.TWO);
+        assert.equal(Range.findRange(200), Range.TWO);
+        assert.equal(Range.findRange(201), Range.THREE);
+        assert.equal(Range.findRange(300), Range.THREE);
+        assert.ok(!Range.findRange(301));
+    });
+
+    QUnit.test("RangeRuler.getRange() One", function(assert)
+    {
+        // Setup.
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
+                CoreSetRebelSquadBuilder);
+        var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+        var attackerPosition = new Position(300, 80, -90);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                CoreSetImperialSquadBuilder);
+        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defenderPosition = new Position(300, 30, 45);
+        var rangeRuler = new RangeRuler();
+
+        // Run.
+        var result = rangeRuler.getRange(attacker, attackerPosition, defender,
+                defenderPosition);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, Range.ONE);
+    });
+
+    QUnit.test("RangeRuler.getRange() Two", function(assert)
+    {
+        // Setup.
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
+                CoreSetRebelSquadBuilder);
+        var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+        var attackerPosition = new Position(300, 180, -90);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                CoreSetImperialSquadBuilder);
+        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defenderPosition = new Position(300, 30, 45);
+        var rangeRuler = new RangeRuler();
+
+        // Run.
+        var result = rangeRuler.getRange(attacker, attackerPosition, defender,
+                defenderPosition);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, Range.TWO);
+    });
+
+    QUnit.test("RangeRuler.getRange() Three", function(assert)
+    {
+        // Setup.
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
+                CoreSetRebelSquadBuilder);
+        var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+        var attackerPosition = new Position(300, 280, -90);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                CoreSetImperialSquadBuilder);
+        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defenderPosition = new Position(300, 30, 45);
+        var rangeRuler = new RangeRuler();
+
+        // Run.
+        var result = rangeRuler.getRange(attacker, attackerPosition, defender,
+                defenderPosition);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, Range.THREE);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

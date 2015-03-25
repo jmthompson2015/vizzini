@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PilotTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+	
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+
+<script>
+    QUnit.test("Pilot properties Academy Pilot", function(assert)
+    {
+        var pilot = Pilot.ACADEMY_PILOT;
+        var properties = Pilot.properties[pilot];
+        assert.equal(properties.name, "Academy Pilot");
+        assert.ok(properties.primaryWeapon);
+        assert.equal(properties.ship, Ship.TIE_FIGHTER);
+        assert.equal(properties.shipState.getPilotSkillValue(), 1);
+        assert.equal(properties.shipState.getPrimaryWeaponValue(), 2);
+        assert.equal(properties.shipState.getAgilityValue(), 3);
+        assert.equal(properties.shipState.getHullValue(), 3);
+        assert.equal(properties.shipState.getShieldValue(), 0);
+        assert.equal(properties.squadPointCost, 12);
+        assert.equal(properties.value, "academyPilot");
+    });
+
+    QUnit.test("Pilot properties Bounty Hunter", function(assert)
+    {
+        var pilot = Pilot.BOUNTY_HUNTER;
+        var properties = Pilot.properties[pilot];
+        assert.equal(properties.name, "Bounty Hunter");
+        assert.ok(properties.primaryWeapon);
+        assert.equal(properties.ship, Ship.FIRESPRAY_31);
+        assert.equal(properties.shipState.getPilotSkillValue(), 3);
+        assert.equal(properties.shipState.getPrimaryWeaponValue(), 3);
+        assert.equal(properties.shipState.getAgilityValue(), 2);
+        assert.equal(properties.shipState.getHullValue(), 6);
+        assert.equal(properties.shipState.getShieldValue(), 4);
+        assert.equal(properties.squadPointCost, 33);
+        assert.equal(properties.value, "bountyHunter");
+    });
+
+    QUnit.test("Pilot properties Dutch Vander", function(assert)
+    {
+        var pilot = Pilot.DUTCH_VANDER;
+        var properties = Pilot.properties[pilot];
+        assert.equal(properties.name, "\"Dutch\" Vander");
+        assert.ok(properties.primaryWeapon);
+        assert.equal(properties.ship, Ship.Y_WING);
+        assert.equal(properties.shipState.getPilotSkillValue(), 6);
+        assert.equal(properties.shipState.getPrimaryWeaponValue(), 2);
+        assert.equal(properties.shipState.getAgilityValue(), 1);
+        assert.equal(properties.shipState.getHullValue(), 5);
+        assert.equal(properties.shipState.getShieldValue(), 3);
+        assert.equal(properties.squadPointCost, 23);
+        assert.equal(properties.value, "dutchVander");
+    });
+
+    QUnit.test("Pilot properties Rookie Pilot", function(assert)
+    {
+        var pilot = Pilot.ROOKIE_PILOT;
+        var properties = Pilot.properties[pilot];
+        assert.equal(properties.name, "Rookie Pilot");
+        assert.ok(properties.primaryWeapon);
+        assert.equal(properties.ship, Ship.X_WING);
+        assert.equal(properties.shipState.getPilotSkillValue(), 2);
+        assert.equal(properties.shipState.getPrimaryWeaponValue(), 3);
+        assert.equal(properties.shipState.getAgilityValue(), 2);
+        assert.equal(properties.shipState.getHullValue(), 3);
+        assert.equal(properties.shipState.getShieldValue(), 2);
+        assert.equal(properties.squadPointCost, 21);
+        assert.equal(properties.value, "rookiePilot");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

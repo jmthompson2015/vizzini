@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Starfighter Squadrons</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/ManeuverChooser.css">
+<link rel="stylesheet" href="css/NewGamePanel.css">
+<link rel="stylesheet" href="css/PilotCardUI.css">
+<link rel="stylesheet" href="css/PlanningPanel.css">
+<link rel="stylesheet" href="css/WeaponAndDefenderChooser.css">
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+</script>
+<![endif]-->
+
+<script src="js/util/JavaScriptAugments.js"></script>
+<script src="js/util/Logger.js"></script>
+<script src="js/util/ArrayUtilities.js"></script>
+<script src="js/util/HtmlUtilities.js"></script>
+<script src="js/util/InputValidator.js"></script>
+
+<script src="js/Phase.js"></script>
+<script src="js/Team.js"></script>
+<script src="js/Path.js"></script>
+<script src="js/Maneuver.js"></script>
+<script src="js/ShipAction.js"></script>
+<script src="js/Ship.js"></script>
+<script src="js/RangeRuler.js"></script>
+<script src="js/Weapon.js"></script>
+<script src="js/Pilot.js"></script>
+<script src="js/DamageCard.js"></script>
+<script src="js/UpgradeCard.js"></script>
+<script src="js/Token.js"></script>
+<script src="js/Position.js"></script>
+<script src="js/SquadBuilder.js"></script>
+<script src="js/Environment.js"></script>
+<script src="js/Adjudicator.js"></script>
+<script src="js/AttackDice.js"></script>
+<script src="js/DefenseDice.js"></script>
+<script src="js/CombatAction.js"></script>
+<script src="js/Engine.js"></script>
+<script src="js/ManeuverAction.js"></script>
+<script src="js/PlanningAction.js"></script>
+<script src="js/SimpleAgent.js"></script>
+<script src="js/Game.js"></script>
+
+<script src="js/ui/ImageUtilities.js"></script>
+<script src="js/ui/NewGamePanel.js"></script>
+<script src="js/ui/ManeuverChooser.js"></script>
+<script src="js/ui/PlanningPanel.js"></script>
+<script src="js/ui/WeaponAndDefenderChooser.js"></script>
+<script src="js/ui/HumanAgent.js"></script>
+<script src="js/ui/PilotCardUI.js"></script>
+<script src="js/ui/PilotsUI.js"></script>
+<script src="js/ui/PlayAreaUI.js"></script>
+<script src="js/ui/SSPanel.js"></script>
+<script src="js/ui/PlayState.js"></script>
+<script src="js/ui/EnvironmentUI.js"></script>
+</head>
+<body>
+	<div id='ssPanel'></div>
+	<table>
+		<tr>
+			<td id="imperialPilots"></td>
+
+			<td id="playArea">
+				<canvas id="playAreaCanvas"></canvas>
+			</td>
+
+			<td id="rebelPilots"></td>
+		</tr>
+	</table>
+	<div id="messageArea"></div>
+	<div id="inputArea"></div>
+	<audio id="explosionAudio" src="resources/audio/Explosion.wav"
+		preload="auto"></audio>
+	<audio id="millenniumFalconLaserAudio"
+		src="resources/audio/MillenniumFalconLaser.wav" preload="auto"></audio>
+	<audio id="slave1LaserAudio" src="resources/audio/Slave1Laser.wav"
+		preload="auto"></audio>
+	<audio id="tieFighterLaserAudio"
+		src="resources/audio/TIEFighterLaser.wav" preload="auto"></audio>
+	<audio id="xWingLaserAudio" src="resources/audio/XWingLaser.wav"
+		preload="auto"></audio>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        // Create initial agents and tokens.
+        var imageUtils = new ImageUtilities();
+        var newGamePanel = new NewGamePanel(imageUtils, startNewGame);
+
+        var element = document.getElementById("inputArea");
+        element.innerHTML = newGamePanel.paintComponent();
+        var environmentUI;
+
+        function startNewGame(agents)
+        {
+            LOGGER.info("startNewGame() start");
+
+            LOGGER.info("agents[0] = " + agents[0]);
+            LOGGER.info("agents[1] = " + agents[1]);
+
+            var element = document.getElementById("inputArea");
+            element.innerHTML = "";
+
+            var game = new Game(agents);
+            environmentUI = new EnvironmentUI(game.getEngine(), game
+                    .getEnvironment());
+
+            game.start();
+
+            updateSizes();
+
+            LOGGER.info("startNewGame() end");
+        }
+
+        function updateSizes()
+        {
+            var imperialPilots = document.getElementById("imperialPilots");
+            var rebelPilots = document.getElementById("rebelPilots");
+            var newWidth = window.innerWidth - imperialPilots.offsetWidth
+                    - rebelPilots.offsetWidth;
+
+            var ssPanel = document.getElementById("ssPanel");
+            var messageArea = document.getElementById("messageArea");
+            var inputArea = document.getElementById("inputArea");
+            var newHeight = window.innerHeight - ssPanel.offsetHeight
+                    - messageArea.offsetHeight - inputArea.offsetHeight;
+
+            var size = Math.min(newWidth, newHeight)
+
+            var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
+            myPlayAreaCanvas.width = size;
+            myPlayAreaCanvas.height = size;
+
+            var scale = size / 915;
+            environmentUI.setScale(scale);
+        }
+
+        window.addEventListener("resize", updateSizes, false);
+        window.addEventListener("orientationchange", updateSizes, false);
+    </script>
+</body>
+</html>

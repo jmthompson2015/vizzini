@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MemoryIOTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../main/js/util/Logger.js"></script>
+
+<script src="../../../main/js/tictactoe/Memory.js"></script>
+<script src="../../../main/js/tictactoe/MemoryIO.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit.test("clear()", function(assert)
+    {
+        // Setup.
+        var board0 = "3/3/3 X";
+        var move0 = 0;
+        var board1 = "X2/3/3 o";
+        var move1 = 4;
+        var board2 = "X2/1o1/3 X";
+        var move2 = 1;
+        var board3 = "XX1/1o1/3 o";
+        var move3 = 6;
+        var board4 = "XX1/1o1/o2 X";
+        var move4 = 2;
+        var board5 = "XXX/1o1/o2 o";
+        var memory = new Memory();
+        memory.addLoss(board0);
+        memory.addWin(board1);
+        memory.addLoss(board2);
+        memory.addWin(board3);
+        memory.addLoss(board4);
+        memory.addWin(board5);
+        MemoryIO.store(memory);
+        assert.ok(localStorage.tictactoeMemory);
+
+        // Run.
+        MemoryIO.clear();
+
+        // Verify.
+        assert.ok(!localStorage.tictactoeMemory);
+    });
+
+    QUnit.test("store() and load()", function(assert)
+    {
+        // Setup.
+        var board0 = "3/3/3 X";
+        var move0 = 0;
+        var board1 = "X2/3/3 o";
+        var move1 = 4;
+        var board2 = "X2/1o1/3 X";
+        var move2 = 1;
+        var board3 = "XX1/1o1/3 o";
+        var move3 = 6;
+        var board4 = "XX1/1o1/o2 X";
+        var move4 = 2;
+        var board5 = "XXX/1o1/o2 o";
+        var memory = new Memory();
+        memory.addLoss(board0);
+        memory.addWin(board1);
+        memory.addLoss(board2);
+        memory.addWin(board3);
+        memory.addLoss(board4);
+        memory.addWin(board5);
+        MemoryIO.clear();
+
+        // Run.
+        MemoryIO.store(memory);
+        var result = MemoryIO.load();
+
+        // Verify.
+        assert.ok(result, "memory");
+
+        assert.equal(result.getStatistics(board0).l, 1);
+        assert.equal(result.getStatistics(board1).w, 1);
+        assert.equal(result.getStatistics(board2).l, 1);
+        assert.equal(result.getStatistics(board3).w, 1);
+        assert.equal(result.getStatistics(board4).l, 1);
+        assert.equal(result.getStatistics(board5).w, 1);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

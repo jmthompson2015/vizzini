@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CombatActionTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../main/js/util/Logger.js"></script>
+<script src="../../main/js/util/ArrayUtilities.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+
+<script src="../../main/js/Phase.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ManeuverAction.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/Adjudicator.js"></script>
+<script src="../../main/js/DamageCard.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
+<script src="../../main/js/Environment.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+<script src="../../main/js/AttackDice.js"></script>
+<script src="../../main/js/DefenseDice.js"></script>
+<script src="../../main/js/CombatAction.js"></script>
+
+<script src="../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../main/js/ui/HumanAgent.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit.test("CombatAction.doIt() out of range", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var maneuver = Maneuver.STRAIGHT_1_EASY;
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        assert.ok(attacker);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(attackerPosition.getX(),
+                attackerPosition.getY(), -30);
+        environment.placeToken(attackerPosition, attacker);
+        var weapon;
+        var defenderPosition = new Position(305, 20, 90);
+        var defender = environment.getTokenAt(defenderPosition);
+        var combatAction = new CombatAction(environment, adjudicator, attacker,
+                attackerPosition, weapon, defender, defenderPosition);
+
+        // Run.
+        combatAction.doIt();
+
+        // Verify.
+        assert.ok(!attacker.getRange());
+    });
+
+    QUnit.test("CombatAction.doIt() range one", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var maneuver = Maneuver.STRAIGHT_1_EASY;
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        assert.ok(attacker);
+        var weapon = attacker.getPrimaryWeapon();
+        assert.ok(weapon);
+        var defenderPosition = new Position(305, 20, 90);
+        var defender = environment.getTokenAt(defenderPosition);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(defenderPosition.getX(),
+                defenderPosition.getY() + 50, -90);
+        environment.placeToken(attackerPosition, attacker);
+        var combatAction = new CombatAction(environment, adjudicator, attacker,
+                attackerPosition, weapon, defender, defenderPosition);
+
+        // Run.
+        combatAction.doIt();
+
+        // Verify.
+        assert.equal(attacker.getRange(), Range.ONE);
+        assert.equal(environment.getPhase(), Phase.COMBAT_DEAL_DAMAGE);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

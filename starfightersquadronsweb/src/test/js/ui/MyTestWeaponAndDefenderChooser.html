@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestWeaponAndDefenderChooser</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+<link rel="stylesheet"
+	href="../../../main/css/WeaponAndDefenderChooser.css">
+
+<script src="../../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../main/js/util/HtmlUtilities.js"></script>
+
+<script src="../../../main/js/Team.js"></script>
+<script src="../../../main/js/Maneuver.js"></script>
+<script src="../../../main/js/ShipAction.js"></script>
+<script src="../../../main/js/Ship.js"></script>
+<script src="../../../main/js/RangeRuler.js"></script>
+<script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/Pilot.js"></script>
+<script src="../../../main/js/Token.js"></script>
+<script src="../../../main/js/SquadBuilder.js"></script>
+<script src="../../../main/js/SimpleAgent.js"></script>
+
+<script src="../../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../../main/js/ui/HumanAgent.js"></script>
+<script src="../../../main/js/ui/WeaponAndDefenderChooser.js"></script>
+
+</head>
+<body>
+	<div id="inputArea"
+		style="background-color: lightBlue; display: inline-block;"></div>
+	<script>
+        var LOGGER = new Logger();
+
+        {
+            var imperialAgent = new SimpleAgent("Imperial Agent",
+                    Team.IMPERIAL, CoreSetImperialSquadBuilder);
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL,
+                    CoreSetRebelSquadBuilder, new ImageUtilities());
+            var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+            var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+            var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT,
+                    imperialAgent);
+            var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT,
+                    imperialAgent);
+            var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+            var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+            var rangeOneToTokens =
+            {
+                range: Range.ONE,
+                tokens: [ defender0, defender1 ]
+            }
+            var rangeTwoToTokens =
+            {
+                range: Range.TWO,
+                tokens: [ defender2, defender3 ]
+            }
+            var rangeThreeToTokens =
+            {
+                range: Range.THREE,
+                tokens: [ defender4 ]
+            }
+            var primaryWeaponToRangeAndTokens =
+            {
+                weapon: attacker.getPrimaryWeapon(),
+                rangeAndTokens: [ rangeOneToTokens, rangeTwoToTokens,
+                        rangeThreeToTokens ]
+            }
+            var choices = [ primaryWeaponToRangeAndTokens ];
+            var callback = function(weaponAndDefender)
+            {
+                LOGGER.info("callback() start");
+
+                LOGGER.info("weaponAndDefender = " + weaponAndDefender.weapon
+                        + " > " + weaponAndDefender.defender);
+
+                LOGGER.info("callback() end");
+            }
+
+            var chooser = new WeaponAndDefenderChooser(attacker, choices,
+                    callback);
+
+            var element = document.getElementById("inputArea");
+            HtmlUtilities.addClass(element, "dialog");
+            element.innerHTML = chooser.paintComponent();
+        }
+    </script>
+</body>
+</html>

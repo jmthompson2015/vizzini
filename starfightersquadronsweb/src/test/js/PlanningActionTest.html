@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PlanningActionTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+<script src="../../main/js/util/ArrayUtilities.js"></script>
+
+<script src="../../main/js/Phase.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/DamageCard.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
+<script src="../../main/js/Environment.js"></script>
+<script src="../../main/js/PlanningAction.js"></script>
+
+<script src="../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../main/js/ui/HumanAgent.js"></script>
+
+<script>
+    QUnit.test("PlanningAction properties", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var agent;
+
+        var position0 = new Position(305, 20, 90);
+        var token0 = environment.getTokenAt(position0);
+        var maneuver0 = Maneuver.STRAIGHT_1_STANDARD;
+
+        var position1 = new Position(610, 20, 90);
+        var token1 = environment.getTokenAt(position1);
+        var maneuver1 = Maneuver.BANK_RIGHT_1_STANDARD;
+
+        var position2 = new Position(458, 895, -90);
+        var token2 = environment.getTokenAt(position2);
+        var maneuver2 = Maneuver.TURN_RIGHT_1_STANDARD;
+
+        var tokenToManeuver = {};
+        tokenToManeuver[token0] = maneuver0;
+        tokenToManeuver[token1] = maneuver1;
+        tokenToManeuver[token2] = maneuver2;
+
+        // Run.
+        var result = new PlanningAction(environment, agent, tokenToManeuver);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getManeuver(token0), maneuver0);
+        assert.equal(result.getManeuver(token1), maneuver1);
+        assert.equal(result.getManeuver(token2), maneuver2);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

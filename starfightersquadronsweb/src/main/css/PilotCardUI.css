@@ -1,0 +1,85 @@
+.pilotCard {
+    background-color: rgb(64, 64, 64);
+    display: table;
+    font-size: small;
+    width: 100%;
+}
+
+#nameTable {
+    width: 100%;
+}
+
+.namePanel {
+    background-color: white;
+    border: 2px solid black;
+}
+
+.pilotSkillValue {
+    background-color: rgb(64, 64, 64);
+}
+
+.pilotSkillValue {
+    color: rgb(255, 127, 0);
+}
+
+.primaryWeaponValue {
+    color: red;
+}
+
+.agilityValue {
+    color: rgb(127, 191, 127);
+}
+
+.hullValue {
+    color: yellow;
+}
+
+.shieldValue {
+    color: rgb(127, 191, 255);
+}
+
+#damagePanel {
+    margin: 0px;
+    padding: 0px;
+}
+
+.damageTable {
+    color: white;
+    padding: 1px;
+    text-align: center;
+    vertical-align: center;
+    /** These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#statsTable {
+    /** These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.tokensPanel {
+    background-color: lightGray;
+    width: 100%;
+    font-size: 0;
+}
+
+#tokensTable {
+    /** These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.countTokenBox {
+    background-repeat: no-repeat;
+    height: 32px;
+}
+
+.countTokenText {
+    color: white;
+    margin: 0px;
+    padding: 6px 0 0 0;
+    text-align: center;
+    font-size: medium;
+}

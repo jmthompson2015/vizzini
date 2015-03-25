@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestPath</title>
+
+<script src="../../main/js/util/JavaScriptAugments.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+<script src="../../main/js/util/ArrayUtilities.js"></script>
+
+<script src="../../main/js/Phase.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/DamageCard.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
+<script src="../../main/js/Environment.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+<script src="../../main/js/ui/PlayAreaUI.js"></script>
+
+<script src="../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../main/js/ui/HumanAgent.js"></script>
+
+</head>
+<body>
+
+	<canvas id="playAreaCanvas" width="915" height="915"></canvas>
+
+	<script>
+        var environment = Environment.createCoreSetEnvironment();
+        var fromPosition = environment
+                .getPositionFor(environment.getTokens()[0]);
+        var fromPosition1 = environment
+                .getPositionFor(environment.getTokens()[1]);
+
+        var path0 = new Path();
+        path0.add(fromPosition.getX() - 20, fromPosition.getY() - 20);
+        path0.add(fromPosition.getX() + 20, fromPosition.getY() - 20);
+        path0.add(fromPosition.getX() + 20, fromPosition.getY() + 20);
+        path0.add(fromPosition.getX() - 20, fromPosition.getY() + 20);
+        path0.close();
+        path0.rotate(45 * Math.PI / 180, fromPosition.getX(), fromPosition
+                .getY());
+
+        var path0_0 = new Path();
+        path0_0.add(fromPosition.getX(), fromPosition.getY());
+        path0_0.add(fromPosition.getX() + 80, fromPosition.getY() + 80);
+
+        var path1 = new RectanglePath(40, 40);
+        path1.translate(fromPosition1.getX(), fromPosition1.getY());
+
+        var path1_0 = new Path();
+        path1_0.add(fromPosition1.getX(), fromPosition1.getY());
+        path1_0.add(fromPosition1.getX(), fromPosition1.getY() + 80);
+
+        var canvas = document.getElementById("playAreaCanvas");
+        var context = canvas.getContext("2d");
+        path0.paintComponent(context, "black");
+        path0_0.paintComponent(context, "red");
+        path1.paintComponent(context, "green");
+        path1_0.paintComponent(context, "blue");
+    </script>
+</body>
+</html>

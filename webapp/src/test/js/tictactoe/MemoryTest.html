@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MemoryTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../main/js/util/Logger.js"></script>
+
+<script src="../../../main/js/tictactoe/Memory.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("getStatistics()", function(assert)
+    {
+        // Setup.
+        var board0 = "3/3/3 X";
+        var move0 = 0;
+        var board1 = "X2/3/3 o";
+        var move1 = 4;
+        var board2 = "X2/1o1/3 X";
+        var move2 = 1;
+        var board3 = "XX1/1o1/3 o";
+        var move3 = 6;
+        var board4 = "XX1/1o1/o2 X";
+        var move4 = 2;
+        var board5 = "XXX/1o1/o2 o";
+        var memory = new Memory();
+        memory.addLoss(board0);
+        memory.addWin(board1);
+        memory.addLoss(board2);
+        memory.addWin(board3);
+        memory.addLoss(board4);
+        memory.addWin(board5);
+
+        // Run.
+        var result = memory.getStatistics(board0);
+        LOGGER.debug("board0 = " + board0 + " result = " + result.w + ", "
+                + result.d + ", " + result.l);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 0);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 1);
+
+        // Run.
+        var result = memory.getStatistics(board1);
+        LOGGER.debug("board1 = " + board1 + " result = " + result.w + ", "
+                + result.d + ", " + result.l);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 1);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 0);
+
+        // Run.
+        var result = memory.getStatistics(board2);
+        LOGGER.debug("board2 = " + board2 + " result = " + result.w + ", "
+                + result.d + ", " + result.l);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 0);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 1);
+
+        // Run.
+        var result = memory.getStatistics(board3);
+        LOGGER.debug("board3 = " + board3 + " result = " + result.w + ", "
+                + result.d + ", " + result.l);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 1);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 0);
+
+        // Run.
+        var result = memory.getStatistics(board4);
+        LOGGER.debug("board4 = " + board4 + " result = " + result.w + ", "
+                + result.d + ", " + result.l);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 0);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 1);
+
+        // Run.
+        var result = memory.getStatistics(board5);
+        LOGGER.debug("board5 = " + board5 + " result = " + result.w + ", "
+                + result.d + ", " + result.l);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 1);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 0);
+    });
+
+    QUnit.test("getStatistics()", function(assert)
+    {
+        // Setup.
+        var board = "XX1/1o1/3 o";
+        var memory = new Memory();
+
+        // Run.
+        var result = memory.getStatistics(board, true);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 0);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 0);
+    });
+
+    QUnit.test("getStatistics() empty", function(assert)
+    {
+        // Setup.
+        var board = "XX1/1o1/3 o";
+        var memory = new Memory();
+
+        // Run.
+        var result = memory.getStatistics(board, true);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 0);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 0);
+    });
+
+    QUnit.test("addWin()", function(assert)
+    {
+        // Setup.
+        var board = "XX1/1o1/3 o";
+        var memory = new Memory();
+
+        // Run.
+        var result = memory.addWin(board);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 1);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 0);
+    });
+
+    QUnit.test("addDraw()", function(assert)
+    {
+        // Setup.
+        var board = "XX1/1o1/3 o";
+        var memory = new Memory();
+
+        // Run.
+        var result = memory.addDraw(board);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 0);
+        assert.equal(result.d, 1);
+        assert.equal(result.l, 0);
+    });
+
+    QUnit.test("addLoss()", function(assert)
+    {
+        // Setup.
+        var board = "XX1/1o1/3 o";
+        var memory = new Memory();
+
+        // Run.
+        var result = memory.addLoss(board);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.w, 0);
+        assert.equal(result.d, 0);
+        assert.equal(result.l, 1);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+.newGamePanel {
+    border: 2px solid black;
+    vertical-align: top;
+}
+
+.agentPanel {
+    text-align: left;
+}
+
+.agentTitle {
+    font-weight: bold;
+    text-align: center;
+}
+
+.squadBuilderPanel {
+    background-color: white;
+    padding: 5px;
+    text-align: left;
+}
+
+.newGameOk {
+    vertical-align: bottom;
+}
