@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="https://dl.dropboxusercontent.com/u/1267954/website/game">
+	<information>
+		<title>Vizzini Starfighter Squadrons</title>
+		<vendor>Vizzini.org</vendor>
+		<description>Vizzini Starfighter Squadrons</description>
+	</information>
+	<offline-allowed />
+	<security>
+		<all-permissions />
+	</security>
+	<resources>
+		<j2se version="1.6+" />
+		<jar href="VizziniStarfighterSquadrons.jar" />
+	</resources>
+	<application-desc main-class="org.vizzini.starfightersquadrons.swingui.StarfighterSquadronsUI" />
+	<update check="background"/>
+</jnlp>
