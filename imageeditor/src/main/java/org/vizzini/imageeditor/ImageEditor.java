@@ -371,7 +371,7 @@ public final class ImageEditor extends JFrame
                     "gif");
             fileChooser.setFileFilter(filter);
             final File directory = new File(
-                    "/Users/jmthompson/Dropbox/SoftwareDev/JavaProjects/vizzini/xwingminiatures/src/test/resources");
+                    "/Users/jmthompson/Dropbox/SoftwareDev/JavaProjects/vizzini/starfightersquadrons/src/test/resources");
             fileChooser.setCurrentDirectory(directory);
         }
 
