@@ -30,13 +30,27 @@ function EnvironmentUI(environmentIn)
         {
             setStatus("Game is a draw.");
         }
-        
+
         var memory = environment.getMemory();
         var statistics = memory.getStatistics("3/3/3 X");
-        LOGGER.info("wins, draws, losses = "+statistics.w+", "+statistics.d+", "+statistics.l);
-        document.getElementById("xWins").innerHTML = statistics.l;
-        document.getElementById("draws").innerHTML = statistics.d;
-        document.getElementById("oWins").innerHTML = statistics.w;
+
+        if (statistics)
+        {
+            var games = statistics.w + statistics.d + statistics.l;
+            LOGGER.info("games, wins, draws, losses = " + games + ", "
+                    + statistics.w + ", " + statistics.d + ", " + statistics.l);
+            document.getElementById("games").innerHTML = games;
+            document.getElementById("xWins").innerHTML = statistics.l;
+            document.getElementById("draws").innerHTML = statistics.d;
+            document.getElementById("oWins").innerHTML = statistics.w;
+        }
+        else
+        {
+            document.getElementById("games").innerHTML = 0;
+            document.getElementById("xWins").innerHTML = 0;
+            document.getElementById("draws").innerHTML = 0;
+            document.getElementById("oWins").innerHTML = 0;
+        }
     }
 
     this.statusChange = function(source, oldValue, newValue)
