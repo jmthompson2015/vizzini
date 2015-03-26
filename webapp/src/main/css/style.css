@@ -1,49 +1,77 @@
+body {
+    background-image:
+        url('https://raw.githubusercontent.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
+    background-repeat: no-repeat;
+    font-family: Arial, Verdana, Helvetica, Sans-Serif;
+    font-size: medium;
+}
+
 .board {
     font-size: xx-large;
     margin: 0px;
     padding: 0px;
-}
-
-.cell-top {
-    border-top: 3px solid black;
+    text-align: center;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .cell-bottom {
     border-bottom: 3px solid black;
 }
 
-.cell-left {
-    border-left: 3px solid black;
-}
-
-.cell-right {
-    border-right: 3px solid black;
-}
-
 .cell-center {
     border: 3px solid black;
+}
+
+.cell-left {
+    border-left: 3px solid black;
 }
 
 .cell-o {
     color: blue;
 }
 
+.cell-right {
+    border-right: 3px solid black;
+}
+
+.cell-top {
+    border-top: 3px solid black;
+}
+
 .cell-x {
     color: red;
 }
 
+#environment {
+    width: 100%;
+}
+
 .statistics {
-    border: 1px solid black;
+    border: 1px solid darkgreen;
     border-collapse: collapse;
+    font-size: small;
     text-align: center;
     vertical-align: center;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.statistics-header-cell {
+    background-color: darkgreen;
+    border: 1px solid lightgrey;
+    color: lightyellow;
+    padding: 3px;
 }
 
 .statistics-cell {
-    border: 1px solid black;
+    border: 1px solid darkgreen;
+    padding: 3px;
 }
 
-#status{
+#status {
     caption-side: bottom;
     font-size: medium;
     text-align: center;

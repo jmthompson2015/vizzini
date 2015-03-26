@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>AxisTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/Logger.js"></script>
+
+<script src="../../main/js/Axis.js"></script>
+<script src="../../main/js/CssNamedColor.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("crossMag() black", function(assert)
+    {
+        var color = CssNamedColor.BLACK;
+
+        assert.equal(Axis.crossMag(Axis.RED, color), 0);
+        assert.equal(Axis.crossMag(Axis.GREEN, color), 0);
+        assert.equal(Axis.crossMag(Axis.BLUE, color), 0);
+
+        assert.equal(Axis.crossMag(Axis.YELLOW, color), 0);
+        assert.equal(Axis.crossMag(Axis.MAGENTA, color), 0);
+        assert.equal(Axis.crossMag(Axis.CYAN, color), 0);
+    });
+
+    QUnit.test("crossMag() gray", function(assert)
+    {
+        var color = CssNamedColor.GRAY;
+
+        assert.equal(Axis.crossMag(Axis.RED, color), 0.82);
+        assert.equal(Axis.crossMag(Axis.GREEN, color), 0.82);
+        assert.equal(Axis.crossMag(Axis.BLUE, color), 0.82);
+
+        assert.equal(Axis.crossMag(Axis.YELLOW, color), 0.58);
+        assert.equal(Axis.crossMag(Axis.MAGENTA, color), 0.58);
+        assert.equal(Axis.crossMag(Axis.CYAN, color), 0.58);
+    });
+
+    QUnit.test("crossMag() orange", function(assert)
+    {
+        var color = CssNamedColor.ORANGE;
+
+        assert.equal(Axis.crossMag(Axis.RED, color), 0.54);
+        assert.equal(Axis.crossMag(Axis.GREEN, color), 0.84);
+        assert.equal(Axis.crossMag(Axis.BLUE, color), 1);
+
+        assert.equal(Axis.crossMag(Axis.YELLOW, color), 0.21);
+        assert.equal(Axis.crossMag(Axis.MAGENTA, color), 0.8);
+        assert.equal(Axis.crossMag(Axis.CYAN, color), 0.92);
+    });
+
+    QUnit.test("crossMag() red", function(assert)
+    {
+        var color = CssNamedColor.RED;
+
+        assert.equal(Axis.crossMag(Axis.RED, color), 0);
+        assert.equal(Axis.crossMag(Axis.GREEN, color), 1);
+        assert.equal(Axis.crossMag(Axis.BLUE, color), 1);
+
+        assert.equal(Axis.crossMag(Axis.YELLOW, color), 0.71);
+        assert.equal(Axis.crossMag(Axis.MAGENTA, color), 0.71);
+        assert.equal(Axis.crossMag(Axis.CYAN, color), 1);
+    });
+
+    QUnit.test("crossMag() white", function(assert)
+    {
+        var color = CssNamedColor.WHITE;
+
+        assert.equal(Axis.crossMag(Axis.RED, color), 0.82);
+        assert.equal(Axis.crossMag(Axis.GREEN, color), 0.82);
+        assert.equal(Axis.crossMag(Axis.BLUE, color), 0.82);
+
+        assert.equal(Axis.crossMag(Axis.YELLOW, color), 0.58);
+        assert.equal(Axis.crossMag(Axis.MAGENTA, color), 0.58);
+        assert.equal(Axis.crossMag(Axis.CYAN, color), 0.58);
+    });
+
+    QUnit.test("crossMag() yellow", function(assert)
+    {
+        var color = CssNamedColor.YELLOW;
+
+        assert.equal(Axis.crossMag(Axis.RED, color), 0.71);
+        assert.equal(Axis.crossMag(Axis.GREEN, color), 0.71);
+        assert.equal(Axis.crossMag(Axis.BLUE, color), 1);
+
+        assert.equal(Axis.crossMag(Axis.YELLOW, color), 0);
+        assert.equal(Axis.crossMag(Axis.MAGENTA, color), 0.87);
+        assert.equal(Axis.crossMag(Axis.CYAN, color), 0.87);
+    });
+
+    QUnit.test("dot() black", function(assert)
+    {
+        var color = CssNamedColor.BLACK;
+
+        assert.equal(Axis.dot(Axis.RED, color), 0);
+        assert.equal(Axis.dot(Axis.GREEN, color), 0);
+        assert.equal(Axis.dot(Axis.BLUE, color), 0);
+
+        assert.equal(Axis.dot(Axis.YELLOW, color), 0);
+        assert.equal(Axis.dot(Axis.MAGENTA, color), 0);
+        assert.equal(Axis.dot(Axis.CYAN, color), 0);
+    });
+
+    QUnit.test("dot() gray", function(assert)
+    {
+        var color = CssNamedColor.GRAY;
+
+        assert.equal(Axis.dot(Axis.RED, color), 0.58);
+        assert.equal(Axis.dot(Axis.GREEN, color), 0.58);
+        assert.equal(Axis.dot(Axis.BLUE, color), 0.58);
+    });
+
+    QUnit.test("dot() orange", function(assert)
+    {
+        var color = CssNamedColor.ORANGE;
+
+        assert.equal(Axis.dot(Axis.RED, color), 0.84);
+        assert.equal(Axis.dot(Axis.GREEN, color), 0.54);
+        assert.equal(Axis.dot(Axis.BLUE, color), 0);
+    });
+
+    QUnit.test("dot() red", function(assert)
+    {
+        var color = CssNamedColor.RED;
+
+        assert.equal(Axis.dot(Axis.RED, color), 1);
+        assert.equal(Axis.dot(Axis.GREEN, color), 0);
+        assert.equal(Axis.dot(Axis.BLUE, color), 0);
+    });
+
+    QUnit.test("dot() white", function(assert)
+    {
+        var color = CssNamedColor.WHITE;
+
+        assert.equal(Axis.dot(Axis.RED, color), 0.58);
+        assert.equal(Axis.dot(Axis.GREEN, color), 0.58);
+        assert.equal(Axis.dot(Axis.BLUE, color), 0.58);
+
+        assert.equal(Axis.dot(Axis.YELLOW, color), 0.82);
+        assert.equal(Axis.dot(Axis.MAGENTA, color), 0.82);
+        assert.equal(Axis.dot(Axis.CYAN, color), 0.82);
+    });
+
+    QUnit.test("dot() yellow", function(assert)
+    {
+        var color = CssNamedColor.YELLOW;
+
+        assert.equal(Axis.dot(Axis.RED, color), 0.71);
+        assert.equal(Axis.dot(Axis.GREEN, color), 0.71);
+        assert.equal(Axis.dot(Axis.BLUE, color), 0);
+    });
+
+    QUnit.test("unit() black", function(assert)
+    {
+        var color = CssNamedColor.properties[CssNamedColor.BLACK];
+        var result = Axis.unit(color);
+        assert.equal(result.r, 0);
+        assert.equal(result.g, 0);
+        assert.equal(result.b, 0);
+    });
+
+    QUnit.test("unit() gray", function(assert)
+    {
+        var color = CssNamedColor.properties[CssNamedColor.GRAY];
+        var result = Axis.unit(color);
+        assert.equal(result.r, 0.5774);
+        assert.equal(result.g, 0.5774);
+        assert.equal(result.b, 0.5774);
+    });
+
+    QUnit.test("unit() orange", function(assert)
+    {
+        var color = CssNamedColor.properties[CssNamedColor.ORANGE];
+        var result = Axis.unit(color);
+        assert.equal(result.r, 0.8396);
+        assert.equal(result.g, 0.5433);
+        assert.equal(result.b, 0);
+    });
+
+    QUnit.test("unit() red", function(assert)
+    {
+        var color = CssNamedColor.properties[CssNamedColor.RED];
+        var result = Axis.unit(color);
+        assert.equal(result.r, 1);
+        assert.equal(result.g, 0);
+        assert.equal(result.b, 0);
+    });
+
+    QUnit.test("unit() white", function(assert)
+    {
+        var color = CssNamedColor.properties[CssNamedColor.WHITE];
+        var result = Axis.unit(color);
+        assert.equal(result.r, 0.5774);
+        assert.equal(result.g, 0.5774);
+        assert.equal(result.b, 0.5774);
+    });
+
+    QUnit.test("unit() yellow", function(assert)
+    {
+        var color = CssNamedColor.properties[CssNamedColor.YELLOW];
+        var result = Axis.unit(color);
+        assert.equal(result.r, 0.7071);
+        assert.equal(result.g, 0.7071);
+        assert.equal(result.b, 0);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
