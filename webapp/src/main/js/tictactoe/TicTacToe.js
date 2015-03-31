@@ -73,7 +73,7 @@ function TicTacToe(memory, firstAgent, secondAgent, delayIn, gameOverCallback)
 
     function fireGameOver(winner, loser)
     {
-        for (var i = 0; i < statusListeners.length; i++)
+        for (var i = 0; i < gameOverListeners.length; i++)
         {
             gameOverListeners[i].gameOver(that, winner, loser);
         }
