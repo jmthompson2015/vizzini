@@ -45,6 +45,7 @@ body {
 
 .environment-table {
     background-color: White;
+    border-collapse: collapse;
     font-size: xx-large;
     margin: 0px;
     padding: 0px;
