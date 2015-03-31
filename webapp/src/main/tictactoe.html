@@ -13,17 +13,20 @@
 
 <script src="js/tictactoe/BoardAlias.js"></script>
 <script src="js/tictactoe/BoardUtilities.js"></script>
-<script src="js/tictactoe/EnvironmentUI.js"></script>
 <script src="js/tictactoe/LearningAgent.js"></script>
 <script src="js/tictactoe/Memory.js"></script>
 <script src="js/tictactoe/MemoryIO.js"></script>
 <script src="js/tictactoe/Rotation.js"></script>
 <script src="js/tictactoe/SimpleAgent.js"></script>
 <script src="js/tictactoe/TicTacToe.js"></script>
+
+<script src="js/tictactoe/EnvironmentUI.js"></script>
+<script src="js/tictactoe/MemoryUI.js"></script>
+
 </head>
 <body>
 	<div id="environment">
-		<table id="board" class="board">
+		<table class="environment-table">
 			<caption id="status"></caption>
 			<tr>
 				<td id="cell0" class="cell-bottom cell-right">&nbsp;</td>
@@ -41,19 +44,45 @@
 				<td id="cell8" class="cell-left cell-top">&nbsp;</td>
 			</tr>
 		</table>
-		<p />
-		<table class="statistics">
+	</div>
+	<p />
+	<div id="memory">
+		<table class="memory-table">
 			<tr>
-				<th class="statistics-header-cell">Games</th>
-				<th class="statistics-header-cell">X Wins</th>
-				<th class="statistics-header-cell">Draws</th>
-				<th class="statistics-header-cell">O Wins</th>
+				<td>
+					<table class="statistics-table">
+						<tr>
+							<th class="statistics-header-cell">Games</th>
+							<th class="statistics-header-cell">X Wins</th>
+							<th class="statistics-header-cell">Draws</th>
+							<th class="statistics-header-cell">O Wins</th>
+						</tr>
+						<tr>
+							<td id="games" class="statistics-cell">0</td>
+							<td id="xWins" class="statistics-cell">0</td>
+							<td id="draws" class="statistics-cell">0</td>
+							<td id="oWins" class="statistics-cell">0</td>
+						</tr>
+					</table>
+			</td>
 			</tr>
 			<tr>
-				<td id="games" class="statistics-cell">0</td>
-				<td id="xWins" class="statistics-cell">0</td>
-				<td id="draws" class="statistics-cell">0</td>
-				<td id="oWins" class="statistics-cell">0</td>
+				<td class="clear-memory-button"><input type="button"
+					value="Clear Memory" onclick="clearMemory();" /></td>
+			</tr>
+		</table>
+	</div>
+	<p />
+	<div id="train">
+		<table class="train-table">
+			<tr>
+				<td class="game-count-label">Game Count:</td>
+				<td><input id="maxCount" type="number" min="1" step="1"
+					value="2" /></td>
+			</tr>
+			<tr>
+				<td class="train-button" colspan="2"><input type="button"
+					value="Train" onclick="train();" /></td>
 			</tr>
 		</table>
 	</div>
@@ -64,30 +93,22 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var memory;
-        var isStartingFresh = true;
+        var memory = MemoryIO.load();
+        var game;
+        var maxCount = 2;
+        var count = 1;
 
-        if (isStartingFresh)
+        var environmentUI;
+        var memoryUI = createMemoryUI(memory);
+        memoryUI.updateStatistics();
+
+        function clearMemory()
         {
             MemoryIO.clear();
             memory = new Memory();
+            memoryUI = createMemoryUI(memory);
+            LOGGER.info("Memory cleared.");
         }
-        else
-        {
-            memory = MemoryIO.load();
-        }
-
-        var firstAgent = new LearningAgent("X", memory);
-        var secondAgent = new LearningAgent("o", memory);
-        var delay = 300;
-
-        var game = new TicTacToe(memory, firstAgent, secondAgent, delay,
-                gameOverCallback);
-        var environmentUI = new EnvironmentUI(game);
-        game.play();
-
-        var maxCount = 2;
-        var count = 1;
 
         function gameOverCallback()
         {
@@ -105,6 +126,37 @@
                 var value = JSON.stringify(memory.boardToStatistics, null, 3);
                 LOGGER.info("memory.boardToStatistics = " + value);
             }
+        }
+
+        function train()
+        {
+            maxCount = document.getElementById("maxCount").value;
+            count = 1;
+
+            var firstAgent = new LearningAgent("X", memory);
+            var secondAgent = new LearningAgent("o", memory);
+            var delay = 300;
+
+            game = new TicTacToe(memory, firstAgent, secondAgent, delay,
+                    gameOverCallback);
+            environmentUI = new EnvironmentUI(game);
+            memoryUI = createMemoryUI(memory);
+
+            game.play();
+        }
+
+        function createMemoryUI(memory)
+        {
+            var answer = new MemoryUI(memory);
+
+            if (game)
+            {
+                game.addGameOverListener(answer);
+            }
+
+            answer.updateStatistics();
+
+            return answer;
         }
     </script>
 </body>

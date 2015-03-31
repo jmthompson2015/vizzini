@@ -6,16 +6,6 @@ body {
     font-size: medium;
 }
 
-.board {
-    font-size: xx-large;
-    margin: 0px;
-    padding: 0px;
-    text-align: center;
-    /* These center the table. */
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .cell-bottom {
     border-bottom: 3px solid black;
 }
@@ -44,12 +34,60 @@ body {
     color: red;
 }
 
+.clear-memory-button {
+    text-align: center;
+}
+
 #environment {
+    text-align: center;
     width: 100%;
 }
 
-.statistics {
+.environment-table {
+    background-color: White;
+    font-size: xx-large;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game-count-label {
+    font-family: Arial, Verdana, Helvetica, Sans-Serif;
+    font-size: small;
+}
+
+#maxCount {
+    width: 50px;
+}
+
+#memory {
+    text-align: center;
+    width: 100%;
+}
+
+.memory-table {
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.statistics-cell {
     border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+.statistics-header-cell {
+    background-color: DarkSeaGreen;
+    border: 1px solid;
+    padding: 3px;
+}
+
+.statistics-table {
+    background-color: white;
+    border: 1px solid;
     border-collapse: collapse;
     font-size: small;
     text-align: center;
@@ -59,20 +97,24 @@ body {
     margin-right: auto;
 }
 
-.statistics-header-cell {
-    background-color: darkgreen;
-    border: 1px solid lightgrey;
-    color: lightyellow;
-    padding: 3px;
-}
-
-.statistics-cell {
-    border: 1px solid darkgreen;
-    padding: 3px;
-}
-
 #status {
     caption-side: bottom;
     font-size: medium;
     text-align: center;
+}
+
+#train {
+    text-align: center;
+    width: 100%;
+}
+
+.train-button {
+    text-align: center;
+}
+
+.train-table {
+    background-color: DarkSeaGreen;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
 }
