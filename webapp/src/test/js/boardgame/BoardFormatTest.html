@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BoardFormatTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../main/js/util/NumberAugments.js"></script>
+
+<script src="../../../main/js/boardgame/BoardFormat.js"></script>
+<script src="../../../main/js/boardgame/BoardGeometry.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    var SHOULD_THROW = "Should have thrown an exception.";
+    var BOARD0 = "3/3/3/3|3/3/3/3|3/3/3/3|3/3/3/3|3/3/3/3 B";
+    var BOARD1 = "3/3/3/3|3/3/3/3|3/1wB/Bw1/3|3/3/3/3|3/3/3/3 B";
+    var BOARDA = "ABC/DEF/GHI/JKL|MNO/PQR/STU/VWX|YZa/bcd/efg/hij|klm/nop/qrs/tuv|wxy/zAB/CDE/FGH B";
+    var BOARD_STRING0 = "                                                            ";
+    var BOARD_STRING1 = "                            wBBw                            ";
+    var BOARD_STRINGA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGH";
+
+    var geometry = new BoardGeometry(3, 4, 5);
+    var formatter = new BoardFormat(geometry);
+
+    QUnit.test("toBoard()", function(assert)
+    {
+        assert.equal(formatter.toBoard(BOARD_STRING0, "B"), BOARD0);
+        assert.equal(formatter.toBoard(BOARD_STRING1, "B"), BOARD1);
+        assert.equal(formatter.toBoard(BOARD_STRINGA, "B"), BOARDA);
+    });
+
+    QUnit.test("toBoard() null", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            formatter.toBoard(undefined, undefined);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "boardString is null or empty.");
+        }
+
+        try
+        {
+            formatter.toBoard(null, undefined);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "boardString is null or empty.");
+        }
+
+        try
+        {
+            formatter.toBoard("", undefined);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "boardString is null or empty.");
+        }
+
+        var boardString = BOARD_STRING0;
+
+        try
+        {
+            formatter.toBoard(boardString, undefined);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "whoseMove is null or empty.");
+        }
+
+        try
+        {
+            formatter.toBoard(boardString, null);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "whoseMove is null or empty.");
+        }
+
+        try
+        {
+            formatter.toBoard(boardString, "");
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "whoseMove is null or empty.");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("toBoardString()", function(assert)
+    {
+        assert.equal(formatter.toBoardString(BOARD0), BOARD_STRING0);
+        assert.equal(formatter.toBoardString(BOARD1), BOARD_STRING1);
+        assert.equal(formatter.toBoardString(BOARDA), BOARD_STRINGA);
+    });
+
+    QUnit.test("toBoardString() null", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            formatter.toBoardString(undefined);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "board is null or empty.");
+        }
+
+        try
+        {
+            formatter.toBoardString(null);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "board is null or empty.");
+        }
+
+        try
+        {
+            formatter.toBoardString("");
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "board is null or empty.");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("toWhoseMove()", function(assert)
+    {
+        assert.equal(formatter.toWhoseMove(BOARD0), "B");
+        assert.equal(formatter.toWhoseMove("3/3/3/3|3/3/3/3|3/3/3/3|3/3/3/3|3/3/3/3 w"), "w");
+    });
+
+    QUnit.test("toWhoseMove() null", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            formatter.toWhoseMove(undefined);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "board is null or empty.");
+        }
+
+        try
+        {
+            formatter.toWhoseMove(null);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "board is null or empty.");
+        }
+
+        try
+        {
+            formatter.toWhoseMove("");
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "board is null or empty.");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
