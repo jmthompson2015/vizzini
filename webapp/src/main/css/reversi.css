@@ -1,0 +1,12 @@
+
+.cell-center {
+    border: 2px solid black;
+    height: 34px;
+    width: 34px;
+}
+
+.environment-table {
+    background-color: ForestGreen;
+    font-size: large;
+    text-align: center;
+}

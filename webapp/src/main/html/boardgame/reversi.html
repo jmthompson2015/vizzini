@@ -1,0 +1,205 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vizzini Reversi</title>
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/reversi.css">
+
+<script src="../../js/util/Logger.js"></script>
+<script src="../../js/util/ArrayAugments.js"></script>
+<script src="../../js/util/InputValidator.js"></script>
+<script src="../../js/util/NumberAugments.js"></script>
+
+<script src="../../js/boardgame/BoardAlias.js"></script>
+<script src="../../js/boardgame/BoardFormat.js"></script>
+<script src="../../js/boardgame/BoardGeometry.js"></script>
+<script src="../../js/boardgame/Memory.js"></script>
+<script src="../../js/boardgame/MemoryIO.js"></script>
+
+<script src="../../js/boardgame/reversi/Adjudicator.js"></script>
+<script src="../../js/boardgame/reversi/BoardUtilities.js"></script>
+<script src="../../js/boardgame/reversi/LearningAgent.js"></script>
+<script src="../../js/boardgame/reversi/Reversi.js"></script>
+
+<script src="../../js/boardgame/reversi/EnvironmentUI.js"></script>
+<script src="../../js/boardgame/reversi/MemoryUI.js"></script>
+
+</head>
+<body>
+	<div id="environment">
+		<table id="environmentTable" class="environment-table">
+			<caption id="status"></caption>
+		</table>
+		<label>Black: <span id="blackCount">2</span></label> <label>White:
+			<span id="whiteCount">2</span>
+		</label>
+	</div>
+	<p />
+	<div id="memory">
+		<table class="memory-table">
+			<tr>
+				<td>
+					<table class="statistics-table">
+						<tr>
+							<th class="statistics-header-cell">Games</th>
+							<th class="statistics-header-cell">Black Wins</th>
+							<th class="statistics-header-cell">Draws</th>
+							<th class="statistics-header-cell">White Wins</th>
+						</tr>
+						<tr>
+							<td id="games" class="statistics-cell">0</td>
+							<td id="blackWins" class="statistics-cell">0</td>
+							<td id="draws" class="statistics-cell">0</td>
+							<td id="whiteWins" class="statistics-cell">0</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="clear-memory-button"><input type="button"
+					value="Clear Memory" onclick="clearMemory();" /></td>
+			</tr>
+		</table>
+	</div>
+	<p />
+	<div id="train">
+		<table class="train-table">
+			<tr>
+				<td class="game-count-label">Game Count:</td>
+				<td><input id="maxCount" type="number" min="1" step="1"
+					value="1" /></td>
+			</tr>
+			<tr>
+				<td class="train-button" colspan="2"><input type="button"
+					value="Train" onclick="train();" /></td>
+			</tr>
+		</table>
+	</div>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var geometry = new BoardGeometry(8, 8, 1);
+
+        fillEnvironmentTable();
+
+        var formatter = new BoardFormat(geometry);
+        var boardUtils = new BoardUtilities(geometry, formatter);
+        var adjudicator = new Adjudicator(geometry, formatter, boardUtils);
+        var memoryIO=new MemoryIO("reversiMemory");
+        var memory = memoryIO.load();
+        var game;
+        var maxCount = 2;
+        var count = 1;
+
+        var environmentUI;
+        var memoryUI = createMemoryUI(memory);
+        memoryUI.updateStatistics();
+
+        function clearMemory()
+        {
+            memoryIO.clear();
+            memory = new Memory();
+            memoryUI = createMemoryUI(memory);
+            LOGGER.info("Memory cleared.");
+        }
+
+        function createMemoryUI(memory)
+        {
+            var answer = new MemoryUI(memory);
+
+            if (game)
+            {
+                game.addGameOverListener(answer);
+            }
+
+            answer.updateStatistics();
+
+            return answer;
+        }
+
+        function fillEnvironmentTable()
+        {
+            var content = "<caption id=\"status\"></caption>";
+
+            for (var r = 0; r < 8; r++)
+            {
+                content += "<tr>";
+
+                for (var f = 0; f < 8; f++)
+                {
+                    var index = geometry.computeIndex(f, r, 0);
+
+                    content += "<td id=\"cell";
+                    content += index;
+                    content += "\" class=\"cell-center\">";
+
+                    if (index === 27 || index === 36)
+                    {
+                        content += "<img src=\"";
+                        content += EnvironmentUI.WHITE_TOKEN;
+                        content += "\"/>";
+                    }
+                    else if (index === 28 || index === 35)
+                    {
+                        content += "<img src=\"";
+                        content += EnvironmentUI.BLACK_TOKEN;
+                        content += "\"/>";
+                    }
+                    else
+                    {
+                        // content += "&nbsp;";
+                        content += index;
+                    }
+
+                    content += "</td>";
+                }
+
+                content += "</tr>";
+            }
+
+            document.getElementById("environmentTable").innerHTML = content;
+        }
+
+        function gameOverCallback()
+        {
+            LOGGER.info(count + " Game over callback");
+            memoryIO.store(memory);
+
+            count++;
+
+            if (count <= maxCount)
+            {
+                game.play();
+            }
+            else
+            {
+                var value = JSON.stringify(memory.boardToStatistics, null, 3);
+            }
+        }
+
+        function train()
+        {
+            maxCount = document.getElementById("maxCount").value;
+            count = 1;
+
+            var firstAgent = new LearningAgent(geometry, boardUtils,
+                    adjudicator, "B", memory);
+            var secondAgent = new LearningAgent(geometry, boardUtils,
+                    adjudicator, "w", memory);
+            var delay = 300;
+
+            game = new Reversi(geometry, formatter, boardUtils, adjudicator,
+                    memory, firstAgent, secondAgent, delay, gameOverCallback);
+            environmentUI = new EnvironmentUI(geometry, formatter, boardUtils,
+                    game);
+            memoryUI = createMemoryUI(memory);
+
+            game.play();
+        }
+    </script>
+</body>
+</html>
