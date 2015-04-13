@@ -6,34 +6,6 @@ body {
     font-size: medium;
 }
 
-.cell-bottom {
-    border-bottom: 3px solid black;
-}
-
-.cell-center {
-    border: 3px solid black;
-}
-
-.cell-left {
-    border-left: 3px solid black;
-}
-
-.cell-o {
-    color: blue;
-}
-
-.cell-right {
-    border-right: 3px solid black;
-}
-
-.cell-top {
-    border-top: 3px solid black;
-}
-
-.cell-x {
-    color: red;
-}
-
 .clear-memory-button {
     text-align: center;
 }
@@ -44,12 +16,9 @@ body {
 }
 
 .environment-table {
-    background-color: White;
     border-collapse: collapse;
-    font-size: xx-large;
     margin: 0px;
     padding: 0px;
-    text-align: center;
     /* These center the table. */
     margin-left: auto;
     margin-right: auto;
