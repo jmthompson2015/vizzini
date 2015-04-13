@@ -1,0 +1,383 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BoardUtilitiesTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../main/js/util/Logger.js"></script>
+<script src="../../../../main/js/util/ArrayAugments.js"></script>
+<script src="../../../../main/js/util/InputValidator.js"></script>
+<script src="../../../../main/js/util/NumberAugments.js"></script>
+
+<script src="../../../../main/js/boardgame/BoardAlias.js"></script>
+<script src="../../../../main/js/boardgame/BoardFormat.js"></script>
+<script src="../../../../main/js/boardgame/BoardGeometry.js"></script>
+
+<script src="../../../../main/js/boardgame/reversi/Adjudicator.js"></script>
+<script src="../../../../main/js/boardgame/reversi/BoardUtilities.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    var SHOULD_THROW = "Should have thrown an exception.";
+    var BOARD0 = "8/8/8/3wB3/3Bw3/8/8/8 B";
+    var BOARD1 = "8/8/2www3/2BBw3/3Bw3/8/8/8 B";
+    var BOARDA = "ABCDEFGH/IJKLMNOP/QRSTUVWX/YZabcdef/ghijklmn/opqrstuv/wxyzABCD/EFGHIJKL B";
+    var BOARD_STRING0 = "                           wB      Bw                           ";
+    var BOARD_STRING1 = "                  www     BBw      Bw                           ";
+    var BOARD_STRINGA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKL";
+
+    var geometry = new BoardGeometry(8, 8, 1);
+    var formatter = new BoardFormat(geometry);
+    var boardUtils = new BoardUtilities(geometry, formatter);
+    var adjudicator = new Adjudicator(geometry, formatter, boardUtils);
+
+    QUnit.test("createStartBoard()", function(assert)
+    {
+        assert.equal(boardUtils.createStartBoard(), BOARD0);
+    });
+
+    QUnit.test("determineLineLength()", function(assert)
+    {
+        var boardString = formatter
+                .toBoardString("8/8/2www3/2BBw3/3Bw3/8/8/8 w");
+        assert.equal(boardUtils.get(boardString, 19), "w");
+        assert.equal(boardUtils.determineLineLength(boardString, "w", 43, [ 0,
+                -1 ]), 2);
+    });
+
+    QUnit
+            .test(
+                    "flipTokenAt()",
+                    function(assert)
+                    {
+                        var boardString = BOARD_STRING0;
+                        var index = 27;
+                        var result = boardUtils.flipTokenAt(boardString, index);
+                        assert
+                                .equal(result,
+                                        "                           BB      Bw                           ");
+                    });
+
+    QUnit.test("get()", function(assert)
+    {
+        // Setup.
+        var board = BOARD0;
+
+        // Run / Verify.
+        assert.equal(boardUtils.get(board, 0), " ");
+        assert.equal(boardUtils.get(board, 1), " ");
+        assert.equal(boardUtils.get(board, 2), " ");
+        assert.equal(boardUtils.get(board, 3), " ");
+        assert.equal(boardUtils.get(board, 4), " ");
+        assert.equal(boardUtils.get(board, 5), " ");
+        assert.equal(boardUtils.get(board, 6), " ");
+        assert.equal(boardUtils.get(board, 7), " ");
+        assert.equal(boardUtils.get(board, 8), " ");
+
+        assert.equal(boardUtils.get(board, 27), "w");
+        assert.equal(boardUtils.get(board, 28), "B");
+        assert.equal(boardUtils.get(board, 35), "B");
+        assert.equal(boardUtils.get(board, 36), "w");
+
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            boardUtils.get(board, -1);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 63]: -1");
+        }
+
+        try
+        {
+            boardUtils.get(board, 64);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 63]: 64");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("getAliases()", function(assert)
+    {
+        // Run.
+        var result = boardUtils.getAliases(BOARD1);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(Array.isArray(result));
+        assert.equal(result.length, 6);
+        var i = 0;
+        assert.equal(result[i].getBoard(), BOARD1, "original");
+        assert.ok(!result[i++].getRotation(), "original");
+        assert.equal(result[i].getBoard(), "8/8/3www2/3wBB2/3wB3/8/8/8 B",
+                "rotateY180");
+        assert.equal(result[i++].getRotation(), Rotation.Y180, "rotateY180");
+        assert.equal(result[i].getBoard(), "8/8/4Bw2/3BBw2/3www2/8/8/8 B",
+                "rotateZ090");
+        assert.equal(result[i++].getRotation(), Rotation.Z090, "rotateZ090");
+        assert.equal(result[i].getBoard(), "8/8/8/2www3/2wBB3/2wB4/8/8 B",
+                "rotateZ270");
+        assert.equal(result[i++].getRotation(), Rotation.Z270, "rotateZ270");
+        assert.equal(result[i].getBoard(), "8/8/8/3Bw3/2BBw3/2www3/8/8 B",
+                "rotateX180");
+        assert.equal(result[i++].getRotation(), Rotation.X180, "rotateX180");
+        assert.equal(result[i].getBoard(), "8/8/8/3wB3/3wBB2/3www2/8/8 B",
+                "rotateZ180");
+        assert.equal(result[i++].getRotation(), Rotation.Z180, "rotateZ180");
+    });
+
+    QUnit.test("getAliases() start", function(assert)
+    {
+        // Run.
+        var result = boardUtils.getAliases(BOARD0);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(Array.isArray(result));
+        assert.equal(result.length, 2);
+        var i = 0;
+        assert.equal(result[i].getBoard(), "8/8/8/3Bw3/3wB3/8/8/8 B",
+                "rotateX180");
+        assert.equal(result[i++].getRotation(), Rotation.X180, "rotateX180");
+        assert.equal(result[i].getBoard(), BOARD0, "original");
+        assert.ok(!result[i++].getRotation(), "original");
+    });
+
+    QUnit.test("getMoves()", function(assert)
+    {
+        // Run.
+        var result = boardUtils.getMoves(BOARD1, adjudicator);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(Array.isArray(result));
+        assert.equal(result.length, 9);
+        // LOGGER.debug("result = " + result);
+        var i = 0;
+        assert.equal(result[i++], 9);
+        assert.equal(result[i++], 10);
+        assert.equal(result[i++], 11);
+        assert.equal(result[i++], 12);
+        assert.equal(result[i++], 13);
+        assert.equal(result[i++], 21);
+        assert.equal(result[i++], 29);
+        assert.equal(result[i++], 37);
+        assert.equal(result[i++], 45);
+    });
+
+    QUnit
+            .test(
+                    "getMoves() nearly full",
+                    function(assert)
+                    {
+                        // Run.
+                        var result = boardUtils
+                                .getMoves(
+                                        "BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBw/Bwwwwww1 B",
+                                        adjudicator);
+
+                        // Verify.
+                        assert.ok(result);
+                        assert.ok(Array.isArray(result));
+                        assert.equal(result.length, 1);
+                        assert.equal(result[0], 63);
+                    });
+
+    QUnit.test("getMoves() start", function(assert)
+    {
+        // Run.
+        var result = boardUtils.getMoves(BOARD0, adjudicator);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(Array.isArray(result));
+        assert.equal(result.length, 4);
+        // LOGGER.debug("result = " + result);
+        var i = 0;
+        assert.equal(result[i++], 19);
+        assert.equal(result[i++], 26);
+        assert.equal(result[i++], 37);
+        assert.equal(result[i++], 44);
+    });
+
+    QUnit.test("getTokenCount()", function(assert)
+    {
+        assert.equal(boardUtils.getTokenCount(BOARD0), 4);
+        assert.equal(boardUtils.getTokenCount(BOARD1), 8);
+        assert.equal(boardUtils.getTokenCount(BOARDA), 64);
+    });
+
+    QUnit.test("getTokenCountFor()", function(assert)
+    {
+        assert.equal(boardUtils.getTokenCountFor(BOARD0, "B"), 2);
+        assert.equal(boardUtils.getTokenCountFor(BOARD0, "w"), 2);
+
+        assert.equal(boardUtils.getTokenCountFor(BOARD1, "B"), 3);
+        assert.equal(boardUtils.getTokenCountFor(BOARD1, "w"), 5);
+    });
+
+    QUnit.test("move(board, 19) start", function(assert)
+    {
+        // Run.
+        var result = boardUtils.move(BOARD0, 19);
+
+        // Verify.
+        assert.equal(result, "8/8/3B4/3BB3/3Bw3/8/8/8 w");
+    });
+
+    QUnit.test("nextMover()", function(assert)
+    {
+        assert.equal(boardUtils.nextMover("B"), "w");
+        assert.equal(boardUtils.nextMover("w"), "B");
+    });
+
+    QUnit.test("rotateBoard(X180)", function(assert)
+    {
+        // Run.
+        var result = boardUtils.rotateBoard(BOARD1, Rotation.X180);
+
+        // Verify.
+        assert.equal(result.getBoard(), "8/8/8/3Bw3/2BBw3/2www3/8/8 B");
+        assert.equal(result.getRotation(), Rotation.X180);
+    });
+
+    QUnit
+            .test(
+                    "rotateBoard(X180) alphabet",
+                    function(assert)
+                    {
+                        // Run.
+                        var result = boardUtils.rotateBoard(BOARDA,
+                                Rotation.X180);
+
+                        // Verify.
+                        assert
+                                .equal(result.getBoard(),
+                                        "EFGHIJKL/wxyzABCD/opqrstuv/ghijklmn/YZabcdef/QRSTUVWX/IJKLMNOP/ABCDEFGH B");
+                        assert.equal(result.getRotation(), Rotation.X180);
+                    });
+
+    QUnit.test("rotateBoard(Y180)", function(assert)
+    {
+        // Run.
+        var result = boardUtils.rotateBoard(BOARD1, Rotation.Y180);
+
+        // Verify.
+        assert.equal(result.getBoard(), "8/8/3www2/3wBB2/3wB3/8/8/8 B");
+        assert.equal(result.getRotation(), Rotation.Y180);
+    });
+
+    QUnit
+            .test(
+                    "rotateBoard(Y180) alphabet",
+                    function(assert)
+                    {
+                        // Run.
+                        var result = boardUtils.rotateBoard(BOARDA,
+                                Rotation.Y180);
+
+                        // Verify.
+                        assert
+                                .equal(result.getBoard(),
+                                        "HGFEDCBA/PONMLKJI/XWVUTSRQ/fedcbaZY/nmlkjihg/vutsrqpo/DCBAzyxw/LKJIHGFE B");
+                        assert.equal(result.getRotation(), Rotation.Y180);
+                    });
+
+    QUnit.test("rotateBoard(Z090)", function(assert)
+    {
+        // Run.
+        var result = boardUtils.rotateBoard(BOARD1, Rotation.Z090);
+
+        // Verify.
+        assert.equal(result.getBoard(), "8/8/4Bw2/3BBw2/3www2/8/8/8 B");
+        assert.equal(result.getRotation(), Rotation.Z090);
+    });
+
+    QUnit
+            .test(
+                    "rotateBoard(Z090) alphabet",
+                    function(assert)
+                    {
+                        // Run.
+                        var result = boardUtils.rotateBoard(BOARDA,
+                                Rotation.Z090);
+
+                        // Verify.
+                        assert
+                                .equal(result.getBoard(),
+                                        "EwogYQIA/FxphZRJB/GyqiaSKC/HzrjbTLD/IAskcUME/JBtldVNF/KCumeWOG/LDvnfXPH B");
+                        assert.equal(result.getRotation(), Rotation.Z090);
+                    });
+
+    QUnit.test("rotateBoard(Z180)", function(assert)
+    {
+        // Run.
+        var result = boardUtils.rotateBoard(BOARD1, Rotation.Z180);
+
+        // Verify.
+        assert.equal(result.getBoard(), "8/8/8/3wB3/3wBB2/3www2/8/8 B");
+        assert.equal(result.getRotation(), Rotation.Z180);
+    });
+
+    QUnit
+            .test(
+                    "rotateBoard(Z180) alphabet",
+                    function(assert)
+                    {
+                        // Run.
+                        var result = boardUtils.rotateBoard(BOARDA,
+                                Rotation.Z180);
+
+                        // Verify.
+                        assert
+                                .equal(result.getBoard(),
+                                        "LKJIHGFE/DCBAzyxw/vutsrqpo/nmlkjihg/fedcbaZY/XWVUTSRQ/PONMLKJI/HGFEDCBA B");
+                        assert.equal(result.getRotation(), Rotation.Z180);
+                    });
+
+    QUnit.test("rotateBoard(Z270)", function(assert)
+    {
+        // Run.
+        var result = boardUtils.rotateBoard(BOARD1, Rotation.Z270);
+
+        // Verify.
+        assert.equal(result.getBoard(), "8/8/8/2www3/2wBB3/2wB4/8/8 B");
+        assert.equal(result.getRotation(), Rotation.Z270);
+    });
+
+    QUnit
+            .test(
+                    "rotateBoard(Z270) alphabet",
+                    function(assert)
+                    {
+                        // Run.
+                        var result = boardUtils.rotateBoard(BOARDA,
+                                Rotation.Z270);
+
+                        // Verify.
+                        assert
+                                .equal(result.getBoard(),
+                                        "HPXfnvDL/GOWemuCK/FNVdltBJ/EMUcksAI/DLTbjrzH/CKSaiqyG/BJRZhpxF/AIQYgowE B");
+                        assert.equal(result.getRotation(), Rotation.Z270);
+                    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
