@@ -77,6 +77,10 @@ function BoardGeometry(maxFile, maxRank, maxLevel)
 
     this.computeIndex = function(file, rank, level)
     {
+        InputValidator.validateNotNull("file", file);
+        InputValidator.validateNotNull("rank", rank);
+        InputValidator.validateNotNull("level", level);
+        
         var answer;
 
         if (this.isOnBoard(file, rank, level))
@@ -85,19 +89,16 @@ function BoardGeometry(maxFile, maxRank, maxLevel)
         }
         else
         {
-            InputValidator.validateNotNull("file", file);
             InputValidator.validateInRange("file", file, 0, maxFile - 1);
 
             if (typeof file !== "number") { throw "file is not a number: "
                     + file; }
 
-            InputValidator.validateNotNull("rank", rank);
             InputValidator.validateInRange("rank", rank, 0, maxRank - 1);
 
             if (typeof rank !== "number") { throw "rank is not a number: "
                     + rank; }
 
-            InputValidator.validateNotNull("level", level);
             InputValidator.validateInRange("level", level, 0, maxLevel - 1);
 
             if (typeof level !== "number") { throw "level is not a number: "
@@ -272,7 +273,5 @@ function BoardGeometry(maxFile, maxRank, maxLevel)
         if (!Number.isInteger(index)) { throw "index is not an integer: "
                 + index; }
         InputValidator.validateInRange("index", index, 0, maxCells - 1);
-        // if (typeof index !== "number") { throw "index is not a number: " +
-        // move; }
     }
 }

@@ -393,6 +393,12 @@
         assert.equal(result, "X2/1o1/3 X");
     });
 
+    QUnit.test("nextMover()", function(assert)
+    {
+        assert.equal(BoardUtilities.nextMover("X"), "o");
+        assert.equal(BoardUtilities.nextMover("o"), "X");
+    });
+
     QUnit.test("rotateX180()", function(assert)
     {
         var rotation = Rotation.X180;

@@ -22,6 +22,11 @@ function LearningAgent(team, memory)
         moves.shuffle();
         LOGGER.debug("moves = " + moves);
 
+        if (moves.length === 0)
+        {
+            LOGGER.info(this.getTeam() + " no moves.");
+        }
+
         // Find the best rated move.
         var bestRating;
         var bestMove2;

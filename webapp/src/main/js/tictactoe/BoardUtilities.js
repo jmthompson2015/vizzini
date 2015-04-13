@@ -1,5 +1,11 @@
 /*
  * Provides utility methods for a tic-tac-toe board.
+ * 
+ * <pre>
+ * 0 | 1 | 2
+ * 3 | 4 | 5
+ * 6 | 7 | 8
+ * </pre>
  */
 var BoardUtilities =
 {
@@ -285,7 +291,7 @@ var BoardUtilities =
         }
         else if (rotation === Rotation.Z180)
         {
-            answer = 8 - index;
+            answer = this.MAX - 1 - index;
         }
         else if (rotation === Rotation.Z270)
         {
