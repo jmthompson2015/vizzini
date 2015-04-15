@@ -74,13 +74,36 @@ function BoardGeometry(maxFile, maxRank, maxLevel)
     InputValidator.validateNotNull("maxLevel", maxLevel);
 
     var maxCells = maxFile * maxRank * maxLevel;
+    var directions;
+
+    this.UNIAXIALS = [
+    // X axis.
+    [ 1, 0, 0 ], [ -1, 0, 0 ],
+    // Y axis.
+    [ 0, 1, 0 ], [ 0, -1, 0 ],
+    // Z axis.
+    [ 0, 0, 1 ], [ 0, 0, -1 ], ];
+
+    this.BIAXIALS = [
+    // XY plane.
+    [ 1, 1, 0 ], [ -1, 1, 0 ], [ 1, -1, 0 ], [ -1, -1, 0 ],
+    // Up.
+    [ 0, 1, 1 ], [ 1, 0, 1 ], [ -1, 0, 1 ], [ 0, -1, 1 ],
+    // Down.
+    [ 0, 1, -1 ], [ 1, 0, -1 ], [ -1, 0, -1 ], [ 0, -1, -1 ], ];
+
+    this.TRIAXIALS = [
+    // Up.
+    [ 1, 1, 1 ], [ -1, 1, 1 ], [ 1, -1, 1 ], [ -1, -1, 1 ],
+    // Down.
+    [ 1, 1, -1 ], [ -1, 1, -1 ], [ 1, -1, -1 ], [ -1, -1, -1 ], ];
 
     this.computeIndex = function(file, rank, level)
     {
         InputValidator.validateNotNull("file", file);
         InputValidator.validateNotNull("rank", rank);
         InputValidator.validateNotNull("level", level);
-        
+
         var answer;
 
         if (this.isOnBoard(file, rank, level))
@@ -106,6 +129,47 @@ function BoardGeometry(maxFile, maxRank, maxLevel)
         }
 
         return answer;
+    }
+
+    this.directions = function()
+    {
+        if (!directions)
+        {
+            directions = [];
+
+            if (this.getMaxLevel() === 1)
+            {
+                // 2D
+                for (var i = 0; i < this.UNIAXIALS.length; i++)
+                {
+                    var direction = this.UNIAXIALS[i];
+
+                    if (direction[2] === 0)
+                    {
+                        directions[directions.length] = direction;
+                    }
+                }
+
+                for (var i = 0; i < this.BIAXIALS.length; i++)
+                {
+                    var direction = this.BIAXIALS[i];
+
+                    if (direction[2] === 0)
+                    {
+                        directions[directions.length] = direction;
+                    }
+                }
+            }
+            else
+            {
+                // 3D
+                directions = directions.concat(this.UNIAXIALS);
+                directions = directions.concat(this.BIAXIALS);
+                directions = directions.concat(this.TRIAXIALS);
+            }
+        }
+
+        return directions;
     }
 
     this.getMaxCells = function()

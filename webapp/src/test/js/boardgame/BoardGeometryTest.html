@@ -191,6 +191,41 @@
         LOGGER.setErrorEnabled(previous);
     });
 
+    QUnit.test("directions() 2D", function(assert)
+    {
+        // Setup.
+        var geometry = new BoardGeometry(3, 4, 1);
+
+        // Run.
+        var result = geometry.directions();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 8);
+        assert.equal(result[0][0], 1);
+        assert.equal(result[0][1], 0);
+        assert.equal(result[0][2], 0);
+        assert.equal(result[7][0], -1);
+        assert.equal(result[7][1], -1);
+        assert.equal(result[7][2], 0);
+    });
+
+    QUnit.test("directions() 3D", function(assert)
+    {
+        // Run.
+        var result = geometry0.directions();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 26);
+        assert.equal(result[0][0], 1);
+        assert.equal(result[0][1], 0);
+        assert.equal(result[0][2], 0);
+        assert.equal(result[25][0], -1);
+        assert.equal(result[25][1], -1);
+        assert.equal(result[25][2], -1);
+    });
+
     QUnit.test("getMaxCells()", function(assert)
     {
         assert.equal(geometry0.getMaxCells(), 60);
@@ -656,8 +691,8 @@
             var file = geometry0.toFile(i);
             var rank = geometry0.toRank(i);
             var level = geometry0.toLevel(i);
-            assert.equal(geometry0.unrotate(i, rotation), geometry0.computeIndex(
-                    file, 3 - rank, 4 - level));
+            assert.equal(geometry0.unrotate(i, rotation), geometry0
+                    .computeIndex(file, 3 - rank, 4 - level));
         }
     });
 
@@ -713,8 +748,8 @@
             var file = geometry0.toFile(i);
             var rank = geometry0.toRank(i);
             var level = geometry0.toLevel(i);
-            assert.equal(geometry0.unrotate(i, rotation), geometry0.computeIndex(
-                    2 - file, rank, 4 - level));
+            assert.equal(geometry0.unrotate(i, rotation), geometry0
+                    .computeIndex(2 - file, rank, 4 - level));
         }
     });
 
@@ -770,8 +805,8 @@
             var file = geometry0.toFile(i);
             var rank = geometry0.toRank(i);
             var level = geometry0.toLevel(i);
-            assert.equal(geometry0.unrotate(i, rotation), geometry0.computeIndex(
-                    2 - file, 3 - rank, level));
+            assert.equal(geometry0.unrotate(i, rotation), geometry0
+                    .computeIndex(2 - file, 3 - rank, level));
         }
     });
 
