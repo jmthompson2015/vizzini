@@ -7,10 +7,6 @@ function Adjudicator(geometry, formatter, boardUtils)
     InputValidator.validateNotNull("formatter", formatter);
     InputValidator.validateNotNull("boardUtils", boardUtils);
 
-    // Directions.
-    this.DIRECTIONS = [ [ -1, -1 ], [ 0, -1 ], [ 1, -1 ], [ -1, 0 ], [ 1, 0 ],
-            [ -1, 1 ], [ 0, 1 ], [ 1, 1 ], ];
-
     this.isActionAvailableFor = function(board, whoseMove)
     {
         return whoseMove === formatter.toWhoseMove(board)
@@ -25,11 +21,12 @@ function Adjudicator(geometry, formatter, boardUtils)
         {
             var file = geometry.toFile(index);
             var rank = geometry.toRank(index);
+            var directions = geometry.directions();
 
             // Look around for an opposite agent's token, then one of ours.
-            for (var i = 0; !answer && (i < this.DIRECTIONS.length); i++)
+            for (var i = 0; !answer && (i < directions.length); i++)
             {
-                var direction = this.DIRECTIONS[i];
+                var direction = directions[i];
                 var x = file + direction[0];
                 var y = rank + direction[1];
 

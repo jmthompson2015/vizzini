@@ -188,10 +188,11 @@ function BoardUtilities(geometry, formatter)
         var whoseMove = formatter.toWhoseMove(board);
         var file = geometry.toFile(index);
         var rank = geometry.toRank(index);
+        var directions = geometry.directions();
 
-        for (var j = 0; j < adjudicator.DIRECTIONS.length; j++)
+        for (var j = 0; j < directions.length; j++)
         {
-            var direction = adjudicator.DIRECTIONS[j];
+            var direction = directions[j];
             var length = this.determineLineLength(boardString, whoseMove,
                     index, direction);
 
