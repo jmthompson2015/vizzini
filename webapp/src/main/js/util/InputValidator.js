@@ -23,7 +23,7 @@ var InputValidator =
         
         if (object < low || high < object)
         {
-            console.log(new Error().stack);
+            LOGGER.error(new Error().stack);
             throw objectName + " is out of range [" + low + ", " + high + "]: "
                     + object;
         }
@@ -33,7 +33,7 @@ var InputValidator =
     {
         if (typeof object !== "number")
         {
-            console.log(new Error().stack);
+            LOGGER.error(new Error().stack);
             throw objectName + " is not a number: " + object;
         }
     },
@@ -45,7 +45,7 @@ var InputValidator =
             if (object.length == 0)
             {
                 // Empty array.
-                console.log(new Error().stack);
+                LOGGER.error(new Error().stack);
                 throw objectName + InputValidator.EMPTY;
             }
         }
@@ -61,7 +61,7 @@ var InputValidator =
         {
             if (!object)
             {
-                console.log(new Error().stack);
+                LOGGER.error(new Error().stack);
                 throw objectName + InputValidator.EMPTY;
             }
         }
@@ -71,13 +71,13 @@ var InputValidator =
     {
         if (object === undefined)
         {
-            console.log(new Error().stack);
+            LOGGER.error(new Error().stack);
             throw objectName + InputValidator.UNDEFINED;
         }
 
         if (object === null)
         {
-            console.log(new Error().stack);
+            LOGGER.error(new Error().stack);
             throw objectName + InputValidator.NULL;
         }
     }
