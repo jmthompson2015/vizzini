@@ -1,0 +1,208 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vizzini Tic-Tac-Toe</title>
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="stylesheet" href="../../css/tictactoe.css">
+
+<script src="../../js/util/Logger.js"></script>
+<script src="../../js/util/ArrayAugments.js"></script>
+<script src="../../js/util/HtmlUtilities.js"></script>
+<script src="../../js/util/InputValidator.js"></script>
+<script src="../../js/util/NumberAugments.js"></script>
+
+<script src="../../js/boardgame/BoardAlias.js"></script>
+<script src="../../js/boardgame/BoardFormat.js"></script>
+<script src="../../js/boardgame/BoardGeometry.js"></script>
+<script src="../../js/boardgame/Memory.js"></script>
+<script src="../../js/boardgame/MemoryIO.js"></script>
+
+<script src="../../js/boardgame/tictactoe/Adjudicator.js"></script>
+<script src="../../js/boardgame/tictactoe/BoardUtilities.js"></script>
+<script src="../../js/boardgame/tictactoe/Injector.js"></script>
+<script src="../../js/boardgame/tictactoe/LearningAgent.js"></script>
+<script src="../../js/boardgame/tictactoe/TicTacToe.js"></script>
+
+<script src="../../js/boardgame/tictactoe/EnvironmentUI.js"></script>
+<script src="../../js/boardgame/tictactoe/MemoryUI.js"></script>
+
+</head>
+<body>
+	<div id="environment">
+		<table id="environmentTable" class="environment-table">
+			<caption id="status"></caption>
+		</table>
+	</div>
+	<p />
+	<div id="memory">
+		<table class="memory-table">
+			<tr>
+				<td>
+					<table class="statistics-table">
+						<tr>
+							<th class="statistics-header-cell">Games</th>
+							<th class="statistics-header-cell">X Wins</th>
+							<th class="statistics-header-cell">Draws</th>
+							<th class="statistics-header-cell">O Wins</th>
+						</tr>
+						<tr>
+							<td id="games" class="statistics-cell">0</td>
+							<td id="xWins" class="statistics-cell">0</td>
+							<td id="draws" class="statistics-cell">0</td>
+							<td id="oWins" class="statistics-cell">0</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="clear-memory-button"><input type="button"
+					value="Clear Memory" onclick="clearMemory();" /></td>
+			</tr>
+		</table>
+	</div>
+	<p />
+	<div id="train">
+		<table class="train-table">
+			<tr>
+				<td class="game-count-label">Game Count:</td>
+				<td><input id="maxCount" type="number" min="1" step="1"
+					value="1" /></td>
+			</tr>
+			<tr>
+				<td class="train-button" colspan="2"><input type="button"
+					value="Train" onclick="train();" /></td>
+			</tr>
+		</table>
+	</div>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var injector = new Injector();
+        var geometry = injector.injectGeometry();
+
+        fillEnvironmentTable();
+
+        var formatter = injector.injectFormatter();
+        var boardUtils = injector.injectBoardUtilities();
+        var adjudicator = injector.injectAdjudicator();
+        var memoryIO = injector.injectMemoryIO();
+        var memory = memoryIO.load();
+        var game;
+        var maxCount = 2;
+        var count = 1;
+
+        var environmentUI;
+        var memoryUI = createMemoryUI(memory);
+        memoryUI.updateStatistics();
+
+        function clearMemory()
+        {
+            memoryIO.clear();
+            memory = new Memory();
+            memoryUI = createMemoryUI(memory);
+            LOGGER.info("Memory cleared.");
+        }
+
+        function createMemoryUI(memory)
+        {
+            var answer = new MemoryUI(memory);
+
+            if (game)
+            {
+                game.addGameOverListener(answer);
+            }
+
+            answer.updateStatistics();
+
+            return answer;
+        }
+
+        function fillEnvironmentTable()
+        {
+            var content = "<caption id=\"status\"></caption>";
+
+            for (var r = 0; r < geometry.getMaxRank(); r++)
+            {
+                content += "<tr>";
+
+                for (var f = 0; f < geometry.getMaxFile(); f++)
+                {
+                    var index = geometry.computeIndex(f, r, 0);
+
+                    content += "<td id=\"cell";
+                    content += index;
+                    content += "\" class=\"";
+
+                    if (f === 0)
+                    {
+                        content += "cell-right ";
+                    }
+                    else if (f === 2)
+                    {
+                        content += "cell-left ";
+                    }
+
+                    if (r === 0)
+                    {
+                        content += "cell-bottom ";
+                    }
+                    else if (r === 2)
+                    {
+                        content += "cell-top ";
+                    }
+
+                    content += "\">";
+                    content += index;
+
+                    content += "</td>";
+                }
+
+                content += "</tr>";
+            }
+
+            document.getElementById("environmentTable").innerHTML = content;
+        }
+
+        function gameOverCallback()
+        {
+            LOGGER.info(count + " Game over callback");
+            memoryIO.store(memory);
+
+            count++;
+
+            if (count <= maxCount)
+            {
+                game.play();
+            }
+            else
+            {
+                var value = JSON.stringify(memory.boardToStatistics, null, 3);
+            }
+        }
+
+        function train()
+        {
+            maxCount = document.getElementById("maxCount").value;
+            count = 1;
+
+            var firstAgent = new LearningAgent(geometry, boardUtils,
+                    adjudicator, "X", memory);
+            var secondAgent = new LearningAgent(geometry, boardUtils,
+                    adjudicator, "o", memory);
+            var delay = 300;
+
+            game = new TicTacToe(geometry, formatter, boardUtils, adjudicator,
+                    memory, firstAgent, secondAgent, delay, gameOverCallback);
+            environmentUI = new EnvironmentUI(geometry, formatter, boardUtils,
+                    game);
+            memoryUI = createMemoryUI(memory);
+
+            game.play();
+        }
+    </script>
+</body>
+</html>
