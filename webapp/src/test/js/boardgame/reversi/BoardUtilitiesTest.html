@@ -18,6 +18,7 @@
 <script src="../../../../main/js/boardgame/BoardGeometry.js"></script>
 
 <script src="../../../../main/js/boardgame/reversi/Adjudicator.js"></script>
+<script src="../../../../main/js/boardgame/reversi/Injector.js"></script>
 <script src="../../../../main/js/boardgame/reversi/BoardUtilities.js"></script>
 
 <script>
@@ -33,10 +34,10 @@
     var BOARD_STRING1 = "                  www     BBw      Bw                           ";
     var BOARD_STRINGA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKL";
 
-    var geometry = new BoardGeometry(8, 8, 1);
-    var formatter = new BoardFormat(geometry);
-    var boardUtils = new BoardUtilities(geometry, formatter);
-    var adjudicator = new Adjudicator(geometry, formatter, boardUtils);
+    var injector = new Injector();
+    var formatter = injector.injectFormatter();
+    var boardUtils = injector.injectBoardUtilities();
+    var adjudicator = injector.injectAdjudicator();
 
     QUnit.test("createStartBoard()", function(assert)
     {
@@ -167,7 +168,6 @@
         assert.ok(result);
         assert.ok(Array.isArray(result));
         assert.equal(result.length, 9);
-        // LOGGER.debug("result = " + result);
         var i = 0;
         assert.equal(result[i++], 9);
         assert.equal(result[i++], 10);
@@ -207,7 +207,6 @@
         assert.ok(result);
         assert.ok(Array.isArray(result));
         assert.equal(result.length, 4);
-        // LOGGER.debug("result = " + result);
         var i = 0;
         assert.equal(result[i++], 19);
         assert.equal(result[i++], 26);

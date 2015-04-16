@@ -16,6 +16,7 @@
 <script src="../../../../main/js/boardgame/BoardGeometry.js"></script>
 
 <script src="../../../../main/js/boardgame/reversi/Adjudicator.js"></script>
+<script src="../../../../main/js/boardgame/reversi/Injector.js"></script>
 <script src="../../../../main/js/boardgame/reversi/BoardUtilities.js"></script>
 
 <script>
@@ -31,10 +32,9 @@
     var BOARD_STRING1 = "                  www     BBw      Bw                           ";
     var BOARD_STRINGA = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzABCDEFGHIJKL";
 
-    var geometry = new BoardGeometry(8, 8, 1);
-    var formatter = new BoardFormat(geometry);
-    var boardUtils = new BoardUtilities(geometry, formatter);
-    var adjudicator = new Adjudicator(geometry, formatter, boardUtils);
+    var injector = new Injector();
+    var formatter = injector.injectFormatter();
+    var adjudicator = injector.injectAdjudicator();
 
     QUnit
             .test(

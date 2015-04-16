@@ -18,6 +18,7 @@
 
 <script src="../../js/boardgame/reversi/Adjudicator.js"></script>
 <script src="../../js/boardgame/reversi/BoardUtilities.js"></script>
+<script src="../../js/boardgame/reversi/Injector.js"></script>
 <script src="../../js/boardgame/reversi/LearningAgent.js"></script>
 <script src="../../js/boardgame/reversi/Reversi.js"></script>
 
@@ -82,14 +83,15 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var geometry = new BoardGeometry(8, 8, 1);
+        var injector = new Injector();
+        var geometry = injector.injectGeometry();
 
         fillEnvironmentTable();
 
-        var formatter = new BoardFormat(geometry);
-        var boardUtils = new BoardUtilities(geometry, formatter);
-        var adjudicator = new Adjudicator(geometry, formatter, boardUtils);
-        var memoryIO=new MemoryIO("reversiMemory");
+        var formatter = injector.injectFormatter();
+        var boardUtils = injector.injectBoardUtilities();
+        var adjudicator = injector.injectAdjudicator();
+        var memoryIO = injector.injectMemoryIO();
         var memory = memoryIO.load();
         var game;
         var maxCount = 2;
