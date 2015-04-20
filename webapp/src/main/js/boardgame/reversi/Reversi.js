@@ -126,8 +126,7 @@ function Reversi(geometry, formatter, boardUtils, adjudicator, memory,
             for (var i = 0; i < gameRecords.length; i++)
             {
                 var board = gameRecords[i];
-                var aliases = boardUtils.getAliases(board);
-                var boardAlias = aliases[0];
+                var boardAlias = boardUtils.getAlias(board);
                 var board2 = boardAlias.getBoard();
 
                 if (!isDraw)
