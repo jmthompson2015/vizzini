@@ -112,6 +112,24 @@
             LOGGER.info("Memory cleared.");
         }
 
+        function createFileLabels()
+        {
+            var content = "<tr>";
+            content += "<th class=\"coordinate-header\">&nbsp;</th>";
+
+            for (var f = 0; f < 8; f++)
+            {
+                content += "<th class=\"coordinate-header\">";
+                content += String.fromCharCode(97 + f);
+                content += "</th>";
+            }
+
+            content += "<th class=\"coordinate-header\">&nbsp;</th>";
+            content += "</tr>";
+
+            return content;
+        }
+
         function createMemoryUI(memory)
         {
             var answer = new MemoryUI(memory);
@@ -126,13 +144,25 @@
             return answer;
         }
 
+        function createRankLabel(rank)
+        {
+            var content = "<th class=\"coordinate-header\">";
+            content += (rank + 1);
+            content += "</th>";
+
+            return content;
+        }
+
         function fillEnvironmentTable()
         {
             var content = "<caption id=\"status\"></caption>";
 
+            content += createFileLabels();
+
             for (var r = 0; r < 8; r++)
             {
                 content += "<tr>";
+                content += createRankLabel(r);
 
                 for (var f = 0; f < 8; f++)
                 {
@@ -163,8 +193,11 @@
                     content += "</td>";
                 }
 
+                content += createRankLabel(r);
                 content += "</tr>";
             }
+
+            content += createFileLabels();
 
             document.getElementById("environmentTable").innerHTML = content;
         }
