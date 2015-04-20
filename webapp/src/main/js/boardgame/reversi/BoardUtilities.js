@@ -6,6 +6,10 @@ function BoardUtilities(geometry, formatter)
     InputValidator.validateNotNull("geometry", geometry);
     InputValidator.validateNotNull("formatter", formatter);
 
+    var CORNERS = [ 0, 7, 56, 63 ];
+    var X_SQUARES = [ 9, 14, 49, 54 ];
+    var C_SQUARES = [ 1, 6, 8, 15, 48, 55, 57, 62 ];
+
     this.createStartBoard = function()
     {
         return "8/8/8/3wB3/3Bw3/8/8/8 B";
@@ -30,14 +34,27 @@ function BoardUtilities(geometry, formatter)
             j++;
             var x = file + (j * direction[0]);
             var y = rank + (j * direction[1]);
-            LOGGER.trace("x, y = " + x + ", " + y);
+
+            if (LOGGER.isTraceEnabled())
+            {
+                LOGGER.trace("x, y = " + x + ", " + y);
+            }
 
             if (geometry.isOnBoard(x, y, 0))
             {
                 var position = geometry.computeIndex(x, y, 0);
-                LOGGER.trace("position = " + position);
+
+                if (LOGGER.isTraceEnabled())
+                {
+                    LOGGER.trace("position = " + position);
+                }
+
                 var token = boardString[position];
-                LOGGER.trace("token = " + token);
+
+                if (LOGGER.isTraceEnabled())
+                {
+                    LOGGER.trace("token = " + token);
+                }
 
                 if (token === " ")
                 {
@@ -64,20 +81,32 @@ function BoardUtilities(geometry, formatter)
 
     this.flipTokenAt = function(boardString, index)
     {
-        LOGGER.trace("boardString = _" + boardString + "_");
-        LOGGER.trace("index = " + index);
+        if (LOGGER.isTraceEnabled())
+        {
+            LOGGER.trace("boardString = _" + boardString + "_");
+            LOGGER.trace("index = " + index);
+        }
 
         var answer = boardString;
 
         if (index)
         {
             var oldToken = boardString[index];
-            LOGGER.trace("oldToken = _" + oldToken + "_");
+
+            if (LOGGER.isTraceEnabled())
+            {
+                LOGGER.trace("oldToken = _" + oldToken + "_");
+            }
 
             if (oldToken && oldToken !== " ")
             {
                 var newToken = this.nextMover(oldToken);
-                LOGGER.trace("newToken = _" + newToken + "_");
+
+                if (LOGGER.isTraceEnabled())
+                {
+                    LOGGER.trace("newToken = _" + newToken + "_");
+                }
+
                 answer = boardString.slice(0, index) + newToken
                         + boardString.slice(index + 1);
             }
@@ -97,36 +126,73 @@ function BoardUtilities(geometry, formatter)
         return boardString[index];
     }
 
-    this.getAliases = function(board)
+    this.getAlias = function(board)
     {
+        var start = new Date().getTime();
         InputValidator.validateNotEmpty("board", board);
 
-        var answer = [];
+        var boardString = formatter.toBoardString(board);
+        var whoseMove = formatter.toWhoseMove(board);
 
-        answer[answer.length] = new BoardAlias(board);
+        var newBoardString = boardString;
+        var newRotation;
 
         var values = Rotation.values2D;
 
         for (var i = 0; i < values.length; i++)
         {
-            maybeAdd(this.rotateBoard(board, values[i]));
-        }
+            var board2 = this.rotateBoard(boardString, values[i]);
 
-        answer.sort();
-
-        return answer;
-
-        function maybeAdd(b)
-        {
-            if (!answer.contains(b))
+            if (board2 < newBoardString)
             {
-                answer[answer.length] = b;
+                newBoardString = board2;
+                newRotation = values[i];
             }
         }
+
+        var newBoard = formatter.toBoard(newBoardString, whoseMove);
+
+        var answer = new BoardAlias(newBoard, newRotation);
+
+        if (LOGGER.isTimeEnabled())
+        {
+            LOGGER.time("BoardUtilities.getAlias()", start, new Date()
+                    .getTime());
+        }
+
+        return answer;
+    }
+
+    this.getCornerFor = function(index)
+    {
+        var answer;
+
+        var file = geometry.toFile(index);
+        var rank = geometry.toRank(index);
+
+        if (file < 4 && rank < 4)
+        {
+            answer = 0;
+        }
+        else if (file >= 4 && rank < 4)
+        {
+            answer = 7;
+        }
+        else if (file < 4 && rank >= 4)
+        {
+            answer = 56;
+        }
+        else if (file >= 4 && rank >= 4)
+        {
+            answer = 63;
+        }
+
+        return answer;
     }
 
     this.getMoves = function(board, adjudicator)
     {
+        var start = new Date().getTime();
         InputValidator.validateNotEmpty("board", board);
         InputValidator.validateNotNull("adjudicator", adjudicator);
 
@@ -141,6 +207,12 @@ function BoardUtilities(geometry, formatter)
             {
                 answer[answer.length] = i;
             }
+        }
+
+        if (LOGGER.isTimeEnabled())
+        {
+            LOGGER.time("BoardUtilities.getMoves()", start, new Date()
+                    .getTime());
         }
 
         return answer;
@@ -178,8 +250,41 @@ function BoardUtilities(geometry, formatter)
         return answer;
     }
 
+    this.isCorner = function(index)
+    {
+        return CORNERS.contains(index);
+    }
+
+    this.isCSquare = function(index)
+    {
+        return C_SQUARES.contains(index);
+    }
+
+    this.isMiddle = function(index)
+    {
+        var file = geometry.toFile(index);
+        var rank = geometry.toRank(index);
+
+        return ((0 < file && file < 7) && (0 < rank && rank < 7));
+    }
+
+    this.isSide = function(index)
+    {
+        var file = geometry.toFile(index);
+        var rank = geometry.toRank(index);
+
+        return ((file === 0 || file === 7) && (0 < rank && rank < 7))
+                || ((0 < file && file < 7) && (rank === 0 || rank === 7));
+    }
+
+    this.isXSquare = function(index)
+    {
+        return X_SQUARES.contains(index);
+    }
+
     this.move = function(board, index)
     {
+        var start = new Date().getTime();
         InputValidator.validateNotEmpty("board", board);
         InputValidator.validateInRange("index", index, 0, geometry
                 .getMaxCells() - 1);
@@ -202,12 +307,8 @@ function BoardUtilities(geometry, formatter)
                 {
                     var x = file + (i * direction[0]);
                     var y = rank + (i * direction[1]);
-
-                    if (geometry.isOnBoard(x, y, 0))
-                    {
-                        var position = geometry.computeIndex(x, y, 0);
-                        boardString = this.flipTokenAt(boardString, position);
-                    }
+                    var position = geometry.computeIndex(x, y, 0);
+                    boardString = this.flipTokenAt(boardString, position);
                 }
             }
         }
@@ -215,7 +316,14 @@ function BoardUtilities(geometry, formatter)
         var newBoard = boardString.slice(0, index) + whoseMove
                 + boardString.slice(index + 1);
 
-        return formatter.toBoard(newBoard, this.nextMover(whoseMove));
+        var answer = formatter.toBoard(newBoard, this.nextMover(whoseMove));
+
+        if (LOGGER.isTimeEnabled())
+        {
+            LOGGER.time("BoardUtilities.move()", start, new Date().getTime());
+        }
+
+        return answer;
     }
 
     this.nextMover = function(whoseMove)
@@ -230,20 +338,18 @@ function BoardUtilities(geometry, formatter)
         return answer;
     }
 
-    this.rotateBoard = function(board, rotation)
+    this.rotateBoard = function(boardString, rotation)
     {
-        InputValidator.validateNotEmpty("board", board);
+        InputValidator.validateNotEmpty("boardString", boardString);
 
         var answer;
 
         if (!rotation)
         {
-            answer = new BoardAlias(board);
+            answer = board;
         }
         else if (Rotation.values2D.contains(rotation))
         {
-            var boardString = formatter.toBoardString(board);
-            var whoseMove = formatter.toWhoseMove(board);
             var newBoard = "";
 
             for (var i = 0; i < geometry.getMaxCells(); i++)
@@ -251,9 +357,7 @@ function BoardUtilities(geometry, formatter)
                 newBoard += boardString[geometry.unrotate(i, rotation)];
             }
 
-            newBoard = formatter.toBoard(newBoard, whoseMove);
-
-            answer = new BoardAlias(newBoard, rotation);
+            answer = newBoard;
         }
         else
         {
