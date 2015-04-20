@@ -11,6 +11,7 @@
 <script src="../../../../main/js/util/Logger.js"></script>
 <script src="../../../../main/js/util/InputValidator.js"></script>
 <script src="../../../../main/js/util/NumberAugments.js"></script>
+<script src="../../../../main/js/util/TimePrinter.js"></script>
 
 <script src="../../../../main/js/boardgame/BoardFormat.js"></script>
 <script src="../../../../main/js/boardgame/BoardGeometry.js"></script>
@@ -24,6 +25,7 @@
 
     var LOGGER = new Logger();
     LOGGER.setTraceEnabled(false);
+    LOGGER.setTimeEnabled(false);
     var SHOULD_THROW = "Should have thrown an exception.";
     var BOARD0 = "8/8/8/3wB3/3Bw3/8/8/8 B";
     var BOARD1 = "8/8/2www3/2BBw3/3Bw3/8/8/8 B";
@@ -41,18 +43,14 @@
                     "isActionAvailableFor()",
                     function(assert)
                     {
-                        assert.ok(
-                                adjudicator.isActionAvailableFor(BOARD0, "B"),
-                                "start B");
-                        var board = formatter.toBoard(formatter
-                                .toBoardString(BOARD0), "w");
+                        assert.ok(adjudicator.isActionAvailableFor(
+                                BOARD_STRING0, "B"), "start B");
+                        var board = formatter.toBoard(BOARD_STRING0, "w");
                         assert.ok(adjudicator.isActionAvailableFor(board, "w"),
                                 "start w");
-                        assert.ok(
-                                adjudicator.isActionAvailableFor(BOARD1, "B"),
-                                "board1 B");
-                        var board = formatter.toBoard(formatter
-                                .toBoardString(BOARD1), "w");
+                        assert.ok(adjudicator.isActionAvailableFor(
+                                BOARD_STRING1, "B"), "board1 B");
+                        var board = formatter.toBoard(BOARD_STRING1, "w");
                         assert.ok(adjudicator.isActionAvailableFor(board, "w"),
                                 "board1 w");
 
@@ -60,20 +58,41 @@
                                 .ok(
                                         !adjudicator
                                                 .isActionAvailableFor(
-                                                        "BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/wwwwwwww/wwwwwwww/wwwwwwww/wwwwwwww B",
+                                                        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
                                                         "B"), "half and half");
                         assert
                                 .ok(
                                         !adjudicator
                                                 .isActionAvailableFor(
-                                                        "BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/wwwwwwww/wwwwwwww/wwwwwwww/wwwwwwww w",
+                                                        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww",
                                                         "w"), "half and half");
                         assert
                                 .ok(
                                         adjudicator
                                                 .isActionAvailableFor(
-                                                        "BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBw/Bwwwwww1 B",
+                                                        "1wwwwwwBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
                                                         "B"), "nearly full");
+                        assert
+                                .ok(
+                                        adjudicator
+                                                .isActionAvailableFor(
+                                                        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBwBwwwwww1",
+                                                        "B"), "nearly full");
+                        assert
+                                .ok(
+                                        adjudicator
+                                                .isActionAvailableFor(
+                                                        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB1wwwwwwB",
+                                                        "B"), "nearly full");
+                        assert
+                                .ok(
+                                        adjudicator
+                                                .isActionAvailableFor(
+                                                        "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBwwwwww1",
+                                                        "B"), "nearly full");
+                        assert.ok(adjudicator.isActionAvailableFor(formatter
+                                .toBoardString("8/w7/B7/8/8/8/8/8 B"), "B"),
+                                "top left");
                     });
 
     QUnit
@@ -119,6 +138,14 @@
                                         !adjudicator
                                                 .isGameOver("BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBB/BBBBBBBw/Bwwwwww1 B"),
                                         "nearly full");
+                        assert.ok(adjudicator.isGameOver("8/8/8/8/8/8/8/8 B"),
+                                "empty");
+                        assert.ok(adjudicator
+                                .isGameOver("BBBBBBBB/8/8/8/8/8/8/8 B"),
+                                "first row");
+                        assert.ok(!adjudicator
+                                .isGameOver("BBBBBBBB/w7/8/8/8/8/8/8 B"),
+                                "first row plus one");
                     });
 
     QUnit
