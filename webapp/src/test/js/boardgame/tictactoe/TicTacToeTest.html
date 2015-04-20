@@ -130,7 +130,7 @@
             done1();
             // Run.
             game.play();
-        }, 250);
+        }, 500);
 
         // Verify.
         setTimeout(function()
@@ -146,7 +146,7 @@
             verify(i++, memory.getStatistics("X1X/Xoo/X1o o"), 2, 0, 0);
             assert.ok(true, "test resumed from async operation 2");
             done2();
-        }, 500);
+        }, 1000);
 
         function verify(boardNumber, statistics, wins, draws, losses)
         {
