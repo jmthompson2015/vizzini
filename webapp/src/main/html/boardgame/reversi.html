@@ -9,6 +9,7 @@
 <script src="../../js/util/ArrayAugments.js"></script>
 <script src="../../js/util/InputValidator.js"></script>
 <script src="../../js/util/NumberAugments.js"></script>
+<script src="../../js/util/TimePrinter.js"></script>
 
 <script src="../../js/boardgame/BoardAlias.js"></script>
 <script src="../../js/boardgame/BoardFormat.js"></script>
@@ -20,6 +21,7 @@
 <script src="../../js/boardgame/reversi/BoardUtilities.js"></script>
 <script src="../../js/boardgame/reversi/Injector.js"></script>
 <script src="../../js/boardgame/reversi/LearningAgent.js"></script>
+<script src="../../js/boardgame/reversi/MediumAgent.js"></script>
 <script src="../../js/boardgame/reversi/Reversi.js"></script>
 
 <script src="../../js/boardgame/reversi/EnvironmentUI.js"></script>
@@ -82,6 +84,7 @@
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
+        LOGGER.setTimeEnabled(false);
 
         var injector = new Injector();
         var geometry = injector.injectGeometry();
@@ -188,8 +191,8 @@
             maxCount = document.getElementById("maxCount").value;
             count = 1;
 
-            var firstAgent = new LearningAgent(geometry, boardUtils,
-                    adjudicator, "B", memory);
+            // var firstAgent = new LearningAgent(geometry, boardUtils, adjudicator, "B", memory);
+            var firstAgent = new MediumAgent(boardUtils, adjudicator, "B");
             var secondAgent = new LearningAgent(geometry, boardUtils,
                     adjudicator, "w", memory);
             var delay = 300;
