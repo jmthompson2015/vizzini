@@ -18,12 +18,21 @@ function LearningAgent(geometry, boardUtils, adjudicator, team, memory)
 
     this.getMove = function(board)
     {
+        var start = new Date().getTime();
         var answer;
 
-        LOGGER.debug("board = " + board);
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("board = " + board);
+        }
+
         var moves = boardUtils.getMoves(board, adjudicator);
         moves.shuffle();
-        LOGGER.debug("moves = " + moves);
+
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("moves = " + moves);
+        }
 
         // Find the best rated move.
         var bestRating;
@@ -34,9 +43,13 @@ function LearningAgent(geometry, boardUtils, adjudicator, team, memory)
             var move = moves[i];
             var newBoard = boardUtils.move(board, move);
 
-            var aliases = boardUtils.getAliases(newBoard);
-            var boardAlias = aliases[0];
-            LOGGER.debug("boardAlias = " + boardAlias);
+            var boardAlias = boardUtils.getAlias(newBoard);
+
+            if (LOGGER.isDebugEnabled())
+            {
+                LOGGER.debug("boardAlias = " + boardAlias);
+            }
+
             var board2 = boardAlias.getBoard();
             var move2 = geometry.rotate(move, boardAlias.getRotation());
             var statistics = memory.getStatistics(board2);
@@ -47,11 +60,23 @@ function LearningAgent(geometry, boardUtils, adjudicator, team, memory)
                 bestRating = rating;
                 bestMove2 = move2;
                 answer = geometry.unrotate(move2, boardAlias.getRotation());
-                LOGGER.debug(answer + " bestRating = " + bestRating);
+
+                if (LOGGER.isDebugEnabled())
+                {
+                    LOGGER.debug(answer + " bestRating = " + bestRating);
+                }
             }
         }
 
-        LOGGER.debug("best move = " + answer);
+        if (LOGGER.isDebugEnabled())
+        {
+            LOGGER.debug("best move = " + answer);
+        }
+
+        if (LOGGER.isTimeEnabled())
+        {
+            LOGGER.time("LearningAgent.getMove()", start, new Date().getTime());
+        }
 
         return answer;
     }
