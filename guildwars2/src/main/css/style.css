@@ -1,0 +1,67 @@
+body {
+    background-image:
+        url('https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
+    background-repeat: no-repeat;
+    font-family: Arial, Verdana, Helvetica, Sans-Serif;
+    font-size: small;
+}
+
+#highAskBidRatioValue {
+    width: 60px;
+}
+
+#highBidValue {
+    width: 60px;
+}
+
+img {
+    vertical-align: middle;
+    width: 32px;
+}
+
+#lowAskBidRatioValue {
+    width: 60px;
+}
+
+#lowBidValue {
+    width: 60px;
+}
+
+#lowDemandRatioValue {
+    width: 60px;
+}
+
+#lowSupplyValue {
+    width: 60px;
+}
+
+table {
+    background-color: white;
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: small;
+    text-align: center;
+    vertical-align: center;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table.sortable tbody tr:nth-child(2n) td {
+    background: LightCyan;
+}
+
+table.sortable tbody tr:nth-child(2n+1) td {
+    background: White;
+}
+
+td {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+th {
+    background-color: DarkSeaGreen;
+    border: 1px solid;
+    padding: 3px;
+}

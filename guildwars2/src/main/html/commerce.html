@@ -1,0 +1,219 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>GW2 Commerce</title>
+<link rel="stylesheet" href="../css/style.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+	src="https://rawgit.com/jmthompson2015/vizzini/master/color/src/main/js/util/sorttable.js"></script>
+
+<script src="../js/util/Logger.js"></script>
+<script src="../js/util/InputValidator.js"></script>
+<script src="../js/util/NumberAugments.js"></script>
+<script src="../js/util/TimePrinter.js"></script>
+
+<script src="../js/CommerceFormat.js"></script>
+<script src="../js/GW2Spidy.js"></script>
+<script src="../js/ItemComputer.js"></script>
+<script src="../js/ItemFilter.js"></script>
+<script src="../js/ItemSorter.js"></script>
+<script src="../js/Rarity.js"></script>
+<script src="../js/Type.js"></script>
+
+</head>
+<body>
+	<label for="type">Type: </label>
+	<select id="type"></select>
+	<p />
+	<label for="rarity">Rarity: </label>
+	<select id="rarity"></select>
+	<p />
+	<label> <input id="lowBidUI" type="checkbox" checked /> <input
+		id="lowBidValue" type="number" value="50" width="20" /> &le; Bid
+	</label>
+	<label><input id="highBidUI" type="checkbox" checked /> Bid
+		&lt; <input id="highBidValue" type="number" value="1000" width="20" /></label>
+	<p />
+	<label> <input id="lowSupplyUI" type="checkbox" checked /> <input
+		id="lowSupplyValue" type="number" value="100" width="20" /> &le;
+		Supply
+	</label>
+	<p />
+	<label> <input id="lowAskBidRatioUI" type="checkbox" checked />
+		<input id="lowAskBidRatioValue" type="number" value="3.0" width="20" />
+		&le; (Ask / Bid)
+	</label>
+	<label><input id="highAskBidRatioUI" type="checkbox" checked />
+		(Ask / Bid) &lt; <input id="highAskBidRatioValue" type="number"
+		value="10.0" width="20" /></label>
+	<p />
+	<label> <input id="lowDemandRatioUI" type="checkbox" checked />
+		<input id="lowDemandRatioValue" type="number" value="5.0" width="20" />
+		&le; (Demand / Supply)
+	</label>
+	<p />
+	<button onclick="fillFullItemList();">Submit</button>
+	<p />
+	<span id="rowCountTop"></span>
+	<table id="itemTable" class="sortable">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Type</th>
+				<th>Rarity</th>
+				<th class="sorttable_numeric">Bid</th>
+				<th class="sorttable_numeric">Ask</th>
+				<th class="sorttable_numeric">Supply</th>
+				<th class="sorttable_numeric">Demand</th>
+				<th class="sorttable_numeric">Ask / Bid</th>
+				<th class="sorttable_numeric">Demand / Supply</th>
+			</tr>
+		</thead>
+		<tbody id="items">
+		</tbody>
+	</table>
+	<span id="rowCountBottom"></span>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        $(document).ready(function()
+        {
+            fillTypes();
+            fillRarities();
+        });
+
+        function fillFullItemList()
+        {
+            var typeId = getSelectedTypeId();
+
+            if (typeId)
+            {
+                GW2Spidy.getFullItemList(typeId, function(results)
+                {
+                    var rarityId = getSelectedRarityId();
+                    var lowBid = getLowBid();
+                    var highBid = getHighBid();
+                    var lowSupply = getLowSupply();
+                    var lowAskBidRatio = getLowAskBidRatio();
+                    var highAskBidRatio = getHighAskBidRatio();
+                    var lowDemandRatio = getLowDemandRatio();
+                    var myResults = ItemFilter.filter(results, rarityId,
+                            isLowBidChecked(), lowBid, isHighBidChecked(),
+                            highBid, isLowSupplyChecked(), lowSupply,
+                            isLowAskBidRatioChecked(), lowAskBidRatio,
+                            isHighAskBidRatioChecked(), highAskBidRatio,
+                            isLowDemandRatioChecked(), lowDemandRatio);
+                    myResults = ItemSorter.sort(myResults);
+                    var tableRows = CommerceFormat.formatItems(myResults);
+                    $("#items").html(tableRows);
+                    setRowCount(myResults.length);
+                });
+            }
+        }
+
+        function fillRarities()
+        {
+            var options = CommerceFormat.formatRarities();
+            $("#rarity").html(options);
+        }
+
+        function fillTypes()
+        {
+            var options = CommerceFormat.formatTypes();
+            $("#type").html(options);
+        }
+
+        function getHighAskBidRatio()
+        {
+            var element = document.getElementById("highAskBidRatioValue");
+            return element.value;
+        }
+
+        function getHighBid()
+        {
+            var element = document.getElementById("highBidValue");
+            return element.value;
+        }
+
+        function getLowBid()
+        {
+            var element = document.getElementById("lowBidValue");
+            return element.value;
+        }
+
+        function getLowDemandRatio()
+        {
+            var element = document.getElementById("lowDemandRatioValue");
+            return element.value;
+        }
+
+        function getLowAskBidRatio()
+        {
+            var element = document.getElementById("lowAskBidRatioValue");
+            return element.value;
+        }
+
+        function getLowSupply()
+        {
+            var element = document.getElementById("lowSupplyValue");
+            return element.value;
+        }
+
+        function getSelectedRarityId()
+        {
+            var select = document.getElementById("rarity");
+            return select.options[select.selectedIndex].value;
+        }
+
+        function getSelectedTypeId()
+        {
+            var select = document.getElementById("type");
+            return select.options[select.selectedIndex].value;
+        }
+
+        function isHighAskBidRatioChecked()
+        {
+            return document.getElementById("highAskBidRatioUI").checked;
+        }
+
+        function isHighBidChecked()
+        {
+            return document.getElementById("highBidUI").checked;
+        }
+
+        function isLowAskBidRatioChecked()
+        {
+            return document.getElementById("lowAskBidRatioUI").checked;
+        }
+
+        function isLowBidChecked()
+        {
+            return document.getElementById("lowBidUI").checked;
+        }
+
+        function isLowDemandRatioChecked()
+        {
+            return document.getElementById("lowDemandRatioUI").checked;
+        }
+
+        function isLowSupplyChecked()
+        {
+            return document.getElementById("lowSupplyUI").checked;
+        }
+
+        function setRowCount(rowCount)
+        {
+            var message = "Row Count: " + rowCount;
+            $("#rowCountTop").html(message);
+            $("#rowCountBottom").html(message);
+        }
+    </script>
+
+</body>
+</html>
