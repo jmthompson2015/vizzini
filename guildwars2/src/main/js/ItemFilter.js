@@ -1,10 +1,19 @@
 /*
  * Provides an item filter.
  */
-var ItemFilter =
+function ItemFilter(rarityId, bidRange, askRange, supplyRange, demandRange,
+        askBidRatioRange, demandSupplyRatioRange)
 {
-    filter: function(results, rarityId, bidRange, askRange, supplyRange,
-            demandRange, askBidRatioRange, demandSupplyRatioRange)
+    InputValidator.validateNotNull("rarityId", rarityId);
+    InputValidator.validateNotNull("bidRange", bidRange);
+    InputValidator.validateNotNull("askRange", askRange);
+    InputValidator.validateNotNull("supplyRange", supplyRange);
+    InputValidator.validateNotNull("demandRange", demandRange);
+    InputValidator.validateNotNull("askBidRatioRange", askBidRatioRange);
+    InputValidator.validateNotNull("demandSupplyRatioRange",
+            demandSupplyRatioRange);
+
+    this.filter = function(results)
     {
         LOGGER.debug("ItemFilter.filter()");
         LOGGER.debug("rarityId = " + rarityId);
@@ -20,8 +29,8 @@ var ItemFilter =
             {
                 var result = results[i];
 
-                if (ItemFilter.passesFilters(result, rarityId, bidRange,
-                        askRange, supplyRange, demandRange, askBidRatioRange,
+                if (this.passesFilters(result, rarityId, bidRange, askRange,
+                        supplyRange, demandRange, askBidRatioRange,
                         demandSupplyRatioRange))
                 {
                     answer[answer.length] = result;
@@ -35,53 +44,52 @@ var ItemFilter =
         }
 
         return answer;
-    },
+    }
 
-    passesFilters: function(result, rarityId, bidRange, askRange, supplyRange,
-            demandRange, askBidRatioRange, demandSupplyRatioRange)
+    this.passesFilters = function(result)
     {
-        return (this.passesRarityFilter(result, rarityId)
-                && this.passesBidFilter(result, bidRange)
-                && this.passesAskFilter(result, askRange)
-                && this.passesSupplyFilter(result, supplyRange)
-                && this.passesDemandFilter(result, demandRange)
-                && this.passesAskBidRatioFilter(result, askBidRatioRange) && this
-                .passesDemandSupplyRatioFilter(result, demandSupplyRatioRange));
-    },
+        return (passesRarityFilter(result, rarityId)
+                && passesBidFilter(result, bidRange)
+                && passesAskFilter(result, askRange)
+                && passesSupplyFilter(result, supplyRange)
+                && passesDemandFilter(result, demandRange)
+                && passesAskBidRatioFilter(result, askBidRatioRange) && passesDemandSupplyRatioFilter(
+                result, demandSupplyRatioRange));
+    }
 
-    passesAskBidRatioFilter: function(result, range)
+    function passesAskBidRatioFilter(result, range)
     {
         return range.passesRangeFilter(ItemComputer.computeAskBidRatio(result));
-    },
+    }
 
-    passesAskFilter: function(result, range)
+    function passesAskFilter(result, range)
     {
         return range.passesRangeFilter(ItemComputer.getAsk(result));
-    },
+    }
 
-    passesBidFilter: function(result, range)
+    function passesBidFilter(result, range)
     {
         return range.passesRangeFilter(ItemComputer.getBid(result));
-    },
+    }
 
-    passesDemandFilter: function(result, range)
+    function passesDemandFilter(result, range)
     {
         return range.passesRangeFilter(ItemComputer.getDemand(result));
-    },
+    }
 
-    passesDemandSupplyRatioFilter: function(result, range)
+    function passesDemandSupplyRatioFilter(result, range)
     {
         return range.passesRangeFilter(ItemComputer
                 .computeDemandSupplyRatio(result));
-    },
+    }
 
-    passesRarityFilter: function(result, rarityId)
+    function passesRarityFilter(result, rarityId)
     {
         return (rarityId === "*all*" || ItemComputer.getRarityId(result) == rarityId);
-    },
+    }
 
-    passesSupplyFilter: function(result, range)
+    function passesSupplyFilter(result, range)
     {
         return range.passesRangeFilter(ItemComputer.getSupply(result));
-    },
+    }
 }

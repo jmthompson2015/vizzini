@@ -124,12 +124,12 @@
                 GW2Spidy.getFullItemList(typeId, function(results)
                 {
                     var rarityId = getSelectedRarityId();
-                    var myResults = ItemFilter.filter(results, rarityId,
-                            itemPrefs.getBidRange(), itemPrefs.getAskRange(),
-                            itemPrefs.getSupplyRange(), itemPrefs
-                                    .getDemandRange(), itemPrefs
-                                    .getAskBidRatioRange(), itemPrefs
+                    var filter = new ItemFilter(rarityId, itemPrefs
+                            .getBidRange(), itemPrefs.getAskRange(), itemPrefs
+                            .getSupplyRange(), itemPrefs.getDemandRange(),
+                            itemPrefs.getAskBidRatioRange(), itemPrefs
                                     .getDemandSupplyRatioRange());
+                    var myResults = filter.filter(results);
                     myResults = ItemSorter.sort(myResults);
                     var tableRows = CommerceFormat.formatItems(myResults);
                     $("#items").html(tableRows);
