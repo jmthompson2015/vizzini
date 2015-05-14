@@ -6,42 +6,25 @@ body {
     font-size: small;
 }
 
-#highAskBidRatioValue {
-    width: 60px;
-}
-
-#highBidValue {
-    width: 60px;
-}
-
 img {
     vertical-align: middle;
     width: 32px;
 }
 
-#lowAskBidRatioValue {
-    width: 60px;
-}
-
-#lowBidValue {
-    width: 60px;
-}
-
-#lowDemandRatioValue {
-    width: 60px;
-}
-
-#lowSupplyValue {
+.inputNumber {
     width: 60px;
 }
 
 table {
-    background-color: white;
     border: 1px solid;
     border-collapse: collapse;
     font-size: small;
     text-align: center;
     vertical-align: center;
+}
+
+#itemTable {
+    background-color: white;
     /* These center the table. */
     margin-left: auto;
     margin-right: auto;
