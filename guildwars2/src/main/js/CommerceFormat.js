@@ -42,12 +42,11 @@ var CommerceFormat =
             answer += ItemComputer.getDemand(result);
             answer += "</td>";
             answer += "<td>";
-            answer += this.formatValue(ItemComputer
-                    .computeRatioAskToBid(result));
+            answer += this.formatValue(ItemComputer.computeAskBidRatio(result));
             answer += "</td>";
             answer += "<td>";
             answer += this.formatValue(ItemComputer
-                    .computeRatioDemandToSupply(result));
+                    .computeDemandSupplyRatio(result));
             answer += "</td>";
             answer += "</tr>";
         }

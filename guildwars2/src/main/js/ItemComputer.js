@@ -1,23 +1,6 @@
 var ItemComputer =
 {
-    computeRatioDemandToSupply: function(result)
-    {
-        var answer;
-
-        if (result)
-        {
-            var supply = this.getSupply(result);
-
-            if (supply != 0)
-            {
-                answer = this.getDemand(result) / supply;
-            }
-        }
-
-        return answer;
-    },
-
-    computeRatioAskToBid: function(result)
+    computeAskBidRatio: function(result)
     {
         var answer;
 
@@ -28,6 +11,23 @@ var ItemComputer =
             if (bid != 0)
             {
                 answer = this.getAsk(result) / bid;
+            }
+        }
+
+        return answer;
+    },
+
+    computeDemandSupplyRatio: function(result)
+    {
+        var answer;
+
+        if (result)
+        {
+            var supply = this.getSupply(result);
+
+            if (supply != 0)
+            {
+                answer = this.getDemand(result) / supply;
             }
         }
 
