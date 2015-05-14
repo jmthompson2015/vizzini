@@ -3,31 +3,11 @@
  */
 var ItemFilter =
 {
-    filter: function(results, rarityId, isLowBidEnabled, lowBid,
-            isHighBidEnabled, highBid, // bid range
-            isLowSupplyEnabled, lowSupply, // supply
-            isLowAskBidRatioEnabled, lowAskBidRatio, isHighAskBidRatioEnabled,
-            highAskBidRatio, // ask/bid range
-            isLowDemandRatioEnabled, lowDemandRatio)
+    filter: function(results, rarityId, bidRange, askRange, supplyRange,
+            demandRange, askBidRatioRange, demandSupplyRatioRange)
     {
         LOGGER.debug("ItemFilter.filter()");
         LOGGER.debug("rarityId = " + rarityId);
-
-        LOGGER.debug("isLowBidEnabled ? " + isLowBidEnabled);
-        LOGGER.debug("lowBid = " + lowBid);
-        LOGGER.debug("isHighBidEnabled ? " + isHighBidEnabled);
-        LOGGER.debug("highBid = " + highBid);
-
-        LOGGER.debug("isLowSupplyEnabled ? " + isLowSupplyEnabled);
-        LOGGER.debug("lowSupply = " + lowSupply);
-
-        LOGGER.debug("isLowAskBidRatioEnabled ? " + isLowAskBidRatioEnabled);
-        LOGGER.debug("lowAskBidRatio = " + lowAskBidRatio);
-        LOGGER.debug("isHighAskBidRatioEnabled ? " + isHighAskBidRatioEnabled);
-        LOGGER.debug("highAskBidRatio = " + highAskBidRatio);
-
-        LOGGER.debug("isLowDemandRatioEnabled ? " + isLowDemandRatioEnabled);
-        LOGGER.debug("lowDemandRatio = " + lowDemandRatio);
 
         var start = new Date().getTime();
         var answer = [];
@@ -40,11 +20,9 @@ var ItemFilter =
             {
                 var result = results[i];
 
-                if (ItemFilter.passesFilters(result, rarityId, isLowBidEnabled,
-                        lowBid, isHighBidEnabled, highBid, isLowSupplyEnabled,
-                        lowSupply, isLowAskBidRatioEnabled, lowAskBidRatio,
-                        isHighAskBidRatioEnabled, highAskBidRatio,
-                        isLowDemandRatioEnabled, lowDemandRatio))
+                if (ItemFilter.passesFilters(result, rarityId, bidRange,
+                        askRange, supplyRange, demandRange, askBidRatioRange,
+                        demandSupplyRatioRange))
                 {
                     answer[answer.length] = result;
                 }
@@ -59,58 +37,42 @@ var ItemFilter =
         return answer;
     },
 
-    passesFilters: function(result, rarityId, isLowBidEnabled, lowBid,
-            isHighBidEnabled, highBid, isLowSupplyEnabled, lowSupply,
-            isLowAskBidRatioEnabled, lowAskBidRatio, isHighAskBidRatioEnabled,
-            highAskBidRatio, isLowDemandRatioEnabled, lowDemandRatio)
+    passesFilters: function(result, rarityId, bidRange, askRange, supplyRange,
+            demandRange, askBidRatioRange, demandSupplyRatioRange)
     {
         return (this.passesRarityFilter(result, rarityId)
-                && this.passesLowBidFilter(result, isLowBidEnabled, lowBid)
-                && this.passesHighBidFilter(result, isHighBidEnabled, highBid)
-                && this.passesLowSupplyFilter(result, isLowSupplyEnabled,
-                        lowSupply)
-                && this.passesLowAskBidRatioFilter(result,
-                        isLowAskBidRatioEnabled, lowAskBidRatio)
-                && this.passesHighAskBidRatioFilter(result,
-                        isHighAskBidRatioEnabled, highAskBidRatio) && this
-                .passesLowDemandRatioFilter(result, isLowDemandRatioEnabled,
-                        lowDemandRatio));
+                && this.passesBidFilter(result, bidRange)
+                && this.passesAskFilter(result, askRange)
+                && this.passesSupplyFilter(result, supplyRange)
+                && this.passesDemandFilter(result, demandRange)
+                && this.passesAskBidRatioFilter(result, askBidRatioRange) && this
+                .passesDemandSupplyRatioFilter(result, demandSupplyRatioRange));
     },
 
-    passesHighAskBidRatioFilter: function(result, isHighAskBidRatioEnabled,
-            highAskBidRatio)
+    passesAskBidRatioFilter: function(result, range)
     {
-        return (!isHighAskBidRatioEnabled || (ItemComputer
-                .computeRatioAskToBid(result) < highAskBidRatio));
+        return range.passesRangeFilter(ItemComputer.computeAskBidRatio(result));
     },
 
-    passesHighBidFilter: function(result, isHighBidEnabled, highBid)
+    passesAskFilter: function(result, range)
     {
-        return (!isHighBidEnabled || (ItemComputer.getBid(result) < highBid));
+        return range.passesRangeFilter(ItemComputer.getAsk(result));
     },
 
-    passesLowAskBidRatioFilter: function(result, isLowAskBidRatioEnabled,
-            lowAskBidRatio)
+    passesBidFilter: function(result, range)
     {
-        return (!isLowAskBidRatioEnabled || (ItemComputer
-                .computeRatioAskToBid(result) >= lowAskBidRatio));
+        return range.passesRangeFilter(ItemComputer.getBid(result));
     },
 
-    passesLowBidFilter: function(result, isLowBidEnabled, lowBid)
+    passesDemandFilter: function(result, range)
     {
-        return (!isLowBidEnabled || (ItemComputer.getBid(result) >= lowBid));
+        return range.passesRangeFilter(ItemComputer.getDemand(result));
     },
 
-    passesLowDemandRatioFilter: function(result, isLowDemandRatioEnabled,
-            lowDemandRatio)
+    passesDemandSupplyRatioFilter: function(result, range)
     {
-        return (!isLowDemandRatioEnabled || (ItemComputer
-                .computeRatioDemandToSupply(result) >= lowDemandRatio));
-    },
-
-    passesLowSupplyFilter: function(result, isLowSupplyEnabled, lowSupply)
-    {
-        return (!isLowSupplyEnabled || (ItemComputer.getSupply(result) >= lowSupply));
+        return range.passesRangeFilter(ItemComputer
+                .computeDemandSupplyRatio(result));
     },
 
     passesRarityFilter: function(result, rarityId)
@@ -118,9 +80,8 @@ var ItemFilter =
         return (rarityId === "*all*" || ItemComputer.getRarityId(result) == rarityId);
     },
 
-    passesUnfilledDemandFilter: function(result, isUnfilledDemandEnabled)
+    passesSupplyFilter: function(result, range)
     {
-        return (!isUnfilledDemandEnabled || (ItemComputer.getDemand(result) > ItemComputer
-                .getSupply(result)));
+        return range.passesRangeFilter(ItemComputer.getSupply(result));
     },
 }
