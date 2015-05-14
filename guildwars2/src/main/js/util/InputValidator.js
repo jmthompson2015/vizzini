@@ -16,6 +16,15 @@ var InputValidator =
     {
         return !isNaN(parseFloat(n)) && isFinite(n);
     },
+    
+    validateBoolean: function(objectName,object)
+    {
+        if (object !== true && object !== false)
+        {
+            LOGGER.error(new Error().stack);
+            throw objectName + " is not a boolean: " + object;
+        }
+    },
 
     validateInRange: function(objectName, object, low, high)
     {
