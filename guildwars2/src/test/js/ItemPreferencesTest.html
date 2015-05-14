@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ItemPreferencesTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/Logger.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+
+<script src="../../main/js/FilterRange.js"></script>
+<script src="../../main/js/ItemPreferences.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit.test("get defaults", function(assert)
+    {
+        // Setup.
+        var itemPrefs = createItemPreferences();
+
+        // Run / Verify.
+        assert.equal(itemPrefs.getTypeIndex(), 0);
+        assert.equal(itemPrefs.getRarityIndex(), 0);
+        {
+            var range = itemPrefs.getBidRange();
+            assert.ok(range);
+            assert.ok(range.isLowChecked());
+            assert.equal(range.getLowValue(), 50);
+            assert.ok(range.isHighChecked());
+            assert.equal(range.getHighValue(), 1000);
+        }
+        {
+            var range = itemPrefs.getAskRange();
+            assert.ok(range);
+            assert.ok(!range.isLowChecked());
+            assert.equal(range.getLowValue(), 50);
+            assert.ok(!range.isHighChecked());
+            assert.equal(range.getHighValue(), 1000);
+        }
+        {
+            var range = itemPrefs.getSupplyRange();
+            assert.ok(range);
+            assert.ok(range.isLowChecked());
+            assert.equal(range.getLowValue(), 100);
+            assert.ok(!range.isHighChecked());
+            assert.equal(range.getHighValue(), 1000);
+        }
+        {
+            var range = itemPrefs.getDemandRange();
+            assert.ok(range);
+            assert.ok(!range.isLowChecked());
+            assert.equal(range.getLowValue(), 100);
+            assert.ok(!range.isHighChecked());
+            assert.equal(range.getHighValue(), 1000);
+        }
+        {
+            var range = itemPrefs.getAskBidRatioRange();
+            assert.ok(range);
+            assert.ok(range.isLowChecked());
+            assert.equal(range.getLowValue(), 3.0);
+            assert.ok(range.isHighChecked());
+            assert.equal(range.getHighValue(), 10.0);
+        }
+        {
+            var range = itemPrefs.getDemandSupplyRatioRange();
+            assert.ok(range);
+            assert.ok(range.isLowChecked());
+            assert.equal(range.getLowValue(), 5.0);
+            assert.ok(!range.isHighChecked());
+            assert.equal(range.getHighValue(), 10.0);
+        }
+    });
+
+    QUnit.test("setTypeIndex()", function(assert)
+    {
+        // Setup.
+        var index = 12;
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setTypeIndex(index);
+
+        // Verify.
+        assert.equal(itemPrefs.getTypeIndex(), index);
+    });
+
+    QUnit.test("setRarityIndex()", function(assert)
+    {
+        // Setup.
+        var index = 3;
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setRarityIndex(index);
+
+        // Verify.
+        assert.equal(itemPrefs.getRarityIndex(), index);
+    });
+
+    QUnit.test("setBidRange()", function(assert)
+    {
+        // Setup.
+        var isLowChecked = false;
+        var lowValue = 20;
+        var isHighChecked = false;
+        var highValue = 2000;
+        var range0 = new FilterRange(isLowChecked, lowValue, isHighChecked,
+                highValue);
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setBidRange(range0);
+
+        // Verify.
+        var range = itemPrefs.getBidRange();
+        assert.ok(range);
+        assert.equal(range.isLowChecked(), isLowChecked);
+        assert.equal(range.getLowValue(), lowValue);
+        assert.equal(range.isHighChecked(), isHighChecked);
+        assert.equal(range.getHighValue(), highValue);
+    });
+
+    QUnit.test("setAskRange()", function(assert)
+    {
+        // Setup.
+        var isLowChecked = false;
+        var lowValue = 20;
+        var isHighChecked = false;
+        var highValue = 2000;
+        var range0 = new FilterRange(isLowChecked, lowValue, isHighChecked,
+                highValue);
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setAskRange(range0);
+
+        // Verify.
+        var range = itemPrefs.getAskRange();
+        assert.ok(range);
+        assert.equal(range.isLowChecked(), isLowChecked);
+        assert.equal(range.getLowValue(), lowValue);
+        assert.equal(range.isHighChecked(), isHighChecked);
+        assert.equal(range.getHighValue(), highValue);
+    });
+
+    QUnit.test("setSupplyRange()", function(assert)
+    {
+        // Setup.
+        var isLowChecked = false;
+        var lowValue = 20;
+        var isHighChecked = false;
+        var highValue = 2000;
+        var range0 = new FilterRange(isLowChecked, lowValue, isHighChecked,
+                highValue);
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setSupplyRange(range0);
+
+        // Verify.
+        var range = itemPrefs.getSupplyRange();
+        assert.ok(range);
+        assert.equal(range.isLowChecked(), isLowChecked);
+        assert.equal(range.getLowValue(), lowValue);
+        assert.equal(range.isHighChecked(), isHighChecked);
+        assert.equal(range.getHighValue(), highValue);
+    });
+
+    QUnit.test("setDemandRange()", function(assert)
+    {
+        // Setup.
+        var isLowChecked = false;
+        var lowValue = 20;
+        var isHighChecked = false;
+        var highValue = 2000;
+        var range0 = new FilterRange(isLowChecked, lowValue, isHighChecked,
+                highValue);
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setDemandRange(range0);
+
+        // Verify.
+        var range = itemPrefs.getDemandRange();
+        assert.ok(range);
+        assert.equal(range.isLowChecked(), isLowChecked);
+        assert.equal(range.getLowValue(), lowValue);
+        assert.equal(range.isHighChecked(), isHighChecked);
+        assert.equal(range.getHighValue(), highValue);
+    });
+
+    QUnit.test("setAskBidRatioRange()", function(assert)
+    {
+        // Setup.
+        var isLowChecked = false;
+        var lowValue = 20;
+        var isHighChecked = false;
+        var highValue = 2000;
+        var range0 = new FilterRange(isLowChecked, lowValue, isHighChecked,
+                highValue);
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setAskBidRatioRange(range0);
+
+        // Verify.
+        var range = itemPrefs.getAskBidRatioRange();
+        assert.ok(range);
+        assert.equal(range.isLowChecked(), isLowChecked);
+        assert.equal(range.getLowValue(), lowValue);
+        assert.equal(range.isHighChecked(), isHighChecked);
+        assert.equal(range.getHighValue(), highValue);
+    });
+
+    QUnit.test("setDemandSupplyRatioRange()", function(assert)
+    {
+        // Setup.
+        var isLowChecked = false;
+        var lowValue = 20;
+        var isHighChecked = false;
+        var highValue = 2000;
+        var range0 = new FilterRange(isLowChecked, lowValue, isHighChecked,
+                highValue);
+        var itemPrefs = createItemPreferences();
+
+        // Run.
+        itemPrefs.setDemandSupplyRatioRange(range0);
+
+        // Verify.
+        var range = itemPrefs.getDemandSupplyRatioRange();
+        assert.ok(range);
+        assert.equal(range.isLowChecked(), isLowChecked);
+        assert.equal(range.getLowValue(), lowValue);
+        assert.equal(range.isHighChecked(), isHighChecked);
+        assert.equal(range.getHighValue(), highValue);
+    });
+
+    function createItemPreferences()
+    {
+        var answer = new ItemPreferences("testGw2Commerce");
+        answer.clear();
+
+        return answer;
+    }
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
