@@ -79,7 +79,9 @@
 	<p />
 	<button onclick="restoreDefaultItemPreferences();">Restore
 		Defaults</button>
-	<button onclick="saveItemPreferences(); fillFullItemList();">Submit</button>
+	<button onclick="submitActionPerformed();">Submit</button>
+	<img id="loadingSpinner" src="../resources/LoadingSpinner.gif"
+		style="display: none;" />
 	<p />
 	<span id="rowCountTop"></span>
 	<table id="itemTable" class="sortable">
@@ -121,6 +123,9 @@
 
             if (typeId)
             {
+                var loadingSpinner = document.getElementById("loadingSpinner");
+                loadingSpinner.style.display = "inline";
+
                 GW2Spidy.getFullItemList(typeId, function(results)
                 {
                     var rarityId = getSelectedRarityId();
@@ -134,6 +139,8 @@
                     var tableRows = CommerceFormat.formatItems(myResults);
                     $("#items").html(tableRows);
                     setRowCount(myResults.length);
+
+                    loadingSpinner.style.display = "none";
                 });
             }
         }
@@ -294,6 +301,14 @@
             var message = "Row Count: " + rowCount;
             $("#rowCountTop").html(message);
             $("#rowCountBottom").html(message);
+        }
+
+        function submitActionPerformed()
+        {
+            $("#items").html("");
+            setRowCount(0);
+            saveItemPreferences();
+            fillFullItemList();
         }
     </script>
 </body>
