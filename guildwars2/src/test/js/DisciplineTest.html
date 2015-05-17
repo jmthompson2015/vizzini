@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DisciplineTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/NumberAugments.js"></script>
+
+<script src="../../main/js/Discipline.js"></script>
+
+<script>
+    QUnit.test("findById()", function(assert)
+    {
+        assert.ok(Discipline.findById);
+        var i = 1;
+        assert.equal(Discipline.findById(i++), "huntsman");
+        assert.equal(Discipline.findById(i++), "artificer");
+        assert.equal(Discipline.findById(i++), "weaponsmith");
+        assert.equal(Discipline.findById(i++), "armorsmith");
+        assert.equal(Discipline.findById(i++), "leatherworker");
+        assert.equal(Discipline.findById(i++), "tailor");
+        assert.equal(Discipline.findById(i++), "jeweler");
+        assert.equal(Discipline.findById(i++), "cook");
+
+        assert.ok(!Discipline.findById(undefined));
+        assert.ok(!Discipline.findById(null));
+        assert.ok(!Discipline.findById("A"));
+        assert.ok(!Discipline.findById(-1));
+    });
+
+    QUnit.test("values", function(assert)
+    {
+        assert.ok(Discipline.values);
+        assert.equal(Discipline.values.length, 8);
+        var i = 0;
+        assert.equal(Discipline.values[i++], "armorsmith");
+        assert.equal(Discipline.values[i++], "artificer");
+        assert.equal(Discipline.values[i++], "cook");
+        assert.equal(Discipline.values[i++], "huntsman");
+        assert.equal(Discipline.values[i++], "jeweler");
+        assert.equal(Discipline.values[i++], "leatherworker");
+        assert.equal(Discipline.values[i++], "tailor");
+        assert.equal(Discipline.values[i++], "weaponsmith");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
