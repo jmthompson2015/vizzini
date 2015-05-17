@@ -29,9 +29,7 @@ function ItemFilter(rarityId, bidRange, askRange, supplyRange, demandRange,
             {
                 var result = results[i];
 
-                if (this.passesFilters(result, rarityId, bidRange, askRange,
-                        supplyRange, demandRange, askBidRatioRange,
-                        demandSupplyRatioRange))
+                if (this.passesFilters(result))
                 {
                     answer[answer.length] = result;
                 }

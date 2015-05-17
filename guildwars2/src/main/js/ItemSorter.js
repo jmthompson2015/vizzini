@@ -38,7 +38,7 @@ var ItemSorter =
                                 a2b0 = CommerceFormat.round2(a2b0);
                             }
 
-                            if (typeof p2b1 === "number")
+                            if (typeof a2b1 === "number")
                             {
                                 a2b1 = CommerceFormat.round2(a2b1);
                             }

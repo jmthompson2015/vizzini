@@ -1,3 +1,6 @@
+/*
+ * Provides an item computer.
+ */
 var ItemComputer =
 {
     computeAskBidRatio: function(result)
