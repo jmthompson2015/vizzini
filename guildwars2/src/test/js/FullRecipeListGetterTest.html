@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>FullRecipeListGetterTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="../../main/js/util/Logger.js"></script>
+<script src="../../main/js/util/InputValidator.js"></script>
+<script src="../../main/js/util/TimePrinter.js"></script>
+
+<script src="../../main/js/FilterRange.js"></script>
+<script src="../../main/js/GW2Spidy.js"></script>
+<script src="../../main/js/RecipeComputer.js"></script>
+<script src="../../main/js/RecipeFilter.js"></script>
+<script src="../../main/js/RecipeSorter.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit.test("start()", function(assert)
+    {
+        // Setup.
+        var disciplineId = 7; // jeweler
+        var range = new FilterRange(false, 0, false, 0);
+        var costRange = new FilterRange(false, 0, true, 10000);
+        var bidCostRatioRange = new FilterRange(true, 1, false, 0);
+        var askCostRatioRange = new FilterRange(true, 3, false, 0);
+        var askBidRatioRange = new FilterRange(false, 0, true, 3);
+        var filter = new RecipeFilter(range, costRange, range, range, range,
+                range, bidCostRatioRange, askCostRatioRange, askBidRatioRange,
+                range);
+        var getter = new FullRecipeListGetter(disciplineId, filter, function(
+                results)
+        {
+            LOGGER.info("results.length = " + results.length);
+        });
+
+        // Run.
+        getter.start();
+
+        // Verify.
+        assert.ok(true);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
