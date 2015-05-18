@@ -28,30 +28,30 @@ var RecipeSorter =
                 }
                 else
                 {
-                    var a2c0 = RecipeComputer.computeAskCostRatio(item0);
-                    var a2c1 = RecipeComputer.computeAskCostRatio(item1);
+                    var acr0 = RecipeComputer.computeAskCostRatio(item0);
+                    var acr1 = RecipeComputer.computeAskCostRatio(item1);
 
                     // Change to match the displayed precision.
-                    if (typeof a2c0 === "number")
+                    if (typeof acr0 === "number")
                     {
-                        a2c0 = CraftingFormat.round2(a2c0);
+                        acr0 = CraftingFormat.round2(acr0);
                     }
 
-                    if (typeof a2c1 === "number")
+                    if (typeof acr1 === "number")
                     {
-                        a2c1 = CraftingFormat.round2(a2c1);
+                        acr1 = CraftingFormat.round2(acr1);
                     }
 
-                    if (a2c0 === a2c1)
+                    if (acr0 === acr1)
                     {
-                        var b2c0 = RecipeComputer.computeBidCostRatio(item0);
-                        var b2c1 = RecipeComputer.computeBidCostRatio(item1);
+                        var dsr0 = RecipeComputer.computeDemandSupplyRatio(item0);
+                        var dsr1 = RecipeComputer.computeDemandSupplyRatio(item1);
 
-                        if (b2c0 === b2c1)
+                        if (dsr0 === dsr1)
                         {
                             ret = 0;
                         }
-                        else if (b2c0 < b2c1)
+                        else if (dsr0 < dsr1)
                         {
                             ret = 1;
                         }
@@ -60,7 +60,7 @@ var RecipeSorter =
                             ret = -1;
                         }
                     }
-                    else if (a2c0 < a2c1)
+                    else if (acr0 < acr1)
                     {
                         ret = 1;
                     }
