@@ -26,10 +26,18 @@
 
 </head>
 <body>
+	<table id="logoTable">
+		<tr>
+			<td><span id="title">Crafting</span></td>
+			<td><a href="http://www.guildwars2.com/en/"><img id="logo"
+					src="../resources/GW2_Logo_2c.jpg" /></a></td>
+		</tr>
+	</table>
+	<p />
 	<label for="discipline">Discipline: </label>
 	<select id="discipline"></select>
 	<p />
-	<table>
+	<table id="filterTable">
 		<tr>
 			<td><input id="lowRatingChecked" type="checkbox" /> <input
 				id="lowRating" type="number" class="inputNumber" /></td>
@@ -108,7 +116,7 @@
 	<img id="loadingSpinner" src="../resources/LoadingSpinner.gif"
 		style="display: none;" />
 	<p />
-	<span id="rowCountTop"></span>
+	<span id="rowCount">Row Count: 0</span>
 	<table id="recipeTable" class="sortable">
 		<thead>
 			<tr>
@@ -130,7 +138,6 @@
 		<tbody id="items">
 		</tbody>
 	</table>
-	<span id="rowCountBottom"></span>
 	<script>
         "use strict";
 
@@ -398,8 +405,7 @@
         function setRowCount(rowCount)
         {
             var message = "Row Count: " + rowCount;
-            $("#rowCountTop").html(message);
-            $("#rowCountBottom").html(message);
+            $("#rowCount").html(message);
         }
 
         function submitActionPerformed()
@@ -410,5 +416,10 @@
             fillFullRecipeList();
         }
     </script>
+	<p />
+	<span>Data from <a href="http://www.gw2spidy.com">GW2Spidy</a>
+		using <a href="http://github.com/rubensayshi/gw2spidy/wiki/API-v0.9">API
+			v0.9</a>.
+	</span>
 </body>
 </html>

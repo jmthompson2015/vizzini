@@ -6,6 +6,19 @@ body {
     font-size: small;
 }
 
+#filterTable {
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: small;
+    text-align: center;
+    vertical-align: center;
+}
+
+#filterTable td {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
 img {
     vertical-align: middle;
     width: 32px;
@@ -15,19 +28,43 @@ img {
     width: 60px;
 }
 
-table {
+#itemTable td {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+#itemTable th {
+    background-color: DarkSeaGreen;
+    border: 1px solid;
+    padding: 3px;
+}
+
+#logo {
+    height: auto;
+    width: 100px;
+}
+
+#logoTable td {
+    padding-right: 40px;
+}
+
+#recipeTable td {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+#recipeTable th {
+    background-color: DarkSeaGreen;
+    border: 1px solid;
+    padding: 3px;
+}
+
+table.sortable {
     border: 1px solid;
     border-collapse: collapse;
     font-size: small;
     text-align: center;
     vertical-align: center;
-}
-
-#itemTable {
-    background-color: white;
-    /* These center the table. */
-    margin-left: auto;
-    margin-right: auto;
 }
 
 table.sortable tbody tr:nth-child(2n) td {
@@ -38,13 +75,8 @@ table.sortable tbody tr:nth-child(2n+1) td {
     background: White;
 }
 
-td {
-    border: 1px solid darkgreen;
-    padding: 3px;
-}
-
-th {
-    background-color: DarkSeaGreen;
-    border: 1px solid;
-    padding: 3px;
+#title {
+    font-size: x-large;
+    font-weight: bold;
+    width: 100%;
 }
