@@ -10,47 +10,48 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
     var that = this;
     var fullResults = [];
     var start;
+    var myFilter;
+    var productIdToRecipe = {};
     var itemStart;
-    var index;
-    var noRange = new FilterRange(false, 0, false, 0);
-    var myFilter = new RecipeFilter(filter.getRatingRange(), filter
-            .getCostRange(), filter.getBidRange(), filter.getAskRange(),
-            noRange, noRange, filter.getBidCostRatioRange(), filter
-                    .getAskCostRatioRange(), filter.getAskBidRatioRange(),
-            noRange);
+    var itemResponsesRemaining;
 
     this.start = function()
     {
         start = new Date().getTime();
+
+        noRange = new FilterRange(false, 0, false, 0);
+        myFilter = new RecipeFilter(filter.getRatingRange(), filter
+                .getCostRange(), filter.getBidRange(), filter.getAskRange(),
+                noRange, noRange, filter.getBidCostRatioRange(), filter
+                        .getAskCostRatioRange(), filter.getAskBidRatioRange(),
+                noRange);
+
         request(1);
     }
 
-    function itemRequest()
+    function itemRequest(recipe)
     {
-        var recipe = fullResults[index];
-        GW2Spidy.getItemData(recipe.result_item_data_id, itemResponse,
-                GW2Spidy.DATA_TYPE);
+        var productId = RecipeComputer.getProductId(recipe);
+        productIdToRecipe[productId] = recipe;
+        GW2Spidy.getItemData(productId, itemResponse, GW2Spidy.DATA_TYPE);
     }
 
     function itemResponse(result)
     {
         if (result)
         {
-            LOGGER.info("index = " + index);
-            var recipe = fullResults[index];
+            var productId = ItemComputer.getId(result);
+            itemResponsesRemaining--;
+            LOGGER.info("itemResponsesRemaining = " + itemResponsesRemaining);
+            var recipe = productIdToRecipe[productId];
             recipe.result_item_name = result.name;
             recipe.offer_availability = result.offer_availability;
             recipe.sale_availability = result.sale_availability;
 
-            if (index < fullResults.length - 1)
-            {
-                // Get the next item.
-                index++;
-                itemRequest();
-            }
-            else
+            if (itemResponsesRemaining === 0)
             {
                 // Done.
+                productIdToRecipe={};
                 successFunction(fullResults);
 
                 if (LOGGER.isTimeEnabled())
@@ -103,8 +104,13 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
                 {
                     // Get supply and demand.
                     itemStart = new Date().getTime();
-                    index = 0;
-                    itemRequest();
+                    itemResponsesRemaining = fullResults.length;
+
+                    for (var i = 0; i < fullResults.length; i++)
+                    {
+                        var recipe = fullResults[i];
+                        itemRequest(recipe);
+                    }
                 }
                 else
                 {
