@@ -29,7 +29,7 @@ function RecipePreferences(rootName)
 
         if (!answer)
         {
-            answer = new FilterRange(false, 1.0, true, 3.0);
+            answer = new FilterRange(false, 1.0, false, 10.0);
         }
 
         return answer;
@@ -41,7 +41,7 @@ function RecipePreferences(rootName)
 
         if (!answer)
         {
-            answer = new FilterRange(true, 3.0, false, 10.0);
+            answer = new FilterRange(true, 1.20, false, 10.0);
         }
 
         return answer;
@@ -65,7 +65,7 @@ function RecipePreferences(rootName)
 
         if (!answer)
         {
-            answer = new FilterRange(true, 1.0, false, 10.0);
+            answer = new FilterRange(false, 1.0, false, 10.0);
         }
 
         return answer;
@@ -101,7 +101,7 @@ function RecipePreferences(rootName)
 
         if (!answer)
         {
-            answer = new FilterRange(false, 100, false, 1000);
+            answer = new FilterRange(true, 50, false, 1000);
         }
 
         return answer;
@@ -113,7 +113,7 @@ function RecipePreferences(rootName)
 
         if (!answer)
         {
-            answer = new FilterRange(true, 2.0, false, 10.0);
+            answer = new FilterRange(true, 1.20, false, 10.0);
         }
 
         return answer;
@@ -149,7 +149,7 @@ function RecipePreferences(rootName)
 
         if (!answer)
         {
-            answer = new FilterRange(true, 100, false, 1000);
+            answer = new FilterRange(false, 100, false, 1000);
         }
 
         LOGGER.debug("getSupplyRange() answer = " + answer);
