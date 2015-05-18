@@ -9,15 +9,16 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
 
     var that = this;
     var fullResults = [];
-    var start;
     var myFilter;
+    var pageStart;
+    var pageResponsesRemaining;
     var productIdToRecipe = {};
     var itemStart;
     var itemResponsesRemaining;
 
     this.start = function()
     {
-        start = new Date().getTime();
+        pageStart = new Date().getTime();
 
         noRange = new FilterRange(false, 0, false, 0);
         myFilter = new RecipeFilter(filter.getRatingRange(), filter
@@ -26,7 +27,7 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
                         .getAskCostRatioRange(), filter.getAskBidRatioRange(),
                 noRange);
 
-        request(1);
+        pageRequest(1);
     }
 
     function itemRequest(recipe)
@@ -51,7 +52,7 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
             if (itemResponsesRemaining === 0)
             {
                 // Done.
-                productIdToRecipe={};
+                productIdToRecipe = {};
                 successFunction(fullResults);
 
                 if (LOGGER.isTimeEnabled())
@@ -59,27 +60,39 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
                     LOGGER
                             .time(
                                     "GW2Spidy.getFullRecipeList() after successFunction",
-                                    start, new Date().getTime());
+                                    pageStart, new Date().getTime());
                 }
             }
         }
     }
 
-    function request(page)
+    function pageRequest(page)
     {
         var url = GW2Spidy.BASE_URL + "/recipes/" + disciplineId + "/" + page;
         LOGGER.debug("url = " + url);
 
-        $.get(url, response, GW2Spidy.DATA_TYPE);
+        $.get(url, pageResponse, GW2Spidy.DATA_TYPE);
     }
 
-    function response(data)
+    function pageResponse(data)
     {
         if (data)
         {
             var page = data.page;
-            var lastPage = data.last_page;
-            LOGGER.info("page = " + page + " lastPage = " + lastPage);
+
+            if (page === 1)
+            {
+                // Request the rest of the pages.
+                pageResponsesRemaining = data.last_page;
+
+                for (var i = 2; i <= pageResponsesRemaining; i++)
+                {
+                    pageRequest(i);
+                }
+            }
+
+            pageResponsesRemaining--;
+            LOGGER.info("pageResponsesRemaining = " + pageResponsesRemaining);
 
             // Filter the results.
             var previous = LOGGER.isTimeEnabled();
@@ -90,12 +103,7 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
             // Concatenate the results.
             fullResults = fullResults.concat(myResults);
 
-            if (page < lastPage)
-            {
-                // Get the next page.
-                request(page + 1);
-            }
-            else
+            if (pageResponsesRemaining === 0)
             {
                 // Done.
                 LOGGER.info("fullResults.length = " + fullResults.length);
@@ -122,7 +130,7 @@ function FullRecipeListGetter(disciplineId, filter, successFunction)
                         LOGGER
                                 .time(
                                         "GW2Spidy.getFullRecipeList() after successFunction",
-                                        start, new Date().getTime());
+                                        pageStart, new Date().getTime());
                     }
                 }
             }
