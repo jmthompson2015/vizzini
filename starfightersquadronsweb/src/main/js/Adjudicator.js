@@ -13,6 +13,12 @@ function Adjudicator()
         return !attacker.isCloaked();
     }
 
+    this.canSelectShipAction = function(token)
+    {
+        // FIXME
+        return false;
+    }
+
     this.determineWinner = function(environment)
     {
         var answer;

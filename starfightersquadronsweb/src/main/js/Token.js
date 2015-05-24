@@ -528,6 +528,58 @@ function Token(pilotIn, agentIn)
         return isDefenderHit;
     }
 
+    this.phaseEffect = function(environment, token, phase)
+    {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("phase", phase);
+
+        if (token != this) { throw "token does not equal this"; }
+
+        switch (phase)
+        {
+        case Phase.ACTIVATION_START:
+            clearActivationState();
+            break;
+        case Phase.ACTIVATION_EXECUTE_MANEUVER:
+            var activeToken = environment.getActiveToken();
+            if (this == activeToken)
+            {
+                var maneuverAction = this.getManeuverAction();
+                if (maneuverAction)
+                {
+                    var maneuver = maneuverAction.getManeuver();
+                    maneuverEffect(maneuver);
+                }
+            }
+            break;
+        case Phase.COMBAT_START:
+            clearCombatState();
+            break;
+        }
+
+        // Pilot.
+        // pilot.phaseEffect(environment, this, phase);
+
+        // Damages.
+        // var criticalDamages = getCriticalDamages();
+        //
+        // for (var i = 0; i < criticalDamages.length; i++)
+        // {
+        // var damage = criticalDamages[i];
+        // damage.phaseEffect(source, oldValue, newValue);
+        // }
+
+        // Upgrades.
+        // final UpgradeCardList myUpgrades = new
+        // UpgradeCardList(getUpgrades());
+        //
+        // for (final UpgradeCard upgrade : myUpgrades)
+        // {
+        // upgrade.phaseEffect(environment, this, phase);
+        // }
+    }
+
     this.setAttackDice = function(attackDiceIn)
     {
         attackDice = attackDiceIn;
@@ -1038,58 +1090,6 @@ Token.prototype.isUpgradedWith = function(upgrade)
 {
     var upgrades = this.getUpgrades();
     return ArrayUtilities.contains(upgrades, upgrade);
-}
-
-Token.prototype.phaseEffect = function(environment, token, phase)
-{
-    InputValidator.validateNotNull("environment", environment);
-    InputValidator.validateNotNull("token", token);
-    InputValidator.validateNotNull("phase", phase);
-
-    if (token != this) { throw "token does not equal this"; }
-
-    switch (phase)
-    {
-    case Phase.ACTIVATION_START:
-        clearActivationState();
-        break;
-    case Phase.ACTIVATION_EXECUTE_MANEUVER:
-        var activeToken = environment.getActiveToken();
-        if (this == activeToken)
-        {
-            var maneuverAction = this.getManeuverAction();
-            if (maneuverAction)
-            {
-                var maneuver = maneuverAction.getManeuver();
-                maneuverEffect(maneuver);
-            }
-        }
-        break;
-    case Phase.COMBAT_START:
-        clearCombatState();
-        break;
-    }
-
-    // Pilot.
-    // pilot.phaseEffect(environment, this, phase);
-
-    // Damages.
-    // var criticalDamages = getCriticalDamages();
-    //
-    // for (var i = 0; i < criticalDamages.length; i++)
-    // {
-    // var damage = criticalDamages[i];
-    // damage.phaseEffect(source, oldValue, newValue);
-    // }
-
-    // Upgrades.
-    // final UpgradeCardList myUpgrades = new
-    // UpgradeCardList(getUpgrades());
-    //
-    // for (final UpgradeCard upgrade : myUpgrades)
-    // {
-    // upgrade.phaseEffect(environment, this, phase);
-    // }
 }
 
 /*
