@@ -1,11 +1,8 @@
 /*
  * Provides a display panel of a ship's maneuvers.
  */
-function ManeuverChooser(tokenIn, imageUtilsIn)
+function ManeuverChooser(token, imageUtils)
 {
-    var token = tokenIn;
-    var imageUtils = imageUtilsIn;
-
     var maneuvers = token.getManeuvers();
     var selectedManeuver;
 

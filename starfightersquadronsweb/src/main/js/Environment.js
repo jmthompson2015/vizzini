@@ -405,21 +405,19 @@ function Environment()
         delete tokenToPosition[token];
     }
 
-    this.setActiveToken = function(activeTokenIn)
+    this.setActiveToken = function(value)
     {
-        activeToken = activeTokenIn;
-
         var oldValue = activeToken;
-        activeToken = activeTokenIn;
+        activeToken = value;
 
         LOGGER.info("Active Token: " + activeToken);
         fireActiveTokenChange(oldValue, activeToken);
     }
 
-    this.setPhase = function(phaseIn)
+    this.setPhase = function(value)
     {
         var oldValue = phase;
-        phase = phaseIn;
+        phase = value;
 
         if (oldValue != phase)
         {

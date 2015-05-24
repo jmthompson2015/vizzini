@@ -1,11 +1,8 @@
 /*
  * Provides a user interface for an explosion.
  */
-function ExplosionUI(fromPositionIn, shipBaseIn, explosionImage)
+function ExplosionUI(fromPosition, shipBase, explosionImage)
 {
-    var fromPosition = fromPositionIn;
-    var shipBase = shipBaseIn;
-
     this.paintComponent = function(context)
     {
         LOGGER.trace("ExplosionUI.paintComponent() start");
@@ -25,15 +22,10 @@ function ExplosionUI(fromPositionIn, shipBaseIn, explosionImage)
 /*
  * Provides a user interface for a laser beam.
  */
-function LaserBeamUI(fromPositionIn, toPositionIn, strokeStyleIn, audioClipIn)
+function LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip)
 {
-    InputValidator.validateNotNull("fromPositionIn", fromPositionIn);
-    InputValidator.validateNotNull("toPositionIn", toPositionIn);
-
-    var fromPosition = fromPositionIn;
-    var toPosition = toPositionIn;
-    var strokeStyle = strokeStyleIn;
-    var audioClip = audioClipIn;
+    InputValidator.validateNotNull("fromPosition", fromPosition);
+    InputValidator.validateNotNull("toPosition", toPosition);
 
     this.paintComponent = function(context)
     {
@@ -55,19 +47,17 @@ function LaserBeamUI(fromPositionIn, toPositionIn, strokeStyleIn, audioClipIn)
 /*
  * Provides a user interface for a maneuver.
  */
-function ManeuverUI(maneuverIn, fromPositionIn, shipBaseIn)
+function ManeuverUI(maneuver, fromPosition, shipBase)
 {
     var FOREGROUND_COLOR = "white";
 
-    var maneuver = maneuverIn;
-    var fromPosition = fromPositionIn;
     var toPosition = Maneuver.computeToPosition(maneuver, fromPosition,
-            shipBaseIn);
+            shipBase);
 
-    var fromPolygon = Maneuver.computeFromPolygon(fromPosition, shipBaseIn);
-    var path = Maneuver.computePath(maneuver, fromPosition, shipBaseIn);
+    var fromPolygon = Maneuver.computeFromPolygon(fromPosition, shipBase);
+    var path = Maneuver.computePath(maneuver, fromPosition, shipBase);
     var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition,
-            shipBaseIn);
+            shipBase);
 
     this.paintComponent = function(context)
     {
@@ -98,12 +88,11 @@ function ManeuverUI(maneuverIn, fromPositionIn, shipBaseIn)
 /*
  * Provides a play area user interface for Starfighter Squadrons.
  */
-function PlayAreaUI(environment, imageUtilsIn)
+function PlayAreaUI(environment, imageUtils)
 {
     var DEG_TO_RADIANS = Math.PI / 180;
     var SHIP_BACKGROUND = "rgba(255,255,255,0.5)";
 
-    var imageUtils = imageUtilsIn;
     var that = this;
 
     var backgroundImage;

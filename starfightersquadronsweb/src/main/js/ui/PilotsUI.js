@@ -1,11 +1,8 @@
 /*
  * Provides a pilots user interface for Starfighter Squadrons.
  */
-function PilotsUI(teamIn, imageUtilsIn)
+function PilotsUI(team, imageUtils)
 {
-    var team = teamIn;
-    var imageUtils = imageUtilsIn;
-
     var tokenUIs = [];
 
     this.paintComponent = function(playState)

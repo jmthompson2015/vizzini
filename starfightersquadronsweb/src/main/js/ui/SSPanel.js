@@ -1,13 +1,13 @@
 /*
  * Provides a user interface for Starfighter Squadrons.
  */
-function SSPanel(environmentIn)
+function SSPanel(environment)
 {
     var that = this;
 
-    environmentIn.addRoundListener(this);
-    environmentIn.addPhaseListener(this);
-    environmentIn.addActiveTokenListener(this);
+    environment.addRoundListener(this);
+    environment.addPhaseListener(this);
+    environment.addActiveTokenListener(this);
 
     this.activeTokenChange = function(environment, oldValue, newValue)
     {

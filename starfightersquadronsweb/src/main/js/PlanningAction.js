@@ -1,12 +1,8 @@
 /*
  * Provides a planning action for Starfighter Squadrons.
  */
-function PlanningAction(environmentIn, agentIn, tokenToManeuverIn)
+function PlanningAction(environment, agent, tokenToManeuver)
 {
-    var environment = environmentIn;
-    var agent = agentIn;
-    var tokenToManeuver = tokenToManeuverIn;
-
     /*
      * @param token Token.
      * 

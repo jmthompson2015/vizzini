@@ -1,10 +1,8 @@
 /*
  * Provides a rectangular path of points.
  */
-function RectanglePath(widthIn, heightIn)
+function RectanglePath(width, height)
 {
-    var width = widthIn;
-    var height = heightIn;
     var x = -width / 2;
     var y = -height / 2;
     var path = new Path();
@@ -85,7 +83,7 @@ function Path()
             context.beginPath();
             context.moveTo(points[0], points[1]);
 
-            for ( var i = 2; i < points.length; i += 2)
+            for (var i = 2; i < points.length; i += 2)
             {
                 context.lineTo(points[i], points[i + 1]);
             }
@@ -105,7 +103,7 @@ function Path()
         var sin = Math.sin(angle);
         var cos = Math.cos(angle);
 
-        for ( var i = 0; i < points.length; i += 2)
+        for (var i = 0; i < points.length; i += 2)
         {
             var x = points[i] - cx;
             var y = points[i + 1] - cy;
@@ -119,7 +117,7 @@ function Path()
     {
         var answer = "";
 
-        for ( var i = 0; i < points.length; i += 2)
+        for (var i = 0; i < points.length; i += 2)
         {
             var x = points[i];
             var y = points[i + 1];
@@ -132,7 +130,7 @@ function Path()
 
     this.translate = function(dx, dy)
     {
-        for ( var i = 0; i < points.length; i += 2)
+        for (var i = 0; i < points.length; i += 2)
         {
             points[i] = points[i] + dx;
             points[i + 1] = points[i + 1] + dy;

@@ -1,20 +1,10 @@
 /*
  * Provides a play state.
  */
-function PlayState(roundIn, phaseIn, activeTokenIn, tokenPositionsIn,
-        maneuverActionIn, shipFledActionIn, combatActionIn,
-        shipDestroyedActionIn, winnerIn)
+function PlayState(round, phase, activeToken, tokenPositions,
+        maneuverAction, shipFledAction, combatAction,
+        shipDestroyedAction, winner)
 {
-    var round = roundIn;
-    var phase = phaseIn;
-    var activeToken = activeTokenIn;
-    var tokenPositions = tokenPositionsIn;
-    var maneuverAction = maneuverActionIn;
-    var shipFledAction = shipFledActionIn;
-    var combatAction = combatActionIn;
-    var shipDestroyedAction = shipDestroyedActionIn;
-    var winner = winnerIn;
-
     this.getActiveToken = function()
     {
         return activeToken;

@@ -11,9 +11,8 @@ var DefenseValue =
 /*
  * Provides defense dice for Starfighter Squadrons.
  */
-function DefenseDice(sizeIn)
+function DefenseDice(size)
 {
-    var size = sizeIn;
     var values;
 
     rerollAll();

@@ -1,12 +1,8 @@
 /*
  * Provides a ship fled action for Starfighter Squadrons.
  */
-function ShipFledAction(environmentIn, tokenIn, fromPositionIn)
+function ShipFledAction(environment, token, fromPosition)
 {
-    var environment = environmentIn;
-    var token = tokenIn;
-    var fromPosition = fromPositionIn;
-
     this.getToken = function()
     {
         return token;
@@ -48,12 +44,8 @@ function ShipFledAction(environmentIn, tokenIn, fromPositionIn)
  * @param environment Environment. @param maneuver Maneuver. @param fromPosition
  * From position. @param shipBase Ship base.
  */
-function ManeuverAction(environmentIn, maneuverIn, fromPositionIn, shipBaseIn)
+function ManeuverAction(environment, maneuver, fromPosition, shipBase)
 {
-    var environment = environmentIn;
-    var maneuver = maneuverIn;
-    var fromPosition = fromPositionIn;
-    var shipBase = shipBaseIn;
     var token = environment.getTokenAt(fromPosition);
 
     // Flag indicating if the maneuver is a barrel roll.

@@ -1,16 +1,9 @@
 /**
  * Provides a user interface to create the planning action.
  */
-function PlanningPanel(environmentIn, adjudicatorIn, agentIn, tokensIn,
-        imageUtilsIn, callbackIn)
+function PlanningPanel(environment, adjudicator, agent, tokens, imageUtils,
+        callback)
 {
-    var environment = environmentIn;
-    var adjudicator = adjudicatorIn;
-    var agent = agentIn;
-    var tokens = tokensIn;
-    var imageUtils = imageUtilsIn;
-    var callback = callbackIn;
-
     var maneuverChoosers = [];
 
     this.maneuverClick = function(tokenId, maneuver)

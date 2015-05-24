@@ -1,15 +1,11 @@
 /*
  * Provides a user interface to choose a weapon and defender.
  */
-function WeaponAndDefenderChooser(attackerIn, choicesIn, callbackIn)
+function WeaponAndDefenderChooser(attacker, choices, callback)
 {
-    InputValidator.validateNotNull("attackerIn", attackerIn);
-    InputValidator.validateNotNull("choicesIn", choicesIn);
-    InputValidator.validateNotNull("callbackIn", callbackIn);
-
-    var attacker = attackerIn;
-    var choices = choicesIn;
-    var callback = callbackIn;
+    InputValidator.validateNotNull("attacker", attacker);
+    InputValidator.validateNotNull("choices", choices);
+    InputValidator.validateNotNull("callback", callback);
 
     var selectedWeapon;
     var selectedDefender;

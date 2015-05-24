@@ -1,12 +1,8 @@
 /*
  * Provides a simple implementation of a computer agent for Starfighter Squadrons.
  */
-function SimpleAgent(nameIn, teamIn, squadBuilderIn)
+function SimpleAgent(name, team, squadBuilder)
 {
-    var name = nameIn;
-    var team = teamIn;
-    var squadBuilder = squadBuilderIn;
-
     InputValidator.validateNotEmpty("name", name);
     InputValidator.validateNotNull("team", team);
     InputValidator.validateNotNull("squadBuilder", squadBuilder);

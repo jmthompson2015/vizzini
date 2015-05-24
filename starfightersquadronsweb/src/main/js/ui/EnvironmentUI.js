@@ -1,11 +1,8 @@
 /*
  * Provides a user interface for an environment for Starfighter Squadrons.
  */
-function EnvironmentUI(engineIn, environmentIn)
+function EnvironmentUI(engine, environment)
 {
-    var engine = engineIn;
-    var environment = environmentIn;
-
     var imageUtils = new ImageUtilities();
     var ssPanel = new SSPanel(environment);
     var playAreaUI = new PlayAreaUI(environment, imageUtils);
@@ -59,9 +56,9 @@ function EnvironmentUI(engineIn, environmentIn)
         }
     }
 
-    this.setScale = function(scaleIn)
+    this.setScale = function(value)
     {
-        scale = scaleIn;
+        scale = value;
 
         var phase = environment.getPhase();
         var round = environment.getRound();

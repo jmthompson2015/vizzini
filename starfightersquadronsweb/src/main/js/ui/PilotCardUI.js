@@ -1,11 +1,8 @@
 /*
  * Provides a token user interface for Starfighter Squadrons.
  */
-function PilotCardUI(tokenIn, imageUtilsIn)
+function PilotCardUI(token, imageUtils)
 {
-    var token = tokenIn;
-    var imageUtils = imageUtilsIn;
-
     this.getToken = function()
     {
         return token;

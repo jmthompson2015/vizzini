@@ -1,13 +1,11 @@
 /*
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
-function Token(pilotIn, agentIn)
+function Token(pilot, agent)
 {
     var that = this;
 
     var id = Token.nextId();
-    var pilot = pilotIn;
-    var agent = agentIn;
 
     InputValidator.validateNotNull("pilot", pilot);
     InputValidator.validateNotNull("agent", agent);
@@ -580,48 +578,48 @@ function Token(pilotIn, agentIn)
         // }
     }
 
-    this.setAttackDice = function(attackDiceIn)
+    this.setAttackDice = function(value)
     {
-        attackDice = attackDiceIn;
+        attackDice = value;
     }
 
-    this.setCombatAction = function(combatActionIn)
+    this.setCombatAction = function(value)
     {
-        combatAction = combatActionIn;
+        combatAction = value;
     }
 
-    this.setDefender = function(defenderIn)
+    this.setDefender = function(value)
     {
-        defender = defenderIn;
+        defender = value;
     }
 
     /*
      * @param isDefenderHit the isDefenderHit to set
      */
-    this.setDefenderHit = function(isDefenderHitIn)
+    this.setDefenderHit = function(value)
     {
-        isDefenderHit = isDefenderHitIn;
+        isDefenderHit = value;
         LOGGER.trace("isDefenderHit ? " + isDefenderHit);
     }
 
-    this.setDefenseDice = function(defenseDiceIn)
+    this.setDefenseDice = function(value)
     {
-        defenseDice = defenseDiceIn;
+        defenseDice = value;
     }
 
-    this.setManeuverAction = function(maneuverActionIn)
+    this.setManeuverAction = function(value)
     {
-        maneuverAction = maneuverActionIn;
+        maneuverAction = value;
     }
 
-    this.setRange = function(rangeIn)
+    this.setRange = function(value)
     {
-        range = rangeIn;
+        range = value;
     }
 
-    this.setWeapon = function(weaponIn)
+    this.setWeapon = function(value)
     {
-        weapon = weaponIn;
+        weapon = value;
     }
 
     /*

@@ -1,13 +1,8 @@
 /*
  * Provides a human agent for Starfighter Squadrons.
  */
-function HumanAgent(nameIn, teamIn, squadBuilderIn, imageUtilsIn)
+function HumanAgent(name, team, squadBuilder, imageUtils)
 {
-    var name = nameIn;
-    var team = teamIn;
-    var squadBuilder = squadBuilderIn;
-    var imageUtils = imageUtilsIn;
-
     InputValidator.validateNotEmpty("name", name);
     InputValidator.validateNotNull("team", team);
     InputValidator.validateNotNull("squadBuilder", squadBuilder);

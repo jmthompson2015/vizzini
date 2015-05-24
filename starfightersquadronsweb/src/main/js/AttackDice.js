@@ -12,9 +12,8 @@ var AttackValue =
 /*
  * Provides attack dice for Starfighter Squadrons.
  */
-function AttackDice(sizeIn)
+function AttackDice(size)
 {
-    var size = sizeIn;
     var values;
 
     rerollAll();

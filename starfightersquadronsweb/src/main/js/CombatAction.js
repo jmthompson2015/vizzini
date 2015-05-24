@@ -1,12 +1,8 @@
 /*
  * Provides a ship destroyed action for Starfighter Squadrons.
  */
-function ShipDestroyedAction(environmentIn, tokenIn, fromPositionIn)
+function ShipDestroyedAction(environment, token, fromPosition)
 {
-    var environment = environmentIn;
-    var token = tokenIn;
-    var fromPosition = fromPositionIn;
-
     this.doIt = function()
     {
         LOGGER.trace("ShipDestroyedAction.doIt() start");
@@ -57,15 +53,9 @@ function ShipDestroyedAction(environmentIn, tokenIn, fromPositionIn)
 /*
  * Provides a damage dealer for Starfighter Squadrons.
  */
-function DamageDealer(environmentIn, hitCountIn, criticalHitCountIn,
-        defenderIn, evadeCountIn)
+function DamageDealer(environment, hitCount, criticalHitCount, defender,
+        evadeCount)
 {
-    var environment = environmentIn;
-    var hitCount = hitCountIn;
-    var criticalHitCount = criticalHitCountIn;
-    var defender = defenderIn;
-    var evadeCount = evadeCountIn;
-
     this.dealDamage = function()
     {
         var hits = hitCount;
@@ -173,17 +163,9 @@ function DamageDealer(environmentIn, hitCountIn, criticalHitCountIn,
 /*
  * Provides a combat action for Starfighter Squadrons.
  */
-function CombatAction(environmentIn, adjudicatorIn, attackerIn,
-        attackerPositionIn, weaponIn, defenderIn, defenderPositionIn)
+function CombatAction(environment, adjudicator, attacker, attackerPosition,
+        weapon, defender, defenderPosition)
 {
-    var environment = environmentIn;
-    var adjudicator = adjudicatorIn;
-    var attacker = attackerIn;
-    var attackerPosition = attackerPositionIn;
-    var weapon = weaponIn;
-    var defender = defenderIn;
-    var defenderPosition = defenderPositionIn;
-
     var rangeRuler = new RangeRuler();
 
     this.doIt = function()
