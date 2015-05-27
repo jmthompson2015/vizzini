@@ -6,8 +6,12 @@ function EnvironmentUI(engine, environment)
     var imageUtils = new ImageUtilities();
     var ssPanel = new SSPanel(environment);
     var playAreaUI = new PlayAreaUI(environment, imageUtils);
-    var imperialPilots = new PilotsUI(Team.IMPERIAL, imageUtils);
-    var rebelPilots = new PilotsUI(Team.REBEL, imageUtils);
+    var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
+    var imperialPilots = React.render(<PilotsUI initialTokens={imperialTokens} />, 
+        document.getElementById("imperialPilots"));
+    var rebelTokens = environment.getTokensForTeam(Team.REBEL);
+    var rebelPilots = React.render(<PilotsUI initialTokens={rebelTokens} />, 
+        document.getElementById("rebelPilots"));
     var scale = 1.0;
 
     environment.addPhaseListener(this);
@@ -164,9 +168,9 @@ function EnvironmentUI(engine, environment)
         }
 
         ssPanel.paintComponent(playState);
-        imperialPilots.paintComponent(playState);
+        imperialPilots.setState({tokens: environment.getTokensForTeam(Team.IMPERIAL)});
         playAreaUI.paintComponent(context, playState);
-        rebelPilots.paintComponent(playState);
+        rebelPilots.setState({tokens: environment.getTokensForTeam(Team.REBEL)});
 
         context.restore();
 

@@ -1,272 +1,206 @@
 /*
  * Provides a token user interface for Starfighter Squadrons.
  */
-function PilotCardUI(token, imageUtils)
-{
-    this.getToken = function()
+var PilotCardUI = React.createClass({
+    
+    getInitialState: function() 
     {
-        return token;
+        return {token: this.props.initialToken};
+    },
+    
+    componentDidMount: function() 
+    {  
+        this.state.token.bind("change", this.tokenChanged);
+    },
+    
+    componentWillUnmount: function() 
+    {  
+        this.state.token.unbind("change", this.tokenChanged);
+    },
+
+    render: function() 
+    {
+        var myToken = this.state.token;
+        
+        return (
+        <table className="pilotCard">
+        <tr>
+        <td>
+        <PilotCardUI.NamePanel pilotSkillValue={myToken.getPilotSkillValue()}
+            pilotName={myToken.getPilotName()}
+            shipName={myToken.getShipName()}
+            teamName={myToken.getTeamName()} />
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <PilotCardUI.StatsPanel primaryWeaponValue={myToken.getPrimaryWeaponValue()}
+            agilityValue={myToken.getAgilityValue()}
+            hullValue={myToken.getHullValue()}
+            shieldValue={myToken.getShieldValue()} />
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <PilotCardUI.DamagePanel damageCount={myToken.getDamageCount()}
+            criticalDamageCount={myToken.getCriticalDamageCount()} />
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <PilotCardUI.TokensPanel cloakCount={myToken.getCloakCount()}
+            evadeCount={myToken.getEvadeCount()}
+            focusCount={myToken.getFocusCount()}
+            ionCount={myToken.getIonCount()}
+            shieldCount={myToken.getShieldCount()}
+            stressCount={myToken.getStressCount()} />
+        </td>
+        </tr>
+        </table>
+        );
+    },
+    
+    tokenChanged: function() 
+    {
+        LOGGER.info(this.state.token.getName() + " token change event");
+        this.setState({token: this.state.token});
+    },
+});
+
+PilotCardUI.ImagesUrl = "http://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/"
+    
+PilotCardUI.WeaponIcon = PilotCardUI.ImagesUrl + "pilotCard/WeaponIcon24.jpg";
+PilotCardUI.AgilityIcon = PilotCardUI.ImagesUrl + "pilotCard/AgilityIcon24.jpg";
+PilotCardUI.HullIcon = PilotCardUI.ImagesUrl + "pilotCard/HullIcon24.jpg";
+PilotCardUI.ShieldIcon = PilotCardUI.ImagesUrl + "pilotCard/ShieldIcon24.jpg";
+
+PilotCardUI.HitIcon = PilotCardUI.ImagesUrl + "pilotCard/Hit24.jpg";
+PilotCardUI.CriticalHitIcon = PilotCardUI.ImagesUrl + "pilotCard/CriticalHit24.jpg";
+
+PilotCardUI.CloakIcon = PilotCardUI.ImagesUrl + "token/CloakToken32.png";
+PilotCardUI.EvadeIcon = PilotCardUI.ImagesUrl + "token/EvadeToken32.png";
+PilotCardUI.FocusIcon = PilotCardUI.ImagesUrl + "token/FocusToken32.png";
+PilotCardUI.IonIcon = PilotCardUI.ImagesUrl + "token/IonToken32.png";
+PilotCardUI.ShieldTokenIcon = PilotCardUI.ImagesUrl + "token/ShieldToken32.png";
+PilotCardUI.StressIcon = PilotCardUI.ImagesUrl + "token/StressToken32.png";
+
+PilotCardUI.NamePanel = React.createClass({
+    render: function() {
+        var titleString = this.props.teamName + " Faction";
+        var fileString = PilotCardUI.ImagesUrl + this.props.teamName + "Icon24.png";
+
+        return (
+            <table id="nameTable">
+            <tr>
+            <td title="Pilot Skill" className="namePanel pilotSkillValue" rowSpan="2">{this.props.pilotSkillValue}</td>
+            <td title="Name" className="namePanel">{this.props.pilotName}</td>
+            <td className="namePanel" rowSpan="2"><img title={titleString} src={fileString}/></td>
+            </tr>
+            <td title="Ship" className="namePanel">{this.props.shipName}</td>
+            <tr>
+            </tr>
+            </table>
+        );
     }
+});
 
-    this.paintComponent = function()
-    {
-        LOGGER.trace("PilotCardUI.paintComponent() start");
-
-        var answer = "";
-
-        answer += "<table id='"
-        answer += createIdPrefix();
-        answer += "pilotCard' class='pilotCard'>";
-        answer += "<tr>";
-        answer += "<td>";
-        answer += createNamePanel();
-        answer += "</td>";
-        answer += "</tr>";
-        answer += "<tr>";
-        answer += "<td>";
-        answer += createStatsPanel();
-        answer += "</td>";
-        answer += "</tr>";
-        answer += "<tr>";
-        answer += "<td>";
-        answer += createDamagePanel();
-        answer += "</td>";
-        answer += "</tr>";
-        answer += "<tr>";
-        answer += "<td>";
-        answer += createTokensPanel();
-        answer += "</td>";
-        answer += "</tr>";
-        answer += "</table>";
-
-        LOGGER.trace("PilotCardUI.paintComponent() end");
-        return answer;
+PilotCardUI.StatsPanel = React.createClass({
+    render: function() {
+        return (
+            <table id="statsTable">
+            <tr>
+            <td className='primaryWeaponValue' title='Primary Weapon'><img src={PilotCardUI.WeaponIcon} /></td>
+            <td className='primaryWeaponValue' title='Primary Weapon'>{this.props.primaryWeaponValue}</td>
+    
+            <td className='agilityValue' title='Agility'><img src={PilotCardUI.AgilityIcon} /></td>
+            <td className='agilityValue' title='Agility'>{this.props.agilityValue}</td>
+    
+            <td className='hullValue' title='Hull'><img src={PilotCardUI.HullIcon} /></td>
+            <td className='hullValue' title='Hull'>{this.props.hullValue}</td>
+    
+            <td className='shieldValue' title='Shield'><img src={PilotCardUI.ShieldIcon} /></td>
+            <td className='shieldValue' title='Shield'>{this.props.shieldValue}</td>
+            </tr>
+            </table>
+        );
     }
+});
 
-    this.updateComponent = function()
-    {
-        LOGGER.trace("PilotCardUI.updateComponent() start");
-
-        var prefix = createIdPrefix();
-
-        setValue(prefix + "pilotSkillValue", token.getPilotSkillValue());
-
-        setValue(prefix + "primaryWeaponValue", token.getPrimaryWeaponValue());
-        setValue(prefix + "agilityValue", token.getAgilityValue());
-        setValue(prefix + "hullValue", token.getHullValue());
-        setValue(prefix + "shieldValue", token.getShieldValue());
-
-        setValue(prefix + "damageCount", token.getDamageCount());
-        setValue(prefix + "criticalDamageCount", token.getCriticalDamageCount());
-
-        setValue(prefix + "tokensPanel", createTokensTable());
-
-        var element = document.getElementById(prefix + ".damageTable");
-        if (token.getDamageCount() === 0
-                && token.getCriticalDamageCount() === 0)
+PilotCardUI.DamagePanel = React.createClass({
+    render: function() {
+        var answer;
+        
+        if (this.props.damageCount == 0 && this.props.criticalDamageCount == 0)
         {
-            HtmlUtilities.addClass(element, "hidden");
+            answer = (<span></span>);
         }
         else
         {
-            HtmlUtilities.removeClass(element, "hidden");
+            answer = (
+                <div id="damagePanel">
+                <table className="damageTable">
+                <tr>
+                <td title='Damage'><img src={PilotCardUI.HitIcon} /></td>
+                <td title='Damage'>{this.props.damageCount}</td>
+                <td title='Critical Damage'><img src={PilotCardUI.CriticalHitIcon} /></td>
+                <td title='Critical Damage'>{this.props.criticalDamageCount}</td>
+                </tr>
+                </table>
+                </div>
+            );
         }
-
-        LOGGER.trace("PilotCardUI.updateComponent() end");
-    }
-
-    function createDamagePanel()
-    {
-        var prefix = createIdPrefix();
-
-        var answer = "";
-
-        answer += "<div id='damagePanel'>"
-        answer += "<table id='";
-        answer += prefix;
-        answer += ".damageTable' class='damageTable'>";
-        answer += "<tr>";
-        answer += "<td title='Damage'>";
-        answer += imageUtils.createDamageIconString();
-        answer += "</td>";
-        answer += "<td id='";
-        answer += prefix;
-        answer += "damageCount' title='Damage'>";
-        answer += token.getDamageCount();
-        answer += "</td>";
-        answer += "<td title='Critical Damage'>";
-        answer += imageUtils.createCriticalDamageIconString();
-        answer += "</td>";
-        answer += "<td id='";
-        answer += prefix;
-        answer += "criticalDamageCount' title='Critical Damage'>";
-        answer += token.getCriticalDamageCount();
-        answer += "</td>";
-        answer += "</tr>";
-
-        // FIXME: add critical damages area
-
-        answer += "</table>";
-        answer += "</div>";
-
+        
         return answer;
     }
+});
 
-    function createIdPrefix()
-    {
-        return "token" + token.getId() + ".";
-    }
-
-    function createNamePanel()
-    {
-        var answer = "";
-
-        answer += "<table id='nameTable'>";
-        answer += "<tr>";
-        answer += "<td id='";
-        answer += createIdPrefix();
-        answer += "pilotSkillValue' title='Pilot Skill' class='namePanel pilotSkillValue' rowspan='2'>";
-        answer += token.getPilotSkillValue();
-        answer += "</td>";
-        answer += "<td title='Name' class='namePanel'>";
-        answer += token.getPilotName();
-        answer += "</td>";
-        answer += "<td class='namePanel' rowspan='2'>";
-        answer += imageUtils.createTeamIconString(token.getTeamName());
-        answer += "</td>";
-        answer += "</tr>";
-        answer += "<tr>";
-        answer += "<td title='Ship' class='namePanel'>";
-        answer += token.getShipName();
-        answer += "</td>";
-        answer += "</tr>";
-        answer += "</table>";
-
+PilotCardUI.CountToken = React.createClass({
+    render: function() {
+        var divStyle = {
+              backgroundImage: 'url(' + this.props.path + ')',
+              width: this.props.width,
+              };
+      
+        var answer
+        
+        if (this.props.count == 0)
+        {
+            answer = (<span></span>);
+        }
+        else if (this.props.count == 1)
+        {
+            answer = (
+                    <div title={this.props.title} className='countTokenBox' style={divStyle} ></div>
+                );
+        }
+        else
+        {
+            answer = (
+                    <div title={this.props.title} className='countTokenBox' style={divStyle} >
+                    <p className='countTokenText'>{this.props.count}</p>
+                    </div>
+                );
+        }
+    
         return answer;
     }
+});
 
-    function createStatsPanel()
-    {
-        var prefix = createIdPrefix();
-
-        var answer = "";
-
-        answer += "<table id='statsTable'>";
-
-        answer += "<tr>";
-        answer += "<td class='primaryWeaponValue' title='Primary Weapon'>";
-        answer += imageUtils.createWeaponIconString();
-        answer += "</td>";
-        answer += "<td id='";
-        answer += prefix;
-        answer += "primaryWeaponValue' class='primaryWeaponValue' title='Primary Weapon'>";
-        answer += token.getPrimaryWeaponValue();
-        answer += "</td>";
-
-        answer += "<td class='agilityValue' title='Agility'>";
-        answer += imageUtils.createAgilityIconString();
-        answer += "</td>";
-        answer += "<td id='";
-        answer += prefix;
-        answer += "agilityValue' class='agilityValue' title='Agility'>";
-        answer += token.getAgilityValue();
-        answer += "</td>";
-
-        answer += "<td class='hullValue' title='Hull'>";
-        answer += imageUtils.createHullIconString();
-        answer += "</td>";
-        answer += "<td id='";
-        answer += prefix;
-        answer += "hullValue' class='hullValue' title='Hull'>";
-        answer += token.getHullValue();
-        answer += "</td>";
-
-        answer += "<td class='shieldValue' title='Shield'>";
-        answer += imageUtils.createShieldIconString();
-        answer += "</td>";
-        answer += "<td id='";
-        answer += prefix;
-        answer += "shieldValue' class='shieldValue' title='Shield'>";
-        answer += token.getShieldValue();
-        answer += "</td>";
-        answer += "</tr>";
-
-        answer += "</table>";
-
-        return answer;
+PilotCardUI.TokensPanel = React.createClass({
+    render: function() {
+        return (
+            <div className="tokensPanel">
+            <table id="tokensTable">
+            <tr>
+            <td><PilotCardUI.CountToken title="Cloak" width="36" path={PilotCardUI.CloakIcon} count={this.props.cloakCount} /></td>
+            <td><PilotCardUI.CountToken title="Evade" width="32" path={PilotCardUI.EvadeIcon} count={this.props.evadeCount} /></td>
+            <td><PilotCardUI.CountToken title="Focus" width="32" path={PilotCardUI.FocusIcon} count={this.props.focusCount} /></td>
+            <td><PilotCardUI.CountToken title="Ion" width="32" path={PilotCardUI.IonIcon} count={this.props.ionCount} /></td>
+            <td><PilotCardUI.CountToken title="Shield" width="32" path={PilotCardUI.ShieldTokenIcon} count={this.props.shieldCount} /></td>
+            <td><PilotCardUI.CountToken title="Stress" width="32" path={PilotCardUI.StressIcon} count={this.props.stressCount} /></td>
+            </tr>
+            </table>
+            </div>
+        );
     }
-
-    function createTokensPanel()
-    {
-        var answer = "<div id='";
-        answer += createIdPrefix();
-        answer += "tokensPanel' class='tokensPanel'>";
-        answer += createTokensTable();
-        answer += "</div>";
-
-        return answer;
-    }
-
-    function createTokensTable()
-    {
-        var answer = "<table id='tokensTable'><tr>";
-
-        if (token.getCloakCount() > 0)
-        {
-            answer += "<td>";
-            answer += imageUtils.createCloakTokenString(token.getCloakCount());
-            answer += "</td>";
-        }
-
-        if (token.getEvadeCount() > 0)
-        {
-            answer += "<td>";
-            answer += imageUtils.createEvadeTokenString(token.getEvadeCount());
-            answer += "</td>";
-        }
-
-        if (token.getFocusCount() > 0)
-        {
-            answer += "<td>";
-            answer += imageUtils.createFocusTokenString(token.getFocusCount());
-            answer += "</td>";
-        }
-
-        if (token.getIonCount() > 0)
-        {
-            answer += "<td>";
-            answer += imageUtils.createIonTokenString(token.getIonCount());
-            answer += "</td>";
-        }
-
-        if (token.getShieldCount() > 0)
-        {
-            answer += "<td>";
-            answer += imageUtils
-                    .createShieldTokenString(token.getShieldCount());
-            answer += "</td>";
-        }
-
-        if (token.getStressCount() > 0)
-        {
-            answer += "<td>";
-            answer += imageUtils
-                    .createStressTokenString(token.getStressCount());
-            answer += "</td>";
-        }
-
-        answer += "</tr></table>";
-
-        return answer;
-    }
-
-    function setValue(componentId, value)
-    {
-        var component = document.getElementById(componentId);
-        if (!component)
-        {
-            LOGGER.error("missing component for componentId = " + componentId);
-        }
-        component.innerHTML = value;
-    }
-}
+});

@@ -7,33 +7,35 @@
 <link rel="stylesheet" href="../../../main/css/style.css">
 <link rel="stylesheet" href="../../../main/css/PilotCardUI.css">
 
-<script src="../../../main/js/util/JavaScriptAugments.js"></script>
-<script src="../../../main/js/util/Logger.js"></script>
-<script src="../../../main/js/util/InputValidator.js"></script>
-<script src="../../../main/js/util/ArrayUtilities.js"></script>
+<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/react-0.13.3.js"></script>
+<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
+<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/microevent/microevent-1.0.0.js"></script>
 
-<script src="../../../main/js/Phase.js"></script>
+<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/Logger.js"></script>
+<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/ArrayUtilities.js"></script>
+<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../../../main/js/RangeRuler.js"></script>
+<script src="../../../main/js/Weapon.js"></script>
 <script src="../../../main/js/Team.js"></script>
 <script src="../../../main/js/Maneuver.js"></script>
 <script src="../../../main/js/ShipAction.js"></script>
 <script src="../../../main/js/Ship.js"></script>
-<script src="../../../main/js/Path.js"></script>
-<script src="../../../main/js/RangeRuler.js"></script>
-<script src="../../../main/js/Weapon.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
-<script src="../../../main/js/DamageCard.js"></script>
-<script src="../../../main/js/UpgradeCard.js"></script>
-<script src="../../../main/js/Token.js"></script>
-<script src="../../../main/js/Position.js"></script>
-<script src="../../../main/js/SquadBuilder.js"></script>
-<script src="../../../main/js/Environment.js"></script>
-<script src="../../../main/js/SimpleAgent.js"></script>
 
-<script src="../../../main/js/ui/ImageUtilities.js"></script>
+<script src="../../../main/js/DamageCard.js"></script>
+<script src="../../../main/js/Environment.js"></script>
+<script src="../../../main/js/Position.js"></script>
+<script src="../../../main/js/SimpleAgent.js"></script>
+<script src="../../../main/js/SquadBuilder.js"></script>
+<script src="../../../main/js/Token.js"></script>
+<script src="../../../main/js/UpgradeCard.js"></script>
+
 <script src="../../../main/js/ui/HumanAgent.js"></script>
-<script src="../../../main/js/ui/PilotCardUI.js"></script>
-<script src="../../../main/js/ui/PilotsUI.js"></script>
-<script src="../../../main/js/ui/PlayState.js"></script>
+<script src="../../../main/js/ui/ImageUtilities.js"></script>
+<script type="text/jsx" src="../../../main/js/ui/PilotCardUI.js"></script>
+<script type="text/jsx" src="../../../main/js/ui/PilotsUI.js"></script>
 
 </head>
 <body>
@@ -42,34 +44,36 @@
 			<td id="imperialPilots" style="vertical-align: top">Imperial
 				Pilots</td>
 		</tr>
+		<tr>
+			<td><button type="button" onclick="updateTokens();">Update</button>
+				<button type="button" onclick="addToken()">Add</button></td>
+		</tr>
 	</table>
 
-	<script>
+	<script type="text/jsx">
+        "use strict";
         var LOGGER = new Logger();
 
         var environment = Environment.createCoreSetEnvironment();
-        var team = Team.IMPERIAL;
-        var imageUtils = new ImageUtilities();
+        var tokens = environment.getTokensForTeam(Team.IMPERIAL);
+        var imperialPilotsUI = React.render(<PilotsUI initialTokens={tokens} />, 
+			document.getElementById("imperialPilots"));
 
-        var pilotsUI = new PilotsUI(team, imageUtils);
-        var round = 1;
-        var phase = Phase.ACTIVATION_START;
-        var activeToken;
-        var tokenPositions = PlayState.createTokenPositions(environment);
-        var playState = new PlayState(round, phase, activeToken, tokenPositions);
-        pilotsUI.paintComponent(playState);
-
-        setTimeout(function()
+        function updateTokens()
         {
-            LOGGER.info("timer expired");
-            var round = environment.getRound();
-            var phase = environment.getPhase();
-            var activeToken = environment.getActiveToken();
-            var tokenPositions = PlayState.createTokenPositions(environment);
-            var playState = new PlayState(round, phase, activeToken,
-                    tokenPositions);
-            playAreaUI.paintComponent(context, playState);
-        }, 2000);
+            LOGGER.info("updateTokens() start");
+            tokens[0].increaseCloakCount();
+            tokens[1].increaseEvadeCount();
+            LOGGER.info("updateTokens() end");
+        }
+
+        function addToken()
+        {
+            LOGGER.info("addToken() start");
+			tokens[tokens.length] = new Token(Pilot.ACADEMY_PILOT, tokens[0].getAgent());
+			imperialPilotsUI.setState({tokens: tokens});
+            LOGGER.info("addToken() end");
+        }
     </script>
 </body>
 </html>
