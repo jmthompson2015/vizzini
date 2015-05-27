@@ -10,13 +10,6 @@ function Token(pilot, agent)
     InputValidator.validateNotNull("pilot", pilot);
     InputValidator.validateNotNull("agent", agent);
 
-    var cloakListeners = [];
-    var evadeListeners = [];
-    var focusListeners = [];
-    var ionListeners = [];
-    var shieldListeners = [];
-    var stressListeners = [];
-
     var cloakCount = 0;
     var criticalDamages = [];
     var damages = [];
@@ -47,66 +40,6 @@ function Token(pilot, agent)
     var isDefenderHit;
     var range;
     var weapon;
-
-    /*
-     * Add a <code>PropertyChangeListener</code> to the listener list.
-     * 
-     * @param listener The <code>PropertyChangeListener</code> to be added.
-     */
-    this.addCloakListener = function(listener)
-    {
-        cloakListeners[cloakListeners.length] = listener;
-    }
-
-    /*
-     * Add a <code>PropertyChangeListener</code> to the listener list.
-     * 
-     * @param listener The <code>PropertyChangeListener</code> to be added.
-     */
-    this.addEvadeListener = function(listener)
-    {
-        evadeListeners[evadeListeners.length] = listener;
-    }
-
-    /*
-     * Add a <code>PropertyChangeListener</code> to the listener list.
-     * 
-     * @param listener The <code>PropertyChangeListener</code> to be added.
-     */
-    this.addFocusListener = function(listener)
-    {
-        focusListeners[focusListeners.length] = listener;
-    }
-
-    /*
-     * Add a <code>PropertyChangeListener</code> to the listener list.
-     * 
-     * @param listener The <code>PropertyChangeListener</code> to be added.
-     */
-    this.addIonListener = function(listener)
-    {
-        ionListeners[ionListeners.length] = listener;
-    }
-
-    /*
-     * Add a <code>PropertyChangeListener</code> to the listener list.
-     * 
-     * @param listener The <code>PropertyChangeListener</code> to be added.
-     */
-    this.addShieldListener = function(listener)
-    {
-        shieldListeners[shieldListeners.length] = listener;
-    }
-
-    /*
-     * Add a <code>PropertyChangeListener</code> to the listener list.
-     * 
-     * @param listener The <code>PropertyChangeListener</code> to be added.
-     */
-    this.addStressListener = function(listener)
-    {
-        stressListeners[stressListeners.length] = listener;
-    }
 
     /*
      * Clear the cloak tokens.
@@ -679,96 +612,6 @@ function Token(pilot, agent)
     }
 
     /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
-     */
-    function fireCloakChange(oldValue, newValue)
-    {
-        for (var i = 0; i < cloakListeners.length; i++)
-        {
-            cloakListeners[i].cloakChange(that, oldValue, newValue);
-        }
-    }
-
-    /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
-     */
-    function fireEvadeChange(oldValue, newValue)
-    {
-        for (var i = 0; i < evadeListeners.length; i++)
-        {
-            evadeListeners[i].evadeChange(that, oldValue, newValue);
-        }
-    }
-
-    /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
-     */
-    function fireFocusChange(oldValue, newValue)
-    {
-        for (var i = 0; i < focusListeners.length; i++)
-        {
-            focusListeners[i].focusChange(that, oldValue, newValue);
-        }
-    }
-
-    /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
-     */
-    function fireIonChange(oldValue, newValue)
-    {
-        for (var i = 0; i < ionListeners.length; i++)
-        {
-            ionListeners[i].ionChange(that, oldValue, newValue);
-        }
-    }
-
-    /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
-     */
-    function fireShieldChange(oldValue, newValue)
-    {
-        for (var i = 0; i < shieldListeners.length; i++)
-        {
-            shieldListeners[i].shieldChange(that, oldValue, newValue);
-        }
-    }
-
-    /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
-     * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
-     */
-    function fireStressChange(oldValue, newValue)
-    {
-        for (var i = 0; i < stressListeners.length; i++)
-        {
-            stressListeners[i].stressChange(that, oldValue, newValue);
-        }
-    }
-
-    /*
      * @return maneuvers.
      */
     function getNonHardManeuvers()
@@ -829,7 +672,7 @@ function Token(pilot, agent)
         {
             var oldValue = cloakCount;
             cloakCount = newValue;
-            fireCloakChange(oldValue, cloakCount);
+            that.trigger("change");
         }
     }
 
@@ -842,7 +685,7 @@ function Token(pilot, agent)
         {
             var oldValue = evadeCount;
             evadeCount = newValue;
-            fireEvadeChange(oldValue, evadeCount);
+            that.trigger("change");
         }
     }
 
@@ -855,7 +698,7 @@ function Token(pilot, agent)
         {
             var oldValue = focusCount;
             focusCount = newValue;
-            fireFocusChange(oldValue, focusCount);
+            that.trigger("change");
         }
     }
 
@@ -868,7 +711,7 @@ function Token(pilot, agent)
         {
             var oldValue = ionCount;
             ionCount = newValue;
-            fireIonChange(oldValue, ionCount);
+            that.trigger("change");
         }
     }
 
@@ -881,7 +724,7 @@ function Token(pilot, agent)
         {
             var oldValue = shieldCount;
             shieldCount = newValue;
-            fireShieldChange(oldValue, shieldCount);
+            that.trigger("change");
         }
     }
 
@@ -894,7 +737,7 @@ function Token(pilot, agent)
         {
             var oldValue = stressCount;
             stressCount = newValue;
-            fireStressChange(oldValue, stressCount);
+            that.trigger("change");
         }
     }
 }
@@ -915,12 +758,14 @@ Token.prototype.addCriticalDamage = function(damage)
 {
     var criticalDamages = this.getCriticalDamages();
     criticalDamages[criticalDamages.length] = damage;
+    this.trigger("change");
 }
 
 Token.prototype.addDamage = function(damage)
 {
     var damages = this.getDamages();
     damages[damages.length] = damage;
+    this.trigger("change");
 }
 
 Token.prototype.computeAttackDiceCount = function(environment, weapon, range)
@@ -1097,6 +942,7 @@ Token.prototype.removeCriticalDamage = function(damage)
 {
     var criticalDamages = this.getCriticalDamages();
     ArrayUtilities.remove(criticalDamages, damage);
+    this.trigger("change");
 }
 
 /*
@@ -1106,3 +952,5 @@ Token.prototype.toString = function()
 {
     return this.getName();
 }
+
+MicroEvent.mixin(Token);
