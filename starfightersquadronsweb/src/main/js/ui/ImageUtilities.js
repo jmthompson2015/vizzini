@@ -5,13 +5,6 @@ function ImageUtilities()
 {
     var path;
 
-    this.createAgilityIconString = function()
-    {
-        var answer = "<img src='" + getPath()
-                + "resources/images/pilotCard/AgilityIcon24.jpg'/>";
-        return answer;
-    }
-
     this.createBackgroundImage = function(callback)
     {
         var image = new Image();
@@ -25,34 +18,6 @@ function ImageUtilities()
         return image;
     }
 
-    this.createCloakTokenString = function(count)
-    {
-        var path = getPath() + "resources/images/token/CloakToken32.png";
-
-        return getTokenString("Cloak", path, 36, count);
-    }
-
-    this.createCriticalDamageIconString = function()
-    {
-        var answer = "<img src='" + getPath()
-                + "resources/images/pilotCard/CriticalHit24.jpg'/>";
-        return answer;
-    }
-
-    this.createDamageIconString = function()
-    {
-        var answer = "<img src='" + getPath()
-                + "resources/images/pilotCard/Hit24.jpg'/>";
-        return answer;
-    }
-
-    this.createEvadeTokenString = function(count)
-    {
-        var path = getPath() + "resources/images/token/EvadeToken32.png";
-
-        return getTokenString("Evade", path, 32, count);
-    }
-
     this.createExplosionImage = function(callback)
     {
         var image = new Image();
@@ -64,27 +29,6 @@ function ImageUtilities()
         image.src = getPath() + "resources/images/Explosion64.png";
 
         return image;
-    }
-
-    this.createFocusTokenString = function(count)
-    {
-        var path = getPath() + "resources/images/token/FocusToken32.png";
-
-        return getTokenString("Focus", path, 32, count);
-    }
-
-    this.createHullIconString = function()
-    {
-        var answer = "<img src='" + getPath()
-                + "resources/images/pilotCard/HullIcon24.jpg'/>";
-        return answer;
-    }
-
-    this.createIonTokenString = function(count)
-    {
-        var path = getPath() + "resources/images/token/IonToken32.png";
-
-        return getTokenString("Ion", path, 32, count);
     }
 
     /**
@@ -105,20 +49,6 @@ function ImageUtilities()
         return answer;
     }
 
-    this.createShieldIconString = function()
-    {
-        var answer = "<img src='" + getPath()
-                + "resources/images/pilotCard/ShieldIcon24.jpg'/>";
-        return answer;
-    }
-
-    this.createShieldTokenString = function(count)
-    {
-        var path = getPath() + "resources/images/token/ShieldToken32.png"
-
-        return getTokenString("Shield", path, 32, count);
-    }
-
     this.createShipIcon = function(token, callback)
     {
         var image = new Image();
@@ -135,26 +65,12 @@ function ImageUtilities()
         return image;
     }
 
-    this.createStressTokenString = function(count)
-    {
-        var path = getPath() + "resources/images/token/StressToken32.png";
-
-        return getTokenString("Stress", path, 32, count);
-    }
-
     this.createTeamIconString = function(teamName)
     {
         var filename = teamName + "Icon24.png";
         var answer = "<img title='" + teamName + " Faction' src='" + getPath()
                 + "resources/images/" + filename + "'/>";
 
-        return answer;
-    }
-
-    this.createWeaponIconString = function()
-    {
-        var answer = "<img src='" + getPath()
-                + "resources/images/pilotCard/WeaponIcon24.jpg'/>";
         return answer;
     }
 
