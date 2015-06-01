@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestOptionPane</title>
+
+<script src="../../../../lib/react/react-0.13.3.js"></script>
+<script src="../../../../lib/react/JSXTransformer-0.13.3.js"></script>
+
+<script src="../../../main/js/util/Logger.js"></script>
+
+<script type="text/jsx" src="../../../main/js/ui/OptionPane.js"></script>
+<script type="text/jsx" src="../../../main/js/ui/RadioButtonList.js"></script>
+<style>
+.panelClass {
+    background-color: lightBlue;
+    border-collapse: collapse;
+    border-color: black;
+    border-style: solid;
+    border-width: 3px;
+}
+
+.titleClass {
+    background-color: lightGray;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.buttonsClass {
+    background-color: white;
+    text-align: right;
+}
+</style>
+</head>
+<body>
+	<div id="testPanel0">testPanel0</div>
+	<p />
+	<div id="testPanel1">testPanel1</div>
+	<script type="text/jsx">
+        "use strict";
+        var LOGGER = new Logger();
+
+        React.render(<OptionPane
+			panelClass="panelClass"
+			title="Information" titleClass="titleClass"
+			message="One on't cross beams gone owt askew on treadle."
+			buttons={<button onClick={okActionPerformed0}>OK</button>}
+			buttonsClass="buttonsClass"
+			/>,
+			document.getElementById("testPanel0"));
+
+		function okActionPerformed0()
+		{
+			LOGGER.info("OK clicked");
+		}
+
+		var icon = <img src="https://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/RebelIcon24.png"/>;
+		var options = ["Zero", "One", "Two"];
+		var selectedIndex = 0;
+		var panelStyle = { backgroundColor: "lightBlue", 
+			borderCollapse: "collapse", 
+			border: "3px solid black"
+		};
+		var titleStyle = { backgroundColor: "lightGray",
+			border: "1px solid black",
+		};
+		var iconStyle = { padding: "5px", };
+		var buttonsStyle = { backgroundColor: "white", 
+			textAlign: "right", };
+
+        React.render(<OptionPane
+			panelStyle={panelStyle}
+			title="Select Something" titleStyle={titleStyle}
+			icon={icon} iconStyle={iconStyle}
+			message="Ask a question?"
+			initialInput={<RadioButtonList name="selectNumber" options={options} initialSelectedIndex={selectedIndex} onChange={myOnChange1} />}
+			buttons={<span><button onClick={cancelActionPerformed1}>Cancel</button>
+				<button onClick={okActionPerformed1}>OK</button></span>}
+			buttonsStyle={buttonsStyle}
+			/>,
+			document.getElementById("testPanel1"));
+
+		function okActionPerformed1()
+		{
+			LOGGER.info("OK clicked");
+			LOGGER.info("selectedIndex = " + selectedIndex);
+		}
+
+		function cancelActionPerformed1()
+		{
+			LOGGER.info("Cancel clicked");
+		}
+
+		function myOnChange1(event)
+		{
+			LOGGER.info("myOnChange() event.currentTarget.value = " + event.currentTarget.value);
+			selectedIndex = event.currentTarget.value;
+		}
+    </script>
+</body>
+</html>
