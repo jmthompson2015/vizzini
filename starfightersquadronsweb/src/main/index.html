@@ -15,18 +15,15 @@
 </script>
 <![endif]-->
 
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/react-0.13.3.js"></script>
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
+<script src="../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/Logger.js"></script>
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/ArrayUtilities.js"></script>
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/HtmlUtilities.js"></script>
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/src/main/js/util/InputValidator.js"></script>
-
-<script type="text/jsx" src="../../../coreweb/src/main/js/ui/OptionPane.js"></script>
-<script type="text/jsx" src="../../../coreweb/src/main/js/ui/RadioButtonList.js"></script>
+<script src="../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../coreweb/src/main/js/util/ArrayUtilities.js"></script>
+<script src="../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+<script src="../../../coreweb/src/main/js/util/InputValidator.js"></script>
 
 <script src="js/Phase.js"></script>
 <script src="js/Team.js"></script>
@@ -56,15 +53,19 @@
 <script src="js/ui/ImageUtilities.js"></script>
 <script src="js/ui/ManeuverChooser.js"></script>
 <script src="js/ui/PlanningPanel.js"></script>
-<script type="text/jsx" src="js/ui/ShipActionChooser.js"></script>
 <script src="js/ui/WeaponAndDefenderChooser.js"></script>
-<script type="text/jsx" src="js/ui/HumanAgent.js"></script>
-<script type="text/jsx" src="js/ui/PilotCardUI.js"></script>
-<script type="text/jsx" src="js/ui/PilotsUI.js"></script>
 <script src="js/ui/NewGamePanel.js"></script>
 <script src="js/ui/PlayAreaUI.js"></script>
 <script src="js/ui/SSPanel.js"></script>
 <script src="js/ui/PlayState.js"></script>
+
+<script type="text/jsx" src="../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+<script type="text/jsx" src="../../../coreweb/src/main/js/ui/RadioButtonList.js"></script>
+
+<script type="text/jsx" src="js/ui/ShipActionChooser.js"></script>
+<script type="text/jsx" src="js/ui/HumanAgent.js"></script>
+<script type="text/jsx" src="js/ui/PilotCardUI.js"></script>
+<script type="text/jsx" src="js/ui/PilotsUI.js"></script>
 <script type="text/jsx" src="js/ui/EnvironmentUI.js"></script>
 </head>
 <body>
@@ -92,66 +93,6 @@
 		src="resources/audio/TIEFighterLaser.wav" preload="auto"></audio>
 	<audio id="xWingLaserAudio" src="resources/audio/XWingLaser.wav"
 		preload="auto"></audio>
-	<script type="text/jsx">
-        "use strict";
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
-
-        // Create initial agents and tokens.
-        var imageUtils = new ImageUtilities();
-        var newGamePanel = new NewGamePanel(imageUtils, startNewGame);
-
-        var element = document.getElementById("inputArea");
-        element.innerHTML = newGamePanel.paintComponent();
-        var environmentUI;
-
-        function startNewGame(agents)
-        {
-            LOGGER.info("startNewGame() start");
-
-            LOGGER.info("agents[0] = " + agents[0]);
-            LOGGER.info("agents[1] = " + agents[1]);
-
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-
-            var game = new Game(agents);
-            environmentUI = new EnvironmentUI(game.getEngine(), game
-                    .getEnvironment());
-
-            game.start();
-
-            updateSizes();
-
-            LOGGER.info("startNewGame() end");
-        }
-
-        function updateSizes()
-        {
-            var imperialPilots = document.getElementById("imperialPilots");
-            var rebelPilots = document.getElementById("rebelPilots");
-            var newWidth = window.innerWidth - imperialPilots.offsetWidth
-                    - rebelPilots.offsetWidth;
-
-            var ssPanel = document.getElementById("ssPanel");
-            var messageArea = document.getElementById("messageArea");
-            var inputArea = document.getElementById("inputArea");
-            var newHeight = window.innerHeight - ssPanel.offsetHeight
-                    - messageArea.offsetHeight - inputArea.offsetHeight;
-
-            var size = Math.min(newWidth, newHeight)
-
-            var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
-            myPlayAreaCanvas.width = size;
-            myPlayAreaCanvas.height = size;
-
-            var scale = size / 915;
-            environmentUI.setScale(scale);
-        }
-
-        window.addEventListener("resize", updateSizes, false);
-        window.addEventListener("orientationchange", updateSizes, false);
-    </script>
+	<script type="text/jsx" src="js/App.js"></script>
 </body>
 </html>
