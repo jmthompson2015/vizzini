@@ -50,13 +50,13 @@
 <script src="js/Game.js"></script>
 
 <script src="js/ui/ImageUtilities.js"></script>
-<script src="js/ui/NewGamePanel.js"></script>
 <script src="js/ui/ManeuverChooser.js"></script>
 <script src="js/ui/PlanningPanel.js"></script>
 <script src="js/ui/WeaponAndDefenderChooser.js"></script>
-<script src="js/ui/HumanAgent.js"></script>
+<script type="text/jsx" src="js/ui/HumanAgent.js"></script>
 <script type="text/jsx" src="js/ui/PilotCardUI.js"></script>
 <script type="text/jsx" src="js/ui/PilotsUI.js"></script>
+<script src="js/ui/NewGamePanel.js"></script>
 <script src="js/ui/PlayAreaUI.js"></script>
 <script src="js/ui/SSPanel.js"></script>
 <script src="js/ui/PlayState.js"></script>
@@ -87,7 +87,7 @@
 		src="resources/audio/TIEFighterLaser.wav" preload="auto"></audio>
 	<audio id="xWingLaserAudio" src="resources/audio/XWingLaser.wav"
 		preload="auto"></audio>
-	<script>
+	<script type="text/jsx">
         "use strict";
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
