@@ -1,0 +1,26 @@
+.optionPane {
+    background-color: lightBlue;
+    border: 2px solid black;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.optionPaneTitle {
+    border-bottom: 2px solid;
+    text-align: center;
+}
+
+.optionPaneMessage {
+    padding: 5px;
+}
+
+.optionPaneInput {
+    margin-left: 10px;
+    text-align: left;
+}
+
+.optionPaneButtons {
+    padding-bottom: 5px;
+    padding-right: 5px;
+    text-align: right;
+}
