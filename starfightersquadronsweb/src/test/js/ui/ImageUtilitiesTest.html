@@ -8,9 +8,14 @@
 	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
-<script src="../../../main/js/util/JavaScriptAugments.js"></script>
-<script src="../../../main/js/util/Logger.js"></script>
-<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../../coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
+<script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script
+	src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 
 <script src="../../../main/js/Team.js"></script>
 <script src="../../../main/js/Maneuver.js"></script>
@@ -24,7 +29,7 @@
 <script src="../../../main/js/SimpleAgent.js"></script>
 
 <script src="../../../main/js/ui/ImageUtilities.js"></script>
-<script src="../../../main/js/ui/HumanAgent.js"></script>
+<script type="text/jsx" src="../../../main/js/ui/HumanAgent.js"></script>
 
 <script>
     var LOGGER = new Logger();
@@ -58,17 +63,14 @@
                     function(assert)
                     {
                         // Setup.
-                        var imperialAgent = new SimpleAgent("Imperial Agent",
-                                Team.IMPERIAL, CoreSetImperialSquadBuilder);
-                        var token = new Token(Pilot.ACADEMY_PILOT,
-                                imperialAgent);
                         var imageUtils = new ImageUtilities();
 
                         // Run.
-                        var result = imageUtils.createTeamIconString(token);
+                        var result = imageUtils
+                                .createTeamIconString(Team.properties[Team.IMPERIAL].name);
 
                         // Verify.
-                        var expected = "<img title='Imperial Faction' src='/Users/jmthompson/Dropbox/SoftwareDev/JavaProjects/vizzini/starfightersquadronsweb/src/main/resources/images/ImperialIcon24.png'/>";
+                        var expected = "<img title='Imperial Faction' src='/Users/jmthompson/git/vizzini/starfightersquadronsweb/src/main/resources/images/ImperialIcon24.png'/>";
                         assert.equal(result, expected);
                     });
 
@@ -78,17 +80,14 @@
                     function(assert)
                     {
                         // Setup.
-                        var rebelAgent = new HumanAgent("Rebel Agent",
-                                Team.REBEL, CoreSetRebelSquadBuilder,
-                                new ImageUtilities());
-                        var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
                         var imageUtils = new ImageUtilities();
 
                         // Run.
-                        var result = imageUtils.createTeamIconString(token);
+                        var result = imageUtils
+                                .createTeamIconString(Team.properties[Team.REBEL].name);
 
                         // Verify.
-                        var expected = "<img title='Rebel Faction' src='/Users/jmthompson/Dropbox/SoftwareDev/JavaProjects/vizzini/starfightersquadronsweb/src/main/resources/images/RebelIcon24.png'/>";
+                        var expected = "<img title='Rebel Faction' src='/Users/jmthompson/git/vizzini/starfightersquadronsweb/src/main/resources/images/RebelIcon24.png'/>";
                         assert.equal(result, expected);
                     });
 </script>
