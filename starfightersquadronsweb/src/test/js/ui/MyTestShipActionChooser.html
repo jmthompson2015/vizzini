@@ -5,78 +5,64 @@
 <title>MyTestShipActionChooser</title>
 
 <link rel="stylesheet" href="../../../main/css/style.css">
-<link rel="stylesheet" href="../../../main/css/ShipActionChooser.css">
+<link rel="stylesheet" href="../../../main/css/OptionPane.css">
 
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/react-0.13.3.js"></script>
-<script src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
+<script
+	src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/react-0.13.3.js"></script>
+<script
+	src="http://rawgit.com/jmthompson2015/vizzini/master/coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
 <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 
-<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script
+	src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayUtilities.js"></script>
 
-<script src="../../../main/js/Phase.js"></script>
-<script src="../../../main/js/Team.js"></script>
-<script src="../../../main/js/Maneuver.js"></script>
-<script src="../../../main/js/ManeuverAction.js"></script>
-<script src="../../../main/js/ShipAction.js"></script>
-<script src="../../../main/js/Ship.js"></script>
-<script src="../../../main/js/Path.js"></script>
+<script type="text/jsx"
+	src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+<script type="text/jsx"
+	src="../../../../../coreweb/src/main/js/ui/RadioButtonList.js"></script>
+
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/Team.js"></script>
+<script src="../../../main/js/Maneuver.js"></script>
+<script src="../../../main/js/ShipAction.js"></script>
+<script src="../../../main/js/Ship.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
-<script src="../../../main/js/AttackDice.js"></script>
-<script src="../../../main/js/DefenseDice.js"></script>
-<script src="../../../main/js/PlanningAction.js"></script>
-<script src="../../../main/js/CombatAction.js"></script>
+<script src="../../../main/js/SquadBuilder.js"></script>
 <script src="../../../main/js/DamageCard.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Token.js"></script>
-<script src="../../../main/js/Position.js"></script>
-<script src="../../../main/js/SquadBuilder.js"></script>
-<script src="../../../main/js/Environment.js"></script>
-<script src="../../../main/js/Adjudicator.js"></script>
-<script src="../../../main/js/Engine.js"></script>
-<script src="../../../main/js/SimpleAgent.js"></script>
 
+<script type="text/jsx" src="../../../main/js/ui/HumanAgent.js"></script>
 <script src="../../../main/js/ui/ImageUtilities.js"></script>
-<script src="../../../main/js/ui/HumanAgent.js"></script>
-<script src="../../../main/js/ui/SSPanel.js"></script>
-<script type="text/jsx" src="../../../main/js/ui/PilotsUI.js"></script>
-<script type="text/jsx" src="../../../main/js/ui/PilotCardUI.js"></script>
-<script src="../../../main/js/ui/PlayAreaUI.js"></script>
-<script src="../../../main/js/ui/PlayState.js"></script>
-<script type="text/jsx" src="../../../main/js/ui/EnvironmentUI.js"></script>
-<script src="../../../main/js/ui/ShipActionChooser.js"></script>
+<script type="text/jsx" src="../../../main/js/ui/ShipActionChooser.js"></script>
 
 </head>
 <body>
 	<div id="inputArea"></div>
-
-	<script>
+	<p />
+	Selected Ship Action:
+	<span id="output"></span>
+	<script type="text/jsx">
+        "use strict";
         var LOGGER = new Logger();
 
-        var imageUtils = new ImageUtilities();
-        function callback(shipAction)
-        {
-            LOGGER.info("callback() start");
+        var agent = new HumanAgent("Rebel Agent", Team.REBEL,
+                CoreSetRebelSquadBuilder, new ImageUtilities());
+        var token = new Token(Pilot.LUKE_SKYWALKER, agent);
+		var shipActions = token.getShipActions();
 
-            LOGGER.info("shipAction = " + shipAction);
+        var shipActionChooser = React.render(<ShipActionChooser 
+			token={token} shipActions={shipActions} callback={finishShipAction} />,
+			document.getElementById("inputArea"));
 
-            LOGGER.info("callback() end");
-        }
-
-        var environment = Environment.createCoreSetEnvironment();
-        var attackerPosition = new Position(458, 895, -90);
-        var attacker = environment.getTokenAt(attackerPosition);
-        var shipActions = attacker.getShipActions();
-
-        var panel = new ShipActionChooser(environment, attacker, shipActions,
-                callback);
-
-        var element = document.getElementById("inputArea");
-        element.innerHTML = panel.paintComponent();
+		function finishShipAction(shipAction)
+		{
+			document.getElementById("output").innerHTML = shipAction;
+		}
     </script>
 </body>
 </html>
