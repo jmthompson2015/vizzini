@@ -142,11 +142,15 @@ function EnvironmentUI(engine, environment)
             {
                 var token = shipFledAction.getToken();
                 message = "Ship fled the battlefield: " + token;
+                imperialPilots.setState({tokens: environment.getTokensForTeam(Team.IMPERIAL)});
+                rebelPilots.setState({tokens: environment.getTokensForTeam(Team.REBEL)});
             }
             else if (shipDestroyedAction)
             {
                 var token = shipDestroyedAction.getToken();
                 message = "Ship destroyed: " + token;
+                imperialPilots.setState({tokens: environment.getTokensForTeam(Team.IMPERIAL)});
+                rebelPilots.setState({tokens: environment.getTokensForTeam(Team.REBEL)});
             }
             else if (combatAction)
             {
@@ -168,9 +172,7 @@ function EnvironmentUI(engine, environment)
         }
 
         ssPanel.paintComponent(playState);
-        imperialPilots.setState({tokens: environment.getTokensForTeam(Team.IMPERIAL)});
         playAreaUI.paintComponent(context, playState);
-        rebelPilots.setState({tokens: environment.getTokensForTeam(Team.REBEL)});
 
         context.restore();
 
