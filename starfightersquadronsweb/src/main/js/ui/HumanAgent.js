@@ -57,6 +57,19 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
 
         callback(planningAction);
     }
+    
+    this.finishShipAction = function(shipAction)
+    {
+        LOGGER.trace("finishShipAction() start");
+        
+        // Handle the user response.
+        var element = document.getElementById("inputArea");
+        HtmlUtilities.removeClass(element, "dialog");
+        element.innerHTML = "";
+        LOGGER.trace("finishShipAction() end");
+        
+        callback(shipAction);
+    }
 
     this.finishWeaponAndDefender = function(weaponAndDefender)
     {
@@ -120,6 +133,23 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         return answer;
     }
 
+    this.getShipAction = function(environment, adjudicator, token, callbackIn)
+    {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("adjudicator", adjudicator);
+        InputValidator.validateNotNull("token", token);
+    
+        callback = callbackIn;
+    
+        var shipActions = token.getShipActions();
+    
+        React.render(<ShipActionChooser
+                token={token} shipActions={shipActions} callback={this.finishShipAction} />,
+                document.getElementById("inputArea"));
+    
+        // Wait for the user to respond.
+    }
+
     this.getSquadBuilder = function()
     {
         return squadBuilder;
@@ -129,15 +159,6 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
     {
         return team;
     }
-}
-
-HumanAgent.prototype.getShipAction = function(environment, adjudicator, token)
-{
-    InputValidator.validateNotNull("environment", environment);
-    InputValidator.validateNotNull("adjudicator", adjudicator);
-    InputValidator.validateNotNull("token", token);
-
-    var shipActions = token.getShipActions();
 }
 
 HumanAgent.prototype.toString = function()
