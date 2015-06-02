@@ -451,6 +451,11 @@ function Token(pilot, agent)
         setStressCount(stressCount + 1);
     }
 
+    this.isTouching = function()
+    {
+        return isTouching;
+    }
+
     /*
      * @return the isDefenderHit
      */
@@ -833,7 +838,6 @@ Token.prototype.getShipActions = function()
                 Ship.properties[this.getShip()].shipActions);
     }
 
-    // if (answer.contains(ShipAction.CLOAK) && isCloaked())
     if (ArrayUtilities.contains(answer, ShipAction.CLOAK) && isCloaked())
     {
         ArrayUtilities.remove(answer, ShipAction.CLOAK);
@@ -841,35 +845,30 @@ Token.prototype.getShipActions = function()
 
     if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
     {
-        // answer.add(ShipAction.BOOST);
         answer[answer.length] = ShipAction.BOOST;
     }
 
     if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))
     {
-        // answer.add(ShipAction.EVADE);
         answer[answer.length] = ShipAction.EVADE;
     }
 
     if (this.isUpgradedWith(UpgradeCard.TARGETING_COMPUTER))
     {
-        // answer.add(ShipAction.TARGET_LOCK);
         answer[answer.length] = ShipAction.TARGET_LOCK;
     }
 
-    // if (!criticalDamages.isEmpty())
     if (criticalDamages.length > 0)
     {
-        // for (final DamageCard damage : criticalDamages)
         for (var i = 0; i < criticalDamages.length; i++)
         {
             var damage = criticalDamages[i];
 
-            if (damage.hasAction())
-            {
-                // answer.add(new DamageCardShipAction(damage));
-                answer[answer.length] = new DamageCardShipAction(damage);
-            }
+			// FIXME
+            // if (damage.hasAction())
+            // {
+            // answer[answer.length] = new DamageCardShipAction(damage);
+            // }
         }
     }
 

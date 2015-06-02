@@ -13,10 +13,18 @@ function Adjudicator()
         return !attacker.isCloaked();
     }
 
-    this.canSelectShipAction = function(token)
+    /*
+     * @param attacker Attacker.
+     * 
+     * @return true if the attacker can select a ship action.
+     */
+    this.canSelectShipAction = function(attacker)
     {
-        // FIXME
-        return false;
+        InputValidator.validateNotNull("attacker", attacker);
+
+        // Cannot select a ship action if the ship is stressed, or
+        // if the ship is touching another ship.
+        return !attacker.isStressed() && !attacker.isTouching();
     }
 
     this.determineWinner = function(environment)

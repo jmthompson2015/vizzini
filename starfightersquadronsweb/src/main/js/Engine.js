@@ -108,6 +108,41 @@ function Engine(environment, adjudicator)
         }
     }
 
+    this.setShipAction = function(shipAction)
+    {
+        var delay = 0;
+
+        if (shipAction)
+        {
+            LOGGER.debug("shipAction = " + shipAction);
+            var attacker = environment.getActiveToken();
+
+            if (shipAction === ShipAction.CLOAK)
+            {
+                attacker.increaseCloakCount();
+            }
+            else if (shipAction === ShipAction.EVADE)
+            {
+                attacker.increaseEvadeCount();
+            }
+            else if (shipAction === ShipAction.FOCUS)
+            {
+                attacker.increaseFocusCount();
+            }
+            else
+            {
+                // BARREL_ROLL
+                // BOOST
+                // TARGET_LOCK
+                LOGGER.error("ShipAction not handled: " + shipAction);
+            }
+
+            delay = 1000;
+        }
+
+        setTimeout(processActivationQueue, delay);
+    }
+
     this.setWeaponAndDefender = function(weaponAndDefender)
     {
         var delay = 0;
@@ -218,22 +253,19 @@ function Engine(environment, adjudicator)
 
                     if (adjudicator.canSelectShipAction(token))
                     {
-                        var shipAction = agent.getShipAction(environment,
-                                adjudicator, token);
-                        var shipActionAction;
+                        agent.getShipAction(environment, adjudicator, token,
+                                that.setShipAction);
 
-                        if (shipActionAction != null)
-                        {
-                            LOGGER.debug("shipActionAction = "
-                                    + shipActionAction);
-                            shipActionAction.doIt();
-                        }
+                        // Wait for agent to respond.
+                    }
+                    else
+                    {
+                        // Proceed.
+                        setTimeout(processActivationQueue, 1000);
                     }
                 }
             }
         }
-
-        setTimeout(processActivationQueue, 1000);
 
         LOGGER.trace("Engine.processActivationQueue() end");
     }

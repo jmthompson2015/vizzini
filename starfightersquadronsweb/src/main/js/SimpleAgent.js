@@ -150,7 +150,7 @@ function SimpleAgent(name, team, squadBuilder)
     }
 }
 
-SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token)
+SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback)
 {
     InputValidator.validateNotNull("environment", environment);
     InputValidator.validateNotNull("adjudicator", adjudicator);
@@ -164,7 +164,7 @@ SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token)
         answer = ArrayUtilities.randomElement(shipActions);
     }
 
-    return answer;
+    callback(answer);
 }
 
 SimpleAgent.prototype.toString = function()
