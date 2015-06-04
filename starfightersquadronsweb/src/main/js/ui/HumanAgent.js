@@ -103,6 +103,14 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         callback = callbackIn;
 
         var tokens = environment.getTokensForTeam(team);
+        tokens.sort(function(token0, token1)
+        {
+            var id0 = token0.getId();
+            var id1 = token1.getId();
+            var answer = id0 - id1;
+
+            return answer;
+        });
         var self = this;
         
         React.render(<PlanningPanel
