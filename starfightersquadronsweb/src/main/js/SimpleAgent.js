@@ -43,7 +43,7 @@ function SimpleAgent(name, team, squadBuilder)
                     if (myDefender)
                     {
                         var defenderPosition = environment
-                                .getPositionFor(defender);
+                                .getPositionFor(myDefender);
 
                         if (defenderPosition)
                         {
@@ -101,9 +101,10 @@ function SimpleAgent(name, team, squadBuilder)
 
             for (var j = 0; j < maneuvers.length; j++)
             {
-                var candidate = ArrayUtilities.randomElement(maneuvers);
+                var candidate = maneuvers[i];
                 var toPosition = Maneuver.computeToPosition(candidate,
                         fromPosition, shipBase);
+
                 if (toPosition)
                 {
                     if (Position.isInPlayArea(toPosition.getX(), toPosition
