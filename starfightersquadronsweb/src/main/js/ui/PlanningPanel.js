@@ -7,11 +7,6 @@ var PlanningPanel = React.createClass(
     {
         return {tokenToManeuver: {}};
     },
-    
-    cancel: function()
-    {
-        callback(undefined);
-    },
 
     ok: function()
     {
@@ -47,8 +42,7 @@ var PlanningPanel = React.createClass(
         return (<OptionPane panelClass="optionPane"
             title="Planning: Select Maneuvers" titleClass="optionPaneTitle"
             initialInput={<table><tr>{myHtml}</tr></table>}
-            buttons={<span><button onClick={self.cancel}>Cancel</button>
-                <button onClick={self.ok}>OK</button></span>}
+            buttons={<button onClick={self.ok}>OK</button>}
             buttonsClass="optionPaneButtons"
         />);
     },
