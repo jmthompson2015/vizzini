@@ -101,7 +101,7 @@ function SimpleAgent(name, team, squadBuilder)
 
             for (var j = 0; j < maneuvers.length; j++)
             {
-                var candidate = maneuvers[i];
+                var candidate = maneuvers[j];
                 var toPosition = Maneuver.computeToPosition(candidate,
                         fromPosition, shipBase);
 
