@@ -1,115 +1,62 @@
 /**
  * Provides a user interface to create the planning action.
  */
-function PlanningPanel(environment, adjudicator, agent, tokens, imageUtils,
-        callback)
+var PlanningPanel = React.createClass(
 {
-    var maneuverChoosers = [];
-
-    this.maneuverClick = function(tokenId, maneuver)
+    getInitialState: function() 
     {
-        LOGGER.trace("PlanningPanel.maneuverClick() for token " + tokenId
-                + " selected maneuver = " + maneuver);
-        var token = findToken(tokenId);
-        var maneuverChooser = findManeuverChooser(token);
-        maneuverChooser.setSelectedManeuver(maneuver);
-    }
-
-    this.okActionPerformed = function()
+        return {tokenToManeuver: {}};
+    },
+    
+    cancel: function()
     {
-        LOGGER.trace("PlanningPanel.okActionPerformed() start");
+        callback(undefined);
+    },
 
-        var tokenToManeuver = {};
-
-        for (var i = 0; i < maneuverChoosers.length; i++)
-        {
-            var chooser = maneuverChoosers[i];
-            var token = chooser.getToken();
-            var maneuver = chooser.getSelectedManeuver();
-            tokenToManeuver[token] = maneuver;
-        }
-
+    ok: function()
+    {
+        var environment = this.props.environment;
+        var agent = this.props.agent;
+        var tokenToManeuver = this.state.tokenToManeuver;
+        var callback = this.props.callback;
+        
         var answer = new PlanningAction(environment, agent, tokenToManeuver);
 
-        LOGGER.trace("PlanningPanel.okActionPerformed() end");
         callback(answer);
-    }
+    },
 
-    this.paintComponent = function()
+    render: function() 
     {
-        LOGGER.trace("PlanningPanel.paintComponent() start");
-
-        var answer = "";
-
-        answer += "Planning: Select Maneuvers<br/>";
-        answer += "<table id='planningTable'><tr>";
-
+        var tokens = this.props.tokens;
+        var imageUtils = this.props.imageUtils;
+        var self = this;
+        var myHtml = [];
+        
         for (var i = 0; i < tokens.length; i++)
         {
             var token = tokens[i];
-            var maneuverChooser = findManeuverChooser(token);
-
-            if (!maneuverChooser)
-            {
-                // Create it.
-                maneuverChooser = new ManeuverChooser(token, imageUtils);
-                maneuverChoosers[maneuverChoosers.length] = maneuverChooser;
-            }
-
-            answer += "<td class='planningTableCell'>";
-            answer += maneuverChooser.paintComponent();
-            answer += "</td>";
+            myHtml[myHtml.length] = <td key={i} className="planningTableCell">
+                <ManeuverChooser
+                    token={token}
+                    imageUtils={imageUtils}
+                    callback={self.selectionChanged}
+                />
+                </td>;
         }
+        
+        return (<OptionPane panelClass="optionPane"
+            title="Planning: Select Maneuvers" titleClass="optionPaneTitle"
+            initialInput={<table><tr>{myHtml}</tr></table>}
+            buttons={<span><button onClick={self.cancel}>Cancel</button>
+                <button onClick={self.ok}>OK</button></span>}
+            buttonsClass="optionPaneButtons"
+        />);
+    },
 
-        answer += "<td class='planningOk'>";
-        answer += "<button type='button' onclick='PlanningPanel.instance.okActionPerformed()'>OK</button>";
-        answer += "</td>";
-        answer += "</tr></table>";
-
-        LOGGER.trace("PlanningPanel.paintComponent() end");
-
-        return answer;
-    }
-
-    function findToken(tokenId)
+    selectionChanged: function(token, maneuver)
     {
-        var answer;
-
-        for (var i = 0; i < tokens.length; i++)
-        {
-            var token = tokens[i];
-
-            if (token.getId() == tokenId)
-            {
-                answer = token;
-                break;
-            }
-        }
-
-        // LOGGER.info("PlanningPanel.findToken(" + tokenId + ") answer = " +
-        // answer);
-        return answer;
-    }
-
-    function findManeuverChooser(token)
-    {
-        var answer;
-
-        for (var i = 0; i < maneuverChoosers.length; i++)
-        {
-            var chooser = maneuverChoosers[i];
-
-            if (chooser.getToken() === token)
-            {
-                answer = chooser;
-                break;
-            }
-        }
-
-        // LOGGER.info("PlanningPanel.findManeuverChooser(" + token + ") answer
-        // = " + answer);
-        return answer;
-    }
-
-    PlanningPanel.instance = this;
-}
+        LOGGER.debug("selectionChanged() token = " + token + " maneuver = " + maneuver);
+        var tokenToManeuver = this.state.tokenToManeuver;
+        tokenToManeuver[token] = maneuver;
+    },
+});

@@ -103,11 +103,15 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         callback = callbackIn;
 
         var tokens = environment.getTokensForTeam(team);
-        var planningPanel = new PlanningPanel(environment, adjudicator, this,
-                tokens, imageUtils, this.finishPlanningAction);
-        var element = document.getElementById("inputArea");
-        HtmlUtilities.addClass(element, "dialog");
-        element.innerHTML = planningPanel.paintComponent();
+        var self = this;
+        
+        React.render(<PlanningPanel
+            environment={environment}
+            agent={self}
+            tokens={tokens}
+            imageUtils={imageUtils}
+            callback={self.finishPlanningAction} />,
+            document.getElementById("inputArea"));
         updateSizes();
 
         // Wait for the user to respond.

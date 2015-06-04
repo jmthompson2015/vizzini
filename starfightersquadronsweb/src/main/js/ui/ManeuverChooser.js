@@ -1,116 +1,9 @@
 /*
  * Provides a display panel of a ship's maneuvers.
  */
-function ManeuverChooser(token, imageUtils)
+var ManeuverChooser = React.createClass(
 {
-    var maneuvers = token.getManeuvers();
-    var selectedManeuver;
-
-    this.getSelectedManeuver = function()
-    {
-        return selectedManeuver;
-    }
-
-    this.getToken = function()
-    {
-        return token;
-    }
-
-    this.paintComponent = function()
-    {
-        var answer = "";
-
-        var pilotName = token.getPilotName();
-        var shipName = token.getShipName();
-        var minSpeed = getMinimumSpeed();
-        var maxSpeed = getMaximumSpeed();
-        var bearingValues = Bearing.values;
-        var prefix = createIdPrefix();
-
-        answer += "<table id='";
-        answer += prefix;
-        answer += "maneuverTable' class='maneuverTable'>";
-
-        if (pilotName)
-        {
-            answer += "<tr id='pilotName'><td colspan='"
-                    + (bearingValues.length + 1) + "'>";
-            answer += pilotName;
-            answer += "</td></tr>";
-        }
-
-        if (shipName)
-        {
-            answer += "<tr id='shipName'><td colspan='"
-                    + (bearingValues.length + 1) + "'>";
-            answer += shipName;
-            answer += "</td></tr>";
-        }
-
-        for (var speed = maxSpeed; speed >= minSpeed; speed--)
-        {
-            answer += "<tr>";
-            answer += "<td>" + speed + "</td>";
-
-            for (var i = 0; i < bearingValues.length; i++)
-            {
-                var bearing = bearingValues[i];
-                var maneuver = findManeuver(bearing, speed);
-
-                if (maneuver)
-                {
-                    answer += "<td id='";
-                    answer += prefix;
-                    answer += maneuver;
-                    answer += "Button' onclick=\"PlanningPanel.instance.maneuverClick('";
-                    answer += prefix;
-                    answer += "', '";
-                    answer += maneuver;
-                    answer += "')\">";
-                    var difficulty = Maneuver.properties[maneuver].difficulty;
-                    answer += imageUtils.createManeuverIconString(bearing,
-                            difficulty);
-                }
-                else
-                {
-                    answer += "<td>&nbsp;";
-                }
-
-                answer += "</td>";
-            }
-
-            answer += "</tr>";
-        }
-
-        answer += "</table>";
-
-        return answer;
-    }
-
-    this.setSelectedManeuver = function(maneuver)
-    {
-        var prefix = createIdPrefix();
-
-        if (selectedManeuver)
-        {
-            var elementId = prefix + selectedManeuver + "Button";
-            var element = document.getElementById(elementId);
-            HtmlUtilities.removeClass(element, "highlight");
-        }
-
-        selectedManeuver = maneuver;
-
-        var elementId = prefix + selectedManeuver + "Button";
-        var element = document.getElementById(elementId);
-        HtmlUtilities.addClass(element, "highlight");
-    }
-
-    function createIdPrefix()
-    {
-        return token.getId();
-    }
-
-    function findManeuver(bearing, speed)
+    findManeuver: function(maneuvers, bearing, speed)
     {
         var answer;
 
@@ -127,9 +20,14 @@ function ManeuverChooser(token, imageUtils)
         }
 
         return answer;
-    }
+    },
 
-    function getMaximumSpeed()
+    getInitialState: function() 
+    {
+        return {element: undefined, maneuver: undefined};
+    },
+
+    getMaximumSpeed: function(maneuvers)
     {
         var answer = -10000;
 
@@ -141,9 +39,9 @@ function ManeuverChooser(token, imageUtils)
         }
 
         return answer;
-    }
+    },
 
-    function getMinimumSpeed()
+    getMinimumSpeed: function(maneuvers)
     {
         var answer = 10000;
 
@@ -155,5 +53,109 @@ function ManeuverChooser(token, imageUtils)
         }
 
         return answer;
-    }
-}
+    },
+    
+    getSelectedManeuver:function()
+    {
+        return this.state.maneuver;
+    },
+    
+    getToken:function()
+    {
+        return this.props.token;
+    },
+    
+    render: function() 
+    {
+        var token = this.props.token;
+        var imageUtils = this.props.imageUtils;
+        var pilotName = token.getPilotName();
+        var shipName = token.getShipName();
+        var maneuvers = token.getManeuvers();
+        var minSpeed = this.getMinimumSpeed(maneuvers);
+        var maxSpeed = this.getMaximumSpeed(maneuvers);
+        var bearingValues = Bearing.values;
+        var self = this;
+
+        var myHtml = [];
+
+        if (pilotName)
+        {
+            myHtml[myHtml.length] = <tr key={myHtml.length} id="pilotName">
+                <td colSpan={bearingValues.length + 1}>
+                {pilotName}
+                </td>
+                </tr>;
+        }
+
+        if (shipName)
+        {
+            myHtml[myHtml.length] = <tr key={myHtml.length} id="shipName">
+                <td colSpan={bearingValues.length + 1}>
+                {shipName}
+                </td>
+                </tr>
+        }
+
+        for (var speed = maxSpeed; speed >= minSpeed; speed--)
+        {
+            var cells = [];
+            cells[cells.length] = <td key={cells.length}>{speed}</td>;
+
+            for (var i = 0; i < bearingValues.length; i++)
+            {
+                var bearing = bearingValues[i];
+                var maneuver = this.findManeuver(maneuvers, bearing, speed);
+
+                if (maneuver)
+                {
+                    var difficulty = Maneuver.properties[maneuver].difficulty;
+                    var iconSrc = imageUtils.createManeuverIconSource(bearing, difficulty);
+                    cells[cells.length] = <td key={cells.length}
+                        onClick={self.selectionChanged}
+                        data-token={token}
+                        data-maneuver={maneuver} >
+                        <img src={iconSrc} />
+                        </td>;
+                }
+                else
+                {
+                    cells[cells.length] = <td key={cells.length}>&nbsp;</td>;
+                }
+            }
+
+            myHtml[myHtml.length] = <tr key={myHtml.length}>{cells}</tr>;
+        }
+        
+        return (
+            <table
+            className='maneuverTable'>
+            {myHtml}
+            </table>
+            );
+    },
+
+    selectionChanged: function(event)
+    {
+        var oldElement = this.state.element;
+        
+        if (oldElement)
+        {
+            HtmlUtilities.removeClass(oldElement, "highlight");
+        }
+        
+        var element = event.currentTarget;
+        var token = element.dataset.token;
+        var maneuver = element.dataset.maneuver;
+        LOGGER.debug("selectionChanged() maneuver = " + maneuver);
+        this.setState({element: element, maneuver: maneuver});
+        HtmlUtilities.addClass(element, "highlight");
+        
+        var callback = this.props.callback;
+        
+        if (callback)
+        {
+            callback(token, maneuver);
+        }
+    },
+});

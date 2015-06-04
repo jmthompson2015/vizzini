@@ -5,6 +5,7 @@
 <title>MyTestManeuverChooser</title>
 
 <link rel="stylesheet" href="../../../main/css/style.css">
+<link rel="stylesheet" href="../../../main/css/OptionPane.css">
 <link rel="stylesheet" href="../../../main/css/ManeuverChooser.css">
 
 <script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
@@ -15,6 +16,7 @@
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayUtilities.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
 
 <script src="../../../main/js/Team.js"></script>
 <script src="../../../main/js/Maneuver.js"></script>
@@ -30,7 +32,7 @@
 
 <script src="../../../main/js/ui/ImageUtilities.js"></script>
 <script type="text/jsx" src="../../../main/js/ui/HumanAgent.js"></script>
-<script src="../../../main/js/ui/ManeuverChooser.js"></script>
+<script type="text/jsx" src="../../../main/js/ui/ManeuverChooser.js"></script>
 
 </head>
 <body>
@@ -43,21 +45,17 @@
         var imageUtils = new ImageUtilities();
 
         {
-            var imperialAgent = new SimpleAgent("Imperial Agent",
-                    Team.IMPERIAL, CoreSetImperialSquadBuilder);
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
             var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-            var chooser = new ManeuverChooser(token, imageUtils);
-            var component = document.getElementById("inputArea0");
-            component.innerHTML = chooser.paintComponent();
+			React.render(<ManeuverChooser token={token} imageUtils={imageUtils} />,
+				document.getElementById("inputArea0"));
         }
 
         {
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL,
-                    CoreSetRebelSquadBuilder, new ImageUtilities());
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
             var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
-            var chooser = new ManeuverChooser(token, imageUtils);
-            var component = document.getElementById("inputArea1");
-            component.innerHTML = chooser.paintComponent();
+			React.render(<ManeuverChooser token={token} imageUtils={imageUtils} />,
+				document.getElementById("inputArea1"));
         }
     </script>
 </body>

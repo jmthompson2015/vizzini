@@ -39,6 +39,24 @@ function ImageUtilities()
      * 
      * @return a new image icon.
      */
+    this.createManeuverIconSource = function(bearing, difficulty)
+    {
+        var bearingName = bearing.replace("L", "_l");
+        bearingName = bearingName.replace("R", "_r");
+        bearingName = bearingName.replace("kTurn", "koiogran_turn");
+        var answer = getPath() + "resources/images/maneuver/"
+                + bearingName + "_" + difficulty + "16.png";
+        return answer;
+    }
+
+    /**
+     * @param bearing
+     *            Bearing.
+     * @param difficulty
+     *            Difficulty.
+     * 
+     * @return a new image icon.
+     */
     this.createManeuverIconString = function(bearing, difficulty)
     {
         var bearingName = bearing.replace("L", "_l");
