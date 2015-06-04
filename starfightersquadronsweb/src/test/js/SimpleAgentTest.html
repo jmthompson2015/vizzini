@@ -21,6 +21,7 @@
 <script src="../../main/js/Team.js"></script>
 <script src="../../main/js/Maneuver.js"></script>
 <script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Path.js"></script>
 <script src="../../main/js/Ship.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/Weapon.js"></script>
@@ -116,6 +117,46 @@
 
         // Run.
         agent.getPlanningAction(environment, adjudicator, caller.callback);
+    });
+
+    QUnit.test("SimpleAgent.chooseWeaponAndDefender() Imperial", function(
+            assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var name = "simpleAgent";
+        var team = Team.IMPERIAL;
+        var squadBuilder = CoreSetImperialSquadBuilder;
+        var agent = new SimpleAgent(name, team, squadBuilder);
+
+        var position0 = new Position(305, 20, 90);
+        var token0 = environment.getTokenAt(position0);
+
+        var position1 = new Position(610, 20, 90);
+        var token1 = environment.getTokenAt(position1);
+
+        var position2 = new Position(458, 895, -90);
+        var token2 = environment.getTokenAt(position2);
+
+        LOGGER.info("token0 = " + token0);
+        LOGGER.info("token1 = " + token1);
+        LOGGER.info("token2 = " + token2);
+
+        var result;
+        var caller = {};
+        function callback(weapon, defender)
+        {
+            LOGGER.info("caller.callback()");
+
+            // Verify.
+            assert.ok(!weapon);
+            assert.ok(!defender);
+        }
+
+        // Run.
+        agent.chooseWeaponAndDefender(environment, adjudicator, token0,
+                callback);
     });
 </script>
 </head>

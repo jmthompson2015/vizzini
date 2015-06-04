@@ -143,18 +143,17 @@ function Engine(environment, adjudicator)
         setTimeout(processActivationQueue, delay);
     }
 
-    this.setWeaponAndDefender = function(weaponAndDefender)
+    this.setWeaponAndDefender = function(weapon, defender)
     {
         var delay = 0;
 
-        if (weaponAndDefender)
+        if (weapon && defender)
         {
-            LOGGER.debug("weaponAndDefender = " + weaponAndDefender);
+            LOGGER.debug("weapon = " + weapon);
+            LOGGER.debug("defender = " + defender);
             var attacker = environment.getActiveToken();
             var attackerPosition = environment.getPositionFor(attacker);
-            var weapon = weaponAndDefender.weapon;
             attacker.setWeapon(weapon);
-            var defender = weaponAndDefender.defender;
 
             if (defender)
             {

@@ -1,61 +1,31 @@
 /*
  * Provides a user interface to choose a weapon and defender.
  */
-function WeaponAndDefenderChooser(attacker, choices, callback)
+var WeaponAndDefenderChooser = React.createClass(
 {
-    InputValidator.validateNotNull("attacker", attacker);
-    InputValidator.validateNotNull("choices", choices);
-    InputValidator.validateNotNull("callback", callback);
-
-    var selectedWeapon;
-    var selectedDefender;
-
-    this.defenderClick = function(tokenId)
+    getInitialState: function() 
     {
-        selectedWeapon = findWeapon(tokenId);
-        selectedDefender = findDefender(tokenId);
-    }
+        return {weapon: undefined, defender: undefined};
+    },
 
-    this.okActionPerformed = function()
+    render: function() 
     {
-        LOGGER.trace("WeaponAndDefenderChooser.okActionPerformed() start");
+        var attacker = this.props.attacker;
+        var message = <div className="attackerLabel">Attacker: {attacker.getName()}</div>;
+        var choices = this.props.choices;
+        var self = this;
 
-        var answer =
-        {
-            weapon: selectedWeapon,
-            defender: selectedDefender
-        };
-
-        LOGGER.trace("WeaponAndDefenderChooser.okActionPerformed() end");
-        callback(answer);
-    }
-
-    this.paintComponent = function()
-    {
-        var answer = "";
-
-        answer += "Combat: Select Weapon and Defender<br/>";
-        answer += "<table id='combatTable'>";
-        answer += "<tr>";
-        answer += "<td id='attackerTitle'>";
-        answer += "Attacker: ";
-        answer += attacker;
-        answer += "</td>";
-        answer += "</tr>";
-
-        answer += "<tr>";
-        answer += "<td id='weaponAndDefenderChooser'>";
-
+        var myHtml = [];
+        
         for (var i = 0; i < choices.length; i++)
         {
             var weaponAndRangeAndTokens = choices[i];
             var weapon = weaponAndRangeAndTokens.weapon;
             var weaponName = weapon.getName();
 
-            answer += "<span class='weaponName'>";
-            answer += weaponName;
-            answer += "</span><br/>";
-            answer += "<div class='weaponPanel'>";
+            myHtml[myHtml.length] = <tr key={myHtml.length}>
+                <td className="weaponName">{weaponName}</td>
+                </tr>;
 
             var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
 
@@ -65,10 +35,9 @@ function WeaponAndDefenderChooser(attacker, choices, callback)
                 var range = rangeAndTokens.range;
                 var rangeName = Range.properties[range].getDisplayName();
 
-                answer += "Range ";
-                answer += rangeName;
-                answer += "<br/>";
-                answer += "<div class='rangePanel'>";
+                myHtml[myHtml.length] = <tr key={myHtml.length}>
+                    <td className="rangeLabel">Range {rangeName}</td>
+                    </tr>;
 
                 var tokens = rangeAndTokens.tokens;
 
@@ -78,35 +47,63 @@ function WeaponAndDefenderChooser(attacker, choices, callback)
                     {
                         var token = tokens[k];
 
-                        answer += "<input type='radio' onclick=\"WeaponAndDefenderChooser.instance.defenderClick('";
-                        answer += token.getId();
-                        answer += "');\" name='";
-                        answer += weapon.getName();
-                        answer += "'>";
-                        answer += token;
-                        answer += "</input>";
-                        answer += "<br/>";
+                        myHtml[myHtml.length] = <tr key={myHtml.length}>
+                            <td className="defenderChoice">
+                            <label>
+                            <input type="radio"
+                                onClick={self.selectionChanged}
+                                name={weaponName}
+                                data-weapon-name={weaponName}
+                                data-defender-id={token.getId()} />
+                            {token.getName()}
+                            </label>
+                            </td>
+                            </tr>;
                     }
                 }
-
-                answer += "</div>";
             }
-
-            answer += "</div>";
         }
+        
+        return (<OptionPane panelClass="optionPane"
+            title="Combat: Select Weapon and Defender" titleClass="optionPaneTitle"
+            message={message} messageClass="optionPaneMessage"
+            initialInput={<table className="combatTable">{myHtml}</table>}
+            buttons={<span><button onClick={self.cancel}>Cancel</button>
+                <button onClick={self.ok}>OK</button></span>}
+            buttonsClass="optionPaneButtons"
+        />);
+    },
 
-        answer += "</td>";
-        answer += "<td class='planningOk'>";
-        answer += "<button type='button' onclick='WeaponAndDefenderChooser.instance.okActionPerformed()'>OK</button>";
-        answer += "</td>";
-        answer += "</tr></table>";
+    selectionChanged: function(event)
+    {
+        LOGGER.debug("selectionChanged()");
+        var weaponName = event.currentTarget.dataset.weaponName;
+        var defenderId = event.currentTarget.dataset.defenderId;
+        LOGGER.debug("weaponName = "+weaponName+" defenderId = "+defenderId);
+        var weapon = this.findWeapon(weaponName);
+        LOGGER.debug("weapon = "+weapon);
+        var defender = this.findDefender(defenderId);
+        LOGGER.debug("defender = "+defender);
+        this.setState({weapon: weapon, defender: defender});
+    },
 
-        return answer;
-    }
+    cancel: function()
+    {
+        LOGGER.debug("cancel()");
+        this.props.callback(undefined);
+    },
 
-    function findDefender(tokenId)
+    ok: function()
+    {
+        LOGGER.debug("ok()");
+        this.props.callback(this.state.weapon, this.state.defender);
+    },
+
+    findDefender: function(tokenId)
     {
         var answer;
+        
+        var choices = this.props.choices;
 
         for (var i = 0; i < choices.length; i++)
         {
@@ -137,46 +134,15 @@ function WeaponAndDefenderChooser(attacker, choices, callback)
         }
 
         return answer;
-    }
-
-    function findWeapon(tokenId)
+    },
+    
+    findWeapon: function(weaponName)
     {
-        var answer;
-
-        for (var i = 0; i < choices.length; i++)
-        {
-            var weaponAndRangeAndTokens = choices[i];
-            var weapon = weaponAndRangeAndTokens.weapon;
-
-            var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
-
-            for (var j = 0; j < rangeAndTokensArray.length; j++)
-            {
-                var rangeAndTokens = rangeAndTokensArray[j];
-
-                var tokens = rangeAndTokens.tokens;
-
-                if (tokens)
-                {
-                    for (var k = 0; k < tokens.length; k++)
-                    {
-                        var token = tokens[k];
-
-                        if (token.getId() == tokenId)
-                        {
-                            answer = weapon;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        return answer;
-    }
-
-    WeaponAndDefenderChooser.instance = this;
-}
+        var attacker = this.props.attacker;
+        
+        return attacker.getPrimaryWeapon();
+    },
+});
 
 /*
  * @param environment Environment. @param attacker Attacker. @param
@@ -252,7 +218,7 @@ WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment,
             {
                 answer[answer.length] =
                 {
-                    weapon: primaryWeapon,
+                    weapon: weapon,
                     rangeAndTokens: rangeAndTokens
                 }
             }
