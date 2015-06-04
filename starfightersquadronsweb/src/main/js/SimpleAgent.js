@@ -20,36 +20,35 @@ function SimpleAgent(name, team, squadBuilder)
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("callback", callback);
 
-        var answer;
+        var weapon;
+        var defender;
 
         var attackerPosition = environment.getPositionFor(attacker);
 
         if (attackerPosition)
         {
-            var weapon = attacker.getPrimaryWeapon();
+            var myWeapon = attacker.getPrimaryWeapon();
 
             for (var i = 0; i < Range.values.length; i++)
             {
                 var range = Range.values[i];
                 var rangeDefenders = environment.getTargetableDefendersAtRange(
-                        attacker, attackerPosition, weapon, range);
+                        attacker, attackerPosition, myWeapon, range);
 
                 if (rangeDefenders.length > 0)
                 {
-                    var defender = ArrayUtilities.randomElement(rangeDefenders);
+                    var myDefender = ArrayUtilities
+                            .randomElement(rangeDefenders);
 
-                    if (defender)
+                    if (myDefender)
                     {
                         var defenderPosition = environment
                                 .getPositionFor(defender);
 
                         if (defenderPosition)
                         {
-                            answer =
-                            {
-                                weapon: weapon,
-                                defender: defender
-                            };
+                            weapon = myWeapon;
+                            defender = myDefender;
                             break;
                         }
                     }
@@ -57,7 +56,7 @@ function SimpleAgent(name, team, squadBuilder)
             }
         }
 
-        callback(answer);
+        callback(weapon, defender);
     }
 
     this.getName = function()
@@ -150,7 +149,8 @@ function SimpleAgent(name, team, squadBuilder)
     }
 }
 
-SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback)
+SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token,
+        callback)
 {
     InputValidator.validateNotNull("environment", environment);
     InputValidator.validateNotNull("adjudicator", adjudicator);

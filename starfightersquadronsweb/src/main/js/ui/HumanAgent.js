@@ -30,11 +30,11 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
 
         if (choices.length > 0)
         {
-            var chooserPanel = new WeaponAndDefenderChooser(attacker, choices,
-                    this.finishWeaponAndDefender);
-            var element = document.getElementById("inputArea");
-            HtmlUtilities.addClass(element, "dialog");
-            element.innerHTML = chooserPanel.paintComponent();
+            React.render(<WeaponAndDefenderChooser
+                attacker={attacker}
+                choices={choices}
+                callback={this.finishWeaponAndDefender} />,
+                document.getElementById("inputArea"));
             updateSizes();
 
             // Wait for the user to respond.
@@ -71,7 +71,7 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         callback(shipAction);
     }
 
-    this.finishWeaponAndDefender = function(weaponAndDefender)
+    this.finishWeaponAndDefender = function(weapon, defender)
     {
         LOGGER.trace("finishWeaponAndDefender() start");
 
@@ -81,7 +81,7 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         element.innerHTML = "";
         LOGGER.trace("finishWeaponAndDefender() end");
 
-        callback(weaponAndDefender);
+        callback(weapon, defender);
     }
 
     this.getName = function()
