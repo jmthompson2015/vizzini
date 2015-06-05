@@ -838,7 +838,7 @@ Token.prototype.getShipActions = function()
                 Ship.properties[this.getShip()].shipActions);
     }
 
-    if (ArrayUtilities.contains(answer, ShipAction.CLOAK) && isCloaked())
+    if (ArrayUtilities.contains(answer, ShipAction.CLOAK) && this.isCloaked())
     {
         ArrayUtilities.remove(answer, ShipAction.CLOAK);
     }
