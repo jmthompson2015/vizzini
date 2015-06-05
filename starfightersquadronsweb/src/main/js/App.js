@@ -27,6 +27,7 @@ function startNewGame(agents)
     game.start();
 
     updateSizes();
+    HtmlUtilities.removeClass(document.getElementById("ssPanel"), "hidden");
 
     LOGGER.info("startNewGame() end");
 }

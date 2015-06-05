@@ -188,10 +188,12 @@ function EnvironmentUI(engine, environment)
         if (message)
         {
             messageArea.innerHTML = message;
+            HtmlUtilities.removeClass(messageArea, "hidden");
         }
         else
         {
             messageArea.innerHTML = "";
+            HtmlUtilities.addClass(messageArea, "hidden");
         }
     }
 }

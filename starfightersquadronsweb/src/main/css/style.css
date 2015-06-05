@@ -1,4 +1,6 @@
 body {
+    background-image:
+        url(https://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/SeamlessMetalTextureSmooth.jpg);
     font-family: sans-serif;
 }
 
@@ -18,8 +20,11 @@ body {
 }
 
 #inputArea {
-    display: inline-block;
     vertical-align: top;
+}
+
+#messageArea {
+    background-color: #F0F0F0;
 }
 
 .planningOk {
@@ -34,6 +39,10 @@ body {
     margin: 0px;
     padding: 1px;
     vertical-align: top;
+}
+
+#ssPanel {
+    background-color: #F0F0F0;
 }
 
 table {
