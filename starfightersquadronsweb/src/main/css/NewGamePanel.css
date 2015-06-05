@@ -1,6 +1,13 @@
 .newGamePanel {
-    border: 2px solid black;
+    background-color: #F0F0F0;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
     vertical-align: top;
+}
+
+.newGameTitle {
+    background-color: lightGray;
 }
 
 .agentPanel {
@@ -13,7 +20,7 @@
 }
 
 .squadBuilderPanel {
-    background-color: white;
+    font-size: small;
     padding: 5px;
     text-align: left;
 }

@@ -246,7 +246,7 @@ function NewGamePanel(imageUtils, callback)
 
         answer += "<table class='newGamePanel'>";
         answer += "<tr>";
-        answer += "<td colspan='3'>";
+        answer += "<td colspan='3' class='newGameTitle'>";
         answer += "New Game";
         answer += "</td>";
         answer += "</tr>";

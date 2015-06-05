@@ -1,12 +1,13 @@
 .optionPane {
-    background-color: lightBlue;
-    border: 2px solid black;
-    display: inline-block;
+    background-color: #F0F0F0;
+    border: 1px solid lightGray;
+    margin-left: auto;
+    margin-right: auto;
     vertical-align: top;
 }
 
 .optionPaneTitle {
-    border-bottom: 2px solid;
+    background-color: lightGray;
     text-align: center;
 }
 
@@ -15,6 +16,7 @@
 }
 
 .optionPaneInput {
+    font-size: small;
     margin-left: 10px;
     text-align: left;
 }
