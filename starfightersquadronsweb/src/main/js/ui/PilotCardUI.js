@@ -90,7 +90,7 @@ PilotCardUI.NamePanel = React.createClass({
         var fileString = PilotCardUI.ImagesUrl + this.props.teamName + "Icon24.png";
 
         return (
-            <table id="nameTable">
+            <table className="nameTable">
             <tr>
             <td title="Pilot Skill" className="namePanel pilotSkillValue" rowSpan="2">{this.props.pilotSkillValue}</td>
             <td title="Name" className="namePanel">{this.props.pilotName}</td>
@@ -107,7 +107,7 @@ PilotCardUI.NamePanel = React.createClass({
 PilotCardUI.StatsPanel = React.createClass({
     render: function() {
         return (
-            <table id="statsTable">
+            <table className="statsTable">
             <tr>
             <td className='primaryWeaponValue' title='Primary Weapon'><img src={PilotCardUI.WeaponIcon} /></td>
             <td className='primaryWeaponValue' title='Primary Weapon'>{this.props.primaryWeaponValue}</td>
@@ -137,7 +137,7 @@ PilotCardUI.DamagePanel = React.createClass({
         else
         {
             answer = (
-                <div id="damagePanel">
+                <div className="damagePanel">
                 <table className="damageTable">
                 <tr>
                 <td title='Damage'><img src={PilotCardUI.HitIcon} /></td>
@@ -190,7 +190,7 @@ PilotCardUI.TokensPanel = React.createClass({
     render: function() {
         return (
             <div className="tokensPanel">
-            <table id="tokensTable">
+            <table className="tokensTable">
             <tr>
             <td><PilotCardUI.CountToken title="Cloak" width="36" path={PilotCardUI.CloakIcon} count={this.props.cloakCount} /></td>
             <td><PilotCardUI.CountToken title="Evade" width="32" path={PilotCardUI.EvadeIcon} count={this.props.evadeCount} /></td>
