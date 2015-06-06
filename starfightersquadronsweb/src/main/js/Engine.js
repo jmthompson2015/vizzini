@@ -299,6 +299,11 @@ function Engine(environment, adjudicator)
 
                 // Wait for agent to respond.
             }
+            else
+            {
+                // Proceed.
+                setTimeout(processCombatQueue, 1000);
+            }
         }
 
         LOGGER.trace("Engine.processCombatQueue() end");
