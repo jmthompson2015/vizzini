@@ -51,7 +51,6 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
 
         // Handle the user response.
         var element = document.getElementById("inputArea");
-        HtmlUtilities.removeClass(element, "dialog");
         element.innerHTML = "";
         LOGGER.trace("finishPlanningAction() end");
 
@@ -64,7 +63,6 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         
         // Handle the user response.
         var element = document.getElementById("inputArea");
-        HtmlUtilities.removeClass(element, "dialog");
         element.innerHTML = "";
         LOGGER.trace("finishShipAction() end");
         
@@ -77,7 +75,6 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
 
         // Handle the user response.
         var element = document.getElementById("inputArea");
-        HtmlUtilities.removeClass(element, "dialog");
         element.innerHTML = "";
         LOGGER.trace("finishWeaponAndDefender() end");
 
