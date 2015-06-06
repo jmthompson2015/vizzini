@@ -4,51 +4,159 @@ body {
     font-family: sans-serif;
 }
 
-.dialog {
-    border: 2px solid black;
-    width: auto;
+table {
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.countTokenText {
+    padding: 6px 0 0 0;
 }
 
 .hidden {
     display: none;
 }
 
-#imperialPilots {
-    margin: 0px;
-    padding: 1px;
-    vertical-align: top;
-}
-
-#inputArea {
-    vertical-align: top;
-}
-
-#messageArea {
+.namePanel {
+    /* If this is integrated below, pilotSkillValue background is wrong. Not sure why. */
     background-color: #F0F0F0;
 }
 
-.planningOk {
+#ALIGN_BOTTOM, .newGameOk, .alignBottom {
     vertical-align: bottom;
 }
 
-#playArea {
+#ALIGN_LEFT, .agentPanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .alignLeft {
+    text-align: left;
+}
+
+#ALIGN_MIDDLE, .damageTable, .alignMiddle {
+    vertical-align: middle;
+}
+
+#ALIGN_RIGHT, .optionPaneButtons, .alignRight {
+    text-align: right;
+}
+
+#ALIGN_TOP, #imperialPilots, #inputArea, .newGamePanel, .planningTableCell, #playArea, .optionPane, #rebelPilots,
+    .alignTop {
     vertical-align: top;
 }
 
-#rebelPilots {
-    margin: 0px;
-    padding: 1px;
-    vertical-align: top;
+#BACKGROUND_BLACK, .maneuverTable, .backgroundBlack {
+    background-color: black;
 }
 
-#ssPanel {
+#BACKGROUND_DARK, .pilotCard, .pilotSkillValue, .backgroundDark {
+    background-color: #555555;
+}
+
+#BACKGROUND_LIGHT, #messageArea, .newGamePanel, .optionPane, #pilotName, #shipName, #ssPanel, .backgroundLight {
     background-color: #F0F0F0;
 }
 
-table {
-    border-collapse: collapse;
-    margin: 0px;
-    padding: 0px;
+#BACKGROUND_MEDIUM, .highlight, .newGameTitle, .optionPaneTitle, .rangeLabel, .tokensPanel, .backgroundMedium {
+    background-color: lightGray;
+}
+
+#BACKGROUND_NO_REPEAT, .countTokenBox, .backgroundNoRepeat {
+    background-repeat: no-repeat;
+}
+
+#BORDER_BLACK, .namePanel, .newGamePanel, .borderBlack {
+    border: 1px solid black;
+}
+
+#BORDER_MEDIUM, .maneuverCell, .maneuverTable, .optionPane, .borderMedium {
+    border: 1px solid lightGray;
+}
+
+#CENTER, .agentTitle, .countTokenText, .damageTable, .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle,
+    .statsTable, .tokensTable, .center {
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
-    vertical-align: center;
+}
+
+#COLOR_BLACK, #pilotName, #shipName, .colorBlack {
+    color: black;
+}
+
+#COLOR_CYAN, .shieldValue, .colorCyan {
+    color: rgb(127, 191, 255);
+}
+
+#COLOR_GREEN, .agilityValue, .colorGreen {
+    color: rgb(127, 191, 127);
+}
+
+#COLOR_ORANGE, .pilotSkillValue, .colorOrange {
+    color: #FF7F00;
+}
+
+#COLOR_RED, .primaryWeaponValue, .colorRed {
+    color: red;
+}
+
+#COLOR_WHITE, .countTokenText, .damageTable, .maneuverTable, .colorWhite {
+    color: white;
+}
+
+#COLOR_YELLOW, .hullValue, .colorYellow {
+    color: yellow;
+}
+
+#FONT_BOLD, .agentTitle, .fontBold {
+    font-weight: bold;
+}
+
+#FONT_MEDIUM, .countTokenText, .fontMedium {
+    font-size: medium;
+}
+
+#FONT_SMALL, .combatTable, .optionPaneInput, .pilotCard, #pilotName, #shipName, .squadBuilderPanel, .fontSmall {
+    font-size: small;
+}
+
+#HEIGHT_32, .countTokenBox, .height32 {
+    height: 32px;
+}
+
+#MARGIN_LEFT_10, .optionPaneInput, .marginLeft10 {
+    margin-left: 10px;
+}
+
+#MARGIN_NONE, .countTokenText, .damagePanel, #imperialPilots, #rebelPilots, .marginNone {
+    margin: 0px;
+}
+
+#PADDING_1, .damageTable, #imperialPilots, #rebelPilots, .padding1 {
+    padding: 1px;
+}
+
+#PADDING_5, .optionPaneMessage, .squadBuilderPanel, .padding5 {
+    padding: 5px;
+}
+
+#PADDING_BOTTOM_5, .optionPaneButtons, .paddingBottom5 {
+    padding-bottom: 5px;
+}
+
+#PADDING_RIGHT_5, .optionPaneButtons, .paddingRight5 {
+    padding-right: 5px;
+}
+
+#PADDING_NONE, .damagePanel, .maneuverTable, .paddingNone {
+    padding: 0px;
+}
+
+#WIDTH_16, .maneuverCell, .width16 {
+    width: 16px;
+}
+
+#WIDTH_FULL, .nameTable, .pilotCard, .tokensPanel, .widthFull {
+    width: 100%;
 }
