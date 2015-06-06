@@ -112,6 +112,7 @@ var ManeuverChooser = React.createClass(
                     var difficulty = Maneuver.properties[maneuver].difficulty;
                     var iconSrc = imageUtils.createManeuverIconSource(bearing, difficulty);
                     cells[cells.length] = <td key={cells.length}
+                        className="maneuverCell"
                         onClick={self.selectionChanged}
                         data-token={token}
                         data-maneuver={maneuver} >
@@ -129,7 +130,7 @@ var ManeuverChooser = React.createClass(
         
         return (
             <table
-            className='maneuverTable'>
+            className="maneuverTable">
             {myHtml}
             </table>
             );
