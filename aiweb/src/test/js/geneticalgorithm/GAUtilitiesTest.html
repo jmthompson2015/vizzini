@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>GenomeFactoryTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<script src="../../../main/js/geneticalgorithm/GAUtilities.js"></script>
+<script src="../../../main/js/geneticalgorithm/GenomeFactory.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+
+    QUnit.test("createPopulation()", function(assert)
+    {
+        // Setup.
+        var popSize = 100;
+        var genes = [ "a", "b", "c", "d", "e" ];
+        var genomeLength = 3;
+        var genomeFactory = new GenomeFactory(genes, genomeLength);
+
+        // Run.
+        var result = GAUtilities.createPopulation(popSize, genomeFactory);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, popSize);
+    });
+
+    QUnit.test("genomeToString()", function(assert)
+    {
+        // Setup.
+        var genome = [ 1, 2, 3, 4 ];
+        genome.fitness = 12.3;
+
+        // Run.
+        var result = GAUtilities.genomeToString(genome);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "1 2 3 4");
+    });
+
+    QUnit.test("genomeToLongString()", function(assert)
+    {
+        // Setup.
+        var genome = [ 1, 2, 3, 4 ];
+        genome.fitness = 12.3;
+
+        // Run.
+        var result = GAUtilities.genomeToLongString(genome);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "12.3:\t1 2 3 4");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
