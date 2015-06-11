@@ -18,6 +18,7 @@
 <script src="../../../main/js/geneticalgorithm/GAUtilities.js"></script>
 <script src="../../../main/js/geneticalgorithm/GeneticAlgorithm.js"></script>
 <script src="../../../main/js/geneticalgorithm/GenomeComparator.js"></script>
+<script src="../../../main/js/geneticalgorithm/GenomeFactory.js"></script>
 <script src="../../../main/js/geneticalgorithm/MutationOperator.js"></script>
 <script src="../../../main/js/geneticalgorithm/SelectionOperator.js"></script>
 
@@ -37,8 +38,8 @@
             genes[i] = i;
         }
         var genomeLength = 10;
-        var population = GAUtilities.createPopulation(popSize, genes,
-                genomeLength);
+        var genomeFactory = new GenomeFactory(genes, genomeLength);
+        var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator =
         {
             idealEvaluation: 10.0,
@@ -52,13 +53,12 @@
         var copyCount = Math.floor(0.05 * popSize);
         var crossoverCount = Math.floor(0.75 * popSize);
         var crossoverOperator = CrossoverOperator.sameLengthCrossover;
-        var mutationOperator = MutationOperator.mutate;
-        var genomeFactory = GAUtilities.createGenome;
+        var mutator = new Mutator(genes, MutationOperator.mutate);
         var backCount = 30;
 
-        var ga = new GeneticAlgorithm(genes, population, evaluator,
-                generationCount, selector, copyCount, crossoverCount,
-                crossoverOperator, mutationOperator, genomeFactory, backCount);
+        var ga = new GeneticAlgorithm(population, evaluator, generationCount,
+                selector, copyCount, crossoverCount, crossoverOperator,
+                mutator, genomeFactory, backCount);
 
         ga.bind("generation", function(generationCount)
         {

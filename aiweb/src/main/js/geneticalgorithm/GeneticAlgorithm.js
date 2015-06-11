@@ -1,7 +1,6 @@
 /*
  * Provides a genetic algorithm.
  * 
- * @param genes Genes.
  * @param populationIn Population.
  * @param evaluator Evaluator.
  * @param generationCount Number of genomes to mutate into the next generation.
@@ -9,18 +8,24 @@
  * @param copyCount Number of genomes to copy into the next generation.
  * @param crossoverCount Number of genomes to crossover into the next generation.
  * @param crossoverOperator Crossover operator.
- * @param mutationOperator Mutation operator.
+ * @param mutator Mutation operator.
  * @param genomeFactory Genome factory.
  * @param backCount Best evaluation back count.
  */
-function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
-        selector, copyCount, crossoverCount, crossoverOperator,
-        mutationOperator, genomeFactory, backCount)
+function GeneticAlgorithm(populationIn, evaluator, generationCount, selector,
+        copyCount, crossoverCount, crossoverOperator, mutator, genomeFactory,
+        backCount)
 {
+    InputValidator.validateNotNull("populationIn", populationIn);
+    InputValidator.validateNotNull("evaluator", evaluator);
+    InputValidator.validateNotNull("selector", selector);
+    InputValidator.validateNotNull("crossoverOperator", crossoverOperator);
+    InputValidator.validateNotNull("mutator", mutator);
+    InputValidator.validateNotNull("genomeFactory", genomeFactory);
+
     var population = populationIn.slice();
     var mutateCount = Math.max(0, population.length - copyCount
             - crossoverCount);
-    var newPop = [];
     var bestEvals = [];
 
     this.getPopulation = function()
@@ -35,6 +40,7 @@ function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
 
     this.runGeneration = function(g, callback)
     {
+        this.fireMessage("Generation " + g);
         var bestEval;
         var bestGenome;
         var comparator = GenomeComparator;
@@ -56,7 +62,6 @@ function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
 
         if (bestEval == evaluator.idealEvaluation)
         {
-            LOGGER.info("Ideal evaluation. Stopping.");
             message = "Ideal evaluation. Stopping.";
             isDone = true;
         }
@@ -66,7 +71,6 @@ function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
 
             if (bestEvalBack && bestEval == bestEvalBack)
             {
-                LOGGER.info("No improvement. Stopping.");
                 message = "No improvement. Stopping.";
                 isDone = true;
             }
@@ -97,7 +101,8 @@ function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
      */
     this.createNextGeneration = function()
     {
-        newPop = [];
+        LOGGER.trace("GeneticAlgorithm.createNextGeneration() start");
+        var newPop = [];
 
         // Copy over the first X genomes unchanged.
         for (var i = 0; i < copyCount; i++)
@@ -107,37 +112,19 @@ function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
 
         // Crossover the top X genomes.
         var maxTries = 100;
-        var count = 0;
-
-        while (newPop.length < (copyCount + crossoverCount))
-        {
-            var genome = null;
-
-            if (count < maxTries)
-            {
-                var genome1 = selector.select(population);
-                var genome2 = selector.select(population);
-
-                genome = crossoverOperator(genome1, genome2);
-            }
-            else
-            {
-                genome = genomeFactory();
-            }
-
-            if (!Array.Vizzini.containsUsingEquals(newPop, genome,
-                    Array.Vizzini.equals))
-            {
-                newPop[newPop.length] = genome;
-                count = 0;
-            }
-
-            count++;
-        }
+        this.fillPopulation(newPop, (copyCount + crossoverCount), maxTries,
+                true);
 
         // Mutate the top X genomes.
-        var popSize = population.length;
-        count = 0;
+        this.fillPopulation(newPop, population.length, maxTries, false);
+
+        population = newPop.slice();
+        LOGGER.trace("GeneticAlgorithm.createNextGeneration() start");
+    }
+
+    this.fillPopulation = function(newPop, popSize, maxTries, isCrossover)
+    {
+        var count = 0;
 
         while (newPop.length < popSize)
         {
@@ -147,11 +134,25 @@ function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
             {
                 var genome1 = selector.select(population);
 
-                genome = mutationOperator(genes, genome1);
+                if (isCrossover)
+                {
+                    var genome2 = selector.select(population);
+                    genome = crossoverOperator(genome1, genome2);
+                }
+                else
+                {
+                    genome = mutator.mutate(genome1);
+                }
             }
             else
             {
-                genome = genomeFactory();
+                genome = genomeFactory.create();
+            }
+
+            if (genome === undefined || genome === null)
+            {
+                LOGGER.error("ERROR: genome is undefined or null");
+                throw "ERROR: genome is undefined or null";
             }
 
             if (!Array.Vizzini.containsUsingEquals(newPop, genome,
@@ -163,8 +164,6 @@ function GeneticAlgorithm(genes, populationIn, evaluator, generationCount,
 
             count++;
         }
-
-        population = newPop.slice();
     }
 
     this.fireGenerationCompleted = function(generationCount)
