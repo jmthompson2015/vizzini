@@ -1,3 +1,5 @@
+// require("Logger");
+
 /*
  * Provides methods for input validation.
  */
@@ -17,6 +19,27 @@ var InputValidator =
         return !isNaN(parseFloat(n)) && isFinite(n);
     },
 
+    validateInRange: function(objectName, object, low, high)
+    {
+        this.validateIsNumber(objectName, object);
+        
+        if (object < low || high < object)
+        {
+            LOGGER.error(new Error().stack);
+            throw objectName + " is out of range [" + low + ", " + high + "]: "
+                    + object;
+        }
+    },
+
+    validateIsNumber: function(objectName, object)
+    {
+        if (typeof object !== "number")
+        {
+            LOGGER.error(new Error().stack);
+            throw objectName + " is not a number: " + object;
+        }
+    },
+
     validateNotEmpty: function(objectName, object)
     {
         if (InputValidator.isArray(object))
@@ -24,7 +47,7 @@ var InputValidator =
             if (object.length == 0)
             {
                 // Empty array.
-                console.log(new Error().stack);
+                LOGGER.error(new Error().stack);
                 throw objectName + InputValidator.EMPTY;
             }
         }
@@ -40,7 +63,7 @@ var InputValidator =
         {
             if (!object)
             {
-                console.log(new Error().stack);
+                LOGGER.error(new Error().stack);
                 throw objectName + InputValidator.EMPTY;
             }
         }
@@ -50,13 +73,13 @@ var InputValidator =
     {
         if (object === undefined)
         {
-            console.log(new Error().stack);
+            LOGGER.error(new Error().stack);
             throw objectName + InputValidator.UNDEFINED;
         }
 
         if (object === null)
         {
-            console.log(new Error().stack);
+            LOGGER.error(new Error().stack);
             throw objectName + InputValidator.NULL;
         }
     }
