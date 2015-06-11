@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TestSuite</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="https://rawgit.com/JamesMGreene/qunit-composite/master/qunit-composite.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+<script src="https://rawgit.com/JamesMGreene/qunit-composite/master/qunit-composite.js"></script>
+
+<script>
+    "use strict";
+
+    QUnit.testSuites("aiweb geneticalgorithm Tests", [
+            "CrossoverOperatorTest.html", "GeneticAlgorithmTest.html",
+            "MutationOperatorTest.html", "SelectionOperatorTest.html", ]);
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
