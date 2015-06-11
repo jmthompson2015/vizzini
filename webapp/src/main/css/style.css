@@ -2,7 +2,7 @@ body {
     background-image:
         url('https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
     background-repeat: no-repeat;
-    font-family: Arial, Verdana, Helvetica, Sans-Serif;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
     font-size: medium;
 }
 
@@ -25,7 +25,7 @@ body {
 }
 
 .game-count-label {
-    font-family: Arial, Verdana, Helvetica, Sans-Serif;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
     font-size: small;
 }
 

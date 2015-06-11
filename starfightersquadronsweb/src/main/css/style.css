@@ -1,7 +1,7 @@
 body {
     background-image:
         url(https://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/SeamlessMetalTextureSmooth.jpg);
-    font-family: sans-serif;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
 }
 
 table {
