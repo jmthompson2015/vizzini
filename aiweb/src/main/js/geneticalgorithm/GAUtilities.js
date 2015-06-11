@@ -1,7 +1,14 @@
+// require("InputValidator");
+
+/*
+ * Provides utility methods for a genetic algorithm.
+ */
 var GAUtilities =
 {
     computeAverageFitness: function(population)
     {
+        InputValidator.validateNotNull("population", population);
+
         var sum = 0.0;
 
         for (var i = 0; i < population.length; i++)
@@ -14,25 +21,16 @@ var GAUtilities =
         return sum / population.length;
     },
 
-    createGenome: function(genes, genomeLength)
+    createPopulation: function(popSize, genomeFactory)
     {
-        var answer = [];
+        InputValidator.validateIsNumber("popSize", popSize);
+        InputValidator.validateNotNull("genomeFactory", genomeFactory);
 
-        for (var j = 0; j < genomeLength; j++)
-        {
-            answer[j] = Array.Vizzini.randomElement(genes);
-        }
-
-        return answer;
-    },
-
-    createPopulation: function(popSize, genes, genomeLength)
-    {
         var answer = [];
 
         for (var i = 0; i < popSize; i++)
         {
-            answer[answer.length] = this.createGenome(genes, genomeLength);
+            answer[answer.length] = genomeFactory.create();
         }
 
         return answer;
@@ -72,17 +70,6 @@ var GAUtilities =
         }
 
         return answer;
-    },
-
-    printPopulationOld: function(population)
-    {
-        console.log("Population:");
-
-        for (var i = 0; i < population.length; i++)
-        {
-            var genome = population[i];
-            console.log(this.genomeToLongString(genome));
-        }
     },
 
     round2: function(value)
