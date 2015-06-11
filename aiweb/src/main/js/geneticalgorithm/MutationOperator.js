@@ -16,3 +16,19 @@ var MutationOperator =
         return answer;
     },
 }
+
+function Mutator(genes, mutateFunction)
+{
+    InputValidator.validateNotEmpty("genes", genes);
+    InputValidator.validateNotNull("mutateFunction", mutateFunction);
+
+    this.getGenes = function()
+    {
+        return genes;
+    }
+
+    this.mutate = function(genome)
+    {
+        return mutateFunction(genes, genome);
+    }
+}
