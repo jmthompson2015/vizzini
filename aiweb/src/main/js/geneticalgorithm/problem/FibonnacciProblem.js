@@ -15,20 +15,19 @@ function FibonnacciProblem(popSize, generationCount, backCount)
 
         var genes = this.createGenes();
         var genomeLength = 10;
-        var population = GAUtilities.createPopulation(popSize, genes,
-                genomeLength);
+        var genomeFactory = new GenomeFactory(genes, genomeLength);
+        var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.selectFromHead);
         var copyCount = Math.floor(0.05 * popSize);
         var crossoverCount = Math.floor(0.75 * popSize);
         var crossoverOperator = CrossoverOperator.sameLengthCrossover;
-        var mutationOperator = MutationOperator.mutate;
-        var genomeFactory = GAUtilities.createGenome;
+        var mutator = new Mutator(genes, MutationOperator.mutate);
 
-        var ga = new GeneticAlgorithm(genes, population, this.evaluator,
+        var ga = new GeneticAlgorithm(population, this.evaluator,
                 generationCount, selector, copyCount, crossoverCount,
-                crossoverOperator, mutationOperator, genomeFactory, backCount);
+                crossoverOperator, mutator, genomeFactory, backCount);
 
         return ga;
     }
