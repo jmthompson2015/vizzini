@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ArrayAugmentsTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/ArrayAugments.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+
+    QUnit.test("addAll()", function(assert)
+    {
+        // Setup.
+        var array1 = [ 1 ];
+        var array2 = [ 2, 3, 4 ];
+
+        // Run.
+        Array.Vizzini.addAll(array1, array2);
+
+        // Verify.
+        assert.equal(array1.length, 4);
+        assert.equal(array1[0], 1);
+        assert.equal(array1[1], 2);
+        assert.equal(array1[2], 3);
+        assert.equal(array1[3], 4);
+    });
+
+    QUnit.test("contains()", function(assert)
+    {
+        var array = [ 1, 2, 3, 4 ];
+        assert.ok(!Array.Vizzini.contains(array, 0));
+        assert.ok(Array.Vizzini.contains(array, 1));
+        assert.ok(Array.Vizzini.contains(array, 2));
+        assert.ok(Array.Vizzini.contains(array, 3));
+        assert.ok(Array.Vizzini.contains(array, 4));
+        assert.ok(!Array.Vizzini.contains(array, 5));
+    });
+
+    QUnit.test("containsUsingEquals() 0",
+            function(assert)
+            {
+                // Setup.
+                var array = [ 1, 2, 3, 4 ];
+                var equalsFunction = function(a, b)
+                {
+                    return a === b;
+                }
+
+                // Run / Verify.
+                assert.ok(!Array.Vizzini.containsUsingEquals(array, 0,
+                        equalsFunction));
+                assert.ok(Array.Vizzini.containsUsingEquals(array, 1,
+                        equalsFunction));
+                assert.ok(Array.Vizzini.containsUsingEquals(array, 2,
+                        equalsFunction));
+                assert.ok(Array.Vizzini.containsUsingEquals(array, 3,
+                        equalsFunction));
+                assert.ok(Array.Vizzini.containsUsingEquals(array, 4,
+                        equalsFunction));
+                assert.ok(!Array.Vizzini.containsUsingEquals(array, 5,
+                        equalsFunction));
+            });
+
+    QUnit.test("containsUsingEquals() 1", function(assert)
+    {
+        // Setup.
+        var array = [ [ 0, 1 ], [ 1, 2 ], [ 2, 3 ] ];
+        var equalsFunction = Array.Vizzini.equals;
+
+        // Run / Verify.
+        assert
+                .ok(!Array.Vizzini.containsUsingEquals(array, 0,
+                        equalsFunction));
+        assert.ok(!Array.Vizzini.containsUsingEquals(array, [ 0 ],
+                equalsFunction));
+        assert.ok(Array.Vizzini.containsUsingEquals(array, [ 0, 1 ],
+                equalsFunction));
+        assert.ok(Array.Vizzini.containsUsingEquals(array, [ 1, 2 ],
+                equalsFunction));
+        assert.ok(Array.Vizzini.containsUsingEquals(array, [ 2, 3 ],
+                equalsFunction));
+        assert
+                .ok(!Array.Vizzini.containsUsingEquals(array, 4,
+                        equalsFunction));
+    });
+
+    QUnit.test("equals()", function(assert)
+    {
+        // Setup.
+        var a = [ 1, 2, 3, 4 ];
+        var b = [ 4, 3, 2, 1 ];
+        var c = [ 1, 2, 3, 4 ];
+
+        // Run / Verify.
+        assert.ok(Array.Vizzini.equals(a, a));
+        assert.ok(!Array.Vizzini.equals(a, b));
+        assert.ok(Array.Vizzini.equals(a, c));
+
+        assert.ok(!Array.Vizzini.equals(b, a));
+        assert.ok(Array.Vizzini.equals(b, b));
+        assert.ok(!Array.Vizzini.equals(b, c));
+
+        assert.ok(Array.Vizzini.equals(c, a));
+        assert.ok(!Array.Vizzini.equals(c, b));
+        assert.ok(Array.Vizzini.equals(c, c));
+    });
+
+    QUnit.test("randomElement()", function(assert)
+    {
+        var array = [ 1, 2, 3, 4 ];
+
+        for (var i = 0; i < 10; i++)
+        {
+            assert.ok(Array.Vizzini.contains(array, Array.Vizzini
+                    .randomElement(array)));
+        }
+    });
+
+    QUnit.test("remove()", function(assert)
+    {
+        // Setup.
+        var array = [ 1, 2, 3, 4 ];
+
+        // Run.
+        Array.Vizzini.remove(array, 2);
+
+        // Verify.
+        assert.equal(array.length, 3);
+        assert.equal(array[0], 1);
+        assert.equal(array[1], 3);
+        assert.equal(array[2], 4);
+    });
+
+    QUnit.test("shuffle()", function(assert)
+    {
+        var array = [ 1, 2, 3, 4 ];
+
+        for (var i = 0; i < 10; i++)
+        {
+            Array.Vizzini.shuffle(array);
+            // LOGGER.trace("array = " + array);
+            assert.equal(array.length, 4);
+            assert.ok(0 < array[0] && array[0] < 5);
+        }
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

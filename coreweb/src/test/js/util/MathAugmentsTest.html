@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MathAugmentsTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+<script src="../../../main/js/util/MathAugments.js"></script>
+
+<script>
+    QUnit.test("Math.Vizzini.randomFloatFromRange()", function(assert)
+    {
+        // Setup.
+        var min = 2.5;
+        var max = 9.5;
+
+        // Run.
+        for (var i = 0; i < 10; i++)
+        {
+            var result = Math.Vizzini.randomRealFromRange(min, max);
+            console.log(result);
+            assert.ok(min <= result);
+            assert.ok(result < max);
+        }
+    });
+
+    QUnit.test("MathAugments.randomIntFromRange()", function(assert)
+    {
+        // Setup.
+        var min = 1;
+        var max = 11;
+
+        // Run.
+        for (var i = 0; i < 10; i++)
+        {
+            var result = Math.Vizzini.randomIntFromRange(min, max);
+            console.log(result);
+            assert.ok(min <= result);
+            assert.ok(result < max);
+        }
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
