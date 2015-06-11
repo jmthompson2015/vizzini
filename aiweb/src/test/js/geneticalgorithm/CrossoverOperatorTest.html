@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CrossoverOperatorTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<script src="../../../main/js/geneticalgorithm/CrossoverOperator.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+
+    QUnit.test("CrossoverOperator.variableLengthCrossover()", function(assert)
+    {
+        // Setup.
+        var genome0 = [ 1, 2, 3, 4 ];
+        var genome1 = [ 6, 5, 4, 3, 2, 1 ];
+        LOGGER.info("genome0 = " + genome0);
+        LOGGER.info("genome1 = " + genome1);
+
+        // Run.
+        var result = CrossoverOperator
+                .variableLengthCrossover(genome0, genome1);
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.info("result = " + result);
+    });
+
+    QUnit.test("CrossoverOperator.sameLengthCrossover()", function(assert)
+    {
+        // Setup.
+        var genome0 = [ 1, 2, 3, 4, 5 ];
+        var genome1 = [ 5, 4, 3, 2, 1 ];
+        LOGGER.info("genome0 = " + genome0);
+        LOGGER.info("genome1 = " + genome1);
+
+        // Run.
+        var result = CrossoverOperator.sameLengthCrossover(genome0, genome1);
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.info("result = " + result);
+        assert.equal(result.length, genome0.length);
+        assert.equal(result.length, genome1.length);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

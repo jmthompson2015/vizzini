@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MutationOperatorTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<script src="../../../main/js/geneticalgorithm/MutationOperator.js"></script>
+
+<script>
+    QUnit.test("MutationOperator.mutate()", function(assert)
+    {
+        // Setup.
+        var genes = [ 1, 2, 3, 4 ];
+        var genome = [ 1, 2, 3, 4 ];
+        console.log("genome = " + genome);
+
+        // Run.
+        var result = MutationOperator.mutate(genes, genome);
+
+        // Verify.
+        assert.ok(result);
+        console.log("result = " + result);
+        assert.equal(result.length, genome.length);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
