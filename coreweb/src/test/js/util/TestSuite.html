@@ -4,24 +4,17 @@
 <meta charset="utf-8">
 <title>TestSuite</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
-<link rel="stylesheet"
-	href="https://rawgit.com/JamesMGreene/qunit-composite/master/qunit-composite.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="https://rawgit.com/JamesMGreene/qunit-composite/master/qunit-composite.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
-<script
-	src="https://rawgit.com/JamesMGreene/qunit-composite/master/qunit-composite.js"></script>
-
-<script src="../../../main/js/util/Logger.js"></script>
-<script src="../../../main/js/util/InputValidator.js"></script>
-<script src="../../../main/js/util/ArrayUtilities.js"></script>
-<script src="../../../main/js/util/HtmlUtilities.js"></script>
+<script src="https://rawgit.com/JamesMGreene/qunit-composite/master/qunit-composite.js"></script>
 
 <script>
     "use strict";
 
-    QUnit.testSuites("coreweb util Tests", [ "ArrayUtilitiesTest.html",
-            "HtmlUtilitiesTest.html", "InputValidatorTest.html", ]);
+    QUnit.testSuites("coreweb util Tests", [ "ArrayAugmentsTest.html",
+            "HtmlUtilitiesTest.html", "InputValidatorTest.html",
+            "MathAugmentsTest.html", ]);
 </script>
 </head>
 <body>
