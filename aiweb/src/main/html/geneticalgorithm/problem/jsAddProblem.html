@@ -21,6 +21,7 @@
 <script src="../../../js/geneticalgorithm/GAUtilities.js"></script>
 <script src="../../../js/geneticalgorithm/GeneticAlgorithm.js"></script>
 <script src="../../../js/geneticalgorithm/GenomeComparator.js"></script>
+<script src="../../../js/geneticalgorithm/GenomeFactory.js"></script>
 <script src="../../../js/geneticalgorithm/MutationOperator.js"></script>
 <script src="../../../js/geneticalgorithm/SelectionOperator.js"></script>
 
@@ -59,9 +60,9 @@
 		{
 			LOGGER.info("submitActionPerformed() start");
 			document.getElementById("problemPanel").innerHTML = "";
-			var popSize = document.getElementById("popSizeInput").value; 
-			var generationCount = document.getElementById("generationCountInput").value;
-			var backCount = document.getElementById("backCountInput").value;
+			var popSize = getNumber("popSizeInput"); 
+			var generationCount = getNumber("generationCountInput");
+			var backCount = getNumber("backCountInput");
 
         	var problem = new JSAddProblem(popSize, generationCount, backCount);
 
@@ -75,6 +76,13 @@
         	}, 300);
 
 			LOGGER.info("submitActionPerformed() end");
+		}
+
+		function getNumber(elementId)
+		{
+			var value= document.getElementById(elementId).value;
+
+			return Number(value); 
 		}
     </script>
 </body>
