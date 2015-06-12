@@ -51,7 +51,7 @@ JSAddProblem.createPhenotype = function(genome)
 
     try
     {
-        answer = eval("myFunc = function(a, b) {" + genomeString + "}");
+        answer = Function("a", "b", genomeString);
     }
     catch (ignore)
     {}
@@ -66,7 +66,7 @@ JSAddProblem.createPhenotype = function(genome)
 var JSAddEvaluator =
 {
     BEST_FITNESS: 1000,
-    WORST_FITNESS: -1000,
+    WORST_FITNESS: 0,
     inputs: [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], ],
     outputs: [ 0, 3, 7, 11, 15, 19 ],
     idealEvaluation: 1000,
@@ -86,7 +86,7 @@ var JSAddEvaluator =
             errorSquared += (diff * diff);
         }
 
-        return Math.sqrt(errorSquared);
+        return errorSquared;
     },
 
     evaluate: function(population)
@@ -98,45 +98,34 @@ var JSAddEvaluator =
             var genome = population[i];
             genome.phenotype = JSAddProblem.createPhenotype(genome);
 
-            var error = undefined;
-
             if (genome.phenotype)
             {
-                error = this.computeError(genome.phenotype);
+                // Valid function.
+                var error = this.computeError(genome.phenotype);
+
+                if (error === 0.0)
+                {
+                    // Perfect evaluation.
+                    genome.fitness = this.BEST_FITNESS;
+
+                    // Add pressure for the shortest genome.
+                    genome.fitness += 4 - genome.length;
+                }
+                else if (isNaN(error))
+                {
+                    // Valid function but not a number.
+                    genome.fitness = 100.0;
+                }
+                else
+                {
+                    genome.fitness = 100.0 + (1.0 / error);
+                }
             }
-
-            genome.error = error;
-            genome.fitness = this.errorToFitness(genome, error);
+            else
+            {
+                // Invalid function.
+                genome.fitness = this.WORST_FITNESS;
+            }
         }
-    },
-
-    errorToFitness: function(genome, error)
-    {
-        var answer;
-
-        if (error === 0.0)
-        {
-            // Perfect evaluation.
-            answer = this.BEST_FITNESS;
-
-            // Subtract the genome length to pressure for a short answer.
-            // answer -= genome.length;
-        }
-        else if (error === undefined)
-        {
-            // Invalid function.
-            answer = this.WORST_FITNESS;
-        }
-        else if (isNaN(error))
-        {
-            // Valid function but not a number.
-            answer = 0.0;
-        }
-        else
-        {
-            answer = 1.0 / error;
-        }
-
-        return answer;
     },
 }
