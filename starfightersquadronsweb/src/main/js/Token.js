@@ -827,20 +827,20 @@ Token.prototype.getShipActions = function()
     var criticalDamages = this.getCriticalDamages();
 
     // if (!criticalDamages.contains(DamageCard.DAMAGED_SENSOR_ARRAY))
-    // if (!ArrayUtilities.contains(criticalDamages,
+    // if (!Array.Vizzini.contains(criticalDamages,
     // DamageCard.DAMAGED_SENSOR_ARRAY))
     if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
     {
         // answer.addAll(this.getShip().getShipActions());
         // Array.prototype.push.apply(answer, this.getShip().getShipActions());
-        // ArrayUtilities.addAll(answer, this.getShip().getShipActions());
-        ArrayUtilities.addAll(answer,
+        // Array.Vizzini.addAll(answer, this.getShip().getShipActions());
+        Array.Vizzini.addAll(answer,
                 Ship.properties[this.getShip()].shipActions);
     }
 
-    if (ArrayUtilities.contains(answer, ShipAction.CLOAK) && this.isCloaked())
+    if (Array.Vizzini.contains(answer, ShipAction.CLOAK) && this.isCloaked())
     {
-        ArrayUtilities.remove(answer, ShipAction.CLOAK);
+        Array.Vizzini.remove(answer, ShipAction.CLOAK);
     }
 
     if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
@@ -906,7 +906,7 @@ Token.prototype.isCloaked = function()
 Token.prototype.isCriticallyDamagedWith = function(damage)
 {
     var criticalDamages = this.getCriticalDamages();
-    return ArrayUtilities.contains(criticalDamages, damage);
+    return Array.Vizzini.contains(criticalDamages, damage);
 }
 
 /*
@@ -931,7 +931,7 @@ Token.prototype.isStressed = function()
 Token.prototype.isUpgradedWith = function(upgrade)
 {
     var upgrades = this.getUpgrades();
-    return ArrayUtilities.contains(upgrades, upgrade);
+    return Array.Vizzini.contains(upgrades, upgrade);
 }
 
 /*
@@ -940,7 +940,7 @@ Token.prototype.isUpgradedWith = function(upgrade)
 Token.prototype.removeCriticalDamage = function(damage)
 {
     var criticalDamages = this.getCriticalDamages();
-    ArrayUtilities.remove(criticalDamages, damage);
+    Array.Vizzini.remove(criticalDamages, damage);
     this.trigger("change");
 }
 

@@ -25,11 +25,11 @@ function TurretWeapon(name, isPrimary, weaponValue, ranges)
 }
 
 // Create a prototype object that inherits from the prototype of Weapon.
-TurretWeapon.prototype = inherit(Weapon.prototype);
+TurretWeapon.prototype = Vizzini.inherit(Weapon.prototype);
 
 // Now add properties to the prototype. These properties override the properties
 // of the same name from Weapon.prototype.
-extend(TurretWeapon.prototype,
+Vizzini.extend(TurretWeapon.prototype,
 {
     isDefenderVulnerable: function(attacker, attackerPosition, defender,
             defenderPosition)
@@ -77,7 +77,7 @@ Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition,
             defender, defenderPosition);
     // LOGGER.trace("range = " + range);
 
-    return range && ArrayUtilities.contains(this.getRanges(), range);
+    return range && Array.Vizzini.contains(this.getRanges(), range);
 }
 
 /*

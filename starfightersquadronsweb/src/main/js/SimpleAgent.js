@@ -37,7 +37,7 @@ function SimpleAgent(name, team, squadBuilder)
 
                 if (rangeDefenders.length > 0)
                 {
-                    var myDefender = ArrayUtilities
+                    var myDefender = Array.Vizzini
                             .randomElement(rangeDefenders);
 
                     if (myDefender)
@@ -97,7 +97,7 @@ function SimpleAgent(name, team, squadBuilder)
 
             // Find a maneuver which keeps the ship on the battlefield.
             var maneuver;
-            ArrayUtilities.shuffle(maneuvers);
+            Array.Vizzini.shuffle(maneuvers);
 
             for (var j = 0; j < maneuvers.length; j++)
             {
@@ -122,7 +122,7 @@ function SimpleAgent(name, team, squadBuilder)
 
             if (!maneuver)
             {
-                maneuver = ArrayUtilities.randomElement(maneuvers);
+                maneuver = Array.Vizzini.randomElement(maneuvers);
                 LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
             }
 
@@ -162,7 +162,7 @@ SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token,
 
     if (shipActions.length > 0)
     {
-        answer = ArrayUtilities.randomElement(shipActions);
+        answer = Array.Vizzini.randomElement(shipActions);
     }
 
     callback(answer);

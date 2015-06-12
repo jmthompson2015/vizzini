@@ -199,7 +199,7 @@ DamageCard.createDeck = function()
         answer[answer.length] = DamageCard.DIRECT_HIT;
     }
 
-    ArrayUtilities.shuffle(answer);
+    Array.Vizzini.shuffle(answer);
 
     return answer;
 }
