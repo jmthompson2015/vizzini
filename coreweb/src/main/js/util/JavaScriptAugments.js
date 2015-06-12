@@ -2,13 +2,16 @@
  * @see JavaScript: The Definitive Guide, David Flanagan
  */
 
+var Vizzini = {}
+
 // Define an extend function that copies the properties of its second and
 // subsequent arguments onto its first argument.
 // We work around an IE bug here: in many versions of IE, the for/in loop
 // won't enumerate an enumerable property of o if the prototype of o has
 // a non-enumerable property by the same name. This means that properties
 // like toString are not handled correctly unless we explicitly check for them.
-var extend = (function()
+// var extend = (function()
+Vizzini.extend = (function()
 {
     // Assign the return value of this function
     // First check for the presence of the bug before patching it.
@@ -66,7 +69,7 @@ var extend = (function()
 // inherit() returns a newly created object that inherits properties from the
 // prototype object p. It uses the ECMAScript 5 function Object.create() if
 // it is defined, and otherwise falls back to an older technique.
-function inherit(p)
+Vizzini.inherit = function(p)
 {
     // p must be a non-null object
     if (p == null) { throw TypeError(); }
