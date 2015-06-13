@@ -20,6 +20,47 @@
 
     var LOGGER = new Logger();
 
+    QUnit.test("computeImbalance()",
+            function(assert)
+            {
+                // Setup.
+                var genome0 = [ "var", "i", "=", "array.length", ";", "while",
+                        "(", "i", "--", ")", "{", "if", "(", "array", "[", "i",
+                        "]", "===", "element", ")", "{", "return true;", "}",
+                        "}", "return false;", ];
+                var genome1 = [ "{", "{", "}" ];
+                var genome2 = [ "{", "}", "}" ];
+                var genome3 = [ "{", "{", "}", "}" ];
+
+                // Run / Verify.
+                assert
+                        .equal(GAUtilities.computeImbalance(genome0, "(", ")"),
+                                0);
+                assert
+                        .equal(GAUtilities.computeImbalance(genome0, "[", "]"),
+                                0);
+                assert
+                        .equal(GAUtilities.computeImbalance(genome0, "{", "}"),
+                                0);
+
+                assert
+                        .equal(GAUtilities.computeImbalance(genome1, "(", ")"),
+                                0);
+                assert
+                        .equal(GAUtilities.computeImbalance(genome1, "[", "]"),
+                                0);
+                assert
+                        .equal(GAUtilities.computeImbalance(genome1, "{", "}"),
+                                1);
+
+                assert
+                        .equal(GAUtilities.computeImbalance(genome2, "{", "}"),
+                                1);
+                assert
+                        .equal(GAUtilities.computeImbalance(genome3, "{", "}"),
+                                0);
+            });
+
     QUnit.test("createPopulation()", function(assert)
     {
         // Setup.
