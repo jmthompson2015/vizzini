@@ -4,6 +4,7 @@
  * @param populationIn Population.
  * @param evaluator Evaluator.
  * @param generationCount Number of genomes to mutate into the next generation.
+ * @param comparator Genome comparator.
  * @param selector Selection operator.
  * @param copyCount Number of genomes to copy into the next generation.
  * @param crossoverCount Number of genomes to crossover into the next generation.
@@ -12,12 +13,13 @@
  * @param genomeFactory Genome factory.
  * @param backCount Best evaluation back count.
  */
-function GeneticAlgorithm(populationIn, evaluator, generationCount, selector,
-        copyCount, crossoverCount, crossoverOperator, mutator, genomeFactory,
-        backCount)
+function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
+        selector, copyCount, crossoverCount, crossoverOperator, mutator,
+        genomeFactory, backCount)
 {
     InputValidator.validateNotNull("populationIn", populationIn);
     InputValidator.validateNotNull("evaluator", evaluator);
+    InputValidator.validateNotNull("comparator", comparator);
     InputValidator.validateNotNull("selector", selector);
     InputValidator.validateNotNull("crossoverOperator", crossoverOperator);
     InputValidator.validateNotNull("mutator", mutator);
@@ -43,7 +45,6 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, selector,
         this.fireMessage("Generation " + g);
         var bestEval;
         var bestGenome;
-        var comparator = GenomeComparator;
         var message = "Done.";
 
         var isDone = (g >= (generationCount - 1));
