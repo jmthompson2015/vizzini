@@ -21,6 +21,29 @@ var GAUtilities =
         return sum / population.length;
     },
 
+    computeImbalance: function(genome, openGene, closeGene)
+    {
+        var openCount = this.count(genome, openGene);
+        var closeCount = this.count(genome, closeGene);
+
+        return Math.abs(closeCount - openCount);
+    },
+
+    count: function(genome, gene)
+    {
+        var answer = 0;
+
+        for (var i = 0; i < genome.length; i++)
+        {
+            if (genome[i] == gene)
+            {
+                answer++;
+            }
+        }
+
+        return answer;
+    },
+
     createPopulation: function(popSize, genomeFactory)
     {
         InputValidator.validateIsNumber("popSize", popSize);
