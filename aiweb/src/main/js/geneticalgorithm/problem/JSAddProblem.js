@@ -17,7 +17,8 @@ function JSAddProblem(popSize, generationCount, backCount)
         var genomeLength = 5;
         var genomeFactory = new GenomeFactory(genes, genomeLength);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
-        var evaluator = JSAddEvaluator;
+        var evaluator = JSAddProblem.Evaluator;
+        var comparator = GenomeComparator;
         var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.selectFromHead);
@@ -27,17 +28,19 @@ function JSAddProblem(popSize, generationCount, backCount)
         var mutator = new Mutator(genes, MutationOperator.mutate);
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
-                selector, copyCount, crossoverCount, crossoverOperator,
-                mutator, genomeFactory, backCount);
+                comparator, selector, copyCount, crossoverCount,
+                crossoverOperator, mutator, genomeFactory, backCount);
 
         return ga;
     }
 
     this.createGenes = function()
     {
-        var genes = [ "return", "a", "+", "b", ";", // necessary
-        "-", "*", "/", // math
+        var genes = [ "return", "a", "+", "b", // necessary
+        "-", "*", "/", "%", // math
         "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
+        "(", ")", "[", "]", "{", "}", // brackets
+        "var", "i", "=", "if", "==", "===", ";", // symbols
         ];
 
         return genes;
@@ -63,10 +66,9 @@ JSAddProblem.createPhenotype = function(genome)
  * Provides an evaluator for finding a JavaScript function to calculate
  * addition.
  */
-var JSAddEvaluator =
+JSAddProblem.Evaluator =
 {
     BEST_FITNESS: 1000,
-    WORST_FITNESS: 0,
     inputs: [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], ],
     outputs: [ 0, 3, 7, 11, 15, 19 ],
     idealEvaluation: 1000,
@@ -81,9 +83,17 @@ var JSAddEvaluator =
         {
             var input = this.inputs[i];
             var output = this.outputs[i];
-            var result = phenotype(input[0], input[1]);
-            var diff = output - result;
-            errorSquared += (diff * diff);
+
+            try
+            {
+                var result = phenotype(input[0], input[1]);
+                var diff = output - result;
+                errorSquared += (diff * diff);
+            }
+            catch (e)
+            {
+                errorSquared += 100.0;
+            }
         }
 
         return errorSquared;
@@ -96,11 +106,19 @@ var JSAddEvaluator =
         for (var i = 0; i < population.length; i++)
         {
             var genome = population[i];
+            genome.fitness = 0.0;
+
+            genome.fitness -= GAUtilities.computeImbalance(genome, "(", ")");
+            genome.fitness -= GAUtilities.computeImbalance(genome, "[", "]");
+            genome.fitness -= GAUtilities.computeImbalance(genome, "{", "}");
+
             genome.phenotype = JSAddProblem.createPhenotype(genome);
 
             if (genome.phenotype)
             {
                 // Valid function.
+                genome.fitness += 100.0;
+
                 var error = this.computeError(genome.phenotype);
 
                 if (error === 0.0)
@@ -114,17 +132,12 @@ var JSAddEvaluator =
                 else if (isNaN(error))
                 {
                     // Valid function but not a number.
-                    genome.fitness = 100.0;
+                    genome.fitness -= 10.0;
                 }
                 else
                 {
-                    genome.fitness = 100.0 + (1.0 / error);
+                    genome.fitness += (1.0 / error);
                 }
-            }
-            else
-            {
-                // Invalid function.
-                genome.fitness = this.WORST_FITNESS;
             }
         }
     },
