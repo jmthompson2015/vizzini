@@ -17,6 +17,7 @@ function FibonnacciProblem(popSize, generationCount, backCount)
         var genomeLength = 10;
         var genomeFactory = new GenomeFactory(genes, genomeLength);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
+        var comparator = GenomeComparator;
         var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.selectFromHead);
@@ -26,8 +27,9 @@ function FibonnacciProblem(popSize, generationCount, backCount)
         var mutator = new Mutator(genes, MutationOperator.mutate);
 
         var ga = new GeneticAlgorithm(population, this.evaluator,
-                generationCount, selector, copyCount, crossoverCount,
-                crossoverOperator, mutator, genomeFactory, backCount);
+                generationCount, comparator, selector, copyCount,
+                crossoverCount, crossoverOperator, mutator, genomeFactory,
+                backCount);
 
         return ga;
     }
