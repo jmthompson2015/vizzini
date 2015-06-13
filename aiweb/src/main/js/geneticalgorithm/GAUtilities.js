@@ -7,16 +7,9 @@ var GAUtilities =
 {
     computeAverageFitness: function(population)
     {
-        InputValidator.validateNotNull("population", population);
-
-        var sum = 0.0;
-
-        for (var i = 0; i < population.length; i++)
-        {
-            var genome = population[i];
-            var fitness = genome.fitness;
-            sum += fitness;
-        }
+        InputValidator.validateNotEmpty("population", population);
+        
+        var sum = this.computeSumFitness(population);
 
         return sum / population.length;
     },
@@ -27,6 +20,21 @@ var GAUtilities =
         var closeCount = this.count(genome, closeGene);
 
         return Math.abs(closeCount - openCount);
+    },
+
+    computeSumFitness: function(population)
+    {
+        InputValidator.validateNotNull("population", population);
+
+        var sum = 0.0;
+
+        for (var i = 0; i < population.length; i++)
+        {
+            var genome = population[i];
+            sum += genome.fitness;
+        }
+
+        return sum;
     },
 
     count: function(genome, gene)
@@ -59,8 +67,23 @@ var GAUtilities =
         return answer;
     },
 
+    determineNormalizedFitness: function(population)
+    {
+        InputValidator.validateNotNull("population", population);
+
+        var sum = this.computeSumFitness(population);
+
+        for (var i = 0; i < population.length; i++)
+        {
+            var genome = population[i];
+            genome.normalizedFitness = genome.fitness / sum;
+        }
+    },
+
     genomeToString: function(genome)
     {
+        InputValidator.validateNotNull("genome", genome);
+
         var answer = genome[0];
 
         for (var i = 1; i < genome.length; i++)
@@ -74,6 +97,8 @@ var GAUtilities =
 
     genomeToLongString: function(genome)
     {
+        InputValidator.validateNotNull("genome", genome);
+
         var answer = genome.fitness;
         answer += ":\t";
         answer += this.genomeToString(genome);
@@ -83,6 +108,8 @@ var GAUtilities =
 
     populationToString: function(population)
     {
+        InputValidator.validateNotNull("population", population);
+
         var answer = "";
 
         for (var i = 0; i < population.length; i++)

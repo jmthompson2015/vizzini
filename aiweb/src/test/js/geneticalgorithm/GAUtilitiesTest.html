@@ -20,6 +20,21 @@
 
     var LOGGER = new Logger();
 
+    QUnit.test("computeAverageFitness()", function(assert)
+    {
+        // Setup.
+        var genomeLength = 4;
+        var popSize = 10;
+        var population = createPopulation(genomeLength, popSize);
+
+        // Run.
+        var result = GAUtilities.computeAverageFitness(population);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, 5.5);
+    });
+
     QUnit.test("computeImbalance()",
             function(assert)
             {
@@ -61,6 +76,22 @@
                                 0);
             });
 
+    QUnit.test("computeSumFitness()", function(assert)
+    {
+        // Setup.
+        var genomeLength = 4;
+        var popSize = 10;
+        var population = createPopulation(genomeLength, popSize);
+        // console.log("Population:\n" + GAUtilities.populationToString(population));
+
+        // Run.
+        var result = GAUtilities.computeSumFitness(population);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, 55);
+    });
+
     QUnit.test("createPopulation()", function(assert)
     {
         // Setup.
@@ -75,6 +106,26 @@
         // Verify.
         assert.ok(result);
         assert.equal(result.length, popSize);
+    });
+
+    QUnit.test("determineNormalizedFitness()", function(assert)
+    {
+        // Setup.
+        var genomeLength = 4;
+        var popSize = 10;
+        var population = createPopulation(genomeLength, popSize);
+        // console.log("Population:\n" + GAUtilities.populationToString(population));
+
+        // Run.
+        GAUtilities.determineNormalizedFitness(population);
+        var result0 = GAUtilities.round4(population[0].normalizedFitness);
+        var result1 = GAUtilities.round4(population[1].normalizedFitness);
+        var result2 = GAUtilities.round4(population[2].normalizedFitness);
+
+        // Verify.
+        assert.equal(result0, 0.1818);
+        assert.equal(result1, 0.1636);
+        assert.equal(result2, 0.1455);
     });
 
     QUnit.test("genomeToString()", function(assert)
@@ -104,6 +155,26 @@
         assert.ok(result);
         assert.equal(result, "12.3:\t1 2 3 4");
     });
+
+    function createPopulation(genomeLength, popSize)
+    {
+        var population = [];
+
+        for (var i = 0; i < popSize; i++)
+        {
+            var genome = [];
+
+            for (var j = 0; j < genomeLength; j++)
+            {
+                genome[j] = i + j;
+            }
+
+            genome.fitness = popSize - i;
+            population[population.length] = genome;
+        }
+
+        return population;
+    }
 </script>
 </head>
 <body>
