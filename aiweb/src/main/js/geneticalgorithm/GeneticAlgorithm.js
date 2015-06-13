@@ -30,6 +30,20 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
             - crossoverCount);
     var bestEvals = [];
 
+    this.addUnique = function(newPop, genome)
+    {
+        var answer = false;
+
+        if (!Array.Vizzini.containsUsingEquals(newPop, genome,
+                Array.Vizzini.equals))
+        {
+            newPop[newPop.length] = genome;
+            answer = true;
+        }
+
+        return answer;
+    }
+
     /**
      * Create the next generation's population.
      */
@@ -38,10 +52,13 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         LOGGER.trace("GeneticAlgorithm.createNextGeneration() start");
         var newPop = [];
 
-        // Copy over the first X genomes unchanged.
-        for (var i = 0; i < copyCount; i++)
+        // Copy over the first X unique genomes unchanged.
+        var i = 0;
+
+        while (newPop.length < copyCount)
         {
-            newPop[newPop.length] = population[i].slice();
+            this.addUnique(newPop, population[i].slice());
+            i++;
         }
 
         // Crossover the top X genomes.
@@ -94,11 +111,9 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
                 throw "ERROR: genome is undefined or null";
             }
 
-            if (!Array.Vizzini.containsUsingEquals(newPop, genome,
-                    Array.Vizzini.equals))
+            if (this.addUnique(newPop, genome))
             {
-                newPop[newPop.length] = genome;
-                count = 0;
+                count = -1;
             }
 
             count++;
