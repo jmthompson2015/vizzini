@@ -21,7 +21,7 @@ function JSAddProblem(popSize, generationCount, backCount)
         var comparator = GenomeComparator;
         var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
-                SelectionOperator.selectFromHead);
+                SelectionOperator.randomSelect);
         var copyCount = Math.floor(0.05 * popSize);
         var crossoverCount = Math.floor(0.75 * popSize);
         var crossoverOperator = CrossoverOperator.variableLengthCrossover;

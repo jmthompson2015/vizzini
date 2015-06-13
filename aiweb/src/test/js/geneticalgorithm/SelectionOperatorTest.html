@@ -19,7 +19,7 @@
 
     var LOGGER = new Logger();
 
-    QUnit.test("SelectionOperator.selectFromHead()", function(assert)
+    QUnit.test("SelectionOperator.randomSelect()", function(assert)
     {
         // Setup.
         var genomeLength = 4;
@@ -27,7 +27,7 @@
         var population = createPopulation(genomeLength, popSize);
         var selectionCount = 4;
         var selector = new Selector(selectionCount,
-                SelectionOperator.selectFromHead);
+                SelectionOperator.randomSelect);
 
         // Run.
         var result = selector.select(population);
@@ -40,7 +40,7 @@
         assert.ok(result.fitness <= popSize);
     });
 
-    QUnit.test("SelectionOperator.tournamentSelection()", function(assert)
+    QUnit.test("SelectionOperator.simpleTournamentSelect()", function(assert)
     {
         // Setup.
         var genomeLength = 4;
@@ -48,7 +48,7 @@
         var population = createPopulation(genomeLength, popSize);
         var selectionCount = 8;
         var selector = new Selector(selectionCount,
-                SelectionOperator.tournamentSelect);
+                SelectionOperator.simpleTournamentSelect);
 
         // Run.
         var result = selector.select(population);

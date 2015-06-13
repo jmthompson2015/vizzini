@@ -6,7 +6,7 @@
  */
 var SelectionOperator =
 {
-    selectFromHead: function(selectionCount, population)
+    randomSelect: function(selectionCount, population)
     {
         InputValidator.validateNotNull("population", population);
         InputValidator.validateInRange("selectionCount", selectionCount, 0,
@@ -18,7 +18,7 @@ var SelectionOperator =
         return Array.Vizzini.randomElement(head);
     },
 
-    tournamentSelect: function(selectionCount, population)
+    simpleTournamentSelect: function(selectionCount, population)
     {
         InputValidator.validateNotNull("population", population);
         InputValidator.validateInRange("selectionCount", selectionCount, 0,
