@@ -72,7 +72,7 @@
 
         	setTimeout(function()
         	{
-				ga.determineBest();
+				ga.determineBest(function(){LOGGER.info("Done.");});
         	}, 300);
 
 			LOGGER.info("submitActionPerformed() end");

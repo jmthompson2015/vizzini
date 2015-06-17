@@ -1,5 +1,9 @@
+// var mode = "easy";
+var mode = "hard";
+
 /*
- * Provides a problem definition for finding a JavaScript function to calculate addition.
+ * Provides a problem definition for finding a JavaScript function to calculate
+ * addition.
  * 
  * @param popSize Population size.
  * @param generationCount Generation count.
@@ -36,14 +40,15 @@ function JSAddProblem(popSize, generationCount, backCount)
 
     this.createGenes = function()
     {
-        var genes = [ "return", "a", "+", "b", // necessary
+        var easy = [ "return", "a", "+", "b" ];
+        var hard = [ "return", "a", "+", "b", // necessary
         "-", "*", "/", "%", // math
         "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
         "(", ")", "[", "]", "{", "}", // brackets
         "var", "i", "=", "if", "==", "===", ";", // symbols
         ];
 
-        return genes;
+        return (mode === "easy" ? easy : hard);
     }
 }
 
@@ -56,8 +61,20 @@ JSAddProblem.createPhenotype = function(genome)
     {
         answer = Function("a", "b", genomeString);
     }
-    catch (ignore)
-    {}
+    catch (e)
+    {
+        genome.code = "function add(a, b) {" + genomeString + "}";
+
+        try
+        {
+            JSHINT(genome.code);
+            genome.errorCount = JSHINT.errors.length;
+        }
+        catch (e)
+        {
+            genome.errorCount = Number.NaN;
+        }
+    }
 
     return answer;
 }
@@ -77,7 +94,7 @@ JSAddProblem.Evaluator =
     {
         InputValidator.validateNotNull("phenotype", phenotype);
 
-        var errorSquared = 0.0;
+        var sumError = 0.0;
 
         for (var i = 0; i < this.inputs.length; i++)
         {
@@ -88,15 +105,15 @@ JSAddProblem.Evaluator =
             {
                 var result = phenotype(input[0], input[1]);
                 var diff = output - result;
-                errorSquared += (diff * diff);
+                sumError += Math.abs(diff);
             }
             catch (e)
             {
-                errorSquared += 100.0;
+                sumError += 100.0;
             }
         }
 
-        return errorSquared;
+        return sumError;
     },
 
     evaluate: function(population)
@@ -107,11 +124,6 @@ JSAddProblem.Evaluator =
         {
             var genome = population[i];
             genome.fitness = 0.0;
-
-            genome.fitness -= GAUtilities.computeImbalance(genome, "(", ")");
-            genome.fitness -= GAUtilities.computeImbalance(genome, "[", "]");
-            genome.fitness -= GAUtilities.computeImbalance(genome, "{", "}");
-
             genome.phenotype = JSAddProblem.createPhenotype(genome);
 
             if (genome.phenotype)
@@ -137,6 +149,23 @@ JSAddProblem.Evaluator =
                 else
                 {
                     genome.fitness += (1.0 / error);
+                }
+            }
+            else
+            {
+                // Invalid function.
+                var errorCount = genome.errorCount;
+
+                if (!isNaN(errorCount))
+                {
+                    if (errorCount === 0)
+                    {
+                        genome.fitness += 400.0;
+                    }
+                    else
+                    {
+                        genome.fitness += 100.0 / errorCount;
+                    }
                 }
             }
         }
