@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
+<script src="../../../../../../coreweb/lib/jshint/jshint-2.8.0.js"></script>
 <script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 
 <script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -33,8 +34,8 @@
     QUnit.test("JSAddProblem", function(assert)
     {
         // Setup.
-        var popSize = 300;
-        var generationCount = 50;
+        var popSize = 10;
+        var generationCount = 2;
         var backCount = 30;
         var problem = new JSAddProblem(popSize, generationCount, backCount);
         var ga = problem.createGA();
@@ -78,8 +79,8 @@
 
         // Verify.
         assert.ok(phenotype);
-        var inputs = JSAddEvaluator.inputs;
-        var outputs = JSAddEvaluator.outputs;
+        var inputs = JSAddProblem.Evaluator.inputs;
+        var outputs = JSAddProblem.Evaluator.outputs;
         for (var i = 0; i < inputs.length; i++)
         {
             assert.equal(phenotype(inputs[i][0], inputs[i][1]), outputs[i]);
