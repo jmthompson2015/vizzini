@@ -70,12 +70,14 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         this.fillPopulation(newPop, population.length, maxTries, false);
 
         population = newPop.slice();
-        LOGGER.trace("GeneticAlgorithm.createNextGeneration() start");
+        LOGGER.trace("GeneticAlgorithm.createNextGeneration() end");
     }
 
     this.determineBest = function(callback)
     {
+        LOGGER.trace("GeneticAlgorithm.determineBest() start");
         this.runGeneration(0, callback);
+        LOGGER.trace("GeneticAlgorithm.determineBest() end");
     }
 
     this.fillPopulation = function(newPop, popSize, maxTries, isCrossover)
@@ -117,6 +119,14 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
             }
 
             count++;
+
+            if (count > 2 * maxTries)
+            {
+                var message = "ERROR: can't fill population. count = " + count
+                        + " isCrossover ? " + isCrossover;
+                LOGGER.error(message);
+                throw message;
+            }
         }
     }
 
@@ -137,6 +147,7 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
 
     this.runGeneration = function(g, callback)
     {
+        LOGGER.trace("GeneticAlgorithm.runGeneration() start g = " + g);
         this.fireMessage("Generation " + g);
         var bestEval;
         var bestGenome;
@@ -156,9 +167,10 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         bestEvals[bestEvals.length] = bestEval;
         this.fireGenerationCompleted(g);
 
-        if (bestEval == evaluator.idealEvaluation)
+        if (bestEval >= evaluator.idealEvaluation)
         {
             message = "Ideal evaluation. Stopping.";
+            LOGGER.debug(message);
             isDone = true;
         }
         else
@@ -168,6 +180,7 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
             if (bestEvalBack && bestEval == bestEvalBack)
             {
                 message = "No improvement. Stopping.";
+                LOGGER.debug(message);
                 isDone = true;
             }
         }
@@ -190,6 +203,8 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
                 self.runGeneration(g + 1, callback);
             }, 300);
         }
+
+        LOGGER.trace("GeneticAlgorithm.runGeneration() end g = " + g);
     }
 }
 
