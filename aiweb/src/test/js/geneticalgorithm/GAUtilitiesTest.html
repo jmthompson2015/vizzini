@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
+<script src="../../../../../coreweb/lib/jshint/jshint-2.8.0.js"></script>
+
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
@@ -90,6 +92,36 @@
         // Verify.
         assert.ok(result);
         assert.equal(result, 55);
+    });
+
+    QUnit.test("countErrors()", function(assert)
+    {
+        // Setup.
+        var genome = [ "return", "=", "a", "+", "b", "-", "var", ";" ];
+        var genomeString = GAUtilities.genomeToString(genome);
+        genome.code = "function add(a, b) {" + genomeString + "}";
+        JSHINT(genome.code);
+
+        // Run.
+        var result = GAUtilities.countErrors(JSHINT.errors);
+
+        // Verify.
+        assert.equal(result, 2);
+    });
+
+    QUnit.test("countWarnings()", function(assert)
+    {
+        // Setup.
+        var genome = [ "-", "/", "=", "1", "2", "/" ];
+        var genomeString = GAUtilities.genomeToString(genome);
+        genome.code = "function add(a, b) {" + genomeString + "}";
+        JSHINT(genome.code);
+
+        // Run.
+        var result = GAUtilities.countWarnings(JSHINT.errors);
+
+        // Verify.
+        assert.equal(result, 2);
     });
 
     QUnit.test("createPopulation()", function(assert)

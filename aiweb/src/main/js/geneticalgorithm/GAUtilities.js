@@ -8,7 +8,7 @@ var GAUtilities =
     computeAverageFitness: function(population)
     {
         InputValidator.validateNotEmpty("population", population);
-        
+
         var sum = this.computeSumFitness(population);
 
         return sum / population.length;
@@ -44,6 +44,40 @@ var GAUtilities =
         for (var i = 0; i < genome.length; i++)
         {
             if (genome[i] == gene)
+            {
+                answer++;
+            }
+        }
+
+        return answer;
+    },
+
+    countErrors: function(issues)
+    {
+        var answer = 0;
+
+        for (var i = 0; i < issues.length; i++)
+        {
+            var issue = issues[i];
+
+            if (issue.code[0] === "E")
+            {
+                answer++;
+            }
+        }
+
+        return answer;
+    },
+
+    countWarnings: function(issues)
+    {
+        var answer = 0;
+
+        for (var i = 0; i < issues.length; i++)
+        {
+            var issue = issues[i];
+
+            if (issue.code[0] === "W")
             {
                 answer++;
             }
