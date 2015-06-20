@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JSPhenotypeFactoryTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/lib/jshint/jshint-2.8.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<script src="../../../main/js/geneticalgorithm/GAUtilities.js"></script>
+<script src="../../../main/js/geneticalgorithm/JSPhenotypeFactory.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+
+    QUnit.test("create()", function(assert)
+    {
+        // Setup.
+        var genome = [ "return", "a", "+", "b" ];
+        var factory = new JSPhenotypeFactory("add", [ "a", "b" ]);
+
+        // Run.
+        var result = factory.create(genome);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(!genome.warningCount, 12);
+        assert.ok(!genome.errorCount, 12);
+
+        var inputs = [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ],
+                [ 9, 10 ], ];
+        var outputs = [ 0, 3, 7, 11, 15, 19 ];
+
+        for (var i = 0; i < outputs.length; i++)
+        {
+            assert.equal(result(inputs[i][0], inputs[i][1]), outputs[i]);
+        }
+    });
+
+    QUnit.test("create() with issues", function(assert)
+    {
+        // Setup.
+        var genome = [ "return", "=", "a", "+", "b", "-", "var", ";" ];
+        var factory = new JSPhenotypeFactory("add", [ "a", "b" ]);
+
+        // Run.
+        var result = factory.create(genome);
+
+        // Verify.
+        assert.ok(!result);
+        assert.equal(genome.warningCount, 2);
+        assert.equal(genome.errorCount, 2);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
