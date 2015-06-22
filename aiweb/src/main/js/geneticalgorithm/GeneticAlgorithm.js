@@ -167,7 +167,7 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         bestEvals[bestEvals.length] = bestEval;
         this.fireGenerationCompleted(g);
 
-        if (bestEval >= evaluator.idealEvaluation)
+        if (bestEval >= evaluator.getIdealEvaluation())
         {
             message = "Ideal evaluation. Stopping.";
             LOGGER.debug(message);

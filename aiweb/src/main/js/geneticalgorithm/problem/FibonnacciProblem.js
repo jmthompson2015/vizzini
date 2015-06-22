@@ -53,6 +53,11 @@ function FibonnacciProblem(popSize, generationCount, backCount)
 
         idealEvaluation: 10.0,
 
+        getIdealEvaluation: function()
+        {
+            return this.idealEvaluation;
+        },
+
         evaluate: function(population)
         {
             for (var i = 0; i < population.length; i++)

@@ -40,6 +40,11 @@ function JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
         return idealGenomeLength;
     }
 
+    this.getIdealEvaluation = function()
+    {
+        return idealEvaluation;
+    }
+
     this.computeMatches = function(phenotype)
     {
         InputValidator.validateNotNull("phenotype", phenotype);
