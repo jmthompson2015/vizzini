@@ -24,7 +24,7 @@ function JSArrayContainsProblem(popSize, generationCount, backCount)
                 SelectionOperator.fitnessProportionalSelect);
         var copyCount = Math.floor(0.05 * popSize);
         var crossoverCount = Math.floor(0.60 * popSize);
-        var crossoverOperator = CrossoverOperator.variableLengthCrossover;
+        var crossoverOperator = CrossoverOperator.twoPointVariableLength;
         var mutator = new Mutator(genes, MutationOperator.mutate);
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,

@@ -30,7 +30,7 @@ function JSXORProblem(popSize, generationCount, backCount)
                 SelectionOperator.fitnessProportionalSelect);
         var copyCount = Math.floor(0.02 * popSize);
         var crossoverCount = Math.floor(0.65 * popSize);
-        var crossoverOperator = CrossoverOperator.variableLengthCrossover;
+        var crossoverOperator = CrossoverOperator.onePointVariableLength;
         var mutator = new Mutator(genes, MutationOperator.mutate);
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,

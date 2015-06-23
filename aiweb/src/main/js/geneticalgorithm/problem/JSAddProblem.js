@@ -5,7 +5,7 @@ var mode = "hard";
  * Provides a problem definition for finding a JavaScript function to calculate
  * addition.
  * 
- * @param popSize Population size.
+ * @param popSize Population size. 
  * @param generationCount Generation count.
  * @param backCount Back count for stopping.
  */
@@ -28,7 +28,7 @@ function JSAddProblem(popSize, generationCount, backCount)
                 SelectionOperator.randomSelect);
         var copyCount = Math.floor(0.05 * popSize);
         var crossoverCount = Math.floor(0.75 * popSize);
-        var crossoverOperator = CrossoverOperator.variableLengthCrossover;
+        var crossoverOperator = CrossoverOperator.onePointVariableLength;
         var mutator = new Mutator(genes, MutationOperator.mutate);
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
@@ -40,11 +40,12 @@ function JSAddProblem(popSize, generationCount, backCount)
 
     this.createEvaluator = function()
     {
-        var inputs= [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], ];
-        var outputs= [ 0, 3, 7, 11, 15, 19 ];
+        var inputs = [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ],
+                [ 9, 10 ], ];
+        var outputs = [ 0, 3, 7, 11, 15, 19 ];
         var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ]);
         var isMatches = false;
-        var errorThreshold=0.0001;
+        var errorThreshold = 0.0001;
         var idealGenomeLength = 4;
 
         return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,

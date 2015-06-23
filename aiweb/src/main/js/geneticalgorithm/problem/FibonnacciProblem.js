@@ -23,7 +23,7 @@ function FibonnacciProblem(popSize, generationCount, backCount)
                 SelectionOperator.randomSelect);
         var copyCount = Math.floor(0.05 * popSize);
         var crossoverCount = Math.floor(0.75 * popSize);
-        var crossoverOperator = CrossoverOperator.sameLengthCrossover;
+        var crossoverOperator = CrossoverOperator.twoPointConstantLength;
         var mutator = new Mutator(genes, MutationOperator.mutate);
 
         var ga = new GeneticAlgorithm(population, this.evaluator,

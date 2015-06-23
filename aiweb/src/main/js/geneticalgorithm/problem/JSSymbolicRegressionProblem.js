@@ -30,7 +30,7 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
                 SelectionOperator.fitnessProportionalSelect);
         var copyCount = Math.floor(0.02 * popSize);
         var crossoverCount = Math.floor(0.65 * popSize);
-        var crossoverOperator = CrossoverOperator.variableLengthCrossover;
+        var crossoverOperator = CrossoverOperator.twoPointVariableLength;
         var mutator = new Mutator(genes, MutationOperator.mutate);
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
@@ -51,12 +51,12 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
         {
             var x = Math.Vizzini.randomRealFromRange(min, max);
             inputs[inputs.length] = x;
-            outputs[outputs.length] = (x * x * x * x)
-                    + (x * x * x) + (x * x) + x;
+            outputs[outputs.length] = (x * x * x * x) + (x * x * x) + (x * x)
+                    + x;
         }
         var phenotypeFactory = new JSPhenotypeFactory("f", "x");
         var isMatches = false;
-        var errorThreshold=0.0001;
+        var errorThreshold = 0.0001;
         var idealGenomeLength = 19;
 
         return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
@@ -66,8 +66,8 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
     this.createGenes = function()
     {
         var easy = [ "return", "x", "+", "*" ];
-        var hard = [ "return", "x", "+", "-", "*", "/", "Math.sin(", "Math.cos(",
-                "Math.exp(", "Math.log(", ")", ];
+        var hard = [ "return", "x", "+", "-", "*", "/", "Math.sin(",
+                "Math.cos(", "Math.exp(", "Math.log(", ")", ];
 
         return (mode === "easy" ? easy : hard);
     }

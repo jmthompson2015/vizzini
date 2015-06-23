@@ -43,6 +43,10 @@
         var evaluator =
         {
             idealEvaluation: 10.0,
+            getIdealEvaluation: function()
+            {
+                return idealEvaluation;
+            },
             evaluate: evaluate
         };
         var idealEvaluation = 10.0;
@@ -53,7 +57,7 @@
                 SelectionOperator.randomSelect);
         var copyCount = Math.floor(0.05 * popSize);
         var crossoverCount = Math.floor(0.75 * popSize);
-        var crossoverOperator = CrossoverOperator.sameLengthCrossover;
+        var crossoverOperator = CrossoverOperator.uniformConstantLength;
         var mutator = new Mutator(genes, MutationOperator.mutate);
         var backCount = 30;
 
