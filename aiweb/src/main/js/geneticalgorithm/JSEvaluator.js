@@ -186,7 +186,7 @@ function JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
         }
         else
         {
-            genome.fitness += 400.0 / sumError;
+            genome.fitness += 400.0 / (sumError / errorThreshold);
         }
     }
 
