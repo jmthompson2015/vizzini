@@ -118,15 +118,7 @@ var GAUtilities =
     {
         InputValidator.validateNotNull("genome", genome);
 
-        var answer = genome[0];
-
-        for (var i = 1; i < genome.length; i++)
-        {
-            answer += " ";
-            answer += genome[i];
-        }
-
-        return answer;
+        return genome.join(" ");
     },
 
     genomeToLongString: function(genome)
