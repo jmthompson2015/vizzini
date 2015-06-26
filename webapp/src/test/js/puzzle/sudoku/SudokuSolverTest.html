@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SudokuSolverTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<script src="../../../../main/js/puzzle/sudoku/Puzzle.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/PuzzleFormat.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/SudokuSolver.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/SudokuValidator.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/Unit.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("getUnfilledSquares() easy", function(assert)
+    {
+        // Setup.
+        var puzzle = PuzzleFormat.parse(getEasyGrid());
+
+        // Run.
+        var result = SudokuSolver.getUnfilledSquares(puzzle);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 47);
+
+        for (var i = 0; i < 81; i++)
+        {
+            var cellName = Unit.indexToCellName(i);
+            var value = puzzle.get(cellName);
+
+            if (Array.Vizzini.contains(result, cellName))
+            {
+                assert.ok(value.length > 1);
+            }
+            else
+            {
+                assert.equal(value.length, 1);
+            }
+        }
+    });
+
+    QUnit.test("solve() easy", function(assert)
+    {
+        // Setup.
+        var puzzle = PuzzleFormat.parse(getEasyGrid());
+
+        // Run.
+        SudokuSolver.solve(puzzle);
+
+        // Verify.
+        assert.ok(SudokuSolver.isDone(puzzle));
+        assert.equal(puzzle.get("A1"), "3", "A1");
+        assert.equal(puzzle.get("A9"), "4", "A9");
+        assert.equal(puzzle.get("I1"), "6", "I1");
+        assert.equal(puzzle.get("I9"), "7", "I9");
+    });
+
+    function getEasyGrid()
+    {
+        // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 1, Easy
+        return "..6..8.74..5...1.99.74.16.5.3.1...46.........16...9.2.2.36.54.87.4...9..68.9..3..";
+    }
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
