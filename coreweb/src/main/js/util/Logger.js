@@ -10,6 +10,7 @@ function Logger()
     this.INFO = true;
     this.DEBUG = true;
     this.TRACE = true;
+    this.TIME = true;
 
     this.isOffEnabled = function()
     {
@@ -39,6 +40,11 @@ function Logger()
     this.isDebugEnabled = function()
     {
         return this.DEBUG;
+    }
+
+    this.isTimeEnabled = function()
+    {
+        return this.TIME;
     }
 
     this.isTraceEnabled = function()
@@ -74,6 +80,11 @@ function Logger()
     this.setDebugEnabled = function(isEnabled)
     {
         this.DEBUG = isEnabled;
+    }
+
+    this.setTimeEnabled = function(isEnabled)
+    {
+        this.TIME = isEnabled;
     }
 
     this.setTraceEnabled = function(isEnabled)
@@ -118,6 +129,15 @@ function Logger()
         if (!this.OFF && this.DEBUG)
         {
             console.log(getDateString() + " DEBUG " + message);
+        }
+    }
+
+    this.time = function(title, start, end)
+    {
+        if (!this.OFF && this.TIME)
+        {
+            var message = TimePrinter.formatElapsedTime(title, start, end);
+            console.log(getDateString() + " TIME  " + message);
         }
     }
 
