@@ -675,7 +675,6 @@ function Token(pilot, agent)
     {
         if (newValue >= 0)
         {
-            var oldValue = cloakCount;
             cloakCount = newValue;
             that.trigger("change");
         }
@@ -688,7 +687,6 @@ function Token(pilot, agent)
     {
         if (newValue >= 0)
         {
-            var oldValue = evadeCount;
             evadeCount = newValue;
             that.trigger("change");
         }
@@ -701,7 +699,6 @@ function Token(pilot, agent)
     {
         if (newValue >= 0)
         {
-            var oldValue = focusCount;
             focusCount = newValue;
             that.trigger("change");
         }
@@ -714,7 +711,6 @@ function Token(pilot, agent)
     {
         if (newValue >= 0)
         {
-            var oldValue = ionCount;
             ionCount = newValue;
             that.trigger("change");
         }
@@ -727,7 +723,6 @@ function Token(pilot, agent)
     {
         if (newValue >= 0)
         {
-            var oldValue = shieldCount;
             shieldCount = newValue;
             that.trigger("change");
         }
@@ -740,7 +735,7 @@ function Token(pilot, agent)
     {
         if (newValue >= 0)
         {
-            var oldValue = stressCount;
+         // var oldValue = stressCount;
             stressCount = newValue;
             that.trigger("change");
         }
