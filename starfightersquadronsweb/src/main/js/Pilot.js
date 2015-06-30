@@ -52,17 +52,21 @@ var Pilot =
     BOUNTY_HUNTER: "bountyHunter",
     CAPTAIN_JONUS: "captainJonus",
     CAPTAIN_KAGI: "captainKagi",
+    CAPTAIN_OICUNN: "captainOicunn",
     CAPTAIN_YORR: "captainYorr",
     CARNOR_JAX: "carnorJax",
     CHEWBACCA: "chewbacca",
     COLONEL_JENDON: "colonelJendon",
     COLONEL_VESSERY: "colonelVessery",
+    COMMANDER_KENKIRK: "commanderKenkirk",
     CORRAN_HORN: "corranHorn",
     DAGGER_SQUADRON_PILOT: "daggerSquadronPilot",
     DARK_CURSE: "darkCurse",
     DARTH_VADER: "darthVader",
+    DASH_RENDAR: "dashRendar",
     DELTA_SQUADRON_PILOT: "deltaSquadronPilot",
     DUTCH_VANDER: "dutchVander",
+    EADEN_VRILL: "eadenVrill",
     ECHO: "echo",
     ETAHN_ABAHT: "etahnAbaht",
     FELS_WRATH: "felsWrath",
@@ -84,6 +88,7 @@ var Pilot =
     KRASSIS_TRELIX: "krassisTrelix",
     KYLE_KATARN: "kyleKatarn",
     LANDO_CALRISSIAN: "landoCalrissian",
+    LEEBO: "leebo",
     LIEUTENANT_BLOUNT: "lieutenantBlount",
     LIEUTENANT_LORRIR: "lieutenantLorrir",
     LUKE_SKYWALKER: "lukeSkywalker",
@@ -95,7 +100,9 @@ var Pilot =
     OMICRON_GROUP_PILOT: "omicronGroupPilot",
     ONYX_SQUADRON_PILOT: "onyxSquadronPilot",
     OUTER_RIM_SMUGGLER: "outerRimSmuggler",
+    PATROL_LEADER: "patrolLeader",
     PROTOTYPE_PILOT: "prototypePilot",
+    REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
     REBEL_OPERATIVE: "rebelOperative",
     RED_SQUADRON_PILOT: "redSquadronPilot",
     REXLER_BRATH: "rexlerBrath",
@@ -119,6 +126,7 @@ var Pilot =
     WEDGE_ANTILLES: "wedgeAntilles",
     WES_JANSON: "wesJanson",
     WHISPER: "whisper",
+    WILD_SPACE_FRINGER: "wildSpaceFringer",
     WINGED_GUNDARK: "wingedGundark",
     properties:
     {
@@ -132,6 +140,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(1, 2, 3, 3, 0),
             squadPointCost: 12,
+            upgradeTypes: [],
             value: "academyPilot",
         },
         "airenCracken":
@@ -144,6 +153,7 @@ var Pilot =
             ship: Ship.Z_95_HEADHUNTER,
             shipState: new ShipState(8, 2, 2, 2, 2),
             squadPointCost: 19,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
             value: "airenCracken",
         },
         "alphaSquadronPilot":
@@ -156,6 +166,7 @@ var Pilot =
             ship: Ship.TIE_INTERCEPTOR,
             shipState: new ShipState(1, 3, 3, 3, 0),
             squadPointCost: 18,
+            upgradeTypes: [],
             value: "alphaSquadronPilot",
         },
         "arvelCrynyd":
@@ -168,6 +179,7 @@ var Pilot =
             ship: Ship.A_WING,
             shipState: new ShipState(6, 2, 3, 2, 2),
             squadPointCost: 23,
+            upgradeTypes: [ UpgradeType.MISSILE ],
             value: "arvelCrynyd",
         },
         "avengerSquadronPilot":
@@ -180,6 +192,7 @@ var Pilot =
             ship: Ship.TIE_INTERCEPTOR,
             shipState: new ShipState(3, 3, 3, 3, 0),
             squadPointCost: 20,
+            upgradeTypes: [],
             value: "avengerSquadronPilot",
         },
         "backstabber":
@@ -192,6 +205,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(6, 2, 3, 3, 0),
             squadPointCost: 16,
+            upgradeTypes: [],
             value: "backstabber",
         },
         "banditSquadronPilot":
@@ -204,6 +218,7 @@ var Pilot =
             ship: Ship.Z_95_HEADHUNTER,
             shipState: new ShipState(2, 2, 2, 2, 2),
             squadPointCost: 12,
+            upgradeTypes: [ UpgradeType.MISSILE ],
             value: "banditSquadronPilot",
         },
         "biggsDarklighter":
@@ -216,6 +231,7 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(5, 3, 2, 3, 2),
             squadPointCost: 25,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "biggsDarklighter",
         },
         "blackSquadronPilot":
@@ -228,6 +244,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(4, 2, 3, 3, 0),
             squadPointCost: 14,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "blackSquadronPilot",
         },
         "blackmoonSquadronPilot":
@@ -240,6 +257,8 @@ var Pilot =
             ship: Ship.E_WING,
             shipState: new ShipState(3, 3, 3, 2, 3),
             squadPointCost: 29,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.TORPEDO,
+                    UpgradeType.ASTROMECH ],
             value: "blackmoonSquadronPilot",
         },
         "blueSquadronPilot":
@@ -252,6 +271,8 @@ var Pilot =
             ship: Ship.B_WING,
             shipState: new ShipState(2, 3, 1, 3, 5),
             squadPointCost: 22,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CANNON,
+                    UpgradeType.TORPEDO, UpgradeType.TORPEDO ],
             value: "blueSquadronPilot",
         },
         "bobaFett":
@@ -264,6 +285,8 @@ var Pilot =
             ship: Ship.FIRESPRAY_31,
             shipState: new ShipState(8, 3, 2, 6, 4),
             squadPointCost: 39,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
+                    UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSLE ],
             value: "bobaFett",
         },
         "bountyHunter":
@@ -276,6 +299,8 @@ var Pilot =
             ship: Ship.FIRESPRAY_31,
             shipState: new ShipState(3, 3, 2, 6, 4),
             squadPointCost: 33,
+            upgradeTypes: [ UpgradeType.CANNON, UpgradeType.BOMB,
+                    UpgradeType.CREW, UpgradeType.MISSLE ],
             value: "bountyHunter",
         },
         "captainJonus":
@@ -288,6 +313,9 @@ var Pilot =
             ship: Ship.TIE_BOMBER,
             shipState: new ShipState(6, 2, 2, 6, 0),
             squadPointCost: 22,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO, UpgradeType.MISSILE,
+                    UpgradeType.MISSILE, UpgradeType.BOMB ],
             value: "captainJonus",
         },
         "captainKagi":
@@ -300,7 +328,24 @@ var Pilot =
             ship: Ship.LAMBDA_CLASS_SHUTTLE,
             shipState: new ShipState(8, 3, 1, 5, 5),
             squadPointCost: 27,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CANNON,
+                    UpgradeType.CREW, UpgradeType.CREW ],
             value: "captainKagi",
+        },
+        "captainOicunn":
+        {
+            name: "Captain Oicunn",
+            description: "A VT-49 Decimator pilot.",
+            isUnique: true,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.VT_49_DECIMATOR,
+            shipState: new ShipState(4, 3, 0, 12, 4),
+            squadPointCost: 42,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.CREW, UpgradeType.CREW, UpgradeType.CREW,
+                    UpgradeType.BOMB ],
+            value: "captainOicunn",
         },
         "captainYorr":
         {
@@ -312,6 +357,8 @@ var Pilot =
             ship: Ship.LAMBDA_CLASS_SHUTTLE,
             shipState: new ShipState(4, 3, 1, 5, 5),
             squadPointCost: 24,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CANNON,
+                    UpgradeType.CREW, UpgradeType.CREW ],
             value: "captainYorr",
         },
         "carnorJax":
@@ -324,6 +371,7 @@ var Pilot =
             ship: Ship.ROYAL_GUARD_TIE,
             shipState: new ShipState(8, 3, 3, 3, 0),
             squadPointCost: 26,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "carnorJax",
         },
         "chewbacca":
@@ -336,6 +384,8 @@ var Pilot =
             ship: Ship.YT_1300,
             shipState: new ShipState(5, 3, 1, 8, 5),
             squadPointCost: 42,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE,
+                    UpgradeType.CREW, UpgradeType.CREW ],
             value: "chewbacca",
         },
         "colonelJendon":
@@ -348,6 +398,8 @@ var Pilot =
             ship: Ship.LAMBDA_CLASS_SHUTTLE,
             shipState: new ShipState(6, 3, 1, 5, 5),
             squadPointCost: 26,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CANNON,
+                    UpgradeType.CREW, UpgradeType.CREW ],
             value: "colonelJendon",
         },
         "colonelVessery":
@@ -360,7 +412,24 @@ var Pilot =
             ship: Ship.TIE_DEFENDER,
             shipState: new ShipState(6, 3, 3, 3, 3),
             squadPointCost: 35,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
+                    UpgradeType.MISSILE ],
             value: "colonelVessery",
+        },
+        "commanderKenkirk":
+        {
+            name: "Commander Kenkirk",
+            description: "A VT-49 Decimator pilot.",
+            isUnique: true,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.VT_49_DECIMATOR,
+            shipState: new ShipState(6, 3, 0, 12, 4),
+            squadPointCost: 44,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.CREW, UpgradeType.CREW, UpgradeType.CREW,
+                    UpgradeType.BOMB ],
+            value: "commanderKenkirk",
         },
         "corranHorn":
         {
@@ -372,6 +441,8 @@ var Pilot =
             ship: Ship.E_WING,
             shipState: new ShipState(8, 3, 3, 2, 3),
             squadPointCost: 35,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "corranHorn",
         },
         "daggerSquadronPilot":
@@ -384,6 +455,8 @@ var Pilot =
             ship: Ship.B_WING,
             shipState: new ShipState(4, 3, 1, 3, 5),
             squadPointCost: 24,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CANNON,
+                    UpgradeType.TORPEDO, UpgradeType.TORPEDO ],
             value: "daggerSquadronPilot",
         },
         "darkCurse":
@@ -396,6 +469,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(6, 2, 3, 3, 0),
             squadPointCost: 16,
+            upgradeTypes: [],
             value: "darkCurse",
         },
         "darthVader":
@@ -408,7 +482,22 @@ var Pilot =
             ship: Ship.TIE_ADVANCED,
             shipState: new ShipState(9, 2, 3, 3, 2),
             squadPointCost: 29,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
             value: "darthVader",
+        },
+        "dashRendar":
+        {
+            name: "Dash Rendar",
+            description: "A YT-2400 pilot.",
+            isUnique: true,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.YT_2400,
+            shipState: new ShipState(7, 2, 2, 5, 5),
+            squadPointCost: 30,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
+                    UpgradeType.MISSILE, UpgradeType.CREW ],
+            value: "dashRendar",
         },
         "deltaSquadronPilot":
         {
@@ -420,6 +509,7 @@ var Pilot =
             ship: Ship.TIE_DEFENDER,
             shipState: new ShipState(1, 3, 3, 3, 3),
             squadPointCost: 30,
+            upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE ],
             value: "deltaSquadronPilot",
         },
         "dutchVander":
@@ -432,7 +522,23 @@ var Pilot =
             ship: Ship.Y_WING,
             shipState: new ShipState(6, 2, 1, 5, 3),
             squadPointCost: 23,
+            upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "dutchVander",
+        },
+        "eadenVrill":
+        {
+            name: "Eaden Vrill",
+            description: "A YT-2400 pilot.",
+            isUnique: true,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.YT_2400,
+            shipState: new ShipState(3, 2, 2, 5, 5),
+            squadPointCost: 30,
+            upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE,
+                    UpgradeType.CREW ],
+            value: "eadenVrill",
         },
         "echo":
         {
@@ -444,6 +550,8 @@ var Pilot =
             ship: Ship.TIE_PHANTOM,
             shipState: new ShipState(6, 4, 2, 2, 2),
             squadPointCost: 30,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CREW ],
             value: "echo",
         },
         "etahnAbaht":
@@ -456,6 +564,8 @@ var Pilot =
             ship: Ship.E_WING,
             shipState: new ShipState(5, 3, 3, 2, 3),
             squadPointCost: 32,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "etahnAbaht",
         },
         "felsWrath":
@@ -468,6 +578,7 @@ var Pilot =
             ship: Ship.TIE_INTERCEPTOR,
             shipState: new ShipState(5, 3, 3, 3, 0),
             squadPointCost: 23,
+            upgradeTypes: [],
             value: "felsWrath",
         },
         "gammaSquadronPilot":
@@ -480,6 +591,8 @@ var Pilot =
             ship: Ship.TIE_BOMBER,
             shipState: new ShipState(4, 2, 2, 6, 0),
             squadPointCost: 18,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                    UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB ],
             value: "gammaSquadronPilot",
         },
         "garvenDreis":
@@ -492,6 +605,7 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(6, 3, 2, 3, 2),
             squadPointCost: 26,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "garvenDreis",
         },
         "goldSquadronPilot":
@@ -504,6 +618,8 @@ var Pilot =
             ship: Ship.Y_WING,
             shipState: new ShipState(2, 2, 1, 5, 3),
             squadPointCost: 18,
+            upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "goldSquadronPilot",
         },
         "graySquadronPilot":
@@ -516,6 +632,8 @@ var Pilot =
             ship: Ship.Y_WING,
             shipState: new ShipState(4, 2, 1, 5, 3),
             squadPointCost: 20,
+            upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "graySquadronPilot",
         },
         "greenSquadronPilot":
@@ -528,6 +646,7 @@ var Pilot =
             ship: Ship.A_WING,
             shipState: new ShipState(3, 2, 3, 2, 2),
             squadPointCost: 19,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
             value: "greenSquadronPilot",
         },
         "hanSolo":
@@ -540,6 +659,8 @@ var Pilot =
             ship: Ship.YT_1300,
             shipState: new ShipState(9, 3, 1, 8, 5),
             squadPointCost: 46,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE,
+                    UpgradeType.CREW, UpgradeType.CREW ],
             value: "hanSolo",
         },
         "hobbieKlivian":
@@ -552,6 +673,7 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(5, 3, 2, 3, 2),
             squadPointCost: 25,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "hobbieKlivian",
         },
         "hortonSalm":
@@ -564,6 +686,8 @@ var Pilot =
             ship: Ship.Y_WING,
             shipState: new ShipState(8, 2, 1, 5, 3),
             squadPointCost: 25,
+            upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "hortonSalm",
         },
         "howlrunner":
@@ -576,6 +700,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(8, 2, 3, 3, 0),
             squadPointCost: 18,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "howlrunner",
         },
         "ibtisam":
@@ -588,6 +713,9 @@ var Pilot =
             ship: Ship.B_WING,
             shipState: new ShipState(6, 3, 1, 3, 5),
             squadPointCost: 28,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO ],
             value: "ibtisam",
         },
         "janOrs":
@@ -600,6 +728,8 @@ var Pilot =
             ship: Ship.HWK_290,
             shipState: new ShipState(8, 1, 2, 4, 1),
             squadPointCost: 25,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TURRET,
+                    UpgradeType.CREW ],
             value: "janOrs",
         },
         "jekPorkins":
@@ -612,6 +742,8 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(7, 3, 2, 3, 2),
             squadPointCost: 26,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.ASTROMECH ],
             value: "jekPorkins",
         },
         "kathScarlet":
@@ -624,6 +756,8 @@ var Pilot =
             ship: Ship.FIRESPRAY_31,
             shipState: new ShipState(7, 3, 2, 6, 4),
             squadPointCost: 38,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
+                    UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSLE ],
             value: "kathScarlet",
         },
         "kirKanos":
@@ -636,6 +770,7 @@ var Pilot =
             ship: Ship.ROYAL_GUARD_TIE,
             shipState: new ShipState(6, 3, 3, 3, 0),
             squadPointCost: 24,
+            upgradeTypes: [],
             value: "kirKanos",
         },
         "knaveSquadronPilot":
@@ -648,6 +783,8 @@ var Pilot =
             ship: Ship.E_WING,
             shipState: new ShipState(1, 3, 3, 2, 3),
             squadPointCost: 27,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.TORPEDO,
+                    UpgradeType.ASTROMECH ],
             value: "knaveSquadronPilot",
         },
         "krassisTrelix":
@@ -660,6 +797,8 @@ var Pilot =
             ship: Ship.FIRESPRAY_31,
             shipState: new ShipState(5, 3, 2, 6, 4),
             squadPointCost: 36,
+            upgradeTypes: [ UpgradeType.CANNON, UpgradeType.BOMB,
+                    UpgradeType.CREW, UpgradeType.MISSLE ],
             value: "krassisTrelix",
         },
         "kyleKatarn":
@@ -672,6 +811,8 @@ var Pilot =
             ship: Ship.HWK_290,
             shipState: new ShipState(6, 1, 2, 4, 1),
             squadPointCost: 21,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TURRET,
+                    UpgradeType.CREW ],
             value: "kyleKatarn",
         },
         "landoCalrissian":
@@ -684,18 +825,35 @@ var Pilot =
             ship: Ship.YT_1300,
             shipState: new ShipState(7, 3, 1, 8, 5),
             squadPointCost: 44,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE,
+                    UpgradeType.CREW, UpgradeType.CREW ],
             value: "landoCalrissian",
+        },
+        "leebo":
+        {
+            name: "Leebo",
+            description: "A YT-2400 pilot.",
+            isUnique: true,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.YT_2400,
+            shipState: new ShipState(5, 2, 2, 5, 5),
+            squadPointCost: 30,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
+                    UpgradeType.MISSILE, UpgradeType.CREW ],
+            value: "leebo",
         },
         "lieutenantBlount":
         {
             name: "Lieutenant Blount",
             description: "A Z-95 Headhunter pilot.",
-            isUnique: false,
+            isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
             ship: Ship.Z_95_HEADHUNTER,
             shipState: new ShipState(6, 2, 2, 2, 2),
             squadPointCost: 17,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
             value: "lieutenantBlount",
         },
         "lieutenantLorrir":
@@ -708,6 +866,7 @@ var Pilot =
             ship: Ship.SABER_SQUADRON_TIE,
             shipState: new ShipState(5, 3, 3, 3, 0),
             squadPointCost: 23,
+            upgradeTypes: [],
             value: "lieutenantLorrir",
         },
         "lukeSkywalker":
@@ -720,6 +879,8 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(8, 3, 2, 3, 2),
             squadPointCost: 28,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.ASTROMECH ],
             value: "lukeSkywalker",
         },
         "maarekStele":
@@ -732,6 +893,7 @@ var Pilot =
             ship: Ship.TIE_ADVANCED,
             shipState: new ShipState(7, 2, 3, 3, 2),
             squadPointCost: 27,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
             value: "maarekStele",
         },
         "majorRhymer":
@@ -744,6 +906,9 @@ var Pilot =
             ship: Ship.TIE_BOMBER,
             shipState: new ShipState(7, 2, 2, 6, 0),
             squadPointCost: 26,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO, UpgradeType.MISSILE,
+                    UpgradeType.MISSILE, UpgradeType.BOMB ],
             value: "majorRhymer",
         },
         "maulerMithel":
@@ -756,6 +921,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(7, 2, 3, 3, 0),
             squadPointCost: 17,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "maulerMithel",
         },
         "nightBeast":
@@ -768,6 +934,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(5, 2, 3, 3, 0),
             squadPointCost: 15,
+            upgradeTypes: [],
             value: "nightBeast",
         },
         "obsidianSquadronPilot":
@@ -780,6 +947,7 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(3, 2, 3, 3, 0),
             squadPointCost: 13,
+            upgradeTypes: [],
             value: "obsidianSquadronPilot",
         },
         "omicronGroupPilot":
@@ -792,6 +960,8 @@ var Pilot =
             ship: Ship.LAMBDA_CLASS_SHUTTLE,
             shipState: new ShipState(2, 3, 1, 5, 5),
             squadPointCost: 21,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CANNON,
+                    UpgradeType.CREW, UpgradeType.CREW ],
             value: "omicronGroupPilot",
         },
         "onyxSquadronPilot":
@@ -804,6 +974,7 @@ var Pilot =
             ship: Ship.TIE_DEFENDER,
             shipState: new ShipState(3, 3, 3, 3, 3),
             squadPointCost: 32,
+            upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE ],
             value: "onyxSquadronPilot",
         },
         "outerRimSmuggler":
@@ -816,7 +987,22 @@ var Pilot =
             ship: Ship.YT_1300,
             shipState: new ShipState(1, 2, 1, 6, 4),
             squadPointCost: 27,
+            upgradeTypes: [ UpgradeType.CREW, UpgradeType.CREW ],
             value: "outerRimSmuggler",
+        },
+        "patrolLeader":
+        {
+            name: "Patrol Leader",
+            description: "A VT-49 Decimator pilot.",
+            isUnique: false,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.VT_49_DECIMATOR,
+            shipState: new ShipState(3, 3, 0, 12, 4),
+            squadPointCost: 40,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.CREW,
+                    UpgradeType.CREW, UpgradeType.CREW, UpgradeType.BOMB ],
+            value: "patrolLeader",
         },
         "prototypePilot":
         {
@@ -828,7 +1014,23 @@ var Pilot =
             ship: Ship.A_WING,
             shipState: new ShipState(1, 2, 3, 2, 2),
             squadPointCost: 17,
+            upgradeTypes: [ UpgradeType.MISSILE ],
             value: "prototypePilot",
+        },
+        "rearAdmiralChiraneau":
+        {
+            name: "Rear Admiral Chiraneau",
+            description: "A VT-49 Decimator pilot.",
+            isUnique: true,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.VT_49_DECIMATOR,
+            shipState: new ShipState(8, 3, 0, 12, 4),
+            squadPointCost: 46,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.CREW, UpgradeType.CREW, UpgradeType.CREW,
+                    UpgradeType.BOMB ],
+            value: "rearAdmiralChiraneau",
         },
         "rebelOperative":
         {
@@ -840,6 +1042,7 @@ var Pilot =
             ship: Ship.HWK_290,
             shipState: new ShipState(2, 1, 2, 4, 1),
             squadPointCost: 16,
+            upgradeTypes: [ UpgradeType.TURRET, UpgradeType.CREW ],
             value: "rebelOperative",
         },
         "redSquadronPilot":
@@ -852,6 +1055,7 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(4, 3, 2, 3, 2),
             squadPointCost: 23,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "redSquadronPilot",
         },
         "rexlerBrath":
@@ -864,6 +1068,8 @@ var Pilot =
             ship: Ship.TIE_DEFENDER,
             shipState: new ShipState(8, 3, 3, 3, 3),
             squadPointCost: 37,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
+                    UpgradeType.MISSILE ],
             value: "rexlerBrath",
         },
         "roarkGarnet":
@@ -876,6 +1082,7 @@ var Pilot =
             ship: Ship.HWK_290,
             shipState: new ShipState(4, 1, 2, 4, 1),
             squadPointCost: 19,
+            upgradeTypes: [ UpgradeType.TURRET, UpgradeType.CREW ],
             value: "roarkGarnet",
         },
         "rookiePilot":
@@ -888,6 +1095,7 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(2, 3, 2, 3, 2),
             squadPointCost: 21,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "rookiePilot",
         },
         "royalGuardPilot":
@@ -900,6 +1108,7 @@ var Pilot =
             ship: Ship.ROYAL_GUARD_TIE,
             shipState: new ShipState(6, 3, 3, 3, 0),
             squadPointCost: 22,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "royalGuardPilot",
         },
         "saberSquadronPilot":
@@ -912,6 +1121,7 @@ var Pilot =
             ship: Ship.TIE_INTERCEPTOR,
             shipState: new ShipState(4, 3, 3, 3, 0),
             squadPointCost: 21,
+            upgradeTypes: [],
             value: "saberSquadronPilot",
         },
         "saberSquadronPilot":
@@ -924,6 +1134,7 @@ var Pilot =
             ship: Ship.SABER_SQUADRON_TIE,
             shipState: new ShipState(4, 3, 3, 3, 0),
             squadPointCost: 21,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "saberSquadronPilot",
         },
         "scimitarSquadronPilot":
@@ -936,6 +1147,8 @@ var Pilot =
             ship: Ship.TIE_BOMBER,
             shipState: new ShipState(2, 2, 2, 6, 0),
             squadPointCost: 16,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                    UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB ],
             value: "scimitarSquadronPilot",
         },
         "shadowSquadronPilot":
@@ -948,6 +1161,7 @@ var Pilot =
             ship: Ship.TIE_PHANTOM,
             shipState: new ShipState(5, 4, 2, 2, 2),
             squadPointCost: 27,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CREW ],
             value: "shadowSquadronPilot",
         },
         "sigmaSquadronPilot":
@@ -960,6 +1174,7 @@ var Pilot =
             ship: Ship.TIE_PHANTOM,
             shipState: new ShipState(3, 4, 2, 2, 2),
             squadPointCost: 25,
+            upgradeTypes: [ UpgradeType.SENSOR, UpgradeType.CREW ],
             value: "sigmaSquadronPilot",
         },
         "soontirFel":
@@ -972,6 +1187,7 @@ var Pilot =
             ship: Ship.TIE_INTERCEPTOR,
             shipState: new ShipState(9, 3, 3, 3, 0),
             squadPointCost: 27,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "soontirFel",
         },
         "stormSquadronPilot":
@@ -984,6 +1200,7 @@ var Pilot =
             ship: Ship.TIE_ADVANCED,
             shipState: new ShipState(4, 2, 3, 3, 2),
             squadPointCost: 23,
+            upgradeTypes: [ UpgradeType.MISSILE ],
             value: "stormSquadronPilot",
         },
         "talaSquadronPilot":
@@ -996,6 +1213,7 @@ var Pilot =
             ship: Ship.Z_95_HEADHUNTER,
             shipState: new ShipState(4, 2, 2, 2, 2),
             squadPointCost: 13,
+            upgradeTypes: [ UpgradeType.MISSILE ],
             value: "talaSquadronPilot",
         },
         "tarnMison":
@@ -1008,6 +1226,7 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(3, 3, 2, 3, 2),
             squadPointCost: 23,
+            upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "tarnMison",
         },
         "tempestSquadronPilot":
@@ -1020,6 +1239,7 @@ var Pilot =
             ship: Ship.TIE_ADVANCED,
             shipState: new ShipState(2, 2, 3, 3, 2),
             squadPointCost: 21,
+            upgradeTypes: [ UpgradeType.MISSILE ],
             value: "tempestSquadronPilot",
         },
         "tenNumb":
@@ -1032,6 +1252,9 @@ var Pilot =
             ship: Ship.B_WING,
             shipState: new ShipState(8, 3, 1, 3, 5),
             squadPointCost: 31,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO ],
             value: "tenNumb",
         },
         "tetranCowall":
@@ -1044,6 +1267,7 @@ var Pilot =
             ship: Ship.SABER_SQUADRON_TIE,
             shipState: new ShipState(7, 3, 3, 3, 0),
             squadPointCost: 24,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "tetranCowall",
         },
         "turrPhennir":
@@ -1056,6 +1280,7 @@ var Pilot =
             ship: Ship.TIE_INTERCEPTOR,
             shipState: new ShipState(7, 3, 3, 3, 0),
             squadPointCost: 25,
+            upgradeTypes: [ UpgradeType.ELITE ],
             value: "turrPhennir",
         },
         "tychoCelchu":
@@ -1068,6 +1293,7 @@ var Pilot =
             ship: Ship.A_WING,
             shipState: new ShipState(8, 2, 3, 2, 2),
             squadPointCost: 26,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
             value: "tychoCelchu",
         },
         "wedgeAntilles":
@@ -1080,6 +1306,8 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(9, 3, 2, 3, 2),
             squadPointCost: 29,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.ASTROMECH ],
             value: "wedgeAntilles",
         },
         "wesJanson":
@@ -1092,6 +1320,8 @@ var Pilot =
             ship: Ship.X_WING,
             shipState: new ShipState(8, 3, 2, 3, 2),
             squadPointCost: 29,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO,
+                    UpgradeType.ASTROMECH ],
             value: "wesJanson",
         },
         "whisper":
@@ -1104,7 +1334,23 @@ var Pilot =
             ship: Ship.TIE_PHANTOM,
             shipState: new ShipState(7, 4, 2, 2, 2),
             squadPointCost: 32,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CREW ],
             value: "whisper",
+        },
+        "wildSpaceFringer":
+        {
+            name: "Wild Space Fringer",
+            description: "A YT-2400 pilot.",
+            isUnique: false,
+            primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
+                    Range.ONE, Range.TWO, Range.THREE ]),
+            ship: Ship.YT_2400,
+            shipState: new ShipState(2, 2, 2, 5, 5),
+            squadPointCost: 30,
+            upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE,
+                    UpgradeType.CREW ],
+            value: "wildSpaceFringer",
         },
         "wingedGundark":
         {
@@ -1116,8 +1362,33 @@ var Pilot =
             ship: Ship.TIE_FIGHTER,
             shipState: new ShipState(5, 2, 3, 3, 0),
             squadPointCost: 15,
+            upgradeTypes: [],
             value: "wingedGundark",
         },
+    },
+
+    values: function()
+    {
+        return Object.getOwnPropertyNames(Pilot.properties);
+    },
+
+    valuesByShip: function(ship)
+    {
+        var answer = [];
+        var values = this.values();
+        var properties = this.properties;
+
+        for (var i = 0; i < values.length; i++)
+        {
+            var value = values[i];
+
+            if (properties[value].ship === ship)
+            {
+                answer[answer.length] = value;
+            }
+        }
+
+        return answer;
     },
 };
 

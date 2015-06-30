@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <title>PilotTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
-	
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
@@ -17,6 +16,7 @@
 <script src="../../main/js/ShipAction.js"></script>
 <script src="../../main/js/Ship.js"></script>
 <script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
 <script src="../../main/js/Pilot.js"></script>
 
 <script>
@@ -82,6 +82,40 @@
         assert.equal(properties.shipState.getShieldValue(), 2);
         assert.equal(properties.squadPointCost, 21);
         assert.equal(properties.value, "rookiePilot");
+    });
+
+    QUnit.test("values()", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Pilot.values();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 90);
+        assert.equal(result[0], "academyPilot");
+        assert.equal(result[89], "wingedGundark");
+
+        var properties = Object.getOwnPropertyNames(Pilot);
+        var count = properties.length - 1 // properties
+        	- 1 // values
+        	- 1; // valuesByShip
+        assert.equal(result.length, count);
+    });
+
+    QUnit.test("valuesByShip() TIE Fighter", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Pilot.valuesByShip(Ship.TIE_FIGHTER);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 9);
+        assert.equal(result[0], "academyPilot");
+        assert.equal(result[8], "wingedGundark");
     });
 </script>
 </head>

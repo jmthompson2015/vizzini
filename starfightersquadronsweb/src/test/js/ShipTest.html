@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <title>ShipTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 <script src="../../main/js/Team.js"></script>
 <script src="../../main/js/Position.js"></script>
@@ -61,6 +60,72 @@
         assert.equal(properties.maneuvers.length, 15);
         assert.ok(properties.shipActions);
         assert.equal(properties.shipActions.length, 2);
+    });
+
+    QUnit.test("values()", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Ship.values();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 20);
+        assert.equal(result[0], "aWing");
+        assert.equal(result[19], "z95Headhunter");
+
+        var properties = Object.getOwnPropertyNames(Ship);
+        var count = properties.length - 1 // properties
+        	- 1 // values
+        	- 1; // valuesByTeam
+        assert.equal(result.length, count);
+    });
+
+    QUnit.test("valuesByTeam() Imperial", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Ship.valuesByTeam(Team.IMPERIAL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 11);
+        var i = 0;
+        assert.equal(result[i++], "firespray31");
+        assert.equal(result[i++], "lambdaClassShuttle");
+        assert.equal(result[i++], "royalGuardTie");
+        assert.equal(result[i++], "saberSquadronTie");
+        assert.equal(result[i++], "tieAdvanced");
+        assert.equal(result[i++], "tieBomber");
+        assert.equal(result[i++], "tieDefender");
+        assert.equal(result[i++], "tieFighter");
+        assert.equal(result[i++], "tieInterceptor");
+        assert.equal(result[i++], "tiePhantom");
+        assert.equal(result[i++], "vt49Decimator");
+    });
+
+    QUnit.test("valuesByTeam() Rebel", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Ship.valuesByTeam(Team.REBEL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 9);
+        var i = 0;
+        assert.equal(result[i++], "aWing");
+        assert.equal(result[i++], "bWing");
+        assert.equal(result[i++], "eWing");
+        assert.equal(result[i++], "hwk290");
+        assert.equal(result[i++], "xWing");
+        assert.equal(result[i++], "yWing");
+        assert.equal(result[i++], "yt1300");
+        assert.equal(result[i++], "yt2400");
+        assert.equal(result[i++], "z95Headhunter");
     });
 
     QUnit.test("FiringArc.isInFiringArc() Forward", function(assert)

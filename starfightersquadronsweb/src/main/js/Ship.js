@@ -100,9 +100,11 @@ var Ship =
     TIE_FIGHTER: "tieFighter",
     TIE_INTERCEPTOR: "tieInterceptor",
     TIE_PHANTOM: "tiePhantom",
+    VT_49_DECIMATOR: "vt49Decimator",
     X_WING: "xWing",
     Y_WING: "yWing",
     YT_1300: "yt1300",
+    YT_2400: "yt2400",
     Z_95_HEADHUNTER: "z95Headhunter",
     properties:
     {
@@ -397,6 +399,27 @@ var Ship =
                     ShipAction.FOCUS, ShipAction.BARREL_ROLL ],
             value: "tiePhantom",
         },
+        "vt49Decimator":
+        {
+            name: "VT-49 Decimator",
+            description: "A VT-49 Decimator.",
+            team: Team.IMPERIAL,
+            shipBase: ShipBase.LARGE,
+            primaryFiringArc: FiringArc.FORWARD,
+            maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD,
+                    Maneuver.STRAIGHT_1_STANDARD,
+                    Maneuver.BANK_RIGHT_1_STANDARD,
+                    Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY,
+                    Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_EASY,
+                    Maneuver.TURN_RIGHT_2_STANDARD,
+                    Maneuver.TURN_LEFT_3_STANDARD,
+                    Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
+                    Maneuver.BANK_RIGHT_3_STANDARD,
+                    Maneuver.TURN_RIGHT_3_STANDARD,
+                    Maneuver.STRAIGHT_4_STANDARD ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
+            value: "vt49Decimator",
+        },
         "xWing":
         {
             name: "X-Wing",
@@ -460,6 +483,30 @@ var Ship =
             shipActions: [ ShipAction.TARGET_LOCK, ShipAction.FOCUS ],
             value: "yt1300",
         },
+        "yt2400":
+        {
+            name: "YT-2400",
+            description: "A YT-2400.",
+            team: Team.REBEL,
+            shipBase: ShipBase.LARGE,
+            primaryFiringArc: FiringArc.FORWARD,
+            maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
+                    Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
+                    Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_STANDARD,
+                    Maneuver.TURN_LEFT_2_STANDARD,
+                    Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
+                    Maneuver.BANK_RIGHT_2_STANDARD,
+                    Maneuver.TURN_RIGHT_2_STANDARD,
+                    Maneuver.TURN_LEFT_3_STANDARD,
+                    Maneuver.BANK_LEFT_3_STANDARD,
+                    Maneuver.STRAIGHT_3_STANDARD,
+                    Maneuver.BANK_RIGHT_3_STANDARD,
+                    Maneuver.TURN_RIGHT_3_STANDARD,
+                    Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK,
+                    ShipAction.BARREL_ROLL ],
+            value: "yt2400",
+        },
         "z95Headhunter":
         {
             name: "Z-95 Headhunter",
@@ -481,6 +528,30 @@ var Ship =
             shipActions: [ ShipAction.TARGET_LOCK, ShipAction.FOCUS ],
             value: "z95Headhunter",
         },
+    },
+
+    values: function()
+    {
+        return Object.getOwnPropertyNames(Ship.properties);
+    },
+
+    valuesByTeam: function(team)
+    {
+        var answer = [];
+        var values = this.values();
+        var properties = this.properties;
+
+        for (var i = 0; i < values.length; i++)
+        {
+            var value = values[i];
+
+            if (properties[value].team === team)
+            {
+                answer[answer.length] = value;
+            }
+        }
+
+        return answer;
     },
 };
 
