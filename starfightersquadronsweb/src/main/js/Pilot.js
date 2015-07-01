@@ -133,7 +133,7 @@ var Pilot =
         "academyPilot":
         {
             name: "Academy Pilot",
-            description: "A TIE Fighter pilot.",
+            description: "Developed by Sienar Fleet Systems, the Empire used the fast and agile TIE/In as its primary starfighter throughout most of the Galactic Civil War.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -278,7 +278,7 @@ var Pilot =
         "bobaFett":
         {
             name: "Boba Fett",
-            description: "A Firespray-31 pilot.",
+            description: "When you reveal a bank maneuver, you may rotate your dial to the other bank maneuver of the same speed.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -286,13 +286,13 @@ var Pilot =
             shipState: new ShipState(8, 3, 2, 6, 4),
             squadPointCost: 39,
             upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
-                    UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSLE ],
+                    UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE ],
             value: "bobaFett",
         },
         "bountyHunter":
         {
             name: "Bounty Hunter",
-            description: "A Firespray-31 pilot.",
+            description: "Originally intended as a prisoner transport, the Firespray patrol craft features a versatile weapons array and heavy armor plating.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -300,7 +300,7 @@ var Pilot =
             shipState: new ShipState(3, 3, 2, 6, 4),
             squadPointCost: 33,
             upgradeTypes: [ UpgradeType.CANNON, UpgradeType.BOMB,
-                    UpgradeType.CREW, UpgradeType.MISSLE ],
+                    UpgradeType.CREW, UpgradeType.MISSILE ],
             value: "bountyHunter",
         },
         "captainJonus":
@@ -749,7 +749,7 @@ var Pilot =
         "kathScarlet":
         {
             name: "Kath Scarlet",
-            description: "A Firespray-31 pilot.",
+            description: "When attacking, the defender receives 1 stress token if he cancels at least 1 Critical Hit result.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -757,7 +757,7 @@ var Pilot =
             shipState: new ShipState(7, 3, 2, 6, 4),
             squadPointCost: 38,
             upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
-                    UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSLE ],
+                    UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE ],
             value: "kathScarlet",
         },
         "kirKanos":
@@ -790,7 +790,7 @@ var Pilot =
         "krassisTrelix":
         {
             name: "Krassis Trelix",
-            description: "A Firespray-31 pilot.",
+            description: "When attacking with a secondary weapon, you may reroll 1 attack die.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -798,7 +798,7 @@ var Pilot =
             shipState: new ShipState(5, 3, 2, 6, 4),
             squadPointCost: 36,
             upgradeTypes: [ UpgradeType.CANNON, UpgradeType.BOMB,
-                    UpgradeType.CREW, UpgradeType.MISSLE ],
+                    UpgradeType.CREW, UpgradeType.MISSILE ],
             value: "krassisTrelix",
         },
         "kyleKatarn":
@@ -1088,7 +1088,7 @@ var Pilot =
         "rookiePilot":
         {
             name: "Rookie Pilot",
-            description: "An X-Wing pilot.",
+            description: "Designed by Incom Corporation, the T-65 X-wing quickly proved to be one of the most effective military vehicles in the galaxy and a boon to the Rebellion.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),

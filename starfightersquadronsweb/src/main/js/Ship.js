@@ -191,8 +191,8 @@ var Ship =
                     Maneuver.TURN_RIGHT_3_STANDARD,
                     Maneuver.KOIOGRAN_TURN_3_HARD,
                     Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
-            shipActions: [ ShipAction.EVADE, ShipAction.TARGET_LOCK,
-                    ShipAction.FOCUS ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK,
+                    ShipAction.EVADE ],
             value: "firespray31",
         },
         "hwk290":
@@ -352,8 +352,8 @@ var Ship =
                     Maneuver.KOIOGRAN_TURN_3_HARD,
                     Maneuver.STRAIGHT_4_STANDARD,
                     Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
-            shipActions: [ ShipAction.EVADE, ShipAction.FOCUS,
-                    ShipAction.BARREL_ROLL ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL,
+                    ShipAction.EVADE ],
             value: "tieFighter",
         },
         "tieInterceptor":
@@ -438,7 +438,7 @@ var Ship =
                     Maneuver.BANK_RIGHT_3_STANDARD,
                     Maneuver.TURN_RIGHT_3_STANDARD,
                     Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
-            shipActions: [ ShipAction.TARGET_LOCK, ShipAction.FOCUS ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
             value: "xWing",
         },
         "yWing":
