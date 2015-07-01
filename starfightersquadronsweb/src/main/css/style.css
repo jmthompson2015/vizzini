@@ -12,7 +12,7 @@ table {
     vertical-align: middle;
 }
 
-.countTokenText {
+.countTokenText, .damageCount {
     padding: 6px 0 0 0;
 }
 
@@ -33,11 +33,12 @@ table {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .damageTable, .alignMiddle {
+#ALIGN_MIDDLE, .alignMiddle {
     vertical-align: middle;
 }
 
-#ALIGN_RIGHT, .optionPaneButtons, .upgradeCardUISquadPoints, .alignRight {
+#ALIGN_RIGHT, .optionPaneButtons, .pilotCardUISquadPointCost, .pilotChooserValue, .upgradeCardUISquadPoints, .alignRight
+    {
     text-align: right;
 }
 
@@ -54,8 +55,9 @@ table {
     background-color: #555555;
 }
 
-#BACKGROUND_LIGHT, #messageArea, .newGamePanel, .optionPane, #pilotName, #shipName, #ssPanel, .upgradeCardUI,
-    .backgroundLight {
+#BACKGROUND_LIGHT, #messageArea, .newGamePanel, .optionPane, .pilotCardUIDescription, .pilotCardUIShipActions,
+    .pilotCardUIShipActionCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName, #ssPanel,
+    .upgradeCardUI, .backgroundLight {
     background-color: #F0F0F0;
 }
 
@@ -71,18 +73,22 @@ table {
     border: 1px solid black;
 }
 
+#BORDER_LIGHT, .pilotCardUIUpgrades, .borderLight {
+    border: 1px solid #F0F0F0;
+}
+
 #BORDER_MEDIUM, .maneuverCell, .maneuverTable, .optionPane, .borderMedium {
     border: 1px solid lightGray;
 }
 
-#CENTER, .agentTitle, .countTokenText, .damageTable, .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle,
+#CENTER, .agentTitle, .countTokenText, .damageCount, .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle,
     .statsTable, .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
 
-#COLOR_BLACK, #pilotName, #shipName, .colorBlack {
+#COLOR_BLACK, .damageCount, #pilotName, #shipName, .colorBlack {
     color: black;
 }
 
@@ -102,7 +108,7 @@ table {
     color: red;
 }
 
-#COLOR_WHITE, .countTokenText, .damageTable, .maneuverTable, .colorWhite {
+#COLOR_WHITE, .countTokenText, .maneuverTable, .colorWhite {
     color: white;
 }
 
@@ -110,16 +116,16 @@ table {
     color: yellow;
 }
 
-#FONT_BOLD, .agentTitle, .fontBold {
+#FONT_BOLD, .agentTitle, .damageCount, .fontBold {
     font-weight: bold;
 }
 
-#FONT_MEDIUM, .countTokenText, .fontMedium {
+#FONT_MEDIUM, .countTokenText, .damageCount, .fontMedium {
     font-size: medium;
 }
 
-#FONT_SMALL, .combatTable, .optionPaneInput, .pilotCard, #pilotName, #shipName, .squadBuilderPanel, .upgradeCardUI,
-    .fontSmall {
+#FONT_SMALL, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName, .squadBuilderPanel,
+    .upgradeCardUI, .fontSmall {
     font-size: small;
 }
 
@@ -127,15 +133,20 @@ table {
     height: 32px;
 }
 
+#MARGIN_AUTO, .pilotCardUIShipActions, .pilotCardUIUpgrades, .pilotChooserFilter, .marginAuto {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #MARGIN_LEFT_10, .optionPaneInput, .marginLeft10 {
     margin-left: 10px;
 }
 
-#MARGIN_NONE, .countTokenText, .damagePanel, #imperialPilots, #rebelPilots, .marginNone {
+#MARGIN_NONE, .countTokenText, .damageCount, #imperialPilots, #rebelPilots, .marginNone {
     margin: 0px;
 }
 
-#PADDING_1, .damageTable, #imperialPilots, #rebelPilots, .padding1 {
+#PADDING_1, #imperialPilots, #rebelPilots, .padding1 {
     padding: 1px;
 }
 
@@ -151,11 +162,11 @@ table {
     padding-right: 5px;
 }
 
-#PADDING_NONE, .damagePanel, .maneuverTable, .paddingNone {
+#PADDING_NONE, .maneuverTable, .paddingNone {
     padding: 0px;
 }
 
-#VERTICAL_ALIGN_MIDDLE, .upgradeCardUIImage, .verticalAlignMiddle {
+#VERTICAL_ALIGN_MIDDLE, .countTokenBox, .upgradeCardUIImage, .verticalAlignMiddle {
     vertical-align: middle;
 }
 
@@ -163,6 +174,11 @@ table {
     width: 16px;
 }
 
-#WIDTH_FULL, .nameTable, .pilotCard, .tokensPanel, .widthFull {
+#WIDTH_24, .pilotCardUIShipActionCell, .width24 {
+    width: 24px;
+}
+
+#WIDTH_FULL, .nameTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .tokensPanel,
+    .widthFull {
     width: 100%;
 }

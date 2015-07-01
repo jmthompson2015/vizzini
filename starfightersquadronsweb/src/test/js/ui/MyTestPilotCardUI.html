@@ -20,6 +20,7 @@
 <script src="../../../main/js/Maneuver.js"></script>
 <script src="../../../main/js/ShipAction.js"></script>
 <script src="../../../main/js/Ship.js"></script>
+<script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 
 <script src="../../../main/js/DamageCard.js"></script>
@@ -28,19 +29,23 @@
 <script src="../../../main/js/SimpleAgent.js"></script>
 <script src="../../../main/js/SquadBuilder.js"></script>
 <script src="../../../main/js/Token.js"></script>
-<script src="../../../main/js/UpgradeCard.js"></script>
 
 <script src="../../../main/js/ui/ImageUtilities.js"></script>
 
 <script type="text/jsx" src="../../../main/js/ui/HumanAgent.js"></script>
+<script type="text/jsx" src="../../../main/js/ui/UpgradeCardUI.js"></script>
 <script type="text/jsx" src="../../../main/js/ui/PilotCardUI.js"></script>
 
 </head>
 <body>
 	<table>
 		<tr>
-			<td id="imperialPilot" style="vertical-align: top"></td>
-			<td id="rebelPilot" style="vertical-align: top"></td>
+			<td id="imperialPilotCompact" style="vertical-align: top"></td>
+			<td id="rebelPilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="imperialPilotLarge" style="vertical-align: top"></td>
+			<td id="rebelPilotLarge" style="vertical-align: top"></td>
 		</tr>
 		<tr>
 			<td><button type="button" onclick="updateImperialToken();">Update</button></td>
@@ -69,11 +74,17 @@
         rebelToken.increaseStressCount();
         rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
-        React.render(<PilotCardUI initialToken={imperialToken} />, 
-				document.getElementById("imperialPilot"));
+        React.render(<PilotCardUI isCompact={true} initialToken={imperialToken} />, 
+				document.getElementById("imperialPilotCompact"));
 
-        React.render(<PilotCardUI initialToken={rebelToken} />, 
-				document.getElementById("rebelPilot"));
+        React.render(<PilotCardUI isCompact={true} initialToken={rebelToken} />, 
+				document.getElementById("rebelPilotCompact"));
+
+        React.render(<PilotCardUI isCompact={false} initialToken={imperialToken} />, 
+				document.getElementById("imperialPilotLarge"));
+
+        React.render(<PilotCardUI isCompact={false} initialToken={rebelToken} />, 
+				document.getElementById("rebelPilotLarge"));
 
         function updateImperialToken()
         {
