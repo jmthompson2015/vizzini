@@ -1,3 +1,61 @@
+var UpgradeRestriction =
+{
+    HUGE_SHIP_ONLY: "hugeShipOnly",
+    IMPERIAL_ONLY: "imperialOnly",
+    LIMITED: "limited",
+    REBEL_ONLY: "rebelOnly",
+    properties:
+    {
+        "hugeShipOnly":
+        {
+            displayName: "Huge ship only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                var shipBase = Ship.properties[ship].shipBase;
+                return shipBase === ShipBase.HUGE1
+                        || shipBase === ShipBase.HUGE2;
+            }
+        },
+        "imperialOnly":
+        {
+            displayName: "Imperial only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return Ship.properties[ship].team === Team.IMPERIAL;
+            }
+        },
+        "rebelOnly":
+        {
+            displayName: "Rebel only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return Ship.properties[ship].team === Team.REBEL;
+            }
+        },
+    },
+
+    passes: function(restrictions, pilot)
+    {
+        var answer = true;
+
+        for (var i = 0; i < restrictions.length; i++)
+        {
+            var restriction = restrictions[i];
+
+            if (!UpgradeRestriction.properties[restriction].passes(pilot))
+            {
+                answer = false;
+                break;
+            }
+        }
+
+        return answer;
+    }
+}
+
 var UpgradeType =
 {
     ASTROMECH: "astromech",
@@ -241,6 +299,7 @@ var UpgradeCard =
         {
             name: "C-3PO",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
             description: "Once per round, before you roll 1 or more defense dice, you may guess aloud a number of Evade results. If you roll that many Evade results (before modifying dice), add 1 Evade result.",
             squadPointCost: 3,
             hasAction: false,
@@ -250,6 +309,8 @@ var UpgradeCard =
         {
             name: "Carlist Rieekan",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
+                    UpgradeRestriction.REBEL_ONLY ],
             description: "At the start of the Activation phase, you may discard this card to treat each friendly ship's pilot skill value as \"12\" until the end of the phase.",
             squadPointCost: 3,
             hasAction: false,
@@ -259,6 +320,7 @@ var UpgradeCard =
         {
             name: "Chewbacca",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
             description: "When you are dealt a Damage card, you may immediately discard that card and recover 1 shield. Then, discard this Upgrade card.",
             squadPointCost: 4,
             hasAction: false,
@@ -277,7 +339,7 @@ var UpgradeCard =
         {
             name: "Daredevil",
             type: UpgradeType.ELITE,
-            description: "Execute a white Turn Left 1 or Turn Right 1 maneuver. Then, receive 1 stress token. Then, if you do no have the Boost action icon, roll 2 attack dice. Suffer any Damage and Critical Damage rolled.",
+            description: "Execute a white Turn Left 1 or Turn Right 1 maneuver. Then, receive 1 stress token. Then, if you do not have the Boost action icon, roll 2 attack dice. Suffer any Damage and Critical Damage rolled.",
             squadPointCost: 3,
             hasAction: true,
             value: "daredevil",
@@ -286,10 +348,21 @@ var UpgradeCard =
         {
             name: "Darth Vader",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
             description: "After you perform an attack against an enemy ship, you may suffer 2 damage to cause that ship to suffer 1 critical damage.",
             squadPointCost: 3,
             hasAction: false,
             value: "darthVader",
+        },
+        "dashRendar":
+        {
+            name: "Dash Rendar",
+            type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+            description: "You may perform attacks while overlapping an obstacle. Your attacks cannot be obstructed.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "dashRendar",
         },
         "deadeye":
         {
@@ -381,6 +454,16 @@ var UpgradeCard =
             hasAction: false,
             value: "fireControlSystem",
         },
+        "fleetOfficer":
+        {
+            name: "Fleet Officer",
+            type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
+            description: "Choose up to 2 friendly ships at Range 1-2 and assign 1 focus token to each of those ships. Then receive 1 stress token.",
+            squadPointCost: 3,
+            hasAction: true,
+            value: "fleetOfficer",
+        },
         "flightInstructor":
         {
             name: "Flight Instructor",
@@ -412,6 +495,7 @@ var UpgradeCard =
         {
             name: "Han Solo",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
             description: "When attacking, if you have a target lock on the defender, you may spend that target lock to change all of your Focus results to Hit results.",
             squadPointCost: 2,
             hasAction: false,
@@ -439,28 +523,62 @@ var UpgradeCard =
         {
             name: "Jan Dodonna",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
+                    UpgradeRestriction.REBEL_ONLY ],
             description: "When another friendly ship at Range 1 is attacking, it may change 1 of its Hit results to a Critical Hit result.",
             squadPointCost: 6,
             hasAction: false,
             value: "janDodonna",
         },
+        "landoCalrissian":
+        {
+            name: "Lando Calrissian",
+            type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+            description: "Roll 2 defense dice. For each Focus result, assign 1 focus token to your ship. For each Evade result, assign 1 evade token to your ship.",
+            squadPointCost: 3,
+            hasAction: true,
+            value: "landoCalrissian",
+        },
         "leiaOrgana":
         {
             name: "Leia Organa",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
             description: "At the start of the Activation phase, you may discard this card to allow all friendly ships that reveal a red maneuver to treat that maneuver as a white maneuver until the end of the phase.",
-            squadPointCost: 6,
+            squadPointCost: 4,
             hasAction: false,
             value: "leiaOrgana",
+        },
+        "leebo":
+        {
+            name: "Leebo",
+            type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+            description: "Perform a free boost action. Then receive 1 ion token.",
+            squadPointCost: 2,
+            hasAction: true,
+            value: "leebo",
         },
         "lukeSkywalker":
         {
             name: "Luke Skywalker",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
             description: "After you perform an attack that does not hit, you may immediately perform a primary weapon attack. You may change 1 Focus result to a Hit result. You cannot perform another attack this round.",
             squadPointCost: 7,
             hasAction: false,
             value: "lukeSkywalker",
+        },
+        "maraJade":
+        {
+            name: "Mara Jade",
+            type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
+            description: "At the end of the Combat phase, each enemy ship at Range 1 that does not have a stress token receives 1 stress token.",
+            squadPointCost: 3,
+            hasAction: false,
+            value: "maraJade",
         },
         "marksmanship":
         {
@@ -488,6 +606,16 @@ var UpgradeCard =
             squadPointCost: 1,
             hasAction: false,
             value: "millenniumFalcon",
+        },
+        "moffJerjerrod":
+        {
+            name: "Moff Jerjerrod",
+            type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
+            description: "When you are dealt a faceup Damage card, you may discard this Upgrade card or another Crew Upgrade card to flip that Damage card facedown (without resolving its effect).",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "moffJerjerrod",
         },
         "moldyCrow":
         {
@@ -520,6 +648,7 @@ var UpgradeCard =
         {
             name: "Nien Nunb",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
             description: "You may treat all Straight maneuvers as green maneuvers.",
             squadPointCost: 1,
             hasAction: false,
@@ -601,6 +730,7 @@ var UpgradeCard =
         {
             name: "R2-D2 (Crew)",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
             description: "At the end of the End phase, if you have no shields, you may recover 1 shield and roll 1 attack die. On a Hit result, randomly flip 1 of your facedown Damage cards faceup and resolve it.",
             squadPointCost: 4,
             hasAction: false,
@@ -700,6 +830,8 @@ var UpgradeCard =
         {
             name: "Raymus Antilles",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
+                    UpgradeRestriction.REBEL_ONLY ],
             description: "At the start of the Activation phase, choose 1 enemy ship at Range 1-3. You may look at that ship's chosen maneuver. If the maneuver is white, assign that ship 1 stress token.",
             squadPointCost: 6,
             hasAction: false,
@@ -709,6 +841,7 @@ var UpgradeCard =
         {
             name: "Rebel Captive",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
             description: "Once per round, the first ship that declares you as the target of an attack immediately receives 1 stress token.",
             squadPointCost: 3,
             hasAction: false,
@@ -862,6 +995,8 @@ var UpgradeCard =
         {
             name: "Toryn Farr",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
+                    UpgradeRestriction.REBEL_ONLY ],
             description: "Spend any amount of energy to choose that many enemy ships at Range 1-2. Remove all focus, evade, and blue target lock tokens from those ships.",
             squadPointCost: 6,
             hasAction: true,
@@ -889,6 +1024,7 @@ var UpgradeCard =
         {
             name: "WED-15 Repair Droid",
             type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY ],
             description: "Spend 1 energy to discard 1 of your facedown Damage cards, or spend 3 energy to discard 1 of your faceup Damage cards.",
             squadPointCost: 2,
             hasAction: true,
@@ -902,6 +1038,16 @@ var UpgradeCard =
             squadPointCost: 2,
             hasAction: false,
             value: "wingman",
+        },
+        "ysanneIsard":
+        {
+            name: "Ysanne Isard",
+            type: UpgradeType.CREW,
+            restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
+            description: "At the start of the Combat phase, if you have no shields and at least 1 Damage card assigned to your ship, you may perform a free evade action.",
+            squadPointCost: 4,
+            hasAction: false,
+            value: "ysanneIsard",
         },
         "advancedProtonTorpedoes":
         {
@@ -925,7 +1071,7 @@ var UpgradeCard =
         {
             name: "Autoblaster",
             type: UpgradeType.CANNON,
-            description: "Attack 1 ship. Your hit results cannot be canceled by defense dice. The token may cancel critical hit results before hit results.",
+            description: "Attack 1 ship. Your hit results cannot be canceled by defense dice. The defender may cancel critical hit results before hit results.",
             squadPointCost: 5,
             hasAction: false,
             value: "autoblaster",
@@ -1021,30 +1167,61 @@ var UpgradeCard =
             value: "protonTorpedoes",
         },
     },
-    values: [ "adrenalineRush", "advancedCloakingDevice", "advancedSensors",
-            "antiPursuitLasers", "c3po", "carlistRieekan", "chewbacca",
-            "combatRetrofit", "daredevil", "darthVader", "deadeye", "decoy",
-            "determination", "drawTheirFire", "elusiveness", "engineUpgrade",
-            "engineeringTeam", "expertHandling", "expose", "fireControlSystem",
-            "flightInstructor", "gunner", "gunneryTeam", "hanSolo",
-            "hullUpgrade", "intelligenceAgent", "janDodonna", "leiaOrgana",
-            "lukeSkywalker", "marksmanship", "mercenaryCopilot",
-            "millenniumFalcon", "moldyCrow", "munitionsFailsafe", "navigator",
-            "nienNunb", "opportunist", "outmaneuver", "predator",
-            "protonBombs", "proximityMines", "pushTheLimit", "r2Astromech",
-            "r2D2", "r2D2Crew", "r2D6", "r2F2", "r3A2", "r4D6", "r5Astromech",
-            "r5D8", "r5K6", "r5P9", "r7Astromech", "r7T1", "raymusAntilles",
-            "rebelCaptive", "reconSpecialist", "royalGuardTie", "saboteur",
-            "seismicCharges", "sensorJammer", "sensorTeam", "shieldUpgrade",
-            "slaveI", "squadLeader", "st321", "stealthDevice",
-            "stygiumParticleAccelerator", "swarmTactics", "tactician",
-            "targetingComputer", "targetingCoordinator", "torynFarr",
-            "veteranInstincts", "weaponsEngineer", "wed15RepairDroid",
-            "wingman", "advancedProtonTorpedoes", "assaultMissiles",
-            "autoblaster", "blasterTurret", "clusterMissiles",
-            "concussionMissiles", "flechetteTorpedoes", "heavyLaserCannon",
-            "homingMissiles", "ionCannon", "ionCannonTurret",
-            "ionPulseMissiles", "protonTorpedoes", ],
+
+    values: function()
+    {
+        return Object.getOwnPropertyNames(UpgradeCard.properties);
+    },
+
+    valuesByPilotAndType: function(pilot, upgradeType)
+    {
+        var answer = [];
+        var values = this.values();
+        var properties = this.properties;
+
+        for (var i = 0; i < values.length; i++)
+        {
+            var value = values[i];
+            var type = properties[value].type;
+
+            // FIXME: filter by pilot properties too.
+            if (type === upgradeType)
+            {
+                var restrictions = properties[value].restrictions;
+
+                // if (restrictions === undefined) { throw "Missing restrictions
+                // for UpgradeCard " + value; }
+
+                if (restrictions === undefined
+                        || UpgradeRestriction.passes(restrictions, pilot))
+                {
+                    answer[answer.length] = value;
+                }
+            }
+        }
+
+        return answer;
+    },
+
+    valuesByType: function(upgradeType)
+    {
+        var answer = [];
+        var values = this.values();
+        var properties = this.properties;
+
+        for (var i = 0; i < values.length; i++)
+        {
+            var value = values[i];
+            var type = properties[value].type;
+
+            if (type === upgradeType)
+            {
+                answer[answer.length] = value;
+            }
+        }
+
+        return answer;
+    },
 }
 
 if (Object.freeze)
