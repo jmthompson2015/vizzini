@@ -22,7 +22,7 @@ var UpgradeCardUI = React.createClass(
         
         rows[rows.length] = <tr key={upgradeCard+"2"}>
             <td className="upgradeCardUIImage">{UpgradeCardUI.createUpgradeImage(upgradeProps.type)}</td>
-            <td className="upgradeCardUISquadPoints">{upgradeProps.squadPointCost}</td>
+            <td className="upgradeCardUISquadPoints" title="Squad Point cost">{upgradeProps.squadPointCost}</td>
             </tr>;
         
         return <table className="upgradeCardUI">
