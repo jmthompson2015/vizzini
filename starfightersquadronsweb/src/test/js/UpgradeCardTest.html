@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <title>UpgradeCardTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
 <script src="../../main/js/UpgradeCard.js"></script>
 
 <script>
@@ -26,24 +26,85 @@
         assert.equal(UpgradeType.values[13], UpgradeType.TURRET);
     });
 
-    QUnit.test("UpgradeCard properties Adrenaline Rush", function(
-            assert)
-    {
-        var upgrade = UpgradeCard.ADRENALINE_RUSH;
-        var properties = UpgradeCard.properties[upgrade];
-        assert.equal(properties.name, "Adrenaline Rush");
-        assert.equal(properties.type, UpgradeType.ELITE);
-        assert.equal(properties.description, "When you reveal a red maneuver, you may discard this card to treat that manuever as a white maneuver until the end of the Activation phase.");
-        assert.equal(properties.squadPointCost, 1);
-        assert.equal(properties.value, "adrenalineRush");
-    });
+    QUnit
+            .test(
+                    "UpgradeCard properties Adrenaline Rush",
+                    function(assert)
+                    {
+                        var upgrade = UpgradeCard.ADRENALINE_RUSH;
+                        var properties = UpgradeCard.properties[upgrade];
+                        assert.equal(properties.name, "Adrenaline Rush");
+                        assert.equal(properties.type, UpgradeType.ELITE);
+                        assert
+                                .equal(
+                                        properties.description,
+                                        "When you reveal a red maneuver, you may discard this card to treat that manuever as a white maneuver until the end of the Activation phase.");
+                        assert.equal(properties.squadPointCost, 1);
+                        assert.equal(properties.value, "adrenalineRush");
+                    });
+
+    QUnit
+            .test(
+                    "UpgradeCard properties C-3PO",
+                    function(assert)
+                    {
+                        // Setup.
+                        var upgradeCard = UpgradeCard.C_3PO;
+
+                        // Run.
+                        var result = UpgradeCard.properties[upgradeCard];
+
+                        // Verify.
+                        assert.ok(result);
+                        assert.equal(result.name, "C-3PO");
+                        assert.equal(result.type, UpgradeType.CREW);
+                        assert.ok(result.restrictions);
+                        assert.equal(result.restrictions.length, 1);
+                        assert.equal(result.restrictions[0],
+                                UpgradeRestriction.REBEL_ONLY);
+                        assert
+                                .equal(
+                                        result.description,
+                                        "Once per round, before you roll 1 or more defense dice, you may guess aloud a number of Evade results. If you roll that many Evade results (before modifying dice), add 1 Evade result.");
+                        assert.equal(result.squadPointCost, 3);
+                        assert.equal(result.hasAction, false);
+                        assert.equal(result.value, upgradeCard);
+                    });
 
     QUnit.test("UpgradeCard.values()", function(assert)
     {
-        assert.ok(UpgradeCard.values);
-        assert.equal(UpgradeCard.values.length, 91);
-        assert.equal(UpgradeCard.values[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(UpgradeCard.values[90], UpgradeCard.PROTON_TORPEDOES);
+        // Run.
+        var result = UpgradeCard.values();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 97);
+        assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
+        assert.equal(result[96], UpgradeCard.PROTON_TORPEDOES);
+    });
+
+    QUnit.test("UpgradeCard.valuesByType() Astromech", function(assert)
+    {
+        // Run.
+        var result = UpgradeCard.valuesByType(UpgradeType.ASTROMECH);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 12);
+        assert.equal(result[0], UpgradeCard.R2_ASTROMECH);
+        assert.equal(result[11], UpgradeCard.R7_T1);
+    });
+
+    QUnit.test("UpgradeCard.valuesByType() Elite", function(assert)
+    {
+        // Run.
+        var result = UpgradeCard.valuesByType(UpgradeType.ELITE);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 18);
+        assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
+        assert.equal(result[17], UpgradeCard.WINGMAN);
     });
 </script>
 </head>
