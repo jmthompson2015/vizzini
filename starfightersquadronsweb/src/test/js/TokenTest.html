@@ -23,9 +23,9 @@
 <script src="../../main/js/Ship.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
 <script src="../../main/js/Pilot.js"></script>
 <script src="../../main/js/DamageCard.js"></script>
-<script src="../../main/js/UpgradeCard.js"></script>
 <script src="../../main/js/Token.js"></script>
 <script src="../../main/js/SquadBuilder.js"></script>
 <script src="../../main/js/SimpleAgent.js"></script>
@@ -491,8 +491,8 @@
         //            console.log(i + " " + result[i]);
         //        }
         assert.equal(result.length, 2);
-        assert.equal(result[0], "targetLock");
-        assert.equal(result[1], "focus");
+        assert.equal(result[0], "focus");
+        assert.equal(result[1], "targetLock");
     });
 
     QUnit.test("Token.getStressCount()", function(assert)

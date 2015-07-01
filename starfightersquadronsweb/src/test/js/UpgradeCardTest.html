@@ -7,9 +7,24 @@
 <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
 <script src="../../main/js/UpgradeCard.js"></script>
+<script src="../../main/js/Pilot.js"></script>
 
 <script>
+    "use strict";
+    var LOGGER = new Logger();
+
     QUnit.test("UpgradeType properties Astromech", function(assert)
     {
         var type = UpgradeType.ASTROMECH;
@@ -78,15 +93,16 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 97);
+        assert.equal(result.length, 98);
         assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[96], UpgradeCard.PROTON_TORPEDOES);
+        assert.equal(result[97], UpgradeCard.PROTON_TORPEDOES);
     });
 
-    QUnit.test("UpgradeCard.valuesByType() Astromech", function(assert)
+    QUnit.test("UpgradeCard.valuesByPilotAndType() Astromech", function(assert)
     {
         // Run.
-        var result = UpgradeCard.valuesByType(UpgradeType.ASTROMECH);
+        var result = UpgradeCard.valuesByPilotAndType(Pilot.LUKE_SKYWALKER,
+                UpgradeType.ASTROMECH);
 
         // Verify.
         assert.ok(result);
@@ -95,10 +111,11 @@
         assert.equal(result[11], UpgradeCard.R7_T1);
     });
 
-    QUnit.test("UpgradeCard.valuesByType() Elite", function(assert)
+    QUnit.test("UpgradeCard.valuesByPilotAndType() Elite", function(assert)
     {
         // Run.
-        var result = UpgradeCard.valuesByType(UpgradeType.ELITE);
+        var result = UpgradeCard.valuesByPilotAndType(Pilot.DARTH_VADER,
+                UpgradeType.ELITE);
 
         // Verify.
         assert.ok(result);
