@@ -14,7 +14,7 @@ var PilotsUI = React.createClass({
         
         var tokenHtml = tokens.map(function(token)
         {
-            return <PilotCardUI key={token.getId()} initialToken={token} />;
+            return <PilotCardUI key={token.getId()} isCompact={true} initialToken={token} />;
         });
         
         return <table>
