@@ -1175,6 +1175,9 @@ var UpgradeCard =
 
     valuesByPilotAndType: function(pilot, upgradeType)
     {
+        InputValidator.validateNotNull("pilot", pilot);
+        InputValidator.validateNotNull("upgradeType", upgradeType);
+
         var answer = [];
         var values = this.values();
         var properties = this.properties;
@@ -1184,39 +1187,15 @@ var UpgradeCard =
             var value = values[i];
             var type = properties[value].type;
 
-            // FIXME: filter by pilot properties too.
             if (type === upgradeType)
             {
                 var restrictions = properties[value].restrictions;
-
-                // if (restrictions === undefined) { throw "Missing restrictions
-                // for UpgradeCard " + value; }
 
                 if (restrictions === undefined
                         || UpgradeRestriction.passes(restrictions, pilot))
                 {
                     answer[answer.length] = value;
                 }
-            }
-        }
-
-        return answer;
-    },
-
-    valuesByType: function(upgradeType)
-    {
-        var answer = [];
-        var values = this.values();
-        var properties = this.properties;
-
-        for (var i = 0; i < values.length; i++)
-        {
-            var value = values[i];
-            var type = properties[value].type;
-
-            if (type === upgradeType)
-            {
-                answer[answer.length] = value;
             }
         }
 
