@@ -146,7 +146,7 @@ var Pilot =
         "airenCracken":
         {
             name: "Airen Cracken",
-            description: "A Z-95 Headhunter pilot.",
+            description: "After you perform an attack, you may choose another friendly ship at Range 1. That ship may perform 1 free action.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -159,7 +159,7 @@ var Pilot =
         "alphaSquadronPilot":
         {
             name: "Alpha Squadron Pilot",
-            description: "A TIE Interceptor pilot.",
+            description: "Seiner Fleet Systems designed the TIE interceptor with four wing-mounted laser cannons, easily allowing it to outgun its predecessors.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -172,7 +172,7 @@ var Pilot =
         "arvelCrynyd":
         {
             name: "Arvel Crynyd",
-            description: "An A-Wing pilot.",
+            description: "You may declare an enemy ship inside your firing arc that you are touching as the target of your attack.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -185,7 +185,7 @@ var Pilot =
         "avengerSquadronPilot":
         {
             name: "Avenger Squadron Pilot",
-            description: "A TIE Interceptor pilot.",
+            description: "The finest mass-produced starfighter of its time, the TIE interceptor excels at dogfighting thanks to its heightened maneuverability and speed.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -198,7 +198,7 @@ var Pilot =
         "backstabber":
         {
             name: "\"Backstabber\"",
-            description: "A TIE Fighter pilot.",
+            description: "When attacking from outside the defender's firing arc, roll 1 additional attack die.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -211,7 +211,7 @@ var Pilot =
         "banditSquadronPilot":
         {
             name: "Bandit Squadron Pilot",
-            description: "A Z-95 Headhunter pilot.",
+            description: "The AF4 series was the latest in a long line of Headhunter designs. Cheap and durable, it became a favorite among independent outfits like the Rebellion and Black Sun.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -224,7 +224,7 @@ var Pilot =
         "biggsDarklighter":
         {
             name: "Biggs Darklighter",
-            description: "An X-Wing pilot.",
+            description: "Other friendly ships at Range 1 cannot be targeted by attacks if the attacker could target you instead.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -237,7 +237,7 @@ var Pilot =
         "blackSquadronPilot":
         {
             name: "Black Squadron Pilot",
-            description: "A TIE Fighter pilot.",
+            description: "The TIE fighter has no shields or life support systems, forcing TIE pilots to depend solely on their skills to survive.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -250,7 +250,7 @@ var Pilot =
         "blackmoonSquadronPilot":
         {
             name: "Blackmoon Squadron Pilot",
-            description: "An E-Wing pilot.",
+            description: "Originally designed with only the R7-series of astromech in mind, the E-wing was later retrofitted to equip the standard R2- and R5-series droids.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -264,7 +264,7 @@ var Pilot =
         "blueSquadronPilot":
         {
             name: "Blue Squadron Pilot",
-            description: "A B-Wing pilot.",
+            description: "Because of its heavy weapons array and resilient shielding, the B-wing solidified itself as the Alliance's most formidable assault fighter.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -306,7 +306,7 @@ var Pilot =
         "captainJonus":
         {
             name: "Captain Jonus",
-            description: "A TIE Bomber pilot.",
+            description: "When another friendly ship at Range 1 attacks with a secondary weapon, it may reroll up to 2 attack dice.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -321,7 +321,7 @@ var Pilot =
         "captainKagi":
         {
             name: "Captain Kagi",
-            description: "A Lambda-class shuttle pilot.",
+            description: "When an enemy ship acquires a target lock, it must lock onto your ship if able.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -335,7 +335,7 @@ var Pilot =
         "captainOicunn":
         {
             name: "Captain Oicunn",
-            description: "A VT-49 Decimator pilot.",
+            description: "After executing a maneuver, each enemy ship you are touching suffers 1 damage.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -350,7 +350,7 @@ var Pilot =
         "captainYorr":
         {
             name: "Captain Yorr",
-            description: "A Lambda-class shuttle pilot.",
+            description: "When another friendly ship at Range 1-2 would receive a stress token, if you have 2 or fewer stress tokens, you may receive that token instead.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -364,7 +364,7 @@ var Pilot =
         "carnorJax":
         {
             name: "Carnor Jax",
-            description: "A TIE Interceptor pilot.",
+            description: "Enemy ships at Range 1 cannot perform focus or evade actions and cannot spend focus or evade tokens.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -377,7 +377,7 @@ var Pilot =
         "chewbacca":
         {
             name: "Chewbacca",
-            description: "A YT-1300 pilot.",
+            description: "When you are dealt a faceup Damage card, immediately flip it facedown (without resolving its ability).",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -391,7 +391,7 @@ var Pilot =
         "colonelJendon":
         {
             name: "Colonel Jendon",
-            description: "A Lambda-class shuttle pilot.",
+            description: "At the start of the Combat phase, you may assign 1 of your blue target lock tokens to a friendly ship at Range 1 if it does not have a blue target lock token.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -405,8 +405,8 @@ var Pilot =
         "colonelVessery":
         {
             name: "Colonel Vessery",
-            description: "A TIE Defender pilot.",
-            isUnique: false,
+            description: "When attacking, immediately after you roll attack dice, you may acquire a target lock on the defender if it already has a red target lock token.",
+            isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
             ship: Ship.TIE_DEFENDER,
@@ -419,7 +419,7 @@ var Pilot =
         "commanderKenkirk":
         {
             name: "Commander Kenkirk",
-            description: "A VT-49 Decimator pilot.",
+            description: "If you have no shields and at least 1 Damage card assigned to you, increase your agility value by 1.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -434,7 +434,7 @@ var Pilot =
         "corranHorn":
         {
             name: "Corran Horn",
-            description: "An E-Wing pilot.",
+            description: "At the start of the End phase, you may perform one attack. You cannot attack during the next round.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -448,7 +448,7 @@ var Pilot =
         "daggerSquadronPilot":
         {
             name: "Dagger Squadron Pilot",
-            description: "A B-Wing pilot.",
+            description: "A unique gyrostabilization system surrounds the B-wing's cockpit, ensuring that the pilot always remains stationary during flight.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -462,7 +462,7 @@ var Pilot =
         "darkCurse":
         {
             name: "\"Dark Curse\"",
-            description: "A TIE Fighter pilot.",
+            description: "When defending, ships attacking you cannot spend focus tokens or reroll attack dice.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -475,7 +475,7 @@ var Pilot =
         "darthVader":
         {
             name: "Darth Vader",
-            description: "A TIE Advanced pilot.",
+            description: "During your \"Perform Action\" step, you may perform 2 actions.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -488,13 +488,13 @@ var Pilot =
         "dashRendar":
         {
             name: "Dash Rendar",
-            description: "A YT-2400 pilot.",
+            description: "You may ignore obstacles during the Activation phase and when performing actions.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
                     Range.ONE, Range.TWO, Range.THREE ]),
             ship: Ship.YT_2400,
             shipState: new ShipState(7, 2, 2, 5, 5),
-            squadPointCost: 30,
+            squadPointCost: 36,
             upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
                     UpgradeType.MISSILE, UpgradeType.CREW ],
             value: "dashRendar",
@@ -502,7 +502,7 @@ var Pilot =
         "deltaSquadronPilot":
         {
             name: "Delta Squadron Pilot",
-            description: "A TIE Defender pilot.",
+            description: "In addition to its four laser cannons and warhead launchers, the TIE defender came equipped with ion cannons in its upper wing.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -515,7 +515,7 @@ var Pilot =
         "dutchVander":
         {
             name: "\"Dutch\" Vander",
-            description: "A Y-Wing pilot.",
+            description: "After acquiring a target lock, choose another friendly ship at Range 1-2. The chosen ship may immediately acquire a target lock.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -529,13 +529,13 @@ var Pilot =
         "eadenVrill":
         {
             name: "Eaden Vrill",
-            description: "A YT-2400 pilot.",
+            description: "When performing a primary weapon attack against a stressed ship, roll 1 additional attack die.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
                     Range.ONE, Range.TWO, Range.THREE ]),
             ship: Ship.YT_2400,
             shipState: new ShipState(3, 2, 2, 5, 5),
-            squadPointCost: 30,
+            squadPointCost: 32,
             upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE,
                     UpgradeType.CREW ],
             value: "eadenVrill",
@@ -543,7 +543,7 @@ var Pilot =
         "echo":
         {
             name: "\"Echo\"",
-            description: "A TIE Phantom pilot.",
+            description: "When you decloak, you must use the left or right bank 2 template instead of the straight 2 template.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 4, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -557,7 +557,7 @@ var Pilot =
         "etahnAbaht":
         {
             name: "Etahn A'baht",
-            description: "An E-Wing pilot.",
+            description: "When an enemy ship inside your firing arc at Range 1-3 is defending, the attacker may change 1 of its Hit results to a Critical Hit result.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -571,7 +571,7 @@ var Pilot =
         "felsWrath":
         {
             name: "\"Fel's Wrath\"",
-            description: "A TIE Interceptor pilot.",
+            description: "When the number of Damage cards assigned to you equals or exceeds your hull value, you are not destroyed until the end of the Combat phase.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -584,7 +584,7 @@ var Pilot =
         "gammaSquadronPilot":
         {
             name: "Gamma Squadron Pilot",
-            description: "A TIE Bomber pilot.",
+            description: "While not as agile or fast as other TIE variants, TIE bombers can carry enough firepower to destroy virtually any enemy target.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -598,7 +598,7 @@ var Pilot =
         "garvenDreis":
         {
             name: "Garven Dreis",
-            description: "An X-Wing pilot.",
+            description: "After spending a focus token, you may place that token on any other friendly ship at Range 1-2 (instead of discarding it).",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -611,7 +611,7 @@ var Pilot =
         "goldSquadronPilot":
         {
             name: "Gold Squadron Pilot",
-            description: "A Y-Wing pilot.",
+            description: "The versatile and reliable BTL-A4 Y-wing was the Rebellion's primary starfighter until the arrival of the T-65 X-wing.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -625,7 +625,7 @@ var Pilot =
         "graySquadronPilot":
         {
             name: "Gray Squadron Pilot",
-            description: "A Y-Wing pilot.",
+            description: "Long after the Y-wing was to be phased out, its speed, durability, and weapon options helped it remain a staple in the Rebel fleet.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -639,7 +639,7 @@ var Pilot =
         "greenSquadronPilot":
         {
             name: "Green Squadron Pilot",
-            description: "An A-Wing pilot.",
+            description: "Conceived by General Dodonna, the RZ-1 A-wing interceptor proved its worth by crippling Star Destroyers during the Battle of Endor.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -652,7 +652,7 @@ var Pilot =
         "hanSolo":
         {
             name: "Han Solo",
-            description: "A YT-1300 pilot.",
+            description: "When attacking, you may reroll all of your dice. If you choose to do so, you must reroll as many of your dice as possible.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -666,7 +666,7 @@ var Pilot =
         "hobbieKlivian":
         {
             name: "\"Hobbie\" Klivian",
-            description: "An X-Wing pilot.",
+            description: "When you acquire or spend a target lock, you may remove 1 stress token from your ship.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -679,7 +679,7 @@ var Pilot =
         "hortonSalm":
         {
             name: "Horton Salm",
-            description: "A Y-Wing pilot.",
+            description: "When attacking at Range 2-3, you may reroll any of your blank results.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -693,7 +693,7 @@ var Pilot =
         "howlrunner":
         {
             name: "\"Howlrunner\"",
-            description: "A TIE Fighter pilot.",
+            description: "When another friendly ship at Range 1 is attacking with its primary weapon, it may reroll 1 attack die.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -706,7 +706,7 @@ var Pilot =
         "ibtisam":
         {
             name: "Ibtisam",
-            description: "A B-Wing pilot.",
+            description: "When attacking or defending, if you have at least 1 stress token, you may reroll 1 of your dice.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -721,7 +721,7 @@ var Pilot =
         "janOrs":
         {
             name: "Jan Ors",
-            description: "An HWK-290 pilot.",
+            description: "When another friendly ship at Range 1-3 is attacking, if you have no stress tokens, you may receive 1 stress token to allow that ship to roll 1 additional attack die.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 1, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -735,7 +735,7 @@ var Pilot =
         "jekPorkins":
         {
             name: "Jek Porkins",
-            description: "An X-Wing pilot.",
+            description: "When you receive a stress token, you may remove it and roll 1 attack die. On a Hit result, deal 1 facedown Damage card to this ship.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -763,7 +763,7 @@ var Pilot =
         "kirKanos":
         {
             name: "Kir Kanos",
-            description: "A TIE Interceptor pilot.",
+            description: "When attacking at Range 2-3, you may spend 1 evade token to add 1 Hit result to your roll.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -776,7 +776,7 @@ var Pilot =
         "knaveSquadronPilot":
         {
             name: "Knave Squadron Pilot",
-            description: "An E-Wing pilot.",
+            description: "Specifically designed to combine the best features of the X-wing series with the A-wing series, the E-wing boasted superior firepower, speed, and maneuverability.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -804,7 +804,7 @@ var Pilot =
         "kyleKatarn":
         {
             name: "Kyle Katarn",
-            description: "An HWK-290 pilot.",
+            description: "At the start of the Combat phase, you may assign 1 of your focus tokens to another friendly ship at Range 1-3.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 1, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -818,7 +818,7 @@ var Pilot =
         "landoCalrissian":
         {
             name: "Lando Calrissian",
-            description: "A YT-1300 pilot.",
+            description: "After you execute a green maneuver, choose 1 other friendly ship at Range 1. That ship may perform 1 free action shown in its action bar.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -831,14 +831,14 @@ var Pilot =
         },
         "leebo":
         {
-            name: "Leebo",
-            description: "A YT-2400 pilot.",
+            name: "\"Leebo\"",
+            description: "When you are dealt a faceup Damage card, draw 1 additional Damage card, choose 1 to resolve, and discard the other.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
                     Range.ONE, Range.TWO, Range.THREE ]),
             ship: Ship.YT_2400,
             shipState: new ShipState(5, 2, 2, 5, 5),
-            squadPointCost: 30,
+            squadPointCost: 34,
             upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
                     UpgradeType.MISSILE, UpgradeType.CREW ],
             value: "leebo",
@@ -846,7 +846,7 @@ var Pilot =
         "lieutenantBlount":
         {
             name: "Lieutenant Blount",
-            description: "A Z-95 Headhunter pilot.",
+            description: "When attacking, the defender is hit by your attack, even if he does not suffer any damage.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -859,7 +859,7 @@ var Pilot =
         "lieutenantLorrir":
         {
             name: "Lieutenant Lorrir",
-            description: "A TIE Interceptor pilot.",
+            description: "When performing a barrel roll action, you may receive 1 stress token to use the left or right bank 1 template instead of the straight 1 template.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -872,7 +872,7 @@ var Pilot =
         "lukeSkywalker":
         {
             name: "Luke Skywalker",
-            description: "An X-Wing pilot.",
+            description: "When defending, you may change 1 of your Focus results to an Evade result.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -886,7 +886,7 @@ var Pilot =
         "maarekStele":
         {
             name: "Maarek Stele",
-            description: "A TIE Advanced pilot.",
+            description: "When your attack deals a faceup Damage card to the defender, instead draw 3 Damage cards, choose 1 to deal, and discard the others.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -899,7 +899,7 @@ var Pilot =
         "majorRhymer":
         {
             name: "Major Rhymer",
-            description: "A TIE Bomber pilot.",
+            description: "When attacking with a secondary weapon, you may increase or decrease the weapon range by 1 to a limit of Range 1-3.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -914,7 +914,7 @@ var Pilot =
         "maulerMithel":
         {
             name: "\"Mauler Mithel\"",
-            description: "A TIE Fighter pilot.",
+            description: "When attacking at Range 1, roll 1 additional attack die.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -927,7 +927,7 @@ var Pilot =
         "nightBeast":
         {
             name: "\"Night Beast\"",
-            description: "A TIE Fighter pilot.",
+            description: "After executing a green maneuver, you may perform a free focus action.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -940,7 +940,7 @@ var Pilot =
         "obsidianSquadronPilot":
         {
             name: "Obsidian Squadron Pilot",
-            description: "A TIE Fighter pilot.",
+            description: "The TIE fighter's Twin Ion Engine system was designed for speed, making the TIE one of the most maneuverable starships ever produced.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -953,7 +953,7 @@ var Pilot =
         "omicronGroupPilot":
         {
             name: "Omicron Group Pilot",
-            description: "A Lambda-class shuttle pilot.",
+            description: "Noted for its tri-wing design, the Lambda-class shuttle served a critical role as a light utility craft in the Imperial Navy.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -967,7 +967,7 @@ var Pilot =
         "onyxSquadronPilot":
         {
             name: "Onyx Squadron Pilot",
-            description: "A TIE Defender pilot.",
+            description: "The TIE defender outclassed all other starfighters of its time, though its size and array of weapons greatly increased its weight and cost in credits.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -980,7 +980,7 @@ var Pilot =
         "outerRimSmuggler":
         {
             name: "Outer Rim Smuggler",
-            description: "A YT-1300 pilot.",
+            description: "Known for its durability and modular design, the YT-1300 is one of the most popular, widely used freighters in the galaxy.",
             isUnique: false,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -993,7 +993,7 @@ var Pilot =
         "patrolLeader":
         {
             name: "Patrol Leader",
-            description: "A VT-49 Decimator pilot.",
+            description: "To be granted command of a VT-49 Decimator was seen as a significant promotion for a middling officer of the Imperial Navy.",
             isUnique: false,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -1007,7 +1007,7 @@ var Pilot =
         "prototypePilot":
         {
             name: "Prototype Pilot",
-            description: "An A-Wing pilot.",
+            description: "Due to its sensitive controls and high maneuverability, only the most talented pilots belong in an A-wing cockpit.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1020,7 +1020,7 @@ var Pilot =
         "rearAdmiralChiraneau":
         {
             name: "Rear Admiral Chiraneau",
-            description: "A VT-49 Decimator pilot.",
+            description: "When attacking at Range 1-2, you may change 1 of your Focus results to a Critical Hit result.",
             isUnique: true,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 3, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -1035,7 +1035,7 @@ var Pilot =
         "rebelOperative":
         {
             name: "Rebel Operative",
-            description: "An HWK-290 pilot.",
+            description: "Designed after a bird in flight by Corellian Engineering Corporation, the \"hawk\" series excelled in its role as a personal transport.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 1, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1048,7 +1048,7 @@ var Pilot =
         "redSquadronPilot":
         {
             name: "Red Squadron Pilot",
-            description: "An X-Wing pilot.",
+            description: "Created as an elite starfighter squad, Red Squadron included some of the best pilots in the Rebel Alliance.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1061,8 +1061,8 @@ var Pilot =
         "rexlerBrath":
         {
             name: "Rexler Brath",
-            description: "A TIE Defender pilot.",
-            isUnique: false,
+            description: "After you perform an attack that deals at least 1 Damage card to the defender, you may spend a focus token to flip those cards faceup.",
+            isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
             ship: Ship.TIE_DEFENDER,
@@ -1075,7 +1075,7 @@ var Pilot =
         "roarkGarnet":
         {
             name: "Roark Garnet",
-            description: "An HWK-290 pilot.",
+            description: "At the start of the Combat phase, choose 1 other friendly ship at Range 1-3. Until the end fo the phase, treat that ship's pilot skill value as \"12.\"",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 1, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1101,7 +1101,7 @@ var Pilot =
         "royalGuardPilot":
         {
             name: "Royal Guard Pilot",
-            description: "A TIE Interceptor pilot.",
+            description: "Only members of the Emperor's royal guard are premitted to fly their unique crimson fighters, which are often used to escort the Emperor's shuttle as well as its decoys.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1127,7 +1127,7 @@ var Pilot =
         "saberSquadronPilot":
         {
             name: "Saber Squadron Pilot",
-            description: "A TIE Interceptor pilot.",
+            description: "Led by Baron Soontir Fel, the pilots of Saber Squadron are among the Empire's best. Their TIE interceptors are marked with red stripes to designate pilots with at least ten confirmed kills.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1140,7 +1140,7 @@ var Pilot =
         "scimitarSquadronPilot":
         {
             name: "Scimitar Squadron Pilot",
-            description: "A TIE Bomber pilot.",
+            description: "The onboard targeting computer is extremely precise, allowing a TIE bomber to pinpoint its target while avoiding collateral damage to the surrounding area.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1154,7 +1154,7 @@ var Pilot =
         "shadowSquadronPilot":
         {
             name: "Shadow Squadron Pilot",
-            description: "A TIE Phantom pilot.",
+            description: "Featuring a hyperdrive and shields, the TIE phantom also came equipped with five laser cannons, giving it uprecedented firepower for such a small Imperial fighter.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 4, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1167,7 +1167,7 @@ var Pilot =
         "sigmaSquadronPilot":
         {
             name: "Sigma Squadron Pilot",
-            description: "A TIE Phantom pilot.",
+            description: "The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom added a small fighter with cloaking capabilities to the Imperial fleet.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 4, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1180,7 +1180,7 @@ var Pilot =
         "soontirFel":
         {
             name: "Soontir Fel",
-            description: "A TIE Interceptor pilot.",
+            description: "When you receive a stress token, you may assign 1 focus token to your ship.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1193,7 +1193,7 @@ var Pilot =
         "stormSquadronPilot":
         {
             name: "Storm Squadron Pilot",
-            description: "A TIE Advanced pilot.",
+            description: "The TIE Advanced improved on the popular TIE/In design by adding shielding, better weapon systems, curved solar panels, and a hyperdrive.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1206,7 +1206,7 @@ var Pilot =
         "talaSquadronPilot":
         {
             name: "Tala Squadron Pilot",
-            description: "A Z-95 Headhunter pilot.",
+            description: "Manufactured by Incom Corporation, the Z-95-AF4 was the primary inspiration for the design of the T-65 X-wing.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1219,7 +1219,7 @@ var Pilot =
         "tarnMison":
         {
             name: "Tarn Mison",
-            description: "An X-Wing pilot.",
+            description: "When an enemy ship declares you as the target of an attack, you may acquire a target lock on that ship.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1232,7 +1232,7 @@ var Pilot =
         "tempestSquadronPilot":
         {
             name: "Tempest Squadron Pilot",
-            description: "A TIE Advanced pilot.",
+            description: "The TIE Advanced was produced in limited quantities, but later Sienar engineers incorporated many of its best qualities into their next TIE model: the TIE Interceptor.",
             isUnique: false,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1245,7 +1245,7 @@ var Pilot =
         "tenNumb":
         {
             name: "Ten Numb",
-            description: "A B-Wing pilot.",
+            description: "When attacking, 1 of your Critical Hit results cannot be canceled by defense dice.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1260,7 +1260,7 @@ var Pilot =
         "tetranCowall":
         {
             name: "Tetran Cowall",
-            description: "A TIE Interceptor pilot.",
+            description: "When you reveal a Koiogran turn maneuver, you may treat the speed of that maneuver as \"1,\" \"3,\" or \"5.\"",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1273,7 +1273,7 @@ var Pilot =
         "turrPhennir":
         {
             name: "Turr Phennir",
-            description: "A TIE Interceptor pilot.",
+            description: "After you perform an attack, you may perform a free boost or barrel roll action.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1286,7 +1286,7 @@ var Pilot =
         "tychoCelchu":
         {
             name: "Tycho Celchu",
-            description: "An A-Wing pilot.",
+            description: "You may perform actions even while you have stress tokens.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1299,7 +1299,7 @@ var Pilot =
         "wedgeAntilles":
         {
             name: "Wedge Antilles",
-            description: "An X-Wing pilot.",
+            description: "When attacking, reduce the defender's agility value by 1 (to a minimum of \"0\").",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1313,7 +1313,7 @@ var Pilot =
         "wesJanson":
         {
             name: "Wes Janson",
-            description: "An X-Wing pilot.",
+            description: "After you perform an attack, you may remove 1 focus, evade, or blue target lock token from the defender.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1327,7 +1327,7 @@ var Pilot =
         "whisper":
         {
             name: "\"Whisper\"",
-            description: "A TIE Phantom pilot.",
+            description: "After you perform an attack that hits, you may assign 1 focus token to your ship.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 4, [ Range.ONE,
                     Range.TWO, Range.THREE ]),
@@ -1341,7 +1341,7 @@ var Pilot =
         "wildSpaceFringer":
         {
             name: "Wild Space Fringer",
-            description: "A YT-2400 pilot.",
+            description: "Although a stock YT-2400 light freighter had plenty of space for cargo, that space was often annexed to support modified weapon systems and oversized engines.",
             isUnique: false,
             primaryWeapon: new TurretWeapon("Primary Weapon", true, 2, [
                     Range.ONE, Range.TWO, Range.THREE ]),
@@ -1355,7 +1355,7 @@ var Pilot =
         "wingedGundark":
         {
             name: "\"Winged Gundark\"",
-            description: "A TIE Fighter pilot.",
+            description: "When attacking at Range 1, you may change 1 of your Hit results to a Critical Hit result.",
             isUnique: true,
             primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
                     Range.TWO, Range.THREE ]),

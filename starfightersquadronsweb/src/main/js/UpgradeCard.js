@@ -1,11 +1,28 @@
 var UpgradeRestriction =
 {
+    FIRESPRAY_31_ONLY: "firespray31Only",
     HUGE_SHIP_ONLY: "hugeShipOnly",
+    HWK_290_ONLY: "hwk290Only",
     IMPERIAL_ONLY: "imperialOnly",
+    LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
     LIMITED: "limited",
     REBEL_ONLY: "rebelOnly",
+    TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
+    TIE_PHANTOM_ONLY: "tiePhantomOnly",
+    VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
+    YT_1300_ONLY: "yt1300Only",
+    YT_2400_ONLY: "yt2400Only",
     properties:
     {
+        "firespray31Only":
+        {
+            displayName: "Firespray-31 only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.FIRESPRAY_31;
+            }
+        },
         "hugeShipOnly":
         {
             displayName: "Huge ship only.",
@@ -17,6 +34,15 @@ var UpgradeRestriction =
                         || shipBase === ShipBase.HUGE2;
             }
         },
+        "hwk290Only":
+        {
+            displayName: "HWK-290 only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.HWK_290;
+            }
+        },
         "imperialOnly":
         {
             displayName: "Imperial only.",
@@ -26,6 +52,15 @@ var UpgradeRestriction =
                 return Ship.properties[ship].team === Team.IMPERIAL;
             }
         },
+        "lambdaClassShuttleOnly":
+        {
+            displayName: "Lambda-class Shuttle only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.LAMBDA_CLASS_SHUTTLE;
+            }
+        },
         "rebelOnly":
         {
             displayName: "Rebel only.",
@@ -33,6 +68,51 @@ var UpgradeRestriction =
             {
                 var ship = Pilot.properties[pilot].ship;
                 return Ship.properties[ship].team === Team.REBEL;
+            }
+        },
+        "tieInterceptorOnly":
+        {
+            displayName: "TIE Interceptor only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.TIE_INTERCEPTOR;
+            }
+        },
+        "tiePhantomOnly":
+        {
+            displayName: "TIE Phantom only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.TIE_PHANTOM;
+            }
+        },
+        "vt49DecimatorOnly":
+        {
+            displayName: "VT-49 Decimator only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.VT_49_DECIMATOR;
+            }
+        },
+        "yt1300Only":
+        {
+            displayName: "YT-1300 only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.YT_1300;
+            }
+        },
+        "yt2400Only":
+        {
+            displayName: "YT-2400 only.",
+            passes: function(pilot)
+            {
+                var ship = Pilot.properties[pilot].ship;
+                return ship === Ship.YT_2400;
             }
         },
     },
@@ -176,6 +256,7 @@ var UpgradeCard =
     COMBAT_RETROFIT: "combatRetrofit",
     DAREDEVIL: "daredevil",
     DARTH_VADER: "darthVader",
+    DAUNTLESS: "dauntless",
     DEADEYE: "deadeye",
     DECOY: "decoy",
     DETERMINATION: "determination",
@@ -204,6 +285,7 @@ var UpgradeCard =
     NIEN_NUNB: "nienNunb",
     OPPORTUNIST: "opportunist",
     OUTMANEUVER: "outmaneuver",
+    OUTRIDER: "outrider",
     PREDATOR: "predator",
     PROTON_BOMBS: "protonBombs",
     PROXIMITY_MINES: "proximityMines",
@@ -272,6 +354,7 @@ var UpgradeCard =
         {
             name: "Advanced Cloaking Device",
             type: UpgradeType.MODIFICATION,
+            restrictions: [ UpgradeRestriction.TIE_PHANTOM_ONLY ],
             description: "After you perform an attack, you may perform a free cloak action.",
             squadPointCost: 4,
             hasAction: false,
@@ -363,6 +446,17 @@ var UpgradeCard =
             squadPointCost: 2,
             hasAction: false,
             value: "dashRendar",
+        },
+        "dauntless":
+        {
+            name: "Dauntless",
+            type: UpgradeType.TITLE,
+            restrictions: [ UpgradeRestriction.VT_49_DECIMATOR_ONLY ],
+            description: "After you execute a maneuver that causes you to overlap another ship, you may perform 1 free action. Then receive 1 stress token.",
+            isUnique: true,
+            squadPointCost: 2,
+            hasAction: false,
+            value: "dauntless",
         },
         "deadeye":
         {
@@ -602,6 +696,7 @@ var UpgradeCard =
         {
             name: "Millennium Falcon",
             type: UpgradeType.TITLE,
+            restrictions: [ UpgradeRestriction.YT_1300_ONLY ],
             description: "Your action bar gains the Evade action icon.",
             squadPointCost: 1,
             hasAction: false,
@@ -621,7 +716,9 @@ var UpgradeCard =
         {
             name: "Moldy Crow",
             type: UpgradeType.TITLE,
+            restrictions: [ UpgradeRestriction.HWK_290_ONLY ],
             description: "During the End phase, do not remove unused focus tokens from your ship.",
+            isUnique: true,
             squadPointCost: 3,
             hasAction: false,
             value: "moldyCrow",
@@ -671,6 +768,16 @@ var UpgradeCard =
             squadPointCost: 3,
             hasAction: false,
             value: "outmaneuver",
+        },
+        "outrider":
+        {
+            name: "Outrider",
+            type: UpgradeType.TITLE,
+            restrictions: [ UpgradeRestriction.YT_2400_ONLY ],
+            description: "While you have a Cannon upgrade card equipped, you cannot perform primary weapon attacks and you may perform Cannon secondary weapon attacks against ships outside your firing arc.",
+            squadPointCost: 5,
+            hasAction: false,
+            value: "outrider",
         },
         "predator":
         {
@@ -860,6 +967,7 @@ var UpgradeCard =
         {
             name: "Royal Guard TIE",
             type: UpgradeType.TITLE,
+            restrictions: [ UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
             description: "You may equip up to 2 different Modification upgrades (instead of 1). You cannot equip this card if your pilot skill value is \"4\" or lower.",
             squadPointCost: 0,
             hasAction: false,
@@ -914,6 +1022,7 @@ var UpgradeCard =
         {
             name: "Slave I",
             type: UpgradeType.TITLE,
+            restrictions: [ UpgradeRestriction.FIRESPRAY_31_ONLY ],
             description: "Your upgrade bar gains the Torpedo upgrade icon.",
             squadPointCost: 0,
             hasAction: false,
@@ -932,6 +1041,7 @@ var UpgradeCard =
         {
             name: "ST-321",
             type: UpgradeType.TITLE,
+            restrictions: [ UpgradeRestriction.LAMBDA_CLASS_SHUTTLE_ONLY ],
             description: "When acquiring a target lock, you may lock onto any enemy ship in the play area.",
             squadPointCost: 3,
             hasAction: false,
