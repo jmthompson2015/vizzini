@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Starfighter Squadrons</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css">
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+</script>
+<![endif]-->
+
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../js/Phase.js"></script>
+<script src="../js/Team.js"></script>
+<script src="../js/Path.js"></script>
+<script src="../js/Maneuver.js"></script>
+<script src="../js/ShipAction.js"></script>
+<script src="../js/Ship.js"></script>
+<script src="../js/RangeRuler.js"></script>
+<script src="../js/Weapon.js"></script>
+<script src="../js/UpgradeCard.js"></script>
+<script src="../js/Pilot.js"></script>
+<script src="../js/DamageCard.js"></script>
+<script src="../js/Token.js"></script>
+<script src="../js/Position.js"></script>
+<script src="../js/SquadBuilder.js"></script>
+<script src="../js/Environment.js"></script>
+<script src="../js/Adjudicator.js"></script>
+<script src="../js/AttackDice.js"></script>
+<script src="../js/DefenseDice.js"></script>
+<script src="../js/CombatAction.js"></script>
+<script src="../js/Engine.js"></script>
+<script src="../js/ManeuverAction.js"></script>
+<script src="../js/PlanningAction.js"></script>
+<script src="../js/SimpleAgent.js"></script>
+<script src="../js/Game.js"></script>
+
+<script src="../js/ui/ImageUtilities.js"></script>
+<script src="../js/ui/NewGamePanel.js"></script>
+<script src="../js/ui/PlayAreaUI.js"></script>
+<script src="../js/ui/SSPanel.js"></script>
+<script src="../js/ui/PlayState.js"></script>
+
+<script type="text/jsx" src="../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+<script type="text/jsx" src="../../../../coreweb/src/main/js/ui/RadioButtonList.js"></script>
+
+<script type="text/jsx" src="../js/ui/ManeuverChooser.js"></script>
+<script type="text/jsx" src="../js/ui/PlanningPanel.js"></script>
+<script type="text/jsx" src="../js/ui/ShipActionChooser.js"></script>
+<script type="text/jsx" src="../js/ui/WeaponAndDefenderChooser.js"></script>
+<script type="text/jsx" src="../js/ui/HumanAgent.js"></script>
+<script type="text/jsx" src="../js/ui/PilotCardUI.js"></script>
+<script type="text/jsx" src="../js/ui/PilotsUI.js"></script>
+<script type="text/jsx" src="../js/ui/EnvironmentUI.js"></script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td colspan="3" id="ssPanel" class="hidden"></td>
+		</tr>
+		<tr>
+			<td id="imperialPilots"></td>
+
+			<td id="playArea">
+				<canvas id="playAreaCanvas"></canvas>
+			</td>
+
+			<td id="rebelPilots"></td>
+		</tr>
+		<tr>
+			<td colspan="3" id="messageArea" class="hidden"></td>
+		</tr>
+		<tr>
+			<td colspan="3" id="inputArea"></td>
+		</tr>
+	</table>
+	<audio id="explosionAudio" src="../resources/audio/Explosion.wav" preload="auto"></audio>
+	<audio id="millenniumFalconLaserAudio" src="../resources/audio/MillenniumFalconLaser.wav" preload="auto"></audio>
+	<audio id="slave1LaserAudio" src="../resources/audio/Slave1Laser.wav" preload="auto"></audio>
+	<audio id="tieFighterLaserAudio" src="../resources/audio/TIEFighterLaser.wav" preload="auto"></audio>
+	<audio id="xWingLaserAudio" src="../resources/audio/XWingLaser.wav" preload="auto"></audio>
+	<script type="text/jsx" src="../js/App.js"></script>
+</body>
+</html>
