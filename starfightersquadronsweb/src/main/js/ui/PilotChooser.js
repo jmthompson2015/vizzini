@@ -73,6 +73,8 @@ var PilotChooser = React.createClass(
         var token = this.createToken(pilot);
         LOGGER.debug("new ship = " + ship);
         this.setState({ship: ship, pilot: pilot, token: token});
+        
+        this.props.onChangeFunction(event, pilot);
     },
     
     pilotChanged: function(event)
@@ -82,7 +84,7 @@ var PilotChooser = React.createClass(
         LOGGER.debug("new pilot = " + pilot);
         this.setState({pilot: pilot, token: token});
         
-        this.props.onChangeFunction(event);
+        this.props.onChangeFunction(event, pilot);
     },
     
     renderPilotCardUI: function(token)
