@@ -93,9 +93,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 100);
+        assert.equal(result.length, 108);
         assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[99], UpgradeCard.PROTON_TORPEDOES);
+        assert.equal(result[107], UpgradeCard.PROTON_TORPEDOES);
     });
 
     QUnit.test("UpgradeCard.valuesByPilotAndType() Astromech", function(assert)
@@ -119,9 +119,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 18);
+        assert.equal(result.length, 22);
         assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[17], UpgradeCard.WINGMAN);
+        assert.equal(result[21], UpgradeCard.WINGMAN);
     });
 </script>
 </head>
