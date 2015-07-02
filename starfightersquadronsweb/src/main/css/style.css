@@ -29,11 +29,12 @@ table {
     vertical-align: bottom;
 }
 
-#ALIGN_LEFT, .agentPanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .upgradeCardUIImage, .alignLeft {
+#ALIGN_LEFT, .agentPanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .squadUIPilotName, .upgradeCardUIImage,
+    .alignLeft {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .alignMiddle {
+#ALIGN_MIDDLE, .countTokenBox, .upgradeCardUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
@@ -51,17 +52,18 @@ table {
     background-color: black;
 }
 
-#BACKGROUND_DARK, .pilotCard, .pilotSkillValue, .backgroundDark {
+#BACKGROUND_DARK, .pilotCard, .pilotSkillValue, .squadUI tr th, .backgroundDark {
     background-color: #555555;
 }
 
 #BACKGROUND_LIGHT, #messageArea, .newGamePanel, .optionPane, .pilotCardUIDescription, .pilotCardUIShipActions,
-    .pilotCardUIShipActionCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName, #ssPanel,
+    .pilotCardUIShipActionCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName, .squadUI, #ssPanel,
     .upgradeCardUI, .backgroundLight {
     background-color: #F0F0F0;
 }
 
-#BACKGROUND_MEDIUM, .highlight, .newGameTitle, .optionPaneTitle, .rangeLabel, .tokensPanel, .backgroundMedium {
+#BACKGROUND_MEDIUM, .highlight, .newGameTitle, .optionPaneTitle, .rangeLabel, .squadUISum, .tokensPanel,
+    .backgroundMedium {
     background-color: lightGray;
 }
 
@@ -69,7 +71,8 @@ table {
     background-repeat: no-repeat;
 }
 
-#BORDER_BLACK, .namePanel, .newGamePanel, .upgradeCardUI, .upgradeCardUIName, .borderBlack {
+#BORDER_BLACK, .namePanel, .newGamePanel, .squadUI tr td, .squadUI tr th, .upgradeCardUI, .upgradeCardUIName,
+    .borderBlack {
     border: 1px solid black;
 }
 
@@ -108,7 +111,7 @@ table {
     color: red;
 }
 
-#COLOR_WHITE, .countTokenText, .maneuverTable, .colorWhite {
+#COLOR_WHITE, .countTokenText, .maneuverTable, .squadUI tr th, .colorWhite {
     color: white;
 }
 
@@ -125,7 +128,7 @@ table {
 }
 
 #FONT_SMALL, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName, .squadBuilderPanel,
-    .upgradeCardUI, .fontSmall {
+    .squadUI, .upgradeCardUI, .fontSmall {
     font-size: small;
 }
 
@@ -164,10 +167,6 @@ table {
 
 #PADDING_NONE, .maneuverTable, .paddingNone {
     padding: 0px;
-}
-
-#VERTICAL_ALIGN_MIDDLE, .countTokenBox, .upgradeCardUIImage, .verticalAlignMiddle {
-    vertical-align: middle;
 }
 
 #WIDTH_16, .maneuverCell, .width16 {
