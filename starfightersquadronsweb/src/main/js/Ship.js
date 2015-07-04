@@ -87,6 +87,8 @@ if (Object.freeze)
 var Ship =
 {
     A_WING: "aWing",
+    ACES_A_WING: "acesAWing",
+    ACES_B_WING: "acesBWing",
     B_WING: "bWing",
     E_WING: "eWing",
     FIRESPRAY_31: "firespray31",
@@ -108,6 +110,27 @@ var Ship =
     Z_95_HEADHUNTER: "z95Headhunter",
     properties:
     {
+        "acesAWing":
+        {
+            name: "Aces A-Wing",
+            description: "An Aces A-Wing.",
+            team: Team.REBEL,
+            shipBase: ShipBase.STANDARD,
+            primaryFiringArc: FiringArc.FORWARD,
+            maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
+                    Maneuver.TURN_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_EASY,
+                    Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
+                    Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_EASY,
+                    Maneuver.TURN_LEFT_3_STANDARD,
+                    Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
+                    Maneuver.BANK_RIGHT_3_STANDARD,
+                    Maneuver.TURN_RIGHT_3_STANDARD,
+                    Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_EASY,
+                    Maneuver.STRAIGHT_5_EASY, Maneuver.KOIOGRAN_TURN_5_HARD ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK,
+                    ShipAction.BOOST, ShipAction.EVADE ],
+            value: "acesAWing",
+        },
         "aWing":
         {
             name: "A-Wing",
@@ -128,6 +151,26 @@ var Ship =
             shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK,
                     ShipAction.BOOST, ShipAction.EVADE ],
             value: "aWing",
+        },
+        "acesBWing":
+        {
+            name: "Aces B-Wing",
+            description: "An Aces B-Wing.",
+            team: Team.REBEL,
+            shipBase: ShipBase.STANDARD,
+            primaryFiringArc: FiringArc.FORWARD,
+            maneuvers: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY,
+                    Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
+                    Maneuver.TURN_RIGHT_1_HARD, Maneuver.TURN_LEFT_2_STANDARD,
+                    Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
+                    Maneuver.BANK_RIGHT_2_STANDARD,
+                    Maneuver.TURN_RIGHT_2_STANDARD,
+                    Maneuver.KOIOGRAN_TURN_2_HARD, Maneuver.BANK_LEFT_3_HARD,
+                    Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_HARD,
+                    Maneuver.STRAIGHT_4_HARD ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK,
+                    ShipAction.BARREL_ROLL ],
+            value: "acesBWing",
         },
         "bWing":
         {

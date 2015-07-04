@@ -72,6 +72,7 @@ var Pilot =
     FELS_WRATH: "felsWrath",
     GAMMA_SQUADRON_PILOT: "gammaSquadronPilot",
     GARVEN_DREIS: "garvenDreis",
+    GEMMER_SOJAN: "gemmerSojan",
     GOLD_SQUADRON_PILOT: "goldSquadronPilot",
     GRAY_SQUADRON_PILOT: "graySquadronPilot",
     GREEN_SQUADRON_PILOT: "greenSquadronPilot",
@@ -80,9 +81,11 @@ var Pilot =
     HORTON_SALM: "hortonSalm",
     HOWLRUNNER: "howlrunner",
     IBTISAM: "ibtisam",
+    JAKE_FARRELL: "jakeFarrell",
     JAN_ORS: "janOrs",
     JEK_PORKINS: "jekPorkins",
     KATH_SCARLET: "kathScarlet",
+    KEYAN_FARLANDER: "keyanFarlander",
     KIR_KANOS: "kirKanos",
     KNAVE_SQUADRON_PILOT: "knaveSquadronPilot",
     KRASSIS_TRELIX: "krassisTrelix",
@@ -95,6 +98,7 @@ var Pilot =
     MAAREK_STELE: "maarekStele",
     MAJOR_RHYMER: "majorRhymer",
     MAULER_MITHEL: "maulerMithel",
+    NERA_DANTELS: "neraDantels",
     NIGHT_BEAST: "nightBeast",
     OBSIDIAN_SQUADRON_PILOT: "obsidianSquadronPilot",
     OMICRON_GROUP_PILOT: "omicronGroupPilot",
@@ -608,6 +612,19 @@ var Pilot =
             upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
             value: "garvenDreis",
         },
+        "gemmerSojan":
+        {
+            name: "Gemmer Sojan",
+            description: "While you are at Range 1 of at least 1 enemy ship, increase your agility value by 1.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            ship: Ship.ACES_A_WING,
+            shipState: new ShipState(5, 2, 3, 2, 2),
+            squadPointCost: 22,
+            upgradeTypes: [ UpgradeType.MISSILE ],
+            value: "gemmerSojan",
+        },
         "goldSquadronPilot":
         {
             name: "Gold Squadron Pilot",
@@ -718,6 +735,19 @@ var Pilot =
                     UpgradeType.TORPEDO ],
             value: "ibtisam",
         },
+        "jakeFarrell":
+        {
+            name: "Jake Farrell",
+            description: "After you perform a focus action or are assigned a focus token, you may perform a free boost or barrel roll action.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            ship: Ship.ACES_A_WING,
+            shipState: new ShipState(7, 2, 3, 2, 2),
+            squadPointCost: 24,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+            value: "jakeFarrell",
+        },
         "janOrs":
         {
             name: "Jan Ors",
@@ -759,6 +789,21 @@ var Pilot =
             upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON,
                     UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE ],
             value: "kathScarlet",
+        },
+        "keyanFarlander":
+        {
+            name: "Keyan Farlander",
+            description: "When attacking, you may remove 1 stress token to change all of your Focus results to Hit results.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            ship: Ship.ACES_B_WING,
+            shipState: new ShipState(7, 3, 1, 3, 5),
+            squadPointCost: 29,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO ],
+            value: "keyanFarlander",
         },
         "kirKanos":
         {
@@ -923,6 +968,21 @@ var Pilot =
             squadPointCost: 17,
             upgradeTypes: [ UpgradeType.ELITE ],
             value: "maulerMithel",
+        },
+        "neraDantels":
+        {
+            name: "Nera Dantels",
+            description: "You can perform Torpedo secondary weapon attacks against enemy ships outside your firing arc.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            ship: Ship.ACES_B_WING,
+            shipState: new ShipState(5, 3, 1, 3, 5),
+            squadPointCost: 26,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.TORPEDO,
+                    UpgradeType.TORPEDO ],
+            value: "neraDantels",
         },
         "nightBeast":
         {
