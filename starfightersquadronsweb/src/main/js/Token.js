@@ -256,7 +256,8 @@ function Token(pilot, agent)
     this.getName = function()
     {
         var pilotName = Pilot.properties[pilot].name;
-        var shipName = Ship.properties[Pilot.properties[pilot].ship].name;
+        var shipTeam = Pilot.properties[pilot].shipTeam;
+        var shipName = Ship.properties[ShipTeam.properties[shipTeam].ship].name;
 
         return id + " " + pilotName + " (" + shipName + ")";
     }
@@ -360,7 +361,8 @@ function Token(pilot, agent)
 
     this.getShip = function()
     {
-        return Pilot.properties[pilot].ship;
+        var shipTeam = this.getShipTeam();
+        return ShipTeam.properties[shipTeam].ship;
     }
 
     this.getShipBase = function()
@@ -378,6 +380,11 @@ function Token(pilot, agent)
         return Ship.properties[this.getShip()].primaryFiringArc;
     }
 
+    this.getShipTeam = function()
+    {
+        return Pilot.properties[pilot].shipTeam;
+    }
+
     this.getStressCount = function()
     {
         return stressCount;
@@ -385,7 +392,7 @@ function Token(pilot, agent)
 
     this.getTeam = function()
     {
-        return Ship.properties[this.getShip()].team;
+        return ShipTeam.properties[this.getShipTeam()].team;
     }
 
     this.getTeamName = function()
