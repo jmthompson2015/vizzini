@@ -89,6 +89,12 @@
                         assert.equal(result.value, upgradeCard);
                     });
 
+    QUnit.test("UpgradeCard.getName()", function(assert)
+    {
+        assert.equal(UpgradeCard.getName(UpgradeCard.DETERMINATION), "Determination");
+        assert.equal(UpgradeCard.getName(UpgradeCard.R2_D2), "\u25CF R2-D2");
+    });
+
     QUnit.test("UpgradeCard.values()", function(assert)
     {
         // Run.

@@ -1718,6 +1718,22 @@ var UpgradeCard =
         },
     },
 
+    getName: function(upgradeCard)
+    {
+        var properties = UpgradeCard.properties[upgradeCard];
+        var isUnique = properties.isUnique;
+        var answer = "";
+
+        if (isUnique)
+        {
+            answer += "\u25CF ";
+        }
+
+        answer += properties.name;
+
+        return answer;
+    },
+
     values: function()
     {
         return Object.getOwnPropertyNames(UpgradeCard.properties);

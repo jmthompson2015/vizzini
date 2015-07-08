@@ -13,7 +13,7 @@ var UpgradeCardUI = React.createClass(
         var rows = [];
         
         rows[rows.length] = <tr key={upgradeCard+"0"} className="upgradeCardUIName">
-            <td colSpan="2">{upgradeProps.name}</td>
+            <td colSpan="2">{UpgradeCard.getName(upgradeCard)}</td>
             </tr>;
             
         rows[rows.length] = <tr key={upgradeCard+"1"}>

@@ -269,7 +269,18 @@ function Token(pilot, agent)
 
     this.getPilotName = function()
     {
-        return id + " " + Pilot.properties[pilot].name;
+        var properties = Pilot.properties[pilot];
+        var isUnique = properties.isUnique;
+        var answer = id + " ";
+
+        if (isUnique)
+        {
+            answer += "\u25CF ";
+        }
+
+        answer += properties.name;
+
+        return answer;
     }
 
     this.getPilotSkillValue = function()
@@ -742,7 +753,6 @@ function Token(pilot, agent)
     {
         if (newValue >= 0)
         {
-         // var oldValue = stressCount;
             stressCount = newValue;
             that.trigger("change");
         }
@@ -866,7 +876,7 @@ Token.prototype.getShipActions = function()
         {
             var damage = criticalDamages[i];
 
-			// FIXME
+            // FIXME
             // if (damage.hasAction())
             // {
             // answer[answer.length] = new DamageCardShipAction(damage);
