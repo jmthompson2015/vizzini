@@ -182,8 +182,8 @@ function ImageUtilities()
 
     function getShipFilename(token)
     {
-        var filename = token.getShipName() + ".png";
-        filename = filename.replace(" ", "_");
+        var shipTeam = token.getShipTeam();
+        var filename = ShipTeam.properties[shipTeam].image;
 
         return filename;
     }

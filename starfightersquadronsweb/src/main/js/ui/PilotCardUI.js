@@ -47,7 +47,7 @@ var PilotCardUI = React.createClass(
         <PilotCardUI.NamePanel pilotSkillValue={myToken.getPilotSkillValue()}
             pilotName={myToken.getPilotName()}
             shipName={myToken.getShipName()}
-            teamName={myToken.getTeamName()} />
+            team={myToken.getTeam()} />
         </td>
         </tr>
         <tr>
@@ -92,7 +92,7 @@ var PilotCardUI = React.createClass(
             <PilotCardUI.NamePanel pilotSkillValue={myToken.getPilotSkillValue()}
                 pilotName={myToken.getPilotName()}
                 shipName={myToken.getShipName()}
-                teamName={myToken.getTeamName()} />
+                team={myToken.getTeam()} />
             </td>
             </tr>;
 
@@ -166,7 +166,7 @@ PilotCardUI.IonIcon = PilotCardUI.ImagesUrl + "token/IonToken32.png";
 PilotCardUI.ShieldTokenIcon = PilotCardUI.ImagesUrl + "token/ShieldToken32.png";
 PilotCardUI.StressIcon = PilotCardUI.ImagesUrl + "token/StressToken32.png";
 
-PilotCardUI.ImagesUrl2 = "http://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/pilotCard/"
+PilotCardUI.ImagesUrl2 = PilotCardUI.ImagesUrl + "pilotCard/"
     
 PilotCardUI.DamageIcon = PilotCardUI.ImagesUrl2 + "Damage32.jpg";
 PilotCardUI.CriticalDamageIcon = PilotCardUI.ImagesUrl2 + "CriticalDamage32.jpg";
@@ -174,18 +174,25 @@ PilotCardUI.CriticalDamageIcon = PilotCardUI.ImagesUrl2 + "CriticalDamage32.jpg"
 PilotCardUI.createActionImage = function(shipAction)
 {
     var actionName0 = ShipAction.properties[shipAction].displayName;
-    actionName = actionName0.replace(" ", "");
+    var actionName = actionName0.replace(" ", "");
     var fileString = PilotCardUI.ImagesUrl2 + actionName + "24.png";
     
     return <img className="pilotCardUIImage" src={fileString} title={actionName0} />;
+}
+
+PilotCardUI.teamIcons = 
+{
+    "imperial": PilotCardUI.ImagesUrl + "ImperialIcon24.png",
+    "rebel": PilotCardUI.ImagesUrl + "RebelIcon24.png",
+    "scum": PilotCardUI.ImagesUrl + "ScumIcon24.png",
 }
 
 PilotCardUI.NamePanel = React.createClass(
 {
     render: function() 
     {
-        var titleString = this.props.teamName + " Faction";
-        var fileString = PilotCardUI.ImagesUrl + this.props.teamName + "Icon24.png";
+        var titleString = Team.properties[this.props.team].name + " Faction";
+        var fileString = PilotCardUI.teamIcons[this.props.team];
 
         return (
             <table className="nameTable">

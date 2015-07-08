@@ -35,8 +35,9 @@ UpgradeCardUI.ImagesUrl = "http://rawgit.com/jmthompson2015/vizzini/master/starf
 
 UpgradeCardUI.createUpgradeImage = function(upgradeType)
 {
-    var typeName = UpgradeType.properties[upgradeType].displayName;
+    var typeName0 = UpgradeType.properties[upgradeType].displayName;
+    var typeName = typeName0.replace(" ", "");
     var fileString = UpgradeCardUI.ImagesUrl + typeName + "24.png";
     
-    return <img className="upgradeCardUIImage" src={fileString} title={typeName} />;
+    return <img className="upgradeCardUIImage" src={fileString} title={typeName0} />;
 }

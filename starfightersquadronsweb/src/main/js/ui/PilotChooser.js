@@ -10,11 +10,11 @@ var PilotChooser = React.createClass(
     {
         // Default to Imperial, first ship, first pilot.
         var team = this.props.team;
-        var ship = Ship.valuesByTeam(team)[0];
-        var pilot = Pilot.valuesByShip(ship)[0];
+        var shipTeam = ShipTeam.valuesByTeam(team)[0];
+        var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
         var token = this.createToken(pilot);
 
-        return {ship: ship, pilot: pilot, token: token};
+        return {shipTeam: shipTeam, pilot: pilot, token: token};
     },
     
     componentDidMount: function() 
@@ -27,7 +27,7 @@ var PilotChooser = React.createClass(
         InputValidator.validateNotNull("team property", this.props.team);
         InputValidator.validateNotNull("onChangeFunction property", this.props.onChangeFunction);
         
-        var shipSelect = this.createShipSelect();
+        var shipSelect = this.createShipTeamSelect();
         var pilotSelect = this.createPilotSelect();
         var token = this.state.token;
         
@@ -66,13 +66,13 @@ var PilotChooser = React.createClass(
     
     pilotCardUI: undefined,
     
-    shipChanged: function(event)
+    shipTeamChanged: function(event)
     {
-        var ship = event.currentTarget.value;
-        var pilot = Pilot.valuesByShip(ship)[0];
+        var shipTeam = event.currentTarget.value;
+        var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
         var token = this.createToken(pilot);
-        LOGGER.debug("new ship = " + ship);
-        this.setState({ship: ship, pilot: pilot, token: token});
+        LOGGER.debug("new shipTeam = " + shipTeam);
+        this.setState({shipTeam: shipTeam, pilot: pilot, token: token});
         
         this.props.onChangeFunction(event, pilot);
     },
@@ -104,14 +104,14 @@ var PilotChooser = React.createClass(
     
     createPilotSelect: function()
     {
-        var values = Pilot.valuesByShip(this.state.ship);
+        var values = Pilot.valuesByShipTeam(this.state.shipTeam);
         return this.createSelect(values, Pilot.properties, this.state.pilot, this.pilotChanged);
     },
     
-    createShipSelect: function()
+    createShipTeamSelect: function()
     {
-        var values = Ship.valuesByTeam(this.props.team);
-        return this.createSelect(values, Ship.properties, this.state.ship, this.shipChanged);
+        var values = ShipTeam.valuesByTeam(this.props.team);
+        return this.createSelect(values, ShipTeam.properties, this.state.shipTeam, this.shipTeamChanged);
     },
     
     createSelect: function(values, properties, selectedValue, onChangeFunction)

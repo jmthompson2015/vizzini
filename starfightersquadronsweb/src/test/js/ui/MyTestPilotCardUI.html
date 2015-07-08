@@ -20,6 +20,7 @@
 <script src="../../../main/js/Maneuver.js"></script>
 <script src="../../../main/js/ShipAction.js"></script>
 <script src="../../../main/js/Ship.js"></script>
+<script src="../../../main/js/ShipTeam.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 
@@ -42,14 +43,17 @@
 		<tr>
 			<td id="imperialPilotCompact" style="vertical-align: top"></td>
 			<td id="rebelPilotCompact" style="vertical-align: top"></td>
+			<td id="scumPilotCompact" style="vertical-align: top"></td>
 		</tr>
 		<tr>
 			<td id="imperialPilotLarge" style="vertical-align: top"></td>
 			<td id="rebelPilotLarge" style="vertical-align: top"></td>
+			<td id="scumPilotLarge" style="vertical-align: top"></td>
 		</tr>
 		<tr>
 			<td><button type="button" onclick="updateImperialToken();">Update</button></td>
 			<td><button type="button" onclick="updateRebelToken()">Update</button></td>
+			<td><button type="button" onclick="updateScumToken()">Update</button></td>
 		</tr>
 	</table>
 	<script type="text/jsx">
@@ -74,17 +78,27 @@
         rebelToken.increaseStressCount();
         rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
+        var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM,
+                CoreSetImperialSquadBuilder);
+        var scumToken = new Token(Pilot.SYNDICATE_THUG, scumAgent);
+
         React.render(<PilotCardUI isCompact={true} initialToken={imperialToken} />, 
 				document.getElementById("imperialPilotCompact"));
 
         React.render(<PilotCardUI isCompact={true} initialToken={rebelToken} />, 
 				document.getElementById("rebelPilotCompact"));
 
+        React.render(<PilotCardUI isCompact={true} initialToken={scumToken} />, 
+				document.getElementById("scumPilotCompact"));
+
         React.render(<PilotCardUI isCompact={false} initialToken={imperialToken} />, 
 				document.getElementById("imperialPilotLarge"));
 
         React.render(<PilotCardUI isCompact={false} initialToken={rebelToken} />, 
 				document.getElementById("rebelPilotLarge"));
+
+        React.render(<PilotCardUI isCompact={false} initialToken={scumToken} />, 
+				document.getElementById("scumPilotLarge"));
 
         function updateImperialToken()
         {
@@ -106,6 +120,17 @@
             rebelToken.decreaseShieldCount();
             rebelToken.increaseStressCount();
             LOGGER.info("updateRebelToken() end");
+        }
+
+        function updateScumToken()
+        {
+            LOGGER.info("updateScumToken() start");
+            scumToken.addDamage(DamageCard.DIRECT_HIT);
+            scumToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
+            scumToken.increaseIonCount();
+            scumToken.decreaseShieldCount();
+            scumToken.increaseStressCount();
+            LOGGER.info("updateScumToken() end");
         }
     </script>
 </body>
