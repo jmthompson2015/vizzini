@@ -87,15 +87,11 @@ if (Object.freeze)
 var Ship =
 {
     A_WING: "aWing",
-    ACES_A_WING: "acesAWing",
-    ACES_B_WING: "acesBWing",
     B_WING: "bWing",
     E_WING: "eWing",
     FIRESPRAY_31: "firespray31",
     HWK_290: "hwk290",
     LAMBDA_CLASS_SHUTTLE: "lambdaClassShuttle",
-    ROYAL_GUARD_TIE: "royalGuardTie",
-    SABER_SQUADRON_TIE: "saberSquadronTie",
     TIE_ADVANCED: "tieAdvanced",
     TIE_BOMBER: "tieBomber",
     TIE_DEFENDER: "tieDefender",
@@ -110,32 +106,10 @@ var Ship =
     Z_95_HEADHUNTER: "z95Headhunter",
     properties:
     {
-        "acesAWing":
-        {
-            name: "Aces A-Wing",
-            description: "An Aces A-Wing.",
-            team: Team.REBEL,
-            shipBase: ShipBase.STANDARD,
-            primaryFiringArc: FiringArc.FORWARD,
-            maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
-                    Maneuver.TURN_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_EASY,
-                    Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
-                    Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_EASY,
-                    Maneuver.TURN_LEFT_3_STANDARD,
-                    Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
-                    Maneuver.BANK_RIGHT_3_STANDARD,
-                    Maneuver.TURN_RIGHT_3_STANDARD,
-                    Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_EASY,
-                    Maneuver.STRAIGHT_5_EASY, Maneuver.KOIOGRAN_TURN_5_HARD ],
-            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK,
-                    ShipAction.BOOST, ShipAction.EVADE ],
-            value: "acesAWing",
-        },
         "aWing":
         {
             name: "A-Wing",
             description: "An A-Wing.",
-            team: Team.REBEL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
@@ -152,31 +126,10 @@ var Ship =
                     ShipAction.BOOST, ShipAction.EVADE ],
             value: "aWing",
         },
-        "acesBWing":
-        {
-            name: "Aces B-Wing",
-            description: "An Aces B-Wing.",
-            team: Team.REBEL,
-            shipBase: ShipBase.STANDARD,
-            primaryFiringArc: FiringArc.FORWARD,
-            maneuvers: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY,
-                    Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
-                    Maneuver.TURN_RIGHT_1_HARD, Maneuver.TURN_LEFT_2_STANDARD,
-                    Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
-                    Maneuver.BANK_RIGHT_2_STANDARD,
-                    Maneuver.TURN_RIGHT_2_STANDARD,
-                    Maneuver.KOIOGRAN_TURN_2_HARD, Maneuver.BANK_LEFT_3_HARD,
-                    Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_HARD,
-                    Maneuver.STRAIGHT_4_HARD ],
-            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK,
-                    ShipAction.BARREL_ROLL ],
-            value: "acesBWing",
-        },
         "bWing":
         {
             name: "B-Wing",
             description: "A B-Wing.",
-            team: Team.REBEL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY,
@@ -196,7 +149,6 @@ var Ship =
         {
             name: "E-Wing",
             description: "An E-Wing.",
-            team: Team.REBEL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD,
@@ -219,7 +171,6 @@ var Ship =
         {
             name: "Firespray-31",
             description: "A Firespray-31.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.LARGE,
             primaryFiringArc: FiringArc.FORWARD_AND_AFT,
             maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
@@ -242,7 +193,6 @@ var Ship =
         {
             name: "HWK-290",
             description: "An HWK-290.",
-            team: Team.REBEL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
@@ -259,7 +209,6 @@ var Ship =
         {
             name: "Lambda-class Shuttle",
             description: "A Lambda-class shuttle.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.LARGE,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.STATIONARY_0_HARD, Maneuver.BANK_LEFT_1_EASY,
@@ -271,53 +220,10 @@ var Ship =
             shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
             value: "lambdaClassShuttle",
         },
-        "royalGuardTie":
-        {
-            name: "Royal Guard TIE",
-            description: "A Royal Guard TIE interceptor.",
-            team: Team.IMPERIAL,
-            shipBase: ShipBase.STANDARD,
-            primaryFiringArc: FiringArc.FORWARD,
-            maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
-                    Maneuver.TURN_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_EASY,
-                    Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
-                    Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_EASY,
-                    Maneuver.TURN_LEFT_3_STANDARD,
-                    Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
-                    Maneuver.BANK_RIGHT_3_STANDARD,
-                    Maneuver.TURN_RIGHT_3_STANDARD,
-                    Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_EASY,
-                    Maneuver.STRAIGHT_5_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
-            shipActions: [ ShipAction.EVADE, ShipAction.BOOST,
-                    ShipAction.FOCUS, ShipAction.BARREL_ROLL ],
-            value: "royalGuardTie",
-        },
-        "saberSquadronTie":
-        {
-            name: "Saber Squadron TIE",
-            description: "A Saber Squadron TIE interceptor.",
-            team: Team.IMPERIAL,
-            shipBase: ShipBase.STANDARD,
-            primaryFiringArc: FiringArc.FORWARD,
-            maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
-                    Maneuver.TURN_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_EASY,
-                    Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
-                    Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_EASY,
-                    Maneuver.TURN_LEFT_3_STANDARD,
-                    Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
-                    Maneuver.BANK_RIGHT_3_STANDARD,
-                    Maneuver.TURN_RIGHT_3_STANDARD,
-                    Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_EASY,
-                    Maneuver.STRAIGHT_5_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
-            shipActions: [ ShipAction.EVADE, ShipAction.BOOST,
-                    ShipAction.FOCUS, ShipAction.BARREL_ROLL ],
-            value: "saberSquadronTie",
-        },
         "tieAdvanced":
         {
             name: "TIE Advanced",
             description: "A TIE Advanced.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
@@ -339,7 +245,6 @@ var Ship =
         {
             name: "TIE Bomber",
             description: "A TIE bomber.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD,
@@ -359,7 +264,6 @@ var Ship =
         {
             name: "TIE Defender",
             description: "A TIE defender.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_HARD,
@@ -380,7 +284,6 @@ var Ship =
         {
             name: "TIE Fighter",
             description: "A TIE fighter.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
@@ -403,7 +306,6 @@ var Ship =
         {
             name: "TIE Interceptor",
             description: "A TIE interceptor.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
@@ -424,7 +326,6 @@ var Ship =
         {
             name: "TIE Phantom",
             description: "A TIE phantom.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
@@ -446,7 +347,6 @@ var Ship =
         {
             name: "VT-49 Decimator",
             description: "A VT-49 Decimator.",
-            team: Team.IMPERIAL,
             shipBase: ShipBase.LARGE,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD,
@@ -467,7 +367,6 @@ var Ship =
         {
             name: "X-Wing",
             description: "An X-Wing.",
-            team: Team.REBEL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
@@ -488,7 +387,6 @@ var Ship =
         {
             name: "Y-Wing",
             description: "A Y-Wing.",
-            team: Team.REBEL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD,
@@ -508,7 +406,6 @@ var Ship =
         {
             name: "YT-1300",
             description: "A YT-1300.",
-            team: Team.REBEL,
             shipBase: ShipBase.LARGE,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
@@ -530,7 +427,6 @@ var Ship =
         {
             name: "YT-2400",
             description: "A YT-2400.",
-            team: Team.REBEL,
             shipBase: ShipBase.LARGE,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD,
@@ -554,7 +450,6 @@ var Ship =
         {
             name: "Z-95 Headhunter",
             description: "A Z-95 headhunter.",
-            team: Team.REBEL,
             shipBase: ShipBase.STANDARD,
             primaryFiringArc: FiringArc.FORWARD,
             maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD,
@@ -576,25 +471,6 @@ var Ship =
     values: function()
     {
         return Object.getOwnPropertyNames(Ship.properties);
-    },
-
-    valuesByTeam: function(team)
-    {
-        var answer = [];
-        var values = this.values();
-        var properties = this.properties;
-
-        for (var i = 0; i < values.length; i++)
-        {
-            var value = values[i];
-
-            if (properties[value].team === team)
-            {
-                answer[answer.length] = value;
-            }
-        }
-
-        return answer;
     },
 };
 

@@ -15,6 +15,7 @@
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/ShipAction.js"></script>
 <script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/ShipTeam.js"></script>
 <script src="../../main/js/Weapon.js"></script>
 <script src="../../main/js/UpgradeCard.js"></script>
 <script src="../../main/js/Pilot.js"></script>
@@ -26,7 +27,7 @@
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Academy Pilot");
         assert.ok(properties.primaryWeapon);
-        assert.equal(properties.ship, Ship.TIE_FIGHTER);
+        assert.equal(properties.shipTeam, ShipTeam.IMPERIAL_TIE_FIGHTER);
         assert.equal(properties.shipState.getPilotSkillValue(), 1);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 2);
         assert.equal(properties.shipState.getAgilityValue(), 3);
@@ -42,7 +43,7 @@
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Bounty Hunter");
         assert.ok(properties.primaryWeapon);
-        assert.equal(properties.ship, Ship.FIRESPRAY_31);
+        assert.equal(properties.shipTeam, ShipTeam.IMPERIAL_FIRESPRAY_31);
         assert.equal(properties.shipState.getPilotSkillValue(), 3);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 3);
         assert.equal(properties.shipState.getAgilityValue(), 2);
@@ -58,7 +59,7 @@
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "\"Dutch\" Vander");
         assert.ok(properties.primaryWeapon);
-        assert.equal(properties.ship, Ship.Y_WING);
+        assert.equal(properties.shipTeam, ShipTeam.REBEL_Y_WING);
         assert.equal(properties.shipState.getPilotSkillValue(), 6);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 2);
         assert.equal(properties.shipState.getAgilityValue(), 1);
@@ -74,7 +75,7 @@
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Rookie Pilot");
         assert.ok(properties.primaryWeapon);
-        assert.equal(properties.ship, Ship.X_WING);
+        assert.equal(properties.shipTeam, ShipTeam.REBEL_X_WING);
         assert.equal(properties.shipState.getPilotSkillValue(), 2);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 3);
         assert.equal(properties.shipState.getAgilityValue(), 2);
@@ -86,36 +87,49 @@
 
     QUnit.test("values()", function(assert)
     {
-        // Setup.
-
         // Run.
         var result = Pilot.values();
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 90);
+        assert.equal(result.length, 110);
         assert.equal(result[0], "academyPilot");
-        assert.equal(result[89], "wingedGundark");
+        assert.equal(result[109], "wingedGundark");
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties
-        	- 1 // values
-        	- 1; // valuesByShip
+        - 1 // values
+        - 1; // valuesByShipTeam
         assert.equal(result.length, count);
+
+        for (var i = 0; i < result.length; i++)
+        {
+            assert.ok(!result[i].ship, result[i].ship);
+        }
     });
 
-    QUnit.test("valuesByShip() TIE Fighter", function(assert)
+    QUnit.test("valuesByShipTeam() TIE Fighter", function(assert)
     {
-        // Setup.
-
         // Run.
-        var result = Pilot.valuesByShip(Ship.TIE_FIGHTER);
+        var result = Pilot.valuesByShipTeam(ShipTeam.IMPERIAL_TIE_FIGHTER);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 9);
         assert.equal(result[0], "academyPilot");
         assert.equal(result[8], "wingedGundark");
+    });
+
+    QUnit.test("valuesByShipTeam() X-Wing", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByShipTeam(ShipTeam.REBEL_X_WING);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 10);
+        assert.equal(result[0], "biggsDarklighter");
+        assert.equal(result[9], "wesJanson");
     });
 </script>
 </head>

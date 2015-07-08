@@ -7,6 +7,7 @@ var Team =
 {
     IMPERIAL: "imperial",
     REBEL: "rebel",
+    SCUM: "scum",
     properties:
     {
         "imperial":
@@ -14,17 +15,21 @@ var Team =
             name: "Imperial",
             description: "Imperial team",
             value: "imperial",
-            opposite: "rebel"
         },
         "rebel":
         {
             name: "Rebel",
             description: "Rebel team",
             value: "rebel",
-            opposite: "imperial"
-        }
+        },
+        "scum":
+        {
+            name: "Scum & Villainy",
+            description: "Scum & Villainy team",
+            value: "scum",
+        },
     },
-    values: [ "imperial", "rebel" ]
+    values: [ "imperial", "rebel", "scum" ]
 };
 
 if (Object.freeze)

@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <title>TeamTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 <script src="../../main/js/Team.js"></script>
 
@@ -28,20 +27,22 @@
         assert.equal(properties.value, "rebel");
     });
 
-    QUnit.test("Team.opposite()", function(assert)
+    QUnit.test("Team properties Scum", function(assert)
     {
-        var team0 = Team.IMPERIAL;
-        var team1 = Team.REBEL;
-        assert.equal(Team.properties[team0].opposite, team1);
-        assert.equal(Team.properties[team1].opposite, team0);
+        var team = Team.SCUM;
+        var properties = Team.properties[team];
+        assert.equal(properties.name, "Scum & Villainy");
+        assert.equal(properties.description, "Scum & Villainy team");
+        assert.equal(properties.value, "scum");
     });
 
     QUnit.test("Team.values()", function(assert)
     {
         assert.ok(Team.values);
-        assert.equal(Team.values.length, 2);
+        assert.equal(Team.values.length, 3);
         assert.equal(Team.values[0], Team.IMPERIAL);
         assert.equal(Team.values[1], Team.REBEL);
+        assert.equal(Team.values[2], Team.SCUM);
     });
 </script>
 </head>
