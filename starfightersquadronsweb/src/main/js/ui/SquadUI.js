@@ -56,7 +56,7 @@ var SquadUI = React.createClass(
             rows[rows.length] = <tr key={token.getId()}>
                 <td><input type="checkbox" checked={isChecked} onChange={that.setSelected.bind(this, token)} /></td>
                 <td className="squadUIPilotName">{pilotProps.name}</td>
-                <td className="squadUIPilotName">{Ship.properties[pilotProps.ship].name}</td>
+                <td className="squadUIPilotName">{ShipTeam.properties[pilotProps.shipTeam].name}</td>
                 <td>{shipState.getPilotSkillValue()}</td>
                 <td>{shipState.getPrimaryWeaponValue()}</td>
                 <td>{shipState.getAgilityValue()}</td>
