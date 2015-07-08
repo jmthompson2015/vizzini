@@ -7,11 +7,13 @@ var UpgradeRestriction =
     LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
     LIMITED: "limited",
     REBEL_ONLY: "rebelOnly",
+    SCUM_ONLY: "scumOnly",
     TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
     TIE_PHANTOM_ONLY: "tiePhantomOnly",
     VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
     YT_1300_ONLY: "yt1300Only",
     YT_2400_ONLY: "yt2400Only",
+    Y_WING_ONLY: "yWingOnly",
     properties:
     {
         "firespray31Only":
@@ -19,7 +21,8 @@ var UpgradeRestriction =
             displayName: "Firespray-31 only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.FIRESPRAY_31;
             }
         },
@@ -28,7 +31,8 @@ var UpgradeRestriction =
             displayName: "Huge ship only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 var shipBase = Ship.properties[ship].shipBase;
                 return shipBase === ShipBase.HUGE1
                         || shipBase === ShipBase.HUGE2;
@@ -39,7 +43,8 @@ var UpgradeRestriction =
             displayName: "HWK-290 only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.HWK_290;
             }
         },
@@ -48,8 +53,9 @@ var UpgradeRestriction =
             displayName: "Imperial only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
-                return Ship.properties[ship].team === Team.IMPERIAL;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var team = ShipTeam.properties[shipTeam].team;
+                return team === Team.IMPERIAL;
             }
         },
         "lambdaClassShuttleOnly":
@@ -57,8 +63,18 @@ var UpgradeRestriction =
             displayName: "Lambda-class Shuttle only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.LAMBDA_CLASS_SHUTTLE;
+            }
+        },
+        "limited":
+        {
+            displayName: "Limited.",
+            passes: function(pilot)
+            {
+                // FIXME: implement Limited.passes()
+                return true;
             }
         },
         "rebelOnly":
@@ -66,8 +82,19 @@ var UpgradeRestriction =
             displayName: "Rebel only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
-                return Ship.properties[ship].team === Team.REBEL;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var team = ShipTeam.properties[shipTeam].team;
+                return team === Team.REBEL;
+            }
+        },
+        "scumOnly":
+        {
+            displayName: "Scum only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var team = ShipTeam.properties[shipTeam].team;
+                return team === Team.SCUM;
             }
         },
         "tieInterceptorOnly":
@@ -75,7 +102,8 @@ var UpgradeRestriction =
             displayName: "TIE Interceptor only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.TIE_INTERCEPTOR;
             }
         },
@@ -84,7 +112,8 @@ var UpgradeRestriction =
             displayName: "TIE Phantom only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.TIE_PHANTOM;
             }
         },
@@ -93,7 +122,8 @@ var UpgradeRestriction =
             displayName: "VT-49 Decimator only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.VT_49_DECIMATOR;
             }
         },
@@ -102,7 +132,8 @@ var UpgradeRestriction =
             displayName: "YT-1300 only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.YT_1300;
             }
         },
@@ -111,14 +142,27 @@ var UpgradeRestriction =
             displayName: "YT-2400 only.",
             passes: function(pilot)
             {
-                var ship = Pilot.properties[pilot].ship;
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.YT_2400;
+            }
+        },
+        "yWingOnly":
+        {
+            displayName: "Y-Wing only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                return ship === Ship.Y_WING;
             }
         },
     },
 
     passes: function(restrictions, pilot)
     {
+        InputValidator.validateNotNull("pilot", pilot);
+
         var answer = true;
 
         for (var i = 0; i < restrictions.length; i++)
@@ -145,8 +189,10 @@ var UpgradeType =
     CREW: "crew",
     ELITE: "elite",
     HARDPOINT: "hardpoint",
+    ILLICIT: "illicit",
     MISSILE: "missile",
     MODIFICATION: "modification",
+    SALVAGED_ASTROMECH: "salvagedAstromech",
     SENSOR: "sensor",
     TEAM: "team",
     TITLE: "title",
@@ -189,6 +235,11 @@ var UpgradeType =
             displayName: "Hardpoint",
             value: "hardpoint",
         },
+        "illicit":
+        {
+            displayName: "Illicit",
+            value: "illicit",
+        },
         "missile":
         {
             displayName: "Missile",
@@ -198,6 +249,11 @@ var UpgradeType =
         {
             displayName: "Modification",
             value: "modification",
+        },
+        "salvagedAstromech":
+        {
+            displayName: "Salvaged Astromech",
+            value: "salvagedAstromech",
         },
         "sensor":
         {
@@ -225,9 +281,11 @@ var UpgradeType =
             value: "turret",
         },
     },
-    values: [ "astromech", "bomb", "cannon", "cargo", "crew", "elite",
-            "hardpoint", "missile", "modification", "sensor", "team", "title",
-            "torpedo", "turret", ],
+
+    values: function()
+    {
+        return Object.getOwnPropertyNames(UpgradeType.properties);
+    },
 }
 
 /*
@@ -249,7 +307,10 @@ var UpgradeCard =
     ADRENALINE_RUSH: "adrenalineRush",
     ADVANCED_CLOAKING_DEVICE: "advancedCloakingDevice",
     ADVANCED_SENSORS: "advancedSensors",
+    ANDRASTA: "andrasta",
     ANTI_PURSUIT_LASERS: "antiPursuitLasers",
+    BOMB_LOADOUT: "bombLoadout",
+    BTL_A4_Y_WING: "btlA4YWing",
     C_3PO: "c3po",
     CARLIST_RIEEKAN: "carlistRieekan",
     CHEWBACCA: "chewbacca",
@@ -270,6 +331,8 @@ var UpgradeCard =
     EXPOSE: "expose",
     FIRE_CONTROL_SYSTEM: "fireControlSystem",
     FLIGHT_INSTRUCTOR: "flightInstructor",
+    GENIUS: "genius",
+    GREEDO: "greedo",
     GUNNER: "gunner",
     GUNNERY_TEAM: "gunneryTeam",
     HAN_SOLO: "hanSolo",
@@ -277,6 +340,7 @@ var UpgradeCard =
     INTELLIGENCE_AGENT: "intelligenceAgent",
     INTIMIDATION: "intimidation",
     JAN_DODONNA: "janDodonna",
+    K4_SECURITY_DROID: "k4SecurityDroid",
     LEIA_ORGANA: "leiaOrgana",
     LONE_WOLF: "loneWolf",
     LUKE_SKYWALKER: "lukeSkywalker",
@@ -288,6 +352,7 @@ var UpgradeCard =
     NAVIGATOR: "navigator",
     NIEN_NUNB: "nienNunb",
     OPPORTUNIST: "opportunist",
+    OUTLAW_TECH: "outlawTech",
     OUTMANEUVER: "outmaneuver",
     OUTRIDER: "outrider",
     PREDATOR: "predator",
@@ -300,6 +365,8 @@ var UpgradeCard =
     R2_D6: "r2D6",
     R2_F2: "r2F2",
     R3_A2: "r3A2",
+    R4_AGROMECH: "r4Agromech",
+    R4_B11: "r4B11",
     R4_D6: "r4D6",
     R5_ASTROMECH: "r5Astromech",
     R5_D8: "r5D8",
@@ -313,6 +380,7 @@ var UpgradeCard =
     ROYAL_GUARD_TIE: "royalGuardTie",
     RUTHLESSNESS: "ruthlessness",
     SABOTEUR: "saboteur",
+    SALVAGED_ASTROMECH: "salvagedAstromech",
     SEISMIC_CHARGES: "seismicCharges",
     SENSOR_JAMMER: "sensorJammer",
     SENSOR_TEAM: "sensorTeam",
@@ -328,23 +396,28 @@ var UpgradeCard =
     TARGETING_COMPUTER: "targetingComputer",
     TARGETING_COORDINATOR: "targetingCoordinator",
     TORYN_FARR: "torynFarr",
+    UNHINGED_ASTROMECH: "unhingedAstromech",
     VETERAN_INSTINCTS: "veteranInstincts",
     WEAPONS_ENGINEER: "weaponsEngineer",
     WED_15_REPAIR_DROID: "wed15RepairDroid",
     WINGMAN: "wingman",
+
+    // Secondary weapons.
     ADVANCED_PROTON_TORPEDOES: "advancedProtonTorpedoes",
     ASSAULT_MISSILES: "assaultMissiles",
     AUTOBLASTER: "autoblaster",
+    AUTOBLASTER_TURRET: "autoblasterTurret",
     BLASTER_TURRET: "blasterTurret",
     CLUSTER_MISSILES: "clusterMissiles",
     CONCUSSION_MISSILES: "concussionMissiles",
     FLECHETTE_TORPEDOES: "flechetteTorpedoes",
     HEAVY_LASER_CANNON: "heavyLaserCannon",
     HOMING_MISSILES: "homingMissiles",
+    HOT_SHOT_BLASTER: "hotShotBlaster",
     ION_CANNON: "ionCannon",
     ION_CANNON_TURRET: "ionCannonTurret",
     ION_PULSE_MISSILES: "ionPulseMissiles",
-    ION_TORPEDOES:"ionTorpedoes",
+    ION_TORPEDOES: "ionTorpedoes",
     PROTON_ROCKETS: "protonRockets",
     PROTON_TORPEDOES: "protonTorpedoes",
     properties:
@@ -380,6 +453,17 @@ var UpgradeCard =
             hasAction: false,
             value: "advancedSensors",
         },
+        "andrasta":
+        {
+            name: "Andrasta",
+            type: UpgradeType.TITLE,
+            isUnique: true,
+            restrictions: [ UpgradeRestriction.FIRESPRAY_31_ONLY ],
+            description: "Your upgrade bar gains two additional Bomb upgrade icons.",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "andrasta",
+        },
         "antiPursuitLasers":
         {
             name: "Anti-Pursuit Lasers",
@@ -390,6 +474,29 @@ var UpgradeCard =
             squadPointCost: 2,
             hasAction: false,
             value: "antiPursuitLasers",
+        },
+        "bombLoadout":
+        {
+            name: "Bomb Loadout",
+            type: UpgradeType.TORPEDO,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.Y_WING_ONLY,
+                    UpgradeRestriction.LIMITED ],
+            description: "Your upgrade bar gains the Bomb icon.",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "bombLoadout",
+        },
+        "btlA4YWing":
+        {
+            name: "BTL-A4 Y-Wing",
+            type: UpgradeType.TITLE,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.Y_WING_ONLY ],
+            description: "You cannot attack ships outside your firing arc. After you perform a primary weapon attack, you may immediately perform an attack with a Turret secondary weapon.",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "btlA4YWing",
         },
         "c3po":
         {
@@ -554,7 +661,7 @@ var UpgradeCard =
             name: "Engineering Team",
             type: UpgradeType.TEAM,
             isUnique: false,
-            restrictions:[UpgradeRestriction.LIMITED],
+            restrictions: [ UpgradeRestriction.LIMITED ],
             description: "During the Activation phase, when you reveal a Straight maneuver, gain 1 additional energy during the \"Gain Energy\" step.",
             squadPointCost: 4,
             hasAction: false,
@@ -621,6 +728,27 @@ var UpgradeCard =
             hasAction: false,
             value: "flightInstructor",
         },
+        "genius":
+        {
+            name: "\"Genius\"",
+            type: UpgradeType.SALVAGED_ASTROMECH,
+            isUnique: true,
+            description: "If you are equipped with a bomb that can be dropped before you reveal your maneuver, you may drop the bomb after you execute your maneuver instead.",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "genius",
+        },
+        "greedo":
+        {
+            name: "Greedo",
+            type: UpgradeType.CREW,
+            isUnique: true,
+            restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+            description: "The first time you attack each round and the first time you defend each round, the first Damage card dealt is dealt faceup.",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "greedo",
+        },
         "gunner":
         {
             name: "Gunner",
@@ -636,7 +764,7 @@ var UpgradeCard =
             name: "Gunnery Team",
             type: UpgradeType.TEAM,
             isUnique: false,
-            restrictions:[UpgradeRestriction.LIMITED],
+            restrictions: [ UpgradeRestriction.LIMITED ],
             description: "Once per round, when attacking with a secondary weapon, you may spend 1 energy to change 1 of your blank results to a Hit result.",
             squadPointCost: 4,
             hasAction: false,
@@ -694,6 +822,17 @@ var UpgradeCard =
             squadPointCost: 6,
             hasAction: false,
             value: "janDodonna",
+        },
+        "k4SecurityDroid":
+        {
+            name: "K4 Security Droid",
+            type: UpgradeType.CREW,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+            description: "After executing a green maneuver, you may acquire a target lock.",
+            squadPointCost: 3,
+            hasAction: false,
+            value: "k4SecurityDroid",
         },
         "landoCalrissian":
         {
@@ -854,6 +993,18 @@ var UpgradeCard =
             hasAction: false,
             value: "opportunist",
         },
+        "outlawTech":
+        {
+            name: "Outlaw Tech",
+            type: UpgradeType.CREW,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.SCUM_ONLY,
+                    UpgradeRestriction.LIMITED ],
+            description: "After you execute a red maneuver, you may assign 1 focus token to your ship.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "outlawTech",
+        },
         "outmaneuver":
         {
             name: "Outmaneuver",
@@ -975,6 +1126,26 @@ var UpgradeCard =
             squadPointCost: 2,
             hasAction: false,
             value: "r3A2",
+        },
+        "r4Agromech":
+        {
+            name: "R4 Agromech",
+            type: UpgradeType.SALVAGED_ASTROMECH,
+            isUnique: false,
+            description: "When attacking, after you spend a focus token, you may acquire a target lock on the defender.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "r4Agromech",
+        },
+        "r4B11":
+        {
+            name: "R4-B11",
+            type: UpgradeType.SALVAGED_ASTROMECH,
+            isUnique: true,
+            description: "When attacking, if you have a target lock on the defender you may spend the target lock to choose any or all defense dice. The defender must reroll the chosen dice.",
+            squadPointCost: 3,
+            hasAction: false,
+            value: "r4B11",
         },
         "r4D6":
         {
@@ -1110,6 +1281,16 @@ var UpgradeCard =
             squadPointCost: 2,
             hasAction: true,
             value: "saboteur",
+        },
+        "salvagedAstromech":
+        {
+            name: "Salvaged Astromech",
+            type: UpgradeType.SALVAGED_ASTROMECH,
+            isUnique: false,
+            description: "When you are dealt a Damage card with the Ship trait, you may immediately discard that card (before resolving its effect). Then, discard this Upgrade card.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "salvagedAstromech",
         },
         "seismicCharges":
         {
@@ -1266,6 +1447,16 @@ var UpgradeCard =
             hasAction: true,
             value: "torynFarr",
         },
+        "unhingedAstromech":
+        {
+            name: "Unhinged Astromech",
+            type: UpgradeType.SALVAGED_ASTROMECH,
+            isUnique: false,
+            description: "You may treat all 3 speed manuevers as green maneuvers.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "unhingedAstromech",
+        },
         "veteranInstincts":
         {
             name: "Veteran Instincts",
@@ -1319,6 +1510,7 @@ var UpgradeCard =
             value: "ysanneIsard",
         },
 
+        // /////////////////////////////////////////////////////////////////////
         // Secondary weapons.
         "advancedProtonTorpedoes":
         {
@@ -1356,6 +1548,18 @@ var UpgradeCard =
             ranges: [ Range.ONE ],
             value: "autoblaster",
         },
+        "autoblasterTurret":
+        {
+            name: "Autoblaster Turret",
+            type: UpgradeType.TURRET,
+            isUnique: false,
+            description: "Attack 1 ship (even a ship outside your firing arc). Your Hit results cannot be canceled by defense dice. The defender may cancel Critical Hit results before Hit results.",
+            squadPointCost: 2,
+            hasAction: false,
+            weaponValue: 2,
+            ranges: [ Range.ONE ],
+            value: "autoblasterTurret",
+        },
         "blasterTurret":
         {
             name: "Blaster Turret",
@@ -1365,7 +1569,7 @@ var UpgradeCard =
             squadPointCost: 4,
             hasAction: false,
             weaponValue: 3,
-            ranges: [ Range.ONE,Range.TWO ],
+            ranges: [ Range.ONE, Range.TWO ],
             value: "blasterTurret",
         },
         "clusterMissiles":
@@ -1428,6 +1632,18 @@ var UpgradeCard =
             ranges: [ Range.TWO, Range.THREE ],
             value: "homingMissiles",
         },
+        "hotShotBlaster":
+        {
+            name: "\"Hot Shot\" Blaster",
+            type: UpgradeType.ILLICIT,
+            isUnique: false,
+            description: "Discard this card to attack 1 ship (even a ship outside your firing arc).",
+            squadPointCost: 3,
+            hasAction: false,
+            weaponValue: 3,
+            ranges: [ Range.ONE, Range.TWO ],
+            value: "hotShotBlaster",
+        },
         "ionCannon":
         {
             name: "Ion Cannon",
@@ -1449,7 +1665,7 @@ var UpgradeCard =
             squadPointCost: 5,
             hasAction: false,
             weaponValue: 3,
-            ranges: [ Range.ONE,Range.TWO ],
+            ranges: [ Range.ONE, Range.TWO ],
             value: "ionCannonTurret",
         },
         "ionPulseMissiles":
@@ -1497,7 +1713,7 @@ var UpgradeCard =
             squadPointCost: 4,
             hasAction: false,
             weaponValue: 4,
-            ranges: [ Range.TWO,Range.THREE ],
+            ranges: [ Range.TWO, Range.THREE ],
             value: "protonTorpedoes",
         },
     },

@@ -16,6 +16,7 @@
 <script src="../../main/js/Maneuver.js"></script>
 <script src="../../main/js/ShipAction.js"></script>
 <script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/ShipTeam.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/Weapon.js"></script>
 <script src="../../main/js/UpgradeCard.js"></script>
@@ -35,10 +36,11 @@
 
     QUnit.test("UpgradeType.values()", function(assert)
     {
-        assert.ok(UpgradeType.values);
-        assert.equal(UpgradeType.values.length, 14);
-        assert.equal(UpgradeType.values[0], UpgradeType.ASTROMECH);
-        assert.equal(UpgradeType.values[13], UpgradeType.TURRET);
+        var result = UpgradeType.values();
+        assert.ok(result);
+        assert.equal(result.length, 16);
+        assert.equal(result[0], UpgradeType.ASTROMECH);
+        assert.equal(result[15], UpgradeType.TURRET);
     });
 
     QUnit
@@ -50,6 +52,7 @@
                         var properties = UpgradeCard.properties[upgrade];
                         assert.equal(properties.name, "Adrenaline Rush");
                         assert.equal(properties.type, UpgradeType.ELITE);
+                        assert.ok(!properties.restrictions);
                         assert
                                 .equal(
                                         properties.description,
@@ -93,9 +96,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 108);
+        assert.equal(result.length, 121);
         assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[107], UpgradeCard.PROTON_TORPEDOES);
+        assert.equal(result[120], UpgradeCard.PROTON_TORPEDOES);
     });
 
     QUnit.test("UpgradeCard.valuesByPilotAndType() Astromech", function(assert)
@@ -120,8 +123,29 @@
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 22);
-        assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[21], UpgradeCard.WINGMAN);
+        var i = 0;
+        assert.equal(result[i++], UpgradeCard.ADRENALINE_RUSH);
+        assert.equal(result[i++], UpgradeCard.DAREDEVIL);
+        assert.equal(result[i++], UpgradeCard.DEADEYE);
+        assert.equal(result[i++], UpgradeCard.DECOY);
+        assert.equal(result[i++], UpgradeCard.DETERMINATION);
+        assert.equal(result[i++], UpgradeCard.DRAW_THEIR_FIRE);
+        assert.equal(result[i++], UpgradeCard.ELUSIVENESS);
+        assert.equal(result[i++], UpgradeCard.EXPERT_HANDLING);
+        assert.equal(result[i++], UpgradeCard.EXPOSE);
+        assert.equal(result[i++], UpgradeCard.INTIMIDATION);
+        assert.equal(result[i++], UpgradeCard.LONE_WOLF);
+        assert.equal(result[i++], UpgradeCard.MARKSMANSHIP);
+        assert.equal(result[i++], UpgradeCard.OPPORTUNIST);
+        assert.equal(result[i++], UpgradeCard.OUTMANEUVER);
+        assert.equal(result[i++], UpgradeCard.PREDATOR);
+        assert.equal(result[i++], UpgradeCard.PUSH_THE_LIMIT);
+        assert.equal(result[i++], UpgradeCard.RUTHLESSNESS);
+        assert.equal(result[i++], UpgradeCard.SQUAD_LEADER);
+        assert.equal(result[i++], UpgradeCard.STAY_ON_TARGET);
+        assert.equal(result[i++], UpgradeCard.SWARM_TACTICS);
+        assert.equal(result[i++], UpgradeCard.VETERAN_INSTINCTS);
+        assert.equal(result[i++], UpgradeCard.WINGMAN);
     });
 </script>
 </head>
