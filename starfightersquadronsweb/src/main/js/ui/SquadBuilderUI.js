@@ -10,8 +10,8 @@ var SquadBuilderUI = React.createClass(
         var team = this.props.team;
         
         // Default to first ship, first pilot.
-        var ship = Ship.valuesByTeam(team)[0];
-        var pilot = Pilot.valuesByShip(ship)[0];
+        var shipTeam = ShipTeam.valuesByTeam(team)[0];
+        var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
         var token = this.createToken(team, pilot);
 
         return {pilot: pilot, token: token, upgrades: [], squad: []};
@@ -121,7 +121,10 @@ var SquadBuilderUI = React.createClass(
 
     createToken: function(team, pilot)
     {
-        var agentName = (team === Team.IMPERIAL) ? "Imperial Agent" : "Rebel Agent";
+        InputValidator.validateNotNull("team", team);
+        InputValidator.validateNotNull("pilot", pilot);
+        
+        var agentName = Team.properties[team].name + " Agent";
         var squadBuilder = (team === Team.IMPERIAL) ? CoreSetImperialSquadBuilder : CoreSetRebelSquadBuilder;
         var agent = new SimpleAgent(agentName, team, squadBuilder);
         
