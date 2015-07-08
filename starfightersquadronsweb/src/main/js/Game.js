@@ -5,7 +5,9 @@ function Game(agents)
 {
     InputValidator.validateNotNull("agents", agents);
 
-    var environment = new Environment();
+    var teams = [ agents[0].getTeam(), agents[1].getTeam() ];
+
+    var environment = new Environment(teams);
     environment.placeInitialTokens(agents);
 
     var adjudicator = new Adjudicator();

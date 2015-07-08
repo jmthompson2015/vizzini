@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <title>EngineTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
 <script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
@@ -24,6 +23,7 @@
 <script src="../../main/js/Maneuver.js"></script>
 <script src="../../main/js/ShipAction.js"></script>
 <script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/ShipTeam.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/Weapon.js"></script>
 <script src="../../main/js/UpgradeCard.js"></script>
@@ -57,7 +57,8 @@
     {
         // Setup.
         Token.resetNextId();
-        var environment = new Environment();
+        var teams = [ Team.IMPERIAL, Team.REBEL ];
+        var environment = new Environment(teams);
         var adjudicator = new Adjudicator();
         var engine = new Engine(environment, adjudicator);
 
@@ -71,7 +72,6 @@
 </head>
 <body>
 	<div id="qunit"></div>
-	<div id="inputArea"
-		style="background-color: lightBlue; display: inline-block;"></div>
+	<div id="inputArea" style="background-color: lightBlue; display: inline-block;"></div>
 </body>
 </html>

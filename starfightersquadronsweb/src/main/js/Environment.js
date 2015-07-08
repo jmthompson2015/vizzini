@@ -17,8 +17,10 @@
  * but not touching.
  * </dl>
  */
-function Environment()
+function Environment(teams)
 {
+    InputValidator.validateNotEmpty("teams", teams);
+
     var that = this;
 
     var activeToken;
@@ -148,7 +150,22 @@ function Environment()
 
     this.getDefenders = function(attackerTeam)
     {
-        var defenderTeam = Team.properties[attackerTeam].opposite;
+        InputValidator.validateNotNull("attackerTeam", attackerTeam)
+
+        var defenderTeam;
+
+        if (attackerTeam === teams[0])
+        {
+            defenderTeam = teams[1];
+        }
+        else if (attackerTeam === teams[1])
+        {
+            defenderTeam = teams[0];
+        }
+        else
+        {
+            throw "Can't find defenderTeam for attackerTeam = " + attackerTeam;
+        }
 
         return this.getTokensForTeam(defenderTeam);
     }
@@ -678,8 +695,9 @@ Environment.createCoreSetEnvironment = function()
             CoreSetImperialSquadBuilder);
     var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL,
             CoreSetRebelSquadBuilder, new ImageUtilities());
+    var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
 
-    var answer = new Environment();
+    var answer = new Environment(teams);
 
     answer.placeInitialTokens([ imperialAgent, rebelAgent ]);
 
@@ -693,8 +711,9 @@ Environment.createJmtEnvironment = function()
             JMTImperialSquadBuilder);
     var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL,
             JMTRebelSquadBuilder, new ImageUtilities());
+    var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
 
-    var answer = new Environment();
+    var answer = new Environment(teams);
 
     answer.placeInitialTokens([ imperialAgent, rebelAgent ]);
 
