@@ -6,6 +6,8 @@
 Array.Vizzini =
 {
     // add: use
+    // array.push(element);
+    // or
     // array[array.length] = element;
     // Note: This function modifies array.
 
