@@ -259,21 +259,12 @@ var ShipTeam =
 
     valuesByTeam: function(team)
     {
-        var answer = [];
-        var values = this.values();
-        var properties = this.properties;
-
-        for (var i = 0; i < values.length; i++)
+        InputValidator.validateNotNull("team", team);
+        
+        return this.values().filter(function(shipTeam)
         {
-            var value = values[i];
-
-            if (properties[value].team === team)
-            {
-                answer[answer.length] = value;
-            }
-        }
-
-        return answer;
+            return ShipTeam.properties[shipTeam].team === team;
+        });
     },
 }
 

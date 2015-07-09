@@ -68,7 +68,7 @@
 
     QUnit.test("DamageCard.values", function(assert)
     {
-        var values = DamageCard.values;
+        var values = DamageCard.values();
         assert.equal(values.length, 14);
         assert.ok(!values[-1]);
         assert.equal(values[0], "blindedPilot");

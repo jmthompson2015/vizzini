@@ -1,3 +1,6 @@
+/*
+ * Provides an enumeration of upgrade restrictions.
+ */
 var UpgradeRestriction =
 {
     FIRESPRAY_31_ONLY: "firespray31Only",
@@ -165,21 +168,23 @@ var UpgradeRestriction =
 
         var answer = true;
 
-        for (var i = 0; i < restrictions.length; i++)
+        if (restrictions !== undefined)
         {
-            var restriction = restrictions[i];
-
-            if (!UpgradeRestriction.properties[restriction].passes(pilot))
+            answer = restrictions.reduce(function(previousValue, restriction)
             {
-                answer = false;
-                break;
-            }
+                return previousValue
+                        && UpgradeRestriction.properties[restriction]
+                                .passes(pilot);
+            }, true);
         }
 
         return answer;
-    }
+    },
 }
 
+/*
+ * Provides an enumeration of upgrade types.
+ */
 var UpgradeType =
 {
     ASTROMECH: "astromech",
@@ -302,6 +307,9 @@ if (Object.freeze)
     Object.freeze(UpgradeType)
 };
 
+/*
+ * Provides an enumeration of upgrade cards.
+ */
 var UpgradeCard =
 {
     ADRENALINE_RUSH: "adrenalineRush",
@@ -427,7 +435,7 @@ var UpgradeCard =
             name: "Adrenaline Rush",
             type: UpgradeType.ELITE,
             isUnique: false,
-            description: "When you reveal a red maneuver, you may discard this card to treat that manuever as a white maneuver until the end of the Activation phase.",
+            description: "When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.",
             squadPointCost: 1,
             hasAction: false,
             value: "adrenalineRush",
@@ -967,7 +975,7 @@ var UpgradeCard =
             name: "Navigator",
             type: UpgradeType.CREW,
             isUnique: false,
-            description: "When you reveal a manuever you may rotate your dial to another maneuver with the same bearing. You cannot rotate to a red maneuver if you have any stress tokens.",
+            description: "When you reveal a maneuver you may rotate your dial to another maneuver with the same bearing. You cannot rotate to a red maneuver if you have any stress tokens.",
             squadPointCost: 3,
             hasAction: false,
             value: "navigator",
@@ -1452,7 +1460,7 @@ var UpgradeCard =
             name: "Unhinged Astromech",
             type: UpgradeType.SALVAGED_ASTROMECH,
             isUnique: false,
-            description: "You may treat all 3 speed manuevers as green maneuvers.",
+            description: "You may treat all 3 speed maneuvers as green maneuvers.",
             squadPointCost: 1,
             hasAction: false,
             value: "unhingedAstromech",
@@ -1744,28 +1752,25 @@ var UpgradeCard =
         InputValidator.validateNotNull("pilot", pilot);
         InputValidator.validateNotNull("upgradeType", upgradeType);
 
-        var answer = [];
-        var values = this.values();
-        var properties = this.properties;
+        return this
+                .valuesByType(upgradeType)
+                .filter(
+                        function(upgradeCard)
+                        {
+                            var restrictions = UpgradeCard.properties[upgradeCard].restrictions;
+                            return UpgradeRestriction.passes(restrictions,
+                                    pilot);
+                        });
+    },
 
-        for (var i = 0; i < values.length; i++)
+    valuesByType: function(upgradeType)
+    {
+        InputValidator.validateNotNull("upgradeType", upgradeType);
+
+        return this.values().filter(function(upgradeCard)
         {
-            var value = values[i];
-            var type = properties[value].type;
-
-            if (type === upgradeType)
-            {
-                var restrictions = properties[value].restrictions;
-
-                if (restrictions === undefined
-                        || UpgradeRestriction.passes(restrictions, pilot))
-                {
-                    answer[answer.length] = value;
-                }
-            }
-        }
-
-        return answer;
+            return UpgradeCard.properties[upgradeCard].type === upgradeType;
+        });
     },
 }
 

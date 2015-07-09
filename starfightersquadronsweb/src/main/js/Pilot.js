@@ -1675,21 +1675,23 @@ var Pilot =
 
     valuesByShipTeam: function(shipTeam)
     {
-        var answer = [];
-        var values = this.values();
-        var properties = this.properties;
-
-        for (var i = 0; i < values.length; i++)
+        InputValidator.validateNotNull("shipTeam", shipTeam);
+        
+        return this.values().filter(function(pilot)
         {
-            var value = values[i];
+            return Pilot.properties[pilot].shipTeam === shipTeam;
+        });
+    },
 
-            if (properties[value].shipTeam === shipTeam)
-            {
-                answer[answer.length] = value;
-            }
-        }
-
-        return answer;
+    valuesByTeam: function(team)
+    {
+        InputValidator.validateNotNull("team", team);
+        
+        return this.values().filter(function(pilot)
+        {
+            var shipTeam = Pilot.properties[pilot].shipTeam;
+            return ShipTeam.properties[shipTeam].team === team;
+        });
     },
 };
 
