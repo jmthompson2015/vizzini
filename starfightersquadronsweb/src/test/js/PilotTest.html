@@ -9,6 +9,8 @@
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 
 <script src="../../main/js/Team.js"></script>
 <script src="../../main/js/Maneuver.js"></script>
@@ -98,8 +100,9 @@
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties
-        - 1 // values
-        - 1; // valuesByShipTeam
+                - 1 // values
+                - 1 // valuesByShipTeam
+                - 1; // valuesByTeam
         assert.equal(result.length, count);
 
         for (var i = 0; i < result.length; i++)
@@ -130,6 +133,42 @@
         assert.equal(result.length, 10);
         assert.equal(result[0], "biggsDarklighter");
         assert.equal(result[9], "wesJanson");
+    });
+
+    QUnit.test("valuesByTeam() Imperial", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByTeam(Team.IMPERIAL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 48);
+        assert.equal(result[0], "academyPilot");
+        assert.equal(result[47], "wingedGundark");
+    });
+
+    QUnit.test("valuesByTeam() Rebel", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByTeam(Team.REBEL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 46);
+        assert.equal(result[0], "airenCracken");
+        assert.equal(result[45], "wildSpaceFringer");
+    });
+
+    QUnit.test("valuesByTeam() Scum", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByTeam(Team.SCUM);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 16);
+        assert.equal(result[0], "binayrePirate");
+        assert.equal(result[15], "torkilMux");
     });
 </script>
 </head>

@@ -26,6 +26,58 @@
     "use strict";
     var LOGGER = new Logger();
 
+    QUnit.test("UpgradeRestriction.passes()",
+            function(assert)
+            {
+                assert.ok(UpgradeRestriction
+                        .passes([ UpgradeRestriction.IMPERIAL_ONLY ],
+                                Pilot.DARTH_VADER));
+                assert.ok(!UpgradeRestriction.passes(
+                        [ UpgradeRestriction.IMPERIAL_ONLY ],
+                        Pilot.LUKE_SKYWALKER));
+
+                assert.ok(!UpgradeRestriction.passes(
+                        [ UpgradeRestriction.REBEL_ONLY ], Pilot.DARTH_VADER));
+                assert.ok(UpgradeRestriction
+                        .passes([ UpgradeRestriction.REBEL_ONLY ],
+                                Pilot.LUKE_SKYWALKER));
+
+                assert.ok(UpgradeRestriction.passes([
+                        UpgradeRestriction.IMPERIAL_ONLY,
+                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                        Pilot.ALPHA_SQUADRON_PILOT));
+                assert.ok(!UpgradeRestriction.passes([
+                        UpgradeRestriction.REBEL_ONLY,
+                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                        Pilot.ALPHA_SQUADRON_PILOT));
+                assert.ok(!UpgradeRestriction.passes([
+                        UpgradeRestriction.IMPERIAL_ONLY,
+                        UpgradeRestriction.Y_WING_ONLY ],
+                        Pilot.ALPHA_SQUADRON_PILOT));
+                assert.ok(!UpgradeRestriction.passes([
+                        UpgradeRestriction.REBEL_ONLY,
+                        UpgradeRestriction.Y_WING_ONLY ],
+                        Pilot.ALPHA_SQUADRON_PILOT));
+
+                assert.ok(!UpgradeRestriction.passes([
+                        UpgradeRestriction.IMPERIAL_ONLY,
+                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                        Pilot.DUTCH_VANDER));
+                assert.ok(!UpgradeRestriction.passes([
+                        UpgradeRestriction.REBEL_ONLY,
+                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                        Pilot.DUTCH_VANDER));
+                assert.ok(!UpgradeRestriction.passes([
+                        UpgradeRestriction.IMPERIAL_ONLY,
+                        UpgradeRestriction.Y_WING_ONLY ], Pilot.DUTCH_VANDER));
+                assert.ok(UpgradeRestriction.passes([
+                        UpgradeRestriction.REBEL_ONLY,
+                        UpgradeRestriction.Y_WING_ONLY ], Pilot.DUTCH_VANDER));
+                
+                assert.ok(UpgradeRestriction.passes(undefined, Pilot.DUTCH_VANDER));
+                assert.ok(UpgradeRestriction.passes([], Pilot.DUTCH_VANDER));
+            });
+
     QUnit.test("UpgradeType properties Astromech", function(assert)
     {
         var type = UpgradeType.ASTROMECH;
@@ -56,7 +108,7 @@
                         assert
                                 .equal(
                                         properties.description,
-                                        "When you reveal a red maneuver, you may discard this card to treat that manuever as a white maneuver until the end of the Activation phase.");
+                                        "When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.");
                         assert.equal(properties.squadPointCost, 1);
                         assert.equal(properties.value, "adrenalineRush");
                     });
@@ -91,7 +143,8 @@
 
     QUnit.test("UpgradeCard.getName()", function(assert)
     {
-        assert.equal(UpgradeCard.getName(UpgradeCard.DETERMINATION), "Determination");
+        assert.equal(UpgradeCard.getName(UpgradeCard.DETERMINATION),
+                "Determination");
         assert.equal(UpgradeCard.getName(UpgradeCard.R2_D2), "\u25CF R2-D2");
     });
 
@@ -152,6 +205,30 @@
         assert.equal(result[i++], UpgradeCard.SWARM_TACTICS);
         assert.equal(result[i++], UpgradeCard.VETERAN_INSTINCTS);
         assert.equal(result[i++], UpgradeCard.WINGMAN);
+    });
+
+    QUnit.test("UpgradeCard.valuesByType() Astromech", function(assert)
+    {
+        // Run.
+        var result = UpgradeCard.valuesByType(UpgradeType.ASTROMECH);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 12);
+        assert.equal(result[0], UpgradeCard.R2_ASTROMECH);
+        assert.equal(result[11], UpgradeCard.R7_T1);
+    });
+
+    QUnit.test("UpgradeCard.valuesByType() Astromech", function(assert)
+    {
+        // Run.
+        var result = UpgradeCard.valuesByType(UpgradeType.ELITE);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 22);
+        assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
+        assert.equal(result[21], UpgradeCard.WINGMAN);
     });
 </script>
 </head>

@@ -24,7 +24,7 @@ function Token(pilot, agent)
 
     for (var i = 2; i < arguments.length; i++)
     {
-        upgrades[upgrades.length] = arguments[i];
+        upgrades.push(arguments[i]);
     }
 
     // Activation state.
@@ -187,13 +187,13 @@ function Token(pilot, agent)
     {
         var answer = getShipState().getHullValue();
 
-        var criticalDamages = this.getCriticalDamages();
-
-        for (var i = 0; i < criticalDamages.length; i++)
-        {
-            var damage = criticalDamages[i];
-            answer += DamageCard.properties[damage].shipState.getHullValue();
-        }
+        answer = criticalDamages.reduce(
+                function(sum, damage)
+                {
+                    return sum
+                            + DamageCard.properties[damage].shipState
+                                    .getHullValue();
+                }, answer);
 
         // for (final UpgradeCard upgrade : getUpgrades())
         // {
@@ -300,14 +300,12 @@ function Token(pilot, agent)
             answer = getShipState().getPilotSkillValue();
         }
 
-        var criticalDamages = this.getCriticalDamages();
-
-        for (var i = 0; i < criticalDamages.length; i++)
+        answer = criticalDamages.reduce(function(sum, damage)
         {
-            var damage = criticalDamages[i];
-            answer += DamageCard.properties[damage].shipState
-                    .getPilotSkillValue();
-        }
+            return sum
+                    + DamageCard.properties[damage].shipState
+                            .getPilotSkillValue();
+        }, answer);
 
         // for (final UpgradeCard upgrade : getUpgrades())
         // {
@@ -329,14 +327,12 @@ function Token(pilot, agent)
     {
         var answer = getShipState().getPrimaryWeaponValue();
 
-        var criticalDamages = this.getCriticalDamages();
-
-        for (var i = 0; i < criticalDamages.length; i++)
+        answer = criticalDamages.reduce(function(sum, damage)
         {
-            var damage = criticalDamages[i];
-            answer += DamageCard.properties[damage].shipState
-                    .getPrimaryWeaponValue();
-        }
+            return sum
+                    + DamageCard.properties[damage].shipState
+                            .getPrimaryWeaponValue();
+        }, answer);
 
         // for (final UpgradeCard upgrade : getUpgrades())
         // {
@@ -587,28 +583,21 @@ function Token(pilot, agent)
      */
     function changeTurnManeuversToHard(maneuvers)
     {
-        var answer = [];
-
-        for (var i = 0; i < maneuvers.length; i++)
+        return maneuvers.map(function(maneuver)
         {
-            var maneuver = maneuvers[i];
             var properties = Maneuver.properties[maneuver];
             var bearing = properties.bearing;
             var speed = properties.speed;
 
             if (Bearing.properties[bearing].isTurn)
             {
-                var newManeuver = Maneuver
-                        .find(bearing, speed, Difficulty.HARD);
-                answer[answer.length] = newManeuver;
+                return Maneuver.find(bearing, speed, Difficulty.HARD);
             }
             else
             {
-                answer[answer.length] = maneuver;
+                return maneuver;
             }
-        }
-
-        return answer;
+        });
     }
 
     /*
@@ -639,22 +628,13 @@ function Token(pilot, agent)
      */
     function getNonHardManeuvers()
     {
-        var answer = [];
-
         var maneuvers = Ship.properties[that.getShip()].maneuvers;
 
-        for (var i = 0; i < maneuvers.length; i++)
+        return maneuvers.filter(function(maneuver)
         {
-            var maneuver = maneuvers[i];
             var properties = Maneuver.properties[maneuver];
-
-            if (properties.difficulty != Difficulty.HARD)
-            {
-                answer[answer.length] = maneuver;
-            }
-        }
-
-        return answer;
+            return properties.difficulty != Difficulty.HARD;
+        });
     }
 
     function getShipState()
@@ -774,14 +754,14 @@ Token.resetNextId = function()
 Token.prototype.addCriticalDamage = function(damage)
 {
     var criticalDamages = this.getCriticalDamages();
-    criticalDamages[criticalDamages.length] = damage;
+    criticalDamages.push(damage);
     this.trigger("change");
 }
 
 Token.prototype.addDamage = function(damage)
 {
     var damages = this.getDamages();
-    damages[damages.length] = damage;
+    damages.push(damage);
     this.trigger("change");
 }
 
@@ -857,17 +837,17 @@ Token.prototype.getShipActions = function()
 
     if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
     {
-        answer[answer.length] = ShipAction.BOOST;
+        answer.push( ShipAction.BOOST);
     }
 
     if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))
     {
-        answer[answer.length] = ShipAction.EVADE;
+        answer.push( ShipAction.EVADE);
     }
 
     if (this.isUpgradedWith(UpgradeCard.TARGETING_COMPUTER))
     {
-        answer[answer.length] = ShipAction.TARGET_LOCK;
+        answer.push( ShipAction.TARGET_LOCK);
     }
 
     if (criticalDamages.length > 0)
@@ -897,7 +877,7 @@ Token.prototype.getShipActions = function()
             if (upgrade.hasAction)
             {
                 // answer.add(new UpgradeCardShipAction(upgrade));
-                answer[answer.length] = new UpgradeCardShipAction(upgrade);
+                answer.push( new UpgradeCardShipAction(upgrade));
             }
         }
     }

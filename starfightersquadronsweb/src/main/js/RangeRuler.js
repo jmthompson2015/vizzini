@@ -1,3 +1,6 @@
+/*
+ * Provides an enumeration of ranges.
+ */
 var Range =
 {
     ONE: "one",
@@ -9,75 +12,66 @@ var Range =
         {
             minDistance: 0, // Minimum distance. (mm)
             maxDistance: 100, // Maximum distance. (mm)
-            getDisplayName: function()
-            {
-                return "1";
-            },
-            toString: function()
-            {
-                return this;
-            },
+            displayName: "1",
+            value: "one",
         },
         "two":
         {
             minDistance: 101, // Minimum distance. (mm)
             maxDistance: 200, // Maximum distance. (mm)
-            getDisplayName: function()
-            {
-                return "2";
-            },
-            toString: function()
-            {
-                return this;
-            },
+            displayName: "2",
+            value: "two",
         },
         "three":
         {
             minDistance: 201, // Minimum distance. (mm)
             maxDistance: 300, // Maximum distance. (mm)
-            getDisplayName: function()
-            {
-                return "3";
-            },
-            toString: function()
-            {
-                return this;
-            },
+            displayName: "3",
+            value: "three",
         },
     },
-    values: [ "one", "two", "three" ],
-};
 
-/*
- * @param distance Distance. (mm)
- * 
- * @return the range value for the given parameter.
- */
-Range.findRange = function(distance)
-{
-    var answer;
-
-    for (var i = 0; i < Range.values.length; i++)
+    /*
+     * @param distance Distance. (mm)
+     * 
+     * @return the range value for the given parameter.
+     */
+    findRange: function(distance)
     {
-        var r = Range.values[i];
-        var min = Range.properties[r].minDistance;
-        var max = Range.properties[r].maxDistance;
+        var answer;
 
-        if ((min <= distance) && (distance <= max))
+        var values = Range.values();
+
+        for (var i = 0; i < values.length; i++)
         {
-            answer = r;
-            break;
-        }
-    }
+            var r = values[i];
+            var min = Range.properties[r].minDistance;
+            var max = Range.properties[r].maxDistance;
 
-    return answer;
-}
+            if ((min <= distance) && (distance <= max))
+            {
+                answer = r;
+                break;
+            }
+        }
+
+        return answer;
+    },
+
+    values: function()
+    {
+        return Object.getOwnPropertyNames(Range.properties);
+    },
+};
 
 if (Object.freeze)
 {
     Object.freeze(Range)
 };
 
+/*
+ * Provides a range ruler for Starfighter Squadrons.
+ */
 function RangeRuler()
 {
     /*

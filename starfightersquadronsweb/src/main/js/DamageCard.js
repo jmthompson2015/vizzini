@@ -173,11 +173,11 @@ var DamageCard =
             value: "weaponMalfunction",
         },
     },
-    values: [ "blindedPilot", "consoleFire", "damagedCockpit", "damagedEngine",
-            "damagedSensorArray", "directHit", "injuredPilot",
-            "minorExplosion", "minorHullBreach", "munitionsFailure",
-            "structuralDamage", "stunnedPilot", "thrustControlFire",
-            "weaponMalfunction", ],
+
+    values: function()
+    {
+        return Object.getOwnPropertyNames(DamageCard.properties);
+    },
 }
 
 DamageCard.createDeck = function()
@@ -185,18 +185,17 @@ DamageCard.createDeck = function()
     var answer = [];
 
     // There are two of each, except seven of Direct Hit!
-    var values = DamageCard.values;
+    var values = DamageCard.values();
 
-    for (var i = 0; i < values.length; i++)
+    values.forEach(function(damage)
     {
-        var damage = values[i];
-        answer[answer.length] = damage;
-        answer[answer.length] = damage;
-    }
+        answer.push(damage);
+        answer.push(damage);
+    });
 
     for (var i = 0; i < 5; i++)
     {
-        answer[answer.length] = DamageCard.DIRECT_HIT;
+        answer.push(DamageCard.DIRECT_HIT);
     }
 
     Array.Vizzini.shuffle(answer);
