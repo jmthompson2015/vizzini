@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Pilot Statistics</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../coreweb/lib/sorttable/sorttable-stable-2.0.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../js/Phase.js"></script>
+<script src="../js/Team.js"></script>
+<script src="../js/Path.js"></script>
+<script src="../js/Maneuver.js"></script>
+<script src="../js/ShipAction.js"></script>
+<script src="../js/Ship.js"></script>
+<script src="../js/ShipTeam.js"></script>
+<script src="../js/RangeRuler.js"></script>
+<script src="../js/Weapon.js"></script>
+<script src="../js/UpgradeCard.js"></script>
+<script src="../js/Pilot.js"></script>
+<script src="../js/DamageCard.js"></script>
+<script src="../js/Token.js"></script>
+<script src="../js/Position.js"></script>
+<script src="../js/SquadBuilder.js"></script>
+<script src="../js/Environment.js"></script>
+<script src="../js/Adjudicator.js"></script>
+<script src="../js/AttackDice.js"></script>
+<script src="../js/DefenseDice.js"></script>
+<script src="../js/CombatAction.js"></script>
+<script src="../js/Engine.js"></script>
+<script src="../js/ManeuverAction.js"></script>
+<script src="../js/PlanningAction.js"></script>
+<script src="../js/SimpleAgent.js"></script>
+<script src="../js/Game.js"></script>
+
+<script src="../js/ui/ImageUtilities.js"></script>
+<script src="../js/ui/NewGamePanel.js"></script>
+<script src="../js/ui/PlayAreaUI.js"></script>
+<script src="../js/ui/SSPanel.js"></script>
+<script src="../js/ui/PlayState.js"></script>
+
+<style>
+#pilotTable {
+    background-color: white;
+    border-collapse: collapse;
+}
+
+#pilotTable tbody tr:nth-child(2n) td {
+    background: lightCyan;
+}
+
+#pilotTable tbody tr:nth-child(2n+1) td {
+    background: white;
+}
+
+#pilotTable tr th {
+    background-color: lightGray;
+    border: 3px solid black;
+    padding: 5px;
+}
+
+#pilotTable tr td {
+    border: 3px solid lightGray;
+    padding: 5px;
+}
+
+.pilotCell {
+    text-align: left;
+}
+
+.shipCell {
+    text-align: left;
+}
+</style>
+</head>
+<body>
+	<h1>Starfighter Squadrons Pilot Statistics</h1>
+	<table id="pilotTable" class="sortable">
+		<thead>
+			<tr>
+				<th>Faction</th>
+				<th>Pilot</th>
+				<th>Ship</th>
+				<th>Pilot Skill</th>
+				<th>Primary Weapon</th>
+				<th>Agility</th>
+				<th>Hull</th>
+				<th>Shield</th>
+				<th>Squad Point Cost</th>
+				<th>Sum Stats</th>
+				<th>Primary Weapon / Agility</th>
+				<th>Hull + Shield</th>
+				<th>Sum Stats / Squad Point Cost</th>
+			</tr>
+		</thead>
+		<tbody id="pilotTableBody"></tbody>
+	</table>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        var pilots = Pilot.values();
+        var content = "";
+
+        pilots
+                .forEach(function(pilot)
+                {
+                    var shipTeam = Pilot.properties[pilot].shipTeam;
+                    var team = ShipTeam.properties[shipTeam].team;
+                    var shipState = Pilot.properties[pilot].shipState;
+                    var teamName = Team.properties[team].name;
+
+                    if (teamName === "Scum & Villainy")
+                    {
+                        teamName = "Scum";
+                    }
+
+                    var imageFile = "../resources/images/" + teamName
+                            + "Icon24.png";
+                    var customKey = team;
+
+                    var pilotSkill = shipState.getPilotSkillValue();
+                    var primaryWeapon = shipState.getPrimaryWeaponValue();
+                    var agility = shipState.getAgilityValue();
+                    var hull = shipState.getHullValue();
+                    var shield = shipState.getShieldValue();
+                    var sum = pilotSkill + primaryWeapon + agility + hull
+                            + shield;
+                    var squadPointCost = Pilot.properties[pilot].squadPointCost;
+
+                    content += "<tr>";
+                    content += "<td class=\"factionCell\" sorttable_customkey=\"";
+            content += team;
+            content += "\">";
+                    content += "<img src=\"";
+            content += imageFile;
+            content += "\" title = \""; 
+            content += Team.properties[team].name; 
+            content += "\"/>";
+                    content += "</td>";
+                    content += "<td class=\"pilotCell\">";
+                    content += Pilot.properties[pilot].name;
+                    content += "</td>";
+                    content += "<td class=\"shipCell\">";
+                    content += ShipTeam.properties[shipTeam].name;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += pilotSkill;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += primaryWeapon;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += agility;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += hull;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += shield;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += squadPointCost;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += sum;
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    if (agility === 0)
+                    {
+                        content += "&nbsp;";
+                    }
+                    else
+                    {
+                        content += round4(primaryWeapon / agility);
+                    }
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += (hull + shield);
+                    content += "</td>";
+                    content += "<td class=\"valueCell\">";
+                    content += round4(sum / squadPointCost);
+                    content += "</td>";
+                    content += "</tr>";
+                });
+
+        document.getElementById("pilotTableBody").innerHTML = content;
+
+        function round4(value)
+        {
+            var factor = 10000.0;
+
+            return Math.round(factor * value) / factor;
+        }
+    </script>
+</body>
+</html>
