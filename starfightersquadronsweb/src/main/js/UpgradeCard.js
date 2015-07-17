@@ -3,14 +3,19 @@
  */
 var UpgradeRestriction =
 {
+    A_WING_ONLY: "aWingOnly",
+    AGGRESSOR_ONLY: "aggressorOnly",
+    B_WING_ONLY: "bWingOnly",
     FIRESPRAY_31_ONLY: "firespray31Only",
     HUGE_SHIP_ONLY: "hugeShipOnly",
     HWK_290_ONLY: "hwk290Only",
     IMPERIAL_ONLY: "imperialOnly",
     LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
     LIMITED: "limited",
+    M3_A_INTERCEPTOR_ONLY: "m3AInterceptorOnly",
     REBEL_ONLY: "rebelOnly",
     SCUM_ONLY: "scumOnly",
+    STAR_VIPER_ONLY: "starViperOnly",
     TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
     TIE_PHANTOM_ONLY: "tiePhantomOnly",
     VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
@@ -19,6 +24,36 @@ var UpgradeRestriction =
     Y_WING_ONLY: "yWingOnly",
     properties:
     {
+        "aWingOnly":
+        {
+            displayName: "A-Wing only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                return ship === Ship.A_WING;
+            }
+        },
+        "aggressorOnly":
+        {
+            displayName: "Aggressor only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                return ship === Ship.AGGRESSOR;
+            }
+        },
+        "bWingOnly":
+        {
+            displayName: "B-Wing only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                return ship === Ship.B_WING;
+            }
+        },
         "firespray31Only":
         {
             displayName: "Firespray-31 only.",
@@ -80,6 +115,16 @@ var UpgradeRestriction =
                 return true;
             }
         },
+        "m3AInterceptorOnly":
+        {
+            displayName: "M3-A Interceptor only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                return ship === Ship.M3_A_INTERCEPTOR;
+            }
+        },
         "rebelOnly":
         {
             displayName: "Rebel only.",
@@ -98,6 +143,16 @@ var UpgradeRestriction =
                 var shipTeam = Pilot.properties[pilot].shipTeam;
                 var team = ShipTeam.properties[shipTeam].team;
                 return team === Team.SCUM;
+            }
+        },
+        "starViperOnly":
+        {
+            displayName: "StarViper only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                return ship === Ship.STAR_VIPER;
             }
         },
         "tieInterceptorOnly":
@@ -179,6 +234,11 @@ var UpgradeRestriction =
         }
 
         return answer;
+    },
+
+    values: function()
+    {
+        return Object.getOwnPropertyNames(UpgradeRestriction.properties);
     },
 }
 
@@ -312,21 +372,29 @@ if (Object.freeze)
  */
 var UpgradeCard =
 {
+    A_WING_TEST_PILOT: "aWingTestPilot",
+    ACCURACY_CORRECTOR: "accuracyCorrector",
     ADRENALINE_RUSH: "adrenalineRush",
     ADVANCED_CLOAKING_DEVICE: "advancedCloakingDevice",
     ADVANCED_SENSORS: "advancedSensors",
     ANDRASTA: "andrasta",
     ANTI_PURSUIT_LASERS: "antiPursuitLasers",
+    AUTOTHRUSTERS: "autothrusters",
+    B_WING_E2: "bWingE2",
+    BODYGUARD: "bodyguard",
     BOMB_LOADOUT: "bombLoadout",
     BTL_A4_Y_WING: "btlA4YWing",
     C_3PO: "c3po",
+    CALCULATION: "calculation",
     CARLIST_RIEEKAN: "carlistRieekan",
+    CHARDAAN_REFIT: "chardaanRefit",
     CHEWBACCA: "chewbacca",
     COMBAT_RETROFIT: "combatRetrofit",
     COUNTERMEASURES: "countermeasures",
     DAREDEVIL: "daredevil",
     DARTH_VADER: "darthVader",
     DAUNTLESS: "dauntless",
+    DEAD_MANS_SWITCH: "deadMansSwitch",
     DEADEYE: "deadeye",
     DECOY: "decoy",
     DETERMINATION: "determination",
@@ -334,9 +402,11 @@ var UpgradeCard =
     ELUSIVENESS: "elusiveness",
     ENGINE_UPGRADE: "engineUpgrade",
     ENGINEERING_TEAM: "engineeringTeam",
+    ENHANCED_SCOPES: "enhancedScopes",
     EXPERIMENTAL_INTERFACE: "experimentalInterface",
     EXPERT_HANDLING: "expertHandling",
     EXPOSE: "expose",
+    FEEDBACK_ARRAY: "feedbackArray",
     FIRE_CONTROL_SYSTEM: "fireControlSystem",
     FLIGHT_INSTRUCTOR: "flightInstructor",
     GENIUS: "genius",
@@ -344,11 +414,16 @@ var UpgradeCard =
     GUNNER: "gunner",
     GUNNERY_TEAM: "gunneryTeam",
     HAN_SOLO: "hanSolo",
+    HEAVY_SCYK_INTERCEPTOR: "heavyScykInterceptor",
     HULL_UPGRADE: "hullUpgrade",
+    IG_2000: "ig2000",
+    INERTIAL_DAMPENERS: "inertialDampeners",
     INTELLIGENCE_AGENT: "intelligenceAgent",
     INTIMIDATION: "intimidation",
     JAN_DODONNA: "janDodonna",
+    JAN_ORS: "janOrs",
     K4_SECURITY_DROID: "k4SecurityDroid",
+    KYLE_KATARN: "kyleKatarn",
     LEIA_ORGANA: "leiaOrgana",
     LONE_WOLF: "loneWolf",
     LUKE_SKYWALKER: "lukeSkywalker",
@@ -406,6 +481,7 @@ var UpgradeCard =
     TORYN_FARR: "torynFarr",
     UNHINGED_ASTROMECH: "unhingedAstromech",
     VETERAN_INSTINCTS: "veteranInstincts",
+    VIRAGO: "virago",
     WEAPONS_ENGINEER: "weaponsEngineer",
     WED_15_REPAIR_DROID: "wed15RepairDroid",
     WINGMAN: "wingman",
@@ -418,6 +494,7 @@ var UpgradeCard =
     BLASTER_TURRET: "blasterTurret",
     CLUSTER_MISSILES: "clusterMissiles",
     CONCUSSION_MISSILES: "concussionMissiles",
+    FLECHETTE_CANNON: "flechetteCannon",
     FLECHETTE_TORPEDOES: "flechetteTorpedoes",
     HEAVY_LASER_CANNON: "heavyLaserCannon",
     HOMING_MISSILES: "homingMissiles",
@@ -426,10 +503,32 @@ var UpgradeCard =
     ION_CANNON_TURRET: "ionCannonTurret",
     ION_PULSE_MISSILES: "ionPulseMissiles",
     ION_TORPEDOES: "ionTorpedoes",
+    MANGLER_CANNON: "manglerCannon",
     PROTON_ROCKETS: "protonRockets",
     PROTON_TORPEDOES: "protonTorpedoes",
     properties:
     {
+        "aWingTestPilot":
+        {
+            name: "A-Wing Test Pilot",
+            type: UpgradeType.TITLE,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.A_WING_ONLY ],
+            description: "Your upgrade bar gains 1 Elite upgrade icon. You cannot equip 2 of the same Elite upgrade cards. You cannot equip this card if your pilot skill value is \"1\" or lower.",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "aWingTestPilot",
+        },
+        "accuracyCorrector":
+        {
+            name: "Accuracy Corrector",
+            type: UpgradeType.SENSOR,
+            isUnique: false,
+            description: "When attacking, you may cancel all of your dice results. Then, you may add 2 Hit results to your roll. Your dice cannot be modified again during this attack.",
+            squadPointCost: 3,
+            hasAction: false,
+            value: "accuracyCorrector",
+        },
         "adrenalineRush":
         {
             name: "Adrenaline Rush",
@@ -483,6 +582,27 @@ var UpgradeCard =
             hasAction: false,
             value: "antiPursuitLasers",
         },
+        "autothrusters":
+        {
+            name: "Autothrusters",
+            type: UpgradeType.MODIFICATION,
+            isUnique: false,
+            description: "When defending, if you are beyond Range 2 or outside the attacker's firing arc, you may change 1 of your blank results to an Evade result. You can equip this card only if you have the Boost action icon.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "autothrusters",
+        },
+        "bodyguard":
+        {
+            name: "Bodyguard",
+            type: UpgradeType.ELITE,
+            isUnique: true,
+            restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+            description: "At the start of the Combat phase, you may spend a focus token to choose a friendly ship at Range 1 with higher pilot skill than you. Increase its agility value by 1 until the end of the round.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "bodyguard",
+        },
         "bombLoadout":
         {
             name: "Bomb Loadout",
@@ -506,6 +626,17 @@ var UpgradeCard =
             hasAction: false,
             value: "btlA4YWing",
         },
+        "bWingE2":
+        {
+            name: "B-Wing/E2",
+            type: UpgradeType.MODIFICATION,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.B_WING_ONLY ],
+            description: "Your upgrade bar gains the Crew Member upgrade icon.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "bWingE2",
+        },
         "c3po":
         {
             name: "C-3PO",
@@ -516,6 +647,16 @@ var UpgradeCard =
             squadPointCost: 3,
             hasAction: false,
             value: "c3po",
+        },
+        "calculation":
+        {
+            name: "Calculation",
+            type: UpgradeType.ELITE,
+            isUnique: false,
+            description: "When attacking, you may spend a focus token to change 1 of your Focus results to a Critical Hit result.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "calculation",
         },
         "carlistRieekan":
         {
@@ -528,6 +669,17 @@ var UpgradeCard =
             squadPointCost: 3,
             hasAction: false,
             value: "carlistRieekan",
+        },
+        "chardaanRefit":
+        {
+            name: "Chardaan Refit",
+            type: UpgradeType.MISSILE,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.A_WING_ONLY ],
+            description: "This card has a negative squad point cost.",
+            squadPointCost: -2,
+            hasAction: false,
+            value: "chardaanRefit",
         },
         "chewbacca":
         {
@@ -604,6 +756,16 @@ var UpgradeCard =
             hasAction: false,
             value: "dauntless",
         },
+        "deadMansSwitch":
+        {
+            name: "Dead Man's Switch",
+            type: UpgradeType.ILLICIT,
+            isUnique: false,
+            description: "When you are destroyed, each ship at Range 1 suffers 1 damage.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "deadMansSwitch",
+        },
         "deadeye":
         {
             name: "Deadeye",
@@ -675,6 +837,16 @@ var UpgradeCard =
             hasAction: false,
             value: "engineeringTeam",
         },
+        "enhancedScopes":
+        {
+            name: "Enhanced Scopes",
+            type: UpgradeType.SENSOR,
+            isUnique: false,
+            description: "During the Activation phase, treat your pilot skill value as \"0.\"",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "enhancedScopes",
+        },
         "experimentalInterface":
         {
             name: "Experimental Interface",
@@ -704,6 +876,16 @@ var UpgradeCard =
             squadPointCost: 4,
             hasAction: true,
             value: "expose",
+        },
+        "feedbackArray":
+        {
+            name: "Feedback Array",
+            type: UpgradeType.ILLICIT,
+            isUnique: false,
+            description: "During the Combat phase, instead of performing any attacks, you may receive 1 ion token and suffer 1 damage to choose 1 enemy ship at Range 1. That ship suffers 1 damage.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "feedbackArray",
         },
         "fireControlSystem":
         {
@@ -789,6 +971,17 @@ var UpgradeCard =
             hasAction: false,
             value: "hanSolo",
         },
+        "heavyScykInterceptor":
+        {
+            name: "\"Heavy Scyk\" Interceptor",
+            type: UpgradeType.TITLE,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.M3_A_INTERCEPTOR_ONLY ],
+            description: "Your upgrade bar gains the Cannon, Torpedo, or Missile upgrade icon.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "heavyScykInterceptor",
+        },
         "hullUpgrade":
         {
             name: "Hull Upgrade",
@@ -798,6 +991,27 @@ var UpgradeCard =
             squadPointCost: 3,
             hasAction: false,
             value: "hullUpgrade",
+        },
+        "ig2000":
+        {
+            name: "IG-2000",
+            type: UpgradeType.TITLE,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.AGGRESSOR_ONLY ],
+            description: "You have the pilot ability of each other friendly ship with the IG-2000 upgrade card (in addition to your own pilot ability).",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "ig2000",
+        },
+        "inertialDampeners":
+        {
+            name: "Inertial Dampeners",
+            type: UpgradeType.ILLICIT,
+            isUnique: false,
+            description: "When you reveal your maneuver, you may discard this card to instead perform a white Stationary 0 maneuver. Then receive 1 stress token.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "inertialDampeners",
         },
         "intelligenceAgent":
         {
@@ -831,6 +1045,17 @@ var UpgradeCard =
             hasAction: false,
             value: "janDodonna",
         },
+        "janOrs":
+        {
+            name: "Jan Ors",
+            type: UpgradeType.CREW,
+            isUnique: true,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+            description: "Once per round, when a friendly ship at Range 1-3 performs a focus action or would be assigned a focus token, you may assign that ship an evade token instead.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "janOrs",
+        },
         "k4SecurityDroid":
         {
             name: "K4 Security Droid",
@@ -841,6 +1066,17 @@ var UpgradeCard =
             squadPointCost: 3,
             hasAction: false,
             value: "k4SecurityDroid",
+        },
+        "kyleKatarn":
+        {
+            name: "Kyle Katarn",
+            type: UpgradeType.CREW,
+            isUnique: true,
+            restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+            description: "After you remove a stress token from your ship, you may assign a focus token to your ship.",
+            squadPointCost: 3,
+            hasAction: false,
+            value: "kyleKatarn",
         },
         "landoCalrissian":
         {
@@ -1475,6 +1711,17 @@ var UpgradeCard =
             hasAction: false,
             value: "veteranInstincts",
         },
+        "virago":
+        {
+            name: "Virago",
+            type: UpgradeType.TITLE,
+            isUnique: true,
+            restrictions: [ UpgradeRestriction.STAR_VIPER_ONLY ],
+            description: "Your upgrade bar gains the Sensor and Illicit upgrade icons. You cannot equip this card if your pilot skill value is \"3\" or lower.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "virago",
+        },
         "weaponsEngineer":
         {
             name: "Weapons Engineer",
@@ -1604,6 +1851,18 @@ var UpgradeCard =
             ranges: [ Range.TWO, Range.THREE ],
             value: "concussionMissiles",
         },
+        "flechetteCannon":
+        {
+            name: "Flechette Cannon",
+            type: UpgradeType.CANNON,
+            isUnique: false,
+            description: "Attack 1 ship. If this attack hits, the defender suffers 1 damage and, if the defender is not stressed, it also receives 1 stress token. Then cancel all dice results.",
+            squadPointCost: 2,
+            hasAction: false,
+            weaponValue: 3,
+            ranges: [ Range.ONE, Range.TWO, Range.THREE ],
+            value: "flechetteCannon",
+        },
         "flechetteTorpedoes":
         {
             name: "Flechette Torpedoes",
@@ -1699,6 +1958,18 @@ var UpgradeCard =
             weaponValue: 4,
             ranges: [ Range.TWO, Range.THREE ],
             value: "ionPulseMissiles",
+        },
+        "manglerCannon":
+        {
+            name: "\"Mangler\" Cannon",
+            type: UpgradeType.CANNON,
+            isUnique: false,
+            description: "Attack 1 ship. When attacking, you may change 1 of your Hit results to a Critical Hit result.",
+            squadPointCost: 4,
+            hasAction: false,
+            weaponValue: 3,
+            ranges: [ Range.ONE, Range.TWO, Range.THREE ],
+            value: "manglerCannon",
         },
         "protonRockets":
         {

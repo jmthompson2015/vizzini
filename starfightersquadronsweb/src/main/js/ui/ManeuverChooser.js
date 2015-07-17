@@ -68,18 +68,23 @@ var ManeuverChooser = React.createClass(
     render: function() 
     {
         var token = this.props.token;
+        var isPilotNameShown = (this.props.isPilotNameShown === undefined ? true : this.props.isPilotNameShown);
         var imageUtils = this.props.imageUtils;
         var pilotName = token.getPilotName();
         var shipName = token.getShipName();
         var maneuvers = token.getManeuvers();
         var minSpeed = this.getMinimumSpeed(maneuvers);
         var maxSpeed = this.getMaximumSpeed(maneuvers);
-        var bearingValues = Bearing.values;
+        var bearingValues = Bearing.values();
+        var bearings = maneuvers.map(function(maneuver)
+            {
+                return Maneuver.properties[maneuver].bearing;
+            });
         var self = this;
 
         var myHtml = [];
 
-        if (pilotName)
+        if (isPilotNameShown && pilotName)
         {
             myHtml[myHtml.length] = <tr key={myHtml.length} id="pilotName">
                 <td colSpan={bearingValues.length + 1}>
@@ -100,28 +105,52 @@ var ManeuverChooser = React.createClass(
         for (var speed = maxSpeed; speed >= minSpeed; speed--)
         {
             var cells = [];
-            cells[cells.length] = <td key={cells.length}>{speed}</td>;
-
-            for (var i = 0; i < bearingValues.length; i++)
+            cells[cells.length] = <td key={cells.length} className="maneuverCell">{speed}</td>;
+            
+            if (speed === 0)
             {
-                var bearing = bearingValues[i];
-                var maneuver = this.findManeuver(maneuvers, bearing, speed);
-
-                if (maneuver)
+                var maneuver = Maneuver.STATIONARY_0_HARD;
+                var difficulty = Maneuver.properties[maneuver].difficulty;
+                var iconSrc = imageUtils.createManeuverIconSource(undefined, difficulty);
+                cells.push(<td key={cells.length} className="maneuverCell">&nbsp;</td>);
+                cells.push(<td key={cells.length} className="maneuverCell">&nbsp;</td>);
+                cells.push(<td key={cells.length}
+                    className="maneuverCell"
+                    onClick={self.selectionChanged}
+                    data-token={token}
+                    data-maneuver={maneuver} >
+                    <img src={iconSrc} />
+                    </td>);
+                cells.push(<td key={cells.length} className="maneuverCell">&nbsp;</td>);
+                cells.push(<td key={cells.length} className="maneuverCell">&nbsp;</td>);
+            }
+            else
+            {
+                for (var i = 0; i < bearingValues.length; i++)
                 {
-                    var difficulty = Maneuver.properties[maneuver].difficulty;
-                    var iconSrc = imageUtils.createManeuverIconSource(bearing, difficulty);
-                    cells[cells.length] = <td key={cells.length}
-                        className="maneuverCell"
-                        onClick={self.selectionChanged}
-                        data-token={token}
-                        data-maneuver={maneuver} >
-                        <img src={iconSrc} />
-                        </td>;
-                }
-                else
-                {
-                    cells[cells.length] = <td key={cells.length}>&nbsp;</td>;
+                    var bearing = bearingValues[i];
+                    
+                    if (Array.Vizzini.contains(bearings, bearing))
+                    {
+                        var maneuver = this.findManeuver(maneuvers, bearing, speed);
+        
+                        if (maneuver)
+                        {
+                            var difficulty = Maneuver.properties[maneuver].difficulty;
+                            var iconSrc = imageUtils.createManeuverIconSource(bearing, difficulty);
+                            cells[cells.length] = <td key={cells.length}
+                                className="maneuverCell"
+                                onClick={self.selectionChanged}
+                                data-token={token}
+                                data-maneuver={maneuver} >
+                                <img src={iconSrc} />
+                                </td>;
+                        }
+                        else
+                        {
+                            cells[cells.length] = <td key={cells.length} className="maneuverCell">&nbsp;</td>;
+                        }
+                    }
                 }
             }
 

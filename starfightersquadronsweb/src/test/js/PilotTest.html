@@ -23,6 +23,9 @@
 <script src="../../main/js/Pilot.js"></script>
 
 <script>
+    "use strict";
+    var LOGGER = new Logger();
+
     QUnit.test("Pilot properties Academy Pilot", function(assert)
     {
         var pilot = Pilot.ACADEMY_PILOT;
@@ -94,9 +97,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 110);
+        assert.equal(result.length, 122);
         assert.equal(result[0], "academyPilot");
-        assert.equal(result[109], "wingedGundark");
+        assert.equal(result[121], "wingedGundark");
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties
@@ -166,9 +169,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 16);
+        assert.equal(result.length, 28);
         assert.equal(result[0], "binayrePirate");
-        assert.equal(result[15], "torkilMux");
+        assert.equal(result[27], "torkilMux");
     });
 </script>
 </head>

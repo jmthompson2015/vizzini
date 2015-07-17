@@ -19,6 +19,9 @@
 <script src="../../main/js/ShipTeam.js"></script>
 
 <script>
+    "use strict";
+    var LOGGER = new Logger();
+
     QUnit.test("ShipTeam properties Imperial Firespray-31", function(assert)
     {
         var shipTeam = ShipTeam.IMPERIAL_FIRESPRAY_31;
@@ -66,9 +69,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 26);
+        assert.equal(result.length, 29);
         assert.equal(result[0], "imperialFirespray31");
-        assert.equal(result[25], "scumZ95Headhunter");
+        assert.equal(result[28], "scumZ95Headhunter");
 
         var properties = Object.getOwnPropertyNames(ShipTeam);
         var count = properties.length - 1 // properties
@@ -128,10 +131,13 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 4);
+        assert.equal(result.length, 7);
         var i = 0;
+        assert.equal(result[i++], "scumAggressor");
         assert.equal(result[i++], "scumFirespray31");
         assert.equal(result[i++], "scumHwk290");
+        assert.equal(result[i++], "scumM3AInterceptor");
+        assert.equal(result[i++], "scumStarViper");
         assert.equal(result[i++], "scumYWing");
         assert.equal(result[i++], "scumZ95Headhunter");
     });

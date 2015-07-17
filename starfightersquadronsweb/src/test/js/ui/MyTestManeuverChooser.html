@@ -20,8 +20,10 @@
 <script src="../../../main/js/Maneuver.js"></script>
 <script src="../../../main/js/ShipAction.js"></script>
 <script src="../../../main/js/Ship.js"></script>
+<script src="../../../main/js/ShipTeam.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/DamageCard.js"></script>
 <script src="../../../main/js/Token.js"></script>
@@ -52,7 +54,7 @@
         {
             var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
             var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
-			React.render(<ManeuverChooser token={token} imageUtils={imageUtils} />,
+			React.render(<ManeuverChooser token={token} isPilotNameShown={false} imageUtils={imageUtils} />,
 				document.getElementById("inputArea1"));
         }
     </script>

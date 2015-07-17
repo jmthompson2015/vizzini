@@ -47,7 +47,9 @@ var Pilot =
     BIGGS_DARKLIGHTER: "biggsDarklighter",
     BINAYRE_PIRATE: "binayrePirate",
     BLACK_SQUADRON_PILOT: "blackSquadronPilot",
+    BLACK_SUN_ENFORCER: "blackSunEnforcer",
     BLACK_SUN_SOLDIER: "blackSunSoldier",
+    BLACK_SUN_VIGO: "blackSunVigo",
     BLACKMOON_SQUADRON_PILOT: "blackmoonSquadronPilot",
     BLUE_SQUADRON_PILOT: "blueSquadronPilot",
     BOBA_FETT_IMPERIAL: "bobaFettImperial",
@@ -58,6 +60,7 @@ var Pilot =
     CAPTAIN_OICUNN: "captainOicunn",
     CAPTAIN_YORR: "captainYorr",
     CARNOR_JAX: "carnorJax",
+    CARTEL_SPACER: "cartelSpacer",
     CHEWBACCA: "chewbacca",
     COLONEL_JENDON: "colonelJendon",
     COLONEL_VESSERY: "colonelVessery",
@@ -82,12 +85,17 @@ var Pilot =
     GOLD_SQUADRON_PILOT: "goldSquadronPilot",
     GRAY_SQUADRON_PILOT: "graySquadronPilot",
     GREEN_SQUADRON_PILOT: "greenSquadronPilot",
+    GURI: "guri",
     HAN_SOLO: "hanSolo",
     HIRED_GUN: "hiredGun",
     HOBBIE_KLIVIAN: "hobbieKlivian",
     HORTON_SALM: "hortonSalm",
     HOWLRUNNER: "howlrunner",
     IBTISAM: "ibtisam",
+    IG_88A: "ig88A",
+    IG_88B: "ig88B",
+    IG_88C: "ig88C",
+    IG_88D: "ig88D",
     JAKE_FARRELL: "jakeFarrell",
     JAN_ORS: "janOrs",
     JEK_PORKINS: "jekPorkins",
@@ -100,6 +108,7 @@ var Pilot =
     KNAVE_SQUADRON_PILOT: "knaveSquadronPilot",
     KRASSIS_TRELIX: "krassisTrelix",
     KYLE_KATARN: "kyleKatarn",
+    LAETIN_ASHERA: "laetinAshera",
     LANDO_CALRISSIAN: "landoCalrissian",
     LEEBO: "leebo",
     LIEUTENANT_BLOUNT: "lieutenantBlount",
@@ -118,6 +127,7 @@ var Pilot =
     OUTER_RIM_SMUGGLER: "outerRimSmuggler",
     PALOB_GODALHI: "palobGodalhi",
     PATROL_LEADER: "patrolLeader",
+    PRINCE_XIZOR: "princeXizor",
     PROTOTYPE_PILOT: "prototypePilot",
     REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
     REBEL_OPERATIVE: "rebelOperative",
@@ -128,6 +138,7 @@ var Pilot =
     ROYAL_GUARD_PILOT: "royalGuardPilot",
     SABER_SQUADRON_PILOT: "saberSquadronPilot",
     SCIMITAR_SQUADRON_PILOT: "scimitarSquadronPilot",
+    SERISSU: "serissu",
     SHADOW_SQUADRON_PILOT: "shadowSquadronPilot",
     SIGMA_SQUADRON_PILOT: "sigmaSquadronPilot",
     SOONTIR_FEL: "soontirFel",
@@ -135,6 +146,7 @@ var Pilot =
     STORM_SQUADRON_PILOT: "stormSquadronPilot",
     SYNDICATE_THUG: "syndicateThug",
     TALA_SQUADRON_PILOT: "talaSquadronPilot",
+    TANSARII_POINT_VETERAN: "tansariiPointVeteran",
     TARN_MISON: "tarnMison",
     TEMPEST_SQUADRON_PILOT: "tempestSquadronPilot",
     TEN_NUMB: "tenNumb",
@@ -279,6 +291,19 @@ var Pilot =
             upgradeTypes: [ UpgradeType.ELITE ],
             value: "blackSquadronPilot",
         },
+        "blackSunEnforcer":
+        {
+            name: "Black Sun Enforcer",
+            description: "Pince Xizor himself collaborated with MandalMotors to design the StarViper-class attack platform, one of the most formidable starfighters in the galaxy.",
+            isUnique: false,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_STAR_VIPER,
+            shipState: new ShipState(1, 3, 3, 4, 1),
+            squadPointCost: 25,
+            upgradeTypes: [ UpgradeType.TORPEDO ],
+            value: "blackSunEnforcer",
+        },
         "blackSunSoldier":
         {
             name: "Black Sun Soldier",
@@ -291,6 +316,19 @@ var Pilot =
             squadPointCost: 13,
             upgradeTypes: [ UpgradeType.MISSILE, UpgradeType.ILLICIT ],
             value: "blackSunSoldier",
+        },
+        "blackSunVigo":
+        {
+            name: "Black Sun Vigo",
+            description: "Following the success of the Virago prototype, the StarViper-class attack platform was streamlined and redesigned for mass production.",
+            isUnique: false,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_STAR_VIPER,
+            shipState: new ShipState(3, 3, 3, 4, 1),
+            squadPointCost: 27,
+            upgradeTypes: [ UpgradeType.TORPEDO ],
+            value: "blackSunVigo",
         },
         "blackmoonSquadronPilot":
         {
@@ -433,6 +471,19 @@ var Pilot =
             squadPointCost: 26,
             upgradeTypes: [ UpgradeType.ELITE ],
             value: "carnorJax",
+        },
+        "cartelSpacer":
+        {
+            name: "Cartel Spacer",
+            description: "MandalMotors M3-A \"Scyk\" Interceptor was purchased in large quantities by the Hutt Cartel and the Car'das smugglers due to its low cost and customizability.",
+            isUnique: false,
+            primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_M3_A_INTERCEPTOR,
+            shipState: new ShipState(2, 2, 3, 2, 1),
+            squadPointCost: 14,
+            upgradeTypes: [],
+            value: "cartelSpacer",
         },
         "chewbacca":
         {
@@ -764,6 +815,19 @@ var Pilot =
             upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
             value: "greenSquadronPilot",
         },
+        "guri":
+        {
+            name: "Guri",
+            description: "At the start of the Combat phase, if you are at Range 1 of an enemy ship, you may assign 1 focus token to your ship.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_STAR_VIPER,
+            shipState: new ShipState(5, 3, 3, 4, 1),
+            squadPointCost: 30,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO ],
+            value: "guri",
+        },
         "hanSolo":
         {
             name: "Han Solo",
@@ -846,6 +910,66 @@ var Pilot =
                     UpgradeType.CANNON, UpgradeType.TORPEDO,
                     UpgradeType.TORPEDO ],
             value: "ibtisam",
+        },
+        "ig88A":
+        {
+            name: "IG-88A",
+            description: "After you perform an attack that destroys the defender, you may recover 1 shield.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_AGGRESSOR,
+            shipState: new ShipState(6, 3, 3, 4, 4),
+            squadPointCost: 36,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.CANNON, UpgradeType.BOMB,
+                    UpgradeType.ILLICIT ],
+            value: "ig88A",
+        },
+        "ig88B":
+        {
+            name: "IG-88B",
+            description: "Once per round, after you perform an attack that does not hit, you may perform an attack with an equipped Cannon secondary weapon.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_AGGRESSOR,
+            shipState: new ShipState(6, 3, 3, 4, 4),
+            squadPointCost: 36,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.CANNON, UpgradeType.BOMB,
+                    UpgradeType.ILLICIT ],
+            value: "ig88B",
+        },
+        "ig88C":
+        {
+            name: "IG-88C",
+            description: "After you perform a boost action, you may perform a free evade action.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_AGGRESSOR,
+            shipState: new ShipState(6, 3, 3, 4, 4),
+            squadPointCost: 36,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.CANNON, UpgradeType.BOMB,
+                    UpgradeType.ILLICIT ],
+            value: "ig88C",
+        },
+        "ig88D":
+        {
+            name: "IG-88D",
+            description: "You may execute the Segnor's Loop Left or Right 3 maneuver using the corresponding Turn Left or Right 3 template.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_AGGRESSOR,
+            shipState: new ShipState(6, 3, 3, 4, 4),
+            squadPointCost: 36,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SENSOR,
+                    UpgradeType.CANNON, UpgradeType.CANNON, UpgradeType.BOMB,
+                    UpgradeType.ILLICIT ],
+            value: "ig88D",
         },
         "jakeFarrell":
         {
@@ -1015,6 +1139,19 @@ var Pilot =
             upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TURRET,
                     UpgradeType.CREW ],
             value: "kyleKatarn",
+        },
+        "laetinAshera":
+        {
+            name: "Laetin A'shera",
+            description: "After you defend against an attack, if the attack did not hit, you may assign 1 evade token to your ship.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_M3_A_INTERCEPTOR,
+            shipState: new ShipState(6, 2, 3, 2, 1),
+            squadPointCost: 18,
+            upgradeTypes: [],
+            value: "laetinAshera",
         },
         "landoCalrissian":
         {
@@ -1263,6 +1400,19 @@ var Pilot =
                     UpgradeType.CREW, UpgradeType.CREW, UpgradeType.BOMB ],
             value: "patrolLeader",
         },
+        "princeXizor":
+        {
+            name: "Prince Xizor",
+            description: "When defending, a friendly ship at Range 1 may suffer 1 uncanceled Hit or Critical Hit result instead of you.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 3, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_STAR_VIPER,
+            shipState: new ShipState(7, 3, 3, 4, 1),
+            squadPointCost: 31,
+            upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO ],
+            value: "princeXizor",
+        },
         "prototypePilot":
         {
             name: "Prototype Pilot",
@@ -1410,6 +1560,19 @@ var Pilot =
                     UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB ],
             value: "scimitarSquadronPilot",
         },
+        "serissu":
+        {
+            name: "Serissu",
+            description: "When another friendly ship at Range 1 is defending, it may reroll 1 defense die.",
+            isUnique: true,
+            primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_M3_A_INTERCEPTOR,
+            shipState: new ShipState(8, 2, 3, 2, 1),
+            squadPointCost: 20,
+            upgradeTypes: [ UpgradeType.ELITE ],
+            value: "serissu",
+        },
         "shadowSquadronPilot":
         {
             name: "Shadow Squadron Pilot",
@@ -1502,6 +1665,19 @@ var Pilot =
             squadPointCost: 13,
             upgradeTypes: [ UpgradeType.MISSILE ],
             value: "talaSquadronPilot",
+        },
+        "tansariiPointVeteran":
+        {
+            name: "Tansarii Point Veteran",
+            description: "The defeat of Black Sun ace Talonbane Cobra by Car'das smugglers turned the tide of the Battle of Tansarii Point Station. Survivors of the clash are respected throughout the sector.",
+            isUnique: false,
+            primaryWeapon: new Weapon("Primary Weapon", true, 2, [ Range.ONE,
+                    Range.TWO, Range.THREE ]),
+            shipTeam: ShipTeam.SCUM_M3_A_INTERCEPTOR,
+            shipState: new ShipState(5, 2, 3, 2, 1),
+            squadPointCost: 17,
+            upgradeTypes: [ UpgradeType.ELITE ],
+            value: "tansariiPointVeteran",
         },
         "tarnMison":
         {
@@ -1676,7 +1852,7 @@ var Pilot =
     valuesByShipTeam: function(shipTeam)
     {
         InputValidator.validateNotNull("shipTeam", shipTeam);
-        
+
         return this.values().filter(function(pilot)
         {
             return Pilot.properties[pilot].shipTeam === shipTeam;
@@ -1686,7 +1862,7 @@ var Pilot =
     valuesByTeam: function(team)
     {
         InputValidator.validateNotNull("team", team);
-        
+
         return this.values().filter(function(pilot)
         {
             var shipTeam = Pilot.properties[pilot].shipTeam;

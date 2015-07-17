@@ -30,8 +30,11 @@ var ShipTeam =
     REBEL_Z_95_HEADHUNTER: "rebelZ95Headhunter",
 
     // Scum & Villainy.
+    SCUM_AGGRESSOR: "scumAggressor",
     SCUM_FIRESPRAY_31: "scumFirespray31",
     SCUM_HWK_290: "scumHwk290",
+    SCUM_M3_A_INTERCEPTOR: "scumM3AInterceptor",
+    SCUM_STAR_VIPER: "scumStarViper",
     SCUM_Y_WING: "scumYWing",
     SCUM_Z_95_HEADHUNTER: "scumZ95Headhunter",
 
@@ -218,6 +221,14 @@ var ShipTeam =
         },
 
         // Scum & Villainy.
+        "scumAggressor":
+        {
+            name: "Aggressor",
+            ship: Ship.AGGRESSOR,
+            team: Team.SCUM,
+            image: "Scum_Aggressor.png",
+            value: "scumAggressor",
+        },
         "scumFirespray31":
         {
             name: "Firespray-31 (Scum)",
@@ -233,6 +244,22 @@ var ShipTeam =
             team: Team.SCUM,
             image: "Scum_HWK-290.png",
             value: "scumHwk290",
+        },
+        "scumM3AInterceptor":
+        {
+            name: "M3-A Interceptor",
+            ship: Ship.M3_A_INTERCEPTOR,
+            team: Team.SCUM,
+            image: "Scum_M3-A_Interceptor.png",
+            value: "scumM3AInterceptor",
+        },
+        "scumStarViper":
+        {
+            name: "StarViper",
+            ship: Ship.STAR_VIPER,
+            team: Team.SCUM,
+            image: "Scum_StarViper.png",
+            value: "scumStarViper",
         },
         "scumYWing":
         {
@@ -260,7 +287,7 @@ var ShipTeam =
     valuesByTeam: function(team)
     {
         InputValidator.validateNotNull("team", team);
-        
+
         return this.values().filter(function(shipTeam)
         {
             return ShipTeam.properties[shipTeam].team === team;

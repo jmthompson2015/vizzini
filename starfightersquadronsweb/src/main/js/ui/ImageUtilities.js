@@ -41,11 +41,22 @@ function ImageUtilities()
      */
     this.createManeuverIconSource = function(bearing, difficulty)
     {
-        var bearingName = bearing.replace("L", "_l");
-        bearingName = bearingName.replace("R", "_r");
-        bearingName = bearingName.replace("kTurn", "koiogran_turn");
-        var answer = getPath() + "resources/images/maneuver/"
-                + bearingName + "_" + difficulty + "16.png";
+        var answer;
+
+        if (bearing)
+        {
+            var bearingName = bearing.replace(/L/g, "_l");
+            bearingName = bearingName.replace(/R/g, "_r");
+            bearingName = bearingName.replace("kTurn", "koiogran_turn");
+            answer = getPath() + "resources/images/maneuver/" + bearingName
+                    + "_" + difficulty + "16.png";
+        }
+        else
+        {
+            answer = getPath() + "resources/images/maneuver/stationary_"
+                    + difficulty + "16.png";
+        }
+
         return answer;
     }
 
@@ -59,8 +70,8 @@ function ImageUtilities()
      */
     this.createManeuverIconString = function(bearing, difficulty)
     {
-        var bearingName = bearing.replace("L", "_l");
-        bearingName = bearingName.replace("R", "_r");
+        var bearingName = bearing.replace(/L/g, "_l");
+        bearingName = bearingName.replace(/R/g, "_r");
         bearingName = bearingName.replace("kTurn", "koiogran_turn");
         var answer = "<img src='" + getPath() + "resources/images/maneuver/"
                 + bearingName + "_" + difficulty + "16.png'/>";

@@ -6,6 +6,9 @@
 
 <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+
 <script src="../../main/js/Team.js"></script>
 <script src="../../main/js/Position.js"></script>
 <script src="../../main/js/Path.js"></script>
@@ -14,6 +17,9 @@
 <script src="../../main/js/Ship.js"></script>
 
 <script>
+    "use strict";
+    var LOGGER = new Logger();
+
     QUnit.test("Ship properties Firespray-31", function(assert)
     {
         var ship = Ship.FIRESPRAY_31;
@@ -66,9 +72,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 18);
+        assert.equal(result.length, 21);
         assert.equal(result[0], "aWing");
-        assert.equal(result[17], "z95Headhunter");
+        assert.equal(result[20], "z95Headhunter");
 
         var properties = Object.getOwnPropertyNames(Ship);
         var count = properties.length - 1 // properties

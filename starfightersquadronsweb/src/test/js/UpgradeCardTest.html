@@ -26,6 +26,15 @@
     "use strict";
     var LOGGER = new Logger();
 
+    QUnit.test("UpgradeRestriction.values()", function(assert)
+    {
+        var result = UpgradeRestriction.values();
+        assert.ok(result);
+        assert.equal(result.length, 19);
+        assert.equal(result[0], UpgradeRestriction.A_WING_ONLY);
+        assert.equal(result[18], UpgradeRestriction.Y_WING_ONLY);
+    });
+
     QUnit.test("UpgradeRestriction.passes()",
             function(assert)
             {
@@ -155,9 +164,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 121);
-        assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[120], UpgradeCard.PROTON_TORPEDOES);
+        assert.equal(result.length, 139);
+        assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
+        assert.equal(result[138], UpgradeCard.PROTON_TORPEDOES);
     });
 
     QUnit.test("UpgradeCard.valuesByPilotAndType() Astromech", function(assert)
@@ -181,9 +190,10 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 22);
+        assert.equal(result.length, 23);
         var i = 0;
         assert.equal(result[i++], UpgradeCard.ADRENALINE_RUSH);
+        assert.equal(result[i++], UpgradeCard.CALCULATION);
         assert.equal(result[i++], UpgradeCard.DAREDEVIL);
         assert.equal(result[i++], UpgradeCard.DEADEYE);
         assert.equal(result[i++], UpgradeCard.DECOY);
@@ -219,16 +229,16 @@
         assert.equal(result[11], UpgradeCard.R7_T1);
     });
 
-    QUnit.test("UpgradeCard.valuesByType() Astromech", function(assert)
+    QUnit.test("UpgradeCard.valuesByType() Elite", function(assert)
     {
         // Run.
         var result = UpgradeCard.valuesByType(UpgradeType.ELITE);
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 22);
+        assert.equal(result.length, 24);
         assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[21], UpgradeCard.WINGMAN);
+        assert.equal(result[23], UpgradeCard.WINGMAN);
     });
 </script>
 </head>
