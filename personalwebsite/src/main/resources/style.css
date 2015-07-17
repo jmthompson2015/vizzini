@@ -1,6 +1,6 @@
 body {
     background-image: url('../resources/yellowGradient.png');
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
     font-size: medium;
 }
