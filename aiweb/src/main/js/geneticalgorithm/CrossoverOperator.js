@@ -20,7 +20,10 @@ var CrossoverOperator =
         var part0 = genome0.slice(0, index);
         var part1 = genome1.slice(index);
 
-        return part0.concat(part1);
+        var answer = part0.concat(part1);
+
+        return CrossoverOperator
+                .assignCreator(answer, "onePointConstantLength");
     },
 
     onePointVariableLength: function(genome0, genome1)
@@ -34,7 +37,10 @@ var CrossoverOperator =
         var part0 = genome0.slice(0, index0);
         var part1 = genome1.slice(index1);
 
-        return part0.concat(part1);
+        var answer = part0.concat(part1);
+
+        return CrossoverOperator
+                .assignCreator(answer, "onePointVariableLength");
     },
 
     twoPointConstantLength: function(genome0, genome1)
@@ -46,7 +52,11 @@ var CrossoverOperator =
         if (genome0.length === 1)
         {
             // Degenerate case.
-            return (Math.random() < 0.5 ? genome0.slice() : genome1.slice());
+            var parent = (Math.random() < 0.5 ? genome0 : genome1);
+            var answer = parent.slice();
+            answer.creator = parent.creator;
+
+            return answer;
         }
         else
         {
@@ -56,7 +66,10 @@ var CrossoverOperator =
             var part1 = genome1.slice(indices[0], indices[1]);
             var part2 = genome0.slice(indices[1]);
 
-            return part0.concat(part1.concat(part2));
+            var answer = part0.concat(part1.concat(part2));
+
+            return CrossoverOperator.assignCreator(answer,
+                    "twoPointConstantLength");
         }
     },
 
@@ -68,7 +81,11 @@ var CrossoverOperator =
         if (genome0.length === 1 || genome1.length === 1)
         {
             // Degenerate case.
-            return (Math.random() < 0.5 ? genome0.slice() : genome1.slice());
+            var parent = (Math.random() < 0.5 ? genome0 : genome1);
+            var answer = parent.slice();
+            answer.creator = parent.creator;
+
+            return answer;
         }
         else
         {
@@ -79,7 +96,10 @@ var CrossoverOperator =
             var part1 = genome1.slice(indices1[0], indices1[1]);
             var part2 = genome0.slice(indices0[1]);
 
-            return part0.concat(part1.concat(part2));
+            var answer = part0.concat(part1.concat(part2));
+
+            return CrossoverOperator.assignCreator(answer,
+                    "twoPointVariableLength");
         }
     },
 
@@ -103,7 +123,14 @@ var CrossoverOperator =
             }
         }
 
-        return answer;
+        return CrossoverOperator.assignCreator(answer, "uniformConstantLength");
+    },
+
+    assignCreator: function(genome, suffix)
+    {
+        genome.creator = "CrossoverOperator." + suffix;
+
+        return genome;
     },
 
     selectTwoIndices: function(length)
@@ -129,4 +156,14 @@ var CrossoverOperator =
         if (genome0.length !== genome1.length) { throw "Genomes are different lengths: genome0.length = "
                 + genome0.length + " genome1.length = " + genome1.length; }
     },
+}
+
+function Crossoverer(crossoverFunction)
+{
+    InputValidator.validateNotNull("crossoverFunction", crossoverFunction);
+
+    this.execute = function(genome0, genome1)
+    {
+        return crossoverFunction(genome0, genome1);
+    }
 }

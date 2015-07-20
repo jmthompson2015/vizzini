@@ -28,14 +28,15 @@ function JSXORProblem(popSize, generationCount, backCount)
         var selectionCount = Math.floor(0.50 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.fitnessProportionalSelect);
-        var copyCount = Math.floor(0.02 * popSize);
-        var crossoverCount = Math.floor(0.65 * popSize);
-        var crossoverOperator = CrossoverOperator.onePointVariableLength;
-        var mutator = new Mutator(genes, MutationOperator.mutate);
+        var operators = [
+                new Operator(0.1, 1, new Copier(CopyOperator.copy)),
+                new Operator(0.6, 2, new Crossoverer(
+                        CrossoverOperator.onePointVariableLength)),
+                new Operator(0.3, 1, new Mutator(genes,
+                        MutationOperator.mutate)), ];
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
-                comparator, selector, copyCount, crossoverCount,
-                crossoverOperator, mutator, genomeFactory, backCount);
+                comparator, selector, operators, genomeFactory, backCount);
 
         return ga;
     }

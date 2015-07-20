@@ -20,22 +20,27 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
         LOGGER.info("backCount = " + backCount);
 
         var genes = this.createGenes();
-        var genomeLength = 19;
+        var genomeLength = 20;
         var genomeFactory = new GenomeFactory(genes, genomeLength);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator = this.createEvaluator();
         var comparator = GenomeComparator;
-        var selectionCount = Math.floor(0.50 * popSize);
+        var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.fitnessProportionalSelect);
-        var copyCount = Math.floor(0.02 * popSize);
-        var crossoverCount = Math.floor(0.65 * popSize);
-        var crossoverOperator = CrossoverOperator.twoPointVariableLength;
-        var mutator = new Mutator(genes, MutationOperator.mutate);
+        var operators = [
+                new Operator(0.02, 1, new Copier(CopyOperator.copy)),
+                new Operator(0.30, 2, new Crossoverer(
+                        CrossoverOperator.onePointVariableLength)),
+                new Operator(0.30, 2, new Crossoverer(
+                        CrossoverOperator.twoPointVariableLength)),
+                new Operator(0.20, 1, new Mutator(genes,
+                        MutationOperator.mutate)),
+                new Operator(0.18, 1, new Mutator(genes,
+                        MutationOperator.deleteGene)), ];
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
-                comparator, selector, copyCount, crossoverCount,
-                crossoverOperator, mutator, genomeFactory, backCount);
+                comparator, selector, operators, genomeFactory, backCount);
 
         return ga;
     }
@@ -57,7 +62,7 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
         var phenotypeFactory = new JSPhenotypeFactory("f", "x");
         var isMatches = false;
         var errorThreshold = 0.0001;
-        var idealGenomeLength = 19;
+        var idealGenomeLength = 20;
 
         return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
                 errorThreshold, idealGenomeLength);

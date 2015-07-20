@@ -14,12 +14,14 @@
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
+<script src="../../../main/js/geneticalgorithm/CopyOperator.js"></script>
 <script src="../../../main/js/geneticalgorithm/CrossoverOperator.js"></script>
 <script src="../../../main/js/geneticalgorithm/GAUtilities.js"></script>
 <script src="../../../main/js/geneticalgorithm/GeneticAlgorithm.js"></script>
 <script src="../../../main/js/geneticalgorithm/GenomeComparator.js"></script>
 <script src="../../../main/js/geneticalgorithm/GenomeFactory.js"></script>
 <script src="../../../main/js/geneticalgorithm/MutationOperator.js"></script>
+<script src="../../../main/js/geneticalgorithm/Operator.js"></script>
 <script src="../../../main/js/geneticalgorithm/SelectionOperator.js"></script>
 
 <script>
@@ -55,15 +57,16 @@
         var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.randomSelect);
-        var copyCount = Math.floor(0.05 * popSize);
-        var crossoverCount = Math.floor(0.75 * popSize);
-        var crossoverOperator = CrossoverOperator.uniformConstantLength;
-        var mutator = new Mutator(genes, MutationOperator.mutate);
+        var operators = [
+                new Operator(0.05, 1, new Copier(CopyOperator.copy)),
+                new Operator(0.75, 2, new Crossoverer(
+                        CrossoverOperator.uniformConstantLength)),
+                new Operator(0.20, 1, new Mutator(genes,
+                        MutationOperator.mutate)), ];
         var backCount = 30;
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
-                comparator, selector, copyCount, crossoverCount,
-                crossoverOperator, mutator, genomeFactory, backCount);
+                comparator, selector, operators, genomeFactory, backCount);
 
         ga.bind("generation", function(generationCount)
         {

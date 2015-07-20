@@ -21,15 +21,16 @@ function FibonnacciProblem(popSize, generationCount, backCount)
         var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.randomSelect);
-        var copyCount = Math.floor(0.05 * popSize);
-        var crossoverCount = Math.floor(0.75 * popSize);
-        var crossoverOperator = CrossoverOperator.twoPointConstantLength;
-        var mutator = new Mutator(genes, MutationOperator.mutate);
+        var operators = [
+                new Operator(0.05, 1, new Copier(CopyOperator.copy)),
+                new Operator(0.75, 2, new Crossoverer(
+                        CrossoverOperator.twoPointConstantLength)),
+                new Operator(0.20, 1, new Mutator(genes,
+                        MutationOperator.mutate)), ];
 
         var ga = new GeneticAlgorithm(population, this.evaluator,
-                generationCount, comparator, selector, copyCount,
-                crossoverCount, crossoverOperator, mutator, genomeFactory,
-                backCount);
+                generationCount, comparator, selector, operators,
+                genomeFactory, backCount);
 
         return ga;
     }

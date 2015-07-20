@@ -17,6 +17,8 @@ function GenomeFactory(genes, genomeLength)
         {
             answer[i] = Array.Vizzini.randomElement(genes);
         }
+        
+        answer.creator = "GenomeFactory";
 
         return answer;
     }

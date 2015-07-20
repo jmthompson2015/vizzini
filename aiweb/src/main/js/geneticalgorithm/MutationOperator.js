@@ -6,6 +6,42 @@
  */
 var MutationOperator =
 {
+    deleteGene: function(genes, genome)
+    {
+        if (genome.length < 2)
+        {
+            // Degenerate case.
+            var answer = genome.slice();
+            answer.creator = genome.creator;
+
+            return answer;
+        }
+        else
+        {
+            var index = Math.Vizzini.randomIntFromRange(0, genome.length);
+
+            var answer = genome.slice();
+            var deleteCount = 1;
+
+            answer.splice(index, deleteCount);
+
+            return MutationOperator.assignCreator(answer, "deleteGene");
+        }
+    },
+
+    insertGene: function(genes, genome)
+    {
+        var index = Math.Vizzini.randomIntFromRange(0, genome.length);
+
+        var answer = genome.slice();
+        var deleteCount = 0;
+        var gene = Array.Vizzini.randomElement(genes);
+
+        answer.splice(index, deleteCount, gene);
+
+        return MutationOperator.assignCreator(answer, "insertGene");
+    },
+
     mutate: function(genes, genome)
     {
         var index = Math.Vizzini.randomIntFromRange(0, genome.length);
@@ -13,7 +49,14 @@ var MutationOperator =
 
         answer[index] = Array.Vizzini.randomElement(genes);
 
-        return answer;
+        return MutationOperator.assignCreator(answer, "mutate");
+    },
+
+    assignCreator: function(genome, suffix)
+    {
+        genome.creator = "MutationOperator." + suffix;
+
+        return genome;
     },
 }
 
@@ -27,7 +70,7 @@ function Mutator(genes, mutateFunction)
         return genes;
     }
 
-    this.mutate = function(genome)
+    this.execute = function(genome)
     {
         return mutateFunction(genes, genome);
     }

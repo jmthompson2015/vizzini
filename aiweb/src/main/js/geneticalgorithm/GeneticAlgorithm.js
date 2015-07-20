@@ -6,29 +6,35 @@
  * @param generationCount Number of genomes to mutate into the next generation.
  * @param comparator Genome comparator.
  * @param selector Selection operator.
- * @param copyCount Number of genomes to copy into the next generation.
- * @param crossoverCount Number of genomes to crossover into the next generation.
- * @param crossoverOperator Crossover operator.
- * @param mutator Mutation operator.
+ * @param operators Array of operator objects.
  * @param genomeFactory Genome factory.
  * @param backCount Best evaluation back count.
  */
 function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
-        selector, copyCount, crossoverCount, crossoverOperator, mutator,
-        genomeFactory, backCount)
+        selector, operators, genomeFactory, backCount)
 {
     InputValidator.validateNotNull("populationIn", populationIn);
     InputValidator.validateNotNull("evaluator", evaluator);
     InputValidator.validateNotNull("comparator", comparator);
     InputValidator.validateNotNull("selector", selector);
-    InputValidator.validateNotNull("crossoverOperator", crossoverOperator);
-    InputValidator.validateNotNull("mutator", mutator);
+    InputValidator.validateNotEmpty("operators", operators);
     InputValidator.validateNotNull("genomeFactory", genomeFactory);
 
     var population = populationIn.slice();
-    var mutateCount = Math.max(0, population.length - copyCount
-            - crossoverCount);
     var bestEvals = [];
+
+    {
+        var sum = 0.0;
+
+        for (var i = 0; i < operators.length; i++)
+        {
+            sum += operators[i].getRatio();
+        }
+
+        LOGGER.info("Operators ratio sum = " + sum);
+
+        if (sum !== 1.00) { throw "Operator ratios do not sum to 1.00: " + sum; }
+    }
 
     this.addUnique = function(newPop, genome)
     {
@@ -52,24 +58,20 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         LOGGER.trace("GeneticAlgorithm.createNextGeneration() start");
         var newPop = [];
 
-        // Copy over the first X unique genomes unchanged.
-        var i = 0;
+        // Apply the operators to create the next generation.
+        var popSize = population.length;
+        var maxTries = 100;
 
-        while (newPop.length < copyCount)
+        for (var i = 0; i < operators.length; i++)
         {
-            this.addUnique(newPop, population[i].slice());
-            i++;
+            var operator = operators[i];
+            var count = Math.max(0, Math.floor(operator.getRatio() * popSize));
+            this.fillPopulation(newPop, newPop.length + count, maxTries,
+                    operator);
         }
 
-        // Crossover the top X genomes.
-        var maxTries = 100;
-        this.fillPopulation(newPop, (copyCount + crossoverCount), maxTries,
-                true);
-
-        // Mutate the top X genomes.
-        this.fillPopulation(newPop, population.length, maxTries, false);
-
         population = newPop.slice();
+        LOGGER.info("population.length = " + population.length);
         LOGGER.trace("GeneticAlgorithm.createNextGeneration() end");
     }
 
@@ -80,7 +82,7 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         LOGGER.trace("GeneticAlgorithm.determineBest() end");
     }
 
-    this.fillPopulation = function(newPop, popSize, maxTries, isCrossover)
+    this.fillPopulation = function(newPop, popSize, maxTries, operator)
     {
         var count = 0;
 
@@ -92,14 +94,14 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
             {
                 var genome1 = selector.select(population);
 
-                if (isCrossover)
+                if (operator.getArgCount() === 2)
                 {
                     var genome2 = selector.select(population);
-                    genome = crossoverOperator(genome1, genome2);
+                    genome = operator.getExecutor().execute(genome1, genome2);
                 }
                 else
                 {
-                    genome = mutator.mutate(genome1);
+                    genome = operator.getExecutor().execute(genome1);
                 }
             }
             else

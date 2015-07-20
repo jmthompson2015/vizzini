@@ -87,6 +87,7 @@ ProblemUI.GenerationUI = React.createClass(
                         <th>Average Fitness</th>
                         <th>Best Fitness</th>
                         <th>Best Genome</th>
+                        <th>Creator</th>
                     </tr>
                 </thead>
                 <tbody>{tbody}</tbody>
@@ -106,6 +107,7 @@ ProblemUI.RowUI = React.createClass(
         var best = this.props.best;
         var fitness = GAUtilities.round4(best.fitness);
         var genomeString = GAUtilities.genomeToString(best);
+        var creator = best.creator;
         
         return (<tr>
             <td>{this.props.timestamp}</td>
@@ -113,6 +115,7 @@ ProblemUI.RowUI = React.createClass(
             <td className="averageFitness">{averageFitness}</td>
             <td className="fitness">{fitness}</td>
             <td className="genome">{genomeString}</td>
+            <td className="creator">{creator}</td>
             </tr>
         );
     },
