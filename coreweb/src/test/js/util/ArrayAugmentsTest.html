@@ -77,6 +77,20 @@
         assert.ok(!array.vizziniContainsUsingEquals(4, equalsFunction));
     });
 
+    QUnit.test("vizziniContainsUsingArrayEquals()", function(assert)
+    {
+        // Setup.
+        var array = [ [ 0, 1 ], [ 1, 2 ], [ 2, 3 ] ];
+
+        // Run / Verify.
+        assert.ok(!array.vizziniContainsUsingArrayEquals(0));
+        assert.ok(!array.vizziniContainsUsingArrayEquals([ 0 ]));
+        assert.ok(array.vizziniContainsUsingArrayEquals([ 0, 1 ]));
+        assert.ok(array.vizziniContainsUsingArrayEquals([ 1, 2 ]));
+        assert.ok(array.vizziniContainsUsingArrayEquals([ 2, 3 ]));
+        assert.ok(!array.vizziniContainsUsingArrayEquals(4));
+    });
+
     QUnit.test("vizziniEquals()", function(assert)
     {
         // Setup.

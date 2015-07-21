@@ -9,7 +9,6 @@
 // or
 // array[array.length] = element;
 // Note: This function modifies array.
-
 // Note: This function modifies array.
 // this now contains array2 also.
 // @see http://stackoverflow.com/questions/351409/appending-to-array
@@ -26,6 +25,15 @@ Array.prototype.vizziniContains = function(element)
         if (this[i] === element) { return true; }
     }
     return false;
+}
+
+Array.prototype.vizziniContainsUsingArrayEquals = function(element,
+        equalsFunction)
+{
+    return this.vizziniContainsUsingEquals(element, function(a, b)
+    {
+        return a.vizziniEquals(b);
+    });
 }
 
 Array.prototype.vizziniContainsUsingEquals = function(element, equalsFunction)
