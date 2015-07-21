@@ -22,7 +22,7 @@ function LearningAgent(geometry, boardUtils, adjudicator, team, memory)
 
         LOGGER.debug("board = " + board);
         var moves = boardUtils.getMoves(board, adjudicator);
-        moves.shuffle();
+        moves.vizziniShuffle();
         LOGGER.debug("moves = " + moves);
 
         // Find the best rated move.

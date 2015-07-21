@@ -27,7 +27,7 @@ function LearningAgent(geometry, boardUtils, adjudicator, team, memory)
         }
 
         var moves = boardUtils.getMoves(board, adjudicator);
-        moves.shuffle();
+        moves.vizziniShuffle();
 
         if (LOGGER.isDebugEnabled())
         {
