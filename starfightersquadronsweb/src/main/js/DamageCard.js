@@ -198,7 +198,7 @@ DamageCard.createDeck = function()
         answer.push(DamageCard.DIRECT_HIT);
     }
 
-    Array.Vizzini.shuffle(answer);
+    answer.vizziniShuffle();
 
     return answer;
 }

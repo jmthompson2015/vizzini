@@ -54,7 +54,7 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
 
         for (var i = 0; i < 20; i++)
         {
-            var x = Math.Vizzini.randomRealFromRange(min, max);
+            var x = Math.vizziniRandomRealFromRange(min, max);
             inputs[inputs.length] = x;
             outputs[outputs.length] = (x * x * x * x) + (x * x * x) + (x * x)
                     + x;

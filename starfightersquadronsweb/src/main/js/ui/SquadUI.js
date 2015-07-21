@@ -41,7 +41,7 @@ var SquadUI = React.createClass(
         for (var i=0; i<squad.length; i++)
         {
             var token = squad[i];
-            var isChecked = Array.Vizzini.contains(this.state.selected, token);
+            var isChecked = this.state.selected.vizziniContains(token);
             var pilot = token.getPilot();
             var pilotProps = Pilot.properties[pilot];
             var shipState = pilotProps.shipState;
@@ -139,7 +139,7 @@ var SquadUI = React.createClass(
 
         if (event.target.checked)
         {
-            if (!Array.Vizzini.contains(selected, token))
+            if (!selected.vizziniContains(token))
             {
                 selected[selected.length] = token;
             }

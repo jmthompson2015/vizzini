@@ -109,7 +109,7 @@ function Environment(teams)
                     + damageDiscardPile.size() + " discards into damage deck.");
             Array.prototype.push.apply(damageDeck, damageDiscardPile);
             damageDiscardPile = [];
-            Array.Vizzini.shuffle(damageDeck);
+            damageDeck.vizziniShuffle();
         }
 
         LOGGER.trace("damageDeck.length = " + damageDeck.length);
@@ -639,7 +639,7 @@ function Environment(teams)
 
         var touches = that.getTokensTouching(attacker);
 
-        return Array.Vizzini.contains(touches, defender);
+        return touches.vizziniContains(defender);
     }
 
     /*

@@ -48,7 +48,7 @@ var SelectionOperator =
         // This assumes population is sorted.
         var head = population.slice(0, selectionCount);
 
-        return Array.Vizzini.randomElement(head);
+        return head.vizziniRandomElement();
     },
 
     simpleTournamentSelect: function(selectionCount, population)
@@ -60,8 +60,8 @@ var SelectionOperator =
         // This assumes population is sorted.
         var head = population.slice(0, selectionCount);
 
-        var genome0 = Array.Vizzini.randomElement(head);
-        var genome1 = Array.Vizzini.randomElement(head);
+        var genome0 = head.vizziniRandomElement();;
+        var genome1 = head.vizziniRandomElement();;
 
         return (genome0.fitness > genome1.fitness ? genome0 : genome1);
     },

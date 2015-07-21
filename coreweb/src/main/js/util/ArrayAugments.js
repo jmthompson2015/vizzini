@@ -3,78 +3,75 @@
  * 
  * @see http://modernweb.com/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/
  */
-Array.Vizzini =
+
+// add: use
+// array.push(element);
+// or
+// array[array.length] = element;
+// Note: This function modifies array.
+
+// Note: This function modifies array.
+// this now contains array2 also.
+// @see http://stackoverflow.com/questions/351409/appending-to-array
+Array.prototype.vizziniAddAll = function(array2)
 {
-    // add: use
-    // array.push(element);
-    // or
-    // array[array.length] = element;
-    // Note: This function modifies array.
+    Array.prototype.push.apply(this, array2);
+}
 
-    // Note: This function modifies array1.
-    // Array.prototype.push.apply(array1, array2);
-    // array1 now contains array2 also.
-    // @see http://stackoverflow.com/questions/351409/appending-to-array
-    addAll: function(array1, array2)
+Array.prototype.vizziniContains = function(element)
+{
+    var i = this.length;
+    while (i--)
     {
-        Array.prototype.push.apply(array1, array2);
-    },
+        if (this[i] === element) { return true; }
+    }
+    return false;
+}
 
-    contains: function(array, element)
+Array.prototype.vizziniContainsUsingEquals = function(element, equalsFunction)
+{
+    var i = this.length;
+    while (i--)
     {
-        var i = array.length;
-        while (i--)
-        {
-            if (array[i] === element) { return true; }
-        }
-        return false;
-    },
+        if (equalsFunction(this[i], element)) { return true; }
+    }
+    return false;
+}
 
-    containsUsingEquals: function(array, element, equalsFunction)
+Array.prototype.vizziniEquals = function(b)
+{
+    if (this === b) { return true; }
+    if (b == null) { return false; }
+    if (this.length != b.length) { return false; }
+
+    for (var i = 0; i < this.length; i++)
     {
-        var i = array.length;
-        while (i--)
-        {
-            if (equalsFunction(array[i], element)) { return true; }
-        }
-        return false;
-    },
+        if (this[i] !== b[i]) { return false; }
+    }
 
-    equals: function(a, b)
+    return true;
+}
+
+Array.prototype.vizziniRandomElement = function()
+{
+    return this[Math.floor(Math.random() * this.length)];
+}
+
+// Note: This function modifies array.
+Array.prototype.vizziniRemove = function(element)
+{
+    var index = this.indexOf(element);
+    if (index >= 0)
     {
-        if (a === b) { return true; }
-        if (a == null || b == null) { return false; }
-        if (a.length != b.length) { return false; }
+        this.splice(index, 1);
+    }
+}
 
-        for (var i = 0; i < a.length; ++i)
-        {
-            if (a[i] !== b[i]) { return false; }
-        }
-
-        return true;
-    },
-
-    randomElement: function(array)
+// Note: This function modifies array.
+Array.prototype.vizziniShuffle = function()
+{
+    this.sort(function()
     {
-        return array[Math.floor(Math.random() * array.length)];
-    },
-
-    // Note: This function modifies array.
-    remove: function(array, element)
-    {
-        var index = array.indexOf(element);
-        if (index >= 0)
-        {
-            array.splice(index, 1);
-        }
-    },
-
-    // Note: This function modifies array.
-    shuffle: function(array)
-    {
-        array.sort(function()
-        {
-            return Math.random() - 0.5;
-        });
-    },
+        return Math.random() - 0.5;
+    });
 }

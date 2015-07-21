@@ -334,7 +334,7 @@ function BoardGeometry(maxFile, maxRank, maxLevel)
     function validateIndex(index)
     {
         InputValidator.validateNotNull("index", index);
-        if (!Number.isInteger(index)) { throw "index is not an integer: "
+        if (!Number.vizziniIsInteger(index)) { throw "index is not an integer: "
                 + index; }
         InputValidator.validateInRange("index", index, 0, maxCells - 1);
     }

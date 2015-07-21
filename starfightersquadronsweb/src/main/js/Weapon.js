@@ -77,7 +77,7 @@ Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition,
             defender, defenderPosition);
     // LOGGER.trace("range = " + range);
 
-    return range && Array.Vizzini.contains(this.getRanges(), range);
+    return range && this.getRanges().vizziniContains(range);
 }
 
 /*

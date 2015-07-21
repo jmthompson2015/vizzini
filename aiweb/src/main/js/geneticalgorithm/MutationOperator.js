@@ -18,7 +18,7 @@ var MutationOperator =
         }
         else
         {
-            var index = Math.Vizzini.randomIntFromRange(0, genome.length);
+            var index = Math.vizziniRandomIntFromRange(0, genome.length);
 
             var answer = genome.slice();
             var deleteCount = 1;
@@ -31,11 +31,11 @@ var MutationOperator =
 
     insertGene: function(genes, genome)
     {
-        var index = Math.Vizzini.randomIntFromRange(0, genome.length);
+        var index = Math.vizziniRandomIntFromRange(0, genome.length);
 
         var answer = genome.slice();
         var deleteCount = 0;
-        var gene = Array.Vizzini.randomElement(genes);
+        var gene = genes.vizziniRandomElement();
 
         answer.splice(index, deleteCount, gene);
 
@@ -44,10 +44,10 @@ var MutationOperator =
 
     mutate: function(genes, genome)
     {
-        var index = Math.Vizzini.randomIntFromRange(0, genome.length);
+        var index = Math.vizziniRandomIntFromRange(0, genome.length);
         var answer = genome.slice();
 
-        answer[index] = Array.Vizzini.randomElement(genes);
+        answer[index] = genes.vizziniRandomElement();
 
         return MutationOperator.assignCreator(answer, "mutate");
     },

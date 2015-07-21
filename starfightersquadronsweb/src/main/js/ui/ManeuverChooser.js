@@ -130,7 +130,7 @@ var ManeuverChooser = React.createClass(
                 {
                     var bearing = bearingValues[i];
                     
-                    if (Array.Vizzini.contains(bearings, bearing))
+                    if (bearings.vizziniContains(bearing))
                     {
                         var maneuver = this.findManeuver(maneuvers, bearing, speed);
         

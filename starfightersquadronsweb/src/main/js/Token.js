@@ -812,42 +812,33 @@ Token.prototype.flipDamageCardFacedown = function(damage)
  */
 Token.prototype.getShipActions = function()
 {
-    // final Set<ShipAction> answer = new HashSet<ShipAction>();
     var answer = [];
 
-    // final DamageCardList criticalDamages = getCriticalDamages();
     var criticalDamages = this.getCriticalDamages();
 
-    // if (!criticalDamages.contains(DamageCard.DAMAGED_SENSOR_ARRAY))
-    // if (!Array.Vizzini.contains(criticalDamages,
-    // DamageCard.DAMAGED_SENSOR_ARRAY))
     if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
     {
-        // answer.addAll(this.getShip().getShipActions());
-        // Array.prototype.push.apply(answer, this.getShip().getShipActions());
-        // Array.Vizzini.addAll(answer, this.getShip().getShipActions());
-        Array.Vizzini.addAll(answer,
-                Ship.properties[this.getShip()].shipActions);
+        answer.vizziniAddAll(Ship.properties[this.getShip()].shipActions);
     }
 
-    if (Array.Vizzini.contains(answer, ShipAction.CLOAK) && this.isCloaked())
+    if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())
     {
-        Array.Vizzini.remove(answer, ShipAction.CLOAK);
+        answer.vizziniRemove(ShipAction.CLOAK);
     }
 
     if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
     {
-        answer.push( ShipAction.BOOST);
+        answer.push(ShipAction.BOOST);
     }
 
     if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))
     {
-        answer.push( ShipAction.EVADE);
+        answer.push(ShipAction.EVADE);
     }
 
     if (this.isUpgradedWith(UpgradeCard.TARGETING_COMPUTER))
     {
-        answer.push( ShipAction.TARGET_LOCK);
+        answer.push(ShipAction.TARGET_LOCK);
     }
 
     if (criticalDamages.length > 0)
@@ -876,8 +867,7 @@ Token.prototype.getShipActions = function()
 
             if (upgrade.hasAction)
             {
-                // answer.add(new UpgradeCardShipAction(upgrade));
-                answer.push( new UpgradeCardShipAction(upgrade));
+                answer.push(new UpgradeCardShipAction(upgrade));
             }
         }
     }
@@ -898,7 +888,7 @@ Token.prototype.isCloaked = function()
 Token.prototype.isCriticallyDamagedWith = function(damage)
 {
     var criticalDamages = this.getCriticalDamages();
-    return Array.Vizzini.contains(criticalDamages, damage);
+    return criticalDamages.vizziniContains(damage);
 }
 
 /*
@@ -923,7 +913,7 @@ Token.prototype.isStressed = function()
 Token.prototype.isUpgradedWith = function(upgrade)
 {
     var upgrades = this.getUpgrades();
-    return Array.Vizzini.contains(upgrades, upgrade);
+    return upgrades.vizziniContains(upgrade);
 }
 
 /*
@@ -932,7 +922,7 @@ Token.prototype.isUpgradedWith = function(upgrade)
 Token.prototype.removeCriticalDamage = function(damage)
 {
     var criticalDamages = this.getCriticalDamages();
-    Array.Vizzini.remove(criticalDamages, damage);
+    criticalDamages.vizziniRemove(damage);
     this.trigger("change");
 }
 

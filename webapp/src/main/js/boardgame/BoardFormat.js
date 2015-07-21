@@ -103,7 +103,7 @@ function BoardFormat(geometry)
             var letter = board.charAt(i);
             var number = parseInt(letter);
 
-            if (Number.isInteger(number))
+            if (Number.vizziniIsInteger(number))
             {
                 // Add space(s)
                 for (var j = 0; j < number; j++)
