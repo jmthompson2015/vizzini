@@ -155,9 +155,11 @@ WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker,
 {
     var answer = [];
 
-    for (var i = 0; i < Range.values.length; i++)
+    var values = Range.values();
+    
+    for (var i = 0; i < values.length; i++)
     {
-        var range = Range.values[i];
+        var range = values[i];
         LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() range = "
                 + range);
         var rangeDefenders = environment.getTargetableDefendersAtRange(
