@@ -1,14 +1,15 @@
-Math.Vizzini =
+/*
+ * Provides utility methods for Math.
+ */
+
+Math.vizziniRandomIntFromRange = function(min, max)
 {
-    randomIntFromRange: function(min, max)
-    {
-        var value = Math.Vizzini.randomRealFromRange(min, max);
+    var value = Math.vizziniRandomRealFromRange(min, max);
 
-        return Math.floor(value);
-    },
+    return Math.floor(value);
+}
 
-    randomRealFromRange: function(min, max)
-    {
-        return Math.random() * (max - min) + min;
-    },
+Math.vizziniRandomRealFromRange = function(min, max)
+{
+    return Math.random() * (max - min) + min;
 }
