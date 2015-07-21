@@ -26,64 +26,41 @@ var GAUtilities =
     {
         InputValidator.validateNotNull("population", population);
 
-        var sum = 0.0;
-
-        for (var i = 0; i < population.length; i++)
+        return population.reduce(function(sum, genome)
         {
-            var genome = population[i];
-            sum += genome.fitness;
-        }
-
-        return sum;
+            return sum + genome.fitness;
+        }, 0.0);
     },
 
     count: function(genome, gene)
     {
-        var answer = 0;
+        InputValidator.validateNotNull("genome", genome);
+        InputValidator.validateNotNull("gene", gene);
 
-        for (var i = 0; i < genome.length; i++)
+        return genome.filter(function(genomeGene)
         {
-            if (genome[i] == gene)
-            {
-                answer++;
-            }
-        }
-
-        return answer;
+            return genomeGene == gene;
+        }).length;
     },
 
     countErrors: function(issues)
     {
-        var answer = 0;
+        InputValidator.validateNotNull("issues", issues);
 
-        for (var i = 0; i < issues.length; i++)
+        return issues.filter(function(issue)
         {
-            var issue = issues[i];
-
-            if (issue.code[0] === "E")
-            {
-                answer++;
-            }
-        }
-
-        return answer;
+            return issue.code[0] === "E";
+        }).length;
     },
 
     countWarnings: function(issues)
     {
-        var answer = 0;
+        InputValidator.validateNotNull("issues", issues);
 
-        for (var i = 0; i < issues.length; i++)
+        return issues.filter(function(issue)
         {
-            var issue = issues[i];
-
-            if (issue.code[0] === "W")
-            {
-                answer++;
-            }
-        }
-
-        return answer;
+            return issue.code[0] === "W";
+        }).length;
     },
 
     createPopulation: function(popSize, genomeFactory)
@@ -91,11 +68,12 @@ var GAUtilities =
         InputValidator.validateIsNumber("popSize", popSize);
         InputValidator.validateNotNull("genomeFactory", genomeFactory);
 
+        // FIXME: only add unique genomes?
         var answer = [];
 
         for (var i = 0; i < popSize; i++)
         {
-            answer[answer.length] = genomeFactory.create();
+            answer.push(genomeFactory.create());
         }
 
         return answer;
@@ -107,11 +85,10 @@ var GAUtilities =
 
         var sum = this.computeSumFitness(population);
 
-        for (var i = 0; i < population.length; i++)
+        population.forEach(function(genome)
         {
-            var genome = population[i];
             genome.normalizedFitness = genome.fitness / sum;
-        }
+        });
     },
 
     genomeToString: function(genome)
@@ -136,16 +113,11 @@ var GAUtilities =
     {
         InputValidator.validateNotNull("population", population);
 
-        var answer = "";
-
-        for (var i = 0; i < population.length; i++)
+        return population.reduce(function(previousValue, genome)
         {
-            var genome = population[i];
-            answer += this.genomeToLongString(genome);
-            answer += "\n";
-        }
-
-        return answer;
+            return previousValue + GAUtilities.genomeToLongString(genome)
+                    + "\n";
+        }, "");
     },
 
     round2: function(value)
