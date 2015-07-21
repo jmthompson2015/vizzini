@@ -43,7 +43,10 @@ function BoardUtilities(geometry, formatter)
 
         function maybeAdd(b)
         {
-            if (!answer.contains(b))
+            if (!answer.vizziniContainsUsingEquals(b, function(a, b)
+            {
+                return a.equals(b);
+            }))
             {
                 answer[answer.length] = b;
             }
@@ -123,7 +126,7 @@ function BoardUtilities(geometry, formatter)
         {
             answer = new BoardAlias(board);
         }
-        else if (Rotation.values2D.contains(rotation))
+        else if (Rotation.values2D.vizziniContains(rotation))
         {
             var boardString = formatter.toBoardString(board);
             var whoseMove = formatter.toWhoseMove(board);

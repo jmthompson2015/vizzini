@@ -5,7 +5,7 @@ function SimpleAgent(boardUtils, adjudicator, team)
         var answer;
 
         var moves = boardUtils.getMoves(board, adjudicator);
-        answer = moves.randomElement();
+        answer = moves.vizziniRandomElement();
 
         return answer;
     }
