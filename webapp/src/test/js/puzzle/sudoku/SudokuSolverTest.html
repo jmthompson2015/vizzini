@@ -43,7 +43,7 @@
             var cellName = Unit.indexToCellName(i);
             var value = puzzle.get(cellName);
 
-            if (Array.Vizzini.contains(result, cellName))
+            if (result.vizziniContains(cellName))
             {
                 assert.ok(value.length > 1);
             }

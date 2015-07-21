@@ -100,7 +100,7 @@ var Unit =
         {
             var cell = this.BLOCKS[block][i];
 
-            if (cell !== cellName && !Array.Vizzini.contains(answer, cell))
+            if (cell !== cellName && !answer.vizziniContains(cell))
             {
                 answer[answer.length] = cell;
             }
