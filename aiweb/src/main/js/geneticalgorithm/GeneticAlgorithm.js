@@ -40,8 +40,10 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
     {
         var answer = false;
 
-        if (!newPop.vizziniContainsUsingEquals(newPop, genome,
-                function(a,b){a.vizziniEquals(b)}))
+        if (!newPop.vizziniContainsUsingEquals(genome, function(a, b)
+        {
+            return a.vizziniEquals(b);
+        }))
         {
             newPop[newPop.length] = genome;
             answer = true;
