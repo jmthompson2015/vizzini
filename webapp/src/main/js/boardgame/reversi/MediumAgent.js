@@ -19,7 +19,7 @@ function MediumAgent(boardUtils, adjudicator, team)
         var start = new Date().getTime();
 
         var moves = boardUtils.getMoves(board, adjudicator);
-        moves.shuffle();
+        moves.vizziniShuffle();
 
         // Take a corner if available.
         var corners = filterCorners(moves);
@@ -42,7 +42,7 @@ function MediumAgent(boardUtils, adjudicator, team)
         if (!answer)
         {
             // Take anything.
-            answer = moves.randomElement();
+            answer = moves.vizziniRandomElement();
         }
 
         if (LOGGER.isDebugEnabled())

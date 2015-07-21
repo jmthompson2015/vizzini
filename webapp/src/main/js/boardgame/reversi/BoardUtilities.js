@@ -252,12 +252,12 @@ function BoardUtilities(geometry, formatter)
 
     this.isCorner = function(index)
     {
-        return CORNERS.contains(index);
+        return CORNERS.vizziniContains(index);
     }
 
     this.isCSquare = function(index)
     {
-        return C_SQUARES.contains(index);
+        return C_SQUARES.vizziniContains(index);
     }
 
     this.isMiddle = function(index)
@@ -279,7 +279,7 @@ function BoardUtilities(geometry, formatter)
 
     this.isXSquare = function(index)
     {
-        return X_SQUARES.contains(index);
+        return X_SQUARES.vizziniContains(index);
     }
 
     this.move = function(board, index)
@@ -348,7 +348,7 @@ function BoardUtilities(geometry, formatter)
         {
             answer = board;
         }
-        else if (Rotation.values2D.contains(rotation))
+        else if (Rotation.values2D.vizziniContains(rotation))
         {
             var newBoard = "";
 
