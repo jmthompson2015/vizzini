@@ -29,8 +29,8 @@ table {
     vertical-align: bottom;
 }
 
-#ALIGN_LEFT, .agentPanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .squadUIPilotName, .upgradeCardUIImage,
-    .alignLeft {
+#ALIGN_LEFT, .agentPanel, .defenderChoice, .optionPaneInput, .squadBuilderAdd, .squadBuilderPanel, .squadUIPilotName,
+    .squadUIRemove, .upgradeCardUIImage, .alignLeft {
     text-align: left;
 }
 
@@ -44,7 +44,7 @@ table {
 }
 
 #ALIGN_TOP, #imperialPilots, #inputArea, .newGamePanel, .planningTableCell, #playArea, .optionPane, #rebelPilots,
-    .alignTop {
+    .squadBuilderUpgradeCell, .alignTop {
     vertical-align: top;
 }
 

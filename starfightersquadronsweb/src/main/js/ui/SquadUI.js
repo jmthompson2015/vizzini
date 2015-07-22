@@ -114,7 +114,7 @@ var SquadUI = React.createClass(
             </td>
             </tr>
             <tr>
-                <td>{removeButton}</td>
+                <td className="squadUIRemove">{removeButton}</td>
             </tr>
             </tbody>
             </table>;
