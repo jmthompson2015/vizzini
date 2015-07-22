@@ -61,7 +61,7 @@ var SquadBuilderUI = React.createClass(
         rowCount++;
         rows[rows.length] = <tr key={rowCount}><td>{upgradesUI}</td></tr>;
         rowCount++;
-        rows[rows.length] = <tr key={rowCount}><td>{addButton}</td></tr>;
+        rows[rows.length] = <tr key={rowCount} className="squadBuilderAdd"><td>{addButton}</td></tr>;
         rowCount++;
         rows[rows.length] = <tr key={rowCount}><td id="squadPanel"></td></tr>;
         rowCount++;
@@ -167,7 +167,7 @@ var SquadBuilderUI = React.createClass(
         for (var i=0; i<upgradeTypes.length; i++)
         {
             var upgradeType = upgradeTypes[i];
-            columns[columns.length] = <td key={i}><UpgradeChooser pilot={pilot} upgradeType={upgradeType} index={i} onChangeFunction={this.upgradeChanged}/></td>;
+            columns[columns.length] = <td key={i} className="squadBuilderUpgradeCell"><UpgradeChooser pilot={pilot} upgradeType={upgradeType} index={i} onChangeFunction={this.upgradeChanged}/></td>;
         }
         
         return <table className="squadBuilderUpgradesUI">
