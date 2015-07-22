@@ -8,7 +8,9 @@ var PilotChooser = React.createClass(
 {
     getInitialState: function()
     {
-        // Default to Imperial, first ship, first pilot.
+        LOGGER.trace("PilotChooser.getInitialState()");
+        
+        // Default to first ship, first pilot.
         var team = this.props.team;
         var shipTeam = ShipTeam.valuesByTeam(team)[0];
         var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
@@ -19,17 +21,40 @@ var PilotChooser = React.createClass(
     
     componentDidMount: function() 
     {  
+        LOGGER.trace("PilotChooser.componentDidMount()");
+        
         this.renderPilotCardUI();
+    },
+    
+    componentWillReceiveProps: function(nextProps)
+    {
+        LOGGER.trace("PilotChooser.componentWillReceiveProps()");
+        
+        var oldTeam = this.props.team;
+        var newTeam = nextProps.team;
+        
+        if (oldTeam != newTeam)
+        {
+            // Team changed.
+            LOGGER.debug("oldTeam = " + oldTeam);
+            LOGGER.debug("newTeam = " + newTeam);
+            var shipTeam = ShipTeam.valuesByTeam(newTeam)[0];
+            var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
+            var token = this.createToken(pilot);
+            LOGGER.debug("new state = " + shipTeam + ", " + pilot + ", " + token);
+            this.setState({shipTeam: shipTeam, pilot: pilot, token: token});
+        }
     },
     
     render: function()
     {
+        LOGGER.trace("PilotChooser.render()");
+        
         InputValidator.validateNotNull("team property", this.props.team);
         InputValidator.validateNotNull("onChangeFunction property", this.props.onChangeFunction);
         
         var shipSelect = this.createShipTeamSelect();
         var pilotSelect = this.createPilotSelect();
-        var token = this.state.token;
         
         var rows = [];
 
@@ -61,6 +86,8 @@ var PilotChooser = React.createClass(
     
     componentDidUpdate: function()
     {
+        LOGGER.trace("PilotChooser.componentDidUpdate()");
+        
         this.renderPilotCardUI();
     },
     

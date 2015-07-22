@@ -7,6 +7,8 @@ var SquadBuilderUI = React.createClass(
 {
     getInitialState: function()
     {
+        LOGGER.trace("SquadBuilderUI.getInitialState()");
+        
         var team = this.props.team;
         
         // Default to first ship, first pilot.
@@ -19,11 +21,35 @@ var SquadBuilderUI = React.createClass(
     
     componentDidMount: function() 
     {  
+        LOGGER.trace("SquadBuilderUI.componentDidMount()");
+        
         this.renderSquadUI();
+    },
+    
+    componentWillReceiveProps: function(nextProps)
+    {
+        LOGGER.trace("SquadBuilderUI.componentWillReceiveProps()");
+        
+        var oldTeam = this.props.team;
+        var newTeam = nextProps.team;
+        
+        if (oldTeam != newTeam)
+        {
+            // Team changed.
+            LOGGER.debug("oldTeam = " + oldTeam);
+            LOGGER.debug("newTeam = " + newTeam);
+            var shipTeam = ShipTeam.valuesByTeam(newTeam)[0];
+            var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
+            var token = this.createToken(newTeam, pilot);
+            LOGGER.debug("new state = " + pilot + ", " + token);
+            this.setState({pilot: pilot, token: token, upgrades: [], squad: []});
+        }
     },
     
     render: function() 
     {
+        LOGGER.trace("SquadBuilderUI.render()");
+        
         var team = this.props.team;
         var upgradesUI = this.createUpgradesUI();
         var addButton = <input type="button" value="Add" onClick={this.addActionPerformed} />
@@ -46,6 +72,7 @@ var SquadBuilderUI = React.createClass(
     componentDidUpdate: function()
     {
         LOGGER.trace("SquadBuilderUI.componentDidUpdate()");
+        
         this.renderSquadUI();
     },
 
