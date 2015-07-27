@@ -29,6 +29,59 @@
 
     var LOGGER = new Logger();
     LOGGER.setTraceEnabled(false);
+    var SHOULD_THROW = "Should have thrown an exception.";
+
+    QUnit.test("GeneticAlgorithm Fibonnacci", function(assert)
+    {
+        // Setup.
+        var popSize = 300;
+        var genes = [];
+        for (var i = 0; i < 100; i++)
+        {
+            genes[i] = i;
+        }
+        var genomeLength = 10;
+        var genomeFactory = new GenomeFactory(genes, genomeLength);
+        var population = GAUtilities.createPopulation(popSize, genomeFactory);
+        var evaluator =
+        {
+            idealEvaluation: 10.0,
+            getIdealEvaluation: function()
+            {
+                return idealEvaluation;
+            },
+            evaluate: function()
+            {
+                return 0.0;
+            }
+        };
+        var idealEvaluation = 10.0;
+        var generationCount = 50;
+        var comparator = GenomeComparator;
+        var selectionCount = Math.floor(0.20 * popSize);
+        var selector = new Selector(selectionCount,
+                SelectionOperator.randomSelect);
+        var operators = [
+                new Operator(0.02, 1, new Copier(CopyOperator.copy)),
+                new Operator(0.02, 2, new Crossoverer(
+                        CrossoverOperator.uniformConstantLength)),
+                new Operator(0.02, 1, new Mutator(genes,
+                        MutationOperator.mutate)), ];
+        var backCount = 30;
+
+        // Run / Verify.
+        try
+        {
+            var ga = new GeneticAlgorithm(population, evaluator,
+                    generationCount, comparator, selector, operators,
+                    genomeFactory, backCount);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "Operator ratios do not sum to 1.00: 0.06");
+        }
+    });
 
     QUnit.test("GeneticAlgorithm Fibonnacci", function(assert)
     {
