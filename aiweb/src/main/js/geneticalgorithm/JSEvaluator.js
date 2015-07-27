@@ -49,63 +49,55 @@ function JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
     {
         InputValidator.validateNotNull("phenotype", phenotype);
 
-        var answer = 0;
-
-        for (var i = 0; i < inputs.length; i++)
+        return inputs.reduce(function(previousValue, input, i)
         {
             try
             {
-                var result = execute(phenotype, inputs[i]);
+                var result = execute(phenotype, input);
 
-                if (result === outputs[i])
-                {
-                    answer++;
-                }
+                return previousValue + (result === outputs[i] ? 1 : 0);
             }
             catch (ignore)
             {}
-        }
-
-        return answer;
+        }, 0);
     }
 
     this.computeSumError = function(phenotype)
     {
         InputValidator.validateNotNull("phenotype", phenotype);
 
-        var sumError = 0.0;
-
-        for (var i = 0; i < inputs.length; i++)
+        return inputs.reduce(function(previousValue, input, i)
         {
+            var answer = previousValue;
+
             try
             {
-                var result = execute(phenotype, inputs[i]);
+                var result = execute(phenotype, input);
 
                 if (isNaN(result))
                 {
-                    sumError += 10.0;
+                    answer += 10.0;
                 }
                 else
                 {
-                    sumError += Math.abs(outputs[i] - result);
+                    answer += Math.abs(outputs[i] - result);
                 }
             }
             catch (e)
             {
-                sumError += 10.0;
+                answer += 10.0;
             }
-        }
 
-        return sumError;
+            return answer;
+        }, 0.0);
     }
 
     this.evaluate = function(population)
     {
         InputValidator.validateNotEmpty("population", population);
 
-        for (var i = 0; i < population.length; i++)
+        population.map(function(genome)
         {
-            var genome = population[i];
             genome.fitness = 0.0;
             genome.phenotype = phenotypeFactory.create(genome);
 
@@ -128,7 +120,7 @@ function JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
                 // Invalid function.
                 this.evaluateInvalidFunction(genome);
             }
-        }
+        }, this);
     }
 
     this.evaluateInvalidFunction = function(genome)
