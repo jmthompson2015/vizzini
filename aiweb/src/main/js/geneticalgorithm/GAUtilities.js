@@ -49,7 +49,7 @@ var GAUtilities =
 
         return issues.filter(function(issue)
         {
-            return issue.code[0] === "E";
+            return issue && issue.code[0] === "E";
         }).length;
     },
 
@@ -59,7 +59,7 @@ var GAUtilities =
 
         return issues.filter(function(issue)
         {
-            return issue.code[0] === "W";
+            return issue && issue.code[0] === "W";
         }).length;
     },
 
@@ -71,7 +71,7 @@ var GAUtilities =
         // FIXME: only add unique genomes?
         var answer = [];
 
-        for (var i = 0; i < popSize; i++)
+        while (answer.length < popSize)
         {
             answer.push(genomeFactory.create());
         }

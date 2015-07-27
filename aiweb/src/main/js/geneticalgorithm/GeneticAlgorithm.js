@@ -24,12 +24,10 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
     var bestEvals = [];
 
     {
-        var sum = 0.0;
-
-        for (var i = 0; i < operators.length; i++)
+        var sum = operators.reduce(function(previousValue, operator)
         {
-            sum += operators[i].getRatio();
-        }
+            return previousValue + operator.getRatio();
+        }, 0.0);
 
         LOGGER.info("Operators ratio sum = " + sum);
 
@@ -61,13 +59,12 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         var popSize = population.length;
         var maxTries = 100;
 
-        for (var i = 0; i < operators.length; i++)
+        operators.forEach(function(operator)
         {
-            var operator = operators[i];
             var count = Math.max(0, Math.floor(operator.getRatio() * popSize));
             this.fillPopulation(newPop, newPop.length + count, maxTries,
                     operator);
-        }
+        }, this);
 
         population = newPop.slice();
         LOGGER.info("population.length = " + population.length);

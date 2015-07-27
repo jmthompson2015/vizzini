@@ -13,11 +13,11 @@ function GenomeFactory(genes, genomeLength)
     {
         var answer = [];
 
-        for (var i = 0; i < genomeLength; i++)
+        while (answer.length < genomeLength)
         {
-            answer[i] = genes.vizziniRandomElement();
+            answer.push(genes.vizziniRandomElement());
         }
-        
+
         answer.creator = "GenomeFactory";
 
         return answer;
