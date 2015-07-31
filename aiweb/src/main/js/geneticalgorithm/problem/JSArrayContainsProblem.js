@@ -19,7 +19,7 @@ function JSArrayContainsProblem(popSize, generationCount, backCount)
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator = this.createEvaluator();
         var comparator = JSArrayContainsProblem.GenomeComparator;
-        var selectionCount = Math.floor(0.50 * popSize);
+        var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.fitnessProportionalSelect);
         var operators = [

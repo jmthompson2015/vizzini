@@ -20,7 +20,7 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
         LOGGER.info("backCount = " + backCount);
 
         var genes = this.createGenes();
-        var genomeLength = 20;
+        var genomeLength = 14;
         var genomeFactory = new GenomeFactory(genes, genomeLength);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator = this.createEvaluator();
@@ -29,14 +29,16 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
         var selector = new Selector(selectionCount,
                 SelectionOperator.fitnessProportionalSelect);
         var operators = [
-                new Operator(0.02, 1, new Copier(CopyOperator.copy)),
-                new Operator(0.30, 2, new Crossoverer(
+                new Operator(0.05, 1, new Copier(CopyOperator.copy)),
+                new Operator(0.38, 2, new Crossoverer(
                         CrossoverOperator.onePointVariableLength)),
-                new Operator(0.30, 2, new Crossoverer(
+                new Operator(0.37, 2, new Crossoverer(
                         CrossoverOperator.twoPointVariableLength)),
-                new Operator(0.20, 1, new Mutator(genes,
+                new Operator(0.10, 1, new Mutator(genes,
                         MutationOperator.mutate)),
-                new Operator(0.18, 1, new Mutator(genes,
+                new Operator(0.05, 1, new Mutator(genes,
+                        MutationOperator.insertGene)),
+                new Operator(0.05, 1, new Mutator(genes,
                         MutationOperator.deleteGene)), ];
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
@@ -62,7 +64,7 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
         var phenotypeFactory = new JSPhenotypeFactory("f", "x");
         var isMatches = false;
         var errorThreshold = 0.0001;
-        var idealGenomeLength = 20;
+        var idealGenomeLength = 14;
 
         return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
                 errorThreshold, idealGenomeLength);
@@ -71,8 +73,11 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
     this.createGenes = function()
     {
         var easy = [ "return", "x", "+", "*" ];
-        var hard = [ "return", "x", "+", "-", "*", "/", "Math.sin(",
-                "Math.cos(", "Math.exp(", "Math.log(", ")", ];
+        var hard = [ "return", "x", "+", "*", // necessary
+            "-", "/", "%", // math
+            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
+            // "Math.sin", "Math.cos", "Math.tan", "Math.exp", "Math.log",
+            ];
 
         return (mode === "easy" ? easy : hard);
     }

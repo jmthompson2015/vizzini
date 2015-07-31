@@ -30,8 +30,12 @@ function JSAddProblem(popSize, generationCount, backCount)
                 new Operator(0.05, 1, new Copier(CopyOperator.copy)),
                 new Operator(0.75, 2, new Crossoverer(
                         CrossoverOperator.onePointVariableLength)),
-                new Operator(0.20, 1, new Mutator(genes,
-                        MutationOperator.mutate)), ];
+                new Operator(0.10, 1, new Mutator(genes,
+                        MutationOperator.mutate)),
+                new Operator(0.05, 1, new Mutator(genes,
+                        MutationOperator.insertGene)),
+                new Operator(0.05, 1, new Mutator(genes,
+                        MutationOperator.deleteGene)), ];
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,
                 comparator, selector, operators, genomeFactory, backCount);
@@ -55,13 +59,11 @@ function JSAddProblem(popSize, generationCount, backCount)
 
     this.createGenes = function()
     {
-        var easy = [ "return", "a", "+", "b" ];
-        var hard = [ "return", "a", "+", "b", // necessary
+        var easy = [ "return", "+", "a", "b" ];
+        var hard = [ "return", "+", "a", "b", // necessary
         "-", "*", "/", "%", // math
         "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
-        "(", ")", "[", "]", "{", "}", // brackets
-        "var", "i", "=", "if", "==", "===", ";", // symbols
-        ];
+        "Math.sin", "Math.cos", "Math.tan", ];
 
         return (mode === "easy" ? easy : hard);
     }
