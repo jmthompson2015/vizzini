@@ -95,11 +95,12 @@ function JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
     this.evaluate = function(population)
     {
         InputValidator.validateNotEmpty("population", population);
+        var isDetailed = true;
 
         population.map(function(genome)
         {
             genome.fitness = 0.0;
-            genome.phenotype = phenotypeFactory.create(genome);
+            genome.phenotype = phenotypeFactory.create(genome, isDetailed);
 
             if (genome.phenotype)
             {

@@ -10,6 +10,9 @@
  */
 function JSPhenotypeFactory(functionName, args)
 {
+    InputValidator.validateNotEmpty("functionName", functionName);
+    InputValidator.validateNotNull("args", args);
+
     this.getFunctionName = function()
     {
         return functionName;
@@ -20,35 +23,164 @@ function JSPhenotypeFactory(functionName, args)
         return args;
     }
 
-    this.create = function(genome)
+    this.create = function(genome, isDetailed)
     {
+        InputValidator.validateNotEmpty("genome", genome);
+        InputValidator.validateNotNull("isDetailed", isDetailed);
+
         var answer;
-        var genomeString = GAUtilities.genomeToString(genome);
+        var genomeString = this.genomeToString(genome);
+
+        genome.code = "function ";
+        genome.code += functionName;
+        genome.code += "(" + args.toString() + ")";
+        genome.code += " {" + genomeString + "}";
 
         try
         {
             answer = Function(args, genomeString);
+            answer.name = functionName;
+            genome.issues = [];
+            genome.warningCount = 0;
+            genome.errorCount = 0;
         }
         catch (e)
         {
-            genome.code = "function ";
-            genome.code += functionName;
-            genome.code += "(" + args.toString() + ")";
-            genome.code += "{" + genomeString + "}";
-
-            try
+            // Can't create a valid JavaScript function.
+            if (isDetailed)
             {
-                JSHINT(genome.code);
-                genome.warningCount = GAUtilities.countWarnings(JSHINT.errors);
-                genome.errorCount = GAUtilities.countErrors(JSHINT.errors);
-            }
-            catch (e)
-            {
-                genome.warningCount = Number.NaN;
-                genome.errorCount = Number.NaN;
+                // Perform a JSHint analysis.
+                try
+                {
+                    JSHINT(genome.code);
+                    LOGGER.trace("JSHINT.errors = " + JSHINT.errors);
+                    genome.issues = JSHINT.errors.slice();
+                    genome.warningCount = GAUtilities
+                            .countWarnings(JSHINT.errors);
+                    genome.errorCount = GAUtilities.countErrors(JSHINT.errors);
+                }
+                catch (e)
+                {
+                    // Can't analyze.
+                    LOGGER.trace("e = " + e);
+                    genome.issues = undefined;
+                    genome.warningCount = Number.NaN;
+                    genome.errorCount = Number.NaN;
+                }
             }
         }
 
         return answer;
     }
+
+    this.genomeToString = function(genome)
+    {
+        InputValidator.validateNotEmpty("genome", genome);
+        LOGGER.debug("genome = " + genome);
+
+        var answer = "";
+        var genomeCopy = genome.slice();
+
+        while (genomeCopy.length > 0)
+        {
+            answer += " " + JSPhenotypeFactory.parseChunk(genomeCopy);
+        }
+
+        answer = answer.trim();
+        LOGGER.debug("genomeToString() returning _" + answer + "_");
+
+        return answer;
+    }
+}
+
+JSPhenotypeFactory.UNARY_FUNCTIONS = [ "Math.abs", "Math.sqrt", "Math.sin",
+        "Math.cos", "Math.tan", "Math.exp", "Math.log" ];
+JSPhenotypeFactory.UNARY_OPERATORS = [ "!" ];
+JSPhenotypeFactory.BINARY_FUNCTIONS = [ "Math.atan2" ];
+JSPhenotypeFactory.BINARY_OPERATORS = [ "=", "+", "-", "*", "/", "%", // number
+"===", "!==", "<", ">", "&&", "||" // boolean
+];
+
+JSPhenotypeFactory.isUnaryFunction = function(functionName)
+{
+    return JSPhenotypeFactory.UNARY_FUNCTIONS.vizziniContains(functionName);
+}
+
+JSPhenotypeFactory.isUnaryOperator = function(functionName)
+{
+    return JSPhenotypeFactory.UNARY_OPERATORS.vizziniContains(functionName);
+}
+
+JSPhenotypeFactory.isBinaryFunction = function(functionName)
+{
+    return JSPhenotypeFactory.BINARY_FUNCTIONS.vizziniContains(functionName);
+}
+
+JSPhenotypeFactory.isBinaryOperator = function(functionName)
+{
+    return JSPhenotypeFactory.BINARY_OPERATORS.vizziniContains(functionName);
+}
+
+/*
+ * Warning: this method alters the input genome.
+ */
+JSPhenotypeFactory.parseChunk = function(genome)
+{
+    InputValidator.validateNotNull("genome", genome);
+
+    var answer;
+
+    var gene0 = genome.shift();
+
+    if (gene0 === "if" || gene0 === "while")
+    {
+        // if function.
+        var gene1 = this.parseChunk(genome);
+        var gene2 = this.parseChunk(genome);
+        answer = gene0 + " (" + gene1 + ") {" + gene2 + "; }";
+    }
+    else if (gene0 === "ifElse")
+    {
+        // if else function.
+        var gene1 = this.parseChunk(genome);
+        var gene2 = this.parseChunk(genome);
+        var gene3 = this.parseChunk(genome);
+        answer = "if (" + gene1 + ") {" + gene2 + "; } else {" + gene3 + "; }";
+    }
+    else if (JSPhenotypeFactory.isUnaryFunction(gene0))
+    {
+        // Unary function.
+        var gene1 = this.parseChunk(genome);
+        answer = gene0 + "(" + gene1 + ")";
+    }
+    else if (JSPhenotypeFactory.isUnaryOperator(gene0))
+    {
+        // Unary operator.
+        var gene1 = this.parseChunk(genome);
+        answer = gene0 + "(" + gene1 + ")";
+    }
+    else if (JSPhenotypeFactory.isBinaryFunction(gene0))
+    {
+        // Binary function.
+        var gene1 = this.parseChunk(genome);
+        var gene2 = this.parseChunk(genome);
+        answer = gene0 + "(" + gene1 + ", " + gene2 + ")";
+    }
+    else if (JSPhenotypeFactory.isBinaryOperator(gene0))
+    {
+        // Binary operator.
+        var gene1 = this.parseChunk(genome);
+        var gene2 = this.parseChunk(genome);
+        answer = "(" + gene1 + " " + gene0 + " " + gene2 + ")";
+    }
+    else if (gene0 === undefined)
+    {
+        answer = "";
+    }
+    else
+    {
+        answer = gene0;
+    }
+
+    return answer;
 }
