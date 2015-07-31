@@ -50,7 +50,7 @@ var ProblemUI = React.createClass(
                 <td className="message">{this.state.message}</td>
             </tr>
             <tr>
-                <ProblemUI.GenerationUI rows={this.state.rows} />
+                <ProblemUI.GenerationUI isCodeDisplayed={this.props.isCodeDisplayed} rows={this.state.rows} />
             </tr>
             </table>);
     },
@@ -70,7 +70,7 @@ ProblemUI.GenerationUI = React.createClass(
         for(var i=rows.length-1; i>=0; i--)
         {
             var row = rows[i];
-            tbody[tbody.length] = <ProblemUI.RowUI
+            tbody[tbody.length] = <ProblemUI.RowUI isCodeDisplayed={this.props.isCodeDisplayed}
                 key={i}
                 timestamp={row.timestamp}
                 generationCount={row.generationCount}
@@ -78,21 +78,43 @@ ProblemUI.GenerationUI = React.createClass(
                 best={row.best} />;
         }
         
-        return (
-            <table id="generationTable">
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        <th>Generation</th>
-                        <th>Average Fitness</th>
-                        <th>Best Fitness</th>
-                        <th>Best Genome</th>
-                        <th>Creator</th>
-                    </tr>
-                </thead>
-                <tbody>{tbody}</tbody>
-            </table>
-        );
+        if (this.props.isCodeDisplayed)
+        {
+            return (
+                <table id="generationTable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Generation</th>
+                            <th>Average Fitness</th>
+                            <th>Best Fitness</th>
+                            <th>Best Genome</th>
+                            <th>Best Code</th>
+                            <th>Creator</th>
+                        </tr>
+                    </thead>
+                    <tbody>{tbody}</tbody>
+                </table>
+            );
+        }
+        else
+        {
+            return (
+                <table id="generationTable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Generation</th>
+                            <th>Average Fitness</th>
+                            <th>Best Fitness</th>
+                            <th>Best Genome</th>
+                            <th>Creator</th>
+                        </tr>
+                    </thead>
+                    <tbody>{tbody}</tbody>
+                </table>
+            );
+        }
     }    
 });
 
@@ -108,15 +130,32 @@ ProblemUI.RowUI = React.createClass(
         var fitness = GAUtilities.round4(best.fitness);
         var genomeString = GAUtilities.genomeToString(best);
         var creator = best.creator;
+        var code = best.code === undefined ? "" : best.code;
         
-        return (<tr>
-            <td>{this.props.timestamp}</td>
-            <td className="generationCount">{this.props.generationCount}</td>
-            <td className="averageFitness">{averageFitness}</td>
-            <td className="fitness">{fitness}</td>
-            <td className="genome">{genomeString}</td>
-            <td className="creator">{creator}</td>
-            </tr>
-        );
+        if (this.props.isCodeDisplayed)
+        {
+            return (<tr>
+                <td>{this.props.timestamp}</td>
+                <td className="generationCount">{this.props.generationCount}</td>
+                <td className="averageFitness">{averageFitness}</td>
+                <td className="fitness">{fitness}</td>
+                <td className="genome" title={"length = " + best.length}>{genomeString}</td>
+                <td className="code">{code}</td>
+                <td className="creator">{creator}</td>
+                </tr>
+            );
+        }
+        else
+        {
+            return (<tr>
+                <td>{this.props.timestamp}</td>
+                <td className="generationCount">{this.props.generationCount}</td>
+                <td className="averageFitness">{averageFitness}</td>
+                <td className="fitness">{fitness}</td>
+                <td className="genome">{genomeString}</td>
+                <td className="creator">{creator}</td>
+                </tr>
+            );
+        }
     },
 });
