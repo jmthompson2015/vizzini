@@ -5,6 +5,8 @@ var CopyOperator =
 {
     copy: function(genome)
     {
+        InputValidator.validateNotNull("genome", genome);
+        
         var answer = genome.slice();
         answer.creator = genome.creator;
 

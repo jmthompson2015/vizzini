@@ -36,6 +36,9 @@ var SelectionOperator =
             sum = high;
         }
 
+        if (answer === undefined) { throw "SelectionOperator.fitnessProportionalSelect failed: answer = "
+                + answer; }
+
         return answer;
     },
 
