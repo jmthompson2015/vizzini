@@ -40,7 +40,7 @@
 	<table>
 		<tr>
 			<td>Population Size:</td>
-			<td><input id="popSizeInput" type="number" value=50 /></td>
+			<td><input id="popSizeInput" type="number" value=500 /></td>
 		</tr>
 		<tr>
 			<td>Generation Count:</td>
@@ -60,6 +60,7 @@
 
     	var LOGGER = new Logger();
     	LOGGER.setTraceEnabled(false);
+    	LOGGER.setDebugEnabled(false);
 
 		function submitActionPerformed()
 		{
@@ -72,7 +73,7 @@
         	var problem = new JSXORProblem(popSize, generationCount, backCount);
 
 	        var ga = problem.createGA();
-    	    var problemUI = React.render(<ProblemUI ga={ga} />, 
+    	    var problemUI = React.render(<ProblemUI ga={ga} isCodeDisplayed={true} />, 
 				document.getElementById("problemPanel"));
 
         	setTimeout(function()
@@ -92,3 +93,15 @@
     </script>
 </body>
 </html>
+<!-- 
+return * * + x * x * + x x x * x * + x x x x
+return * (* + x * x * + x x x * x * + x x x) x
+return * (* (+ x * x * + x x x * x * + x x) x) x
+return * (* (+ x (* x * + x x x * x * + x) x) x) x
+return * (* (+ x (* x (* + x x x * x * +) x) x) x) x
+return * (* (+ x (* x (* + x x x * x * +) x) x) x) x
+
+x^4 + x^3 + x^2 + x
+(* * * x x x x) + (* * x x x) + (* x x) + x 
++ + + (* * * x x x x) (* * x x x) (* x x) x 
+ -->

@@ -60,6 +60,7 @@
 
     	var LOGGER = new Logger();
     	LOGGER.setTraceEnabled(false);
+    	LOGGER.setDebugEnabled(false);
 
 		function submitActionPerformed()
 		{
@@ -72,7 +73,7 @@
         	var problem = new JSAddProblem(popSize, generationCount, backCount);
 
 	        var ga = problem.createGA();
-    	    var problemUI = React.render(<ProblemUI ga={ga} />, 
+    	    var problemUI = React.render(<ProblemUI ga={ga} isCodeDisplayed={true} />, 
 				document.getElementById("problemPanel"));
 
         	setTimeout(function()
