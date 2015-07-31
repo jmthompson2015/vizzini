@@ -26,6 +26,8 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
     {
         var sum = operators.reduce(function(previousValue, operator)
         {
+            LOGGER.info("operator.getRatio() = " + operator.getRatio()
+                    + " sum = " + (previousValue + operator.getRatio()));
             return previousValue + operator.getRatio();
         }, 0.0);
 
