@@ -34,6 +34,7 @@
 
     var LOGGER = new Logger();
     LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
 
     QUnit.test("JSAddProblem", function(assert)
     {
@@ -73,7 +74,7 @@
         assert.ok(true);
     });
 
-    QUnit.test("JSAddProblem.createPhenotype", function(assert)
+    QUnit.test("createPhenotype", function(assert)
     {
         // Setup.
         var popSize = 10;
@@ -82,10 +83,11 @@
         var problem = new JSAddProblem(popSize, generationCount, backCount);
         var evaluator = problem.createEvaluator();
         var phenotypeFactory = evaluator.getPhenotypeFactory();
-        var genome = [ "return", "a", "+", "b", ";" ];
+        var genome = [ "return", "+", "a", "b", ";" ];
+        var isDetailed = true;
 
         // Run.
-        var phenotype = phenotypeFactory.create(genome);
+        var phenotype = phenotypeFactory.create(genome, isDetailed);
 
         // Verify.
         assert.ok(phenotype);
