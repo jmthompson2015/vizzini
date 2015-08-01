@@ -1,6 +1,6 @@
 body {
     background-image: url('https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
 }
 
