@@ -30,8 +30,9 @@
                 // Setup.
                 var inputs = createInputs();
                 var outputs = createOutputs();
+                var isReturnUsed = false;
                 var phenotypeFactory = new JSPhenotypeFactory("contains", [
-                        "array", "element" ]);
+                        "array", "element" ], isReturnUsed);
                 var isMatches = true;
                 var errorThreshold;
                 var idealGenomeLength = 4;
@@ -57,8 +58,9 @@
                 // Setup.
                 var inputs = createInputs();
                 var outputs = createOutputs();
+                var isReturnUsed = false;
                 var phenotypeFactory = new JSPhenotypeFactory("contains", [
-                        "array", "element" ]);
+                        "array", "element" ], isReturnUsed);
                 var isMatches = true;
                 var errorThreshold;
                 var idealGenomeLength = 4;
@@ -84,7 +86,9 @@
         var inputs = [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ],
                 [ 9, 10 ], ];
         var outputs = [ 0, 3, 7, 11, 15, 19 ];
-        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ]);
+        var isReturnUsed = false;
+        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ],
+                isReturnUsed);
         var isMatches = false;
         var errorThreshold = 0.0001;
         var idealGenomeLength = 4;
@@ -107,7 +111,9 @@
         var inputs = [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ],
                 [ 9, 10 ], ];
         var outputs = [ 0, 3, 7, 11, 15, 19 ];
-        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ]);
+        var isReturnUsed = false;
+        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ],
+                isReturnUsed);
         var isMatches = false;
         var errorThreshold = 0.0001;
         var idealGenomeLength = 4;
@@ -130,8 +136,9 @@
                 // Setup.
                 var inputs = createInputs();
                 var outputs = createOutputs();
+                var isReturnUsed = false;
                 var phenotypeFactory = new JSPhenotypeFactory("contains", [
-                        "array", "element" ]);
+                        "array", "element" ], isReturnUsed);
                 var isMatches = true;
                 var errorThreshold;
                 var idealGenomeLength = 4;
@@ -157,7 +164,9 @@
         var inputs = [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ],
                 [ 9, 10 ], ];
         var outputs = [ 0, 3, 7, 11, 15, 19 ];
-        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ]);
+        var isReturnUsed = false;
+        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ],
+                isReturnUsed);
         var isMatches = false;
         var errorThreshold = 0.0001;
         var idealGenomeLength = 4;
@@ -180,7 +189,9 @@
         var inputs = [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ],
                 [ 9, 10 ], ];
         var outputs = [ 0, 3, 7, 11, 15, 19 ];
-        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ]);
+        var isReturnUsed = false;
+        var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ],
+                isReturnUsed);
         var isMatches = false;
         var errorThreshold = 0.0001;
         var idealGenomeLength = 4;

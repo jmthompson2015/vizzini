@@ -57,8 +57,10 @@ function JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
 
                 return previousValue + (result === outputs[i] ? 1 : 0);
             }
-            catch (ignore)
-            {}
+            catch (e)
+            {
+                return previousValue;
+            }
         }, 0);
     }
 
@@ -159,6 +161,13 @@ function JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
         else
         {
             genome.fitness += matches * (400.0 / outputs.length);
+        }
+
+        if (isNaN(genome.fitness))
+        {
+            LOGGER.error("genome = " + genome);
+            LOGGER.error("matches = " + matches);
+            throw "JSEvaluator.evaluateMatches() fitness = " + genome.fitness;
         }
     }
 

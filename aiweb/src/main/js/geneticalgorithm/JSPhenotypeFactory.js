@@ -8,10 +8,11 @@
  * <li>genome.errorCount set</li>
  * </ol>
  */
-function JSPhenotypeFactory(functionName, args)
+function JSPhenotypeFactory(functionName, args, isReturnUsed)
 {
     InputValidator.validateNotEmpty("functionName", functionName);
     InputValidator.validateNotNull("args", args);
+    InputValidator.validateNotNull("isReturnUsed", isReturnUsed);
 
     this.getFunctionName = function()
     {
@@ -23,18 +24,23 @@ function JSPhenotypeFactory(functionName, args)
         return args;
     }
 
+    this.isReturnUsed = function()
+    {
+        return isReturnUsed;
+    }
+
     this.create = function(genome, isDetailed)
     {
         InputValidator.validateNotEmpty("genome", genome);
         InputValidator.validateNotNull("isDetailed", isDetailed);
 
         var answer;
-        var genomeString = this.genomeToString(genome);
+        var genomeString = this.genomeToString(genome, isReturnUsed);
 
         genome.code = "function ";
         genome.code += functionName;
         genome.code += "(" + args.toString() + ")";
-        genome.code += " {" + genomeString + "}";
+        genome.code += " { " + genomeString + " }";
 
         try
         {
@@ -79,6 +85,12 @@ function JSPhenotypeFactory(functionName, args)
         LOGGER.debug("genome = " + genome);
 
         var answer = "";
+
+        if (isReturnUsed)
+        {
+            answer += "return";
+        }
+
         var genomeCopy = genome.slice();
 
         while (genomeCopy.length > 0)
@@ -87,6 +99,12 @@ function JSPhenotypeFactory(functionName, args)
         }
 
         answer = answer.trim();
+
+        if (isReturnUsed)
+        {
+            answer += ";";
+        }
+        
         LOGGER.debug("genomeToString() returning _" + answer + "_");
 
         return answer;
