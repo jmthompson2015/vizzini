@@ -18,7 +18,7 @@ function JSXORProblem(popSize, generationCount, backCount)
         LOGGER.info("backCount = " + backCount);
 
         var genes = this.createGenes();
-        var genomeLength = 9;
+        var genomeLength = 8;
         var genomeFactory = new GenomeFactory(genes, genomeLength);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator = this.createEvaluator();
@@ -50,10 +50,12 @@ function JSXORProblem(popSize, generationCount, backCount)
         var inputs = [ [ false, false ], [ false, true ], [ true, false ],
                 [ true, true ] ];
         var outputs = [ false, true, true, false ];
-        var phenotypeFactory = new JSPhenotypeFactory("xor", [ "a", "b" ]);
+        var isReturnUsed = true;
+        var phenotypeFactory = new JSPhenotypeFactory("xor", [ "a", "b" ],
+                isReturnUsed);
         var isMatches = true;
         var errorThreshold;
-        var idealGenomeLength;
+        var idealGenomeLength = 8;
 
         return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
                 errorThreshold, idealGenomeLength);
@@ -61,6 +63,6 @@ function JSXORProblem(popSize, generationCount, backCount)
 
     this.createGenes = function()
     {
-        return [ "return", "a", "b", "&&", "||", "!", "if", ];
+        return [ "a", "b", "&&", "||", "!" ];
     }
 }

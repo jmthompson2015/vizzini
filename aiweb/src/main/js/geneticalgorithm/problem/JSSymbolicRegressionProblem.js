@@ -20,7 +20,7 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
         LOGGER.info("backCount = " + backCount);
 
         var genes = this.createGenes();
-        var genomeLength = 14;
+        var genomeLength = 13;
         var genomeFactory = new GenomeFactory(genes, genomeLength);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator = this.createEvaluator();
@@ -61,10 +61,11 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
             outputs[outputs.length] = (x * x * x * x) + (x * x * x) + (x * x)
                     + x;
         }
-        var phenotypeFactory = new JSPhenotypeFactory("f", "x");
+        var isReturnUsed = true;
+        var phenotypeFactory = new JSPhenotypeFactory("f", "x", isReturnUsed);
         var isMatches = false;
         var errorThreshold = 0.0001;
-        var idealGenomeLength = 14;
+        var idealGenomeLength = 13;
 
         return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
                 errorThreshold, idealGenomeLength);
@@ -72,12 +73,12 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
 
     this.createGenes = function()
     {
-        var easy = [ "return", "x", "+", "*" ];
-        var hard = [ "return", "x", "+", "*", // necessary
-            "-", "/", "%", // math
-            "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
-            // "Math.sin", "Math.cos", "Math.tan", "Math.exp", "Math.log",
-            ];
+        var easy = [ "x", "+", "*" ];
+        var hard = [ "x", "+", "*", // necessary
+        "-", "/", "%", // math
+        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
+        // "Math.sin", "Math.cos", "Math.tan", "Math.exp", "Math.log",
+        ];
 
         return (mode === "easy" ? easy : hard);
     }

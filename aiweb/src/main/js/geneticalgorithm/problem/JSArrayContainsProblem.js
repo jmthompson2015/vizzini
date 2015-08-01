@@ -59,8 +59,9 @@ function JSArrayContainsProblem(popSize, generationCount, backCount)
         var outputs = [ false, false, true, true, true, true, false, false, // a
         false, true, false, true, false, true, false, true, // b
         ];
+        var isReturnUsed = false;
         var phenotypeFactory = new JSPhenotypeFactory("contains", [ "array",
-                "element" ]);
+                "element" ], isReturnUsed);
         var isMatches = true;
         var errorThreshold;
         var idealGenomeLength = (mode === "easy" ? 4 : 27);
