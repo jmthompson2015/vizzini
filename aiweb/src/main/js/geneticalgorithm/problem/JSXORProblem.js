@@ -27,12 +27,10 @@ function JSXORProblem(popSize, generationCount, backCount)
         var selector = new Selector(selectionCount,
                 SelectionOperator.fitnessProportionalSelect);
         var operators = [
-                new Operator(0.05, 1, new Copier(CopyOperator.copy)),
-                new Operator(0.40, 2, new Crossoverer(
+                new Operator(0.01, 1, new Copier(CopyOperator.copy)),
+                new Operator(0.75, 2, new Crossoverer(
                         CrossoverOperator.onePointVariableLength)),
-                new Operator(0.35, 2, new Crossoverer(
-                        CrossoverOperator.twoPointVariableLength)),
-                new Operator(0.10, 1, new Mutator(genes,
+                new Operator(0.14, 1, new Mutator(genes,
                         MutationOperator.mutate)),
                 new Operator(0.05, 1, new Mutator(genes,
                         MutationOperator.insertGene)),

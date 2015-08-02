@@ -82,6 +82,8 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
 
     this.fillPopulation = function(newPop, popSize, maxTries, operator)
     {
+        var executor = operator.getExecutor();
+        var isCopier = (executor instanceof Copier);
         var count = 0;
 
         while (newPop.length < popSize)
@@ -90,16 +92,24 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
 
             if (count < maxTries)
             {
-                var genome1 = selector.select(population);
-
-                if (operator.getArgCount() === 2)
+                if (isCopier)
                 {
-                    var genome2 = selector.select(population);
-                    genome = operator.getExecutor().execute(genome1, genome2);
+                    var genome1 = population[count];
+                    genome = executor.execute(genome1);
                 }
                 else
                 {
-                    genome = operator.getExecutor().execute(genome1);
+                    var genome1 = selector.select(population);
+
+                    if (operator.getArgCount() === 2)
+                    {
+                        var genome2 = selector.select(population);
+                        genome = executor.execute(genome1, genome2);
+                    }
+                    else
+                    {
+                        genome = executor.execute(genome1);
+                    }
                 }
             }
             else
