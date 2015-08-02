@@ -8,11 +8,13 @@
  * <li>genome.errorCount set</li>
  * </ol>
  */
-function JSPhenotypeFactory(functionName, args, isReturnUsed)
+function JSPhenotypeFactory(functionName, args, prefix0, suffix0)
 {
     InputValidator.validateNotEmpty("functionName", functionName);
     InputValidator.validateNotNull("args", args);
-    InputValidator.validateNotNull("isReturnUsed", isReturnUsed);
+
+    var prefix = (prefix0 === undefined ? "" : prefix0);
+    var suffix = (suffix0 === undefined ? "" : suffix0);
 
     this.getFunctionName = function()
     {
@@ -24,9 +26,14 @@ function JSPhenotypeFactory(functionName, args, isReturnUsed)
         return args;
     }
 
-    this.isReturnUsed = function()
+    this.getPrefix = function()
     {
-        return isReturnUsed;
+        return prefix;
+    }
+
+    this.getSuffix = function()
+    {
+        return suffix;
     }
 
     this.create = function(genome, isDetailed)
@@ -35,7 +42,7 @@ function JSPhenotypeFactory(functionName, args, isReturnUsed)
         InputValidator.validateNotNull("isDetailed", isDetailed);
 
         var answer;
-        var genomeString = this.genomeToString(genome, isReturnUsed);
+        var genomeString = this.genomeToString(genome);
 
         genome.code = "function ";
         genome.code += functionName;
@@ -84,12 +91,7 @@ function JSPhenotypeFactory(functionName, args, isReturnUsed)
         InputValidator.validateNotEmpty("genome", genome);
         LOGGER.debug("genome = " + genome);
 
-        var answer = "";
-
-        if (isReturnUsed)
-        {
-            answer += "return";
-        }
+        var answer = prefix;
 
         var genomeCopy = genome.slice();
 
@@ -98,13 +100,9 @@ function JSPhenotypeFactory(functionName, args, isReturnUsed)
             answer += " " + JSPhenotypeFactory.parseChunk(genomeCopy);
         }
 
+        answer += suffix;
         answer = answer.trim();
 
-        if (isReturnUsed)
-        {
-            answer += ";";
-        }
-        
         LOGGER.debug("genomeToString() returning _" + answer + "_");
 
         return answer;

@@ -61,8 +61,7 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
             outputs[outputs.length] = (x * x * x * x) + (x * x * x) + (x * x)
                     + x;
         }
-        var isReturnUsed = true;
-        var phenotypeFactory = new JSPhenotypeFactory("f", "x", isReturnUsed);
+        var phenotypeFactory = new JSPhenotypeFactory("f", "x", "return", ";");
         var isMatches = false;
         var errorThreshold = 0.0001;
         var idealGenomeLength = 13;

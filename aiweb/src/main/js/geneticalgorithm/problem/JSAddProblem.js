@@ -48,9 +48,8 @@ function JSAddProblem(popSize, generationCount, backCount)
         var inputs = [ [ 0, 0 ], [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ],
                 [ 9, 10 ], ];
         var outputs = [ 0, 3, 7, 11, 15, 19 ];
-        var isReturnUsed = true;
         var phenotypeFactory = new JSPhenotypeFactory("add", [ "a", "b" ],
-                isReturnUsed);
+                "return", ";");
         var isMatches = false;
         var errorThreshold = 0.0001;
         var idealGenomeLength = 3;

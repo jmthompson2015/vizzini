@@ -48,9 +48,8 @@ function JSXORProblem(popSize, generationCount, backCount)
         var inputs = [ [ false, false ], [ false, true ], [ true, false ],
                 [ true, true ] ];
         var outputs = [ false, true, true, false ];
-        var isReturnUsed = true;
         var phenotypeFactory = new JSPhenotypeFactory("xor", [ "a", "b" ],
-                isReturnUsed);
+                "return", ";");
         var isMatches = true;
         var errorThreshold;
         var idealGenomeLength = 8;
