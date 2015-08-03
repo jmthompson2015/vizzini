@@ -36,6 +36,41 @@ function GeneticAlgorithm(populationIn, evaluator, generationCount, comparator,
         if (sum !== 1.00) { throw "Operator ratios do not sum to 1.00: " + sum; }
     }
 
+    this.getEvaluator = function()
+    {
+        return evaluator;
+    }
+
+    this.getGenerationCount = function()
+    {
+        return generationCount;
+    }
+
+    this.getComparator = function()
+    {
+        return comparator;
+    }
+
+    this.getSelector = function()
+    {
+        return selector;
+    }
+
+    this.getOperators = function()
+    {
+        return operators;
+    }
+
+    this.getGenomeFactory = function()
+    {
+        return genomeFactory;
+    }
+
+    this.getBackCount = function()
+    {
+        return backCount;
+    }
+
     this.addUnique = function(newPop, genome)
     {
         var answer = false;
