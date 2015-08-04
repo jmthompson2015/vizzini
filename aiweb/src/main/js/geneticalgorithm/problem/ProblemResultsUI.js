@@ -3,9 +3,9 @@
 // require("GAUtilities");
 
 /*
- * Provides a user interface for a genetic algorithm problem.
+ * Provides a user interface for a genetic algorithm results.
  */
-var ProblemUI = React.createClass(
+var ProblemResultsUI = React.createClass(
 {
     componentWillMount: function()
     {
@@ -50,7 +50,7 @@ var ProblemUI = React.createClass(
                 <td className="message">{this.state.message}</td>
             </tr>
             <tr>
-                <ProblemUI.GenerationUI isCodeDisplayed={this.props.isCodeDisplayed} rows={this.state.rows} />
+                <ProblemResultsUI.GenerationUI isCodeDisplayed={this.props.isCodeDisplayed} rows={this.state.rows} />
             </tr>
             </table>);
     },
@@ -59,7 +59,7 @@ var ProblemUI = React.createClass(
 /*
  * Provides a user interface for a genetic algorithm generation table.
  */
-ProblemUI.GenerationUI = React.createClass(
+ProblemResultsUI.GenerationUI = React.createClass(
 {
     render: function() 
     {
@@ -70,7 +70,7 @@ ProblemUI.GenerationUI = React.createClass(
         for(var i=rows.length-1; i>=0; i--)
         {
             var row = rows[i];
-            tbody[tbody.length] = <ProblemUI.RowUI isCodeDisplayed={this.props.isCodeDisplayed}
+            tbody[tbody.length] = <ProblemResultsUI.RowUI isCodeDisplayed={this.props.isCodeDisplayed}
                 key={i}
                 timestamp={row.timestamp}
                 generationCount={row.generationCount}
@@ -121,7 +121,7 @@ ProblemUI.GenerationUI = React.createClass(
 /*
  * Provides a user interface for a genetic algorithm generation table row.
  */
-ProblemUI.RowUI = React.createClass(
+ProblemResultsUI.RowUI = React.createClass(
 {
     render: function() 
     {
