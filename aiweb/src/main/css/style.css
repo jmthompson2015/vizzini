@@ -8,23 +8,27 @@ table {
     border-collapse: collapse;
 }
 
-#ALIGN_CENTER, .buttonsPanel, .generationCount, .alignCenter {
+#ALIGN_CENTER, .buttonsPanel, .fitnessCases th, .generationCount, .alignCenter {
     text-align: center;
+}
+
+#ALIGN_LEFT, .problemTableau th, .alignLeft {
+    text-align: left;
 }
 
 #ALIGN_RIGHT, .averageFitness, .fitness, .alignRight {
     text-align: right;
 }
 
-#BACKGROUND_DARK, #generationTable th, .backgroundDark {
+#BACKGROUND_DARK, .fitnessCases th, #generationTable th, .problemTableau th, .backgroundDark {
     background-color: DarkSeaGreen;
 }
 
-#BORDER_DARK, #generationTable th, .borderDark {
+#BORDER_DARK, .fitnessCases th, #generationTable th, .problemTableau th, .borderDark {
     border: 1px solid black;
 }
 
-#BORDER_MEDIUM, #generationTable td, .borderMedium {
+#BORDER_MEDIUM, .fitnessCases td, #generationTable td, .problemTableau td, .borderMedium {
     border: 1px solid DarkSeaGreen;
 }
 
@@ -32,6 +36,7 @@ table {
     font-size: small;
 }
 
-#PADDING_3, #generationTable th, #generationTable td, .padding3 {
+#PADDING_3, .fitnessCases th, .fitnessCases td, #generationTable th, #generationTable td, .problemTableau th,
+    .problemTableau td, .padding3 {
     padding: 3px;
 }

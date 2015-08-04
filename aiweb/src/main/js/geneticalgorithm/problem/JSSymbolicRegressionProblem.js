@@ -11,17 +11,16 @@ var mode = "easy";
  * @param generationCount Generation count.
  * @param backCount Back count for stopping.
  */
-function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
+var JSSymbolicRegressionProblem =
 {
-    this.createGA = function()
+    createGA: function(popSize, generationCount, backCount)
     {
         LOGGER.info("popSize = " + popSize);
         LOGGER.info("generationCount = " + generationCount);
         LOGGER.info("backCount = " + backCount);
 
-        var genes = this.createGenes();
-        var genomeLength = 13;
-        var genomeFactory = new GenomeFactory(genes, genomeLength);
+        var genes = this.getGenes();
+        var genomeFactory = this.createGenomeFactory(genes);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator = this.createEvaluator();
         var comparator = GenomeComparator;
@@ -45,40 +44,84 @@ function JSSymbolicRegressionProblem(popSize, generationCount, backCount)
                 comparator, selector, operators, genomeFactory, backCount);
 
         return ga;
-    }
+    },
 
-    this.createEvaluator = function()
+    createEvaluator: function()
+    {
+        var inputs = this.getInputs();
+        var outputs = this.getOutputs();
+        var phenotypeFactory = this.createPhenotypeFactory();
+        var isMatches = false;
+        var errorThreshold = 0.0001;
+        var idealGenomeLength;
+
+        return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
+                errorThreshold, idealGenomeLength);
+    },
+
+    createGenomeFactory: function(genes)
+    {
+        var genomeLength = 13;
+
+        return new GenomeFactory(genes, genomeLength);
+    },
+
+    createPhenotypeFactory: function()
+    {
+        var functionName = "f";
+        var args = [ "x" ];
+        var prefix = "return";
+        var suffix = ";";
+
+        return new JSPhenotypeFactory(functionName, args, prefix, suffix);
+    },
+
+    getGenes: function()
+    {
+        var easy = [ "x", "+", "*" ];
+        var hard = [ "x", // variables
+        "+", "-", "*", "/", "%", // math
+        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
+        ];
+
+        return (mode === "easy" ? easy : hard);
+    },
+
+    getInputs: function()
     {
         var min = -1.0;
         var max = 1.0;
         var inputs = [];
+
+        for (var i = 0; i < 21; i++)
+        {
+            inputs.push((i - 10) / 10.0);
+        }
+
+        inputs.sort(function(a, b)
+        {
+            return a - b;
+        });
+
+        return inputs;
+    },
+
+    getObjective: function()
+    {
+        return "Find an equation to produce the given outputs from the given inputs.";
+    },
+
+    getOutputs: function()
+    {
+        var inputs = this.getInputs();
         var outputs = [];
 
-        for (var i = 0; i < 20; i++)
+        for (var i = 0; i < inputs.length; i++)
         {
-            var x = Math.vizziniRandomRealFromRange(min, max);
-            inputs[inputs.length] = x;
-            outputs[outputs.length] = (x * x * x * x) + (x * x * x) + (x * x)
-                    + x;
+            var x = inputs[i];
+            outputs.push(Math.pow(x, 4) + Math.pow(x, 3) + Math.pow(x, 2) + x);
         }
-        var phenotypeFactory = new JSPhenotypeFactory("f", "x", "return", ";");
-        var isMatches = false;
-        var errorThreshold = 0.0001;
-        var idealGenomeLength = 13;
 
-        return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
-                errorThreshold, idealGenomeLength);
-    }
-
-    this.createGenes = function()
-    {
-        var easy = [ "x", "+", "*" ];
-        var hard = [ "x", "+", "*", // necessary
-        "-", "/", "%", // math
-        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", // numbers
-        // "Math.sin", "Math.cos", "Math.tan", "Math.exp", "Math.log",
-        ];
-
-        return (mode === "easy" ? easy : hard);
-    }
+        return outputs;
+    },
 }

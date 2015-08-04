@@ -32,29 +32,16 @@
 
 <script src="../../../js/geneticalgorithm/problem/JSAddProblem.js"></script>
 
-<script type="text/jsx" src="../../../js/geneticalgorithm/problem/ProblemUI.js"></script>
+<script type="text/jsx" src="../../../js/geneticalgorithm/problem/ProblemControlsUI.js"></script>
+<script type="text/jsx" src="../../../js/geneticalgorithm/problem/ProblemResultsUI.js"></script>
+<script type="text/jsx" src="../../../js/geneticalgorithm/problem/ProblemTableauUI.js"></script>
 
 </head>
 <body>
 	<h1>JS Add Problem</h1>
-	<table>
-		<tr>
-			<td>Population Size:</td>
-			<td><input id="popSizeInput" type="number" value=200 /></td>
-		</tr>
-		<tr>
-			<td>Generation Count:</td>
-			<td><input id="generationCountInput" type="number" value=50 /></td>
-		</tr>
-		<tr>
-			<td>Back Count:</td>
-			<td><input id="backCountInput" type="number" value=30 /></td>
-		</tr>
-		<tr>
-			<td colspan=2 class="buttonsPanel"><button onclick="submitActionPerformed();">Submit</button></td>
-		</tr>
-	</table>
-	<div id="problemPanel"></div>
+	<div id="tableauPanel"></div>
+	<div id="controlPanel"></div>
+	<div id="resultsPanel"></div>
 	<script type="text/jsx">
         "use strict";
 
@@ -62,19 +49,23 @@
     	LOGGER.setTraceEnabled(false);
     	LOGGER.setDebugEnabled(false);
 
+		var problem = JSAddProblem;
+		var tableauPanel = React.render(<ProblemTableauUI problem={problem} />,
+			document.getElementById("tableauPanel"));
+		var controlPanel = React.render(<ProblemControlsUI popSize={200} generationCount={50} backCount={30} />,
+			document.getElementById("controlPanel"));
+
 		function submitActionPerformed()
 		{
 			LOGGER.info("submitActionPerformed() start");
-			document.getElementById("problemPanel").innerHTML = "";
-			var popSize = getNumber("popSizeInput"); 
-			var generationCount = getNumber("generationCountInput");
-			var backCount = getNumber("backCountInput");
+			document.getElementById("resultsPanel").innerHTML = "";
+			var popSize = controlPanel.getPopSize(); 
+			var generationCount = controlPanel.getGenerationCount();
+			var backCount = controlPanel.getBackCount();
 
-        	var problem = new JSAddProblem(popSize, generationCount, backCount);
-
-	        var ga = problem.createGA();
-    	    var problemUI = React.render(<ProblemUI ga={ga} isCodeDisplayed={true} />, 
-				document.getElementById("problemPanel"));
+	        var ga = problem.createGA(popSize, generationCount, backCount);
+    	    var resultsPanel = React.render(<ProblemResultsUI ga={ga} isCodeDisplayed={true} />, 
+				document.getElementById("resultsPanel"));
 
         	setTimeout(function()
         	{
@@ -82,13 +73,6 @@
         	}, 300);
 
 			LOGGER.info("submitActionPerformed() end");
-		}
-
-		function getNumber(elementId)
-		{
-			var value= document.getElementById(elementId).value;
-
-			return Number(value); 
 		}
     </script>
 </body>

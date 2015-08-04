@@ -9,13 +9,16 @@ var mode = "easy";
  * @param generationCount Generation count.
  * @param backCount Back count for stopping.
  */
-function JSArrayContainsProblem(popSize, generationCount, backCount)
+var JSArrayContainsProblem =
 {
-    this.createGA = function()
+    createGA: function(popSize, generationCount, backCount)
     {
-        var genes = this.createGenes();
-        var genomeLength = (mode === "easy" ? 4 : 27);
-        var genomeFactory = new GenomeFactory(genes, genomeLength);
+        LOGGER.info("popSize = " + popSize);
+        LOGGER.info("generationCount = " + generationCount);
+        LOGGER.info("backCount = " + backCount);
+
+        var genes = this.getGenes();
+        var genomeFactory = this.createGenomeFactory(genes);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
         var evaluator = this.createEvaluator();
         var comparator = JSArrayContainsProblem.GenomeComparator;
@@ -33,9 +36,48 @@ function JSArrayContainsProblem(popSize, generationCount, backCount)
                 comparator, selector, operators, genomeFactory, backCount);
 
         return ga;
-    }
+    },
 
-    this.createEvaluator = function()
+    createEvaluator: function()
+    {
+        var inputs = this.getInputs();
+        var outputs = this.getOutputs();
+        var phenotypeFactory = this.createPhenotypeFactory();
+        var isMatches = true;
+        var errorThreshold;
+        var idealGenomeLength;
+
+        return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
+                errorThreshold, idealGenomeLength);
+    },
+
+    createGenomeFactory: function(genes)
+    {
+        var genomeLength = 3;
+
+        return new GenomeFactory(genes, genomeLength);
+    },
+
+    createPhenotypeFactory: function()
+    {
+        var functionName = "contains";
+        var args = [ "array", "element" ];
+
+        return new JSPhenotypeFactory(functionName, args);
+    },
+
+    getGenes: function()
+    {
+        var easy = [ "for (var i = 0; i < array.length; i++)",
+                "if (array[i] === element)", "return true;", "return false;", ];
+        var hard = [ "for (var i = 0; i < array.length; i++)", "if", "(",
+                "array[i]", "===", "element", ")", "return true;",
+                "return false;", ];
+
+        return (mode === "easy" ? easy : hard);
+    },
+
+    getInputs: function()
     {
         var inputs = [];
         var a = [ 1, 2, 3, 4 ];
@@ -56,29 +98,21 @@ function JSArrayContainsProblem(popSize, generationCount, backCount)
         inputs[inputs.length] = [ b, 6 ];
         inputs[inputs.length] = [ b, 7 ];
         inputs[inputs.length] = [ b, 8 ];
-        var outputs = [ false, false, true, true, true, true, false, false, // a
+
+        return inputs;
+    },
+
+    getObjective: function()
+    {
+        return "Find an equation to produce the given outputs from the given inputs.";
+    },
+
+    getOutputs: function()
+    {
+        return [ false, false, true, true, true, true, false, false, // a
         false, true, false, true, false, true, false, true, // b
         ];
-        var phenotypeFactory = new JSPhenotypeFactory("contains", [ "array",
-                "element" ]);
-        var isMatches = true;
-        var errorThreshold;
-        var idealGenomeLength = (mode === "easy" ? 4 : 27);
-
-        return new JSEvaluator(inputs, outputs, phenotypeFactory, isMatches,
-                errorThreshold, idealGenomeLength);
-    }
-
-    this.createGenes = function()
-    {
-        var easy = [ "for (var i = 0; i < array.length; i++)",
-                "if (array[i] === element)", "return true;", "return false;", ];
-        var hard = [ "for (var i = 0; i < array.length; i++)", "if", "(",
-                "array[i]", "===", "element", ")", "return true;",
-                "return false;", ];
-
-        return (mode === "easy" ? easy : hard);
-    }
+    },
 }
 
 JSArrayContainsProblem.GenomeComparator = function(genome0, genome1)

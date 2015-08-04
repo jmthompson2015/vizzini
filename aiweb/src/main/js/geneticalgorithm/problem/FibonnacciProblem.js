@@ -5,37 +5,78 @@
  * @param generationCount Generation count.
  * @param backCount Back count for stopping.
  */
-function FibonnacciProblem(popSize, generationCount, backCount)
+var FibonnacciProblem =
 {
-    this.createGA = function()
+    createGA: function(popSize, generationCount, backCount)
     {
         LOGGER.info("popSize = " + popSize);
         LOGGER.info("generationCount = " + generationCount);
         LOGGER.info("backCount = " + backCount);
 
-        var genes = this.createGenes();
-        var genomeLength = 10;
-        var genomeFactory = new GenomeFactory(genes, genomeLength);
+        var genes = this.getGenes();
+        var genomeFactory = this.createGenomeFactory(genes);
         var population = GAUtilities.createPopulation(popSize, genomeFactory);
+        var evaluator = this.createEvaluator();
         var comparator = GenomeComparator;
         var selectionCount = Math.floor(0.20 * popSize);
         var selector = new Selector(selectionCount,
                 SelectionOperator.randomSelect);
         var operators = [
                 new Operator(0.05, 1, new Copier(CopyOperator.copy)),
-                new Operator(0.75, 2, new Crossoverer(
+                new Operator(0.40, 2, new Crossoverer(
+                        CrossoverOperator.onePointConstantLength)),
+                new Operator(0.40, 2, new Crossoverer(
                         CrossoverOperator.twoPointConstantLength)),
-                new Operator(0.20, 1, new Mutator(genes,
+                new Operator(0.15, 1, new Mutator(genes,
                         MutationOperator.mutate)), ];
 
-        var ga = new GeneticAlgorithm(population, this.evaluator,
-                generationCount, comparator, selector, operators,
-                genomeFactory, backCount);
+        var ga = new GeneticAlgorithm(population, evaluator, generationCount,
+                comparator, selector, operators, genomeFactory, backCount);
 
         return ga;
-    }
+    },
 
-    this.createGenes = function()
+    createEvaluator: function()
+    {
+        var outputs = this.getOutputs();
+
+        var evaluator =
+        {
+            getIdealEvaluation: function()
+            {
+                return 10.0;
+            },
+
+            evaluate: function(population)
+            {
+                for (var i = 0; i < population.length; i++)
+                {
+                    var genome = population[i];
+                    genome.fitness = 0;
+
+                    // Count the number of genes which match the answer.
+                    for (var j = 0; j < genome.length; j++)
+                    {
+                        if (genome[j] == outputs[0][j])
+                        {
+                            genome.fitness++;
+                        }
+                    }
+                }
+            },
+        }
+
+        return evaluator;
+    },
+
+    createGenomeFactory: function(genes)
+    {
+        var genomeLength = 10;
+
+        return new GenomeFactory(genes, genomeLength);
+    },
+
+    getGenes: function()
     {
         var genes = [];
 
@@ -46,35 +87,20 @@ function FibonnacciProblem(popSize, generationCount, backCount)
         }
 
         return genes;
-    }
+    },
 
-    this.evaluator =
+    getInputs: function()
     {
-        SEQUENCE: [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ],
+        return [ "" ];
+    },
 
-        idealEvaluation: 10.0,
+    getObjective: function()
+    {
+        return "Find the first ten numbers of the Fibonnacci sequence.";
+    },
 
-        getIdealEvaluation: function()
-        {
-            return this.idealEvaluation;
-        },
-
-        evaluate: function(population)
-        {
-            for (var i = 0; i < population.length; i++)
-            {
-                var genome = population[i];
-                genome.fitness = 0;
-
-                // Count the number of genes which match the answer.
-                for (var j = 0; j < genome.length; j++)
-                {
-                    if (genome[j] == this.SEQUENCE[j])
-                    {
-                        genome.fitness++;
-                    }
-                }
-            }
-        },
-    }
+    getOutputs: function()
+    {
+        return [ [ 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, ] ];
+    },
 }
