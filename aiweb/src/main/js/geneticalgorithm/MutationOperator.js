@@ -29,6 +29,20 @@ var MutationOperator =
         }
     },
 
+    exchange: function(genes, genome)
+    {
+        var answer = genome.slice();
+
+        var index0 = Math.vizziniRandomIntFromRange(0, genome.length);
+        var index1 = Math.vizziniRandomIntFromRange(0, genome.length);
+
+        var temp = answer[index0];
+        answer[index0] = answer[index1];
+        answer[index1] = temp;
+
+        return MutationOperator.assignCreator(answer, "exchange");
+    },
+
     insertGene: function(genes, genome)
     {
         var index = Math.vizziniRandomIntFromRange(0, genome.length);
@@ -44,8 +58,9 @@ var MutationOperator =
 
     mutate: function(genes, genome)
     {
-        var index = Math.vizziniRandomIntFromRange(0, genome.length);
         var answer = genome.slice();
+
+        var index = Math.vizziniRandomIntFromRange(0, genome.length);
 
         answer[index] = genes.vizziniRandomElement();
 
