@@ -13,7 +13,7 @@ var CrossoverOperator =
     {
         InputValidator.validateNotNull("genome0", genome0);
         InputValidator.validateNotNull("genome1", genome1);
-        CrossoverOperator.validateSameLength(genome0, genome1)
+        CrossoverOperator.validateSameLength(genome0, genome1);
 
         var index = Math.vizziniRandomIntFromRange(0, genome0.length);
 
@@ -47,7 +47,7 @@ var CrossoverOperator =
     {
         InputValidator.validateNotNull("genome0", genome0);
         InputValidator.validateNotNull("genome1", genome1);
-        CrossoverOperator.validateSameLength(genome0, genome1)
+        CrossoverOperator.validateSameLength(genome0, genome1);
 
         if (genome0.length === 1)
         {
@@ -146,7 +146,10 @@ var CrossoverOperator =
             answer[1] = Math.vizziniRandomIntFromRange(0, length);
         }
 
-        answer.sort();
+        answer.sort(function(a, b)
+        {
+            return a - b;
+        });
 
         return answer;
     },
