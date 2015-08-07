@@ -14,6 +14,7 @@
 <script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
+<script src="../../../../main/js/puzzle/sudoku/GridFactory.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/Puzzle.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/PuzzleFormat.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/SudokuSolver.js"></script>
@@ -29,7 +30,7 @@
     QUnit.test("getUnfilledSquares() easy", function(assert)
     {
         // Setup.
-        var puzzle = PuzzleFormat.parse(getEasyGrid());
+        var puzzle = PuzzleFormat.parse(GridFactory.createEasy());
 
         // Run.
         var result = SudokuSolver.getUnfilledSquares(puzzle);
@@ -57,7 +58,7 @@
     QUnit.test("solve() easy", function(assert)
     {
         // Setup.
-        var puzzle = PuzzleFormat.parse(getEasyGrid());
+        var puzzle = PuzzleFormat.parse(GridFactory.createEasy());
 
         // Run.
         SudokuSolver.solve(puzzle);
@@ -70,11 +71,23 @@
         assert.equal(puzzle.get("I9"), "7", "I9");
     });
 
-    function getEasyGrid()
-    {
-        // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 1, Easy
-        return "..6..8.74..5...1.99.74.16.5.3.1...46.........16...9.2.2.36.54.87.4...9..68.9..3..";
-    }
+    /*
+     QUnit.test("solve() diabolical", function(assert)
+     {
+     // Setup.
+     var puzzle = PuzzleFormat.parse(GridFactory.createDiabolical());
+
+     // Run.
+     SudokuSolver.solve(puzzle);
+
+     // Verify.
+     assert.ok(SudokuSolver.isDone(puzzle));
+     assert.equal(puzzle.get("A1"), "1", "A1");
+     assert.equal(puzzle.get("A9"), "9", "A9");
+     assert.equal(puzzle.get("I1"), "3", "I1");
+     assert.equal(puzzle.get("I9"), "2", "I9");
+     });
+     */
 </script>
 </head>
 <body>
