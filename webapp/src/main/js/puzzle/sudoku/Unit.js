@@ -30,6 +30,8 @@ var Unit =
     ROWS: [],
     COLUMNS: [],
     BLOCKS: [],
+    CELL_NAME_TO_INDEX: {},
+    INDEX_TO_CELL_NAME: {},
 
     cellNameToBlock: function(cellName)
     {
@@ -59,75 +61,135 @@ var Unit =
     {
         InputValidator.validateNotEmpty("cellName", cellName);
 
-        var column = this.cellNameToColumn(cellName);
-        var row = this.cellNameToRow(cellName);
-
-        return this.coordinatesToIndex(column, row);
+        return this.CELL_NAME_TO_INDEX[cellName];
     },
 
     coordinatesToIndex: function(column, row)
     {
+        InputValidator.validateNotNull("column", column);
+        InputValidator.validateNotNull("row", row);
+
         return (row * 9) + column;
+    },
+
+    getBlockPeers: function(cellName)
+    {
+        InputValidator.validateNotEmpty("cellName", cellName);
+
+        var block = this.cellNameToBlock(cellName);
+        var unit = this.BLOCKS[block];
+
+        return this.getUnitPeers(cellName, unit);
+    },
+
+    getColumnPeers: function(cellName)
+    {
+        InputValidator.validateNotEmpty("cellName", cellName);
+
+        var column = this.cellNameToColumn(cellName);
+        var unit = this.COLUMNS[column];
+
+        return this.getUnitPeers(cellName, unit);
     },
 
     getPeers: function(cellName)
     {
         InputValidator.validateNotEmpty("cellName", cellName);
 
-        var answer = [];
+        var rowPeers = this.getRowPeers(cellName);
+        var columnPeers = this.getColumnPeers(cellName);
+        var blockPeers = this.getBlockPeers(cellName);
 
-        var row = this.cellNameToRow(cellName);
-        var column = this.cellNameToColumn(cellName);
-        var block = this.cellNameToBlock(cellName);
+        var answer = rowPeers.concat(columnPeers);
 
-        for (var i = 0; i < 9; i++)
+        blockPeers.forEach(function(peer)
         {
-            if (i !== column)
+            if (!answer.vizziniContains(peer))
             {
-                answer[answer.length] = this.ROWS[row][i];
+                answer.push(peer);
             }
-        }
-
-        for (var i = 0; i < 9; i++)
-        {
-            if (i !== row)
-            {
-                answer[answer.length] = this.COLUMNS[column][i];
-            }
-        }
-
-        for (var i = 0; i < 9; i++)
-        {
-            var cell = this.BLOCKS[block][i];
-
-            if (cell !== cellName && !answer.vizziniContains(cell))
-            {
-                answer[answer.length] = cell;
-            }
-        }
+        });
 
         answer.sort();
 
         return answer;
     },
 
+    getRowPeers: function(cellName)
+    {
+        InputValidator.validateNotEmpty("cellName", cellName);
+
+        var row = this.cellNameToRow(cellName);
+        var unit = this.ROWS[row];
+
+        return this.getUnitPeers(cellName, unit);
+    },
+
+    getUnitPeers: function(cellName, unit)
+    {
+        InputValidator.validateNotEmpty("cellName", cellName);
+        InputValidator.validateNotNull("unit", unit);
+
+        var answer = unit.slice();
+
+        answer.vizziniRemove(cellName);
+
+        return answer;
+    },
+
+    indexToBlock: function(index)
+    {
+        InputValidator.validateNotNull("index", index);
+
+        var answer = -1;
+        var cellName = this.indexToCellName(index);
+
+        for (var i = 0; i < this.BLOCKS.length; i++)
+        {
+            var block = this.BLOCKS[i];
+
+            if (block.vizziniContains(cellName))
+            {
+                answer = i;
+                break;
+            }
+        }
+
+        return answer;
+    },
+
     indexToCellName: function(index)
     {
-        var row = this.indexToRow(index);
-        var column = this.indexToColumn(index) + 1;
+        InputValidator.validateNotNull("index", index);
 
-        return this.ROW_NAMES[row] + column;
+        return this.INDEX_TO_CELL_NAME[index];
     },
 
     indexToColumn: function(index)
     {
+        InputValidator.validateNotNull("index", index);
+
         return index % 9;
     },
 
     indexToRow: function(index)
     {
+        InputValidator.validateNotNull("index", index);
+
         return Math.floor(index / 9);
     },
+}
+
+// Initialize maps.
+{
+    for (var i = 0; i < 81; i++)
+    {
+        var row = Unit.indexToRow(i);
+        var column = Unit.indexToColumn(i) + 1;
+        var cellName = Unit.ROW_NAMES[row] + column;
+        Unit.CELL_NAME_TO_INDEX[cellName] = i;
+        Unit.INDEX_TO_CELL_NAME[i] = cellName;
+    }
 }
 
 // Initialize rows.
@@ -173,3 +235,8 @@ var Unit =
         }
     }
 }
+
+if (Object.freeze)
+{
+    Object.freeze(Unit)
+};
