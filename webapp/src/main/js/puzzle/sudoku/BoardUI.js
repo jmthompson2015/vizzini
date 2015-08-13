@@ -17,6 +17,7 @@ var BoardUI = React.createClass(
 
     render: function()
     {
+        var originalPuzzle = this.props.originalPuzzle;
         var rows=[];
         
         for (var j=0; j<9; j++)
@@ -28,10 +29,24 @@ var BoardUI = React.createClass(
                 var index = Unit.coordinatesToIndex(i,j);
                 var cellName = Unit.indexToCellName(index);
                 var value = this.state.puzzle.get(cellName);
+                var originalValue = originalPuzzle.get(cellName);
                 
                 if (value.length === 1)
                 {
-                    cells[i] = <td key={i} id={cellName} className="valueCell">
+                    var className;
+                    
+                    if (originalValue.length === 1)
+                    {
+                        className = "originalValueCell";
+                    }
+                    else
+                    {
+                        var grid = PuzzleFormat.format(this.state.puzzle);
+                        var isValid = SudokuValidator.isCellValid(grid,index);
+                        var className = (isValid ? "valueCell" : "invalidValueCell");
+                    }
+                    
+                    cells[i] = <td key={i} id={cellName} className={className}>
                         <BoardUI.CellUI value={value} /></td>;
                 }
                 else

@@ -1,17 +1,22 @@
 table {
     border-collapse: collapse;
     text-align: center;
+    vertical-align: middle;
 }
 
 .hidden {
     display: none;
 }
 
+#BACKGROUND_WHITE, .invalidValueCell, .valueCell, .valuesCell, .backgroundWhite {
+    background-color: white;
+}
+
 #BORDER_THICK, #boardTable, .borderThick {
     border: 3px solid black;
 }
 
-#BORDER_THIN, .valueCell, .valuesCell, .borderThin {
+#BORDER_THIN, .invalidValueCell, .originalValueCell, .valueCell, .valuesCell, .borderThin {
     border: 1px solid black;
 }
 
@@ -24,15 +29,22 @@ table {
     border-right: 3px solid black;
 }
 
-#FONT_LARGE, .valueCell, .fontLarge {
-    font-size: xx-large;
+#COLOR_RED, .invalidValueCell, .colorRed {
+    color: red;
+}
+
+#FONT_BOLD, .originalValueCell, .fontLargeBold {
     font-weight: bold;
+}
+
+#FONT_LARGE, .invalidValueCell, .originalValueCell, .valueCell, .fontLarge {
+    font-size: xx-large;
 }
 
 #FONT_SMALL, .valuesCell, .fontSmall {
     font-size: xx-small;
 }
 
-#PADDING_3, .valueCell, .valuesCell, .padding3 {
+#PADDING_3, .originalValueCell, .valueCell, .valuesCell, .padding3 {
     padding: 3px;
 }
