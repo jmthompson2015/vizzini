@@ -11,7 +11,9 @@
 
 <script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
+<script src="../../../../main/js/puzzle/sudoku/GridFactory.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/Puzzle.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/PuzzleFormat.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/SudokuValidator.js"></script>
@@ -26,7 +28,7 @@
     QUnit.test("format()", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
 
         // Run.
@@ -41,7 +43,7 @@
     QUnit.test("parse()", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
 
         // Run.
         var result = PuzzleFormat.parse(grid);
@@ -54,17 +56,30 @@
         assert.equal(result.get("I9"), "123456789");
     });
 
-    function getEasyGrid()
+    QUnit.test("parse() and eliminate()", function(assert)
     {
-        // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 1, Easy
-        return "..6..8.74..5...1.99.74.16.5.3.1...46.........16...9.2.2.36.54.87.4...9..68.9..3..";
-    }
+        // Setup.
+        var grid = GridFactory.createEasy();
 
-    function getDiabolicalGrid()
-    {
-        // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 86, Diabolical
-        return "17.....8.86.9...7....3..5..2...3......62.18......4...3..9..3....2...9.35.5.....62";
-    }
+        // Run.
+        var result = PuzzleFormat.parse(grid);
+        assert.ok(result);
+        var filled = result.getFilledSquares();
+        var isRecursive = false;
+
+        filled.forEach(function(cellName)
+        {
+            var value = result.get(cellName);
+            result.eliminate(cellName, value, isRecursive);
+        });
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.get("A1"), "3");
+        assert.equal(result.get("A9"), "4");
+        assert.equal(result.get("I1"), "6");
+        assert.equal(result.get("I9"), "127");
+    });
 </script>
 </head>
 <body>
