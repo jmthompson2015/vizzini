@@ -13,6 +13,7 @@
 <script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
+<script src="../../../../main/js/puzzle/sudoku/GridFactory.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/Puzzle.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/PuzzleFormat.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/SudokuValidator.js"></script>
@@ -27,19 +28,18 @@
     QUnit.test("eliminate() non-recursive", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
         var isRecursive = false;
 
         // Run.
         var filled = puzzle.getFilledSquares();
 
-        for (var i = 0; i < filled.length; i++)
+        filled.forEach(function(cellName)
         {
-            var cellName = filled[i];
             var value = puzzle.get(cellName);
             puzzle.eliminate(cellName, value, isRecursive);
-        }
+        });
 
         // Verify.
         assert.equal(puzzle.getUnfilledSquares().length, 41);
@@ -59,19 +59,18 @@
     QUnit.test("eliminate() recursive", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
         var isRecursive = true;
 
         // Run.
         var filled = puzzle.getFilledSquares();
 
-        for (var i = 0; i < filled.length; i++)
+        filled.forEach(function(cellName)
         {
-            var cellName = filled[i];
             var value = puzzle.get(cellName);
             puzzle.eliminate(cellName, value, isRecursive);
-        }
+        });
 
         // Verify.
         assert.equal(puzzle.getUnfilledSquares().length, 0);
@@ -91,7 +90,7 @@
     QUnit.test("get()", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
 
         // Run / Verify.
@@ -104,7 +103,7 @@
     QUnit.test("getFilledSquares()", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
 
         // Run.
@@ -122,7 +121,7 @@
     QUnit.test("getUnfilledSquares()", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
 
         // Run.
@@ -140,7 +139,7 @@
     QUnit.test("isFilled()", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
 
         // Run / Verify.
@@ -153,7 +152,7 @@
     QUnit.test("set()", function(assert)
     {
         // Setup.
-        var grid = getEasyGrid();
+        var grid = GridFactory.createEasy();
         var puzzle = PuzzleFormat.parse(grid);
         assert.equal(puzzle.get("A1"), "123456789", "A1");
         assert.equal(puzzle.get("I9"), "123456789", "I9");
@@ -168,18 +167,6 @@
         assert.equal(puzzle.get("I1"), "6", "I1");
         assert.equal(puzzle.get("I9"), "7", "I9");
     });
-
-    function getEasyGrid()
-    {
-        // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 1, Easy
-        return "..6..8.74..5...1.99.74.16.5.3.1...46.........16...9.2.2.36.54.87.4...9..68.9..3..";
-    }
-
-    function getDiabolicalGrid()
-    {
-        // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 86, Diabolical
-        return "17.....8.86.9...7....3..5..2...3......62.18......4...3..9..3....2...9.35.5.....62";
-    }
 </script>
 </head>
 <body>

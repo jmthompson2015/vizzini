@@ -50,10 +50,11 @@ function Puzzle()
 
         var peers = Unit.getPeers(cellName);
 
-        for (var i = 0; i < peers.length; i++)
+        var self = this;
+
+        peers.forEach(function(peer)
         {
-            var peer = peers[i];
-            var oldValue = this.get(peer);
+            var oldValue = self.get(peer);
 
             if (oldValue.indexOf(value) >= 0)
             {
@@ -72,11 +73,11 @@ function Puzzle()
 
                     if (isRecursive && newValue.length === 1)
                     {
-                        this.eliminate(peer, newValue, isRecursive);
+                        self.eliminate(peer, newValue, isRecursive);
                     }
                 }
             }
-        }
+        });
 
         that.trigger("change");
     }
