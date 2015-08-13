@@ -6,8 +6,14 @@ var CopyOperator =
     copy: function(genome)
     {
         InputValidator.validateNotNull("genome", genome);
-        
+
         var answer = genome.slice();
+
+        if (genome.phenotype)
+        {
+            answer.phenotype = genome.phenotype;
+        }
+
         answer.creator = genome.creator;
 
         return answer;
