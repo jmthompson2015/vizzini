@@ -28,6 +28,39 @@ var SudokuValidator =
         return answer;
     },
 
+    isCellValid: function(grid, index)
+    {
+        InputValidator.validateNotEmpty("grid", grid);
+        InputValidator.validateNotNull("index", index);
+
+        var answer = true;
+        var cellName = Unit.indexToCellName(index);
+        var peers = Unit.getPeers(cellName);
+
+        return this.isCellValidPeers(grid, index, peers);
+    },
+
+    isCellValidPeers: function(grid, index, peers)
+    {
+        InputValidator.validateNotEmpty("grid", grid);
+        InputValidator.validateNotNull("index", index);
+        InputValidator.validateNotNull("peers", peers);
+
+        var answer = true;
+        var value = grid[index];
+
+        for (var i = 0; i < peers.length; i++)
+        {
+            var peer = peers[i];
+            var myIndex = Unit.cellNameToIndex(peer);
+            var myValue = grid[myIndex];
+
+            if (myValue === value) { return false; }
+        }
+
+        return answer;
+    },
+
     isUnitValid: function(grid, unit)
     {
         InputValidator.validateNotEmpty("grid", grid);

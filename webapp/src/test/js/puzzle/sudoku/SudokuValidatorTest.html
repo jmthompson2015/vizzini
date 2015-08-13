@@ -14,6 +14,8 @@
 <script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
+<script src="../../../../main/js/puzzle/sudoku/GASudokuProblem.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/GridFactory.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/PuzzleFormat.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/SudokuValidator.js"></script>
 <script src="../../../../main/js/puzzle/sudoku/Unit.js"></script>
@@ -76,6 +78,109 @@
 
         // Run / Verify.
         assert.equal(SudokuValidator.countValidUnits(grid, units), 2);
+    });
+
+    QUnit.test("isCellValid()", function(assert)
+    {
+        // Setup.
+        var originalGrid = GridFactory.createEasy();
+        var genome = [ 9, 1, 2, 5, 3, 2, 7, 6, 9, 7, 2, 2, 3, 8, 9, 7, 2, 5, 8,
+                8, 4, 2, 6, 1, 7, 3, 5, 9, 5, 9, 3, 7, 1, 9, 7, 1, 5, 8, 3, 1,
+                2, 6, 1, 2, 4, 7, 5 ];
+        var phenotypeFactory = new GASudokuProblem.PhenotypeFactory(
+                originalGrid);
+        var grid = phenotypeFactory.create(genome);
+        var row = 8;
+        var column = 2;
+        var index = Unit.coordinatesToIndex(column, row);
+
+        // Run / Verify.
+        assert.ok(!SudokuValidator.isCellValid(grid, Unit.coordinatesToIndex(0,
+                0)));
+        assert.ok(SudokuValidator.isCellValid(grid, Unit.coordinatesToIndex(0,
+                8)));
+        assert.ok(SudokuValidator.isCellValid(grid, Unit.coordinatesToIndex(2,
+                8)));
+        assert.ok(!SudokuValidator.isCellValid(grid, Unit.coordinatesToIndex(4,
+                4)));
+        assert.ok(SudokuValidator.isCellValid(grid, Unit.coordinatesToIndex(8,
+                0)));
+        assert.ok(!SudokuValidator.isCellValid(grid, Unit.coordinatesToIndex(8,
+                8)));
+    });
+
+    QUnit.test("isCellValidPeers()", function(assert)
+    {
+        // Setup.
+        var originalGrid = GridFactory.createEasy();
+        var genome = [ 9, 1, 2, 5, 3, 2, 7, 6, 9, 7, 2, 2, 3, 8, 9, 7, 2, 5, 8,
+                8, 4, 2, 6, 1, 7, 3, 5, 9, 5, 9, 3, 7, 1, 9, 7, 1, 5, 8, 3, 1,
+                2, 6, 1, 2, 4, 7, 5 ];
+        var phenotypeFactory = new GASudokuProblem.PhenotypeFactory(
+                originalGrid);
+        var grid = phenotypeFactory.create(genome);
+
+        // Run / Verify.
+        {
+            var index = Unit.coordinatesToIndex(0, 0);
+            var cellName = Unit.indexToCellName(index);
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getRowPeers(cellName)));
+            assert.ok(!SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getColumnPeers(cellName)));
+            assert.ok(!SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getBlockPeers(cellName)));
+        }
+        {
+            var index = Unit.coordinatesToIndex(0, 8);
+            var cellName = Unit.indexToCellName(index);
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getRowPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getColumnPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getBlockPeers(cellName)));
+        }
+        {
+            var index = Unit.coordinatesToIndex(2, 8);
+            var cellName = Unit.indexToCellName(index);
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getRowPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getColumnPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getBlockPeers(cellName)));
+        }
+        {
+            var index = Unit.coordinatesToIndex(4, 4);
+            var cellName = Unit.indexToCellName(index);
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getRowPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getColumnPeers(cellName)));
+            assert.ok(!SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getBlockPeers(cellName)));
+        }
+        {
+            var index = Unit.coordinatesToIndex(8, 0);
+            var cellName = Unit.indexToCellName(index);
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getRowPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getColumnPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getBlockPeers(cellName)));
+        }
+        {
+            var index = Unit.coordinatesToIndex(8, 8);
+            var cellName = Unit.indexToCellName(index);
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getRowPeers(cellName)));
+            assert.ok(!SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getColumnPeers(cellName)));
+            assert.ok(SudokuValidator.isCellValidPeers(grid, index, Unit
+                    .getBlockPeers(cellName)));
+        }
     });
 
     QUnit.test("isUnitValid() block", function(assert)
@@ -195,23 +300,16 @@
         assert.ok(SudokuValidator.isUnitsValid(grid, units));
     });
 
-    QUnit.test("isValid()", function(assert)
-    {
-        // Setup.
-        var grid = "123456789" // row A
-                + "456789123" // row B
-                + "789123456" // row C
-                + "234567891" // row D
-                + "567891234" // row E
-                + "891234567" // row F
-                + "345678912" // row G
-                + "678912345" // row H
-                + "912345678"; // row I
-        var units = Unit.ROWS;
-
-        // Run / Verify.
-        assert.ok(SudokuValidator.isValid(grid));
-    });
+    QUnit.test("isValid()",
+            function(assert)
+            {
+                assert.ok(SudokuValidator.isValid(GridFactory
+                        .createDefaultSolution()));
+                assert.ok(SudokuValidator.isValid(GridFactory
+                        .createEasySolution()));
+                assert.ok(SudokuValidator.isValid(GridFactory
+                        .createDiabolicalSolution()));
+            });
 </script>
 </head>
 <body>
