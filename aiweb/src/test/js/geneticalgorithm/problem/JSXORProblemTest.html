@@ -42,8 +42,8 @@
         var popSize = 10;
         var generationCount = 2;
         var backCount = 30;
-        var problem = new JSXORProblem(popSize, generationCount, backCount);
-        var ga = problem.createGA();
+        var problem = JSXORProblem;
+        var ga = problem.createGA(popSize, generationCount, backCount);
 
         ga.bind("generation", function(generationCount)
         {
@@ -77,10 +77,7 @@
     QUnit.test("createPhenotype", function(assert)
     {
         // Setup.
-        var popSize = 10;
-        var generationCount = 2;
-        var backCount = 30;
-        var problem = new JSXORProblem(popSize, generationCount, backCount);
+        var problem = JSXORProblem;
         var evaluator = problem.createEvaluator();
         var phenotypeFactory = evaluator.getPhenotypeFactory();
         var genome = [ "&&", "||", "a", "b", "!", "&&", "a", "b" ];

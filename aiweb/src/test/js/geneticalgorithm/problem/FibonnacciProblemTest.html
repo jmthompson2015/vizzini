@@ -30,46 +30,42 @@
     var LOGGER = new Logger();
     LOGGER.setTraceEnabled(false);
 
-    QUnit.test("FibonnacciProblem",
-            function(assert)
-            {
-                // Setup.
-                var popSize = 300;
-                var generationCount = 50;
-                var backCount = 30;
-                var problem = new FibonnacciProblem(popSize, generationCount,
-                        backCount);
-                var ga = problem.createGA();
+    QUnit.test("FibonnacciProblem", function(assert)
+    {
+        // Setup.
+        var popSize = 300;
+        var generationCount = 50;
+        var backCount = 30;
+        var problem = FibonnacciProblem;
+        var ga = problem.createGA(popSize, generationCount, backCount);
 
-                ga.bind("generation", function(generationCount)
-                {
-                    var population = ga.getPopulation();
-                    var averageFitness = GAUtilities.round2(GAUtilities
-                            .computeAverageFitness(population));
-                    var best = population[0];
-                    LOGGER.info("generation " + generationCount + " ave = "
-                            + averageFitness + " best "
-                            + GAUtilities.genomeToLongString(best));
-                });
+        ga.bind("generation", function(generationCount)
+        {
+            var population = ga.getPopulation();
+            var averageFitness = GAUtilities.round2(GAUtilities
+                    .computeAverageFitness(population));
+            var best = population[0];
+            LOGGER.info("generation " + generationCount + " ave = "
+                    + averageFitness + " best "
+                    + GAUtilities.genomeToLongString(best));
+        });
 
-                ga.bind("message", function(message)
-                {
-                    LOGGER.info("message: " + message);
-                });
+        ga.bind("message", function(message)
+        {
+            LOGGER.info("message: " + message);
+        });
 
-                // Run.
-                ga.determineBest(function(result)
-                {
-                    LOGGER.info("result !== undefined ? "
-                            + (result !== undefined));
-                    LOGGER.info("result !== null      ? " + (result !== null));
-                    LOGGER.info("result = "
-                            + GAUtilities.genomeToLongString(result));
-                });
+        // Run.
+        ga.determineBest(function(result)
+        {
+            LOGGER.info("result !== undefined ? " + (result !== undefined));
+            LOGGER.info("result !== null      ? " + (result !== null));
+            LOGGER.info("result = " + GAUtilities.genomeToLongString(result));
+        });
 
-                // Verify.
-                assert.ok(true);
-            });
+        // Verify.
+        assert.ok(true);
+    });
 </script>
 </head>
 <body>
