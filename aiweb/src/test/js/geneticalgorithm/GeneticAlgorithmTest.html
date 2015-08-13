@@ -65,7 +65,7 @@
                 new Operator(0.02, 1, new Copier(CopyOperator.copy)),
                 new Operator(0.02, 2, new Crossoverer(
                         CrossoverOperator.uniformConstantLength)),
-                new Operator(0.02, 1, new Mutator(genes,
+                new Operator(0.02, 1, new Mutator(genomeFactory,
                         MutationOperator.mutate)), ];
         var backCount = 30;
 
@@ -114,7 +114,7 @@
                 new Operator(0.05, 1, new Copier(CopyOperator.copy)),
                 new Operator(0.75, 2, new Crossoverer(
                         CrossoverOperator.uniformConstantLength)),
-                new Operator(0.20, 1, new Mutator(genes,
+                new Operator(0.20, 1, new Mutator(genomeFactory,
                         MutationOperator.mutate)), ];
         var backCount = 30;
 

@@ -28,11 +28,11 @@ var JSAddProblem =
                 new Operator(0.05, 1, new Copier(CopyOperator.copy)),
                 new Operator(0.75, 2, new Crossoverer(
                         CrossoverOperator.onePointVariableLength)),
-                new Operator(0.10, 1, new Mutator(genes,
+                new Operator(0.10, 1, new Mutator(genomeFactory,
                         MutationOperator.mutate)),
-                new Operator(0.05, 1, new Mutator(genes,
+                new Operator(0.05, 1, new Mutator(genomeFactory,
                         MutationOperator.insertGene)),
-                new Operator(0.05, 1, new Mutator(genes,
+                new Operator(0.05, 1, new Mutator(genomeFactory,
                         MutationOperator.deleteGene)), ];
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,

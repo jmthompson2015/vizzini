@@ -27,7 +27,7 @@ var FibonnacciProblem =
                         CrossoverOperator.onePointConstantLength)),
                 new Operator(0.40, 2, new Crossoverer(
                         CrossoverOperator.twoPointConstantLength)),
-                new Operator(0.15, 1, new Mutator(genes,
+                new Operator(0.15, 1, new Mutator(genomeFactory,
                         MutationOperator.mutate)), ];
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,

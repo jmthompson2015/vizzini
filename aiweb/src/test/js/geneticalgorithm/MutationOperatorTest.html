@@ -7,29 +7,115 @@
 <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
+<script src="../../../main/js/geneticalgorithm/GenomeFactory.js"></script>
 <script src="../../../main/js/geneticalgorithm/MutationOperator.js"></script>
 
 <script>
     "use strict";
 
-    QUnit.test("MutationOperator.mutate()", function(assert)
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("MutationOperator.deleteGene()", function(assert)
     {
         // Setup.
-        var genes = [ 1, 2, 3, 4 ];
+        var genomeFactory = createGenomeFactory();
         var genome = [ 1, 2, 3, 4 ];
-        console.log("genome = " + genome);
+        LOGGER.trace("genome = " + genome);
 
         // Run.
-        var result = MutationOperator.mutate(genes, genome);
+        var result = MutationOperator.deleteGene(genomeFactory, genome);
 
         // Verify.
         assert.ok(result);
-        console.log("result = " + result);
-        assert.equal(result.length, genome.length);
+        LOGGER.trace("deleteGene() result = " + result);
+        assert.equal(result.length, genome.length - 1);
+        var genes = genomeFactory.getGenes();
+        result.forEach(function(gene)
+        {
+            assert.ok(genes.vizziniContains(gene));
+        });
+        assert.equal(result.creator, "MutationOperator.deleteGene");
     });
+
+    QUnit.test("MutationOperator.exchange()", function(assert)
+    {
+        // Setup.
+        var genomeFactory = createGenomeFactory();
+        var genome = [ 1, 2, 3, 4 ];
+        LOGGER.trace("genome = " + genome);
+
+        // Run.
+        var result = MutationOperator.exchange(genomeFactory, genome);
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.trace("exchange() result = " + result);
+        assert.equal(result.length, genome.length);
+        var genes = genomeFactory.getGenes();
+        result.forEach(function(gene)
+        {
+            assert.ok(genes.vizziniContains(gene));
+        });
+        assert.equal(result.creator, "MutationOperator.exchange");
+    });
+
+    QUnit.test("MutationOperator.insertGene()", function(assert)
+    {
+        // Setup.
+        var genomeFactory = createGenomeFactory();
+        var genome = [ 1, 2, 3, 4 ];
+        LOGGER.trace("genome = " + genome);
+
+        // Run.
+        var result = MutationOperator.insertGene(genomeFactory, genome);
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.trace("insertGene() result = " + result);
+        assert.equal(result.length, genome.length + 1);
+        var genes = genomeFactory.getGenes();
+        result.forEach(function(gene)
+        {
+            assert.ok(genes.vizziniContains(gene));
+        });
+        assert.equal(result.creator, "MutationOperator.insertGene");
+    });
+
+    QUnit.test("MutationOperator.mutate()", function(assert)
+    {
+        // Setup.
+        var genomeFactory = createGenomeFactory();
+        var genome = [ 1, 2, 3, 4 ];
+        LOGGER.trace("genome = " + genome);
+
+        // Run.
+        var result = MutationOperator.mutate(genomeFactory, genome);
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.trace("mutate() result = " + result);
+        assert.equal(result.length, genome.length);
+        var genes = genomeFactory.getGenes();
+        result.forEach(function(gene)
+        {
+            assert.ok(genes.vizziniContains(gene));
+        });
+        assert.equal(result.creator, "MutationOperator.mutate");
+    });
+
+    function createGenomeFactory()
+    {
+        var genes = [ 1, 2, 3, 4 ];
+        var genomeLength = 4;
+
+        return new GenomeFactory(genes, genomeLength);
+    }
 </script>
 </head>
 <body>

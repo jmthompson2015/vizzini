@@ -29,7 +29,7 @@ var JSArrayContainsProblem =
                 new Operator(0.05, 1, new Copier(CopyOperator.copy)),
                 new Operator(0.60, 2, new Crossoverer(
                         CrossoverOperator.twoPointVariableLength)),
-                new Operator(0.35, 1, new Mutator(genes,
+                new Operator(0.35, 1, new Mutator(genomeFactory,
                         MutationOperator.mutate)), ];
 
         var ga = new GeneticAlgorithm(population, evaluator, generationCount,

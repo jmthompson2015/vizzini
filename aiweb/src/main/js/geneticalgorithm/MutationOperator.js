@@ -6,7 +6,7 @@
  */
 var MutationOperator =
 {
-    deleteGene: function(genes, genome)
+    deleteGene: function(genomeFactory, genome)
     {
         if (genome.length < 2)
         {
@@ -29,7 +29,7 @@ var MutationOperator =
         }
     },
 
-    exchange: function(genes, genome)
+    exchange: function(genomeFactory, genome)
     {
         var answer = genome.slice();
 
@@ -43,8 +43,9 @@ var MutationOperator =
         return MutationOperator.assignCreator(answer, "exchange");
     },
 
-    insertGene: function(genes, genome)
+    insertGene: function(genomeFactory, genome)
     {
+        var genes = genomeFactory.getGenes();
         var index = Math.vizziniRandomIntFromRange(0, genome.length);
 
         var answer = genome.slice();
@@ -56,11 +57,21 @@ var MutationOperator =
         return MutationOperator.assignCreator(answer, "insertGene");
     },
 
-    mutate: function(genes, genome)
+    mutate: function(genomeFactory, genome)
     {
         var answer = genome.slice();
 
         var index = Math.vizziniRandomIntFromRange(0, genome.length);
+        var genes;
+
+        if (genomeFactory.getCandidateGenes)
+        {
+            genes = genomeFactory.getCandidateGenes(index);
+        }
+        else
+        {
+            genes = genomeFactory.getGenes();
+        }
 
         answer[index] = genes.vizziniRandomElement();
 
@@ -75,18 +86,23 @@ var MutationOperator =
     },
 }
 
-function Mutator(genes, mutateFunction)
+function Mutator(genomeFactory, mutateFunction)
 {
-    InputValidator.validateNotEmpty("genes", genes);
+    InputValidator.validateNotEmpty("genomeFactory", genomeFactory);
     InputValidator.validateNotNull("mutateFunction", mutateFunction);
 
-    this.getGenes = function()
+    this.getGenomeFactory = function()
     {
-        return genes;
+        return genomeFactory;
+    }
+
+    this.getMutateFunction = function()
+    {
+        return mutateFunction;
     }
 
     this.execute = function(genome)
     {
-        return mutateFunction(genes, genome);
+        return mutateFunction(genomeFactory, genome);
     }
 }
