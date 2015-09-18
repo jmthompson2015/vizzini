@@ -1,0 +1,128 @@
+<html>
+<head>
+<title>Key Statistics</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="../../../../coreweb/lib/chart/Chart.min-1.0.2.js"></script>
+<script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../js/_52WeekPricePercentChart.js"></script>
+<script src="../js/DividendYieldChart.js"></script>
+<script src="../js/ForwardPEChart.js"></script>
+<script src="../js/FreeCashFlowChart.js"></script>
+<script src="../js/KeyStatistics.js"></script>
+</head>
+<body>
+	<section>
+		<span>Symbols</span><input id="symbolsUI" type="text" />
+		<button onClick="setSymbols()">Submit</button>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Price % of 52 Week Range</span>
+		<canvas id="chart0" class="chart" width="300" height="200"></canvas>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Free Cash Flow ($B)</span>
+		<canvas id="chart1" class="chart" width="300" height="200"></canvas>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Forward P/E</span>
+		<canvas id="chart2" class="chart" width="300" height="200"></canvas>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Forward Annual Dividend Yield (%)</span>
+		<canvas id="chart3" class="chart" width="300" height="200"></canvas>
+	</section>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var symbols = loadSymbols();
+        document.getElementById("symbolsUI").value = symbols;
+        fetchData();
+
+        function fetchData()
+        {
+            var chart0 = new _52WeekPricePercentChart("chart0", symbols);
+            var chart1 = new FreeCashFlowChart("chart1", symbols);
+            var chart2 = new ForwardPEChart("chart2", symbols);
+            var chart3 = new DividendYieldChart("chart3", symbols);
+
+            symbols.forEach(function(symbol)
+            {
+                var keyStats = new KeyStatistics(symbol);
+                keyStats.bind("dataLoaded", chart0.receiveData);
+                keyStats.bind("dataLoaded", chart1.receiveData);
+                keyStats.bind("dataLoaded", chart2.receiveData);
+                keyStats.bind("dataLoaded", chart3.receiveData);
+                keyStats.fetchData();
+            });
+        }
+
+        function setSymbols()
+        {
+            LOGGER.info("setSymbols()");
+
+            saveSymbols();
+            fetchData();
+        }
+
+        function loadSymbols()
+        {
+            LOGGER.info("loadSymbols()");
+            var answer = [];
+            var fromStorage = localStorage["symbols"];
+            LOGGER.info("fromStorage = " + fromStorage);
+
+            if (fromStorage)
+            {
+                var content = JSON.parse(fromStorage);
+                LOGGER.info("content = " + content);
+
+                if (content)
+                {
+                    content.forEach(function(symbol)
+                    {
+                        if (symbol)
+                        {
+                            answer.push(symbol);
+                        }
+                    });
+                }
+            }
+
+            if (answer.length === 0)
+            {
+                answer = [ "AAPL", "AMZN", "INTC", "KO", "T", "TRV" ];
+            }
+
+            LOGGER.info("answer = " + answer);
+
+            return answer;
+        }
+
+        function saveSymbols()
+        {
+            LOGGER.info("saveSymbols()");
+            var content = document.getElementById("symbolsUI").value;
+            LOGGER.info("content = " + content);
+
+            if (content)
+            {
+                symbols = content.split(",");
+                LOGGER.info("new symbols = " + symbols);
+                localStorage["symbols"] = JSON.stringify(symbols);
+            }
+        }
+    </script>
+</body>
+</html>
