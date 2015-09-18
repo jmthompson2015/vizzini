@@ -1,0 +1,116 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>FoodUtilitiesTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
+
+<script src="../../main/js/FoodDatabase.js"></script>
+<script src="../../main/js/FoodProperty.js"></script>
+<script src="../../main/js/FoodType.js"></script>
+<script src="../../main/js/FoodUtilities.js"></script>
+
+<script>
+    "use strict";
+    var LOGGER = new Logger();
+
+    QUnit.test("combine()", function(assert)
+    {
+        // Setup.
+        var brand = "JMT";
+        var name = "Bean, Veg and Tuna Bowl with Salsa";
+        var foodDatabase = new FoodDatabase();
+        var food0 = foodDatabase.getFoodByBrandName("Kroger", "Black beans");
+        var food1 = foodDatabase.getFoodByBrandName("Kroger",
+                "Stir-Fry vegetables");
+        var food2 = foodDatabase.getFoodByBrandName("StarKist",
+                "Solid White Albacore tuna in water");
+        var food3 = foodDatabase.getFoodByBrandName("Private Selection",
+                "Restaurant Style salsa");
+        assert.ok(food0);
+        assert.ok(food1);
+        assert.ok(food2);
+        assert.ok(food3);
+
+        // Run.
+        var result = FoodUtilities.combine(brand, name, [ food0, food1, food2,
+                food3 ]);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.type, FoodType.PREPARED);
+        assert.equal(result.brand, brand);
+        assert.equal(result.name, name);
+        assert.equal(result.servingSize, "1");
+        assert.ok(!result.servingsPerContainer);
+        assert.equal(result.calories, 195);
+        assert.equal(result.fat, 1.5);
+        assert.equal(result.carbs, 23);
+        assert.equal(result.protein, 20);
+    });
+
+    QUnit.test("multiply() peanuts", function(assert)
+    {
+        // Setup.
+        var foodDatabase = new FoodDatabase();
+        var brand = "Kroger";
+        var name = "Peanuts unsalted";
+        var food = foodDatabase.getFoodByBrandName(brand, name);
+        assert.equal(food.servingSize, "1 oz");
+        assert.equal(food.calories, 160);
+
+        // Run.
+        FoodUtilities.multiply(food, 2.0)
+
+        // Verify.
+        assert.ok(food);
+        assert.equal(food.servingSize, "2 * 1 oz");
+        assert.equal(food.calories, 320);
+    });
+
+    QUnit.test("multiply() doritos", function(assert)
+    {
+        // Setup.
+        var foodDatabase = new FoodDatabase();
+        var brand = "Frito-Lay";
+        var name = "Nacho Cheese Doritos";
+        var food = foodDatabase.getFoodByBrandName(brand, name);
+        assert.equal(food.servingSize, "1 oz");
+        assert.equal(food.calories, 140);
+
+        // Run.
+        FoodUtilities.multiply(food, food.servingsPerContainer)
+
+        // Verify.
+        assert.ok(food);
+        assert.equal(food.servingSize, "container");
+        assert.equal(food.calories, 1540);
+    });
+
+    QUnit.test("normalize()", function(assert)
+    {
+        assert.equal(FoodUtilities.normalize(0.5,
+        {
+            low: 0.0,
+            high: 1.0
+        }), 0.5);
+    });
+
+    QUnit.test("safeNumber()", function(assert)
+    {
+        assert.equal(FoodUtilities.safeNumber(12), 12);
+        assert.equal(FoodUtilities.safeNumber(undefined), 0);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

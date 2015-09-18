@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>Meal Planning</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
+<script src="../../../../coreweb/lib/sorttable/sorttable-stable-2.0.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
+
+<script src="../js/FoodDatabase.js"></script>
+<script src="../js/FoodProperty.js"></script>
+<script src="../js/FoodType.js"></script>
+<script src="../js/FoodUtilities.js"></script>
+
+<script type="text/jsx" src="../js/FoodTable.js"></script>
+
+</head>
+<body>
+	<h1>Meal Planning</h1>
+	<p />
+	<span id="rowCount0"></span>
+	<div id="selectedFoodsTable"></div>
+	<p />
+	<span id="rowCount1"></span>
+	<div id="foodsTable"></div>
+	<script type="text/jsx">
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+    	var start = new Date().getTime();
+
+		var foodDatabase = new FoodDatabase();
+		var selectedFoods = loadSelectedFoods();
+		renderSelectedFoods();
+
+	    var end = new Date().getTime();
+    	TimePrinter.printElapsedTime("main html script after selected foods render", start, end);
+
+		renderFoods();
+
+	    var end = new Date().getTime();
+    	TimePrinter.printElapsedTime("main html script after foods table render", start, end);
+
+		function addFood(food)
+		{
+			LOGGER.debug("addFood() " + food.brand + " " + food.name);
+			selectedFoods.push(food);
+			saveSelectedFoods();
+			renderSelectedFoods();
+		}
+
+		function removeFood(food)
+		{
+			LOGGER.debug("removeFood() " + food.brand + " " + food.name);
+			selectedFoods.vizziniRemove(food);
+			saveSelectedFoods();
+			renderSelectedFoods();
+		}
+
+		function renderSelectedFoods()
+		{
+			document.getElementById("rowCount0").innerHTML = "Row count: " + selectedFoods.length;
+			React.render(<FoodTable isAdding={false} removeFunction={removeFood} foods={selectedFoods} showTotals={true} />,
+				document.getElementById("selectedFoodsTable"));
+		}
+
+		function renderFoods()
+		{
+			var foods = foodDatabase.getFoods();
+			document.getElementById("rowCount1").innerHTML = "Row count: " + foods.length;
+			React.render(<FoodTable isAdding={true} addFunction={addFood} foods={foods} />,
+				document.getElementById("foodsTable"));
+		}
+
+		function loadSelectedFoods()
+		{
+			LOGGER.debug("loadSelectedFoods()");
+			var answer = [];
+			var fromStorage = localStorage["selectedFoods"];
+			LOGGER.debug("fromStorage = "+fromStorage);
+
+			if (fromStorage)
+			{
+				var content = JSON.parse(fromStorage);
+				LOGGER.debug("content = "+content);
+
+				if (content)
+				{
+					content.forEach(function(brandName)
+					{
+						LOGGER.trace("foodDatabase = "+foodDatabase);
+						LOGGER.trace("foodDatabase.getFoodByBrandName = "+foodDatabase.getFoodByBrandName);
+						LOGGER.trace("brandName.brand, brandName.name = "+brandName.brand+" "+ brandName.name);
+						var food = foodDatabase.getFoodByBrandName(brandName.brand, brandName.name);
+
+						if (food)
+						{
+							LOGGER.trace("found food = "+food.brand+" "+food.name);
+							answer.push(food);
+						}
+					});
+				}
+			}
+
+			return answer;
+		}
+
+		function saveSelectedFoods()
+		{
+			LOGGER.debug("saveSelectedFoods()");
+			var brandNames = selectedFoods.map(function(food)
+				{
+					var answer = {
+						brand: food.brand,
+						name: food.name,
+					};
+
+					return answer;
+				});
+
+			LOGGER.trace("brandNames = "+brandNames);
+
+			localStorage["selectedFoods"] = JSON.stringify(brandNames);
+		}
+
+	    var end = new Date().getTime();
+    	TimePrinter.printElapsedTime("main html script", start, end);
+    </script>
+</body>
+</html>

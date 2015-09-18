@@ -1,0 +1,46 @@
+body {
+    background-image: url('https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
+    background-repeat: repeat-y;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.foodTable tbody tr:nth-child(2n) td {
+    background: LightCyan;
+}
+
+.foodTable tbody tr:nth-child(2n+1) td {
+    background: White;
+}
+
+#ALIGN_CENTER, .actionCell, .alignCenter {
+    text-align: center;
+}
+
+#ALIGN_LEFT, .textCell, .alignLeft {
+    text-align: left;
+}
+
+#ALIGN_RIGHT, .foodTable tfoot td, .numberCell, .alignRight {
+    text-align: right;
+}
+
+#BACKGROUND_DARK, .foodTable tfoot td, .foodTable th, .backgroundDark {
+    background-color: green;
+    color: white;
+}
+
+#BORDER_DARK, .foodTable td, .borderDark {
+    border: 1px solid green;
+}
+
+#BORDER_LIGHT, .foodTable tfoot td, .foodTable th, .borderLight {
+    border: 1px solid lightGray;
+}
+
+#FONT_SMALL, .foodTable, #rowCount0, #rowCount1, .fontSmall {
+    font-size: x-small;
+}
