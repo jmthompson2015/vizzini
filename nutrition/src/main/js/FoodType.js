@@ -15,6 +15,7 @@ var FoodType =
     OIL: "oil", // oils, fats and shortenings
     PREPARED: "prepared", // prepared meals (e.g. Chipotle burrito)
     SOUP: "soup", // soups: canned and diluted
+    SUPPLEMENT:"supplement",
     VEGETABLE: "vegetable",
     properties:
     {
@@ -65,6 +66,10 @@ var FoodType =
         "soup":
         {
             displayName: "Soup",
+        },
+        "supplement":
+        {
+            displayName: "Supplement",
         },
         "vegetable":
         {
