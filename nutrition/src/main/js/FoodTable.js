@@ -51,7 +51,7 @@ var FoodTable = React.createClass(
                         LOGGER.debug("food = "+food.brand+" "+food.name);
                         removeFunction(food);
                     }
-                }><img src="../resources/remove.png" />
+                }><img src="../resources/delete.png" />
             </a>;
     },
     
