@@ -159,7 +159,8 @@ var FoodProperty =
         return values.filter(function(value)
         {
             var properties = FoodProperty.properties[value];
-            return properties.className === "numberCell";
+            return (value !== "servingsPerContainer")
+                    && (properties.className === "numberCell");
         });
     },
 
