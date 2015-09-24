@@ -8,6 +8,7 @@
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
 <script src="../../main/js/FoodType.js"></script>
 
@@ -15,28 +16,13 @@
     "use strict";
     var LOGGER = new Logger();
 
-    QUnit.test("getDisplayName()", function(assert)
-    {
-        assert.equal(FoodType.getDisplayName(FoodType.BASIC), "Basic");
-        assert
-                .equal(FoodType.getDisplayName(FoodType.BEVERAGE),
-                        "Beverage");
-        assert.equal(FoodType.getDisplayName(FoodType.CEREAL), "Cereal");
-        assert.equal(FoodType.getDisplayName(FoodType.SOUP), "Soup");
-    });
-
-    QUnit.test("getDisplayName() null", function(assert)
-    {
-        assert.ok(!FoodType.getDisplayName());
-        assert.ok(!FoodType.getDisplayName(undefined));
-        assert.ok(!FoodType.getDisplayName(null));
-    });
-
     QUnit.test("values()", function(assert)
     {
         var values = FoodType.values();
         assert.ok(values);
-        assert.equal(values.length, 13);
+        assert.equal(values.length, 14);
+        assert.equal(values[0], "Basic");
+        assert.equal(values[13], "Vegetable");
     });
 </script>
 </head>

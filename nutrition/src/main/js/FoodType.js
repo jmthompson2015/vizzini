@@ -3,100 +3,32 @@
  */
 var FoodType =
 {
-    BASIC: "basic",
-    BEVERAGE: "beverage",
-    CEREAL: "cereal", // breads, cereals and grains
-    DAIRY: "dairy",
-    DESSERT: "dessert", // desserts and sweets
-    FISH: "fish", // fish and seafood
-    FRUIT: "fruit",
-    MEAT: "meat", // meat and poultry
-    NUTS: "nuts", // nuts and seeds
-    OIL: "oil", // oils, fats and shortenings
-    PREPARED: "prepared", // prepared meals (e.g. Chipotle burrito)
-    SOUP: "soup", // soups: canned and diluted
-    SUPPLEMENT:"supplement",
-    VEGETABLE: "vegetable",
-    properties:
-    {
-        "basic":
-        {
-            displayName: "Basic",
-        },
-        "beverage":
-        {
-            displayName: "Beverage",
-        },
-        "cereal":
-        {
-            displayName: "Cereal",
-        },
-        "dairy":
-        {
-            displayName: "Dairy",
-        },
-        "dessert":
-        {
-            displayName: "Dessert",
-        },
-        "fish":
-        {
-            displayName: "Fish",
-        },
-        "fruit":
-        {
-            displayName: "Fruit",
-        },
-        "meat":
-        {
-            displayName: "Meat",
-        },
-        "nuts":
-        {
-            displayName: "Nuts",
-        },
-        "oil":
-        {
-            displayName: "Oil",
-        },
-        "prepared":
-        {
-            displayName: "Prepared",
-        },
-        "soup":
-        {
-            displayName: "Soup",
-        },
-        "supplement":
-        {
-            displayName: "Supplement",
-        },
-        "vegetable":
-        {
-            displayName: "Vegetable",
-        },
-    },
-
-    getDisplayName: function(foodType)
-    {
-        var answer;
-
-        if (foodType)
-        {
-            var properties = FoodType.properties[foodType];
-
-            if (!properties) { throw "Couldn't find properties for foodType = "
-                    + foodType; }
-
-            answer = properties.displayName;
-        }
-
-        return answer;
-    },
+    BASIC: "Basic",
+    BEVERAGE: "Beverage",
+    CEREAL: "Cereal", // breads, cereals and grains
+    DAIRY: "Dairy",
+    DESSERT: "Dessert", // desserts and sweets
+    FISH: "Fish", // fish and seafood
+    FRUIT: "Fruit",
+    MEAT: "Meat", // meat and poultry
+    NUTS: "Nuts", // nuts and seeds
+    OIL: "Oil", // oils, fats and shortenings
+    PREPARED: "Prepared", // prepared meals (e.g. Chipotle burrito)
+    SOUP: "Soup", // soups: canned and diluted
+    SUPPLEMENT: "Supplement",
+    VEGETABLE: "Vegetable",
 
     values: function()
     {
-        return Object.getOwnPropertyNames(FoodType.properties);
+        var values = Object.getOwnPropertyNames(FoodType);
+        values.vizziniRemove("values");
+
+        var answer = values.map(function(value)
+        {
+            return FoodType[value];
+        });
+
+        return answer;
     },
 }
 
