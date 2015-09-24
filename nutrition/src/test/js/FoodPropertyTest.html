@@ -37,25 +37,25 @@
     {
         var values = FoodProperty.numberValues();
         assert.ok(values);
-        assert.equal(values.length, 16);
+        assert.equal(values.length, 15);
 
         var value0 = FoodProperty.properties[values[0]];
         assert.ok(value0);
-        assert.equal(values[0], "servingsPerContainer");
-        assert.equal(value0.displayName, "Servings per Container");
+        assert.equal(values[0], "calories");
+        assert.equal(value0.displayName, "Calories");
         assert.equal(value0.className, "numberCell");
 
-        var value7 = FoodProperty.properties[values[7]];
-        assert.ok(value7);
-        assert.equal(values[7], "fatMonounsat");
-        assert.equal(value7.displayName, "Monounsat. Fat");
-        assert.equal(value7.className, "numberCell");
+        var value6 = FoodProperty.properties[values[6]];
+        assert.ok(value6);
+        assert.equal(values[6], "fatMonounsat");
+        assert.equal(value6.displayName, "Monounsat. Fat");
+        assert.equal(value6.className, "numberCell");
 
-        var value15 = FoodProperty.properties[values[15]];
-        assert.ok(value15);
-        assert.equal(values[15], "healthRating");
-        assert.equal(value15.displayName, "Health Rating");
-        assert.equal(value15.className, "numberCell");
+        var value14 = FoodProperty.properties[values[14]];
+        assert.ok(value14);
+        assert.equal(values[14], "healthRating");
+        assert.equal(value14.displayName, "Health Rating");
+        assert.equal(value14.className, "numberCell");
     });
 
     QUnit.test("values()", function(assert)

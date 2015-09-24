@@ -22,7 +22,7 @@
     var LOGGER = new Logger();
 
     var foodDatabase = new FoodDatabase();
-    var foodsCount = 84;
+    var foodsCount = 100;
 
     QUnit.test("constructor", function(assert)
     {
@@ -45,7 +45,7 @@
         assert.equal(food.brand, brand);
         assert.equal(food.name, name);
         assert.equal(food.calories, 220);
-        assert.equal(food.healthRating, -1.6131);
+        assert.equal(food.healthRating, -0.9395);
     });
 
     QUnit.test("getFoodByBrandName() peanuts", function(assert)
@@ -62,7 +62,7 @@
         assert.equal(food.brand, brand);
         assert.equal(food.name, name);
         assert.equal(food.calories, 160);
-        assert.equal(food.healthRating, 1.8793);
+        assert.equal(food.healthRating, 1.9768);
     });
 
     QUnit.test("getFoodByBrandName() soy sauce", function(assert)
@@ -79,7 +79,7 @@
         assert.equal(food.brand, brand);
         assert.equal(food.name, name);
         assert.equal(food.calories, 15);
-        assert.equal(food.healthRating, -0.3905);
+        assert.equal(food.healthRating, -0.3204);
     });
 
     QUnit.test("getRange() fiber", function(assert)
