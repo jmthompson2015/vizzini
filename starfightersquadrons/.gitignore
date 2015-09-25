@@ -2,3 +2,4 @@
 /target/
 /signing-jar.keystore
 /logs/
+/.DS_Store
