@@ -1,145 +1,195 @@
-var Table = Reactable.Table;
-var Tr = Reactable.Tr;
-var Td = Reactable.Td;
-
+/*
+ * Provides a user interface to display and interact with a list of foods.
+ */
 var FoodTable = React.createClass(
 {
     columns: FoodProperty.createColumnsArray(),
-    
+
     displayValue: function(value)
     {
         return (value === undefined ? "" : value);
     },
-    
+
     createAddAction: function(food)
     {
         var addFunction = this.props.addFunction;
-        
-        return <a href="#" className="addButton" onClick={function(event)
-                    {
-                        LOGGER.debug("food = "+food.brand+" "+food.name);
-                        addFunction(food);
-                    }
-                }><img src="../resources/add.png" />
-            </a>;
+        var myOnClick = function(event)
+        {
+            LOGGER.debug("food = " + food.brand + " " + food.name);
+            addFunction(food);
+        };
+        var image = React.DOM.img(
+        {
+            src: "../resources/add.png"
+        });
+
+        return React.DOM.a(
+        {
+            href: "#",
+            className: "addButton",
+            onClick: myOnClick
+        }, image);
     },
-    
+
     createCell: function(food, column, i, actionFunction)
     {
         var col = column.key;
-        
+
         if (col === "action")
         {
-            return <Td key={"col-"+i} className={column.className} column={col}>
-                    {actionFunction}
-                </Td>;
+            return React.createElement(Reactable.Td,
+            {
+                key: i,
+                className: column.className,
+                column: col
+            }, actionFunction);
         }
         else
         {
-            return <Td key={"col-"+i} className={column.className} column={col}>
-                    {this.displayValue(food[col])}
-                </Td>;
+            return React.createElement(Reactable.Td,
+            {
+                key: i,
+                className: column.className,
+                column: col
+            }, this.displayValue(food[col]));
         }
     },
-    
+
     createRemoveAction: function(food)
     {
         var removeFunction = this.props.removeFunction;
-        
-        return <a href="#" className="removeButton" onClick={function(event)
-                    {
-                        LOGGER.debug("food = "+food.brand+" "+food.name);
-                        removeFunction(food);
-                    }
-                }><img src="../resources/delete.png" />
-            </a>;
+        var myOnClick = function(event)
+        {
+            LOGGER.debug("food = " + food.brand + " " + food.name);
+            removeFunction(food);
+        };
+        var image = React.DOM.img(
+        {
+            src: "../resources/delete.png"
+        });
+
+        return React.DOM.a(
+        {
+            href: "#",
+            className: "removeButton",
+            onClick: myOnClick
+        }, image);
     },
-    
+
     createRow: function(food, i)
     {
         var isAdding = this.props.isAdding;
-        var actionFunction = (isAdding ? food["addAction"] : food["removeAction"]);
+        var actionFunction = (isAdding ? food["addAction"]
+                : food["removeAction"]);
         var self = this;
-        var cells = this.columns.map(function(column, j) { return self.createCell(food, column, j, actionFunction); });
+        var cells = this.columns.map(function(column, j)
+        {
+            return self.createCell(food, column, j, actionFunction);
+        });
 
-        return (<Tr key={"row-"+i}>{cells}</Tr>);
+        return React.createElement(Reactable.Tr,
+        {
+            key: i
+        }, cells);
     },
 
     createTotalsRow: function()
     {
         var sums = {};
         var values = FoodProperty.numberValues();
-        
-        values.forEach(function(property){
+
+        values.forEach(function(property)
+        {
             sums[property] = 0;
-        });        
-        
+        });
+
         var foods = this.props.foods;
 
         foods.forEach(function(food)
         {
-            values.forEach(function(property){
+            values.forEach(function(property)
+            {
                 sums[property] += FoodUtilities.safeNumber(food[property]);
-            });        
-        });        
-        
-        return (<tr>
-                <td colSpan="6">Totals</td>
-                <td>{sums[FoodProperty.CALORIES]}</td>
-                <td>{sums[FoodProperty.CALORIES_FROM_FAT]}</td>
-                <td>{sums[FoodProperty.FAT]}</td>
-                <td>{sums[FoodProperty.FAT_SATURATED]}</td>
-                <td>{sums[FoodProperty.FAT_TRANS]}</td>
-                <td>{sums[FoodProperty.FAT_POLYUNSAT]}</td>
-                <td>{sums[FoodProperty.FAT_MONOUNSAT]}</td>
-                <td>{sums[FoodProperty.CHOLESTEROL]}</td>
-                <td>{sums[FoodProperty.SODIUM]}</td>
-                <td>{sums[FoodProperty.POTASSIUM]}</td>
-                <td>{sums[FoodProperty.CARBS]}</td>
-                <td>{sums[FoodProperty.CARBS_DIETARY_FIBER]}</td>
-                <td>{sums[FoodProperty.CARBS_SUGARS]}</td>
-                <td>{sums[FoodProperty.PROTEIN]}</td>
-                <td>&nbsp;</td>
-            </tr>);
+            });
+        });
+
+        var columns = [];
+        columns.push(React.DOM.td(
+        {
+            key: "00",
+            colSpan: "6"
+        }, "Totals"));
+        values.forEach(function(property, i)
+        {
+            columns.push(React.DOM.td(
+            {
+                key: i
+            }, sums[property]));
+        });
+        columns.push(React.DOM.td(
+        {
+            key: "000"
+        }, ""));
+
+        return React.DOM.tr(null, columns);
     },
-    
+
     render: function()
     {
         var isAdding = this.props.isAdding;
         var foods = this.props.foods;
-        var showTotals = this.props.showTotals;
         var self = this;
 
         // Assign actions.
         foods.forEach(function(food)
+        {
+            if (isAdding && !food.addAction)
             {
-                if (isAdding && !food.addAction)
-                {
-                    food.addAction = self.createAddAction(food);
-                }
-                
-                if (!isAdding && !food.removeAction)
-                {
-                    food.removeAction = self.createRemoveAction(food);
-                }
-            });
-        
+                food.addAction = self.createAddAction(food);
+            }
+
+            if (!isAdding && !food.removeAction)
+            {
+                food.removeAction = self.createRemoveAction(food);
+            }
+        });
+
         LOGGER.debug("foods.length = " + foods.length);
-        var rows = foods.map(function(food, i) { return self.createRow(food, i); });
-        
+        var rows = foods.map(function(food, i)
+        {
+            return self.createRow(food, i);
+        });
+
         LOGGER.debug("rows.length = " + rows.length);
-        LOGGER.debug("showTotals ? "+showTotals);
-        
+        var showTotals = this.props.showTotals;
+        LOGGER.debug("showTotals ? " + showTotals);
+        var answer;
+
         if (showTotals)
         {
-            return (<Table className="foodTable" columns={this.columns} sortable={true}>
-                    {rows}
-                    <Reactable.Tfoot>{this.createTotalsRow()}</Reactable.Tfoot>
-                </Table>);
+            var footer = React.createElement(Reactable.Tfoot,
+            {
+                key: "footer"
+            }, this.createTotalsRow());
+
+            answer = React.createElement(Reactable.Table,
+            {
+                className: "foodTable",
+                columns: this.columns,
+                sortable: true
+            }, [ rows, footer ]);
         }
         else
         {
-            return (<Table className="foodTable" columns={this.columns} sortable={true} filterable={["type"]}>{rows}</Table>);
+            answer = React.createElement(Reactable.Table,
+            {
+                className: "foodTable",
+                columns: this.columns,
+                sortable: true,
+                filterable: [ "type" ]
+            }, rows);
         }
+
+        return answer;
     },
 });
