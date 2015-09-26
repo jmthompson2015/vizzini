@@ -160,6 +160,7 @@ var FoodProperty =
         {
             var properties = FoodProperty.properties[value];
             return (value !== "servingsPerContainer")
+                    && (value !== "healthRating")
                     && (properties.className === "numberCell");
         });
     },
@@ -169,3 +170,8 @@ var FoodProperty =
         return Object.getOwnPropertyNames(FoodProperty.properties);
     },
 }
+
+if (Object.freeze)
+{
+    Object.freeze(FoodProperty)
+};
