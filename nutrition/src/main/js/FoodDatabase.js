@@ -2049,8 +2049,8 @@ function FoodDatabase()
 
         if (!answer)
         {
-            LOGGER.warn("Didn't find food for brand, maker = " + brand + ", "
-                    + maker);
+            LOGGER.warn("Didn't find food for brand, name = " + brand + ", "
+                    + name);
         }
 
         return answer;
