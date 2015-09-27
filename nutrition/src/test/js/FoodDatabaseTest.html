@@ -22,7 +22,14 @@
     var LOGGER = new Logger();
 
     var foodDatabase = new FoodDatabase();
-    var foodsCount = 100;
+    var good = [ FoodProperty.FAT_POLYUNSAT, FoodProperty.FAT_MONOUNSAT,
+            FoodProperty.POTASSIUM, FoodProperty.CARBS_DIETARY_FIBER,
+            FoodProperty.PROTEIN ];
+    var bad = [ FoodProperty.FAT_SATURATED, FoodProperty.FAT_TRANS,
+            FoodProperty.CHOLESTEROL, FoodProperty.SODIUM,
+            FoodProperty.CARBS_SUGARS ];
+    foodDatabase.assignHealthRatings(good, bad);
+    var foodsCount = 106;
 
     QUnit.test("constructor", function(assert)
     {
@@ -45,7 +52,7 @@
         assert.equal(food.brand, brand);
         assert.equal(food.name, name);
         assert.equal(food.calories, 220);
-        assert.equal(food.healthRating, -0.9395);
+        assert.equal(food.healthRating, -0.9186);
     });
 
     QUnit.test("getFoodByBrandName() peanuts", function(assert)
@@ -62,7 +69,7 @@
         assert.equal(food.brand, brand);
         assert.equal(food.name, name);
         assert.equal(food.calories, 160);
-        assert.equal(food.healthRating, 1.9768);
+        assert.equal(food.healthRating, 1.9778);
     });
 
     QUnit.test("getFoodByBrandName() soy sauce", function(assert)
@@ -79,7 +86,7 @@
         assert.equal(food.brand, brand);
         assert.equal(food.name, name);
         assert.equal(food.calories, 15);
-        assert.equal(food.healthRating, -0.3204);
+        assert.equal(food.healthRating, -0.3185);
     });
 
     QUnit.test("getRange() fiber", function(assert)
