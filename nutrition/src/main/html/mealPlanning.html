@@ -18,11 +18,13 @@
 <script src="../js/FoodTable.js"></script>
 <script src="../js/FoodType.js"></script>
 <script src="../js/FoodUtilities.js"></script>
+<script src="../js/HealthRatingUI.js"></script>
 
 </head>
 <body>
 	<h1>Meal Planning</h1>
-	<p />
+	<div id="healthRatingContainer"></div>
+	<br />
 	<span id="rowCount0"></span>
 	<div id="selectedFoodsTable"></div>
 	<p />
@@ -37,7 +39,12 @@
 
         var start = new Date().getTime();
 
+        var good = loadGood();
+        var bad = loadBad();
+        renderHealthRatingUI();
+
         var foodDatabase = new FoodDatabase();
+        foodDatabase.assignHealthRatings(good, bad);
         var selectedFoods = loadSelectedFoods();
         renderSelectedFoods();
 
@@ -65,6 +72,33 @@
             selectedFoods.vizziniRemove(food);
             saveSelectedFoods();
             renderSelectedFoods();
+        }
+
+        function healthRatingChanged(goodIn, badIn)
+        {
+            var start = new Date().getTime();
+            LOGGER.debug("healthRatingChanged()");
+            good = goodIn;
+            bad = badIn;
+            saveGoodBad();
+            foodDatabase.assignHealthRatings(good, bad);
+            renderSelectedFoods();
+            renderFoods();
+            var end = new Date().getTime();
+            TimePrinter.printElapsedTime("healthRatingChanged()", start, end);
+        }
+
+        function renderHealthRatingUI()
+        {
+            var element = React.createElement(ExpandingContainer,
+            {
+                initialGood: good,
+                initialBad: bad,
+                onChange: healthRatingChanged,
+            });
+
+            React.render(element, document
+                    .getElementById("healthRatingContainer"));
         }
 
         function renderSelectedFoods()
@@ -95,6 +129,69 @@
                 foods: foods
             });
             React.render(element, document.getElementById("foodsTable"));
+        }
+
+        function loadGood()
+        {
+            LOGGER.debug("loadGood()");
+            var answer;
+            var fromStorage = localStorage["good"];
+            LOGGER.debug("fromStorage = " + fromStorage);
+
+            if (fromStorage)
+            {
+                var content = JSON.parse(fromStorage);
+                LOGGER.debug("content = " + content);
+
+                if (content)
+                {
+                    answer = content;
+                }
+            }
+
+            if (!answer)
+            {
+                answer = [ FoodProperty.FAT_POLYUNSAT,
+                        FoodProperty.FAT_MONOUNSAT, FoodProperty.POTASSIUM,
+                        FoodProperty.CARBS_DIETARY_FIBER, FoodProperty.PROTEIN ];
+            }
+
+            return answer;
+        }
+
+        function loadBad()
+        {
+            LOGGER.debug("loadBad()");
+            var answer;
+            var fromStorage = localStorage["bad"];
+            LOGGER.debug("fromStorage = " + fromStorage);
+
+            if (fromStorage)
+            {
+                var content = JSON.parse(fromStorage);
+                LOGGER.debug("content = " + content);
+
+                if (content)
+                {
+                    answer = content;
+                }
+            }
+
+            if (!answer)
+            {
+                answer = [ FoodProperty.FAT_SATURATED, FoodProperty.FAT_TRANS,
+                        FoodProperty.CHOLESTEROL, FoodProperty.SODIUM,
+                        FoodProperty.CARBS_SUGARS ];
+            }
+
+            return answer;
+        }
+
+        function saveGoodBad()
+        {
+            LOGGER.debug("saveGoodBad()");
+            localStorage["good"] = JSON.stringify(good);
+            localStorage["bad"] = JSON.stringify(bad);
         }
 
         function loadSelectedFoods()

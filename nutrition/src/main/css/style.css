@@ -16,7 +16,15 @@ table {
     background: White;
 }
 
-#ALIGN_CENTER, .actionCell, .alignCenter {
+.healthRatingUI tbody tr:nth-child(2n) td {
+    background: LightCyan;
+}
+
+.healthRatingUI tbody tr:nth-child(2n+1) td {
+    background: White;
+}
+
+#ALIGN_CENTER, .actionCell, .healthRadio, .alignCenter {
     text-align: center;
 }
 
@@ -28,19 +36,27 @@ table {
     text-align: right;
 }
 
-#BACKGROUND_DARK, .foodTable tfoot td, .foodTable th, .backgroundDark {
+#BACKGROUND_DARK, .foodTable tfoot td, .foodTable th, .healthRatingUI th, .backgroundDark {
     background-color: green;
     color: white;
 }
 
-#BORDER_DARK, .foodTable td, .borderDark {
+#BORDER_DARK, .foodTable td, .healthRatingUI td, .borderDark {
     border: 1px solid green;
 }
 
-#BORDER_LIGHT, .foodTable tfoot td, .foodTable th, .borderLight {
+#BORDER_LIGHT, .foodTable tfoot td, .foodTable th, .healthRatingUI th, .borderLight {
     border: 1px solid lightGray;
 }
 
-#FONT_SMALL, .foodTable, #rowCount0, #rowCount1, .fontSmall {
+#FONT_MEDIUM, .expandingContainerTitle, .fontMedium {
+    font-size: small;
+}
+
+#FONT_SMALL, .foodTable, .healthRatingUI, #rowCount0, #rowCount1, .fontSmall {
     font-size: x-small;
+}
+
+#MARGIN_TOP_10, .healthRatingUI, .marginTop10 {
+    margin-top: 10px;
 }

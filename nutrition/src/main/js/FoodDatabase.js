@@ -2032,6 +2032,17 @@ function FoodDatabase()
         protein: 2
     }, ];
 
+    this.assignHealthRatings = function(goodProps, badProps)
+    {
+        InputValidator.validateNotNull("goodProps", goodProps);
+        InputValidator.validateNotNull("badProps", badProps);
+
+        foods.forEach(function(food)
+        {
+            food.healthRating = computeHealthRating(food, goodProps, badProps);
+        });
+    }
+
     this.getFoodByBrandName = function(brand, name)
     {
         var answer;
@@ -2160,19 +2171,6 @@ function FoodDatabase()
                             "Pepper Jack cheese singles") ]));
 
     // Assign derived data.
-    // var fatSaturatedRange = this.getRange(FoodProperty.FAT_SATURATED);
-    // var fatTransRange = this.getRange(FoodProperty.FAT_TRANS);
-    // var fatPolyunsatRange = this.getRange(FoodProperty.FAT_POLYUNSAT);
-    // var fatMonounsatRange = this.getRange(FoodProperty.FAT_MONOUNSAT);
-    // var cholesterolRange = this.getRange(FoodProperty.CHOLESTEROL);
-    // var sodiumRange = this.getRange(FoodProperty.SODIUM);
-    // var potassiumRange = this.getRange(FoodProperty.POTASSIUM);
-    // var carbsRange = this.getRange(FoodProperty.CARBS);
-    // var carbsDietaryFiberRange = this
-    // .getRange(FoodProperty.CARBS_DIETARY_FIBER);
-    // var carbsSugarsRange = this.getRange(FoodProperty.CARBS_SUGARS);
-    // var proteinRange = this.getRange(FoodProperty.PROTEIN);
-
     var ranges = {};
     var numberValues = FoodProperty.numberValues();
 
@@ -2189,32 +2187,18 @@ function FoodDatabase()
         {
             FoodUtilities.multiply(food, food.servingsPerContainer);
         }
-
-        food.healthRating = computeHealthRating(food);
     });
 
-    function computeHealthRating(food)
+    function computeHealthRating(food, goodProps, badProps)
     {
         // Good.
-        var goodProps = [ FoodProperty.FAT_POLYUNSAT,
-                FoodProperty.FAT_MONOUNSAT, FoodProperty.POTASSIUM,
-                FoodProperty.CARBS_DIETARY_FIBER, FoodProperty.PROTEIN ];
         var good = 0;
         goodProps.forEach(function(property)
         {
             good += FoodUtilities.normalize(food[property], ranges[property]);
         });
 
-        // Neutral.
-        // var calories
-        // var caloriesFromFat
-        // var fat
-        // var carbs
-
         // Bad.
-        var badProps = [ FoodProperty.FAT_SATURATED, FoodProperty.FAT_TRANS,
-                FoodProperty.CHOLESTEROL, FoodProperty.SODIUM,
-                FoodProperty.CARBS_SUGARS ];
         var bad = 0;
         badProps.forEach(function(property)
         {
