@@ -36,7 +36,73 @@
         assert.equal(result, "AAPL");
     });
 
+    QUnit.test("get52WeekPricePercent()", function(assert)
+    {
+        // Setup.
+        var keyStats = new KeyStatistics("AAPL");
+        var xmlDocument = load();
+        keyStats.receiveData(xmlDocument);
+
+        // Run.
+        var result = keyStats.get52WeekPricePercent();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, 40);
+    });
+
+    QUnit.test("getDividendYield()", function(assert)
+    {
+        // Setup.
+        var keyStats = new KeyStatistics("AAPL");
+        var xmlDocument = load();
+        keyStats.receiveData(xmlDocument);
+
+        // Run.
+        var result = keyStats.getDividendYield();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.label, "Forward Annual Dividend Yield4:");
+        assert.equal(result.value, "1.91%");
+        assert.equal(result.number, 1.91);
+    });
+
     QUnit.test("getForwardPE()", function(assert)
+    {
+        // Setup.
+        var keyStats = new KeyStatistics("AAPL");
+        var xmlDocument = load();
+        keyStats.receiveData(xmlDocument);
+
+        // Run.
+        var result = keyStats.getForwardPE();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.label, "Forward P/E (fye Sep 27, 2016)1:");
+        assert.equal(result.value, "11.16");
+        assert.equal(result.number, 11.16);
+    });
+
+    QUnit.test("getFreeCashFlow()", function(assert)
+    {
+        // Setup.
+        var keyStats = new KeyStatistics("AAPL");
+        var xmlDocument = load();
+        keyStats.receiveData(xmlDocument);
+
+        // Run.
+        var result = keyStats.getFreeCashFlow();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.label, "Levered Free Cash Flow (ttm):");
+        assert.equal(result.value, "51.86B");
+        assert.equal(result.number, 51.86);
+    });
+
+    QUnit.test("getForwardPE() no fetch", function(assert)
     {
         // Setup.
         var keyStats = new KeyStatistics("AAPL");
@@ -47,6 +113,17 @@
         // Verify.
         assert.ok(!result);
     });
+
+    function load()
+    {
+        var request = new XMLHttpRequest();
+        var url = "../../test/resources/YahooKeyStatistics_AAPL.xml";
+        var isAsync = false;
+        request.open("GET", url, isAsync);
+        request.send();
+
+        return request.responseXML;
+    }
 </script>
 </head>
 <body>
