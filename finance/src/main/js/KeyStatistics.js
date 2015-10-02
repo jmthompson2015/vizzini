@@ -9,18 +9,7 @@ function KeyStatistics(symbol)
         LOGGER.trace("fetchData() start");
 
         var url = createUrl();
-
-        $.get(url, function(xmlDocument)
-        {
-            LOGGER.trace("anonymous callback start");
-
-            LOGGER.debug("xmlDocument = " + xmlDocument);
-            parsePrice(xmlDocument);
-            parseRowData(xmlDocument);
-            that.trigger("dataLoaded", that);
-
-            LOGGER.trace("anonymous callback end");
-        });
+        $.get(url, this.receiveData);
 
         LOGGER.trace("fetchData() end");
     }
@@ -74,6 +63,24 @@ function KeyStatistics(symbol)
     this.getSymbol = function()
     {
         return symbol;
+    }
+
+    this.receiveData = function(xmlDocument)
+    {
+        LOGGER.trace("receiveData() start");
+
+        LOGGER.debug("xmlDocument = " + xmlDocument);
+        if (symbol === "AAPL")
+        {
+            var xml_serializer = new XMLSerializer();
+            LOGGER.trace("xmlDocument = "
+                    + xml_serializer.serializeToString(xmlDocument));
+        }
+        parsePrice(xmlDocument);
+        parseRowData(xmlDocument);
+        that.trigger("dataLoaded", that);
+
+        LOGGER.trace("receiveData() end");
     }
 
     var price;
