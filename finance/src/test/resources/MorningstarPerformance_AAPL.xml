@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<style type="text/css">
+		.width195px{ width:195px;}/*lily*/
+		.width199px{ width:199px;}/*lily*/
+		.width955px{width:955px;}
+	</style>
+    <div id="trailing_return_legends_d">
+		<div class="lgnd_2">
+	        <div><span class="r_arrw1"></span><span class="data">AAPL</span></div>
+	        <div><span class="l_arrw1"></span><span class="data">Category: &amp;mdash;</span></div>
+	    </div>
+	    <div class="lgnd_1">
+	        <div><span class="data">&amp;mdash;:<span class="quar_t"></span>Top Quartile</span></div>
+	        <div><span class="quar_2"></span><span class="data">2nd Quartile</span></div>
+	        <div><span class="quar_3"></span><span class="data">3rd Quartile</span></div>
+	        <div><span class="quar_b"></span><span class="data">Bottom Quartile</span></div>
+	    </div>
+	</div>
+	
+        	
+	<div id="floatingbarchart_d" class="chart print97"  style="width: 958px; height:200px;"></div>
+	    
+        <table class="r_table3 width955px  print97" cellspacing="0" cellpadding="0" border="0">
+        	<colgroup>
+        		<col class="col_lbl2 width199px" />
+        		<col class="col_data9"/>
+        		<col class="col_data10" span="2"/>
+        		<col class="col_data9"/>
+        		<col class="col_data10" span="2"/>
+        		<col class="col_data9"/>
+        		<col class="col_data10" span="2"/>
+        		<col class="col_data11" />
+            </colgroup>
+             <thead>
+            	<tr>
+                	<th scope="row" class="col_head_lbl">Total Return %<span> (10/01/2015)</span></th>
+            		<th scope="col" class="col_data">1-Day</th>
+            		<th scope="col" class="col_data">1-Week</th>
+            		<th scope="col" class="col_data">1-Month</th>
+            			<th scope="col" class="col_data">3-Month</th>
+	            		<th scope="col" class="col_data">YTD</th>
+	            		<th scope="col" class="col_data">1-Year</th>
+	                    <th scope="col" class="col_data">3-Year</th>
+	                    <th scope="col" class="col_data">5-Year</th>
+	                    <th scope="col" class="col_data">10-Year</th>
+	                    <th scope="col" class="col_data_0">15-Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="action">
+                	<th scope="row" class="row_lbl" style="word-break:break-all;overflow:hidden; ">AAPL</th>
+                		<td class="row_data">-0.65</td>
+                		<td class="row_data">-4.71</td>
+                		<td class="row_data">1.73</td>
+                		<td class="row_data">-13.03</td>
+                		<td class="row_data">0.64</td>
+                		<td class="row_data">12.48</td>
+                		<td class="row_data">6.88</td>
+                		<td class="row_data">23.38</td>
+                		<td class="row_data">31.16</td>
+                		<td class="row_data_0">31.77</td>
+				</tr>
+            	<tr class="action">
+                	<th scope="row" class="row_lbl" style="word-break:break-all;overflow:hidden; ">Category <span>()</span></th>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data_0">mdash</td>
+                </tr>
+            </tbody>
+            <tbody>
+            	<tr class="action">
+                	<th scope="row" class="row_lbl" style="word-break:break-all;overflow:hidden; ">+/- Category <span>()</span></th>
+                		<td class="row_data">mdash;</td>
+                		<td class="row_data">mdash;</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data">mdash</td>
+                		<td class="row_data_0">mdash</td>
+                </tr>
+			</tbody>
+            <tbody class="last">
+            	<tr class="action">
+                	<th scope="row" class="row_lbl divide">Rank in Category</th>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data divide">mdash</td>
+                		<td class="row_data_0 divide">mdash</td>
+                </tr>
+			</tbody>
+        </table>
+        <div class="r_note">				       	
+				AAPL return as of 10/01/2015			       	
+	    </div>
+</root>
