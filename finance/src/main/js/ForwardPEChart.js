@@ -8,7 +8,8 @@ function ForwardPEChart(chartCanvasId, symbols)
         InputValidator.validateNotNull("keyStats", keyStats);
 
         LOGGER.trace("keyStats = " + keyStats.getSymbol() + " "
-                + keyStats.getPriceLabel() + " " + keyStats.getPriceValue());
+                + keyStats.getPrice().label + " " + keyStats.getPrice().value
+                + " " + keyStats.getPrice().number);
         var symbol = keyStats.getSymbol();
         LOGGER.trace("symbol = " + symbol);
         var index = data.labels.indexOf(symbol);
@@ -16,8 +17,8 @@ function ForwardPEChart(chartCanvasId, symbols)
 
         if (index >= 0)
         {
-            var forwardPE = keyStats.getForwardPEValue();
-            LOGGER.trace("forwardPE = " + forwardPE);
+            var forwardPE = keyStats.getForwardPE().number;
+            LOGGER.trace(symbol + " forwardPE = " + forwardPE);
 
             if (forwardPE && !isNaN(forwardPE))
             {

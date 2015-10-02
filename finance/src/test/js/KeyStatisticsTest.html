@@ -27,7 +27,6 @@
     {
         // Setup.
         var keyStats = new KeyStatistics("AAPL");
-        // keyStats.fetchData();
 
         // Run.
         var result = keyStats.getSymbol();
@@ -37,32 +36,16 @@
         assert.equal(result, "AAPL");
     });
 
-    QUnit.test("getForwardPELabel()", function(assert)
+    QUnit.test("getForwardPE()", function(assert)
     {
         // Setup.
         var keyStats = new KeyStatistics("AAPL");
-        //keyStats.fetchData();
 
         // Run.
-        var result = keyStats.getForwardPELabel();
+        var result = keyStats.getForwardPE();
 
         // Verify.
-        assert.ok(result);
-        assert.equal(result, "&nbsp;");
-    });
-
-    QUnit.test("getForwardPEValue()", function(assert)
-    {
-        // Setup.
-        var keyStats = new KeyStatistics("AAPL");
-        //keyStats.fetchData();
-
-        // Run.
-        var result = keyStats.getForwardPEValue();
-
-        // Verify.
-        assert.ok(result);
-        // assert.equal(result, "AAPL");
+        assert.ok(!result);
     });
 </script>
 </head>

@@ -8,7 +8,8 @@ function DividendYieldChart(chartCanvasId, symbols)
         InputValidator.validateNotNull("keyStats", keyStats);
 
         LOGGER.trace("keyStats = " + keyStats.getSymbol() + " "
-                + keyStats.getPriceLabel() + " " + keyStats.getPriceValue());
+                + keyStats.getPrice().label + " " + keyStats.getPrice().value
+                + " " + keyStats.getPrice().number);
         var symbol = keyStats.getSymbol();
         LOGGER.trace("symbol = " + symbol);
         var index = data.labels.indexOf(symbol);
@@ -16,14 +17,7 @@ function DividendYieldChart(chartCanvasId, symbols)
 
         if (index >= 0)
         {
-            var dividendYield = keyStats.getDividendYieldValue();
-
-            if (dividendYield.endsWith("%"))
-            {
-                dividendYield = dividendYield
-                        .slice(0, dividendYield.length - 1);
-            }
-
+            var dividendYield = keyStats.getDividendYield().number;
             LOGGER.trace(symbol + " dividendYield = " + dividendYield);
 
             if (dividendYield && !isNaN(dividendYield))

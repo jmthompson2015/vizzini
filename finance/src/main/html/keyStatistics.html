@@ -8,11 +8,14 @@
 
 <script src="../../../../coreweb/lib/chart/Chart.min-1.0.2.js"></script>
 <script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 
 <script src="../js/_52WeekPricePercentChart.js"></script>
+<script src="../js/DataTable.js"></script>
 <script src="../js/DividendYieldChart.js"></script>
 <script src="../js/ForwardPEChart.js"></script>
 <script src="../js/FreeCashFlowChart.js"></script>
@@ -39,6 +42,9 @@
 		<span class="chartTitle">Forward Annual Dividend Yield (%)</span>
 		<canvas id="chart3" class="chart" width="300" height="200"></canvas>
 	</section>
+	<section class="tableContainer">
+		<div id="table0"></div>
+	</section>
 	<script>
         "use strict";
 
@@ -56,6 +62,10 @@
             var chart1 = new FreeCashFlowChart("chart1", symbols);
             var chart2 = new ForwardPEChart("chart2", symbols);
             var chart3 = new DividendYieldChart("chart3", symbols);
+            var table0 = React.render(React.createElement(DataTable,
+            {
+                symbols: symbols
+            }), document.getElementById("table0"));
 
             symbols.forEach(function(symbol)
             {
@@ -64,6 +74,7 @@
                 keyStats.bind("dataLoaded", chart1.receiveData);
                 keyStats.bind("dataLoaded", chart2.receiveData);
                 keyStats.bind("dataLoaded", chart3.receiveData);
+                keyStats.bind("dataLoaded", table0.receiveData);
                 keyStats.fetchData();
             });
         }

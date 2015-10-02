@@ -25,31 +25,21 @@ function KeyStatistics(symbol)
         LOGGER.trace("fetchData() end");
     }
 
-    this.get52WeekHighLabel = function()
+    this.get52WeekHigh = function()
     {
-        return getLabel(_52WeekHigh);
+        return _52WeekHigh;
     }
 
-    this.get52WeekHighValue = function()
+    this.get52WeekLow = function()
     {
-        return getValue(_52WeekHigh);
-    }
-
-    this.get52WeekLowLabel = function()
-    {
-        return getLabel(_52WeekLow);
-    }
-
-    this.get52WeekLowValue = function()
-    {
-        return getValue(_52WeekLow);
+        return _52WeekLow;
     }
 
     this.get52WeekPricePercent = function()
     {
-        var price = this.getPriceValue();
-        var low = this.get52WeekLowValue();
-        var high = this.get52WeekHighValue();
+        var price = this.getPrice().number;
+        var low = this.get52WeekLow().number;
+        var high = this.get52WeekHigh().number;
         var range = high - low;
         LOGGER.trace("price = " + price);
         LOGGER.trace("low = " + low);
@@ -61,44 +51,24 @@ function KeyStatistics(symbol)
         return answer;
     }
 
-    this.getDividendYieldLabel = function()
+    this.getDividendYield = function()
     {
-        return getLabel(dividendYield);
+        return dividendYield;
     }
 
-    this.getDividendYieldValue = function()
+    this.getForwardPE = function()
     {
-        return getValue(dividendYield);
+        return forwardPE;
     }
 
-    this.getForwardPELabel = function()
+    this.getFreeCashFlow = function()
     {
-        return getLabel(forwardPE);
+        return freeCashFlow;
     }
 
-    this.getForwardPEValue = function()
+    this.getPrice = function()
     {
-        return getValue(forwardPE);
-    }
-
-    this.getFreeCashFlowLabel = function()
-    {
-        return getLabel(freeCashFlow);
-    }
-
-    this.getFreeCashFlowValue = function()
-    {
-        return getValue(freeCashFlow);
-    }
-
-    this.getPriceLabel = function()
-    {
-        return getLabel(price);
-    }
-
-    this.getPriceValue = function()
-    {
-        return getValue(price);
+        return price;
     }
 
     this.getSymbol = function()
@@ -129,30 +99,6 @@ function KeyStatistics(symbol)
         return answer;
     }
 
-    function getLabel(data)
-    {
-        var answer = "&nbsp;";
-
-        if (data)
-        {
-            answer = data.label;
-        }
-
-        return answer;
-    }
-
-    function getValue(data)
-    {
-        var answer = "&nbsp;";
-
-        if (data)
-        {
-            answer = data.value;
-        }
-
-        return answer;
-    }
-
     function parsePrice(xmlDocument)
     {
         // This finds the price (real-time quote).
@@ -167,6 +113,7 @@ function KeyStatistics(symbol)
         {
             label: "Price",
             value: rawPrice,
+            number: Number(rawPrice)
         };
         LOGGER.debug("price = " + price.label + " " + price.value);
     }
@@ -195,6 +142,7 @@ function KeyStatistics(symbol)
                 {
                     label: label,
                     value: value,
+                    number: Number(value)
                 };
 
                 LOGGER.trace(i + " " + newData.label + " " + newData.value);
@@ -205,6 +153,15 @@ function KeyStatistics(symbol)
                 }
                 else if (label.startsWith("Levered Free Cash Flow"))
                 {
+                    var myNumber = newData.value;
+
+                    if (myNumber.endsWith("B"))
+                    {
+                        myNumber = myNumber.substring(0, myNumber.length - 1);
+                    }
+
+                    myNumber = Number(myNumber);
+                    newData.number = (isNaN(myNumber) ? "" : myNumber);
                     freeCashFlow = newData;
                 }
                 else if (label.startsWith("52-Week Low"))
@@ -217,9 +174,16 @@ function KeyStatistics(symbol)
                 }
                 else if (label.startsWith("Forward Annual Dividend Yield"))
                 {
+                    var myNumber = newData.value;
+
+                    if (myNumber.endsWith("%"))
+                    {
+                        myNumber = myNumber.substring(0, myNumber.length - 1);
+                    }
+
+                    myNumber = Number(myNumber);
+                    newData.number = (isNaN(myNumber) ? "" : myNumber);
                     dividendYield = newData;
-                    LOGGER.trace("dividendYield = " + dividendYield.label + " "
-                            + dividendYield.value);
                 }
             }
 

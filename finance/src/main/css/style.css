@@ -8,12 +8,37 @@ table {
     border-collapse: collapse;
 }
 
+.dataTable tbody tr:nth-child(2n) td {
+    background: LightCyan;
+}
+
+.dataTable tbody tr:nth-child(2n+1) td {
+    background: White;
+}
+
 #ALIGN_CENTER, .chartTitle, .alignCenter {
     text-align: center;
 }
 
+#ALIGN_RIGHT, .numberCell, .alignRight {
+    text-align: right;
+}
+
+#BACKGROUND_DARK, .dataTable th, .backgroundDark {
+    background-color: green;
+    color: white;
+}
+
 #BACKGROUND_LIGHT, .chart, .backgroundLight {
     background-color: white;
+}
+
+#BORDER_DARK, .dataTable td, .borderDark {
+    border: 1px solid green;
+}
+
+#BORDER_LIGHT, .dataTable th, .borderLight {
+    border: 1px solid lightGray;
 }
 
 #DISPLAY_INLINE_TABLE, .chartContainer, .displayInlineTable {
@@ -34,6 +59,10 @@ table {
 
 #FONT_LARGE, .chartTitle, .fontLarge {
     font-size: large;
+}
+
+#FONT_SMALL, .dataTable, .fontSmall {
+    font-size: small;
 }
 
 #MARGIN, .chartContainer, .margin {

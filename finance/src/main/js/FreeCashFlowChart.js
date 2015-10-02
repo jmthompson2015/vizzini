@@ -8,7 +8,8 @@ function FreeCashFlowChart(chartCanvasId, symbols)
         InputValidator.validateNotNull("keyStats", keyStats);
 
         LOGGER.trace("keyStats = " + keyStats.getSymbol() + " "
-                + keyStats.getPriceLabel() + " " + keyStats.getPriceValue());
+                + keyStats.getPrice().label + " " + keyStats.getPrice().value
+                + " " + keyStats.getPrice().number);
         var symbol = keyStats.getSymbol();
         LOGGER.trace("symbol = " + symbol);
         var index = data.labels.indexOf(symbol);
@@ -16,21 +17,8 @@ function FreeCashFlowChart(chartCanvasId, symbols)
 
         if (index >= 0)
         {
-            var freeCashFlow = keyStats.getFreeCashFlowValue();
-            LOGGER.trace("0 freeCashFlow = " + freeCashFlow);
-
-            if (freeCashFlow.endsWith("B"))
-            {
-                freeCashFlow = 1.0E+00 * freeCashFlow.slice(0,
-                        freeCashFlow.length - 1);
-            }
-            else if (freeCashFlow.endsWith("M"))
-            {
-                freeCashFlow = 1.0E-03 * freeCashFlow.slice(0,
-                        freeCashFlow.length - 1);
-            }
-
-            LOGGER.trace("1 freeCashFlow = " + freeCashFlow);
+            var freeCashFlow = keyStats.getFreeCashFlow().number;
+            LOGGER.trace(symbol + " freeCashFlow = " + freeCashFlow);
 
             if (freeCashFlow && !isNaN(freeCashFlow))
             {

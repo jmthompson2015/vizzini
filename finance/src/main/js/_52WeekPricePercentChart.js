@@ -7,8 +7,9 @@ function _52WeekPricePercentChart(chartCanvasId, symbols)
     {
         InputValidator.validateNotNull("keyStats", keyStats);
 
-        LOGGER.debug("keyStats = " + keyStats.getSymbol() + " "
-                + keyStats.getPriceLabel() + " " + keyStats.getPriceValue());
+        LOGGER.trace("keyStats = " + keyStats.getSymbol() + " "
+                + keyStats.getPrice().label + " " + keyStats.getPrice().value
+                + " " + keyStats.getPrice().number);
         var symbol = keyStats.getSymbol();
         LOGGER.trace("symbol = " + symbol);
         var index = data.labels.indexOf(symbol);
@@ -17,6 +18,7 @@ function _52WeekPricePercentChart(chartCanvasId, symbols)
         if (index >= 0)
         {
             var percentValue = keyStats.get52WeekPricePercent();
+            LOGGER.trace(symbol + " percentValue = " + percentValue);
 
             if (percentValue && !isNaN(percentValue))
             {
