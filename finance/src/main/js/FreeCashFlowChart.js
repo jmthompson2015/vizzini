@@ -47,21 +47,6 @@ function FreeCashFlowChart(chartCanvasId, symbols)
     };
     var options =
     {
-        // Boolean - If we want to override with a hard coded scale
-        // scaleOverride: true,
-        // Number - The number of steps in a hard coded scale
-        // scaleSteps: 10,
-        // Number - The value jump in the hard coded scale
-        // scaleStepWidth: 10,
-        // Number - The scale starting value
-        // scaleStartValue: 0,
-
-        // Interpolated JS string - can access value
-        // scaleLabel: function(valuePayload)
-        // {
-        // return Number(valuePayload.value).toExponential();
-        // },
-
         // Boolean - Whether grid lines are shown across the chart
         scaleShowGridLines: true,
         // String - Colour of the grid lines
