@@ -6,7 +6,7 @@ var DataTable = React.createClass(
         label: "Symbol"
     },
     {
-        key: "52WeekPricePercent",
+        key: "percentValue",
         label: "Price % of 52 Week Range"
     },
     {
@@ -20,6 +20,22 @@ var DataTable = React.createClass(
     {
         key: "dividendYield",
         label: "Forward Annual Dividend Yield (%)"
+    },
+    {
+        key: "oneYearTotalReturn",
+        label: "1-Year Total Return (%)"
+    },
+    {
+        key: "threeYearTotalReturn",
+        label: "3-Year Total Return (%)"
+    },
+    {
+        key: "fiveYearTotalReturn",
+        label: "5-Year Total Return (%)"
+    },
+    {
+        key: "tenYearTotalReturn",
+        label: "10-Year Total Return (%)"
     } ],
 
     createEmptyCell: function(key, column)
@@ -33,12 +49,13 @@ var DataTable = React.createClass(
 
     createNumberCell: function(key, column, value)
     {
+        var myValue = (value ? value : "");
         return React.createElement(Reactable.Td,
         {
             key: key,
             column: column,
             className: "numberCell"
-        }, value);
+        }, myValue);
     },
 
     createRow: function(symbol, i)
@@ -55,21 +72,20 @@ var DataTable = React.createClass(
 
         if (myData)
         {
-            cells.push(this.createNumberCell("1", "52WeekPricePercent",
-                    myData.percentValue));
-            cells.push(this.createNumberCell("2", "freeCashFlow",
-                    myData.freeCashFlow));
-            cells.push(this
-                    .createNumberCell("3", "forwardPE", myData.forwardPE));
-            cells.push(this.createNumberCell("4", "dividendYield",
-                    myData.dividendYield));
+            for (var j = 1; j < this.columns.length; j++)
+            {
+                var column = this.columns[j];
+                cells.push(this.createNumberCell(j, column.key,
+                        myData[column.key]));
+            }
         }
         else
         {
-            cells.push(this.createEmptyCell("1", "52WeekPricePercent"));
-            cells.push(this.createEmptyCell("2", "freeCashFlow"));
-            cells.push(this.createEmptyCell("3", "forwardPE"));
-            cells.push(this.createEmptyCell("4", "dividendYield"));
+            for (var j = 1; j < this.columns.length; j++)
+            {
+                var column = this.columns[j];
+                cells.push(this.createEmptyCell(j, column.key));
+            }
         }
 
         return React.createElement(Reactable.Tr,
@@ -86,25 +102,55 @@ var DataTable = React.createClass(
         });
     },
 
-    receiveData: function(keyStats)
+    getDataFor: function(symbol)
+    {
+        var data = this.state.data;
+        var answer = data[symbol];
+
+        if (!answer)
+        {
+            answer = {};
+            data[symbol] = answer;
+        }
+
+        return answer;
+    },
+
+    receiveKeyStatisticsData: function(keyStats)
     {
         InputValidator.validateNotNull("keyStats", keyStats);
 
         var symbol = keyStats.getSymbol();
-        var data = this.state.data;
+        var myData = this.getDataFor(symbol);
 
-        data[symbol] =
-        {
-            symbol: symbol,
-            percentValue: keyStats.get52WeekPricePercent(),
-            freeCashFlow: keyStats.getFreeCashFlow().number,
-            forwardPE: keyStats.getForwardPE().number,
-            dividendYield: keyStats.getDividendYield().number
-        }
+        myData.symbol = symbol;
+        myData.percentValue = keyStats.get52WeekPricePercent();
+        myData.freeCashFlow = keyStats.getFreeCashFlow().number;
+        myData.forwardPE = keyStats.getForwardPE().number;
+        myData.dividendYield = keyStats.getDividendYield().number;
 
         this.setState(
         {
-            data: data
+            data: this.state.data
+        });
+    },
+
+    receivePerformanceData: function(performance)
+    {
+        InputValidator.validateNotNull("performance", performance);
+
+        var symbol = performance.getSymbol();
+        var myData = this.getDataFor(symbol);
+
+        myData.symbol = symbol;
+        myData.oneYearTotalReturn = performance.getOneYearTotalReturn();
+        myData.threeYearTotalReturn = performance.getThreeYearTotalReturn();
+        myData.fiveYearTotalReturn = performance.getFiveYearTotalReturn();
+        myData.tenYearTotalReturn = performance.getTenYearTotalReturn();
+
+        this.setState(
+        {
+            data: this.state.data
         });
     },
 
