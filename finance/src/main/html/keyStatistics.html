@@ -21,6 +21,8 @@
 <script src="../js/ForwardPEChart.js"></script>
 <script src="../js/FreeCashFlowChart.js"></script>
 <script src="../js/KeyStatistics.js"></script>
+<script src="../js/Performance.js"></script>
+<script src="../js/TotalReturnChart.js"></script>
 </head>
 <body>
 	<section>
@@ -43,6 +45,11 @@
 		<span class="chartTitle">Forward Annual Dividend Yield (%)</span>
 		<canvas id="chart3" class="chart" width="300" height="200"></canvas>
 	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Trailing Total Returns (%)</span>
+		<canvas id="chart4" class="chart" width="400" height="200"></canvas>
+		<div id="chart4Legend"></div>
+	</section>
 	<section class="tableContainer">
 		<div id="table0"></div>
 	</section>
@@ -63,6 +70,7 @@
             var chart1 = new FreeCashFlowChart("chart1", symbols);
             var chart2 = new ForwardPEChart("chart2", symbols);
             var chart3 = new DividendYieldChart("chart3", symbols);
+            var chart4 = new TotalReturnChart("chart4", symbols);
             var table0 = React.render(React.createElement(DataTable,
             {
                 symbols: symbols
@@ -75,8 +83,14 @@
                 keyStats.bind("dataLoaded", chart1.receiveData);
                 keyStats.bind("dataLoaded", chart2.receiveData);
                 keyStats.bind("dataLoaded", chart3.receiveData);
-                keyStats.bind("dataLoaded", table0.receiveData);
+                keyStats.bind("dataLoaded", table0.receiveKeyStatisticsData);
+                
+                var performance = new Performance(symbol);
+                performance.bind("performanceLoaded", chart4.receiveData);
+                performance.bind("performanceLoaded", table0.receivePerformanceData);
+                
                 keyStats.fetchData();
+                performance.fetchData();
             });
         }
 

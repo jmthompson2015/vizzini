@@ -1,5 +1,5 @@
 body {
-    background-image: url('https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
+    background-image: url('../../../../webapp/src/main/resources/yellowGradient.png');
     background-repeat: repeat-y;
     font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
 }
@@ -49,8 +49,12 @@ table {
     display: table-caption;
 }
 
-#DISPLAY_TABLE_CELL, .chart, .displayTableCell {
+#DISPLAY_TABLE_CELL, .chart, #chart4Legend, .displayTableCell {
     display: table-cell;
+}
+
+#FLOAT_LEFT, #chart4, #chart4Legend, .floatLeft {
+    float: left;
 }
 
 #FONT_BOLD, .chartTitle, .fontBold {
@@ -61,12 +65,21 @@ table {
     font-size: large;
 }
 
-#FONT_SMALL, .dataTable, .fontSmall {
+#FONT_SMALL, .bar-legend, .dataTable, .fontSmall {
     font-size: small;
+}
+
+#LIST_STYLE_TYPE_NONE, .bar-legend, .listStyleTypeNone {
+    list-style-type: none;
+    vertical-align: middle;
 }
 
 #MARGIN, .chartContainer, .margin {
     margin: 20px;
+}
+
+#VERTICAL_ALIGN_MIDDLE, .bar-legend li, .verticalAlignMiddle {
+    vertical-align: middle;
 }
 
 #WIDTH_WIDE, #symbolsUI, .widthWide {
