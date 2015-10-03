@@ -14,14 +14,21 @@ function TotalReturnChart(chartCanvasId, symbols)
 
         if (index >= 0)
         {
-            myBarChart.datasets[0].bars[index].value = performance
-                    .getOneYearTotalReturn();
-            myBarChart.datasets[1].bars[index].value = performance
-                    .getThreeYearTotalReturn();
-            myBarChart.datasets[2].bars[index].value = performance
-                    .getFiveYearTotalReturn();
-            myBarChart.datasets[3].bars[index].value = performance
-                    .getTenYearTotalReturn();
+            var oneYear = performance.getOneYearTotalReturn();
+            var threeYear = performance.getThreeYearTotalReturn();
+            var fiveYear = performance.getFiveYearTotalReturn();
+            var tenYear = performance.getTenYearTotalReturn();
+
+            oneYear = (oneYear && !isNaN(oneYear) ? oneYear : null);
+            threeYear = (threeYear && !isNaN(threeYear) ? threeYear : null);
+            fiveYear = (fiveYear && !isNaN(fiveYear) ? fiveYear : null);
+            tenYear = (tenYear && !isNaN(tenYear) ? tenYear : null);
+
+            myBarChart.datasets[0].bars[index].value = oneYear;
+            myBarChart.datasets[1].bars[index].value = threeYear;
+            myBarChart.datasets[2].bars[index].value = fiveYear;
+            myBarChart.datasets[3].bars[index].value = tenYear;
+
             myBarChart.update();
         }
     }
