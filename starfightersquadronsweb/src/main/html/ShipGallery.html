@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
-<script src="../../../../coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
 <script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
@@ -29,8 +28,7 @@
 <script src="../js/DamageCard.js"></script>
 
 <script src="../js/ui/ImageUtilities.js"></script>
-
-<script type="text/jsx" src="../js/ui/ManeuverChooser.js"></script>
+<script src="../js/ui/ManeuverChooser.js"></script>
 
 <style>
 .galleryTable {
@@ -57,48 +55,95 @@
 	<div id="rebelShips"></div>
 	<h2>Scum &amp; Villainy</h2>
 	<div id="scumShips"></div>
-	<script type="text/jsx">
-    "use strict";
-    var LOGGER = new Logger();
-	var imageBase = "../resources/images/ship/";
-	var imageUtils = new ImageUtilities();
-	var ShipGallery = React.createClass(
-	{
-	    render: function() 
-    	{
-			var team = this.props.team;
-			var shipTeams = ShipTeam.valuesByTeam(team);
-		    var agent = new SimpleAgent("Agent", team, CoreSetImperialSquadBuilder);
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        var imageBase = "../resources/images/ship/";
+        var imageUtils = new ImageUtilities();
+        var ShipGallery = React.createClass(
+        {
+            render: function()
+            {
+                var team = this.props.team;
+                var shipTeams = ShipTeam.valuesByTeam(team);
+                var agent = new SimpleAgent("Agent", team,
+                        CoreSetImperialSquadBuilder);
 
-			var cells0 = [];
-			var cells1 = [];
-			var cells2 = [];
+                var cells0 = [];
+                var cells1 = [];
+                var cells2 = [];
 
-			shipTeams.forEach(function(shipTeam, i)
-			{
-				// var ship = ShipTeam.properties[shipTeam].ship;
-				var shipName = ShipTeam.properties[shipTeam].name;
-				var filename = imageBase + ShipTeam.properties[shipTeam].image;
-				var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-				var token = new Token(pilot, agent);
-				// var maneuvers = Ship.properties[ship].maneuvers;
+                shipTeams.forEach(function(shipTeam, i)
+                {
+                    var shipName = ShipTeam.properties[shipTeam].name;
+                    var filename = imageBase
+                            + ShipTeam.properties[shipTeam].image;
+                    var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
+                    var token = new Token(pilot, agent);
 
-				cells0.push(<td key={"image" + i} className="galleryCell"><img src={filename} /></td>);
-				cells1.push(<td key={"name" + i} className="galleryCell">{shipName}</td>);
-				cells2.push(<td key={"maneuvers" + i} className="galleryCell alignTop"><ManeuverChooser token={token} isPilotNameShown={false} imageUtils={imageUtils} /></td>);
-			});
+                    var image = React.DOM.img(
+                    {
+                        src: filename
+                    });
+                    var chooser = React.createElement(ManeuverChooser,
+                    {
+                        token: token,
+                        isPilotNameShown: false,
+                        imageUtils: imageUtils
+                    });
+                    cells0.push(React.DOM.td(
+                    {
+                        key: "image" + i,
+                        className: "galleryCell"
+                    }, image));
+                    cells1.push(React.DOM.td(
+                    {
+                        key: "name" + i,
+                        className: "galleryCell"
+                    }, shipName));
+                    cells2.push(React.DOM.td(
+                    {
+                        key: "maneuvers" + i,
+                        className: "galleryCell alignTop"
+                    }, chooser));
+                });
 
-			return <table className="galleryTable">
-				<tr>{cells0}</tr>
-				<tr className="shipName">{cells1}</tr>
-				<tr>{cells2}</tr>
-				</table>;
-		}
-	});
+                var rows = [];
+                rows.push(React.DOM.tr(
+                {
+                    key: 0
+                }, cells0));
+                rows.push(React.DOM.tr(
+                {
+                    key: 1,
+                    className: "shipName"
+                }, cells1));
+                rows.push(React.DOM.tr(
+                {
+                    key: 2
+                }, cells2));
+                return React.DOM.table(
+                {
+                    className: "galleryTable"
+                }, rows);
+            }
+        });
 
-	React.render(<ShipGallery team={Team.IMPERIAL} />, document.getElementById("imperialShips"));
-	React.render(<ShipGallery team={Team.REBEL} />, document.getElementById("rebelShips"));
-	React.render(<ShipGallery team={Team.SCUM} />, document.getElementById("scumShips"));
-	</script>
+        var element0 = React.createElement(ShipGallery,
+        {
+            team: Team.IMPERIAL
+        });
+        React.render(element0, document.getElementById("imperialShips"));
+        var element1 = React.createElement(ShipGallery,
+        {
+            team: Team.REBEL
+        });
+        React.render(element1, document.getElementById("rebelShips"));
+        var element2 = React.createElement(ShipGallery,
+        {
+            team: Team.SCUM
+        });
+        React.render(element2, document.getElementById("scumShips"));
+    </script>
 </body>
 </html>
