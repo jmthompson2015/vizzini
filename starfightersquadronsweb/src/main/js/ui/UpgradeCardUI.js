@@ -56,14 +56,16 @@ var UpgradeCardUI = React.createClass(
 
 UpgradeCardUI.ImagesUrl = "http://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/upgrade/"
 
-UpgradeCardUI.createUpgradeImage = function(upgradeType)
+UpgradeCardUI.createUpgradeImage = function(upgradeType, key)
 {
     var typeName0 = UpgradeType.properties[upgradeType].displayName;
     var typeName = typeName0.replace(" ", "");
     var fileString = UpgradeCardUI.ImagesUrl + typeName + "24.png";
+    var myKey = (key ? key : 0);
 
     return React.DOM.img(
     {
+        key: myKey,
         className: "upgradeCardUIImage",
         src: fileString,
         title: typeName0
