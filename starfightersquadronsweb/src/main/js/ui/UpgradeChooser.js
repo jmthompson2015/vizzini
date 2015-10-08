@@ -10,70 +10,110 @@ var UpgradeChooser = React.createClass(
 {
     getInitialState: function()
     {
-        return {selected: undefined};
+        return (
+        {
+            selected: undefined
+        });
     },
-    
+
     render: function()
     {
         var pilot = this.props.pilot;
         var upgradeType = this.props.upgradeType;
         var upgrades = UpgradeCard.valuesByPilotAndType(pilot, upgradeType);
         var options = [];
-        options[options.length] = <option key={0} value="*none*">*none*</option>;
-        
+        options.push(React.DOM.option(
+        {
+            key: 0,
+            value: "*none*"
+        }, "*none*"));
+
         for (var i = 0; i < upgrades.length; i++)
         {
             var upgradeCard = upgrades[i];
             var upgradeProps = UpgradeCard.properties[upgradeCard];
-            options[options.length] = <option value={upgradeCard} key={i+1}>{upgradeProps.name}</option>;
+            options.push(React.DOM.option(
+            {
+                key: i + 1,
+                value: upgradeCard
+            }, upgradeProps.name));
         }
-        
+
         var rows = [];
 
-        rows[rows.length] = <tr key={this.createId() + "0"}>
-            <td>{UpgradeCardUI.createUpgradeImage(upgradeType)} <select onChange={this.upgradeCardChanged} data-index={this.props.index}>{options}</select></td>
-            </tr>;
-        
-        rows[rows.length] = <tr key={this.createId() + "1"}>
-            <td id={this.createId()}></td>
-            </tr>;
-        
-        return <table className="upgradeChooser">
-            <tbody>{rows}</tbody>
-            </table>;
+        var image = UpgradeCardUI.createUpgradeImage(upgradeType, 0);
+        var spacer = React.DOM.span(
+        {
+            key: 1
+        }, " ");
+        var select = React.DOM.select(
+        {
+            key: 2,
+            onChange: this.upgradeCardChanged,
+            "data-index": this.props.index
+        }, options);
+        var cell0 = React.DOM.td({}, [ image, spacer, select ]);
+        rows.push(React.DOM.tr(
+        {
+            key: this.createId() + "0"
+        }, cell0));
+
+        var cell1 = React.DOM.td(
+        {
+            id: this.createId()
+        }, " ");
+        rows.push(React.DOM.tr(
+        {
+            key: this.createId() + "1"
+        }, cell1));
+
+        return React.DOM.table(
+        {
+            className: "upgradeChooser"
+        }, rows);
     },
-    
+
     createId: function()
     {
         var pilot = this.props.pilot;
         var upgradeType = this.props.upgradeType;
         var index = this.props.index;
-        
+
         return pilot + upgradeType + index;
     },
-    
+
     getSelected: function()
     {
         return this.state.selected;
     },
-    
+
     upgradeCardChanged: function(event)
     {
         var upgradeCard = event.currentTarget.value;
         var id = this.createId();
         var element = document.getElementById(id);
-        
+
         if (upgradeCard === "*none*")
         {
-            this.setState({selected: undefined});
+            this.setState(
+            {
+                selected: undefined
+            });
             element.innerHTML = "";
         }
         else
         {
-            this.setState({selected: upgradeCard});
-            React.render(<UpgradeCardUI upgradeCard={upgradeCard} />, element);
+            this.setState(
+            {
+                selected: upgradeCard
+            });
+            var component = React.createElement(UpgradeCardUI,
+            {
+                upgradeCard: upgradeCard
+            });
+            React.render(component, element);
         }
-        
+
         this.props.onChangeFunction(event);
     },
 });
