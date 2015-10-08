@@ -4,164 +4,245 @@
  * @param team Team.
  * @param onChangeFunction Called for the select onChange event.
  */
-var PilotChooser = React.createClass(
-{
-    getInitialState: function()
-    {
-        LOGGER.trace("PilotChooser.getInitialState()");
-        
-        // Default to first ship, first pilot.
-        var team = this.props.team;
-        var shipTeam = ShipTeam.valuesByTeam(team)[0];
-        var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-        var token = this.createToken(pilot);
-
-        return {shipTeam: shipTeam, pilot: pilot, token: token};
-    },
-    
-    componentDidMount: function() 
-    {  
-        LOGGER.trace("PilotChooser.componentDidMount()");
-        
-        this.renderPilotCardUI();
-    },
-    
-    componentWillReceiveProps: function(nextProps)
-    {
-        LOGGER.trace("PilotChooser.componentWillReceiveProps()");
-        
-        var oldTeam = this.props.team;
-        var newTeam = nextProps.team;
-        
-        if (oldTeam != newTeam)
+var PilotChooser = React
+        .createClass(
         {
-            // Team changed.
-            LOGGER.debug("oldTeam = " + oldTeam);
-            LOGGER.debug("newTeam = " + newTeam);
-            var shipTeam = ShipTeam.valuesByTeam(newTeam)[0];
-            var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-            var token = this.createToken(pilot);
-            LOGGER.debug("new state = " + shipTeam + ", " + pilot + ", " + token);
-            this.setState({shipTeam: shipTeam, pilot: pilot, token: token});
-        }
-    },
-    
-    render: function()
-    {
-        LOGGER.trace("PilotChooser.render()");
-        
-        InputValidator.validateNotNull("team property", this.props.team);
-        InputValidator.validateNotNull("onChangeFunction property", this.props.onChangeFunction);
-        
-        var shipSelect = this.createShipTeamSelect();
-        var pilotSelect = this.createPilotSelect();
-        
-        var rows = [];
+            getInitialState: function()
+            {
+                LOGGER.trace("PilotChooser.getInitialState()");
 
-        rows[rows.length] = <tr key={0}>
-            <td>
-            <table className="pilotChooserFilter">
-            <tbody>
-                <tr>
-                <td className="pilotChooserLabel">Ship: </td>
-                <td className="pilotChooserValue">{shipSelect}</td>
-                </tr>
-                <tr>
-                <td className="pilotChooserLabel">Pilot: </td>
-                <td className="pilotChooserValue">{pilotSelect}</td>
-                </tr>
-            </tbody>
-            </table>
-            </td>
-            </tr>;
+                // Default to first ship, first pilot.
+                var team = this.props.team;
+                var shipTeam = ShipTeam.valuesByTeam(team)[0];
+                var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
+                var token = this.createToken(pilot);
 
-        rows[rows.length] = <tr key={1}>
-            <td id="pilotCardPanel" colSpan="2"></td>
-            </tr>;
-        
-        return <table className="pilotChooser">
-            <tbody>{rows}</tbody>
-            </table>;
-    },
-    
-    componentDidUpdate: function()
-    {
-        LOGGER.trace("PilotChooser.componentDidUpdate()");
-        
-        this.renderPilotCardUI();
-    },
-    
-    pilotCardUI: undefined,
-    
-    shipTeamChanged: function(event)
-    {
-        var shipTeam = event.currentTarget.value;
-        var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-        var token = this.createToken(pilot);
-        LOGGER.debug("new shipTeam = " + shipTeam);
-        this.setState({shipTeam: shipTeam, pilot: pilot, token: token});
-        
-        this.props.onChangeFunction(event, pilot);
-    },
-    
-    pilotChanged: function(event)
-    {
-        var pilot = event.currentTarget.value;
-        var token = this.createToken(pilot);
-        LOGGER.debug("new pilot = " + pilot);
-        this.setState({pilot: pilot, token: token});
-        
-        this.props.onChangeFunction(event, pilot);
-    },
-    
-    renderPilotCardUI: function(token)
-    {
-        var token = this.state.token;
-        
-        if (this.pilotCardUI === undefined)
-        {
-            this.pilotCardUI = React.render(<PilotCardUI isCompact={false} initialToken={token} />,
-                    document.getElementById("pilotCardPanel"));
-        }
-        else
-        {
-            this.pilotCardUI.setState({token: token});
-        }
-    },
-    
-    createPilotSelect: function()
-    {
-        var values = Pilot.valuesByShipTeam(this.state.shipTeam);
-        return this.createSelect(values, Pilot.properties, this.state.pilot, this.pilotChanged);
-    },
-    
-    createShipTeamSelect: function()
-    {
-        var values = ShipTeam.valuesByTeam(this.props.team);
-        return this.createSelect(values, ShipTeam.properties, this.state.shipTeam, this.shipTeamChanged);
-    },
-    
-    createSelect: function(values, properties, selectedValue, onChangeFunction)
-    {
-        var options = [];
+                return (
+                {
+                    shipTeam: shipTeam,
+                    pilot: pilot,
+                    token: token
+                });
+            },
 
-        for(var i=0; i<values.length; i++)
-        {
-            var value = values[i];
-            var label = properties[value].name;
-            options[i] = <option key={i} value={value}>{label}</option>
-        }
-        
-        return <select value={selectedValue} onChange={onChangeFunction}>{options}</select>
-    },
-    
-    createToken: function(pilot)
-    {
-        var team = this.props.team;
-        var agentName = (team === Team.IMPERIAL) ? "Imperial Agent" : "Rebel Agent";
-        var squadBuilder = (team === Team.IMPERIAL) ? CoreSetImperialSquadBuilder : CoreSetRebelSquadBuilder;
-        var agent = new SimpleAgent(agentName, team, squadBuilder);
-        
-        return new Token(pilot, agent);
-    },
-});
+            componentDidMount: function()
+            {
+                LOGGER.trace("PilotChooser.componentDidMount()");
+
+                this.renderPilotCardUI();
+            },
+
+            componentWillReceiveProps: function(nextProps)
+            {
+                LOGGER.trace("PilotChooser.componentWillReceiveProps()");
+
+                var oldTeam = this.props.team;
+                var newTeam = nextProps.team;
+
+                if (oldTeam != newTeam)
+                {
+                    // Team changed.
+                    LOGGER.debug("oldTeam = " + oldTeam);
+                    LOGGER.debug("newTeam = " + newTeam);
+                    var shipTeam = ShipTeam.valuesByTeam(newTeam)[0];
+                    var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
+                    var token = this.createToken(pilot);
+                    LOGGER.debug("new state = " + shipTeam + ", " + pilot
+                            + ", " + token);
+                    this.setState(
+                    {
+                        shipTeam: shipTeam,
+                        pilot: pilot,
+                        token: token
+                    });
+                }
+            },
+
+            render: function()
+            {
+                LOGGER.trace("PilotChooser.render()");
+
+                InputValidator
+                        .validateNotNull("team property", this.props.team);
+                InputValidator.validateNotNull("onChangeFunction property",
+                        this.props.onChangeFunction);
+
+                var shipSelect = this.createShipTeamSelect();
+                var pilotSelect = this.createPilotSelect();
+
+                var innerCells0 = [];
+                innerCells0.push(React.DOM.td(
+                {
+                    key: 0,
+                    className: "pilotChooserLabel"
+                }, "Ship: "));
+                innerCells0.push(React.DOM.td(
+                {
+                    key: 1,
+                    className: "pilotChooserValue"
+                }, shipSelect));
+
+                var innerCells1 = [];
+                innerCells1.push(React.DOM.td(
+                {
+                    key: 0,
+                    className: "pilotChooserLabel"
+                }, "Pilot: "));
+                innerCells1.push(React.DOM.td(
+                {
+                    key: 1,
+                    className: "pilotChooserValue"
+                }, pilotSelect));
+
+                var innerRows = [];
+                innerRows.push(React.DOM.tr(
+                {
+                    key: 0
+                }, innerCells0));
+                innerRows.push(React.DOM.tr(
+                {
+                    key: 1
+                }, innerCells1));
+
+                var innerTable = React.DOM.table(
+                {
+                    className: "pilotChooserFilter"
+                }, innerRows);
+                var cell0 = React.DOM.td(
+                {
+                    key: 0
+                }, innerTable);
+                var cell1 = React.DOM.td(
+                {
+                    key: 1,
+                    id: "pilotCardPanel",
+                    colSpan: 2
+                }, "");
+
+                var rows = [];
+                rows.push(React.DOM.tr(
+                {
+                    key: 0
+                }, cell0));
+                rows.push(React.DOM.tr(
+                {
+                    key: 1
+                }, cell1));
+
+                return React.DOM.table(
+                {
+                    className: "pilotChooser"
+                }, rows);
+            },
+
+            componentDidUpdate: function()
+            {
+                LOGGER.trace("PilotChooser.componentDidUpdate()");
+
+                this.renderPilotCardUI();
+            },
+
+            pilotCardUI: undefined,
+
+            shipTeamChanged: function(event)
+            {
+                var shipTeam = event.currentTarget.value;
+                var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
+                var token = this.createToken(pilot);
+                LOGGER.debug("new shipTeam = " + shipTeam);
+                this.setState(
+                {
+                    shipTeam: shipTeam,
+                    pilot: pilot,
+                    token: token
+                });
+
+                this.props.onChangeFunction(event, pilot);
+            },
+
+            pilotChanged: function(event)
+            {
+                var pilot = event.currentTarget.value;
+                var token = this.createToken(pilot);
+                LOGGER.debug("new pilot = " + pilot);
+                this.setState(
+                {
+                    pilot: pilot,
+                    token: token
+                });
+
+                this.props.onChangeFunction(event, pilot);
+            },
+
+            renderPilotCardUI: function(token)
+            {
+                var token = this.state.token;
+
+                if (this.pilotCardUI === undefined)
+                {
+                    var element = React.createElement(PilotCardUI,
+                    {
+                        isCompact: false,
+                        initialToken: token
+                    });
+                    this.pilotCardUI = React.render(element, document
+                            .getElementById("pilotCardPanel"));
+                }
+                else
+                {
+                    this.pilotCardUI.setState(
+                    {
+                        token: token
+                    });
+                }
+            },
+
+            createPilotSelect: function()
+            {
+                var values = Pilot.valuesByShipTeam(this.state.shipTeam);
+                return this.createSelect(values, Pilot.properties,
+                        this.state.pilot, this.pilotChanged);
+            },
+
+            createShipTeamSelect: function()
+            {
+                var values = ShipTeam.valuesByTeam(this.props.team);
+                return this.createSelect(values, ShipTeam.properties,
+                        this.state.shipTeam, this.shipTeamChanged);
+            },
+
+            createSelect: function(values, properties, selectedValue,
+                    onChangeFunction)
+            {
+                var options = [];
+
+                for (var i = 0; i < values.length; i++)
+                {
+                    var value = values[i];
+                    var label = properties[value].name;
+                    options.push(React.DOM.option(
+                    {
+                        key: i,
+                        value: value
+                    }, label));
+                }
+
+                return React.DOM.select(
+                {
+                    value: selectedValue,
+                    onChange: onChangeFunction
+                }, options);
+            },
+
+            createToken: function(pilot)
+            {
+                var team = this.props.team;
+                var agentName = (team === Team.IMPERIAL) ? "Imperial Agent"
+                        : "Rebel Agent";
+                var squadBuilder = (team === Team.IMPERIAL) ? CoreSetImperialSquadBuilder
+                        : CoreSetRebelSquadBuilder;
+                var agent = new SimpleAgent(agentName, team, squadBuilder);
+
+                return new Token(pilot, agent);
+            },
+        });

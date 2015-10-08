@@ -11,23 +11,46 @@ var UpgradeCardUI = React.createClass(
         var upgradeProps = UpgradeCard.properties[upgradeCard];
 
         var rows = [];
-        
-        rows[rows.length] = <tr key={upgradeCard+"0"} className="upgradeCardUIName">
-            <td colSpan="2">{UpgradeCard.getName(upgradeCard)}</td>
-            </tr>;
-            
-        rows[rows.length] = <tr key={upgradeCard+"1"}>
-            <td colSpan="2">{upgradeProps.description}</td>
-            </tr>;
-        
-        rows[rows.length] = <tr key={upgradeCard+"2"}>
-            <td className="upgradeCardUIImage">{UpgradeCardUI.createUpgradeImage(upgradeProps.type)}</td>
-            <td className="upgradeCardUISquadPoints" title="Squad Point cost">{upgradeProps.squadPointCost}</td>
-            </tr>;
-        
-        return <table className="upgradeCardUI">
-            <tbody>{rows}</tbody>
-            </table>;
+
+        var cell00 = React.DOM.td(
+        {
+            colSpan: 2
+        }, UpgradeCard.getName(upgradeCard));
+        rows.push(React.DOM.tr(
+        {
+            key: 0,
+            className: "upgradeCardUIName"
+        }, cell00));
+
+        var cell10 = React.DOM.td(
+        {
+            colSpan: 2
+        }, upgradeProps.description);
+        rows.push(React.DOM.tr(
+        {
+            key: 1
+        }, cell10));
+
+        var cell20 = React.DOM.td(
+        {
+            key: 0,
+            className: "upgradeCardUIImage"
+        }, UpgradeCardUI.createUpgradeImage(upgradeProps.type));
+        var cell21 = React.DOM.td(
+        {
+            key: 1,
+            className: "upgradeCardUISquadPoints",
+            title: "Squad Point cost"
+        }, upgradeProps.squadPointCost);
+        rows.push(React.DOM.tr(
+        {
+            key: 2
+        }, [ cell20, cell21 ]));
+
+        return React.DOM.table(
+        {
+            className: "upgradeCardUI"
+        }, rows);
     },
 });
 
@@ -38,6 +61,11 @@ UpgradeCardUI.createUpgradeImage = function(upgradeType)
     var typeName0 = UpgradeType.properties[upgradeType].displayName;
     var typeName = typeName0.replace(" ", "");
     var fileString = UpgradeCardUI.ImagesUrl + typeName + "24.png";
-    
-    return <img className="upgradeCardUIImage" src={fileString} title={typeName0} />;
+
+    return React.DOM.img(
+    {
+        className: "upgradeCardUIImage",
+        src: fileString,
+        title: typeName0
+    });
 }
