@@ -67,10 +67,12 @@ var UpgradeChooser = React.createClass(
             key: this.createId() + "1"
         }, cell1));
 
+        var tbody = React.DOM.tbody({}, rows);
+        
         return React.DOM.table(
         {
             className: "upgradeChooser"
-        }, rows);
+        }, tbody);
     },
 
     createId: function()
