@@ -31,7 +31,6 @@
 <script src="../js/ui/ImageUtilities.js"></script>
 
 <script type="text/jsx" src="../js/ui/ManeuverChooser.js"></script>
-<script type="text/jsx" src="../js/ui/PilotCardUI.js"></script>
 
 <style>
 .galleryTable {
@@ -61,7 +60,7 @@
 	<script type="text/jsx">
     "use strict";
     var LOGGER = new Logger();
-	var imageBase = PilotCardUI.ImagesUrl + "ship/";
+	var imageBase = "../resources/images/ship/";
 	var imageUtils = new ImageUtilities();
 	var ShipGallery = React.createClass(
 	{
