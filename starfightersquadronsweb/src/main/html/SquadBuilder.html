@@ -10,7 +10,6 @@
 <![endif]-->
 
 <script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
-<script src="../../../../coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
 <script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
@@ -34,11 +33,10 @@
 
 <script src="../js/ui/PilotCardUI.js"></script>
 <script src="../js/ui/PilotChooser.js"></script>
+<script src="../js/ui/SquadBuilderUI.js"></script>
 <script src="../js/ui/SquadUI.js"></script>
 <script src="../js/ui/UpgradeCardUI.js"></script>
 <script src="../js/ui/UpgradeChooser.js"></script>
-
-<script type="text/jsx" src="../js/ui/SquadBuilderUI.js"></script>
 
 <style>
 .factionTable {
@@ -62,44 +60,61 @@
 			<td id="squadBuilderPanel"></td>
 		</tr>
 	</table>
-	<script type="text/jsx">
-    "use strict";
-    var LOGGER = new Logger();
-	LOGGER.setTraceEnabled(false);
-	LOGGER.setDebugEnabled(false);
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
 
-	var team = Team.IMPERIAL;
-    React.render(createTeamSelect(), document.getElementById("factionSelect"));
-    React.render(<SquadBuilderUI team={team} />, 
-		document.getElementById("squadBuilderPanel"));
-    
-    function teamChanged(event)
-    {
-        team = event.currentTarget.value;
-		LOGGER.info("teamChanged() team = " + team);
-    	React.render(createTeamSelect(), document.getElementById("factionSelect"));
-        React.render(<SquadBuilderUI team={team} />, 
-				document.getElementById("squadBuilderPanel"));
-    }
-
-    function createTeamSelect()
-    {
-        return createSelect(Team.values, Team.properties, team, teamChanged);
-    }
-    
-    function createSelect(values, properties, selectedValue, onChangeFunction)
-    {
-        var options = [];
-
-        for(var i=0; i<values.length; i++)
+        var team = Team.IMPERIAL;
+        React.render(createTeamSelect(), document
+                .getElementById("factionSelect"));
+        var element = React.createElement(SquadBuilderUI,
         {
-            var value = values[i];
-            var label = properties[value].name;
-            options[i] = <option key={i} value={value}>{label}</option>
+            team: team
+        });
+        React.render(element, document.getElementById("squadBuilderPanel"));
+
+        function teamChanged(event)
+        {
+            team = event.currentTarget.value;
+            LOGGER.info("teamChanged() team = " + team);
+            React.render(createTeamSelect(), document
+                    .getElementById("factionSelect"));
+            var element = React.createElement(SquadBuilderUI,
+            {
+                team: team
+            });
+            React.render(element, document.getElementById("squadBuilderPanel"));
         }
-        
-        return <select value={selectedValue} onChange={onChangeFunction}>{options}</select>
-    }
+
+        function createTeamSelect()
+        {
+            return createSelect(Team.values, Team.properties, team, teamChanged);
+        }
+
+        function createSelect(values, properties, selectedValue,
+                onChangeFunction)
+        {
+            var options = [];
+
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+                var label = properties[value].name;
+                options.push(React.DOM.option(
+                {
+                    key: i,
+                    value: value
+                }, label));
+            }
+
+            return React.DOM.select(
+            {
+                value: selectedValue,
+                onChange: onChangeFunction
+            }, options);
+        }
     </script>
 </body>
 </html>
