@@ -7,11 +7,19 @@ function EnvironmentUI(engine, environment)
     var ssPanel = new SSPanel(environment);
     var playAreaUI = new PlayAreaUI(environment, imageUtils);
     var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
-    var imperialPilots = React.render(<PilotsUI initialTokens={imperialTokens} />, 
-        document.getElementById("imperialPilots"));
+    var element = React.createElement(PilotsUI,
+    {
+        initialTokens: imperialTokens
+    });
+    var imperialPilots = React.render(element, document
+            .getElementById("imperialPilots"));
     var rebelTokens = environment.getTokensForTeam(Team.REBEL);
-    var rebelPilots = React.render(<PilotsUI initialTokens={rebelTokens} />, 
-        document.getElementById("rebelPilots"));
+    var element = React.createElement(PilotsUI,
+    {
+        initialTokens: rebelTokens
+    });
+    var rebelPilots = React.render(element, document
+            .getElementById("rebelPilots"));
     var scale = 1.0;
 
     environment.addPhaseListener(this);
@@ -142,15 +150,27 @@ function EnvironmentUI(engine, environment)
             {
                 var token = shipFledAction.getToken();
                 message = "Ship fled the battlefield: " + token;
-                imperialPilots.setState({tokens: environment.getTokensForTeam(Team.IMPERIAL)});
-                rebelPilots.setState({tokens: environment.getTokensForTeam(Team.REBEL)});
+                imperialPilots.setState(
+                {
+                    tokens: environment.getTokensForTeam(Team.IMPERIAL)
+                });
+                rebelPilots.setState(
+                {
+                    tokens: environment.getTokensForTeam(Team.REBEL)
+                });
             }
             else if (shipDestroyedAction)
             {
                 var token = shipDestroyedAction.getToken();
                 message = "Ship destroyed: " + token;
-                imperialPilots.setState({tokens: environment.getTokensForTeam(Team.IMPERIAL)});
-                rebelPilots.setState({tokens: environment.getTokensForTeam(Team.REBEL)});
+                imperialPilots.setState(
+                {
+                    tokens: environment.getTokensForTeam(Team.IMPERIAL)
+                });
+                rebelPilots.setState(
+                {
+                    tokens: environment.getTokensForTeam(Team.REBEL)
+                });
             }
             else if (combatAction)
             {

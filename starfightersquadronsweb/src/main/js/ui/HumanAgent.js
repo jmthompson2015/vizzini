@@ -30,11 +30,13 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
 
         if (choices.length > 0)
         {
-            React.render(<WeaponAndDefenderChooser
-                attacker={attacker}
-                choices={choices}
-                callback={this.finishWeaponAndDefender} />,
-                document.getElementById("inputArea"));
+            var element = React.createElement(WeaponAndDefenderChooser,
+            {
+                attacker: attacker,
+                choices: choices,
+                callback: this.finishWeaponAndDefender
+            });
+            React.render(element, document.getElementById("inputArea"));
             updateSizes();
 
             // Wait for the user to respond.
@@ -56,16 +58,16 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
 
         callback(planningAction);
     }
-    
+
     this.finishShipAction = function(shipAction)
     {
         LOGGER.trace("finishShipAction() start");
-        
+
         // Handle the user response.
         var element = document.getElementById("inputArea");
         element.innerHTML = "";
         LOGGER.trace("finishShipAction() end");
-        
+
         callback(shipAction);
     }
 
@@ -109,14 +111,15 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
             return answer;
         });
         var self = this;
-        
-        React.render(<PlanningPanel
-            environment={environment}
-            agent={self}
-            tokens={tokens}
-            imageUtils={imageUtils}
-            callback={self.finishPlanningAction} />,
-            document.getElementById("inputArea"));
+        var element = React.createElement(PlanningPanel,
+        {
+            environment: environment,
+            agent: self,
+            tokens: tokens,
+            imageUtils: imageUtils,
+            callback: self.finishPlanningAction
+        });
+        React.render(element, document.getElementById("inputArea"));
         updateSizes();
 
         // Wait for the user to respond.
@@ -147,15 +150,18 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         InputValidator.validateNotNull("environment", environment);
         InputValidator.validateNotNull("adjudicator", adjudicator);
         InputValidator.validateNotNull("token", token);
-    
+
         callback = callbackIn;
-    
+
         var shipActions = token.getShipActions();
-    
-        React.render(<ShipActionChooser
-                token={token} shipActions={shipActions} callback={this.finishShipAction} />,
-                document.getElementById("inputArea"));
-    
+        var element = React.createElement(ShipActionChooser,
+        {
+            token: token,
+            shipActions: shipActions,
+            callback: this.finishShipAction
+        });
+        React.render(element, document.getElementById("inputArea"));
+
         // Wait for the user to respond.
     }
 
