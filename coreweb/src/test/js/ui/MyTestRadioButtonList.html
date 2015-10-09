@@ -4,11 +4,10 @@
 <title>MyTestRadioButtonList</title>
 
 <script src="../../../../lib/react/react-0.13.3.js"></script>
-<script src="../../../../lib/react/JSXTransformer-0.13.3.js"></script>
 
 <script src="../../../main/js/util/Logger.js"></script>
 
-<script type="text/jsx" src="../../../main/js/ui/RadioButtonList.js"></script>
+<script src="../../../main/js/ui/RadioButtonList.js"></script>
 
 <style>
 .panelClass {
@@ -25,52 +24,54 @@
 	<div id="testPanel0">testPanel0</div>
 	<p />
 	<div id="testPanel1">testPanel1</div>
-	<script type="text/jsx">
+	<script>
         "use strict";
         var LOGGER = new Logger();
 
-		var options0 = ["Zero", "One", "Two"];
-		var selectedIndex0 = 0;
+        var options0 = [ "Zero", "One", "Two" ];
+        var selectedIndex0 = 0;
+        var element = React.createElement(RadioButtonList,
+        {
+            panelClass: "panelClass",
+            name: "selectNumber0",
+            options: options0,
+            initialSelectedIndex: selectedIndex0,
+            onChange: myOnChange0
+        });
+        React.render(element, document.getElementById("testPanel0"));
 
-        React.render(<RadioButtonList
-			panelClass="panelClass"
-			name="selectNumber0"
-			options={options0}
-			initialSelectedIndex={selectedIndex0}
-			onChange={myOnChange0}
-			/>,
-			document.getElementById("testPanel0"));
+        function myOnChange0(event)
+        {
+            selectedIndex0 = event.currentTarget.value;
+            LOGGER.info("myOnChange0() selectedIndex0 = " + selectedIndex0);
+        }
 
-		function myOnChange0(event)
-		{
-			selectedIndex0 = event.currentTarget.value;
-			LOGGER.info("myOnChange0() selectedIndex0 = " + selectedIndex0);
-		}
+        var options1 = [ "Apple", "Banana", "Cherry" ];
+        var selectedIndex1 = 1;
+        var panelStyle =
+        {
+            backgroundColor: "yellow",
+            borderCollapse: "collapse",
+            borderColor: "green",
+            borderStyle: "solid",
+            borderWidth: 3,
+            color: "green",
+        };
+        var element = React.createElement(RadioButtonList,
+        {
+            panelStyle: panelStyle,
+            name: "selectNumber1",
+            options: options1,
+            initialSelectedIndex: selectedIndex1,
+            onChange: myOnChange1
+        });
+        React.render(element, document.getElementById("testPanel0"));
 
-		var options1 = ["Apple", "Banana", "Cherry"];
-		var selectedIndex1 = 1;
-		var panelStyle = { backgroundColor: "yellow",
-		    borderCollapse: "collapse",
-			borderColor: "green",
-    		borderStyle: "solid",
-    		borderWidth: 3,
-			color: "green",
-		};
-
-        React.render(<RadioButtonList
-			panelStyle={panelStyle}
-			name="selectNumber1"
-			options={options1}
-			initialSelectedIndex={selectedIndex1}
-			onChange={myOnChange1}
-			/>,
-			document.getElementById("testPanel1"));
-
-		function myOnChange1(event)
-		{
-			selectedIndex1 = event.currentTarget.value;
-			LOGGER.info("myOnChange1() selectedIndex1 = " + selectedIndex1);
-		}
+        function myOnChange1(event)
+        {
+            selectedIndex1 = event.currentTarget.value;
+            LOGGER.info("myOnChange1() selectedIndex1 = " + selectedIndex1);
+        }
     </script>
 </body>
 </html>

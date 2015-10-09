@@ -4,42 +4,72 @@
  */
 var OptionPane = React.createClass(
 {
-    getInitialState: function() 
+    getInitialState: function()
     {
-        return {input: this.props.initialInput};
-    },
-    
-    render: function() 
-    {
-        var panelClass = this.props.panelClass;
-        var panelStyle = this.props.panelStyle;
-        var titleClass = this.props.titleClass;
-        var titleStyle = this.props.titleStyle;
-        var iconClass = this.props.iconClass;
-        var iconStyle = this.props.iconStyle;
-        var messageClass = this.props.messageClass;
-        var messageStyle = this.props.messageStyle;
-        var inputClass = this.props.inputClass;
-        var inputStyle = this.props.inputStyle;
-        var buttonsClass = this.props.buttonsClass;
-        var buttonsStyle = this.props.buttonsStyle;
-        
         return (
-            <table className={panelClass} style={panelStyle}>
-            <tr>
-            <td colSpan="2" className={titleClass} style={titleStyle}>{this.props.title}</td>
-            </tr>
-            <tr>
-            <td rowSpan="2" className={iconClass} style={iconStyle}>{this.props.icon}</td>
-            <td className={messageClass} style={messageStyle}>{this.props.message}</td>
-            </tr>
-            <tr>
-            <td className={inputClass} style={inputStyle}>{this.state.input}</td>
-            </tr>
-            <tr>
-            <td colSpan="2" className={buttonsClass} style={buttonsStyle}>{this.props.buttons}</td>
-            </tr>
-            </table>
-        );
+        {
+            input: this.props.initialInput
+        });
+    },
+
+    render: function()
+    {
+        var rows = [];
+
+        var cell0 = React.DOM.td(
+        {
+            colSpan: 2,
+            className: this.props.titleClass,
+            style: this.props.titleStyle
+        }, this.props.title);
+        rows.push(React.DOM.tr(
+        {
+            key: 0
+        }, cell0));
+
+        var cell10 = React.DOM.td(
+        {
+            key: 0,
+            rowSpan: 2,
+            className: this.props.iconClass,
+            style: this.props.iconStyle
+        }, this.props.icon);
+        var cell11 = React.DOM.td(
+        {
+            key: 1,
+            className: this.props.messageClass,
+            style: this.props.messageStyle
+        }, this.props.message);
+        rows.push(React.DOM.tr(
+        {
+            key: 1
+        }, [ cell10, cell11 ]));
+
+        var cell2 = React.DOM.td(
+        {
+            className: this.props.inputClass,
+            style: this.props.inputStyle
+        }, this.state.input);
+        rows.push(React.DOM.tr(
+        {
+            key: 2
+        }, cell2));
+
+        var cell3 = React.DOM.td(
+        {
+            colSpan: 2,
+            className: this.props.buttonsClass,
+            style: this.props.buttonsStyle
+        }, this.props.buttons);
+        rows.push(React.DOM.tr(
+        {
+            key: 3
+        }, cell3));
+
+        return React.DOM.table(
+        {
+            className: this.props.panelClass,
+            style: this.props.panelStyle
+        }, rows);
     }
 });
