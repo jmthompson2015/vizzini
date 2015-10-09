@@ -1,26 +1,33 @@
 /*
  * Provides a pilots user interface for Starfighter Squadrons.
  */
-var PilotsUI = React.createClass({
-    
-    getInitialState: function() 
+var PilotsUI = React.createClass(
+{
+
+    getInitialState: function()
     {
-        return {tokens: this.props.initialTokens};
+        return (
+        {
+            tokens: this.props.initialTokens
+        });
     },
-    
-    render: function() 
+
+    render: function()
     {
         var tokens = this.state.tokens;
-        
+
         var tokenHtml = tokens.map(function(token)
         {
-            return <PilotCardUI key={token.getId()} isCompact={true} initialToken={token} />;
+            return React.createElement(PilotCardUI,
+            {
+                key: token.getId(),
+                isCompact: true,
+                initialToken: token
+            });
         });
-        
-        return <table>
-            <tr>
-            <td>{tokenHtml}</td>
-            </tr>
-            </table>;
+
+        var row = React.DOM.tr({}, React.DOM.td({}, tokenHtml));
+
+        return React.DOM.table({}, row);
     },
 });
