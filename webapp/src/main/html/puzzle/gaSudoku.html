@@ -11,7 +11,6 @@
 <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 <script src="../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
 <script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
-<script src="../../../../../coreweb/lib/react/JSXTransformer-0.13.3.js"></script>
 
 <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -28,18 +27,17 @@
 <script src="../../../../../aiweb/src/main/js/geneticalgorithm/Operator.js"></script>
 <script src="../../../../../aiweb/src/main/js/geneticalgorithm/SelectionOperator.js"></script>
 
+<script src="../../../../../aiweb/src/main/js/geneticalgorithm/problem/ProblemControlsUI.js"></script>
+<script src="../../../../../aiweb/src/main/js/geneticalgorithm/problem/ProblemResultsUI.js"></script>
+<script src="../../../../../aiweb/src/main/js/geneticalgorithm/problem/ProblemTableauUI.js"></script>
+
+<script src="../../js/puzzle/sudoku/BoardUI.js"></script>
 <script src="../../js/puzzle/sudoku/GASudokuProblem.js"></script>
 <script src="../../js/puzzle/sudoku/GridFactory.js"></script>
 <script src="../../js/puzzle/sudoku/Puzzle.js"></script>
 <script src="../../js/puzzle/sudoku/PuzzleFormat.js"></script>
 <script src="../../js/puzzle/sudoku/SudokuValidator.js"></script>
 <script src="../../js/puzzle/sudoku/Unit.js"></script>
-
-<script type="text/jsx" src="../../../../../aiweb/src/main/js/geneticalgorithm/problem/ProblemControlsUI.js"></script>
-<script type="text/jsx" src="../../../../../aiweb/src/main/js/geneticalgorithm/problem/ProblemResultsUI.js"></script>
-<script type="text/jsx" src="../../../../../aiweb/src/main/js/geneticalgorithm/problem/ProblemTableauUI.js"></script>
-
-<script type="text/jsx" src="../../js/puzzle/sudoku/BoardUI.js"></script>
 
 </head>
 <body>
@@ -48,54 +46,81 @@
 	<div id="controlPanel"></div>
 	<div id="boardPanel"></div>
 	<div id="resultsPanel"></div>
-	<script type="text/jsx">
+	<script>
         "use strict";
 
-    	var LOGGER = new Logger();
-    	LOGGER.setTraceEnabled(false);
-    	LOGGER.setDebugEnabled(false);
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
 
-		var problem = GASudokuProblem;
-		var tableauPanel = React.render(<ProblemTableauUI problem={problem} />,
-			document.getElementById("tableauPanel"));
-		var controlPanel = React.render(<ProblemControlsUI popSize={2000} generationCount={100} backCount={100} />,
-			document.getElementById("controlPanel"));
-		var originalGrid = GridFactory.createEasy();
-		// var originalGrid = GridFactory.createDiabolical();
-		var originalPuzzle = PuzzleFormat.parse(originalGrid);
-		var boardPanel = React.render(<BoardUI originalPuzzle={originalPuzzle} puzzle={originalPuzzle} />,
-			document.getElementById("boardPanel"));
+        var problem = GASudokuProblem;
+        var element = React.createElement(ProblemTableauUI,
+        {
+            problem: problem
+        });
+        var tableauPanel = React.render(element, document
+                .getElementById("tableauPanel"));
+        var element = React.createElement(ProblemControlsUI,
+        {
+            popSize: 2000,
+            generationCount: 100,
+            backCount: 100
+        });
+        var controlPanel = React.render(element, document
+                .getElementById("controlPanel"));
 
-		function submitActionPerformed()
-		{
-			LOGGER.info("submitActionPerformed() start");
-			document.getElementById("resultsPanel").innerHTML = "";
-			var popSize = controlPanel.getPopSize(); 
-			var generationCount = controlPanel.getGenerationCount();
-			var backCount = controlPanel.getBackCount();
+        var originalGrid = GridFactory.createEasy();
+        // var originalGrid = GridFactory.createDiabolical();
+        var originalPuzzle = PuzzleFormat.parse(originalGrid);
+        var element = React.createElement(BoardUI,
+        {
+            originalPuzzle: originalPuzzle,
+            puzzle: originalPuzzle
+        });
+        var boardPanel = React.render(element, document
+                .getElementById("boardPanel"));
 
-	        var ga = problem.createGA(popSize, generationCount, backCount, originalGrid);
-    	    var resultsPanel = React.render(<ProblemResultsUI ga={ga} />, 
-				document.getElementById("resultsPanel"));
-        
-	        ga.bind("generation", function(generationCount)
+        function submitActionPerformed()
+        {
+            LOGGER.info("submitActionPerformed() start");
+            document.getElementById("resultsPanel").innerHTML = "";
+            var popSize = controlPanel.getPopSize();
+            var generationCount = controlPanel.getGenerationCount();
+            var backCount = controlPanel.getBackCount();
+
+            var ga = problem.createGA(popSize, generationCount, backCount,
+                    originalGrid);
+            var element = React.createElement(ProblemResultsUI,
+            {
+                ga: ga
+            });
+            var resultsPanel = React.render(element, document
+                    .getElementById("resultsPanel"));
+
+            ga.bind("generation", function(generationCount)
             {
                 var population = ga.getPopulation();
                 var best = population[0];
-				var evaluator = ga.getEvaluator();
-				var phenotypeFactory = evaluator.getPhenotypeFactory();
-				var grid = phenotypeFactory.create(best);
-				var puzzle = PuzzleFormat.parse(grid);
-				boardPanel.setState({puzzle: puzzle});
+                var evaluator = ga.getEvaluator();
+                var phenotypeFactory = evaluator.getPhenotypeFactory();
+                var grid = phenotypeFactory.create(best);
+                var puzzle = PuzzleFormat.parse(grid);
+                boardPanel.setState(
+                {
+                    puzzle: puzzle
+                });
             });
 
-        	setTimeout(function()
-        	{
-				ga.determineBest(function(){LOGGER.info("Done.");});
-        	}, 300);
+            setTimeout(function()
+            {
+                ga.determineBest(function()
+                {
+                    LOGGER.info("Done.");
+                });
+            }, 300);
 
-			LOGGER.info("submitActionPerformed() end");
-		}
+            LOGGER.info("submitActionPerformed() end");
+        }
     </script>
 </body>
 </html>

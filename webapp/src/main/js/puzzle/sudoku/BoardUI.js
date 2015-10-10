@@ -1,40 +1,43 @@
 var BoardUI = React.createClass(
 {
-    getInitialState: function() 
+    getInitialState: function()
     {
-        return {puzzle: this.props.puzzle};
+        return (
+        {
+            puzzle: this.props.puzzle
+        });
     },
-    
-    componentDidMount: function() 
-    {  
+
+    componentDidMount: function()
+    {
         this.state.puzzle.bind("change", this.puzzleChanged);
     },
-    
-    componentWillUnmount: function() 
-    {  
+
+    componentWillUnmount: function()
+    {
         this.state.puzzle.unbind("change", this.puzzleChanged);
     },
 
     render: function()
     {
-        var originalPuzzle = this.props.originalPuzzle;
-        var rows=[];
-        
-        for (var j=0; j<9; j++)
+        var originalPuzzle = this.props.puzzle;
+        var rows = [];
+
+        for (var j = 0; j < 9; j++)
         {
-            var cells=[];
-            
-            for (var i=0; i<9; i++)
+            var cells = [];
+
+            for (var i = 0; i < 9; i++)
             {
-                var index = Unit.coordinatesToIndex(i,j);
+                var index = Unit.coordinatesToIndex(i, j);
                 var cellName = Unit.indexToCellName(index);
                 var value = this.state.puzzle.get(cellName);
                 var originalValue = originalPuzzle.get(cellName);
-                
+
                 if (value.length === 1)
                 {
                     var className;
-                    
+
                     if (originalValue.length === 1)
                     {
                         className = "originalValueCell";
@@ -42,29 +45,55 @@ var BoardUI = React.createClass(
                     else
                     {
                         var grid = PuzzleFormat.format(this.state.puzzle);
-                        var isValid = SudokuValidator.isCellValid(grid,index);
-                        var className = (isValid ? "valueCell" : "invalidValueCell");
+                        var isValid = SudokuValidator.isCellValid(grid, index);
+                        var className = (isValid ? "valueCell"
+                                : "invalidValueCell");
                     }
-                    
-                    cells[i] = <td key={i} id={cellName} className={className}>
-                        <BoardUI.CellUI value={value} /></td>;
+
+                    var element = React.createElement(BoardUI.CellUI,
+                    {
+                        value: value
+                    });
+                    cells.push(React.DOM.td(
+                    {
+                        key: i,
+                        id: cellName,
+                        className: className
+                    }, element));
                 }
                 else
                 {
-                    cells[i] = <td key={i} id={cellName} className="valuesCell">
-                        <BoardUI.CandidatesCellUI values={value} /></td>;
+                    var element = React.createElement(BoardUI.CandidatesCellUI,
+                    {
+                        values: value
+                    });
+                    cells.push(React.DOM.td(
+                    {
+                        key: i,
+                        id: cellName,
+                        className: "valuesCell"
+                    }, element));
                 }
             }
-            
-            rows[j] = <tr key={j}>{cells}</tr>;
+
+            rows.push(React.DOM.tr(
+            {
+                key: j
+            }, cells));
         }
-        
-        return <table id="boardTable">{rows}</table>;
+
+        return React.DOM.table(
+        {
+            id: "boardTable"
+        }, rows);
     },
-    
-    puzzleChanged: function() 
+
+    puzzleChanged: function()
     {
-        this.setState({puzzle: this.state.puzzle});
+        this.setState(
+        {
+            puzzle: this.state.puzzle
+        });
     },
 });
 
@@ -72,7 +101,7 @@ BoardUI.CellUI = React.createClass(
 {
     render: function()
     {
-        return <span>{this.props.value}</span>;
+        return React.DOM.span({}, this.props.value);
     }
 });
 
@@ -81,29 +110,38 @@ BoardUI.CandidatesCellUI = React.createClass(
     render: function()
     {
         var rows = [];
-        
-        for (var j=0; j<3; j++)
+
+        for (var j = 0; j < 3; j++)
         {
             var cells = [];
-            
-            for (var i=0; i<3; i++)
+
+            for (var i = 0; i < 3; i++)
             {
                 var index = (j * 3) + i;
-                var value = Number(index+1).toString();
-                
+                var value = Number(index + 1).toString();
+
                 if (this.props.values.indexOf(value) >= 0)
                 {
-                    cells[i] = <td key={i}>{value}</td>;
+                    cells.push(React.DOM.td(
+                    {
+                        key: i
+                    }, value));
                 }
                 else
                 {
-                    cells[i] = <td key={i}>&nbsp;</td>;
+                    cells.push(React.DOM.td(
+                    {
+                        key: i
+                    }, " "));
                 }
             }
-            
-            rows[j] = <tr key={j}>{cells}</tr>
+
+            rows.push(React.DOM.tr(
+            {
+                key: j
+            }, cells));
         }
-        
-        return <table>{rows}</table>;
+
+        return React.DOM.table({}, rows);
     }
 });
