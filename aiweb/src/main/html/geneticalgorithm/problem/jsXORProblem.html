@@ -31,10 +31,9 @@
 <script src="../../../js/geneticalgorithm/SelectionOperator.js"></script>
 
 <script src="../../../js/geneticalgorithm/problem/JSXORProblem.js"></script>
-
-<script type="text/jsx" src="../../../js/geneticalgorithm/problem/ProblemControlsUI.js"></script>
-<script type="text/jsx" src="../../../js/geneticalgorithm/problem/ProblemResultsUI.js"></script>
-<script type="text/jsx" src="../../../js/geneticalgorithm/problem/ProblemTableauUI.js"></script>
+<script src="../../../js/geneticalgorithm/problem/ProblemControlsUI.js"></script>
+<script src="../../../js/geneticalgorithm/problem/ProblemResultsUI.js"></script>
+<script src="../../../js/geneticalgorithm/problem/ProblemTableauUI.js"></script>
 
 </head>
 <body>
@@ -42,38 +41,57 @@
 	<div id="tableauPanel"></div>
 	<div id="controlPanel"></div>
 	<div id="resultsPanel"></div>
-	<script type="text/jsx">
+	<script>
         "use strict";
 
-    	var LOGGER = new Logger();
-    	LOGGER.setTraceEnabled(false);
-    	LOGGER.setDebugEnabled(false);
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
 
-		var problem = JSXORProblem;
-		var tableauPanel = React.render(<ProblemTableauUI problem={problem} />,
-			document.getElementById("tableauPanel"));
-		var controlPanel = React.render(<ProblemControlsUI popSize={500} generationCount={50} backCount={30} />,
-			document.getElementById("controlPanel"));
+        var problem = JSXORProblem;
+        var element = React.createElement(ProblemTableauUI,
+        {
+            problem: problem
+        });
+        var tableauPanel = React.render(element, document
+                .getElementById("tableauPanel"));
 
-		function submitActionPerformed()
-		{
-			LOGGER.info("submitActionPerformed() start");
-			document.getElementById("resultsPanel").innerHTML = "";
-			var popSize = controlPanel.getPopSize(); 
-			var generationCount = controlPanel.getGenerationCount();
-			var backCount = controlPanel.getBackCount();
+        var element = React.createElement(ProblemControlsUI,
+        {
+            popSize: 500,
+            generationCount: 50,
+            backCount: 30
+        });
+        var controlPanel = React.render(element, document
+                .getElementById("controlPanel"));
 
-	        var ga = problem.createGA(popSize, generationCount, backCount);
-    	    var resultsPanel = React.render(<ProblemResultsUI ga={ga} isCodeDisplayed={true} />, 
-				document.getElementById("resultsPanel"));
+        function submitActionPerformed()
+        {
+            LOGGER.info("submitActionPerformed() start");
+            document.getElementById("resultsPanel").innerHTML = "";
+            var popSize = controlPanel.getPopSize();
+            var generationCount = controlPanel.getGenerationCount();
+            var backCount = controlPanel.getBackCount();
 
-        	setTimeout(function()
-        	{
-				ga.determineBest(function(){LOGGER.info("Done.");});
-        	}, 300);
+            var ga = problem.createGA(popSize, generationCount, backCount);
+            var element = React.createElement(ProblemResultsUI,
+            {
+                ga: ga,
+                isCodeDisplayed: true
+            });
+            var resultsPanel = React.render(element, document
+                    .getElementById("resultsPanel"));
 
-			LOGGER.info("submitActionPerformed() end");
-		}
+            setTimeout(function()
+            {
+                ga.determineBest(function()
+                {
+                    LOGGER.info("Done.");
+                });
+            }, 300);
+
+            LOGGER.info("submitActionPerformed() end");
+        }
     </script>
 </body>
 </html>

@@ -5,7 +5,7 @@
  */
 var ProblemTableauUI = React.createClass(
 {
-    render: function() 
+    render: function()
     {
         var problem = this.props.problem;
         var objective = problem.getObjective();
@@ -19,29 +19,84 @@ var ProblemTableauUI = React.createClass(
         {
             var input = this.formatArray(inputs[i]);
             var output = this.formatArray(outputs[i]);
-            fitnessRows.push(<tr key={i}><td>{input}</td><td>{output}</td></tr>);
+            fitnessRows.push(React.DOM.tr(
+            {
+                key: i
+            }, [ React.DOM.td(
+            {
+                key: 0
+            }, input), React.DOM.td(
+            {
+                key: 1
+            }, output) ]));
         }
-        
-        var fitnessCases = <table className="fitnessCases">
-            <thead><tr><th>Inputs</th><th>Outputs</th></tr></thead>
-            <tbody>{fitnessRows}</tbody></table>;
+
+        var thead = React.DOM.thead(
+        {
+            key: 0
+        }, React.DOM.tr({}, [ React.DOM.th(
+        {
+            key: 0
+        }, "Inputs"), React.DOM.th(
+        {
+            key: 1
+        }, "Outputs") ]));
+        var tbody = React.DOM.tbody(
+        {
+            key: 1
+        }, fitnessRows);
+        var fitnessCases = React.DOM.table(
+        {
+            className: "fitnessCases"
+        }, [ thead, tbody ]);
+
         var rows = [];
 
-        rows.push(<tr key={0}><th>Objective:</th><td>{objective}</td></tr>);
-        rows.push(<tr key={1}><th>Genes:</th><td>{this.formatArray(genes)}</td></tr>);
-        rows.push(<tr key={2}><th>Fitness Cases:</th><td>{fitnessCases}</td></tr>);
-        
-        return (<table className="problemTableau">
-            <tbody>{rows}</tbody>
-            </table>);
+        rows.push(React.DOM.tr(
+        {
+            key: 0
+        }, [ React.DOM.th(
+        {
+            key: 0
+        }, "Objective:"), React.DOM.td(
+        {
+            key: 1
+        }, objective) ]));
+
+        rows.push(React.DOM.tr(
+        {
+            key: 1
+        }, [ React.DOM.th(
+        {
+            key: 0
+        }, "Genes:"), React.DOM.td(
+        {
+            key: 1
+        }, this.formatArray(genes)) ]));
+
+        rows.push(React.DOM.tr(
+        {
+            key: 2
+        }, [ React.DOM.th(
+        {
+            key: 0
+        }, "Fitness Cases:"), React.DOM.td(
+        {
+            key: 1
+        }, fitnessCases) ]));
+
+        return React.DOM.table(
+        {
+            className: "problemTableau"
+        }, React.DOM.tbody({}, rows));
     },
-    
+
     formatArray: function(array)
     {
         var answer = array.toString();
-        
+
         answer = answer.replace(/,/g, ", ");
-        
+
         return answer;
     }
 });
