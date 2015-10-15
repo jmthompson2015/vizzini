@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ComputerTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+
+<script src="../../main/js/Part.js"></script>
+<script src="../../main/js/Computer.js"></script>
+<script src="../../main/js/ComputerProperty.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit.test("CustoMac_Mini properties", function(assert)
+    {
+        // Setup.
+        var computer = Computer.CustoMac_Mini;
+
+        // Run / Verify.
+        assert.ok(computer);
+        assert.equal(computer.motherboard, Part.motherboard.GA_H97N_WIFI);
+        assert.equal(computer.cpu[0], Part.cpu.CORE_I3_4360);
+        assert
+                .equal(computer.cpuCooler,
+                        Part.cpuCooler.SLIM_X3_LOW_PROFILE_AIR);
+        assert.equal(computer.ram[0], Part.ram.BUDGET_16GB);
+        assert.equal(computer.systemDrive[0],
+                Part.systemDrive.SAMSUNG_850_EVO_120GB);
+        assert
+                .equal(computer.storageDrive[0],
+                        Part.storageDrive.BARRACUDA_1_TB);
+        assert.equal(computer.enclosure, Part.enclosure.MI_008);
+        assert.ok(!computer.powerSupply);
+    });
+
+    QUnit.test("computeTotalCost()", function(assert)
+    {
+        var values = Computer.values();
+        var expected = [ 400.00, 410.00, 510.00, 450.00, 510.00 ];
+
+        values.forEach(function(value, i)
+        {
+            assignCosts(Computer[value]);
+            assert.equal(Computer.computeTotalCost(Computer[value]),
+                    expected[i]);
+        });
+    });
+
+    QUnit.test("createInstance()", function(assert)
+    {
+        // Setup.
+        var computer = Computer.CustoMac_Mini;
+        assignCosts(computer);
+
+        // Run.
+        var result = Computer.createInstance(computer);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(computer !== result);
+        assert.equal(result.motherboard, Part.motherboard.GA_H97N_WIFI);
+        assert.equal(result.cpu, Part.cpu.CORE_I3_4360);
+        assert.equal(result.cpuCooler, Part.cpuCooler.SLIM_X3_LOW_PROFILE_AIR);
+        assert.equal(result.ram, Part.ram.BUDGET_16GB);
+        assert
+                .equal(result.systemDrive,
+                        Part.systemDrive.SAMSUNG_850_EVO_120GB);
+        assert.equal(result.storageDrive, Part.storageDrive.BARRACUDA_1_TB);
+        assert.equal(result.enclosure, Part.enclosure.MI_008);
+        assert.ok(!result.powerSupply);
+    });
+
+    function assignCosts(computer)
+    {
+        var i = 1;
+
+        ComputerProperty.values().forEach(function(property)
+        {
+            var partKey = computer[property];
+
+            if (Array.isArray(partKey))
+            {
+                partKey = partKey[0];
+            }
+
+            if (partKey)
+            {
+                var part = Part[property].properties[partKey];
+                part.cost = 10.0 * i;
+            }
+
+            i++;
+        });
+    }
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
