@@ -71,12 +71,18 @@ var ComputerTable = React
                         }
                         return answer;
                     }
-                    child = new Select(partKeys, labelFunction, selectedValue,
-                            this.myOnChange1,
-                            {
-                                "data-computerkey": computer.value,
-                                "data-component": computerProperty
-                            });
+                    child = React.createElement(Select,
+                    {
+                        values: partKeys,
+                        labelFunction: labelFunction,
+                        initialSelectedValue: selectedValue,
+                        onChange: this.myOnChange1,
+                        clientProps:
+                        {
+                            "data-computerkey": computer.value,
+                            "data-component": computerProperty
+                        }
+                    });
                 }
                 else
                 {
