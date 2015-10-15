@@ -194,7 +194,7 @@ function KeyStatistics(symbol)
                 }
             }
 
-            var thisRow = rows.iterateNext();
+            thisRow = rows.iterateNext();
             i++;
         }
     }

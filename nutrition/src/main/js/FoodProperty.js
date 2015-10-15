@@ -173,5 +173,5 @@ var FoodProperty =
 
 if (Object.freeze)
 {
-    Object.freeze(FoodProperty)
+    Object.freeze(FoodProperty);
 };
