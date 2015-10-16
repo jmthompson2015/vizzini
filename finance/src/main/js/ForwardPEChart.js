@@ -17,7 +17,8 @@ function ForwardPEChart(chartCanvasId, symbols)
 
         if (index >= 0)
         {
-            var forwardPE = keyStats.getForwardPE().number;
+            var forwardPE = (keyStats.getForwardPE() ? keyStats.getForwardPE().number
+                    : undefined);
             LOGGER.trace(symbol + " forwardPE = " + forwardPE);
 
             if (forwardPE && !isNaN(forwardPE))

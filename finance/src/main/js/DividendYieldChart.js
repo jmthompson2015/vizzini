@@ -17,7 +17,8 @@ function DividendYieldChart(chartCanvasId, symbols)
 
         if (index >= 0)
         {
-            var dividendYield = keyStats.getDividendYield().number;
+            var dividendYield = (keyStats.getDividendYield() ? keyStats
+                    .getDividendYield().number : undefined);
             LOGGER.trace(symbol + " dividendYield = " + dividendYield);
 
             if (dividendYield && !isNaN(dividendYield))

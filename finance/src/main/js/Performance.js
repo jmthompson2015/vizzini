@@ -8,7 +8,7 @@ function Performance(symbol)
     {
         LOGGER.trace("fetchData() start");
 
-        var FUND_CONTEXT_PATH = "http://performance.morningstar.com"
+        var FUND_CONTEXT_PATH = "https://performance.morningstar.com"
                 + "/Performance/fund";
         var g_productCode;
         var g_ep;

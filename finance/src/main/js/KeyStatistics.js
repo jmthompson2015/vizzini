@@ -26,15 +26,24 @@ function KeyStatistics(symbol)
 
     this.get52WeekPricePercent = function()
     {
-        var price = this.getPrice().number;
-        var low = this.get52WeekLow().number;
-        var high = this.get52WeekHigh().number;
-        var range = high - low;
+        var price = (this.getPrice() ? this.getPrice().number : undefined);
+        var low = (this.get52WeekLow() ? this.get52WeekLow().number : undefined);
+        var high = (this.get52WeekHigh() ? this.get52WeekHigh().number
+                : undefined);
+        var range;
+        if (low && high)
+        {
+            range = high - low;
+        }
         LOGGER.trace("price = " + price);
         LOGGER.trace("low = " + low);
         LOGGER.trace("high = " + high);
         LOGGER.trace("range = " + range);
-        var answer = Math.round(100.0 * (price - low) / range);
+        var answer;
+        if (price && low && range)
+        {
+            answer = Math.round(100.0 * (price - low) / range);
+        }
         LOGGER.debug("pricePercent = " + answer);
 
         return answer;
@@ -95,7 +104,7 @@ function KeyStatistics(symbol)
         var baseUrl = "https://query.yahooapis.com/v1/public/yql?q=";
 
         // http://finance.yahoo.com/q/ks?s=AAPL+Key+Statistics
-        var sourceUrl = "http://finance.yahoo.com/q/ks?s=" + symbol
+        var sourceUrl = "https://finance.yahoo.com/q/ks?s=" + symbol
                 + "+Key+Statistics";
 
         var query = "select * from html where url='" + sourceUrl + "'";

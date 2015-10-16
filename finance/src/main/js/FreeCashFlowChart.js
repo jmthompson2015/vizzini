@@ -17,7 +17,8 @@ function FreeCashFlowChart(chartCanvasId, symbols)
 
         if (index >= 0)
         {
-            var freeCashFlow = keyStats.getFreeCashFlow().number;
+            var freeCashFlow = (keyStats.getFreeCashFlow() ? keyStats
+                    .getFreeCashFlow().number : undefined);
             LOGGER.trace(symbol + " freeCashFlow = " + freeCashFlow);
 
             if (freeCashFlow && !isNaN(freeCashFlow))
