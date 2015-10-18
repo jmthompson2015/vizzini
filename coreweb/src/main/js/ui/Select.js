@@ -4,8 +4,8 @@
  * 
  * @param values Option values. (required)
  * @param labelFunction Function which returns the label for a value. Defaults to simply return the value. (optional)
- * @param selectedValue Initially selected value. (optional)
- * @param onChangeFunction Function called when the selection changes. (optional)
+ * @param initialSelectedValue Initially selected value. (optional)
+ * @param onChange Function called when the selection changes. (optional)
  * @param clientProps Client properties. (optional)
  */
 var Select = React.createClass(
