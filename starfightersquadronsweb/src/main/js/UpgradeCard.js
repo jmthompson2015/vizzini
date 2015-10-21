@@ -10,6 +10,7 @@ var UpgradeRestriction =
     HUGE_SHIP_ONLY: "hugeShipOnly",
     HWK_290_ONLY: "hwk290Only",
     IMPERIAL_ONLY: "imperialOnly",
+    LARGE_SHIP_ONLY: "largeShipOnly",
     LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
     LIMITED: "limited",
     M3_A_INTERCEPTOR_ONLY: "m3AInterceptorOnly",
@@ -72,8 +73,7 @@ var UpgradeRestriction =
                 var shipTeam = Pilot.properties[pilot].shipTeam;
                 var ship = ShipTeam.properties[shipTeam].ship;
                 var shipBase = Ship.properties[ship].shipBase;
-                return shipBase === ShipBase.HUGE1
-                        || shipBase === ShipBase.HUGE2;
+                return shipBase === ShipBase.HUGE1 || shipBase === ShipBase.HUGE2;
             }
         },
         "hwk290Only":
@@ -104,6 +104,17 @@ var UpgradeRestriction =
                 var shipTeam = Pilot.properties[pilot].shipTeam;
                 var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.LAMBDA_CLASS_SHUTTLE;
+            }
+        },
+        "largeShipOnly":
+        {
+            displayName: "Large ship only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                var shipBase = Ship.properties[ship].shipBase;
+                return shipBase === ShipBase.LARGE;
             }
         },
         "limited":
@@ -227,9 +238,7 @@ var UpgradeRestriction =
         {
             answer = restrictions.reduce(function(previousValue, restriction)
             {
-                return previousValue
-                        && UpgradeRestriction.properties[restriction]
-                                .passes(pilot);
+                return previousValue && UpgradeRestriction.properties[restriction].passes(pilot);
             }, true);
         }
 
@@ -358,8 +367,8 @@ var UpgradeType =
  */
 UpgradeType.isSecondaryWeapon = function(upgradeType)
 {
-    return (upgradeType === CANNON) || (upgradeType === MISSILE)
-            || (upgradeType === TORPEDO) || (upgradeType === TURRET);
+    return (upgradeType === CANNON) || (upgradeType === MISSILE) || (upgradeType === TORPEDO)
+            || (upgradeType === TURRET);
 }
 
 if (Object.freeze)
@@ -476,6 +485,7 @@ var UpgradeCard =
     STYGIUM_PARTICLE_ACCELERATOR: "stygiumParticleAccelerator",
     SWARM_TACTICS: "swarmTactics",
     TACTICIAN: "tactician",
+    TACTICAL_JAMMER: "tacticalJammer",
     TARGETING_COMPUTER: "targetingComputer",
     TARGETING_COORDINATOR: "targetingCoordinator",
     TORYN_FARR: "torynFarr",
@@ -608,8 +618,7 @@ var UpgradeCard =
             name: "Bomb Loadout",
             type: UpgradeType.TORPEDO,
             isUnique: false,
-            restrictions: [ UpgradeRestriction.Y_WING_ONLY,
-                    UpgradeRestriction.LIMITED ],
+            restrictions: [ UpgradeRestriction.Y_WING_ONLY, UpgradeRestriction.LIMITED ],
             description: "Your upgrade bar gains the Bomb icon.",
             squadPointCost: 0,
             hasAction: false,
@@ -663,8 +672,7 @@ var UpgradeCard =
             name: "Carlist Rieekan",
             type: UpgradeType.CREW,
             isUnique: true,
-            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
-                    UpgradeRestriction.REBEL_ONLY ],
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
             description: "At the start of the Activation phase, you may discard this card to treat each friendly ship's pilot skill value as \"12\" until the end of the phase.",
             squadPointCost: 3,
             hasAction: false,
@@ -1040,8 +1048,7 @@ var UpgradeCard =
             name: "Jan Dodonna",
             type: UpgradeType.CREW,
             isUnique: true,
-            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
-                    UpgradeRestriction.REBEL_ONLY ],
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
             description: "When another friendly ship at Range 1 is attacking, it may change 1 of its Hit results to a Critical Hit result.",
             squadPointCost: 6,
             hasAction: false,
@@ -1244,8 +1251,7 @@ var UpgradeCard =
             name: "Outlaw Tech",
             type: UpgradeType.CREW,
             isUnique: false,
-            restrictions: [ UpgradeRestriction.SCUM_ONLY,
-                    UpgradeRestriction.LIMITED ],
+            restrictions: [ UpgradeRestriction.SCUM_ONLY, UpgradeRestriction.LIMITED ],
             description: "After you execute a red maneuver, you may assign 1 focus token to your ship.",
             squadPointCost: 2,
             hasAction: false,
@@ -1468,8 +1474,7 @@ var UpgradeCard =
             name: "Raymus Antilles",
             type: UpgradeType.CREW,
             isUnique: true,
-            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
-                    UpgradeRestriction.REBEL_ONLY ],
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
             description: "At the start of the Activation phase, choose 1 enemy ship at Range 1-3. You may look at that ship's chosen maneuver. If the maneuver is white, assign that ship 1 stress token.",
             squadPointCost: 6,
             hasAction: false,
@@ -1662,6 +1667,17 @@ var UpgradeCard =
             hasAction: false,
             value: "tactician",
         },
+        "tacticalJammer":
+        {
+            name: "Tactical Jammer",
+            type: UpgradeType.MODIFICATION,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.LARGE_SHIP_ONLY ],
+            description: "Your ship can obstruct enemy attacks.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "tacticalJammer",
+        },
         "targetingComputer":
         {
             name: "Targeting Computer",
@@ -1688,8 +1704,7 @@ var UpgradeCard =
             name: "Toryn Farr",
             type: UpgradeType.CREW,
             isUnique: true,
-            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY,
-                    UpgradeRestriction.REBEL_ONLY ],
+            restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
             description: "Spend any amount of energy to choose that many enemy ships at Range 1-2. Remove all focus, evade, and blue target lock tokens from those ships.",
             squadPointCost: 6,
             hasAction: true,
@@ -2028,15 +2043,11 @@ var UpgradeCard =
         InputValidator.validateNotNull("pilot", pilot);
         InputValidator.validateNotNull("upgradeType", upgradeType);
 
-        return this
-                .valuesByType(upgradeType)
-                .filter(
-                        function(upgradeCard)
-                        {
-                            var restrictions = UpgradeCard.properties[upgradeCard].restrictions;
-                            return UpgradeRestriction.passes(restrictions,
-                                    pilot);
-                        });
+        return this.valuesByType(upgradeType).filter(function(upgradeCard)
+        {
+            var restrictions = UpgradeCard.properties[upgradeCard].restrictions;
+            return UpgradeRestriction.passes(restrictions, pilot);
+        });
     },
 
     valuesByType: function(upgradeType)

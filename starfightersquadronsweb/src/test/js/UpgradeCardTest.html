@@ -27,13 +27,24 @@
     "use strict";
     var LOGGER = new Logger();
 
+    QUnit.test("UpgradeRestriction", function(assert)
+    {
+        var properties = Object.getOwnPropertyNames(UpgradeRestriction);
+        var values = UpgradeRestriction.values();
+        assert.equal(properties.length - 1 // properties
+        - 1 // passes
+        - 1, // values
+        values.length);
+    });
+
     QUnit.test("UpgradeRestriction.values()", function(assert)
     {
         var result = UpgradeRestriction.values();
         assert.ok(result);
-        assert.equal(result.length, 19);
+        assert.equal(result.length, 20);
         assert.equal(result[0], UpgradeRestriction.A_WING_ONLY);
-        assert.equal(result[18], UpgradeRestriction.Y_WING_ONLY);
+        assert.equal(result[18], UpgradeRestriction.YT_2400_ONLY);
+        assert.equal(result[19], UpgradeRestriction.Y_WING_ONLY);
     });
 
     QUnit.test("UpgradeRestriction.passes()", function(assert)
@@ -67,6 +78,16 @@
 
         assert.ok(UpgradeRestriction.passes(undefined, Pilot.DUTCH_VANDER));
         assert.ok(UpgradeRestriction.passes([], Pilot.DUTCH_VANDER));
+    });
+
+    QUnit.test("UpgradeType", function(assert)
+    {
+        var properties = Object.getOwnPropertyNames(UpgradeType);
+        var values = UpgradeType.values();
+        assert.equal(properties.length - 1 // properties
+        - 1 // values
+        - 1, // isSecondaryWeapon
+        values.length);
     });
 
     QUnit.test("UpgradeType properties Astromech", function(assert)
@@ -144,9 +165,10 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 139);
+        assert.equal(result.length, 140);
         assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-        assert.equal(result[138], UpgradeCard.PROTON_TORPEDOES);
+        assert.equal(result[138], UpgradeCard.PROTON_ROCKETS);
+        assert.equal(result[139], UpgradeCard.PROTON_TORPEDOES);
     });
 
     QUnit.test("UpgradeCard.valuesByPilotAndType() Astromech", function(assert)
@@ -159,6 +181,43 @@
         assert.equal(result.length, 12);
         assert.equal(result[0], UpgradeCard.R2_ASTROMECH);
         assert.equal(result[11], UpgradeCard.R7_T1);
+    });
+
+    QUnit.test("UpgradeCard.valuesByPilotAndType() Boba Fett Modification", function(assert)
+    {
+        // Run.
+        var result = UpgradeCard.valuesByPilotAndType(Pilot.BOBA_FETT_IMPERIAL, UpgradeType.MODIFICATION);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 13);
+        var i = 0;
+        assert.equal(result[i++], UpgradeCard.ANTI_PURSUIT_LASERS);
+        assert.equal(result[i++], UpgradeCard.AUTOTHRUSTERS);
+        assert.equal(result[i++], UpgradeCard.COMBAT_RETROFIT);
+        assert.equal(result[i++], UpgradeCard.COUNTERMEASURES);
+        assert.equal(result[i++], UpgradeCard.ENGINE_UPGRADE);
+        assert.equal(result[i++], UpgradeCard.EXPERIMENTAL_INTERFACE);
+        assert.equal(result[i++], UpgradeCard.HULL_UPGRADE);
+        assert.equal(result[i++], UpgradeCard.MUNITIONS_FAILSAFE);
+        assert.equal(result[i++], UpgradeCard.SHIELD_UPGRADE);
+        assert.equal(result[i++], UpgradeCard.STEALTH_DEVICE);
+        assert.equal(result[i++], UpgradeCard.STYGIUM_PARTICLE_ACCELERATOR);
+        assert.equal(result[i++], UpgradeCard.TACTICAL_JAMMER);
+        assert.equal(result[i++], UpgradeCard.TARGETING_COMPUTER);
+    });
+
+    QUnit.test("UpgradeCard.valuesByPilotAndType() Boba Fett Title", function(assert)
+    {
+        // Run.
+        var result = UpgradeCard.valuesByPilotAndType(Pilot.BOBA_FETT_IMPERIAL, UpgradeType.TITLE);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 2);
+        var i = 0;
+        assert.equal(result[i++], UpgradeCard.ANDRASTA);
+        assert.equal(result[i++], UpgradeCard.SLAVE_I);
     });
 
     QUnit.test("UpgradeCard.valuesByPilotAndType() Elite", function(assert)
