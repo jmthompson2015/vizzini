@@ -29,7 +29,7 @@ var UpgradeChooser = React.createClass(
         var labelFunction = function(value)
         {
             var upgradeProps = UpgradeCard.properties[value];
-            return (upgradeProps ? upgradeProps.name + " " + upgradeProps.squadPointCost : value);
+            return (upgradeProps ? upgradeProps.name + " [" + upgradeProps.squadPointCost + "]" : value);
         };
         var select = React.createElement(Select,
         {
