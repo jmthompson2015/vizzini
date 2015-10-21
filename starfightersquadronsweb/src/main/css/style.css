@@ -29,8 +29,8 @@ table {
     vertical-align: bottom;
 }
 
-#ALIGN_LEFT, .agentPanel, .defenderChoice, .optionPaneInput, .squadBuilderAdd, .squadBuilderPanel, .squadUIPilotName,
-    .squadUIRemove, .upgradeCardUIImage, .alignLeft {
+#ALIGN_LEFT, .agentPanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .squadBuilderUpgradeCell,
+    .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
     text-align: left;
 }
 
@@ -43,8 +43,8 @@ table {
     text-align: right;
 }
 
-#ALIGN_TOP, #imperialPilots, #inputArea, .newGamePanel, .planningTableCell, #playArea, .optionPane, #rebelPilots,
-    .squadBuilderUpgradeCell, .alignTop {
+#ALIGN_TOP, #imperialPilots, #inputArea, .newGamePanel, .pilotChooserCell, .planningTableCell, #playArea, .optionPane,
+    #rebelPilots, .upgradesUICell, .alignTop {
     vertical-align: top;
 }
 
@@ -85,7 +85,7 @@ table {
 }
 
 #CENTER, .agentTitle, .countTokenText, .damageCount, .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle,
-    .statsTable, .tokensTable, .center {
+    .squadBuilderAdd, .statsTable, .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -169,6 +169,10 @@ table {
     padding: 0px;
 }
 
+#PADDING_TOP_20, #squadPanel, .paddingTop20 {
+    padding-top: 20px;
+}
+
 #WIDTH_16, .maneuverCell, .width16 {
     width: 16px;
 }
@@ -177,7 +181,7 @@ table {
     width: 24px;
 }
 
-#WIDTH_FULL, .nameTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .tokensPanel,
-    .widthFull {
+#WIDTH_FULL, .nameTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage,
+    .squadBuilderAdd, .tokensPanel, .widthFull {
     width: 100%;
 }

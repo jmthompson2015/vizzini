@@ -56,54 +56,64 @@ var SquadBuilderUI = React.createClass(
         LOGGER.trace("SquadBuilderUI.render()");
 
         var team = this.props.team;
+        var rows = [];
+
+        var pilotChooser = React.createElement(PilotChooser,
+        {
+            team: team,
+            onChangeFunction: this.pilotChanged
+        });
+        var cell0 = React.DOM.td(
+        {
+            key: 0,
+            className: "pilotChooserCell",
+        }, pilotChooser);
         var upgradesUI = this.createUpgradesUI();
+        var cell1 = React.DOM.td(
+        {
+            key: 1,
+            className: "upgradesUICell",
+        }, upgradesUI);
+        rows.push(React.DOM.tr(
+        {
+            key: 0,
+        }, cell0, cell1));
+
         var addButton = React.DOM.input(
         {
             type: "button",
             value: "Add",
             onClick: this.addActionPerformed
         });
-
-        var rows = [];
-
-        var element0 = React.createElement(PilotChooser,
+        var cell2 = React.DOM.td(
         {
-            team: team,
-            onChangeFunction: this.pilotChanged
-        });
-        rows.push(React.DOM.tr(
-        {
-            key: 0
-        }, React.DOM.td({}, element0)));
-
-        rows.push(React.DOM.tr(
-        {
-            key: 1
-        }, React.DOM.td({}, upgradesUI)));
-
+            className: "squadBuilderAdd",
+            colSpan: 2,
+        }, addButton);
         rows.push(React.DOM.tr(
         {
             key: 2,
-            className: "squadBuilderAdd"
-        }, React.DOM.td({}, addButton)));
+        }, cell2));
 
         var squadPanel = React.createElement(SquadUI,
         {
             squad: this.state.squad,
             removeFunction: this.removeActionPerformed
         });
+        var cell3 = React.DOM.td(
+        {
+            id: "squadPanel",
+            colSpan: 2,
+        }, squadPanel);
         rows.push(React.DOM.tr(
         {
-            key: 3
-        }, React.DOM.td(
-        {
-            id: "squadPanel"
-        }, squadPanel)));
+            key: 3,
+        }, cell3));
 
         return React.DOM.table(
         {
             className: "squadBuilderUI"
-        }, rows);
+        }, React.DOM.tbody({}, rows));
     },
 
     addActionPerformed: function(event)
@@ -147,7 +157,7 @@ var SquadBuilderUI = React.createClass(
     {
         var pilot = this.state.pilot;
         var upgradeTypes = Pilot.properties[pilot].upgradeTypes;
-        var cells = [];
+        var rows = [];
 
         var self = this;
         upgradeTypes.forEach(function(upgradeType, i)
@@ -159,17 +169,19 @@ var SquadBuilderUI = React.createClass(
                 index: i,
                 onChangeFunction: self.upgradeChanged
             });
-            cells.push(React.DOM.td(
+            rows.push(React.DOM.tr(
             {
-                key: pilot + upgradeType + cells.length,
+                key: pilot + upgradeType + rows.length
+            }, React.DOM.td(
+            {
                 className: "squadBuilderUpgradeCell"
-            }, element));
+            }, element)));
         });
 
         return React.DOM.table(
         {
             className: "squadBuilderUpgradesUI"
-        }, React.DOM.tr({}, cells));
+        }, React.DOM.tbody({}, rows));
     },
 
     pilotChanged: function(event, pilot)
