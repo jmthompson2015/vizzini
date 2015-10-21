@@ -29,40 +29,47 @@ var UpgradeChooser = React.createClass(
         var labelFunction = function(value)
         {
             var upgradeProps = UpgradeCard.properties[value];
-            return (upgradeProps ? upgradeProps.name + " "
-                    + upgradeProps.squadPointCost : value);
+            return (upgradeProps ? upgradeProps.name + " " + upgradeProps.squadPointCost : value);
         };
         var select = React.createElement(Select,
         {
-            key: 2,
+            key: 1,
             values: upgrades,
             labelFunction: labelFunction,
+            initialSelectedValue: this.state.selected,
             onChange: this.upgradeCardChanged,
             clientProps:
             {
                 "data-index": this.props.index
             }
         });
-
         rows.push(React.DOM.tr(
         {
-            key: 0
+            key: rows.length,
         }, React.DOM.td({}, image, select)));
 
-        rows.push(React.DOM.tr(
+        var selected = this.state.selected;
+        var upgradeCardUI = " ";
+        if (selected)
         {
-            key: 1
-        }, React.DOM.td(
+            upgradeCardUI = React.createElement(UpgradeCardUI,
+            {
+                upgradeCard: selected
+            });
+        }
+        var cell = React.DOM.td(
         {
             id: this.createId()
-        }, " ")));
-
-        var tbody = React.DOM.tbody({}, rows);
+        }, upgradeCardUI);
+        rows.push(React.DOM.tr(
+        {
+            key: rows.length,
+        }, cell));
 
         return React.DOM.table(
         {
             className: "upgradeChooser"
-        }, tbody);
+        }, React.DOM.tbody({}, rows));
     },
 
     createId: function()
@@ -82,29 +89,17 @@ var UpgradeChooser = React.createClass(
     upgradeCardChanged: function(event)
     {
         var upgradeCard = event.currentTarget.value;
-        var id = this.createId();
-        var element = document.getElementById(id);
+        LOGGER.info("UpgradeChooserUI.upgradeCardChanged() upgradeCard = " + upgradeCard);
 
-        if (upgradeCard === "*none*")
+        if (upgradeCard == "*none*")
         {
-            this.setState(
-            {
-                selected: undefined
-            });
-            element.innerHTML = "";
+            upgradeCard = undefined;
         }
-        else
+
+        this.setState(
         {
-            this.setState(
-            {
-                selected: upgradeCard
-            });
-            var component = React.createElement(UpgradeCardUI,
-            {
-                upgradeCard: upgradeCard
-            });
-            React.render(component, element);
-        }
+            selected: upgradeCard
+        });
 
         this.props.onChangeFunction(event);
     },
