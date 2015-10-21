@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <title>RangeRulerTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
 <script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
@@ -23,6 +22,7 @@
 <script src="../../main/js/ShipTeam.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/ShipState.js"></script>
 <script src="../../main/js/UpgradeCard.js"></script>
 <script src="../../main/js/Pilot.js"></script>
 <script src="../../main/js/Token.js"></script>
@@ -48,19 +48,16 @@
     QUnit.test("RangeRuler.getRange() One", function(assert)
     {
         // Setup.
-        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                CoreSetRebelSquadBuilder);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder);
         var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 80, -90);
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
         var rangeRuler = new RangeRuler();
 
         // Run.
-        var result = rangeRuler.getRange(attacker, attackerPosition, defender,
-                defenderPosition);
+        var result = rangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
 
         // Verify.
         assert.ok(result);
@@ -70,19 +67,16 @@
     QUnit.test("RangeRuler.getRange() Two", function(assert)
     {
         // Setup.
-        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                CoreSetRebelSquadBuilder);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder);
         var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 180, -90);
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
         var rangeRuler = new RangeRuler();
 
         // Run.
-        var result = rangeRuler.getRange(attacker, attackerPosition, defender,
-                defenderPosition);
+        var result = rangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
 
         // Verify.
         assert.ok(result);
@@ -92,19 +86,16 @@
     QUnit.test("RangeRuler.getRange() Three", function(assert)
     {
         // Setup.
-        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                CoreSetRebelSquadBuilder);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder);
         var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 280, -90);
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
         var rangeRuler = new RangeRuler();
 
         // Run.
-        var result = rangeRuler.getRange(attacker, attackerPosition, defender,
-                defenderPosition);
+        var result = rangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
 
         // Verify.
         assert.ok(result);

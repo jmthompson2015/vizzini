@@ -19,6 +19,7 @@
 <script src="../../main/js/ShipTeam.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/ShipState.js"></script>
 <script src="../../main/js/UpgradeCard.js"></script>
 <script src="../../main/js/Pilot.js"></script>
 
@@ -35,57 +36,38 @@
         assert.equal(result[18], UpgradeRestriction.Y_WING_ONLY);
     });
 
-    QUnit.test("UpgradeRestriction.passes()",
-            function(assert)
-            {
-                assert.ok(UpgradeRestriction
-                        .passes([ UpgradeRestriction.IMPERIAL_ONLY ],
-                                Pilot.DARTH_VADER));
-                assert.ok(!UpgradeRestriction.passes(
-                        [ UpgradeRestriction.IMPERIAL_ONLY ],
-                        Pilot.LUKE_SKYWALKER));
+    QUnit.test("UpgradeRestriction.passes()", function(assert)
+    {
+        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY ], Pilot.DARTH_VADER));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY ], Pilot.LUKE_SKYWALKER));
 
-                assert.ok(!UpgradeRestriction.passes(
-                        [ UpgradeRestriction.REBEL_ONLY ], Pilot.DARTH_VADER));
-                assert.ok(UpgradeRestriction
-                        .passes([ UpgradeRestriction.REBEL_ONLY ],
-                                Pilot.LUKE_SKYWALKER));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY ], Pilot.DARTH_VADER));
+        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY ], Pilot.LUKE_SKYWALKER));
 
-                assert.ok(UpgradeRestriction.passes([
-                        UpgradeRestriction.IMPERIAL_ONLY,
-                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+        assert.ok(UpgradeRestriction.passes(
+                [ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                Pilot.ALPHA_SQUADRON_PILOT));
+        assert
+                .ok(!UpgradeRestriction.passes(
+                        [ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
                         Pilot.ALPHA_SQUADRON_PILOT));
-                assert.ok(!UpgradeRestriction.passes([
-                        UpgradeRestriction.REBEL_ONLY,
-                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
-                        Pilot.ALPHA_SQUADRON_PILOT));
-                assert.ok(!UpgradeRestriction.passes([
-                        UpgradeRestriction.IMPERIAL_ONLY,
-                        UpgradeRestriction.Y_WING_ONLY ],
-                        Pilot.ALPHA_SQUADRON_PILOT));
-                assert.ok(!UpgradeRestriction.passes([
-                        UpgradeRestriction.REBEL_ONLY,
-                        UpgradeRestriction.Y_WING_ONLY ],
-                        Pilot.ALPHA_SQUADRON_PILOT));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.ALPHA_SQUADRON_PILOT));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.ALPHA_SQUADRON_PILOT));
 
-                assert.ok(!UpgradeRestriction.passes([
-                        UpgradeRestriction.IMPERIAL_ONLY,
-                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
-                        Pilot.DUTCH_VANDER));
-                assert.ok(!UpgradeRestriction.passes([
-                        UpgradeRestriction.REBEL_ONLY,
-                        UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
-                        Pilot.DUTCH_VANDER));
-                assert.ok(!UpgradeRestriction.passes([
-                        UpgradeRestriction.IMPERIAL_ONLY,
-                        UpgradeRestriction.Y_WING_ONLY ], Pilot.DUTCH_VANDER));
-                assert.ok(UpgradeRestriction.passes([
-                        UpgradeRestriction.REBEL_ONLY,
-                        UpgradeRestriction.Y_WING_ONLY ], Pilot.DUTCH_VANDER));
-                
-                assert.ok(UpgradeRestriction.passes(undefined, Pilot.DUTCH_VANDER));
-                assert.ok(UpgradeRestriction.passes([], Pilot.DUTCH_VANDER));
-            });
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY,
+                UpgradeRestriction.TIE_INTERCEPTOR_ONLY ], Pilot.DUTCH_VANDER));
+        assert.ok(!UpgradeRestriction.passes(
+                [ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ], Pilot.DUTCH_VANDER));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.DUTCH_VANDER));
+        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.DUTCH_VANDER));
+
+        assert.ok(UpgradeRestriction.passes(undefined, Pilot.DUTCH_VANDER));
+        assert.ok(UpgradeRestriction.passes([], Pilot.DUTCH_VANDER));
+    });
 
     QUnit.test("UpgradeType properties Astromech", function(assert)
     {
@@ -139,8 +121,7 @@
                         assert.equal(result.type, UpgradeType.CREW);
                         assert.ok(result.restrictions);
                         assert.equal(result.restrictions.length, 1);
-                        assert.equal(result.restrictions[0],
-                                UpgradeRestriction.REBEL_ONLY);
+                        assert.equal(result.restrictions[0], UpgradeRestriction.REBEL_ONLY);
                         assert
                                 .equal(
                                         result.description,
@@ -152,8 +133,7 @@
 
     QUnit.test("UpgradeCard.getName()", function(assert)
     {
-        assert.equal(UpgradeCard.getName(UpgradeCard.DETERMINATION),
-                "Determination");
+        assert.equal(UpgradeCard.getName(UpgradeCard.DETERMINATION), "Determination");
         assert.equal(UpgradeCard.getName(UpgradeCard.R2_D2), "\u25CF R2-D2");
     });
 
@@ -172,8 +152,7 @@
     QUnit.test("UpgradeCard.valuesByPilotAndType() Astromech", function(assert)
     {
         // Run.
-        var result = UpgradeCard.valuesByPilotAndType(Pilot.LUKE_SKYWALKER,
-                UpgradeType.ASTROMECH);
+        var result = UpgradeCard.valuesByPilotAndType(Pilot.LUKE_SKYWALKER, UpgradeType.ASTROMECH);
 
         // Verify.
         assert.ok(result);
@@ -185,8 +164,7 @@
     QUnit.test("UpgradeCard.valuesByPilotAndType() Elite", function(assert)
     {
         // Run.
-        var result = UpgradeCard.valuesByPilotAndType(Pilot.DARTH_VADER,
-                UpgradeType.ELITE);
+        var result = UpgradeCard.valuesByPilotAndType(Pilot.DARTH_VADER, UpgradeType.ELITE);
 
         // Verify.
         assert.ok(result);
