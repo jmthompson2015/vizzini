@@ -156,7 +156,18 @@ var SquadBuilderUI = React.createClass(
     createUpgradesUI: function()
     {
         var pilot = this.state.pilot;
-        var upgradeTypes = Pilot.properties[pilot].upgradeTypes;
+        var upgradeTypes = Pilot.properties[pilot].upgradeTypes.slice();
+
+        if (UpgradeCard.valuesByPilotAndType(pilot, UpgradeType.TITLE).length > 0)
+        {
+            upgradeTypes.unshift(UpgradeType.TITLE);
+        }
+
+        if (UpgradeCard.valuesByPilotAndType(pilot, UpgradeType.MODIFICATION).length > 0)
+        {
+            upgradeTypes.push(UpgradeType.MODIFICATION);
+        }
+
         var rows = [];
 
         var self = this;

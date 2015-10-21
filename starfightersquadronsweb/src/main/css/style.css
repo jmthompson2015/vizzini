@@ -185,3 +185,7 @@ table {
     .squadBuilderAdd, .tokensPanel, .widthFull {
     width: 100%;
 }
+
+#WIDTH_HALF, .pilotChooserCell, .upgradesUICell, .widthHalf {
+    width: 50%;
+}
