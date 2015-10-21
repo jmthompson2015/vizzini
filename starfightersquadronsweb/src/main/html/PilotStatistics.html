@@ -23,6 +23,7 @@
 <script src="../js/ShipTeam.js"></script>
 <script src="../js/RangeRuler.js"></script>
 <script src="../js/Weapon.js"></script>
+<script src="../js/ShipState.js"></script>
 <script src="../js/UpgradeCard.js"></script>
 <script src="../js/Pilot.js"></script>
 <script src="../js/DamageCard.js"></script>
@@ -121,8 +122,7 @@
                         teamName = "Scum";
                     }
 
-                    var imageFile = "../resources/images/" + teamName
-                            + "Icon24.png";
+                    var imageFile = "../resources/images/" + teamName + "Icon24.png";
                     var customKey = team;
 
                     var pilotSkill = shipState.getPilotSkillValue();
@@ -130,8 +130,7 @@
                     var agility = shipState.getAgilityValue();
                     var hull = shipState.getHullValue();
                     var shield = shipState.getShieldValue();
-                    var sum = pilotSkill + primaryWeapon + agility + hull
-                            + shield;
+                    var sum = pilotSkill + primaryWeapon + agility + hull + shield;
                     var squadPointCost = Pilot.properties[pilot].squadPointCost;
 
                     content += "<tr>";

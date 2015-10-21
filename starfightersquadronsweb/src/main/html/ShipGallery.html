@@ -22,6 +22,7 @@
 <script src="../js/SquadBuilder.js"></script>
 <script src="../js/RangeRuler.js"></script>
 <script src="../js/Weapon.js"></script>
+<script src="../js/ShipState.js"></script>
 <script src="../js/UpgradeCard.js"></script>
 <script src="../js/Pilot.js"></script>
 <script src="../js/Token.js"></script>
@@ -66,8 +67,7 @@
             {
                 var team = this.props.team;
                 var shipTeams = ShipTeam.valuesByTeam(team);
-                var agent = new SimpleAgent("Agent", team,
-                        CoreSetImperialSquadBuilder);
+                var agent = new SimpleAgent("Agent", team, CoreSetImperialSquadBuilder);
 
                 var cells0 = [];
                 var cells1 = [];
@@ -76,8 +76,7 @@
                 shipTeams.forEach(function(shipTeam, i)
                 {
                     var shipName = ShipTeam.properties[shipTeam].name;
-                    var filename = imageBase
-                            + ShipTeam.properties[shipTeam].image;
+                    var filename = imageBase + ShipTeam.properties[shipTeam].image;
                     var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
                     var token = new Token(pilot, agent);
 

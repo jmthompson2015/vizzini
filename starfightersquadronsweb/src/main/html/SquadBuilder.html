@@ -71,8 +71,7 @@
         LOGGER.setDebugEnabled(false);
 
         var team = Team.IMPERIAL;
-        React.render(createTeamSelect(), document
-                .getElementById("factionSelect"));
+        React.render(createTeamSelect(), document.getElementById("factionSelect"));
         var element = React.createElement(SquadBuilderUI,
         {
             team: team
@@ -83,8 +82,7 @@
         {
             team = event.currentTarget.value;
             LOGGER.info("teamChanged() team = " + team);
-            React.render(createTeamSelect(), document
-                    .getElementById("factionSelect"));
+            React.render(createTeamSelect(), document.getElementById("factionSelect"));
             var element = React.createElement(SquadBuilderUI,
             {
                 team: team
@@ -97,8 +95,7 @@
             return createSelect(Team.values, Team.properties, team, teamChanged);
         }
 
-        function createSelect(values, properties, selectedValue,
-                onChangeFunction)
+        function createSelect(values, properties, selectedValue, onChangeFunction)
         {
             var options = [];
 
