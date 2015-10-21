@@ -125,7 +125,19 @@ function Token(pilot, agent)
 
     this.getAgilityValue = function()
     {
-        return getShipState().getAgilityValue();
+        var answer = getShipState().getAgilityValue();
+
+        this.getUpgrades().forEach(function(upgrade)
+        {
+            var shipState = UpgradeCard.properties[upgrade].shipState;
+
+            if (shipState)
+            {
+                answer += shipState.getAgilityValue();
+            }
+        });
+
+        return answer;
     }
 
     this.getAttackDice = function()
@@ -187,21 +199,20 @@ function Token(pilot, agent)
     {
         var answer = getShipState().getHullValue();
 
-        answer = criticalDamages.reduce(
-                function(sum, damage)
-                {
-                    return sum
-                            + DamageCard.properties[damage].shipState
-                                    .getHullValue();
-                }, answer);
+        answer = criticalDamages.reduce(function(sum, damage)
+        {
+            return sum + DamageCard.properties[damage].shipState.getHullValue();
+        }, answer);
 
-        // for (final UpgradeCard upgrade : getUpgrades())
-        // {
-        // if (!upgrade.hasAction() || isUpgradeActive(upgrade))
-        // {
-        // answer += upgrade.getHullValue();
-        // }
-        // }
+        this.getUpgrades().forEach(function(upgrade)
+        {
+            var shipState = UpgradeCard.properties[upgrade].shipState;
+
+            if (shipState)
+            {
+                answer += shipState.getHullValue();
+            }
+        });
 
         return Math.max(answer, 0);
     }
@@ -302,18 +313,18 @@ function Token(pilot, agent)
 
         answer = criticalDamages.reduce(function(sum, damage)
         {
-            return sum
-                    + DamageCard.properties[damage].shipState
-                            .getPilotSkillValue();
+            return sum + DamageCard.properties[damage].shipState.getPilotSkillValue();
         }, answer);
 
-        // for (final UpgradeCard upgrade : getUpgrades())
-        // {
-        // if (!upgrade.hasAction() || isUpgradeActive(upgrade))
-        // {
-        // answer += upgrade.getPilotSkillValue();
-        // }
-        // }
+        this.getUpgrades().forEach(function(upgrade)
+        {
+            var shipState = UpgradeCard.properties[upgrade].shipState;
+
+            if (shipState)
+            {
+                answer += shipState.getPilotSkillValue();
+            }
+        });
 
         return Math.max(answer, 0);
     }
@@ -329,18 +340,18 @@ function Token(pilot, agent)
 
         answer = criticalDamages.reduce(function(sum, damage)
         {
-            return sum
-                    + DamageCard.properties[damage].shipState
-                            .getPrimaryWeaponValue();
+            return sum + DamageCard.properties[damage].shipState.getPrimaryWeaponValue();
         }, answer);
 
-        // for (final UpgradeCard upgrade : getUpgrades())
-        // {
-        // if (!upgrade.hasAction() || isUpgradeActive(upgrade))
-        // {
-        // answer += upgrade.getPrimaryWeaponValue();
-        // }
-        // }
+        this.getUpgrades().forEach(function(upgrade)
+        {
+            var shipState = UpgradeCard.properties[upgrade].shipState;
+
+            if (shipState)
+            {
+                answer += shipState.getPrimaryWeaponValue();
+            }
+        });
 
         return Math.max(answer, 0);
     }
@@ -363,7 +374,19 @@ function Token(pilot, agent)
 
     this.getShieldValue = function()
     {
-        return getShipState().getShieldValue();
+        var answer = getShipState().getShieldValue();
+
+        this.getUpgrades().forEach(function(upgrade)
+        {
+            var shipState = UpgradeCard.properties[upgrade].shipState;
+
+            if (shipState)
+            {
+                answer += shipState.getShieldValue();
+            }
+        });
+
+        return answer;
     }
 
     this.getShip = function()
@@ -896,8 +919,7 @@ Token.prototype.isCriticallyDamagedWith = function(damage)
  */
 Token.prototype.isDestroyed = function()
 {
-    return (this.getDamageCount() + this.getCriticalDamageCount()) >= this
-            .getHullValue();
+    return (this.getDamageCount() + this.getCriticalDamageCount()) >= this.getHullValue();
 }
 
 Token.prototype.isStressed = function()

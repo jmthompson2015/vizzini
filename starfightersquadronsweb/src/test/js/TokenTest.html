@@ -222,6 +222,20 @@
         assert.equal(token2.getAgilityValue(), 2);
     });
 
+    QUnit.test("Token.getAgilityValue()", function(assert)
+    {
+        // Setup.
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, UpgradeCard.STEALTH_DEVICE);
+
+        // Run / Verify.
+        assert.equal(token.getPilotSkillValue(), 1);
+        assert.equal(token.getPrimaryWeaponValue(), 2);
+        assert.equal(token.getAgilityValue(), 4);
+        assert.equal(token.getHullValue(), 3);
+        assert.equal(token.getShieldValue(), 0);
+    });
+
     QUnit.test("Token.getHullValue()", function(assert)
     {
         // Setup.
@@ -235,6 +249,20 @@
         assert.equal(token0.getHullValue(), 3);
         assert.equal(token1.getHullValue(), 6);
         assert.equal(token2.getHullValue(), 3);
+    });
+
+    QUnit.test("Token.getHullValue()", function(assert)
+    {
+        // Setup.
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, UpgradeCard.COMBAT_RETROFIT);
+
+        // Run / Verify.
+        assert.equal(token.getPilotSkillValue(), 1);
+        assert.equal(token.getPrimaryWeaponValue(), 2);
+        assert.equal(token.getAgilityValue(), 3);
+        assert.equal(token.getHullValue(), 5);
+        assert.equal(token.getShieldValue(), 1);
     });
 
     QUnit.test("Token.getHullValue() Direct Hit", function(assert)
@@ -341,6 +369,21 @@
         assert.equal(token0.getPilotSkillValue(), 1);
         assert.equal(token1.getPilotSkillValue(), 3);
         assert.equal(token2.getPilotSkillValue(), 2);
+    });
+
+    QUnit.test("Token.getPilotSkillValue() Whisper and Veteran Instincts", function(assert)
+    {
+        // Setup.
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        var token = new Token(Pilot.WHISPER, imperialAgent, UpgradeCard.ADVANCED_CLOAKING_DEVICE,
+                UpgradeCard.REBEL_CAPTIVE, UpgradeCard.VETERAN_INSTINCTS);
+
+        // Run / Verify.
+        assert.equal(token.getPilotSkillValue(), 9);
+        assert.equal(token.getPrimaryWeaponValue(), 4);
+        assert.equal(token.getAgilityValue(), 2);
+        assert.equal(token.getHullValue(), 2);
+        assert.equal(token.getShieldValue(), 2);
     });
 
     QUnit.test("Token.getPilotSkillValue() Damaged Cockpit", function(assert)
