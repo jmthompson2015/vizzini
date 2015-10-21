@@ -22,6 +22,7 @@
 <script src="../../../main/js/ShipTeam.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/Token.js"></script>
@@ -38,16 +39,12 @@
         var LOGGER = new Logger();
 
         {
-            var imperialAgent = new SimpleAgent("Imperial Agent",
-                    Team.IMPERIAL, CoreSetImperialSquadBuilder);
-            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                    CoreSetRebelSquadBuilder, new ImageUtilities());
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
             var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
             var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-            var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT,
-                    imperialAgent);
-            var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT,
-                    imperialAgent);
+            var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+            var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
             var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
             var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
             var rangeOneToTokens =
@@ -68,8 +65,7 @@
             var primaryWeaponToRangeAndTokens =
             {
                 weapon: attacker.getPrimaryWeapon(),
-                rangeAndTokens: [ rangeOneToTokens, rangeTwoToTokens,
-                        rangeThreeToTokens ]
+                rangeAndTokens: [ rangeOneToTokens, rangeTwoToTokens, rangeThreeToTokens ]
             }
             var choices = [ primaryWeaponToRangeAndTokens ];
             var callback = function(weapon, defender)

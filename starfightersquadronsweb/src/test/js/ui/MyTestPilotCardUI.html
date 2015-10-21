@@ -19,6 +19,7 @@
 <script src="../../../main/js/Ship.js"></script>
 <script src="../../../main/js/ShipTeam.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
@@ -55,8 +56,7 @@
         var LOGGER = new Logger();
         var imageUtils = new ImageUtilities();
 
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var imperialToken = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         imperialToken.increaseCloakCount();
         imperialToken.increaseEvadeCount();
@@ -65,15 +65,13 @@
         imperialToken.increaseFocusCount();
         imperialToken.increaseFocusCount();
 
-        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                CoreSetRebelSquadBuilder, new ImageUtilities());
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
         var rebelToken = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         rebelToken.increaseIonCount();
         rebelToken.increaseStressCount();
         rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
-        var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM,
-                CoreSetImperialSquadBuilder);
+        var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM, CoreSetImperialSquadBuilder);
         var scumToken = new Token(Pilot.SYNDICATE_THUG, scumAgent);
 
         var element = React.createElement(PilotCardUI,

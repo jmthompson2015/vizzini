@@ -21,6 +21,7 @@
 <script src="../../../main/js/ShipTeam.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/Token.js"></script>
@@ -51,8 +52,7 @@
 
                         var filename = "file:///Users/jmthompson/Dropbox/SoftwareDev/JavaProjects/vizzini/starfightersquadronsweb/src/resources/images/ImperialIcon24.png";
                         var expected = "file:///Users/jmthompson/Dropbox/SoftwareDev/JavaProjects/vizzini/starfightersquadronsweb/src/main/resources/images/ImperialIcon24.png";
-                        filename = filename.replace("src/resources",
-                                "src/main/resources");
+                        filename = filename.replace("src/resources", "src/main/resources");
                         assert.equal(filename, expected);
                     });
 
@@ -65,8 +65,7 @@
                         var imageUtils = new ImageUtilities();
 
                         // Run.
-                        var result = imageUtils
-                                .createTeamIconString(Team.properties[Team.IMPERIAL].name);
+                        var result = imageUtils.createTeamIconString(Team.properties[Team.IMPERIAL].name);
 
                         // Verify.
                         var expected = "<img title='Imperial Faction' src='/Users/jmthompson/git/vizzini/starfightersquadronsweb/src/main/resources/images/ImperialIcon24.png'/>";
@@ -82,8 +81,7 @@
                         var imageUtils = new ImageUtilities();
 
                         // Run.
-                        var result = imageUtils
-                                .createTeamIconString(Team.properties[Team.REBEL].name);
+                        var result = imageUtils.createTeamIconString(Team.properties[Team.REBEL].name);
 
                         // Verify.
                         var expected = "<img title='Rebel Faction' src='/Users/jmthompson/git/vizzini/starfightersquadronsweb/src/main/resources/images/RebelIcon24.png'/>";

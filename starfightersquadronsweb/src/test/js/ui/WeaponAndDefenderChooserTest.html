@@ -23,6 +23,7 @@
 <script src="../../../main/js/ShipTeam.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/Token.js"></script>
@@ -39,26 +40,23 @@
 <script>
     var LOGGER = new Logger();
 
-    QUnit.test("WeaponAndDefenderChooser.createRangeAndTokens() none",
-            function(assert)
-            {
-                // Setup.
-                var environment = Environment.createCoreSetEnvironment();
-                var attackerPosition = new Position(458, 895, -90);
-                var attacker = environment.getTokenAt(attackerPosition);
-                var weapon = attacker.getPrimaryWeapon();
+    QUnit.test("WeaponAndDefenderChooser.createRangeAndTokens() none", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        var weapon = attacker.getPrimaryWeapon();
 
-                // Run.
-                var result = WeaponAndDefenderChooser.createRangeAndTokens(
-                        environment, attacker, attackerPosition, weapon);
+        // Run.
+        var result = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition, weapon);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.length, 0);
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 0);
+    });
 
-    QUnit.test("WeaponAndDefenderChooser.createRangeAndTokens() one", function(
-            assert)
+    QUnit.test("WeaponAndDefenderChooser.createRangeAndTokens() one", function(assert)
     {
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
@@ -70,8 +68,7 @@
         var weapon = attacker.getPrimaryWeapon();
 
         // Run.
-        var result = WeaponAndDefenderChooser.createRangeAndTokens(environment,
-                attacker, attackerPosition, weapon);
+        var result = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition, weapon);
 
         // Verify.
         assert.ok(result);
@@ -85,46 +82,40 @@
         }
     });
 
-    QUnit
-            .test(
-                    "WeaponAndDefenderChooser.createWeaponAndRangeAndTokens() one",
-                    function(assert)
-                    {
-                        // Setup.
-                        var environment = Environment
-                                .createCoreSetEnvironment();
-                        var attackerPosition = new Position(458, 895, -90);
-                        var attacker = environment.getTokenAt(attackerPosition);
-                        environment.removeToken(attackerPosition);
-                        attackerPosition = new Position(300, 70, -90);
-                        environment.placeToken(attackerPosition, attacker);
-                        var weapon = attacker.getPrimaryWeapon();
+    QUnit.test("WeaponAndDefenderChooser.createWeaponAndRangeAndTokens() one", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(300, 70, -90);
+        environment.placeToken(attackerPosition, attacker);
+        var weapon = attacker.getPrimaryWeapon();
 
-                        // Run.
-                        var result = WeaponAndDefenderChooser
-                                .createWeaponAndRangeAndTokens(environment,
-                                        attacker);
+        // Run.
+        var result = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
 
-                        // Verify.
-                        assert.ok(result);
-                        assert.equal(result.length, 1);
-                        {
-                            var weaponAndRangeAndTokens = result[0];
-                            var weapon = weaponAndRangeAndTokens.weapon;
-                            assert.equal(weapon, attacker.getPrimaryWeapon());
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 1);
+        {
+            var weaponAndRangeAndTokens = result[0];
+            var weapon = weaponAndRangeAndTokens.weapon;
+            assert.equal(weapon, attacker.getPrimaryWeapon());
 
-                            var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
-                            assert.ok(rangeAndTokensArray);
-                            assert.equal(rangeAndTokensArray.length, 1);
+            var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
+            assert.ok(rangeAndTokensArray);
+            assert.equal(rangeAndTokensArray.length, 1);
 
-                            var rangeAndTokens = rangeAndTokensArray[0];
-                            assert.equal(rangeAndTokens.range, Range.ONE);
+            var rangeAndTokens = rangeAndTokensArray[0];
+            assert.equal(rangeAndTokens.range, Range.ONE);
 
-                            var tokens = rangeAndTokens.tokens;
-                            assert.ok(tokens);
-                            assert.equal(tokens.length, 1);
-                        }
-                    });
+            var tokens = rangeAndTokens.tokens;
+            assert.ok(tokens);
+            assert.equal(tokens.length, 1);
+        }
+    });
 </script>
 </head>
 <body>

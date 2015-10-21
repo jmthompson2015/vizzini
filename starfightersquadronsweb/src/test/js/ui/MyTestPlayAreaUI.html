@@ -21,6 +21,7 @@
 <script src="../../../main/js/Path.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/DamageCard.js"></script>
@@ -65,8 +66,7 @@
             var phase = environment.getPhase();
             var activeToken = environment.getActiveToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
-            var playState = new PlayState(round, phase, activeToken,
-                    tokenPositions);
+            var playState = new PlayState(round, phase, activeToken, tokenPositions);
             playAreaUI.paintComponent(context, playState);
         }, 2000);
     </script>

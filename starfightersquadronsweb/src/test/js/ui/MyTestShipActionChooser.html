@@ -24,6 +24,7 @@
 <script src="../../../main/js/ShipAction.js"></script>
 <script src="../../../main/js/Ship.js"></script>
 <script src="../../../main/js/ShipTeam.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/SimpleAgent.js"></script>
@@ -44,8 +45,7 @@
         "use strict";
         var LOGGER = new Logger();
 
-        var agent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                CoreSetRebelSquadBuilder, new ImageUtilities());
+        var agent = new SimpleAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
         var token = new Token(Pilot.LUKE_SKYWALKER, agent);
         var shipActions = token.getShipActions();
 

@@ -23,6 +23,7 @@
 <script src="../../../main/js/Ship.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/ShipTeam.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
@@ -45,8 +46,7 @@
 
         var environment;
         var adjudicator;
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
         var token2 = new Token(Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);

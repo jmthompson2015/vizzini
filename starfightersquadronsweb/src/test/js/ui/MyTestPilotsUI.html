@@ -21,6 +21,7 @@
 <script src="../../../main/js/ShipAction.js"></script>
 <script src="../../../main/js/Ship.js"></script>
 <script src="../../../main/js/ShipTeam.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/DamageCard.js"></script>
@@ -57,8 +58,7 @@
         {
             initialTokens: tokens
         });
-        var imperialPilotsUI = React.render(element, document
-                .getElementById("imperialPilots"));
+        var imperialPilotsUI = React.render(element, document.getElementById("imperialPilots"));
 
         function updateTokens()
         {
@@ -71,8 +71,7 @@
         function addToken()
         {
             LOGGER.info("addToken() start");
-            tokens[tokens.length] = new Token(Pilot.ACADEMY_PILOT, tokens[0]
-                    .getAgent());
+            tokens[tokens.length] = new Token(Pilot.ACADEMY_PILOT, tokens[0].getAgent());
             imperialPilotsUI.setState(
             {
                 tokens: tokens

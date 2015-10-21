@@ -22,6 +22,7 @@
 <script src="../../../main/js/ShipTeam.js"></script>
 <script src="../../../main/js/RangeRuler.js"></script>
 <script src="../../../main/js/Weapon.js"></script>
+<script src="../../../main/js/ShipState.js"></script>
 <script src="../../../main/js/UpgradeCard.js"></script>
 <script src="../../../main/js/Pilot.js"></script>
 <script src="../../../main/js/DamageCard.js"></script>
@@ -43,8 +44,7 @@
         var imageUtils = new ImageUtilities();
 
         {
-            var imperialAgent = new SimpleAgent("Imperial Agent",
-                    Team.IMPERIAL, CoreSetImperialSquadBuilder);
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
             var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
             var element = React.createElement(ManeuverChooser,
             {
@@ -55,8 +55,7 @@
         }
 
         {
-            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                    CoreSetRebelSquadBuilder);
+            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder);
             var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
             var element = React.createElement(ManeuverChooser,
             {

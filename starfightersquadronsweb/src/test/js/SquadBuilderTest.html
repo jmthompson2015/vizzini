@@ -15,6 +15,7 @@
 
 <script src="../../main/js/Team.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/ShipState.js"></script>
 <script src="../../main/js/UpgradeCard.js"></script>
 <script src="../../main/js/ShipAction.js"></script>
 <script src="../../main/js/Maneuver.js"></script>
@@ -32,8 +33,7 @@
 <script>
     QUnit.test("CoreSetImperialSquadBuilder buildSquad()", function(assert)
     {
-        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                CoreSetImperialSquadBuilder);
+        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var result = CoreSetImperialSquadBuilder.buildSquad(agent);
         assert.equal(result.length, 2);
 
@@ -60,8 +60,7 @@
 
     QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
     {
-        var agent = new HumanAgent("Rebel Agent", Team.REBEL,
-                CoreSetRebelSquadBuilder, new ImageUtilities());
+        var agent = new HumanAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
         var result = CoreSetRebelSquadBuilder.buildSquad(agent);
         assert.equal(result.length, 1);
 
