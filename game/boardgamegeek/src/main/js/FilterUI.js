@@ -2,7 +2,24 @@ var FiltersUI = React.createClass(
 {
     getInitialState: function()
     {
-        return this.createDefaults();
+        var answer;
+
+        if (localStorage.filters)
+        {
+            var filters = JSON.parse(localStorage.filters);
+            answer = {};
+
+            filters.forEach(function(filter)
+            {
+                answer[filter.columnKey] = filter;
+            });
+        }
+        else
+        {
+            answer = createDefaults();
+        }
+
+        return answer;
     },
 
     render: function()
@@ -69,40 +86,13 @@ var FiltersUI = React.createClass(
     {
         return (
         {
-            boardGameRankMinChecked: false,
-            boardGameRankMin: 1,
-            boardGameRankMaxChecked: false,
-            boardGameRankMax: 20,
-
-            yearPublishedMinChecked: false,
-            yearPublishedMin: 2000,
-            yearPublishedMaxChecked: false,
-            yearPublishedMax: 2015,
-
-            geekRatingMinChecked: true,
-            geekRatingMin: 7.2,
-            geekRatingMaxChecked: false,
-            geekRatingMax: 10,
-
-            minPlayersMinChecked: false,
-            minPlayersMin: 1,
-            minPlayersMaxChecked: true,
-            minPlayersMax: 3,
-
-            maxPlayersMinChecked: true,
-            maxPlayersMin: 3,
-            maxPlayersMaxChecked: false,
-            maxPlayersMax: 6,
-
-            minPlayTimeMinChecked: true,
-            minPlayTimeMin: 30,
-            minPlayTimeMaxChecked: false,
-            minPlayTimeMax: 120,
-
-            maxPlayTimeMinChecked: false,
-            maxPlayTimeMin: 30,
-            maxPlayTimeMaxChecked: true,
-            maxPlayTimeMax: 120,
+            boardGameRank: GameDatabase.newFilter("boardGameRank", false, 1, false, 20),
+            yearPublished: GameDatabase.newFilter("yearPublished", false, 2000, false, 2015),
+            geekRating: GameDatabase.newFilter("geekRating", true, 7.2, false, 10),
+            minPlayers: GameDatabase.newFilter("minPlayers", false, 1, true, 3),
+            maxPlayers: GameDatabase.newFilter("maxPlayers", true, 3, false, 6),
+            minPlayTime: GameDatabase.newFilter("minPlayTime", true, 30, false, 120),
+            maxPlayTime: GameDatabase.newFilter("maxPlayTime", false, 30, true, 120),
         });
     },
 
@@ -120,33 +110,28 @@ var FiltersUI = React.createClass(
         maxValue = (maxValue ? parseFloat(maxValue) : undefined);
         LOGGER.debug(columnKey + " isMaxEnabled, maxValue = " + isMaxEnabled + " " + maxValue);
 
-        return new Filter(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
+        return GameDatabase.newFilter(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
     },
 
     createRow: function(key, column)
     {
         var cells = [];
-        var minId = column.key + "Min";
-        var minChecked = this.state[minId + "Checked"];
-        var minValue = this.state[minId];
-        var maxId = column.key + "Max";
-        var maxChecked = this.state[maxId + "Checked"];
-        var maxValue = this.state[maxId];
+        var filter = this.state[column.key];
 
         cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
-            key: 0,
+            key: cells.length,
             id: column.key + "MinChecked",
             type: "checkbox",
-            defaultChecked: minChecked,
+            defaultChecked: filter.isMinEnabled,
         })));
         cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
-            key: 1,
-            id: minId,
+            key: cells.length,
+            id: column.key + "Min",
             type: "number",
             className: "filterField",
-            defaultValue: minValue,
+            defaultValue: filter.minValue,
         })));
 
         cells.push(React.DOM.td(
@@ -158,18 +143,18 @@ var FiltersUI = React.createClass(
 
         cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
-            key: 0,
+            key: cells.length,
             id: column.key + "MaxChecked",
             type: "checkbox",
-            defaultChecked: maxChecked,
+            defaultChecked: filter.isMaxEnabled,
         })));
         cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
-            key: 1,
-            id: maxId,
+            key: cells.length,
+            id: column.key + "Max",
             type: "number",
             className: "filterField",
-            defaultValue: maxValue,
+            defaultValue: filter.maxValue,
         })));
 
         return React.DOM.tr(
@@ -193,6 +178,7 @@ var FiltersUI = React.createClass(
         filters.push(this.createFilter(GameColumns[7].key));
 
         this.trigger("applyFilters", filters);
+        localStorage.filters = JSON.stringify(filters);
 
         LOGGER.info("FiltersUI.filterActionPerformed() end");
     },

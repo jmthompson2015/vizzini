@@ -222,6 +222,32 @@ GameDatabase.prototype.findItemById = function(array, id)
     return answer;
 }
 
+GameDatabase.newFilter = function(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue)
+{
+    var answer =
+    {
+        columnKey: columnKey,
+        isMinEnabled: isMinEnabled,
+        minValue: minValue,
+        isMaxEnabled: isMaxEnabled,
+        maxValue: maxValue,
+    };
+
+    answer.passes = function(gameSummary, gameDetail)
+    {
+        var value = gameSummary[columnKey];
+
+        if (!value && gameDetail)
+        {
+            value = gameDetail[columnKey];
+        }
+
+        return (!isMinEnabled || minValue <= value) && (!isMaxEnabled || value <= maxValue);
+    }
+
+    return answer;
+}
+
 GameDatabase.newGameDetail = function(id, title, yearPublished, minPlayers, maxPlayers, minPlayTime, maxPlayTime,
         mechanics)
 {
