@@ -27,9 +27,9 @@ function GameDetailFetcher(gameIds)
 
     function createUrl()
     {
-        var baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
+        var baseUrl = "https://query.yahooapis.com/v1/public/yql?q=";
 
-        // http://www.boardgamegeek.com/xmlapi2/thing?id=12333,120677
+        // https://www.boardgamegeek.com/xmlapi2/thing?id=12333,120677
         var initialValue = "";
         var idsString = gameIds.reduce(function(previousValue, id, i)
         {
@@ -43,7 +43,7 @@ function GameDetailFetcher(gameIds)
             return answer;
         }, initialValue);
 
-        var sourceUrl = "http://www.boardgamegeek.com/xmlapi2/thing?id=" + idsString;
+        var sourceUrl = "https://www.boardgamegeek.com/xmlapi2/thing?id=" + idsString;
 
         var query = "select * from xml where url='" + sourceUrl + "'";
         LOGGER.debug("unencoded url = _" + (baseUrl + query) + "_");

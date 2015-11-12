@@ -27,11 +27,11 @@ function GameSummaryFetcher(page)
 
     function createUrl()
     {
-        var baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
+        var baseUrl = "https://query.yahooapis.com/v1/public/yql?q=";
 
-        // http://www.boardgamegeek.com/browse/boardgame
-        // http://www.boardgamegeek.com/browse/boardgame/page/2
-        var sourceUrl = "http://www.boardgamegeek.com/browse/boardgame";
+        // https://www.boardgamegeek.com/browse/boardgame
+        // https://www.boardgamegeek.com/browse/boardgame/page/2
+        var sourceUrl = "https://www.boardgamegeek.com/browse/boardgame";
 
         if (page && page > 1)
         {

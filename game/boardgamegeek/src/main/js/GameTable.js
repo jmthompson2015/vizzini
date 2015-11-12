@@ -111,7 +111,7 @@ var GameTable = React.createClass(
 
     createLinkCell: function(key, column, id, title)
     {
-        var link = this.createLink("http://www.boardgamegeek.com/boardgame/" + id, title);
+        var link = this.createLink("https://www.boardgamegeek.com/boardgame/" + id, title);
 
         return this.Td(
         {
