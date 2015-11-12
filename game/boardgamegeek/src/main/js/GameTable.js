@@ -102,7 +102,7 @@ var GameTable = React.createClass(
 
     createLink: function(href, label)
     {
-        return React.createElement('a',
+        return React.DOM.a(
         {
             href: href,
             target: "_blank",
@@ -128,14 +128,20 @@ var GameTable = React.createClass(
 
         mechanics.forEach(function(mechanic)
         {
-            rows.push(React.createElement("tr",
+            var link = React.DOM.a(
+            {
+                href: "https://www.boardgamegeek.com/boardgamemechanic/" + mechanic.id,
+                target: "_blank",
+            }, mechanic.name);
+
+            rows.push(React.DOM.tr(
             {
                 key: rows.length,
                 className: "mechanicsRow",
-            }, React.createElement("td",
+            }, React.DOM.td(
             {
                 className: "mechanicsCell",
-            }, mechanic.name)));
+            }, link)));
         });
 
         return React.DOM.table(
