@@ -1,0 +1,77 @@
+body {
+	background-image:
+		url('../../../../../coreweb/src/main/resources/yellowGradient.png');
+	background-repeat: repeat-y;
+	font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+.dataTable tbody tr:nth-child(2n) td {
+	background: LightCyan;
+}
+
+.dataTable tbody tr:nth-child(2n+1) td {
+	background: White;
+}
+
+.mechanicsTable tbody tr:nth-child(2n) td {
+	background: white;
+}
+
+.mechanicsTable tbody tr:nth-child(2n+1) td {
+	background: white;
+}
+
+#ALIGN_CENTER, .filterLabel, .alignCenter {
+	text-align: center;
+}
+
+#ALIGN_RIGHT, .numberCell, .alignRight {
+	text-align: right;
+}
+
+#BACKGROUND_DARK, .dataTable th, .backgroundDark {
+	background-color: green;
+	color: white;
+}
+
+#BORDER_BLACK, .filterTable td, .borderBlack {
+	border: 1px solid black;
+}
+
+#BORDER_DARK, .dataTable td, .borderDark {
+	border: 1px solid green;
+}
+
+#BORDER_LIGHT, .dataTable th, .borderLight {
+	border: 1px solid lightGray;
+}
+
+#BORDER_NONE, .mechanicsTable td, .borderNone {
+	border: 0px solid lightGray;
+}
+
+#FONT_SMALL, .dataTable, .filterLabel, .filtersUI, .rowCount, .fontSmall
+	{
+	font-size: small;
+}
+
+#FONT_X_SMALL, .mechanicsTable, .fontXSmall {
+	font-size: x-small;
+}
+
+#PADDING_LR5, .filterTable td, .paddingLR5 {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+#PADDING_TOP_10, .rowCount, .paddingTop10 {
+	padding-top: 10px;
+}
+
+#WIDTH_60, .filterField, .width60 {
+	width: 60px;
+}
