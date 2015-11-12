@@ -17,7 +17,7 @@ function GameDetailFetcher(gameIds)
         LOGGER.trace("GameDetailFetcher.receiveData() start");
 
         // LOGGER.debug("xmlDocument = " + xmlDocument);
-        // LOGGER.trace("xmlDocument = " + (new
+        // LOGGER.debug("xmlDocument = " + (new
         // XMLSerializer()).serializeToString(xmlDocument));
         var gameDetails = parseGameDetails(xmlDocument);
         that.trigger("dataLoaded", gameDetails);
@@ -27,8 +27,9 @@ function GameDetailFetcher(gameIds)
 
     function createUrl()
     {
+        var baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
+
         // http://www.boardgamegeek.com/xmlapi2/thing?id=12333,120677
-        var baseUrl = "http://www.boardgamegeek.com/xmlapi2/thing?id=";
         var initialValue = "";
         var idsString = gameIds.reduce(function(previousValue, id, i)
         {
@@ -42,7 +43,11 @@ function GameDetailFetcher(gameIds)
             return answer;
         }, initialValue);
 
-        var answer = baseUrl + idsString;
+        var sourceUrl = "http://www.boardgamegeek.com/xmlapi2/thing?id=" + idsString;
+
+        var query = "select * from xml where url='" + sourceUrl + "'";
+        LOGGER.debug("unencoded url = _" + (baseUrl + query) + "_");
+        var answer = baseUrl + encodeURIComponent(query);
         LOGGER.debug("url = _" + answer + "_");
 
         return answer;
@@ -54,7 +59,7 @@ function GameDetailFetcher(gameIds)
         var answer = [];
 
         // This gives the data items.
-        var xpath = "/items/item";
+        var xpath = "query/results/items/item";
         var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
         var rows = xmlDocument.evaluate(xpath, xmlDocument, null, resultType, null);
         var thisRow = rows.iterateNext();
