@@ -16,7 +16,7 @@ var FiltersUI = React.createClass(
         }
         else
         {
-            answer = createDefaults();
+            answer = this.createDefaults();
         }
 
         return answer;
