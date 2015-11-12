@@ -133,22 +133,21 @@ var FiltersUI = React.createClass(
         var maxChecked = this.state[maxId + "Checked"];
         var maxValue = this.state[maxId];
 
-        var minCheckbox = React.DOM.input(
+        cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
             key: 0,
             id: column.key + "MinChecked",
             type: "checkbox",
             defaultChecked: minChecked,
-        });
-        var minField = React.DOM.input(
+        })));
+        cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
             key: 1,
             id: minId,
             type: "number",
             className: "filterField",
             defaultValue: minValue,
-        });
-        cells.push(this.createCell(cells.length, column, React.DOM.span({}, minCheckbox, " ", minField)));
+        })));
 
         cells.push(React.DOM.td(
         {
@@ -157,22 +156,21 @@ var FiltersUI = React.createClass(
             column: column.key,
         }, "\u2264 " + column.label + " \u2264"));
 
-        var maxCheckbox = React.DOM.input(
+        cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
             key: 0,
             id: column.key + "MaxChecked",
             type: "checkbox",
             defaultChecked: maxChecked,
-        });
-        var maxField = React.DOM.input(
+        })));
+        cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
             key: 1,
             id: maxId,
             type: "number",
             className: "filterField",
             defaultValue: maxValue,
-        });
-        cells.push(this.createCell(cells.length, column, React.DOM.span({}, maxCheckbox, " ", maxField)));
+        })));
 
         return React.DOM.tr(
         {

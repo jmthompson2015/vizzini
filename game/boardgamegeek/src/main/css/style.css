@@ -38,7 +38,7 @@ table {
 	color: white;
 }
 
-#BORDER_BLACK, .filterTable td, .borderBlack {
+#BORDER_BLACK, .filterTable, .borderBlack {
 	border: 1px solid black;
 }
 
@@ -54,6 +54,11 @@ table {
 	border: 0px solid lightGray;
 }
 
+#BORDER_TB_BLACK, .filterTable td, .borderTBBlack {
+	border-bottom: 1px solid black;
+	border-top: 1px solid black;
+}
+
 #FONT_SMALL, .dataTable, .filterLabel, .filtersUI, .rowCount, .fontSmall
 	{
 	font-size: small;
@@ -63,9 +68,9 @@ table {
 	font-size: x-small;
 }
 
-#PADDING_LR5, .filterTable td, .paddingLR5 {
-	padding-left: 5px;
-	padding-right: 5px;
+#PADDING_LR3, .filterTable td, .paddingLR3 {
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 #PADDING_TOP_10, .rowCount, .paddingTop10 {
