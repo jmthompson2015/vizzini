@@ -112,13 +112,13 @@ var FiltersUI = React.createClass(
 
         var minValue = document.getElementById(columnKey + "Min").value;
         minValue = (minValue ? parseFloat(minValue) : undefined);
-        LOGGER.info(columnKey + " isMinEnabled, minValue = " + isMinEnabled + " " + minValue);
+        LOGGER.debug(columnKey + " isMinEnabled, minValue = " + isMinEnabled + " " + minValue);
 
         var isMaxEnabled = document.getElementById(columnKey + "MaxChecked").checked;
 
         var maxValue = document.getElementById(columnKey + "Max").value;
         maxValue = (maxValue ? parseFloat(maxValue) : undefined);
-        LOGGER.info(columnKey + " isMaxEnabled, maxValue = " + isMaxEnabled + " " + maxValue);
+        LOGGER.debug(columnKey + " isMaxEnabled, maxValue = " + isMaxEnabled + " " + maxValue);
 
         return new Filter(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
     },
