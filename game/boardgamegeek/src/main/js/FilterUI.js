@@ -1,5 +1,18 @@
 var FiltersUI = React.createClass(
 {
+    filterColumns: [],
+
+    componentWillMount: function()
+    {
+        this.filterColumns.push(GameColumns[0]);
+        this.filterColumns.push(GameColumns[3]);
+        this.filterColumns.push(GameColumns[4]);
+        this.filterColumns.push(GameColumns[5]);
+        this.filterColumns.push(GameColumns[6]);
+        this.filterColumns.push(GameColumns[7]);
+        this.filterColumns.push(GameColumns[8]);
+    },
+
     getInitialState: function()
     {
         var answer;
@@ -26,13 +39,10 @@ var FiltersUI = React.createClass(
     {
         var rows = [];
 
-        rows.push(this.createRow(rows.length, GameColumns[0]));
-        rows.push(this.createRow(rows.length, GameColumns[2]));
-        rows.push(this.createRow(rows.length, GameColumns[3]));
-        rows.push(this.createRow(rows.length, GameColumns[4]));
-        rows.push(this.createRow(rows.length, GameColumns[5]));
-        rows.push(this.createRow(rows.length, GameColumns[6]));
-        rows.push(this.createRow(rows.length, GameColumns[7]));
+        this.filterColumns.forEach(function(column)
+        {
+            rows.push(this.createRow(rows.length, column));
+        }, this);
 
         var filterTable = React.DOM.table(
         {
@@ -89,8 +99,8 @@ var FiltersUI = React.createClass(
             boardGameRank: GameDatabase.newFilter("boardGameRank", false, 1, false, 20),
             yearPublished: GameDatabase.newFilter("yearPublished", false, 2000, false, 2015),
             geekRating: GameDatabase.newFilter("geekRating", true, 7.2, false, 10),
-            minPlayers: GameDatabase.newFilter("minPlayers", false, 1, true, 3),
-            maxPlayers: GameDatabase.newFilter("maxPlayers", true, 3, false, 6),
+            minPlayers: GameDatabase.newFilter("minPlayers", true, 2, true, 3),
+            maxPlayers: GameDatabase.newFilter("maxPlayers", true, 4, false, 6),
             minPlayTime: GameDatabase.newFilter("minPlayTime", true, 30, false, 120),
             maxPlayTime: GameDatabase.newFilter("maxPlayTime", false, 30, true, 120),
         });
@@ -117,6 +127,7 @@ var FiltersUI = React.createClass(
     {
         var cells = [];
         var filter = this.state[column.key];
+        if (!filter) { throw "ERROR: missing filter for column = " + column.key; }
 
         cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
@@ -169,13 +180,10 @@ var FiltersUI = React.createClass(
 
         var filters = [];
 
-        filters.push(this.createFilter(GameColumns[0].key));
-        filters.push(this.createFilter(GameColumns[2].key));
-        filters.push(this.createFilter(GameColumns[3].key));
-        filters.push(this.createFilter(GameColumns[4].key));
-        filters.push(this.createFilter(GameColumns[5].key));
-        filters.push(this.createFilter(GameColumns[6].key));
-        filters.push(this.createFilter(GameColumns[7].key));
+        this.filterColumns.forEach(function(column)
+        {
+            filters.push(this.createFilter(column.key));
+        }, this);
 
         this.trigger("applyFilters", filters);
         localStorage.filters = JSON.stringify(filters);

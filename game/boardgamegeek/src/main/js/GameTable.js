@@ -10,6 +10,10 @@ var GameColumns = [
     className: "textCell",
 },
 {
+    key: "designer",
+    label: "Designer",
+},
+{
     key: "yearPublished",
     label: "Year Published",
     className: "numberCell",
@@ -38,6 +42,10 @@ var GameColumns = [
     key: "maxPlayTime",
     label: "Max. Play Time",
     className: "numberCell",
+},
+{
+    key: "categories",
+    label: "Category",
 },
 {
     key: "mechanics",
@@ -100,6 +108,30 @@ var GameTable = React.createClass(
         }, displayValue);
     },
 
+    createEntitiesTable: function(entities, url)
+    {
+        var rows = [];
+
+        entities.forEach(function(entity)
+        {
+            var link = React.DOM.a(
+            {
+                href: url + entity.id,
+                target: "_blank",
+            }, entity.name);
+
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, React.DOM.td({}, link)));
+        });
+
+        return React.DOM.table(
+        {
+            className: "entitiesTable",
+        }, React.DOM.tbody({}, rows));
+    },
+
     createLink: function(href, label)
     {
         return React.DOM.a(
@@ -122,34 +154,6 @@ var GameTable = React.createClass(
         }, link);
     },
 
-    createMechanicsTable: function(mechanics)
-    {
-        var rows = [];
-
-        mechanics.forEach(function(mechanic)
-        {
-            var link = React.DOM.a(
-            {
-                href: "https://www.boardgamegeek.com/boardgamemechanic/" + mechanic.id,
-                target: "_blank",
-            }, mechanic.name);
-
-            rows.push(React.DOM.tr(
-            {
-                key: rows.length,
-                className: "mechanicsRow",
-            }, React.DOM.td(
-            {
-                className: "mechanicsCell",
-            }, link)));
-        });
-
-        return React.DOM.table(
-        {
-            className: "mechanicsTable",
-        }, React.DOM.tbody({}, rows));
-    },
-
     createRow: function(gameSummary, key)
     {
         var gameDatabase = this.props.gameDatabase;
@@ -162,6 +166,26 @@ var GameTable = React.createClass(
         var i = 0;
         cells.push(this.createCell(cells.length, GameColumns[i++], gameSummary.boardGameRank));
         cells.push(this.createLinkCell(cells.length, GameColumns[i++], gameSummary.id, title));
+
+        if (gameDetail)
+        {
+            var designers = gameDetail.designers;
+
+            if (designers && designers.length > 0)
+            {
+                cells.push(this.createCell(cells.length, GameColumns[i++], designers[0].name, this.createEntitiesTable(
+                        designers, "https://www.boardgamegeek.com/boardgamedesigner/")));
+            }
+            else
+            {
+                cells.push(this.createCell(cells.length, GameColumns[i++], " "));
+            }
+        }
+        else
+        {
+            cells.push(this.createCell(cells.length, GameColumns[i++], " "));
+        }
+
         cells.push(this.createCell(cells.length, GameColumns[i++], yearPublished));
         cells.push(this.createCell(cells.length, GameColumns[i++], gameSummary.geekRating,
                 gameSummary.geekRatingDisplay));
@@ -173,11 +197,28 @@ var GameTable = React.createClass(
             cells.push(this.createCell(cells.length, GameColumns[i++], gameDetail.minPlayTime));
             cells.push(this.createCell(cells.length, GameColumns[i++], gameDetail.maxPlayTime));
 
+            var categories = gameDetail.categories;
+
+            if (categories && categories.length > 0)
+            {
+                cells.push(this.createCell(cells.length, GameColumns[i++], categories[0].name, this
+                        .createEntitiesTable(categories, "https://www.boardgamegeek.com/boardgamecategory/")));
+            }
+            else
+            {
+                cells.push(this.createCell(cells.length, GameColumns[i++], " "));
+            }
+
             var mechanics = gameDetail.mechanics;
 
-            if (mechanics)
+            if (mechanics && mechanics.length > 0)
             {
-                cells.push(this.createCell(cells.length, GameColumns[i++], this.createMechanicsTable(mechanics)))
+                cells.push(this.createCell(cells.length, GameColumns[i++], mechanics[0].name, this.createEntitiesTable(
+                        mechanics, "https://www.boardgamegeek.com/boardgamemechanic/")));
+            }
+            else
+            {
+                cells.push(this.createCell(cells.length, GameColumns[i++], " "));
             }
         }
 

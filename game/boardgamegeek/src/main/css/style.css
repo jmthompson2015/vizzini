@@ -17,11 +17,11 @@ table {
 	background: White;
 }
 
-.mechanicsTable tbody tr:nth-child(2n) td {
+.entitiesTable tbody tr:nth-child(2n) td {
 	background: white;
 }
 
-.mechanicsTable tbody tr:nth-child(2n+1) td {
+.entitiesTable tbody tr:nth-child(2n+1) td {
 	background: white;
 }
 
@@ -50,7 +50,7 @@ table {
 	border: 1px solid lightGray;
 }
 
-#BORDER_NONE, .mechanicsTable td, .borderNone {
+#BORDER_NONE, .entitiesTable td, .borderNone {
 	border: 0px solid lightGray;
 }
 
@@ -64,7 +64,7 @@ table {
 	font-size: small;
 }
 
-#FONT_X_SMALL, .mechanicsTable, .fontXSmall {
+#FONT_X_SMALL, .entitiesTable, .fontXSmall {
 	font-size: x-small;
 }
 

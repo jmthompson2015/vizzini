@@ -1,7 +1,7 @@
 function GameDatabase(numPages)
 {
     var that = this;
-    var SUMMARIES_CACHE_TIME = 10 * 60 * 1000; // 10 minutes in milliseconds
+    var SUMMARIES_CACHE_TIME = 30 * 60 * 1000; // 30 minutes in milliseconds
     var DETAILS_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
     var filters = [];
@@ -12,6 +12,8 @@ function GameDatabase(numPages)
 
     this.getGameDetails = function()
     {
+        LOGGER.trace("GameDatabase.getGameDetails() gameDetails.length = " + gameDetails.length);
+
         return gameDetails;
     }
 
@@ -39,7 +41,7 @@ function GameDatabase(numPages)
             answer = gameSummaries;
         }
 
-        LOGGER.info("GameDatabase.getGameSummaries() answer.length = " + answer.length);
+        LOGGER.trace("GameDatabase.getGameSummaries() answer.length = " + answer.length);
 
         return answer;
     }
@@ -174,7 +176,7 @@ function GameDatabase(numPages)
             }
             localStorage.gameDetailsTimestamp = gameDetailsTimestamp;
             localStorage.gameDetails = JSON.stringify(gameDetails);
-            LOGGER.debug("gameDetails stored to localStorage at " + (new Date()));
+            LOGGER.debug("gameDetails stored to localStorage with timestamp " + gameDetailsTimestamp);
             LOGGER.debug("gameDetails.length = " + gameDetails.length);
         }
 
@@ -186,7 +188,7 @@ function GameDatabase(numPages)
             }
             localStorage.gameSummariesTimestamp = gameSummariesTimestamp;
             localStorage.gameSummaries = JSON.stringify(gameSummaries);
-            LOGGER.debug("gameSummaries stored to localStorage at " + (new Date()));
+            LOGGER.debug("gameSummaries stored to localStorage with timestamp " + gameSummariesTimestamp);
             LOGGER.debug("gameSummaries.length = " + gameSummaries.length);
         }
     }
@@ -222,6 +224,15 @@ GameDatabase.prototype.findItemById = function(array, id)
     return answer;
 }
 
+GameDatabase.newEntity = function(id, name)
+{
+    return (
+    {
+        id: parseInt(id),
+        name: name,
+    });
+}
+
 GameDatabase.newFilter = function(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue)
 {
     var answer =
@@ -248,18 +259,20 @@ GameDatabase.newFilter = function(columnKey, isMinEnabled, minValue, isMaxEnable
     return answer;
 }
 
-GameDatabase.newGameDetail = function(id, title, yearPublished, minPlayers, maxPlayers, minPlayTime, maxPlayTime,
-        mechanics)
+GameDatabase.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers, minPlayTime,
+        maxPlayTime, categories, mechanics)
 {
     return (
     {
         id: parseInt(id),
         title: title,
+        designers: designers,
         yearPublished: parseInt(yearPublished),
         minPlayers: parseInt(minPlayers),
         maxPlayers: parseInt(maxPlayers),
         minPlayTime: parseInt(minPlayTime),
         maxPlayTime: parseInt(maxPlayTime),
+        categories: categories,
         mechanics: mechanics,
     });
 }
@@ -276,14 +289,5 @@ GameDatabase.newGameSummary = function(id, title, boardGameRank, geekRatingDispl
         averageRating: parseFloat(averageRatingDisplay),
         averageRatingDisplay: averageRatingDisplay,
         numVoters: parseInt(numVoters),
-    });
-}
-
-GameDatabase.newMechanic = function(id, name)
-{
-    return (
-    {
-        id: parseInt(id),
-        name: name,
     });
 }

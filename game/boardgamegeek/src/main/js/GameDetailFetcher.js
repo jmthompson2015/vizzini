@@ -53,6 +53,30 @@ function GameDetailFetcher(gameIds)
         return answer;
     }
 
+    function parseEntities(xmlDocument, xmlFragment, type)
+    {
+        var answer = [];
+
+        var xpath = "link[@type='" + type + "']";
+        var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
+        var rows = xmlDocument.evaluate(xpath, xmlFragment, null, resultType, null);
+        var thisRow = rows.iterateNext();
+
+        while (thisRow)
+        {
+            var idCell = xmlDocument.evaluate("@id", thisRow, null, XPathResult.STRING_TYPE, null);
+            var id = idCell.stringValue.trim();
+            var nameCell = xmlDocument.evaluate("@value", thisRow, null, XPathResult.STRING_TYPE, null);
+            var name = nameCell.stringValue.trim();
+            var designer = GameDatabase.newEntity(id, name);
+            answer.push(designer);
+
+            thisRow = rows.iterateNext();
+        }
+
+        return answer;
+    }
+
     function parseGameDetails(xmlDocument)
     {
         LOGGER.trace("GameDetailFetcher.parseGameDetails() start");
@@ -106,27 +130,12 @@ function GameDetailFetcher(gameIds)
                 null);
         var maxPlayTime = maxPlayTimeCell.stringValue.trim();
 
-        var mechanics = [];
+        var categories = parseEntities(xmlDocument, xmlFragment, "boardgamecategory");
+        var designers = parseEntities(xmlDocument, xmlFragment, "boardgamedesigner");
+        var mechanics = parseEntities(xmlDocument, xmlFragment, "boardgamemechanic");
 
-        var xpath = "link[@type='boardgamemechanic']";
-        var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
-        var rows = xmlDocument.evaluate(xpath, xmlFragment, null, resultType, null);
-        var thisRow = rows.iterateNext();
-
-        while (thisRow)
-        {
-            var mechIdCell = xmlDocument.evaluate("@id", thisRow, null, XPathResult.STRING_TYPE, null);
-            var mechId = mechIdCell.stringValue.trim();
-            var nameCell = xmlDocument.evaluate("@value", thisRow, null, XPathResult.STRING_TYPE, null);
-            var name = nameCell.stringValue.trim();
-            var mechanic = GameDatabase.newMechanic(mechId, name);
-            mechanics.push(mechanic);
-
-            thisRow = rows.iterateNext();
-        }
-
-        return GameDatabase.newGameDetail(id, title, yearPublished, minPlayers, maxPlayers, minPlayTime, maxPlayTime,
-                mechanics);
+        return GameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers, minPlayTime,
+                maxPlayTime, categories, mechanics);
     }
 }
 
