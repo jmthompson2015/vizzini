@@ -80,7 +80,8 @@ function GameDetailFetcher(gameIds)
     function parseGameDetails(xmlDocument)
     {
         LOGGER.trace("GameDetailFetcher.parseGameDetails() start");
-        var answer = [];
+
+        var answer = {};
 
         // This gives the data items.
         var xpath = "query/results/items/item";
@@ -91,7 +92,7 @@ function GameDetailFetcher(gameIds)
         while (thisRow)
         {
             var gameDetail = parseGameDetail(xmlDocument, thisRow);
-            answer.push(gameDetail);
+            answer[gameDetail.id] = gameDetail;
 
             thisRow = rows.iterateNext();
         }

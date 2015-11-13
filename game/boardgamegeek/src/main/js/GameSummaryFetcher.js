@@ -49,7 +49,7 @@ function GameSummaryFetcher(page)
     {
         LOGGER.trace("GameSummaryFetcher.parseGameSummaries() start");
 
-        var answer = [];
+        var answer = {};
 
         // This gives the data rows (tr).
         var xpath = "//tr[@id='row_']";
@@ -60,7 +60,7 @@ function GameSummaryFetcher(page)
         while (thisRow)
         {
             var gameSummary = parseGameSummary(xmlDocument, thisRow);
-            answer.push(gameSummary);
+            answer[gameSummary.id] = gameSummary;
 
             thisRow = rows.iterateNext();
         }

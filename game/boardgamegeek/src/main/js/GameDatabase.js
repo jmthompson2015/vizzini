@@ -6,15 +6,18 @@ function GameDatabase(numPages)
 
     var filters = [];
     var gameSummariesTimestamp;
-    var gameSummaries = [];
+    var gameSummaryMap = {};
     var gameDetailsTimestamp;
-    var gameDetails = [];
+    var gameDetailMap = {};
 
-    this.getGameDetails = function()
+    this.getGameDetailMap = function()
     {
-        LOGGER.trace("GameDatabase.getGameDetails() gameDetails.length = " + gameDetails.length);
+        return gameDetailMap;
+    }
 
-        return gameDetails;
+    this.getGameSummaryMap = function()
+    {
+        return gameSummaryMap;
     }
 
     this.getGameSummaries = function()
@@ -23,6 +26,7 @@ function GameDatabase(numPages)
 
         if (filters && filters.length > 0)
         {
+            var gameSummaries = this.objectValues(gameSummaryMap);
             answer = gameSummaries.filter(function(gameSummary)
             {
                 var gameDetail = that.findGameDetailById(gameSummary.id);
@@ -38,8 +42,13 @@ function GameDatabase(numPages)
         }
         else
         {
-            answer = gameSummaries;
+            answer = this.objectValues(gameSummaryMap);
         }
+
+        answer.sort(function(a, b)
+        {
+            return a.boardGameRank - b.boardGameRank;
+        });
 
         LOGGER.trace("GameDatabase.getGameSummaries() answer.length = " + answer.length);
 
@@ -66,9 +75,9 @@ function GameDatabase(numPages)
         if (gameDetailsTimestamp && Date.now() < gameDetailsTimestamp + DETAILS_CACHE_TIME)
         {
             // Load from localStorage.
-            var newGameDetails = JSON.parse(localStorage.gameDetails);
-            LOGGER.debug("newGameDetails loaded from localStorage newGameDetails.length = " + newGameDetails.length);
-            this.receiveDetailData(newGameDetails);
+            var newGameDetailMap = JSON.parse(localStorage.gameDetailMap);
+            LOGGER.debug("newGameDetailMap loaded from localStorage");
+            this.receiveDetailData(newGameDetailMap);
         }
         else
         {
@@ -78,17 +87,16 @@ function GameDatabase(numPages)
         if (gameSummariesTimestamp && Date.now() < gameSummariesTimestamp + SUMMARIES_CACHE_TIME)
         {
             // Load from localStorage.
-            var newGameSummaries = JSON.parse(localStorage.gameSummaries);
-            LOGGER.debug("newGameSummaries loaded from localStorage newGameSummaries.length = "
-                    + newGameSummaries.length);
-            this.receiveSummaryData(newGameSummaries);
+            var newGameSummaryMap = JSON.parse(localStorage.gameSummaryMap);
+            LOGGER.debug("newGameSummaryMap loaded from localStorage");
+            this.receiveSummaryData(newGameSummaryMap);
         }
         else
         {
             gameSummariesTimestamp = undefined;
         }
 
-        if (!gameSummaries || gameSummaries.length === 0)
+        if (!gameSummaryMap || this.objectIsEmpty(gameSummaryMap))
         {
             // Load from the internet.
             for (var i = 1; i <= numPages; i++)
@@ -101,40 +109,51 @@ function GameDatabase(numPages)
             LOGGER.debug("gameSummaries loading from the internet");
         }
 
-        if (!gameDetails)
+        if (!gameDetailMap)
         {
-            gameDetails = [];
+            gameDetailMap = {};
         }
     }
 
-    this.receiveDetailData = function(newGameDetails)
+    this.receiveDetailData = function(newGameDetailMap)
     {
         LOGGER.trace("GameDatabase.receiveDetailData() start");
 
-        gameDetails.vizziniAddAll(newGameDetails);
+        var keys = Object.keys(newGameDetailMap);
+        for (var i = 0, len = keys.length; i < len; i++)
+        {
+            var gameDetail = newGameDetailMap[keys[i]];
+            gameDetailMap[gameDetail.id] = gameDetail;
+        }
         that.trigger("dataLoaded", that);
 
         LOGGER.trace("GameDatabase.receiveDetailData() end");
     }
 
-    this.receiveSummaryData = function(newGameSummaries)
+    this.receiveSummaryData = function(newGameSummaryMap)
     {
         LOGGER.trace("GameDatabase.receiveSummaryData() start");
 
-        gameSummaries.vizziniAddAll(newGameSummaries);
+        var keys = Object.keys(newGameSummaryMap);
+        for (var i = 0, len = keys.length; i < len; i++)
+        {
+            var gameSummary = newGameSummaryMap[keys[i]];
+            gameSummaryMap[gameSummary.id] = gameSummary;
+        }
         that.trigger("dataLoaded", that);
 
         // Fetch a game detail for each game summary.
         var needGameDetailIds = [];
-        newGameSummaries.forEach(function(gameSummary)
+        for (var i = 0, len = keys.length; i < len; i++)
         {
+            var gameSummary = newGameSummaryMap[keys[i]];
             var gameDetail = that.findGameDetailById(gameSummary.id);
 
             if (!gameDetail)
             {
                 needGameDetailIds.push(gameSummary.id);
             }
-        });
+        }
 
         if (needGameDetailIds.length > 0)
         {
@@ -168,28 +187,26 @@ function GameDatabase(numPages)
     this.store = function()
     {
         // Store to local storage.
-        if (gameDetails.length > 0)
+        if (!this.objectIsEmpty(gameDetailMap))
         {
             if (!gameDetailsTimestamp)
             {
                 gameDetailsTimestamp = Date.now();
             }
             localStorage.gameDetailsTimestamp = gameDetailsTimestamp;
-            localStorage.gameDetails = JSON.stringify(gameDetails);
+            localStorage.gameDetailMap = JSON.stringify(gameDetailMap);
             LOGGER.debug("gameDetails stored to localStorage with timestamp " + gameDetailsTimestamp);
-            LOGGER.debug("gameDetails.length = " + gameDetails.length);
         }
 
-        if (gameSummaries.length > 0)
+        if (!this.objectIsEmpty(gameSummaryMap))
         {
             if (!gameSummariesTimestamp)
             {
                 gameSummariesTimestamp = Date.now();
             }
             localStorage.gameSummariesTimestamp = gameSummariesTimestamp;
-            localStorage.gameSummaries = JSON.stringify(gameSummaries);
-            LOGGER.debug("gameSummaries stored to localStorage with timestamp " + gameSummariesTimestamp);
-            LOGGER.debug("gameSummaries.length = " + gameSummaries.length);
+            localStorage.gameSummaryMap = JSON.stringify(gameSummaryMap);
+            LOGGER.debug("gameSummaryMap stored to localStorage with timestamp " + gameSummariesTimestamp);
         }
     }
 }
@@ -198,27 +215,49 @@ MicroEvent.mixin(GameDatabase);
 
 GameDatabase.prototype.findGameDetailById = function(id)
 {
-    return this.findItemById(this.getGameDetails(), id);
+    return this.getGameDetailMap()[id];
 }
 
 GameDatabase.prototype.findGameSummaryById = function(id)
 {
-    return this.findItemById(this.getGameSummaries(), id);
+    return this.getGameSummaryMap()[id];
 }
 
-GameDatabase.prototype.findItemById = function(array, id)
+/*
+ * @see <a href="http://stackoverflow.com/questions/4994201/is-object-empty">Is
+ *      object empty?</a>
+ */
+GameDatabase.prototype.objectIsEmpty = function(obj)
 {
-    var answer;
+    // null and undefined are "empty"
+    if (obj == null) { return true; }
 
-    for (var i = 0; i < array.length; i++)
+    // Assume if it has a length property with a non-zero value that that
+    // property is correct.
+    if (obj.length > 0) { return false; }
+    if (obj.length === 0) { return true; }
+
+    // Otherwise, does it have any properties of its own? Note that this doesn't
+    // handle toString and valueOf enumeration bugs in IE < 9
+    if (Object.getOwnPropertyNames(obj).length > 0) { return false; }
+
+    return true;
+}
+
+/*
+ * @see <a
+ *      href="http://stackoverflow.com/questions/1718777/how-might-i-extract-the-property-values-of-a-javascript-object-into-an-array">How
+ *      might I extract the property values of a JavaScript object into an
+ *      array?</a>
+ */
+GameDatabase.prototype.objectValues = function(obj)
+{
+    var answer = [];
+    var keys = Object.keys(obj);
+
+    for (var i = 0, len = keys.length; i < len; i++)
     {
-        var item = array[i];
-
-        if (item.id === id)
-        {
-            answer = item;
-            break;
-        }
+        answer.push(obj[keys[i]]);
     }
 
     return answer;
