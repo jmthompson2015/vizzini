@@ -97,8 +97,8 @@ var FiltersUI = React.createClass(
         return (
         {
             boardGameRank: GameDatabase.newFilter("boardGameRank", false, 1, false, 20),
-            yearPublished: GameDatabase.newFilter("yearPublished", false, 2000, false, 2015),
-            geekRating: GameDatabase.newFilter("geekRating", true, 7.2, false, 10),
+            yearPublished: GameDatabase.newFilter("yearPublished", false, 2005, false, 2015),
+            geekRating: GameDatabase.newFilter("geekRating", false, 7.2, false, 10),
             minPlayers: GameDatabase.newFilter("minPlayers", true, 2, true, 3),
             maxPlayers: GameDatabase.newFilter("maxPlayers", true, 4, false, 6),
             minPlayTime: GameDatabase.newFilter("minPlayTime", true, 30, false, 120),
