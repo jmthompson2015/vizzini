@@ -32,6 +32,8 @@ var FiltersUI = React.createClass(
             answer = this.createDefaults();
         }
 
+        answer.isFiltered = false;
+
         return answer;
     },
 
@@ -64,6 +66,7 @@ var FiltersUI = React.createClass(
         // }, "Restore Defaults");
         var unfilterButton = React.DOM.button(
         {
+            disabled: !this.state.isFiltered,
             onClick: this.unfilterActionPerformed,
         }, "Remove Filter");
         var filterButton = React.DOM.button(
@@ -186,6 +189,10 @@ var FiltersUI = React.createClass(
         }, this);
 
         this.trigger("applyFilters", filters);
+        this.setState(
+        {
+            isFiltered: true,
+        });
         localStorage.filters = JSON.stringify(filters);
 
         LOGGER.info("FiltersUI.filterActionPerformed() end");
@@ -208,6 +215,10 @@ var FiltersUI = React.createClass(
         var filters = [];
 
         this.trigger("applyFilters", filters);
+        this.setState(
+        {
+            isFiltered: false,
+        });
 
         LOGGER.info("FiltersUI.unfilterActionPerformed() end");
     },
