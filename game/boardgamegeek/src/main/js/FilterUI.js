@@ -51,14 +51,37 @@ var FiltersUI = React.createClass(
             className: "filterTable",
         }, rows);
 
+        // var gameDatabase = this.props.gameDatabase;
+        // var designerTable =
+        // this.createEntityTable(gameDatabase.getDesigners());
+        // var categoryTable =
+        // this.createEntityTable(gameDatabase.getCategories());
+        // var mechanicTable =
+        // this.createEntityTable(gameDatabase.getMechanics());
+        //
         var rows2 = [];
+        var filterCell = React.DOM.td(
+        {
+            colSpan: 3,
+        }, filterTable);
+        // var designerCell = React.DOM.td(
+        // {
+        // className: "alignTop"
+        // }, designerTable);
+        // var categoryCell = React.DOM.td(
+        // {
+        // className: "alignTop"
+        // }, categoryTable);
+        // var mechanicCell = React.DOM.td(
+        // {
+        // className: "alignTop"
+        // }, mechanicTable);
         rows2.push(React.DOM.tr(
         {
             key: 0,
-        }, React.DOM.td(
-        {
-            colSpan: 3,
-        }, filterTable)));
+        }, filterCell
+        // , designerCell, categoryCell, mechanicCell
+        ));
 
         var restoreButton = React.DOM.button(
         {
@@ -106,6 +129,26 @@ var FiltersUI = React.createClass(
             minPlayTime: GameDatabase.newFilter("minPlayTime", true, 30, false, 120),
             maxPlayTime: GameDatabase.newFilter("maxPlayTime", false, 30, true, 120),
         });
+    },
+
+    createEntityTable: function(entities)
+    {
+        var rows = [];
+
+        entities.forEach(function(entity)
+        {
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, React.DOM.td({}, entity.name + " (" + entity.count + ")")));
+        });
+
+        var answer = React.DOM.table(
+        {
+            className: "entitiesTable"
+        }, React.DOM.tbody({}, rows));
+
+        return answer;
     },
 
     createRow: function(key, column)

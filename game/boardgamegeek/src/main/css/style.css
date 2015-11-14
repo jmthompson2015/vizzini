@@ -33,6 +33,10 @@ table {
 	text-align: right;
 }
 
+#ALIGN_TOP, .alignTop {
+	vertical-align: top;
+}
+
 #BACKGROUND_DARK, .dataTable th, .backgroundDark {
 	background-color: green;
 	color: white;

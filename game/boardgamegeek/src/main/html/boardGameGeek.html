@@ -34,21 +34,36 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var filtersUI = React.render(React.createElement(FiltersUI, {}), document.getElementById("filters"));
         var numPages = 3;
         var gameDatabase = new GameDatabase(numPages);
+        // gameDatabase.bind("dataLoaded", renderFilter);
         gameDatabase.bind("dataLoaded", renderTable);
+
+        var filtersUI = React.render(React.createElement(FiltersUI,
+        {
+            gameDatabase: gameDatabase,
+        }), document.getElementById("filters"));
+
         filtersUI.bind("applyFilters", gameDatabase.setFilters);
+
         gameDatabase.load();
+
+        /*
+        function renderFilter()
+        {
+            React.render(React.createElement(FiltersUI,
+            {
+                gameDatabase: gameDatabase,
+            }), document.getElementById("filters"));
+        }
+         */
 
         function renderTable()
         {
             React.render(React.createElement(GameTable,
             {
-                gameDatabase: gameDatabase
+                gameDatabase: gameDatabase,
             }), document.getElementById("gameTable"));
-
-            gameDatabase.store();
         }
     </script>
 </body>

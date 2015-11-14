@@ -1,4 +1,4 @@
-function GameSummaryFetcher(page)
+function GameSummaryFetcher(gameDatabase, page)
 {
     var that = this;
 
@@ -94,7 +94,7 @@ function GameSummaryFetcher(page)
         var averageRatingDisplay = cells.snapshotItem(4).textContent.trim();
         var numVoters = cells.snapshotItem(5).textContent.trim();
 
-        return GameDatabase
+        return gameDatabase
                 .newGameSummary(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay, numVoters);
     }
 }

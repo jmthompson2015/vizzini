@@ -1,4 +1,4 @@
-function GameDetailFetcher(gameIds)
+function GameDetailFetcher(gameDatabase, gameIds)
 {
     var that = this;
 
@@ -68,8 +68,8 @@ function GameDetailFetcher(gameIds)
             var id = idCell.stringValue.trim();
             var nameCell = xmlDocument.evaluate("@value", thisRow, null, XPathResult.STRING_TYPE, null);
             var name = nameCell.stringValue.trim();
-            var designer = GameDatabase.newEntity(id, name);
-            answer.push(designer);
+            var entity = gameDatabase.newEntity(type, id, name);
+            answer.push(entity);
 
             thisRow = rows.iterateNext();
         }
@@ -135,7 +135,7 @@ function GameDetailFetcher(gameIds)
         var designers = parseEntities(xmlDocument, xmlFragment, "boardgamedesigner");
         var mechanics = parseEntities(xmlDocument, xmlFragment, "boardgamemechanic");
 
-        return GameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers, minPlayTime,
+        return gameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers, minPlayTime,
                 maxPlayTime, categories, mechanics);
     }
 }
