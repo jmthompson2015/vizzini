@@ -34,7 +34,7 @@ function GameDatabase(numPages)
 
                 filters.forEach(function(filter)
                 {
-                    passes = passes && filter.passes(gameSummary, gameDetail);
+                    passes = passes && GameDatabase.passes(filter, gameSummary, gameDetail);
                 });
 
                 return passes;
@@ -176,12 +176,12 @@ function GameDatabase(numPages)
 
     this.setFilters = function(newFilters)
     {
-        LOGGER.info("GameDatabase.setFilters() start");
+        LOGGER.trace("GameDatabase.setFilters() start");
 
         filters = newFilters;
         that.trigger("dataLoaded", that);
 
-        LOGGER.info("GameDatabase.setFilters() end");
+        LOGGER.trace("GameDatabase.setFilters() end");
     }
 
     this.store = function()
@@ -283,18 +283,6 @@ GameDatabase.newFilter = function(columnKey, isMinEnabled, minValue, isMaxEnable
         maxValue: maxValue,
     };
 
-    answer.passes = function(gameSummary, gameDetail)
-    {
-        var value = gameSummary[columnKey];
-
-        if (!value && gameDetail)
-        {
-            value = gameDetail[columnKey];
-        }
-
-        return (!isMinEnabled || minValue <= value) && (!isMaxEnabled || value <= maxValue);
-    }
-
     return answer;
 }
 
@@ -329,4 +317,16 @@ GameDatabase.newGameSummary = function(id, title, boardGameRank, geekRatingDispl
         averageRatingDisplay: averageRatingDisplay,
         numVoters: parseInt(numVoters),
     });
+}
+
+GameDatabase.passes = function(filter, gameSummary, gameDetail)
+{
+    var value = gameSummary[filter.columnKey];
+
+    if (!value && gameDetail)
+    {
+        value = gameDetail[filter.columnKey];
+    }
+
+    return (!filter.isMinEnabled || filter.minValue <= value) && (!filter.isMaxEnabled || value <= filter.maxValue);
 }

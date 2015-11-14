@@ -57,13 +57,13 @@ var FiltersUI = React.createClass(
             key: 0,
         }, React.DOM.td(
         {
-            colSpan: 2,
+            colSpan: 3,
         }, filterTable)));
 
-        // var restoreButton = React.DOM.button(
-        // {
-        // onClick: this.restoreActionPerformed,
-        // }, "Restore Defaults");
+        var restoreButton = React.DOM.button(
+        {
+            onClick: this.restoreActionPerformed,
+        }, "Restore Defaults");
         var unfilterButton = React.DOM.button(
         {
             disabled: !this.state.isFiltered,
@@ -76,8 +76,7 @@ var FiltersUI = React.createClass(
         rows2.push(React.DOM.tr(
         {
             key: 1,
-        }, // React.DOM.td({}, restoreButton),
-        React.DOM.td({}, unfilterButton), React.DOM.td({}, filterButton)));
+        }, React.DOM.td({}, restoreButton), React.DOM.td({}, unfilterButton), React.DOM.td({}, filterButton)));
 
         return React.DOM.table(
         {
@@ -109,23 +108,6 @@ var FiltersUI = React.createClass(
         });
     },
 
-    createFilter: function(columnKey)
-    {
-        var isMinEnabled = document.getElementById(columnKey + "MinChecked").checked;
-
-        var minValue = document.getElementById(columnKey + "Min").value;
-        minValue = (minValue ? parseFloat(minValue) : undefined);
-        LOGGER.debug(columnKey + " isMinEnabled, minValue = " + isMinEnabled + " " + minValue);
-
-        var isMaxEnabled = document.getElementById(columnKey + "MaxChecked").checked;
-
-        var maxValue = document.getElementById(columnKey + "Max").value;
-        maxValue = (maxValue ? parseFloat(maxValue) : undefined);
-        LOGGER.debug(columnKey + " isMaxEnabled, maxValue = " + isMaxEnabled + " " + maxValue);
-
-        return GameDatabase.newFilter(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
-    },
-
     createRow: function(key, column)
     {
         var cells = [];
@@ -137,7 +119,8 @@ var FiltersUI = React.createClass(
             key: cells.length,
             id: column.key + "MinChecked",
             type: "checkbox",
-            defaultChecked: filter.isMinEnabled,
+            checked: filter.isMinEnabled,
+            onChange: this.handleChange,
         })));
         cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
@@ -145,7 +128,8 @@ var FiltersUI = React.createClass(
             id: column.key + "Min",
             type: "number",
             className: "filterField",
-            defaultValue: filter.minValue,
+            value: filter.minValue,
+            onChange: this.handleChange,
         })));
 
         cells.push(React.DOM.td(
@@ -160,7 +144,8 @@ var FiltersUI = React.createClass(
             key: cells.length,
             id: column.key + "MaxChecked",
             type: "checkbox",
-            defaultChecked: filter.isMaxEnabled,
+            checked: filter.isMaxEnabled,
+            onChange: this.handleChange,
         })));
         cells.push(this.createCell(cells.length, column, React.DOM.input(
         {
@@ -168,7 +153,8 @@ var FiltersUI = React.createClass(
             id: column.key + "Max",
             type: "number",
             className: "filterField",
-            defaultValue: filter.maxValue,
+            value: filter.maxValue,
+            onChange: this.handleChange,
         })));
 
         return React.DOM.tr(
@@ -179,13 +165,13 @@ var FiltersUI = React.createClass(
 
     filterActionPerformed: function(event)
     {
-        LOGGER.info("FiltersUI.filterActionPerformed() start");
+        LOGGER.trace("FiltersUI.filterActionPerformed() start");
 
         var filters = [];
 
         this.filterColumns.forEach(function(column)
         {
-            filters.push(this.createFilter(column.key));
+            filters.push(this.state[column.key]);
         }, this);
 
         this.trigger("applyFilters", filters);
@@ -195,22 +181,64 @@ var FiltersUI = React.createClass(
         });
         localStorage.filters = JSON.stringify(filters);
 
-        LOGGER.info("FiltersUI.filterActionPerformed() end");
+        LOGGER.trace("FiltersUI.filterActionPerformed() end");
     },
 
-    // restoreActionPerformed: function(event)
-    // {
-    // LOGGER.info("FiltersUI.restoreActionPerformed() start");
-    //
-    // var filters = [];
-    // this.setState(this.createDefaults());
-    //
-    // LOGGER.info("FiltersUI.restoreActionPerformed() end");
-    // },
+    handleChange: function(event)
+    {
+        LOGGER.trace("FiltersUI.handleChange() start");
+
+        var id = event.target.id;
+        var columnKey;
+        var filter;
+
+        if (id.endsWith("MinChecked"))
+        {
+            columnKey = id.substring(0, id.length - "MinChecked".length);
+            filter = this.state[columnKey];
+            filter.isMinEnabled = event.target.checked;
+        }
+        else if (id.endsWith("Min"))
+        {
+            columnKey = id.substring(0, id.length - "Min".length);
+            filter = this.state[columnKey];
+            filter.minValue = event.target.value;
+        }
+        else if (id.endsWith("MaxChecked"))
+        {
+            columnKey = id.substring(0, id.length - "MaxChecked".length);
+            filter = this.state[columnKey];
+            filter.isMaxEnabled = event.target.checked;
+        }
+        else if (id.endsWith("Max"))
+        {
+            columnKey = id.substring(0, id.length - "Max".length);
+            filter = this.state[columnKey];
+            filter.maxValue = event.target.value;
+        }
+
+        LOGGER.debug("new filter = " + JSON.stringify(filter));
+
+        this.setState(
+        {
+            columnKey: filter
+        });
+
+        LOGGER.trace("FiltersUI.handleChange() end");
+    },
+
+    restoreActionPerformed: function(event)
+    {
+        LOGGER.trace("FiltersUI.restoreActionPerformed() start");
+
+        this.setState(this.createDefaults());
+
+        LOGGER.trace("FiltersUI.restoreActionPerformed() end");
+    },
 
     unfilterActionPerformed: function(event)
     {
-        LOGGER.info("FiltersUI.unfilterActionPerformed() start");
+        LOGGER.trace("FiltersUI.unfilterActionPerformed() start");
 
         var filters = [];
 
@@ -220,7 +248,7 @@ var FiltersUI = React.createClass(
             isFiltered: false,
         });
 
-        LOGGER.info("FiltersUI.unfilterActionPerformed() end");
+        LOGGER.trace("FiltersUI.unfilterActionPerformed() end");
     },
 });
 
