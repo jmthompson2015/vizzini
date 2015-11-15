@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestCheckboxPanel</title>
+
+<script src="../../../../lib/react/react-0.13.3.js"></script>
+
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../main/js/util/ArrayAugments.js"></script>
+
+<script src="../../../main/js/ui/CheckboxPanel.js"></script>
+
+<style>
+#testPanel0, #testPanel1 {
+	background-color: lightBlue;
+	border-collapse: collapse;
+	border: 3px solid black;
+	font-size: small;
+}
+
+#testPanel0 {
+	display: inline-block;
+}
+
+#testPanel1 {
+	width: 80px;
+	height: 115px;
+	overflow-y: auto;
+}
+</style>
+</head>
+<body>
+	<div id="testPanel0">testPanel0</div>
+	<p />
+	<div id="testPanel1">testPanel1</div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var values0 = [ "alpha", "bravo", "charlie", "delta", "echo" ];
+        var labelFunction0 = function(value)
+        {
+            return value.toUpperCase();
+        }
+        var clientProps0 =
+        {
+            "data-one": "One",
+            "data-two": "Two"
+        };
+        var element0 = React.createElement(CheckboxPanel,
+        {
+            values: values0,
+            labelFunction: labelFunction0,
+            initialSelectedValues: [ values0[1], values0[3] ],
+            onChange: myOnChange0,
+            panelClass: "panelClass",
+            clientProps: clientProps0,
+        });
+        var panel0 = React.render(element0, document.getElementById("testPanel0"));
+
+        function myOnChange0(event)
+        {
+            LOGGER.info("event.target = " + Object.getOwnPropertyNames(event.target));
+            LOGGER.info("event.target.dataset.one = " + event.target.dataset.one);
+            var selected = panel0.getSelected();
+            LOGGER.info("myOnChange0() selected = " + selected);
+        }
+
+        var values1 = [];
+        values1.push(
+        {
+            id: "0",
+            name: "Zero",
+        });
+        values1.push(
+        {
+            id: "1",
+            name: "One",
+        });
+        values1.push(
+        {
+            id: "2",
+            name: "Two",
+        });
+        values1.push(
+        {
+            id: "3",
+            name: "Three",
+        });
+        values1.push(
+        {
+            id: "4",
+            name: "Four",
+        });
+        values1.push(
+        {
+            id: "5",
+            name: "Five",
+        });
+        values1.push(
+        {
+            id: "6",
+            name: "Six",
+        });
+        values1.push(
+        {
+            id: "7",
+            name: "Seven",
+        });
+        values1.push(
+        {
+            id: "8",
+            name: "Eight",
+        });
+        values1.push(
+        {
+            id: "9",
+            name: "Nine",
+        });
+        var idFunction1 = function(value)
+        {
+            return value.id;
+        }
+        var labelFunction1 = function(value)
+        {
+            return value.name;
+        }
+        var element1 = React.createElement(CheckboxPanel,
+        {
+            values: values1,
+            idFunction: idFunction1,
+            labelFunction: labelFunction1,
+            initialSelectedValues: [ values1[1], values1[3] ],
+            onChange: myOnChange1,
+            panelClass: "panelClass",
+        });
+        var panel1 = React.render(element1, document.getElementById("testPanel1"));
+
+        function myOnChange1(event)
+        {
+            var selected = panel1.getSelected();
+            LOGGER.info("myOnChange1() selected = " + selected);
+        }
+    </script>
+</body>
+</html>
