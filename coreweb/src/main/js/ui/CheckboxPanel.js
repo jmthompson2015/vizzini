@@ -35,8 +35,6 @@ var CheckboxPanel = React.createClass(
             selected: selected,
         };
 
-        LOGGER.debug("Array.isArray(answer) ? " + Array.isArray(answer) + " answer = " + answer);
-
         return answer;
     },
 
@@ -85,7 +83,7 @@ var CheckboxPanel = React.createClass(
         };
 
         var clientProps = this.props.clientProps;
-        LOGGER.debug("clientProps = " + JSON.stringify(clientProps));
+        // LOGGER.debug("clientProps = " + JSON.stringify(clientProps));
 
         if (clientProps)
         {
