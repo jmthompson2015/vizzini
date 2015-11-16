@@ -4,12 +4,10 @@
 <meta charset="utf-8">
 <title>GameDetailFetcherTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 
@@ -26,13 +24,14 @@
     LOGGER.setTraceEnabled(false);
     // LOGGER.setDebugEnabled(false);
 
-    QUnit.test("fetchData() sale", function(assert)
+    QUnit.test("fetchData()", function(assert)
     {
         // Setup.
+        var gameDatabase = new GameDatabase();
         var gameIds = [];
         gameIds.push(12333); // Twilight Struggle
         gameIds.push(120677); // Terra Mystica
-        var fetcher = new GameDetailFetcher(gameIds);
+        var fetcher = new GameDetailFetcher(gameDatabase, gameIds);
         fetcher.bind("dataLoaded", myReceiveData);
 
         // Run.
@@ -42,14 +41,21 @@
         assert.ok(true);
     });
 
-    function myReceiveData(gameDetails)
+    function myReceiveData(newGameDetailMap)
     {
+        LOGGER.info("myReceiveData() start");
+        LOGGER.info("newGameDetailMap = " + newGameDetailMap);
+        LOGGER.info("newGameDetailMap keys = " + Object.keys(newGameDetailMap));
+        var gameDetails = GameDatabase.objectValues(newGameDetailMap);
         LOGGER.info("myReceiveData gameDetails.length = " + gameDetails.length);
+
         for (var i = 0; i < gameDetails.length; i++)
         {
             var gameDetail = gameDetails[i];
             LOGGER.info("gameDetails[" + i + "] = " + JSON.stringify(gameDetail, null, "   "));
         }
+
+        LOGGER.info("myReceiveData() end");
     }
 </script>
 </head>

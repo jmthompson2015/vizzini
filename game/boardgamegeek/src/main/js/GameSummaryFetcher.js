@@ -7,7 +7,10 @@ function GameSummaryFetcher(gameDatabase, page)
         LOGGER.trace("GameSummaryFetcher.fetchData() start");
 
         var url = createUrl();
-        $.get(url, this.receiveData);
+        $.ajax(url).done(this.receiveData).fail(function(jqXHR, textStatus, errorThrown)
+        {
+            LOGGER.error(errorThrown);
+        });
 
         LOGGER.trace("GameSummaryFetcher.fetchData() end");
     }

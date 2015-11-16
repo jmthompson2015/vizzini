@@ -1,3 +1,7 @@
+// https://query.yahooapis.com/v1/public/yql?q=select * from xml where url='https://www.boardgamegeek.com/xmlapi2/thing?id=42,91,93,188,215,234,521,555,2511,2651,3076,4098,9209,9216,9609,10630,12333,12493,14105,14996'
+
+// https://www.boardgamegeek.com/xmlapi2/thing?id=42,91,93,188,215,234,521,555,2511,2651,3076,4098,9209,9216,9609,10630,12333,12493,14105,14996
+
 function GameDetailFetcher(gameDatabase, gameIds)
 {
     var that = this;
@@ -7,7 +11,10 @@ function GameDetailFetcher(gameDatabase, gameIds)
         LOGGER.trace("GameDetailFetcher.fetchData() start");
 
         var url = createUrl();
-        $.get(url, this.receiveData);
+        $.ajax(url).done(this.receiveData).fail(function(jqXHR, textStatus, errorThrown)
+        {
+            LOGGER.error(errorThrown);
+        });
 
         LOGGER.trace("GameDetailFetcher.fetchData() end");
     }
@@ -45,10 +52,10 @@ function GameDetailFetcher(gameDatabase, gameIds)
 
         var sourceUrl = "https://www.boardgamegeek.com/xmlapi2/thing?id=" + idsString;
 
-        var query = "select * from xml where url='" + sourceUrl + "'";
-        LOGGER.debug("unencoded url = _" + (baseUrl + query) + "_");
+        var query = "select * from xml where url=\"" + sourceUrl + "\"";
+        LOGGER.debug("unencoded url = " + (baseUrl + query));
         var answer = baseUrl + encodeURIComponent(query);
-        LOGGER.debug("url = _" + answer + "_");
+        LOGGER.debug("url = " + answer);
 
         return answer;
     }
