@@ -19,17 +19,22 @@ var FiltersUI = React.createClass(
 
         if (localStorage.filters)
         {
-            var filters = JSON.parse(localStorage.filters);
-            answer = {};
-
-            filters.forEach(function(filter)
-            {
-                answer[filter.columnKey] = filter;
-            });
+            answer = JSON.parse(localStorage.filters);
         }
         else
         {
             answer = this.createDefaults();
+        }
+
+        if (answer.designers && answer.designers.length > 0)
+        {
+            answer.designers.forEach(function(entity)
+            {
+                entity.ids = entity.ids.map(function(id)
+                {
+                    return parseInt(id);
+                });
+            });
         }
 
         answer.isFiltered = false;
@@ -51,37 +56,41 @@ var FiltersUI = React.createClass(
             className: "filterTable",
         }, rows);
 
-        // var gameDatabase = this.props.gameDatabase;
-        // var designerTable =
-        // this.createEntityTable(gameDatabase.getDesigners());
-        // var categoryTable =
-        // this.createEntityTable(gameDatabase.getCategories());
-        // var mechanicTable =
-        // this.createEntityTable(gameDatabase.getMechanics());
-        //
+        var gameDatabase = this.props.gameDatabase;
+        var designerTable = this.createEntityTable(
+        {
+            "data-entitytype": "designer",
+        }, gameDatabase.getDesigners(), this.state.designers.ids);
+        var categoryTable = this.createEntityTable(
+        {
+            "data-entitytype": "category",
+        }, gameDatabase.getCategories(), this.state.categories.ids);
+        var mechanicTable = this.createEntityTable(
+        {
+            "data-entitytype": "mechanic",
+        }, gameDatabase.getMechanics(), this.state.mechanics.ids);
+
         var rows2 = [];
         var filterCell = React.DOM.td(
         {
             colSpan: 3,
         }, filterTable);
-        // var designerCell = React.DOM.td(
-        // {
-        // className: "alignTop"
-        // }, designerTable);
-        // var categoryCell = React.DOM.td(
-        // {
-        // className: "alignTop"
-        // }, categoryTable);
-        // var mechanicCell = React.DOM.td(
-        // {
-        // className: "alignTop"
-        // }, mechanicTable);
+        var designerCell = React.DOM.td(
+        {
+            className: "entityFilterContainer",
+        }, "Designer", designerTable);
+        var categoryCell = React.DOM.td(
+        {
+            className: "entityFilterContainer",
+        }, "Category", categoryTable);
+        var mechanicCell = React.DOM.td(
+        {
+            className: "entityFilterContainer",
+        }, "Mechanic", mechanicTable);
         rows2.push(React.DOM.tr(
         {
             key: 0,
-        }, filterCell
-        // , designerCell, categoryCell, mechanicCell
-        ));
+        }, filterCell, designerCell, categoryCell, mechanicCell));
 
         var restoreButton = React.DOM.button(
         {
@@ -121,34 +130,55 @@ var FiltersUI = React.createClass(
     {
         return (
         {
-            boardGameRank: GameDatabase.newFilter("boardGameRank", false, 1, false, 20),
-            yearPublished: GameDatabase.newFilter("yearPublished", false, 2005, false, 2015),
-            geekRating: GameDatabase.newFilter("geekRating", false, 7.2, false, 10),
-            minPlayers: GameDatabase.newFilter("minPlayers", true, 2, true, 3),
-            maxPlayers: GameDatabase.newFilter("maxPlayers", true, 4, false, 6),
-            minPlayTime: GameDatabase.newFilter("minPlayTime", true, 30, false, 120),
-            maxPlayTime: GameDatabase.newFilter("maxPlayTime", false, 30, true, 120),
+            boardGameRank: RangeFilter.newFilterProps("boardGameRank", false, 1, false, 20),
+            designers: EntityFilter.newFilterProps("designers", [], true),
+            yearPublished: RangeFilter.newFilterProps("yearPublished", false, 2005, false, 2015),
+            geekRating: RangeFilter.newFilterProps("geekRating", false, 7.2, false, 10),
+            minPlayers: RangeFilter.newFilterProps("minPlayers", true, 2, true, 3),
+            maxPlayers: RangeFilter.newFilterProps("maxPlayers", true, 4, false, 6),
+            minPlayTime: RangeFilter.newFilterProps("minPlayTime", true, 30, false, 120),
+            maxPlayTime: RangeFilter.newFilterProps("maxPlayTime", false, 30, true, 120),
+            categories: EntityFilter.newFilterProps("categories", [], true),
+            mechanics: EntityFilter.newFilterProps("mechanics", [], true),
         });
     },
 
-    createEntityTable: function(entities)
+    createEntityTable: function(clientProps, entities, selectedIds)
     {
-        var rows = [];
-
-        entities.forEach(function(entity)
+        if (entities && entities.length > 0)
         {
-            rows.push(React.DOM.tr(
+            var idFunction = function(value)
             {
-                key: rows.length,
-            }, React.DOM.td({}, entity.name + " (" + entity.count + ")")));
-        });
+                return String(value.id);
+            }
+            var labelFunction = function(value)
+            {
+                return value.name + " (" + value.count + ")";
+            }
+            var selectedValues = selectedIds.map(function(id)
+            {
+                return gameDatabase.findEntityById(id);
+            });
+            var checkboxPanel = React.createElement(CheckboxPanel,
+            {
+                values: entities,
+                idFunction: idFunction,
+                labelFunction: labelFunction,
+                initialSelectedValues: selectedValues,
+                onChange: this.handleChange,
+                panelClass: "entitiesTable",
+                clientProps: clientProps,
+            });
 
-        var answer = React.DOM.table(
+            return React.DOM.div(
+            {
+                className: "entitiesContainer",
+            }, checkboxPanel);
+        }
+        else
         {
-            className: "entitiesTable"
-        }, React.DOM.tbody({}, rows));
-
-        return answer;
+            return React.DOM.span({}, " ");
+        }
     },
 
     createRow: function(key, column)
@@ -214,15 +244,19 @@ var FiltersUI = React.createClass(
 
         this.filterColumns.forEach(function(column)
         {
-            filters.push(this.state[column.key]);
+            filters.push(new RangeFilter(this.state[column.key]));
         }, this);
+
+        filters.push(new EntityFilter(this.state.designers));
+        filters.push(new EntityFilter(this.state.categories));
+        filters.push(new EntityFilter(this.state.mechanics));
 
         this.trigger("applyFilters", filters);
         this.setState(
         {
             isFiltered: true,
         });
-        localStorage.filters = JSON.stringify(filters);
+        localStorage.filters = JSON.stringify(this.state);
 
         LOGGER.trace("FiltersUI.filterActionPerformed() end");
     },
@@ -231,41 +265,111 @@ var FiltersUI = React.createClass(
     {
         LOGGER.trace("FiltersUI.handleChange() start");
 
+        var entityType = event.target.dataset.entitytype;
+        LOGGER.debug("entityType = " + entityType);
         var id = event.target.id;
-        var columnKey;
-        var filter;
+        LOGGER.debug("handleChange() id = " + id);
 
-        if (id.endsWith("MinChecked"))
+        if (entityType)
         {
-            columnKey = id.substring(0, id.length - "MinChecked".length);
-            filter = this.state[columnKey];
-            filter.isMinEnabled = event.target.checked;
-        }
-        else if (id.endsWith("Min"))
-        {
-            columnKey = id.substring(0, id.length - "Min".length);
-            filter = this.state[columnKey];
-            filter.minValue = event.target.value;
-        }
-        else if (id.endsWith("MaxChecked"))
-        {
-            columnKey = id.substring(0, id.length - "MaxChecked".length);
-            filter = this.state[columnKey];
-            filter.isMaxEnabled = event.target.checked;
-        }
-        else if (id.endsWith("Max"))
-        {
-            columnKey = id.substring(0, id.length - "Max".length);
-            filter = this.state[columnKey];
-            filter.maxValue = event.target.value;
-        }
+            var checked = event.target.checked;
+            LOGGER.debug("checked ? " + checked);
 
-        LOGGER.debug("new filter = " + JSON.stringify(filter));
+            if (entityType === "designer")
+            {
+                var designers = this.state.designers;
 
-        this.setState(
+                if (checked)
+                {
+                    designers.ids.push(id);
+                }
+                else
+                {
+                    designers.ids.vizziniRemove(id);
+                }
+
+                this.setState(
+                {
+                    designers: designers,
+                });
+            }
+            else if (entityType === "category")
+            {
+                var categories = this.state.categories;
+
+                if (checked)
+                {
+                    categories.ids.push(id);
+                }
+                else
+                {
+                    categories.ids.vizziniRemove(id);
+                }
+
+                this.setState(
+                {
+                    categories: categories,
+                });
+            }
+            else if (entityType === "mechanic")
+            {
+                var mechanics = this.state.mechanics;
+
+                if (checked)
+                {
+                    mechanics.ids.push(id);
+                }
+                else
+                {
+                    mechanics.ids.vizziniRemove(id);
+                }
+
+                this.setState(
+                {
+                    mechanics: mechanics,
+                });
+            }
+        }
+        else
         {
-            columnKey: filter
-        });
+            var columnKey;
+            var filter;
+
+            if (id.endsWith("MinChecked"))
+            {
+                columnKey = id.substring(0, id.length - "MinChecked".length);
+                filter = this.state[columnKey];
+                filter.isMinEnabled = event.target.checked;
+            }
+            else if (id.endsWith("Min"))
+            {
+                columnKey = id.substring(0, id.length - "Min".length);
+                filter = this.state[columnKey];
+                filter.minValue = event.target.value;
+            }
+            else if (id.endsWith("MaxChecked"))
+            {
+                columnKey = id.substring(0, id.length - "MaxChecked".length);
+                filter = this.state[columnKey];
+                filter.isMaxEnabled = event.target.checked;
+            }
+            else if (id.endsWith("Max"))
+            {
+                columnKey = id.substring(0, id.length - "Max".length);
+                filter = this.state[columnKey];
+                filter.maxValue = event.target.value;
+            }
+
+            LOGGER.debug("new filter = " + JSON.stringify(filter));
+
+            if (columnKey && filter)
+            {
+                this.setState(
+                {
+                    columnKey: filter
+                });
+            }
+        }
 
         LOGGER.trace("FiltersUI.handleChange() end");
     },

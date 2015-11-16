@@ -29,11 +29,15 @@ table {
 	text-align: center;
 }
 
+#ALIGN_MIDDLE, #bgg_cornerlogo, .alignMiddle {
+	vertical-align: middle;
+}
+
 #ALIGN_RIGHT, .numberCell, .alignRight {
 	text-align: right;
 }
 
-#ALIGN_TOP, .alignTop {
+#ALIGN_TOP, .entityFilterContainer, .alignTop {
 	vertical-align: top;
 }
 
@@ -70,6 +74,18 @@ table {
 
 #FONT_X_SMALL, .entitiesTable, .fontXSmall {
 	font-size: x-small;
+}
+
+#HEIGHT_170, .entitiesContainer, .height170 {
+	height: 170px;
+}
+
+#OVERFLOW_Y_AUTO, .entitiesContainer, .overflowYAuto {
+	overflow-y: auto;
+}
+
+#PADDING_LEFT5, .entityFilterContainer, .paddingLeft5 {
+	padding-left: 5px;
 }
 
 #PADDING_LR3, .filterTable td, .paddingLR3 {

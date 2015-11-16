@@ -320,7 +320,7 @@ function GameDatabase(numPages)
         for (var i = 0, len = keys.length; i < len; i++)
         {
             var entity = entityMap[keys[i]];
-            if (entity.type === type && entity.count > 1)
+            if (entity.type === type)
             {
                 answer.push(entity);
             }
@@ -328,7 +328,24 @@ function GameDatabase(numPages)
 
         answer.sort(function(a, b)
         {
-            return b.count - a.count;
+            var answer = b.count - a.count;
+
+            if (answer === 0)
+            {
+                if (a.name > b.name)
+                {
+                    answer = 1;
+                }
+                else if (a.name < b.name)
+                {
+                    answer = -1;
+                }
+                else
+                {
+                    answer = 0;
+                }
+            }
+            return answer;
         });
 
         return answer;
@@ -352,39 +369,13 @@ GameDatabase.prototype.findGameSummaryById = function(id)
     return this.getGameSummaryMap()[id];
 }
 
-GameDatabase.newFilter = function(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue)
-{
-    var answer =
-    {
-        columnKey: columnKey,
-        isMinEnabled: isMinEnabled,
-        minValue: minValue,
-        isMaxEnabled: isMaxEnabled,
-        maxValue: maxValue,
-    };
-
-    return answer;
-}
-
-GameDatabase.passesFilter = function(filter, gameSummary, gameDetail)
-{
-    var value = gameSummary[filter.columnKey];
-
-    if (!value && gameDetail)
-    {
-        value = gameDetail[filter.columnKey];
-    }
-
-    return (!filter.isMinEnabled || filter.minValue <= value) && (!filter.isMaxEnabled || value <= filter.maxValue);
-}
-
 GameDatabase.passesFilters = function(filters, gameSummary, gameDetail)
 {
     var passes = true;
 
     filters.forEach(function(filter)
     {
-        passes = passes && GameDatabase.passesFilter(filter, gameSummary, gameDetail);
+        passes = passes && filter.passes(gameSummary, gameDetail);
     });
 
     return passes;

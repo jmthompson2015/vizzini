@@ -9,10 +9,14 @@
 <script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
 <script src="../../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
 
+<script src="../../../../../coreweb/src/main/js/ui/CheckboxPanel.js"></script>
+
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
 
+<script src="../js/Filter.js"></script>
 <script src="../js/FilterUI.js"></script>
 <script src="../js/GameDatabase.js"></script>
 <script src="../js/GameDetailFetcher.js"></script>
@@ -20,7 +24,10 @@
 <script src="../js/GameTable.js"></script>
 </head>
 <body>
-	<h1>BoardGameGeek Game Finder</h1>
+	<h1>
+		<a href="https://www.boardgamegeek.com"><img id="bgg_cornerlogo" src="../resources/bgg_cornerlogo.png" /></a> Game
+		Finder
+	</h1>
 	<section>
 		<div id="filters"></div>
 	</section>
@@ -34,9 +41,9 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var numPages = 3;
+        var numPages = 5;
         var gameDatabase = new GameDatabase(numPages);
-        // gameDatabase.bind("dataLoaded", renderFilter);
+        gameDatabase.bind("dataLoaded", renderFilter);
         gameDatabase.bind("dataLoaded", renderTable);
 
         var filtersUI = React.render(React.createElement(FiltersUI,
@@ -48,7 +55,6 @@
 
         gameDatabase.load();
 
-        /*
         function renderFilter()
         {
             React.render(React.createElement(FiltersUI,
@@ -56,7 +62,6 @@
                 gameDatabase: gameDatabase,
             }), document.getElementById("filters"));
         }
-         */
 
         function renderTable()
         {
