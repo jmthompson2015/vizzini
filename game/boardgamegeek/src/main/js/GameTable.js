@@ -10,7 +10,7 @@ var GameColumns = [
     className: "textCell",
 },
 {
-    key: "designer",
+    key: "designers",
     label: "Designer",
 },
 {
