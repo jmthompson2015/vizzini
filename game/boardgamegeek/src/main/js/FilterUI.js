@@ -11,6 +11,7 @@ var FiltersUI = React.createClass(
         this.filterColumns.push(GameColumns[6]);
         this.filterColumns.push(GameColumns[7]);
         this.filterColumns.push(GameColumns[8]);
+        this.filterColumns.push(GameColumns[9]);
     },
 
     getInitialState: function()
@@ -35,6 +36,11 @@ var FiltersUI = React.createClass(
                     return parseInt(id);
                 });
             });
+        }
+
+        if (!answer.bestWithPlayers)
+        {
+            answer.bestWithPlayers = this.createDefaults().bestWithPlayers;
         }
 
         answer.isFiltered = false;
@@ -136,6 +142,7 @@ var FiltersUI = React.createClass(
             geekRating: RangeFilter.newFilterProps("geekRating", false, 7.2, false, 10),
             minPlayers: RangeFilter.newFilterProps("minPlayers", true, 2, true, 3),
             maxPlayers: RangeFilter.newFilterProps("maxPlayers", true, 4, false, 6),
+            bestWithPlayers: RangeFilter.newFilterProps("bestWithPlayers", false, 3, false, 4),
             minPlayTime: RangeFilter.newFilterProps("minPlayTime", true, 30, false, 120),
             maxPlayTime: RangeFilter.newFilterProps("maxPlayTime", false, 30, true, 120),
             categories: EntityFilter.newFilterProps("categories", [], true),

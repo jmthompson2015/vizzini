@@ -164,8 +164,8 @@ function GameDatabase(numPages)
         return answer;
     }
 
-    this.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers, minPlayTime,
-            maxPlayTime, categories, mechanics)
+    this.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers, bestWithPlayers,
+            minPlayTime, maxPlayTime, categories, mechanics)
     {
         var answer = gameDetailMap[id];
 
@@ -179,6 +179,7 @@ function GameDatabase(numPages)
                 yearPublished: parseInt(yearPublished),
                 minPlayers: parseInt(minPlayers),
                 maxPlayers: parseInt(maxPlayers),
+                bestWithPlayers: parseInt(bestWithPlayers),
                 minPlayTime: parseInt(minPlayTime),
                 maxPlayTime: parseInt(maxPlayTime),
                 categories: categories,
