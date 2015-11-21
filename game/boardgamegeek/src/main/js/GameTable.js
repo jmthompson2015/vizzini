@@ -34,6 +34,11 @@ var GameColumns = [
     className: "numberCell",
 },
 {
+    key: "bestWithPlayers",
+    label: "Best with Players",
+    className: "numberCell",
+},
+{
     key: "minPlayTime",
     label: "Min. Play Time",
     className: "numberCell",
@@ -194,6 +199,7 @@ var GameTable = React.createClass(
         {
             cells.push(this.createCell(cells.length, GameColumns[i++], gameDetail.minPlayers));
             cells.push(this.createCell(cells.length, GameColumns[i++], gameDetail.maxPlayers));
+            cells.push(this.createCell(cells.length, GameColumns[i++], gameDetail.bestWithPlayers));
             cells.push(this.createCell(cells.length, GameColumns[i++], gameDetail.minPlayTime));
             cells.push(this.createCell(cells.length, GameColumns[i++], gameDetail.maxPlayTime));
 

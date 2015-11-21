@@ -60,6 +60,39 @@ function GameDetailFetcher(gameDatabase, gameIds)
         return answer;
     }
 
+    function parseBestWithPlayers(xmlDocument, xmlFragment)
+    {
+        var answer;
+
+        var xpath = "poll[@name='suggested_numplayers']/results";
+        var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
+        var rows = xmlDocument.evaluate(xpath, xmlFragment, null, resultType, null);
+        var thisRow = rows.iterateNext();
+        var maxNumVotes;
+
+        while (thisRow)
+        {
+            var numPlayersCell = xmlDocument.evaluate("@numplayers", thisRow, null, XPathResult.STRING_TYPE, null);
+            var numPlayers = numPlayersCell.stringValue.trim();
+            var numVotesCell = xmlDocument.evaluate("result[@value='Best']/@numvotes", thisRow, null,
+                    XPathResult.STRING_TYPE, null);
+            var numVotes = parseInt(numVotesCell.stringValue.trim());
+            LOGGER.debug("numPlayers = " + numPlayers + " numVotes = " + numVotes);
+
+            if (!maxNumVotes || numVotes > maxNumVotes)
+            {
+                answer = numPlayers;
+                maxNumVotes = numVotes;
+            }
+
+            thisRow = rows.iterateNext();
+        }
+
+        LOGGER.debug("answer = " + answer + " maxNumVotes = " + maxNumVotes);
+
+        return answer;
+    }
+
     function parseEntities(xmlDocument, xmlFragment, type)
     {
         var answer = [];
@@ -130,6 +163,8 @@ function GameDetailFetcher(gameDatabase, gameIds)
                 .evaluate("maxplayers/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
         var maxPlayers = maxPlayersCell.stringValue.trim();
 
+        var bestWithPlayers = parseBestWithPlayers(xmlDocument, xmlFragment);
+
         var minPlayTimeCell = xmlDocument.evaluate("minplaytime/@value", xmlFragment, null, XPathResult.STRING_TYPE,
                 null);
         var minPlayTime = minPlayTimeCell.stringValue.trim();
@@ -142,8 +177,8 @@ function GameDetailFetcher(gameDatabase, gameIds)
         var designers = parseEntities(xmlDocument, xmlFragment, "boardgamedesigner");
         var mechanics = parseEntities(xmlDocument, xmlFragment, "boardgamemechanic");
 
-        return gameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers, minPlayTime,
-                maxPlayTime, categories, mechanics);
+        return gameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers, bestWithPlayers,
+                minPlayTime, maxPlayTime, categories, mechanics);
     }
 }
 
