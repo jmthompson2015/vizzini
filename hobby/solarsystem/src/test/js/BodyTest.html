@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BodyTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../../main/js/Body.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("values()", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Body.values();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, (1 + 8 + 5 + (19+2)));
+    });
+
+    QUnit.test("valuesByType()", function(assert)
+    {
+        assert.equal(Body.valuesByType(BodyType.STAR).length, 1);
+        assert.equal(Body.valuesByType(BodyType.PLANET).length, 8);
+        assert.equal(Body.valuesByType(BodyType.DWARF_PLANET).length, 5);
+        assert.equal(Body.valuesByType(BodyType.MOON).length, 19+2);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

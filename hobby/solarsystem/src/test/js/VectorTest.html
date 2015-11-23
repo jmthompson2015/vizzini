@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>VectorTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<script src="../../main/js/Vector.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    // LOGGER.setTraceEnabled(false);
+
+    QUnit.test("cross() XY", function(assert)
+    {
+        // Setup.
+        var v0 = Vector.X_AXIS;
+        var v1 = Vector.Y_AXIS;
+
+        // Run.
+        var result = v0.cross(v1);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), 0.0);
+        assert.equal(result.getY(), 0.0);
+        assert.equal(result.getZ(), 1.0);
+    });
+
+    QUnit.test("cross() YZ", function(assert)
+    {
+        // Setup.
+        var v0 = Vector.Y_AXIS;
+        var v1 = Vector.Z_AXIS;
+
+        // Run.
+        var result = v0.cross(v1);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), 1.0);
+        assert.equal(result.getY(), 0.0);
+        assert.equal(result.getZ(), 0.0);
+    });
+
+    QUnit.test("dot()", function(assert)
+    {
+        // Setup.
+        var v0 = new Vector(1.0, 2.0, 3.0);
+        var v1 = new Vector(4.0, 5.0, 6.0);
+
+        // Run.
+        var result = v0.dot(v1);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, 32.0);
+    });
+
+    QUnit.test("getters", function(assert)
+    {
+        // Setup.
+        var v = new Vector(1.0, 2.0, 3.0);
+
+        // Run / Verify.
+        assert.equal(v.getX(), 1.0);
+        assert.equal(v.getY(), 2.0);
+        assert.equal(v.getZ(), 3.0);
+    });
+
+    QUnit.test("magnitude()", function(assert)
+    {
+        // Setup.
+        var v = new Vector(1.0, 2.0, 3.0);
+
+        // Run.
+        var result = v.magnitude();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(Math.vizziniRound(result, 4), 3.7417);
+    });
+
+    QUnit.test("magnitudeSquared()", function(assert)
+    {
+        // Setup.
+        var v = new Vector(1.0, 2.0, 3.0);
+
+        // Run.
+        var result = v.magnitudeSquared();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, 14.0);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
