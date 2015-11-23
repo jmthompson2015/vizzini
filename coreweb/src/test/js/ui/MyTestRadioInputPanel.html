@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestRadioInputPanel</title>
+
+<script src="../../../../lib/react/react-0.13.3.js"></script>
+
+<script src="../../../main/js/util/Logger.js"></script>
+<script src="../../../main/js/util/InputValidator.js"></script>
+<script src="../../../main/js/util/ArrayAugments.js"></script>
+
+<script src="../../../main/js/ui/RadioInputPanel.js"></script>
+<script src="../../../main/js/ui/InputPanel.js"></script>
+
+<style>
+#testPanel {
+	background-color: lightBlue;
+	border-collapse: collapse;
+	border: 3px solid black;
+	display: inline-block;
+	font-size: small;
+}
+</style>
+</head>
+<body>
+	<div id="testPanel">testPanel</div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var values = [ "alpha", "bravo", "charlie", "delta", "echo" ];
+        var labelFunction = function(value)
+        {
+            return value.toUpperCase();
+        }
+        var initialValue = values[1];
+        var clientProps =
+        {
+            "data-one": "One",
+            "data-two": "Two"
+        };
+        var element = React.createElement(RadioInputPanel,
+        {
+            type: "radio",
+            values: values,
+            name: "selectLetter",
+            labelFunction: labelFunction,
+            initialValue: initialValue,
+            onChange: myOnChange,
+            panelClass: "panelClass",
+            clientProps: clientProps,
+        });
+        var panel = React.render(element, document.getElementById("testPanel"));
+
+        function myOnChange(selected)
+        {
+            LOGGER.info("selected = " + selected);
+        }
+    </script>
+</body>
+</html>
