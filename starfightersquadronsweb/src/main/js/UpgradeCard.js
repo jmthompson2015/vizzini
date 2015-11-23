@@ -1,3 +1,5 @@
+// require("ShipState");
+
 /*
  * Provides an enumeration of upgrade restrictions.
  */
@@ -251,6 +253,11 @@ var UpgradeRestriction =
     },
 }
 
+if (Object.freeze)
+{
+    Object.freeze(UpgradeRestriction);
+};
+
 /*
  * Provides an enumeration of upgrade types.
  */
@@ -373,7 +380,7 @@ UpgradeType.isSecondaryWeapon = function(upgradeType)
 
 if (Object.freeze)
 {
-    Object.freeze(UpgradeType)
+    Object.freeze(UpgradeType);
 };
 
 /*
@@ -2063,5 +2070,5 @@ var UpgradeCard =
 
 if (Object.freeze)
 {
-    Object.freeze(UpgradeCard)
+    Object.freeze(UpgradeCard);
 };

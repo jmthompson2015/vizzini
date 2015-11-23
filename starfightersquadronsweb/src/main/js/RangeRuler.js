@@ -66,7 +66,7 @@ var Range =
 
 if (Object.freeze)
 {
-    Object.freeze(Range)
+    Object.freeze(Range);
 };
 
 /*
@@ -81,8 +81,7 @@ function RangeRuler()
      * 
      * @return the range.
      */
-    this.getRange = function(attacker, attackerPosition, defender,
-            defenderPosition)
+    this.getRange = function(attacker, attackerPosition, defender, defenderPosition)
     {
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("attackerPosition", attackerPosition);
@@ -92,11 +91,9 @@ function RangeRuler()
         var attackerBase = attacker.getShipBase();
         var defenderBase = defender.getShipBase();
 
-        var attackerPolygon = ShipBase.computePolygon(attackerBase,
-                attackerPosition.getX(), attackerPosition.getY(),
+        var attackerPolygon = ShipBase.computePolygon(attackerBase, attackerPosition.getX(), attackerPosition.getY(),
                 attackerPosition.getHeading());
-        var defenderPolygon = ShipBase.computePolygon(defenderBase,
-                defenderPosition.getX(), defenderPosition.getY(),
+        var defenderPolygon = ShipBase.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition.getY(),
                 defenderPosition.getHeading());
 
         // FIXME

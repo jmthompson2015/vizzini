@@ -1,3 +1,6 @@
+// require("RangeRuler");
+// require("Ship"); // FiringArc and ShipBase
+
 /*
  * Provides a turret weapon.
  */

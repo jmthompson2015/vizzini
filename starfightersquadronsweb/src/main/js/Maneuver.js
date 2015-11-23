@@ -71,7 +71,7 @@ var Bearing =
 
 if (Object.freeze)
 {
-    Object.freeze(Bearing)
+    Object.freeze(Bearing);
 };
 
 /*
@@ -86,16 +86,17 @@ var Difficulty =
 
 if (Object.freeze)
 {
-    Object.freeze(Difficulty)
+    Object.freeze(Difficulty);
 };
 
 /*
- * Provides a maneuver for Starfighter Squadrons. <p> Small ship base is 40mm x
- * 40mm. </p> <p> Bearing straight, speed one maneuver is 40mm long. Other
- * straight maneuvers are multiples of this. </p>
+ * Provides an enumeration of maneuvers for Starfighter Squadrons. <p> Small
+ * ship base is 40mm x 40mm. </p> <p> Bearing straight, speed one maneuver is
+ * 40mm long. Other straight maneuvers are multiples of this. </p>
  */
 var Maneuver =
 {
+    // Bank.
     BANK_LEFT_1_EASY: "bankLeft1Easy",
     BANK_LEFT_1_STANDARD: "bankLeft1Standard",
     BANK_LEFT_2_EASY: "bankLeft2Easy",
@@ -108,14 +109,22 @@ var Maneuver =
     BANK_RIGHT_2_STANDARD: "bankRight2Standard",
     BANK_RIGHT_3_HARD: "bankRight3Hard",
     BANK_RIGHT_3_STANDARD: "bankRight3Standard",
+
+    // Koiogran turn.
     KOIOGRAN_TURN_2_HARD: "koiogranTurn2Hard",
     KOIOGRAN_TURN_3_HARD: "koiogranTurn3Hard",
     KOIOGRAN_TURN_4_HARD: "koiogranTurn4Hard",
     KOIOGRAN_TURN_4_STANDARD: "koiogranTurn4Standard",
     KOIOGRAN_TURN_5_HARD: "koiogranTurn5Hard",
+
+    // Segnor's loop.
     SEGNORS_LOOP_LEFT_3_HARD: "segnorsLoopLeft3Hard",
     SEGNORS_LOOP_RIGHT_3_HARD: "segnorsLoopRight3Hard",
+
+    // Stationary.
     STATIONARY_0_HARD: "stationary0Hard",
+
+    // Straight.
     STRAIGHT_1_EASY: "straight1Easy",
     STRAIGHT_1_STANDARD: "straight1Standard",
     STRAIGHT_2_EASY: "straight2Easy",
@@ -127,6 +136,8 @@ var Maneuver =
     STRAIGHT_4_STANDARD: "straight4Standard",
     STRAIGHT_5_EASY: "straight5Easy",
     STRAIGHT_5_STANDARD: "straight5Standard",
+
+    // Turn.
     TURN_LEFT_1_HARD: "turnLeft1Hard",
     TURN_LEFT_1_STANDARD: "turnLeft1Standard",
     TURN_LEFT_2_EASY: "turnLeft2Easy",
@@ -501,8 +512,7 @@ var Maneuver =
  */
 Maneuver.computeFromPolygon = function(fromPosition, shipBase)
 {
-    return ShipBase.computePolygon(shipBase, fromPosition.getX(), fromPosition
-            .getY(), fromPosition.getHeading());
+    return ShipBase.computePolygon(shipBase, fromPosition.getX(), fromPosition.getY(), fromPosition.getHeading());
 }
 
 /*
@@ -516,13 +526,11 @@ Maneuver.computeToPolygon = function(maneuver, fromPosition, shipBase)
     InputValidator.validateNotNull("fromPosition", fromPosition);
     InputValidator.validateNotNull("shipBase", shipBase);
 
-    var toPosition = Maneuver.computeToPosition(maneuver, fromPosition,
-            shipBase);
+    var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
     InputValidator.validateNotNull("toPosition", toPosition);
 
-    return ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition
-            .getY(), toPosition.getHeading());
+    return ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition.getHeading());
 }
 
 /*
@@ -596,8 +604,7 @@ Maneuver.computePath = function(maneuver, fromPosition, shipBase)
     case Bearing.BANK_RIGHT:
     case Bearing.SEGNORS_LOOP_LEFT:
     case Bearing.SEGNORS_LOOP_RIGHT:
-        var factor = (bearing === Bearing.BANK_RIGHT
-                || bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
+        var factor = (bearing === Bearing.BANK_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
         x = (baseSize * Math.cos(Math.PI / 4.0)) + lastX;
         var y = (factor * baseSize * Math.cos(Math.PI / 4.0)) + lastY;
         answer.add(x, y);
@@ -647,8 +654,7 @@ Maneuver.computeToPosition = function(maneuver, fromPosition, shipBase)
         dx = (2 * baseSize) + (40 * speed);
         dy = 0;
     }
-    else if ((bearing && Bearing.properties[bearing].isBank)
-            || bearing === Bearing.SEGNORS_LOOP_LEFT
+    else if ((bearing && Bearing.properties[bearing].isBank) || bearing === Bearing.SEGNORS_LOOP_LEFT
             || bearing === Bearing.SEGNORS_LOOP_RIGHT)
     {
         // Half base.
@@ -656,8 +662,7 @@ Maneuver.computeToPosition = function(maneuver, fromPosition, shipBase)
         var y1 = 0.0;
 
         // Curve.
-        var factor = (bearing === Bearing.BANK_RIGHT
-                || bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
+        var factor = (bearing === Bearing.BANK_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
         var angle = 45.0 * Math.PI / 180.0;
         var x2 = radius * Math.cos(angle);
         var y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
@@ -709,8 +714,7 @@ Maneuver.addSegments = function(maneuver, path, lastX, heading, segmentCount)
     var radius = Maneuver.properties[maneuver].radius;
 
     var factor = ((bearing === Bearing.BANK_RIGHT)
-            || (bearing === Bearing.TURN_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT) ? 1.0
-            : -1.0);
+            || (bearing === Bearing.TURN_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT) ? 1.0 : -1.0);
     var deltaAngle = (heading * Math.PI / 180) / segmentCount;
 
     var myLastX = lastX;
@@ -776,8 +780,7 @@ Maneuver.find = function(bearing, speed, difficulty)
         var maneuver = values[i];
         var properties = Maneuver.properties[maneuver];
 
-        if ((properties.bearing === bearing) && (properties.speed === speed)
-                && (properties.difficulty === difficulty))
+        if ((properties.bearing === bearing) && (properties.speed === speed) && (properties.difficulty === difficulty))
         {
             answer = maneuver;
             break;
@@ -789,5 +792,5 @@ Maneuver.find = function(bearing, speed, difficulty)
 
 if (Object.freeze)
 {
-    Object.freeze(Maneuver)
+    Object.freeze(Maneuver);
 };

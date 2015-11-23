@@ -43,3 +43,8 @@ var ShipAction =
         },
     }
 };
+
+if (Object.freeze)
+{
+    Object.freeze(ShipAction);
+};

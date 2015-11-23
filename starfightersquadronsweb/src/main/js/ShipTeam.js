@@ -1,3 +1,6 @@
+// require("Ship");
+// require("Team");
+
 /*
  * Provides a mapping between Ship and Team.
  */
@@ -297,5 +300,5 @@ var ShipTeam =
 
 if (Object.freeze)
 {
-    Object.freeze(ShipTeam)
+    Object.freeze(ShipTeam);
 };

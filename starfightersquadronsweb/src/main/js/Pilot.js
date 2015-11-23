@@ -1,3 +1,9 @@
+// require("RangeRuler");
+// require("ShipState");
+// require("ShipTeam");
+// require("UpgradeType");
+// require("Weapon");
+
 /*
  * Provides an enumeration of pilots for Starfighter Squadrons.
  */
@@ -1839,5 +1845,5 @@ var Pilot =
 
 if (Object.freeze)
 {
-    Object.freeze(Pilot)
+    Object.freeze(Pilot);
 };
