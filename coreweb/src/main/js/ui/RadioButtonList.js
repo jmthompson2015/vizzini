@@ -5,6 +5,8 @@ var RadioButtonList = React.createClass(
 {
     getInitialState: function()
     {
+        LOGGER.warn("Deprecated: RadioButtonList; please use InputPanel or RadioInputPanel instead.");
+        
         var initial = this.props.initialSelectedIndex;
         var index = (initial ? parseInt(initial) : 0);
 

@@ -17,6 +17,8 @@ var CheckboxPanel = React.createClass(
 {
     getInitialState: function()
     {
+        LOGGER.warn("Deprecated: CheckboxPanel; please use InputPanel or CheckboxInputPanel instead.");
+        
         var selected = [];
 
         if (this.props.initialSelectedValues)
