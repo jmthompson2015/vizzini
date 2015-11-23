@@ -9,9 +9,10 @@
 
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
 
+<script src="../../main/js/FiringArc.js"></script>
 <script src="../../main/js/Maneuver.js"></script>
-<script src="../../main/js/Path.js"></script>
 <script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/ShipBase.js"></script>
 <script src="../../main/js/Ship.js"></script>
 
 <script>
@@ -78,136 +79,6 @@
         var count = properties.length - 1 // properties
         - 1; // values
         assert.equal(result.length, count);
-    });
-
-    QUnit.test("FiringArc.isInFiringArc() Forward", function(assert)
-    {
-        var arc = FiringArc.FORWARD;
-        var isInFiringArc = FiringArc.properties[arc].isInFiringArc;
-        assert.ok(isInFiringArc(0));
-        assert.ok(isInFiringArc(45));
-        assert.ok(!isInFiringArc(46));
-        assert.ok(!isInFiringArc(134));
-        assert.ok(!isInFiringArc(135));
-        assert.ok(!isInFiringArc(225));
-        assert.ok(!isInFiringArc(226));
-        assert.ok(!isInFiringArc(314));
-        assert.ok(isInFiringArc(315));
-    });
-
-    QUnit.test("FiringArc.isInFiringArc() ForwardAndAft", function(assert)
-    {
-        var arc = FiringArc.FORWARD_AND_AFT;
-        var isInFiringArc = FiringArc.properties[arc].isInFiringArc;
-        assert.ok(isInFiringArc(0));
-        assert.ok(isInFiringArc(45));
-        assert.ok(!isInFiringArc(46));
-        assert.ok(!isInFiringArc(134));
-        assert.ok(isInFiringArc(135));
-        assert.ok(isInFiringArc(225));
-        assert.ok(!isInFiringArc(226));
-        assert.ok(!isInFiringArc(314));
-        assert.ok(isInFiringArc(315));
-    });
-
-    QUnit.test("ShipBase properties Large", function(assert)
-    {
-        var shipBase = ShipBase.LARGE;
-        var properties = ShipBase.properties[shipBase];
-        assert.equal(properties.width, 80);
-        assert.equal(properties.height, 80);
-    });
-
-    QUnit.test("ShipBase properties Standard", function(assert)
-    {
-        var shipBase = ShipBase.STANDARD;
-        var properties = ShipBase.properties[shipBase];
-        assert.equal(properties.width, 40);
-        assert.equal(properties.height, 40);
-    });
-
-    QUnit.test("ShipBase.computePolygon() Standard", function(assert)
-    {
-        // Setup.
-        var shipBase = ShipBase.STANDARD;
-
-        // Run.
-        var result = ShipBase.computePolygon(shipBase, 0, 0, 0);
-
-        // Verify.
-        assert.ok(result);
-        assert.equal(result.getPointsLength(), 10);
-
-        var i = 0;
-        var points = result.getPoints();
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-    });
-
-    QUnit.test("ShipBase.computePolygon() Standard 0", function(assert)
-    {
-        // Setup.
-        var shipBase = ShipBase.STANDARD;
-
-        // Run.
-        var result = ShipBase.computePolygon(shipBase, 10, 20, 0);
-
-        // Verify.
-        assert.ok(result);
-        assert.equal(result.getPointsLength(), 10);
-
-        var i = 0;
-        var points = result.getPoints();
-        assert.equal(points[i++], 30);
-        assert.equal(points[i++], 0);
-        assert.equal(points[i++], 30);
-        assert.equal(points[i++], 40);
-        assert.equal(points[i++], -10);
-        assert.equal(points[i++], 40);
-        assert.equal(points[i++], -10);
-        assert.equal(points[i++], 0);
-        assert.equal(points[i++], 30);
-        assert.equal(points[i++], 0);
-    });
-
-    QUnit.test("ShipBase.computePolygon() Standard 45", function(assert)
-    {
-        // Setup.
-        var shipBase = ShipBase.STANDARD;
-
-        // Run.
-        var result = ShipBase.computePolygon(shipBase, 10, 20, 45);
-
-        // Verify.
-        assert.ok(result);
-        assert.equal(result.getPointsLength(), 10);
-
-        var i = 0;
-        var points = result.getPoints();
-        assert.equal(myRound(points[i++]), 38.2843);
-        assert.equal(myRound(points[i++]), 20);
-        assert.equal(myRound(points[i++]), 10);
-        assert.equal(myRound(points[i++]), 48.2843);
-        assert.equal(myRound(points[i++]), -18.2843);
-        assert.equal(myRound(points[i++]), 20);
-        assert.equal(myRound(points[i++]), 10);
-        assert.equal(myRound(points[i++]), -8.2843);
-        assert.equal(myRound(points[i++]), 38.2843);
-        assert.equal(myRound(points[i++]), 20);
-
-        function myRound(value)
-        {
-            var factor = 10000;
-            return Math.round(value * factor) / factor;
-        }
     });
 </script>
 </head>
