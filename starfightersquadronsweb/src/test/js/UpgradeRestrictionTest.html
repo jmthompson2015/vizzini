@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>UpgradeRestrictionTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/FiringArc.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/ShipBase.js"></script>
+<script src="../../main/js/ShipState.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/ShipTeam.js"></script>
+<script src="../../main/js/UpgradeRestriction.js"></script>
+<script src="../../main/js/UpgradeType.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+
+<script>
+    "use strict";
+    var LOGGER = new Logger();
+
+    QUnit.test("UpgradeRestriction", function(assert)
+    {
+        var properties = Object.getOwnPropertyNames(UpgradeRestriction);
+        var values = UpgradeRestriction.values();
+        assert.equal(properties.length - 1 // properties
+        - 1 // passes
+        - 1, // values
+        values.length);
+    });
+
+    QUnit.test("UpgradeRestriction.values()", function(assert)
+    {
+        var result = UpgradeRestriction.values();
+        assert.ok(result);
+        assert.equal(result.length, 20);
+        assert.equal(result[0], UpgradeRestriction.A_WING_ONLY);
+        assert.equal(result[18], UpgradeRestriction.YT_2400_ONLY);
+        assert.equal(result[19], UpgradeRestriction.Y_WING_ONLY);
+    });
+
+    QUnit.test("UpgradeRestriction.passes()", function(assert)
+    {
+        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY ], Pilot.DARTH_VADER));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY ], Pilot.LUKE_SKYWALKER));
+
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY ], Pilot.DARTH_VADER));
+        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY ], Pilot.LUKE_SKYWALKER));
+
+        assert.ok(UpgradeRestriction.passes(
+                [ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                Pilot.ALPHA_SQUADRON_PILOT));
+        assert
+                .ok(!UpgradeRestriction.passes(
+                        [ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                        Pilot.ALPHA_SQUADRON_PILOT));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.ALPHA_SQUADRON_PILOT));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.ALPHA_SQUADRON_PILOT));
+
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY,
+                UpgradeRestriction.TIE_INTERCEPTOR_ONLY ], Pilot.DUTCH_VANDER));
+        assert.ok(!UpgradeRestriction.passes(
+                [ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ], Pilot.DUTCH_VANDER));
+        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.DUTCH_VANDER));
+        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+                Pilot.DUTCH_VANDER));
+
+        assert.ok(UpgradeRestriction.passes(undefined, Pilot.DUTCH_VANDER));
+        assert.ok(UpgradeRestriction.passes([], Pilot.DUTCH_VANDER));
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
