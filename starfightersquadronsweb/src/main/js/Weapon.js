@@ -3,46 +3,6 @@
 // require("ShipBase");
 
 /*
- * Provides a turret weapon.
- */
-function TurretWeapon(name, isPrimary, weaponValue, ranges)
-{
-    this.getName = function()
-    {
-        return name;
-    }
-
-    this.getRanges = function()
-    {
-        return ranges;
-    }
-
-    this.getWeaponValue = function()
-    {
-        return weaponValue;
-    }
-
-    this.isPrimary = function()
-    {
-        return isPrimary;
-    }
-}
-
-// Create a prototype object that inherits from the prototype of Weapon.
-TurretWeapon.prototype = Vizzini.inherit(Weapon.prototype);
-
-// Now add properties to the prototype. These properties override the properties
-// of the same name from Weapon.prototype.
-Vizzini.extend(TurretWeapon.prototype,
-{
-    isDefenderVulnerable: function(attacker, attackerPosition, defender,
-            defenderPosition)
-    {
-        return true;
-    },
-});
-
-/*
  * Provides a weapon for Starfighter Squadrons.
  */
 function Weapon(name, isPrimary, weaponValue, ranges)
@@ -74,11 +34,9 @@ function Weapon(name, isPrimary, weaponValue, ranges)
  * 
  * @return true if the defender is in this weapon's range.
  */
-Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition,
-        defender, defenderPosition)
+Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition, defender, defenderPosition)
 {
-    var range = this._RANGE_RULER.getRange(attacker, attackerPosition,
-            defender, defenderPosition);
+    var range = this._RANGE_RULER.getRange(attacker, attackerPosition, defender, defenderPosition);
     // LOGGER.trace("range = " + range);
 
     return range && this.getRanges().vizziniContains(range);
@@ -90,13 +48,10 @@ Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition,
  * 
  * @return true if the defender is in this weapon's firing arc and range.
  */
-Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition,
-        defender, defenderPosition)
+Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition, defender, defenderPosition)
 {
-    return this.isDefenderInRange(attacker, attackerPosition, defender,
-            defenderPosition)
-            && this.isDefenderVulnerable(attacker, attackerPosition, defender,
-                    defenderPosition);
+    return this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition)
+            && this.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
 }
 
 /*
@@ -105,11 +60,9 @@ Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition,
  * 
  * @return true if the defender is in this weapon's firing arc.
  */
-Weapon.prototype.isDefenderVulnerable = function(attacker, attackerPosition,
-        defender, defenderPosition)
+Weapon.prototype.isDefenderVulnerable = function(attacker, attackerPosition, defender, defenderPosition)
 {
-    return this._isDefenderInPrimaryFiringArc(attacker, attackerPosition,
-            defender, defenderPosition);
+    return this._isDefenderInPrimaryFiringArc(attacker, attackerPosition, defender, defenderPosition);
 }
 
 Weapon.prototype.toString = function()
@@ -125,12 +78,10 @@ Weapon.prototype._RANGE_RULER = new RangeRuler();
  * 
  * @return true if the defender is in this weapon's firing arc.
  */
-Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker,
-        attackerPosition, defender, defenderPosition)
+Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
 {
     var firingArc = attacker.getShipPrimaryFiringArc();
-    var bearing = attackerPosition.computeBearing(defenderPosition.getX(),
-            defenderPosition.getY());
+    var bearing = attackerPosition.computeBearing(defenderPosition.getX(), defenderPosition.getY());
     // LOGGER.trace("bearing = " + bearing);
     var answer = FiringArc.properties[firingArc].isInFiringArc(bearing);
     // LOGGER.trace("0 answer ? " + answer);
@@ -138,9 +89,8 @@ Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker,
     if (!answer)
     {
         var defenderBase = defender.getShipBase();
-        var polygon = ShipBase
-                .computePolygon(defenderBase, defenderPosition.getX(),
-                        defenderPosition.getY(), defenderPosition.getHeading());
+        var polygon = ShipBase.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition.getY(),
+                defenderPosition.getHeading());
 
         // FIXME
         // final double[] coords = new double[6];
