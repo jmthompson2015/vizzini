@@ -27,7 +27,7 @@
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackValue.BLANK)
+        if (dice.getValue(0) == AttackDice.Value.BLANK)
         {
             assert.equal(dice.getBlankCount(), 1);
         }
@@ -41,7 +41,7 @@
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackValue.CRITICAL_HIT)
+        if (dice.getValue(0) == AttackDice.Value.CRITICAL_HIT)
         {
             assert.equal(dice.getCriticalHitCount(), 1);
         }
@@ -55,7 +55,7 @@
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackValue.FOCUS)
+        if (dice.getValue(0) == AttackDice.Value.FOCUS)
         {
             assert.equal(dice.getFocusCount(), 1);
         }
@@ -69,7 +69,7 @@
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackValue.HIT)
+        if (dice.getValue(0) == AttackDice.Value.HIT)
         {
             assert.equal(dice.getHitCount(), 1);
         }

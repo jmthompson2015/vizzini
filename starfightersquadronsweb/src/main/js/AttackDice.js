@@ -1,15 +1,4 @@
 /*
- * Provides an enumeration of dice values.
- */
-var AttackValue =
-{
-    HIT: "hit",
-    CRITICAL_HIT: "criticalHit",
-    FOCUS: "focus",
-    BLANK: "blank"
-}
-
-/*
  * Provides attack dice for Starfighter Squadrons.
  */
 function AttackDice(size)
@@ -20,27 +9,22 @@ function AttackDice(size)
 
     this.getBlankCount = function()
     {
-        return getValueCount(AttackValue.BLANK);
+        return getValueCount(AttackDice.Value.BLANK);
     }
 
     this.getCriticalHitCount = function()
     {
-        return getValueCount(AttackValue.CRITICAL_HIT);
+        return getValueCount(AttackDice.Value.CRITICAL_HIT);
     }
 
     this.getFocusCount = function()
     {
-        return getValueCount(AttackValue.FOCUS);
+        return getValueCount(AttackDice.Value.FOCUS);
     }
 
     this.getHitCount = function()
     {
-        return getValueCount(AttackValue.HIT);
-    }
-
-    this.getValue = function(index)
-    {
-        return values[index];
+        return getValueCount(AttackDice.Value.HIT);
     }
 
     this.toString = function()
@@ -57,7 +41,7 @@ function AttackDice(size)
     {
         var answer = 0;
 
-        for ( var i = 0; i < values.length; i++)
+        for (var i = 0; i < values.length; i++)
         {
             var value = values[i];
             if (value == target)
@@ -78,14 +62,10 @@ function AttackDice(size)
     {
         values = [];
 
-        for ( var i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             values[values.length] = rollRandomValue();
         }
-
-        // Collections.sort(values);
-
-        // fireValuesPropertyChange(null, values);
     }
 
     /**
@@ -93,8 +73,6 @@ function AttackDice(size)
      */
     function rollRandomValue()
     {
-        // Value value;
-        // final int roll = randomGenerator.generateInt(1, 8);
         var min = 1;
         var max = 8;
         var roll = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -104,19 +82,19 @@ function AttackDice(size)
         {
         case 1:
         case 5:
-            value = AttackValue.FOCUS;
+            value = AttackDice.Value.FOCUS;
             break;
         case 2:
         case 6:
         case 8:
-            value = AttackValue.HIT;
+            value = AttackDice.Value.HIT;
             break;
         case 3:
-            value = AttackValue.CRITICAL_HIT;
+            value = AttackDice.Value.CRITICAL_HIT;
             break;
         case 4:
         case 7:
-            value = AttackValue.BLANK;
+            value = AttackDice.Value.BLANK;
             break;
         default:
             throw new RuntimeException("Unsupported roll: " + roll);
@@ -124,4 +102,15 @@ function AttackDice(size)
 
         return value;
     }
+}
+
+/*
+ * Provides an enumeration of dice values.
+ */
+AttackDice.Value =
+{
+    HIT: "hit",
+    CRITICAL_HIT: "criticalHit",
+    FOCUS: "focus",
+    BLANK: "blank"
 }

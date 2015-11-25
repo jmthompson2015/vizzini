@@ -1,14 +1,4 @@
 /*
- * Provides an enumeration of dice values.
- */
-var DefenseValue =
-{
-    EVADE: "evade",
-    FOCUS: "focus",
-    BLANK: "blank"
-}
-
-/*
  * Provides defense dice for Starfighter Squadrons.
  */
 function DefenseDice(size)
@@ -19,22 +9,17 @@ function DefenseDice(size)
 
     this.getBlankCount = function()
     {
-        return getValueCount(DefenseValue.BLANK);
+        return getValueCount(DefenseDice.Value.BLANK);
     }
 
     this.getEvadeCount = function()
     {
-        return getValueCount(DefenseValue.EVADE);
+        return getValueCount(DefenseDice.Value.EVADE);
     }
 
     this.getFocusCount = function()
     {
-        return getValueCount(DefenseValue.FOCUS);
-    }
-
-    this.getValue = function(index)
-    {
-        return values[index];
+        return getValueCount(DefenseDice.Value.FOCUS);
     }
 
     this.toString = function()
@@ -51,7 +36,7 @@ function DefenseDice(size)
     {
         var answer = 0;
 
-        for ( var i = 0; i < values.length; i++)
+        for (var i = 0; i < values.length; i++)
         {
             var value = values[i];
             if (value == target)
@@ -72,14 +57,10 @@ function DefenseDice(size)
     {
         values = [];
 
-        for ( var i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             values[values.length] = rollRandomValue();
         }
-
-        // Collections.sort(values);
-
-        // fireValuesPropertyChange(null, values);
     }
 
     /**
@@ -96,17 +77,17 @@ function DefenseDice(size)
         {
         case 1:
         case 4:
-            value = DefenseValue.FOCUS;
+            value = DefenseDice.Value.FOCUS;
             break;
         case 2:
         case 5:
         case 7:
-            value = DefenseValue.EVADE;
+            value = DefenseDice.Value.EVADE;
             break;
         case 3:
         case 6:
         case 8:
-            value = DefenseValue.BLANK;
+            value = DefenseDice.Value.BLANK;
             break;
         default:
             throw new RuntimeException("Unsupported roll: " + roll);
@@ -114,4 +95,14 @@ function DefenseDice(size)
 
         return value;
     }
+}
+
+/*
+ * Provides an enumeration of dice values.
+ */
+DefenseDice.Value =
+{
+    EVADE: "evade",
+    FOCUS: "focus",
+    BLANK: "blank"
 }
