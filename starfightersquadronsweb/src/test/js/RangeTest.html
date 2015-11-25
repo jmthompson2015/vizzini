@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>RangeTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+
+<script src="../../main/js/Range.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+
+    QUnit.test("findRange()", function(assert)
+    {
+        assert.ok(!Range.findRange(-1));
+        assert.equal(Range.findRange(0), Range.ONE);
+        assert.equal(Range.findRange(100), Range.ONE);
+        assert.equal(Range.findRange(101), Range.TWO);
+        assert.equal(Range.findRange(200), Range.TWO);
+        assert.equal(Range.findRange(201), Range.THREE);
+        assert.equal(Range.findRange(300), Range.THREE);
+        assert.ok(!Range.findRange(301));
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

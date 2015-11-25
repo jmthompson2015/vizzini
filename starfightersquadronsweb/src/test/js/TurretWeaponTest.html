@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TurretWeaponTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<script src="../../main/js/Phase.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/RectanglePath.js"></script>
+<script src="../../main/js/FiringArc.js"></script>
+<script src="../../main/js/Bearing.js"></script>
+<script src="../../main/js/Difficulty.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/ShipBase.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/ShipTeam.js"></script>
+<script src="../../main/js/Range.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/TurretWeapon.js"></script>
+<script src="../../main/js/ShipState.js"></script>
+<script src="../../main/js/UpgradeRestriction.js"></script>
+<script src="../../main/js/UpgradeType.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/DamageCard.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/Adjudicator.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
+<script src="../../main/js/Environment.js"></script>
+
+<script src="../../main/js/ui/HumanAgent.js"></script>
+<script src="../../main/js/ui/ImageUtilities.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+
+    QUnit.test("TurretWeapon properties", function(assert)
+    {
+        // Setup.
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.TWO, Range.THREE ]);
+
+        // Run / Verify.
+        assert.equal(weapon.getName(), "myWeapon");
+        assert.equal(weapon.isPrimary(), true);
+        assert.equal(weapon.getWeaponValue(), 12);
+        var ranges = weapon.getRanges();
+        assert.equal(ranges.length, 2);
+        assert.equal(ranges[0], Range.TWO);
+        assert.equal(ranges[1], Range.THREE);
+    });
+
+    QUnit.test("isDefenderInRange() range one", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        assert.ok(attacker);
+        var defenderPosition = new Position(305, 20, 90);
+        var defender = environment.getTokenAt(defenderPosition);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
+        environment.placeToken(attackerPosition, attacker);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+
+        // Run.
+        var result = weapon.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition);
+
+        // Verify.
+        assert.ok(result);
+    });
+
+    QUnit.test("isDefenderVulnerable() range one", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        assert.ok(attacker);
+        var defenderPosition = new Position(305, 20, 90);
+        var defender = environment.getTokenAt(defenderPosition);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
+        environment.placeToken(attackerPosition, attacker);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+
+        // Run.
+        var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
+
+        // Verify.
+        assert.ok(result);
+    });
+
+    QUnit.test("isDefenderVulnerable() rotated", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        assert.ok(attacker);
+        var defenderPosition = new Position(305, 20, 90);
+        var defender = environment.getTokenAt(defenderPosition);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, 0);
+        environment.placeToken(attackerPosition, attacker);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+
+        // Run.
+        var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
+
+        // Verify.
+        assert.ok(result);
+    });
+
+    QUnit.test("isDefenderTargetable() range one", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attackerPosition = new Position(458, 895, -90);
+        var attacker = environment.getTokenAt(attackerPosition);
+        assert.ok(attacker);
+        var defenderPosition = new Position(305, 20, 90);
+        var defender = environment.getTokenAt(defenderPosition);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
+        environment.placeToken(attackerPosition, attacker);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+
+        // Run.
+        var result = weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition);
+
+        // Verify.
+        assert.ok(result);
+    });
+
+    QUnit.test("toString()", function(assert)
+    {
+        // Setup.
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.TWO, Range.THREE ]);
+
+        // Run / Verify.
+        assert.equal(weapon.toString(), "myWeapon");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
