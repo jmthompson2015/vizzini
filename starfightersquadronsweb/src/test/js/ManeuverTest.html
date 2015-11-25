@@ -14,6 +14,8 @@
 <script src="../../main/js/Position.js"></script>
 <script src="../../main/js/Path.js"></script>
 <script src="../../main/js/FiringArc.js"></script>
+<script src="../../main/js/Bearing.js"></script>
+<script src="../../main/js/Difficulty.js"></script>
 <script src="../../main/js/Maneuver.js"></script>
 <script src="../../main/js/ShipAction.js"></script>
 <script src="../../main/js/ShipBase.js"></script>
@@ -22,42 +24,6 @@
 <script>
     "use strict";
     var LOGGER = new Logger();
-
-    QUnit.test("Bearing.isBank", function(assert)
-    {
-        assert.ok(!Bearing.properties[Bearing.TURN_LEFT].isBank);
-        assert.ok(Bearing.properties[Bearing.BANK_LEFT].isBank);
-        assert.ok(!Bearing.properties[Bearing.STRAIGHT].isBank);
-        assert.ok(Bearing.properties[Bearing.BANK_RIGHT].isBank);
-        assert.ok(!Bearing.properties[Bearing.TURN_RIGHT].isBank);
-        assert.ok(!Bearing.properties[Bearing.KOIOGRAN_TURN].isBank);
-        assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_LEFT].isBank);
-        assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_RIGHT].isBank);
-    });
-
-    QUnit.test("Bearing.isTurn", function(assert)
-    {
-        assert.ok(Bearing.properties[Bearing.TURN_LEFT].isTurn);
-        assert.ok(!Bearing.properties[Bearing.BANK_LEFT].isTurn);
-        assert.ok(!Bearing.properties[Bearing.STRAIGHT].isTurn);
-        assert.ok(!Bearing.properties[Bearing.BANK_RIGHT].isTurn);
-        assert.ok(Bearing.properties[Bearing.TURN_RIGHT].isTurn);
-        assert.ok(!Bearing.properties[Bearing.KOIOGRAN_TURN].isTurn);
-        assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_LEFT].isTurn);
-        assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_RIGHT].isTurn);
-    });
-
-    QUnit.test("Bearing.values()", function(assert)
-    {
-        // Run.
-        var result = Bearing.values();
-
-        // Verify.
-        assert.ok(result);
-        assert.equal(result.length, 8);
-        assert.equal(result[0], Bearing.TURN_LEFT);
-        assert.equal(result[7], Bearing.SEGNORS_LOOP_RIGHT);
-    });
 
     QUnit.test("Maneuver properties Straight1Standard", function(assert)
     {
@@ -75,8 +41,7 @@
         var fromPosition = new Position(10, 20, 0);
 
         // Run.
-        var result = Maneuver.computeFromPolygon(fromPosition,
-                ShipBase.STANDARD);
+        var result = Maneuver.computeFromPolygon(fromPosition, ShipBase.STANDARD);
 
         // Verify.
         assert.ok(result);
@@ -101,16 +66,14 @@
         assert.equal(points[i++], fromPosition.getY() - 20.0);
     });
 
-    QUnit.test("Maneuver.computePath() Straight1Easy 0 Standard", function(
-            assert)
+    QUnit.test("Maneuver.computePath() Straight1Easy 0 Standard", function(assert)
     {
         // Setup.
         var fromPosition = new Position(10, 20, 0);
         var maneuver = Maneuver.STRAIGHT_1_EASY;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition,
-                ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
 
         // Verify.
         assert.ok(result);
@@ -132,16 +95,14 @@
         assert.equal(points[i++], fromPosition.getY() + 0.0);
     });
 
-    QUnit.test("Maneuver.computePath() Straight1Easy 30 Standard", function(
-            assert)
+    QUnit.test("Maneuver.computePath() Straight1Easy 30 Standard", function(assert)
     {
         // Setup.
         var fromPosition = new Position(0, 0, 30);
         var maneuver = Maneuver.STRAIGHT_1_EASY;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition,
-                ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
 
         // Verify.
         assert.ok(result);
@@ -169,276 +130,208 @@
         }
     });
 
-    QUnit.test("Maneuver.computePath() BankRight1Standard 0 Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(0, 0, 0);
-                var maneuver = Maneuver.BANK_RIGHT_1_STANDARD;
+    QUnit.test("Maneuver.computePath() BankRight1Standard 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 0, 0);
+        var maneuver = Maneuver.BANK_RIGHT_1_STANDARD;
 
-                // Run.
-                var result = Maneuver.computePath(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                //console.log(result.toString());
-                assert.equal(result.getPointsLength(), 14);
+        // Verify.
+        assert.ok(result);
+        //console.log(result.toString());
+        assert.equal(result.getPointsLength(), 14);
 
-                var i = 0;
-                var points = result.getPoints();
-                assert.equal(points[i++], fromPosition.getX() + 0.0);
-                assert.equal(points[i++], fromPosition.getY() + 0.0);
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], fromPosition.getX() + 0.0);
+        assert.equal(points[i++], fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
-                assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 36.1145);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 1.5871);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 36.1145);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 1.5871);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 51.6097);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 6.2876);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 51.6097);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 6.2876);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 65.8901);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 13.9206);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 65.8901);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 13.9206);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 78.4070);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 24.1930);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 78.4070);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 24.1930);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 92.1421);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 38.1421);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 92.1421);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 38.1421);
 
-                function myRound(value)
-                {
-                    var factor = 10000;
-                    return Math.round(value * factor) / factor;
-                }
-            });
+        function myRound(value)
+        {
+            var factor = 10000;
+            return Math.round(value * factor) / factor;
+        }
+    });
 
-    QUnit.test("Maneuver.computePath() BankRight3Standard 0 Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(0, 0, 0);
-                var maneuver = Maneuver.BANK_RIGHT_3_STANDARD;
+    QUnit.test("Maneuver.computePath() BankRight3Standard 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 0, 0);
+        var maneuver = Maneuver.BANK_RIGHT_3_STANDARD;
 
-                // Run.
-                var result = Maneuver.computePath(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                //console.log(result.toString());
-                assert.equal(result.getPointsLength(), 18);
+        // Verify.
+        assert.ok(result);
+        //console.log(result.toString());
+        assert.equal(result.getPointsLength(), 18);
 
-                var i = 0;
-                var points = result.getPoints();
-                assert.equal(points[i++], fromPosition.getX() + 0.0);
-                assert.equal(points[i++], fromPosition.getY() + 0.0);
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], fromPosition.getX() + 0.0);
+        assert.equal(points[i++], fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
-                assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 43.2076);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 1.5211);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 43.2076);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 1.5211);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 66.0180);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 6.0584);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 66.0180);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 6.0584);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 88.0411);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 13.5342);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 88.0411);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 13.5342);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 108.9000);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 23.8207);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 108.9000);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 23.8207);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 128.2378);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 36.7418);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 128.2378);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 36.7418);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 145.7236);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 52.0764);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 145.7236);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 52.0764);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 160.1421);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 66.1421);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 160.1421);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 66.1421);
 
-                function myRound(value)
-                {
-                    var factor = 10000;
-                    return Math.round(value * factor) / factor;
-                }
-            });
+        function myRound(value)
+        {
+            var factor = 10000;
+            return Math.round(value * factor) / factor;
+        }
+    });
 
-    QUnit.test("Maneuver.computePath() SegnorsLoopRight3Hard 0 Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(0, 0, 0);
-                var maneuver = Maneuver.SEGNORS_LOOP_RIGHT_3_HARD;
+    QUnit.test("Maneuver.computePath() SegnorsLoopRight3Hard 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 0, 0);
+        var maneuver = Maneuver.SEGNORS_LOOP_RIGHT_3_HARD;
 
-                // Run.
-                var result = Maneuver.computePath(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                //console.log(result.toString());
-                assert.equal(result.getPointsLength(), 18);
+        // Verify.
+        assert.ok(result);
+        //console.log(result.toString());
+        assert.equal(result.getPointsLength(), 18);
 
-                var i = 0;
-                var points = result.getPoints();
-                assert.equal(points[i++], fromPosition.getX() + 0.0);
-                assert.equal(points[i++], fromPosition.getY() + 0.0);
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], fromPosition.getX() + 0.0);
+        assert.equal(points[i++], fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
-                assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 43.2076);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 1.5211);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 43.2076);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 1.5211);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 66.0180);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 6.0584);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 66.0180);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 6.0584);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 88.0411);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 13.5342);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 88.0411);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 13.5342);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 108.9000);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 23.8207);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 108.9000);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 23.8207);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 128.2378);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 36.7418);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 128.2378);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 36.7418);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 145.7236);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 52.0764);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 145.7236);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 52.0764);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 160.1421);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 66.1421);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 160.1421);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 66.1421);
 
-                function myRound(value)
-                {
-                    var factor = 10000;
-                    return Math.round(value * factor) / factor;
-                }
-            });
+        function myRound(value)
+        {
+            var factor = 10000;
+            return Math.round(value * factor) / factor;
+        }
+    });
 
-    QUnit.test("Maneuver.computePath() TurnRight1Standard 0 Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(0, 0, 0);
-                var maneuver = Maneuver.TURN_RIGHT_1_STANDARD;
+    QUnit.test("Maneuver.computePath() TurnRight1Standard 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 0, 0);
+        var maneuver = Maneuver.TURN_RIGHT_1_STANDARD;
 
-                // Run.
-                var result = Maneuver.computePath(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                //console.log(result.toString());
-                assert.equal(result.getPointsLength(), 18);
+        // Verify.
+        assert.ok(result);
+        //console.log(result.toString());
+        assert.equal(result.getPointsLength(), 18);
 
-                var i = 0;
-                var points = result.getPoints();
-                assert.equal(points[i++], fromPosition.getX() + 0.0);
-                assert.equal(points[i++], fromPosition.getY() + 0.0);
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], fromPosition.getX() + 0.0);
+        assert.equal(points[i++], fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
-                assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 20.0);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 0.0);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 28.8775);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 1.1687);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 28.8775);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 1.1687);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 37.1500);
-                assert
-                        .equal(myRound(points[i++]),
-                                fromPosition.getY() + 4.5953);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 37.1500);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 4.5953);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 44.2538);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 10.0462);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 44.2538);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 10.0462);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 49.7047);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 17.1500);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 49.7047);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 17.1500);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 53.1313);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 25.4225);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 53.1313);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 25.4225);
 
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getX() + 54.3000);
-                assert.equal(myRound(points[i++]),
-                        fromPosition.getY() + 34.3000);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 54.3000);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 34.3000);
 
-                assert.equal(myRound(points[i++]), fromPosition.getX() + 54.0);
-                assert.equal(myRound(points[i++]), fromPosition.getY() + 54.0);
+        assert.equal(myRound(points[i++]), fromPosition.getX() + 54.0);
+        assert.equal(myRound(points[i++]), fromPosition.getY() + 54.0);
 
-                function myRound(value)
-                {
-                    var factor = 10000;
-                    return Math.round(value * factor) / factor;
-                }
-            });
+        function myRound(value)
+        {
+            var factor = 10000;
+            return Math.round(value * factor) / factor;
+        }
+    });
 
-    QUnit.test("Maneuver.computePath() Stationary0Hard 0 Standard", function(
-            assert)
+    QUnit.test("Maneuver.computePath() Stationary0Hard 0 Standard", function(assert)
     {
         // Setup.
         var fromPosition = new Position(0, 0, 0);
         var maneuver = Maneuver.STATIONARY_0_HARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition,
-                ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
 
         // Verify.
         assert.ok(result);
@@ -451,126 +344,110 @@
         assert.equal(points[i++], fromPosition.getY() + 0.0);
     });
 
-    QUnit.test("Maneuver.computeToPolygon() Straight1Standard 0 Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(10, 20, 0);
-                var maneuver = Maneuver.STRAIGHT_1_STANDARD;
+    QUnit.test("Maneuver.computeToPolygon() Straight1Standard 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 20, 0);
+        var maneuver = Maneuver.STRAIGHT_1_STANDARD;
 
-                // Run.
-                var result = Maneuver.computeToPolygon(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPolygon(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                //console.log(result.toString());
-                assert.equal(result.getPointsLength(), 10);
+        // Verify.
+        assert.ok(result);
+        //console.log(result.toString());
+        assert.equal(result.getPointsLength(), 10);
 
-                var i = 0;
-                var points = result.getPoints();
-                assert.equal(points[i++], fromPosition.getX() + 100.0);
-                assert.equal(points[i++], fromPosition.getY() - 20.0);
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], fromPosition.getX() + 100.0);
+        assert.equal(points[i++], fromPosition.getY() - 20.0);
 
-                assert.equal(points[i++], fromPosition.getX() + 100.0);
-                assert.equal(points[i++], fromPosition.getY() + 20.0);
+        assert.equal(points[i++], fromPosition.getX() + 100.0);
+        assert.equal(points[i++], fromPosition.getY() + 20.0);
 
-                assert.equal(points[i++], fromPosition.getX() + 60.0);
-                assert.equal(points[i++], fromPosition.getY() + 20.0);
+        assert.equal(points[i++], fromPosition.getX() + 60.0);
+        assert.equal(points[i++], fromPosition.getY() + 20.0);
 
-                assert.equal(points[i++], fromPosition.getX() + 60.0);
-                assert.equal(points[i++], fromPosition.getY() - 20.0);
+        assert.equal(points[i++], fromPosition.getX() + 60.0);
+        assert.equal(points[i++], fromPosition.getY() - 20.0);
 
-                assert.equal(points[i++], fromPosition.getX() + 100.0);
-                assert.equal(points[i++], fromPosition.getY() - 20.0);
-            });
+        assert.equal(points[i++], fromPosition.getX() + 100.0);
+        assert.equal(points[i++], fromPosition.getY() - 20.0);
+    });
 
-    QUnit.test("Maneuver.computeToPosition() BankRight1Easy Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(10, 20, 0);
-                var maneuver = Maneuver.BANK_RIGHT_1_EASY;
+    QUnit.test("Maneuver.computeToPosition() BankRight1Easy Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 20, 0);
+        var maneuver = Maneuver.BANK_RIGHT_1_EASY;
 
-                // Run.
-                var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.getX(), fromPosition.getX() + 93);
-                assert.equal(result.getY(), fromPosition.getY() + 38);
-                assert.equal(result.getHeading(),
-                        fromPosition.getHeading() + 45);
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 93);
+        assert.equal(result.getY(), fromPosition.getY() + 38);
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 45);
+    });
 
-    QUnit.test("Maneuver.computeToPosition() BankRight3Standard Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(0, 0, 0);
-                var maneuver = Maneuver.BANK_RIGHT_3_STANDARD;
+    QUnit.test("Maneuver.computeToPosition() BankRight3Standard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 0, 0);
+        var maneuver = Maneuver.BANK_RIGHT_3_STANDARD;
 
-                // Run.
-                var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.getX(), fromPosition.getX() + 160);
-                assert.equal(result.getY(), fromPosition.getY() + 66);
-                assert.equal(result.getHeading(),
-                        fromPosition.getHeading() + 45);
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 160);
+        assert.equal(result.getY(), fromPosition.getY() + 66);
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 45);
+    });
 
-    QUnit.test("Maneuver.computeToPosition() KoiogranTurn3Hard Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(0, 0, 0);
-                var maneuver = Maneuver.KOIOGRAN_TURN_3_HARD;
+    QUnit.test("Maneuver.computeToPosition() KoiogranTurn3Hard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 0, 0);
+        var maneuver = Maneuver.KOIOGRAN_TURN_3_HARD;
 
-                // Run.
-                var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.getX(), fromPosition.getX() + 160);
-                assert.equal(result.getY(), fromPosition.getY());
-                assert.equal(result.getHeading(),
-                        fromPosition.getHeading() + 180);
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 160);
+        assert.equal(result.getY(), fromPosition.getY());
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 180);
+    });
 
-    QUnit.test("Maneuver.computeToPosition() SegnorsLoopRight3Hard Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(0, 0, 0);
-                var maneuver = Maneuver.SEGNORS_LOOP_RIGHT_3_HARD;
+    QUnit.test("Maneuver.computeToPosition() SegnorsLoopRight3Hard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 0, 0);
+        var maneuver = Maneuver.SEGNORS_LOOP_RIGHT_3_HARD;
 
-                // Run.
-                var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.getX(), fromPosition.getX() + 160);
-                assert.equal(result.getY(), fromPosition.getY() + 66);
-                assert.equal(result.getHeading(),
-                        fromPosition.getHeading() + 225);
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 160);
+        assert.equal(result.getY(), fromPosition.getY() + 66);
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 225);
+    });
 
-    QUnit.test("Maneuver.computeToPosition() Straight1Easy Standard", function(
-            assert)
+    QUnit.test("Maneuver.computeToPosition() Straight1Easy Standard", function(assert)
     {
         // Setup.
         var fromPosition = new Position(10, 20, 0);
         var maneuver = Maneuver.STRAIGHT_1_EASY;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
         // Verify.
         assert.ok(result);
@@ -579,71 +456,60 @@
         assert.equal(result.getHeading(), fromPosition.getHeading());
     });
 
-    QUnit.test("Maneuver.computeToPosition() Straight3Standard Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(10, 20, 0);
-                var maneuver = Maneuver.STRAIGHT_3_STANDARD;
+    QUnit.test("Maneuver.computeToPosition() Straight3Standard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 20, 0);
+        var maneuver = Maneuver.STRAIGHT_3_STANDARD;
 
-                // Run.
-                var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.getX(), fromPosition.getX() + 160);
-                assert.equal(result.getY(), fromPosition.getY());
-                assert.equal(result.getHeading(), fromPosition.getHeading());
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 160);
+        assert.equal(result.getY(), fromPosition.getY());
+        assert.equal(result.getHeading(), fromPosition.getHeading());
+    });
 
-    QUnit.test("Maneuver.computeToPosition() TurnLeft1Standard Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(10, 60, 0);
-                var maneuver = Maneuver.TURN_LEFT_1_STANDARD;
+    QUnit.test("Maneuver.computeToPosition() TurnLeft1Standard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 60, 0);
+        var maneuver = Maneuver.TURN_LEFT_1_STANDARD;
 
-                // Run.
-                var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.getX(), fromPosition.getX() + 54);
-                assert.equal(result.getY(), fromPosition.getY() - 54);
-                assert.equal(result.getHeading(),
-                        fromPosition.getHeading() + 270);
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 54);
+        assert.equal(result.getY(), fromPosition.getY() - 54);
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 270);
+    });
 
-    QUnit.test("Maneuver.computeToPosition() Stationary0Hard Standard",
-            function(assert)
-            {
-                // Setup.
-                var fromPosition = new Position(10, 20, 0);
-                var maneuver = Maneuver.STATIONARY_0_HARD;
+    QUnit.test("Maneuver.computeToPosition() Stationary0Hard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 20, 0);
+        var maneuver = Maneuver.STATIONARY_0_HARD;
 
-                // Run.
-                var result = Maneuver.computeToPosition(maneuver, fromPosition,
-                        ShipBase.STANDARD);
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
 
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.getX(), fromPosition.getX());
-                assert.equal(result.getY(), fromPosition.getY());
-                assert.equal(result.getHeading(), fromPosition.getHeading());
-            });
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX());
+        assert.equal(result.getY(), fromPosition.getY());
+        assert.equal(result.getHeading(), fromPosition.getHeading());
+    });
 
     QUnit.test("Maneuver.find()", function(assert)
     {
-        assert.equal(Maneuver.find(Bearing.STRAIGHT, 1, Difficulty.EASY),
-                Maneuver.STRAIGHT_1_EASY);
-        assert.equal(Maneuver.find(Bearing.BANK_RIGHT, 2, Difficulty.STANDARD),
-                Maneuver.BANK_RIGHT_2_STANDARD);
-        assert.equal(Maneuver.find(Bearing.TURN_LEFT, 3, Difficulty.HARD),
-                Maneuver.TURN_LEFT_3_HARD);
-        assert.equal(Maneuver.find(undefined, 0, Difficulty.HARD),
-                Maneuver.STATIONARY_0_HARD);
+        assert.equal(Maneuver.find(Bearing.STRAIGHT, 1, Difficulty.EASY), Maneuver.STRAIGHT_1_EASY);
+        assert.equal(Maneuver.find(Bearing.BANK_RIGHT, 2, Difficulty.STANDARD), Maneuver.BANK_RIGHT_2_STANDARD);
+        assert.equal(Maneuver.find(Bearing.TURN_LEFT, 3, Difficulty.HARD), Maneuver.TURN_LEFT_3_HARD);
+        assert.equal(Maneuver.find(undefined, 0, Difficulty.HARD), Maneuver.STATIONARY_0_HARD);
     });
 </script>
 </head>
