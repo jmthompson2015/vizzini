@@ -35,27 +35,6 @@
         assert.equal(points[i++], 20);
         assert.equal(points[i++], -20);
     });
-
-    QUnit.test("RectanglePath properties", function(assert)
-    {
-        var result = new RectanglePath(40, 40);
-
-        assert.ok(result);
-        assert.equal(result.getPointsLength(), 10);
-
-        var i = 0;
-        var points = result.getPoints();
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], -20);
-        assert.equal(points[i++], 20);
-        assert.equal(points[i++], -20);
-    });
 </script>
 </head>
 <body>

@@ -1,42 +1,4 @@
-/*
- * Provides a ship fled action for Starfighter Squadrons.
- */
-function ShipFledAction(environment, token, fromPosition)
-{
-    this.getToken = function()
-    {
-        return token;
-    }
-
-    this.doIt = function()
-    {
-        LOGGER.trace("ShipFledAction.doIt() start");
-        // final TargetLock attackerTargetLock = token.getAttackerTargetLock();
-        //
-        // if (attackerTargetLock != null)
-        // {
-        // TargetLock.freeInstance(attackerTargetLock);
-        // }
-        //
-        // final List<TargetLock> defenderTargetLocks = new
-        // ArrayList<TargetLock>(token.getDefenderTargetLocks());
-        //
-        // for (final TargetLock defenderTargetLock : defenderTargetLocks)
-        // {
-        // TargetLock.freeInstance(defenderTargetLock);
-        // }
-
-        // Return the damage cards.
-        environment.discardAllDamage(token.getDamages());
-        environment.discardAllDamage(token.getCriticalDamages());
-
-        environment.removeToken(fromPosition);
-        environment.fireShipFled(this);
-
-        // return true;
-        LOGGER.trace("ShipFledAction.doIt() end");
-    }
-}
+// require("ShipFledAction");
 
 /*
  * Construct this object.
@@ -75,24 +37,21 @@ function ManeuverAction(environment, maneuver, fromPosition, shipBase)
         // token.setTouching(false);
         environment.setPhase(Phase.ACTIVATION_REVEAL_DIAL);
 
-        var toPosition = Maneuver.computeToPosition(maneuver, fromPosition,
-                shipBase);
+        var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
         LOGGER.trace("toPosition = " + toPosition);
 
         if (!toPosition && (isBarrelRoll || isBoost))
         {
             // Maneuver failed.
-            var message = isBarrelRoll ? "Barrel Roll failed."
-                    : "Boost failed.";
+            var message = isBarrelRoll ? "Barrel Roll failed." : "Boost failed.";
             LOGGER.info(message);
         }
         else if (!toPosition
-                || !isInPlayArea(ShipBase.computePolygon(shipBase, toPosition
-                        .getX(), toPosition.getY(), toPosition.getHeading())))
+                || !isInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition
+                        .getHeading())))
         {
             LOGGER.info("Ship fled the battlefield: " + token.getName());
-            var shipFledAction = new ShipFledAction(environment, token,
-                    fromPosition);
+            var shipFledAction = new ShipFledAction(environment, token, fromPosition);
             shipFledAction.doIt();
         }
         else
