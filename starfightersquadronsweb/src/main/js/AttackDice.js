@@ -27,6 +27,11 @@ function AttackDice(size)
         return getValueCount(AttackDice.Value.HIT);
     }
 
+    this.getValue = function(index)
+    {
+        return values[index];
+    }
+
     this.toString = function()
     {
         return "size = " + size + ", values = " + values;

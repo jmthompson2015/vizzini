@@ -22,6 +22,11 @@ function DefenseDice(size)
         return getValueCount(DefenseDice.Value.FOCUS);
     }
 
+    this.getValue = function(index)
+    {
+        return values[index];
+    }
+
     this.toString = function()
     {
         return "size = " + size + ", values = " + values;
