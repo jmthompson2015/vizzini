@@ -7,6 +7,7 @@
  * Provides a radio button input panel component.
  * 
  * @param values Option values. (required)
+ * @param name Button name.
  * @param idFunction Function which returns the id for a value. Defaults to simply return the value. (optional)
  * @param labelFunction Function which returns the label for a value. Defaults to simply return the value. (optional)
  * @param initialValue Initially selected value. (optional)
