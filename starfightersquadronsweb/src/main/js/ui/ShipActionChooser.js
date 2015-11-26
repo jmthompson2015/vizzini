@@ -1,5 +1,9 @@
 /*
  * Provides a user interface to choose a ship action.
+ * 
+ * @param token Token.
+ * @param shipActions Ship actions.
+ * @param callback Callback.
  */
 var ShipActionChooser = React.createClass(
 {
@@ -7,7 +11,7 @@ var ShipActionChooser = React.createClass(
     {
         return (
         {
-            selectedIndex: 0
+            selected: (shipActions.length > 0 ? shipActions[0] : undefined),
         });
     },
 
@@ -16,27 +20,30 @@ var ShipActionChooser = React.createClass(
         var token = this.props.token;
         var message = "Active Ship: " + token.getName();
         var shipActions = this.props.shipActions;
-        var options = shipActions.map(function(shipAction)
+        var labelFunction = function(value)
         {
-            return ShipAction.properties[shipAction].displayName;
-        });
-        var self = this;
-        var initialInput = React.createElement(RadioButtonList,
+            return ShipAction.properties[value].displayName;
+        }
+        var initialValue = (shipActions.length > 0 ? shipActions[0] : undefined);
+        var initialInput = React.createElement(InputPanel,
         {
-            panelClass: "optionPaneInput",
+            type: "radio",
+            values: shipActions,
             name: "shipActionRadio",
-            options: options,
-            onChange: self.selectionChanged
+            labelFunction: labelFunction,
+            initialValues: initialValue,
+            onChange: this.selectionChanged,
+            panelClass: "optionPaneInput",
         });
         var cancelButton = React.DOM.button(
         {
             key: 0,
-            onClick: self.cancel
+            onClick: this.cancel
         }, "Cancel");
         var okButton = React.DOM.button(
         {
             key: 1,
-            onClick: self.ok
+            onClick: this.ok
         }, "OK");
         var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
 
@@ -55,11 +62,11 @@ var ShipActionChooser = React.createClass(
 
     selectionChanged: function(event)
     {
-        var index = event.currentTarget.value;
-        LOGGER.debug("selectionChanged() selectedIndex = " + index);
+        var selected = event.target.id;
+        LOGGER.debug("selectionChanged() selected = " + selected);
         this.setState(
         {
-            selectedIndex: index
+            selected: selected
         });
     },
 
@@ -71,10 +78,8 @@ var ShipActionChooser = React.createClass(
 
     ok: function()
     {
-        var selectedIndex = this.state.selectedIndex;
-        var selectedShipAction = this.props.shipActions[selectedIndex];
-        LOGGER.debug("OK clicked, selectedIndex = " + selectedIndex + " "
-                + selectedShipAction);
-        this.props.callback(selectedShipAction);
+        var selected = this.state.selected;
+        LOGGER.debug("OK clicked, selected = " + selected);
+        this.props.callback(selected);
     },
 });
