@@ -86,12 +86,38 @@
 
     QUnit.test("UpgradeCard.values()", function(assert)
     {
+        // Setup.
+        var expected = Object.getOwnPropertyNames(UpgradeCard).length - 1 // properties
+        - 1 // getName
+        - 3 // values
+        ;
+
         // Run.
         var result = UpgradeCard.values();
 
         // Verify.
+        var ownPropertyNames = Object.getOwnPropertyNames(UpgradeCard);
+
+        ownPropertyNames.forEach(function(key)
+        {
+            if (key !== "properties" && typeof key !== "function")
+            {
+                assert.ok(UpgradeCard[key], "Missing value for key = " + key);
+            }
+        });
+
+        result.forEach(function(value)
+        {
+            var p = ownPropertyNames.filter(function(key)
+            {
+                return UpgradeCard[key] === value;
+            });
+
+            assert.equal(p.length, 1, "Missing key for value = " + value);
+        });
+
         assert.ok(result);
-        assert.equal(result.length, 140);
+        assert.equal(result.length, expected);
         assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
         assert.equal(result[138], UpgradeCard.PROTON_ROCKETS);
         assert.equal(result[139], UpgradeCard.PROTON_TORPEDOES);
