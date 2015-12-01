@@ -74,7 +74,35 @@
                         assert.equal(properties.value, damage);
                     });
 
-    QUnit.test("DamageCard.values", function(assert)
+    QUnit.test("keys and values", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = DamageCard.values();
+        var ownPropertyNames = Object.getOwnPropertyNames(DamageCard);
+
+        // Verify.
+        ownPropertyNames.forEach(function(key)
+        {
+            if (key !== "properties" && typeof key !== "function")
+            {
+                assert.ok(DamageCard[key], "Missing value for key = " + key);
+            }
+        });
+
+        result.forEach(function(value)
+        {
+            var p = ownPropertyNames.filter(function(key)
+            {
+                return DamageCard[key] === value;
+            });
+
+            assert.equal(p.length, 1, "Missing key for value = " + value);
+        });
+    });
+
+    QUnit.test("DamageCard.values()", function(assert)
     {
         var values = DamageCard.values();
         assert.equal(values.length, 14);
