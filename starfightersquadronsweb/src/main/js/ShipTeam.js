@@ -36,6 +36,7 @@ var ShipTeam =
     SCUM_AGGRESSOR: "scumAggressor",
     SCUM_FIRESPRAY_31: "scumFirespray31",
     SCUM_HWK_290: "scumHwk290",
+    SCUM_KIHRAXZ_FIGHTER: "scumKihraxzFighter",
     SCUM_M3_A_INTERCEPTOR: "scumM3AInterceptor",
     SCUM_STAR_VIPER: "scumStarViper",
     SCUM_Y_WING: "scumYWing",
@@ -247,6 +248,14 @@ var ShipTeam =
             team: Team.SCUM,
             image: "Scum_HWK-290.png",
             value: "scumHwk290",
+        },
+        "scumKihraxzFighter":
+        {
+            name: "Kihraxz Fighter",
+            ship: Ship.KIHRAXZ_FIGHTER,
+            team: Team.SCUM,
+            image: "Scum_KihraxzFighter.png",
+            value: "scumKihraxzFighter",
         },
         "scumM3AInterceptor":
         {

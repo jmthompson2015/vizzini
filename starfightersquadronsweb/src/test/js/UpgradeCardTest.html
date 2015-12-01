@@ -84,20 +84,15 @@
         assert.equal(UpgradeCard.getName(UpgradeCard.R2_D2), "\u25CF R2-D2");
     });
 
-    QUnit.test("UpgradeCard.values()", function(assert)
+    QUnit.test("keys and values", function(assert)
     {
         // Setup.
-        var expected = Object.getOwnPropertyNames(UpgradeCard).length - 1 // properties
-        - 1 // getName
-        - 3 // values
-        ;
 
         // Run.
         var result = UpgradeCard.values();
-
-        // Verify.
         var ownPropertyNames = Object.getOwnPropertyNames(UpgradeCard);
 
+        // Verify.
         ownPropertyNames.forEach(function(key)
         {
             if (key !== "properties" && typeof key !== "function")
@@ -115,12 +110,25 @@
 
             assert.equal(p.length, 1, "Missing key for value = " + value);
         });
+    });
 
+    QUnit.test("UpgradeCard.values()", function(assert)
+    {
+        // Setup.
+        var expected = Object.getOwnPropertyNames(UpgradeCard).length - 1 // properties
+        - 1 // getName
+        - 3 // values
+        ;
+
+        // Run.
+        var result = UpgradeCard.values();
+
+        // Verify.
         assert.ok(result);
         assert.equal(result.length, expected);
         assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-        assert.equal(result[138], UpgradeCard.PROTON_ROCKETS);
-        assert.equal(result[139], UpgradeCard.PROTON_TORPEDOES);
+        assert.equal(result[141], UpgradeCard.PROTON_ROCKETS);
+        assert.equal(result[142], UpgradeCard.PROTON_TORPEDOES);
     });
 
     QUnit.test("UpgradeCard.valuesByPilotAndType() Astromech", function(assert)
@@ -179,10 +187,11 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 23);
+        assert.equal(result.length, 25);
         var i = 0;
         assert.equal(result[i++], UpgradeCard.ADRENALINE_RUSH);
         assert.equal(result[i++], UpgradeCard.CALCULATION);
+        assert.equal(result[i++], UpgradeCard.CRACK_SHOT);
         assert.equal(result[i++], UpgradeCard.DAREDEVIL);
         assert.equal(result[i++], UpgradeCard.DEADEYE);
         assert.equal(result[i++], UpgradeCard.DECOY);
@@ -192,6 +201,7 @@
         assert.equal(result[i++], UpgradeCard.EXPERT_HANDLING);
         assert.equal(result[i++], UpgradeCard.EXPOSE);
         assert.equal(result[i++], UpgradeCard.INTIMIDATION);
+        assert.equal(result[i++], UpgradeCard.LIGHTNING_REFLEXES);
         assert.equal(result[i++], UpgradeCard.LONE_WOLF);
         assert.equal(result[i++], UpgradeCard.MARKSMANSHIP);
         assert.equal(result[i++], UpgradeCard.OPPORTUNIST);
@@ -225,9 +235,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 24);
+        assert.equal(result.length, 26);
         assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-        assert.equal(result[23], UpgradeCard.WINGMAN);
+        assert.equal(result[25], UpgradeCard.WINGMAN);
     });
 </script>
 </head>

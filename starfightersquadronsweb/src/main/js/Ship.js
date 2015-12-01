@@ -14,6 +14,7 @@ var Ship =
     E_WING: "eWing",
     FIRESPRAY_31: "firespray31",
     HWK_290: "hwk290",
+    KIHRAXZ_FIGHTER: "kihraxzFighter",
     LAMBDA_CLASS_SHUTTLE: "lambdaClassShuttle",
     M3_A_INTERCEPTOR: "m3AInterceptor",
     STAR_VIPER: "starViper",
@@ -117,6 +118,20 @@ var Ship =
                     Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_HARD, Maneuver.STRAIGHT_4_HARD ],
             shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
             value: "hwk290",
+        },
+        "kihraxzFighter":
+        {
+            name: "Kihraxz Fighter",
+            description: "A Kihraxz fighter.",
+            shipBase: ShipBase.STANDARD,
+            primaryFiringArc: FiringArc.FORWARD,
+            maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
+                    Maneuver.TURN_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY,
+                    Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_STANDARD,
+                    Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_STANDARD,
+                    Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
+            shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
+            value: "kihraxzFighter",
         },
         "lambdaClassShuttle":
         {

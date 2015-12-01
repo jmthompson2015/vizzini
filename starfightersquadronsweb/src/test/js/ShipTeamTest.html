@@ -64,6 +64,34 @@
         assert.equal(properties.value, shipTeam);
     });
 
+    QUnit.test("keys and values", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = ShipTeam.values();
+        var ownPropertyNames = Object.getOwnPropertyNames(ShipTeam);
+
+        // Verify.
+        ownPropertyNames.forEach(function(key)
+        {
+            if (key !== "properties" && typeof key !== "function")
+            {
+                assert.ok(ShipTeam[key], "Missing value for key = " + key);
+            }
+        });
+
+        result.forEach(function(value)
+        {
+            var p = ownPropertyNames.filter(function(key)
+            {
+                return ShipTeam[key] === value;
+            });
+
+            assert.equal(p.length, 1, "Missing key for value = " + value);
+        });
+    });
+
     QUnit.test("values()", function(assert)
     {
         // Run.
@@ -71,9 +99,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 29);
+        assert.equal(result.length, 30);
         assert.equal(result[0], "imperialFirespray31");
-        assert.equal(result[28], "scumZ95Headhunter");
+        assert.equal(result[29], "scumZ95Headhunter");
 
         var properties = Object.getOwnPropertyNames(ShipTeam);
         var count = properties.length - 1 // properties
@@ -133,11 +161,12 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 7);
+        assert.equal(result.length, 8);
         var i = 0;
         assert.equal(result[i++], "scumAggressor");
         assert.equal(result[i++], "scumFirespray31");
         assert.equal(result[i++], "scumHwk290");
+        assert.equal(result[i++], "scumKihraxzFighter");
         assert.equal(result[i++], "scumM3AInterceptor");
         assert.equal(result[i++], "scumStarViper");
         assert.equal(result[i++], "scumYWing");

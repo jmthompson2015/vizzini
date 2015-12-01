@@ -46,10 +46,10 @@
     {
         var result = UpgradeRestriction.values();
         assert.ok(result);
-        assert.equal(result.length, 20);
+        assert.equal(result.length, 21);
         assert.equal(result[0], UpgradeRestriction.A_WING_ONLY);
-        assert.equal(result[18], UpgradeRestriction.YT_2400_ONLY);
-        assert.equal(result[19], UpgradeRestriction.Y_WING_ONLY);
+        assert.equal(result[19], UpgradeRestriction.YT_2400_ONLY);
+        assert.equal(result[20], UpgradeRestriction.Y_WING_ONLY);
     });
 
     QUnit.test("UpgradeRestriction.passes()", function(assert)

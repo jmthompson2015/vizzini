@@ -26,6 +26,7 @@ var UpgradeCard =
     CHEWBACCA: "chewbacca",
     COMBAT_RETROFIT: "combatRetrofit",
     COUNTERMEASURES: "countermeasures",
+    CRACK_SHOT: "crackShot",
     DAREDEVIL: "daredevil",
     DARTH_VADER: "darthVader",
     DASH_RENDAR: "dashRendar",
@@ -47,6 +48,7 @@ var UpgradeCard =
     FLEET_OFFICER: "fleetOfficer",
     FLIGHT_INSTRUCTOR: "flightInstructor",
     GENIUS: "genius",
+    GLITTERSTIM: "glitterstim",
     GREEDO: "greedo",
     GUNNER: "gunner",
     GUNNERY_TEAM: "gunneryTeam",
@@ -64,6 +66,7 @@ var UpgradeCard =
     LANDO_CALRISSIAN: "landoCalrissian",
     LEEBO: "leebo",
     LEIA_ORGANA: "leiaOrgana",
+    LIGHTNING_REFLEXES: "lightningReflexes",
     LONE_WOLF: "loneWolf",
     LUKE_SKYWALKER: "lukeSkywalker",
     MARA_JADE: "maraJade",
@@ -355,6 +358,16 @@ var UpgradeCard =
             hasAction: false,
             value: "countermeasures",
         },
+        "crackShot":
+        {
+            name: "Crack Shot",
+            type: UpgradeType.ELITE,
+            isUnique: false,
+            description: "When attacking a ship inside your firing arc, you may discard this card to cancel 1 of the defender's Evade results.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "crackShot",
+        },
         "daredevil":
         {
             name: "Daredevil",
@@ -570,6 +583,16 @@ var UpgradeCard =
             hasAction: false,
             value: "genius",
         },
+        "glitterstim":
+        {
+            name: "Glitterstim",
+            type: UpgradeType.ILLICIT,
+            isUnique: false,
+            description: "At the start of the Combat phase, you may discard this card and receive 1 stress token. If you do, until the end of the round, when attacking or defending, you may change all of your Focus results to Hit or Evade results.",
+            squadPointCost: 2,
+            hasAction: false,
+            value: "glitterstim",
+        },
         "greedo":
         {
             name: "Greedo",
@@ -752,6 +775,17 @@ var UpgradeCard =
             squadPointCost: 2,
             hasAction: true,
             value: "leebo",
+        },
+        "lightningReflexes":
+        {
+            name: "Lightning Reflexes",
+            type: UpgradeType.ELITE,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.SMALL_SHIP_ONLY ],
+            description: "After you execute a white or green maneuver on your dial, you may discard this card to rotate your ship 180˚. Then receive 1 stress token after the \"Check Pilot Stress\" step.",
+            squadPointCost: 1,
+            hasAction: false,
+            value: "lightningReflexes",
         },
         "loneWolf":
         {

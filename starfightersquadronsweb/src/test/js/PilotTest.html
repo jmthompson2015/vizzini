@@ -98,6 +98,34 @@
         assert.equal(properties.value, "rookiePilot");
     });
 
+    QUnit.test("keys and values", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Pilot.values();
+        var ownPropertyNames = Object.getOwnPropertyNames(Pilot);
+
+        // Verify.
+        ownPropertyNames.forEach(function(key)
+        {
+            if (key !== "properties" && typeof key !== "function")
+            {
+                assert.ok(Pilot[key], "Missing value for key = " + key);
+            }
+        });
+
+        result.forEach(function(value)
+        {
+            var p = ownPropertyNames.filter(function(key)
+            {
+                return Pilot[key] === value;
+            });
+
+            assert.equal(p.length, 1, "Missing key for value = " + value);
+        });
+    });
+
     QUnit.test("values()", function(assert)
     {
         // Run.
@@ -105,9 +133,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 122);
+        assert.equal(result.length, 126);
         assert.equal(result[0], "academyPilot");
-        assert.equal(result[121], "wingedGundark");
+        assert.equal(result[125], "wingedGundark");
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties
@@ -177,9 +205,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 28);
+        assert.equal(result.length, 32);
         assert.equal(result[0], "binayrePirate");
-        assert.equal(result[27], "torkilMux");
+        assert.equal(result[31], "torkilMux");
     });
 </script>
 </head>

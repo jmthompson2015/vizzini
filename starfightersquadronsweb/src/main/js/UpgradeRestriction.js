@@ -4,7 +4,6 @@
 // require("ShipTeam");
 // require("Team");
 
-
 /*
  * Provides an enumeration of upgrade restrictions.
  */
@@ -23,6 +22,7 @@ var UpgradeRestriction =
     M3_A_INTERCEPTOR_ONLY: "m3AInterceptorOnly",
     REBEL_ONLY: "rebelOnly",
     SCUM_ONLY: "scumOnly",
+    SMALL_SHIP_ONLY: "smallShipOnly",
     STAR_VIPER_ONLY: "starViperOnly",
     TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
     TIE_PHANTOM_ONLY: "tiePhantomOnly",
@@ -161,6 +161,17 @@ var UpgradeRestriction =
                 var shipTeam = Pilot.properties[pilot].shipTeam;
                 var team = ShipTeam.properties[shipTeam].team;
                 return team === Team.SCUM;
+            }
+        },
+        "smallShipOnly":
+        {
+            displayName: "Small ship only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                var shipBase = Ship.properties[ship].shipBase;
+                return shipBase === ShipBase.STANDARD;
             }
         },
         "starViperOnly":

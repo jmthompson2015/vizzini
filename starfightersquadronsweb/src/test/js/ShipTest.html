@@ -66,6 +66,34 @@
         assert.equal(properties.shipActions.length, 2);
     });
 
+    QUnit.test("keys and values", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Ship.values();
+        var ownPropertyNames = Object.getOwnPropertyNames(Ship);
+
+        // Verify.
+        ownPropertyNames.forEach(function(key)
+        {
+            if (key !== "properties" && typeof key !== "function")
+            {
+                assert.ok(Ship[key], "Missing value for key = " + key);
+            }
+        });
+
+        result.forEach(function(value)
+        {
+            var p = ownPropertyNames.filter(function(key)
+            {
+                return Ship[key] === value;
+            });
+
+            assert.equal(p.length, 1, "Missing key for value = " + value);
+        });
+    });
+
     QUnit.test("values()", function(assert)
     {
         // Run.
@@ -73,9 +101,9 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 21);
+        assert.equal(result.length, 22);
         assert.equal(result[0], "aWing");
-        assert.equal(result[20], "z95Headhunter");
+        assert.equal(result[21], "z95Headhunter");
 
         var properties = Object.getOwnPropertyNames(Ship);
         var count = properties.length - 1 // properties
