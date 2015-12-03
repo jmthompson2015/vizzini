@@ -5,10 +5,12 @@ LOGGER.setDebugEnabled(false);
 
 // Create initial agents and tokens.
 var imageUtils = new ImageUtilities();
-var newGamePanel = new NewGamePanel(imageUtils, startNewGame);
+var newGamePanel = React.createElement(NewGamePanel,
+{
+    callback: startNewGame,
+});
 
-var element = document.getElementById("inputArea");
-element.innerHTML = newGamePanel.paintComponent();
+React.render(newGamePanel, document.getElementById("inputArea"));
 var environmentUI;
 
 function startNewGame(agents)
@@ -36,14 +38,12 @@ function updateSizes()
 {
     var imperialPilots = document.getElementById("imperialPilots");
     var rebelPilots = document.getElementById("rebelPilots");
-    var newWidth = window.innerWidth - imperialPilots.offsetWidth
-            - rebelPilots.offsetWidth;
+    var newWidth = window.innerWidth - imperialPilots.offsetWidth - rebelPilots.offsetWidth;
 
     var ssPanel = document.getElementById("ssPanel");
     var messageArea = document.getElementById("messageArea");
     var inputArea = document.getElementById("inputArea");
-    var newHeight = window.innerHeight - ssPanel.offsetHeight
-            - messageArea.offsetHeight - inputArea.offsetHeight;
+    var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight - inputArea.offsetHeight;
 
     var size = Math.min(newWidth, newHeight)
 

@@ -89,7 +89,7 @@ var UpgradeChooser = React.createClass(
     upgradeCardChanged: function(event)
     {
         var upgradeCard = event.currentTarget.value;
-        LOGGER.info("UpgradeChooserUI.upgradeCardChanged() upgradeCard = " + upgradeCard);
+        LOGGER.debug("UpgradeChooser.upgradeCardChanged() upgradeCard = " + upgradeCard);
 
         if (upgradeCard == "*none*")
         {

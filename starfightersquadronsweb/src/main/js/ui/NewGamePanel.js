@@ -6,7 +6,8 @@ var NewGamePanel = React.createClass(
     getInitialState: function()
     {
         var agent1 = new SimpleAgent("Agent 1", Team.IMPERIAL, CoreSetImperialSquadBuilder);
-        var agent2 = new SimpleAgent("Agent 2", Team.REBEL, CoreSetRebelSquadBuilder);
+        var imageUtils = new ImageUtilities();
+        var agent2 = new HumanAgent("Agent 2", Team.REBEL, CoreSetRebelSquadBuilder, imageUtils);
 
         return (
         {
@@ -26,6 +27,7 @@ var NewGamePanel = React.createClass(
         {
             agentNumber: 2,
             initialTeam: Team.REBEL,
+            initialType: "HumanAgent",
             onChange: this.handleAgentChange,
         });
         var cell1 = React.DOM.td(
@@ -86,26 +88,29 @@ var NewGamePanel = React.createClass(
     {
         LOGGER.debug("ok() this.state.agent1 = " + this.state.agent1);
         LOGGER.debug("ok() this.state.agent2 = " + this.state.agent2);
-        this.props.callback(this.state.agent1, this.state.agent2);
+        this.props.callback([ this.state.agent1, this.state.agent2 ]);
     },
 });
 
 /*
  * Provides an agent panel.
  * 
- * @param initialTeam Initial team.
+ * @param agentNumber Agent number. (required)
  * 
- * @param agentNumber Agent number.
+ * @param initialTeam Initial team. (optional; default: Team.IMPERIAL)
  * 
- * @param onChange Change method.
+ * @param initialType Initial type. (optional; default: SimpleAgent)
+ * 
+ * @param onChange Change method. (optional)
  */
 NewGamePanel.AgentPanel = React.createClass(
 {
     getInitialState: function()
     {
+        InputValidator.validateNotNull("agentNumber", this.props.agentNumber);
         var initialTeam = (this.props.initialTeam ? this.props.initialTeam : Team.IMPERIAL);
         var initialName = "Agent " + this.props.agentNumber;
-        var initialType = "SimpleAgent";
+        var initialType = (this.props.initialType ? this.props.initialType : "SimpleAgent");
         var squadBuilders = SquadBuilder.findByTeam(initialTeam);
         var initialSquadBuilder = squadBuilders[0];
 
