@@ -12,8 +12,7 @@ function SimpleAgent(name, team, squadBuilder)
         return squadBuilder.buildSquad(this);
     }
 
-    this.chooseWeaponAndDefender = function(environment, adjudicator, attacker,
-            callback)
+    this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
     {
         InputValidator.validateNotNull("environment", environment);
         InputValidator.validateNotNull("adjudicator", adjudicator);
@@ -32,18 +31,16 @@ function SimpleAgent(name, team, squadBuilder)
             for (var i = 0; i < Range.values.length; i++)
             {
                 var range = Range.values[i];
-                var rangeDefenders = environment.getTargetableDefendersAtRange(
-                        attacker, attackerPosition, myWeapon, range);
+                var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, myWeapon,
+                        range);
 
                 if (rangeDefenders.length > 0)
                 {
-                    var myDefender = Array.Vizzini
-                            .randomElement(rangeDefenders);
+                    var myDefender = rangeDefenders.vizziniRandomElement();
 
                     if (myDefender)
                     {
-                        var defenderPosition = environment
-                                .getPositionFor(myDefender);
+                        var defenderPosition = environment.getPositionFor(myDefender);
 
                         if (defenderPosition)
                         {
@@ -75,7 +72,9 @@ function SimpleAgent(name, team, squadBuilder)
     }
 
     /*
-     * @param environment Environment. @param adjudicator Adjudicator.
+     * @param environment Environment.
+     * 
+     * @param adjudicator Adjudicator.
      * 
      * @return a new action.
      */
@@ -102,19 +101,13 @@ function SimpleAgent(name, team, squadBuilder)
             for (var j = 0; j < maneuvers.length; j++)
             {
                 var candidate = maneuvers[j];
-                var toPosition = Maneuver.computeToPosition(candidate,
-                        fromPosition, shipBase);
+                var toPosition = Maneuver.computeToPosition(candidate, fromPosition, shipBase);
 
-                if (toPosition)
+                if (toPosition && Position.isInPlayArea(toPosition.getX(), toPosition.getY()))
                 {
-                    if (Position.isInPlayArea(toPosition.getX(), toPosition
-                            .getY()))
-                    {
-                        LOGGER.trace("toPosition = " + toPosition + " for "
-                                + token);
-                        maneuver = candidate;
-                        break;
-                    }
+                    LOGGER.trace("toPosition = " + toPosition + " for " + token);
+                    maneuver = candidate;
+                    break;
                 }
             }
 
@@ -137,21 +130,18 @@ function SimpleAgent(name, team, squadBuilder)
         callback(answer);
     }
 
-    this.getModifyAttackDiceAction = function(environment, adjudicator,
-            attacker, attackDice, defender)
+    this.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender)
     {
     // FIXME
     }
 
-    this.getModifyDefenseDiceAction = function(environment, adjudicator,
-            attacker, attackDice, defender, defenseDice)
+    this.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender, defenseDice)
     {
     // FIXME
     }
 }
 
-SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token,
-        callback)
+SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback)
 {
     InputValidator.validateNotNull("environment", environment);
     InputValidator.validateNotNull("adjudicator", adjudicator);
@@ -170,6 +160,5 @@ SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token,
 
 SimpleAgent.prototype.toString = function()
 {
-    return this.getName() + ", SimpleAgent, " + this.getTeam() + ", "
-            + this.getSquadBuilder().getName();
+    return this.getName() + ", SimpleAgent, " + this.getTeam() + ", " + this.getSquadBuilder().getName();
 }
