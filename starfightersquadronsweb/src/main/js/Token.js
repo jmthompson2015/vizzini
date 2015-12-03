@@ -242,7 +242,7 @@ function Token(pilot, agent)
         }
         else
         {
-            answer = Ship.properties[this.getShip()].maneuvers;
+            answer = Ship.properties[this.getShip()].maneuvers.slice();
         }
 
         if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE))
