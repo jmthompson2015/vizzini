@@ -1,272 +1,337 @@
 /*
  * Provides a user interface to gather new game information.
  */
-function NewGamePanel(imageUtils, callback)
+var NewGamePanel = React.createClass(
 {
-    InputValidator.validateNotNull("imageUtils", imageUtils);
-
-    /*
-     * Provides an agent panel.
-     */
-    function AgentPanel(team)
+    getInitialState: function()
     {
-        InputValidator.validateNotNull("team", team);
+        var agent1 = new SimpleAgent("Agent 1", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        var agent2 = new SimpleAgent("Agent 2", Team.REBEL, CoreSetRebelSquadBuilder);
 
-        var that = this;
-        var teamName = Team.properties[team].name;
-
-        this.getAgent = function()
+        return (
         {
-            var name = getName();
-            var type = getType();
-            var squadBuilder = getSquadBuilder();
+            agent1: agent1,
+            agent2: agent2,
+        });
+    },
 
-            var answer;
-
-            if (type === SimpleAgent)
-            {
-                answer = new SimpleAgent(name, team, squadBuilder);
-            }
-            else if (type === HumanAgent)
-            {
-                answer = new HumanAgent(name, team, squadBuilder, imageUtils);
-            }
-
-            return answer;
-        }
-
-        this.paintComponent = function()
-        {
-            var answer = "";
-
-            answer += "<table class='agentPanel'>";
-            answer += "<tr>";
-            answer += "<td class='agentTitle' colspan='3'>";
-            answer += teamName;
-            answer += " Agent";
-            answer += "</td>";
-            answer += "</tr>";
-            answer += "<tr>";
-            answer += "<td>";
-            answer += "Name:";
-            answer += "</td>";
-            answer += "<td>";
-            answer += "<input type='text' id='";
-            answer += createPrefix();
-            answer += ".nameInput' value='";
-            answer += teamName;
-            answer += " Agent'";
-            answer += "></input>";
-            answer += "</td>";
-            answer += "<td rowspan='2'>";
-            answer += imageUtils.createTeamIconString(teamName);
-            answer += "</td>";
-            answer += "</tr>";
-            answer += "<tr>";
-            answer += "<td>";
-            answer += "Type:";
-            answer += "</td>";
-            answer += "<td>";
-            answer += createTypeSelector();
-            answer += "</td>";
-            answer += "</tr>";
-            answer += "<tr>";
-            answer += "<td>";
-            answer += "Squad";
-            answer += "</td>";
-            answer += "<td colspan='2'>";
-            answer += "&nbsp;";
-            answer += "</td>";
-            answer += "</tr>";
-            answer += "<tr>";
-            answer += "<td colspan='3'>";
-            answer += createSquadBuilderPanel();
-            answer += "</td>";
-            answer += "</tr>";
-            answer += "</table>";
-
-            return answer;
-        }
-
-        function createPrefix()
-        {
-            return team;
-        }
-
-        function createTypeSelector()
-        {
-            var answer = "";
-
-            answer += "<select id='";
-            answer += createPrefix();
-            answer += ".typeSelector'>";
-
-            var types = getTypes();
-
-            for (var i = 0; i < types.length; i++)
-            {
-                var type = types[i];
-                var typeName = type === SimpleAgent ? "Simple Agent"
-                        : "Human Agent";
-
-                answer += "<option";
-                answer += " value=";
-                answer += i;
-                if ((team === Team.IMPERIAL && type === SimpleAgent)
-                        || (team === Team.REBEL && type === HumanAgent))
-                {
-                    answer += " selected";
-                }
-                answer += ">";
-                answer += typeName;
-                answer += "</option>";
-            }
-
-            answer += "</select>"
-
-            return answer;
-        }
-
-        function createSquadBuilderPanel()
-        {
-            var squadBuilders = getSquadBuilders();
-
-            var answer = "";
-
-            answer += "<table id='";
-            answer += createPrefix();
-            answer += ".squadBuilderPanel' class='squadBuilderPanel'>";
-
-            for (var i = 0; i < squadBuilders.length; i++)
-            {
-                var squadBuilder = squadBuilders[i];
-
-                answer += "<tr>";
-                answer += "<td>";
-                answer += "<input type='radio' name='";
-                answer += teamName;
-                answer += "' value=";
-                answer += i;
-                if (i === 0)
-                {
-                    answer += " checked='true'";
-                }
-                answer += ">";
-                answer += squadBuilder.getName();
-                answer += " (";
-                answer += squadBuilder.getDescription();
-                answer += ")";
-                answer += "</input>";
-                answer += "</td>";
-                answer += "</tr>";
-            }
-
-            answer += "</table>";
-
-            return answer;
-        }
-
-        function getSquadBuilders()
-        {
-            return team === Team.IMPERIAL ? SquadBuilder.getImperial()
-                    : SquadBuilder.getRebel();
-        }
-
-        function getTypes()
-        {
-            return [ SimpleAgent, HumanAgent ];
-        }
-
-        function getName()
-        {
-            // HTMLInputElement
-            var element = document
-                    .getElementById(createPrefix() + ".nameInput");
-
-            return element.value;
-        }
-
-        function getType()
-        {
-            // HTMLSelectElement
-            var element = document.getElementById(createPrefix()
-                    + ".typeSelector");
-
-            var types = getTypes();
-
-            return types[element.value];
-        }
-
-        function getSquadBuilder()
-        {
-            // HTMLTableElement
-            var element = document.getElementById(createPrefix()
-                    + ".squadBuilderPanel");
-
-            var answer;
-
-            // Walk the table rows to find the selected element.
-            var rows = element.rows;
-            for (var i = 0; i < rows.length; i++)
-            {
-                // HTMLTableRowElement
-                var row = rows[i];
-                // HTMLTableCellElement
-                var cell = row.cells[0];
-                // HTMLInputElement
-                var radio = cell.firstElementChild;
-                if (radio.checked)
-                {
-                    var squadBuilders = getSquadBuilders();
-                    answer = squadBuilders[radio.value];
-                    break;
-                }
-            }
-
-            return answer;
-        }
-    }
-
-    // First agent widget.
-    var firstAgentUI = new AgentPanel(Team.IMPERIAL);
-
-    // Second agent widget.
-    var secondAgentUI = new AgentPanel(Team.REBEL);
-
-    this.okActionPerformed = function()
+    render: function()
     {
-        var answer = [ firstAgentUI.getAgent(), secondAgentUI.getAgent() ];
+        var agentPanel1 = React.createElement(NewGamePanel.AgentPanel,
+        {
+            agentNumber: 1,
+            onChange: this.handleAgentChange,
+        });
+        var agentPanel2 = React.createElement(NewGamePanel.AgentPanel,
+        {
+            agentNumber: 2,
+            initialTeam: Team.REBEL,
+            onChange: this.handleAgentChange,
+        });
+        var cell1 = React.DOM.td(
+        {
+            className: "newGamePanel",
+        }, agentPanel1);
+        var cell2 = React.DOM.td(
+        {
+            className: "newGamePanel",
+        }, agentPanel2);
 
-        callback(answer);
-    }
+        var message = React.DOM.table({}, React.DOM.tbody({}, React.DOM.tr({}, cell1, cell2)));
+        var initialInput;
+        var okButton = React.DOM.button(
+        {
+            key: 0,
+            onClick: this.ok,
+        }, "OK");
+        var buttons = React.DOM.span({}, [ okButton ]);
 
-    this.paintComponent = function()
+        return React.createElement(OptionPane,
+        {
+            panelClass: "optionPane",
+            title: "New Game",
+            titleClass: "optionPaneTitle",
+            message: message,
+            messageClass: "optionPaneMessage",
+            initialInput: initialInput,
+            buttons: buttons,
+            buttonsClass: "optionPaneButtons",
+        });
+    },
+
+    handleAgentChange: function(agent, agentNumber)
     {
-        var answer = "";
+        LOGGER.trace("handleAgentChange() agent = " + agent + " agentNumber = " + agentNumber);
 
-        answer += "<table class='newGamePanel'>";
-        answer += "<tr>";
-        answer += "<td colspan='3' class='newGameTitle'>";
-        answer += "New Game";
-        answer += "</td>";
-        answer += "</tr>";
-        answer += "<tr>";
-        answer += "<td class='newGamePanel'>";
-        answer += firstAgentUI.paintComponent();
-        answer += "</td>";
-        answer += "<td class='newGamePanel'>";
-        answer += secondAgentUI.paintComponent();
-        answer += "</td>";
+        switch (agentNumber)
+        {
+        case 1:
+            this.setState(
+            {
+                agent1: agent,
+            });
+            break;
+        case 2:
+            this.setState(
+            {
+                agent2: agent,
+            });
+            break;
+        default:
+            throw "Unknown agentNumber: " + agentNumber;
+        }
+    },
 
-        answer += "<td class='newGameOk'>";
-        answer += "<button type='button' onclick='NewGamePanel.instance.okActionPerformed()'>OK</button>";
-        answer += "</td>";
+    ok: function()
+    {
+        LOGGER.debug("ok() this.state.agent1 = " + this.state.agent1);
+        LOGGER.debug("ok() this.state.agent2 = " + this.state.agent2);
+        this.props.callback(this.state.agent1, this.state.agent2);
+    },
+});
 
-        answer += "</tr>";
-        answer += "</table>";
+/*
+ * Provides an agent panel.
+ * 
+ * @param initialTeam Initial team.
+ * 
+ * @param agentNumber Agent number.
+ * 
+ * @param onChange Change method.
+ */
+NewGamePanel.AgentPanel = React.createClass(
+{
+    getInitialState: function()
+    {
+        var initialTeam = (this.props.initialTeam ? this.props.initialTeam : Team.IMPERIAL);
+        var initialName = "Agent " + this.props.agentNumber;
+        var initialType = "SimpleAgent";
+        var squadBuilders = SquadBuilder.findByTeam(initialTeam);
+        var initialSquadBuilder = squadBuilders[0];
+
+        return (
+        {
+            team: initialTeam,
+            name: initialName,
+            type: initialType,
+            squadBuilder: initialSquadBuilder,
+        });
+    },
+
+    render: function()
+    {
+        var team = this.state.team;
+        var name = this.state.name;
+        var type = this.state.type;
+
+        var teamLabelFunction = function(value)
+        {
+            return Team.properties[value].name;
+        }
+        var teamUI = React.createElement(Select,
+        {
+            values: Team.values,
+            labelFunction: teamLabelFunction,
+            initialSelectedValue: team,
+            onChange: this.handleTeamChange,
+        });
+
+        var nameUI = React.DOM.input(
+        {
+            type: "text",
+            defaultValue: name,
+            onChange: this.handleNameChange,
+        });
+
+        var types = [ "SimpleAgent", "HumanAgent" ];
+        var typeUI = React.createElement(Select,
+        {
+            values: types,
+            initialSelectedValue: type,
+            onChange: this.handleTypeChange,
+        });
+
+        var squadIdFunction = function(value)
+        {
+            return value.getYear() + "_" + value.getName();
+        };
+        var squadLabelFunction = function(value)
+        {
+            return value.toString();
+        };
+        var squadBuilders = SquadBuilder.findByTeam(team);
+        var squadChooserPanel = React.createElement(SquadChooser,
+        {
+            squadBuilders: squadBuilders,
+            onChange: this.handleSquadChange,
+        });
+        var selectedSquadBuilder = this.state.squadBuilder;
+        var agent = new SimpleAgent(name, team, selectedSquadBuilder);
+        var mySquad = selectedSquadBuilder.buildSquad(agent);
+
+        var rows = [];
+
+        rows.push(React.DOM.tr(
+        {
+            key: rows.length,
+        }, React.DOM.td(
+        {
+            className: "agentTitle",
+            colSpan: 2,
+        }, "Agent " + this.props.agentNumber)));
+
+        rows.push(React.DOM.tr(
+        {
+            key: rows.length,
+        }, React.DOM.td(
+        {
+            key: 0,
+        }, "Faction:"), React.DOM.td(
+        {
+            key: 1,
+        }, teamUI)));
+
+        rows.push(React.DOM.tr(
+        {
+            key: rows.length,
+        }, React.DOM.td(
+        {
+            key: 0,
+        }, "Name:"), React.DOM.td(
+        {
+            key: 1,
+        }, nameUI)));
+
+        rows.push(React.DOM.tr(
+        {
+            key: rows.length,
+        }, React.DOM.td(
+        {
+            key: 0,
+        }, "Type:"), React.DOM.td(
+        {
+            key: 1,
+        }, typeUI)));
+
+        rows.push(React.DOM.tr(
+        {
+            key: rows.length,
+        }, React.DOM.td(
+        {
+            key: 0,
+        }, "Squad:"), React.DOM.td(
+        {
+            key: 1,
+        }, " ")));
+
+        rows.push(React.DOM.tr(
+        {
+            key: rows.length,
+        }, React.DOM.td(
+        {
+            colSpan: 2,
+        }, squadChooserPanel)));
+
+        return React.DOM.table(
+        {
+            className: "agentPanel",
+        }, React.DOM.tbody({}, rows));
+    },
+
+    createAgent: function(type, name, team, squadBuilder)
+    {
+        var answer;
+
+        switch (type)
+        {
+        case "SimpleAgent":
+            answer = new SimpleAgent(name, team, squadBuilder);
+            break;
+        case "HumanAgent":
+            var imageUtils = new ImageUtilities();
+            answer = new HumanAgent(name, team, squadBuilder, imageUtils);
+            break;
+        default:
+            throw "Unknown agent type: " + type;
+        }
 
         return answer;
-    }
+    },
 
-    NewGamePanel.instance = this;
-}
+    handleTeamChange: function(event)
+    {
+        var selected = event.target.value;
+        LOGGER.debug("handleTeamChange() selected = " + selected);
+        var squadBuilders = SquadBuilder.findByTeam(selected);
+        var squadBuilder = squadBuilders[0];
+
+        this.setState(
+        {
+            team: selected,
+            squadBuilder: squadBuilder,
+        }, function()
+        {
+            this.notifyNewAgent()
+        });
+    },
+
+    handleNameChange: function(event)
+    {
+        var name = event.target.value;
+        LOGGER.debug("handleNameChange() name = " + name);
+
+        this.setState(
+        {
+            name: name,
+        }, function()
+        {
+            this.notifyNewAgent()
+        });
+    },
+
+    handleSquadChange: function(squadBuilder)
+    {
+        LOGGER.debug("handleSquadChange() squadBuilder = " + squadBuilder);
+
+        this.setState(
+        {
+            squadBuilder: squadBuilder,
+        }, function()
+        {
+            this.notifyNewAgent()
+        });
+    },
+
+    handleTypeChange: function(event)
+    {
+        var selected = event.target.value;
+        LOGGER.debug("handleTypeChange() selected = " + selected);
+
+        this.setState(
+        {
+            type: selected,
+        }, function()
+        {
+            this.notifyNewAgent()
+        });
+    },
+
+    notifyNewAgent: function()
+    {
+        if (this.props.onChange)
+        {
+            var type = this.state.type;
+            var name = this.state.name;
+            var team = this.state.team;
+            var squadBuilder = this.state.squadBuilder;
+            LOGGER.trace("type = " + type);
+            LOGGER.trace("name = " + name);
+            LOGGER.trace("team = " + team);
+            LOGGER.trace("squadBuilder = " + squadBuilder);
+
+            var agent = this.createAgent(type, name, team, squadBuilder);
+            LOGGER.debug("notifyNewAgent() agent = " + agent);
+            this.props.onChange(agent, this.props.agentNumber);
+        }
+    },
+});
