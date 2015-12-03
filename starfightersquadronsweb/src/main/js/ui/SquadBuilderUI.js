@@ -98,7 +98,8 @@ var SquadBuilderUI = React.createClass(
         var squadPanel = React.createElement(SquadUI,
         {
             squad: this.state.squad,
-            removeFunction: this.removeActionPerformed
+            removeFunction: this.removeActionPerformed,
+            isEditable: true,
         });
         var cell3 = React.DOM.td(
         {

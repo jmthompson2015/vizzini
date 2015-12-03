@@ -1,10 +1,5 @@
 var SquadColumns = [
 {
-    key: "action",
-    label: "Action",
-    className: "actionCell",
-},
-{
     key: "pilot",
     label: "Pilot",
     className: "squadUIPilotName",
@@ -43,7 +38,12 @@ var SquadColumns = [
     key: "squadPointCost",
     label: "Squad Points",
     className: "numberCell",
-} ];
+},
+{
+    key: "action",
+    label: "Action",
+    className: "actionCell",
+}, ];
 
 /*
  * Provides a user interface for a starfighter squadron.
@@ -80,13 +80,14 @@ var SquadUI = React.createClass(
         });
         var footer = this.Tfoot(
         {
-            key: "footer"
+            key: "footer",
         }, this.createTotalsRow());
+        var myColumns = (this.isEditable() ? SquadColumns : SquadColumns.slice(0, SquadColumns.length - 1));
 
         return this.Table(
         {
             className: "squadUI",
-            columns: SquadColumns,
+            columns: myColumns,
         }, rows, footer);
     },
 
@@ -109,15 +110,15 @@ var SquadUI = React.createClass(
         };
         var image = React.DOM.img(
         {
-            // src: "../../../main/resources/delete.png"
-            src: "../resources/delete.png"
+            // src: "../../../main/resources/delete.png",
+            src: "../resources/delete.png",
         });
 
         return React.DOM.a(
         {
             href: "#",
             className: "removeButton",
-            onClick: myOnClick
+            onClick: myOnClick,
         }, image);
     },
 
@@ -142,26 +143,31 @@ var SquadUI = React.createClass(
     {
         var cells = [];
         var createCell = this.createCell;
-        var actionFunction = token["removeAction"];
-        cells.push(createCell(cells.length, SquadColumns[0], actionFunction));
+        var i = 0;
 
         var pilotProps = Pilot.properties[token.getPilot()];
         var shipProps = Ship.properties[token.getShip()];
-        cells.push(createCell(cells.length, SquadColumns[1], pilotProps.name));
-        cells.push(createCell(cells.length, SquadColumns[2], shipProps.name));
+        cells.push(createCell(cells.length, SquadColumns[i++], React.DOM.span(
+        {
+            title: pilotProps.description,
+        }, pilotProps.name)));
+        cells.push(createCell(cells.length, SquadColumns[i++], shipProps.name));
 
         var shipState = pilotProps.shipState;
-        cells.push(createCell(cells.length, SquadColumns[3], shipState.getPilotSkillValue()));
-        cells.push(createCell(cells.length, SquadColumns[4], shipState.getPrimaryWeaponValue()));
-        cells.push(createCell(cells.length, SquadColumns[5], shipState.getAgilityValue()));
-        cells.push(createCell(cells.length, SquadColumns[6], shipState.getHullValue()));
-        cells.push(createCell(cells.length, SquadColumns[7], shipState.getShieldValue()));
+        cells.push(createCell(cells.length, SquadColumns[i++], shipState.getPilotSkillValue()));
+        cells.push(createCell(cells.length, SquadColumns[i++], shipState.getPrimaryWeaponValue()));
+        cells.push(createCell(cells.length, SquadColumns[i++], shipState.getAgilityValue()));
+        cells.push(createCell(cells.length, SquadColumns[i++], shipState.getHullValue()));
+        cells.push(createCell(cells.length, SquadColumns[i++], shipState.getShieldValue()));
 
-        cells.push(createCell(cells.length, SquadColumns[8], pilotProps.squadPointCost));
+        cells.push(createCell(cells.length, SquadColumns[i++], pilotProps.squadPointCost));
+
+        var actionFunction = token["removeAction"];
+        cells.push(createCell(cells.length, SquadColumns[i++], actionFunction));
 
         return this.Tr(
         {
-            key: i
+            key: i,
         }, cells);
     },
 
@@ -169,10 +175,11 @@ var SquadUI = React.createClass(
     {
         var squad = this.props.squad;
         var sums = {};
-        sums[SquadColumns[0].key] = " ";
-        sums[SquadColumns[1].key] = " ";
-        sums[SquadColumns[2].key] = "Totals";
-        for (var i = 3; i < SquadColumns.length; i++)
+        var start = 2;
+        var i = 0;
+        sums[SquadColumns[i++].key] = "";
+        sums[SquadColumns[i++].key] = "Totals";
+        for (var i = start; i < SquadColumns.length; i++)
         {
             sums[SquadColumns[i].key] = 0;
         }
@@ -185,9 +192,9 @@ var SquadUI = React.createClass(
             var values = [ shipState.getPilotSkillValue(), shipState.getPrimaryWeaponValue(),
                     shipState.getAgilityValue(), shipState.getHullValue(), shipState.getShieldValue(),
                     pilotProps.squadPointCost ];
-            for (var i = 3; i < SquadColumns.length; i++)
+            for (var i = start; i < SquadColumns.length; i++)
             {
-                sums[SquadColumns[i].key] += values[i - 3];
+                sums[SquadColumns[i].key] += values[i - start];
             }
 
             var upgrades = token.getUpgrades();
@@ -200,24 +207,30 @@ var SquadUI = React.createClass(
                 {
                     var values = [ shipState.getPilotSkillValue(), shipState.getPrimaryWeaponValue(),
                             shipState.getAgilityValue(), shipState.getHullValue(), shipState.getShieldValue() ];
-                    for (var i = 3; i < SquadColumns.length - 1; i++)
+                    for (var i = start; i < SquadColumns.length - 2; i++)
                     {
-                        sums[SquadColumns[i].key] += values[i - 3];
+                        sums[SquadColumns[i].key] += values[i - start];
                     }
                 }
-                sums[SquadColumns[8].key] += upgradeProps.squadPointCost;
+                sums[SquadColumns[SquadColumns.length - 2].key] += upgradeProps.squadPointCost;
             });
         });
 
+        sums[SquadColumns[SquadColumns.length - 1].key] = "";
+
         var cells = [];
+        var isEditable = this.isEditable();
         SquadColumns.forEach(function(column)
         {
-            cells.push(React.DOM.td(
+            if (isEditable || (!isEditable && column.key !== "action"))
             {
-                key: cells.length,
-                className: "squadUISum"
-            }, sums[column.key]));
-        });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    className: "squadUISum",
+                }, sums[column.key]));
+            }
+        }, this);
 
         return React.DOM.tr({}, cells);
     },
@@ -226,30 +239,51 @@ var SquadUI = React.createClass(
     {
         var cells = [];
         var createCell = this.createCell;
-        cells.push(createCell(cells.length, SquadColumns[0], ""));
+        var i = 0;
 
         var upgradeProps = UpgradeCard.properties[upgrade];
+        if (!upgradeProps)
+        {
+            LOGGER.error("Missing upgradeProps for " + upgrade);
+        }
+        if (!upgradeProps.type)
+        {
+            LOGGER.error("Missing upgradeProps.type for " + upgrade);
+        }
         var image = UpgradeCardUI.createUpgradeImage(upgradeProps.type, 0);
         cells.push(this.Td(
         {
             key: cells.length,
             className: "squadUIPilotName",
-            column: SquadColumns[1].key,
-        }, React.DOM.span({}, image, " ", upgradeProps.name)));
+            column: SquadColumns[i++].key,
+        }, React.DOM.span({}, image, " ", React.DOM.span(
+        {
+            title: upgradeProps.description,
+        }, upgradeProps.name))));
+
+        cells.push(createCell(cells.length, SquadColumns[i++], ""));
 
         var shipState = upgradeProps.shipState;
-        cells.push(createCell(cells.length, SquadColumns[3], (shipState ? shipState.getPilotSkillValue() : "")));
-        cells.push(createCell(cells.length, SquadColumns[4], (shipState ? shipState.getPrimaryWeaponValue() : "")));
-        cells.push(createCell(cells.length, SquadColumns[5], (shipState ? shipState.getAgilityValue() : "")));
-        cells.push(createCell(cells.length, SquadColumns[6], (shipState ? shipState.getHullValue() : "")));
-        cells.push(createCell(cells.length, SquadColumns[7], (shipState ? shipState.getShieldValue() : "")));
+        cells.push(createCell(cells.length, SquadColumns[i++], (shipState ? shipState.getPilotSkillValue() : "")));
+        cells.push(createCell(cells.length, SquadColumns[i++], (shipState ? shipState.getPrimaryWeaponValue() : "")));
+        cells.push(createCell(cells.length, SquadColumns[i++], (shipState ? shipState.getAgilityValue() : "")));
+        cells.push(createCell(cells.length, SquadColumns[i++], (shipState ? shipState.getHullValue() : "")));
+        cells.push(createCell(cells.length, SquadColumns[i++], (shipState ? shipState.getShieldValue() : "")));
 
-        cells.push(createCell(cells.length, SquadColumns[8], upgradeProps.squadPointCost));
+        cells.push(createCell(cells.length, SquadColumns[i++], upgradeProps.squadPointCost));
+        cells.push(createCell(cells.length, SquadColumns[i++], ""));
 
         return this.Tr(
         {
-            key: i
+            key: i,
         }, cells);
+    },
+
+    isEditable: function()
+    {
+        var isEditable = this.props.isEditable;
+
+        return (isEditable ? isEditable : false);
     },
 
     removeFunction: function(selected, event)

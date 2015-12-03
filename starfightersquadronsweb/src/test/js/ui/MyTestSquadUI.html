@@ -43,23 +43,39 @@
 
 </head>
 <body>
-	<div id="squadPanel"></div>
+	<div id="squadPanel0"></div>
+	<p />
+	<div id="squadPanel1"></div>
 	<script>
         "use strict";
         var LOGGER = new Logger();
 
-        var team = Team.IMPERIAL;
-        var agentName = "Imperial Agent";
-        var squadBuilder = JMTImperialSquadBuilder;
-        var agent = new SimpleAgent(agentName, team, squadBuilder);
-        var squad = squadBuilder.buildSquad(agent);
+        var team0 = Team.IMPERIAL;
+        var agentName0 = "Imperial Agent";
+        var squadBuilder0 = CoreSetImperialSquadBuilder;
+        var agent0 = new SimpleAgent(agentName0, team0, squadBuilder0);
+        var squad0 = squadBuilder0.buildSquad(agent0);
 
         var element = React.createElement(SquadUI,
         {
-            squad: squad,
+            squad: squad0,
+            isEditable: true,
             removeFunction: removeActionPerformed
         });
-        React.render(element, document.getElementById("squadPanel"));
+        React.render(element, document.getElementById("squadPanel0"));
+
+        var team1 = Team.REBEL;
+        var agentName1 = "Rebel Agent";
+        var squadBuilder1 = CoreSetRebelSquadBuilder;
+        var agent1 = new SimpleAgent(agentName1, team1, squadBuilder1);
+        var squad1 = squadBuilder1.buildSquad(agent1);
+
+        var element = React.createElement(SquadUI,
+        {
+            squad: squad1,
+            removeFunction: removeActionPerformed
+        });
+        React.render(element, document.getElementById("squadPanel1"));
 
         function removeActionPerformed(selected, event)
         {
