@@ -40,8 +40,9 @@
 <script>
     QUnit.test("CoreSetImperialSquadBuilder buildSquad()", function(assert)
     {
-        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
-        var result = CoreSetImperialSquadBuilder.buildSquad(agent);
+        var squadBuilder = SquadBuilders[0];
+        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, squadBuilder);
+        var result = squadBuilder.buildSquad(agent);
         assert.equal(result.length, 2);
 
         assert.equal(result[0].getPilot(), Pilot.MAULER_MITHEL);
@@ -55,20 +56,30 @@
 
     QUnit.test("CoreSetImperialSquadBuilder getDescription()", function(assert)
     {
-        var result = CoreSetImperialSquadBuilder.getDescription();
+        var squadBuilder = SquadBuilders[0];
+        var result = squadBuilder.getDescription();
         assert.equal(result, "TIE Fighters x2");
     });
 
     QUnit.test("CoreSetImperialSquadBuilder getName()", function(assert)
     {
-        var result = CoreSetImperialSquadBuilder.getName();
-        assert.equal(result, "Core Set Imperial: 36 Points");
+        var squadBuilder = SquadBuilders[0];
+        var result = squadBuilder.getName();
+        assert.equal(result, "Core Set: 36 Points");
+    });
+
+    QUnit.test("CoreSetImperialSquadBuilder toString()", function(assert)
+    {
+        var squadBuilder = SquadBuilders[0];
+        var result = squadBuilder.toString();
+        assert.equal(result, "2012 Core Set: 36 Points (TIE Fighters x2)");
     });
 
     QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
     {
-        var agent = new HumanAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
-        var result = CoreSetRebelSquadBuilder.buildSquad(agent);
+        var squadBuilder = SquadBuilders[1];
+        var agent = new HumanAgent("Rebel Agent", Team.REBEL, squadBuilder, new ImageUtilities());
+        var result = squadBuilder.buildSquad(agent);
         assert.equal(result.length, 1);
 
         assert.equal(result[0].getPilot(), Pilot.LUKE_SKYWALKER);
@@ -77,14 +88,44 @@
 
     QUnit.test("CoreSetRebelSquadBuilder getDescription()", function(assert)
     {
-        var result = CoreSetRebelSquadBuilder.getDescription();
+        var squadBuilder = SquadBuilders[1];
+        var result = squadBuilder.getDescription();
         assert.equal(result, "X-Wing");
     });
 
     QUnit.test("CoreSetRebelSquadBuilder getName()", function(assert)
     {
-        var result = CoreSetRebelSquadBuilder.getName();
-        assert.equal(result, "Core Set Rebel: 36 Points");
+        var squadBuilder = SquadBuilders[1];
+        var result = squadBuilder.getName();
+        assert.equal(result, "Core Set: 36 Points");
+    });
+
+    QUnit.test("CoreSetRebelSquadBuilder toString()", function(assert)
+    {
+        var squadBuilder = SquadBuilders[1];
+        var result = squadBuilder.toString();
+        assert.equal(result, "2012 Core Set: 36 Points (X-Wing)");
+    });
+
+    QUnit.test("SquadBuilder.findByTeam() Imperial", function(assert)
+    {
+        var result = SquadBuilder.findByTeam(Team.IMPERIAL);
+        assert.ok(result);
+        assert.equal(result.length, 6);
+    });
+
+    QUnit.test("SquadBuilder.findByTeam() Rebel", function(assert)
+    {
+        var result = SquadBuilder.findByTeam(Team.REBEL);
+        assert.ok(result);
+        assert.equal(result.length, 10);
+    });
+
+    QUnit.test("SquadBuilder.findByTeam() Scum", function(assert)
+    {
+        var result = SquadBuilder.findByTeam(Team.SCUM);
+        assert.ok(result);
+        assert.equal(result.length, 1);
     });
 </script>
 </head>
