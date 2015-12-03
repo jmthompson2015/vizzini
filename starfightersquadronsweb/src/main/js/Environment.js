@@ -105,8 +105,7 @@ function Environment(teams)
         if (damageDeck.length == 0)
         {
             // Replenish the damage deck from the discard pile.
-            LOGGER.debug("Damage deck empty. Shuffling "
-                    + damageDiscardPile.size() + " discards into damage deck.");
+            LOGGER.debug("Damage deck empty. Shuffling " + damageDiscardPile.size() + " discards into damage deck.");
             Array.prototype.push.apply(damageDeck, damageDiscardPile);
             damageDiscardPile = [];
             damageDeck.vizziniShuffle();
@@ -196,7 +195,10 @@ function Environment(teams)
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position.
+     * @param attacker Attacker.
+     * 
+     * @param attackerPosition Attacker position.
+     * 
      * @param weapon Weapon.
      * 
      * @return targetable defenders.
@@ -217,21 +219,24 @@ function Environment(teams)
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position.
-     * @param weapon Weapon. @param range Range.
+     * @param attacker Attacker.
+     * 
+     * @param attackerPosition Attacker position.
+     * 
+     * @param weapon Weapon.
+     * 
+     * @param range Range.
      * 
      * @return tokens belonging to the opposite team at range.
      */
-    this.getTargetableDefendersAtRange = function(attacker, attackerPosition,
-            weapon, range)
+    this.getTargetableDefendersAtRange = function(attacker, attackerPosition, weapon, range)
     {
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("attackerPosition", attackerPosition);
         InputValidator.validateNotNull("weapon", weapon);
         InputValidator.validateNotNull("range", range);
 
-        var answer = this.getTargetableDefenders(attacker, attackerPosition,
-                weapon);
+        var answer = this.getTargetableDefenders(attacker, attackerPosition, weapon);
         LOGGER.trace("0 targetable defenders = " + answer);
         filterAtRange(attacker, attackerPosition, answer, range);
         LOGGER.trace("1 targetable defenders = " + answer);
@@ -402,6 +407,7 @@ function Environment(teams)
         imperialAgent = agents[0];
         rebelAgent = agents[1];
 
+        Token.resetNextId();
         var imperialSquad = imperialAgent.buildSquad();
         var rebelSquad = rebelAgent.buildSquad();
 
@@ -449,16 +455,20 @@ function Environment(teams)
 
         for (position in positionToToken)
         {
-            answer += position.toString() + " "
-                    + positionToToken[position].toString() + "\n";
+            answer += position.toString() + " " + positionToToken[position].toString() + "\n";
         }
 
         return answer;
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position.
-     * @param defenders Collection to filter. @param range Range.
+     * @param attacker Attacker.
+     * 
+     * @param attackerPosition Attacker position.
+     * 
+     * @param defenders Collection to filter.
+     * 
+     * @param range Range.
      */
     function filterAtRange(attacker, attackerPosition, defenders, range)
     {
@@ -471,8 +481,7 @@ function Environment(teams)
         {
             var defender = defenders[i];
             var defenderPosition = that.getPositionFor(defender);
-            var r = rangeRuler.getRange(attacker, attackerPosition, defender,
-                    defenderPosition);
+            var r = rangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
 
             if (r != range)
             {
@@ -483,8 +492,13 @@ function Environment(teams)
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position.
-     * @param weapon Weapon. @param defenders Collection to filter.
+     * @param attacker Attacker.
+     * 
+     * @param attackerPosition Attacker position.
+     * 
+     * @param weapon Weapon.
+     * 
+     * @param defenders Collection to filter.
      */
     function filterTargetable(attacker, attackerPosition, weapon, defenders)
     {
@@ -498,8 +512,7 @@ function Environment(teams)
             var defender = defenders[i];
             var defenderPosition = that.getPositionFor(defender);
 
-            if (!isTargetable(attacker, attackerPosition, weapon, defender,
-                    defenderPosition))
+            if (!isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition))
             {
                 defenders.splice(i, 1);
                 i--;
@@ -508,11 +521,12 @@ function Environment(teams)
     }
 
     /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
+     * Report a bound property update to any registered listeners. No event is fired if old and new are equal and
+     * non-null.
      * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
+     * @param oldValue The old value of the property.
+     * 
+     * @param newValue The new value of the property.
      */
     function fireActiveTokenChange(oldValue, newValue)
     {
@@ -523,11 +537,12 @@ function Environment(teams)
     }
 
     /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
+     * Report a bound property update to any registered listeners. No event is fired if old and new are equal and
+     * non-null.
      * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
+     * @param oldValue The old value of the property.
+     * 
+     * @param newValue The new value of the property.
      */
     function firePhaseChange(oldValue, newValue)
     {
@@ -540,11 +555,12 @@ function Environment(teams)
     }
 
     /*
-     * Report a bound property update to any registered listeners. No event is
-     * fired if old and new are equal and non-null.
+     * Report a bound property update to any registered listeners. No event is fired if old and new are equal and
+     * non-null.
      * 
-     * @param oldValue The old value of the property. @param newValue The new
-     * value of the property.
+     * @param oldValue The old value of the property.
+     * 
+     * @param newValue The new value of the property.
      */
     function fireRoundChange(oldValue, newValue)
     {
@@ -598,14 +614,19 @@ function Environment(teams)
     }
 
     /*
-     * @param attacker Attacking token. @param attackerPosition Attacker
-     * position. @param weapon Weapon. @param defender Defending token. @param
-     * defenderPosition Defender position.
+     * @param attacker Attacking token.
+     * 
+     * @param attackerPosition Attacker position.
+     * 
+     * @param weapon Weapon.
+     * 
+     * @param defender Defending token.
+     * 
+     * @param defenderPosition Defender position.
      * 
      * @return true if the defender is vulnerable to the attacker.
      */
-    function isTargetable(attacker, attackerPosition, weapon, defender,
-            defenderPosition)
+    function isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition)
     {
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("attackerPosition", attackerPosition);
@@ -622,8 +643,7 @@ function Environment(teams)
         // + isTouching(attacker, defender));
         // }
 
-        return weapon.isDefenderTargetable(attacker, attackerPosition,
-                defender, defenderPosition)
+        return weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition)
                 && !isTouching(attacker, defender);
     }
 
@@ -691,10 +711,8 @@ function Environment(teams)
 Environment.createCoreSetEnvironment = function()
 {
     // Create initial agents and tokens.
-    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-            CoreSetImperialSquadBuilder);
-    var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL,
-            CoreSetRebelSquadBuilder, new ImageUtilities());
+    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+    var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
     var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
 
     var answer = new Environment(teams);
@@ -707,10 +725,8 @@ Environment.createCoreSetEnvironment = function()
 Environment.createJmtEnvironment = function()
 {
     // Create initial agents and tokens.
-    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-            JMTImperialSquadBuilder);
-    var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL,
-            JMTRebelSquadBuilder, new ImageUtilities());
+    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, JMTImperialSquadBuilder);
+    var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, JMTRebelSquadBuilder, new ImageUtilities());
     var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
 
     var answer = new Environment(teams);
