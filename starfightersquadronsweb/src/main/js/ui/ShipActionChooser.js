@@ -9,6 +9,8 @@ var ShipActionChooser = React.createClass(
 {
     getInitialState: function()
     {
+        var shipActions = this.props.shipActions;
+
         return (
         {
             selected: (shipActions.length > 0 ? shipActions[0] : undefined),
