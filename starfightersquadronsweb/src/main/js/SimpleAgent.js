@@ -7,63 +7,9 @@ function SimpleAgent(name, team, squadBuilder)
     InputValidator.validateNotNull("team", team);
     InputValidator.validateNotNull("squadBuilder", squadBuilder);
 
-    this.buildSquad = function()
-    {
-        return squadBuilder.buildSquad(this);
-    }
-
-    this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
-    {
-        InputValidator.validateNotNull("environment", environment);
-        InputValidator.validateNotNull("adjudicator", adjudicator);
-        InputValidator.validateNotNull("attacker", attacker);
-        InputValidator.validateNotNull("callback", callback);
-
-        var weapon;
-        var defender;
-
-        var attackerPosition = environment.getPositionFor(attacker);
-
-        if (attackerPosition)
-        {
-            var myWeapon = attacker.getPrimaryWeapon();
-
-            for (var i = 0; i < Range.values.length; i++)
-            {
-                var range = Range.values[i];
-                var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, myWeapon,
-                        range);
-
-                if (rangeDefenders.length > 0)
-                {
-                    var myDefender = rangeDefenders.vizziniRandomElement();
-
-                    if (myDefender)
-                    {
-                        var defenderPosition = environment.getPositionFor(myDefender);
-
-                        if (defenderPosition)
-                        {
-                            weapon = myWeapon;
-                            defender = myDefender;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        callback(weapon, defender);
-    }
-
     this.getName = function()
     {
         return name;
-    }
-
-    this.getSquadBuilder = function()
-    {
-        return squadBuilder;
     }
 
     this.getTeam = function()
@@ -71,74 +17,122 @@ function SimpleAgent(name, team, squadBuilder)
         return team;
     }
 
-    /*
-     * @param environment Environment.
-     * 
-     * @param adjudicator Adjudicator.
-     * 
-     * @return a new action.
-     */
-    this.getPlanningAction = function(environment, adjudicator, callback)
+    this.getSquadBuilder = function()
     {
-        InputValidator.validateNotNull("environment", environment);
-        InputValidator.validateNotNull("adjudicator", adjudicator);
-        InputValidator.validateNotNull("callback", callback);
+        return squadBuilder;
+    }
+}
 
-        var tokens = environment.getTokensForTeam(team);
-        var tokenToManeuver = {};
+SimpleAgent.prototype.buildSquad = function()
+{
+    return this.getSquadBuilder().buildSquad(this);
+}
 
-        for (i = 0; i < tokens.length; i++)
+SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
+{
+    InputValidator.validateNotNull("environment", environment);
+    InputValidator.validateNotNull("adjudicator", adjudicator);
+    InputValidator.validateNotNull("attacker", attacker);
+    InputValidator.validateNotNull("callback", callback);
+
+    var weapon;
+    var defender;
+
+    var attackerPosition = environment.getPositionFor(attacker);
+
+    if (attackerPosition)
+    {
+        var myWeapon = attacker.getPrimaryWeapon();
+        var values = Range.values();
+
+        for (var i = 0; i < values.length; i++)
         {
-            var token = tokens[i];
-            var fromPosition = environment.getPositionFor(token);
-            var shipBase = token.getShipBase();
-            var maneuvers = token.getManeuvers();
+            var range = values[i];
+            var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, myWeapon, range);
 
-            // Find a maneuver which keeps the ship on the battlefield.
-            var maneuver;
-            maneuvers.vizziniShuffle();
-
-            for (var j = 0; j < maneuvers.length; j++)
+            if (rangeDefenders.length > 0)
             {
-                var candidate = maneuvers[j];
-                var toPosition = Maneuver.computeToPosition(candidate, fromPosition, shipBase);
+                var myDefender = rangeDefenders.vizziniRandomElement();
 
-                if (toPosition && Position.isInPlayArea(toPosition.getX(), toPosition.getY()))
+                if (myDefender)
                 {
-                    LOGGER.trace("toPosition = " + toPosition + " for " + token);
-                    maneuver = candidate;
-                    break;
+                    var defenderPosition = environment.getPositionFor(myDefender);
+
+                    if (defenderPosition)
+                    {
+                        weapon = myWeapon;
+                        defender = myDefender;
+                        break;
+                    }
                 }
             }
+        }
+    }
 
-            LOGGER.trace("0 maneuver = " + maneuver + " for " + token);
+    callback(weapon, defender);
+}
 
-            if (!maneuver)
-            {
-                maneuver = maneuvers.vizziniRandomElement();
-                LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
-            }
+SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender)
+{
+// TODO: implement getModifyAttackDiceAction
+}
 
-            if (maneuver)
-            {
-                tokenToManeuver[token] = maneuver;
-            }
+SimpleAgent.prototype.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender,
+        defenseDice)
+{
+// TODO: implement getModifyDefenseDiceAction
+}
+
+/*
+ * @param environment Environment.
+ * 
+ * @param adjudicator Adjudicator.
+ * 
+ * @return a new action.
+ */
+SimpleAgent.prototype.getPlanningAction = function(environment, adjudicator, callback)
+{
+    InputValidator.validateNotNull("environment", environment);
+    InputValidator.validateNotNull("adjudicator", adjudicator);
+    InputValidator.validateNotNull("callback", callback);
+
+    var team = this.getTeam();
+    var tokens = environment.getTokensForTeam(team);
+    var tokenToManeuver = {};
+
+    tokens.forEach(function(token)
+    {
+        var fromPosition = environment.getPositionFor(token);
+        var shipBase = token.getShipBase();
+        var maneuvers = token.getManeuvers();
+        LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
+
+        // Find the maneuvers which keep the ship on the battlefield.
+        var validManeuvers = maneuvers.filter(function(maneuver)
+        {
+            var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
+
+            return (toPosition && Position.isInPlayArea(toPosition.getX(), toPosition.getY()));
+        });
+
+        LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
+        var maneuver = validManeuvers.vizziniRandomElement();
+
+        LOGGER.trace("0 maneuver = " + maneuver + " for " + token);
+
+        if (!maneuver)
+        {
+            // Ship fled the battlefield.
+            maneuver = maneuvers.vizziniRandomElement();
+            LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
         }
 
-        var answer = new PlanningAction(environment, this, tokenToManeuver);
+        tokenToManeuver[token] = maneuver;
+    });
 
-        callback(answer);
-    }
+    var answer = new PlanningAction(environment, this, tokenToManeuver);
 
-    this.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender)
-    {
-    // FIXME
-    }
-
-    this.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender, defenseDice)
-    {
-    // FIXME
-    }
+    callback(answer);
 }
 
 SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback)
