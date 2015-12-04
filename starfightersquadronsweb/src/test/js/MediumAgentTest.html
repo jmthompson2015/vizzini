@@ -1,0 +1,258 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MediumAgentTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<script src="../../main/js/Phase.js"></script>
+<script src="../../main/js/Team.js"></script>
+<script src="../../main/js/FiringArc.js"></script>
+<script src="../../main/js/Bearing.js"></script>
+<script src="../../main/js/Difficulty.js"></script>
+<script src="../../main/js/Maneuver.js"></script>
+<script src="../../main/js/ShipAction.js"></script>
+<script src="../../main/js/ShipBase.js"></script>
+<script src="../../main/js/Path.js"></script>
+<script src="../../main/js/RectanglePath.js"></script>
+<script src="../../main/js/Ship.js"></script>
+<script src="../../main/js/ShipTeam.js"></script>
+<script src="../../main/js/Range.js"></script>
+<script src="../../main/js/RangeRuler.js"></script>
+<script src="../../main/js/Weapon.js"></script>
+<script src="../../main/js/TurretWeapon.js"></script>
+<script src="../../main/js/ShipState.js"></script>
+<script src="../../main/js/UpgradeRestriction.js"></script>
+<script src="../../main/js/UpgradeType.js"></script>
+<script src="../../main/js/UpgradeCard.js"></script>
+<script src="../../main/js/Pilot.js"></script>
+<script src="../../main/js/Position.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
+<script src="../../main/js/Environment.js"></script>
+<script src="../../main/js/Adjudicator.js"></script>
+<script src="../../main/js/DamageCard.js"></script>
+<script src="../../main/js/Token.js"></script>
+<script src="../../main/js/PlanningAction.js"></script>
+<script src="../../main/js/SimpleAgent.js"></script>
+<script src="../../main/js/MediumAgent.js"></script>
+
+<script src="../../main/js/ui/HumanAgent.js"></script>
+<script src="../../main/js/ui/ImageUtilities.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit.test("properties", function(assert)
+    {
+        // Setup.
+        var result = new MediumAgent("myAgent", "myTeam", "mySquadBuilder");
+
+        // Run / Verify.
+        assert.equal(result.getName(), "myAgent");
+        assert.equal(result.getTeam(), "myTeam");
+        assert.equal(result.getSquadBuilder(), "mySquadBuilder");
+    });
+
+    QUnit.test("buildSquad() Imperial", function(assert)
+    {
+        // Setup.
+        var agent = new MediumAgent("myAgent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        Token.resetNextId();
+
+        // Run.
+        var result = agent.buildSquad();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 2);
+        assert.equal(result[0].getName(), "1 \"Mauler Mithel\" (TIE Fighter)");
+        assert.equal(result[1].getName(), "2 \"Dark Curse\" (TIE Fighter)");
+    });
+
+    QUnit.test("buildSquad() Rebel", function(assert)
+    {
+        // Setup.
+        var agent = new MediumAgent("myAgent", Team.REBEL, CoreSetRebelSquadBuilder);
+        Token.resetNextId();
+
+        // Run.
+        var result = agent.buildSquad();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 1);
+        assert.equal(result[0].getName(), "1 Luke Skywalker (X-Wing)");
+    });
+
+    QUnit.test("getPlanningAction() Imperial", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment("MediumAgent");
+        var adjudicator = new Adjudicator();
+        var agent = new MediumAgent("myAgent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+
+        var position0 = new Position(305, 20, 90);
+        var token0 = environment.getTokenAt(position0);
+
+        var position1 = new Position(610, 20, 90);
+        var token1 = environment.getTokenAt(position1);
+
+        var position2 = new Position(458, 895, -90);
+        var token2 = environment.getTokenAt(position2);
+
+        var result;
+        var caller = {};
+        function callback(planningAction)
+        {
+            LOGGER.info("callback()");
+            result = planningAction;
+
+            // Verify.
+            assert.ok(result);
+            assert.ok(result.getManeuver(token0));
+            assert.ok(result.getManeuver(token1));
+            assert.ok(!result.getManeuver(token2));
+        }
+
+        // Run.
+        agent.getPlanningAction(environment, adjudicator, callback);
+    });
+
+    QUnit.test("getPlanningAction() Rebel", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var name = "myAgent";
+        var team = Team.REBEL;
+        var squadBuilder = CoreSetRebelSquadBuilder;
+        var agent = new MediumAgent(name, team, squadBuilder);
+
+        var position0 = new Position(305, 20, 90);
+        var token0 = environment.getTokenAt(position0);
+        var maneuver0 = Maneuver.STRAIGHT_1_STANDARD;
+
+        var position1 = new Position(610, 20, 90);
+        var token1 = environment.getTokenAt(position1);
+        var maneuver1 = Maneuver.STRAIGHT_1_STANDARD;
+
+        var position2 = new Position(458, 895, -90);
+        var token2 = environment.getTokenAt(position2);
+        var maneuver2 = Maneuver.STRAIGHT_1_STANDARD;
+
+        var result;
+        var caller = {};
+        function callback(planningAction)
+        {
+            LOGGER.info("callback()");
+            result = planningAction;
+
+            // Verify.
+            assert.ok(result);
+            assert.ok(!result.getManeuver(token0));
+            assert.ok(!result.getManeuver(token1));
+            assert.ok(result.getManeuver(token2), maneuver2);
+        }
+
+        // Run.
+        agent.getPlanningAction(environment, adjudicator, callback);
+    });
+
+    QUnit.test("getPlanningAction() Rebel 2", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var agent = new MediumAgent("myAgent", Team.REBEL, CoreSetRebelSquadBuilder);
+
+        var oldPosition = new Position(458, 895, -90);
+        var newPosition = new Position(15, 80, -90);
+        var token = environment.getTokenAt(oldPosition);
+        environment.removeToken(oldPosition);
+        environment.placeToken(newPosition, token);
+
+        function callback(planningAction)
+        {
+            // Verify.
+            assert.ok(planningAction);
+            assert.ok(planningAction.getManeuver(token));
+            assert.equal(planningAction.getManeuver(token), Maneuver.STRAIGHT_1_EASY);
+        }
+
+        // Run.
+        agent.getPlanningAction(environment, adjudicator, callback);
+    });
+
+    QUnit.test("chooseWeaponAndDefender() Imperial", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var name = "myAgent";
+        var team = Team.IMPERIAL;
+        var squadBuilder = CoreSetImperialSquadBuilder;
+        var agent = new MediumAgent(name, team, squadBuilder);
+
+        var oldPosition0 = new Position(305, 20, 90);
+        var token0 = environment.getTokenAt(oldPosition0);
+        var position0 = new Position(458, 795, 90);
+        environment.removeToken(oldPosition0);
+        environment.placeToken(position0, token0);
+
+        var position1 = new Position(610, 20, 90);
+        var token1 = environment.getTokenAt(position1);
+
+        var position2 = new Position(458, 895, -90);
+        var token2 = environment.getTokenAt(position2);
+
+        LOGGER.info("token0 = " + token0);
+        LOGGER.info("token1 = " + token1);
+        LOGGER.info("token2 = " + token2);
+
+        var result;
+        var caller = {};
+        function callback(weapon, defender)
+        {
+            LOGGER.info("callback() weapon = " + weapon + " defender = " + defender);
+
+            // Verify.
+            assert.ok(weapon);
+            assert.equal(weapon, token0.getPrimaryWeapon());
+            assert.ok(defender);
+            assert.equal(defender, token2);
+        }
+
+        // Run.
+        agent.chooseWeaponAndDefender(environment, adjudicator, token0, callback);
+    });
+
+    QUnit.test("toString()", function(assert)
+    {
+        // Setup.
+        var agent = new MediumAgent("myAgent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+
+        // Run.
+        var result = agent.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "myAgent, MediumAgent, imperial, Core Set: 36 Points");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>
