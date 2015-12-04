@@ -3,6 +3,10 @@
  */
 function PlanningAction(environment, agent, tokenToManeuver)
 {
+    InputValidator.validateNotNull("environment", environment);
+    InputValidator.validateNotNull("agent", agent);
+    InputValidator.validateNotNull("tokenToManeuver", tokenToManeuver);
+
     /*
      * @param token Token.
      * 
@@ -16,5 +20,10 @@ function PlanningAction(environment, agent, tokenToManeuver)
     this.getTeam = function()
     {
         return agent.getTeam();
+    }
+
+    this.getTokenToManeuver = function()
+    {
+        return tokenToManeuver;
     }
 }
