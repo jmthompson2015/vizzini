@@ -48,13 +48,11 @@ function ImageUtilities()
             var bearingName = bearing.replace(/L/g, "_l");
             bearingName = bearingName.replace(/R/g, "_r");
             bearingName = bearingName.replace("kTurn", "koiogran_turn");
-            answer = getPath() + "resources/images/maneuver/" + bearingName
-                    + "_" + difficulty + "16.png";
+            answer = getPath() + "resources/images/maneuver/" + bearingName + "_" + difficulty + "16.png";
         }
         else
         {
-            answer = getPath() + "resources/images/maneuver/stationary_"
-                    + difficulty + "16.png";
+            answer = getPath() + "resources/images/maneuver/stationary_" + difficulty + "16.png";
         }
 
         return answer;
@@ -73,8 +71,8 @@ function ImageUtilities()
         var bearingName = bearing.replace(/L/g, "_l");
         bearingName = bearingName.replace(/R/g, "_r");
         bearingName = bearingName.replace("kTurn", "koiogran_turn");
-        var answer = "<img src='" + getPath() + "resources/images/maneuver/"
-                + bearingName + "_" + difficulty + "16.png'/>";
+        var answer = "<img src='" + getPath() + "resources/images/maneuver/" + bearingName + "_" + difficulty
+                + "16.png'/>";
         return answer;
     }
 
@@ -97,19 +95,28 @@ function ImageUtilities()
     this.createTeamIconString = function(teamName)
     {
         var filename = teamName + "Icon24.png";
-        var answer = "<img title='" + teamName + " Faction' src='" + getPath()
-                + "resources/images/" + filename + "'/>";
+        var answer = "<img title='" + teamName + " Faction' src='" + getPath() + "resources/images/" + filename + "'/>";
 
         return answer;
     }
 
     this.getTeamColor = function(token)
     {
-        var answer = "rgb(0, 255, 0)";
+        var answer;
 
-        if (token.getTeam() == Team.REBEL)
+        switch (token.getTeam())
         {
+        case Team.IMPERIAL:
+            answer = "rgb(0, 255, 0)";
+            break;
+        case Team.REBEL:
             answer = "red";
+            break;
+        case Team.SCUM:
+            answer = "rgb(255, 215, 0)";
+            break;
+        default:
+            throw "Unknown team: " + token.getTeam();
         }
 
         return answer;

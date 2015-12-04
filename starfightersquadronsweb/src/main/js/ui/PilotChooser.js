@@ -230,7 +230,7 @@ var PilotChooser = React.createClass(
     createToken: function(pilot)
     {
         var team = this.props.team;
-        var agentName = (team === Team.IMPERIAL) ? "Imperial Agent" : "Rebel Agent";
+        var agentName = Team.properties[team].name + " Agent";
         var squadBuilder = (team === Team.IMPERIAL) ? CoreSetImperialSquadBuilder : CoreSetRebelSquadBuilder;
         var agent = new SimpleAgent(agentName, team, squadBuilder);
 

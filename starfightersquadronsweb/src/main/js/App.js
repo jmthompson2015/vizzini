@@ -36,9 +36,9 @@ function startNewGame(agents)
 
 function updateSizes()
 {
-    var imperialPilots = document.getElementById("imperialPilots");
-    var rebelPilots = document.getElementById("rebelPilots");
-    var newWidth = window.innerWidth - imperialPilots.offsetWidth - rebelPilots.offsetWidth;
+    var firstPilots = document.getElementById("firstPilots");
+    var secondPilots = document.getElementById("secondPilots");
+    var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
 
     var ssPanel = document.getElementById("ssPanel");
     var messageArea = document.getElementById("messageArea");

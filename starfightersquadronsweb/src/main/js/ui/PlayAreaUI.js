@@ -51,13 +51,11 @@ function ManeuverUI(maneuver, fromPosition, shipBase)
 {
     var FOREGROUND_COLOR = "white";
 
-    var toPosition = Maneuver.computeToPosition(maneuver, fromPosition,
-            shipBase);
+    var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
     var fromPolygon = Maneuver.computeFromPolygon(fromPosition, shipBase);
     var path = Maneuver.computePath(maneuver, fromPosition, shipBase);
-    var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition,
-            shipBase);
+    var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition, shipBase);
 
     this.paintComponent = function(context)
     {
@@ -67,8 +65,7 @@ function ManeuverUI(maneuver, fromPosition, shipBase)
         context.fillStyle = FOREGROUND_COLOR;
         var radius = 4;
         context.beginPath();
-        context.arc(fromPosition.getX(), fromPosition.getY(), radius, 0,
-                2 * Math.PI);
+        context.arc(fromPosition.getX(), fromPosition.getY(), radius, 0, 2 * Math.PI);
         context.fill();
 
         // Draw from ship base.
@@ -156,8 +153,7 @@ function PlayAreaUI(environment, imageUtils)
             {
                 var strokeStyle = imageUtils.getTeamColor(attacker);
                 var audioClip = getLaserAudioClip(attacker);
-                answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle,
-                        audioClip);
+                answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip);
             }
         }
 
@@ -310,7 +306,7 @@ function PlayAreaUI(environment, imageUtils)
 
         var ship = token.getShip();
 
-        if (ship === Ship.YT_1300)
+        if (ship === Ship.YT_1300 || ship === Ship.YT_2400)
         {
             answer = document.getElementById("millenniumFalconLaserAudio");
         }
@@ -356,10 +352,7 @@ function PlayAreaUI(environment, imageUtils)
 
         function timerExpired()
         {
-            if (callbackFired)
-            {
-                return;
-            }
+            if (callbackFired) { return; }
 
             callbackFired = true;
             callback();

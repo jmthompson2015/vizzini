@@ -6,20 +6,18 @@ function EnvironmentUI(engine, environment)
     var imageUtils = new ImageUtilities();
     var ssPanel = new SSPanel(environment);
     var playAreaUI = new PlayAreaUI(environment, imageUtils);
-    var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
+    var firstTokens = environment.getTokensForTeam(environment.getFirstTeam());
     var element = React.createElement(PilotsUI,
     {
-        initialTokens: imperialTokens
+        initialTokens: firstTokens
     });
-    var imperialPilots = React.render(element, document
-            .getElementById("imperialPilots"));
-    var rebelTokens = environment.getTokensForTeam(Team.REBEL);
+    var firstPilots = React.render(element, document.getElementById("firstPilots"));
+    var secondTokens = environment.getTokensForTeam(environment.getSecondTeam());
     var element = React.createElement(PilotsUI,
     {
-        initialTokens: rebelTokens
+        initialTokens: secondTokens
     });
-    var rebelPilots = React.render(element, document
-            .getElementById("rebelPilots"));
+    var secondPilots = React.render(element, document.getElementById("secondPilots"));
     var scale = 1.0;
 
     environment.addPhaseListener(this);
@@ -42,27 +40,23 @@ function EnvironmentUI(engine, environment)
         case Phase.ACTIVATION_EXECUTE_MANEUVER:
             // Draw maneuver.
             var maneuverAction = activeToken.getManeuverAction();
-            var playState = new PlayState(round, phase, activeToken,
-                    tokenPositions, maneuverAction);
+            var playState = new PlayState(round, phase, activeToken, tokenPositions, maneuverAction);
             repaint(playState);
             break;
         case Phase.ACTIVATION_END:
             // End of Activation Phase: clear maneuver widgets.
-            var playState = new PlayState(round, phase, activeToken,
-                    tokenPositions);
+            var playState = new PlayState(round, phase, activeToken, tokenPositions);
             repaint(playState);
             break;
         case Phase.COMBAT_DEAL_DAMAGE:
             // Draw laser beam.
             var combatAction = activeToken.getCombatAction();
-            var playState = PlayState.createCombat(round, phase, activeToken,
-                    tokenPositions, combatAction);
+            var playState = PlayState.createCombat(round, phase, activeToken, tokenPositions, combatAction);
             repaint(playState);
             break;
         case Phase.COMBAT_END:
             // End of Combat Phase: clear laser beam and explosion widgets.
-            var playState = new PlayState(round, phase, activeToken,
-                    tokenPositions);
+            var playState = new PlayState(round, phase, activeToken, tokenPositions);
             repaint(playState);
             break;
         }
@@ -87,8 +81,7 @@ function EnvironmentUI(engine, environment)
         var phase = myEnvironment.getPhase();
         var activeToken = myEnvironment.getActiveToken();
         var tokenPositions = PlayState.createTokenPositions(myEnvironment);
-        var playState = PlayState.createShipDestroyed(round, phase,
-                activeToken, tokenPositions, shipDestroyedAction);
+        var playState = PlayState.createShipDestroyed(round, phase, activeToken, tokenPositions, shipDestroyedAction);
         repaint(playState);
     }
 
@@ -99,8 +92,7 @@ function EnvironmentUI(engine, environment)
         var phase = myEnvironment.getPhase();
         var activeToken = myEnvironment.getActiveToken();
         var tokenPositions = PlayState.createTokenPositions(myEnvironment);
-        var playState = PlayState.createShipFled(round, phase, activeToken,
-                tokenPositions, shipFledAction);
+        var playState = PlayState.createShipFled(round, phase, activeToken, tokenPositions, shipFledAction);
         repaint(playState);
     }
 
@@ -122,8 +114,7 @@ function EnvironmentUI(engine, environment)
         var phase = myEnvironment.getPhase();
         var activeToken = myEnvironment.getActiveToken();
         var tokenPositions = PlayState.createTokenPositions(myEnvironment);
-        var playState = PlayState.createWinner(round, phase, activeToken,
-                tokenPositions, winner);
+        var playState = PlayState.createWinner(round, phase, activeToken, tokenPositions, winner);
         repaint(playState);
     }
 
@@ -150,26 +141,26 @@ function EnvironmentUI(engine, environment)
             {
                 var token = shipFledAction.getToken();
                 message = "Ship fled the battlefield: " + token;
-                imperialPilots.setState(
+                firstPilots.setState(
                 {
-                    tokens: environment.getTokensForTeam(Team.IMPERIAL)
+                    tokens: environment.getTokensForTeam(environment.getFirstTeam()),
                 });
-                rebelPilots.setState(
+                secondPilots.setState(
                 {
-                    tokens: environment.getTokensForTeam(Team.REBEL)
+                    tokens: environment.getTokensForTeam(environment.getSecondTeam()),
                 });
             }
             else if (shipDestroyedAction)
             {
                 var token = shipDestroyedAction.getToken();
                 message = "Ship destroyed: " + token;
-                imperialPilots.setState(
+                firstPilots.setState(
                 {
-                    tokens: environment.getTokensForTeam(Team.IMPERIAL)
+                    tokens: environment.getTokensForTeam(environment.getFirstTeam()),
                 });
-                rebelPilots.setState(
+                secondPilots.setState(
                 {
-                    tokens: environment.getTokensForTeam(Team.REBEL)
+                    tokens: environment.getTokensForTeam(environment.getSecondTeam()),
                 });
             }
             else if (combatAction)
