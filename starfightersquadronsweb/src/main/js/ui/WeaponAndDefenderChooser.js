@@ -5,10 +5,22 @@ var WeaponAndDefenderChooser = React.createClass(
 {
     getInitialState: function()
     {
+        var weapon;
+        var defender;
+
+        var choices = this.props.choices;
+
+        if (choices.length > 0)
+        {
+            weapon = choices[0].weapon;
+            var rangeAndTokens = choices[0].rangeAndTokens;
+            defender = rangeAndTokens[0].tokens[0];
+        }
+
         return (
         {
-            weapon: undefined,
-            defender: undefined
+            weapon: weapon,
+            defender: defender
         });
     },
 
@@ -19,6 +31,8 @@ var WeaponAndDefenderChooser = React.createClass(
         {
             className: "attackerLabel"
         }, "Attacker: " + attacker.getName());
+        var selectedWeapon = this.state.weapon;
+        var selectedDefender = this.state.defender;
         var choices = this.props.choices;
         var self = this;
 
@@ -66,6 +80,7 @@ var WeaponAndDefenderChooser = React.createClass(
                         {
                             key: 0,
                             type: "radio",
+                            defaultChecked: (weapon === selectedWeapon && token === selectedDefender),
                             onClick: self.selectionChanged,
                             name: weaponName,
                             "data-weapon-name": weaponName,
@@ -122,8 +137,7 @@ var WeaponAndDefenderChooser = React.createClass(
         LOGGER.debug("selectionChanged()");
         var weaponName = event.currentTarget.dataset.weaponName;
         var defenderId = event.currentTarget.dataset.defenderId;
-        LOGGER.debug("weaponName = " + weaponName + " defenderId = "
-                + defenderId);
+        LOGGER.debug("weaponName = " + weaponName + " defenderId = " + defenderId);
         var weapon = this.findWeapon(weaponName);
         LOGGER.debug("weapon = " + weapon);
         var defender = this.findDefender(defenderId);
@@ -193,13 +207,17 @@ var WeaponAndDefenderChooser = React.createClass(
 });
 
 /*
- * @param environment Environment. @param attacker Attacker. @param
- * attackerPosition Attacker position. @param weapon Weapon.
+ * @param environment Environment.
+ * 
+ * @param attacker Attacker.
+ * 
+ * @param attackerPosition Attacker position.
+ * 
+ * @param weapon Weapon.
  * 
  * @return a new map of range to defenders.
  */
-WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker,
-        attackerPosition, weapon)
+WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker, attackerPosition, weapon)
 {
     var answer = [];
 
@@ -208,10 +226,8 @@ WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker,
     for (var i = 0; i < values.length; i++)
     {
         var range = values[i];
-        LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() range = "
-                + range);
-        var rangeDefenders = environment.getTargetableDefendersAtRange(
-                attacker, attackerPosition, weapon, range);
+        LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() range = " + range);
+        var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
         LOGGER
                 .trace("WeaponAndDefenderChooser.createRangeAndTokens() rangeDefenders.length = "
                         + rangeDefenders.length);
@@ -234,8 +250,7 @@ WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker,
  * 
  * @return a new map of weapon to range to defenders.
  */
-WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment,
-        attacker)
+WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment, attacker)
 {
     var answer = [];
 
@@ -244,8 +259,8 @@ WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment,
     if (attackerPosition != null)
     {
         var primaryWeapon = attacker.getPrimaryWeapon();
-        var rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(
-                environment, attacker, attackerPosition, primaryWeapon);
+        var rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
+                primaryWeapon);
 
         if (rangeAndTokens.length > 0)
         {
@@ -261,8 +276,8 @@ WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment,
         for (var i = 0; i < weapons.length; i++)
         {
             var weapon = weapons[i];
-            rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(
-                    environment, attacker, attackerPosition, weapon);
+            rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
+                    weapon);
 
             if (rangeAndTokens.length > 0)
             {
