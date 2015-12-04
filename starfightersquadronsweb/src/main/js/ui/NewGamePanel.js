@@ -5,7 +5,7 @@ var NewGamePanel = React.createClass(
 {
     getInitialState: function()
     {
-        var agent1 = new SimpleAgent("Agent 1", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        var agent1 = new MediumAgent("Agent 1", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var imageUtils = new ImageUtilities();
         var agent2 = new HumanAgent("Agent 2", Team.REBEL, CoreSetRebelSquadBuilder, imageUtils);
 
@@ -21,6 +21,7 @@ var NewGamePanel = React.createClass(
         var agentPanel1 = React.createElement(NewGamePanel.AgentPanel,
         {
             agentNumber: 1,
+            initialType: "MediumAgent",
             onChange: this.handleAgentChange,
         });
         var agentPanel2 = React.createElement(NewGamePanel.AgentPanel,
@@ -148,7 +149,7 @@ NewGamePanel.AgentPanel = React.createClass(
             onChange: this.handleNameChange,
         });
 
-        var types = [ "SimpleAgent", "HumanAgent" ];
+        var types = [ "SimpleAgent", "MediumAgent", "HumanAgent" ];
         var typeUI = React.createElement(Select,
         {
             values: types,
@@ -251,6 +252,9 @@ NewGamePanel.AgentPanel = React.createClass(
         {
         case "SimpleAgent":
             answer = new SimpleAgent(name, team, squadBuilder);
+            break;
+        case "MediumAgent":
+            answer = new MediumAgent(name, team, squadBuilder);
             break;
         case "HumanAgent":
             var imageUtils = new ImageUtilities();
