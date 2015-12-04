@@ -708,25 +708,26 @@ function Environment(teams)
     }
 };
 
-Environment.createCoreSetEnvironment = function()
+Environment.createCoreSetEnvironment = function(computerAgentType)
 {
+    var type = (computerAgentType ? computerAgentType : "SimpleAgent");
+
     // Create initial agents and tokens.
-    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+    var imperialAgent;
+
+    switch (type)
+    {
+    case "SimpleAgent":
+        imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        break;
+    case "MediumAgent":
+        imperialAgent = new MediumAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        break;
+    default:
+        throw "Unknown computerAgentType: " + computerAgentType;
+    }
+
     var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, CoreSetRebelSquadBuilder, new ImageUtilities());
-    var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
-
-    var answer = new Environment(teams);
-
-    answer.placeInitialTokens([ imperialAgent, rebelAgent ]);
-
-    return answer;
-}
-
-Environment.createJmtEnvironment = function()
-{
-    // Create initial agents and tokens.
-    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, JMTImperialSquadBuilder);
-    var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, JMTRebelSquadBuilder, new ImageUtilities());
     var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
 
     var answer = new Environment(teams);
