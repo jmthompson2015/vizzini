@@ -8,8 +8,8 @@ function Engine(environment, adjudicator)
 
     var that = this;
     var winnerListeners = [];
-    var imperialPlanningAction;
-    var rebelPlanningAction;
+    var firstPlanningAction;
+    var secondPlanningAction;
 
     var activationQueue = [];
     var combatQueue = [];
@@ -31,8 +31,7 @@ function Engine(environment, adjudicator)
     {
         if (adjudicator.isGameOver(environment))
         {
-            LOGGER.debug("adjudicator.isGameOver() ? "
-                    + adjudicator.isGameOver(environment));
+            LOGGER.debug("adjudicator.isGameOver() ? " + adjudicator.isGameOver(environment));
             processGameOver();
         }
         else
@@ -86,22 +85,22 @@ function Engine(environment, adjudicator)
     {
         var team = planningAction.getTeam();
 
-        if (team === Team.IMPERIAL)
+        if (team === environment.getFirstTeam())
         {
-            imperialPlanningAction = planningAction;
-            LOGGER.trace("imperialPlanningAction = " + imperialPlanningAction);
+            firstPlanningAction = planningAction;
+            LOGGER.trace("firstPlanningAction = " + firstPlanningAction);
         }
-        else if (team === Team.REBEL)
+        else if (team === environment.getSecondTeam())
         {
-            rebelPlanningAction = planningAction;
-            LOGGER.trace("rebelPlanningAction = " + rebelPlanningAction);
+            secondPlanningAction = planningAction;
+            LOGGER.trace("secondPlanningAction = " + secondPlanningAction);
         }
         else
         {
             LOGGER.error("planningAction team = " + team);
         }
 
-        if (imperialPlanningAction && rebelPlanningAction)
+        if (firstPlanningAction && secondPlanningAction)
         {
             LOGGER.trace("Engine.performPlanningPhase() end");
             environment.setPhase(Phase.PLANNING_END);
@@ -161,9 +160,8 @@ function Engine(environment, adjudicator)
                 environment.setPhase(Phase.COMBAT_DECLARE_TARGET);
                 var defenderPosition = environment.getPositionFor(defender);
 
-                var combatAction = new CombatAction(environment, adjudicator,
-                        attacker, attackerPosition, weapon, defender,
-                        defenderPosition);
+                var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon,
+                        defender, defenderPosition);
                 LOGGER.trace("combatAction = " + combatAction);
                 combatAction.doIt();
                 delay = 1000;
@@ -202,14 +200,12 @@ function Engine(environment, adjudicator)
 
         environment.incrementRound();
 
-        var imperialAgent = environment.getImperialAgent();
-        var rebelAgent = environment.getRebelAgent();
+        var firstAgent = environment.getFirstAgent();
+        var secondAgent = environment.getSecondAgent();
 
         // TODO: can planning be done in parallel?
-        imperialAgent.getPlanningAction(environment, adjudicator,
-                that.setPlanningAction);
-        rebelAgent.getPlanningAction(environment, adjudicator,
-                that.setPlanningAction);
+        firstAgent.getPlanningAction(environment, adjudicator, that.setPlanningAction);
+        secondAgent.getPlanningAction(environment, adjudicator, that.setPlanningAction);
 
         // Wait for agents to respond.
     }
@@ -220,8 +216,8 @@ function Engine(environment, adjudicator)
 
         if (activationQueue.length == 0)
         {
-            imperialPlanningAction = undefined;
-            rebelPlanningAction = undefined;
+            firstPlanningAction = undefined;
+            secondPlanningAction = undefined;
 
             environment.setActiveToken(undefined);
             LOGGER.trace("Engine.processActivationQueue() done");
@@ -235,9 +231,8 @@ function Engine(environment, adjudicator)
         {
             environment.setActiveToken(token);
             var agent = token.getAgent();
-            var maneuver = token.getTeam() == Team.IMPERIAL ? imperialPlanningAction
-                    .getManeuver(token)
-                    : rebelPlanningAction.getManeuver(token);
+            var maneuver = token.getTeam() == environment.getFirstTeam() ? firstPlanningAction.getManeuver(token)
+                    : secondPlanningAction.getManeuver(token);
 
             if (maneuver)
             {
@@ -246,14 +241,12 @@ function Engine(environment, adjudicator)
                 if (fromPosition)
                 {
                     var shipBase = token.getShipBase();
-                    var maneuverAction = new ManeuverAction(environment,
-                            maneuver, fromPosition, shipBase);
+                    var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
                     maneuverAction.doIt();
 
                     if (adjudicator.canSelectShipAction(token))
                     {
-                        agent.getShipAction(environment, adjudicator, token,
-                                that.setShipAction);
+                        agent.getShipAction(environment, adjudicator, token, that.setShipAction);
 
                         // Wait for agent to respond.
                     }
@@ -294,8 +287,7 @@ function Engine(environment, adjudicator)
 
                 // Declare target.
                 var agent = attacker.getAgent();
-                agent.chooseWeaponAndDefender(environment, adjudicator,
-                        attacker, that.setWeaponAndDefender);
+                agent.chooseWeaponAndDefender(environment, adjudicator, attacker, that.setWeaponAndDefender);
 
                 // Wait for agent to respond.
             }

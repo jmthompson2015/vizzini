@@ -43,8 +43,8 @@ table {
     text-align: right;
 }
 
-#ALIGN_TOP, #imperialPilots, #inputArea, .newGamePanel, .pilotChooserCell, .planningTableCell, #playArea, .optionPane,
-    #rebelPilots, .upgradesUICell, .alignTop {
+#ALIGN_TOP, #firstPilots, #inputArea, .newGamePanel, .pilotChooserCell, .planningTableCell, #playArea, .optionPane,
+    #secondPilots, .upgradesUICell, .alignTop {
     vertical-align: top;
 }
 
@@ -145,11 +145,11 @@ table {
     margin-left: 10px;
 }
 
-#MARGIN_NONE, .countTokenText, .damageCount, #imperialPilots, #rebelPilots, .marginNone {
+#MARGIN_NONE, .countTokenText, .damageCount, #firstPilots, #secondPilots, .marginNone {
     margin: 0px;
 }
 
-#PADDING_1, #imperialPilots, #rebelPilots, .padding1 {
+#PADDING_1, #firstPilots, #secondPilots, .padding1 {
     padding: 1px;
 }
 

@@ -18,6 +18,7 @@
 
 <script src="../../main/js/Phase.js"></script>
 <script src="../../main/js/Path.js"></script>
+<script src="../../main/js/RectanglePath.js"></script>
 <script src="../../main/js/Team.js"></script>
 <script src="../../main/js/FiringArc.js"></script>
 <script src="../../main/js/Bearing.js"></script>
@@ -27,6 +28,7 @@
 <script src="../../main/js/ShipBase.js"></script>
 <script src="../../main/js/Ship.js"></script>
 <script src="../../main/js/ShipTeam.js"></script>
+<script src="../../main/js/Range.js"></script>
 <script src="../../main/js/RangeRuler.js"></script>
 <script src="../../main/js/Weapon.js"></script>
 <script src="../../main/js/TurretWeapon.js"></script>
@@ -42,11 +44,16 @@
 <script src="../../main/js/Adjudicator.js"></script>
 <script src="../../main/js/ManeuverAction.js"></script>
 <script src="../../main/js/PlanningAction.js"></script>
+<script src="../../main/js/ShipDestroyedAction.js"></script>
+<script src="../../main/js/ShipFledAction.js"></script>
 <script src="../../main/js/AttackDice.js"></script>
 <script src="../../main/js/DefenseDice.js"></script>
+<script src="../../main/js/DamageDealer.js"></script>
 <script src="../../main/js/CombatAction.js"></script>
 <script src="../../main/js/SimpleAgent.js"></script>
+<script src="../../main/js/MediumAgent.js"></script>
 <script src="../../main/js/Engine.js"></script>
+<script src="../../main/js/SquadBuilder.js"></script>
 
 <script src="../../main/js/ui/HumanAgent.js"></script>
 <script src="../../main/js/ui/ImageUtilities.js"></script>
@@ -65,6 +72,9 @@
         Token.resetNextId();
         var teams = [ Team.IMPERIAL, Team.REBEL ];
         var environment = new Environment(teams);
+        var firstAgent = new SimpleAgent("firstAgent",Team.IMPERIAL,CoreSetImperialSquadBuilder);
+        var secondAgent = new MediumAgent("secondAgent",Team.REBEL,CoreSetRebelSquadBuilder);
+        environment.placeInitialTokens([firstAgent,secondAgent]);
         var adjudicator = new Adjudicator();
         var engine = new Engine(environment, adjudicator);
 

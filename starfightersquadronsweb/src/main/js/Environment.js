@@ -24,9 +24,9 @@ function Environment(teams)
     var that = this;
 
     var activeToken;
-    var imperialAgent;
+    var firstAgent;
     var phase;
-    var rebelAgent;
+    var secondAgent;
     var round = 0;
 
     var positionToToken = {};
@@ -169,9 +169,14 @@ function Environment(teams)
         return this.getTokensForTeam(defenderTeam);
     }
 
-    this.getImperialAgent = function()
+    this.getFirstAgent = function()
     {
-        return imperialAgent;
+        return firstAgent;
+    }
+
+    this.getFirstTeam = function()
+    {
+        return teams[0];
     }
 
     this.getPhase = function()
@@ -184,14 +189,19 @@ function Environment(teams)
         return tokenToPosition[token];
     }
 
-    this.getRebelAgent = function()
-    {
-        return rebelAgent;
-    }
-
     this.getRound = function()
     {
         return round;
+    }
+
+    this.getSecondAgent = function()
+    {
+        return secondAgent;
+    }
+
+    this.getSecondTeam = function()
+    {
+        return teams[1];
     }
 
     /*
@@ -404,15 +414,15 @@ function Environment(teams)
         InputValidator.validateNotNull("agents", agents);
         if (agents.length !== 2) { throw "Environment.placeInitialTokens() must have two agents."; }
 
-        imperialAgent = agents[0];
-        rebelAgent = agents[1];
+        firstAgent = agents[0];
+        secondAgent = agents[1];
 
         Token.resetNextId();
-        var imperialSquad = imperialAgent.buildSquad();
-        var rebelSquad = rebelAgent.buildSquad();
+        var firstSquad = firstAgent.buildSquad();
+        var secondSquad = secondAgent.buildSquad();
 
-        placeTokens(imperialSquad);
-        placeTokens(rebelSquad);
+        placeTokens(firstSquad, true);
+        placeTokens(secondSquad, false);
     }
 
     this.placeToken = function(position, token)
@@ -682,13 +692,11 @@ function Environment(teams)
      * @param tokens
      *            Tokens.
      */
-    function placeTokens(tokens)
+    function placeTokens(tokens, isTop)
     {
-        var isImperial = tokens[0].getTeam() === Team.IMPERIAL;
-
         var size = tokens.length;
         var dx = Position.MAX_X / (size + 1);
-        var heading = isImperial ? 90 : -90;
+        var heading = isTop ? 90 : -90;
 
         for (var i = 1; i <= tokens.length; i++)
         {
@@ -697,7 +705,7 @@ function Environment(teams)
             var x = i * dx;
             var y = (ShipBase.properties[shipBase].height / 2);
 
-            if (!isImperial)
+            if (!isTop)
             {
                 y = Position.MAX_Y - y;
             }

@@ -205,6 +205,17 @@ SquadBuilders.push(new SquadBuilder(Team.SCUM, "5th US Nationals", 2015, "Aggres
     return answer;
 }));
 
+// Kirk Mistr: IG88B + Flechette Canon; Cartel Spacer; Binayre Pirate + Cluster Missiles; Talonbane Cobra + Predator
+SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor/M3-A/Z-95/Kihraxz", function(agent)
+{
+    var answer = [];
+    answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.FLECHETTE_CANNON));
+    answer.push(new Token(Pilot.CARTEL_SPACER, agent));
+    answer.push(new Token(Pilot.BINAYRE_PIRATE, agent, UpgradeCard.CLUSTER_MISSILES));
+    answer.push(new Token(Pilot.TALONBANE_COBRA, agent, UpgradeCard.PREDATOR));
+    return answer;
+}));
+
 var CoreSetImperialSquadBuilder = SquadBuilders[0];
 var CoreSetRebelSquadBuilder = SquadBuilders[1];
 

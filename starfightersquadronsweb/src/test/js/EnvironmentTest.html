@@ -55,7 +55,7 @@
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getImperialAgent();
+        var agent = environment.getFirstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
         environment.placeToken(position, token);
 
@@ -72,8 +72,7 @@
         var weapon = attacker.getPrimaryWeapon();
 
         // Run.
-        var result = environment.getTargetableDefenders(attacker,
-                attackerPosition, weapon);
+        var result = environment.getTargetableDefenders(attacker, attackerPosition, weapon);
 
         // Verify.
         assert.ok(result);
@@ -93,16 +92,14 @@
         var weapon = attacker.getPrimaryWeapon();
 
         // Run.
-        var result = environment.getTargetableDefenders(attacker,
-                attackerPosition, weapon);
+        var result = environment.getTargetableDefenders(attacker, attackerPosition, weapon);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 1);
     });
 
-    QUnit.test("Environment.getTargetableDefendersAtRange() none", function(
-            assert)
+    QUnit.test("Environment.getTargetableDefendersAtRange() none", function(assert)
     {
         // Setup.
         Token.resetNextId();
@@ -112,16 +109,14 @@
         var weapon = attacker.getPrimaryWeapon();
 
         // Run.
-        var result = environment.getTargetableDefendersAtRange(attacker,
-                attackerPosition, weapon, Range.ONE);
+        var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, Range.ONE);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 0);
     });
 
-    QUnit.test("Environment.getTargetableDefendersAtRange() one", function(
-            assert)
+    QUnit.test("Environment.getTargetableDefendersAtRange() one", function(assert)
     {
         // Setup.
         Token.resetNextId();
@@ -134,8 +129,7 @@
         var weapon = attacker.getPrimaryWeapon();
 
         // Run.
-        var result = environment.getTargetableDefendersAtRange(attacker,
-                attackerPosition, weapon, Range.ONE);
+        var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, Range.ONE);
 
         // Verify.
         assert.ok(result);
@@ -147,7 +141,7 @@
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getImperialAgent();
+        var agent = environment.getFirstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
         environment.placeToken(position, token);
 
@@ -314,7 +308,7 @@
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getImperialAgent();
+        var agent = environment.getFirstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
 
         // Run.
@@ -331,7 +325,7 @@
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getImperialAgent();
+        var agent = environment.getFirstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
         environment.placeToken(position, token);
         assert.strictEqual(environment.getPositionFor(token), position);
@@ -365,10 +359,8 @@
         var environment = Environment.createCoreSetEnvironment();
 
         // Run / Verify.
-        assert.equal(environment.toString(),
-                "(305, 20, 90) 1 \"Mauler Mithel\" (TIE Fighter)\n"
-                        + "(610, 20, 90) 2 \"Dark Curse\" (TIE Fighter)\n"
-                        + "(458, 895, 270) 3 Luke Skywalker (X-Wing)\n");
+        assert.equal(environment.toString(), "(305, 20, 90) 1 \"Mauler Mithel\" (TIE Fighter)\n"
+                + "(610, 20, 90) 2 \"Dark Curse\" (TIE Fighter)\n" + "(458, 895, 270) 3 Luke Skywalker (X-Wing)\n");
     });
 </script>
 </head>

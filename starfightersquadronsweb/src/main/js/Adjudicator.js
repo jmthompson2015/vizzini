@@ -31,19 +31,18 @@ function Adjudicator()
     {
         var answer;
 
-        // final Environment xEnvironment = (Environment)environment;
-        var imperialCount = environment.getTokenCountFor(Team.IMPERIAL);
-        var rebelCount = environment.getTokenCountFor(Team.REBEL);
-        // LOGGER.debug("imperialCount / rebelCount = " + imperialCount + " / "
-        // + rebelCount);
+        var firstAgent = environment.getFirstAgent();
+        var firstCount = environment.getTokenCountFor(firstAgent.getTeam());
+        var secondAgent = environment.getSecondAgent();
+        var secondCount = environment.getTokenCountFor(secondAgent.getTeam());
 
-        if (imperialCount == 0)
+        if (firstCount == 0)
         {
-            answer = environment.getRebelAgent();
+            answer = secondAgent;
         }
-        else if (rebelCount == 0)
+        else if (secondCount == 0)
         {
-            answer = environment.getImperialAgent();
+            answer = firstAgent;
         }
 
         return answer;
@@ -51,21 +50,18 @@ function Adjudicator()
 
     this.isGameOver = function(environment)
     {
-        // return environment.getRound() > 11;
         var answer = false;
 
-        // var xEnvironment = (Environment)environment;
+        var firstAgent = environment.getFirstAgent();
+        var firstCount = environment.getTokenCountFor(firstAgent.getTeam());
 
-        var imperialCount = environment.getTokenCountFor(Team.IMPERIAL);
-        // LOGGER.debug("imperialCount = " + imperialCount);
-
-        answer = (imperialCount == 0);
+        answer = (firstCount == 0);
 
         if (!answer)
         {
-            var rebelCount = environment.getTokenCountFor(Team.REBEL);
-            // LOGGER.debug("rebelCount = " + rebelCount);
-            answer = (rebelCount == 0);
+            var secondAgent = environment.getSecondAgent();
+            var secondCount = environment.getTokenCountFor(secondAgent.getTeam());
+            answer = (secondCount == 0);
         }
 
         return answer;
