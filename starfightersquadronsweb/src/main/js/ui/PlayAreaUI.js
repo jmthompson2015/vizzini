@@ -88,7 +88,7 @@ function ManeuverUI(maneuver, fromPosition, shipBase)
 function PlayAreaUI(environment, imageUtils)
 {
     var DEG_TO_RADIANS = Math.PI / 180;
-    var SHIP_BACKGROUND = "rgba(255,255,255,0.5)";
+    var SHIP_BACKGROUND = "rgba(255,255,255,0.4)";
 
     var that = this;
 
