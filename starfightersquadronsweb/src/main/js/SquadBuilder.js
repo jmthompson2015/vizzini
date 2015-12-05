@@ -140,7 +140,6 @@ SquadBuilders.push(new SquadBuilder(Team.REBEL, "5th World", 2014, "X-Wings x3/Z
 {
     var answer = [];
     answer.push(new Token(Pilot.WEDGE_ANTILLES, agent, UpgradeCard.DRAW_THEIR_FIRE, UpgradeCard.R2_D2));
-    answer.push(new Token(Pilot.DARK_CURSE, agent));
     answer.push(new Token(Pilot.AIREN_CRACKEN, agent, UpgradeCard.VETERAN_INSTINCTS));
     answer.push(new Token(Pilot.BIGGS_DARKLIGHTER, agent));
     answer.push(new Token(Pilot.ROOKIE_PILOT, agent));
