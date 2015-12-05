@@ -18,6 +18,7 @@
 <script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
 <script src="../../../main/js/Team.js"></script>
+<script src="../../../main/js/Position.js"></script>
 <script src="../../../main/js/FiringArc.js"></script>
 <script src="../../../main/js/Bearing.js"></script>
 <script src="../../../main/js/Difficulty.js"></script>
@@ -39,9 +40,11 @@
 <script src="../../../main/js/PlanningAction.js"></script>
 <script src="../../../main/js/SquadBuilder.js"></script>
 <script src="../../../main/js/SimpleAgent.js"></script>
+<script src="../../../main/js/Environment.js"></script>
 
 <script src="../../../main/js/ui/ImageUtilities.js"></script>
 <script src="../../../main/js/ui/ManeuverChooser.js"></script>
+<script src="../../../main/js/ui/HumanAgent.js"></script>
 
 <script src="../../../main/js/ui/PlanningPanel.js"></script>
 
@@ -51,7 +54,7 @@
 	<script>
         var LOGGER = new Logger();
 
-        var environment;
+        var environment = Environment.createCoreSetEnvironment();
         var adjudicator;
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);

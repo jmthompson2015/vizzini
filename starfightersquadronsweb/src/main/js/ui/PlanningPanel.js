@@ -1,5 +1,11 @@
-/**
+/*
  * Provides a user interface to create the planning action.
+ * 
+ * @param environment Environment.
+ * @param agent Agent.
+ * @param tokens Tokens.
+ * @param imageUtils Image utilities.
+ * @param callback Callback function.
  */
 var PlanningPanel = React.createClass(
 {
@@ -47,9 +53,11 @@ var PlanningPanel = React.createClass(
         }
 
         var initialInput = React.DOM.table({}, React.DOM.tr({}, cells));
+        var disabled = Object.getOwnPropertyNames(this.state.tokenToManeuver).length < tokens.length;
         var buttons = React.DOM.button(
         {
-            onClick: self.ok
+            onClick: self.ok,
+            disabled: disabled,
         }, "OK");
         return React.createElement(OptionPane,
         {
@@ -64,9 +72,13 @@ var PlanningPanel = React.createClass(
 
     selectionChanged: function(token, maneuver)
     {
-        LOGGER.debug("selectionChanged() token = " + token + " maneuver = "
-                + maneuver);
+        LOGGER.debug("selectionChanged() token = " + token + " maneuver = " + maneuver);
         var tokenToManeuver = this.state.tokenToManeuver;
         tokenToManeuver[token] = maneuver;
+
+        this.setState(
+        {
+            tokenToManeuver: tokenToManeuver,
+        });
     },
 });
