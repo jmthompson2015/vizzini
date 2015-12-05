@@ -1,6 +1,7 @@
 var SquadBuilders = [];
 
-SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Core Set: 36 Points", 2012, "TIE Fighters x2", function(agent)
+SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Imperial Core Set: 36 Points", 2012, "TIE Fighters x2", function(
+        agent)
 {
     var answer = [];
     answer.push(new Token(Pilot.MAULER_MITHEL, agent, UpgradeCard.MARKSMANSHIP));
@@ -8,9 +9,11 @@ SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Core Set: 36 Points", 2012, 
     return answer;
 }));
 
-SquadBuilders.push(new SquadBuilder(Team.REBEL, "Core Set: 36 Points", 2012, "X-Wing", function(agent)
+SquadBuilders.push(new SquadBuilder(Team.REBEL, "Rebel Core Set: 36 Points", 2012, "X-Wing", function(agent)
 {
-    return [ new Token(Pilot.LUKE_SKYWALKER, agent, UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2) ];
+    var answer = [];
+    answer.push(new Token(Pilot.LUKE_SKYWALKER, agent, UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2));
+    return answer;
 }));
 
 // - Winner - Rick Sidebotham (#1 Swiss, 23 pts, 754 MoV, flight 1): Whisper + Veteran Instincts + Fire-Control Systems
