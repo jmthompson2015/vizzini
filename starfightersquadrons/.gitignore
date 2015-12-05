@@ -3,3 +3,9 @@
 /signing-jar.keystore
 /logs/
 /.DS_Store
+/bin/
+/classes/
+/newShips/
+/oldShips/
+/.classpath
+/.project
