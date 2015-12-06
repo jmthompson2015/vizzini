@@ -12,6 +12,7 @@ var UpgradeCard =
     ADRENALINE_RUSH: "adrenalineRush",
     ADVANCED_CLOAKING_DEVICE: "advancedCloakingDevice",
     ADVANCED_SENSORS: "advancedSensors",
+    ADVANCED_TARGETING_COMPUTER: "advancedTargetingComputer",
     ANDRASTA: "andrasta",
     ANTI_PURSUIT_LASERS: "antiPursuitLasers",
     AUTOTHRUSTERS: "autothrusters",
@@ -37,6 +38,7 @@ var UpgradeCard =
     DETERMINATION: "determination",
     DRAW_THEIR_FIRE: "drawTheirFire",
     ELUSIVENESS: "elusiveness",
+    EMPEROR_PALPATINE: "emperorPalpatine",
     ENGINE_UPGRADE: "engineUpgrade",
     ENGINEERING_TEAM: "engineeringTeam",
     ENHANCED_SCOPES: "enhancedScopes",
@@ -123,6 +125,7 @@ var UpgradeCard =
     TACTICAL_JAMMER: "tacticalJammer",
     TARGETING_COMPUTER: "targetingComputer",
     TARGETING_COORDINATOR: "targetingCoordinator",
+    TIE_X1: "tieX1",
     TORYN_FARR: "torynFarr",
     UNHINGED_ASTROMECH: "unhingedAstromech",
     VETERAN_INSTINCTS: "veteranInstincts",
@@ -168,7 +171,7 @@ var UpgradeCard =
         "accuracyCorrector":
         {
             name: "Accuracy Corrector",
-            type: UpgradeType.SENSOR,
+            type: UpgradeType.SYSTEM,
             isUnique: false,
             description: "When attacking, you may cancel all of your dice results. Then, you may add 2 Hit results to your roll. Your dice cannot be modified again during this attack.",
             squadPointCost: 3,
@@ -199,12 +202,23 @@ var UpgradeCard =
         "advancedSensors":
         {
             name: "Advanced Sensors",
-            type: UpgradeType.SENSOR,
+            type: UpgradeType.SYSTEM,
             isUnique: false,
             description: "Immediately before you reveal your maneuver, you may perform 1 free action. If you use this ability, you must skip your \"Perform Action\" step during this round.",
             squadPointCost: 3,
             hasAction: false,
             value: "advancedSensors",
+        },
+        "advancedTargetingComputer":
+        {
+            name: "Advanced Targeting Computer",
+            type: UpgradeType.SYSTEM,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.TIE_ADVANCED_ONLY ],
+            description: "When attacking with your primary weapon, if you have a target lock on the defender, you may add 1 critical result to your roll. If you do, you cannot spend target locks during this attack.",
+            squadPointCost: 5,
+            hasAction: false,
+            value: "advancedTargetingComputer",
         },
         "andrasta":
         {
@@ -471,6 +485,17 @@ var UpgradeCard =
             hasAction: false,
             value: "elusiveness",
         },
+        "emperorPalpatine":
+        {
+            name: "Emperor Palpatine",
+            type: UpgradeType.CREW,
+            isUnique: true,
+            restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
+            description: "Once per round, you may change a friendly ship's die result to any other die result. That die result cannot be modified again.",
+            squadPointCost: 8,
+            hasAction: false,
+            value: "emperorPalpatine",
+        },
         "engineUpgrade":
         {
             name: "Engine Upgrade",
@@ -495,7 +520,7 @@ var UpgradeCard =
         "enhancedScopes":
         {
             name: "Enhanced Scopes",
-            type: UpgradeType.SENSOR,
+            type: UpgradeType.SYSTEM,
             isUnique: false,
             description: "During the Activation phase, treat your pilot skill value as \"0.\"",
             squadPointCost: 1,
@@ -545,7 +570,7 @@ var UpgradeCard =
         "fireControlSystem":
         {
             name: "Fire Control System",
-            type: UpgradeType.SENSOR,
+            type: UpgradeType.SYSTEM,
             isUnique: false,
             description: "After you perform an attack, you may acquire a target lock on the defender.",
             squadPointCost: 2,
@@ -1223,7 +1248,7 @@ var UpgradeCard =
         "sensorJammer":
         {
             name: "Sensor Jammer",
-            type: UpgradeType.SENSOR,
+            type: UpgradeType.SYSTEM,
             isUnique: false,
             description: "When defending, you may change 1 of the attacker's Hit results to a Focus result. The attacker cannot reroll the die with the changed result.",
             squadPointCost: 4,
@@ -1365,6 +1390,17 @@ var UpgradeCard =
             squadPointCost: 4,
             hasAction: false,
             value: "targetingCoordinator",
+        },
+        "tieX1":
+        {
+            name: "TIE/x1",
+            type: UpgradeType.TITLE,
+            isUnique: false,
+            restrictions: [ UpgradeRestriction.TIE_ADVANCED_ONLY ],
+            description: "Your upgrade bar gains the System upgrade icon. If you equip a System upgrade, its squad point cost is reduced by 4 (to a minimum of 0).",
+            squadPointCost: 0,
+            hasAction: false,
+            value: "tieX1",
         },
         "torynFarr":
         {
