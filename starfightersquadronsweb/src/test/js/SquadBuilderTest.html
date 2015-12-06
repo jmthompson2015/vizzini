@@ -65,14 +65,14 @@
     {
         var squadBuilder = SquadBuilders[0];
         var result = squadBuilder.getName();
-        assert.equal(result, "Core Set: 36 Points");
+        assert.equal(result, "Imperial Core Set: 36 Points");
     });
 
     QUnit.test("CoreSetImperialSquadBuilder toString()", function(assert)
     {
         var squadBuilder = SquadBuilders[0];
         var result = squadBuilder.toString();
-        assert.equal(result, "2012 Core Set: 36 Points (TIE Fighters x2)");
+        assert.equal(result, "2012 Imperial Core Set: 36 Points (TIE Fighters x2)");
     });
 
     QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
@@ -97,21 +97,21 @@
     {
         var squadBuilder = SquadBuilders[1];
         var result = squadBuilder.getName();
-        assert.equal(result, "Core Set: 36 Points");
+        assert.equal(result, "Rebel Core Set: 36 Points");
     });
 
     QUnit.test("CoreSetRebelSquadBuilder toString()", function(assert)
     {
         var squadBuilder = SquadBuilders[1];
         var result = squadBuilder.toString();
-        assert.equal(result, "2012 Core Set: 36 Points (X-Wing)");
+        assert.equal(result, "2012 Rebel Core Set: 36 Points (X-Wing)");
     });
 
     QUnit.test("SquadBuilder.findByTeam() Imperial", function(assert)
     {
         var result = SquadBuilder.findByTeam(Team.IMPERIAL);
         assert.ok(result);
-        assert.equal(result.length, 6);
+        assert.equal(result.length, 7);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Rebel", function(assert)
@@ -125,7 +125,7 @@
     {
         var result = SquadBuilder.findByTeam(Team.SCUM);
         assert.ok(result);
-        assert.equal(result.length, 2);
+        assert.equal(result.length, 3);
     });
 </script>
 </head>

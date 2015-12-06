@@ -207,14 +207,45 @@ SquadBuilders.push(new SquadBuilder(Team.SCUM, "5th US Nationals", 2015, "Aggres
     return answer;
 }));
 
+// #3: Phillip Booth - IG-88A&B + Heavy Laser Cannon + Autothrusters + Glitterstim + Crackshot + Fire Control Systems +
+// IG-2000
+SquadBuilders.push(new SquadBuilder(Team.SCUM, "3rd World", 2015, "Aggressors x2", function(agent)
+{
+    var answer = [];
+    answer.push(new Token(Pilot.IG_88A, agent, UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT,
+            UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.GLITTERSTIM,
+            UpgradeCard.AUTOTHRUSTERS));
+    answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT,
+            UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.GLITTERSTIM,
+            UpgradeCard.AUTOTHRUSTERS));
+    return answer;
+}));
+
+// #4: Jeremy Howard
+// - Fel + PtL + Royal Guard Title + Stealth + Autothrusters
+// - Vader + Lone Wolf + title + ATC
+// - Omicron Group Shuttle + Palpatine + Sensor Jammer
+SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "4th World", 2015, "TIE Interceptor/Advanced/Lambda-class",
+        function(agent)
+        {
+            var answer = [];
+            answer.push(new Token(Pilot.SOONTIR_FEL, agent, UpgradeCard.ROYAL_GUARD_TIE, UpgradeCard.PUSH_THE_LIMIT,
+                    UpgradeCard.AUTOTHRUSTERS, UpgradeCard.STEALTH_DEVICE));
+            answer.push(new Token(Pilot.DARTH_VADER, agent, UpgradeCard.TIE_X1, UpgradeCard.LONE_WOLF,
+                    UpgradeCard.ADVANCED_TARGETING_COMPUTER));
+            answer.push(new Token(Pilot.OMICRON_GROUP_PILOT, agent, UpgradeCard.EMPEROR_PALPATINE,
+                    UpgradeCard.SENSOR_JAMMER));
+            return answer;
+        }));
+
 // Kirk Mistr: IG88B + Flechette Canon; Cartel Spacer; Binayre Pirate + Cluster Missiles; Talonbane Cobra + Predator
 SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor/M3-A/Z-95/Kihraxz", function(agent)
 {
     var answer = [];
     answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.FLECHETTE_CANNON));
+    answer.push(new Token(Pilot.TALONBANE_COBRA, agent, UpgradeCard.PREDATOR));
     answer.push(new Token(Pilot.CARTEL_SPACER, agent));
     answer.push(new Token(Pilot.BINAYRE_PIRATE, agent, UpgradeCard.CLUSTER_MISSILES));
-    answer.push(new Token(Pilot.TALONBANE_COBRA, agent, UpgradeCard.PREDATOR));
     return answer;
 }));
 
