@@ -377,6 +377,22 @@
         assert.equal(points[i++], fromPosition.getY() - 20.0);
     });
 
+    QUnit.test("Maneuver.computeToPosition() BankLeft1Easy Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 200, 0);
+        var maneuver = Maneuver.BANK_LEFT_1_EASY;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 93);
+        assert.equal(result.getY(), fromPosition.getY() - 38);
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 315);
+    });
+
     QUnit.test("Maneuver.computeToPosition() BankRight1Easy Standard", function(assert)
     {
         // Setup.
@@ -391,6 +407,22 @@
         assert.equal(result.getX(), fromPosition.getX() + 93);
         assert.equal(result.getY(), fromPosition.getY() + 38);
         assert.equal(result.getHeading(), fromPosition.getHeading() + 45);
+    });
+
+    QUnit.test("Maneuver.computeToPosition() BankLeft3Standard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 400, 0);
+        var maneuver = Maneuver.BANK_LEFT_3_STANDARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 160);
+        assert.equal(result.getY(), fromPosition.getY() - 66);
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 315);
     });
 
     QUnit.test("Maneuver.computeToPosition() BankRight3Standard Standard", function(assert)
@@ -423,6 +455,22 @@
         assert.equal(result.getX(), fromPosition.getX() + 160);
         assert.equal(result.getY(), fromPosition.getY());
         assert.equal(result.getHeading(), fromPosition.getHeading() + 180);
+    });
+
+    QUnit.test("Maneuver.computeToPosition() SegnorsLoopLeft3Hard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(0, 400, 0);
+        var maneuver = Maneuver.SEGNORS_LOOP_LEFT_3_HARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 160);
+        assert.equal(result.getY(), fromPosition.getY() - 66);
+        assert.equal(result.getHeading(), fromPosition.getHeading() + 135);
     });
 
     QUnit.test("Maneuver.computeToPosition() SegnorsLoopRight3Hard Standard", function(assert)

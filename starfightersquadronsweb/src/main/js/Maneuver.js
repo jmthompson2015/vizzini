@@ -574,16 +574,34 @@ Maneuver.computeToPosition = function(maneuver, fromPosition, shipBase)
         dx = (2 * baseSize) + (40 * speed);
         dy = 0;
     }
-    else if ((bearing && Bearing.properties[bearing].isBank) || bearing === Bearing.SEGNORS_LOOP_LEFT
-            || bearing === Bearing.SEGNORS_LOOP_RIGHT)
+    else if (bearing && Bearing.properties[bearing].isBank)
     {
         // Half base.
         var x1 = baseSize;
         var y1 = 0.0;
 
         // Curve.
-        var factor = (bearing === Bearing.BANK_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
-        var angle = 45.0 * Math.PI / 180.0;
+        var factor = (bearing === Bearing.BANK_RIGHT ? 1.0 : -1.0);
+        var angle = headingChange * Math.PI / 180.0;
+        var x2 = radius * Math.cos(angle);
+        var y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
+
+        // Half base.
+        var x3 = baseSize * Math.cos(angle);
+        var y3 = baseSize * Math.sin(angle);
+
+        dx = x1 + x2 + x3;
+        dy = y1 + y2 + y3;
+    }
+    else if (bearing === Bearing.SEGNORS_LOOP_LEFT || bearing === Bearing.SEGNORS_LOOP_RIGHT)
+    {
+        // Half base.
+        var x1 = baseSize;
+        var y1 = 0.0;
+
+        // Curve.
+        var factor = (bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
+        var angle = factor * 45.0 * Math.PI / 180.0;
         var x2 = radius * Math.cos(angle);
         var y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
 
