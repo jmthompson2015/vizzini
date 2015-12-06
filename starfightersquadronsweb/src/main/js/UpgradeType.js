@@ -14,8 +14,9 @@ var UpgradeType =
     MISSILE: "missile",
     MODIFICATION: "modification",
     SALVAGED_ASTROMECH: "salvagedAstromech",
-    SENSOR: "sensor",
+    SYSTEM: "system",
     TEAM: "team",
+    TECH: "tech",
     TITLE: "title",
     TORPEDO: "torpedo",
     TURRET: "turret",
@@ -76,15 +77,20 @@ var UpgradeType =
             displayName: "Salvaged Astromech",
             value: "salvagedAstromech",
         },
-        "sensor":
+        "system":
         {
-            displayName: "Sensor",
-            value: "sensor",
+            displayName: "System",
+            value: "system",
         },
         "team":
         {
             displayName: "Team",
             value: "team",
+        },
+        "tech":
+        {
+            displayName: "Tech",
+            value: "tech",
         },
         "title":
         {
