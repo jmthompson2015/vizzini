@@ -24,6 +24,7 @@ var UpgradeRestriction =
     SCUM_ONLY: "scumOnly",
     SMALL_SHIP_ONLY: "smallShipOnly",
     STAR_VIPER_ONLY: "starViperOnly",
+    TIE_ADVANCED_ONLY: "tieAdvancedOnly",
     TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
     TIE_PHANTOM_ONLY: "tiePhantomOnly",
     VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
@@ -182,6 +183,16 @@ var UpgradeRestriction =
                 var shipTeam = Pilot.properties[pilot].shipTeam;
                 var ship = ShipTeam.properties[shipTeam].ship;
                 return ship === Ship.STAR_VIPER;
+            }
+        },
+        "tieAdvancedOnly":
+        {
+            displayName: "TIE Advanced only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                return ship === Ship.TIE_ADVANCED;
             }
         },
         "tieInterceptorOnly":
