@@ -4,8 +4,7 @@
 <meta charset="utf-8">
 <title>PositionTest</title>
 
-<link rel="stylesheet"
-	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 <script src="../../main/js/Position.js"></script>
 
@@ -30,8 +29,7 @@
         }
         catch (e)
         {
-            assert.equal(e.message,
-                    "Coordinates are not in the play area: (-1, -2)");
+            assert.equal(e.message, "Coordinates are not in the play area: (-1, -2)");
         }
     });
 
@@ -99,14 +97,10 @@
     {
         // Setup.
         var position0 = new Position(100, 200, 0);
-        var position1 = new Position(position0.getX() + 100,
-                position0.getY() + 1, 0);
-        var position2 = new Position(position0.getX() - 50,
-                position0.getY() + 10, 0);
-        var position3 = new Position(position0.getX() - 10,
-                position0.getY() - 50, 0);
-        var position4 = new Position(position0.getX() + 1,
-                position0.getY() - 100, 0);
+        var position1 = new Position(position0.getX() + 100, position0.getY() + 1, 0);
+        var position2 = new Position(position0.getX() - 50, position0.getY() + 10, 0);
+        var position3 = new Position(position0.getX() - 10, position0.getY() - 50, 0);
+        var position4 = new Position(position0.getX() + 1, position0.getY() - 100, 0);
 
         // Run / Verify.
         assert.equal(position0.computeDistance(position1), 100);
@@ -149,13 +143,13 @@
         assert.ok(position2.equals(position2));
     });
 
-    QUnit.test("Position.isInPlayArea()", function(assert)
+    QUnit.test("Position.isPointInPlayArea()", function(assert)
     {
-        assert.equal(Position.isInPlayArea(3, 4), true);
-        assert.equal(Position.isInPlayArea(-1, 4), false);
-        assert.equal(Position.isInPlayArea(3, -1), false);
-        assert.equal(Position.isInPlayArea(915, 4), false);
-        assert.equal(Position.isInPlayArea(3, 915), false);
+        assert.equal(Position.isPointInPlayArea(3, 4), true);
+        assert.equal(Position.isPointInPlayArea(-1, 4), false);
+        assert.equal(Position.isPointInPlayArea(3, -1), false);
+        assert.equal(Position.isPointInPlayArea(915, 4), false);
+        assert.equal(Position.isPointInPlayArea(3, 915), false);
     });
 
     QUnit.test("Position.normalizeAngle()", function(assert)

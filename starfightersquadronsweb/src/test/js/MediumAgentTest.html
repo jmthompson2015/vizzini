@@ -178,7 +178,7 @@
         var agent = new MediumAgent("myAgent", Team.REBEL, CoreSetRebelSquadBuilder);
 
         var oldPosition = new Position(458, 895, -90);
-        var newPosition = new Position(15, 80, -90);
+        var newPosition = new Position(20, 110, -90);
         var token = environment.getTokenAt(oldPosition);
         environment.removeToken(oldPosition);
         environment.placeToken(newPosition, token);
@@ -188,7 +188,7 @@
             // Verify.
             assert.ok(planningAction);
             assert.ok(planningAction.getManeuver(token));
-            assert.equal(planningAction.getManeuver(token), Maneuver.STRAIGHT_1_EASY);
+            assert.equal(planningAction.getManeuver(token), Maneuver.TURN_RIGHT_2_STANDARD);
         }
 
         // Run.
@@ -248,7 +248,7 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "myAgent, MediumAgent, imperial, Core Set: 36 Points");
+        assert.equal(result, "myAgent, MediumAgent, imperial, Imperial Core Set: 36 Points");
     });
 </script>
 </head>

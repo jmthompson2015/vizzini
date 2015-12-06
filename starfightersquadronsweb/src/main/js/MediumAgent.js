@@ -63,7 +63,9 @@ MediumAgent.prototype.getPlanningAction = function(environment, adjudicator, cal
         {
             var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
-            if (toPosition && Position.isInPlayArea(toPosition.getX(), toPosition.getY()))
+            if (toPosition
+                    && Position.isPathInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(),
+                            toPosition.getY(), toPosition.getHeading())))
             {
                 validManeuvers.push(maneuver);
                 var weapon = token.getPrimaryWeapon();

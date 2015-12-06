@@ -3,8 +3,13 @@
 /*
  * Construct this object.
  * 
- * @param environment Environment. @param maneuver Maneuver. @param fromPosition
- * From position. @param shipBase Ship base.
+ * @param environment Environment. 
+ * 
+ * @param maneuver Maneuver. 
+ * 
+ * @param fromPosition From position. 
+ * 
+ * @param shipBase Ship base.
  */
 function ManeuverAction(environment, maneuver, fromPosition, shipBase)
 {
@@ -47,8 +52,8 @@ function ManeuverAction(environment, maneuver, fromPosition, shipBase)
             LOGGER.info(message);
         }
         else if (!toPosition
-                || !isInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition
-                        .getHeading())))
+                || !Position.isPathInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition.getY(),
+                        toPosition.getHeading())))
         {
             LOGGER.info("Ship fled the battlefield: " + token.getName());
             var shipFledAction = new ShipFledAction(environment, token, fromPosition);
@@ -63,22 +68,5 @@ function ManeuverAction(environment, maneuver, fromPosition, shipBase)
         }
 
         return false;
-    }
-
-    function isInPlayArea(path)
-    {
-        var answer = true;
-        var points = path.getPoints();
-
-        for (var i = 0; i < points.length; i += 2)
-        {
-            if (!Position.isInPlayArea(points[i], points[i + 1]))
-            {
-                answer = false;
-                break;
-            }
-        }
-
-        return answer;
     }
 }

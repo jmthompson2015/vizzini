@@ -112,7 +112,8 @@ SimpleAgent.prototype.getPlanningAction = function(environment, adjudicator, cal
         {
             var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
-            return (toPosition && Position.isInPlayArea(toPosition.getX(), toPosition.getY()));
+            return (toPosition && Position.isPathInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(),
+                    toPosition.getY(), toPosition.getHeading())));
         });
 
         LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);

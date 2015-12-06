@@ -10,10 +10,9 @@ function Position(xIn, yIn, headingIn)
     var x = Math.round(xIn);
     var y = Math.round(yIn);
 
-    if (!Position.isInPlayArea(x, y))
+    if (!Position.isPointInPlayArea(x, y))
     {
-        var message = "Coordinates are not in the play area: (" + x + ", " + y
-                + ")";
+        var message = "Coordinates are not in the play area: (" + x + ", " + y + ")";
         throw new Error(message);
     }
 
@@ -36,8 +35,7 @@ function Position(xIn, yIn, headingIn)
 }
 
 /*
- * Order positions by x, or y if the xs are equal. Throws an error if passed a
- * non-Position value.
+ * Order positions by x, or y if the xs are equal. Throws an error if passed a non-Position value.
  * 
  * @return 0 if and only if this.equals(that).
  */
@@ -68,7 +66,9 @@ Position.prototype.compareTo = function(that)
 }
 
 /*
- * @param x2 X coordinate. @param y2 Y coordinate.
+ * @param x2 X coordinate.
+ * 
+ * @param y2 Y coordinate.
  * 
  * @return the bearing to the given position.
  */
@@ -96,14 +96,12 @@ Position.prototype.computeDistance = function(position)
 
 Position.prototype.equals = function(other)
 {
-    return this.getX() == other.getX() && this.getY() == other.getY()
-            && this.getHeading() == other.getHeading();
+    return this.getX() == other.getX() && this.getY() == other.getY() && this.getHeading() == other.getHeading();
 }
 
 Position.prototype.toString = function()
 {
-    return "(" + this.getX() + ", " + this.getY() + ", " + this.getHeading()
-            + ")";
+    return "(" + this.getX() + ", " + this.getY() + ", " + this.getHeading() + ")";
 }
 
 /* Maximum X coordinate value. (3 feet in mm) */
@@ -113,7 +111,12 @@ Position.MAX_X = 915;
 Position.MAX_Y = Position.MAX_X;
 
 /*
- * @param x1 X coordinate. @param y1 Y coordinate. @param x2 X coordinate.
+ * @param x1 X coordinate.
+ * 
+ * @param y1 Y coordinate.
+ * 
+ * @param x2 X coordinate.
+ * 
  * @param y2 Y coordinate.
  * 
  * @return the heading.
@@ -130,14 +133,37 @@ Position.computeHeading = function(x1, y1, x2, y2)
 }
 
 /*
- * @param x X coordinate. @param y Y coordinate.
+ * @param path Path.
+ * 
+ * @return true if the path is in the play area.
+ */
+Position.isPathInPlayArea = function(path)
+{
+    var answer = true;
+    var points = path.getPoints();
+
+    for (var i = 0; i < points.length; i += 2)
+    {
+        if (!Position.isPointInPlayArea(points[i], points[i + 1]))
+        {
+            answer = false;
+            break;
+        }
+    }
+
+    return answer;
+}
+
+/*
+ * @param x X coordinate.
+ * 
+ * @param y Y coordinate.
  * 
  * @return true if the point is in the play area.
  */
-Position.isInPlayArea = function(x, y)
+Position.isPointInPlayArea = function(x, y)
 {
-    return ((0 <= x) && (x < Position.MAX_X))
-            && ((0 <= y) && (y < Position.MAX_Y));
+    return ((0 <= x) && (x < Position.MAX_X)) && ((0 <= y) && (y < Position.MAX_Y));
 }
 
 /*

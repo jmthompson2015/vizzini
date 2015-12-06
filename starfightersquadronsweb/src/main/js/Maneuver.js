@@ -417,10 +417,12 @@ var Maneuver =
 };
 
 /*
- * @param fromPosition Position. @param shipBase Ship base.
+ * @param fromPosition Position.
  * 
- * @return the polygon representing the ship base at the given position. The
- * first point is port-forward, the second point is starboard-forward.
+ * @param shipBase Ship base.
+ * 
+ * @return the polygon representing the ship base at the given position. The first point is port-forward, the second
+ * point is starboard-forward.
  */
 Maneuver.computeFromPolygon = function(fromPosition, shipBase)
 {
@@ -428,10 +430,12 @@ Maneuver.computeFromPolygon = function(fromPosition, shipBase)
 }
 
 /*
- * @param fromPosition Position. @param shipBase Ship base.
+ * @param fromPosition Position.
  * 
- * @return the polygon representing the ship base at the given position. The
- * first point is port-forward, the second point is starboard-forward.
+ * @param shipBase Ship base.
+ * 
+ * @return the polygon representing the ship base at the given position. The first point is port-forward, the second
+ * point is starboard-forward.
  */
 Maneuver.computeToPolygon = function(maneuver, fromPosition, shipBase)
 {
@@ -446,7 +450,9 @@ Maneuver.computeToPolygon = function(maneuver, fromPosition, shipBase)
 }
 
 /*
- * @param fromPosition From position. @param shipBase Ship base.
+ * @param fromPosition From position.
+ * 
+ * @param shipBase Ship base.
  * 
  * @return the position after executing this maneuver.
  */
@@ -538,7 +544,9 @@ Maneuver.computePath = function(maneuver, fromPosition, shipBase)
 }
 
 /*
- * @param fromPosition From position. @param shipBase Ship base.
+ * @param fromPosition From position.
+ * 
+ * @param shipBase Ship base.
  * 
  * @return the position after executing this maneuver.
  */
@@ -614,7 +622,12 @@ Maneuver.computeToPosition = function(maneuver, fromPosition, shipBase)
 };
 
 /*
- * @param path Path. @param lastX Last X coordinate. @param heading Heading.
+ * @param path Path.
+ * 
+ * @param lastX Last X coordinate.
+ * 
+ * @param heading Heading.
+ * 
  * @param segmentCount Number of segments.
  * 
  * @return a point containing the new last coordinates.
@@ -649,7 +662,12 @@ Maneuver.addSegments = function(maneuver, path, lastX, heading, segmentCount)
 }
 
 /*
- * @param fromPosition From position. @param dx Delta X. @param dy Delta Y.
+ * @param fromPosition From position.
+ * 
+ * @param dx Delta X.
+ * 
+ * @param dy Delta Y.
+ * 
  * @param headingChange Delta heading.
  * 
  * @return a new position.
@@ -666,7 +684,7 @@ Maneuver.createPosition = function(fromPosition, dx, dy, headingChange)
 
     var answer;
 
-    if (Position.isInPlayArea(x, y))
+    if (Position.isPointInPlayArea(x, y))
     {
         answer = new Position(x, y, heading);
     }
@@ -675,7 +693,11 @@ Maneuver.createPosition = function(fromPosition, dx, dy, headingChange)
 };
 
 /*
- * @param bearing Bearing. @param speed Speed. @param difficulty Difficulty.
+ * @param bearing Bearing.
+ * 
+ * @param speed Speed.
+ * 
+ * @param difficulty Difficulty.
  * 
  * @return the maneuver with the given characteristics.
  */
