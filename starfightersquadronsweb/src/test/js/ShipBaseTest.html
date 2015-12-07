@@ -8,6 +8,7 @@
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 
 <script src="../../main/js/Path.js"></script>
 <script src="../../main/js/RectanglePath.js"></script>
@@ -43,7 +44,7 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPointsLength(), 10);
+        assert.equal(result.getPoints().length, 10);
 
         var i = 0;
         var points = result.getPoints();
@@ -69,7 +70,7 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPointsLength(), 10);
+        assert.equal(result.getPoints().length, 10);
 
         var i = 0;
         var points = result.getPoints();
@@ -95,7 +96,7 @@
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPointsLength(), 10);
+        assert.equal(result.getPoints().length, 10);
 
         var i = 0;
         var points = result.getPoints();
