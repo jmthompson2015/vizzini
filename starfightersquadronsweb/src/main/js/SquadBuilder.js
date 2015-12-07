@@ -244,7 +244,7 @@ SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor/M3-A/Z-95
     var answer = [];
     answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.FLECHETTE_CANNON));
     answer.push(new Token(Pilot.TALONBANE_COBRA, agent, UpgradeCard.PREDATOR));
-    answer.push(new Token(Pilot.CARTEL_SPACER, agent));
+    answer.push(new Token(Pilot.CARTEL_SPACER, agent, UpgradeCard.CALCULATION));
     answer.push(new Token(Pilot.BINAYRE_PIRATE, agent, UpgradeCard.CLUSTER_MISSILES));
     return answer;
 }));
