@@ -592,6 +592,11 @@ function Token(pilot, agent)
         range = value;
     }
 
+    this.setTouching = function(value)
+    {
+        isTouching = value;
+    }
+
     this.setWeapon = function(value)
     {
         weapon = value;
