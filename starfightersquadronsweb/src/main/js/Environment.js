@@ -371,28 +371,28 @@ function Environment(teams)
         InputValidator.validateNotNull("token", token);
 
         var answer = [];
-        // var answer = new HashSet<Token>();
-        //
-        // var shipBase = token.getShip().getShipBase();
-        // var tokenPosition = getPositionFor(token);
-        // var area = new Area(shipBase.computePolygon(tokenPosition, 1));
-        //
-        // for (var token2 : getTokensForActivation())
-        // {
-        // if (token == token2)
-        // {
-        // continue;
-        // }
-        //
-        // var shipBase2 = token2.getShip().getShipBase();
-        // var tokenPosition2 = getPositionFor(token2);
-        // var area2 = new Area(shipBase2.computePolygon(tokenPosition2));
-        //
-        // if (shapeUtilities.doAreasCollide(area, area2))
-        // {
-        // answer.add(token2);
-        // }
-        // }
+
+        var shipBase = token.getShipBase();
+        var tokenPosition = this.getPositionFor(token);
+        var polygon = ShipBase.computePolygon(shipBase, tokenPosition.getX(), tokenPosition.getY(), tokenPosition
+                .getHeading());
+        var tokens = this.getTokensForActivation();
+
+        tokens.forEach(function(token2)
+        {
+            if (token !== token2)
+            {
+                var shipBase2 = token2.getShipBase();
+                var tokenPosition2 = this.getPositionFor(token2);
+                var polygon2 = ShipBase.computePolygon(shipBase2, tokenPosition2.getX(), tokenPosition2.getY(),
+                        tokenPosition2.getHeading());
+
+                if (RectanglePath.doPolygonsCollide(polygon, polygon2))
+                {
+                    answer.push(token2);
+                }
+            }
+        }, this);
 
         return answer;
     }

@@ -47,7 +47,7 @@ function ManeuverAction(environment, maneuver, fromPosition, shipBase)
     this.doIt = function()
     {
         token.setManeuverAction(this);
-        // token.setTouching(false);
+        token.setTouching(false);
         environment.setPhase(Phase.ACTIVATION_REVEAL_DIAL);
 
         var toPosition = determineToPosition();

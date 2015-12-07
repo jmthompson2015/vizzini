@@ -14,6 +14,7 @@
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
 <script src="../../main/js/Path.js"></script>
 <script src="../../main/js/RectanglePath.js"></script>
@@ -48,7 +49,10 @@
 <script src="../../main/js/ui/ImageUtilities.js"></script>
 
 <script>
+    "use strict";
     var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
 
     QUnit.test("Environment.getPositionFor()", function(assert)
     {
@@ -286,6 +290,34 @@
         assert.ok(result);
         assert.equal(result.length, 1);
         assert.equal(result[0].getPilot(), Pilot.LUKE_SKYWALKER);
+    });
+
+    QUnit.test("Environment.getTokensTouching()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var fromPosition0 = new Position(305, 20, 90);
+        var token0 = environment.getTokenAt(fromPosition0); // TIE Fighter 1
+        var position1 = new Position(610, 20, 90);
+        var token1 = environment.getTokenAt(position1); // TIE Fighter 2
+        var fromPosition2 = new Position(458, 895, -90);
+        var token2 = environment.getTokenAt(fromPosition2); // X-Wing
+        environment.removeToken(fromPosition2);
+        fromPosition2 = new Position(fromPosition0.getX(), fromPosition0.getY() + 39, -90);
+        environment.placeToken(fromPosition2, token2);
+        environment.getTokens().forEach(function(token)
+        {
+            LOGGER.info(token.toString() + " at " + environment.getPositionFor(token));
+        });
+
+        // Run.
+        var result = environment.getTokensTouching(token0);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 1);
+        assert.equal(result[0].getShip(),Ship.X_WING);
     });
 
     QUnit.test("Environment.incrementRound()", function(assert)
