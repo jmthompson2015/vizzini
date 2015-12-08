@@ -50,6 +50,8 @@ function LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip)
 function ManeuverUI(maneuver, fromPosition, shipBase)
 {
     var FOREGROUND_COLOR = "white";
+    var EASY_COLOR = "lime";
+    var HARD_COLOR = "red";
 
     var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
@@ -75,10 +77,29 @@ function ManeuverUI(maneuver, fromPosition, shipBase)
         toPolygon.paintComponent(context, FOREGROUND_COLOR);
 
         // Draw maneuver path.
-        // FIXME: color path by difficulty.
-        path.paintComponent(context, FOREGROUND_COLOR);
+        var difficulty = Maneuver.properties[maneuver].difficulty;
+        path.paintComponent(context, getColor(difficulty));
 
         LOGGER.trace("ManeuverUI.paintComponent() end");
+    }
+
+    function getColor(difficulty)
+    {
+        var answer;
+
+        switch (difficulty)
+        {
+        case Difficulty.EASY:
+            answer = EASY_COLOR;
+            break;
+        case Difficulty.HARD:
+            answer = HARD_COLOR;
+            break;
+        default:
+            answer = FOREGROUND_COLOR;
+        }
+
+        return answer;
     }
 }
 
