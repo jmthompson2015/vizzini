@@ -168,6 +168,7 @@ NewGamePanel.AgentPanel = React.createClass(
         var squadBuilders = SquadBuilder.findByTeam(team);
         var squadChooserPanel = React.createElement(SquadChooser,
         {
+            name: "agent" + this.props.agentNumber,
             squadBuilders: squadBuilders,
             onChange: this.handleSquadChange,
         });

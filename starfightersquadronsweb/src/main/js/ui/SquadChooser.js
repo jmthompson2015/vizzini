@@ -1,6 +1,7 @@
 /*
  * Provides a squad chooser.
  * 
+ * @param name Radio button list name.
  * @param squadBuilders Squad builders. (required)
  * @param onChange Function called when the selection changes. (optional)
  */
@@ -35,7 +36,7 @@ var SquadChooser = React.createClass(
         {
             type: "radio",
             values: squadBuilders,
-            name: faction,
+            name: this.props.name,
             idFunction: squadIdFunction,
             labelFunction: squadLabelFunction,
             initialValues: selectedSquadBuilder,
