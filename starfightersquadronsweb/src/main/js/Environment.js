@@ -96,6 +96,14 @@ function Environment(teams)
     }
 
     /*
+     * @param damage Damage.
+     */
+    this.discardDamage = function(damage)
+    {
+        damageDiscardPile.push(damage);
+    }
+
+    /*
      * @return a damage card from the damage deck.
      */
     this.drawDamage = function()
