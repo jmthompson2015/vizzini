@@ -453,6 +453,7 @@ var Pilot =
             upgradeTypes: [],
             value: "cartelSpacer",
         },
+        // @see Token.addCriticalDamage() for effect implementation.
         "chewbacca":
         {
             name: "Chewbacca",

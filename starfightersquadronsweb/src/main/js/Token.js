@@ -781,9 +781,16 @@ Token.resetNextId = function()
 
 Token.prototype.addCriticalDamage = function(damage)
 {
-    var criticalDamages = this.getCriticalDamages();
-    criticalDamages.push(damage);
-    this.trigger("change");
+    if (this.getPilot() === Pilot.CHEWBACCA)
+    {
+        this.addDamage(damage);
+    }
+    else
+    {
+        var criticalDamages = this.getCriticalDamages();
+        criticalDamages.push(damage);
+        this.trigger("change");
+    }
 }
 
 Token.prototype.addDamage = function(damage)
