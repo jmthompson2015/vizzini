@@ -9,14 +9,20 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
     InputValidator.validateNotNull("imageUtils", imageUtils);
 
     var callback;
+    var environment;
+    var attacker;
+    var attackDice;
+    var defender;
+    var defenseDice;
+    var modifyAttackCallback;
+    var modifyDefenseCallback;
 
     this.buildSquad = function()
     {
         return squadBuilder.buildSquad(this);
     }
 
-    this.chooseWeaponAndDefender = function(environment, adjudicator, attacker,
-            callbackIn)
+    this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callbackIn)
     {
         InputValidator.validateNotNull("environment", environment);
         InputValidator.validateNotNull("adjudicator", adjudicator);
@@ -25,8 +31,7 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
 
         callback = callbackIn;
 
-        var choices = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(
-                environment, attacker);
+        var choices = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
 
         if (choices.length > 0)
         {
@@ -37,7 +42,7 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
                 callback: this.finishWeaponAndDefender
             });
             React.render(element, document.getElementById("inputArea"));
-            updateSizes();
+            // updateSizes();
 
             // Wait for the user to respond.
         }
@@ -125,24 +130,85 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
         // Wait for the user to respond.
     }
 
-    this.getModifyAttackDiceAction = function(environment, adjudicator,
-            attacker, attackDice, defender)
+    this.getModifyAttackDiceAction = function(environmentIn, adjudicator, attackerIn, attackDiceIn, defender, callback)
     {
-        var answer;
+        environment = environmentIn;
+        attacker = attackerIn;
+        attackDice = attackDiceIn;
+        modifyAttackCallback = callback;
 
-        // FIXME
+        var modifications = [ null ];
 
-        return answer;
+        // TODO: implement Target Lock
+
+        if (attacker.getFocusCount() > 0)
+        {
+            modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
+        }
+
+        if (modifications.length > 1)
+        {
+            var element = React.createElement(CombatUI,
+            {
+                phase: environment.getPhase(),
+                attacker: attacker,
+                attackDice: attackDice,
+                defender: defender,
+                modifications: modifications,
+                okFunction: finishModifyAttackDice,
+            });
+            React.render(element, document.getElementById("inputArea"));
+            // updateSizes();
+
+            // Wait for the user to respond.
+        }
+        else
+        {
+            callback();
+        }
     }
 
-    this.getModifyDefenseDiceAction = function(environment, adjudicator,
-            attacker, attackDice, defender, defenseDice)
+    this.getModifyDefenseDiceAction = function(environmentIn, adjudicator, attacker, attackDice, defenderIn,
+            defenseDiceIn, callback)
     {
-        var answer;
+        environment = environmentIn;
+        defender = defenderIn;
+        defenseDice = defenseDiceIn;
+        modifyDefenseCallback = callback;
 
-        // FIXME
+        var modifications = [ null ];
 
-        return answer;
+        if (defender.getEvadeCount() > 0)
+        {
+            modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+        }
+
+        if (defender.getFocusCount() > 0)
+        {
+            modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
+        }
+
+        if (modifications.length > 1)
+        {
+            var element = React.createElement(CombatUI,
+            {
+                phase: environment.getPhase(),
+                attacker: attacker,
+                attackDice: attackDice,
+                defender: defender,
+                defenseDice: defenseDice,
+                modifications: modifications,
+                okFunction: finishModifyDefenseDice,
+            });
+            React.render(element, document.getElementById("inputArea"));
+            // updateSizes();
+
+            // Wait for the user to respond.
+        }
+        else
+        {
+            callback();
+        }
     }
 
     this.getShipAction = function(environment, adjudicator, token, callbackIn)
@@ -174,10 +240,33 @@ function HumanAgent(name, team, squadBuilder, imageUtils)
     {
         return team;
     }
+
+    function finishModifyAttackDice(modification)
+    {
+        var answer;
+
+        if (modification)
+        {
+            answer = new ModifyAttackDiceAction(environment, attacker, attackDice, modification);
+        }
+
+        modifyAttackCallback(answer);
+    }
+
+    function finishModifyDefenseDice(modification)
+    {
+        var answer;
+
+        if (modification)
+        {
+            answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+        }
+
+        modifyDefenseCallback(answer);
+    }
 }
 
 HumanAgent.prototype.toString = function()
 {
-    return this.getName() + ", HumanAgent, " + this.getTeam() + ", "
-            + this.getSquadBuilder().getName();
+    return this.getName() + ", HumanAgent, " + this.getTeam() + ", " + this.getSquadBuilder().getName();
 }
