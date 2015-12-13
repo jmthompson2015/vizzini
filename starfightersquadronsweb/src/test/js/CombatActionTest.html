@@ -7,8 +7,12 @@
 <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
 <script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
 
+<link rel="stylesheet" href="../../main/css/style.css">
+
 <script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
 <script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -46,10 +50,12 @@
 <script src="../../main/js/SimpleAgent.js"></script>
 <script src="../../main/js/AttackDice.js"></script>
 <script src="../../main/js/DefenseDice.js"></script>
+<script src="../../main/js/ModifyDefenseDiceAction.js"></script>
 <script src="../../main/js/DamageDealer.js"></script>
 <script src="../../main/js/ShipDestroyedAction.js"></script>
 <script src="../../main/js/CombatAction.js"></script>
 
+<script src="../../main/js/ui/CombatUI.js"></script>
 <script src="../../main/js/ui/HumanAgent.js"></script>
 <script src="../../main/js/ui/ImageUtilities.js"></script>
 
@@ -69,14 +75,13 @@
         var attacker = environment.getTokenAt(attackerPosition);
         assert.ok(attacker);
         environment.removeToken(attackerPosition);
-        attackerPosition = new Position(attackerPosition.getX(),
-                attackerPosition.getY(), -30);
+        attackerPosition = new Position(attackerPosition.getX(), attackerPosition.getY(), -30);
         environment.placeToken(attackerPosition, attacker);
         var weapon;
         var defenderPosition = new Position(305, 20, 90);
         var defender = environment.getTokenAt(defenderPosition);
-        var combatAction = new CombatAction(environment, adjudicator, attacker,
-                attackerPosition, weapon, defender, defenderPosition);
+        var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                defenderPosition);
 
         // Run.
         combatAction.doIt();
@@ -92,19 +97,18 @@
         var environment = Environment.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var maneuver = Maneuver.STRAIGHT_1_EASY;
-        var attackerPosition = new Position(458, 895, -90);
-        var attacker = environment.getTokenAt(attackerPosition);
+        var attacker = environment.getTokens()[2]; // X-Wing
         assert.ok(attacker);
         var weapon = attacker.getPrimaryWeapon();
         assert.ok(weapon);
-        var defenderPosition = new Position(305, 20, 90);
-        var defender = environment.getTokenAt(defenderPosition);
+        var defenderPosition = new Position(305, 20, 90); // TIE Fighter
+        var defender = environment.getTokens()[0];
+        defender.increaseEvadeCount();
         environment.removeToken(attackerPosition);
-        attackerPosition = new Position(defenderPosition.getX(),
-                defenderPosition.getY() + 50, -90);
+        var attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var combatAction = new CombatAction(environment, adjudicator, attacker,
-                attackerPosition, weapon, defender, defenderPosition);
+        var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                defenderPosition);
 
         // Run.
         combatAction.doIt();
@@ -117,5 +121,6 @@
 </head>
 <body>
 	<div id="qunit"></div>
+	<div id="inputArea"></div>
 </body>
 </html>

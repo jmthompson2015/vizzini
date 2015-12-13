@@ -64,7 +64,7 @@
         assert.equal(token1.getName(), "2 Rookie Pilot (X-Wing)");
     });
 
-    QUnit.test("Token().addCriticalDamage()", function(assert)
+    QUnit.test("addCriticalDamage()", function(assert)
     {
         // Setup.
         Token.resetNextId();
@@ -82,7 +82,25 @@
         assert.ok(token.isCriticallyDamagedWith(damage));
     });
 
-    QUnit.test("Token().addDamage()", function(assert)
+    QUnit.test("addCriticalDamage() Chewbacca", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var agent = new SimpleAgent("Imperial Agent", Team.REBEL, CoreSetImperialSquadBuilder);
+        var token = new Token(Pilot.CHEWBACCA, agent);
+        var damage = DamageCard.BLINDED_PILOT;
+        assert.equal(token.getDamageCount(), 0);
+        assert.equal(token.getCriticalDamageCount(), 0);
+
+        // Run.
+        token.addCriticalDamage(damage);
+
+        // Verify.
+        assert.equal(token.getDamageCount(), 1);
+        assert.equal(token.getCriticalDamageCount(), 0);
+    });
+
+    QUnit.test("addDamage()", function(assert)
     {
         // Setup.
         Token.resetNextId();
