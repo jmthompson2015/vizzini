@@ -44,6 +44,9 @@
 <script src="../../main/js/DamageCard.js"></script>
 <script src="../../main/js/Token.js"></script>
 <script src="../../main/js/PlanningAction.js"></script>
+<script src="../../main/js/AttackDice.js"></script>
+<script src="../../main/js/DefenseDice.js"></script>
+<script src="../../main/js/ModifyDefenseDiceAction.js"></script>
 <script src="../../main/js/SimpleAgent.js"></script>
 
 <script src="../../main/js/ui/HumanAgent.js"></script>
@@ -94,6 +97,42 @@
         assert.ok(result);
         assert.equal(result.length, 1);
         assert.equal(result[0].getName(), "1 Luke Skywalker (X-Wing)");
+    });
+
+    QUnit.test("getModifyDefenseDiceAction() evade", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var agent = new SimpleAgent("myAgent", Team.IMPERIAL, CoreSetImperialSquadBuilder);
+        var attacker = environment.getTokens()[0];
+        var attackDice = new AttackDice(3);
+        var defender = environment.getTokens()[2];
+        var defenseDice = new DefenseDice(3);
+        defender.increaseEvadeCount();
+
+        var result;
+        var caller = {};
+        function callback(modifyAction)
+        {
+            LOGGER.info("callback()");
+            result = modifyAction;
+
+            // Verify.
+            if (result)
+            {
+                assert.ok(result);
+                assert.equal(result.getModification(), ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+            }
+            else
+            {
+                assert.ok(!result)
+            }
+        }
+
+        // Run.
+        var result = agent.getModifyDefenseDiceAction(environment, adjudicator, attacker, attackDice, defender,
+                defenseDice, callback);
     });
 
     QUnit.test("getPlanningAction() Imperial", function(assert)
