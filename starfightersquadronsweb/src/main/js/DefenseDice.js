@@ -3,6 +3,11 @@
  */
 function DefenseDice(size)
 {
+    this.getSize = function()
+    {
+        return size;
+    }
+
     var values;
 
     rerollAll();
@@ -22,14 +27,61 @@ function DefenseDice(size)
         return getValueCount(DefenseDice.Value.FOCUS);
     }
 
+    this.getSortedValues = function()
+    {
+        var answer = values.slice();
+
+        answer.sort(function(die0, die1)
+        {
+            var value0 = DefenseDice.Value.properties[die0].sortOrder;
+            var value1 = DefenseDice.Value.properties[die1].sortOrder;
+
+            return value0 - value1;
+        });
+
+        return answer;
+    }
+
     this.getValue = function(index)
     {
         return values[index];
     }
 
+    /*
+     * Spend an evade token. Add an evade result.
+     */
+    this.spendEvadeToken = function()
+    {
+        values.push(DefenseDice.Value.EVADE);
+    }
+
+    /*
+     * Spend a focus token. Change all focus results to evades.
+     */
+    this.spendFocusToken = function()
+    {
+        changeAllToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+    }
+
     this.toString = function()
     {
         return "size = " + size + ", values = " + values;
+    }
+
+    /*
+     * @param oldValue Old value.
+     * 
+     * @param newValue New value.
+     */
+    function changeAllToValue(oldValue, newValue)
+    {
+        for (var i = 0; i < values.length; i++)
+        {
+            if (values[i] === oldValue)
+            {
+                values[i] = newValue;
+            }
+        }
     }
 
     /*
@@ -64,7 +116,7 @@ function DefenseDice(size)
 
         for (var i = 0; i < size; i++)
         {
-            values[values.length] = rollRandomValue();
+            values.push(rollRandomValue());
         }
     }
 
@@ -109,5 +161,24 @@ DefenseDice.Value =
 {
     EVADE: "evade",
     FOCUS: "focus",
-    BLANK: "blank"
+    BLANK: "blank",
+
+    properties:
+    {
+        "evade":
+        {
+            name: "Evade",
+            sortOrder: 0,
+        },
+        "focus":
+        {
+            name: "Focus",
+            sortOrder: 1,
+        },
+        "blank":
+        {
+            name: "Blank",
+            sortOrder: 2,
+        },
+    },
 }

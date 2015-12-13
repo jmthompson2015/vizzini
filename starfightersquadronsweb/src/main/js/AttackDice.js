@@ -3,6 +3,11 @@
  */
 function AttackDice(size)
 {
+    this.getSize = function()
+    {
+        return size;
+    }
+
     var values;
 
     rerollAll();
@@ -27,14 +32,53 @@ function AttackDice(size)
         return getValueCount(AttackDice.Value.HIT);
     }
 
+    this.getSortedValues = function()
+    {
+        var answer = values.slice();
+
+        answer.sort(function(die0, die1)
+        {
+            var value0 = AttackDice.Value.properties[die0].sortOrder;
+            var value1 = AttackDice.Value.properties[die1].sortOrder;
+
+            return value0 - value1;
+        });
+
+        return answer;
+    }
+
     this.getValue = function(index)
     {
         return values[index];
     }
 
+    /*
+     * Spend a focus token. Change all focus results to evades.
+     */
+    this.spendFocusToken = function()
+    {
+        changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+    }
+
     this.toString = function()
     {
         return "size = " + size + ", values = " + values;
+    }
+
+    /*
+     * @param oldValue Old value.
+     * 
+     * @param newValue New value.
+     */
+    function changeAllToValue(oldValue, newValue)
+    {
+        for (var i = 0; i < values.length; i++)
+        {
+            if (values[i] === oldValue)
+            {
+                values[i] = newValue;
+            }
+        }
     }
 
     /*
@@ -69,7 +113,7 @@ function AttackDice(size)
 
         for (var i = 0; i < size; i++)
         {
-            values[values.length] = rollRandomValue();
+            values.push(rollRandomValue());
         }
     }
 
@@ -117,5 +161,29 @@ AttackDice.Value =
     HIT: "hit",
     CRITICAL_HIT: "criticalHit",
     FOCUS: "focus",
-    BLANK: "blank"
+    BLANK: "blank",
+
+    properties:
+    {
+        "hit":
+        {
+            name: "Hit",
+            sortOrder: 0,
+        },
+        "criticalHit":
+        {
+            name: "Critical Hit",
+            sortOrder: 1,
+        },
+        "focus":
+        {
+            name: "Focus",
+            sortOrder: 2,
+        },
+        "blank":
+        {
+            name: "Blank",
+            sortOrder: 3,
+        },
+    },
 }

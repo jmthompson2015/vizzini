@@ -5,37 +5,55 @@
  */
 function DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount)
 {
+    InputValidator.validateNotNull("environment", environment);
+    InputValidator.validateNotNull("hitCount", hitCount);
+    InputValidator.validateNotNull("criticalHitCount", criticalHitCount);
+    InputValidator.validateNotNull("defender", defender);
+    InputValidator.validateNotNull("evadeCount", evadeCount);
+
+    var hits = hitCount;
+    var criticalHits = criticalHitCount;
+    var evades = evadeCount;
+    LOGGER.debug("hits = " + hits);
+    LOGGER.debug("criticalHits = " + criticalHits);
+    LOGGER.debug("evades = " + evades);
+
+    if (hits > 0)
+    {
+        var count = Math.min(hits, evades);
+        hits -= count;
+        evades -= count;
+    }
+
+    if (criticalHits > 0)
+    {
+        var count = Math.min(criticalHits, evades);
+        criticalHits -= count;
+        evades -= count;
+    }
+
+    LOGGER.debug("final hits = " + hits);
+    LOGGER.debug("final criticalHits = " + criticalHits);
+    LOGGER.debug("final evades = " + evades);
+    LOGGER.debug("before hits, shield = " + defender.getShieldCount());
+
+    this.getHits = function()
+    {
+        return hits;
+    }
+
+    this.getCriticalHits = function()
+    {
+        return criticalHits;
+    }
+
+    this.getRemainingEvades = function()
+    {
+        return evades;
+    }
+
     this.dealDamage = function()
     {
-        var hits = hitCount;
-        var criticalHits = criticalHitCount;
-
-        LOGGER.debug("hits         = " + hits);
-        LOGGER.debug("criticalHits = " + criticalHits);
-
-        var evades = evadeCount;
-
-        LOGGER.debug("evades       = " + evades);
-
-        if (hits > 0)
-        {
-            var count = Math.min(hits, evades);
-            hits -= count;
-            evades -= count;
-        }
-
-        if (criticalHits > 0)
-        {
-            var count = Math.min(criticalHits, evades);
-            criticalHits -= count;
-            evades -= count;
-        }
-
-        LOGGER.debug("final hits         = " + hits);
-        LOGGER.debug("final criticalHits = " + criticalHits);
-        LOGGER.debug("final evades       = " + evades);
-        LOGGER.debug("before hits, shield                  = " + defender.getShieldCount());
-
         if (defender.getShieldCount() > 0)
         {
             var count = Math.min(hits, defender.getShieldCount());
@@ -74,27 +92,22 @@ function DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCo
         for (var i = 0; i < criticalHits; i++)
         {
             var damage = environment.drawDamage();
+            var trait = DamageCard.properties[damage].trait;
 
-            // if (defender.isUpgradedWith(UpgradeCard.DETERMINATION)
-            // && (damage.getTrait() == Trait.PILOT))
-            // {
-            // environment.discardDamage(damage);
-            // }
-            // else if (defender.getPilot() == Pilot.CHEWBACCA)
-            // {
-            // defender.addDamage(damage);
-            // }
-            // else
-            // {
-            // damage.dealEffect(environment, defender);
-            defender.addCriticalDamage(damage);
-            var dealEffect = DamageCard.properties[damage].dealEffect;
-
-            if (dealEffect)
+            if (defender.isUpgradedWith(UpgradeCard.DETERMINATION) && (trait === Trait.PILOT))
             {
-                dealEffect(environment, defender);
+                environment.discardDamage(damage);
             }
-            // }
+            else
+            {
+                defender.addCriticalDamage(damage);
+                var dealEffect = DamageCard.properties[damage].dealEffect;
+
+                if (dealEffect)
+                {
+                    dealEffect(environment, defender);
+                }
+            }
         }
 
         LOGGER.debug("after critical hits, criticalDamage  = " + defender.getCriticalDamageCount());

@@ -161,14 +161,16 @@ function Engine(environment, adjudicator)
                 var defenderPosition = environment.getPositionFor(defender);
 
                 var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon,
-                        defender, defenderPosition);
+                        defender, defenderPosition, processCombatQueue);
                 LOGGER.trace("combatAction = " + combatAction);
                 combatAction.doIt();
                 delay = 1000;
             }
         }
-
-        setTimeout(processCombatQueue, delay);
+        else
+        {
+            setTimeout(processCombatQueue, delay);
+        }
     }
 
     function performActivationPhase()

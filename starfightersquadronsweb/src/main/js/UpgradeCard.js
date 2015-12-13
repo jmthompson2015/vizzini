@@ -455,6 +455,7 @@ var UpgradeCard =
             hasAction: false,
             value: "decoy",
         },
+        // @see DamageDealer.dealDamage() for effect implementation.
         "determination":
         {
             name: "Determination",

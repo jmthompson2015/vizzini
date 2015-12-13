@@ -72,15 +72,68 @@ SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicato
     callback(weapon, defender);
 }
 
-SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender)
+SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender,
+        callback)
 {
-// TODO: implement getModifyAttackDiceAction
+    InputValidator.validateNotNull("environment", environment);
+    InputValidator.validateNotNull("adjudicator", adjudicator);
+    InputValidator.validateNotNull("attacker", attacker);
+    InputValidator.validateNotNull("attackDice", attackDice);
+    InputValidator.validateNotNull("defender", defender);
+    InputValidator.validateNotNull("callback", callback);
+
+    var modifications = [ null ];
+
+    // TODO: implement Target Lock
+
+    if (attacker.getFocusCount() > 0)
+    {
+        modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
+    }
+
+    var modification = modifications.vizziniRandomElement();
+    var answer;
+
+    if (modification)
+    {
+        answer = new ModifyAttackDiceAction(environment, attacker, attackDice, modification);
+    }
+
+    callback(answer);
 }
 
 SimpleAgent.prototype.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender,
-        defenseDice)
+        defenseDice, callback)
 {
-// TODO: implement getModifyDefenseDiceAction
+    InputValidator.validateNotNull("environment", environment);
+    InputValidator.validateNotNull("adjudicator", adjudicator);
+    InputValidator.validateNotNull("attacker", attacker);
+    InputValidator.validateNotNull("attackDice", attackDice);
+    InputValidator.validateNotNull("defender", defender);
+    InputValidator.validateNotNull("defenseDice", defenseDice);
+    InputValidator.validateNotNull("callback", callback);
+
+    var modifications = [ null ];
+
+    if (defender.getEvadeCount() > 0)
+    {
+        modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+    }
+
+    if (defender.getFocusCount() > 0)
+    {
+        modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
+    }
+
+    var modification = modifications.vizziniRandomElement();
+    var answer;
+
+    if (modification)
+    {
+        answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+    }
+
+    callback(answer);
 }
 
 /*
