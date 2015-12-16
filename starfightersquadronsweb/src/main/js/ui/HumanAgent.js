@@ -5,12 +5,11 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
         "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ], function(ModifyAttackDiceAction,
         ModifyDefenseDiceAction, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
 {
-    function HumanAgent(name, team, squadBuilder, imageUtils)
+    function HumanAgent(name, team, squadBuilder)
     {
         InputValidator.validateNotEmpty("name", name);
         InputValidator.validateNotNull("team", team);
         InputValidator.validateNotNull("squadBuilder", squadBuilder);
-        InputValidator.validateNotNull("imageUtils", imageUtils);
 
         var callback;
         var environment;
@@ -125,7 +124,6 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
                 environment: environment,
                 agent: self,
                 tokens: tokens,
-                imageUtils: imageUtils,
                 callback: self.finishPlanningAction
             });
             React.render(element, document.getElementById("inputArea"));

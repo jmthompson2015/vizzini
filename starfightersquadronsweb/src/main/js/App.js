@@ -8,14 +8,11 @@ var audioBase = resourceBase + "audio/";
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
-require([ "Game", "ui/EnvironmentUI", "ui/ImageUtilities", "ui/NewGamePanel" ], function(Game, EnvironmentUI,
-        ImageUtilities, NewGamePanel)
+require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, EnvironmentUI, NewGamePanel)
 {
     // Create initial agents and tokens.
-    var imageUtils = new ImageUtilities(imageBase);
     var newGamePanel = React.createElement(NewGamePanel,
     {
-        iconBase: iconBase,
         callback: startNewGame,
     });
 

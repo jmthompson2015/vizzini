@@ -24,36 +24,36 @@
 	<script>
         var LOGGER = new Logger();
 
-        require([ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ImageUtilities", "ui/ManeuverChooser" ],
-                function(Pilot, SimpleAgent, SquadBuilder, Team, Token, ImageUtilities, ManeuverChooser)
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ManeuverChooser" ], function(Pilot,
+                SimpleAgent, SquadBuilder, Team, Token, ManeuverChooser)
+        {
+            {
+                var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                        SquadBuilder.CoreSetImperialSquadBuilder);
+                var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+                var element = React.createElement(ManeuverChooser,
                 {
-                    var imageUtils = new ImageUtilities();
-
-                    {
-                        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                                SquadBuilder.CoreSetImperialSquadBuilder);
-                        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-                        var element = React.createElement(ManeuverChooser,
-                        {
-                            token: token,
-                            imageUtils: imageUtils
-                        });
-                        React.render(element, document.getElementById("inputArea0"));
-                    }
-
-                    {
-                        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL,
-                                SquadBuilder.CoreSetRebelSquadBuilder);
-                        var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
-                        var element = React.createElement(ManeuverChooser,
-                        {
-                            token: token,
-                            isPilotNameShown: false,
-                            imageUtils: imageUtils
-                        });
-                        React.render(element, document.getElementById("inputArea1"));
-                    }
+                    token: token,
                 });
+                React.render(element, document.getElementById("inputArea0"));
+            }
+
+            {
+                var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+                var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+                var element = React.createElement(ManeuverChooser,
+                {
+                    token: token,
+                    isPilotNameShown: false,
+                });
+                React.render(element, document.getElementById("inputArea1"));
+            }
+        });
     </script>
 </body>
 </html>

@@ -22,6 +22,11 @@
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
 
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
         require([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardUI)
         {
             var upgradeCard = UpgradeCard.DETERMINATION;

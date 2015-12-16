@@ -15,6 +15,7 @@ define(function()
             "imperial":
             {
                 name: "Imperial",
+                shortName: "Imperial",
                 description: "Imperial team",
                 color: "rgb(0, 255, 0)",
                 value: "imperial",
@@ -22,6 +23,7 @@ define(function()
             "rebel":
             {
                 name: "Rebel",
+                shortName: "Rebel",
                 description: "Rebel team",
                 color: "red",
                 value: "rebel",
@@ -29,6 +31,7 @@ define(function()
             "scum":
             {
                 name: "Scum & Villainy",
+                shortName: "Scum",
                 description: "Scum & Villainy team",
                 color: "rgb(255, 215, 0)",
                 value: "scum",

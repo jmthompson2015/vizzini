@@ -16,34 +16,6 @@
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
-<!-- 
-<script src="../../../main/js/Team.js"></script>
-<script src="../../../main/js/FiringArc.js"></script>
-<script src="../../../main/js/Bearing.js"></script>
-<script src="../../../main/js/Difficulty.js"></script>
-<script src="../../../main/js/Maneuver.js"></script>
-<script src="../../../main/js/ShipAction.js"></script>
-<script src="../../../main/js/ShipBase.js"></script>
-<script src="../../../main/js/Ship.js"></script>
-<script src="../../../main/js/ShipTeam.js"></script>
-<script src="../../../main/js/RangeRuler.js"></script>
-<script src="../../../main/js/Weapon.js"></script>
-<script src="../../../main/js/TurretWeapon.js"></script>
-<script src="../../../main/js/ShipState.js"></script>
-<script src="../../../main/js/UpgradeRestriction.js"></script>
-<script src="../../../main/js/UpgradeType.js"></script>
-<script src="../../../main/js/UpgradeCard.js"></script>
-<script src="../../../main/js/Pilot.js"></script>
-<script src="../../../main/js/SimpleAgent.js"></script>
-<script src="../../../main/js/SquadBuilder.js"></script>
-<script src="../../../main/js/DamageCard.js"></script>
-<script src="../../../main/js/Token.js"></script>
-
-<script src="../../../main/js/ui/PilotCardUI.js"></script>
-<script src="../../../main/js/ui/PilotChooser.js"></script>
-<script src="../../../main/js/ui/UpgradeCardUI.js"></script>
- -->
-
 </head>
 <body>
 	<div id="pilotChooserPanel"></div>
@@ -51,7 +23,12 @@
         "use strict";
         var LOGGER = new Logger();
 
-        require([ "Team","ui/PilotChooser" ], function(Team,PilotChooser)
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Team", "ui/PilotChooser" ], function(Team, PilotChooser)
         {
             var team = Team.IMPERIAL;
 

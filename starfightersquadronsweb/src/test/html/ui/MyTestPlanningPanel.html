@@ -24,44 +24,46 @@
 	<script>
         var LOGGER = new Logger();
 
-        require([ "Environment", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ImageUtilities",
-                "ui/PlanningPanel" ], function(Environment, Pilot, SimpleAgent, SquadBuilder, Team, Token,
-                ImageUtilities, PlanningPanel)
-        {
-            var environment = Environment.createCoreSetEnvironment();
-            var adjudicator;
-            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                    SquadBuilder.CoreSetImperialSquadBuilder);
-            var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-            var token1 = new Token(Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
-            var token2 = new Token(Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);
-            var tokens = [ token0, token1, token2 ];
-            var imageUtils = new ImageUtilities();
-            var caller = {};
-            function callback(planningAction)
-            {
-                LOGGER.info("caller.callback() start");
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
 
-                for (var i = 0; i < tokens.length; i++)
+        require([ "Environment", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/PlanningPanel" ],
+                function(Environment, Pilot, SimpleAgent, SquadBuilder, Team, Token, PlanningPanel)
                 {
-                    var token = tokens[i];
-                    var maneuver = planningAction.getManeuver(token);
-                    LOGGER.info(token + ": " + maneuver);
-                }
+                    var environment = Environment.createCoreSetEnvironment();
+                    var adjudicator;
+                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                            SquadBuilder.CoreSetImperialSquadBuilder);
+                    var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+                    var token1 = new Token(Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
+                    var token2 = new Token(Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);
+                    var tokens = [ token0, token1, token2 ];
+                    var caller = {};
+                    function callback(planningAction)
+                    {
+                        LOGGER.info("caller.callback() start");
 
-                LOGGER.info("caller.callback() end");
-            }
+                        for (var i = 0; i < tokens.length; i++)
+                        {
+                            var token = tokens[i];
+                            var maneuver = planningAction.getManeuver(token);
+                            LOGGER.info(token + ": " + maneuver);
+                        }
 
-            var element = React.createElement(PlanningPanel,
-            {
-                environment: environment,
-                agent: imperialAgent,
-                tokens: tokens,
-                imageUtils: imageUtils,
-                callback: callback
-            });
-            React.render(element, document.getElementById("inputArea"));
-        });
+                        LOGGER.info("caller.callback() end");
+                    }
+
+                    var element = React.createElement(PlanningPanel,
+                    {
+                        environment: environment,
+                        agent: imperialAgent,
+                        tokens: tokens,
+                        callback: callback
+                    });
+                    React.render(element, document.getElementById("inputArea"));
+                });
     </script>
 </body>
 </html>

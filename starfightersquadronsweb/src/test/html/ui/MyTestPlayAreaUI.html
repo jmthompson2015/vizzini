@@ -22,12 +22,16 @@
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
 
-        require([ "Environment", "Phase", "ui/ImageUtilities", "ui/PlayAreaUI", "ui/PlayState" ], function(Environment,
-                Phase, ImageUtilities, PlayAreaUI, PlayState)
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Environment", "Phase", "ui/PlayAreaUI", "ui/PlayState" ], function(Environment, Phase, PlayAreaUI,
+                PlayState)
         {
             var environment = Environment.createCoreSetEnvironment();
-            var imageUtils = new ImageUtilities();
-            var playAreaUI = new PlayAreaUI(environment, imageUtils);
+            var playAreaUI = new PlayAreaUI(environment);
 
             var round = environment.getRound();
             var phase = Phase.ACTIVATION_EXECUTE_MANEUVER;

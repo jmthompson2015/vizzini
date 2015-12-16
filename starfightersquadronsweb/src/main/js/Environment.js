@@ -18,9 +18,9 @@
  * </dl>
  */
 define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler", "RectanglePath", "ShipBase",
-        "SimpleAgent", "SquadBuilder", "Team", "Token", "Weapon", "ui/HumanAgent", "ui/ImageUtilities" ], function(
-        DamageCard, MediumAgent, Phase, Position, Range, RangeRuler, RectanglePath, ShipBase, SimpleAgent,
-        SquadBuilder, Team, Token, Weapon, HumanAgent, ImageUtilities)
+        "SimpleAgent", "SquadBuilder", "Team", "Token", "Weapon", "ui/HumanAgent" ], function(DamageCard, MediumAgent,
+        Phase, Position, Range, RangeRuler, RectanglePath, ShipBase, SimpleAgent, SquadBuilder, Team, Token, Weapon,
+        HumanAgent)
 {
     function Environment(teams)
     {
@@ -750,8 +750,7 @@ define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler"
             throw "Unknown computerAgentType: " + computerAgentType;
         }
 
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities(imageBase));
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
         var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
 
         var answer = new Environment(teams);

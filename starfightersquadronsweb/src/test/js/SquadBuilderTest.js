@@ -1,5 +1,5 @@
-define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent", "ui/ImageUtilities" ], function(
-        Pilot, Ship, SimpleAgent, SquadBuilder, Team, HumanAgent, ImageUtilities)
+define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(
+        Pilot, Ship, SimpleAgent, SquadBuilder, Team, HumanAgent)
 {
     QUnit.module("SquadBuilder");
 
@@ -43,7 +43,7 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
     QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
     {
         var squadBuilder = SquadBuilder.SquadBuilders[1];
-        var agent = new HumanAgent("Rebel Agent", Team.REBEL, squadBuilder, new ImageUtilities(imageBase));
+        var agent = new HumanAgent("Rebel Agent", Team.REBEL, squadBuilder);
         var result = squadBuilder.buildSquad(agent);
         assert.equal(result.length, 1);
 

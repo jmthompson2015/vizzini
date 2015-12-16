@@ -29,11 +29,10 @@
         var LOGGER = new Logger();
 
         require(
-                [ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ImageUtilities", "ui/ShipActionChooser" ],
-                function(Pilot, SimpleAgent, SquadBuilder, Team, Token, ImageUtilities, ShipActionChooser)
+                [ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token",  "ui/ShipActionChooser" ],
+                function(Pilot, SimpleAgent, SquadBuilder, Team, Token, ShipActionChooser)
                 {
-                    var agent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                            new ImageUtilities());
+                    var agent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
                     var token = new Token(Pilot.LUKE_SKYWALKER, agent);
                     var shipActions = token.getShipActions();
 

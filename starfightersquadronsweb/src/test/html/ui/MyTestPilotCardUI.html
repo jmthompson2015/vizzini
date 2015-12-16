@@ -37,11 +37,14 @@
         "use strict";
         var LOGGER = new Logger();
 
-        require([ "DamageCard", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ImageUtilities",
-                "ui/PilotCardUI" ], function(DamageCard, Pilot, SimpleAgent, SquadBuilder, Team, Token, ImageUtilities,
-                PilotCardUI)
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "DamageCard", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/PilotCardUI" ], function(
+                DamageCard, Pilot, SimpleAgent, SquadBuilder, Team, Token, PilotCardUI)
         {
-            var imageUtils = new ImageUtilities();
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
                     SquadBuilder.CoreSetImperialSquadBuilder);
             var imperialToken = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
@@ -52,8 +55,7 @@
             imperialToken.increaseFocusCount();
             imperialToken.increaseFocusCount();
 
-            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                    new ImageUtilities());
+            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
             var rebelToken = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
             rebelToken.increaseIonCount();
             rebelToken.increaseStressCount();
