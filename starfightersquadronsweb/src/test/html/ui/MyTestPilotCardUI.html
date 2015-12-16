@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestPilotCardUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="imperialPilotCompact" style="vertical-align: top"></td>
+			<td id="rebelPilotCompact" style="vertical-align: top"></td>
+			<td id="scumPilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="imperialPilotLarge" style="vertical-align: top"></td>
+			<td id="rebelPilotLarge" style="vertical-align: top"></td>
+			<td id="scumPilotLarge" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td><button id="updateImperial" type="button">Update</button></td>
+			<td><button id="updateRebel" type="button">Update</button></td>
+			<td><button id="updateScum" type="button">Update</button></td>
+		</tr>
+	</table>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        require([ "DamageCard", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ImageUtilities",
+                "ui/PilotCardUI" ], function(DamageCard, Pilot, SimpleAgent, SquadBuilder, Team, Token, ImageUtilities,
+                PilotCardUI)
+        {
+            var imageUtils = new ImageUtilities();
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                    SquadBuilder.CoreSetImperialSquadBuilder);
+            var imperialToken = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+            imperialToken.increaseCloakCount();
+            imperialToken.increaseEvadeCount();
+            imperialToken.increaseEvadeCount();
+            imperialToken.increaseFocusCount();
+            imperialToken.increaseFocusCount();
+            imperialToken.increaseFocusCount();
+
+            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
+                    new ImageUtilities());
+            var rebelToken = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+            rebelToken.increaseIonCount();
+            rebelToken.increaseStressCount();
+            rebelToken.addDamage(DamageCard.BLINDED_PILOT);
+
+            var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM,
+                    SquadBuilder.CoreSetImperialSquadBuilder);
+            var scumToken = new Token(Pilot.SYNDICATE_THUG, scumAgent);
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: true,
+                initialToken: imperialToken
+            });
+            React.render(element, document.getElementById("imperialPilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: true,
+                initialToken: rebelToken
+            });
+            React.render(element, document.getElementById("rebelPilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: true,
+                initialToken: scumToken
+            });
+            React.render(element, document.getElementById("scumPilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: false,
+                initialToken: imperialToken
+            });
+            React.render(element, document.getElementById("imperialPilotLarge"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: false,
+                initialToken: rebelToken
+            });
+            React.render(element, document.getElementById("rebelPilotLarge"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: false,
+                initialToken: scumToken
+            });
+            React.render(element, document.getElementById("scumPilotLarge"));
+
+            function updateImperialToken()
+            {
+                LOGGER.info("updateImperialToken() start");
+                imperialToken.addDamage(DamageCard.DIRECT_HIT);
+                imperialToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
+                imperialToken.increaseCloakCount();
+                imperialToken.increaseEvadeCount();
+                imperialToken.increaseFocusCount();
+                LOGGER.info("updateImperialToken() end");
+            }
+
+            function updateRebelToken()
+            {
+                LOGGER.info("updateRebelToken() start");
+                rebelToken.addDamage(DamageCard.DIRECT_HIT);
+                rebelToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
+                rebelToken.increaseIonCount();
+                rebelToken.decreaseShieldCount();
+                rebelToken.increaseStressCount();
+                LOGGER.info("updateRebelToken() end");
+            }
+
+            function updateScumToken()
+            {
+                LOGGER.info("updateScumToken() start");
+                scumToken.addDamage(DamageCard.DIRECT_HIT);
+                scumToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
+                scumToken.increaseIonCount();
+                scumToken.decreaseShieldCount();
+                scumToken.increaseStressCount();
+                LOGGER.info("updateScumToken() end");
+            }
+
+            document.getElementById("updateImperial").onclick = updateImperialToken;
+            document.getElementById("updateRebel").onclick = updateRebelToken;
+            document.getElementById("updateScum").onclick = updateScumToken;
+        });
+    </script>
+</body>
+</html>

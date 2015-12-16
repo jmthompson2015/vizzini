@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestSquadUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+</head>
+<body>
+	<div id="squadPanel0"></div>
+	<p />
+	<div id="squadPanel1"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "SimpleAgent", "SquadBuilder", "Team", "ui/SquadUI" ], function(SimpleAgent, SquadBuilder, Team,
+                SquadUI)
+        {
+            var team0 = Team.IMPERIAL;
+            var agentName0 = "Imperial Agent";
+            var squadBuilder0 = SquadBuilder.CoreSetImperialSquadBuilder;
+            var agent0 = new SimpleAgent(agentName0, team0, squadBuilder0);
+            var squad0 = squadBuilder0.buildSquad(agent0);
+
+            var element = React.createElement(SquadUI,
+            {
+                squad: squad0,
+                iconBase: iconBase,
+                isEditable: true,
+                removeFunction: removeActionPerformed
+            });
+            React.render(element, document.getElementById("squadPanel0"));
+
+            var team1 = Team.REBEL;
+            var agentName1 = "Rebel Agent";
+            var squadBuilder1 = SquadBuilder.CoreSetRebelSquadBuilder;
+            var agent1 = new SimpleAgent(agentName1, team1, squadBuilder1);
+            var squad1 = squadBuilder1.buildSquad(agent1);
+
+            var element = React.createElement(SquadUI,
+            {
+                squad: squad1,
+                iconBase: iconBase,
+                removeFunction: removeActionPerformed
+            });
+            React.render(element, document.getElementById("squadPanel1"));
+
+            function removeActionPerformed(selected, event)
+            {
+                LOGGER.info("remove clicked");
+                LOGGER.info("selected = " + selected);
+
+                for (var i = 0; i < selected.length; i++)
+                {
+                    var token = selected[i];
+                    var index = squad.indexOf(token);
+
+                    if (index >= 0)
+                    {
+                        squad.splice(index, 1);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

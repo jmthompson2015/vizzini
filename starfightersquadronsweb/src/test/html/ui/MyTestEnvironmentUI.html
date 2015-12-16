@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestEnvironmentUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+
+</head>
+<body>
+	<audio id="tieFighterLaserAudio" src="../../../main/resources/audio/TIEFighterLaser.wav" preload="auto"></audio>
+	<audio id="xWingLaserAudio" src="resources/audio/XWingLaser.wav" preload="auto"></audio>
+
+	<table>
+		<tr>
+			<td colspan="3" id="ssPanel" class="hidden"></td>
+		</tr>
+		<tr>
+			<td rowspan="3" id="firstPilots"></td>
+			<td id="playArea">
+				<canvas id="playAreaCanvas"></canvas>
+			</td>
+			<td rowspan="3" id="secondPilots"></td>
+		</tr>
+		<tr>
+			<td id="messageArea" class="hidden"></td>
+		</tr>
+		<tr>
+			<td id="inputArea"></td>
+		</tr>
+	</table>
+	<script>
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        function updateSizes(environmentUI)
+        {
+            // InputValidator.validateNotNull("environmentUI", environmentUI);
+
+            var firstPilots = document.getElementById("firstPilots");
+            var secondPilots = document.getElementById("secondPilots");
+            var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
+
+            var ssPanel = document.getElementById("ssPanel");
+            var messageArea = document.getElementById("messageArea");
+            var inputArea = document.getElementById("inputArea");
+            var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight
+                    - inputArea.offsetHeight;
+
+            var size = Math.min(newWidth, newHeight)
+
+            var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
+            myPlayAreaCanvas.width = size;
+            myPlayAreaCanvas.height = size;
+
+            var scale = size / 915;
+
+            if (environmentUI)
+            {
+                environmentUI.setScale(scale);
+            }
+        }
+
+        require([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "Team",
+                "ui/EnvironmentUI" ], function(Adjudicator, CombatAction, Environment, Maneuver, ManeuverAction, Phase,
+                Team, EnvironmentUI)
+        {
+            var environment = Environment.createCoreSetEnvironment();
+            var adjudicator = new Adjudicator();
+            var mockEngine = {};
+            mockEngine.addWinnerListener = function(listener)
+            {};
+            var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
+            var rebelTokens = environment.getTokensForTeam(Team.REBEL);
+            var imperialToken0 = imperialTokens[0];
+            var imperialToken1 = imperialTokens[1];
+            var rebelToken = rebelTokens[0];
+
+            var environmentUI = new EnvironmentUI(mockEngine, environment);
+
+            window.addEventListener("resize", function()
+            {
+                updateSizes(environmentUI)
+            }, false);
+            window.addEventListener("orientationchange", function()
+            {
+                updateSizes(environmentUI)
+            }, false);
+
+            environment.fireUpdateTrigger();
+
+            window.dispatchEvent(new Event('resize'));
+
+            // Move imperial token 0.
+            {
+                environment.setActiveToken(imperialToken0);
+                var fromPosition = environment.getPositionFor(imperialToken0);
+                var shipBase = imperialToken0.getShipBase();
+                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_1_STANDARD, fromPosition,
+                        shipBase);
+                maneuverAction.doIt();
+            }
+
+            // Move imperial token 1.
+            {
+                environment.setActiveToken(imperialToken1);
+                var fromPosition = environment.getPositionFor(imperialToken1);
+                var shipBase = imperialToken1.getShipBase();
+                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
+                        shipBase);
+                maneuverAction.doIt();
+            }
+
+            // Move rebel token.
+            {
+                environment.setActiveToken(rebelToken);
+                var fromPosition = environment.getPositionFor(rebelToken);
+                var shipBase = rebelToken.getShipBase();
+                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
+                        shipBase);
+                maneuverAction.doIt();
+            }
+
+            // Move rebel token.
+            {
+                environment.setActiveToken(rebelToken);
+                var fromPosition = environment.getPositionFor(rebelToken);
+                var shipBase = rebelToken.getShipBase();
+                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_3_STANDARD, fromPosition,
+                        shipBase);
+                maneuverAction.doIt();
+            }
+
+            environment.setPhase(Phase.ACTIVATION_END);
+
+            environment.setPhase(Phase.COMBAT_START);
+
+            // Rebel token fire upon imperial token 1.
+            {
+                environment.setActiveToken(rebelToken);
+                var rebelPosition = environment.getPositionFor(rebelToken);
+                var weapon = rebelToken.getPrimaryWeapon();
+                var imperialPosition = environment.getPositionFor(imperialToken1);
+                var combatAction = new CombatAction(environment, adjudicator, rebelToken, rebelPosition, weapon,
+                        imperialToken1, imperialPosition);
+                combatAction.doIt();
+            }
+
+            // Imperial token 1 fire upon rebel token.
+            {
+                environment.setActiveToken(imperialToken1);
+                var imperialPosition = environment.getPositionFor(imperialToken1);
+                var weapon = imperialToken1.getPrimaryWeapon();
+                var rebelPosition = environment.getPositionFor(rebelToken);
+                var combatAction = new CombatAction(environment, adjudicator, imperialToken1, imperialPosition, weapon,
+                        rebelToken, rebelPosition);
+                combatAction.doIt();
+            }
+
+            environment.setPhase(Phase.COMBAT_END);
+        });
+    </script>
+</body>
+</html>

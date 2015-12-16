@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestPlayAreaUI</title>
+
+<script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+</head>
+<body>
+
+	<canvas id="playAreaCanvas" width="915" height="915"></canvas>
+
+	<script>
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+
+        require([ "Environment", "Phase", "ui/ImageUtilities", "ui/PlayAreaUI", "ui/PlayState" ], function(Environment,
+                Phase, ImageUtilities, PlayAreaUI, PlayState)
+        {
+            var environment = Environment.createCoreSetEnvironment();
+            var imageUtils = new ImageUtilities();
+            var playAreaUI = new PlayAreaUI(environment, imageUtils);
+
+            var round = environment.getRound();
+            var phase = Phase.ACTIVATION_EXECUTE_MANEUVER;
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState = new PlayState(round, phase, activeToken, tokenPositions);
+
+            var canvas = document.getElementById("playAreaCanvas");
+            var context = canvas.getContext("2d");
+            playAreaUI.paintComponent(context, playState);
+
+            setTimeout(function()
+            {
+                LOGGER.info("timer expired");
+                var round = environment.getRound();
+                var phase = environment.getPhase();
+                var activeToken = environment.getActiveToken();
+                var tokenPositions = PlayState.createTokenPositions(environment);
+                var playState = new PlayState(round, phase, activeToken, tokenPositions);
+                playAreaUI.paintComponent(context, playState);
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
