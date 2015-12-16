@@ -5,6 +5,11 @@ define(function()
 {
     function ModifyAttackDiceAction(environment, attacker, attackDice, modification)
     {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("attackDice", attackDice);
+        InputValidator.validateNotNull("modification", modification);
+
         this.getEnvironment = function()
         {
             return environment;
