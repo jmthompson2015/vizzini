@@ -7,62 +7,43 @@
 
 <script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
 <script src="../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
+<script src="../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../main/js/Team"></script>
 
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
-<script src="../js/Team.js"></script>
-<script src="../js/FiringArc.js"></script>
-<script src="../js/Bearing.js"></script>
-<script src="../js/Difficulty.js"></script>
-<script src="../js/Maneuver.js"></script>
-<script src="../js/ShipAction.js"></script>
-<script src="../js/ShipBase.js"></script>
-<script src="../js/Ship.js"></script>
-<script src="../js/RangeRuler.js"></script>
-<script src="../js/ShipState.js"></script>
-<script src="../js/ShipTeam.js"></script>
-<script src="../js/UpgradeRestriction.js"></script>
-<script src="../js/UpgradeType.js"></script>
-<script src="../js/UpgradeCard.js"></script>
-<script src="../js/Weapon.js"></script>
-<script src="../js/TurretWeapon.js"></script>
-<script src="../js/Pilot.js"></script>
-
-<script src="../js/ui/PilotStatisticsTable.js"></script>
-
 <style>
 #pilotTable {
-	background-color: white;
-	border-collapse: collapse;
-	font-size: small;
+    background-color: white;
+    border-collapse: collapse;
+    font-size: small;
 }
 
 #pilotTable tbody tr:nth-child(2n) td {
-	background: lightCyan;
+    background: lightCyan;
 }
 
 #pilotTable tbody tr:nth-child(2n+1) td {
-	background: white;
+    background: white;
 }
 
 #pilotTable th {
-	background-color: #555555;
-	border: 1px solid lightGray;
-	color: white;
+    background-color: #555555;
+    border: 1px solid lightGray;
+    color: white;
 }
 
 #pilotTable td {
-	border: 1px solid lightGray;
+    border: 1px solid lightGray;
 }
 
 .textCell {
-	text-align: left;
+    text-align: left;
 }
 
 .numberCell {
-	text-align: right;
+    text-align: right;
 }
 </style>
 </head>
@@ -73,8 +54,11 @@
         "use strict";
         var LOGGER = new Logger();
 
-        var element = React.createElement(PilotStatisticsTable);
-        React.render(element, document.getElementById("tableContainer"));
+        require([ "ui/PilotStatisticsTable" ], function(PilotStatisticsTable)
+        {
+            var element = React.createElement(PilotStatisticsTable);
+            React.render(element, document.getElementById("tableContainer"));
+        });
     </script>
 </body>
 </html>
