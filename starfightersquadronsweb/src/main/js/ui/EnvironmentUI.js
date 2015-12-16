@@ -6,7 +6,7 @@ define([ "Phase", "ui/ImageUtilities", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayS
 {
     function EnvironmentUI(engine, environment)
     {
-        var imageUtils = new ImageUtilities();
+        var imageUtils = new ImageUtilities(imageBase);
         var ssPanel = new SSPanel(environment);
         var playAreaUI = new PlayAreaUI(environment, imageUtils);
         var firstTokens = environment.getTokensForTeam(environment.getFirstTeam());

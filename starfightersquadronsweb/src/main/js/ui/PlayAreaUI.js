@@ -174,7 +174,7 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "Team" ], function(Diffic
 
                 if (toPosition)
                 {
-                    var strokeStyle = imageUtils.getTeamColor(attacker);
+                    var strokeStyle = Team.properties[attacker.getTeam()].color;
                     var audioClip = getLaserAudioClip(attacker);
                     answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip);
                 }

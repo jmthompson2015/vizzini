@@ -10,7 +10,7 @@ define(
                 getInitialState: function()
                 {
                     var agent1 = new MediumAgent("Agent 1", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-                    var imageUtils = new ImageUtilities();
+                    var imageUtils = new ImageUtilities(imageBase);
                     var agent2 = new HumanAgent("Agent 2", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
                             imageUtils);
 
@@ -264,7 +264,7 @@ define(
                         answer = new MediumAgent(name, team, squadBuilder);
                         break;
                     case "HumanAgent":
-                        var imageUtils = new ImageUtilities();
+                        var imageUtils = new ImageUtilities(imageBase);
                         answer = new HumanAgent(name, team, squadBuilder, imageUtils);
                         break;
                     default:

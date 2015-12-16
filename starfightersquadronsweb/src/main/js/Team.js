@@ -16,18 +16,21 @@ define(function()
             {
                 name: "Imperial",
                 description: "Imperial team",
+                color: "rgb(0, 255, 0)",
                 value: "imperial",
             },
             "rebel":
             {
                 name: "Rebel",
                 description: "Rebel team",
+                color: "red",
                 value: "rebel",
             },
             "scum":
             {
                 name: "Scum & Villainy",
                 description: "Scum & Villainy team",
+                color: "rgb(255, 215, 0)",
                 value: "scum",
             },
         },

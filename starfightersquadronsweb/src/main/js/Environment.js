@@ -751,7 +751,7 @@ define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler"
         }
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
 
         var answer = new Environment(teams);

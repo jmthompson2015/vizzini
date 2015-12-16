@@ -1,6 +1,6 @@
 define(
-        [ "Team", "ui/ImageUtilities" ],
-        function(Team, ImageUtilities)
+        [ "Bearing", "Difficulty", "Team", "ui/ImageUtilities" ],
+        function(Bearing, Difficulty, Team, ImageUtilities)
         {
             QUnit.module("ImageUtilities");
 
@@ -24,35 +24,16 @@ define(
                                 assert.equal(filename, expected);
                             });
 
-            QUnit
-                    .test(
-                            "ImageUtilities.createTeamIconString() Imperial",
-                            function(assert)
-                            {
-                                // Setup.
-                                var imageUtils = new ImageUtilities();
+            QUnit.test("createManeuverIconSource", function(assert)
+            {
+                // Setup.
+                var imageUtils = new ImageUtilities(imageBase);
 
-                                // Run.
-                                var result = imageUtils.createTeamIconString(Team.properties[Team.IMPERIAL].name);
+                // Run.
+                var result = imageUtils.createManeuverIconSource(Bearing.STRAIGHT, Difficulty.EASY);
 
-                                // Verify.
-                                var expected = "<img title='Imperial Faction' src='/Volumes/StorageDrive/jmthompson/git/vizzini/starfightersquadronsweb/src/main/resources/images/ImperialIcon24.png'/>";
-                                assert.equal(result, expected);
-                            });
-
-            QUnit
-                    .test(
-                            "ImageUtilities.createTeamIconString() Rebel",
-                            function(assert)
-                            {
-                                // Setup.
-                                var imageUtils = new ImageUtilities();
-
-                                // Run.
-                                var result = imageUtils.createTeamIconString(Team.properties[Team.REBEL].name);
-
-                                // Verify.
-                                var expected = "<img title='Rebel Faction' src='/Volumes/StorageDrive/jmthompson/git/vizzini/starfightersquadronsweb/src/main/resources/images/RebelIcon24.png'/>";
-                                assert.equal(result, expected);
-                            });
+                // Verify.
+                var expected = imageBase + "maneuver/straight_easy16.png";
+                assert.equal(result, expected);
+            });
         });

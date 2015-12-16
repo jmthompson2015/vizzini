@@ -12,7 +12,7 @@ require([ "Game", "ui/EnvironmentUI", "ui/ImageUtilities", "ui/NewGamePanel" ], 
         ImageUtilities, NewGamePanel)
 {
     // Create initial agents and tokens.
-    var imageUtils = new ImageUtilities();
+    var imageUtils = new ImageUtilities(imageBase);
     var newGamePanel = React.createElement(NewGamePanel,
     {
         iconBase: iconBase,

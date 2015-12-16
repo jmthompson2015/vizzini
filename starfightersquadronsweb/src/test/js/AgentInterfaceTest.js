@@ -9,7 +9,7 @@ define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent", 
         var name = "myAgent";
         var team = Team.IMPERIAL;
         var squadBuilder = SquadBuilder.CoreSetImperialSquadBuilder;
-        var imageUtils = new ImageUtilities();
+        var imageUtils = new ImageUtilities(imageBase);
 
         var agent0 = new SimpleAgent(name + "0", team, squadBuilder);
         var agent1 = new MediumAgent(name + "1", team, squadBuilder);

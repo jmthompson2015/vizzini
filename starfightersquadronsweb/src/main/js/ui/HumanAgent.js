@@ -2,8 +2,8 @@
  * Provides a human agent for Starfighter Squadrons.
  */
 define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui/PlanningPanel",
-        "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ], function(ModifyDefenseDiceAction,
-        ModifyAttackDiceAction, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+        "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ], function(ModifyAttackDiceAction,
+        ModifyDefenseDiceAction, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
 {
     function HumanAgent(name, team, squadBuilder, imageUtils)
     {

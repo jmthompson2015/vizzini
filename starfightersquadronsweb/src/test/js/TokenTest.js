@@ -14,7 +14,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         assert.equal(token0.getShip(), Ship.TIE_FIGHTER);
         assert.equal(token0.getName(), "1 Academy Pilot (TIE Fighter)");
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.getId(), 2);
         assert.equal(token1.getPilot(), Pilot.ROOKIE_PILOT);
@@ -89,7 +89,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         assert.equal(token0.computeAttackDiceCount(environment, token0.getPrimaryWeapon(), Range.THREE), 2);
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.getId(), 2);
         assert.equal(token1.getPilot(), Pilot.ROOKIE_PILOT);
@@ -139,7 +139,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         assert.equal(token0.computeDefenseDiceCount(token0.getPrimaryWeapon(), Range.THREE), 4);
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.getId(), 2);
         assert.equal(token1.getPilot(), Pilot.ROOKIE_PILOT);
@@ -157,7 +157,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         Token.resetNextId();
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var token2 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
@@ -199,7 +199,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -229,7 +229,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -350,7 +350,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -405,7 +405,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -446,7 +446,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -461,7 +461,7 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
     {
         // Setup.
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                new ImageUtilities());
+                new ImageUtilities(imageBase));
         var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
 
         // Run.
