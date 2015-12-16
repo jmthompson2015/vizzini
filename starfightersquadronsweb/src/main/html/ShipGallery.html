@@ -43,11 +43,15 @@
         "use strict";
         var LOGGER = new Logger();
 
-        require([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token","ui/ManeuverChooser", "ui/ImageUtilities" ],
-                function( Pilot, Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token,ManeuverChooser, ImageUtilities)
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ManeuverChooser" ],
+                function(Pilot, Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token, ManeuverChooser)
                 {
                     var imageBase = "../resources/images/ship/";
-                    var imageUtils = new ImageUtilities();
                     var ShipGallery = React.createClass(
                     {
                         render: function()
@@ -75,7 +79,6 @@
                                 {
                                     token: token,
                                     isPilotNameShown: false,
-                                    imageUtils: imageUtils
                                 });
                                 cells0.push(React.DOM.td(
                                 {
