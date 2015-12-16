@@ -1,9 +1,9 @@
 /*
  * Provides a range ruler for Starfighter Squadrons.
  */
-define([ "Range", "ShipBase" ], function(Range, ShipBase)
+define([ "Maneuver", "Range" ], function(Maneuver, Range)
 {
-    function RangeRuler()
+    var RangeRuler =
     {
         /*
          * @param attacker Attacking token. @param attackerPosition Attacker position. @param defender Defending token.
@@ -11,7 +11,7 @@ define([ "Range", "ShipBase" ], function(Range, ShipBase)
          * 
          * @return the range.
          */
-        this.getRange = function(attacker, attackerPosition, defender, defenderPosition)
+        getRange: function(attacker, attackerPosition, defender, defenderPosition)
         {
             InputValidator.validateNotNull("attacker", attacker);
             InputValidator.validateNotNull("attackerPosition", attackerPosition);
@@ -21,9 +21,9 @@ define([ "Range", "ShipBase" ], function(Range, ShipBase)
             var attackerBase = attacker.getShipBase();
             var defenderBase = defender.getShipBase();
 
-            var attackerPolygon = ShipBase.computePolygon(attackerBase, attackerPosition.getX(), attackerPosition
+            var attackerPolygon = Maneuver.computePolygon(attackerBase, attackerPosition.getX(), attackerPosition
                     .getY(), attackerPosition.getHeading());
-            var defenderPolygon = ShipBase.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition
+            var defenderPolygon = Maneuver.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition
                     .getY(), defenderPosition.getHeading());
 
             // FIXME

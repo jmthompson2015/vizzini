@@ -7,7 +7,6 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
             function CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                     defenderPosition, callback)
             {
-                var rangeRuler = new RangeRuler();
                 var attackDice;
                 var defenseDice;
                 var range;
@@ -20,7 +19,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                     LOGGER.trace("attackerPosition = " + attackerPosition);
                     var defenderPosition = environment.getPositionFor(defender);
                     LOGGER.trace("defenderPosition = " + defenderPosition);
-                    range = rangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
+                    range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
                     LOGGER.trace("range = " + range);
                     attacker.setRange(range);
 

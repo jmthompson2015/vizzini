@@ -1,7 +1,7 @@
 /*
  * Provides a weapon for Starfighter Squadrons.
  */
-define([ "FiringArc", "RangeRuler", "ShipBase" ], function(FiringArc, RangeRuler, ShipBase)
+define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc, Maneuver, RangeRuler, ShipBase)
 {
     function Weapon(name, isPrimary, weaponValue, ranges)
     {
@@ -34,7 +34,7 @@ define([ "FiringArc", "RangeRuler", "ShipBase" ], function(FiringArc, RangeRuler
      */
     Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition, defender, defenderPosition)
     {
-        var range = this._RANGE_RULER.getRange(attacker, attackerPosition, defender, defenderPosition);
+        var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
         // LOGGER.trace("Weapon.isDefenderInRange() range = " + range);
         // LOGGER.trace("Weapon.getRanges() = " + this.getRanges());
 
@@ -73,8 +73,6 @@ define([ "FiringArc", "RangeRuler", "ShipBase" ], function(FiringArc, RangeRuler
         return this.getName();
     }
 
-    Weapon.prototype._RANGE_RULER = new RangeRuler();
-
     /*
      * @param attacker Attacker. @param attackerPosition Attacker position. @param defender Defender. @param
      * defenderPosition Defender position.
@@ -92,7 +90,7 @@ define([ "FiringArc", "RangeRuler", "ShipBase" ], function(FiringArc, RangeRuler
         if (!answer)
         {
             var defenderBase = defender.getShipBase();
-            var polygon = ShipBase.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition.getY(),
+            var polygon = Maneuver.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition.getY(),
                     defenderPosition.getHeading());
 
             // FIXME

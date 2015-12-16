@@ -9,8 +9,8 @@
  * 
  * @param shipBase Ship base.
  */
-define([ "Maneuver", "Phase", "Position", "RectanglePath", "ShipBase", "ShipFledAction" ], function(Maneuver, Phase,
-        Position, RectanglePath, ShipBase, ShipFledAction)
+define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBase", "ShipFledAction" ], function(
+        Maneuver, Phase, Position, RangeRuler, RectanglePath, ShipBase, ShipFledAction)
 {
     function ManeuverAction(environment, maneuver, fromPosition, shipBase)
     {
@@ -55,7 +55,7 @@ define([ "Maneuver", "Phase", "Position", "RectanglePath", "ShipBase", "ShipFled
                 LOGGER.info(message);
             }
             else if (!toPosition
-                    || !Position.isPathInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition
+                    || !Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition
                             .getY(), toPosition.getHeading())))
             {
                 LOGGER.info("Ship fled the battlefield: " + token.getName());
@@ -130,7 +130,7 @@ define([ "Maneuver", "Phase", "Position", "RectanglePath", "ShipBase", "ShipFled
                 var heading = Position.computeHeading(x0, y0, x1, y1);
                 LOGGER.trace(i + " x0, y0 = " + x0 + ", " + y0 + " x1, y1 = " + x1 + ", " + y1 + " heading = "
                         + heading);
-                var polygon0 = ShipBase.computePolygon(shipBase, Math.vizziniRound(x0, 0), Math.vizziniRound(y0, 0),
+                var polygon0 = Maneuver.computePolygon(shipBase, Math.vizziniRound(x0, 0), Math.vizziniRound(y0, 0),
                         heading);
 
                 if (!RectanglePath.doPolygonsCollide(polygon0, polygon1))
@@ -186,7 +186,7 @@ define([ "Maneuver", "Phase", "Position", "RectanglePath", "ShipBase", "ShipFled
             else
             {
                 var heading01 = Position.computeHeading(x0, y0, x01, y01);
-                var polygon01 = ShipBase.computePolygon(shipBase, Math.vizziniRound(x01, 0), Math.vizziniRound(y01, 0),
+                var polygon01 = Maneuver.computePolygon(shipBase, Math.vizziniRound(x01, 0), Math.vizziniRound(y01, 0),
                         heading01);
 
                 if (RectanglePath.doPolygonsCollide(polygon01, polygon1))
@@ -232,7 +232,7 @@ define([ "Maneuver", "Phase", "Position", "RectanglePath", "ShipBase", "ShipFled
 
                     if (position1 != null)
                     {
-                        polygon1 = ShipBase.computePolygon(shipBase, position1.getX(), position1.getY(), position1
+                        polygon1 = Maneuver.computePolygon(shipBase, position1.getX(), position1.getY(), position1
                                 .getHeading());
                     }
                 }
@@ -240,7 +240,7 @@ define([ "Maneuver", "Phase", "Position", "RectanglePath", "ShipBase", "ShipFled
                 {
                     position1 = environment.getPositionFor(token1);
                     var shipBase1 = token1.getShipBase();
-                    polygon1 = ShipBase.computePolygon(shipBase1, position1.getX(), position1.getY(), position1
+                    polygon1 = Maneuver.computePolygon(shipBase1, position1.getX(), position1.getY(), position1
                             .getHeading());
                 }
 

@@ -2,8 +2,8 @@
  * Provides a simple implementation of a computer agent for Starfighter Squadrons.
  */
 define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position", "Range",
-        "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction,
-        Position, Range, ShipBase, Weapon)
+        "RangeRuler", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction, ModifyDefenseDiceAction,
+        PlanningAction, Position, Range, RangeRuler, ShipBase, Weapon)
 {
     function SimpleAgent(name, team, squadBuilder)
     {
@@ -171,7 +171,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
             {
                 var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
-                return (toPosition && Position.isPathInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(),
+                return (toPosition && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(),
                         toPosition.getY(), toPosition.getHeading())));
             });
 

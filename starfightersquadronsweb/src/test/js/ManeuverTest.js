@@ -322,6 +322,90 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         assert.equal(points[i++], fromPosition.getY() + 0.0);
     });
 
+    QUnit.test("computePolygon() Standard", function(assert)
+    {
+        // Setup.
+        var shipBase = ShipBase.STANDARD;
+
+        // Run.
+        var result = Maneuver.computePolygon(shipBase, 0, 0, 0);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getPoints().length, 10);
+
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], -20);
+        assert.equal(points[i++], 20);
+        assert.equal(points[i++], -20);
+    });
+
+    QUnit.test("computePolygon() Standard 0", function(assert)
+    {
+        // Setup.
+        var shipBase = ShipBase.STANDARD;
+
+        // Run.
+        var result = Maneuver.computePolygon(shipBase, 10, 20, 0);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getPoints().length, 10);
+
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], 30);
+        assert.equal(points[i++], 0);
+        assert.equal(points[i++], 30);
+        assert.equal(points[i++], 40);
+        assert.equal(points[i++], -10);
+        assert.equal(points[i++], 40);
+        assert.equal(points[i++], -10);
+        assert.equal(points[i++], 0);
+        assert.equal(points[i++], 30);
+        assert.equal(points[i++], 0);
+    });
+
+    QUnit.test("computePolygon() Standard 45", function(assert)
+    {
+        // Setup.
+        var shipBase = ShipBase.STANDARD;
+
+        // Run.
+        var result = Maneuver.computePolygon(shipBase, 10, 20, 45);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getPoints().length, 10);
+
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(myRound(points[i++]), 38.2843);
+        assert.equal(myRound(points[i++]), 20);
+        assert.equal(myRound(points[i++]), 10);
+        assert.equal(myRound(points[i++]), 48.2843);
+        assert.equal(myRound(points[i++]), -18.2843);
+        assert.equal(myRound(points[i++]), 20);
+        assert.equal(myRound(points[i++]), 10);
+        assert.equal(myRound(points[i++]), -8.2843);
+        assert.equal(myRound(points[i++]), 38.2843);
+        assert.equal(myRound(points[i++]), 20);
+
+        function myRound(value)
+        {
+            var factor = 10000;
+            return Math.round(value * factor) / factor;
+        }
+    });
+
     QUnit.test("Maneuver.computeToPolygon() Straight1Standard 0 Standard", function(assert)
     {
         // Setup.

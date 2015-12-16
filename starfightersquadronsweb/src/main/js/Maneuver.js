@@ -3,8 +3,8 @@
  * ship base is 40mm x 40mm. </p> <p> Bearing straight, speed one maneuver is
  * 40mm long. Other straight maneuvers are multiples of this. </p>
  */
-define([ "Bearing", "Difficulty", "Path", "Position", "ShipBase" ], function(Bearing, Difficulty, Path, Position,
-        ShipBase)
+define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase" ], function(Bearing, Difficulty,
+        Path, Position, RectanglePath, ShipBase)
 {
     var Maneuver =
     {
@@ -426,7 +426,19 @@ define([ "Bearing", "Difficulty", "Path", "Position", "ShipBase" ], function(Bea
      */
     Maneuver.computeFromPolygon = function(fromPosition, shipBase)
     {
-        return ShipBase.computePolygon(shipBase, fromPosition.getX(), fromPosition.getY(), fromPosition.getHeading());
+        return Maneuver.computePolygon(shipBase, fromPosition.getX(), fromPosition.getY(), fromPosition.getHeading());
+    }
+
+    Maneuver.computePolygon = function(shipBase, x, y, heading)
+    {
+        var properties = ShipBase.properties[shipBase];
+
+        var answer = new RectanglePath(properties.width, properties.height);
+
+        answer.rotate(heading * Math.PI / 180);
+        answer.translate(x, y);
+
+        return answer;
     }
 
     /*
@@ -446,7 +458,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "ShipBase" ], function(Bea
 
         InputValidator.validateNotNull("toPosition", toPosition);
 
-        return ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition.getHeading());
+        return Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition.getHeading());
     }
 
     /*

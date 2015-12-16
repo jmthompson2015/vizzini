@@ -1,7 +1,7 @@
 /*
  * Provides an enumeration of ship bases for Starfighter Squadrons.
  */
-define([ "RectanglePath" ], function(RectanglePath)
+define(function()
 {
     var ShipBase =
     {
@@ -33,18 +33,6 @@ define([ "RectanglePath" ], function(RectanglePath)
             }
         }
     };
-
-    ShipBase.computePolygon = function(shipBase, x, y, heading)
-    {
-        var properties = ShipBase.properties[shipBase];
-
-        var answer = new RectanglePath(properties.width, properties.height);
-
-        answer.rotate(heading * Math.PI / 180);
-        answer.translate(x, y);
-
-        return answer;
-    }
 
     if (Object.freeze)
     {

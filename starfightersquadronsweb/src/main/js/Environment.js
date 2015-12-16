@@ -17,10 +17,10 @@
  * but not touching.
  * </dl>
  */
-define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler", "RectanglePath", "ShipBase",
-        "SimpleAgent", "SquadBuilder", "Team", "Token", "Weapon", "ui/HumanAgent" ], function(DamageCard, MediumAgent,
-        Phase, Position, Range, RangeRuler, RectanglePath, ShipBase, SimpleAgent, SquadBuilder, Team, Token, Weapon,
-        HumanAgent)
+define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "Range", "RangeRuler", "RectanglePath",
+        "ShipBase", "SimpleAgent", "SquadBuilder", "Team", "Token", "Weapon", "ui/HumanAgent" ], function(DamageCard,
+        Maneuver, MediumAgent, Phase, Position, Range, RangeRuler, RectanglePath, ShipBase, SimpleAgent, SquadBuilder,
+        Team, Token, Weapon, HumanAgent)
 {
     function Environment(teams)
     {
@@ -41,7 +41,6 @@ define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler"
         var damageDeck = DamageCard.createDeck();
         var damageDiscardPile = [];
         var phaseListeners = [];
-        var rangeRuler = new RangeRuler();
         var roundListeners = [];
         var shipDestroyedListeners = [];
         var shipFledListeners = [];
@@ -389,7 +388,7 @@ define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler"
 
             var shipBase = token.getShipBase();
             var tokenPosition = this.getPositionFor(token);
-            var polygon = ShipBase.computePolygon(shipBase, tokenPosition.getX(), tokenPosition.getY(), tokenPosition
+            var polygon = Maneuver.computePolygon(shipBase, tokenPosition.getX(), tokenPosition.getY(), tokenPosition
                     .getHeading());
             var tokens = this.getTokensForActivation();
 
@@ -399,7 +398,7 @@ define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler"
                 {
                     var shipBase2 = token2.getShipBase();
                     var tokenPosition2 = this.getPositionFor(token2);
-                    var polygon2 = ShipBase.computePolygon(shipBase2, tokenPosition2.getX(), tokenPosition2.getY(),
+                    var polygon2 = Maneuver.computePolygon(shipBase2, tokenPosition2.getX(), tokenPosition2.getY(),
                             tokenPosition2.getHeading());
 
                     if (RectanglePath.doPolygonsCollide(polygon, polygon2))
@@ -506,7 +505,7 @@ define([ "DamageCard", "MediumAgent", "Phase", "Position", "Range", "RangeRuler"
             {
                 var defender = defenders[i];
                 var defenderPosition = that.getPositionFor(defender);
-                var r = rangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
+                var r = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
 
                 if (r != range)
                 {

@@ -44,7 +44,6 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
         var team = this.getTeam();
         var tokens = environment.getTokensForTeam(team);
         var defenders = environment.getDefenders(team);
-        var rangeRuler = new RangeRuler();
         var tokenToManeuver = {};
 
         tokens.forEach(function(token)
@@ -67,7 +66,7 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
                 var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
                 if (toPosition
-                        && Position.isPathInPlayArea(ShipBase.computePolygon(shipBase, toPosition.getX(), toPosition
+                        && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition
                                 .getY(), toPosition.getHeading())))
                 {
                     validManeuvers.push(maneuver);
@@ -80,7 +79,7 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
 
                         if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
                         {
-                            var range = rangeRuler.getRange(token, toPosition, defender, defenderPosition);
+                            var range = RangeRuler.getRange(token, toPosition, defender, defenderPosition);
 
                             if (range === Range.ONE)
                             {
