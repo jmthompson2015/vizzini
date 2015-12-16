@@ -3,36 +3,41 @@
  *  
  * @see <a href="http://stijndewitt.wordpress.com/2014/01/26/enums-in-javascript/">Enums in JavaScript</a>
  */
-var Team =
+define(function()
 {
-    IMPERIAL: "imperial",
-    REBEL: "rebel",
-    SCUM: "scum",
-    properties:
+    var Team =
     {
-        "imperial":
+        IMPERIAL: "imperial",
+        REBEL: "rebel",
+        SCUM: "scum",
+        properties:
         {
-            name: "Imperial",
-            description: "Imperial team",
-            value: "imperial",
+            "imperial":
+            {
+                name: "Imperial",
+                description: "Imperial team",
+                value: "imperial",
+            },
+            "rebel":
+            {
+                name: "Rebel",
+                description: "Rebel team",
+                value: "rebel",
+            },
+            "scum":
+            {
+                name: "Scum & Villainy",
+                description: "Scum & Villainy team",
+                value: "scum",
+            },
         },
-        "rebel":
-        {
-            name: "Rebel",
-            description: "Rebel team",
-            value: "rebel",
-        },
-        "scum":
-        {
-            name: "Scum & Villainy",
-            description: "Scum & Villainy team",
-            value: "scum",
-        },
-    },
-    values: [ "imperial", "rebel", "scum" ]
-};
+        values: [ "imperial", "rebel", "scum" ]
+    };
 
-if (Object.freeze)
-{
-    Object.freeze(Team)
-};
+    if (Object.freeze)
+    {
+        Object.freeze(Team)
+    };
+
+    return Team;
+});

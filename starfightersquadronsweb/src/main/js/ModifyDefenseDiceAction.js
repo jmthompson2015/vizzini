@@ -1,73 +1,78 @@
 /*
  * Provides an action to modify the defense dice.
  */
-function ModifyDefenseDiceAction(environment, defender, defenseDice, modification)
+define(function()
 {
-    InputValidator.validateNotNull("environment", environment);
-    InputValidator.validateNotNull("defender", defender);
-    InputValidator.validateNotNull("defenseDice", defenseDice);
-    InputValidator.validateNotNull("modification", modification);
-
-    this.getEnvironment = function()
+    function ModifyDefenseDiceAction(environment, defender, defenseDice, modification)
     {
-        return environment;
-    }
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("defenseDice", defenseDice);
+        InputValidator.validateNotNull("modification", modification);
 
-    this.getDefender = function()
-    {
-        return defender;
-    }
-
-    this.getDefenseDice = function()
-    {
-        return defenseDice;
-    }
-
-    this.getModification = function()
-    {
-        return modification;
-    }
-
-    this.doIt = function()
-    {
-        if (modification === ModifyDefenseDiceAction.Modification.SPEND_FOCUS)
+        this.getEnvironment = function()
         {
-            defenseDice.spendFocusToken();
-            defender.decreaseFocusCount();
+            return environment;
         }
-        else if (modification === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
+
+        this.getDefender = function()
         {
-            defenseDice.spendEvadeToken();
-            defender.decreaseEvadeCount();
+            return defender;
         }
-        else
+
+        this.getDefenseDice = function()
         {
-            throw "Unknown modification: " + modification;
+            return defenseDice;
+        }
+
+        this.getModification = function()
+        {
+            return modification;
+        }
+
+        this.doIt = function()
+        {
+            if (modification === ModifyDefenseDiceAction.Modification.SPEND_FOCUS)
+            {
+                defenseDice.spendFocusToken();
+                defender.decreaseFocusCount();
+            }
+            else if (modification === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
+            {
+                defenseDice.spendEvadeToken();
+                defender.decreaseEvadeCount();
+            }
+            else
+            {
+                throw "Unknown modification: " + modification;
+            }
         }
     }
-}
 
-/*
- * Provides an enumeration of possible modifications.
- */
-ModifyDefenseDiceAction.Modification =
-{
-    SPEND_EVADE: "spendEvade",
-    SPEND_FOCUS: "spendFocus",
-    properties:
+    /*
+     * Provides an enumeration of possible modifications.
+     */
+    ModifyDefenseDiceAction.Modification =
     {
-        "spendEvade":
+        SPEND_EVADE: "spendEvade",
+        SPEND_FOCUS: "spendFocus",
+        properties:
         {
-            name: "Spend an Evade token",
+            "spendEvade":
+            {
+                name: "Spend an Evade token",
+            },
+            "spendFocus":
+            {
+                name: "Spend a Focus token",
+            }
         },
-        "spendFocus":
-        {
-            name: "Spend a Focus token",
-        }
-    },
-}
+    }
 
-ModifyDefenseDiceAction.prototype.toString = function()
-{
-    return "ModifyDefenseDiceAction modification=" + this.getModification();
-}
+    ModifyDefenseDiceAction.prototype.toString = function()
+    {
+        return "ModifyDefenseDiceAction modification=" + this.getModification();
+    }
+
+    return ModifyDefenseDiceAction;
+});

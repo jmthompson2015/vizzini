@@ -1,39 +1,44 @@
 /*
  * Provides a planning action for Starfighter Squadrons.
  */
-function PlanningAction(environment, agent, tokenToManeuver)
+define(function()
 {
-    InputValidator.validateNotNull("environment", environment);
-    InputValidator.validateNotNull("agent", agent);
-    InputValidator.validateNotNull("tokenToManeuver", tokenToManeuver);
-
-    this.getEnvironment = function()
+    function PlanningAction(environment, agent, tokenToManeuver)
     {
-        return environment;
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("agent", agent);
+        InputValidator.validateNotNull("tokenToManeuver", tokenToManeuver);
+
+        this.getEnvironment = function()
+        {
+            return environment;
+        }
+
+        this.getAgent = function()
+        {
+            return agent;
+        }
+
+        this.getTokenToManeuver = function()
+        {
+            return tokenToManeuver;
+        }
+
+        /*
+         * @param token Token.
+         * 
+         * @return the maneuver action for the given token.
+         */
+        this.getManeuver = function(token)
+        {
+            return tokenToManeuver[token];
+        }
+
+        this.getTeam = function()
+        {
+            return agent.getTeam();
+        }
     }
 
-    this.getAgent = function()
-    {
-        return agent;
-    }
-
-    this.getTokenToManeuver = function()
-    {
-        return tokenToManeuver;
-    }
-
-    /*
-     * @param token Token.
-     * 
-     * @return the maneuver action for the given token.
-     */
-    this.getManeuver = function(token)
-    {
-        return tokenToManeuver[token];
-    }
-
-    this.getTeam = function()
-    {
-        return agent.getTeam();
-    }
-}
+    return PlanningAction;
+});

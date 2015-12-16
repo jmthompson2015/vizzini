@@ -5,83 +5,88 @@
  * @param shipActions Ship actions.
  * @param callback Callback.
  */
-var ShipActionChooser = React.createClass(
+define([ "ShipAction" ], function(ShipAction)
 {
-    getInitialState: function()
+    var ShipActionChooser = React.createClass(
     {
-        var shipActions = this.props.shipActions;
+        getInitialState: function()
+        {
+            var shipActions = this.props.shipActions;
 
-        return (
-        {
-            selected: (shipActions.length > 0 ? shipActions[0] : undefined),
-        });
-    },
+            return (
+            {
+                selected: (shipActions.length > 0 ? shipActions[0] : undefined),
+            });
+        },
 
-    render: function()
-    {
-        var token = this.props.token;
-        var message = "Active Ship: " + token.getName();
-        var shipActions = this.props.shipActions;
-        var labelFunction = function(value)
+        render: function()
         {
-            return ShipAction.properties[value].displayName;
-        }
-        var initialValue = (shipActions.length > 0 ? shipActions[0] : undefined);
-        var initialInput = React.createElement(InputPanel,
-        {
-            type: "radio",
-            values: shipActions,
-            name: "shipActionRadio",
-            labelFunction: labelFunction,
-            initialValues: initialValue,
-            onChange: this.selectionChanged,
-            panelClass: "optionPaneInput",
-        });
-        var cancelButton = React.DOM.button(
-        {
-            key: 0,
-            onClick: this.cancel
-        }, "Cancel");
-        var okButton = React.DOM.button(
-        {
-            key: 1,
-            onClick: this.ok
-        }, "OK");
-        var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
+            var token = this.props.token;
+            var message = "Active Ship: " + token.getName();
+            var shipActions = this.props.shipActions;
+            var labelFunction = function(value)
+            {
+                return ShipAction.properties[value].displayName;
+            }
+            var initialValue = (shipActions.length > 0 ? shipActions[0] : undefined);
+            var initialInput = React.createElement(InputPanel,
+            {
+                type: "radio",
+                values: shipActions,
+                name: "shipActionRadio",
+                labelFunction: labelFunction,
+                initialValues: initialValue,
+                onChange: this.selectionChanged,
+                panelClass: "optionPaneInput",
+            });
+            var cancelButton = React.DOM.button(
+            {
+                key: 0,
+                onClick: this.cancel
+            }, "Cancel");
+            var okButton = React.DOM.button(
+            {
+                key: 1,
+                onClick: this.ok
+            }, "OK");
+            var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
 
-        return React.createElement(OptionPane,
+            return React.createElement(OptionPane,
+            {
+                panelClass: "optionPane",
+                title: "Select Action",
+                titleClass: "optionPaneTitle",
+                message: message,
+                messageClass: "optionPaneMessage",
+                initialInput: initialInput,
+                buttons: buttons,
+                buttonsClass: "optionPaneButtons"
+            });
+        },
+
+        selectionChanged: function(event)
         {
-            panelClass: "optionPane",
-            title: "Select Action",
-            titleClass: "optionPaneTitle",
-            message: message,
-            messageClass: "optionPaneMessage",
-            initialInput: initialInput,
-            buttons: buttons,
-            buttonsClass: "optionPaneButtons"
-        });
-    },
+            var selected = event.target.id;
+            LOGGER.debug("selectionChanged() selected = " + selected);
+            this.setState(
+            {
+                selected: selected
+            });
+        },
 
-    selectionChanged: function(event)
-    {
-        var selected = event.target.id;
-        LOGGER.debug("selectionChanged() selected = " + selected);
-        this.setState(
+        cancel: function()
         {
-            selected: selected
-        });
-    },
+            LOGGER.debug("Cancel clicked");
+            this.props.callback(undefined);
+        },
 
-    cancel: function()
-    {
-        LOGGER.debug("Cancel clicked");
-        this.props.callback(undefined);
-    },
+        ok: function()
+        {
+            var selected = this.state.selected;
+            LOGGER.debug("OK clicked, selected = " + selected);
+            this.props.callback(selected);
+        },
+    });
 
-    ok: function()
-    {
-        var selected = this.state.selected;
-        LOGGER.debug("OK clicked, selected = " + selected);
-        this.props.callback(selected);
-    },
+    return ShipActionChooser;
 });

@@ -3,39 +3,60 @@ var LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-// Create initial agents and tokens.
-var imageUtils = new ImageUtilities();
-var newGamePanel = React.createElement(NewGamePanel,
+var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+var audioBase = resourceBase + "audio/";
+var iconBase = resourceBase + "icons/";
+var imageBase = resourceBase + "images/";
+
+require([ "Game", "ui/EnvironmentUI", "ui/ImageUtilities", "ui/NewGamePanel" ], function(Game, EnvironmentUI,
+        ImageUtilities, NewGamePanel)
 {
-    callback: startNewGame,
+    // Create initial agents and tokens.
+    var imageUtils = new ImageUtilities();
+    var newGamePanel = React.createElement(NewGamePanel,
+    {
+        iconBase: iconBase,
+        callback: startNewGame,
+    });
+
+    React.render(newGamePanel, document.getElementById("inputArea"));
+    var environmentUI;
+
+    function startNewGame(agents)
+    {
+        LOGGER.info("startNewGame() start");
+
+        LOGGER.info("agents[0] = " + agents[0]);
+        LOGGER.info("agents[1] = " + agents[1]);
+
+        var element = document.getElementById("inputArea");
+        element.innerHTML = "";
+
+        var game = new Game(agents);
+        environmentUI = new EnvironmentUI(game.getEngine(), game.getEnvironment());
+
+        game.start();
+
+        updateSizes(environmentUI);
+        HtmlUtilities.removeClass(document.getElementById("ssPanel"), "hidden");
+
+        LOGGER.info("startNewGame() end");
+    }
+
+    window.addEventListener("resize", function()
+    {
+        updateSizes(environmentUI)
+    }, false);
+    window.addEventListener("orientationchange", function()
+    {
+        updateSizes(environmentUI)
+    }, false);
 });
 
-React.render(newGamePanel, document.getElementById("inputArea"));
-var environmentUI;
-
-function startNewGame(agents)
+function updateSizes(environmentUI)
 {
-    LOGGER.info("startNewGame() start");
+    // InputValidator.validateNotNull("environmentUI", environmentUI);
 
-    LOGGER.info("agents[0] = " + agents[0]);
-    LOGGER.info("agents[1] = " + agents[1]);
-
-    var element = document.getElementById("inputArea");
-    element.innerHTML = "";
-
-    var game = new Game(agents);
-    environmentUI = new EnvironmentUI(game.getEngine(), game.getEnvironment());
-
-    game.start();
-
-    updateSizes();
-    HtmlUtilities.removeClass(document.getElementById("ssPanel"), "hidden");
-
-    LOGGER.info("startNewGame() end");
-}
-
-function updateSizes()
-{
     var firstPilots = document.getElementById("firstPilots");
     var secondPilots = document.getElementById("secondPilots");
     var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
@@ -52,8 +73,9 @@ function updateSizes()
     myPlayAreaCanvas.height = size;
 
     var scale = size / 915;
-    environmentUI.setScale(scale);
-}
 
-window.addEventListener("resize", updateSizes, false);
-window.addEventListener("orientationchange", updateSizes, false);
+    if (environmentUI)
+    {
+        environmentUI.setScale(scale);
+    }
+}

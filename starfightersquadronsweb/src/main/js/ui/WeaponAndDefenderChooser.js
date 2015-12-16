@@ -1,294 +1,298 @@
 /*
  * Provides a user interface to choose a weapon and defender.
  */
-var WeaponAndDefenderChooser = React.createClass(
+define([ "Range" ], function(Range)
 {
-    getInitialState: function()
+    var WeaponAndDefenderChooser = React.createClass(
     {
-        var weapon;
-        var defender;
-
-        var choices = this.props.choices;
-
-        if (choices.length > 0)
+        getInitialState: function()
         {
-            weapon = choices[0].weapon;
-            var rangeAndTokens = choices[0].rangeAndTokens;
-            defender = rangeAndTokens[0].tokens[0];
-        }
+            var weapon;
+            var defender;
 
-        return (
-        {
-            weapon: weapon,
-            defender: defender
-        });
-    },
+            var choices = this.props.choices;
 
-    render: function()
-    {
-        var attacker = this.props.attacker;
-        var message = React.DOM.div(
-        {
-            className: "attackerLabel"
-        }, "Attacker: " + attacker.getName());
-        var selectedWeapon = this.state.weapon;
-        var selectedDefender = this.state.defender;
-        var choices = this.props.choices;
-        var self = this;
-
-        var rows = [];
-
-        for (var i = 0; i < choices.length; i++)
-        {
-            var weaponAndRangeAndTokens = choices[i];
-            var weapon = weaponAndRangeAndTokens.weapon;
-            var weaponName = weapon.getName();
-
-            rows.push(React.DOM.tr(
+            if (choices.length > 0)
             {
-                key: rows.length
-            }, React.DOM.td(
-            {
-                className: "weaponName"
-            }, weaponName)));
+                weapon = choices[0].weapon;
+                var rangeAndTokens = choices[0].rangeAndTokens;
+                defender = rangeAndTokens[0].tokens[0];
+            }
 
-            var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
-
-            for (var j = 0; j < rangeAndTokensArray.length; j++)
+            return (
             {
-                var rangeAndTokens = rangeAndTokensArray[j];
-                var range = rangeAndTokens.range;
-                var rangeName = Range.properties[range].displayName;
+                weapon: weapon,
+                defender: defender
+            });
+        },
+
+        render: function()
+        {
+            var attacker = this.props.attacker;
+            var message = React.DOM.div(
+            {
+                className: "attackerLabel"
+            }, "Attacker: " + attacker.getName());
+            var selectedWeapon = this.state.weapon;
+            var selectedDefender = this.state.defender;
+            var choices = this.props.choices;
+            var self = this;
+
+            var rows = [];
+
+            for (var i = 0; i < choices.length; i++)
+            {
+                var weaponAndRangeAndTokens = choices[i];
+                var weapon = weaponAndRangeAndTokens.weapon;
+                var weaponName = weapon.getName();
 
                 rows.push(React.DOM.tr(
                 {
                     key: rows.length
                 }, React.DOM.td(
                 {
-                    className: "rangeLabel"
-                }, "Range " + rangeName)));
+                    className: "weaponName"
+                }, weaponName)));
 
-                var tokens = rangeAndTokens.tokens;
+                var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
 
-                if (tokens)
+                for (var j = 0; j < rangeAndTokensArray.length; j++)
                 {
-                    for (var k = 0; k < tokens.length; k++)
-                    {
-                        var token = tokens[k];
+                    var rangeAndTokens = rangeAndTokensArray[j];
+                    var range = rangeAndTokens.range;
+                    var rangeName = Range.properties[range].displayName;
 
-                        var input = React.DOM.input(
+                    rows.push(React.DOM.tr(
+                    {
+                        key: rows.length
+                    }, React.DOM.td(
+                    {
+                        className: "rangeLabel"
+                    }, "Range " + rangeName)));
+
+                    var tokens = rangeAndTokens.tokens;
+
+                    if (tokens)
+                    {
+                        for (var k = 0; k < tokens.length; k++)
                         {
-                            key: 0,
-                            type: "radio",
-                            defaultChecked: (weapon === selectedWeapon && token === selectedDefender),
-                            onClick: self.selectionChanged,
-                            name: weaponName,
-                            "data-weapon-name": weaponName,
-                            "data-defender-id": token.getId()
-                        });
-                        var span = React.DOM.span(
-                        {
-                            key: 1
-                        }, token.getName());
-                        var label = React.DOM.label({}, [ input, span ]);
-                        var cell = React.DOM.td(
-                        {
-                            className: "defenderChoice"
-                        }, label);
-                        rows.push(React.DOM.tr(
-                        {
-                            key: rows.length
-                        }, cell));
+                            var token = tokens[k];
+
+                            var input = React.DOM.input(
+                            {
+                                key: 0,
+                                type: "radio",
+                                defaultChecked: (weapon === selectedWeapon && token === selectedDefender),
+                                onClick: self.selectionChanged,
+                                name: weaponName,
+                                "data-weapon-name": weaponName,
+                                "data-defender-id": token.getId()
+                            });
+                            var span = React.DOM.span(
+                            {
+                                key: 1
+                            }, token.getName());
+                            var label = React.DOM.label({}, [ input, span ]);
+                            var cell = React.DOM.td(
+                            {
+                                className: "defenderChoice"
+                            }, label);
+                            rows.push(React.DOM.tr(
+                            {
+                                key: rows.length
+                            }, cell));
+                        }
                     }
+                }
+            }
+
+            var initialInput = React.DOM.table(
+            {
+                className: "combatTable"
+            }, rows);
+            var cancelButton = React.DOM.button(
+            {
+                key: 0,
+                onClick: self.cancel
+            }, "Cancel");
+            var okButton = React.DOM.button(
+            {
+                key: 1,
+                onClick: self.ok
+            }, "OK");
+            var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
+            return React.createElement(OptionPane,
+            {
+                panelClass: "optionPane",
+                title: "Combat: Select Weapon and Defender",
+                titleClass: "optionPaneTitle",
+                message: message,
+                messageClass: "optionPaneMessage",
+                initialInput: initialInput,
+                buttons: buttons,
+                buttonsClass: "optionPaneButtons"
+            });
+        },
+
+        selectionChanged: function(event)
+        {
+            LOGGER.debug("selectionChanged()");
+            var weaponName = event.currentTarget.dataset.weaponName;
+            var defenderId = event.currentTarget.dataset.defenderId;
+            LOGGER.debug("weaponName = " + weaponName + " defenderId = " + defenderId);
+            var weapon = this.findWeapon(weaponName);
+            LOGGER.debug("weapon = " + weapon);
+            var defender = this.findDefender(defenderId);
+            LOGGER.debug("defender = " + defender);
+            this.setState(
+            {
+                weapon: weapon,
+                defender: defender
+            });
+        },
+
+        cancel: function()
+        {
+            LOGGER.debug("cancel()");
+            this.props.callback(undefined);
+        },
+
+        ok: function()
+        {
+            LOGGER.debug("ok()");
+            this.props.callback(this.state.weapon, this.state.defender);
+        },
+
+        findDefender: function(tokenId)
+        {
+            var answer;
+
+            var choices = this.props.choices;
+
+            for (var i = 0; i < choices.length; i++)
+            {
+                var weaponAndRangeAndTokens = choices[i];
+
+                var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
+
+                for (var j = 0; j < rangeAndTokensArray.length; j++)
+                {
+                    var rangeAndTokens = rangeAndTokensArray[j];
+
+                    var tokens = rangeAndTokens.tokens;
+
+                    if (tokens)
+                    {
+                        for (var k = 0; k < tokens.length; k++)
+                        {
+                            var token = tokens[k];
+
+                            if (token.getId() == tokenId)
+                            {
+                                answer = token;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            return answer;
+        },
+
+        findWeapon: function(weaponName)
+        {
+            var attacker = this.props.attacker;
+
+            return attacker.getPrimaryWeapon();
+        },
+    });
+
+    /*
+     * @param environment Environment.
+     * 
+     * @param attacker Attacker.
+     * 
+     * @param attackerPosition Attacker position.
+     * 
+     * @param weapon Weapon.
+     * 
+     * @return a new map of range to defenders.
+     */
+    WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker, attackerPosition, weapon)
+    {
+        var answer = [];
+
+        var values = Range.values();
+
+        for (var i = 0; i < values.length; i++)
+        {
+            var range = values[i];
+            LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() range = " + range);
+            var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
+            LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() rangeDefenders.length = "
+                    + rangeDefenders.length);
+
+            if (rangeDefenders.length > 0)
+            {
+                answer[answer.length] =
+                {
+                    range: range,
+                    tokens: rangeDefenders
                 }
             }
         }
 
-        var initialInput = React.DOM.table(
-        {
-            className: "combatTable"
-        }, rows);
-        var cancelButton = React.DOM.button(
-        {
-            key: 0,
-            onClick: self.cancel
-        }, "Cancel");
-        var okButton = React.DOM.button(
-        {
-            key: 1,
-            onClick: self.ok
-        }, "OK");
-        var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
-        return React.createElement(OptionPane,
-        {
-            panelClass: "optionPane",
-            title: "Combat: Select Weapon and Defender",
-            titleClass: "optionPaneTitle",
-            message: message,
-            messageClass: "optionPaneMessage",
-            initialInput: initialInput,
-            buttons: buttons,
-            buttonsClass: "optionPaneButtons"
-        });
-    },
+        return answer;
+    }
 
-    selectionChanged: function(event)
+    /*
+     * @param environment Environment. @param attacker Attacker.
+     * 
+     * @return a new map of weapon to range to defenders.
+     */
+    WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment, attacker)
     {
-        LOGGER.debug("selectionChanged()");
-        var weaponName = event.currentTarget.dataset.weaponName;
-        var defenderId = event.currentTarget.dataset.defenderId;
-        LOGGER.debug("weaponName = " + weaponName + " defenderId = " + defenderId);
-        var weapon = this.findWeapon(weaponName);
-        LOGGER.debug("weapon = " + weapon);
-        var defender = this.findDefender(defenderId);
-        LOGGER.debug("defender = " + defender);
-        this.setState(
+        var answer = [];
+
+        var attackerPosition = environment.getPositionFor(attacker);
+
+        if (attackerPosition != null)
         {
-            weapon: weapon,
-            defender: defender
-        });
-    },
+            var primaryWeapon = attacker.getPrimaryWeapon();
+            var rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
+                    primaryWeapon);
 
-    cancel: function()
-    {
-        LOGGER.debug("cancel()");
-        this.props.callback(undefined);
-    },
-
-    ok: function()
-    {
-        LOGGER.debug("ok()");
-        this.props.callback(this.state.weapon, this.state.defender);
-    },
-
-    findDefender: function(tokenId)
-    {
-        var answer;
-
-        var choices = this.props.choices;
-
-        for (var i = 0; i < choices.length; i++)
-        {
-            var weaponAndRangeAndTokens = choices[i];
-
-            var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
-
-            for (var j = 0; j < rangeAndTokensArray.length; j++)
+            if (rangeAndTokens.length > 0)
             {
-                var rangeAndTokens = rangeAndTokensArray[j];
-
-                var tokens = rangeAndTokens.tokens;
-
-                if (tokens)
+                answer[answer.length] =
                 {
-                    for (var k = 0; k < tokens.length; k++)
-                    {
-                        var token = tokens[k];
+                    weapon: primaryWeapon,
+                    rangeAndTokens: rangeAndTokens
+                }
+            }
 
-                        if (token.getId() == tokenId)
-                        {
-                            answer = token;
-                            break;
-                        }
+            var weapons = attacker.getSecondaryWeapons();
+
+            for (var i = 0; i < weapons.length; i++)
+            {
+                var weapon = weapons[i];
+                rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
+                        weapon);
+
+                if (rangeAndTokens.length > 0)
+                {
+                    answer[answer.length] =
+                    {
+                        weapon: weapon,
+                        rangeAndTokens: rangeAndTokens
                     }
                 }
             }
         }
 
         return answer;
-    },
+    }
 
-    findWeapon: function(weaponName)
-    {
-        var attacker = this.props.attacker;
-
-        return attacker.getPrimaryWeapon();
-    },
+    return WeaponAndDefenderChooser;
 });
-
-/*
- * @param environment Environment.
- * 
- * @param attacker Attacker.
- * 
- * @param attackerPosition Attacker position.
- * 
- * @param weapon Weapon.
- * 
- * @return a new map of range to defenders.
- */
-WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker, attackerPosition, weapon)
-{
-    var answer = [];
-
-    var values = Range.values();
-
-    for (var i = 0; i < values.length; i++)
-    {
-        var range = values[i];
-        LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() range = " + range);
-        var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
-        LOGGER
-                .trace("WeaponAndDefenderChooser.createRangeAndTokens() rangeDefenders.length = "
-                        + rangeDefenders.length);
-
-        if (rangeDefenders.length > 0)
-        {
-            answer[answer.length] =
-            {
-                range: range,
-                tokens: rangeDefenders
-            }
-        }
-    }
-
-    return answer;
-}
-
-/*
- * @param environment Environment. @param attacker Attacker.
- * 
- * @return a new map of weapon to range to defenders.
- */
-WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment, attacker)
-{
-    var answer = [];
-
-    var attackerPosition = environment.getPositionFor(attacker);
-
-    if (attackerPosition != null)
-    {
-        var primaryWeapon = attacker.getPrimaryWeapon();
-        var rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
-                primaryWeapon);
-
-        if (rangeAndTokens.length > 0)
-        {
-            answer[answer.length] =
-            {
-                weapon: primaryWeapon,
-                rangeAndTokens: rangeAndTokens
-            }
-        }
-
-        var weapons = attacker.getSecondaryWeapons();
-
-        for (var i = 0; i < weapons.length; i++)
-        {
-            var weapon = weapons[i];
-            rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
-                    weapon);
-
-            if (rangeAndTokens.length > 0)
-            {
-                answer[answer.length] =
-                {
-                    weapon: weapon,
-                    rangeAndTokens: rangeAndTokens
-                }
-            }
-        }
-    }
-
-    return answer;
-}
