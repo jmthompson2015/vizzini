@@ -1,14 +1,13 @@
 /*
  * Provides a user interface for an environment for Starfighter Squadrons.
  */
-define([ "Phase", "ui/ImageUtilities", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ], function(Phase,
-        ImageUtilities, PilotsUI, PlayAreaUI, PlayState, SSPanel)
+define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ], function(Phase, PilotsUI, PlayAreaUI,
+        PlayState, SSPanel)
 {
     function EnvironmentUI(engine, environment)
     {
-        var imageUtils = new ImageUtilities(imageBase);
         var ssPanel = new SSPanel(environment);
-        var playAreaUI = new PlayAreaUI(environment, imageUtils);
+        var playAreaUI = new PlayAreaUI(environment);
         var firstTokens = environment.getTokensForTeam(environment.getFirstTeam());
         var element = React.createElement(PilotsUI,
         {

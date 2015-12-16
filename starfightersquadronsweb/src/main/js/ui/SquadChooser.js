@@ -22,7 +22,6 @@ define([ "SimpleAgent", "SquadBuilder", "ui/SquadUI" ], function(SimpleAgent, Sq
 
         render: function()
         {
-            InputValidator.validateNotNull("iconBase", this.props.iconBase);
             var faction = this.state.squadBuilder.getFaction();
 
             var squadIdFunction = function(value)
@@ -51,7 +50,6 @@ define([ "SimpleAgent", "SquadBuilder", "ui/SquadUI" ], function(SimpleAgent, Sq
             var squadDisplayPanel = React.createElement(SquadUI,
             {
                 squad: mySquad,
-                iconBase: this.props.iconBase,
             });
 
             var rows = [];

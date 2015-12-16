@@ -24,6 +24,11 @@
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
 
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
         require([ "Pilot", "UpgradeType", "ui/UpgradeChooser" ], function(Pilot, UpgradeType, UpgradeChooser)
         {
             var pilot = Pilot.DARTH_VADER;

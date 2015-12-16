@@ -31,6 +31,11 @@
         "use strict";
         var LOGGER = new Logger();
 
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
         require([ "Environment", "Pilot", "Team", "Token", "ui/PilotsUI" ], function(Environment, Pilot, Team, Token,
                 PilotsUI)
         {

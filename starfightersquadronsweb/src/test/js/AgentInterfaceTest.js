@@ -1,5 +1,5 @@
-define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent", "ui/ImageUtilities" ], function(
-        MediumAgent, SimpleAgent, SquadBuilder, Team, HumanAgent, ImageUtilities)
+define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(
+        MediumAgent, SimpleAgent, SquadBuilder, Team, HumanAgent)
 {
     QUnit.module("AgentInterface");
 
@@ -9,11 +9,10 @@ define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent", 
         var name = "myAgent";
         var team = Team.IMPERIAL;
         var squadBuilder = SquadBuilder.CoreSetImperialSquadBuilder;
-        var imageUtils = new ImageUtilities(imageBase);
 
         var agent0 = new SimpleAgent(name + "0", team, squadBuilder);
         var agent1 = new MediumAgent(name + "1", team, squadBuilder);
-        var agent2 = new HumanAgent(name + "2", team, squadBuilder, imageUtils);
+        var agent2 = new HumanAgent(name + "2", team, squadBuilder);
         var agents = [ agent0, agent1, agent2 ];
 
         // Run / Verify.

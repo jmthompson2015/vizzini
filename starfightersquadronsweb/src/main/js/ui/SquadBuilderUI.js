@@ -58,7 +58,6 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
         render: function()
         {
             LOGGER.trace("SquadBuilderUI.render()");
-            InputValidator.validateNotNull("iconBase", this.props.iconBase);
 
             var team = this.props.team;
             var rows = [];
@@ -103,7 +102,6 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
             var squadPanel = React.createElement(SquadUI,
             {
                 squad: this.state.squad,
-                iconBase: this.props.iconBase,
                 removeFunction: this.removeActionPerformed,
                 isEditable: true,
             });

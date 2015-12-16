@@ -22,56 +22,54 @@
 	<script>
         var LOGGER = new Logger();
 
-        require([ "Pilot", "Range", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ImageUtilities",
-                "ui/WeaponAndDefenderChooser" ], function(Pilot, Range, SimpleAgent, SquadBuilder, Team, Token,
-                ImageUtilities, WeaponAndDefenderChooser)
-        {
-            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                    SquadBuilder.CoreSetImperialSquadBuilder);
-            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder,
-                    new ImageUtilities());
-            var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
-            var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-            var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-            var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-            var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-            var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-            var rangeOneToTokens =
-            {
-                range: Range.ONE,
-                tokens: [ defender0, defender1 ]
-            }
-            var rangeTwoToTokens =
-            {
-                range: Range.TWO,
-                tokens: [ defender2, defender3 ]
-            }
-            var rangeThreeToTokens =
-            {
-                range: Range.THREE,
-                tokens: [ defender4 ]
-            }
-            var primaryWeaponToRangeAndTokens =
-            {
-                weapon: attacker.getPrimaryWeapon(),
-                rangeAndTokens: [ rangeOneToTokens, rangeTwoToTokens, rangeThreeToTokens ]
-            }
-            var choices = [ primaryWeaponToRangeAndTokens ];
-            var callback = function(weapon, defender)
-            {
-                LOGGER.info("callback() start");
-                LOGGER.info("weapon = " + weapon + " defender = " + defender);
-                LOGGER.info("callback() end");
-            }
+        require([ "Pilot", "Range", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/WeaponAndDefenderChooser" ],
+                function(Pilot, Range, SimpleAgent, SquadBuilder, Team, Token, WeaponAndDefenderChooser)
+                {
+                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
+                            SquadBuilder.CoreSetImperialSquadBuilder);
+                    var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+                    var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+                    var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+                    var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+                    var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+                    var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+                    var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+                    var rangeOneToTokens =
+                    {
+                        range: Range.ONE,
+                        tokens: [ defender0, defender1 ]
+                    }
+                    var rangeTwoToTokens =
+                    {
+                        range: Range.TWO,
+                        tokens: [ defender2, defender3 ]
+                    }
+                    var rangeThreeToTokens =
+                    {
+                        range: Range.THREE,
+                        tokens: [ defender4 ]
+                    }
+                    var primaryWeaponToRangeAndTokens =
+                    {
+                        weapon: attacker.getPrimaryWeapon(),
+                        rangeAndTokens: [ rangeOneToTokens, rangeTwoToTokens, rangeThreeToTokens ]
+                    }
+                    var choices = [ primaryWeaponToRangeAndTokens ];
+                    var callback = function(weapon, defender)
+                    {
+                        LOGGER.info("callback() start");
+                        LOGGER.info("weapon = " + weapon + " defender = " + defender);
+                        LOGGER.info("callback() end");
+                    }
 
-            var element = React.createElement(WeaponAndDefenderChooser,
-            {
-                attacker: attacker,
-                choices: choices,
-                callback: callback
-            });
-            React.render(element, document.getElementById("inputArea"));
-        });
+                    var element = React.createElement(WeaponAndDefenderChooser,
+                    {
+                        attacker: attacker,
+                        choices: choices,
+                        callback: callback
+                    });
+                    React.render(element, document.getElementById("inputArea"));
+                });
     </script>
 </body>
 </html>

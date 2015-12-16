@@ -66,7 +66,6 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
 
         render: function()
         {
-            InputValidator.validateNotNull("iconBase", this.props.iconBase);
             var squad = this.props.squad;
             var self = this;
 
@@ -115,7 +114,7 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
             };
             var image = React.DOM.img(
             {
-                src: this.props.iconBase + "delete.png",
+                src: iconBase + "delete.png",
             });
 
             return React.DOM.a(

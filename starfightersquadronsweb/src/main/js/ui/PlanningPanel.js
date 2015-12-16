@@ -44,7 +44,6 @@ define([ "PlanningAction", "ui/ManeuverChooser" ], function(PlanningAction, Mane
                 var element = React.createElement(ManeuverChooser,
                 {
                     token: token,
-                    imageUtils: imageUtils,
                     callback: self.selectionChanged
                 });
                 cells.push(React.DOM.td(

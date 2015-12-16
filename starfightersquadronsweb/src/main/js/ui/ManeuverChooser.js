@@ -134,7 +134,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                 {
                     var maneuver = Maneuver.STATIONARY_0_HARD;
                     var difficulty = Maneuver.properties[maneuver].difficulty;
-                    var iconSrc = imageUtils.createManeuverIconSource(undefined, difficulty);
+                    var iconSrc = this.createManeuverIconSource(undefined, difficulty);
                     cells.push(React.DOM.td(
                     {
                         key: cells.length,
@@ -181,7 +181,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                             if (maneuver)
                             {
                                 var difficulty = Maneuver.properties[maneuver].difficulty;
-                                var iconSrc = imageUtils.createManeuverIconSource(bearing, difficulty);
+                                var iconSrc = this.createManeuverIconSource(bearing, difficulty);
                                 var image = React.DOM.img(
                                 {
                                     src: iconSrc
@@ -217,6 +217,33 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             {
                 className: "maneuverTable"
             }, myHtml);
+        },
+
+        /**
+         * @param bearing
+         *            Bearing.
+         * @param difficulty
+         *            Difficulty.
+         * 
+         * @return a new image icon.
+         */
+        createManeuverIconSource: function(bearing, difficulty)
+        {
+            var answer;
+
+            if (bearing)
+            {
+                var bearingName = bearing.replace(/L/g, "_l");
+                bearingName = bearingName.replace(/R/g, "_r");
+                bearingName = bearingName.replace("kTurn", "koiogran_turn");
+                answer = imageBase + "maneuver/" + bearingName + "_" + difficulty + "16.png";
+            }
+            else
+            {
+                answer = imageBase + "maneuver/stationary_" + difficulty + "16.png";
+            }
+
+            return answer;
         },
 
         selectionChanged: function(event)

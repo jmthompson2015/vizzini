@@ -1,4 +1,5 @@
-define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "Team" ], function(Difficulty, Maneuver, Ship, ShipBase, Team)
+define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Difficulty, Maneuver, Ship,
+        ShipBase, ShipTeam, Team)
 {
     /*
      * Provides a user interface for an explosion.
@@ -108,7 +109,7 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "Team" ], function(Diffic
     /*
      * Provides a play area user interface for Starfighter Squadrons.
      */
-    function PlayAreaUI(environment, imageUtils)
+    function PlayAreaUI(environment)
     {
         var DEG_TO_RADIANS = Math.PI / 180;
         var SHIP_BACKGROUND = "rgba(255,255,255,0.4)";
@@ -137,6 +138,32 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "Team" ], function(Diffic
             drawManeuver(context, playState);
             drawLaserBeam(context, playState);
             drawExplosion(context, playState);
+        }
+
+        function createBackgroundImage(callback)
+        {
+            var image = new Image();
+            image.onload = function()
+            {
+                callback();
+            };
+
+            image.src = imageBase + "pia13845.jpg";
+
+            return image;
+        }
+
+        function createExplosionImage(callback)
+        {
+            var image = new Image();
+            image.onload = function()
+            {
+                callback();
+            };
+
+            image.src = imageBase + "Explosion64.png";
+
+            return image;
         }
 
         /*
@@ -193,6 +220,22 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "Team" ], function(Diffic
             var shipBase = maneuverAction.getShipBase();
 
             return new ManeuverUI(maneuver, fromPosition, shipBase);
+        }
+
+        function createShipIcon(token, callback)
+        {
+            var image = new Image();
+            image.id = token.getId();
+            image.teamColor = Team.properties[token.getTeam()].color;
+            image.onload = function()
+            {
+                callback();
+            };
+
+            var filename = ShipTeam.properties[token.getShipTeam()].image;
+            image.src = imageBase + "ship/" + filename;
+
+            return image;
         }
 
         function drawTokens(context, playState)
@@ -381,13 +424,13 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "Team" ], function(Diffic
                 callback();
             }
 
-            backgroundImage = imageUtils.createBackgroundImage(imageDone);
-            explosionImage = imageUtils.createExplosionImage(imageDone);
+            backgroundImage = createBackgroundImage(imageDone);
+            explosionImage = createExplosionImage(imageDone);
 
             for (var i = 0; i < tokens.length; i++)
             {
                 var token = tokens[i];
-                tokenToImage[token] = imageUtils.createShipIcon(token, imageDone);
+                tokenToImage[token] = createShipIcon(token, imageDone);
             }
 
             timer = setTimeout(timerExpired, timeout);
