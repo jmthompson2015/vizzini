@@ -1,30 +1,35 @@
 /*
  * Provides an enumeration of firing arcs for Starfighter Squadrons.
  */
-var FiringArc =
+define(function()
 {
-    FORWARD: "forward",
-    FORWARD_AND_AFT: "forwardAndAft",
-    properties:
+    var FiringArc =
     {
-        "forward":
+        FORWARD: "forward",
+        FORWARD_AND_AFT: "forwardAndAft",
+        properties:
         {
-            isInFiringArc: function(bearing)
+            "forward":
             {
-                return (315 <= bearing) || (bearing <= 45);
+                isInFiringArc: function(bearing)
+                {
+                    return (315 <= bearing) || (bearing <= 45);
+                },
             },
-        },
-        "forwardAndAft":
-        {
-            isInFiringArc: function(bearing)
+            "forwardAndAft":
             {
-                return ((315 <= bearing) || (bearing <= 45)) || ((135 <= bearing) && (bearing <= 225));
+                isInFiringArc: function(bearing)
+                {
+                    return ((315 <= bearing) || (bearing <= 45)) || ((135 <= bearing) && (bearing <= 225));
+                },
             },
-        },
-    }
-};
+        }
+    };
 
-if (Object.freeze)
-{
-    Object.freeze(FiringArc);
-};
+    if (Object.freeze)
+    {
+        Object.freeze(FiringArc);
+    };
+
+    return FiringArc;
+});

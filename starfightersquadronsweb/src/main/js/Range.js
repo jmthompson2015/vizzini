@@ -1,70 +1,75 @@
 /*
  * Provides an enumeration of ranges.
  */
-var Range =
+define(function()
 {
-    ONE: "one",
-    TWO: "two",
-    THREE: "three",
-    properties:
+    var Range =
     {
-        "one":
+        ONE: "one",
+        TWO: "two",
+        THREE: "three",
+        properties:
         {
-            minDistance: 0, // Minimum distance. (mm)
-            maxDistance: 100, // Maximum distance. (mm)
-            displayName: "1",
-            value: "one",
-        },
-        "two":
-        {
-            minDistance: 101, // Minimum distance. (mm)
-            maxDistance: 200, // Maximum distance. (mm)
-            displayName: "2",
-            value: "two",
-        },
-        "three":
-        {
-            minDistance: 201, // Minimum distance. (mm)
-            maxDistance: 300, // Maximum distance. (mm)
-            displayName: "3",
-            value: "three",
-        },
-    },
-
-    /*
-     * @param distance Distance. (mm)
-     * 
-     * @return the range value for the given parameter.
-     */
-    findRange: function(distance)
-    {
-        var answer;
-
-        var values = Range.values();
-
-        for (var i = 0; i < values.length; i++)
-        {
-            var r = values[i];
-            var min = Range.properties[r].minDistance;
-            var max = Range.properties[r].maxDistance;
-
-            if ((min <= distance) && (distance <= max))
+            "one":
             {
-                answer = r;
-                break;
+                minDistance: 0, // Minimum distance. (mm)
+                maxDistance: 100, // Maximum distance. (mm)
+                displayName: "1",
+                value: "one",
+            },
+            "two":
+            {
+                minDistance: 101, // Minimum distance. (mm)
+                maxDistance: 200, // Maximum distance. (mm)
+                displayName: "2",
+                value: "two",
+            },
+            "three":
+            {
+                minDistance: 201, // Minimum distance. (mm)
+                maxDistance: 300, // Maximum distance. (mm)
+                displayName: "3",
+                value: "three",
+            },
+        },
+
+        /*
+         * @param distance Distance. (mm)
+         * 
+         * @return the range value for the given parameter.
+         */
+        findRange: function(distance)
+        {
+            var answer;
+
+            var values = this.values();
+
+            for (var i = 0; i < values.length; i++)
+            {
+                var r = values[i];
+                var min = this.properties[r].minDistance;
+                var max = this.properties[r].maxDistance;
+
+                if ((min <= distance) && (distance <= max))
+                {
+                    answer = r;
+                    break;
+                }
             }
-        }
 
-        return answer;
-    },
+            return answer;
+        },
 
-    values: function()
+        values: function()
+        {
+            return Object.getOwnPropertyNames(this.properties);
+        },
+    };
+
+    if (Object.freeze)
     {
-        return Object.getOwnPropertyNames(Range.properties);
-    },
-};
+        Object.freeze(Range);
+    };
 
-if (Object.freeze)
-{
-    Object.freeze(Range);
-};
+    return Range;
+});

@@ -1,40 +1,43 @@
-// require("Weapon");
-
 /*
  * Provides a turret weapon.
  */
-function TurretWeapon(name, isPrimary, weaponValue, ranges)
+define([ "Weapon" ], function(Weapon)
 {
-    this.getName = function()
+    function TurretWeapon(name, isPrimary, weaponValue, ranges)
     {
-        return name;
+        this.getName = function()
+        {
+            return name;
+        }
+
+        this.getRanges = function()
+        {
+            return ranges;
+        }
+
+        this.getWeaponValue = function()
+        {
+            return weaponValue;
+        }
+
+        this.isPrimary = function()
+        {
+            return isPrimary;
+        }
     }
 
-    this.getRanges = function()
-    {
-        return ranges;
-    }
+    // Create a prototype object that inherits from the prototype of Weapon.
+    TurretWeapon.prototype = Vizzini.inherit(Weapon.prototype);
 
-    this.getWeaponValue = function()
+    // Now add properties to the prototype. These properties override the properties
+    // of the same name from Weapon.prototype.
+    Vizzini.extend(TurretWeapon.prototype,
     {
-        return weaponValue;
-    }
+        isDefenderVulnerable: function(attacker, attackerPosition, defender, defenderPosition)
+        {
+            return true;
+        },
+    });
 
-    this.isPrimary = function()
-    {
-        return isPrimary;
-    }
-}
-
-// Create a prototype object that inherits from the prototype of Weapon.
-TurretWeapon.prototype = Vizzini.inherit(Weapon.prototype);
-
-// Now add properties to the prototype. These properties override the properties
-// of the same name from Weapon.prototype.
-Vizzini.extend(TurretWeapon.prototype,
-{
-    isDefenderVulnerable: function(attacker, attackerPosition, defender, defenderPosition)
-    {
-        return true;
-    },
+    return TurretWeapon;
 });

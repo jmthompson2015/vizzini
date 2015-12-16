@@ -1,19 +1,24 @@
 /*
  * Provides an enumeration of difficulties.
  */
-var Difficulty =
+define(function()
 {
-    EASY: "easy",
-    STANDARD: "standard",
-    HARD: "hard",
-
-    values: function()
+    var Difficulty =
     {
-        return [ "easy", "standard", "hard" ];
-    },
-}
+        EASY: "easy",
+        STANDARD: "standard",
+        HARD: "hard",
 
-if (Object.freeze)
-{
-    Object.freeze(Difficulty);
-};
+        values: function()
+        {
+            return [ "easy", "standard", "hard" ];
+        },
+    }
+
+    if (Object.freeze)
+    {
+        Object.freeze(Difficulty);
+    };
+
+    return Difficulty;
+});

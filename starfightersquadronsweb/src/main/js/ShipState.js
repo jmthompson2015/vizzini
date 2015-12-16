@@ -1,33 +1,37 @@
 /*
  * Provides a ship state for Starfighter Squadrons.
  */
-function ShipState(pilotSkillValue, primaryWeaponValue, agilityValue,
-        hullValue, shieldValue)
+define(function()
 {
-    this.getAgilityValue = function()
+    function ShipState(pilotSkillValue, primaryWeaponValue, agilityValue, hullValue, shieldValue)
     {
-        return agilityValue;
-    }
+        this.getAgilityValue = function()
+        {
+            return agilityValue;
+        }
 
-    this.getHullValue = function()
-    {
-        return hullValue;
-    }
+        this.getHullValue = function()
+        {
+            return hullValue;
+        }
 
-    this.getPilotSkillValue = function()
-    {
-        return pilotSkillValue;
-    }
+        this.getPilotSkillValue = function()
+        {
+            return pilotSkillValue;
+        }
 
-    this.getPrimaryWeaponValue = function()
-    {
-        return primaryWeaponValue;
-    }
+        this.getPrimaryWeaponValue = function()
+        {
+            return primaryWeaponValue;
+        }
 
-    this.getShieldValue = function()
-    {
-        return shieldValue;
-    }
-};
+        this.getShieldValue = function()
+        {
+            return shieldValue;
+        }
+    };
 
-ShipState.ZERO = new ShipState(0, 0, 0, 0, 0);
+    ShipState.ZERO = new ShipState(0, 0, 0, 0, 0);
+
+    return ShipState;
+});

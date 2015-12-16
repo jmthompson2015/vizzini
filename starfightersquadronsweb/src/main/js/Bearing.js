@@ -1,75 +1,80 @@
 /*
  * Provides an enumeration of bearings.
  */
-var Bearing =
+define(function()
 {
-    TURN_LEFT: "turnLeft",
-    BANK_LEFT: "bankLeft",
-    STRAIGHT: "straight",
-    BANK_RIGHT: "bankRight",
-    TURN_RIGHT: "turnRight",
-    KOIOGRAN_TURN: "kTurn",
-    SEGNORS_LOOP_LEFT: "segnorsLoopLeft",
-    SEGNORS_LOOP_RIGHT: "segnorsLoopRight",
-    properties:
+    var Bearing =
     {
-        "turnLeft":
+        TURN_LEFT: "turnLeft",
+        BANK_LEFT: "bankLeft",
+        STRAIGHT: "straight",
+        BANK_RIGHT: "bankRight",
+        TURN_RIGHT: "turnRight",
+        KOIOGRAN_TURN: "kTurn",
+        SEGNORS_LOOP_LEFT: "segnorsLoopLeft",
+        SEGNORS_LOOP_RIGHT: "segnorsLoopRight",
+        properties:
         {
-            headingChange: -90,
-            isBank: false,
-            isTurn: true,
+            "turnLeft":
+            {
+                headingChange: -90,
+                isBank: false,
+                isTurn: true,
+            },
+            "bankLeft":
+            {
+                headingChange: -45,
+                isBank: true,
+                isTurn: false,
+            },
+            "straight":
+            {
+                headingChange: 0,
+                isBank: false,
+                isTurn: false,
+            },
+            "bankRight":
+            {
+                headingChange: 45,
+                isBank: true,
+                isTurn: false,
+            },
+            "turnRight":
+            {
+                headingChange: 90,
+                isBank: false,
+                isTurn: true,
+            },
+            "kTurn":
+            {
+                headingChange: 180,
+                isBank: false,
+                isTurn: false,
+            },
+            "segnorsLoopLeft":
+            {
+                headingChange: 135,
+                isBank: false,
+                isTurn: false,
+            },
+            "segnorsLoopRight":
+            {
+                headingChange: 225,
+                isBank: false,
+                isTurn: false,
+            },
         },
-        "bankLeft":
-        {
-            headingChange: -45,
-            isBank: true,
-            isTurn: false,
-        },
-        "straight":
-        {
-            headingChange: 0,
-            isBank: false,
-            isTurn: false,
-        },
-        "bankRight":
-        {
-            headingChange: 45,
-            isBank: true,
-            isTurn: false,
-        },
-        "turnRight":
-        {
-            headingChange: 90,
-            isBank: false,
-            isTurn: true,
-        },
-        "kTurn":
-        {
-            headingChange: 180,
-            isBank: false,
-            isTurn: false,
-        },
-        "segnorsLoopLeft":
-        {
-            headingChange: 135,
-            isBank: false,
-            isTurn: false,
-        },
-        "segnorsLoopRight":
-        {
-            headingChange: 225,
-            isBank: false,
-            isTurn: false,
-        },
-    },
 
-    values: function()
+        values: function()
+        {
+            return Object.getOwnPropertyNames(Bearing.properties);
+        },
+    };
+
+    if (Object.freeze)
     {
-        return Object.getOwnPropertyNames(Bearing.properties);
-    },
-};
+        Object.freeze(Bearing);
+    };
 
-if (Object.freeze)
-{
-    Object.freeze(Bearing);
-};
+    return Bearing;
+});

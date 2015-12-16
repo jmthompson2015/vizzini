@@ -1,50 +1,55 @@
 /*
  * Provides an enumeration of ship actions for Starfighter Squadrons.
  */
-var ShipAction =
+define(function()
 {
-    BARREL_ROLL: "barrelRoll",
-    BOOST: "boost",
-    CLOAK: "cloak",
-    EVADE: "evade",
-    FOCUS: "focus",
-    TARGET_LOCK: "targetLock",
-    properties:
+    var ShipAction =
     {
-        "barrelRoll":
+        BARREL_ROLL: "barrelRoll",
+        BOOST: "boost",
+        CLOAK: "cloak",
+        EVADE: "evade",
+        FOCUS: "focus",
+        TARGET_LOCK: "targetLock",
+        properties:
         {
-            displayName: "Barrel Roll",
-            value: "barrelRoll",
-        },
-        "boost":
-        {
-            displayName: "Boost",
-            value: "boost",
-        },
-        "cloak":
-        {
-            displayName: "Cloak",
-            value: "cloak",
-        },
-        "evade":
-        {
-            displayName: "Evade",
-            value: "evade",
-        },
-        "focus":
-        {
-            displayName: "Focus",
-            value: "focus",
-        },
-        "targetLock":
-        {
-            displayName: "Target Lock",
-            value: "targetLock",
-        },
-    }
-};
+            "barrelRoll":
+            {
+                displayName: "Barrel Roll",
+                value: "barrelRoll",
+            },
+            "boost":
+            {
+                displayName: "Boost",
+                value: "boost",
+            },
+            "cloak":
+            {
+                displayName: "Cloak",
+                value: "cloak",
+            },
+            "evade":
+            {
+                displayName: "Evade",
+                value: "evade",
+            },
+            "focus":
+            {
+                displayName: "Focus",
+                value: "focus",
+            },
+            "targetLock":
+            {
+                displayName: "Target Lock",
+                value: "targetLock",
+            },
+        }
+    };
 
-if (Object.freeze)
-{
-    Object.freeze(ShipAction);
-};
+    if (Object.freeze)
+    {
+        Object.freeze(ShipAction);
+    };
+
+    return ShipAction;
+});
