@@ -19,6 +19,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
         var defenseDice;
         var modifyAttackCallback;
         var modifyDefenseCallback;
+        var dealDamageCallback;
 
         this.buildSquad = function()
         {
@@ -53,6 +54,42 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             {
                 callback();
             }
+        }
+
+        this.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer,
+                callbackIn)
+        {
+            InputValidator.validateNotNull("damageDealer", damageDealer);
+            InputValidator.validateNotNull("callback", callbackIn);
+
+            dealDamageCallback = callbackIn;
+
+            var element = React.createElement(CombatUI,
+            {
+                phase: environment.getPhase(),
+                attacker: attacker,
+                attackDice: attackDice,
+                defender: defender,
+                defenseDice: defenseDice,
+                hitCount: damageDealer.getHits(),
+                criticalHitCount: damageDealer.getCriticalHits(),
+                okFunction: this.finishDealDamage,
+            });
+
+            React.render(element, document.getElementById("inputArea"));
+            // updateSizes();
+        }
+
+        this.finishDealDamage = function()
+        {
+            LOGGER.trace("finishDealDamage() start");
+
+            // Handle the user response.
+            var element = document.getElementById("inputArea");
+            element.innerHTML = "";
+            LOGGER.trace("finishDealDamage() end");
+
+            dealDamageCallback();
         }
 
         this.finishPlanningAction = function(planningAction)

@@ -30,6 +30,7 @@ define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ]
             assert.ok(agent.chooseWeaponAndDefender, agent.getName() + ".chooseWeaponAndDefender");
             assert.ok(agent.getModifyAttackDiceAction, agent.getName() + ".getModifyAttackDiceAction");
             assert.ok(agent.getModifyDefenseDiceAction, agent.getName() + ".getModifyDefenseDiceAction");
+            assert.ok(agent.dealDamage, agent.getName() + ".dealDamage");
         }
     });
 });

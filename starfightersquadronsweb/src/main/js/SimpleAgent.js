@@ -78,6 +78,12 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         callback(weapon, defender);
     }
 
+    SimpleAgent.prototype.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
+            damageDealer, callback, damageDealer)
+    {
+    // Nothing to do.
+    }
+
     SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice,
             defender, callback)
     {
