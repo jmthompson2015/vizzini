@@ -40,6 +40,30 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         LOGGER.info("startNewGame() end");
     }
 
+    function updateSizes(environmentUI)
+    {
+        var firstPilots = document.getElementById("firstPilots");
+        var secondPilots = document.getElementById("secondPilots");
+        var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
+
+        var ssPanel = document.getElementById("ssPanel");
+        var messageArea = document.getElementById("messageArea");
+        var inputArea = document.getElementById("inputArea");
+        var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight - inputArea.offsetHeight
+                - 20;
+
+        var size = Math.min(newWidth, newHeight);
+
+        var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
+        myPlayAreaCanvas.width = size;
+        myPlayAreaCanvas.height = size;
+
+        if (environmentUI)
+        {
+            environmentUI.setScale(size / 915.0);
+        }
+    }
+
     window.addEventListener("resize", function()
     {
         updateSizes(environmentUI)
@@ -49,30 +73,3 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         updateSizes(environmentUI)
     }, false);
 });
-
-function updateSizes(environmentUI)
-{
-    // InputValidator.validateNotNull("environmentUI", environmentUI);
-
-    var firstPilots = document.getElementById("firstPilots");
-    var secondPilots = document.getElementById("secondPilots");
-    var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
-
-    var ssPanel = document.getElementById("ssPanel");
-    var messageArea = document.getElementById("messageArea");
-    var inputArea = document.getElementById("inputArea");
-    var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight - inputArea.offsetHeight;
-
-    var size = Math.min(newWidth, newHeight)
-
-    var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
-    myPlayAreaCanvas.width = size;
-    myPlayAreaCanvas.height = size;
-
-    var scale = size / 915;
-
-    if (environmentUI)
-    {
-        environmentUI.setScale(scale);
-    }
-}
