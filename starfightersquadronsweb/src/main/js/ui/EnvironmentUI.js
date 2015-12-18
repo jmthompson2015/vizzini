@@ -21,6 +21,7 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
         });
         var secondPilots = React.render(element, document.getElementById("secondPilots"));
         var scale = 1.0;
+        var previousPlayState;
 
         environment.addPhaseListener(this);
         environment.addShipDestroyedListener(this);
@@ -68,12 +69,19 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
         {
             scale = value;
 
-            var phase = environment.getPhase();
-            var round = environment.getRound();
-            var activeToken = environment.getActiveToken();
-            var tokenPositions = PlayState.createTokenPositions(environment);
-            var playState = new PlayState(round, phase, activeToken, tokenPositions);
-            repaint(playState);
+            if (previousPlayState && previousPlayState.getManeuverAction())
+            {
+                repaint(previousPlayState);
+            }
+            else
+            {
+                var phase = environment.getPhase();
+                var round = environment.getRound();
+                var activeToken = environment.getActiveToken();
+                var tokenPositions = PlayState.createTokenPositions(environment);
+                var playState = new PlayState(round, phase, activeToken, tokenPositions);
+                repaint(playState);
+            }
         }
 
         this.shipDestroyed = function(source, shipDestroyedAction)
@@ -192,6 +200,8 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
 
             showMessage(message);
 
+            previousPlayState = playState;
+
             LOGGER.trace("EnvironmentUI.repaint() end");
         }
 
@@ -202,12 +212,10 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
             if (message)
             {
                 messageArea.innerHTML = message;
-                HtmlUtilities.removeClass(messageArea, "hidden");
             }
             else
             {
                 messageArea.innerHTML = "";
-                HtmlUtilities.addClass(messageArea, "hidden");
             }
         }
     }

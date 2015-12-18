@@ -46,7 +46,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
                     callback: this.finishWeaponAndDefender
                 });
                 React.render(element, document.getElementById("inputArea"));
-                // updateSizes();
+                window.dispatchEvent(new Event('resize'));
 
                 // Wait for the user to respond.
             }
@@ -77,7 +77,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             });
 
             React.render(element, document.getElementById("inputArea"));
-            // updateSizes();
+            window.dispatchEvent(new Event('resize'));
         }
 
         this.finishDealDamage = function()
@@ -87,6 +87,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             // Handle the user response.
             var element = document.getElementById("inputArea");
             element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
             LOGGER.trace("finishDealDamage() end");
 
             dealDamageCallback();
@@ -99,6 +100,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             // Handle the user response.
             var element = document.getElementById("inputArea");
             element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
             LOGGER.trace("finishPlanningAction() end");
 
             callback(planningAction);
@@ -111,6 +113,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             // Handle the user response.
             var element = document.getElementById("inputArea");
             element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
             LOGGER.trace("finishShipAction() end");
 
             callback(shipAction);
@@ -123,6 +126,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             // Handle the user response.
             var element = document.getElementById("inputArea");
             element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
             LOGGER.trace("finishWeaponAndDefender() end");
 
             callback(weapon, defender);
@@ -198,7 +202,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
                     okFunction: finishModifyAttackDice,
                 });
                 React.render(element, document.getElementById("inputArea"));
-                // updateSizes();
+                window.dispatchEvent(new Event('resize'));
 
                 // Wait for the user to respond.
             }
@@ -241,7 +245,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
                     okFunction: finishModifyDefenseDice,
                 });
                 React.render(element, document.getElementById("inputArea"));
-                // updateSizes();
+                window.dispatchEvent(new Event('resize'));
 
                 // Wait for the user to respond.
             }
@@ -267,6 +271,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
                 callback: this.finishShipAction
             });
             React.render(element, document.getElementById("inputArea"));
+            window.dispatchEvent(new Event('resize'));
 
             // Wait for the user to respond.
         }
