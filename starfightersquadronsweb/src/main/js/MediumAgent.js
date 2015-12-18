@@ -55,6 +55,8 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
 
             // Find the maneuvers which keep the ship on the battlefield.
             var validManeuvers = [];
+            var closestManeuver;
+            var minDistance;
 
             // Find the maneuvers which take the ship within range of a defender.
             var validManeuversR1 = [];
@@ -76,6 +78,15 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
                     {
                         var defender = defenders[i];
                         var defenderPosition = environment.getPositionFor(defender);
+
+                        // Save the maneuver which has the minimum distance.
+                        var distance = toPosition.computeDistance(defenderPosition);
+                        
+                        if (!minDistance || distance < minDistance)
+                        {
+                            closestManeuver = maneuver;
+                            minDistance = distance;
+                        }
 
                         if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
                         {
@@ -112,6 +123,12 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
             {
                 LOGGER.trace("validManeuversR3.length = " + validManeuversR3.length + " for " + token);
                 maneuver = validManeuversR3.vizziniRandomElement();
+            }
+
+            if (!maneuver && closestManeuver)
+            {
+                LOGGER.trace("closestManeuver = " + closestManeuver + " for " + token);
+                maneuver = closestManeuver;
             }
 
             if (!maneuver)
