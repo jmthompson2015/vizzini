@@ -1,18 +1,26 @@
-define([ "ShipAction" ], function(ShipAction)
+define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 {
     QUnit.module("ShipAction");
 
+    QUnit.test("ShipAction properties Barrel Roll (left)", function(assert)
+    {
+        var shipAction = ShipAction.BARREL_ROLL_LEFT;
+        var properties = ShipAction.properties[shipAction];
+        assert.equal(properties.displayName, "Barrel Roll (left)");
+        assert.equal(properties.maneuver, Maneuver.BARREL_ROLL_LEFT_1_STANDARD);
+    });
+
     QUnit.test("ShipAction properties Evade", function(assert)
     {
-        var shipBase = ShipAction.EVADE;
-        var properties = ShipAction.properties[shipBase];
+        var shipAction = ShipAction.EVADE;
+        var properties = ShipAction.properties[shipAction];
         assert.equal(properties.displayName, "Evade");
     });
 
     QUnit.test("ShipAction properties Focus", function(assert)
     {
-        var shipBase = ShipAction.FOCUS;
-        var properties = ShipAction.properties[shipBase];
+        var shipAction = ShipAction.FOCUS;
+        var properties = ShipAction.properties[shipAction];
         assert.equal(properties.displayName, "Focus");
     });
 

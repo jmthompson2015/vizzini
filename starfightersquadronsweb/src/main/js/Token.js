@@ -254,16 +254,16 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 answer = changeTurnManeuversToHard(answer);
             }
 
-            // if (isUpgradedWith(UpgradeCard.NIEN_NUNB))
-            // {
-            // answer = changeManeuversToEasy(answer, Bearing.STRAIGHT);
-            // }
-            //
-            // if (isUpgradedWith(UpgradeCard.R2_ASTROMECH))
-            // {
-            // answer = changeManeuversToEasy(answer, 1);
-            // answer = changeManeuversToEasy(answer, 2);
-            // }
+            if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
+            {
+                answer = changeBearingManeuversToEasy(answer, Bearing.STRAIGHT);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.R2_ASTROMECH))
+            {
+                answer = changeSpeedManeuversToEasy(answer, 1);
+                answer = changeSpeedManeuversToEasy(answer, 2);
+            }
 
             return answer;
         }
@@ -606,6 +606,44 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             weapon = value;
         }
 
+        function changeBearingManeuversToEasy(maneuvers, bearing)
+        {
+            return maneuvers.map(function(maneuver)
+            {
+                var properties = Maneuver.properties[maneuver];
+                var myBearing = properties.bearing;
+
+                if (myBearing === bearing)
+                {
+                    var speed = properties.speed;
+                    return Maneuver.find(bearing, speed, Difficulty.EASY);
+                }
+                else
+                {
+                    return maneuver;
+                }
+            });
+        }
+
+        function changeSpeedManeuversToEasy(maneuvers, speed)
+        {
+            return maneuvers.map(function(maneuver)
+            {
+                var properties = Maneuver.properties[maneuver];
+                var mySpeed = properties.speed;
+
+                if (mySpeed === speed)
+                {
+                    var bearing = properties.bearing;
+                    return Maneuver.find(bearing, speed, Difficulty.EASY);
+                }
+                else
+                {
+                    return maneuver;
+                }
+            });
+        }
+
         /*
          * Change the turn maneuvers to hard difficulty.
          * 
@@ -619,10 +657,10 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             {
                 var properties = Maneuver.properties[maneuver];
                 var bearing = properties.bearing;
-                var speed = properties.speed;
 
                 if (Bearing.properties[bearing].isTurn)
                 {
+                    var speed = properties.speed;
                     return Maneuver.find(bearing, speed, Difficulty.HARD);
                 }
                 else

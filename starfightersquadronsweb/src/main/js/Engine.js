@@ -1,8 +1,8 @@
 /*
  * Provides an engine for Starfighter Squadrons.
  */
-define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction" ], function(CombatAction, Maneuver,
-        ManeuverAction, Phase, ShipAction)
+define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "UpgradeCard" ], function(CombatAction,
+        Maneuver, ManeuverAction, Phase, ShipAction, UpgradeCard)
 {
     function Engine(environment, adjudicator)
     {
@@ -118,36 +118,13 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction" ], 
             {
                 LOGGER.debug("shipAction = " + shipAction);
                 var attacker = environment.getActiveToken();
-                var attackerPosition = environment.getPositionFor(attacker);
-                var shipBase = attacker.getShipBase();
+                var maneuver = ShipAction.properties[shipAction].maneuver;
 
-                if (shipAction === ShipAction.BARREL_ROLL_LEFT)
+                if (maneuver)
                 {
-                    var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
-                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
-                    maneuverAction.doIt();
-                }
-                else if (shipAction === ShipAction.BARREL_ROLL_RIGHT)
-                {
-                    var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
-                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
-                    maneuverAction.doIt();
-                }
-                else if (shipAction === ShipAction.BOOST_LEFT)
-                {
-                    var maneuver = Maneuver.BANK_LEFT_1_STANDARD;
-                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
-                    maneuverAction.doIt();
-                }
-                else if (shipAction === ShipAction.BOOST_STRAIGHT)
-                {
-                    var maneuver = Maneuver.STRAIGHT_1_STANDARD;
-                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
-                    maneuverAction.doIt();
-                }
-                else if (shipAction === ShipAction.BOOST_RIGHT)
-                {
-                    var maneuver = Maneuver.BANK_RIGHT_1_STANDARD;
+                    // Barrel roll and Boost.
+                    var attackerPosition = environment.getPositionFor(attacker);
+                    var shipBase = attacker.getShipBase();
                     var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
                     maneuverAction.doIt();
                 }
@@ -355,14 +332,12 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction" ], 
                 environment.setActiveToken(token);
 
                 // Perform end steps.
-                // LOGGER.info("End: " + token.getName());
-
                 token.clearEvadeCount();
 
-                // if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
-                // {
-                token.clearFocusCount();
-                // }
+                if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
+                {
+                    token.clearFocusCount();
+                }
             }
 
             setTimeout(processEndQueue, 100);

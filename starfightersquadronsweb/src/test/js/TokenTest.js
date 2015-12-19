@@ -1,6 +1,6 @@
-define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", "Team", "Token", "UpgradeCard",
-        "ui/HumanAgent" ], function(DamageCard, Pilot, Range, Ship, SimpleAgent, SquadBuilder,
-        Team, Token, UpgradeCard, HumanAgent)
+define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder",
+        "Team", "Token", "UpgradeCard", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Maneuver, Pilot,
+        Range, Ship, SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, HumanAgent)
 {
     QUnit.module("Token");
 
@@ -337,6 +337,48 @@ define([ "DamageCard", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder", 
 
         // Verify.
         assert.equal(result.length, 14);
+    });
+
+    QUnit.test("getManeuvers() Nien Nunb crew", function(assert)
+    {
+        // Setup.
+        var agent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var token = new Token(Pilot.CHEWBACCA, agent, UpgradeCard.NIEN_NUNB);
+
+        // Run.
+        var result = token.getManeuvers();
+
+        // Verify.
+        assert.equal(result.length, 16);
+        result.forEach(function(maneuver)
+        {
+            var maneuverProps = Maneuver.properties[maneuver];
+            if (maneuverProps.bearing === Bearing.STRAIGHT)
+            {
+                assert.equal(maneuverProps.difficulty, Difficulty.EASY);
+            }
+        });
+    });
+
+    QUnit.test("getManeuvers() R2 Astromech", function(assert)
+    {
+        // Setup.
+        var agent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var token = new Token(Pilot.LUKE_SKYWALKER, agent, UpgradeCard.R2_ASTROMECH);
+
+        // Run.
+        var result = token.getManeuvers();
+
+        // Verify.
+        assert.equal(result.length, 15);
+        result.forEach(function(maneuver)
+        {
+            var maneuverProps = Maneuver.properties[maneuver];
+            if (maneuverProps.speed === 1 || maneuverProps.speed === 2)
+            {
+                assert.equal(maneuverProps.difficulty, Difficulty.EASY);
+            }
+        });
     });
 
     QUnit.test("getPilotSkillValue()", function(assert)
