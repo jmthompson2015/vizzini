@@ -355,14 +355,12 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction" ], 
                 environment.setActiveToken(token);
 
                 // Perform end steps.
-                // LOGGER.info("End: " + token.getName());
-
                 token.clearEvadeCount();
 
-                // if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
-                // {
-                token.clearFocusCount();
-                // }
+                if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
+                {
+                    token.clearFocusCount();
+                }
             }
 
             setTimeout(processEndQueue, 100);

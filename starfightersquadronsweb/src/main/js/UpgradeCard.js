@@ -887,6 +887,7 @@ define(
                         hasAction: false,
                         value: "moffJerjerrod",
                     },
+                    // @see Engine.processEndQueue() for effect implementation.
                     "moldyCrow":
                     {
                         name: "Moldy Crow",
@@ -918,6 +919,7 @@ define(
                         hasAction: false,
                         value: "navigator",
                     },
+                    // @see Token.getManeuvers() for effect implementation.
                     "nienNunb":
                     {
                         name: "Nien Nunb",
@@ -1011,6 +1013,7 @@ define(
                         hasAction: false,
                         value: "pushTheLimit",
                     },
+                    // @see Token.getManeuvers() for effect implementation.
                     "r2Astromech":
                     {
                         name: "R2 Astromech",
