@@ -22,6 +22,10 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         BANK_RIGHT_3_HARD: "bankRight3Hard",
         BANK_RIGHT_3_STANDARD: "bankRight3Standard",
 
+        // Barrel Roll.
+        BARREL_ROLL_LEFT_1_STANDARD: "barrelRollLeft1Standard",
+        BARREL_ROLL_RIGHT_1_STANDARD: "barrelRollRight1Standard",
+
         // Koiogran turn.
         KOIOGRAN_TURN_2_HARD: "koiogranTurn2Hard",
         KOIOGRAN_TURN_3_HARD: "koiogranTurn3Hard",
@@ -161,6 +165,20 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 difficulty: Difficulty.STANDARD,
                 radius: 177.8,
                 value: "bankRight3Standard",
+            },
+            "barrelRollLeft1Standard":
+            {
+                bearing: Bearing.BARREL_ROLL_LEFT,
+                speed: 1,
+                difficulty: Difficulty.STANDARD,
+                value: "barrelRollLeft1Standard",
+            },
+            "barrelRollRight1Standard":
+            {
+                bearing: Bearing.BARREL_ROLL_RIGHT,
+                speed: 1,
+                difficulty: Difficulty.STANDARD,
+                value: "barrelRightLeft1Standard",
             },
             "koiogranTurn2Hard":
             {
@@ -485,7 +503,15 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         var lastX;
         var lastY;
 
-        if (maneuver != Maneuver.STATIONARY_0_HARD)
+        if (bearing === Bearing.BARREL_ROLL_LEFT || bearing === Bearing.BARREL_ROLL_RIGHT)
+        {
+            var factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
+            var y = factor * baseSize;
+            answer.add(0.0, y);
+            lastX = 0.0;
+            lastY = y;
+        }
+        else if (maneuver != Maneuver.STATIONARY_0_HARD)
         {
             var x = baseSize;
             answer.add(x, 0.0);
@@ -520,6 +546,17 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             lastX = last.x;
             lastY = last.y;
             break;
+        case Bearing.BARREL_ROLL_LEFT:
+        case Bearing.BARREL_ROLL_RIGHT:
+            var factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
+            var y = lastY;
+            for (var i = 0; i < speed; i++)
+            {
+                y += factor * 40;
+                answer.add(0.0, y);
+            }
+            lastY = y;
+            break;
         }
 
         // Last segment: move base center.
@@ -544,6 +581,12 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             factor = (bearing === Bearing.TURN_RIGHT ? 1.0 : -1.0);
             y = (factor * baseSize) + lastY;
             answer.add(lastX, y);
+            break;
+        case Bearing.BARREL_ROLL_LEFT:
+        case Bearing.BARREL_ROLL_RIGHT:
+            var factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
+            var y = factor * baseSize + lastY;
+            answer.add(0.0, y);
             break;
         }
 
@@ -642,6 +685,14 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
 
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
+        }
+        else if ((maneuver === Maneuver.BARREL_ROLL_LEFT_1_STANDARD)
+                || (maneuver === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
+        {
+            var factor = (maneuver === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD ? 1.0 : -1.0);
+            dx = 0;
+            dy = factor * ((2 * baseSize) + (40 * speed));
+            headingChange = 0;
         }
         else
         {

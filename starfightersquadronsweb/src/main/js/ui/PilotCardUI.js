@@ -231,6 +231,9 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         InputValidator.validateNotNull("shipAction", shipAction);
 
         var actionName0 = ShipAction.properties[shipAction].displayName;
+        actionName0 = actionName0.replace(" (left)", "");
+        actionName0 = actionName0.replace(" (straight)", "");
+        actionName0 = actionName0.replace(" (right)", "");
         var actionName = actionName0.replace(" ", "");
         var fileString = imageBase + "pilotCard/" + actionName + "24.png";
 
@@ -238,7 +241,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         {
             className: "pilotCardUIImage",
             src: fileString,
-            title: actionName0
+            title: actionName0,
         });
     }
 
@@ -502,12 +505,15 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             for (var i = 0; i < shipActions.length; i++)
             {
                 var shipAction = shipActions[i];
-                var img = PilotCardUI.createActionImage(shipAction);
-                cells.push(React.DOM.td(
+                if (shipAction !== ShipAction.BARREL_ROLL_RIGHT)
                 {
-                    key: i,
-                    className: "pilotCardUIShipActionCell"
-                }, img));
+                    var img = PilotCardUI.createActionImage(shipAction);
+                    cells.push(React.DOM.td(
+                    {
+                        key: i,
+                        className: "pilotCardUIShipActionCell"
+                    }, img));
+                }
             }
 
             var row = React.DOM.tr(

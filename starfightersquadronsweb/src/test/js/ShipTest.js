@@ -29,7 +29,7 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.ok(properties.maneuvers);
         assert.equal(properties.maneuvers.length, 16);
         assert.ok(properties.shipActions);
-        assert.equal(properties.shipActions.length, 3);
+        assert.equal(properties.shipActions.length, 4);
     });
 
     QUnit.test("Ship properties X-Wing", function(assert)

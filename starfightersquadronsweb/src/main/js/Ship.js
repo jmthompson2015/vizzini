@@ -41,7 +41,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD,
                         Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_EASY, Maneuver.STRAIGHT_5_EASY,
                         Maneuver.KOIOGRAN_TURN_5_HARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST, ShipAction.EVADE ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST_LEFT,
+                        ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT, ShipAction.EVADE ],
                 value: "aWing",
             },
             "aggressor":
@@ -56,7 +57,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.TURN_RIGHT_2_STANDARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
                         Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.SEGNORS_LOOP_LEFT_3_HARD,
                         Maneuver.SEGNORS_LOOP_RIGHT_3_HARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST, ShipAction.EVADE ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST_LEFT,
+                        ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT, ShipAction.EVADE ],
                 value: "aggressor",
             },
             "bWing":
@@ -70,7 +72,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_STANDARD,
                         Maneuver.TURN_RIGHT_2_STANDARD, Maneuver.KOIOGRAN_TURN_2_HARD, Maneuver.BANK_LEFT_3_HARD,
                         Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_HARD, Maneuver.STRAIGHT_4_HARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT ],
                 value: "bWing",
             },
             "eWing":
@@ -85,7 +88,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD,
                         Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
                         Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL, ShipAction.EVADE ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
                 value: "eWing",
             },
             "firespray31":
@@ -154,7 +158,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_STANDARD,
                         Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD,
                         Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL, ShipAction.EVADE ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
                 value: "m3AInterceptor",
             },
             "starViper":
@@ -169,7 +174,9 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.TURN_RIGHT_2_STANDARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
                         Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.SEGNORS_LOOP_LEFT_3_HARD,
                         Maneuver.SEGNORS_LOOP_RIGHT_3_HARD, Maneuver.STRAIGHT_4_STANDARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL, ShipAction.BOOST ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT, ShipAction.BOOST_LEFT, ShipAction.BOOST_STRAIGHT,
+                        ShipAction.BOOST_RIGHT ],
                 value: "starViper",
             },
             "tieAdvanced":
@@ -183,7 +190,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.TURN_RIGHT_2_STANDARD, Maneuver.TURN_LEFT_3_STANDARD, Maneuver.BANK_LEFT_3_STANDARD,
                         Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD,
                         Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL, ShipAction.EVADE ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
                 value: "tieAdvanced",
             },
             "tieBomber":
@@ -197,7 +205,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_HARD, Maneuver.TURN_LEFT_3_STANDARD,
                         Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD,
                         Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT ],
                 value: "tieBomber",
             },
             "tieDefender":
@@ -212,7 +221,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.TURN_LEFT_3_STANDARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
                         Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_EASY,
                         Maneuver.KOIOGRAN_TURN_4_STANDARD, Maneuver.STRAIGHT_5_EASY ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT ],
                 value: "tieDefender",
             },
             "tieFighter":
@@ -227,7 +237,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD,
                         Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
                         Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL, ShipAction.EVADE ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL_LEFT, ShipAction.BARREL_ROLL_RIGHT,
+                        ShipAction.EVADE ],
                 value: "tieFighter",
             },
             "tieInterceptor":
@@ -242,7 +253,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD,
                         Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_EASY, Maneuver.STRAIGHT_5_STANDARD,
                         Maneuver.KOIOGRAN_TURN_5_HARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL, ShipAction.BOOST, ShipAction.EVADE ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL_LEFT, ShipAction.BARREL_ROLL_RIGHT,
+                        ShipAction.BOOST_LEFT, ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT, ShipAction.EVADE ],
                 value: "tieInterceptor",
             },
             "tiePhantom":
@@ -329,7 +341,8 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.TURN_RIGHT_2_STANDARD, Maneuver.TURN_LEFT_3_STANDARD, Maneuver.BANK_LEFT_3_STANDARD,
                         Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD,
                         Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
-                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT ],
                 value: "yt2400",
             },
             "z95Headhunter":

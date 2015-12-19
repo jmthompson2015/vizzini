@@ -1,8 +1,8 @@
 /*
  * Provides an engine for Starfighter Squadrons.
  */
-define([ "CombatAction", "ManeuverAction", "Phase", "ShipAction" ], function(CombatAction, ManeuverAction, Phase,
-        ShipAction)
+define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction" ], function(CombatAction, Maneuver,
+        ManeuverAction, Phase, ShipAction)
 {
     function Engine(environment, adjudicator)
     {
@@ -118,8 +118,40 @@ define([ "CombatAction", "ManeuverAction", "Phase", "ShipAction" ], function(Com
             {
                 LOGGER.debug("shipAction = " + shipAction);
                 var attacker = environment.getActiveToken();
+                var attackerPosition = environment.getPositionFor(attacker);
+                var shipBase = attacker.getShipBase();
 
-                if (shipAction === ShipAction.CLOAK)
+                if (shipAction === ShipAction.BARREL_ROLL_LEFT)
+                {
+                    var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
+                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
+                    maneuverAction.doIt();
+                }
+                else if (shipAction === ShipAction.BARREL_ROLL_RIGHT)
+                {
+                    var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
+                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
+                    maneuverAction.doIt();
+                }
+                else if (shipAction === ShipAction.BOOST_LEFT)
+                {
+                    var maneuver = Maneuver.BANK_LEFT_1_STANDARD;
+                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
+                    maneuverAction.doIt();
+                }
+                else if (shipAction === ShipAction.BOOST_STRAIGHT)
+                {
+                    var maneuver = Maneuver.STRAIGHT_1_STANDARD;
+                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
+                    maneuverAction.doIt();
+                }
+                else if (shipAction === ShipAction.BOOST_RIGHT)
+                {
+                    var maneuver = Maneuver.BANK_RIGHT_1_STANDARD;
+                    var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
+                    maneuverAction.doIt();
+                }
+                else if (shipAction === ShipAction.CLOAK)
                 {
                     attacker.increaseCloakCount();
                 }
@@ -133,8 +165,6 @@ define([ "CombatAction", "ManeuverAction", "Phase", "ShipAction" ], function(Com
                 }
                 else
                 {
-                    // BARREL_ROLL
-                    // BOOST
                     // TARGET_LOCK
                     LOGGER.error("ShipAction not handled: " + shipAction);
                 }
