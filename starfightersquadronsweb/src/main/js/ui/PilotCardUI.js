@@ -497,6 +497,8 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
     PilotCardUI.ShipActionPanel = React.createClass(
     {
+        excludes: [ ShipAction.BARREL_ROLL_RIGHT, ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT ],
+
         render: function()
         {
             var shipActions = this.props.shipActions;
@@ -505,7 +507,8 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             for (var i = 0; i < shipActions.length; i++)
             {
                 var shipAction = shipActions[i];
-                if (shipAction !== ShipAction.BARREL_ROLL_RIGHT)
+
+                if (!this.excludes.vizziniContains(shipAction))
                 {
                     var img = PilotCardUI.createActionImage(shipAction);
                     cells.push(React.DOM.td(
