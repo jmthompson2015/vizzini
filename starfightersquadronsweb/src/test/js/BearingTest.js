@@ -10,6 +10,8 @@ define([ "Bearing" ], function(Bearing)
         assert.ok(Bearing.properties[Bearing.BANK_RIGHT].isBank);
         assert.ok(!Bearing.properties[Bearing.TURN_RIGHT].isBank);
         assert.ok(!Bearing.properties[Bearing.KOIOGRAN_TURN].isBank);
+        assert.ok(!Bearing.properties[Bearing.BARREL_ROLL_LEFT].isBank);
+        assert.ok(!Bearing.properties[Bearing.BARREL_ROLL_RIGHT].isBank);
         assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_LEFT].isBank);
         assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_RIGHT].isBank);
     });
@@ -22,6 +24,8 @@ define([ "Bearing" ], function(Bearing)
         assert.ok(!Bearing.properties[Bearing.BANK_RIGHT].isTurn);
         assert.ok(Bearing.properties[Bearing.TURN_RIGHT].isTurn);
         assert.ok(!Bearing.properties[Bearing.KOIOGRAN_TURN].isTurn);
+        assert.ok(!Bearing.properties[Bearing.BARREL_ROLL_LEFT].isTurn);
+        assert.ok(!Bearing.properties[Bearing.BARREL_ROLL_RIGHT].isTurn);
         assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_LEFT].isTurn);
         assert.ok(!Bearing.properties[Bearing.SEGNORS_LOOP_RIGHT].isTurn);
     });
@@ -33,8 +37,8 @@ define([ "Bearing" ], function(Bearing)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 8);
+        assert.equal(result.length, 10);
         assert.equal(result[0], Bearing.TURN_LEFT);
-        assert.equal(result[7], Bearing.SEGNORS_LOOP_RIGHT);
+        assert.equal(result[9], Bearing.BARREL_ROLL_RIGHT);
     });
 });

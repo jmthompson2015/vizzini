@@ -13,6 +13,8 @@ define(function()
         KOIOGRAN_TURN: "kTurn",
         SEGNORS_LOOP_LEFT: "segnorsLoopLeft",
         SEGNORS_LOOP_RIGHT: "segnorsLoopRight",
+        BARREL_ROLL_LEFT: "barrelRollLeft",
+        BARREL_ROLL_RIGHT: "barrelRollRight",
         properties:
         {
             "turnLeft":
@@ -60,6 +62,18 @@ define(function()
             "segnorsLoopRight":
             {
                 headingChange: 225,
+                isBank: false,
+                isTurn: false,
+            },
+            "barrelRollLeft":
+            {
+                headingChange: 0,
+                isBank: false,
+                isTurn: false,
+            },
+            "barrelRollRight":
+            {
+                headingChange: 0,
                 isBank: false,
                 isTurn: false,
             },

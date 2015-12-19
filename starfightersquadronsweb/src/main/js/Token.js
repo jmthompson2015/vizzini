@@ -1,9 +1,9 @@
 /*
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
-define([ "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Range", "Ship", "ShipAction", "ShipTeam",
-        "UpgradeCard" ], function(DamageCard, Difficulty, Maneuver, Phase, Pilot, Range, Ship, ShipAction, ShipTeam,
-        UpgradeCard)
+define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Range", "Ship", "ShipAction",
+        "ShipTeam", "UpgradeCard" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot, Range, Ship,
+        ShipAction, ShipTeam, UpgradeCard)
 {
     function Token(pilot, agent)
     {
@@ -867,7 +867,9 @@ define([ "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Range", "Shi
 
         if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
         {
-            answer.push(ShipAction.BOOST);
+            answer.push(ShipAction.BOOST_LEFT);
+            answer.push(ShipAction.BOOST_STRAIGHT);
+            answer.push(ShipAction.BOOST_RIGHT);
         }
 
         if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))

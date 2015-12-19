@@ -202,6 +202,62 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         }
     });
 
+    QUnit.test("Maneuver.computePath() BarrelRollLeft 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(100, 200, 0);
+        var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
+
+        // Run.
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getPoints().length, 8);
+
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() + 0.0);
+
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() - 20.0);
+
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() - 60.0);
+
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() - 80.0);
+    });
+
+    QUnit.test("Maneuver.computePath() BarrelRollRight 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(100, 200, 0);
+        var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
+
+        // Run.
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getPoints().length, 8);
+
+        var i = 0;
+        var points = result.getPoints();
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() + 0.0);
+
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() + 20.0);
+
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() + 60.0);
+
+        assert.equal(points[i++], fromPosition.getX() );
+        assert.equal(points[i++], fromPosition.getY() + 80.0);
+    });
+
     QUnit.test("Maneuver.computePath() SegnorsLoopRight3Hard 0 Standard", function(assert)
     {
         // Setup.
@@ -502,6 +558,70 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         assert.equal(result.getHeading(), fromPosition.getHeading() + 45);
     });
 
+    QUnit.test("Maneuver.computeToPosition() BarrelRollLeft1Standard 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(100, 200, 0);
+        var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX());
+        assert.equal(result.getY(), fromPosition.getY() - 80);
+        assert.equal(result.getHeading(), fromPosition.getHeading());
+    });
+
+    QUnit.test("Maneuver.computeToPosition() BarrelRollRight1Standard 0 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(100, 200, 0);
+        var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX());
+        assert.equal(result.getY(), fromPosition.getY() + 80);
+        assert.equal(result.getHeading(), fromPosition.getHeading());
+    });
+
+    QUnit.test("Maneuver.computeToPosition() BarrelRollLeft1Standard -90 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(100, 200, -90);
+        var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() - 80);
+        assert.equal(result.getY(), fromPosition.getY());
+        assert.equal(result.getHeading(), fromPosition.getHeading());
+    });
+
+    QUnit.test("Maneuver.computeToPosition() BarrelRollRight1Standard -90 Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(100, 200, -90);
+        var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getX(), fromPosition.getX() + 80);
+        assert.equal(result.getY(), fromPosition.getY());
+        assert.equal(result.getHeading(), fromPosition.getHeading());
+    });
+
     QUnit.test("Maneuver.computeToPosition() KoiogranTurn3Hard Standard", function(assert)
     {
         // Setup.
@@ -618,6 +738,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
     {
         assert.equal(Maneuver.find(Bearing.STRAIGHT, 1, Difficulty.EASY), Maneuver.STRAIGHT_1_EASY);
         assert.equal(Maneuver.find(Bearing.BANK_RIGHT, 2, Difficulty.STANDARD), Maneuver.BANK_RIGHT_2_STANDARD);
+        assert.equal(Maneuver.find(Bearing.BARREL_ROLL_LEFT, 1, Difficulty.STANDARD), Maneuver.BARREL_ROLL_LEFT_1_STANDARD);
         assert.equal(Maneuver.find(Bearing.TURN_LEFT, 3, Difficulty.HARD), Maneuver.TURN_LEFT_3_HARD);
         assert.equal(Maneuver.find(undefined, 0, Difficulty.HARD), Maneuver.STATIONARY_0_HARD);
     });

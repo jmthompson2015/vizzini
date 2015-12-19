@@ -5,23 +5,41 @@ define(function()
 {
     var ShipAction =
     {
-        BARREL_ROLL: "barrelRoll",
-        BOOST: "boost",
+        BARREL_ROLL_LEFT: "barrelRollLeft",
+        BARREL_ROLL_RIGHT: "barrelRollRight",
+        BOOST_LEFT: "boostLeft",
+        BOOST_RIGHT: "boostRight",
+        BOOST_STRAIGHT: "boostStraight",
         CLOAK: "cloak",
         EVADE: "evade",
         FOCUS: "focus",
         TARGET_LOCK: "targetLock",
         properties:
         {
-            "barrelRoll":
+            "barrelRollLeft":
             {
-                displayName: "Barrel Roll",
-                value: "barrelRoll",
+                displayName: "Barrel Roll (left)",
+                value: "barrelRollLeft",
             },
-            "boost":
+            "barrelRollRight":
             {
-                displayName: "Boost",
-                value: "boost",
+                displayName: "Barrel Roll (right)",
+                value: "barrelRollRight",
+            },
+            "boostLeft":
+            {
+                displayName: "Boost (left)",
+                value: "boostLeft",
+            },
+            "boostStraight":
+            {
+                displayName: "Boost (straight)",
+                value: "boostStraight",
+            },
+            "boostRight":
+            {
+                displayName: "Boost (right)",
+                value: "boostRight",
             },
             "cloak":
             {
@@ -43,7 +61,12 @@ define(function()
                 displayName: "Target Lock",
                 value: "targetLock",
             },
-        }
+        },
+
+        values: function()
+        {
+            return Object.getOwnPropertyNames(ShipAction.properties);
+        },
     };
 
     if (Object.freeze)
