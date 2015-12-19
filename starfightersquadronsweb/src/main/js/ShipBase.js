@@ -31,7 +31,12 @@ define(function()
                 width: 225,
                 height: 80,
             }
-        }
+        },
+
+        values: function()
+        {
+            return Object.getOwnPropertyNames(ShipBase.properties);
+        },
     };
 
     if (Object.freeze)
