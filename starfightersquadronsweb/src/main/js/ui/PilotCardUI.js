@@ -83,6 +83,8 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
                 ionCount: myToken.getIonCount(),
                 shieldCount: myToken.getShieldCount(),
                 stressCount: myToken.getStressCount(),
+                attackerTargetLocks: myToken.getAttackerTargetLocks(),
+                defenderTargetLocks: myToken.getDefenderTargetLocks(),
                 damageCount: myToken.getDamageCount(),
                 criticalDamageCount: myToken.getCriticalDamageCount(),
             });
@@ -195,12 +197,15 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
             var element30 = React.createElement(PilotCardUI.TokensPanel,
             {
+                token: myToken,
                 cloakCount: myToken.getCloakCount(),
                 evadeCount: myToken.getEvadeCount(),
                 focusCount: myToken.getFocusCount(),
                 ionCount: myToken.getIonCount(),
                 shieldCount: myToken.getShieldCount(),
                 stressCount: myToken.getStressCount(),
+                attackerTargetLocks: myToken.getAttackerTargetLocks(),
+                defenderTargetLocks: myToken.getDefenderTargetLocks(),
                 damageCount: myToken.getDamageCount(),
                 criticalDamageCount: myToken.getCriticalDamageCount(),
             });
@@ -555,6 +560,29 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         },
     });
 
+    PilotCardUI.LabelToken = React.createClass(
+    {
+        render: function()
+        {
+            var divStyle =
+            {
+                backgroundImage: 'url(' + this.props.path + ')',
+                width: this.props.width,
+            };
+
+            var paragraph = React.DOM.p(
+            {
+                className: this.props.numberClass
+            }, this.props.label);
+            return React.DOM.div(
+            {
+                title: this.props.title,
+                className: 'labelTokenBox',
+                style: divStyle
+            }, paragraph);
+        },
+    });
+
     PilotCardUI.CountToken = React.createClass(
     {
         render: function()
@@ -692,13 +720,48 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             {
                 key: 5
             }, element5));
+
+            this.props.attackerTargetLocks.forEach(function(targetLock)
+            {
+                var title = "Target Lock to " + targetLock.getDefender().getName();
+                var element = React.createElement(PilotCardUI.LabelToken,
+                {
+                    title: title,
+                    width: "38",
+                    numberClass: "labelTokenText",
+                    path: imageBase + "token/AttackerTargetLock32.png",
+                    label: targetLock.getId(),
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, element));
+            });
+
+            this.props.defenderTargetLocks.forEach(function(targetLock)
+            {
+                var title = "Target Lock from " + targetLock.getAttacker().getName();
+                var element = React.createElement(PilotCardUI.LabelToken,
+                {
+                    title: title,
+                    width: "38",
+                    numberClass: "labelTokenText",
+                    path: imageBase + "token/DefenderTargetLock32.png",
+                    label: targetLock.getId(),
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, element));
+            });
+
             cells.push(React.DOM.td(
             {
-                key: 6
+                key: cells.length,
             }, element6));
             cells.push(React.DOM.td(
             {
-                key: 7
+                key: cells.length,
             }, element7));
 
             var row = React.DOM.tr({}, cells);

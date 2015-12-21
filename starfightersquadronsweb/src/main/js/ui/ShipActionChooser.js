@@ -24,9 +24,27 @@ define([ "ShipAction" ], function(ShipAction)
             var token = this.props.token;
             var message = "Active Ship: " + token.getName();
             var shipActions = this.props.shipActions;
+            var idFunction = function(value)
+            {
+                var answer = value;
+                if (!ShipAction.properties[value])
+                {
+                    answer = value.defender.getId();
+                }
+                return answer;
+            }
             var labelFunction = function(value)
             {
-                return ShipAction.properties[value].displayName;
+                var answer;
+                if (ShipAction.properties[value])
+                {
+                    answer = ShipAction.properties[value].displayName;
+                }
+                else
+                {
+                    answer = "Target Lock: " + value.defender.getName();
+                }
+                return answer;
             }
             var initialValue = (shipActions.length > 0 ? shipActions[0] : undefined);
             var initialInput = React.createElement(InputPanel,
@@ -34,6 +52,7 @@ define([ "ShipAction" ], function(ShipAction)
                 type: "radio",
                 values: shipActions,
                 name: "shipActionRadio",
+                idFunction: idFunction,
                 labelFunction: labelFunction,
                 initialValues: initialValue,
                 onChange: this.selectionChanged,
@@ -67,7 +86,28 @@ define([ "ShipAction" ], function(ShipAction)
         selectionChanged: function(event)
         {
             var selected = event.target.id;
-            LOGGER.debug("selectionChanged() selected = " + selected);
+
+            if (!isNaN(selected))
+            {
+                var myId = parseInt(selected);
+                LOGGER.info("myId = " + myId);
+                var shipActions = this.props.shipActions;
+
+                for (var i = 0; i < shipActions.length; i++)
+                {
+                    var shipAction = shipActions[i];
+
+                    if (!ShipAction.properties[shipAction] && shipAction.defender.getId() === myId)
+                    {
+                        selected = shipAction;
+                        LOGGER.info("shipAction = " + JSON.stringify(shipAction));
+                        break;
+                    }
+                }
+            }
+
+            LOGGER.debug("selectionChanged() selected = " + JSON.stringify(selected));
+
             this.setState(
             {
                 selected: selected

@@ -1,6 +1,7 @@
-define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Pilot", "Range", "Ship", "SimpleAgent", "SquadBuilder",
-        "Team", "Token", "UpgradeCard", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Maneuver, Pilot,
-        Range, Ship, SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, HumanAgent)
+define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilot", "Range", "Ship", "SimpleAgent",
+        "SquadBuilder", "TargetLock", "Team", "Token", "UpgradeCard", "ui/HumanAgent" ], function(Bearing, DamageCard,
+        Difficulty, Environment, Maneuver, Pilot, Range, Ship, SimpleAgent, SquadBuilder, TargetLock, Team, Token,
+        UpgradeCard, HumanAgent)
 {
     QUnit.module("Token");
 
@@ -71,6 +72,26 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Pilot", "Range", "S
 
         // Verify.
         assert.equal(token.getDamageCount(), 1);
+    });
+
+    QUnit.test("addAttackerTargetLock()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attacker = environment.getTokens()[0]; // TIE Fighter.
+        var defender = environment.getTokens()[2]; // X-Wing.
+        assert.equal(attacker.getAttackerTargetLocks().length, 0);
+        assert.equal(defender.getDefenderTargetLocks().length, 0);
+        var targetLock = new TargetLock(attacker, defender);
+
+        // Run.
+        attacker.addAttackerTargetLock(targetLock);
+        defender.addDefenderTargetLock(targetLock);
+
+        // Verify.
+        assert.equal(attacker.getAttackerTargetLocks().length, 1);
+        assert.equal(defender.getDefenderTargetLocks().length, 1);
     });
 
     QUnit.test("computeAttackDiceCount()", function(assert)
@@ -170,6 +191,26 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Pilot", "Range", "S
         assert.ok(!token2.equals(token0));
         assert.ok(!token2.equals(token1));
         assert.ok(token2.equals(token2));
+    });
+
+    QUnit.test("findTargetLockByDefender()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attacker = environment.getTokens()[0];
+        var defender = environment.getTokens()[2];
+        var targetLock = new TargetLock(attacker, defender);
+        attacker.addAttackerTargetLock(targetLock);
+        defender.addDefenderTargetLock(targetLock);
+
+        // Run.
+        var result = attacker.findTargetLockByDefender(defender);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.getAttacker(), attacker);
+        assert.equal(result.getDefender(), defender);
     });
 
     QUnit.test("flipDamageCardFacedown()", function(assert)
@@ -631,6 +672,70 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Pilot", "Range", "S
 
         // Verify.
         assert.ok(!token.isCriticallyDamagedWith(damage));
+    });
+
+    QUnit.test("removeAllTargetLocks()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var token0 = environment.getTokens()[0];
+        var token1 = environment.getTokens()[1];
+        var token2 = environment.getTokens()[2];
+
+        var targetLock02 = new TargetLock(token0, token2);
+        token0.addAttackerTargetLock(targetLock02);
+        token2.addDefenderTargetLock(targetLock02);
+
+        var targetLock12 = new TargetLock(token1, token2);
+        token1.addAttackerTargetLock(targetLock12);
+        token2.addDefenderTargetLock(targetLock12);
+
+        var targetLock20 = new TargetLock(token2, token0);
+        token2.addAttackerTargetLock(targetLock20);
+        token0.addDefenderTargetLock(targetLock20);
+
+        assert.equal(token0.getAttackerTargetLocks().length, 1);
+        assert.equal(token1.getAttackerTargetLocks().length, 1);
+        assert.equal(token2.getAttackerTargetLocks().length, 1);
+
+        assert.equal(token0.getDefenderTargetLocks().length, 1);
+        assert.equal(token1.getDefenderTargetLocks().length, 0);
+        assert.equal(token2.getDefenderTargetLocks().length, 2);
+
+        // Run.
+        token2.removeAllTargetLocks();
+
+        // Verify.
+        assert.equal(token0.getAttackerTargetLocks().length, 0);
+        assert.equal(token1.getAttackerTargetLocks().length, 0);
+        assert.equal(token2.getAttackerTargetLocks().length, 0);
+
+        assert.equal(token0.getDefenderTargetLocks().length, 0);
+        assert.equal(token1.getDefenderTargetLocks().length, 0);
+        assert.equal(token2.getDefenderTargetLocks().length, 0);
+    });
+
+    QUnit.test("removeAttackerTargetLock()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attacker = environment.getTokens()[0];
+        var defender = environment.getTokens()[2];
+        var targetLock = new TargetLock(attacker, defender);
+        attacker.addAttackerTargetLock(targetLock);
+        defender.addDefenderTargetLock(targetLock);
+        assert.equal(attacker.getAttackerTargetLocks().length, 1);
+        assert.equal(defender.getDefenderTargetLocks().length, 1);
+
+        // Run.
+        attacker.removeAttackerTargetLock(targetLock);
+        defender.removeDefenderTargetLock(targetLock);
+
+        // Verify.
+        assert.equal(attacker.getAttackerTargetLocks().length, 0);
+        assert.equal(defender.getDefenderTargetLocks().length, 0);
     });
 
     QUnit.test("toString()", function(assert)

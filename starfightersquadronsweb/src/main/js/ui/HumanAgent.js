@@ -1,9 +1,9 @@
 /*
  * Provides a human agent for Starfighter Squadrons.
  */
-define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui/PlanningPanel",
+define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/CombatUI", "ui/PlanningPanel",
         "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ], function(ModifyAttackDiceAction,
-        ModifyDefenseDiceAction, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+        ModifyDefenseDiceAction, ShipAction, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
 {
     function HumanAgent(name, team, squadBuilder)
     {
@@ -173,17 +173,22 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             // Wait for the user to respond.
         }
 
-        this.getModifyAttackDiceAction = function(environmentIn, adjudicator, attackerIn, attackDiceIn, defender,
+        this.getModifyAttackDiceAction = function(environmentIn, adjudicator, attackerIn, attackDiceIn, defenderIn,
                 callback)
         {
             environment = environmentIn;
             attacker = attackerIn;
             attackDice = attackDiceIn;
+            defender = defenderIn;
             modifyAttackCallback = callback;
 
             var modifications = [ null ];
+            var targetLock = attacker.findTargetLockByDefender(defender);
 
-            // TODO: implement Target Lock
+            if (targetLock)
+            {
+                modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
+            }
 
             if (attacker.getFocusCount() > 0)
             {
@@ -264,6 +269,26 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
             callback = callbackIn;
 
             var shipActions = token.getShipActions();
+
+            if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
+            {
+                var defenders = environment.getDefendersInRange(token);
+
+                shipActions.vizziniRemove(ShipAction.TARGET_LOCK);
+
+                if (defenders && defenders.length > 0)
+                {
+                    defenders.forEach(function(defender)
+                    {
+                        // Only put choices without a current target lock.
+                        if (!token.findTargetLockByDefender(defender))
+                        {
+                            shipActions.push(ShipAction.createTargetLockShipAction(defender));
+                        }
+                    });
+                }
+            }
+
             var element = React.createElement(ShipActionChooser,
             {
                 token: token,
@@ -292,7 +317,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ui/CombatUI", "ui
 
             if (modification)
             {
-                answer = new ModifyAttackDiceAction(environment, attacker, attackDice, modification);
+                answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
             }
 
             modifyAttackCallback(answer);

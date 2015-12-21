@@ -22,6 +22,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         var ionCount = 0;
         var shieldCount = Pilot.properties[pilot].shipState.getShieldValue();
         var stressCount = 0;
+        var attackerTargetLocks = [];
+        var defenderTargetLocks = [];
 
         // Initialize the upgrades.
         var upgrades = [];
@@ -44,6 +46,22 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         var isDefenderHit;
         var range;
         var weapon;
+
+        this.addAttackerTargetLock = function(targetLock)
+        {
+            InputValidator.validateNotNull("targetLock", targetLock);
+
+            attackerTargetLocks.push(targetLock);
+            this.trigger("change");
+        }
+
+        this.addDefenderTargetLock = function(targetLock)
+        {
+            InputValidator.validateNotNull("targetLock", targetLock);
+
+            defenderTargetLocks.push(targetLock);
+            this.trigger("change");
+        }
 
         /*
          * Clear the cloak tokens.
@@ -122,6 +140,24 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return id == other.getId() && pilot == other.getPilot();
         }
 
+        this.findTargetLockByDefender = function(defender)
+        {
+            var answer;
+
+            for (var i = 0; i < attackerTargetLocks.length; i++)
+            {
+                var targetLock = attackerTargetLocks[i];
+
+                if (targetLock.getDefender() === defender)
+                {
+                    answer = targetLock;
+                    break;
+                }
+            }
+
+            return answer;
+        }
+
         this.getAgent = function()
         {
             return agent;
@@ -147,6 +183,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.getAttackDice = function()
         {
             return attackDice;
+        }
+
+        this.getAttackerTargetLocks = function()
+        {
+            return attackerTargetLocks.slice();
         }
 
         this.getCloakCount = function()
@@ -182,6 +223,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.getDefender = function()
         {
             return defender;
+        }
+
+        this.getDefenderTargetLocks = function()
+        {
+            return defenderTargetLocks.slice();
         }
 
         this.getDefenseDice = function()
@@ -555,6 +601,43 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             // {
             // upgrade.phaseEffect(environment, this, phase);
             // }
+        }
+
+        this.removeAllTargetLocks = function()
+        {
+            // Remove target locks which have this as the defender.
+            var targetLocks = this.getDefenderTargetLocks();
+            targetLocks.forEach(function(targetLock)
+            {
+                var attacker = targetLock.getAttacker();
+                attacker.removeAttackerTargetLock(targetLock);
+                this.removeDefenderTargetLock(targetLock);
+            }, this);
+
+            // Remove target locks in which this is the attacker.
+            var targetLocks = this.getAttackerTargetLocks();
+            targetLocks.forEach(function(targetLock)
+            {
+                var defender = targetLock.getDefender();
+                this.removeAttackerTargetLock(targetLock);
+                defender.removeDefenderTargetLock(targetLock);
+            }, this);
+        }
+
+        this.removeAttackerTargetLock = function(targetLock)
+        {
+            InputValidator.validateNotNull("targetLock", targetLock);
+
+            attackerTargetLocks.vizziniRemove(targetLock);
+            this.trigger("change");
+        }
+
+        this.removeDefenderTargetLock = function(targetLock)
+        {
+            InputValidator.validateNotNull("targetLock", targetLock);
+
+            defenderTargetLocks.vizziniRemove(targetLock);
+            this.trigger("change");
         }
 
         this.setAttackDice = function(value)

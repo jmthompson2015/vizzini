@@ -62,6 +62,17 @@ define(function()
             changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
         }
 
+        this.spendTargetLock = function()
+        {
+            for (var i = 0; i < values.length; i++)
+            {
+                if (values[i] === AttackDice.Value.BLANK || values[i] === AttackDice.Value.FOCUS)
+                {
+                    values[i] = rollRandomValue();
+                }
+            }
+        }
+
         this.toString = function()
         {
             return "size = " + size + ", values = " + values;

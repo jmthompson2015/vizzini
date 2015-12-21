@@ -75,6 +75,17 @@ define([ "Maneuver" ], function(Maneuver)
         },
     };
 
+    ShipAction.createTargetLockShipAction = function(defender)
+    {
+        InputValidator.validateNotNull("defender", defender);
+
+        return (
+        {
+            shipAction: ShipAction.TARGET_LOCK,
+            defender: defender,
+        });
+    }
+
     if (Object.freeze)
     {
         Object.freeze(ShipAction);

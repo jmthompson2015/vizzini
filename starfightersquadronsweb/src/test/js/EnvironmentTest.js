@@ -20,6 +20,25 @@ define([ "Environment", "Phase", "Pilot", "Position", "Range", "Ship", "SimpleAg
         assert.equal(result.length, 2);
     });
 
+    QUnit.test("getDefendersInRange()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attacker = environment.getTokens()[2]; // X-Wing
+        var attackerPosition = new Position(458, 50, -90);
+        environment.removeToken(attacker);
+        environment.placeToken(attackerPosition, attacker);
+
+        // Run.
+        var result = environment.getDefendersInRange(attacker);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 2);
+        assert.equal(result[0].getTeam(), Team.IMPERIAL);
+    });
+
     QUnit.test("getPositionFor()", function(assert)
     {
         Token.resetNextId();
@@ -57,7 +76,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "Range", "Ship", "SimpleAg
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(305, 70, -90);
+        attackerPosition = new Position(305, 70, -90);
         environment.placeToken(attackerPosition, attacker);
         var weapon = attacker.getPrimaryWeapon();
 
@@ -94,7 +113,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "Range", "Ship", "SimpleAg
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
         environment.removeToken(attackerPosition);
-         attackerPosition = new Position(305, 70, -90);
+        attackerPosition = new Position(305, 70, -90);
         environment.placeToken(attackerPosition, attacker);
         var weapon = attacker.getPrimaryWeapon();
 

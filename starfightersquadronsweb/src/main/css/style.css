@@ -12,7 +12,7 @@ table {
     vertical-align: middle;
 }
 
-.countTokenText, .damageCount {
+.countTokenText, .damageCount, .labelTokenText {
     padding: 6px 0 0 0;
 }
 
@@ -29,12 +29,12 @@ table {
     vertical-align: bottom;
 }
 
-#ALIGN_LEFT, .agentPanel,.combatChoicePanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .squadChooserPanel,
+#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .squadChooserPanel,
     .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .countTokenBox, .upgradeCardUIImage, .alignMiddle {
+#ALIGN_MIDDLE, .countTokenBox, .labelTokenBox, .upgradeCardUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
@@ -67,7 +67,7 @@ table {
     background-color: lightGray;
 }
 
-#BACKGROUND_NO_REPEAT, .countTokenBox, .backgroundNoRepeat {
+#BACKGROUND_NO_REPEAT, .countTokenBox, .labelTokenBox, .backgroundNoRepeat {
     background-repeat: no-repeat;
 }
 
@@ -84,8 +84,8 @@ table {
     border: 1px solid lightGray;
 }
 
-#CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .countTokenText, .damageCount, .maneuverTable,
-    .newGamePanel, .optionPane, .optionPaneTitle, .squadBuilderAdd, .statsTable, .tokensTable, .center {
+#CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .countTokenText, .damageCount, .labelTokenText,
+    .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle, .squadBuilderAdd, .statsTable, .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -111,7 +111,7 @@ table {
     color: red;
 }
 
-#COLOR_WHITE, .countTokenText, .maneuverTable, .squadUI tr th, .colorWhite {
+#COLOR_WHITE, .countTokenText, .labelTokenText, .maneuverTable, .squadUI tr th, .colorWhite {
     color: white;
 }
 
@@ -123,16 +123,16 @@ table {
     font-weight: bold;
 }
 
-#FONT_MEDIUM, .countTokenText, .damageCount, .fontMedium {
+#FONT_MEDIUM, .countTokenText, .damageCount, .labelTokenText, .fontMedium {
     font-size: medium;
 }
 
-#FONT_SMALL,.combatChoicePanel, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName, .squadBuilderPanel,
-    .squadChooserPanel, .squadUI, .upgradeCardUI, .fontSmall {
+#FONT_SMALL, .combatChoicePanel, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName,
+    .squadBuilderPanel, .squadChooserPanel, .squadUI, .upgradeCardUI, .fontSmall {
     font-size: small;
 }
 
-#HEIGHT_32, .countTokenBox, .height32 {
+#HEIGHT_32, .countTokenBox, .labelTokenBox, .height32 {
     height: 32px;
 }
 
@@ -145,7 +145,7 @@ table {
     margin-left: 10px;
 }
 
-#MARGIN_NONE, .countTokenText, .damageCount, #firstPilots, #secondPilots, .marginNone {
+#MARGIN_NONE, .countTokenText, .damageCount, #firstPilots, .labelTokenText, #secondPilots, .marginNone {
     margin: 0px;
 }
 

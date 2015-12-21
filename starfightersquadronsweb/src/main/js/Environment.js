@@ -183,6 +183,31 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "Range", 
             return this.getTokensForTeam(defenderTeam);
         }
 
+        this.getDefendersInRange = function(attacker)
+        {
+            InputValidator.validateNotNull("attacker", attacker);
+
+            var answer;
+            var attackerPosition = this.getPositionFor(attacker);
+
+            if (attackerPosition)
+            {
+                var defenders = this.getDefenders(attacker.getTeam());
+
+                if (defenders && defenders.length > 0)
+                {
+                    answer = defenders.filter(function(defender)
+                    {
+                        var defenderPosition = this.getPositionFor(defender);
+                        var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
+                        return (range !== undefined);
+                    }, this);
+                }
+            }
+
+            return answer;
+        }
+
         this.getFirstAgent = function()
         {
             return firstAgent;

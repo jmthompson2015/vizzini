@@ -9,20 +9,7 @@ define(function()
         {
             LOGGER.trace("ShipDestroyedAction.doIt() start");
 
-            // var attackerTargetLock = token.getAttackerTargetLock();
-            //
-            // if (attackerTargetLock != null)
-            // {
-            // TargetLock.freeInstance(attackerTargetLock);
-            // }
-            //
-            // var defenderTargetLocks = new
-            // ArrayList<TargetLock>(token.getDefenderTargetLocks());
-            //
-            // for (final TargetLock defenderTargetLock : defenderTargetLocks)
-            // {
-            // TargetLock.freeInstance(defenderTargetLock);
-            // }
+            token.removeAllTargetLocks();
 
             // Return the damage cards.
             environment.discardAllDamage(token.getDamages());

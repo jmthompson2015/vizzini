@@ -3,11 +3,12 @@
  */
 define(function()
 {
-    function ModifyAttackDiceAction(environment, attacker, attackDice, modification)
+    function ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification)
     {
         InputValidator.validateNotNull("environment", environment);
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("attackDice", attackDice);
+        InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("modification", modification);
 
         this.getEnvironment = function()
@@ -25,6 +26,11 @@ define(function()
             return attackDice;
         }
 
+        this.getDefender = function()
+        {
+            return defender;
+        }
+
         this.getModification = function()
         {
             return modification;
@@ -34,22 +40,10 @@ define(function()
         {
             if (modification === ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK)
             {
-                // TODO: implement Target Lock
-                // final int size = attackDice.size();
-                //
-                // for (int i = 0; i < size; i++)
-                // {
-                // final Value value = attackDice.getValue(i);
-                //
-                // if ((value == Value.BLANK) || (value == Value.FOCUS))
-                // {
-                // attackDice.reroll(i);
-                // LOGGER.debug(i + " spend target lock: rerolled " + value + " to " + attackDice.getValue(i));
-                // }
-                // }
-                //
-                // final TargetLock targetLock = attacker.getAttackerTargetLock();
-                // TargetLock.freeInstance(targetLock);
+                attackDice.spendTargetLock();
+                var targetLock = attacker.findTargetLockByDefender(defender);
+                attacker.removeAttackerTargetLock(targetLock);
+                defender.removeDefenderTargetLock(targetLock);
             }
             else if (modification === ModifyAttackDiceAction.Modification.SPEND_FOCUS)
             {

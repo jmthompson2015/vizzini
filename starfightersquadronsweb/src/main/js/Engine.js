@@ -1,8 +1,8 @@
 /*
  * Provides an engine for Starfighter Squadrons.
  */
-define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "UpgradeCard" ], function(CombatAction,
-        Maneuver, ManeuverAction, Phase, ShipAction, UpgradeCard)
+define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "TargetLock", "UpgradeCard" ], function(
+        CombatAction, Maneuver, ManeuverAction, Phase, ShipAction, TargetLock, UpgradeCard)
 {
     function Engine(environment, adjudicator)
     {
@@ -118,7 +118,8 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "U
             {
                 LOGGER.debug("shipAction = " + shipAction);
                 var attacker = environment.getActiveToken();
-                var maneuver = ShipAction.properties[shipAction].maneuver;
+                var maneuver = (ShipAction.properties[shipAction] ? ShipAction.properties[shipAction].maneuver
+                        : undefined);
 
                 if (maneuver)
                 {
@@ -140,9 +141,15 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "U
                 {
                     attacker.increaseFocusCount();
                 }
+                else if (shipAction.shipAction === ShipAction.TARGET_LOCK)
+                {
+                    var defender = shipAction.defender;
+                    var targetLock = new TargetLock(attacker, defender);
+                    attacker.addAttackerTargetLock(targetLock);
+                    defender.addDefenderTargetLock(targetLock);
+                }
                 else
                 {
-                    // TARGET_LOCK
                     LOGGER.error("ShipAction not handled: " + shipAction);
                 }
 

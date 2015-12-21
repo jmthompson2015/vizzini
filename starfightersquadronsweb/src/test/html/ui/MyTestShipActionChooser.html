@@ -28,27 +28,36 @@
         "use strict";
         var LOGGER = new Logger();
 
-        require(
-                [ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token",  "ui/ShipActionChooser" ],
-                function(Pilot, SimpleAgent, SquadBuilder, Team, Token, ShipActionChooser)
-                {
-                    var agent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
-                    var token = new Token(Pilot.LUKE_SKYWALKER, agent);
-                    var shipActions = token.getShipActions();
+        require([ "Environment", "Pilot", "ShipAction", "SimpleAgent", "SquadBuilder", "Team", "Token",
+                "ui/ShipActionChooser" ], function(Environment, Pilot, ShipAction, SimpleAgent, SquadBuilder, Team,
+                Token, ShipActionChooser)
+        {
+            var environment = Environment.createCoreSetEnvironment();
+            var token0 = environment.getTokens()[0];
+            var token1 = environment.getTokens()[1];
+            var token2 = environment.getTokens()[2];
+            var shipActions = token2.getShipActions();
 
-                    var element = React.createElement(ShipActionChooser,
-                    {
-                        token: token,
-                        shipActions: shipActions,
-                        callback: finishShipAction
-                    });
-                    React.render(element, document.getElementById("inputArea"));
+            if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
+            {
+                shipActions.vizziniRemove(ShipAction.TARGET_LOCK);
+                shipActions.push(ShipAction.createTargetLockShipAction(token0));
+                shipActions.push(ShipAction.createTargetLockShipAction(token1));
+            }
 
-                    function finishShipAction(shipAction)
-                    {
-                        document.getElementById("output").innerHTML = shipAction;
-                    }
-                });
+            var element = React.createElement(ShipActionChooser,
+            {
+                token: token2,
+                shipActions: shipActions,
+                callback: finishShipAction
+            });
+            React.render(element, document.getElementById("inputArea"));
+
+            function finishShipAction(shipAction)
+            {
+                document.getElementById("output").innerHTML = JSON.stringify(shipAction);
+            }
+        });
     </script>
 </body>
 </html>

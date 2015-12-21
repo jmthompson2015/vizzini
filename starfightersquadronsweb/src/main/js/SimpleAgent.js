@@ -2,8 +2,8 @@
  * Provides a simple implementation of a computer agent for Starfighter Squadrons.
  */
 define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position", "Range",
-        "RangeRuler", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction, ModifyDefenseDiceAction,
-        PlanningAction, Position, Range, RangeRuler, ShipBase, Weapon)
+        "RangeRuler", "ShipAction", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction,
+        ModifyDefenseDiceAction, PlanningAction, Position, Range, RangeRuler, ShipAction, ShipBase, Weapon)
 {
     function SimpleAgent(name, team, squadBuilder)
     {
@@ -96,7 +96,12 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
         var modifications = [ null ];
 
-        // TODO: implement Target Lock
+        var targetLock = attacker.findTargetLockByDefender(defender);
+
+        if (targetLock)
+        {
+            modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
+        }
 
         if (attacker.getFocusCount() > 0)
         {
@@ -108,7 +113,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
         if (modification)
         {
-            answer = new ModifyAttackDiceAction(environment, attacker, attackDice, modification);
+            answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
         }
 
         callback(answer);
@@ -208,6 +213,26 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("token", token);
 
         var shipActions = token.getShipActions();
+
+        if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
+        {
+            var defenders = environment.getDefendersInRange(token);
+
+            shipActions.vizziniRemove(ShipAction.TARGET_LOCK);
+
+            if (defenders && defenders.length > 0)
+            {
+                defenders.forEach(function(defender)
+                {
+                    // Only put choices without a current target lock.
+                    if (!token.findTargetLockByDefender(defender))
+                    {
+                        shipActions.push(ShipAction.createTargetLockShipAction(defender));
+                    }
+                });
+            }
+        }
+
         var answer;
 
         if (shipActions.length > 0)

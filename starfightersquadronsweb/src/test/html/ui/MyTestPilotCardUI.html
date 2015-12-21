@@ -42,12 +42,12 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "DamageCard", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/PilotCardUI" ], function(
-                DamageCard, Pilot, SimpleAgent, SquadBuilder, Team, Token, PilotCardUI)
+        require([ "DamageCard", "Environment", "Pilot", "Position", "SimpleAgent", "SquadBuilder", "TargetLock",
+                "Team", "Token", "ui/PilotCardUI" ], function(DamageCard, Environment, Pilot, Position, SimpleAgent,
+                SquadBuilder, TargetLock, Team, Token, PilotCardUI)
         {
-            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                    SquadBuilder.CoreSetImperialSquadBuilder);
-            var imperialToken = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+            var environment = Environment.createCoreSetEnvironment();
+            var imperialToken = environment.getTokens()[0]; // TIE Fighter.
             imperialToken.increaseCloakCount();
             imperialToken.increaseEvadeCount();
             imperialToken.increaseEvadeCount();
@@ -55,8 +55,7 @@
             imperialToken.increaseFocusCount();
             imperialToken.increaseFocusCount();
 
-            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
-            var rebelToken = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+            var rebelToken = environment.getTokens()[2]; // X-Wing.
             rebelToken.increaseIonCount();
             rebelToken.increaseStressCount();
             rebelToken.addDamage(DamageCard.BLINDED_PILOT);
@@ -64,6 +63,19 @@
             var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM,
                     SquadBuilder.CoreSetImperialSquadBuilder);
             var scumToken = new Token(Pilot.SYNDICATE_THUG, scumAgent);
+            environment.placeToken(new Position(200, 200, 0), scumToken);
+
+            var targetLock0 = new TargetLock(imperialToken, rebelToken);
+            imperialToken.addAttackerTargetLock(targetLock0);
+            rebelToken.addDefenderTargetLock(targetLock0);
+
+            var targetLock1 = new TargetLock(rebelToken, scumToken);
+            rebelToken.addAttackerTargetLock(targetLock1);
+            scumToken.addDefenderTargetLock(targetLock1);
+
+            var targetLock2 = new TargetLock(scumToken, imperialToken);
+            scumToken.addAttackerTargetLock(targetLock2);
+            imperialToken.addDefenderTargetLock(targetLock2);
 
             var element = React.createElement(PilotCardUI,
             {
