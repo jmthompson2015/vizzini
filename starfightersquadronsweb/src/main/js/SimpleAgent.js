@@ -213,12 +213,16 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("token", token);
 
         var shipActions = token.getShipActions();
+        var myShipActions = [];
+
+        if (shipActions.vizziniContains(ShipAction.FOCUS))
+        {
+            myShipActions.push(ShipAction.FOCUS);
+        }
 
         if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
         {
             var defenders = environment.getDefendersInRange(token);
-
-            shipActions.vizziniRemove(ShipAction.TARGET_LOCK);
 
             if (defenders && defenders.length > 0)
             {
@@ -227,17 +231,59 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
                     // Only put choices without a current target lock.
                     if (!token.findTargetLockByDefender(defender))
                     {
-                        shipActions.push(ShipAction.createTargetLockShipAction(defender));
+                        myShipActions.push(ShipAction.createTargetLockShipAction(defender));
                     }
                 });
             }
         }
 
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT)
+                && adjudicator.canBarrelRoll(environment, token,
+                        ShipAction.properties[ShipAction.BARREL_ROLL_LEFT].maneuver))
+        {
+            myShipActions.push(ShipAction.BARREL_ROLL_LEFT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT)
+                && adjudicator.canBarrelRoll(environment, token,
+                        ShipAction.properties[ShipAction.BARREL_ROLL_RIGHT].maneuver))
+        {
+            myShipActions.push(ShipAction.BARREL_ROLL_RIGHT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BOOST_LEFT)
+                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_LEFT].maneuver))
+        {
+            myShipActions.push(ShipAction.BOOST_LEFT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT)
+                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_STRAIGHT].maneuver))
+        {
+            myShipActions.push(ShipAction.BOOST_STRAIGHT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT)
+                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
+        {
+            myShipActions.push(ShipAction.BOOST_RIGHT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.EVADE))
+        {
+            myShipActions.push(ShipAction.EVADE);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.CLOAK))
+        {
+            myShipActions.push(ShipAction.CLOAK);
+        }
+
         var answer;
 
-        if (shipActions.length > 0)
+        if (myShipActions.length > 0)
         {
-            answer = shipActions.vizziniRandomElement();
+            answer = myShipActions.vizziniRandomElement();
         }
 
         callback(answer);

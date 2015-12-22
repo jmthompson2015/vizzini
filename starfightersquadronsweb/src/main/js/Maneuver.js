@@ -474,9 +474,14 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
 
         var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
-        InputValidator.validateNotNull("toPosition", toPosition);
+        var answer;
 
-        return Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition.getHeading());
+        if (toPosition)
+        {
+            answer = Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition.getHeading());
+        }
+
+        return answer;
     }
 
     /*
