@@ -30,25 +30,29 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
             {
                 var shipBase = attacker.getShipBase();
                 var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition, shipBase);
-                var tokens = environment.getTokens();
-                answer = true;
 
-                for (var i = 0; i < tokens.length; i++)
+                if (toPolygon)
                 {
-                    var token = tokens[i];
+                    var tokens = environment.getTokens();
+                    answer = true;
 
-                    if (token !== attacker)
+                    for (var i = 0; i < tokens.length; i++)
                     {
-                        var myShipBase = token.getShipBase();
-                        var position = environment.getPositionFor(token);
-                        var polygon = Maneuver.computePolygon(myShipBase, position.getX(), position.getY(), position
-                                .getHeading());
-                        var collide = RectanglePath.doPolygonsCollide(polygon, toPolygon);
+                        var token = tokens[i];
 
-                        if (collide)
+                        if (token !== attacker)
                         {
-                            answer = false;
-                            break;
+                            var myShipBase = token.getShipBase();
+                            var position = environment.getPositionFor(token);
+                            var polygon = Maneuver.computePolygon(myShipBase, position.getX(), position.getY(),
+                                    position.getHeading());
+                            var collide = RectanglePath.doPolygonsCollide(polygon, toPolygon);
+
+                            if (collide)
+                            {
+                                answer = false;
+                                break;
+                            }
                         }
                     }
                 }
