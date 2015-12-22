@@ -1,4 +1,4 @@
-define([ "TurretWeapon", "Weapon" ], function(TurretWeapon, Weapon)
+define([ "TurretWeapon", "RangeRuler", "Weapon" ], function(TurretWeapon, RangeRuler, Weapon)
 {
     QUnit.module("WeaponInterface");
 

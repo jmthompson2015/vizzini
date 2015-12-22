@@ -2,8 +2,8 @@
  * Provides an enumeration of upgrade cards.
  */
 define(
-        [ "ShipState", "UpgradeRestriction", "UpgradeType" ],
-        function(ShipState, UpgradeRestriction, UpgradeType)
+        [ "RangeRuler", "ShipState", "UpgradeRestriction", "UpgradeType" ],
+        function(RangeRuler, ShipState, UpgradeRestriction, UpgradeType)
         {
             var UpgradeCard =
             {
