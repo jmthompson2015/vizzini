@@ -22,8 +22,9 @@
 	<script>
         var LOGGER = new Logger();
 
-        require([ "Pilot", "Range", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/WeaponAndDefenderChooser" ],
-                function(Pilot, Range, SimpleAgent, SquadBuilder, Team, Token, WeaponAndDefenderChooser)
+        require(
+                [ "Pilot", "RangeRuler", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/WeaponAndDefenderChooser" ],
+                function(Pilot, RangeRuler, SimpleAgent, SquadBuilder, Team, Token, WeaponAndDefenderChooser)
                 {
                     var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
                             SquadBuilder.CoreSetImperialSquadBuilder);
@@ -36,17 +37,17 @@
                     var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
                     var rangeOneToTokens =
                     {
-                        range: Range.ONE,
+                        range: RangeRuler.ONE,
                         tokens: [ defender0, defender1 ]
                     }
                     var rangeTwoToTokens =
                     {
-                        range: Range.TWO,
+                        range: RangeRuler.TWO,
                         tokens: [ defender2, defender3 ]
                     }
                     var rangeThreeToTokens =
                     {
-                        range: Range.THREE,
+                        range: RangeRuler.THREE,
                         tokens: [ defender4 ]
                     }
                     var primaryWeaponToRangeAndTokens =

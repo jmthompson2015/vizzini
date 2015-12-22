@@ -1,7 +1,7 @@
 /*
  * Provides a user interface to choose a weapon and defender.
  */
-define([ "Range" ], function(Range)
+define([ "RangeRuler" ], function(RangeRuler)
 {
     var WeaponAndDefenderChooser = React.createClass(
     {
@@ -60,7 +60,7 @@ define([ "Range" ], function(Range)
                 {
                     var rangeAndTokens = rangeAndTokensArray[j];
                     var range = rangeAndTokens.range;
-                    var rangeName = Range.properties[range].displayName;
+                    var rangeName = RangeRuler.properties[range].displayName;
 
                     rows.push(React.DOM.tr(
                     {
@@ -223,7 +223,7 @@ define([ "Range" ], function(Range)
     {
         var answer = [];
 
-        var values = Range.values();
+        var values = RangeRuler.values();
 
         for (var i = 0; i < values.length; i++)
         {

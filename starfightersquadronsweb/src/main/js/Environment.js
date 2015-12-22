@@ -17,10 +17,10 @@
  * but not touching.
  * </dl>
  */
-define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "Range", "RangeRuler", "RectanglePath",
-        "ShipBase", "SimpleAgent", "SquadBuilder", "Team", "Token", "Weapon", "ui/HumanAgent" ], function(DamageCard,
-        Maneuver, MediumAgent, Phase, Position, Range, RangeRuler, RectanglePath, ShipBase, SimpleAgent, SquadBuilder,
-        Team, Token, Weapon, HumanAgent)
+define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBase",
+        "SimpleAgent", "SquadBuilder", "Team", "Token", "Weapon", "ui/HumanAgent" ], function(DamageCard, Maneuver,
+        MediumAgent, Phase, Position, RangeRuler, RectanglePath, ShipBase, SimpleAgent, SquadBuilder, Team, Token,
+        Weapon, HumanAgent)
 {
     function Environment(teams)
     {
