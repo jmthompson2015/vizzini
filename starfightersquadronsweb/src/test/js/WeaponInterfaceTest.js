@@ -8,7 +8,7 @@ define([ "TurretWeapon", "Weapon" ], function(TurretWeapon, Weapon)
         var name = "myWeapon";
         var isPrimary = true;
         var weaponValue = 12;
-        var ranges = [ Range.TWO, Range.THREE ];
+        var ranges = [ RangeRuler.TWO, RangeRuler.THREE ];
 
         var weapon0 = new Weapon(name, isPrimary, weaponValue, ranges);
         var weapon1 = new TurretWeapon(name, isPrimary, weaponValue, ranges);

@@ -268,14 +268,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         }
 
         /*
-         * @param attacker Attacker.
-         * 
-         * @param attackerPosition Attacker position.
-         * 
-         * @param weapon Weapon.
-         * 
-         * @param range Range.
-         * 
          * @return tokens belonging to the opposite team at range.
          */
         this.getTargetableDefendersAtRange = function(attacker, attackerPosition, weapon, range)
@@ -510,15 +502,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        /*
-         * @param attacker Attacker.
-         * 
-         * @param attackerPosition Attacker position.
-         * 
-         * @param defenders Collection to filter.
-         * 
-         * @param range Range.
-         */
         function filterAtRange(attacker, attackerPosition, defenders, range)
         {
             InputValidator.validateNotNull("attacker", attacker);

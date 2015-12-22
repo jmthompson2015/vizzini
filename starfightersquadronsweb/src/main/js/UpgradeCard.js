@@ -1503,7 +1503,7 @@ define(
                         squadPointCost: 6,
                         hasAction: false,
                         weaponValue: 5,
-                        ranges: [ Range.ONE ],
+                        ranges: [ RangeRuler.ONE ],
                         value: "advancedProtonTorpedoes",
                     },
                     "assaultMissiles":
@@ -1515,7 +1515,7 @@ define(
                         squadPointCost: 5,
                         hasAction: false,
                         weaponValue: 4,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "assaultMissiles",
                     },
                     "autoblaster":
@@ -1527,7 +1527,7 @@ define(
                         squadPointCost: 5,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE ],
+                        ranges: [ RangeRuler.ONE ],
                         value: "autoblaster",
                     },
                     "autoblasterTurret":
@@ -1539,7 +1539,7 @@ define(
                         squadPointCost: 2,
                         hasAction: false,
                         weaponValue: 2,
-                        ranges: [ Range.ONE ],
+                        ranges: [ RangeRuler.ONE ],
                         value: "autoblasterTurret",
                     },
                     "blasterTurret":
@@ -1551,7 +1551,7 @@ define(
                         squadPointCost: 4,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE, Range.TWO ],
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
                         value: "blasterTurret",
                     },
                     "clusterMissiles":
@@ -1563,7 +1563,7 @@ define(
                         squadPointCost: 4,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE, Range.TWO ],
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
                         value: "clusterMissiles",
                     },
                     "concussionMissiles":
@@ -1575,7 +1575,7 @@ define(
                         squadPointCost: 4,
                         hasAction: false,
                         weaponValue: 4,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "concussionMissiles",
                     },
                     "flechetteCannon":
@@ -1587,7 +1587,7 @@ define(
                         squadPointCost: 2,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE, Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
                         value: "flechetteCannon",
                     },
                     "flechetteTorpedoes":
@@ -1599,7 +1599,7 @@ define(
                         squadPointCost: 2,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "flechetteTorpedoes",
                     },
                     "heavyLaserCannon":
@@ -1611,7 +1611,7 @@ define(
                         squadPointCost: 7,
                         hasAction: false,
                         weaponValue: 4,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "heavyLaserCannon",
                     },
                     "homingMissiles":
@@ -1623,7 +1623,7 @@ define(
                         squadPointCost: 5,
                         hasAction: false,
                         weaponValue: 4,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "homingMissiles",
                     },
                     "hotShotBlaster":
@@ -1635,7 +1635,7 @@ define(
                         squadPointCost: 3,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE, Range.TWO ],
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
                         value: "hotShotBlaster",
                     },
                     "ionCannon":
@@ -1647,7 +1647,7 @@ define(
                         squadPointCost: 3,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE, Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
                         value: "ionCannon",
                     },
                     "ionCannonTurret":
@@ -1659,7 +1659,7 @@ define(
                         squadPointCost: 5,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE, Range.TWO ],
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
                         value: "ionCannonTurret",
                     },
                     "ionPulseMissiles":
@@ -1671,7 +1671,7 @@ define(
                         squadPointCost: 3,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "ionPulseMissiles",
                     },
                     "ionTorpedoes":
@@ -1683,7 +1683,7 @@ define(
                         squadPointCost: 5,
                         hasAction: false,
                         weaponValue: 4,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "ionPulseMissiles",
                     },
                     "manglerCannon":
@@ -1695,7 +1695,7 @@ define(
                         squadPointCost: 4,
                         hasAction: false,
                         weaponValue: 3,
-                        ranges: [ Range.ONE, Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
                         value: "manglerCannon",
                     },
                     "protonRockets":
@@ -1707,7 +1707,7 @@ define(
                         squadPointCost: 3,
                         hasAction: false,
                         weaponValue: 2,
-                        ranges: [ Range.ONE ],
+                        ranges: [ RangeRuler.ONE ],
                         value: "protonRockets",
                     },
                     "protonTorpedoes":
@@ -1719,7 +1719,7 @@ define(
                         squadPointCost: 4,
                         hasAction: false,
                         weaponValue: 4,
-                        ranges: [ Range.TWO, Range.THREE ],
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "protonTorpedoes",
                     },
                 },
