@@ -22,40 +22,7 @@ define([ "Path" ], function(Path)
         path.add(x, y); // aft port
         path.close();
 
-        this.getPath = function()
-        {
-            return path;
-        }
-
-        this.getPoints = function()
-        {
-            return path.getPoints();
-        }
-    }
-
-    RectanglePath.prototype.getBoundingBox = function()
-    {
-        return this.getPath().getBoundingBox();
-    }
-
-    RectanglePath.prototype.paintComponent = function(context, strokeStyle)
-    {
-        this.getPath().paintComponent(context, strokeStyle);
-    }
-
-    RectanglePath.prototype.rotate = function(angle, centerX, centerY)
-    {
-        this.getPath().rotate(angle, centerX, centerY);
-    }
-
-    RectanglePath.prototype.toString = function()
-    {
-        return this.getPath().toString();
-    }
-
-    RectanglePath.prototype.translate = function(dx, dy)
-    {
-        this.getPath().translate(dx, dy);
+        return path;
     }
 
     /*
@@ -87,9 +54,7 @@ define([ "Path" ], function(Path)
                 if (points[i + 3] > y) // an upward crossing
                 {
                     if (RectanglePath.isLeft(points[i], points[i + 1], points[i + 2], points[i + 3], x, y) > 0) // P
-                    // left
-                    // of
-                    // edge
+                    // left of edge
                     {
                         ++wn; // have a valid up intersect
                     }
@@ -101,8 +66,7 @@ define([ "Path" ], function(Path)
                 if (points[i + 3] <= y) // a downward crossing
                 {
                     if (RectanglePath.isLeft(points[i], points[i + 1], points[i + 2], points[i + 3], x, y) < 0) // P
-                    // right
-                    // of edge
+                    // right of edge
                     {
                         --wn; // have a valid down intersect
                     }

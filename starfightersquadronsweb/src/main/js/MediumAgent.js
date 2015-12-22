@@ -26,138 +26,137 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
         }
     }
 
-    MediumAgent.prototype = Object.create(SimpleAgent.prototype);
+    // Create a prototype object that inherits from the prototype of SimpleAgent.
+    MediumAgent.prototype = Vizzini.inherit(SimpleAgent.prototype);
 
-    /*
-     * @param environment Environment.
-     * 
-     * @param adjudicator Adjudicator.
-     * 
-     * @return a new action.
-     */
-    MediumAgent.prototype.getPlanningAction = function(environment, adjudicator, callback)
+    // Now add properties to the prototype. These properties override the properties
+    // of the same name from SimpleAgent.prototype.
+    Vizzini.extend(MediumAgent.prototype,
     {
-        InputValidator.validateNotNull("environment", environment);
-        InputValidator.validateNotNull("adjudicator", adjudicator);
-        InputValidator.validateNotNull("callback", callback);
-
-        var team = this.getTeam();
-        var tokens = environment.getTokensForTeam(team);
-        var defenders = environment.getDefenders(team);
-        var tokenToManeuver = {};
-
-        tokens.forEach(function(token)
+        getPlanningAction: function(environment, adjudicator, callback)
         {
-            var fromPosition = environment.getPositionFor(token);
-            var shipBase = token.getShipBase();
-            var maneuvers = token.getManeuvers();
-            LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("adjudicator", adjudicator);
+            InputValidator.validateNotNull("callback", callback);
 
-            // Find the maneuvers which keep the ship on the battlefield.
-            var validManeuvers = [];
-            var closestManeuver;
-            var minDistance;
+            var team = this.getTeam();
+            var tokens = environment.getTokensForTeam(team);
+            var defenders = environment.getDefenders(team);
+            var tokenToManeuver = {};
 
-            // Find the maneuvers which take the ship within range of a defender.
-            var validManeuversR1 = [];
-            var validManeuversR2 = [];
-            var validManeuversR3 = [];
-
-            maneuvers.forEach(function(maneuver)
+            tokens.forEach(function(token)
             {
-                var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
+                var fromPosition = environment.getPositionFor(token);
+                var shipBase = token.getShipBase();
+                var maneuvers = token.getManeuvers();
+                LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
 
-                if (toPosition
-                        && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition
-                                .getY(), toPosition.getHeading())))
+                // Find the maneuvers which keep the ship on the battlefield.
+                var validManeuvers = [];
+                var closestManeuver;
+                var minDistance;
+
+                // Find the maneuvers which take the ship within range of a defender.
+                var validManeuversR1 = [];
+                var validManeuversR2 = [];
+                var validManeuversR3 = [];
+
+                maneuvers.forEach(function(maneuver)
                 {
-                    validManeuvers.push(maneuver);
-                    var weapon = token.getPrimaryWeapon();
+                    var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
-                    for (var i = 0; i < defenders.length; i++)
+                    if (toPosition
+                            && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(),
+                                    toPosition.getY(), toPosition.getHeading())))
                     {
-                        var defender = defenders[i];
-                        var defenderPosition = environment.getPositionFor(defender);
+                        validManeuvers.push(maneuver);
+                        var weapon = token.getPrimaryWeapon();
 
-                        // Save the maneuver which has the minimum distance.
-                        var distance = toPosition.computeDistance(defenderPosition);
-                        
-                        if (!minDistance || distance < minDistance)
+                        for (var i = 0; i < defenders.length; i++)
                         {
-                            closestManeuver = maneuver;
-                            minDistance = distance;
-                        }
+                            var defender = defenders[i];
+                            var defenderPosition = environment.getPositionFor(defender);
 
-                        if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
-                        {
-                            var range = RangeRuler.getRange(token, toPosition, defender, defenderPosition);
+                            // Save the maneuver which has the minimum distance.
+                            var distance = toPosition.computeDistance(defenderPosition);
 
-                            if (range === Range.ONE)
+                            if (!minDistance || distance < minDistance)
                             {
-                                validManeuversR1.push(maneuver);
+                                closestManeuver = maneuver;
+                                minDistance = distance;
                             }
-                            else if (range === Range.TWO)
+
+                            if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
                             {
-                                validManeuversR2.push(maneuver);
-                            }
-                            else if (range === Range.THREE)
-                            {
-                                validManeuversR3.push(maneuver);
+                                var range = RangeRuler.getRange(token, toPosition, defender, defenderPosition);
+
+                                if (range === RangeRuler.ONE)
+                                {
+                                    validManeuversR1.push(maneuver);
+                                }
+                                else if (range === RangeRuler.TWO)
+                                {
+                                    validManeuversR2.push(maneuver);
+                                }
+                                else if (range === RangeRuler.THREE)
+                                {
+                                    validManeuversR3.push(maneuver);
+                                }
                             }
                         }
                     }
+                });
+
+                LOGGER.trace("validManeuversR1.length = " + validManeuversR1.length + " for " + token);
+
+                var maneuver = validManeuversR1.vizziniRandomElement();
+
+                if (!maneuver)
+                {
+                    LOGGER.trace("validManeuversR2.length = " + validManeuversR2.length + " for " + token);
+                    maneuver = validManeuversR2.vizziniRandomElement();
                 }
+
+                if (!maneuver)
+                {
+                    LOGGER.trace("validManeuversR3.length = " + validManeuversR3.length + " for " + token);
+                    maneuver = validManeuversR3.vizziniRandomElement();
+                }
+
+                if (!maneuver && closestManeuver)
+                {
+                    LOGGER.trace("closestManeuver = " + closestManeuver + " for " + token);
+                    maneuver = closestManeuver;
+                }
+
+                if (!maneuver)
+                {
+                    LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
+                    maneuver = validManeuvers.vizziniRandomElement();
+                }
+
+                LOGGER.trace("0 maneuver = " + maneuver + " for " + token);
+
+                if (!maneuver)
+                {
+                    // Ship fled the battlefield.
+                    maneuver = maneuvers.vizziniRandomElement();
+                    LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
+                }
+
+                tokenToManeuver[token] = maneuver;
             });
 
-            LOGGER.trace("validManeuversR1.length = " + validManeuversR1.length + " for " + token);
+            var answer = new PlanningAction(environment, this, tokenToManeuver);
 
-            var maneuver = validManeuversR1.vizziniRandomElement();
+            callback(answer);
+        },
 
-            if (!maneuver)
-            {
-                LOGGER.trace("validManeuversR2.length = " + validManeuversR2.length + " for " + token);
-                maneuver = validManeuversR2.vizziniRandomElement();
-            }
-
-            if (!maneuver)
-            {
-                LOGGER.trace("validManeuversR3.length = " + validManeuversR3.length + " for " + token);
-                maneuver = validManeuversR3.vizziniRandomElement();
-            }
-
-            if (!maneuver && closestManeuver)
-            {
-                LOGGER.trace("closestManeuver = " + closestManeuver + " for " + token);
-                maneuver = closestManeuver;
-            }
-
-            if (!maneuver)
-            {
-                LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
-                maneuver = validManeuvers.vizziniRandomElement();
-            }
-
-            LOGGER.trace("0 maneuver = " + maneuver + " for " + token);
-
-            if (!maneuver)
-            {
-                // Ship fled the battlefield.
-                maneuver = maneuvers.vizziniRandomElement();
-                LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
-            }
-
-            tokenToManeuver[token] = maneuver;
-        });
-
-        var answer = new PlanningAction(environment, this, tokenToManeuver);
-
-        callback(answer);
-    }
-
-    MediumAgent.prototype.toString = function()
-    {
-        return this.getName() + ", MediumAgent, " + this.getTeam() + ", " + this.getSquadBuilder().getName();
-    }
+        toString: function()
+        {
+            return this.getName() + ", MediumAgent, " + this.getTeam() + ", " + this.getSquadBuilder().getName();
+        },
+    });
 
     return MediumAgent;
 });
