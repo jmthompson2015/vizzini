@@ -1,9 +1,9 @@
 /*
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
-define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "Range", "Ship", "ShipAction",
-        "ShipTeam", "UpgradeCard" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot, Range, Ship,
-        ShipAction, ShipTeam, UpgradeCard)
+define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship", "ShipAction",
+        "ShipTeam", "UpgradeCard" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot, RangeRuler,
+        Ship, ShipAction, ShipTeam, UpgradeCard)
 {
     function Token(pilot, agent)
     {
@@ -938,7 +938,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             answer = weapon.getWeaponValue();
 
-            if ((range == Range.ONE) && weapon.isPrimary())
+            if ((range == RangeRuler.ONE) && weapon.isPrimary())
             {
                 // Bonus attack die at range one.
                 answer++;
@@ -952,7 +952,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
     {
         var answer = this.getAgilityValue();
 
-        if ((range == Range.THREE) && weapon.isPrimary())
+        if ((range == RangeRuler.THREE) && weapon.isPrimary())
         {
             // Bonus defense die at range three.
             answer++;

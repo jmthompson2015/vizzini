@@ -1,12 +1,12 @@
-define([ "Environment", "Position", "Range", "Token", "TurretWeapon" ], function(Environment, Position, Range, Token,
-        TurretWeapon)
+define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], function(Environment, Position,
+        RangeRuler, Token, TurretWeapon)
 {
     QUnit.module("TurretWeapon");
 
     QUnit.test("TurretWeapon properties", function(assert)
     {
         // Setup.
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.TWO, Range.THREE ]);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.TWO, RangeRuler.THREE ]);
 
         // Run / Verify.
         assert.equal(weapon.getName(), "myWeapon");
@@ -14,8 +14,8 @@ define([ "Environment", "Position", "Range", "Token", "TurretWeapon" ], function
         assert.equal(weapon.getWeaponValue(), 12);
         var ranges = weapon.getRanges();
         assert.equal(ranges.length, 2);
-        assert.equal(ranges[0], Range.TWO);
-        assert.equal(ranges[1], Range.THREE);
+        assert.equal(ranges[0], RangeRuler.TWO);
+        assert.equal(ranges[1], RangeRuler.THREE);
     });
 
     QUnit.test("isDefenderInRange() range one", function(assert)
@@ -31,7 +31,7 @@ define([ "Environment", "Position", "Range", "Token", "TurretWeapon" ], function
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition);
@@ -53,7 +53,7 @@ define([ "Environment", "Position", "Range", "Token", "TurretWeapon" ], function
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
@@ -75,7 +75,7 @@ define([ "Environment", "Position", "Range", "Token", "TurretWeapon" ], function
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, 0);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
@@ -97,7 +97,7 @@ define([ "Environment", "Position", "Range", "Token", "TurretWeapon" ], function
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.ONE, Range.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition);
@@ -109,7 +109,7 @@ define([ "Environment", "Position", "Range", "Token", "TurretWeapon" ], function
     QUnit.test("toString()", function(assert)
     {
         // Setup.
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ Range.TWO, Range.THREE ]);
+        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.TWO, RangeRuler.THREE ]);
 
         // Run / Verify.
         assert.equal(weapon.toString(), "myWeapon");

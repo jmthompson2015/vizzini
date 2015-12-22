@@ -1,5 +1,5 @@
-define([ "Environment", "Position", "Range", "ui/WeaponAndDefenderChooser" ], function(Environment, Position, Range,
-        WeaponAndDefenderChooser)
+define([ "Environment", "Position", "RangeRuler", "ui/WeaponAndDefenderChooser" ], function(Environment, Position,
+        RangeRuler, WeaponAndDefenderChooser)
 {
     QUnit.module("WeaponAndDefenderChooser");
 
@@ -39,7 +39,7 @@ define([ "Environment", "Position", "Range", "ui/WeaponAndDefenderChooser" ], fu
         {
             var rangeAndTokens = result[0];
             assert.ok(rangeAndTokens);
-            assert.equal(rangeAndTokens.range, Range.ONE);
+            assert.equal(rangeAndTokens.range, RangeRuler.ONE);
             var tokens = rangeAndTokens.tokens;
             assert.ok(tokens);
             assert.equal(tokens.length, 1);
@@ -73,7 +73,7 @@ define([ "Environment", "Position", "Range", "ui/WeaponAndDefenderChooser" ], fu
             assert.equal(rangeAndTokensArray.length, 1);
 
             var rangeAndTokens = rangeAndTokensArray[0];
-            assert.equal(rangeAndTokens.range, Range.ONE);
+            assert.equal(rangeAndTokens.range, RangeRuler.ONE);
 
             var tokens = rangeAndTokens.tokens;
             assert.ok(tokens);

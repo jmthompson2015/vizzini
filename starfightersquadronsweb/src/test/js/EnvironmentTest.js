@@ -1,5 +1,5 @@
-define([ "Environment", "Phase", "Pilot", "Position", "Range", "Ship", "SimpleAgent", "Team", "Token" ], function(
-        Environment, Phase, Pilot, Position, Range, Ship, SimpleAgent, Team, Token)
+define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "SimpleAgent", "Team", "Token" ], function(
+        Environment, Phase, Pilot, Position, RangeRuler, Ship, SimpleAgent, Team, Token)
 {
     QUnit.module("Environment");
 
@@ -98,7 +98,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "Range", "Ship", "SimpleAg
         var weapon = attacker.getPrimaryWeapon();
 
         // Run.
-        var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, Range.ONE);
+        var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, RangeRuler.ONE);
 
         // Verify.
         assert.ok(result);
@@ -118,7 +118,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "Range", "Ship", "SimpleAg
         var weapon = attacker.getPrimaryWeapon();
 
         // Run.
-        var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, Range.ONE);
+        var result = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, RangeRuler.ONE);
 
         // Verify.
         assert.ok(result);

@@ -1,7 +1,7 @@
-define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilot", "Range", "Ship", "SimpleAgent",
-        "SquadBuilder", "TargetLock", "Team", "Token", "UpgradeCard", "ui/HumanAgent" ], function(Bearing, DamageCard,
-        Difficulty, Environment, Maneuver, Pilot, Range, Ship, SimpleAgent, SquadBuilder, TargetLock, Team, Token,
-        UpgradeCard, HumanAgent)
+define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilot", "RangeRuler", "Ship",
+        "SimpleAgent", "SquadBuilder", "TargetLock", "Team", "Token", "UpgradeCard", "ui/HumanAgent" ], function(
+        Bearing, DamageCard, Difficulty, Environment, Maneuver, Pilot, RangeRuler, Ship, SimpleAgent, SquadBuilder,
+        TargetLock, Team, Token, UpgradeCard, HumanAgent)
 {
     QUnit.module("Token");
 
@@ -104,9 +104,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(token0.getShip(), Ship.TIE_FIGHTER);
         assert.equal(token0.getName(), "1 Academy Pilot (TIE Fighter)");
         var environment;
-        assert.equal(token0.computeAttackDiceCount(environment, token0.getPrimaryWeapon(), Range.ONE), 3);
-        assert.equal(token0.computeAttackDiceCount(environment, token0.getPrimaryWeapon(), Range.TWO), 2);
-        assert.equal(token0.computeAttackDiceCount(environment, token0.getPrimaryWeapon(), Range.THREE), 2);
+        assert.equal(token0.computeAttackDiceCount(environment, token0.getPrimaryWeapon(), RangeRuler.ONE), 3);
+        assert.equal(token0.computeAttackDiceCount(environment, token0.getPrimaryWeapon(), RangeRuler.TWO), 2);
+        assert.equal(token0.computeAttackDiceCount(environment, token0.getPrimaryWeapon(), RangeRuler.THREE), 2);
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -115,9 +115,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(token1.getShip(), Ship.X_WING);
         assert.equal(token1.getName(), "2 Rookie Pilot (X-Wing)");
         var environment;
-        assert.equal(token1.computeAttackDiceCount(environment, token1.getPrimaryWeapon(), Range.ONE), 4);
-        assert.equal(token1.computeAttackDiceCount(environment, token1.getPrimaryWeapon(), Range.TWO), 3);
-        assert.equal(token1.computeAttackDiceCount(environment, token1.getPrimaryWeapon(), Range.THREE), 3);
+        assert.equal(token1.computeAttackDiceCount(environment, token1.getPrimaryWeapon(), RangeRuler.ONE), 4);
+        assert.equal(token1.computeAttackDiceCount(environment, token1.getPrimaryWeapon(), RangeRuler.TWO), 3);
+        assert.equal(token1.computeAttackDiceCount(environment, token1.getPrimaryWeapon(), RangeRuler.THREE), 3);
     });
 
     QUnit.test("computeAttackDiceCount() Blinded Pilot", function(assert)
@@ -128,19 +128,19 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         var environment;
         assert.equal(token.getDamageCount(), 0);
         assert.equal(token.getCriticalDamageCount(), 0);
-        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), Range.ONE), 3);
-        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), Range.TWO), 2);
-        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), Range.THREE), 2);
+        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), RangeRuler.ONE), 3);
+        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), RangeRuler.TWO), 2);
+        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), RangeRuler.THREE), 2);
 
         token.addCriticalDamage(DamageCard.BLINDED_PILOT);
         assert.equal(token.getDamageCount(), 0);
         assert.equal(token.getCriticalDamageCount(), 1);
-        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), Range.ONE), 0);
+        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), RangeRuler.ONE), 0);
         assert.equal(token.getDamageCount(), 1);
         assert.equal(token.getCriticalDamageCount(), 0);
         // Subsequent calls work normally.
-        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), Range.TWO), 2);
-        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), Range.THREE), 2);
+        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), RangeRuler.TWO), 2);
+        assert.equal(token.computeAttackDiceCount(environment, token.getPrimaryWeapon(), RangeRuler.THREE), 2);
     });
 
     QUnit.test("computeDefenseDiceCount()", function(assert)
@@ -153,9 +153,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(token0.getShip(), Ship.TIE_FIGHTER);
         assert.equal(token0.getName(), "1 Academy Pilot (TIE Fighter)");
         var environment;
-        assert.equal(token0.computeDefenseDiceCount(token0.getPrimaryWeapon(), Range.ONE), 3);
-        assert.equal(token0.computeDefenseDiceCount(token0.getPrimaryWeapon(), Range.TWO), 3);
-        assert.equal(token0.computeDefenseDiceCount(token0.getPrimaryWeapon(), Range.THREE), 4);
+        assert.equal(token0.computeDefenseDiceCount(token0.getPrimaryWeapon(), RangeRuler.ONE), 3);
+        assert.equal(token0.computeDefenseDiceCount(token0.getPrimaryWeapon(), RangeRuler.TWO), 3);
+        assert.equal(token0.computeDefenseDiceCount(token0.getPrimaryWeapon(), RangeRuler.THREE), 4);
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -164,9 +164,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(token1.getShip(), Ship.X_WING);
         assert.equal(token1.getName(), "2 Rookie Pilot (X-Wing)");
         var environment;
-        assert.equal(token1.computeDefenseDiceCount(token1.getPrimaryWeapon(), Range.ONE), 2);
-        assert.equal(token1.computeDefenseDiceCount(token1.getPrimaryWeapon(), Range.TWO), 2);
-        assert.equal(token1.computeDefenseDiceCount(token1.getPrimaryWeapon(), Range.THREE), 3);
+        assert.equal(token1.computeDefenseDiceCount(token1.getPrimaryWeapon(), RangeRuler.ONE), 2);
+        assert.equal(token1.computeDefenseDiceCount(token1.getPrimaryWeapon(), RangeRuler.TWO), 2);
+        assert.equal(token1.computeDefenseDiceCount(token1.getPrimaryWeapon(), RangeRuler.THREE), 3);
     });
 
     QUnit.test("equals()", function(assert)
