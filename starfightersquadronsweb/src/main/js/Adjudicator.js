@@ -1,4 +1,4 @@
-define(function()
+define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 {
     function Adjudicator()
     {
@@ -13,6 +13,61 @@ define(function()
 
             // A cloaked ship cannot attack.
             return !attacker.isCloaked();
+        }
+
+        this.canBarrelRoll = function(environment, attacker, maneuver)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("maneuver", maneuver);
+
+            // A ship cannot barrel roll if this would cause its base to overlap with another ship's base or an obstacle
+            // token.
+            var answer = false;
+            var fromPosition = environment.getPositionFor(attacker);
+
+            if (fromPosition)
+            {
+                var shipBase = attacker.getShipBase();
+                var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition, shipBase);
+                var tokens = environment.getTokens();
+                answer = true;
+
+                for (var i = 0; i < tokens.length; i++)
+                {
+                    var token = tokens[i];
+
+                    if (token !== attacker)
+                    {
+                        var myShipBase = token.getShipBase();
+                        var position = environment.getPositionFor(token);
+                        var polygon = Maneuver.computePolygon(myShipBase, position.getX(), position.getY(), position
+                                .getHeading());
+                        var collide = RectanglePath.doPolygonsCollide(polygon, toPolygon);
+
+                        if (collide)
+                        {
+                            answer = false;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return answer;
+        }
+
+        this.canBoost = function(environment, attacker, maneuver)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("maneuver", maneuver);
+
+            // A ship cannot boost if this would cause its base to overlap with another ship's base or an obstacle
+            // token, or if the maneuver template overlaps an obstacle token.
+
+            // FIXME: implement Adjudicator.canBoost()
+            return this.canBarrelRoll(environment, attacker, maneuver);
         }
 
         /*
