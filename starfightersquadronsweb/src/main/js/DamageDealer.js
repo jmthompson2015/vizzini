@@ -1,6 +1,3 @@
-/*
- * Provides a damage dealer for Starfighter Squadrons.
- */
 define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
 {
     function DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount)
@@ -35,7 +32,7 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
         LOGGER.debug("final hits = " + hits);
         LOGGER.debug("final criticalHits = " + criticalHits);
         LOGGER.debug("final evades = " + evades);
-        LOGGER.debug("before hits, shield = " + defender.getShieldCount());
+        LOGGER.debug("before hits, shield = " + defender.shield().count());
 
         this.getHits = function()
         {
@@ -54,31 +51,31 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
 
         this.dealDamage = function()
         {
-            if (defender.getShieldCount() > 0)
+            if (defender.shield().count() > 0)
             {
-                var count = Math.min(hits, defender.getShieldCount());
+                var count = Math.min(hits, defender.shield().count());
                 hits -= count;
 
                 for (var i = 0; i < count; i++)
                 {
-                    defender.decreaseShieldCount();
+                    defender.shield().decrease();
                 }
             }
 
-            LOGGER.debug("before critical hits, shield         = " + defender.getShieldCount());
+            LOGGER.debug("before critical hits, shield         = " + defender.shield().count());
 
-            if (defender.getShieldCount() > 0)
+            if (defender.shield().count() > 0)
             {
-                var count = Math.min(criticalHits, defender.getShieldCount());
+                var count = Math.min(criticalHits, defender.shield().count());
                 criticalHits -= count;
 
                 for (var i = 0; i < count; i++)
                 {
-                    defender.decreaseShieldCount();
+                    defender.shield().decrease();
                 }
             }
 
-            LOGGER.debug("after both hits, shield              = " + defender.getShieldCount());
+            LOGGER.debug("after both hits, shield              = " + defender.shield().count());
             LOGGER.debug("before hits, damage                  = " + defender.getDamageCount());
 
             for (var i = 0; i < hits; i++)

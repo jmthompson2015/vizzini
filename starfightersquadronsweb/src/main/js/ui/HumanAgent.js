@@ -154,8 +154,8 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/
                     var tokens = environment.getTokensForTeam(team);
                     tokens.sort(function(token0, token1)
                     {
-                        var id0 = token0.getId();
-                        var id1 = token1.getId();
+                        var id0 = token0.id();
+                        var id1 = token1.id();
                         var answer = id0 - id1;
 
                         return answer;
@@ -191,7 +191,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/
                         modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
                     }
 
-                    if (attacker.getFocusCount() > 0)
+                    if (attacker.focus().count() > 0)
                     {
                         modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
                     }
@@ -228,12 +228,12 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/
 
                     var modifications = [ null ];
 
-                    if (defender.getEvadeCount() > 0)
+                    if (defender.evade().count() > 0)
                     {
                         modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
                     }
 
-                    if (defender.getFocusCount() > 0)
+                    if (defender.focus().count() > 0)
                     {
                         modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
                     }
@@ -269,7 +269,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/
 
                     callback = callbackIn;
 
-                    var shipActions = token.getShipActions();
+                    var shipActions = token.shipActions();
                     var myShipActions = [];
 
                     if (shipActions.vizziniContains(ShipAction.FOCUS))

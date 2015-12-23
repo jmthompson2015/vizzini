@@ -35,7 +35,7 @@
             var adjudicator = new Adjudicator();
             var tokens = environment.getTokensForTeam(Team.REBEL);
             var token = tokens[0];
-            var agent = token.getAgent();
+            var agent = token.agent();
 
             // Run.
             agent.getShipAction(environment, adjudicator, token, myCallback);

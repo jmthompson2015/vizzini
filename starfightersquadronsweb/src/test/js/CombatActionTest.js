@@ -26,7 +26,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 combatAction.doIt();
 
                 // Verify.
-                assert.ok(!attacker.getRange());
+                assert.ok(!attacker.range());
             });
 
             QUnit.skip("CombatAction.doIt() range one", function(assert)
@@ -38,7 +38,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 var maneuver = Maneuver.STRAIGHT_1_EASY;
                 var attacker = environment.tokens()[2]; // X-Wing
                 assert.ok(attacker);
-                var weapon = attacker.getPrimaryWeapon();
+                var weapon = attacker.primaryWeapon();
                 assert.ok(weapon);
                 var defenderPosition = new Position(305, 20, 90); // TIE Fighter
                 var defender = environment.tokens()[0];
@@ -53,7 +53,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 combatAction.doIt();
 
                 // Verify.
-                assert.equal(attacker.getRange(), RangeRuler.ONE);
+                assert.equal(attacker.range(), RangeRuler.ONE);
                 assert.equal(environment.phase(), Phase.COMBAT_DEAL_DAMAGE);
             });
         });

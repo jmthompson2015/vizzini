@@ -45,7 +45,7 @@ define([ "Environment", "Phase", "ui/PlayState" ], function(Environment, Phase, 
                 if (activeToken)
                 {
                     answer += " Active Ship: ";
-                    answer += activeToken.getName();
+                    answer += activeToken.name();
                 }
             }
 

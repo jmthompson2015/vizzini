@@ -8,12 +8,12 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
         var defender = environment.tokens()[0];
-        defender.increaseEvadeCount();
+        defender.evade().increase();
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-        assert.equal(defender.getEvadeCount(), 1);
-        assert.equal(defender.getFocusCount(), 0);
+        assert.equal(defender.evade().count(), 1);
+        assert.equal(defender.focus().count(), 0);
         var evadeCount0 = defenseDice.getEvadeCount();
         var focusCount0 = defenseDice.getFocusCount();
 
@@ -21,8 +21,8 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         action.doIt();
 
         // Verify.
-        assert.equal(defender.getEvadeCount(), 0);
-        assert.equal(defender.getFocusCount(), 0);
+        assert.equal(defender.evade().count(), 0);
+        assert.equal(defender.focus().count(), 0);
         assert.equal(defenseDice.getEvadeCount(), evadeCount0 + 1);
         assert.equal(defenseDice.getFocusCount(), focusCount0);
     });
@@ -32,12 +32,12 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
         var defender = environment.tokens()[0];
-        defender.increaseFocusCount();
+        defender.focus().increase();
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-        assert.equal(defender.getEvadeCount(), 0);
-        assert.equal(defender.getFocusCount(), 1);
+        assert.equal(defender.evade().count(), 0);
+        assert.equal(defender.focus().count(), 1);
         var evadeCount0 = defenseDice.getEvadeCount();
         var focusCount0 = defenseDice.getFocusCount();
 
@@ -45,8 +45,8 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         action.doIt();
 
         // Verify.
-        assert.equal(defender.getEvadeCount(), 0);
-        assert.equal(defender.getFocusCount(), 0);
+        assert.equal(defender.evade().count(), 0);
+        assert.equal(defender.focus().count(), 0);
         assert.equal(defenseDice.getEvadeCount(), evadeCount0 + focusCount0);
         assert.equal(defenseDice.getFocusCount(), 0);
     });

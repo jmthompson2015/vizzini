@@ -118,21 +118,21 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 {
                     // Barrel roll and Boost.
                     var attackerPosition = environment.getPositionFor(attacker);
-                    var shipBase = attacker.getShipBase();
+                    var shipBase = attacker.shipBase();
                     var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
                     maneuverAction.doIt();
                 }
                 else if (shipAction === ShipAction.CLOAK)
                 {
-                    attacker.increaseCloakCount();
+                    attacker.cloak().increase();
                 }
                 else if (shipAction === ShipAction.EVADE)
                 {
-                    attacker.increaseEvadeCount();
+                    attacker.evade().increase();
                 }
                 else if (shipAction === ShipAction.FOCUS)
                 {
-                    attacker.increaseFocusCount();
+                    attacker.focus().increase();
                 }
                 else if (shipAction.shipAction === ShipAction.TARGET_LOCK)
                 {
@@ -162,11 +162,11 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 LOGGER.debug("defender = " + defender);
                 var attacker = environment.activeToken();
                 var attackerPosition = environment.getPositionFor(attacker);
-                attacker.setWeapon(weapon);
+                attacker.weapon(weapon);
 
                 if (defender)
                 {
-                    attacker.setDefender(defender);
+                    attacker.defender(defender);
                     environment.phase(Phase.COMBAT_DECLARE_TARGET);
                     var defenderPosition = environment.getPositionFor(defender);
 
@@ -242,8 +242,8 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
             if (token)
             {
                 environment.activeToken(token);
-                var agent = token.getAgent();
-                var maneuver = token.getTeam() == environment.firstTeam() ? firstPlanningAction.getManeuver(token)
+                var agent = token.agent();
+                var maneuver = token.team() == environment.firstTeam() ? firstPlanningAction.getManeuver(token)
                         : secondPlanningAction.getManeuver(token);
 
                 if (maneuver)
@@ -252,7 +252,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
                     if (fromPosition)
                     {
-                        var shipBase = token.getShipBase();
+                        var shipBase = token.shipBase();
                         var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
                         maneuverAction.doIt();
 
@@ -295,10 +295,10 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 if (adjudicator.canAttack(attacker))
                 {
                     // Perform combat steps.
-                    LOGGER.debug("attacker = " + attacker.getName());
+                    LOGGER.debug("attacker = " + attacker.name());
 
                     // Declare target.
-                    var agent = attacker.getAgent();
+                    var agent = attacker.agent();
                     agent.chooseWeaponAndDefender(environment, adjudicator, attacker, that.setWeaponAndDefender);
 
                     // Wait for agent to respond.
@@ -332,11 +332,11 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 environment.activeToken(token);
 
                 // Perform end steps.
-                token.clearEvadeCount();
+                token.evade().clear();
 
                 if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
                 {
-                    token.clearFocusCount();
+                    token.focus().clear();
                 }
             }
 

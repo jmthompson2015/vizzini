@@ -81,9 +81,9 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             var token = this.props.token;
             var isPilotNameShown = (this.props.isPilotNameShown === undefined ? true : this.props.isPilotNameShown);
             var imageUtils = this.props.imageUtils;
-            var pilotName = token.getPilotName();
-            var shipName = token.getShipName();
-            var maneuvers = token.getManeuvers();
+            var pilotName = token.pilotName();
+            var shipName = token.shipName();
+            var maneuvers = token.maneuvers();
             var minSpeed = this.getMinimumSpeed(maneuvers);
             var maxSpeed = this.getMaximumSpeed(maneuvers);
             var bearingValues = Bearing.values();

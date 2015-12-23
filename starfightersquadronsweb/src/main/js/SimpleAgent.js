@@ -1,6 +1,3 @@
-/*
- * Provides a simple implementation of a computer agent for Starfighter Squadrons.
- */
 define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position", "RangeRuler",
         "ShipAction", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction, ModifyDefenseDiceAction,
         PlanningAction, Position, RangeRuler, ShipAction, ShipBase, Weapon)
@@ -46,7 +43,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
         if (attackerPosition)
         {
-            var myWeapon = attacker.getPrimaryWeapon();
+            var myWeapon = attacker.primaryWeapon();
             var values = RangeRuler.values();
 
             for (var i = 0; i < values.length; i++)
@@ -103,7 +100,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
             modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
         }
 
-        if (attacker.getFocusCount() > 0)
+        if (attacker.focus().count() > 0)
         {
             modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
         }
@@ -132,12 +129,12 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
         var modifications = [ null ];
 
-        if (defender.getEvadeCount() > 0)
+        if (defender.evade().count() > 0)
         {
             modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
         }
 
-        if (defender.getFocusCount() > 0)
+        if (defender.focus().count() > 0)
         {
             modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
         }
@@ -153,13 +150,6 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         callback(answer);
     }
 
-    /*
-     * @param environment Environment.
-     * 
-     * @param adjudicator Adjudicator.
-     * 
-     * @return a new action.
-     */
     SimpleAgent.prototype.getPlanningAction = function(environment, adjudicator, callback)
     {
         InputValidator.validateNotNull("environment", environment);
@@ -173,8 +163,8 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         tokens.forEach(function(token)
         {
             var fromPosition = environment.getPositionFor(token);
-            var shipBase = token.getShipBase();
-            var maneuvers = token.getManeuvers();
+            var shipBase = token.shipBase();
+            var maneuvers = token.maneuvers();
             LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
 
             // Find the maneuvers which keep the ship on the battlefield.
@@ -212,7 +202,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("adjudicator", adjudicator);
         InputValidator.validateNotNull("token", token);
 
-        var shipActions = token.getShipActions();
+        var shipActions = token.shipActions();
         var myShipActions = [];
 
         if (shipActions.vizziniContains(ShipAction.FOCUS))

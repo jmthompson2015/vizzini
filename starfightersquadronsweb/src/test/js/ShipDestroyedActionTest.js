@@ -14,10 +14,10 @@ define([ "Environment", "Position", "ShipDestroyedAction", "TargetLock", "Token"
         var targetLock = new TargetLock(token, defender);
         token.addAttackerTargetLock(targetLock);
         defender.addDefenderTargetLock(targetLock);
-        assert.equal(token.getAttackerTargetLocks().length, 1);
-        assert.equal(token.getDefenderTargetLocks().length, 0);
-        assert.equal(defender.getAttackerTargetLocks().length, 0);
-        assert.equal(defender.getDefenderTargetLocks().length, 1);
+        assert.equal(token.attackerTargetLocks().length, 1);
+        assert.equal(token.defenderTargetLocks().length, 0);
+        assert.equal(defender.attackerTargetLocks().length, 0);
+        assert.equal(defender.defenderTargetLocks().length, 1);
         var shipDestroyedAction = new ShipDestroyedAction(environment, token, fromPosition);
 
         // Run.
@@ -27,9 +27,9 @@ define([ "Environment", "Position", "ShipDestroyedAction", "TargetLock", "Token"
         assert.equal(token.getDamageCount(), 0);
         assert.equal(token.getCriticalDamageCount(), 0);
         assert.ok(!environment.getTokenAt(fromPosition));
-        assert.equal(token.getAttackerTargetLocks().length, 0);
-        assert.equal(token.getDefenderTargetLocks().length, 0);
-        assert.equal(defender.getAttackerTargetLocks().length, 0);
-        assert.equal(defender.getDefenderTargetLocks().length, 0);
+        assert.equal(token.attackerTargetLocks().length, 0);
+        assert.equal(token.defenderTargetLocks().length, 0);
+        assert.equal(defender.attackerTargetLocks().length, 0);
+        assert.equal(defender.defenderTargetLocks().length, 0);
     });
 });

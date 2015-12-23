@@ -9,7 +9,7 @@ define([ "Environment", "Position", "RangeRuler", "ui/WeaponAndDefenderChooser" 
         var environment = Environment.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
-        var weapon = attacker.getPrimaryWeapon();
+        var weapon = attacker.primaryWeapon();
 
         // Run.
         var result = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition, weapon);
@@ -28,7 +28,7 @@ define([ "Environment", "Position", "RangeRuler", "ui/WeaponAndDefenderChooser" 
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(300, 70, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = attacker.getPrimaryWeapon();
+        var weapon = attacker.primaryWeapon();
 
         // Run.
         var result = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition, weapon);
@@ -55,7 +55,7 @@ define([ "Environment", "Position", "RangeRuler", "ui/WeaponAndDefenderChooser" 
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(300, 70, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = attacker.getPrimaryWeapon();
+        var weapon = attacker.primaryWeapon();
 
         // Run.
         var result = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
@@ -66,7 +66,7 @@ define([ "Environment", "Position", "RangeRuler", "ui/WeaponAndDefenderChooser" 
         {
             var weaponAndRangeAndTokens = result[0];
             var weapon = weaponAndRangeAndTokens.weapon;
-            assert.equal(weapon, attacker.getPrimaryWeapon());
+            assert.equal(weapon, attacker.primaryWeapon());
 
             var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
             assert.ok(rangeAndTokensArray);

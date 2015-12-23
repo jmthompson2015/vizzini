@@ -47,8 +47,8 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
             tokens.forEach(function(token)
             {
                 var fromPosition = environment.getPositionFor(token);
-                var shipBase = token.getShipBase();
-                var maneuvers = token.getManeuvers();
+                var shipBase = token.shipBase();
+                var maneuvers = token.maneuvers();
                 LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
 
                 // Find the maneuvers which keep the ship on the battlefield.
@@ -70,7 +70,7 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
                                     .y(), toPosition.heading())))
                     {
                         validManeuvers.push(maneuver);
-                        var weapon = token.getPrimaryWeapon();
+                        var weapon = token.primaryWeapon();
 
                         for (var i = 0; i < defenders.length; i++)
                         {

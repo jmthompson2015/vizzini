@@ -1,6 +1,3 @@
-/*
- * Provides an action to modify the attack dice.
- */
 define(function()
 {
     function ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification)
@@ -48,7 +45,7 @@ define(function()
             else if (modification === ModifyAttackDiceAction.Modification.SPEND_FOCUS)
             {
                 attackDice.spendFocusToken();
-                attacker.decreaseFocusCount();
+                attacker.focus().decrease();
             }
             else
             {
@@ -57,9 +54,6 @@ define(function()
         }
     }
 
-    /*
-     * Provides an enumeration of possible modifications.
-     */
     ModifyAttackDiceAction.Modification =
     {
         SPEND_FOCUS: "spendFocus",

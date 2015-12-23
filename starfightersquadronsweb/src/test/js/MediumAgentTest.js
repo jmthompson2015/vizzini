@@ -26,8 +26,8 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
                 // Verify.
                 assert.ok(result);
                 assert.equal(result.length, 2);
-                assert.equal(result[0].getName(), "1 \"Mauler Mithel\" (TIE Fighter)");
-                assert.equal(result[1].getName(), "2 \"Dark Curse\" (TIE Fighter)");
+                assert.equal(result[0].name(), "1 \"Mauler Mithel\" (TIE Fighter)");
+                assert.equal(result[1].name(), "2 \"Dark Curse\" (TIE Fighter)");
             });
 
             QUnit.test("buildSquad() Rebel", function(assert)
@@ -42,7 +42,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
                 // Verify.
                 assert.ok(result);
                 assert.equal(result.length, 1);
-                assert.equal(result[0].getName(), "1 Luke Skywalker (X-Wing)");
+                assert.equal(result[0].name(), "1 Luke Skywalker (X-Wing)");
             });
 
             QUnit.test("chooseWeaponAndDefender() Imperial", function(assert)
@@ -79,7 +79,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
 
                     // Verify.
                     assert.ok(weapon);
-                    assert.equal(weapon, token0.getPrimaryWeapon());
+                    assert.equal(weapon, token0.primaryWeapon());
                     assert.ok(defender);
                     assert.equal(defender, token2);
                 }

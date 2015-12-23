@@ -18,18 +18,18 @@ define([ "Environment", "TargetLock" ], function(Environment, TargetLock)
 
         // Run / Verify.
         assert.ok(targetLock02);
-        assert.equal(targetLock02.getId(), "A");
-        assert.equal(targetLock02.getAttacker(), token0);
-        assert.equal(targetLock02.getDefender(), token2);
+        assert.equal(targetLock02.id(), "A");
+        assert.equal(targetLock02.attacker(), token0);
+        assert.equal(targetLock02.defender(), token2);
 
         assert.ok(targetLock12);
-        assert.equal(targetLock12.getId(), "B");
-        assert.equal(targetLock12.getAttacker(), token1);
-        assert.equal(targetLock12.getDefender(), token2);
+        assert.equal(targetLock12.id(), "B");
+        assert.equal(targetLock12.attacker(), token1);
+        assert.equal(targetLock12.defender(), token2);
 
         assert.ok(targetLock20);
-        assert.equal(targetLock20.getId(), "C");
-        assert.equal(targetLock20.getAttacker(), token2);
-        assert.equal(targetLock20.getDefender(), token0);
+        assert.equal(targetLock20.id(), "C");
+        assert.equal(targetLock20.attacker(), token2);
+        assert.equal(targetLock20.defender(), token0);
     });
 });

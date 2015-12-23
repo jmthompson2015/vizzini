@@ -58,7 +58,7 @@
             function addToken()
             {
                 LOGGER.info("addToken() start");
-                tokens[tokens.length] = new Token(Pilot.ACADEMY_PILOT, tokens[0].getAgent());
+                tokens[tokens.length] = new Token(Pilot.ACADEMY_PILOT, tokens[0].agent());
                 imperialPilotsUI.setState(
                 {
                     tokens: tokens

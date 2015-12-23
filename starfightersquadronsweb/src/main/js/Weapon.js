@@ -1,6 +1,3 @@
-/*
- * Provides a weapon for Starfighter Squadrons.
- */
 define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc, Maneuver, RangeRuler, ShipBase)
 {
     function Weapon(name, isPrimary, weaponValue, ranges)
@@ -27,9 +24,6 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position. @param defender Defender. @param
-     * defenderPosition Defender position.
-     * 
      * @return true if the defender is in this weapon's range.
      */
     Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition, defender, defenderPosition)
@@ -42,9 +36,6 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position. @param defender Defender. @param
-     * defenderPosition Defender position.
-     * 
      * @return true if the defender is in this weapon's firing arc and range.
      */
     Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition, defender, defenderPosition)
@@ -58,9 +49,6 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position. @param defender Defender. @param
-     * defenderPosition Defender position.
-     * 
      * @return true if the defender is in this weapon's firing arc.
      */
     Weapon.prototype.isDefenderVulnerable = function(attacker, attackerPosition, defender, defenderPosition)
@@ -74,14 +62,11 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     }
 
     /*
-     * @param attacker Attacker. @param attackerPosition Attacker position. @param defender Defender. @param
-     * defenderPosition Defender position.
-     * 
      * @return true if the defender is in this weapon's firing arc.
      */
     Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
     {
-        var firingArc = attacker.getShipPrimaryFiringArc();
+        var firingArc = attacker.shipPrimaryFiringArc();
         var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
         // LOGGER.trace("bearing = " + bearing);
         var answer = FiringArc.properties[firingArc].isInFiringArc(bearing);
@@ -89,7 +74,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
 
         if (!answer)
         {
-            var defenderBase = defender.getShipBase();
+            var defenderBase = defender.shipBase();
             var polygon = Maneuver.computePolygon(defenderBase, defenderPosition.x(), defenderPosition.y(),
                     defenderPosition.heading());
 

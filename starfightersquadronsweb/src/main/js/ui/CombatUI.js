@@ -49,7 +49,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
-            }, React.DOM.td({}, React.DOM.span({}, "Attacker: " + attacker.getName()))));
+            }, React.DOM.td({}, React.DOM.span({}, "Attacker: " + attacker.name()))));
 
             // Attack Dice panel.
             var attackPanel = React.createElement(CombatUI.AttackDiceUI,
@@ -84,7 +84,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
-            }, React.DOM.td({}, React.DOM.span({}, "Defender: " + defender.getName()))));
+            }, React.DOM.td({}, React.DOM.span({}, "Defender: " + defender.name()))));
 
             if (defenseDice && defenseDice.getSize() > 0)
             {

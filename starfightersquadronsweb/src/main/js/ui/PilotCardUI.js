@@ -51,9 +51,9 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             var element0 = React.createElement(PilotCardUI.NamePanel,
             {
                 pilotSkillValue: myToken.getPilotSkillValue(),
-                pilotName: myToken.getPilotName(),
-                shipName: myToken.getShipName(),
-                team: myToken.getTeam(),
+                pilotName: myToken.pilotName(),
+                shipName: myToken.shipName(),
+                team: myToken.team(),
             });
             var cell0 = React.DOM.td({}, element0);
             rows.push(React.DOM.tr(
@@ -77,14 +77,14 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
             var element2 = React.createElement(PilotCardUI.TokensPanel,
             {
-                cloakCount: myToken.getCloakCount(),
-                evadeCount: myToken.getEvadeCount(),
-                focusCount: myToken.getFocusCount(),
-                ionCount: myToken.getIonCount(),
-                shieldCount: myToken.getShieldCount(),
-                stressCount: myToken.getStressCount(),
-                attackerTargetLocks: myToken.getAttackerTargetLocks(),
-                defenderTargetLocks: myToken.getDefenderTargetLocks(),
+                cloakCount: myToken.cloak().count(),
+                evadeCount: myToken.evade().count(),
+                focusCount: myToken.focus().count(),
+                ionCount: myToken.ion().count(),
+                shieldCount: myToken.shield().count(),
+                stressCount: myToken.stress().count(),
+                attackerTargetLocks: myToken.attackerTargetLocks(),
+                defenderTargetLocks: myToken.defenderTargetLocks(),
                 damageCount: myToken.getDamageCount(),
                 criticalDamageCount: myToken.getCriticalDamageCount(),
             });
@@ -103,8 +103,8 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         renderLarge: function()
         {
             var myToken = this.state.token;
-            var pilotProps = Pilot.properties[myToken.getPilot()];
-            var shipProps = Ship.properties[myToken.getShip()];
+            var pilotProps = Pilot.properties[myToken.pilot()];
+            var shipProps = Ship.properties[myToken.ship()];
             var pilotDescription = pilotProps.description;
             var pilotCost = pilotProps.squadPointCost;
             var prefix = myToken.toString();
@@ -115,9 +115,9 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             var element00 = React.createElement(PilotCardUI.NamePanel,
             {
                 pilotSkillValue: myToken.getPilotSkillValue(),
-                pilotName: myToken.getPilotName(),
-                shipName: myToken.getShipName(),
-                team: myToken.getTeam(),
+                pilotName: myToken.pilotName(),
+                shipName: myToken.shipName(),
+                team: myToken.team(),
             });
             var cell00 = React.DOM.td({}, element00);
             rows.push(React.DOM.tr(
@@ -198,14 +198,14 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             var element30 = React.createElement(PilotCardUI.TokensPanel,
             {
                 token: myToken,
-                cloakCount: myToken.getCloakCount(),
-                evadeCount: myToken.getEvadeCount(),
-                focusCount: myToken.getFocusCount(),
-                ionCount: myToken.getIonCount(),
-                shieldCount: myToken.getShieldCount(),
-                stressCount: myToken.getStressCount(),
-                attackerTargetLocks: myToken.getAttackerTargetLocks(),
-                defenderTargetLocks: myToken.getDefenderTargetLocks(),
+                cloakCount: myToken.cloak().count(),
+                evadeCount: myToken.evade().count(),
+                focusCount: myToken.focus().count(),
+                ionCount: myToken.ion().count(),
+                shieldCount: myToken.shield().count(),
+                stressCount: myToken.stress().count(),
+                attackerTargetLocks: myToken.attackerTargetLocks(),
+                defenderTargetLocks: myToken.defenderTargetLocks(),
                 damageCount: myToken.getDamageCount(),
                 criticalDamageCount: myToken.getCriticalDamageCount(),
             });
@@ -223,7 +223,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
         tokenChanged: function()
         {
-            LOGGER.info(this.state.token.getName() + " token change event");
+            LOGGER.info(this.state.token.name() + " token change event");
             this.setState(
             {
                 token: this.state.token
@@ -723,14 +723,14 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
             this.props.attackerTargetLocks.forEach(function(targetLock)
             {
-                var title = "Target Lock to " + targetLock.getDefender().getName();
+                var title = "Target Lock to " + targetLock.defender().name();
                 var element = React.createElement(PilotCardUI.LabelToken,
                 {
                     title: title,
                     width: "38",
                     numberClass: "labelTokenText",
                     path: imageBase + "token/AttackerTargetLock32.png",
-                    label: targetLock.getId(),
+                    label: targetLock.id(),
                 });
                 cells.push(React.DOM.td(
                 {
@@ -740,14 +740,14 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
             this.props.defenderTargetLocks.forEach(function(targetLock)
             {
-                var title = "Target Lock from " + targetLock.getAttacker().getName();
+                var title = "Target Lock from " + targetLock.attacker().name();
                 var element = React.createElement(PilotCardUI.LabelToken,
                 {
                     title: title,
                     width: "38",
                     numberClass: "labelTokenText",
                     path: imageBase + "token/DefenderTargetLock32.png",
-                    label: targetLock.getId(),
+                    label: targetLock.id(),
                 });
                 cells.push(React.DOM.td(
                 {

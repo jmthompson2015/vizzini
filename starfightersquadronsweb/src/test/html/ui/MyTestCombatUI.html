@@ -55,12 +55,12 @@
             var environment = Environment.createCoreSetEnvironment();
             var attacker = environment.tokens()[0];
             LOGGER.debug("attacker = " + attacker);
-            attacker.increaseFocusCount();
+            attacker.focus().increase();
             var attackDice = new AttackDice(5);
             var defender = environment.tokens()[2];
             LOGGER.debug("defender = " + defender);
-            defender.increaseFocusCount();
-            defender.increaseEvadeCount();
+            defender.focus().increase();
+            defender.evade().increase();
             var modifications0 = [ null, ModifyAttackDiceAction.Modification.SPEND_FOCUS ];
 
             var element0 = React.createElement(CombatUI,

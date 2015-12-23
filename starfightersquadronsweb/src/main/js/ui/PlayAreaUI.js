@@ -161,7 +161,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
             if (fromPosition)
             {
-                var shipBase = token.getShipBase();
+                var shipBase = token.shipBase();
                 answer = new ExplosionUI(fromPosition, shipBase, explosionImage);
             }
 
@@ -181,7 +181,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
                 if (toPosition)
                 {
-                    var strokeStyle = Team.properties[attacker.getTeam()].color;
+                    var strokeStyle = Team.properties[attacker.team()].color;
                     var audioClip = getLaserAudioClip(attacker);
                     answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip);
                 }
@@ -202,14 +202,14 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
         function createShipIcon(token, callback)
         {
             var image = new Image();
-            image.id = token.getId();
-            image.teamColor = Team.properties[token.getTeam()].color;
+            image.id = token.id();
+            image.teamColor = Team.properties[token.team()].color;
             image.onload = function()
             {
                 callback();
             };
 
-            var filename = ShipTeam.properties[token.getShipTeam()].image;
+            var filename = ShipTeam.properties[token.shipTeam()].image;
             image.src = imageBase + "ship/" + filename;
 
             return image;
@@ -347,7 +347,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
         {
             var answer;
 
-            var ship = token.getShip();
+            var ship = token.ship();
 
             if (ship === Ship.YT_1300 || ship === Ship.YT_2400)
             {
@@ -359,7 +359,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             }
             else
             {
-                var team = token.getTeam();
+                var team = token.team();
 
                 if (team === Team.IMPERIAL)
                 {

@@ -48,16 +48,16 @@
         {
             var environment = Environment.createCoreSetEnvironment();
             var imperialToken = environment.tokens()[0]; // TIE Fighter.
-            imperialToken.increaseCloakCount();
-            imperialToken.increaseEvadeCount();
-            imperialToken.increaseEvadeCount();
-            imperialToken.increaseFocusCount();
-            imperialToken.increaseFocusCount();
-            imperialToken.increaseFocusCount();
+            imperialToken.cloak().increase();
+            imperialToken.evade().increase();
+            imperialToken.evade().increase();
+            imperialToken.focus().increase();
+            imperialToken.focus().increase();
+            imperialToken.focus().increase();
 
             var rebelToken = environment.tokens()[2]; // X-Wing.
-            rebelToken.increaseIonCount();
-            rebelToken.increaseStressCount();
+            rebelToken.ion().increase();
+            rebelToken.stress().increase();
             rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
             var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM,
@@ -124,9 +124,9 @@
                 LOGGER.info("updateImperialToken() start");
                 imperialToken.addDamage(DamageCard.DIRECT_HIT);
                 imperialToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
-                imperialToken.increaseCloakCount();
-                imperialToken.increaseEvadeCount();
-                imperialToken.increaseFocusCount();
+                imperialToken.cloak().increase();
+                imperialToken.evade().increase();
+                imperialToken.focus().increase();
                 LOGGER.info("updateImperialToken() end");
             }
 
@@ -135,9 +135,9 @@
                 LOGGER.info("updateRebelToken() start");
                 rebelToken.addDamage(DamageCard.DIRECT_HIT);
                 rebelToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
-                rebelToken.increaseIonCount();
-                rebelToken.decreaseShieldCount();
-                rebelToken.increaseStressCount();
+                rebelToken.ion().increase();
+                rebelToken.shield().decrease();
+                rebelToken.stress().increase();
                 LOGGER.info("updateRebelToken() end");
             }
 
@@ -146,9 +146,9 @@
                 LOGGER.info("updateScumToken() start");
                 scumToken.addDamage(DamageCard.DIRECT_HIT);
                 scumToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
-                scumToken.increaseIonCount();
-                scumToken.decreaseShieldCount();
-                scumToken.increaseStressCount();
+                scumToken.ion().increase();
+                scumToken.shield().decrease();
+                scumToken.stress().increase();
                 LOGGER.info("updateScumToken() end");
             }
 

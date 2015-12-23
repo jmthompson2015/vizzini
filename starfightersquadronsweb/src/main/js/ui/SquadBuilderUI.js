@@ -128,7 +128,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
 
             // Add upgrade cards.
             var myUpgrades = this.state.upgrades;
-            var tokenUpgrades = token.getUpgrades();
+            var tokenUpgrades = token.upgrades();
 
             myUpgrades.forEach(function(upgrade)
             {

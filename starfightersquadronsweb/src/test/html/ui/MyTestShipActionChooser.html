@@ -36,7 +36,7 @@
             var token0 = environment.tokens()[0];
             var token1 = environment.tokens()[1];
             var token2 = environment.tokens()[2];
-            var shipActions = token2.getShipActions();
+            var shipActions = token2.shipActions();
 
             if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
             {

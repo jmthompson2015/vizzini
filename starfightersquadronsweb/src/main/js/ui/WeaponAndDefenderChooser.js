@@ -32,7 +32,7 @@ define([ "RangeRuler" ], function(RangeRuler)
             var message = React.DOM.div(
             {
                 className: "attackerLabel"
-            }, "Attacker: " + attacker.getName());
+            }, "Attacker: " + attacker.name());
             var selectedWeapon = this.state.weapon;
             var selectedDefender = this.state.defender;
             var choices = this.props.choices;
@@ -86,12 +86,12 @@ define([ "RangeRuler" ], function(RangeRuler)
                                 onClick: self.selectionChanged,
                                 name: weaponName,
                                 "data-weapon-name": weaponName,
-                                "data-defender-id": token.getId()
+                                "data-defender-id": token.id()
                             });
                             var span = React.DOM.span(
                             {
                                 key: 1
-                            }, token.getName());
+                            }, token.name());
                             var label = React.DOM.label({}, [ input, span ]);
                             var cell = React.DOM.td(
                             {
@@ -187,7 +187,7 @@ define([ "RangeRuler" ], function(RangeRuler)
                         {
                             var token = tokens[k];
 
-                            if (token.getId() == tokenId)
+                            if (token.id() == tokenId)
                             {
                                 answer = token;
                                 break;
@@ -204,7 +204,7 @@ define([ "RangeRuler" ], function(RangeRuler)
         {
             var attacker = this.props.attacker;
 
-            return attacker.getPrimaryWeapon();
+            return attacker.primaryWeapon();
         },
     });
 
@@ -259,7 +259,7 @@ define([ "RangeRuler" ], function(RangeRuler)
 
         if (attackerPosition != null)
         {
-            var primaryWeapon = attacker.getPrimaryWeapon();
+            var primaryWeapon = attacker.primaryWeapon();
             var rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
                     primaryWeapon);
 
@@ -272,7 +272,7 @@ define([ "RangeRuler" ], function(RangeRuler)
                 }
             }
 
-            var weapons = attacker.getSecondaryWeapons();
+            var weapons = attacker.secondaryWeapons();
 
             for (var i = 0; i < weapons.length; i++)
             {

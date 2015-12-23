@@ -7,21 +7,53 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 {
     function Token(pilot, agent)
     {
-        var that = this;
-
-        var id = Token.nextId();
-
         InputValidator.validateNotNull("pilot", pilot);
         InputValidator.validateNotNull("agent", agent);
 
-        var cloakCount = 0;
+        this.pilot = function()
+        {
+            return pilot;
+        }
+
+        this.agent = function()
+        {
+            return agent;
+        }
+
+        var that = this;
+        var id = Token.nextId();
+        var cloakCount = new Token.Count();
+        cloakCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
         var criticalDamages = [];
         var damages = [];
-        var evadeCount = 0;
-        var focusCount = 0;
-        var ionCount = 0;
-        var shieldCount = Pilot.properties[pilot].shipState.getShieldValue();
-        var stressCount = 0;
+        var evadeCount = new Token.Count();
+        evadeCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
+        var focusCount = new Token.Count();
+        focusCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
+        var ionCount = new Token.Count();
+        ionCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
+        var shieldCount = new Token.Count(Pilot.properties[pilot].shipState.getShieldValue());
+        shieldCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
+        var stressCount = new Token.Count();
+        stressCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
         var attackerTargetLocks = [];
         var defenderTargetLocks = [];
 
@@ -36,7 +68,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         // Activation state.
         var isTouching = false;
         var maneuverAction;
-        var shipActionAction;
+        // var shipActionAction;
 
         // Combat state.
         var attackDice;
@@ -63,81 +95,69 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             this.trigger("change");
         }
 
-        /*
-         * Clear the cloak tokens.
-         */
-        this.clearCloakCount = function()
+        this.attackDice = function(value)
         {
-            setCloakCount(0);
+            if (value)
+            {
+                attackDice = value;
+            }
+
+            return attackDice;
         }
 
-        /*
-         * Clear the evade tokens.
-         */
-        this.clearEvadeCount = function()
+        this.attackerTargetLocks = function()
         {
-            setEvadeCount(0);
+            return attackerTargetLocks.slice();
         }
 
-        /*
-         * Clear the focus tokens.
-         */
-        this.clearFocusCount = function()
+        this.cloak = function()
         {
-            setFocusCount(0);
+            return cloakCount;
         }
 
-        /*
-         * Decrease the cloak token count.
-         */
-        this.decreaseCloakCount = function()
+        this.combatAction = function(value)
         {
-            setCloakCount(cloakCount - 1);
+            if (value)
+            {
+                combatAction = value;
+            }
+
+            return combatAction;
         }
 
-        /*
-         * Decrease the evade token count.
-         */
-        this.decreaseEvadeCount = function()
+        this.defender = function(value)
         {
-            setEvadeCount(evadeCount - 1);
+            if (value)
+            {
+                defender = value;
+            }
+
+            return defender;
         }
 
-        /*
-         * Decrease the focus token count.
-         */
-        this.decreaseFocusCount = function()
+        this.defenderTargetLocks = function()
         {
-            setFocusCount(focusCount - 1);
+            return defenderTargetLocks.slice();
         }
 
-        /*
-         * Decrease the ion token count.
-         */
-        this.decreaseIonCount = function()
+        this.defenseDice = function(value)
         {
-            setIonCount(ionCount - 1);
-        }
+            if (value)
+            {
+                defenseDice = value;
+            }
 
-        /*
-         * Decrease the shield token count.
-         */
-        this.decreaseShieldCount = function()
-        {
-            setShieldCount(shieldCount - 1);
-        }
-
-        /*
-         * Decrease the stress token count.
-         */
-        this.decreaseStressCount = function()
-        {
-            setStressCount(stressCount - 1);
+            return defenseDice;
         }
 
         this.equals = function(other)
         {
-            return id == other.getId() && pilot == other.getPilot();
+            return id == other.id() && pilot == other.pilot();
+        }
+
+        this.evade = function()
+        {
+            return evadeCount;
         }
 
         this.findTargetLockByDefender = function(defender)
@@ -148,7 +168,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             {
                 var targetLock = attackerTargetLocks[i];
 
-                if (targetLock.getDefender() === defender)
+                if (targetLock.defender() === defender)
                 {
                     answer = targetLock;
                     break;
@@ -158,16 +178,16 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return answer;
         }
 
-        this.getAgent = function()
+        this.focus = function()
         {
-            return agent;
+            return focusCount;
         }
 
         this.getAgilityValue = function()
         {
             var answer = getShipState().getAgilityValue();
 
-            this.getUpgrades().forEach(function(upgrade)
+            this.upgrades().forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -178,26 +198,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             });
 
             return answer;
-        }
-
-        this.getAttackDice = function()
-        {
-            return attackDice;
-        }
-
-        this.getAttackerTargetLocks = function()
-        {
-            return attackerTargetLocks.slice();
-        }
-
-        this.getCloakCount = function()
-        {
-            return cloakCount;
-        }
-
-        this.getCombatAction = function()
-        {
-            return combatAction;
         }
 
         this.getCriticalDamageCount = function()
@@ -220,31 +220,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return damages;
         }
 
-        this.getDefender = function()
-        {
-            return defender;
-        }
-
-        this.getDefenderTargetLocks = function()
-        {
-            return defenderTargetLocks.slice();
-        }
-
-        this.getDefenseDice = function()
-        {
-            return defenseDice;
-        }
-
-        this.getEvadeCount = function()
-        {
-            return evadeCount;
-        }
-
-        this.getFocusCount = function()
-        {
-            return focusCount;
-        }
-
         this.getHullValue = function()
         {
             var answer = getShipState().getHullValue();
@@ -254,7 +229,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 return sum + DamageCard.properties[damage].shipState.getHullValue();
             }, answer);
 
-            this.getUpgrades().forEach(function(upgrade)
+            this.upgrades().forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -265,83 +240,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             });
 
             return Math.max(answer, 0);
-        }
-
-        this.getId = function()
-        {
-            return id;
-        }
-
-        this.getIonCount = function()
-        {
-            return ionCount;
-        }
-
-        this.getManeuverAction = function()
-        {
-            return maneuverAction;
-        }
-
-        this.getManeuvers = function()
-        {
-            var answer;
-
-            if (this.isStressed())
-            {
-                answer = getNonHardManeuvers();
-            }
-            else
-            {
-                answer = Ship.properties[this.getShip()].maneuvers.slice();
-            }
-
-            if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE))
-            {
-                answer = changeTurnManeuversToHard(answer);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
-            {
-                answer = changeBearingManeuversToEasy(answer, Bearing.STRAIGHT);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.R2_ASTROMECH))
-            {
-                answer = changeSpeedManeuversToEasy(answer, 1);
-                answer = changeSpeedManeuversToEasy(answer, 2);
-            }
-
-            return answer;
-        }
-
-        this.getName = function()
-        {
-            var pilotName = Pilot.properties[pilot].name;
-            var shipTeam = Pilot.properties[pilot].shipTeam;
-            var shipName = Ship.properties[ShipTeam.properties[shipTeam].ship].name;
-
-            return id + " " + pilotName + " (" + shipName + ")";
-        }
-
-        this.getPilot = function()
-        {
-            return pilot;
-        }
-
-        this.getPilotName = function()
-        {
-            var properties = Pilot.properties[pilot];
-            var isUnique = properties.isUnique;
-            var answer = id + " ";
-
-            if (isUnique)
-            {
-                answer += "\u25CF ";
-            }
-
-            answer += properties.name;
-
-            return answer;
         }
 
         this.getPilotSkillValue = function()
@@ -366,7 +264,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 return sum + DamageCard.properties[damage].shipState.getPilotSkillValue();
             }, answer);
 
-            this.getUpgrades().forEach(function(upgrade)
+            this.upgrades().forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -379,11 +277,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return Math.max(answer, 0);
         }
 
-        this.getPrimaryWeapon = function()
-        {
-            return Pilot.properties[pilot].primaryWeapon;
-        }
-
         this.getPrimaryWeaponValue = function()
         {
             var answer = getShipState().getPrimaryWeaponValue();
@@ -393,7 +286,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 return sum + DamageCard.properties[damage].shipState.getPrimaryWeaponValue();
             }, answer);
 
-            this.getUpgrades().forEach(function(upgrade)
+            this.upgrades().forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -406,27 +299,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return Math.max(answer, 0);
         }
 
-        this.getRange = function()
-        {
-            return range;
-        }
-
-        this.getSecondaryWeapons = function()
-        {
-            // FIXME
-            return [];
-        }
-
-        this.getShieldCount = function()
-        {
-            return shieldCount;
-        }
-
         this.getShieldValue = function()
         {
             var answer = getShipState().getShieldValue();
 
-            this.getUpgrades().forEach(function(upgrade)
+            this.upgrades().forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -439,103 +316,24 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return answer;
         }
 
-        this.getShip = function()
+        this.id = function()
         {
-            var shipTeam = this.getShipTeam();
-            return ShipTeam.properties[shipTeam].ship;
+            return id;
         }
 
-        this.getShipBase = function()
+        this.ion = function()
         {
-            return Ship.properties[this.getShip()].shipBase;
+            return ionCount;
         }
 
-        this.getShipName = function()
+        this.isDefenderHit = function(value)
         {
-            return Ship.properties[this.getShip()].name;
-        }
+            if (value)
+            {
+                isDefenderHit = value;
+            }
 
-        this.getShipPrimaryFiringArc = function()
-        {
-            return Ship.properties[this.getShip()].primaryFiringArc;
-        }
-
-        this.getShipTeam = function()
-        {
-            return Pilot.properties[pilot].shipTeam;
-        }
-
-        this.getStressCount = function()
-        {
-            return stressCount;
-        }
-
-        this.getTeam = function()
-        {
-            return ShipTeam.properties[this.getShipTeam()].team;
-        }
-
-        this.getTeamName = function()
-        {
-            return Team.properties[this.getTeam()].name;
-        }
-
-        this.getUpgrades = function()
-        {
-            return upgrades;
-        }
-
-        this.getWeapon = function()
-        {
-            return weapon;
-        }
-
-        /*
-         * Increase the cloak token count.
-         */
-        this.increaseCloakCount = function()
-        {
-            setCloakCount(cloakCount + 1);
-        }
-
-        /*
-         * Increase the evade token count.
-         */
-        this.increaseEvadeCount = function()
-        {
-            setEvadeCount(evadeCount + 1);
-        }
-
-        /*
-         * Increase the focus token count.
-         */
-        this.increaseFocusCount = function()
-        {
-            setFocusCount(focusCount + 1);
-        }
-
-        /*
-         * Increase the ion token count.
-         */
-        this.increaseIonCount = function()
-        {
-            setIonCount(ionCount + 1);
-        }
-
-        /*
-         * Increase the shield token count.
-         */
-        this.increaseShieldCount = function()
-        {
-            setShieldCount(shieldCount + 1);
-        }
-
-        /*
-         * Increase the stress token count.
-         */
-        this.increaseStressCount = function()
-        {
-            setStressCount(stressCount + 1);
+            return isDefenderHit;
         }
 
         this.isTouching = function()
@@ -543,21 +341,61 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return isTouching;
         }
 
-        /*
-         * @return the isDefenderHit
-         */
-        Token.isDefenderHit = function()
+        this.maneuverAction = function(value)
         {
-            return isDefenderHit;
+            if (value)
+            {
+                maneuverAction = value;
+            }
+
+            return maneuverAction;
         }
 
-        this.phaseEffect = function(environment, token, phase)
+        this.maneuvers = function()
+        {
+            var answer;
+
+            if (this.isStressed())
+            {
+                answer = getNonHardManeuvers();
+            }
+            else
+            {
+                answer = Ship.properties[this.ship()].maneuvers.slice();
+            }
+
+            if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE))
+            {
+                answer = changeTurnManeuversToHard(answer);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
+            {
+                answer = changeBearingManeuversToEasy(answer, Bearing.STRAIGHT);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.R2_ASTROMECH))
+            {
+                answer = changeSpeedManeuversToEasy(answer, 1);
+                answer = changeSpeedManeuversToEasy(answer, 2);
+            }
+
+            return answer;
+        }
+
+        this.name = function()
+        {
+            var pilotName = Pilot.properties[pilot].name;
+            var shipTeam = Pilot.properties[pilot].shipTeam;
+            var shipName = Ship.properties[ShipTeam.properties[shipTeam].ship].name;
+
+            return id + " " + pilotName + " (" + shipName + ")";
+        }
+
+        this.phaseEffect = function(environment, phase)
         {
             InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("token", token);
             InputValidator.validateNotNull("phase", phase);
-
-            if (token != this) { throw "token does not equal this"; }
 
             switch (phase)
             {
@@ -568,7 +406,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 var activeToken = environment.activeToken();
                 if (this == activeToken)
                 {
-                    var maneuverAction = this.getManeuverAction();
+                    var maneuverAction = this.maneuverAction();
                     if (maneuverAction)
                     {
                         var maneuver = maneuverAction.maneuver();
@@ -595,7 +433,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
             // Upgrades.
             // final UpgradeCardList myUpgrades = new
-            // UpgradeCardList(getUpgrades());
+            // UpgradeCardList(upgrades());
             //
             // for (final UpgradeCard upgrade : myUpgrades)
             // {
@@ -603,22 +441,53 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             // }
         }
 
+        this.pilotName = function()
+        {
+            var properties = Pilot.properties[pilot];
+            var isUnique = properties.isUnique;
+            var answer = id + " ";
+
+            if (isUnique)
+            {
+                answer += "\u25CF ";
+            }
+
+            answer += properties.name;
+
+            return answer;
+        }
+
+        this.primaryWeapon = function()
+        {
+            return Pilot.properties[pilot].primaryWeapon;
+        }
+
+        this.range = function(value)
+        {
+            if (value)
+            {
+                range = value;
+            }
+
+            return range;
+        }
+
         this.removeAllTargetLocks = function()
         {
             // Remove target locks which have this as the defender.
-            var targetLocks = this.getDefenderTargetLocks();
+            var targetLocks = this.defenderTargetLocks();
             targetLocks.forEach(function(targetLock)
             {
-                var attacker = targetLock.getAttacker();
+                var attacker = targetLock.attacker();
                 attacker.removeAttackerTargetLock(targetLock);
                 this.removeDefenderTargetLock(targetLock);
             }, this);
 
             // Remove target locks in which this is the attacker.
-            var targetLocks = this.getAttackerTargetLocks();
+            var targetLocks = this.attackerTargetLocks();
             targetLocks.forEach(function(targetLock)
             {
-                var defender = targetLock.getDefender();
+                var defender = targetLock.defender();
                 this.removeAttackerTargetLock(targetLock);
                 defender.removeDefenderTargetLock(targetLock);
             }, this);
@@ -640,43 +509,10 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             this.trigger("change");
         }
 
-        this.setAttackDice = function(value)
+        this.secondaryWeapons = function()
         {
-            attackDice = value;
-        }
-
-        this.setCombatAction = function(value)
-        {
-            combatAction = value;
-        }
-
-        this.setDefender = function(value)
-        {
-            defender = value;
-        }
-
-        /*
-         * @param isDefenderHit the isDefenderHit to set
-         */
-        this.setDefenderHit = function(value)
-        {
-            isDefenderHit = value;
-            LOGGER.trace("isDefenderHit ? " + isDefenderHit);
-        }
-
-        this.setDefenseDice = function(value)
-        {
-            defenseDice = value;
-        }
-
-        this.setManeuverAction = function(value)
-        {
-            maneuverAction = value;
-        }
-
-        this.setRange = function(value)
-        {
-            range = value;
+            // FIXME
+            return [];
         }
 
         this.setTouching = function(value)
@@ -684,9 +520,65 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             isTouching = value;
         }
 
-        this.setWeapon = function(value)
+        this.shield = function()
         {
-            weapon = value;
+            return shieldCount;
+        }
+
+        this.ship = function()
+        {
+            var shipTeam = this.shipTeam();
+            return ShipTeam.properties[shipTeam].ship;
+        }
+
+        this.shipBase = function()
+        {
+            return Ship.properties[this.ship()].shipBase;
+        }
+
+        this.shipName = function()
+        {
+            return Ship.properties[this.ship()].name;
+        }
+
+        this.shipPrimaryFiringArc = function()
+        {
+            return Ship.properties[this.ship()].primaryFiringArc;
+        }
+
+        this.shipTeam = function()
+        {
+            return Pilot.properties[pilot].shipTeam;
+        }
+
+        this.stress = function()
+        {
+            return stressCount;
+        }
+
+        this.team = function()
+        {
+            return ShipTeam.properties[this.shipTeam()].team;
+        }
+
+        this.teamName = function()
+        {
+            return Team.properties[this.getTeam()].name;
+        }
+
+        this.upgrades = function()
+        {
+            return upgrades;
+        }
+
+        this.weapon = function(value)
+        {
+            if (value)
+            {
+                weapon = value;
+            }
+
+            return weapon;
         }
 
         function changeBearingManeuversToEasy(maneuvers, bearing)
@@ -727,13 +619,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             });
         }
 
-        /*
-         * Change the turn maneuvers to hard difficulty.
-         * 
-         * @param maneuvers Maneuvers.
-         * 
-         * @return maneuvers.
-         */
         function changeTurnManeuversToHard(maneuvers)
         {
             return maneuvers.map(function(maneuver)
@@ -760,7 +645,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             isTouching = false;
             maneuverAction = undefined;
-            shipActionAction = undefined;
+            // shipActionAction = undefined;
         }
 
         /*
@@ -776,12 +661,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             range = undefined;
         }
 
-        /*
-         * @return maneuvers.
-         */
         function getNonHardManeuvers()
         {
-            var maneuvers = Ship.properties[that.getShip()].maneuvers;
+            var maneuvers = Ship.properties[that.ship()].maneuvers;
 
             return maneuvers.filter(function(maneuver)
             {
@@ -795,99 +677,24 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return Pilot.properties[pilot].shipState;
         }
 
-        /*
-         * @param maneuver Maneuver.
-         */
         function maneuverEffect(maneuver)
         {
             InputValidator.validateNotNull("maneuver", maneuver);
 
-            LOGGER.trace(that.getName() + ".maneuverEffect()");
+            LOGGER.trace(that.name() + ".maneuverEffect()");
 
             var difficulty = Maneuver.properties[maneuver].difficulty;
             LOGGER.trace("difficulty = " + difficulty);
 
-            if (difficulty == Difficulty.EASY)
+            if (difficulty === Difficulty.EASY)
             {
                 LOGGER.trace("calling decreaseStressCount()")
-                that.decreaseStressCount();
+                that.stress().decrease();
             }
-            else if (difficulty == Difficulty.HARD)
+            else if (difficulty === Difficulty.HARD)
             {
                 LOGGER.trace("calling increaseStressCount()")
-                that.increaseStressCount();
-            }
-        }
-
-        /*
-         * @param newValue the cloakCount to set
-         */
-        function setCloakCount(newValue)
-        {
-            if (newValue >= 0)
-            {
-                cloakCount = newValue;
-                that.trigger("change");
-            }
-        }
-
-        /*
-         * @param newValue the evadeCount to set
-         */
-        function setEvadeCount(newValue)
-        {
-            if (newValue >= 0)
-            {
-                evadeCount = newValue;
-                that.trigger("change");
-            }
-        }
-
-        /*
-         * @param newValue the focusCount to set
-         */
-        function setFocusCount(newValue)
-        {
-            if (newValue >= 0)
-            {
-                focusCount = newValue;
-                that.trigger("change");
-            }
-        }
-
-        /*
-         * @param newValue the ionCount to set
-         */
-        function setIonCount(newValue)
-        {
-            if (newValue >= 0)
-            {
-                ionCount = newValue;
-                that.trigger("change");
-            }
-        }
-
-        /*
-         * @param newValue the shieldCount to set
-         */
-        function setShieldCount(newValue)
-        {
-            if (newValue >= 0)
-            {
-                shieldCount = newValue;
-                that.trigger("change");
-            }
-        }
-
-        /*
-         * @param newValue the stressCount to set
-         */
-        function setStressCount(newValue)
-        {
-            if (newValue >= 0)
-            {
-                stressCount = newValue;
-                that.trigger("change");
+                that.stress().increase();
             }
         }
     }
@@ -906,7 +713,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
     Token.prototype.addCriticalDamage = function(damage)
     {
-        if (this.getPilot() === Pilot.CHEWBACCA)
+        if (this.pilot() === Pilot.CHEWBACCA)
         {
             this.addDamage(damage);
         }
@@ -967,10 +774,41 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.addDamage(damage);
     }
 
-    /*
-     * @return the shipActions
-     */
-    Token.prototype.getShipActions = function()
+    Token.prototype.isCloaked = function()
+    {
+        return this.cloak().count() > 0;
+    }
+
+    Token.prototype.isCriticallyDamagedWith = function(damage)
+    {
+        var criticalDamages = this.getCriticalDamages();
+        return criticalDamages.vizziniContains(damage);
+    }
+
+    Token.prototype.isDestroyed = function()
+    {
+        return (this.getDamageCount() + this.getCriticalDamageCount()) >= this.getHullValue();
+    }
+
+    Token.prototype.isStressed = function()
+    {
+        return this.stress().count() > 0;
+    }
+
+    Token.prototype.isUpgradedWith = function(upgrade)
+    {
+        var upgrades = this.upgrades();
+        return upgrades.vizziniContains(upgrade);
+    }
+
+    Token.prototype.removeCriticalDamage = function(damage)
+    {
+        var criticalDamages = this.getCriticalDamages();
+        criticalDamages.vizziniRemove(damage);
+        this.trigger("change");
+    }
+
+    Token.prototype.shipActions = function()
     {
         var answer = [];
 
@@ -978,7 +816,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
         {
-            answer.vizziniAddAll(Ship.properties[this.getShip()].shipActions);
+            answer.vizziniAddAll(Ship.properties[this.ship()].shipActions);
         }
 
         if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())
@@ -1017,7 +855,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             }
         }
 
-        var upgrades = this.getUpgrades();
+        var upgrades = this.upgrades();
 
         if (upgrades.length > 0)
         {
@@ -1035,62 +873,46 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         return answer;
     }
 
-    Token.prototype.isCloaked = function()
-    {
-        return this.getCloakCount() > 0;
-    }
-
-    /*
-     * @param damage Damage.
-     * 
-     * @return true if this is critically damaged with the given damage.
-     */
-    Token.prototype.isCriticallyDamagedWith = function(damage)
-    {
-        var criticalDamages = this.getCriticalDamages();
-        return criticalDamages.vizziniContains(damage);
-    }
-
-    /*
-     * @return true if this ship is destroyed.
-     */
-    Token.prototype.isDestroyed = function()
-    {
-        return (this.getDamageCount() + this.getCriticalDamageCount()) >= this.getHullValue();
-    }
-
-    Token.prototype.isStressed = function()
-    {
-        return this.getStressCount() > 0;
-    }
-
-    /*
-     * @param upgrade Upgrade.
-     * 
-     * @return true if this is upgraded with the given upgrade.
-     */
-    Token.prototype.isUpgradedWith = function(upgrade)
-    {
-        var upgrades = this.getUpgrades();
-        return upgrades.vizziniContains(upgrade);
-    }
-
-    /*
-     * @param damage Critical damage.
-     */
-    Token.prototype.removeCriticalDamage = function(damage)
-    {
-        var criticalDamages = this.getCriticalDamages();
-        criticalDamages.vizziniRemove(damage);
-        this.trigger("change");
-    }
-
-    /*
-     * @return a string representation of this object.
-     */
     Token.prototype.toString = function()
     {
-        return this.getName();
+        return this.name();
+    }
+
+    Token.Count = function(initialCount)
+    {
+        var that = this;
+        var count = (initialCount ? initialCount : 0);
+
+        this.clear = function()
+        {
+            setCount(0);
+        }
+
+        this.count = function()
+        {
+            return count;
+        }
+
+        this.decrease = function()
+        {
+            setCount(count - 1);
+        };
+
+        this.increase = function()
+        {
+            setCount(count + 1);
+        };
+
+        function setCount(newValue)
+        {
+            if (newValue >= 0)
+            {
+                count = newValue;
+                that.trigger("change");
+            }
+        }
+
+        MicroEvent.mixin(Token.Count);
     }
 
     MicroEvent.mixin(Token);

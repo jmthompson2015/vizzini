@@ -21,7 +21,7 @@ define([ "ui/PilotCardUI" ], function(PilotCardUI)
             {
                 return React.createElement(PilotCardUI,
                 {
-                    key: token.getId(),
+                    key: token.id(),
                     isCompact: true,
                     initialToken: token
                 });

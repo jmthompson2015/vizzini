@@ -1,6 +1,3 @@
-/*
- * Provides a range ruler for Starfighter Squadrons.
- */
 define([ "Maneuver" ], function(Maneuver)
 {
     var RangeRuler =
@@ -39,11 +36,6 @@ define([ "Maneuver" ], function(Maneuver)
         },
     }
 
-    /*
-     * @param distance Distance. (mm)
-     * 
-     * @return the range value for the given parameter.
-     */
     RangeRuler.findRange = function(distance)
     {
         var answer;
@@ -66,12 +58,6 @@ define([ "Maneuver" ], function(Maneuver)
         return answer;
     }
 
-    /*
-     * @param attacker Attacking token. @param attackerPosition Attacker position. @param defender Defending token.
-     * @param defenderPosition Defender position.
-     * 
-     * @return the range.
-     */
     RangeRuler.getRange = function(attacker, attackerPosition, defender, defenderPosition)
     {
         InputValidator.validateNotNull("attacker", attacker);
@@ -79,8 +65,8 @@ define([ "Maneuver" ], function(Maneuver)
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        var attackerBase = attacker.getShipBase();
-        var defenderBase = defender.getShipBase();
+        var attackerBase = attacker.shipBase();
+        var defenderBase = defender.shipBase();
 
         var attackerPolygon = Maneuver.computePolygon(attackerBase, attackerPosition.x(), attackerPosition.y(),
                 attackerPosition.heading());

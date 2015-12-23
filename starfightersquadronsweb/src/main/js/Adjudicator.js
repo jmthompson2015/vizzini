@@ -2,14 +2,9 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 {
     function Adjudicator()
     {
-        /*
-         * @param attacker Attacker.
-         * 
-         * @return true if the attacker can attack.
-         */
         this.canAttack = function(attacker)
         {
-            // InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("attacker", attacker);
 
             // A cloaked ship cannot attack.
             return !attacker.isCloaked();
@@ -28,7 +23,7 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 
             if (fromPosition)
             {
-                var shipBase = attacker.getShipBase();
+                var shipBase = attacker.shipBase();
                 var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition, shipBase);
 
                 if (toPolygon)
@@ -42,7 +37,7 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 
                         if (token !== attacker)
                         {
-                            var myShipBase = token.getShipBase();
+                            var myShipBase = token.shipBase();
                             var position = environment.getPositionFor(token);
                             var polygon = Maneuver.computePolygon(myShipBase, position.x(), position.y(), position
                                     .heading());
@@ -74,11 +69,6 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
             return this.canBarrelRoll(environment, attacker, maneuver);
         }
 
-        /*
-         * @param attacker Attacker.
-         * 
-         * @return true if the attacker can select a ship action.
-         */
         this.canSelectShipAction = function(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);

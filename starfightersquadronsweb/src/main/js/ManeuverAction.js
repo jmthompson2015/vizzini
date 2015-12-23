@@ -40,7 +40,7 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
 
         this.doIt = function()
         {
-            token.setManeuverAction(this);
+            token.maneuverAction(this);
             token.setTouching(false);
             environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
 
@@ -57,7 +57,7 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
                     || !Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(),
                             toPosition.heading())))
             {
-                LOGGER.info("Ship fled the battlefield: " + token.getName());
+                LOGGER.info("Ship fled the battlefield: " + token.name());
                 var shipFledAction = new ShipFledAction(environment, token, fromPosition);
                 shipFledAction.doIt();
             }
@@ -148,17 +148,16 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
             return answer;
         }
 
-        /**
-         * @param x0
-         *            Non-collision X coordinate.
-         * @param y0
-         *            Non-collision Y coordinate.
-         * @param x1
-         *            Collision X coordinate.
-         * @param y1
-         *            Collision Y coordinate.
-         * @param polygon1
-         *            Colliding area.
+        /*
+         * @param x0 Non-collision X coordinate.
+         * 
+         * @param y0 Non-collision Y coordinate.
+         * 
+         * @param x1 Collision X coordinate.
+         * 
+         * @param y1 Collision Y coordinate.
+         * 
+         * @param polygon1 Colliding area.
          * 
          * @return the closest non-collision point.
          */
@@ -211,9 +210,6 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
             return answer;
         }
 
-        /*
-         * @return a new map of token to ship data.
-         */
         function createShipDataMap()
         {
             var answer = {};
@@ -239,7 +235,7 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
                         else
                         {
                             position1 = environment.getPositionFor(token1);
-                            var shipBase1 = token1.getShipBase();
+                            var shipBase1 = token1.shipBase();
                             polygon1 = Maneuver.computePolygon(shipBase1, position1.x(), position1.y(), position1
                                     .heading());
                         }
@@ -256,9 +252,6 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
             return answer;
         }
 
-        /*
-         * @return the to position.
-         */
         function determineToPosition()
         {
             var answer = null;
@@ -275,9 +268,6 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
             return answer;
         }
 
-        /*
-         * @return the to position.
-         */
         function determineToPositionWithBackOff()
         {
             LOGGER.trace("determineToPositionWithBackOff() start");
@@ -343,9 +333,6 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
             return answer;
         }
 
-        /*
-         * @return the to position.
-         */
         function determineToPositionWithoutBackOff()
         {
             SSPosition
@@ -379,9 +366,6 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
             return answer;
         }
 
-        /*
-         * @return the first ship data in collision, or null.
-         */
         function findCollision()
         {
             ShipData

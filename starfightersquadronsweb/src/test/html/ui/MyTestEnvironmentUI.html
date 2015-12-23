@@ -114,7 +114,7 @@
             {
                 environment.activeToken(imperialToken0);
                 var fromPosition = environment.getPositionFor(imperialToken0);
-                var shipBase = imperialToken0.getShipBase();
+                var shipBase = imperialToken0.shipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_1_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();
@@ -124,7 +124,7 @@
             {
                 environment.activeToken(imperialToken1);
                 var fromPosition = environment.getPositionFor(imperialToken1);
-                var shipBase = imperialToken1.getShipBase();
+                var shipBase = imperialToken1.shipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();
@@ -134,7 +134,7 @@
             {
                 environment.activeToken(rebelToken);
                 var fromPosition = environment.getPositionFor(rebelToken);
-                var shipBase = rebelToken.getShipBase();
+                var shipBase = rebelToken.shipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();
@@ -144,7 +144,7 @@
             {
                 environment.activeToken(rebelToken);
                 var fromPosition = environment.getPositionFor(rebelToken);
-                var shipBase = rebelToken.getShipBase();
+                var shipBase = rebelToken.shipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_3_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();
@@ -158,7 +158,7 @@
             {
                 environment.activeToken(rebelToken);
                 var rebelPosition = environment.getPositionFor(rebelToken);
-                var weapon = rebelToken.getPrimaryWeapon();
+                var weapon = rebelToken.primaryWeapon();
                 var imperialPosition = environment.getPositionFor(imperialToken1);
                 var combatAction = new CombatAction(environment, adjudicator, rebelToken, rebelPosition, weapon,
                         imperialToken1, imperialPosition);
@@ -169,7 +169,7 @@
             {
                 environment.activeToken(imperialToken1);
                 var imperialPosition = environment.getPositionFor(imperialToken1);
-                var weapon = imperialToken1.getPrimaryWeapon();
+                var weapon = imperialToken1.primaryWeapon();
                 var rebelPosition = environment.getPositionFor(rebelToken);
                 var combatAction = new CombatAction(environment, adjudicator, imperialToken1, imperialPosition, weapon,
                         rebelToken, rebelPosition);

@@ -30,7 +30,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
             {
             case Phase.ACTIVATION_EXECUTE_MANEUVER:
                 // Draw maneuver.
-                var maneuverAction = activeToken.getManeuverAction();
+                var maneuverAction = activeToken.maneuverAction();
                 var playState = new PlayState(round, phase, activeToken, tokenPositions, maneuverAction);
                 repaint(playState);
                 break;
@@ -41,7 +41,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                 break;
             case Phase.COMBAT_DEAL_DAMAGE:
                 // Draw laser beam.
-                var combatAction = activeToken.getCombatAction();
+                var combatAction = activeToken.combatAction();
                 var playState = PlayState.createCombat(round, phase, activeToken, tokenPositions, combatAction);
                 repaint(playState);
                 break;

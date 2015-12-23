@@ -22,14 +22,14 @@ define([ "ShipAction" ], function(ShipAction)
         render: function()
         {
             var token = this.props.token;
-            var message = "Active Ship: " + token.getName();
+            var message = "Active Ship: " + token.name();
             var shipActions = this.props.shipActions;
             var idFunction = function(value)
             {
                 var answer = value;
                 if (!ShipAction.properties[value])
                 {
-                    answer = value.defender.getId();
+                    answer = value.defender.id();
                 }
                 return answer;
             }
@@ -42,7 +42,7 @@ define([ "ShipAction" ], function(ShipAction)
                 }
                 else
                 {
-                    answer = "Target Lock: " + value.defender.getName();
+                    answer = "Target Lock: " + value.defender.name();
                 }
                 return answer;
             }
@@ -97,7 +97,7 @@ define([ "ShipAction" ], function(ShipAction)
                 {
                     var shipAction = shipActions[i];
 
-                    if (!ShipAction.properties[shipAction] && shipAction.defender.getId() === myId)
+                    if (!ShipAction.properties[shipAction] && shipAction.defender.id() === myId)
                     {
                         selected = shipAction;
                         LOGGER.info("shipAction = " + JSON.stringify(shipAction));

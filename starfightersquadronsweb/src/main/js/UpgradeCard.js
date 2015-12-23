@@ -1,6 +1,3 @@
-/*
- * Provides an enumeration of upgrade cards.
- */
 define(
         [ "RangeRuler", "ShipState", "UpgradeRestriction", "UpgradeType" ],
         function(RangeRuler, ShipState, UpgradeRestriction, UpgradeType)
@@ -919,7 +916,7 @@ define(
                         hasAction: false,
                         value: "navigator",
                     },
-                    // @see Token.getManeuvers() for effect implementation.
+                    // @see Token.maneuvers() for effect implementation.
                     "nienNunb":
                     {
                         name: "Nien Nunb",
@@ -1013,7 +1010,7 @@ define(
                         hasAction: false,
                         value: "pushTheLimit",
                     },
-                    // @see Token.getManeuvers() for effect implementation.
+                    // @see Token.maneuvers() for effect implementation.
                     "r2Astromech":
                     {
                         name: "R2 Astromech",

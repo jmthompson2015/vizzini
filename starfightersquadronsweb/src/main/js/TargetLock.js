@@ -1,6 +1,3 @@
-/*
- * Provides a target lock.
- */
 define(function()
 {
     function TargetLock(attacker, defender)
@@ -10,17 +7,17 @@ define(function()
 
         var id = TargetLock.nextId();
 
-        this.getId = function()
+        this.id = function()
         {
             return id;
         }
 
-        this.getAttacker = function()
+        this.attacker = function()
         {
             return attacker;
         }
 
-        this.getDefender = function()
+        this.defender = function()
         {
             return defender;
         }

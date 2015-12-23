@@ -1,6 +1,3 @@
-/*
- * Provides an action to modify the defense dice.
- */
 define(function()
 {
     function ModifyDefenseDiceAction(environment, defender, defenseDice, modification)
@@ -35,12 +32,12 @@ define(function()
             if (modification === ModifyDefenseDiceAction.Modification.SPEND_FOCUS)
             {
                 defenseDice.spendFocusToken();
-                defender.decreaseFocusCount();
+                defender.focus().decrease();
             }
             else if (modification === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
             {
                 defenseDice.spendEvadeToken();
-                defender.decreaseEvadeCount();
+                defender.evade().decrease();
             }
             else
             {
@@ -49,9 +46,6 @@ define(function()
         }
     }
 
-    /*
-     * Provides an enumeration of possible modifications.
-     */
     ModifyDefenseDiceAction.Modification =
     {
         SPEND_EVADE: "spendEvade",

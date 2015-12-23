@@ -131,7 +131,7 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
 
             answer.push(this.createTokenRow(token, i));
 
-            var upgrades = token.getUpgrades();
+            var upgrades = token.upgrades();
             var self = this;
 
             upgrades.forEach(function(upgrade, j)
@@ -148,8 +148,8 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
             var createCell = this.createCell;
             var i = 0;
 
-            var pilotProps = Pilot.properties[token.getPilot()];
-            var shipProps = Ship.properties[token.getShip()];
+            var pilotProps = Pilot.properties[token.pilot()];
+            var shipProps = Ship.properties[token.ship()];
             cells.push(createCell(cells.length, SquadColumns[i++], React.DOM.span(
             {
                 title: pilotProps.description,
@@ -189,7 +189,7 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
 
             squad.forEach(function(token)
             {
-                var pilot = token.getPilot();
+                var pilot = token.pilot();
                 var pilotProps = Pilot.properties[pilot];
                 var shipState = pilotProps.shipState;
                 var values = [ shipState.getPilotSkillValue(), shipState.getPrimaryWeaponValue(),
@@ -200,7 +200,7 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
                     sums[SquadColumns[i].key] += values[i - start];
                 }
 
-                var upgrades = token.getUpgrades();
+                var upgrades = token.upgrades();
                 upgrades.forEach(function(upgrade)
                 {
                     var upgradeProps = UpgradeCard.properties[upgrade];
