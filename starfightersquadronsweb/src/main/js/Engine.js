@@ -43,7 +43,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 case Phase.PLANNING_END:
                     setTimeout(function()
                     {
-                        environment.setPhase(Phase.ACTIVATION_START);
+                        environment.phase(Phase.ACTIVATION_START);
                     }, delay);
                     break;
                 case Phase.ACTIVATION_START:
@@ -52,7 +52,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 case Phase.ACTIVATION_END:
                     setTimeout(function()
                     {
-                        environment.setPhase(Phase.COMBAT_START);
+                        environment.phase(Phase.COMBAT_START);
                     }, delay);
                     break;
                 case Phase.COMBAT_START:
@@ -61,7 +61,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 case Phase.COMBAT_END:
                     setTimeout(function()
                     {
-                        environment.setPhase(Phase.END_START);
+                        environment.phase(Phase.END_START);
                     }, delay);
                     break;
                 case Phase.END_START:
@@ -70,7 +70,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 case Phase.END_END:
                     setTimeout(function()
                     {
-                        environment.setPhase(Phase.PLANNING_START);
+                        environment.phase(Phase.PLANNING_START);
                     }, delay);
                     break;
                 }
@@ -81,12 +81,12 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
         {
             var team = planningAction.getTeam();
 
-            if (team === environment.getFirstTeam())
+            if (team === environment.firstTeam())
             {
                 firstPlanningAction = planningAction;
                 LOGGER.trace("firstPlanningAction = " + firstPlanningAction);
             }
-            else if (team === environment.getSecondTeam())
+            else if (team === environment.secondTeam())
             {
                 secondPlanningAction = planningAction;
                 LOGGER.trace("secondPlanningAction = " + secondPlanningAction);
@@ -99,7 +99,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
             if (firstPlanningAction && secondPlanningAction)
             {
                 LOGGER.trace("Engine.performPlanningPhase() end");
-                environment.setPhase(Phase.PLANNING_END);
+                environment.phase(Phase.PLANNING_END);
             }
         }
 
@@ -110,7 +110,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
             if (shipAction)
             {
                 LOGGER.debug("shipAction = " + shipAction);
-                var attacker = environment.getActiveToken();
+                var attacker = environment.activeToken();
                 var maneuver = (ShipAction.properties[shipAction] ? ShipAction.properties[shipAction].maneuver
                         : undefined);
 
@@ -160,14 +160,14 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
             {
                 LOGGER.debug("weapon = " + weapon);
                 LOGGER.debug("defender = " + defender);
-                var attacker = environment.getActiveToken();
+                var attacker = environment.activeToken();
                 var attackerPosition = environment.getPositionFor(attacker);
                 attacker.setWeapon(weapon);
 
                 if (defender)
                 {
                     attacker.setDefender(defender);
-                    environment.setPhase(Phase.COMBAT_DECLARE_TARGET);
+                    environment.phase(Phase.COMBAT_DECLARE_TARGET);
                     var defenderPosition = environment.getPositionFor(defender);
 
                     var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon,
@@ -212,8 +212,8 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
             environment.incrementRound();
 
-            var firstAgent = environment.getFirstAgent();
-            var secondAgent = environment.getSecondAgent();
+            var firstAgent = environment.firstAgent();
+            var secondAgent = environment.secondAgent();
 
             // TODO: can planning be done in parallel?
             firstAgent.getPlanningAction(environment, adjudicator, that.setPlanningAction);
@@ -231,9 +231,9 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 firstPlanningAction = undefined;
                 secondPlanningAction = undefined;
 
-                environment.setActiveToken(undefined);
+                environment.activeToken(undefined);
                 LOGGER.trace("Engine.processActivationQueue() done");
-                environment.setPhase(Phase.ACTIVATION_END);
+                environment.phase(Phase.ACTIVATION_END);
                 return;
             }
 
@@ -241,9 +241,9 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
             if (token)
             {
-                environment.setActiveToken(token);
+                environment.activeToken(token);
                 var agent = token.getAgent();
-                var maneuver = token.getTeam() == environment.getFirstTeam() ? firstPlanningAction.getManeuver(token)
+                var maneuver = token.getTeam() == environment.firstTeam() ? firstPlanningAction.getManeuver(token)
                         : secondPlanningAction.getManeuver(token);
 
                 if (maneuver)
@@ -280,9 +280,9 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
             if (combatQueue.length == 0)
             {
-                environment.setActiveToken(undefined);
+                environment.activeToken(undefined);
                 LOGGER.trace("Engine.processCombatQueue() done");
-                environment.setPhase(Phase.COMBAT_END);
+                environment.phase(Phase.COMBAT_END);
                 return;
             }
 
@@ -290,7 +290,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
             if (attacker)
             {
-                environment.setActiveToken(attacker);
+                environment.activeToken(attacker);
 
                 if (adjudicator.canAttack(attacker))
                 {
@@ -319,9 +319,9 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
             if (endQueue.length == 0)
             {
-                environment.setActiveToken(undefined);
+                environment.activeToken(undefined);
                 LOGGER.trace("Engine.processEndQueue() done");
-                environment.setPhase(Phase.END_END);
+                environment.phase(Phase.END_END);
                 return;
             }
 
@@ -329,7 +329,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
             if (token)
             {
-                environment.setActiveToken(token);
+                environment.activeToken(token);
 
                 // Perform end steps.
                 token.clearEvadeCount();

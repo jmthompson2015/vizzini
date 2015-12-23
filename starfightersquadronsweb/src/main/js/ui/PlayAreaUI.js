@@ -108,7 +108,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
         // Preload the images.
         {
-            var tokens = environment.getTokens();
+            var tokens = environment.tokens();
             LOGGER.info("Loading images...");
             preload(tokens, 5000, function()
             {
@@ -192,9 +192,9 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
         function createManeuverUI(maneuverAction)
         {
-            var maneuver = maneuverAction.getManeuver();
-            var fromPosition = maneuverAction.getFromPosition();
-            var shipBase = maneuverAction.getShipBase();
+            var maneuver = maneuverAction.maneuver();
+            var fromPosition = maneuverAction.fromPosition();
+            var shipBase = maneuverAction.shipBase();
 
             return new ManeuverUI(maneuver, fromPosition, shipBase);
         }
@@ -221,7 +221,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
             if (playState)
             {
-                var tokenPositions = playState.getTokenPositions();
+                var tokenPositions = playState.tokenPositions();
 
                 for (var i = 0; i < tokenPositions.length; i++)
                 {
@@ -250,7 +250,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
             if (playState)
             {
-                var shipDestroyedAction = playState.getShipDestroyedAction();
+                var shipDestroyedAction = playState.shipDestroyedAction();
 
                 if (shipDestroyedAction)
                 {
@@ -272,7 +272,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
             if (playState)
             {
-                var combatAction = playState.getCombatAction();
+                var combatAction = playState.combatAction();
 
                 if (combatAction)
                 {
@@ -294,7 +294,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
             if (playState)
             {
-                var maneuverAction = playState.getManeuverAction();
+                var maneuverAction = playState.maneuverAction();
 
                 if (maneuverAction)
                 {

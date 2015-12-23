@@ -7,10 +7,10 @@ define([ "AttackDice", "Environment", "ModifyAttackDiceAction", "TargetLock" ], 
     {
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
-        var attacker = environment.getTokens()[0];
+        var attacker = environment.tokens()[0];
         attacker.increaseFocusCount();
         var attackDice = new AttackDice(3);
-        var defender = environment.getTokens()[2];
+        var defender = environment.tokens()[2];
         var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
         var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
         assert.equal(attacker.getFocusCount(), 1);
@@ -30,9 +30,9 @@ define([ "AttackDice", "Environment", "ModifyAttackDiceAction", "TargetLock" ], 
     {
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
-        var attacker = environment.getTokens()[0]; // TIE Fighter.
+        var attacker = environment.tokens()[0]; // TIE Fighter.
         var attackDice = new AttackDice(3);
-        var defender = environment.getTokens()[2]; // X-Wing.
+        var defender = environment.tokens()[2]; // X-Wing.
         var modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
         var targetLock = new TargetLock(attacker, defender);
         attacker.addAttackerTargetLock(targetLock);

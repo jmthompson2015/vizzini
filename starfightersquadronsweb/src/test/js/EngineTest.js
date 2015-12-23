@@ -21,7 +21,7 @@ define(
                         var engine = new Engine(environment, adjudicator);
 
                         // Run.
-                        environment.setPhase(Phase.PLANNING_START);
+                        environment.phase(Phase.PLANNING_START);
 
                         // Verify.
                         assert.equal(0, 0);

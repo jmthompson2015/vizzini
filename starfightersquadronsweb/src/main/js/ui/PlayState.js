@@ -6,47 +6,47 @@ define(function()
     function PlayState(round, phase, activeToken, tokenPositions, maneuverAction, shipFledAction, combatAction,
             shipDestroyedAction, winner)
     {
-        this.getActiveToken = function()
+        this.activeToken = function()
         {
             return activeToken;
         }
 
-        this.getCombatAction = function()
+        this.combatAction = function()
         {
             return combatAction;
         }
 
-        this.getManeuverAction = function()
+        this.maneuverAction = function()
         {
             return maneuverAction;
         }
 
-        this.getPhase = function()
+        this.phase = function()
         {
             return phase;
         }
 
-        this.getRound = function()
+        this.round = function()
         {
             return round;
         }
 
-        this.getShipDestroyedAction = function()
+        this.shipDestroyedAction = function()
         {
             return shipDestroyedAction;
         }
 
-        this.getShipFledAction = function()
+        this.shipFledAction = function()
         {
             return shipFledAction;
         }
 
-        this.getTokenPositions = function()
+        this.tokenPositions = function()
         {
             return tokenPositions;
         }
 
-        this.getWinner = function()
+        this.winner = function()
         {
             return winner;
         }
@@ -92,7 +92,7 @@ define(function()
     {
         var answer = [];
 
-        var tokens = environment.getTokens();
+        var tokens = environment.tokens();
 
         for (var i = 0; i < tokens.length; i++)
         {

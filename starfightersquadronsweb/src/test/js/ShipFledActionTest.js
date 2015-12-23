@@ -11,7 +11,7 @@ define([ "Environment", "Position", "ShipFledAction", "TargetLock", "Token" ], f
         var fromPosition = new Position(305, 20, 90);
         LOGGER.trace("fromPosition = " + fromPosition.toString());
         var token = environment.getTokenAt(fromPosition);
-        var defender = environment.getTokens()[2]; // X-Wing.
+        var defender = environment.tokens()[2]; // X-Wing.
         var targetLock = new TargetLock(token, defender);
         token.addAttackerTargetLock(targetLock);
         defender.addDefenderTargetLock(targetLock);

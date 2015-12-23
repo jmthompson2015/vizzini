@@ -33,7 +33,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                 var attackDiceCount = attacker.computeAttackDiceCount(environment, weapon, range);
                 attackDice = new AttackDice(attackDiceCount);
                 attacker.setAttackDice(attackDice);
-                environment.setPhase(Phase.COMBAT_ROLL_ATTACK_DICE);
+                environment.phase(Phase.COMBAT_ROLL_ATTACK_DICE);
 
                 // Modify attack dice.
                 var agent = attacker.getAgent();
@@ -81,14 +81,14 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                 attackAction.doIt();
             }
 
-            environment.setPhase(Phase.COMBAT_MODIFY_ATTACK_DICE);
+            environment.phase(Phase.COMBAT_MODIFY_ATTACK_DICE);
             LOGGER.trace("attackDice  = " + attackDice);
 
             // Roll defense dice.
             var defenderDiceCount = defender.computeDefenseDiceCount(weapon, range);
             defenseDice = new DefenseDice(defenderDiceCount);
             attacker.setDefenseDice(defenseDice);
-            environment.setPhase(Phase.COMBAT_ROLL_DEFENSE_DICE);
+            environment.phase(Phase.COMBAT_ROLL_DEFENSE_DICE);
 
             // Modify defense dice.
             var defenderAgent = defender.getAgent();
@@ -105,7 +105,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                 defenseAction.doIt();
             }
 
-            environment.setPhase(Phase.COMBAT_MODIFY_DEFENSE_DICE);
+            environment.phase(Phase.COMBAT_MODIFY_DEFENSE_DICE);
             LOGGER.trace("defenseDice = " + defenseDice);
 
             // Compare results.
@@ -129,7 +129,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                         finishDealDamage(damageDealer, beforeDamage);
                     });
 
-            environment.setPhase(Phase.COMBAT_DEAL_DAMAGE);
+            environment.phase(Phase.COMBAT_DEAL_DAMAGE);
         }
 
         function finishDealDamage(damageDealer, beforeDamage)

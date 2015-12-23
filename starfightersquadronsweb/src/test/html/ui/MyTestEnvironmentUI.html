@@ -87,6 +87,8 @@
             var mockEngine = {};
             mockEngine.addWinnerListener = function(listener)
             {};
+            mockEngine.bind = function()
+            {};
             var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
             var rebelTokens = environment.getTokensForTeam(Team.REBEL);
             var imperialToken0 = imperialTokens[0];
@@ -104,13 +106,13 @@
                 updateSizes(environmentUI)
             }, false);
 
-            environment.fireUpdateTrigger();
+            environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
 
             window.dispatchEvent(new Event('resize'));
 
             // Move imperial token 0.
             {
-                environment.setActiveToken(imperialToken0);
+                environment.activeToken(imperialToken0);
                 var fromPosition = environment.getPositionFor(imperialToken0);
                 var shipBase = imperialToken0.getShipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_1_STANDARD, fromPosition,
@@ -120,7 +122,7 @@
 
             // Move imperial token 1.
             {
-                environment.setActiveToken(imperialToken1);
+                environment.activeToken(imperialToken1);
                 var fromPosition = environment.getPositionFor(imperialToken1);
                 var shipBase = imperialToken1.getShipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
@@ -130,7 +132,7 @@
 
             // Move rebel token.
             {
-                environment.setActiveToken(rebelToken);
+                environment.activeToken(rebelToken);
                 var fromPosition = environment.getPositionFor(rebelToken);
                 var shipBase = rebelToken.getShipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
@@ -140,7 +142,7 @@
 
             // Move rebel token.
             {
-                environment.setActiveToken(rebelToken);
+                environment.activeToken(rebelToken);
                 var fromPosition = environment.getPositionFor(rebelToken);
                 var shipBase = rebelToken.getShipBase();
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_3_STANDARD, fromPosition,
@@ -148,13 +150,13 @@
                 maneuverAction.doIt();
             }
 
-            environment.setPhase(Phase.ACTIVATION_END);
+            environment.phase(Phase.ACTIVATION_END);
 
-            environment.setPhase(Phase.COMBAT_START);
+            environment.phase(Phase.COMBAT_START);
 
             // Rebel token fire upon imperial token 1.
             {
-                environment.setActiveToken(rebelToken);
+                environment.activeToken(rebelToken);
                 var rebelPosition = environment.getPositionFor(rebelToken);
                 var weapon = rebelToken.getPrimaryWeapon();
                 var imperialPosition = environment.getPositionFor(imperialToken1);
@@ -165,7 +167,7 @@
 
             // Imperial token 1 fire upon rebel token.
             {
-                environment.setActiveToken(imperialToken1);
+                environment.activeToken(imperialToken1);
                 var imperialPosition = environment.getPositionFor(imperialToken1);
                 var weapon = imperialToken1.getPrimaryWeapon();
                 var rebelPosition = environment.getPositionFor(rebelToken);
@@ -174,7 +176,7 @@
                 combatAction.doIt();
             }
 
-            environment.setPhase(Phase.COMBAT_END);
+            environment.phase(Phase.COMBAT_END);
         });
     </script>
 </body>

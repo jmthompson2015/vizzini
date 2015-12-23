@@ -35,7 +35,7 @@ define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator
 
         setTimeout(function()
         {
-            environment.setPhase(Phase.PLANNING_START);
+            environment.phase(Phase.PLANNING_START);
         }, 0);
     }
 

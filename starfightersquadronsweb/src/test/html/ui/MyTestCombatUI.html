@@ -53,11 +53,11 @@
                 Environment, ModifyAttackDiceAction, ModifyDefenseDiceAction, Phase, CombatUI)
         {
             var environment = Environment.createCoreSetEnvironment();
-            var attacker = environment.getTokens()[0];
+            var attacker = environment.tokens()[0];
             LOGGER.debug("attacker = " + attacker);
             attacker.increaseFocusCount();
             var attackDice = new AttackDice(5);
-            var defender = environment.getTokens()[2];
+            var defender = environment.tokens()[2];
             LOGGER.debug("defender = " + defender);
             defender.increaseFocusCount();
             defender.increaseEvadeCount();

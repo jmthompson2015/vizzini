@@ -33,9 +33,9 @@
             var environment = Environment.createCoreSetEnvironment();
             var playAreaUI = new PlayAreaUI(environment);
 
-            var round = environment.getRound();
+            var round = environment.round();
             var phase = Phase.ACTIVATION_EXECUTE_MANEUVER;
-            var activeToken = environment.getActiveToken();
+            var activeToken = environment.activeToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
             var playState = new PlayState(round, phase, activeToken, tokenPositions);
 
@@ -46,9 +46,9 @@
             setTimeout(function()
             {
                 LOGGER.info("timer expired");
-                var round = environment.getRound();
-                var phase = environment.getPhase();
-                var activeToken = environment.getActiveToken();
+                var round = environment.round();
+                var phase = environment.phase();
+                var activeToken = environment.activeToken();
                 var tokenPositions = PlayState.createTokenPositions(environment);
                 var playState = new PlayState(round, phase, activeToken, tokenPositions);
                 playAreaUI.paintComponent(context, playState);

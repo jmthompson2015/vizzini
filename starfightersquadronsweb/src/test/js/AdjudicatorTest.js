@@ -7,7 +7,7 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
-        var attacker = environment.getTokens()[0];
+        var attacker = environment.tokens()[0];
 
         // Run / Verify.
         assert.ok(adjudicator.canAttack(attacker));
@@ -18,7 +18,7 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
-        var attacker = environment.getTokens()[0];
+        var attacker = environment.tokens()[0];
 
         // Run / Verify.
         assert.ok(adjudicator.canSelectShipAction(attacker));

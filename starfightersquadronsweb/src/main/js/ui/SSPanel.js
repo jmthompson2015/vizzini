@@ -28,9 +28,9 @@ define([ "Environment", "Phase", "ui/PlayState" ], function(Environment, Phase, 
 
             if (playState)
             {
-                var round = playState.getRound();
-                var phase = playState.getPhase();
-                var activeToken = playState.getActiveToken();
+                var round = playState.round();
+                var phase = playState.phase();
+                var activeToken = playState.activeToken();
                 LOGGER.trace("round = " + round + " phase = " + phase + " activeToken = " + activeToken);
 
                 answer += "Round: ";
@@ -57,9 +57,9 @@ define([ "Environment", "Phase", "ui/PlayState" ], function(Environment, Phase, 
 
         function updateFromEnvironment()
         {
-            var round = environment.getRound();
-            var phase = environment.getPhase();
-            var activeToken = environment.getActiveToken();
+            var round = environment.round();
+            var phase = environment.phase();
+            var activeToken = environment.activeToken();
 
             var playState = new PlayState(round, phase, activeToken);
             that.paintComponent(playState);

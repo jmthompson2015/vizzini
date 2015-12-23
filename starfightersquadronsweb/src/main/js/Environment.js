@@ -40,6 +40,20 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         var damageDeck = DamageCard.createDeck();
         var damageDiscardPile = [];
 
+        this.activeToken = function(newActiveToken)
+        {
+            if (newActiveToken)
+            {
+                var oldValue = activeToken;
+                activeToken = newActiveToken;
+
+                LOGGER.info("Active Token: " + activeToken);
+                this.trigger(Environment.ACTIVE_TOKEN_EVENT, activeToken);
+            }
+
+            return activeToken;
+        }
+
         this.discardAllDamage = function(damages)
         {
             Array.prototype.push.apply(damageDiscardPile, damages);
@@ -72,9 +86,14 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        this.getActiveToken = function()
+        this.firstAgent = function()
         {
-            return activeToken;
+            return firstAgent;
+        }
+
+        this.firstTeam = function()
+        {
+            return teams[0];
         }
 
         this.getDefenders = function(attackerTeam)
@@ -124,39 +143,9 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        this.getFirstAgent = function()
-        {
-            return firstAgent;
-        }
-
-        this.getFirstTeam = function()
-        {
-            return teams[0];
-        }
-
-        this.getPhase = function()
-        {
-            return phase;
-        }
-
         this.getPositionFor = function(token)
         {
             return tokenToPosition[token];
-        }
-
-        this.getRound = function()
-        {
-            return round;
-        }
-
-        this.getSecondAgent = function()
-        {
-            return secondAgent;
-        }
-
-        this.getSecondTeam = function()
-        {
-            return teams[1];
         }
 
         this.getTargetableDefenders = function(attacker, attackerPosition, weapon)
@@ -199,22 +188,9 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return this.getTokensForTeam(team).length;
         }
 
-        this.getTokens = function()
-        {
-            var answer = [];
-
-            for (position in positionToToken)
-            {
-                var token = positionToToken[position];
-                answer[answer.length] = token;
-            }
-
-            return answer;
-        }
-
         this.getTokensForActivation = function()
         {
-            return this.getTokens().sort(function(token0, token1)
+            return this.tokens().sort(function(token0, token1)
             {
                 var skill0 = token0.getPilotSkillValue();
                 var skill1 = token1.getPilotSkillValue();
@@ -245,7 +221,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
         this.getTokensForCombat = function()
         {
-            return this.getTokens().sort(function(token0, token1)
+            return this.tokens().sort(function(token0, token1)
             {
                 var skill0 = token0.getPilotSkillValue();
                 var skill1 = token1.getPilotSkillValue();
@@ -329,11 +305,28 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
         this.incrementRound = function()
         {
-            var oldValue = round;
             round++;
 
             LOGGER.info("Round: " + round);
             this.trigger(Environment.ROUND_EVENT, round);
+        }
+
+        this.phase = function(newPhase)
+        {
+            if (newPhase)
+            {
+                var oldValue = phase;
+                phase = newPhase;
+
+                if (oldValue !== phase)
+                {
+                    LOGGER.info("Phase: " + Phase.properties[phase].displayName);
+                    this.trigger(Environment.PHASE_EVENT, phase);
+                    performTokenPhaseEffects(phase);
+                }
+            }
+
+            return phase;
         }
 
         this.placeInitialTokens = function(agents)
@@ -365,25 +358,31 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             delete tokenToPosition[token];
         }
 
-        this.setActiveToken = function(value)
+        this.round = function()
         {
-            var oldValue = activeToken;
-            activeToken = value;
-
-            LOGGER.info("Active Token: " + activeToken);
-            this.trigger(Environment.ACTIVE_TOKEN_EVENT, activeToken);
+            return round;
         }
 
-        this.setPhase = function(value)
+        this.secondAgent = function()
         {
-            var oldValue = phase;
-            phase = value;
+            return secondAgent;
+        }
 
-            if (oldValue != phase)
+        this.secondTeam = function()
+        {
+            return teams[1];
+        }
+
+        this.tokens = function()
+        {
+            var answer = [];
+
+            for (position in positionToToken)
             {
-                LOGGER.info("Phase: " + Phase.properties[phase].displayName);
-                this.trigger(Environment.PHASE_EVENT, phase);
+                answer.push(positionToToken[position]);
             }
+
+            return answer;
         }
 
         this.toString = function()

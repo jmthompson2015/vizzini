@@ -9,7 +9,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var environment = Environment.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
-        var defender = environment.getTokens()[0]; // TIE Fighter
+        var defender = environment.tokens()[0]; // TIE Fighter
         var evadeCount = 1;
 
         // Run.
@@ -27,7 +27,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var environment = Environment.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
-        var defender = environment.getTokens()[0]; // TIE Fighter
+        var defender = environment.tokens()[0]; // TIE Fighter
         var evadeCount = 1;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
         assert.equal(defender.getDamageCount(), 0);
@@ -47,7 +47,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var environment = Environment.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
-        var defender = environment.getTokens()[2]; // X-Wing
+        var defender = environment.tokens()[2]; // X-Wing
         var evadeCount = 1;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
         assert.equal(defender.getDamageCount(), 0);
@@ -67,7 +67,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var environment = Environment.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 1;
-        var rebelAgent = environment.getTokens()[2].getAgent();
+        var rebelAgent = environment.tokens()[2].getAgent();
         var defender = new Token(Pilot.LUKE_SKYWALKER, rebelAgent, UpgradeCard.DETERMINATION);
         var evadeCount = 0;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
@@ -101,7 +101,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var environment = Environment.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
-        var rebelAgent = environment.getTokens()[2].getAgent();
+        var rebelAgent = environment.tokens()[2].getAgent();
         var defender = new Token(Pilot.CHEWBACCA, rebelAgent);
         defender.decreaseShieldCount();
         defender.decreaseShieldCount();

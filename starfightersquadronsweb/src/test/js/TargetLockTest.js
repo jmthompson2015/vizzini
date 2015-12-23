@@ -7,9 +7,9 @@ define([ "Environment", "TargetLock" ], function(Environment, TargetLock)
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
 
-        var token0 = environment.getTokens()[0]; // TIE Fighter
-        var token1 = environment.getTokens()[1]; // TIE Fighter
-        var token2 = environment.getTokens()[2]; // X-Wing
+        var token0 = environment.tokens()[0]; // TIE Fighter
+        var token1 = environment.tokens()[1]; // TIE Fighter
+        var token2 = environment.tokens()[2]; // X-Wing
 
         TargetLock.resetNextId();
         var targetLock02 = new TargetLock(token0, token2);

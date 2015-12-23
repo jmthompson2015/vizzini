@@ -79,8 +79,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var attacker = environment.getTokens()[0]; // TIE Fighter.
-        var defender = environment.getTokens()[2]; // X-Wing.
+        var attacker = environment.tokens()[0]; // TIE Fighter.
+        var defender = environment.tokens()[2]; // X-Wing.
         assert.equal(attacker.getAttackerTargetLocks().length, 0);
         assert.equal(defender.getDefenderTargetLocks().length, 0);
         var targetLock = new TargetLock(attacker, defender);
@@ -198,8 +198,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var attacker = environment.getTokens()[0];
-        var defender = environment.getTokens()[2];
+        var attacker = environment.tokens()[0];
+        var defender = environment.tokens()[2];
         var targetLock = new TargetLock(attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
         defender.addDefenderTargetLock(targetLock);
@@ -679,9 +679,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var token0 = environment.getTokens()[0];
-        var token1 = environment.getTokens()[1];
-        var token2 = environment.getTokens()[2];
+        var token0 = environment.tokens()[0];
+        var token1 = environment.tokens()[1];
+        var token2 = environment.tokens()[2];
 
         var targetLock02 = new TargetLock(token0, token2);
         token0.addAttackerTargetLock(targetLock02);
@@ -721,8 +721,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var attacker = environment.getTokens()[0];
-        var defender = environment.getTokens()[2];
+        var attacker = environment.tokens()[0];
+        var defender = environment.tokens()[2];
         var targetLock = new TargetLock(attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
         defender.addDefenderTargetLock(targetLock);

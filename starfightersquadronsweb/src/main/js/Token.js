@@ -565,13 +565,13 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 clearActivationState();
                 break;
             case Phase.ACTIVATION_EXECUTE_MANEUVER:
-                var activeToken = environment.getActiveToken();
+                var activeToken = environment.activeToken();
                 if (this == activeToken)
                 {
                     var maneuverAction = this.getManeuverAction();
                     if (maneuverAction)
                     {
-                        var maneuver = maneuverAction.getManeuver();
+                        var maneuver = maneuverAction.maneuver();
                         maneuverEffect(maneuver);
                     }
                 }

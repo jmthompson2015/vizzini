@@ -47,7 +47,7 @@
                 SquadBuilder, TargetLock, Team, Token, PilotCardUI)
         {
             var environment = Environment.createCoreSetEnvironment();
-            var imperialToken = environment.getTokens()[0]; // TIE Fighter.
+            var imperialToken = environment.tokens()[0]; // TIE Fighter.
             imperialToken.increaseCloakCount();
             imperialToken.increaseEvadeCount();
             imperialToken.increaseEvadeCount();
@@ -55,7 +55,7 @@
             imperialToken.increaseFocusCount();
             imperialToken.increaseFocusCount();
 
-            var rebelToken = environment.getTokens()[2]; // X-Wing.
+            var rebelToken = environment.tokens()[2]; // X-Wing.
             rebelToken.increaseIonCount();
             rebelToken.increaseStressCount();
             rebelToken.addDamage(DamageCard.BLINDED_PILOT);
