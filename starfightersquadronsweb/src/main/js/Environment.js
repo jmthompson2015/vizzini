@@ -37,79 +37,19 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         var positionToToken = {};
         var tokenToPosition = {};
 
-        var activeTokenListeners = [];
         var damageDeck = DamageCard.createDeck();
         var damageDiscardPile = [];
-        var phaseListeners = [];
-        var roundListeners = [];
-        var shipDestroyedListeners = [];
-        var shipFledListeners = [];
-        var updateTriggerListeners = [];
 
-        /*
-         * Add a <code>PropertyChangeListener</code> to the listener list.
-         * 
-         * @param listener The <code>PropertyChangeListener</code> to be added.
-         */
-        this.addActiveTokenListener = function(listener)
-        {
-            activeTokenListeners[activeTokenListeners.length] = listener;
-        }
-
-        /*
-         * Add a <code>PropertyChangeListener</code> to the listener list.
-         * 
-         * @param listener The <code>PropertyChangeListener</code> to be added.
-         */
-        this.addPhaseListener = function(listener)
-        {
-            phaseListeners[phaseListeners.length] = listener;
-        }
-
-        /*
-         * Add a <code>PropertyChangeListener</code> to the listener list.
-         * 
-         * @param listener The <code>PropertyChangeListener</code> to be added.
-         */
-        this.addRoundListener = function(listener)
-        {
-            roundListeners[roundListeners.length] = listener;
-        }
-
-        this.addShipDestroyedListener = function(listener)
-        {
-            shipDestroyedListeners[shipDestroyedListeners.length] = listener;
-        }
-
-        this.addShipFledListener = function(listener)
-        {
-            shipFledListeners[shipFledListeners.length] = listener;
-        }
-
-        this.addUpdateTriggerListener = function(listener)
-        {
-            updateTriggerListeners[updateTriggerListeners.length] = listener;
-        }
-
-        /*
-         * @param damages Damage cards.
-         */
         this.discardAllDamage = function(damages)
         {
             Array.prototype.push.apply(damageDiscardPile, damages);
         }
 
-        /*
-         * @param damage Damage.
-         */
         this.discardDamage = function(damage)
         {
             damageDiscardPile.push(damage);
         }
 
-        /*
-         * @return a damage card from the damage deck.
-         */
         this.drawDamage = function()
         {
             var answer;
@@ -118,7 +58,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             {
                 // Replenish the damage deck from the discard pile.
                 LOGGER
-                        .debug("Damage deck empty. Shuffling " + damageDiscardPile.size()
+                        .debug("Damage deck empty. Shuffling " + damageDiscardPile.length
                                 + " discards into damage deck.");
                 Array.prototype.push.apply(damageDeck, damageDiscardPile);
                 damageDiscardPile = [];
@@ -130,30 +70,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             damageDeck.splice(0, 1);
 
             return answer;
-        }
-
-        this.fireShipDestroyed = function(shipDestroyedAction)
-        {
-            for (var i = 0; i < shipDestroyedListeners.length; i++)
-            {
-                shipDestroyedListeners[i].shipDestroyed(that, shipDestroyedAction);
-            }
-        }
-
-        this.fireShipFled = function(shipFledAction)
-        {
-            for (var i = 0; i < shipFledListeners.length; i++)
-            {
-                shipFledListeners[i].shipFled(that, shipFledAction);
-            }
-        }
-
-        this.fireUpdateTrigger = function()
-        {
-            for (var i = 0; i < updateTriggerListeners.length; i++)
-            {
-                updateTriggerListeners[i].updateTrigger(that);
-            }
         }
 
         this.getActiveToken = function()
@@ -243,15 +159,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return teams[1];
         }
 
-        /*
-         * @param attacker Attacker.
-         * 
-         * @param attackerPosition Attacker position.
-         * 
-         * @param weapon Weapon.
-         * 
-         * @return targetable defenders.
-         */
         this.getTargetableDefenders = function(attacker, attackerPosition, weapon)
         {
             InputValidator.validateNotNull("attacker", attacker);
@@ -267,9 +174,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        /*
-         * @return tokens belonging to the opposite team at range.
-         */
         this.getTargetableDefendersAtRange = function(attacker, attackerPosition, weapon, range)
         {
             InputValidator.validateNotNull("attacker", attacker);
@@ -392,11 +296,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        /*
-         * @param token Token.
-         * 
-         * @return a set of tokens touching the given token.
-         */
         this.getTokensTouching = function(token)
         {
             InputValidator.validateNotNull("token", token);
@@ -428,16 +327,13 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        /*
-         * Increment the round.
-         */
         this.incrementRound = function()
         {
             var oldValue = round;
             round++;
 
             LOGGER.info("Round: " + round);
-            fireRoundChange(oldValue, round);
+            this.trigger(Environment.ROUND_EVENT, round);
         }
 
         this.placeInitialTokens = function(agents)
@@ -475,7 +371,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             activeToken = value;
 
             LOGGER.info("Active Token: " + activeToken);
-            fireActiveTokenChange(oldValue, activeToken);
+            this.trigger(Environment.ACTIVE_TOKEN_EVENT, activeToken);
         }
 
         this.setPhase = function(value)
@@ -486,7 +382,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             if (oldValue != phase)
             {
                 LOGGER.info("Phase: " + Phase.properties[phase].displayName);
-                firePhaseChange(oldValue, phase);
+                this.trigger(Environment.PHASE_EVENT, phase);
             }
         }
 
@@ -523,15 +419,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             }
         }
 
-        /*
-         * @param attacker Attacker.
-         * 
-         * @param attackerPosition Attacker position.
-         * 
-         * @param weapon Weapon.
-         * 
-         * @param defenders Collection to filter.
-         */
         function filterTargetable(attacker, attackerPosition, weapon, defenders)
         {
             InputValidator.validateNotNull("attacker", attacker);
@@ -552,61 +439,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             }
         }
 
-        /*
-         * Report a bound property update to any registered listeners. No event is fired if old and new are equal and
-         * non-null.
-         * 
-         * @param oldValue The old value of the property.
-         * 
-         * @param newValue The new value of the property.
-         */
-        function fireActiveTokenChange(oldValue, newValue)
-        {
-            for (var i = 0; i < activeTokenListeners.length; i++)
-            {
-                activeTokenListeners[i].activeTokenChange(that, oldValue, newValue);
-            }
-        }
-
-        /*
-         * Report a bound property update to any registered listeners. No event is fired if old and new are equal and
-         * non-null.
-         * 
-         * @param oldValue The old value of the property.
-         * 
-         * @param newValue The new value of the property.
-         */
-        function firePhaseChange(oldValue, newValue)
-        {
-            for (var i = 0; i < phaseListeners.length; i++)
-            {
-                phaseListeners[i].phaseChange(that, oldValue, newValue);
-            }
-
-            performTokenPhaseEffects(newValue);
-        }
-
-        /*
-         * Report a bound property update to any registered listeners. No event is fired if old and new are equal and
-         * non-null.
-         * 
-         * @param oldValue The old value of the property.
-         * 
-         * @param newValue The new value of the property.
-         */
-        function fireRoundChange(oldValue, newValue)
-        {
-            for (var i = 0; i < roundListeners.length; i++)
-            {
-                roundListeners[i].roundChange(that, oldValue, newValue);
-            }
-        }
-
-        /*
-         * @param phase Phase.
-         * 
-         * @return tokens.
-         */
         function getTokensForPhase(phase)
         {
             var answer;
@@ -645,19 +477,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        /*
-         * @param attacker Attacking token.
-         * 
-         * @param attackerPosition Attacker position.
-         * 
-         * @param weapon Weapon.
-         * 
-         * @param defender Defending token.
-         * 
-         * @param defenderPosition Defender position.
-         * 
-         * @return true if the defender is vulnerable to the attacker.
-         */
         function isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition)
         {
             InputValidator.validateNotNull("attacker", attacker);
@@ -679,11 +498,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
                     && !isTouching(attacker, defender);
         }
 
-        /*
-         * @param attacker Attacking token. @param defender Defending token.
-         * 
-         * @return true if the attacker is touching the defender.
-         */
         function isTouching(attacker, defender)
         {
             InputValidator.validateNotNull("attacker", attacker);
@@ -694,9 +508,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return touches.vizziniContains(defender);
         }
 
-        /*
-         * @param phase Phase.
-         */
         function performTokenPhaseEffects(phase)
         {
             var tokens = getTokensForPhase(phase);
@@ -708,12 +519,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             }
         }
 
-        /**
-         * @param environment
-         *            Environment.
-         * @param tokens
-         *            Tokens.
-         */
         function placeTokens(tokens, isTop)
         {
             var size = tokens.length;
@@ -737,6 +542,13 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             }
         }
     };
+
+    Environment.ACTIVE_TOKEN_EVENT = "activeToken";
+    Environment.PHASE_EVENT = "phase";
+    Environment.ROUND_EVENT = "round";
+    Environment.SHIP_DESTROYED_EVENT = "shipDestroyed";
+    Environment.SHIP_FLED_EVENT = "shipFled";
+    Environment.UPDATE_TRIGGER_EVENT = "updateTrigger";
 
     Environment.createCoreSetEnvironment = function(computerAgentType)
     {
@@ -766,6 +578,8 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
         return answer;
     }
+
+    MicroEvent.mixin(Environment);
 
     return Environment;
 });

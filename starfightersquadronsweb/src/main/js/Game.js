@@ -1,6 +1,3 @@
-/*
- * Provides a game for Starfighter Squadrons.
- */
 define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator, Engine, Environment, Phase)
 {
     function Game(agents)
@@ -15,26 +12,26 @@ define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator
         var adjudicator = new Adjudicator();
         var engine = new Engine(environment, adjudicator);
 
-        this.getEnvironment = function()
-        {
-            return environment;
-        }
-
-        this.getAdjudicator = function()
+        this.adjudicator = function()
         {
             return adjudicator;
         }
 
-        this.getEngine = function()
+        this.engine = function()
         {
             return engine;
+        }
+
+        this.environment = function()
+        {
+            return environment;
         }
     }
 
     Game.prototype.start = function()
     {
-        var environment = this.getEnvironment();
-        environment.fireUpdateTrigger();
+        var environment = this.environment();
+        environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
 
         setTimeout(function()
         {

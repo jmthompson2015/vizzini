@@ -1,8 +1,5 @@
-/*
- * Provides a user interface for an environment for Starfighter Squadrons.
- */
-define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ], function(Phase, PilotsUI, PlayAreaUI,
-        PlayState, SSPanel)
+define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ], function(
+        Engine, Environment, Phase, PilotsUI, PlayAreaUI, PlayState, SSPanel)
 {
     function EnvironmentUI(engine, environment)
     {
@@ -23,20 +20,11 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
         var scale = 1.0;
         var previousPlayState;
 
-        environment.addPhaseListener(this);
-        environment.addShipDestroyedListener(this);
-        environment.addShipFledListener(this);
-        environment.addUpdateTriggerListener(this);
-
-        engine.addWinnerListener(this);
-
-        this.phaseChange = function(source, oldValue, newValue)
+        environment.bind(Environment.PHASE_EVENT, function(phase)
         {
-            var phase = newValue;
-            var myEnvironment = source;
-            var round = myEnvironment.getRound();
-            var activeToken = myEnvironment.getActiveToken();
-            var tokenPositions = PlayState.createTokenPositions(myEnvironment);
+            var round = environment.getRound();
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
 
             switch (phase)
             {
@@ -63,7 +51,48 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
                 repaint(playState);
                 break;
             }
-        }
+        });
+
+        environment.bind(Environment.SHIP_DESTROYED_EVENT, function(shipDestroyedAction)
+        {
+            var round = environment.getRound();
+            var phase = environment.getPhase();
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState = PlayState.createShipDestroyed(round, phase, activeToken, tokenPositions,
+                    shipDestroyedAction);
+            repaint(playState);
+        });
+
+        environment.bind(Environment.SHIP_FLED_EVENT, function(shipFledAction)
+        {
+            var round = environment.getRound();
+            var phase = environment.getPhase();
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState = PlayState.createShipFled(round, phase, activeToken, tokenPositions, shipFledAction);
+            repaint(playState);
+        });
+
+        environment.bind(Environment.UPDATE_TRIGGER_EVENT, function()
+        {
+            var round = environment.getRound();
+            var phase = environment.getPhase();
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState = new PlayState(round, phase, activeToken, tokenPositions);
+            repaint(playState);
+        });
+
+        engine.bind(Engine.WINNER_EVENT, function(winner)
+        {
+            var round = environment.getRound();
+            var phase = environment.getPhase();
+            var activeToken = environment.getActiveToken();
+            var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState = PlayState.createWinner(round, phase, activeToken, tokenPositions, winner);
+            repaint(playState);
+        });
 
         this.setScale = function(value)
         {
@@ -82,51 +111,6 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
                 var playState = new PlayState(round, phase, activeToken, tokenPositions);
                 repaint(playState);
             }
-        }
-
-        this.shipDestroyed = function(source, shipDestroyedAction)
-        {
-            var myEnvironment = source;
-            var round = myEnvironment.getRound();
-            var phase = myEnvironment.getPhase();
-            var activeToken = myEnvironment.getActiveToken();
-            var tokenPositions = PlayState.createTokenPositions(myEnvironment);
-            var playState = PlayState.createShipDestroyed(round, phase, activeToken, tokenPositions,
-                    shipDestroyedAction);
-            repaint(playState);
-        }
-
-        this.shipFled = function(source, shipFledAction)
-        {
-            var myEnvironment = source;
-            var round = myEnvironment.getRound();
-            var phase = myEnvironment.getPhase();
-            var activeToken = myEnvironment.getActiveToken();
-            var tokenPositions = PlayState.createTokenPositions(myEnvironment);
-            var playState = PlayState.createShipFled(round, phase, activeToken, tokenPositions, shipFledAction);
-            repaint(playState);
-        }
-
-        this.updateTrigger = function(source)
-        {
-            var myEnvironment = source;
-            var round = myEnvironment.getRound();
-            var phase = myEnvironment.getPhase();
-            var activeToken = myEnvironment.getActiveToken();
-            var tokenPositions = PlayState.createTokenPositions(myEnvironment);
-            var playState = new PlayState(round, phase, activeToken, tokenPositions);
-            repaint(playState);
-        }
-
-        this.winnerChange = function(source, winner)
-        {
-            var myEnvironment = source.getEnvironment();
-            var round = myEnvironment.getRound();
-            var phase = myEnvironment.getPhase();
-            var activeToken = myEnvironment.getActiveToken();
-            var tokenPositions = PlayState.createTokenPositions(myEnvironment);
-            var playState = PlayState.createWinner(round, phase, activeToken, tokenPositions, winner);
-            repaint(playState);
         }
 
         function repaint(playState)
@@ -150,7 +134,7 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
 
                 if (shipFledAction)
                 {
-                    var token = shipFledAction.getToken();
+                    var token = shipFledAction.token();
                     message = "Ship fled the battlefield: " + token;
                     firstPilots.setState(
                     {
@@ -163,7 +147,7 @@ define([ "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ]
                 }
                 else if (shipDestroyedAction)
                 {
-                    var token = shipDestroyedAction.getToken();
+                    var token = shipDestroyedAction.token();
                     message = "Ship destroyed: " + token;
                     firstPilots.setState(
                     {

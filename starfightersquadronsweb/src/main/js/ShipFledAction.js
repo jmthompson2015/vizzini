@@ -1,13 +1,20 @@
-/*
- * Provides a ship fled action for Starfighter Squadrons.
- */
-define(function()
+define([ "Environment" ], function(Environment)
 {
     function ShipFledAction(environment, token, fromPosition)
     {
-        this.getToken = function()
+        this.environment = function()
+        {
+            return environment;
+        }
+
+        this.token = function()
         {
             return token;
+        }
+
+        this.fromPosition = function()
+        {
+            return fromPosition;
         }
 
         this.doIt = function()
@@ -21,9 +28,8 @@ define(function()
             environment.discardAllDamage(token.getCriticalDamages());
 
             environment.removeToken(fromPosition);
-            environment.fireShipFled(this);
+            environment.trigger(Environment.SHIP_FLED_EVENT, this);
 
-            // return true;
             LOGGER.trace("ShipFledAction.doIt() end");
         }
     }

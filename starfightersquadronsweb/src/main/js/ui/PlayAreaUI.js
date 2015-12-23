@@ -1,9 +1,6 @@
-define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Difficulty, Maneuver, Ship,
-        ShipBase, ShipTeam, Team)
+define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Difficulty,
+        Environment, Maneuver, Ship, ShipBase, ShipTeam, Team)
 {
-    /*
-     * Provides a user interface for an explosion.
-     */
     function ExplosionUI(fromPosition, shipBase, explosionImage)
     {
         this.paintComponent = function(context)
@@ -22,9 +19,6 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], fun
         }
     }
 
-    /*
-     * Provides a user interface for a laser beam.
-     */
     function LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip)
     {
         InputValidator.validateNotNull("fromPosition", fromPosition);
@@ -47,9 +41,6 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], fun
         }
     }
 
-    /*
-     * Provides a user interface for a maneuver.
-     */
     function ManeuverUI(maneuver, fromPosition, shipBase)
     {
         var FOREGROUND_COLOR = "white";
@@ -106,15 +97,10 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], fun
         }
     }
 
-    /*
-     * Provides a play area user interface for Starfighter Squadrons.
-     */
     function PlayAreaUI(environment)
     {
         var DEG_TO_RADIANS = Math.PI / 180;
         var SHIP_BACKGROUND = "rgba(255,255,255,0.4)";
-
-        var that = this;
 
         var backgroundImage;
         var explosionImage;
@@ -127,7 +113,7 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], fun
             preload(tokens, 5000, function()
             {
                 LOGGER.info("Images loaded.");
-                environment.fireUpdateTrigger();
+                environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
             });
         }
 
@@ -166,15 +152,12 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], fun
             return image;
         }
 
-        /*
-         * @param action Ship destroyed action.
-         */
         function createExplosionUI(shipDestroyedAction)
         {
             var answer;
 
-            var token = shipDestroyedAction.getToken();
-            var fromPosition = shipDestroyedAction.getFromPosition();
+            var token = shipDestroyedAction.token();
+            var fromPosition = shipDestroyedAction.fromPosition();
 
             if (fromPosition)
             {
@@ -185,9 +168,6 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], fun
             return answer;
         }
 
-        /*
-         * @param action Combat action.
-         */
         function createLaserBeamUI(combatAction)
         {
             var answer;
@@ -210,9 +190,6 @@ define([ "Difficulty", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], fun
             return answer;
         }
 
-        /*
-         * @param action Maneuver action.
-         */
         function createManeuverUI(maneuverAction)
         {
             var maneuver = maneuverAction.getManeuver();

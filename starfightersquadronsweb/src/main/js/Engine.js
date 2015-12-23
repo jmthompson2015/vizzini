@@ -1,36 +1,30 @@
-/*
- * Provides an engine for Starfighter Squadrons.
- */
-define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "TargetLock", "UpgradeCard" ], function(
-        CombatAction, Maneuver, ManeuverAction, Phase, ShipAction, TargetLock, UpgradeCard)
+define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "TargetLock",
+        "UpgradeCard" ], function(CombatAction, Environment, Maneuver, ManeuverAction, Phase, ShipAction, TargetLock,
+        UpgradeCard)
 {
     function Engine(environment, adjudicator)
     {
         InputValidator.validateNotNull("environment", environment);
         InputValidator.validateNotNull("adjudicator", adjudicator);
 
-        var that = this;
-        var winnerListeners = [];
-        var firstPlanningAction;
-        var secondPlanningAction;
-
-        var activationQueue = [];
-        var combatQueue = [];
-        var endQueue = [];
-
-        environment.addPhaseListener(this);
-
-        this.addWinnerListener = function(listener)
-        {
-            winnerListeners[winnerListeners.length] = listener;
-        }
-
-        this.getEnvironment = function()
+        this.environment = function()
         {
             return environment;
         }
 
-        this.phaseChange = function(source, oldValue, newValue)
+        this.adjudicator = function()
+        {
+            return adjudicator;
+        }
+
+        var that = this;
+        var firstPlanningAction;
+        var secondPlanningAction;
+        var activationQueue = [];
+        var combatQueue = [];
+        var endQueue = [];
+
+        environment.bind(Environment.PHASE_EVENT, function(phase)
         {
             if (adjudicator.isGameOver(environment))
             {
@@ -39,7 +33,6 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "T
             }
             else
             {
-                var phase = newValue;
                 var delay = 1000;
 
                 switch (phase)
@@ -82,7 +75,7 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "T
                     break;
                 }
             }
-        }
+        });
 
         this.setPlanningAction = function(planningAction)
         {
@@ -351,26 +344,19 @@ define([ "CombatAction", "Maneuver", "ManeuverAction", "Phase", "ShipAction", "T
             LOGGER.trace("Engine.processEndQueue() end");
         }
 
-        function fireWinnerChange(winner)
-        {
-            for (var i = 0; i < winnerListeners.length; i++)
-            {
-                winnerListeners[i].winnerChange(that, winner);
-            }
-        }
-
-        /*
-         * @return the game winner, if any.
-         */
         function processGameOver()
         {
             var winner = adjudicator.determineWinner(environment);
 
-            fireWinnerChange(winner);
+            that.trigger(Engine.WINNER_EVENT, winner);
 
             return winner;
         }
     };
+
+    Engine.WINNER_EVENT = "winner";
+
+    MicroEvent.mixin(Engine);
 
     return Engine;
 });

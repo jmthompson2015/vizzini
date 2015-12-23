@@ -30,7 +30,7 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         element.innerHTML = "";
 
         var game = new Game(agents);
-        environmentUI = new EnvironmentUI(game.getEngine(), game.getEnvironment());
+        environmentUI = new EnvironmentUI(game.engine(), game.environment());
 
         game.start();
 

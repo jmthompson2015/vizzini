@@ -1,21 +1,25 @@
-/*
- * Provides a user interface for Starfighter Squadrons.
- */
-define([ "Phase", "ui/PlayState" ], function(Phase, PlayState)
+define([ "Environment", "Phase", "ui/PlayState" ], function(Environment, Phase, PlayState)
 {
     function SSPanel(environment)
     {
         var that = this;
 
-        environment.addRoundListener(this);
-        environment.addPhaseListener(this);
-        environment.addActiveTokenListener(this);
-
-        this.activeTokenChange = function(environment, oldValue, newValue)
+        environment.bind(Environment.ROUND_EVENT, function(round)
         {
-            updateFromEnvironment(environment);
-        }
+            updateFromEnvironment();
+        });
 
+        environment.bind(Environment.PHASE_EVENT, function(phase)
+        {
+            updateFromEnvironment();
+        });
+
+        environment.bind(Environment.ACTIVE_TOKEN_EVENT, function(activeToken)
+        {
+            updateFromEnvironment();
+        });
+
+        // TODO: convert to React
         this.paintComponent = function(playState)
         {
             LOGGER.trace("SSPanel.paintComponent() start");
@@ -51,17 +55,7 @@ define([ "Phase", "ui/PlayState" ], function(Phase, PlayState)
             LOGGER.trace("SSPanel.paintComponent() end");
         }
 
-        this.phaseChange = function(environment, oldValue, newValue)
-        {
-            updateFromEnvironment(environment);
-        }
-
-        this.roundChange = function(environment, oldValue, newValue)
-        {
-            updateFromEnvironment(environment);
-        }
-
-        function updateFromEnvironment(environment)
+        function updateFromEnvironment()
         {
             var round = environment.getRound();
             var phase = environment.getPhase();

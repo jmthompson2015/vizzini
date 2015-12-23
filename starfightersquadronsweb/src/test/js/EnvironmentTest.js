@@ -1,5 +1,6 @@
-define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "SimpleAgent", "Team", "Token" ], function(
-        Environment, Phase, Pilot, Position, RangeRuler, Ship, SimpleAgent, Team, Token)
+define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "ShipDestroyedAction", "ShipFledAction",
+        "SimpleAgent", "Team", "Token" ], function(Environment, Phase, Pilot, Position, RangeRuler, Ship,
+        ShipDestroyedAction, ShipFledAction, SimpleAgent, Team, Token)
 {
     QUnit.module("Environment");
 
@@ -311,6 +312,10 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Sim
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
         assert.equal(environment.getRound(), 0);
+        environment.bind(Environment.ROUND_EVENT, function(round)
+        {
+            assert.equal(round, 1);
+        })
 
         // Run.
         environment.incrementRound();
@@ -356,6 +361,25 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Sim
         assert.strictEqual(environment.getTokenAt(position), undefined);
     });
 
+    QUnit.test("setActiveToken()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var token0 = environment.getTokens()[0]; // TIE Fighter.
+        assert.ok(!environment.getActiveToken());
+        environment.bind(Environment.ACTIVE_TOKEN_EVENT, function(activeToken)
+        {
+            assert.equal(activeToken, token0);
+        })
+
+        // Run.
+        environment.setActiveToken(token0);
+
+        // Verify.
+        assert.equal(environment.getActiveToken(), token0);
+    });
+
     QUnit.test("setPhase()", function(assert)
     {
         // Setup.
@@ -369,6 +393,50 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Sim
         assert.equal(environment.getPhase(), Phase.ACTIVATION_REVEAL_DIAL);
     });
 
+    QUnit.test("ship destroyed event", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var token0 = environment.getTokens()[0]; // TIE Fighter.
+        var fromPosition = environment.getPositionFor(token0);
+        var action = new ShipDestroyedAction(environment, token0, fromPosition);
+
+        environment.bind(Environment.SHIP_DESTROYED_EVENT, function(myAction)
+        {
+            // Verify.
+            assert.ok(myAction);
+            assert.equal(myAction.environment(), environment);
+            assert.equal(myAction.token(), token0);
+            assert.equal(myAction.fromPosition(), fromPosition);
+        })
+
+        // Run.
+        environment.trigger(Environment.SHIP_DESTROYED_EVENT, action);
+    });
+
+    QUnit.test("ship fled event", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var token0 = environment.getTokens()[0]; // TIE Fighter.
+        var fromPosition = environment.getPositionFor(token0);
+        var action = new ShipFledAction(environment, token0, fromPosition);
+
+        environment.bind(Environment.SHIP_FLED_EVENT, function(myAction)
+        {
+            // Verify.
+            assert.ok(myAction);
+            assert.equal(myAction.environment(), environment);
+            assert.equal(myAction.token(), token0);
+            assert.equal(myAction.fromPosition(), fromPosition);
+        })
+
+        // Run.
+        environment.trigger(Environment.SHIP_FLED_EVENT, action);
+    });
+
     QUnit.test("toString()", function(assert)
     {
         // Setup.
@@ -378,5 +446,21 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Sim
         // Run / Verify.
         assert.equal(environment.toString(), "(305, 20, 90) 1 \"Mauler Mithel\" (TIE Fighter)\n"
                 + "(610, 20, 90) 2 \"Dark Curse\" (TIE Fighter)\n" + "(458, 895, 270) 3 Luke Skywalker (X-Wing)\n");
+    });
+
+    QUnit.test("update trigger event", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+
+        environment.bind(Environment.UPDATE_TRIGGER_EVENT, function()
+        {
+            // Verify.
+            assert.ok(true);
+        })
+
+        // Run.
+        environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
     });
 });

@@ -1,10 +1,22 @@
-/*
- * Provides a ship destroyed action for Starfighter Squadrons.
- */
-define(function()
+define([ "Environment" ], function(Environment)
 {
     function ShipDestroyedAction(environment, token, fromPosition)
     {
+        this.environment = function()
+        {
+            return environment;
+        }
+
+        this.token = function()
+        {
+            return token;
+        }
+
+        this.fromPosition = function()
+        {
+            return fromPosition;
+        }
+
         this.doIt = function()
         {
             LOGGER.trace("ShipDestroyedAction.doIt() start");
@@ -16,26 +28,9 @@ define(function()
             environment.discardAllDamage(token.getCriticalDamages());
 
             environment.removeToken(fromPosition);
-            environment.fireShipDestroyed(this);
-
-            // return true;
+            environment.trigger(Environment.SHIP_DESTROYED_EVENT, this);
 
             LOGGER.trace("ShipDestroyedAction.doIt() end");
-        }
-
-        this.getEnvironment = function()
-        {
-            return environment;
-        }
-
-        this.getFromPosition = function()
-        {
-            return fromPosition;
-        }
-
-        this.getToken = function()
-        {
-            return token;
         }
     }
 
