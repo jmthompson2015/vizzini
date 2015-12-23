@@ -134,10 +134,6 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
 
         function finishDealDamage(damageDealer, beforeDamage)
         {
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-            window.dispatchEvent(new Event('resize'));
-
             damageDealer.dealDamage();
             var afterDamage = defender.getDamageCount() + defender.getCriticalDamageCount();
             LOGGER.trace("afterDamage = " + afterDamage);
