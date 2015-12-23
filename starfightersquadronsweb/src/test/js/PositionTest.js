@@ -6,9 +6,9 @@ define([ "Position" ], function(Position)
     {
         var position = new Position(1, 2, 3);
 
-        assert.equal(position.getX(), 1);
-        assert.equal(position.getY(), 2);
-        assert.equal(position.getHeading(), 3);
+        assert.equal(position.x(), 1);
+        assert.equal(position.y(), 2);
+        assert.equal(position.heading(), 3);
     });
 
     QUnit.test("Position() out of area", function(assert)
@@ -28,9 +28,9 @@ define([ "Position" ], function(Position)
     {
         var position = new Position(1, 2, 363);
 
-        assert.equal(position.getX(), 1);
-        assert.equal(position.getY(), 2);
-        assert.equal(position.getHeading(), 3);
+        assert.equal(position.x(), 1);
+        assert.equal(position.y(), 2);
+        assert.equal(position.heading(), 3);
     });
 
     QUnit.test("Position() constants", function(assert)
@@ -40,9 +40,9 @@ define([ "Position" ], function(Position)
 
         var position = Position.ZERO;
 
-        assert.equal(position.getX(), 0);
-        assert.equal(position.getY(), 0);
-        assert.equal(position.getHeading(), 0);
+        assert.equal(position.x(), 0);
+        assert.equal(position.y(), 0);
+        assert.equal(position.heading(), 0);
     });
 
     QUnit.test("Position.compareTo()", function(assert)
@@ -88,10 +88,10 @@ define([ "Position" ], function(Position)
     {
         // Setup.
         var position0 = new Position(100, 200, 0);
-        var position1 = new Position(position0.getX() + 100, position0.getY() + 1, 0);
-        var position2 = new Position(position0.getX() - 50, position0.getY() + 10, 0);
-        var position3 = new Position(position0.getX() - 10, position0.getY() - 50, 0);
-        var position4 = new Position(position0.getX() + 1, position0.getY() - 100, 0);
+        var position1 = new Position(position0.x() + 100, position0.y() + 1, 0);
+        var position2 = new Position(position0.x() - 50, position0.y() + 10, 0);
+        var position3 = new Position(position0.x() - 10, position0.y() - 50, 0);
+        var position4 = new Position(position0.x() + 1, position0.y() - 100, 0);
 
         // Run / Verify.
         assert.equal(position0.computeDistance(position1), 100);

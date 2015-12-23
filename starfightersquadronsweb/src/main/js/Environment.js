@@ -280,8 +280,8 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
             var shipBase = token.getShipBase();
             var tokenPosition = this.getPositionFor(token);
-            var polygon = Maneuver.computePolygon(shipBase, tokenPosition.getX(), tokenPosition.getY(), tokenPosition
-                    .getHeading());
+            var polygon = Maneuver.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition
+                    .heading());
             var tokens = this.getTokensForActivation();
 
             tokens.forEach(function(token2)
@@ -290,8 +290,8 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
                 {
                     var shipBase2 = token2.getShipBase();
                     var tokenPosition2 = this.getPositionFor(token2);
-                    var polygon2 = Maneuver.computePolygon(shipBase2, tokenPosition2.getX(), tokenPosition2.getY(),
-                            tokenPosition2.getHeading());
+                    var polygon2 = Maneuver.computePolygon(shipBase2, tokenPosition2.x(), tokenPosition2.y(),
+                            tokenPosition2.heading());
 
                     if (RectanglePath.doPolygonsCollide(polygon, polygon2))
                     {

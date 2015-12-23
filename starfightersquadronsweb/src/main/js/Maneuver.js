@@ -444,7 +444,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
      */
     Maneuver.computeFromPolygon = function(fromPosition, shipBase)
     {
-        return Maneuver.computePolygon(shipBase, fromPosition.getX(), fromPosition.getY(), fromPosition.getHeading());
+        return Maneuver.computePolygon(shipBase, fromPosition.x(), fromPosition.y(), fromPosition.heading());
     }
 
     Maneuver.computePolygon = function(shipBase, x, y, heading)
@@ -478,7 +478,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
 
         if (toPosition)
         {
-            answer = Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition.getY(), toPosition.getHeading());
+            answer = Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition.heading());
         }
 
         return answer;
@@ -596,9 +596,9 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         }
 
         // Rotate and translate to fromPosition.
-        var angle = fromPosition.getHeading() * Math.PI / 180;
+        var angle = fromPosition.heading() * Math.PI / 180;
         answer.rotate(angle);
-        answer.translate(fromPosition.getX(), fromPosition.getY());
+        answer.translate(fromPosition.x(), fromPosition.y());
 
         return answer;
     }
@@ -760,13 +760,13 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
      */
     Maneuver.createPosition = function(fromPosition, dx, dy, headingChange)
     {
-        var x0 = fromPosition.getX();
-        var y0 = fromPosition.getY();
-        var angle = fromPosition.getHeading() * Math.PI / 180;
+        var x0 = fromPosition.x();
+        var y0 = fromPosition.y();
+        var angle = fromPosition.heading() * Math.PI / 180;
 
         var x = Math.round((x0 + (dx * Math.cos(angle))) - (dy * Math.sin(angle)));
         var y = Math.round((y0 + (dx * Math.sin(angle))) + (dy * Math.cos(angle)));
-        var heading = fromPosition.getHeading() + headingChange;
+        var heading = fromPosition.heading() + headingChange;
 
         var answer;
 

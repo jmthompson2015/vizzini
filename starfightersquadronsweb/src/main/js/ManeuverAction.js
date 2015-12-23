@@ -54,8 +54,8 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
                 LOGGER.info(message);
             }
             else if (!toPosition
-                    || !Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(), toPosition
-                            .getY(), toPosition.getHeading())))
+                    || !Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(),
+                            toPosition.heading())))
             {
                 LOGGER.info("Ship fled the battlefield: " + token.getName());
                 var shipFledAction = new ShipFledAction(environment, token, fromPosition);
@@ -115,8 +115,8 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
             }
             var x0;
             var y0;
-            var x1 = position0.getX();
-            var y1 = position0.getY();
+            var x1 = position0.x();
+            var y1 = position0.y();
 
             LOGGER.trace("pathPoints.length = " + pathPoints.length);
             var index = (startIndex < 0 ? pathPoints.length - 2 : startIndex);
@@ -220,32 +220,33 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
 
             var tokens = environment.getTokensForActivation();
 
-            tokens.forEach(function(token1)
-            {
-                var position1;
-                var polygon1 = null;
-
-                if (token1 == token)
-                {
-                    position1 = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
-
-                    if (position1 != null)
+            tokens
+                    .forEach(function(token1)
                     {
-                        polygon1 = Maneuver.computePolygon(shipBase, position1.getX(), position1.getY(), position1
-                                .getHeading());
-                    }
-                }
-                else
-                {
-                    position1 = environment.getPositionFor(token1);
-                    var shipBase1 = token1.getShipBase();
-                    polygon1 = Maneuver.computePolygon(shipBase1, position1.getX(), position1.getY(), position1
-                            .getHeading());
-                }
+                        var position1;
+                        var polygon1 = null;
 
-                var shipData = new ShipData(token1, position1, polygon1);
-                answer[token1] = shipData;
-            });
+                        if (token1 == token)
+                        {
+                            position1 = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
+
+                            if (position1 != null)
+                            {
+                                polygon1 = Maneuver.computePolygon(shipBase, position1.x(), position1.y(), position1
+                                        .heading());
+                            }
+                        }
+                        else
+                        {
+                            position1 = environment.getPositionFor(token1);
+                            var shipBase1 = token1.getShipBase();
+                            polygon1 = Maneuver.computePolygon(shipBase1, position1.x(), position1.y(), position1
+                                    .heading());
+                        }
+
+                        var shipData = new ShipData(token1, position1, polygon1);
+                        answer[token1] = shipData;
+                    });
 
             Object.getOwnPropertyNames(answer).forEach(function(tokenName)
             {

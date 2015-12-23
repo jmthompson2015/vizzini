@@ -14,7 +14,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 var attacker = environment.getTokenAt(attackerPosition);
                 assert.ok(attacker);
                 environment.removeToken(attackerPosition);
-                attackerPosition = new Position(attackerPosition.getX(), attackerPosition.getY(), -30);
+                attackerPosition = new Position(attackerPosition.x(), attackerPosition.y(), -30);
                 environment.placeToken(attackerPosition, attacker);
                 var weapon;
                 var defenderPosition = new Position(305, 20, 90);
@@ -44,7 +44,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 var defender = environment.tokens()[0];
                 defender.increaseEvadeCount();
                 environment.removeToken(attackerPosition);
-                var attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
+                var attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
                 environment.placeToken(attackerPosition, attacker);
                 var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon,
                         defender, defenderPosition);

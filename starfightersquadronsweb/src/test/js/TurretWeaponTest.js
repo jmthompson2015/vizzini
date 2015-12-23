@@ -29,7 +29,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         var defenderPosition = new Position(305, 20, 90);
         var defender = environment.getTokenAt(defenderPosition);
         environment.removeToken(attackerPosition);
-        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
+        attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
         var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
@@ -51,7 +51,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         var defenderPosition = new Position(305, 20, 90);
         var defender = environment.getTokenAt(defenderPosition);
         environment.removeToken(attackerPosition);
-        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
+        attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
         var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
@@ -73,7 +73,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         var defenderPosition = new Position(305, 20, 90);
         var defender = environment.getTokenAt(defenderPosition);
         environment.removeToken(attackerPosition);
-        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, 0);
+        attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, 0);
         environment.placeToken(attackerPosition, attacker);
         var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
@@ -95,7 +95,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         var defenderPosition = new Position(305, 20, 90);
         var defender = environment.getTokenAt(defenderPosition);
         environment.removeToken(attackerPosition);
-        attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
+        attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
         var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 

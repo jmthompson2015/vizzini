@@ -182,8 +182,8 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
             {
                 var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
-                return (toPosition && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(),
-                        toPosition.getY(), toPosition.getHeading())));
+                return (toPosition && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(),
+                        toPosition.y(), toPosition.heading())));
             });
 
             LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);

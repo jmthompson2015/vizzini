@@ -13,7 +13,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
         var token = environment.getTokenAt(fromPosition);
         assert.ok(token);
         environment.removeToken(fromPosition);
-        fromPosition = new Position(fromPosition.getX(), fromPosition.getY(), -30);
+        fromPosition = new Position(fromPosition.x(), fromPosition.y(), -30);
         environment.placeToken(fromPosition, token);
 
         var shipBase = token.getShipBase();
@@ -24,9 +24,9 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
 
         // Verify.
         var toPosition = environment.getPositionFor(token);
-        assert.equal(toPosition.getX(), fromPosition.getX() + 69);
-        assert.equal(toPosition.getY(), fromPosition.getY() - 40);
-        assert.equal(toPosition.getHeading(), 330);
+        assert.equal(toPosition.x(), fromPosition.x() + 69);
+        assert.equal(toPosition.y(), fromPosition.y() - 40);
+        assert.equal(toPosition.heading(), 330);
     });
 
     QUnit.test("ManeuverAction.doIt() Straight3Standard", function(assert)
@@ -39,7 +39,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
         var token = environment.getTokenAt(fromPosition);
         assert.ok(token);
         environment.removeToken(fromPosition);
-        fromPosition = new Position(fromPosition.getX(), fromPosition.getY(), -30);
+        fromPosition = new Position(fromPosition.x(), fromPosition.y(), -30);
         environment.placeToken(fromPosition, token);
 
         var shipBase = token.getShipBase();
@@ -50,9 +50,9 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
 
         // Verify.
         var toPosition = environment.getPositionFor(token);
-        assert.equal(toPosition.getX(), fromPosition.getX() + 139);
-        assert.equal(toPosition.getY(), fromPosition.getY() - 80);
-        assert.equal(toPosition.getHeading(), 330);
+        assert.equal(toPosition.x(), fromPosition.x() + 139);
+        assert.equal(toPosition.y(), fromPosition.y() - 80);
+        assert.equal(toPosition.heading(), 330);
     });
 
     QUnit.test("ManeuverAction.doIt() Straight3Standard collision", function(assert)
@@ -70,11 +70,11 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
         var token2 = environment.getTokenAt(fromPosition2); // X-Wing
         assert.ok(token2);
         environment.removeToken(fromPosition2);
-        fromPosition2 = new Position(fromPosition2.getX(), fromPosition2.getY(), -30);
+        fromPosition2 = new Position(fromPosition2.x(), fromPosition2.y(), -30);
         environment.placeToken(fromPosition2, token2);
 
         // Move token0 to token1's planned toPosition.
-        fromPosition0 = new Position(fromPosition2.getX() + 139, fromPosition2.getY() - 80, 90);
+        fromPosition0 = new Position(fromPosition2.x() + 139, fromPosition2.y() - 80, 90);
         environment.placeToken(fromPosition0, token0);
 
         var shipBase = token2.getShipBase();
@@ -85,8 +85,8 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
 
         // Verify.
         var toPosition = environment.getPositionFor(token2);
-        assert.equal(toPosition.getX(), fromPosition2.getX() + 95);
-        assert.equal(toPosition.getY(), fromPosition2.getY() - 55);
-        assert.equal(toPosition.getHeading(), 330);
+        assert.equal(toPosition.x(), fromPosition2.x() + 95);
+        assert.equal(toPosition.y(), fromPosition2.y() - 55);
+        assert.equal(toPosition.heading(), 330);
     });
 });

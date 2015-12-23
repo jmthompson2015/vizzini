@@ -31,23 +31,23 @@
             var fromPosition1 = environment.getPositionFor(environment.tokens()[1]);
 
             var path0 = new Path();
-            path0.add(fromPosition.getX() - 20, fromPosition.getY() - 20);
-            path0.add(fromPosition.getX() + 20, fromPosition.getY() - 20);
-            path0.add(fromPosition.getX() + 20, fromPosition.getY() + 20);
-            path0.add(fromPosition.getX() - 20, fromPosition.getY() + 20);
+            path0.add(fromPosition.x() - 20, fromPosition.y() - 20);
+            path0.add(fromPosition.x() + 20, fromPosition.y() - 20);
+            path0.add(fromPosition.x() + 20, fromPosition.y() + 20);
+            path0.add(fromPosition.x() - 20, fromPosition.y() + 20);
             path0.close();
-            path0.rotate(45 * Math.PI / 180, fromPosition.getX(), fromPosition.getY());
+            path0.rotate(45 * Math.PI / 180, fromPosition.x(), fromPosition.y());
 
             var path0_0 = new Path();
-            path0_0.add(fromPosition.getX(), fromPosition.getY());
-            path0_0.add(fromPosition.getX() + 80, fromPosition.getY() + 80);
+            path0_0.add(fromPosition.x(), fromPosition.y());
+            path0_0.add(fromPosition.x() + 80, fromPosition.y() + 80);
 
             var path1 = new RectanglePath(40, 40);
-            path1.translate(fromPosition1.getX(), fromPosition1.getY());
+            path1.translate(fromPosition1.x(), fromPosition1.y());
 
             var path1_0 = new Path();
-            path1_0.add(fromPosition1.getX(), fromPosition1.getY());
-            path1_0.add(fromPosition1.getX(), fromPosition1.getY() + 80);
+            path1_0.add(fromPosition1.x(), fromPosition1.y());
+            path1_0.add(fromPosition1.x(), fromPosition1.y() + 80);
 
             var canvas = document.getElementById("playAreaCanvas");
             var context = canvas.getContext("2d");

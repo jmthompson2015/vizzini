@@ -66,8 +66,8 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
                     var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
                     if (toPosition
-                            && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.getX(),
-                                    toPosition.getY(), toPosition.getHeading())))
+                            && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(), toPosition
+                                    .y(), toPosition.heading())))
                     {
                         validManeuvers.push(maneuver);
                         var weapon = token.getPrimaryWeapon();

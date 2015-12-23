@@ -8,8 +8,8 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             LOGGER.trace("ExplosionUI.paintComponent() start");
 
             var size = ShipBase.properties[shipBase].width;
-            var x = fromPosition.getX() - size / 2;
-            var y = fromPosition.getY() - size / 2;
+            var x = fromPosition.x() - size / 2;
+            var y = fromPosition.y() - size / 2;
             context.drawImage(explosionImage, x, y, size, size);
 
             var element = document.getElementById("explosionAudio");
@@ -29,8 +29,8 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             LOGGER.trace("LaserBeamUI.paintComponent() start");
 
             context.beginPath();
-            context.moveTo(fromPosition.getX(), fromPosition.getY());
-            context.lineTo(toPosition.getX(), toPosition.getY());
+            context.moveTo(fromPosition.x(), fromPosition.y());
+            context.lineTo(toPosition.x(), toPosition.y());
             context.lineWidth = 3;
             context.strokeStyle = strokeStyle;
             context.stroke();
@@ -61,7 +61,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             context.fillStyle = FOREGROUND_COLOR;
             var radius = 4;
             context.beginPath();
-            context.arc(fromPosition.getX(), fromPosition.getY(), radius, 0, 2 * Math.PI);
+            context.arc(fromPosition.x(), fromPosition.y(), radius, 0, 2 * Math.PI);
             context.fill();
 
             // Draw from ship base.
@@ -316,9 +316,9 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             var id = image.id;
             var width = image.width;
             var height = image.height;
-            var x = position.getX();
-            var y = position.getY();
-            var angle = position.getHeading() * DEG_TO_RADIANS;
+            var x = position.x();
+            var y = position.y();
+            var angle = position.heading() * DEG_TO_RADIANS;
             context.translate(x, y);
             context.rotate(angle);
 

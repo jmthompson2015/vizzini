@@ -44,8 +44,8 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
                         {
                             var myShipBase = token.getShipBase();
                             var position = environment.getPositionFor(token);
-                            var polygon = Maneuver.computePolygon(myShipBase, position.getX(), position.getY(),
-                                    position.getHeading());
+                            var polygon = Maneuver.computePolygon(myShipBase, position.x(), position.y(), position
+                                    .heading());
                             var collide = RectanglePath.doPolygonsCollide(polygon, toPolygon);
 
                             if (collide)

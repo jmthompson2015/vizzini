@@ -82,7 +82,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
     {
         var firingArc = attacker.getShipPrimaryFiringArc();
-        var bearing = attackerPosition.computeBearing(defenderPosition.getX(), defenderPosition.getY());
+        var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
         // LOGGER.trace("bearing = " + bearing);
         var answer = FiringArc.properties[firingArc].isInFiringArc(bearing);
         // LOGGER.trace("0 answer ? " + answer);
@@ -90,8 +90,8 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         if (!answer)
         {
             var defenderBase = defender.getShipBase();
-            var polygon = Maneuver.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition.getY(),
-                    defenderPosition.getHeading());
+            var polygon = Maneuver.computePolygon(defenderBase, defenderPosition.x(), defenderPosition.y(),
+                    defenderPosition.heading());
 
             // FIXME
             // final double[] coords = new double[6];

@@ -82,10 +82,10 @@ define([ "Maneuver" ], function(Maneuver)
         var attackerBase = attacker.getShipBase();
         var defenderBase = defender.getShipBase();
 
-        var attackerPolygon = Maneuver.computePolygon(attackerBase, attackerPosition.getX(), attackerPosition.getY(),
-                attackerPosition.getHeading());
-        var defenderPolygon = Maneuver.computePolygon(defenderBase, defenderPosition.getX(), defenderPosition.getY(),
-                defenderPosition.getHeading());
+        var attackerPolygon = Maneuver.computePolygon(attackerBase, attackerPosition.x(), attackerPosition.y(),
+                attackerPosition.heading());
+        var defenderPolygon = Maneuver.computePolygon(defenderBase, defenderPosition.x(), defenderPosition.y(),
+                defenderPosition.heading());
 
         // FIXME
         // var distance = SHAPE_UTILS.computeMinimumDistance(attackerPolygon,

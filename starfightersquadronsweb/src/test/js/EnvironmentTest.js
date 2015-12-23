@@ -290,7 +290,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         var fromPosition2 = new Position(458, 895, -90);
         var token2 = environment.getTokenAt(fromPosition2); // X-Wing
         environment.removeToken(fromPosition2);
-        fromPosition2 = new Position(fromPosition0.getX(), fromPosition0.getY() + 39, -90);
+        fromPosition2 = new Position(fromPosition0.x(), fromPosition0.y() + 39, -90);
         environment.placeToken(fromPosition2, token2);
         environment.tokens().forEach(function(token)
         {
