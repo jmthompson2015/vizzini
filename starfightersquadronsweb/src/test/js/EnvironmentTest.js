@@ -26,7 +26,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var attacker = environment.getTokens()[2]; // X-Wing
+        var attacker = environment.tokens()[2]; // X-Wing
         var attackerPosition = new Position(458, 50, -90);
         environment.removeToken(attacker);
         environment.placeToken(attackerPosition, attacker);
@@ -45,7 +45,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getFirstAgent();
+        var agent = environment.firstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
         environment.placeToken(position, token);
 
@@ -131,7 +131,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getFirstAgent();
+        var agent = environment.firstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
         environment.placeToken(position, token);
 
@@ -177,12 +177,12 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         assert.strictEqual(environment.getTokenCountFor(Team.REBEL), 1);
     });
 
-    QUnit.test("getTokens()", function(assert)
+    QUnit.test("tokens()", function(assert)
     {
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
 
-        var tokens = environment.getTokens();
+        var tokens = environment.tokens();
         assert.equal(tokens.length, 3);
         assert.equal(tokens[0].getPilot(), Pilot.MAULER_MITHEL);
         assert.equal(tokens[1].getPilot(), Pilot.DARK_CURSE);
@@ -292,7 +292,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         environment.removeToken(fromPosition2);
         fromPosition2 = new Position(fromPosition0.getX(), fromPosition0.getY() + 39, -90);
         environment.placeToken(fromPosition2, token2);
-        environment.getTokens().forEach(function(token)
+        environment.tokens().forEach(function(token)
         {
             LOGGER.debug(token.toString() + " at " + environment.getPositionFor(token));
         });
@@ -311,7 +311,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        assert.equal(environment.getRound(), 0);
+        assert.equal(environment.round(), 0);
         environment.bind(Environment.ROUND_EVENT, function(round)
         {
             assert.equal(round, 1);
@@ -321,7 +321,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         environment.incrementRound();
 
         // Verify.
-        assert.equal(environment.getRound(), 1);
+        assert.equal(environment.round(), 1);
     });
 
     QUnit.test("placeToken()", function(assert)
@@ -330,7 +330,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getFirstAgent();
+        var agent = environment.firstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
 
         // Run.
@@ -347,7 +347,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         Token.resetNextId();
         var position = new Position(1, 2, 3);
         var environment = Environment.createCoreSetEnvironment();
-        var agent = environment.getFirstAgent();
+        var agent = environment.firstAgent();
         var token = new Token(Pilot.ACADEMY_PILOT, agent);
         environment.placeToken(position, token);
         assert.strictEqual(environment.getPositionFor(token), position);
@@ -361,36 +361,36 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         assert.strictEqual(environment.getTokenAt(position), undefined);
     });
 
-    QUnit.test("setActiveToken()", function(assert)
+    QUnit.test("activeToken()", function(assert)
     {
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var token0 = environment.getTokens()[0]; // TIE Fighter.
-        assert.ok(!environment.getActiveToken());
+        var token0 = environment.tokens()[0]; // TIE Fighter.
+        assert.ok(!environment.activeToken());
         environment.bind(Environment.ACTIVE_TOKEN_EVENT, function(activeToken)
         {
             assert.equal(activeToken, token0);
         })
 
         // Run.
-        environment.setActiveToken(token0);
+        environment.activeToken(token0);
 
         // Verify.
-        assert.equal(environment.getActiveToken(), token0);
+        assert.equal(environment.activeToken(), token0);
     });
 
-    QUnit.test("setPhase()", function(assert)
+    QUnit.test("phase()", function(assert)
     {
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
 
         // Run.
-        environment.setPhase(Phase.ACTIVATION_REVEAL_DIAL);
+        environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
 
         // Verify.
-        assert.equal(environment.getPhase(), Phase.ACTIVATION_REVEAL_DIAL);
+        assert.equal(environment.phase(), Phase.ACTIVATION_REVEAL_DIAL);
     });
 
     QUnit.test("ship destroyed event", function(assert)
@@ -398,7 +398,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var token0 = environment.getTokens()[0]; // TIE Fighter.
+        var token0 = environment.tokens()[0]; // TIE Fighter.
         var fromPosition = environment.getPositionFor(token0);
         var action = new ShipDestroyedAction(environment, token0, fromPosition);
 
@@ -420,7 +420,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         // Setup.
         Token.resetNextId();
         var environment = Environment.createCoreSetEnvironment();
-        var token0 = environment.getTokens()[0]; // TIE Fighter.
+        var token0 = environment.tokens()[0]; // TIE Fighter.
         var fromPosition = environment.getPositionFor(token0);
         var action = new ShipFledAction(environment, token0, fromPosition);
 

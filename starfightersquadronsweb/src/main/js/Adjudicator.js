@@ -33,7 +33,7 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 
                 if (toPolygon)
                 {
-                    var tokens = environment.getTokens();
+                    var tokens = environment.tokens();
                     answer = true;
 
                     for (var i = 0; i < tokens.length; i++)
@@ -92,9 +92,9 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
         {
             var answer;
 
-            var firstAgent = environment.getFirstAgent();
+            var firstAgent = environment.firstAgent();
             var firstCount = environment.getTokenCountFor(firstAgent.getTeam());
-            var secondAgent = environment.getSecondAgent();
+            var secondAgent = environment.secondAgent();
             var secondCount = environment.getTokenCountFor(secondAgent.getTeam());
 
             if (firstCount == 0)
@@ -113,14 +113,14 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
         {
             var answer = false;
 
-            var firstAgent = environment.getFirstAgent();
+            var firstAgent = environment.firstAgent();
             var firstCount = environment.getTokenCountFor(firstAgent.getTeam());
 
             answer = (firstCount == 0);
 
             if (!answer)
             {
-                var secondAgent = environment.getSecondAgent();
+                var secondAgent = environment.secondAgent();
                 var secondCount = environment.getTokenCountFor(secondAgent.getTeam());
                 answer = (secondCount == 0);
             }

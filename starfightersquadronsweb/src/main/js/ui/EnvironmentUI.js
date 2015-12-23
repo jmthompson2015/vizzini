@@ -5,13 +5,13 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
     {
         var ssPanel = new SSPanel(environment);
         var playAreaUI = new PlayAreaUI(environment);
-        var firstTokens = environment.getTokensForTeam(environment.getFirstTeam());
+        var firstTokens = environment.getTokensForTeam(environment.firstTeam());
         var element = React.createElement(PilotsUI,
         {
             initialTokens: firstTokens
         });
         var firstPilots = React.render(element, document.getElementById("firstPilots"));
-        var secondTokens = environment.getTokensForTeam(environment.getSecondTeam());
+        var secondTokens = environment.getTokensForTeam(environment.secondTeam());
         var element = React.createElement(PilotsUI,
         {
             initialTokens: secondTokens
@@ -22,8 +22,8 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
 
         environment.bind(Environment.PHASE_EVENT, function(phase)
         {
-            var round = environment.getRound();
-            var activeToken = environment.getActiveToken();
+            var round = environment.round();
+            var activeToken = environment.activeToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
 
             switch (phase)
@@ -55,9 +55,9 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
 
         environment.bind(Environment.SHIP_DESTROYED_EVENT, function(shipDestroyedAction)
         {
-            var round = environment.getRound();
-            var phase = environment.getPhase();
-            var activeToken = environment.getActiveToken();
+            var round = environment.round();
+            var phase = environment.phase();
+            var activeToken = environment.activeToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
             var playState = PlayState.createShipDestroyed(round, phase, activeToken, tokenPositions,
                     shipDestroyedAction);
@@ -66,9 +66,9 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
 
         environment.bind(Environment.SHIP_FLED_EVENT, function(shipFledAction)
         {
-            var round = environment.getRound();
-            var phase = environment.getPhase();
-            var activeToken = environment.getActiveToken();
+            var round = environment.round();
+            var phase = environment.phase();
+            var activeToken = environment.activeToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
             var playState = PlayState.createShipFled(round, phase, activeToken, tokenPositions, shipFledAction);
             repaint(playState);
@@ -76,9 +76,9 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
 
         environment.bind(Environment.UPDATE_TRIGGER_EVENT, function()
         {
-            var round = environment.getRound();
-            var phase = environment.getPhase();
-            var activeToken = environment.getActiveToken();
+            var round = environment.round();
+            var phase = environment.phase();
+            var activeToken = environment.activeToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
             var playState = new PlayState(round, phase, activeToken, tokenPositions);
             repaint(playState);
@@ -86,9 +86,9 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
 
         engine.bind(Engine.WINNER_EVENT, function(winner)
         {
-            var round = environment.getRound();
-            var phase = environment.getPhase();
-            var activeToken = environment.getActiveToken();
+            var round = environment.round();
+            var phase = environment.phase();
+            var activeToken = environment.activeToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
             var playState = PlayState.createWinner(round, phase, activeToken, tokenPositions, winner);
             repaint(playState);
@@ -98,15 +98,15 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
         {
             scale = value;
 
-            if (previousPlayState && previousPlayState.getManeuverAction())
+            if (previousPlayState && previousPlayState.maneuverAction())
             {
                 repaint(previousPlayState);
             }
             else
             {
-                var phase = environment.getPhase();
-                var round = environment.getRound();
-                var activeToken = environment.getActiveToken();
+                var phase = environment.phase();
+                var round = environment.round();
+                var activeToken = environment.activeToken();
                 var tokenPositions = PlayState.createTokenPositions(environment);
                 var playState = new PlayState(round, phase, activeToken, tokenPositions);
                 repaint(playState);
@@ -127,10 +127,10 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
 
             if (playState)
             {
-                var shipFledAction = playState.getShipFledAction();
-                var shipDestroyedAction = playState.getShipDestroyedAction();
-                var combatAction = playState.getCombatAction();
-                var winner = playState.getWinner();
+                var shipFledAction = playState.shipFledAction();
+                var shipDestroyedAction = playState.shipDestroyedAction();
+                var combatAction = playState.combatAction();
+                var winner = playState.winner();
 
                 if (shipFledAction)
                 {
@@ -138,11 +138,11 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                     message = "Ship fled the battlefield: " + token;
                     firstPilots.setState(
                     {
-                        tokens: environment.getTokensForTeam(environment.getFirstTeam()),
+                        tokens: environment.getTokensForTeam(environment.firstTeam()),
                     });
                     secondPilots.setState(
                     {
-                        tokens: environment.getTokensForTeam(environment.getSecondTeam()),
+                        tokens: environment.getTokensForTeam(environment.secondTeam()),
                     });
                 }
                 else if (shipDestroyedAction)
@@ -151,11 +151,11 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                     message = "Ship destroyed: " + token;
                     firstPilots.setState(
                     {
-                        tokens: environment.getTokensForTeam(environment.getFirstTeam()),
+                        tokens: environment.getTokensForTeam(environment.firstTeam()),
                     });
                     secondPilots.setState(
                     {
-                        tokens: environment.getTokensForTeam(environment.getSecondTeam()),
+                        tokens: environment.getTokensForTeam(environment.secondTeam()),
                     });
                 }
                 else if (combatAction)

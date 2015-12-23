@@ -36,12 +36,12 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 var environment = Environment.createCoreSetEnvironment();
                 var adjudicator = new Adjudicator();
                 var maneuver = Maneuver.STRAIGHT_1_EASY;
-                var attacker = environment.getTokens()[2]; // X-Wing
+                var attacker = environment.tokens()[2]; // X-Wing
                 assert.ok(attacker);
                 var weapon = attacker.getPrimaryWeapon();
                 assert.ok(weapon);
                 var defenderPosition = new Position(305, 20, 90); // TIE Fighter
-                var defender = environment.getTokens()[0];
+                var defender = environment.tokens()[0];
                 defender.increaseEvadeCount();
                 environment.removeToken(attackerPosition);
                 var attackerPosition = new Position(defenderPosition.getX(), defenderPosition.getY() + 50, -90);
@@ -54,6 +54,6 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
 
                 // Verify.
                 assert.equal(attacker.getRange(), RangeRuler.ONE);
-                assert.equal(environment.getPhase(), Phase.COMBAT_DEAL_DAMAGE);
+                assert.equal(environment.phase(), Phase.COMBAT_DEAL_DAMAGE);
             });
         });

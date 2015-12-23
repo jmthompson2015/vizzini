@@ -33,9 +33,9 @@
                 Token, ShipActionChooser)
         {
             var environment = Environment.createCoreSetEnvironment();
-            var token0 = environment.getTokens()[0];
-            var token1 = environment.getTokens()[1];
-            var token2 = environment.getTokens()[2];
+            var token0 = environment.tokens()[0];
+            var token1 = environment.tokens()[1];
+            var token2 = environment.tokens()[2];
             var shipActions = token2.getShipActions();
 
             if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))

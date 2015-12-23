@@ -67,7 +67,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/
 
                     var element = React.createElement(CombatUI,
                     {
-                        phase: environment.getPhase(),
+                        phase: environment.phase(),
                         attacker: attacker,
                         attackDice: attackDice,
                         defender: defender,
@@ -200,7 +200,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/
                     {
                         var element = React.createElement(CombatUI,
                         {
-                            phase: environment.getPhase(),
+                            phase: environment.phase(),
                             attacker: attacker,
                             attackDice: attackDice,
                             defender: defender,
@@ -242,7 +242,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/
                     {
                         var element = React.createElement(CombatUI,
                         {
-                            phase: environment.getPhase(),
+                            phase: environment.phase(),
                             attacker: attacker,
                             attackDice: attackDice,
                             defender: defender,

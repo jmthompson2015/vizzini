@@ -10,7 +10,7 @@ define([ "Environment", "Position", "ShipDestroyedAction", "TargetLock", "Token"
         var environment = Environment.createCoreSetEnvironment();
         var fromPosition = new Position(305, 20, 90); // TIE Fighter.
         var token = environment.getTokenAt(fromPosition);
-        var defender = environment.getTokens()[2]; // X-Wing.
+        var defender = environment.tokens()[2]; // X-Wing.
         var targetLock = new TargetLock(token, defender);
         token.addAttackerTargetLock(targetLock);
         defender.addDefenderTargetLock(targetLock);

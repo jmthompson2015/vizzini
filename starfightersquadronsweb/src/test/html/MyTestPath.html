@@ -27,8 +27,8 @@
         require([ "Environment", "Path", "RectanglePath" ], function(Environment, Path, RectanglePath)
         {
             var environment = Environment.createCoreSetEnvironment();
-            var fromPosition = environment.getPositionFor(environment.getTokens()[0]);
-            var fromPosition1 = environment.getPositionFor(environment.getTokens()[1]);
+            var fromPosition = environment.getPositionFor(environment.tokens()[0]);
+            var fromPosition1 = environment.getPositionFor(environment.tokens()[1]);
 
             var path0 = new Path();
             path0.add(fromPosition.getX() - 20, fromPosition.getY() - 20);

@@ -7,7 +7,7 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
     {
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
-        var defender = environment.getTokens()[0];
+        var defender = environment.tokens()[0];
         defender.increaseEvadeCount();
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
@@ -31,7 +31,7 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
     {
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
-        var defender = environment.getTokens()[0];
+        var defender = environment.tokens()[0];
         defender.increaseFocusCount();
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;

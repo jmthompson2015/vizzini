@@ -95,9 +95,9 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
         var environment = Environment.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var agent = new SimpleAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        var attacker = environment.getTokens()[0];
+        var attacker = environment.tokens()[0];
         var attackDice = new AttackDice(3);
-        var defender = environment.getTokens()[2];
+        var defender = environment.tokens()[2];
         var defenseDice = new DefenseDice(3);
         defender.increaseEvadeCount();
 

@@ -1,19 +1,33 @@
-/*
- * Construct this object.
- * 
- * @param environment Environment. 
- * 
- * @param maneuver Maneuver. 
- * 
- * @param fromPosition From position. 
- * 
- * @param shipBase Ship base.
- */
 define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBase", "ShipFledAction" ], function(
         Maneuver, Phase, Position, RangeRuler, RectanglePath, ShipBase, ShipFledAction)
 {
     function ManeuverAction(environment, maneuver, fromPosition, shipBase)
     {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("maneuver", maneuver);
+        InputValidator.validateNotNull("fromPosition", fromPosition);
+        InputValidator.validateNotNull("shipBase", shipBase);
+
+        this.environment = function()
+        {
+            return environment;
+        }
+
+        this.maneuver = function()
+        {
+            return maneuver;
+        }
+
+        this.fromPosition = function()
+        {
+            return fromPosition;
+        }
+
+        this.shipBase = function()
+        {
+            return shipBase;
+        }
+
         var token = environment.getTokenAt(fromPosition);
 
         // Flag indicating if the maneuver is a barrel roll.
@@ -22,28 +36,13 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
         // Flag indicating if the maneuver is a boost.
         var isBoost = false;
 
-        this.getManeuver = function()
-        {
-            return maneuver;
-        }
-
-        this.getFromPosition = function()
-        {
-            return fromPosition;
-        }
-
-        this.getShipBase = function()
-        {
-            return shipBase;
-        }
-
         var token = environment.getTokenAt(fromPosition);
 
         this.doIt = function()
         {
             token.setManeuverAction(this);
             token.setTouching(false);
-            environment.setPhase(Phase.ACTIVATION_REVEAL_DIAL);
+            environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
 
             var toPosition = determineToPosition();
             LOGGER.trace("toPosition = " + toPosition);
@@ -67,7 +66,7 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
                 environment.removeToken(fromPosition);
                 environment.placeToken(toPosition, token);
 
-                environment.setPhase(Phase.ACTIVATION_EXECUTE_MANEUVER);
+                environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
             }
 
             return false;
