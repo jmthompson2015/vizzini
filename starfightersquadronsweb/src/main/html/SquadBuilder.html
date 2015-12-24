@@ -67,7 +67,7 @@
             function teamChanged(event)
             {
                 team = event.currentTarget.value;
-                LOGGER.info("teamChanged() team = " + team);
+                LOGGER.debug("teamChanged() team = " + team);
                 React.render(createTeamSelect(), document.getElementById("factionSelect"));
                 var element = React.createElement(SquadBuilderUI,
                 {
