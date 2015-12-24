@@ -65,19 +65,13 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             upgrades.push(arguments[i]);
         }
 
-        // Activation state.
-        var isTouching = false;
-        var maneuverAction;
-        // var shipActionAction;
+        var activationState = new Token.ActivationState();
+        var combatState = new Token.CombatState();
 
-        // Combat state.
-        var attackDice;
-        var combatAction;
-        var defender;
-        var defenseDice;
-        var isDefenderHit;
-        var range;
-        var weapon;
+        this.activationState = function()
+        {
+            return activationState;
+        }
 
         this.addAttackerTargetLock = function(targetLock)
         {
@@ -95,16 +89,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             this.trigger("change");
         }
 
-        this.attackDice = function(value)
-        {
-            if (value)
-            {
-                attackDice = value;
-            }
-
-            return attackDice;
-        }
-
         this.attackerTargetLocks = function()
         {
             return attackerTargetLocks.slice();
@@ -115,39 +99,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return cloakCount;
         }
 
-        this.combatAction = function(value)
+        this.combatState = function()
         {
-            if (value)
-            {
-                combatAction = value;
-            }
-
-            return combatAction;
-        }
-
-        this.defender = function(value)
-        {
-            if (value)
-            {
-                defender = value;
-            }
-
-            return defender;
+            return combatState;
         }
 
         this.defenderTargetLocks = function()
         {
             return defenderTargetLocks.slice();
-        }
-
-        this.defenseDice = function(value)
-        {
-            if (value)
-            {
-                defenseDice = value;
-            }
-
-            return defenseDice;
         }
 
         this.equals = function(other)
@@ -326,31 +285,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return ionCount;
         }
 
-        this.isDefenderHit = function(value)
-        {
-            if (value)
-            {
-                isDefenderHit = value;
-            }
-
-            return isDefenderHit;
-        }
-
-        this.isTouching = function()
-        {
-            return isTouching;
-        }
-
-        this.maneuverAction = function(value)
-        {
-            if (value)
-            {
-                maneuverAction = value;
-            }
-
-            return maneuverAction;
-        }
-
         this.maneuvers = function()
         {
             var answer;
@@ -400,13 +334,15 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             switch (phase)
             {
             case Phase.ACTIVATION_START:
-                clearActivationState();
+                activationState.clear();
                 break;
             case Phase.ACTIVATION_EXECUTE_MANEUVER:
                 var activeToken = environment.activeToken();
-                if (this == activeToken)
+
+                if (this === activeToken)
                 {
-                    var maneuverAction = this.maneuverAction();
+                    var maneuverAction = activationState.maneuverAction();
+
                     if (maneuverAction)
                     {
                         var maneuver = maneuverAction.maneuver();
@@ -415,7 +351,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 }
                 break;
             case Phase.COMBAT_START:
-                clearCombatState();
+                combatState.clear();
                 break;
             }
 
@@ -462,16 +398,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return Pilot.properties[pilot].primaryWeapon;
         }
 
-        this.range = function(value)
-        {
-            if (value)
-            {
-                range = value;
-            }
-
-            return range;
-        }
-
         this.removeAllTargetLocks = function()
         {
             // Remove target locks which have this as the defender.
@@ -511,13 +437,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.secondaryWeapons = function()
         {
-            // FIXME
+            // FIXME: find secondary weapons.
             return [];
-        }
-
-        this.setTouching = function(value)
-        {
-            isTouching = value;
         }
 
         this.shield = function()
@@ -569,16 +490,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.upgrades = function()
         {
             return upgrades;
-        }
-
-        this.weapon = function(value)
-        {
-            if (value)
-            {
-                weapon = value;
-            }
-
-            return weapon;
         }
 
         function changeBearingManeuversToEasy(maneuvers, bearing)
@@ -636,29 +547,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                     return maneuver;
                 }
             });
-        }
-
-        /*
-         * Clear the activation state.
-         */
-        function clearActivationState()
-        {
-            isTouching = false;
-            maneuverAction = undefined;
-            // shipActionAction = undefined;
-        }
-
-        /*
-         * Clear the combat state.
-         */
-        function clearCombatState()
-        {
-            attackDice = undefined;
-            combatAction = undefined;
-            defender = undefined;
-            defenseDice = undefined;
-            isDefenderHit = false;
-            range = undefined;
         }
 
         function getNonHardManeuvers()
@@ -876,6 +764,129 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
     Token.prototype.toString = function()
     {
         return this.name();
+    }
+
+    Token.ActivationState = function()
+    {
+        var isTouching = false;
+        var maneuverAction;
+
+        this.clear = function()
+        {
+            isTouching = false;
+            maneuverAction = undefined;
+        }
+
+        this.isTouching = function(value)
+        {
+            if (value)
+            {
+                isTouching = value;
+            }
+
+            return isTouching;
+        }
+
+        this.maneuverAction = function(value)
+        {
+            if (value)
+            {
+                maneuverAction = value;
+            }
+
+            return maneuverAction;
+        }
+    }
+
+    Token.CombatState = function()
+    {
+        var attackDice;
+        var combatAction;
+        var defender;
+        var defenseDice;
+        var isDefenderHit;
+        var range;
+        var weapon;
+
+        this.attackDice = function(value)
+        {
+            if (value)
+            {
+                attackDice = value;
+            }
+
+            return attackDice;
+        }
+
+        this.clear = function()
+        {
+            attackDice = undefined;
+            combatAction = undefined;
+            defender = undefined;
+            defenseDice = undefined;
+            isDefenderHit = false;
+            range = undefined;
+        }
+
+        this.combatAction = function(value)
+        {
+            if (value)
+            {
+                combatAction = value;
+            }
+
+            return combatAction;
+        }
+
+        this.defender = function(value)
+        {
+            if (value)
+            {
+                defender = value;
+            }
+
+            return defender;
+        }
+
+        this.defenseDice = function(value)
+        {
+            if (value)
+            {
+                defenseDice = value;
+            }
+
+            return defenseDice;
+        }
+
+        this.isDefenderHit = function(value)
+        {
+            if (value)
+            {
+                isDefenderHit = value;
+            }
+
+            return isDefenderHit;
+        }
+
+        this.range = function(value)
+        {
+            if (value)
+            {
+                range = value;
+            }
+
+            return range;
+        }
+
+        this.weapon = function(value)
+        {
+            if (value)
+            {
+                weapon = value;
+            }
+
+            return weapon;
+        }
     }
 
     Token.Count = function(initialCount)

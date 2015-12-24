@@ -99,6 +99,13 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
     function PlayAreaUI(environment)
     {
+        InputValidator.validateNotNull("environment", environment);
+
+        this.environment = function()
+        {
+            return environment;
+        }
+
         var DEG_TO_RADIANS = Math.PI / 180;
         var SHIP_BACKGROUND = "rgba(255,255,255,0.4)";
 
@@ -172,12 +179,12 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
         {
             var answer;
 
-            var attacker = combatAction.getAttacker();
-            var fromPosition = combatAction.getAttackerPosition();
+            var attacker = combatAction.attacker();
+            var fromPosition = combatAction.attackerPosition();
 
             if (fromPosition)
             {
-                var toPosition = combatAction.getDefenderPosition();
+                var toPosition = combatAction.defenderPosition();
 
                 if (toPosition)
                 {

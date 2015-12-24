@@ -90,7 +90,7 @@ define([ "ShipAction" ], function(ShipAction)
             if (!isNaN(selected))
             {
                 var myId = parseInt(selected);
-                LOGGER.info("myId = " + myId);
+                LOGGER.trace("myId = " + myId);
                 var shipActions = this.props.shipActions;
 
                 for (var i = 0; i < shipActions.length; i++)
@@ -100,7 +100,7 @@ define([ "ShipAction" ], function(ShipAction)
                     if (!ShipAction.properties[shipAction] && shipAction.defender.id() === myId)
                     {
                         selected = shipAction;
-                        LOGGER.info("shipAction = " + JSON.stringify(shipAction));
+                        LOGGER.trace("shipAction = " + JSON.stringify(shipAction));
                         break;
                     }
                 }

@@ -75,7 +75,7 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 
             // Cannot select a ship action if the ship is stressed, or
             // if the ship is touching another ship.
-            return !attacker.isStressed() && !attacker.isTouching();
+            return !attacker.isStressed() && !attacker.activationState().isTouching();
         }
 
         this.determineWinner = function(environment)

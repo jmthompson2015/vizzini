@@ -40,8 +40,8 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
 
         this.doIt = function()
         {
-            token.maneuverAction(this);
-            token.setTouching(false);
+            token.activationState().maneuverAction(this);
+            token.activationState().isTouching(false);
             environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
 
             var toPosition = determineToPosition();
@@ -244,10 +244,13 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
                         answer[token1] = shipData;
                     });
 
-            Object.getOwnPropertyNames(answer).forEach(function(tokenName)
+            if (LOGGER.isDebugEnabled())
             {
-                LOGGER.info(tokenName + ": " + answer[tokenName]);
-            });
+                Object.getOwnPropertyNames(answer).forEach(function(tokenName)
+                {
+                    LOGGER.debug(tokenName + ": " + answer[tokenName]);
+                });
+            }
 
             return answer;
         }
@@ -304,7 +307,7 @@ define([ "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBa
                 else
                 {
                     // Collision with shipData, at least.
-                    token.setTouching(true);
+                    token.activationState().isTouching(true);
                     index = backOffFrom(shipData, index);
                 }
 

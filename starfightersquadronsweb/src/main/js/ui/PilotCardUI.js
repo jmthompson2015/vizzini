@@ -223,7 +223,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
         tokenChanged: function()
         {
-            LOGGER.info(this.state.token.name() + " token change event");
+            LOGGER.trace(this.state.token.name() + " token change event");
             this.setState(
             {
                 token: this.state.token

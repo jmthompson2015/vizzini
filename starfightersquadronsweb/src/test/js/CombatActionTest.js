@@ -16,7 +16,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 environment.removeToken(attackerPosition);
                 attackerPosition = new Position(attackerPosition.x(), attackerPosition.y(), -30);
                 environment.placeToken(attackerPosition, attacker);
-                var weapon;
+                var weapon = attacker.primaryWeapon();
                 var defenderPosition = new Position(305, 20, 90);
                 var defender = environment.getTokenAt(defenderPosition);
                 var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon,
@@ -26,7 +26,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pos
                 combatAction.doIt();
 
                 // Verify.
-                assert.ok(!attacker.range());
+                assert.ok(!attacker.combatState().range());
             });
 
             QUnit.skip("CombatAction.doIt() range one", function(assert)

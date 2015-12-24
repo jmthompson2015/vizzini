@@ -162,11 +162,11 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 LOGGER.debug("defender = " + defender);
                 var attacker = environment.activeToken();
                 var attackerPosition = environment.getPositionFor(attacker);
-                attacker.weapon(weapon);
+                attacker.combatState().weapon(weapon);
 
                 if (defender)
                 {
-                    attacker.defender(defender);
+                    attacker.combatState().defender(defender);
                     environment.phase(Phase.COMBAT_DECLARE_TARGET);
                     var defenderPosition = environment.getPositionFor(defender);
 

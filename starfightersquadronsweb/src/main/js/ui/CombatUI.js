@@ -342,10 +342,10 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
 
         myOnChange: function(event)
         {
-            LOGGER.info("ModifyAttackUI.myOnChange()");
+            LOGGER.trace("ModifyAttackUI.myOnChange()");
             var source = event.target;
             var modification = source.id;
-            LOGGER.info("ModifyAttackUI.myOnChange() modification = " + modification);
+            LOGGER.debug("ModifyAttackUI.myOnChange() modification = " + modification);
             this.props.onChange(modification);
         },
     });
@@ -387,10 +387,10 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
 
         myOnChange: function(event)
         {
-            LOGGER.info("ModifyDefenseUI.myOnChange()");
+            LOGGER.trace("ModifyDefenseUI.myOnChange()");
             var source = event.target;
             var modification = source.id;
-            LOGGER.info("ModifyDefenseUI.myOnChange() modification = " + modification);
+            LOGGER.debug("ModifyDefenseUI.myOnChange() modification = " + modification);
             this.props.onChange(modification);
         },
     });

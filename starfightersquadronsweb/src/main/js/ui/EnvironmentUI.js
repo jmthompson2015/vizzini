@@ -3,6 +3,19 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
 {
     function EnvironmentUI(engine, environment)
     {
+        InputValidator.validateNotNull("engine", engine);
+        InputValidator.validateNotNull("environment", environment);
+
+        this.engine = function()
+        {
+            return engine;
+        }
+
+        this.environment = function()
+        {
+            return environment;
+        }
+
         var ssPanel = new SSPanel(environment);
         var playAreaUI = new PlayAreaUI(environment);
         var firstTokens = environment.getTokensForTeam(environment.firstTeam());
@@ -30,7 +43,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
             {
             case Phase.ACTIVATION_EXECUTE_MANEUVER:
                 // Draw maneuver.
-                var maneuverAction = activeToken.maneuverAction();
+                var maneuverAction = activeToken.activationState().maneuverAction();
                 var playState = new PlayState(round, phase, activeToken, tokenPositions, maneuverAction);
                 repaint(playState);
                 break;
@@ -41,7 +54,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                 break;
             case Phase.COMBAT_DEAL_DAMAGE:
                 // Draw laser beam.
-                var combatAction = activeToken.combatAction();
+                var combatAction = activeToken.combatState().combatAction();
                 var playState = PlayState.createCombat(round, phase, activeToken, tokenPositions, combatAction);
                 repaint(playState);
                 break;
@@ -160,8 +173,8 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                 }
                 else if (combatAction)
                 {
-                    var attacker = combatAction.getAttacker();
-                    var defender = combatAction.getDefender();
+                    var attacker = combatAction.attacker();
+                    var defender = combatAction.defender();
                     message = attacker + " fires upon " + defender;
                 }
                 else if (winner)
