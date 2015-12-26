@@ -53,11 +53,6 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
                 var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
                 answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
             }
-            // else
-            // {
-            // answer = SimpleAgent.prototype.getModifyAttackDiceAction.call(this, environment, adjudicator, attacker,
-            // attackDice, defender, callback);
-            // }
 
             callback(answer);
         },
@@ -87,11 +82,6 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
                 var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
             }
-            // else
-            // {
-            // answer = SimpleAgent.prototype.getModifyDefenseDiceAction.call(this, environment, adjudicator,
-            // attacker, attackDice, defender, defenseDice, callback);
-            // }
 
             callback(answer);
         },

@@ -254,12 +254,6 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
         {
             var answer;
             LOGGER.info("HumanAgent.finishModifyAttackDice() modification = " + modification);
-            // LOGGER.info("modification === undefined ? " + (modification === undefined));
-            // LOGGER.info("modification === null ? " + (modification === null));
-            // LOGGER.info("modification !== null ? " + (modification !== null));
-            // LOGGER.info("modification != null ? " + (modification != null));
-            // LOGGER.info("modification === \"null\" ? " + (modification === "null"));
-            // LOGGER.info("modification !== \"null\" ? " + (modification !== "null"));
 
             if (modification && modification !== null && modification !== "null")
             {
@@ -274,7 +268,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
         {
             var answer;
 
-            if (modification)
+            if (modification && modification !== null && modification !== "null")
             {
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
             }
