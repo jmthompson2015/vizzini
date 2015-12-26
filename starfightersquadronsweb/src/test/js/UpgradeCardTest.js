@@ -98,8 +98,8 @@ define(
                 assert.ok(result);
                 assert.equal(result.length, expected);
                 assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-                assert.equal(result[144], UpgradeCard.PROTON_ROCKETS);
-                assert.equal(result[145], UpgradeCard.PROTON_TORPEDOES);
+                assert.equal(result[150], UpgradeCard.PROTON_ROCKETS);
+                assert.equal(result[151], UpgradeCard.PROTON_TORPEDOES);
             });
 
             QUnit.test("valuesByPilotAndType() Astromech", function(assert)

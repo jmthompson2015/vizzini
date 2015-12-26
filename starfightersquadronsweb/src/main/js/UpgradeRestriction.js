@@ -22,6 +22,7 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
         STAR_VIPER_ONLY: "starViperOnly",
         TIE_ADVANCED_ONLY: "tieAdvancedOnly",
         TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
+        TIE_ONLY: "tieOnly",
         TIE_PHANTOM_ONLY: "tiePhantomOnly",
         VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
         YT_1300_ONLY: "yt1300Only",
@@ -199,6 +200,16 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
                     var shipTeam = Pilot.properties[pilot].shipTeam;
                     var ship = ShipTeam.properties[shipTeam].ship;
                     return ship === Ship.TIE_INTERCEPTOR;
+                }
+            },
+            "tieOnly":
+            {
+                displayName: "TIE only.",
+                passes: function(pilot)
+                {
+                    var shipTeam = Pilot.properties[pilot].shipTeam;
+                    var ship = ShipTeam.properties[shipTeam].ship;
+                    return Ship.properties[ship].isTie;
                 }
             },
             "tiePhantomOnly":

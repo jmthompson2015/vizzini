@@ -22,6 +22,7 @@ define(
                 CARLIST_RIEEKAN: "carlistRieekan",
                 CHARDAAN_REFIT: "chardaanRefit",
                 CHEWBACCA: "chewbacca",
+                CLUSTER_MINES: "clusterMines",
                 COMBAT_RETROFIT: "combatRetrofit",
                 COUNTERMEASURES: "countermeasures",
                 CRACK_SHOT: "crackShot",
@@ -42,6 +43,7 @@ define(
                 EXPERIMENTAL_INTERFACE: "experimentalInterface",
                 EXPERT_HANDLING: "expertHandling",
                 EXPOSE: "expose",
+                EXTRA_MUNITIONS: "extraMunitions",
                 FEEDBACK_ARRAY: "feedbackArray",
                 FIRE_CONTROL_SYSTEM: "fireControlSystem",
                 FLEET_OFFICER: "fleetOfficer",
@@ -58,6 +60,7 @@ define(
                 INERTIAL_DAMPENERS: "inertialDampeners",
                 INTELLIGENCE_AGENT: "intelligenceAgent",
                 INTIMIDATION: "intimidation",
+                ION_BOMBS: "ionBombs",
                 JAN_DODONNA: "janDodonna",
                 JAN_ORS: "janOrs",
                 K4_SECURITY_DROID: "k4SecurityDroid",
@@ -124,6 +127,7 @@ define(
                 TARGETING_COORDINATOR: "targetingCoordinator",
                 TIE_X1: "tieX1",
                 TORYN_FARR: "torynFarr",
+                TWIN_ION_ENGINE_MK_II: "twinIonEngineMkII",
                 UNHINGED_ASTROMECH: "unhingedAstromech",
                 VETERAN_INSTINCTS: "veteranInstincts",
                 VIRAGO: "virago",
@@ -133,6 +137,7 @@ define(
                 YSANNE_ISARD: "ysanneIsard",
 
                 // Secondary weapons.
+                ADVANCED_HOMING_MISSILES: "advancedHomingMissiles",
                 ADVANCED_PROTON_TORPEDOES: "advancedProtonTorpedoes",
                 ASSAULT_MISSILES: "assaultMissiles",
                 AUTOBLASTER: "autoblaster",
@@ -150,6 +155,7 @@ define(
                 ION_PULSE_MISSILES: "ionPulseMissiles",
                 ION_TORPEDOES: "ionTorpedoes",
                 MANGLER_CANNON: "manglerCannon",
+                PLASMA_TORPEDOES: "plasmaTorpedoes",
                 PROTON_ROCKETS: "protonRockets",
                 PROTON_TORPEDOES: "protonTorpedoes",
                 properties:
@@ -346,6 +352,16 @@ define(
                         squadPointCost: 4,
                         hasAction: false,
                         value: "chewbacca",
+                    },
+                    "clusterMines":
+                    {
+                        name: "Cluster Mines",
+                        type: UpgradeType.BOMB,
+                        isUnique: false,
+                        description: "Discard this card to drop 1 cluster mine token set. When a ship's base or maneuver template overlaps a cluster mine token, that token detonates.",
+                        squadPointCost: 4,
+                        hasAction: true,
+                        value: "clusterMines",
                     },
                     "combatRetrofit":
                     {
@@ -555,6 +571,16 @@ define(
                         hasAction: true,
                         value: "expose",
                     },
+                    "extraMunitions":
+                    {
+                        name: "Extra Munitions",
+                        type: UpgradeType.TORPEDO,
+                        isUnique: false,
+                        description: "When you equip this card, place 1 ordnance token on each equipped Torpedo, Missile, and Bomb Upgrade card. When you are instructed to discard an Upgrade card, you may discard 1 ordnance token on that card instead.",
+                        squadPointCost: 2,
+                        hasAction: false,
+                        value: "extraMunitions",
+                    },
                     "feedbackArray":
                     {
                         name: "Feedback Array",
@@ -721,6 +747,16 @@ define(
                         squadPointCost: 2,
                         hasAction: false,
                         value: "intimidation",
+                    },
+                    "ionBombs":
+                    {
+                        name: "Ion Bombs",
+                        type: UpgradeType.BOMB,
+                        isUnique: false,
+                        description: "When you reveal your maneuver dial, you may discard this card to drop 1 ion bomb token. This token detonates at the end of the Activation phase.",
+                        squadPointCost: 2,
+                        hasAction: false,
+                        value: "ionBombs",
                     },
                     "janDodonna":
                     {
@@ -1414,6 +1450,17 @@ define(
                         hasAction: true,
                         value: "torynFarr",
                     },
+                    "twinIonEngineMkII":
+                    {
+                        name: "Twin Ion Engine Mk. II",
+                        type: UpgradeType.MODIFICATION,
+                        isUnique: false,
+                        restrictions: [ UpgradeRestriction.TIE_ONLY ],
+                        description: "You may treat all bank maneuvers (left or right) as green maneuvers.",
+                        squadPointCost: 1,
+                        hasAction: false,
+                        value: "twinIonEngineMkII",
+                    },
                     "unhingedAstromech":
                     {
                         name: "Unhinged Astromech",
@@ -1491,6 +1538,18 @@ define(
 
                     // /////////////////////////////////////////////////////////////////////
                     // Secondary weapons.
+                    "advancedHomingMissiles":
+                    {
+                        name: "Advanced Homing Missiles",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        description: "Discard this card to perform this attack. If this attack hits, deal 1 faceup Damage card to the defender. Then cancel all dice results.",
+                        squadPointCost: 3,
+                        hasAction: false,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.TWO ],
+                        value: "advancedHomingMissiles",
+                    },
                     "advancedProtonTorpedoes":
                     {
                         name: "Advanced Proton Torpedoes",
@@ -1694,6 +1753,18 @@ define(
                         weaponValue: 3,
                         ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
                         value: "manglerCannon",
+                    },
+                    "plasmaTorpedoes":
+                    {
+                        name: "Plasma Torpedoes",
+                        type: UpgradeType.TORPEDO,
+                        isUnique: false,
+                        description: "Spend your target lock and discard this card to perform this attack. If this attack hits, after dealing damage, remove 1 shield token from the defender.",
+                        squadPointCost: 3,
+                        hasAction: false,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        value: "plasmaTorpedoes",
                     },
                     "protonRockets":
                     {

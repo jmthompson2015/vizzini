@@ -16,6 +16,7 @@ define(
                 BANDIT_SQUADRON_PILOT: "banditSquadronPilot",
                 BIGGS_DARKLIGHTER: "biggsDarklighter",
                 BINAYRE_PIRATE: "binayrePirate",
+                BLACK_EIGHT_SQ_PILOT: "blackEightSqPilot",
                 BLACK_SQUADRON_PILOT: "blackSquadronPilot",
                 BLACK_SUN_ACE: "blackSunAce",
                 BLACK_SUN_ENFORCER: "blackSunEnforcer",
@@ -38,11 +39,13 @@ define(
                 COLONEL_VESSERY: "colonelVessery",
                 COMMANDER_KENKIRK: "commanderKenkirk",
                 CORRAN_HORN: "corranHorn",
+                CUTLASS_SQUADRON_PILOT: "cutlassSquadronPilot",
                 DACE_BONEARM: "daceBonearm",
                 DAGGER_SQUADRON_PILOT: "daggerSquadronPilot",
                 DARK_CURSE: "darkCurse",
                 DARTH_VADER: "darthVader",
                 DASH_RENDAR: "dashRendar",
+                DEATHRAIN: "deathrain",
                 DELTA_SQUADRON_PILOT: "deltaSquadronPilot",
                 DREA_RENTHAL: "dreaRenthal",
                 DUTCH_VANDER: "dutchVander",
@@ -105,6 +108,7 @@ define(
                 REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
                 REBEL_OPERATIVE: "rebelOperative",
                 RED_SQUADRON_PILOT: "redSquadronPilot",
+                REDLINE: "redline",
                 REXLER_BRATH: "rexlerBrath",
                 ROARK_GARNET: "roarkGarnet",
                 ROOKIE_PILOT: "rookiePilot",
@@ -251,6 +255,20 @@ define(
                         squadPointCost: 12,
                         upgradeTypes: [ UpgradeType.MISSILE, UpgradeType.ILLICIT ],
                         value: "binayrePirate",
+                    },
+                    "blackEightSqPilot":
+                    {
+                        name: "Black Eight Sq. Pilot",
+                        description: "Darth Vader's hand-picked Black Eight Squadron earned its reputation for ruthlessness when its bombardment of Callos rendered the planet uninhabitable.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
+                        shipState: new ShipState(4, 2, 1, 6, 3),
+                        squadPointCost: 23,
+                        upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "blackEightSqPilot",
                     },
                     "blackSquadronPilot":
                     {
@@ -546,6 +564,20 @@ define(
                                 UpgradeType.ASTROMECH ],
                         value: "corranHorn",
                     },
+                    "cutlassSquadronPilot":
+                    {
+                        name: "Cutlass Squadron Pilot",
+                        description: "The TIE Punisher built upon the success of the TIE bomber, adding shielding, a second bomb chute, and three additional ordnance pods, each equipped with a twin ion engine.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
+                        shipState: new ShipState(2, 2, 1, 6, 3),
+                        squadPointCost: 21,
+                        upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "cutlassSquadronPilot",
+                    },
                     "daceBonearm":
                     {
                         name: "Dace Bonearm",
@@ -611,6 +643,20 @@ define(
                         squadPointCost: 36,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW ],
                         value: "dashRendar",
+                    },
+                    "deathrain":
+                    {
+                        name: "\"Deathrain\"",
+                        description: "When dropping a bomb, you may use the front guides of your ship. After dropping a bomb, you may perform a free barrel roll action.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
+                        shipState: new ShipState(6, 2, 1, 6, 3),
+                        squadPointCost: 26,
+                        upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "deathrain",
                     },
                     "deltaSquadronPilot":
                     {
@@ -1427,6 +1473,20 @@ define(
                         squadPointCost: 16,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.CREW ],
                         value: "rebelOperative",
+                    },
+                    "redline":
+                    {
+                        name: "\"Redline\"",
+                        description: "You may maintain 2 target locks on the same ship. When you acquire a target lock, you may acquire a second lock on that same ship.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
+                        shipState: new ShipState(7, 2, 1, 6, 3),
+                        squadPointCost: 27,
+                        upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "redline",
                     },
                     "redSquadronPilot":
                     {

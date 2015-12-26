@@ -21,6 +21,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
         TIE_FIGHTER: "tieFighter",
         TIE_INTERCEPTOR: "tieInterceptor",
         TIE_PHANTOM: "tiePhantom",
+        TIE_PUNISHER: "tiePunisher",
         VT_49_DECIMATOR: "vt49Decimator",
         X_WING: "xWing",
         Y_WING: "yWing",
@@ -192,6 +193,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
                 shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                         ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
+                isTie: true,
                 value: "tieAdvanced",
             },
             "tieBomber":
@@ -207,6 +209,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
                 shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                         ShipAction.BARREL_ROLL_RIGHT ],
+                isTie: true,
                 value: "tieBomber",
             },
             "tieDefender":
@@ -223,6 +226,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.KOIOGRAN_TURN_4_STANDARD, Maneuver.STRAIGHT_5_EASY ],
                 shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                         ShipAction.BARREL_ROLL_RIGHT ],
+                isTie: true,
                 value: "tieDefender",
             },
             "tieFighter":
@@ -239,6 +243,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
                 shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL_LEFT, ShipAction.BARREL_ROLL_RIGHT,
                         ShipAction.EVADE ],
+                isTie: true,
                 value: "tieFighter",
             },
             "tieInterceptor":
@@ -255,6 +260,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.KOIOGRAN_TURN_5_HARD ],
                 shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL_LEFT, ShipAction.BARREL_ROLL_RIGHT,
                         ShipAction.BOOST_LEFT, ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT, ShipAction.EVADE ],
+                isTie: true,
                 value: "tieInterceptor",
             },
             "tiePhantom":
@@ -270,7 +276,24 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
                         Maneuver.KOIOGRAN_TURN_4_HARD ],
                 shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL, ShipAction.EVADE, ShipAction.CLOAK, ],
+                isTie: true,
                 value: "tiePhantom",
+            },
+            "tiePunisher":
+            {
+                name: "TIE Punisher",
+                description: "A TIE punisher.",
+                shipBase: ShipBase.STANDARD,
+                primaryFiringArc: FiringArc.FORWARD,
+                maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
+                        Maneuver.TURN_LEFT_2_HARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
+                        Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_HARD, Maneuver.TURN_LEFT_3_STANDARD,
+                        Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_STANDARD,
+                        Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST_LEFT,
+                        ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT, ],
+                isTie: true,
+                value: "tiePunisher",
             },
             "vt49Decimator":
             {

@@ -77,9 +77,9 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 30);
+        assert.equal(result.length, 31);
         assert.equal(result[0], "imperialFirespray31");
-        assert.equal(result[29], "scumZ95Headhunter");
+        assert.equal(result[30], "scumZ95Headhunter");
 
         var properties = Object.getOwnPropertyNames(ShipTeam);
         var count = properties.length - 1 // properties
@@ -95,7 +95,7 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 11);
+        assert.equal(result.length, 12);
         var i = 0;
         assert.equal(result[i++], "imperialFirespray31");
         assert.equal(result[i++], "imperialLambdaClassShuttle");
@@ -107,6 +107,7 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.equal(result[i++], "imperialTieInterceptorRoyalGuard");
         assert.equal(result[i++], "imperialTieInterceptorSaberSquadron");
         assert.equal(result[i++], "imperialTiePhantom");
+        assert.equal(result[i++], "imperialTiePunisher");
         assert.equal(result[i++], "imperialVt49Decimator");
     });
 

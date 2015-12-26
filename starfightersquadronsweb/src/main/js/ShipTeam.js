@@ -16,6 +16,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
         IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD: "imperialTieInterceptorRoyalGuard",
         IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON: "imperialTieInterceptorSaberSquadron",
         IMPERIAL_TIE_PHANTOM: "imperialTiePhantom",
+        IMPERIAL_TIE_PUNISHER: "imperialTiePunisher",
         IMPERIAL_VT_49_DECIMATOR: "imperialVt49Decimator",
 
         // Rebel.
@@ -123,6 +124,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 team: Team.IMPERIAL,
                 image: "TIE_Phantom.png",
                 value: "imperialTiePhantom",
+            },
+            "imperialTiePunisher":
+            {
+                name: "TIE Punisher",
+                ship: Ship.TIE_PUNISHER,
+                team: Team.IMPERIAL,
+                image: "TIE_Punisher.png",
+                value: "imperialTiePunisher",
             },
             "imperialVt49Decimator":
             {

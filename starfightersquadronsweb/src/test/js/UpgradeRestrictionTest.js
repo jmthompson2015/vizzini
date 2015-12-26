@@ -16,10 +16,10 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
     {
         var result = UpgradeRestriction.values();
         assert.ok(result);
-        assert.equal(result.length, 22);
+        assert.equal(result.length, 23);
         assert.equal(result[0], UpgradeRestriction.A_WING_ONLY);
-        assert.equal(result[20], UpgradeRestriction.YT_2400_ONLY);
-        assert.equal(result[21], UpgradeRestriction.Y_WING_ONLY);
+        assert.equal(result[21], UpgradeRestriction.YT_2400_ONLY);
+        assert.equal(result[22], UpgradeRestriction.Y_WING_ONLY);
     });
 
     QUnit.test("passes()", function(assert)
