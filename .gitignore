@@ -4,3 +4,7 @@
 /.project
 /.settings/
 /.DS_Store
+/.jsdtscope
+/org.eclipse.wst.common.project.facet.core.xml
+/org.eclipse.wst.jsdt.ui.superType.container
+/org.eclipse.wst.jsdt.ui.superType.name
