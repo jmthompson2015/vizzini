@@ -16,9 +16,9 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
 
         // Verify.
-        assert.equal(damageDealer.getHits(), 1);
-        assert.equal(damageDealer.getCriticalHits(), 3);
-        assert.equal(damageDealer.getRemainingEvades(), 0);
+        assert.equal(damageDealer.hits(), 1);
+        assert.equal(damageDealer.criticalHits(), 3);
+        assert.equal(damageDealer.remainingEvades(), 0);
     });
 
     QUnit.test("dealDamage()", function(assert)
