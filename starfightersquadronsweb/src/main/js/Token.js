@@ -285,6 +285,28 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return ionCount;
         }
 
+        this.maneuverEffect = function(maneuver)
+        {
+            LOGGER.trace("Token.maneuverEffect() start");
+            InputValidator.validateNotNull("maneuver", maneuver);
+
+            var difficulty = Maneuver.properties[maneuver].difficulty;
+            LOGGER.trace("difficulty = " + difficulty);
+
+            if (difficulty === Difficulty.EASY)
+            {
+                LOGGER.trace("calling that.stress().decrease()")
+                that.stress().decrease();
+            }
+            else if (difficulty === Difficulty.HARD)
+            {
+                LOGGER.trace("calling stress().increase() for " + that.toString());
+                that.stress().increase();
+            }
+
+            LOGGER.trace("Token.maneuverEffect() end");
+        }
+
         this.maneuvers = function()
         {
             var answer;
@@ -328,6 +350,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.phaseEffect = function(environment, phase)
         {
+            LOGGER.trace("Token.phaseEffect() phase = " + phase);
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("phase", phase);
 
@@ -335,20 +358,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             {
             case Phase.ACTIVATION_START:
                 activationState.clear();
-                break;
-            case Phase.ACTIVATION_EXECUTE_MANEUVER:
-                var activeToken = environment.activeToken();
-
-                if (this === activeToken)
-                {
-                    var maneuverAction = activationState.maneuverAction();
-
-                    if (maneuverAction)
-                    {
-                        var maneuver = maneuverAction.maneuver();
-                        maneuverEffect(maneuver);
-                    }
-                }
                 break;
             case Phase.COMBAT_START:
                 combatState.clear();
@@ -564,27 +573,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             return Pilot.properties[pilot].shipState;
         }
-
-        function maneuverEffect(maneuver)
-        {
-            InputValidator.validateNotNull("maneuver", maneuver);
-
-            LOGGER.trace(that.name() + ".maneuverEffect()");
-
-            var difficulty = Maneuver.properties[maneuver].difficulty;
-            LOGGER.trace("difficulty = " + difficulty);
-
-            if (difficulty === Difficulty.EASY)
-            {
-                LOGGER.trace("calling decreaseStressCount()")
-                that.stress().decrease();
-            }
-            else if (difficulty === Difficulty.HARD)
-            {
-                LOGGER.trace("calling increaseStressCount()")
-                that.stress().increase();
-            }
-        }
     }
 
     Token.nextIdValue = 1;
@@ -773,13 +761,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.clear = function()
         {
+            LOGGER.info("Token.ActivationState.clear()");
             isTouching = false;
             maneuverAction = undefined;
         }
 
         this.isTouching = function(value)
         {
-            if (value)
+            if (value === true || value === false)
             {
                 isTouching = value;
             }

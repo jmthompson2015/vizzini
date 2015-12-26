@@ -9,9 +9,9 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
                 var result = new MediumAgent("myAgent", "myTeam", "mySquadBuilder");
 
                 // Run / Verify.
-                assert.equal(result.getName(), "myAgent");
-                assert.equal(result.getTeam(), "myTeam");
-                assert.equal(result.getSquadBuilder(), "mySquadBuilder");
+                assert.equal(result.name(), "myAgent");
+                assert.equal(result.team(), "myTeam");
+                assert.equal(result.squadBuilder(), "mySquadBuilder");
             });
 
             QUnit.test("buildSquad() Imperial", function(assert)

@@ -14,8 +14,8 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
         assert.equal(defender.evade().count(), 1);
         assert.equal(defender.focus().count(), 0);
-        var evadeCount0 = defenseDice.getEvadeCount();
-        var focusCount0 = defenseDice.getFocusCount();
+        var evadeCount0 = defenseDice.evadeCount();
+        var focusCount0 = defenseDice.focusCount();
 
         // Run.
         action.doIt();
@@ -23,8 +23,8 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         // Verify.
         assert.equal(defender.evade().count(), 0);
         assert.equal(defender.focus().count(), 0);
-        assert.equal(defenseDice.getEvadeCount(), evadeCount0 + 1);
-        assert.equal(defenseDice.getFocusCount(), focusCount0);
+        assert.equal(defenseDice.evadeCount(), evadeCount0 + 1);
+        assert.equal(defenseDice.focusCount(), focusCount0);
     });
 
     QUnit.test("doIt() spend focus", function(assert)
@@ -38,8 +38,8 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
         assert.equal(defender.evade().count(), 0);
         assert.equal(defender.focus().count(), 1);
-        var evadeCount0 = defenseDice.getEvadeCount();
-        var focusCount0 = defenseDice.getFocusCount();
+        var evadeCount0 = defenseDice.evadeCount();
+        var focusCount0 = defenseDice.focusCount();
 
         // Run.
         action.doIt();
@@ -47,7 +47,7 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
         // Verify.
         assert.equal(defender.evade().count(), 0);
         assert.equal(defender.focus().count(), 0);
-        assert.equal(defenseDice.getEvadeCount(), evadeCount0 + focusCount0);
-        assert.equal(defenseDice.getFocusCount(), 0);
+        assert.equal(defenseDice.evadeCount(), evadeCount0 + focusCount0);
+        assert.equal(defenseDice.focusCount(), 0);
     });
 });

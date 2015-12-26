@@ -1,35 +1,31 @@
-/*
- * Provides defense dice for Starfighter Squadrons.
- */
 define(function()
 {
-    function DefenseDice(size)
+    function DefenseDice(initialSize)
     {
-        this.getSize = function()
-        {
-            return size;
-        }
+        InputValidator.validateIsNumber("initialSize", initialSize);
 
         var values;
 
-        rerollAll();
+        rerollAll(initialSize);
 
-        this.getBlankCount = function()
+        this.blankCount = function()
         {
-            return getValueCount(DefenseDice.Value.BLANK);
+            return valueCount(DefenseDice.Value.BLANK);
         }
 
-        this.getEvadeCount = function()
+        this.evadeCount = function()
         {
-            return getValueCount(DefenseDice.Value.EVADE);
+            return valueCount(DefenseDice.Value.EVADE);
         }
 
-        this.getFocusCount = function()
+        this.focusCount = function()
         {
-            return getValueCount(DefenseDice.Value.FOCUS);
+            return valueCount(DefenseDice.Value.FOCUS);
         }
+        
+        this.size=function(){return values.length;}
 
-        this.getSortedValues = function()
+        this.sortedValues = function()
         {
             var answer = values.slice();
 
@@ -44,75 +40,40 @@ define(function()
             return answer;
         }
 
-        this.getValue = function(index)
-        {
-            return values[index];
-        }
-
-        /*
-         * Spend an evade token. Add an evade result.
-         */
         this.spendEvadeToken = function()
         {
+            // Add an evade result.
             values.push(DefenseDice.Value.EVADE);
         }
 
-        /*
-         * Spend a focus token. Change all focus results to evades.
-         */
         this.spendFocusToken = function()
         {
+            // Change all focus results to evades.
             changeAllToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
         }
 
         this.toString = function()
         {
-            return "size = " + size + ", values = " + values;
+            return "size = " + values.length + ", values = " + values;
         }
 
-        /*
-         * @param oldValue Old value.
-         * 
-         * @param newValue New value.
-         */
+        this.value = function(index)
+        {
+            return values[index];
+        }
+
         function changeAllToValue(oldValue, newValue)
         {
-            for (var i = 0; i < values.length; i++)
+            values.forEach(function(value, i)
             {
-                if (values[i] === oldValue)
+                if (value === oldValue)
                 {
                     values[i] = newValue;
                 }
-            }
+            });
         }
 
-        /*
-         * @param target Target value.
-         * 
-         * @return the number of target values.
-         */
-        function getValueCount(target)
-        {
-            var answer = 0;
-
-            for (var i = 0; i < values.length; i++)
-            {
-                var value = values[i];
-                if (value == target)
-                {
-                    answer++;
-                }
-            }
-
-            return answer;
-        }
-
-        /*
-         * Reroll all dice.
-         * 
-         * @param size Size.
-         */
-        function rerollAll()
+        function rerollAll(size)
         {
             values = [];
 
@@ -122,9 +83,6 @@ define(function()
             }
         }
 
-        /**
-         * @return a random value.
-         */
         function rollRandomValue()
         {
             var min = 1;
@@ -154,11 +112,16 @@ define(function()
 
             return value;
         }
+
+        function valueCount(target)
+        {
+            return values.reduce(function(previousValue, currentValue)
+            {
+                return previousValue + (currentValue === target ? 1 : 0);
+            }, 0);
+        }
     }
 
-    /*
-     * Provides an enumeration of dice values.
-     */
     DefenseDice.Value =
     {
         EVADE: "evade",

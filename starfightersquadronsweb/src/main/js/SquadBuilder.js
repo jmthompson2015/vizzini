@@ -270,22 +270,22 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         InputValidator.validateNotNull("description", description);
         InputValidator.validateNotNull("buildFunction", buildFunction);
 
-        this.getFaction = function()
+        this.faction = function()
         {
             return faction;
         }
 
-        this.getName = function()
+        this.name = function()
         {
             return name;
         }
 
-        this.getYear = function()
+        this.year = function()
         {
             return year;
         }
 
-        this.getDescription = function()
+        this.description = function()
         {
             return description;
         }
@@ -299,7 +299,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     SquadBuilder.prototype.toString = function()
     {
-        return this.getYear() + " " + this.getName() + " (" + this.getDescription() + ")";
+        return this.year() + " " + this.name() + " (" + this.description() + ")";
     }
 
     SquadBuilder.findByNameAndYear = function(name, year)
@@ -311,7 +311,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         {
             var squadBuilder = SquadBuilders[i];
 
-            if (squadBuilder.getName() === name && squadBuilder.getYear() === year)
+            if (squadBuilder.name() === name && squadBuilder.year() === year)
             {
                 answer = squadBuilder;
                 break;
@@ -327,7 +327,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
         return SquadBuilders.filter(function(squadBuilder)
         {
-            return squadBuilder.getFaction() === team;
+            return squadBuilder.faction() === team;
         });
     }
 

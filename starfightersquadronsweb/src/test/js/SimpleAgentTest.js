@@ -10,9 +10,9 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
         var result = new SimpleAgent("myAgent", "myTeam", "mySquadBuilder");
 
         // Run / Verify.
-        assert.equal(result.getName(), "myAgent");
-        assert.equal(result.getTeam(), "myTeam");
-        assert.equal(result.getSquadBuilder(), "mySquadBuilder");
+        assert.equal(result.name(), "myAgent");
+        assert.equal(result.team(), "myTeam");
+        assert.equal(result.squadBuilder(), "mySquadBuilder");
     });
 
     QUnit.test("buildSquad() Imperial", function(assert)
@@ -87,6 +87,70 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
 
         // Run.
         agent.chooseWeaponAndDefender(environment, adjudicator, token0, callback);
+    });
+
+    QUnit.test("determineValidManeuvers()", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var token = environment.tokens()[0]; // TIE Fighter.
+        var agent = token.agent();
+
+        // Run.
+        var result = agent.determineValidManeuvers(environment, token);
+
+        // Validate.
+        assert.ok(result);
+        assert.equal(result.length, 16);
+    });
+
+    QUnit.test("determineValidManeuvers() corner", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var token = environment.tokens()[0]; // TIE Fighter.
+        var agent = token.agent();
+        var position = environment.getPositionFor(token);
+        LOGGER.info("before position = " + position);
+        environment.removeToken(token);
+        position = new Position(21, position.y(), position.heading());
+        environment.placeToken(position, token);
+
+        // Run.
+        var result = agent.determineValidManeuvers(environment, token);
+
+        // Validate.
+        assert.ok(result);
+        assert.equal(result.length, 11);
+        result.forEach(function(maneuver, i)
+        {
+            LOGGER.info(i + " maneuver = " + maneuver);
+        });
+    });
+
+    QUnit.test("determineValidShipActions()", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var token = environment.tokens()[0]; // TIE Fighter.
+        var agent = token.agent();
+        // var position = environment.getPositionFor(token);
+        // LOGGER.info("before position = " + position);
+        // environment.removeToken(token);
+        // position = new Position(21, position.y(), position.heading());
+        // environment.placeToken(position, token);
+
+        // Run.
+        var result = agent.determineValidShipActions(environment, adjudicator, token);
+
+        // Validate.
+        assert.ok(result);
+        assert.equal(result.length, 4);
+        result.forEach(function(maneuver, i)
+        {
+            LOGGER.info(i + " maneuver = " + maneuver);
+        });
     });
 
     QUnit.test("getModifyDefenseDiceAction() evade", function(assert)

@@ -36,7 +36,7 @@ define(function()
 
         this.getTeam = function()
         {
-            return agent.getTeam();
+            return agent.team();
         }
     }
 

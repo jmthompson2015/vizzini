@@ -1,5 +1,5 @@
-define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(
-        Pilot, Ship, SimpleAgent, SquadBuilder, Team, HumanAgent)
+define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(Pilot, Ship, SimpleAgent,
+        SquadBuilder, Team, HumanAgent)
 {
     QUnit.module("SquadBuilder");
 
@@ -19,17 +19,17 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
         }
     });
 
-    QUnit.test("CoreSetImperialSquadBuilder getDescription()", function(assert)
+    QUnit.test("CoreSetImperialSquadBuilder description()", function(assert)
     {
         var squadBuilder = SquadBuilder.SquadBuilders[0];
-        var result = squadBuilder.getDescription();
+        var result = squadBuilder.description();
         assert.equal(result, "TIE Fighters x2");
     });
 
     QUnit.test("CoreSetImperialSquadBuilder getName()", function(assert)
     {
         var squadBuilder = SquadBuilder.SquadBuilders[0];
-        var result = squadBuilder.getName();
+        var result = squadBuilder.name();
         assert.equal(result, "Imperial Core Set: 36 Points");
     });
 
@@ -51,17 +51,17 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
         assert.equal(result[0].ship(), Ship.X_WING);
     });
 
-    QUnit.test("CoreSetRebelSquadBuilder getDescription()", function(assert)
+    QUnit.test("CoreSetRebelSquadBuilder description()", function(assert)
     {
         var squadBuilder = SquadBuilder.SquadBuilders[1];
-        var result = squadBuilder.getDescription();
+        var result = squadBuilder.description();
         assert.equal(result, "X-Wing");
     });
 
     QUnit.test("CoreSetRebelSquadBuilder getName()", function(assert)
     {
         var squadBuilder = SquadBuilder.SquadBuilders[1];
-        var result = squadBuilder.getName();
+        var result = squadBuilder.name();
         assert.equal(result, "Rebel Core Set: 36 Points");
     });
 

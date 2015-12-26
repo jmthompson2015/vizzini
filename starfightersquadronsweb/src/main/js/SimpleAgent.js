@@ -8,17 +8,17 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("team", team);
         InputValidator.validateNotNull("squadBuilder", squadBuilder);
 
-        this.getName = function()
+        this.name = function()
         {
             return name;
         }
 
-        this.getTeam = function()
+        this.team = function()
         {
             return team;
         }
 
-        this.getSquadBuilder = function()
+        this.squadBuilder = function()
         {
             return squadBuilder;
         }
@@ -26,7 +26,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
     SimpleAgent.prototype.buildSquad = function()
     {
-        return this.getSquadBuilder().buildSquad(this);
+        return this.squadBuilder().buildSquad(this);
     }
 
     SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
@@ -57,17 +57,17 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
                 {
                     var myDefender = rangeDefenders.vizziniRandomElement();
 
-                    if (myDefender)
-                    {
-                        var defenderPosition = environment.getPositionFor(myDefender);
+                    // if (myDefender)
+                    // {
+                    var defenderPosition = environment.getPositionFor(myDefender);
 
-                        if (defenderPosition)
-                        {
-                            weapon = myWeapon;
-                            defender = myDefender;
-                            break;
-                        }
-                    }
+                    // if (defenderPosition)
+                    // {
+                    weapon = myWeapon;
+                    defender = myDefender;
+                    break;
+                    // }
+                    // }
                 }
             }
         }
@@ -79,6 +79,107 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
             damageDealer, callback, damageDealer)
     {
     // callback();
+    }
+
+    SimpleAgent.prototype.determineValidManeuvers = function(environment, token)
+    {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("token", token);
+
+        var fromPosition = environment.getPositionFor(token);
+        var shipBase = token.shipBase();
+        var maneuvers = token.maneuvers();
+        LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
+
+        // Find the maneuvers which keep the ship on the battlefield.
+        return maneuvers.filter(function(maneuver)
+        {
+            var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
+            var polygon;
+
+            if (toPosition)
+            {
+                polygon = Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition.heading());
+            }
+
+            return (toPosition && Position.isPathInPlayArea(polygon));
+        });
+    }
+
+    SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token)
+    {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("adjudicator", adjudicator);
+        InputValidator.validateNotNull("token", token);
+
+        var shipActions = token.shipActions();
+        var answer = [];
+
+        if (shipActions.vizziniContains(ShipAction.FOCUS))
+        {
+            answer.push(ShipAction.FOCUS);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
+        {
+            var defenders = environment.getDefendersInRange(token);
+
+            if (defenders && defenders.length > 0)
+            {
+                defenders.forEach(function(defender)
+                {
+                    // Only put choices without a current target lock.
+                    if (!token.findTargetLockByDefender(defender))
+                    {
+                        answer.push(ShipAction.createTargetLockShipAction(defender));
+                    }
+                });
+            }
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT)
+                && adjudicator.canBarrelRoll(environment, token,
+                        ShipAction.properties[ShipAction.BARREL_ROLL_LEFT].maneuver))
+        {
+            answer.push(ShipAction.BARREL_ROLL_LEFT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT)
+                && adjudicator.canBarrelRoll(environment, token,
+                        ShipAction.properties[ShipAction.BARREL_ROLL_RIGHT].maneuver))
+        {
+            answer.push(ShipAction.BARREL_ROLL_RIGHT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BOOST_LEFT)
+                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_LEFT].maneuver))
+        {
+            answer.push(ShipAction.BOOST_LEFT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT)
+                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_STRAIGHT].maneuver))
+        {
+            answer.push(ShipAction.BOOST_STRAIGHT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT)
+                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
+        {
+            answer.push(ShipAction.BOOST_RIGHT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.EVADE))
+        {
+            answer.push(ShipAction.EVADE);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.CLOAK))
+        {
+            answer.push(ShipAction.CLOAK);
+        }
+
+        return answer;
     }
 
     SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice,
@@ -156,25 +257,13 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("adjudicator", adjudicator);
         InputValidator.validateNotNull("callback", callback);
 
-        var team = this.getTeam();
+        var team = this.team();
         var tokens = environment.getTokensForTeam(team);
         var tokenToManeuver = {};
 
         tokens.forEach(function(token)
         {
-            var fromPosition = environment.getPositionFor(token);
-            var shipBase = token.shipBase();
-            var maneuvers = token.maneuvers();
-            LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
-
-            // Find the maneuvers which keep the ship on the battlefield.
-            var validManeuvers = maneuvers.filter(function(maneuver)
-            {
-                var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
-
-                return (toPosition && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(),
-                        toPosition.y(), toPosition.heading())));
-            });
+            var validManeuvers = this.determineValidManeuvers(environment, token);
 
             LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
             var maneuver = validManeuvers.vizziniRandomElement();
@@ -184,12 +273,13 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
             if (!maneuver)
             {
                 // Ship fled the battlefield.
+                var maneuvers = token.maneuvers();
                 maneuver = maneuvers.vizziniRandomElement();
                 LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
             }
 
             tokenToManeuver[token] = maneuver;
-        });
+        }, this);
 
         var answer = new PlanningAction(environment, this, tokenToManeuver);
 
@@ -202,86 +292,21 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("adjudicator", adjudicator);
         InputValidator.validateNotNull("token", token);
 
-        var shipActions = token.shipActions();
-        var myShipActions = [];
-
-        if (shipActions.vizziniContains(ShipAction.FOCUS))
-        {
-            myShipActions.push(ShipAction.FOCUS);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
-        {
-            var defenders = environment.getDefendersInRange(token);
-
-            if (defenders && defenders.length > 0)
-            {
-                defenders.forEach(function(defender)
-                {
-                    // Only put choices without a current target lock.
-                    if (!token.findTargetLockByDefender(defender))
-                    {
-                        myShipActions.push(ShipAction.createTargetLockShipAction(defender));
-                    }
-                });
-            }
-        }
-
-        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT)
-                && adjudicator.canBarrelRoll(environment, token,
-                        ShipAction.properties[ShipAction.BARREL_ROLL_LEFT].maneuver))
-        {
-            myShipActions.push(ShipAction.BARREL_ROLL_LEFT);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT)
-                && adjudicator.canBarrelRoll(environment, token,
-                        ShipAction.properties[ShipAction.BARREL_ROLL_RIGHT].maneuver))
-        {
-            myShipActions.push(ShipAction.BARREL_ROLL_RIGHT);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.BOOST_LEFT)
-                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_LEFT].maneuver))
-        {
-            myShipActions.push(ShipAction.BOOST_LEFT);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT)
-                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_STRAIGHT].maneuver))
-        {
-            myShipActions.push(ShipAction.BOOST_STRAIGHT);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT)
-                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
-        {
-            myShipActions.push(ShipAction.BOOST_RIGHT);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.EVADE))
-        {
-            myShipActions.push(ShipAction.EVADE);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.CLOAK))
-        {
-            myShipActions.push(ShipAction.CLOAK);
-        }
+        var shipActions = this.determineValidShipActions(environment, adjudicator, token);
 
         var answer;
 
-        if (myShipActions.length > 0)
-        {
-            answer = myShipActions.vizziniRandomElement();
-        }
+        // if (shipActions.length > 0)
+        // {
+        answer = shipActions.vizziniRandomElement();
+        // }
 
         callback(answer);
     }
 
     SimpleAgent.prototype.toString = function()
     {
-        return this.getName() + ", SimpleAgent, " + this.getTeam() + ", " + this.getSquadBuilder().getName();
+        return this.name() + ", SimpleAgent, " + this.team() + ", " + this.squadBuilder().name();
     }
 
     return SimpleAgent;

@@ -185,7 +185,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                     }
                     else
                     {
-                        message = winner.getName() + " won! ";
+                        message = winner.name() + " won! ";
                     }
                 }
             }

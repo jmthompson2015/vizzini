@@ -5,64 +5,64 @@ define([ "AttackDice" ], function(AttackDice)
     QUnit.test("AttackDice properties", function(assert)
     {
         var dice = new AttackDice(3);
-        assert.ok(dice.getValue(0));
-        assert.ok(dice.getValue(1));
-        assert.ok(dice.getValue(2));
+        assert.ok(dice.value(0));
+        assert.ok(dice.value(1));
+        assert.ok(dice.value(2));
     });
 
-    QUnit.test("AttackDice.getBlankCount()", function(assert)
+    QUnit.test("blankCount()", function(assert)
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackDice.Value.BLANK)
+        if (dice.value(0) == AttackDice.Value.BLANK)
         {
-            assert.equal(dice.getBlankCount(), 1);
+            assert.equal(dice.blankCount(), 1);
         }
         else
         {
-            assert.equal(dice.getBlankCount(), 0);
+            assert.equal(dice.blankCount(), 0);
         }
     });
 
-    QUnit.test("AttackDice.getCriticalHitCount()", function(assert)
+    QUnit.test("criticalHitCount()", function(assert)
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackDice.Value.CRITICAL_HIT)
+        if (dice.value(0) == AttackDice.Value.CRITICAL_HIT)
         {
-            assert.equal(dice.getCriticalHitCount(), 1);
+            assert.equal(dice.criticalHitCount(), 1);
         }
         else
         {
-            assert.equal(dice.getCriticalHitCount(), 0);
+            assert.equal(dice.criticalHitCount(), 0);
         }
     });
 
-    QUnit.test("AttackDice.getFocusCount()", function(assert)
+    QUnit.test("focusCount()", function(assert)
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackDice.Value.FOCUS)
+        if (dice.value(0) == AttackDice.Value.FOCUS)
         {
-            assert.equal(dice.getFocusCount(), 1);
+            assert.equal(dice.focusCount(), 1);
         }
         else
         {
-            assert.equal(dice.getFocusCount(), 0);
+            assert.equal(dice.focusCount(), 0);
         }
     });
 
-    QUnit.test("AttackDice.getHitCount()", function(assert)
+    QUnit.test("hitCount()", function(assert)
     {
         var dice = new AttackDice(1);
         LOGGER.trace("dice = " + dice);
-        if (dice.getValue(0) == AttackDice.Value.HIT)
+        if (dice.value(0) == AttackDice.Value.HIT)
         {
-            assert.equal(dice.getHitCount(), 1);
+            assert.equal(dice.hitCount(), 1);
         }
         else
         {
-            assert.equal(dice.getHitCount(), 0);
+            assert.equal(dice.hitCount(), 0);
         }
     });
 });

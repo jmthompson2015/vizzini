@@ -8,6 +8,31 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("evadeCount", evadeCount);
 
+        this.environment = function()
+        {
+            return environment;
+        }
+
+        this.hitCount = function()
+        {
+            return hitCount;
+        }
+
+        this.criticalHitCount = function()
+        {
+            return criticalHitCount;
+        }
+
+        this.defender = function()
+        {
+            return defender;
+        }
+
+        this.evadeCount = function()
+        {
+            return evadeCount;
+        }
+
         var hits = hitCount;
         var criticalHits = criticalHitCount;
         var evades = evadeCount;
@@ -34,19 +59,9 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
         LOGGER.debug("final evades = " + evades);
         LOGGER.debug("before hits, shield = " + defender.shield().count());
 
-        this.getHits = function()
-        {
-            return hits;
-        }
-
-        this.getCriticalHits = function()
+        this.criticalHits = function()
         {
             return criticalHits;
-        }
-
-        this.getRemainingEvades = function()
-        {
-            return evades;
         }
 
         this.dealDamage = function()
@@ -109,6 +124,16 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
 
             LOGGER.debug("after critical hits, criticalDamage  = " + defender.getCriticalDamageCount());
             LOGGER.debug("defender.isDestroyed() ? " + defender.isDestroyed());
+        }
+
+        this.hits = function()
+        {
+            return hits;
+        }
+
+        this.remainingEvades = function()
+        {
+            return evades;
         }
     }
 

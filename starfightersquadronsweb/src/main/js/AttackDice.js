@@ -1,40 +1,39 @@
-/*
- * Provides attack dice for Starfighter Squadrons.
- */
 define(function()
 {
-    function AttackDice(size)
+    function AttackDice(initialSize)
     {
-        this.getSize = function()
-        {
-            return size;
-        }
+        InputValidator.validateIsNumber("initialSize", initialSize);
 
         var values;
 
-        rerollAll();
+        rerollAll(initialSize);
 
-        this.getBlankCount = function()
+        this.blankCount = function()
         {
-            return getValueCount(AttackDice.Value.BLANK);
+            return valueCount(AttackDice.Value.BLANK);
         }
 
-        this.getCriticalHitCount = function()
+        this.criticalHitCount = function()
         {
-            return getValueCount(AttackDice.Value.CRITICAL_HIT);
+            return valueCount(AttackDice.Value.CRITICAL_HIT);
         }
 
-        this.getFocusCount = function()
+        this.focusCount = function()
         {
-            return getValueCount(AttackDice.Value.FOCUS);
+            return valueCount(AttackDice.Value.FOCUS);
         }
 
-        this.getHitCount = function()
+        this.hitCount = function()
         {
-            return getValueCount(AttackDice.Value.HIT);
+            return valueCount(AttackDice.Value.HIT);
         }
 
-        this.getSortedValues = function()
+        this.size = function()
+        {
+            return values.length;
+        }
+
+        this.sortedValues = function()
         {
             var answer = values.slice();
 
@@ -49,78 +48,46 @@ define(function()
             return answer;
         }
 
-        this.getValue = function(index)
-        {
-            return values[index];
-        }
-
-        /*
-         * Spend a focus token. Change all focus results to evades.
-         */
         this.spendFocusToken = function()
         {
+            // Change all focus results to hits.
             changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
         }
 
         this.spendTargetLock = function()
         {
-            for (var i = 0; i < values.length; i++)
+            // Reroll any blank or focus values.
+            values.forEach(function(value, i)
             {
-                if (values[i] === AttackDice.Value.BLANK || values[i] === AttackDice.Value.FOCUS)
+                if (value === AttackDice.Value.BLANK || value === AttackDice.Value.FOCUS)
                 {
                     values[i] = rollRandomValue();
                 }
-            }
+            });
         }
 
         this.toString = function()
         {
-            return "size = " + size + ", values = " + values;
+            return "size = " + values.length + ", values = " + values;
         }
 
-        /*
-         * @param oldValue Old value.
-         * 
-         * @param newValue New value.
-         */
+        this.value = function(index)
+        {
+            return values[index];
+        }
+
         function changeAllToValue(oldValue, newValue)
         {
-            for (var i = 0; i < values.length; i++)
+            values.forEach(function(value, i)
             {
-                if (values[i] === oldValue)
+                if (value === oldValue)
                 {
                     values[i] = newValue;
                 }
-            }
+            });
         }
 
-        /*
-         * @param target Target value.
-         * 
-         * @return the number of target values.
-         */
-        function getValueCount(target)
-        {
-            var answer = 0;
-
-            for (var i = 0; i < values.length; i++)
-            {
-                var value = values[i];
-                if (value == target)
-                {
-                    answer++;
-                }
-            }
-
-            return answer;
-        }
-
-        /*
-         * Reroll all dice.
-         * 
-         * @param size Size.
-         */
-        function rerollAll()
+        function rerollAll(size)
         {
             values = [];
 
@@ -130,9 +97,6 @@ define(function()
             }
         }
 
-        /**
-         * @return a random value.
-         */
         function rollRandomValue()
         {
             var min = 1;
@@ -164,11 +128,18 @@ define(function()
 
             return value;
         }
+
+        function valueCount(target)
+        {
+            LOGGER.info( "target = " + target);
+            return values.reduce(function(previousValue, currentValue, i)
+            {
+//                LOGGER.info(i + " currentValue = " + currentValue);
+                return previousValue + (currentValue === target ? 1 : 0);
+            }, 0);
+        }
     }
 
-    /*
-     * Provides an enumeration of dice values.
-     */
     AttackDice.Value =
     {
         HIT: "hit",

@@ -47,10 +47,6 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
             return defenderPosition;
         }
 
-        // var attackDice;
-        // var defenseDice;
-        // var range;
-
         this.doIt = function()
         {
             attacker.combatState().weapon(weapon);
@@ -84,7 +80,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
 
         function finishModifyAttackDice(attackAction)
         {
-            LOGGER.debug("attackAction = " + attackAction);
+            LOGGER.info("CombatAction.finishModifyAttackDice() attackAction = " + attackAction);
 
             if (attackAction)
             {
@@ -124,8 +120,8 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
             var beforeDamage = defender.getDamageCount() + defender.getCriticalDamageCount();
             LOGGER.trace("beforeDamage = " + beforeDamage);
             var attackDice = attacker.combatState().attackDice();
-            var damageDealer = new DamageDealer(environment, attackDice.getHitCount(),
-                    attackDice.getCriticalHitCount(), defender, defenseDice.getEvadeCount());
+            var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice.criticalHitCount(),
+                    defender, defenseDice.evadeCount());
 
             var attackerAgent = attacker.agent();
             attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,

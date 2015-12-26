@@ -1,5 +1,5 @@
-define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(
-        MediumAgent, SimpleAgent, SquadBuilder, Team, HumanAgent)
+define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(MediumAgent, SimpleAgent,
+        SquadBuilder, Team, HumanAgent)
 {
     QUnit.module("AgentInterface");
 
@@ -22,15 +22,15 @@ define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ]
 
             // Verify the functions exist.
             assert.ok(agent.buildSquad, (typeof agent) + ".buildSquad");
-            assert.ok(agent.getName, agent.getName() + ".getName");
-            assert.ok(agent.getTeam, agent.getName() + ".getTeam");
-            assert.ok(agent.getSquadBuilder, agent.getName() + ".getSquadBuilder");
-            assert.ok(agent.getPlanningAction, agent.getName() + ".getPlanningAction");
-            assert.ok(agent.getShipAction, agent.getName() + ".getShipAction");
-            assert.ok(agent.chooseWeaponAndDefender, agent.getName() + ".chooseWeaponAndDefender");
-            assert.ok(agent.getModifyAttackDiceAction, agent.getName() + ".getModifyAttackDiceAction");
-            assert.ok(agent.getModifyDefenseDiceAction, agent.getName() + ".getModifyDefenseDiceAction");
-            assert.ok(agent.dealDamage, agent.getName() + ".dealDamage");
+            assert.ok(agent.name, agent.name() + ".getName");
+            assert.ok(agent.team, agent.name() + ".getTeam");
+            assert.ok(agent.squadBuilder, agent.name() + ".getSquadBuilder");
+            assert.ok(agent.getPlanningAction, agent.name() + ".getPlanningAction");
+            assert.ok(agent.getShipAction, agent.name() + ".getShipAction");
+            assert.ok(agent.chooseWeaponAndDefender, agent.name() + ".chooseWeaponAndDefender");
+            assert.ok(agent.getModifyAttackDiceAction, agent.name() + ".getModifyAttackDiceAction");
+            assert.ok(agent.getModifyDefenseDiceAction, agent.name() + ".getModifyDefenseDiceAction");
+            assert.ok(agent.dealDamage, agent.name() + ".dealDamage");
         }
     });
 });

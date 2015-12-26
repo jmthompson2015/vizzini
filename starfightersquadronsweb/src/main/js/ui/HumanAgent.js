@@ -1,395 +1,331 @@
 /*
  * Provides a human agent for Starfighter Squadrons.
  */
-define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "ShipAction", "ui/CombatUI", "ui/PlanningPanel",
-        "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ],
-        function(ModifyAttackDiceAction, ModifyDefenseDiceAction, ShipAction, CombatUI, PlanningPanel,
-                ShipActionChooser, WeaponAndDefenderChooser)
+define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "ShipAction", "ui/CombatUI",
+        "ui/PlanningPanel", "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ], function(ModifyAttackDiceAction,
+        ModifyDefenseDiceAction, SimpleAgent, ShipAction, CombatUI, PlanningPanel, ShipActionChooser,
+        WeaponAndDefenderChooser)
+{
+    function HumanAgent(name, team, squadBuilder)
+    {
+        InputValidator.validateNotEmpty("name", name);
+        InputValidator.validateNotNull("team", team);
+        InputValidator.validateNotNull("squadBuilder", squadBuilder);
+
+        this.name = function()
         {
-            function HumanAgent(name, team, squadBuilder)
+            return name;
+        }
+
+        this.team = function()
+        {
+            return team;
+        }
+
+        this.squadBuilder = function()
+        {
+            return squadBuilder;
+        }
+
+        var environment;
+        var attacker;
+        var attackDice;
+        var defender;
+        var defenseDice;
+        var planningCallback;
+        var shipActionCallback;
+        var weaponAndDefenderCallback;
+        var modifyAttackCallback;
+        var modifyDefenseCallback;
+        var dealDamageCallback;
+
+        this.buildSquad = function()
+        {
+            return squadBuilder.buildSquad(this);
+        }
+
+        this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("adjudicator", adjudicator);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("callback", callback);
+
+            weaponAndDefenderCallback = callback;
+
+            var choices = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
+
+            if (choices.length > 0)
             {
-                InputValidator.validateNotEmpty("name", name);
-                InputValidator.validateNotNull("team", team);
-                InputValidator.validateNotNull("squadBuilder", squadBuilder);
-
-                var callback;
-                var environment;
-                var attacker;
-                var attackDice;
-                var defender;
-                var defenseDice;
-                var modifyAttackCallback;
-                var modifyDefenseCallback;
-                var dealDamageCallback;
-
-                this.buildSquad = function()
+                var element = React.createElement(WeaponAndDefenderChooser,
                 {
-                    return squadBuilder.buildSquad(this);
-                }
+                    attacker: attacker,
+                    choices: choices,
+                    callback: finishWeaponAndDefender
+                });
+                React.render(element, document.getElementById("inputArea"));
+                window.dispatchEvent(new Event('resize'));
 
-                this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callbackIn)
-                {
-                    InputValidator.validateNotNull("environment", environment);
-                    InputValidator.validateNotNull("adjudicator", adjudicator);
-                    InputValidator.validateNotNull("attacker", attacker);
-                    InputValidator.validateNotNull("callback", callbackIn);
+                // Wait for the user to respond.
+            }
+            else
+            {
+                weaponAndDefenderCallback();
+            }
+        }
 
-                    callback = callbackIn;
+        this.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer,
+                callback)
+        {
+            InputValidator.validateNotNull("damageDealer", damageDealer);
+            InputValidator.validateNotNull("callback", callback);
 
-                    var choices = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
+            dealDamageCallback = callback;
 
-                    if (choices.length > 0)
-                    {
-                        var element = React.createElement(WeaponAndDefenderChooser,
-                        {
-                            attacker: attacker,
-                            choices: choices,
-                            callback: this.finishWeaponAndDefender
-                        });
-                        React.render(element, document.getElementById("inputArea"));
-                        window.dispatchEvent(new Event('resize'));
+            var element = React.createElement(CombatUI,
+            {
+                phase: environment.phase(),
+                attacker: attacker,
+                attackDice: attackDice,
+                defender: defender,
+                defenseDice: defenseDice,
+                hitCount: damageDealer.hits(),
+                criticalHitCount: damageDealer.criticalHits(),
+                okFunction: finishDealDamage,
+            });
 
-                        // Wait for the user to respond.
-                    }
-                    else
-                    {
-                        callback();
-                    }
-                }
+            React.render(element, document.getElementById("inputArea"));
+            window.dispatchEvent(new Event('resize'));
+        }
 
-                this.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
-                        damageDealer, callbackIn)
-                {
-                    InputValidator.validateNotNull("damageDealer", damageDealer);
-                    InputValidator.validateNotNull("callback", callbackIn);
+        this.getModifyAttackDiceAction = function(environmentIn, adjudicator, attackerIn, attackDiceIn, defenderIn,
+                callback)
+        {
+            environment = environmentIn;
+            attacker = attackerIn;
+            attackDice = attackDiceIn;
+            defender = defenderIn;
+            modifyAttackCallback = callback;
 
-                    dealDamageCallback = callbackIn;
+            var modifications = [ null ];
+            var targetLock = attacker.findTargetLockByDefender(defender);
 
-                    var element = React.createElement(CombatUI,
-                    {
-                        phase: environment.phase(),
-                        attacker: attacker,
-                        attackDice: attackDice,
-                        defender: defender,
-                        defenseDice: defenseDice,
-                        hitCount: damageDealer.getHits(),
-                        criticalHitCount: damageDealer.getCriticalHits(),
-                        okFunction: this.finishDealDamage,
-                    });
-
-                    React.render(element, document.getElementById("inputArea"));
-                    window.dispatchEvent(new Event('resize'));
-                }
-
-                this.finishDealDamage = function()
-                {
-                    LOGGER.trace("finishDealDamage() start");
-
-                    // Handle the user response.
-                    var element = document.getElementById("inputArea");
-                    element.innerHTML = "";
-                    window.dispatchEvent(new Event('resize'));
-                    LOGGER.trace("finishDealDamage() end");
-
-                    dealDamageCallback();
-                }
-
-                this.finishPlanningAction = function(planningAction)
-                {
-                    LOGGER.trace("finishPlanningAction() start");
-
-                    // Handle the user response.
-                    var element = document.getElementById("inputArea");
-                    element.innerHTML = "";
-                    window.dispatchEvent(new Event('resize'));
-                    LOGGER.trace("finishPlanningAction() end");
-
-                    callback(planningAction);
-                }
-
-                this.finishShipAction = function(shipAction)
-                {
-                    LOGGER.trace("finishShipAction() start");
-
-                    // Handle the user response.
-                    var element = document.getElementById("inputArea");
-                    element.innerHTML = "";
-                    window.dispatchEvent(new Event('resize'));
-                    LOGGER.trace("finishShipAction() end");
-
-                    callback(shipAction);
-                }
-
-                this.finishWeaponAndDefender = function(weapon, defender)
-                {
-                    LOGGER.trace("finishWeaponAndDefender() start");
-
-                    // Handle the user response.
-                    var element = document.getElementById("inputArea");
-                    element.innerHTML = "";
-                    window.dispatchEvent(new Event('resize'));
-                    LOGGER.trace("finishWeaponAndDefender() end");
-
-                    callback(weapon, defender);
-                }
-
-                this.getName = function()
-                {
-                    return name;
-                }
-
-                /*
-                 * @param environment Environment. @param adjudicator Adjudicator.
-                 * 
-                 * @return a new action.
-                 */
-                this.getPlanningAction = function(environment, adjudicator, callbackIn)
-                {
-                    InputValidator.validateNotNull("environment", environment);
-                    InputValidator.validateNotNull("adjudicator", adjudicator);
-                    InputValidator.validateNotNull("callback", callbackIn);
-
-                    callback = callbackIn;
-
-                    var tokens = environment.getTokensForTeam(team);
-                    tokens.sort(function(token0, token1)
-                    {
-                        var id0 = token0.id();
-                        var id1 = token1.id();
-                        var answer = id0 - id1;
-
-                        return answer;
-                    });
-                    var self = this;
-                    var element = React.createElement(PlanningPanel,
-                    {
-                        environment: environment,
-                        agent: self,
-                        tokens: tokens,
-                        callback: self.finishPlanningAction
-                    });
-                    React.render(element, document.getElementById("inputArea"));
-                    window.dispatchEvent(new Event('resize'));
-
-                    // Wait for the user to respond.
-                }
-
-                this.getModifyAttackDiceAction = function(environmentIn, adjudicator, attackerIn, attackDiceIn,
-                        defenderIn, callback)
-                {
-                    environment = environmentIn;
-                    attacker = attackerIn;
-                    attackDice = attackDiceIn;
-                    defender = defenderIn;
-                    modifyAttackCallback = callback;
-
-                    var modifications = [ null ];
-                    var targetLock = attacker.findTargetLockByDefender(defender);
-
-                    if (targetLock)
-                    {
-                        modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
-                    }
-
-                    if (attacker.focus().count() > 0)
-                    {
-                        modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
-                    }
-
-                    if (modifications.length > 1)
-                    {
-                        var element = React.createElement(CombatUI,
-                        {
-                            phase: environment.phase(),
-                            attacker: attacker,
-                            attackDice: attackDice,
-                            defender: defender,
-                            modifications: modifications,
-                            okFunction: finishModifyAttackDice,
-                        });
-                        React.render(element, document.getElementById("inputArea"));
-                        window.dispatchEvent(new Event('resize'));
-
-                        // Wait for the user to respond.
-                    }
-                    else
-                    {
-                        callback();
-                    }
-                }
-
-                this.getModifyDefenseDiceAction = function(environmentIn, adjudicator, attacker, attackDice,
-                        defenderIn, defenseDiceIn, callback)
-                {
-                    environment = environmentIn;
-                    defender = defenderIn;
-                    defenseDice = defenseDiceIn;
-                    modifyDefenseCallback = callback;
-
-                    var modifications = [ null ];
-
-                    if (defender.evade().count() > 0)
-                    {
-                        modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
-                    }
-
-                    if (defender.focus().count() > 0)
-                    {
-                        modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
-                    }
-
-                    if (modifications.length > 1)
-                    {
-                        var element = React.createElement(CombatUI,
-                        {
-                            phase: environment.phase(),
-                            attacker: attacker,
-                            attackDice: attackDice,
-                            defender: defender,
-                            defenseDice: defenseDice,
-                            modifications: modifications,
-                            okFunction: finishModifyDefenseDice,
-                        });
-                        React.render(element, document.getElementById("inputArea"));
-                        window.dispatchEvent(new Event('resize'));
-
-                        // Wait for the user to respond.
-                    }
-                    else
-                    {
-                        callback();
-                    }
-                }
-
-                this.getShipAction = function(environment, adjudicator, token, callbackIn)
-                {
-                    InputValidator.validateNotNull("environment", environment);
-                    InputValidator.validateNotNull("adjudicator", adjudicator);
-                    InputValidator.validateNotNull("token", token);
-
-                    callback = callbackIn;
-
-                    var shipActions = token.shipActions();
-                    var myShipActions = [];
-
-                    if (shipActions.vizziniContains(ShipAction.FOCUS))
-                    {
-                        myShipActions.push(ShipAction.FOCUS);
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
-                    {
-                        var defenders = environment.getDefendersInRange(token);
-
-                        if (defenders && defenders.length > 0)
-                        {
-                            defenders.forEach(function(defender)
-                            {
-                                // Only put choices without a current target lock.
-                                if (!token.findTargetLockByDefender(defender))
-                                {
-                                    myShipActions.push(ShipAction.createTargetLockShipAction(defender));
-                                }
-                            });
-                        }
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT)
-                            && adjudicator.canBarrelRoll(environment, token,
-                                    ShipAction.properties[ShipAction.BARREL_ROLL_LEFT].maneuver))
-                    {
-                        myShipActions.push(ShipAction.BARREL_ROLL_LEFT);
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT)
-                            && adjudicator.canBarrelRoll(environment, token,
-                                    ShipAction.properties[ShipAction.BARREL_ROLL_RIGHT].maneuver))
-                    {
-                        myShipActions.push(ShipAction.BARREL_ROLL_RIGHT);
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.BOOST_LEFT)
-                            && adjudicator.canBoost(environment, token,
-                                    ShipAction.properties[ShipAction.BOOST_LEFT].maneuver))
-                    {
-                        myShipActions.push(ShipAction.BOOST_LEFT);
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT)
-                            && adjudicator.canBoost(environment, token,
-                                    ShipAction.properties[ShipAction.BOOST_STRAIGHT].maneuver))
-                    {
-                        myShipActions.push(ShipAction.BOOST_STRAIGHT);
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT)
-                            && adjudicator.canBoost(environment, token,
-                                    ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
-                    {
-                        myShipActions.push(ShipAction.BOOST_RIGHT);
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.EVADE))
-                    {
-                        myShipActions.push(ShipAction.EVADE);
-                    }
-
-                    if (shipActions.vizziniContains(ShipAction.CLOAK))
-                    {
-                        myShipActions.push(ShipAction.CLOAK);
-                    }
-
-                    var element = React.createElement(ShipActionChooser,
-                    {
-                        token: token,
-                        shipActions: myShipActions,
-                        callback: this.finishShipAction
-                    });
-                    React.render(element, document.getElementById("inputArea"));
-                    window.dispatchEvent(new Event('resize'));
-
-                    // Wait for the user to respond.
-                }
-
-                this.getSquadBuilder = function()
-                {
-                    return squadBuilder;
-                }
-
-                this.getTeam = function()
-                {
-                    return team;
-                }
-
-                function finishModifyAttackDice(modification)
-                {
-                    var answer;
-
-                    if (modification)
-                    {
-                        answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
-                    }
-
-                    modifyAttackCallback(answer);
-                }
-
-                function finishModifyDefenseDice(modification)
-                {
-                    var answer;
-
-                    if (modification)
-                    {
-                        answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-                    }
-
-                    modifyDefenseCallback(answer);
-                }
+            if (targetLock)
+            {
+                modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
             }
 
-            HumanAgent.prototype.toString = function()
+            if (attacker.focus().count() > 0)
             {
-                return this.getName() + ", HumanAgent, " + this.getTeam() + ", " + this.getSquadBuilder().getName();
+                modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
             }
 
-            return HumanAgent;
-        });
+            if (modifications.length > 1)
+            {
+                var element = React.createElement(CombatUI,
+                {
+                    phase: environment.phase(),
+                    attacker: attacker,
+                    attackDice: attackDice,
+                    defender: defender,
+                    modifications: modifications,
+                    okFunction: finishModifyAttackDice,
+                });
+                React.render(element, document.getElementById("inputArea"));
+                window.dispatchEvent(new Event('resize'));
+
+                // Wait for the user to respond.
+            }
+            else
+            {
+                modifyAttackCallback();
+            }
+        }
+
+        this.getModifyDefenseDiceAction = function(environmentIn, adjudicator, attacker, attackDice, defenderIn,
+                defenseDiceIn, callback)
+        {
+            environment = environmentIn;
+            defender = defenderIn;
+            defenseDice = defenseDiceIn;
+            modifyDefenseCallback = callback;
+
+            var modifications = [ null ];
+
+            if (defender.evade().count() > 0)
+            {
+                modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+            }
+
+            if (defender.focus().count() > 0)
+            {
+                modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
+            }
+
+            if (modifications.length > 1)
+            {
+                var element = React.createElement(CombatUI,
+                {
+                    phase: environment.phase(),
+                    attacker: attacker,
+                    attackDice: attackDice,
+                    defender: defender,
+                    defenseDice: defenseDice,
+                    modifications: modifications,
+                    okFunction: finishModifyDefenseDice,
+                });
+                React.render(element, document.getElementById("inputArea"));
+                window.dispatchEvent(new Event('resize'));
+
+                // Wait for the user to respond.
+            }
+            else
+            {
+                modifyDefenseCallback();
+            }
+        }
+
+        this.getPlanningAction = function(environment, adjudicator, callback)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("adjudicator", adjudicator);
+            InputValidator.validateNotNull("callback", callback);
+
+            planningCallback = callback;
+
+            var tokens = environment.getTokensForTeam(team);
+            tokens.sort(function(token0, token1)
+            {
+                var id0 = token0.id();
+                var id1 = token1.id();
+                return id0 - id1;
+            });
+            var self = this;
+            var element = React.createElement(PlanningPanel,
+            {
+                environment: environment,
+                agent: self,
+                tokens: tokens,
+                callback: finishPlanningAction
+            });
+            React.render(element, document.getElementById("inputArea"));
+            window.dispatchEvent(new Event('resize'));
+
+            // Wait for the user to respond.
+        }
+
+        this.getShipAction = function(environment, adjudicator, token, callback)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("adjudicator", adjudicator);
+            InputValidator.validateNotNull("token", token);
+
+            shipActionCallback = callback;
+
+            var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment, adjudicator,
+                    token);
+
+            var element = React.createElement(ShipActionChooser,
+            {
+                token: token,
+                shipActions: shipActions,
+                callback: finishShipAction
+            });
+            React.render(element, document.getElementById("inputArea"));
+            window.dispatchEvent(new Event('resize'));
+
+            // Wait for the user to respond.
+        }
+
+        function finishDealDamage()
+        {
+            LOGGER.trace("finishDealDamage() start");
+
+            // Handle the user response.
+            var element = document.getElementById("inputArea");
+            element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
+            LOGGER.trace("finishDealDamage() end");
+
+            dealDamageCallback();
+        }
+
+        function finishModifyAttackDice(modification)
+        {
+            var answer;
+            LOGGER.info("HumanAgent.finishModifyAttackDice() modification = " + modification);
+            // LOGGER.info("modification === undefined ? " + (modification === undefined));
+            // LOGGER.info("modification === null ? " + (modification === null));
+            // LOGGER.info("modification !== null ? " + (modification !== null));
+            // LOGGER.info("modification != null ? " + (modification != null));
+            // LOGGER.info("modification === \"null\" ? " + (modification === "null"));
+            // LOGGER.info("modification !== \"null\" ? " + (modification !== "null"));
+
+            if (modification && modification !== null && modification !== "null")
+            {
+                answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
+            }
+            LOGGER.info("HumanAgent.finishModifyAttackDice() answer = " + answer);
+
+            modifyAttackCallback(answer);
+        }
+
+        function finishModifyDefenseDice(modification)
+        {
+            var answer;
+
+            if (modification)
+            {
+                answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+            }
+
+            modifyDefenseCallback(answer);
+        }
+
+        function finishPlanningAction(planningAction)
+        {
+            LOGGER.trace("finishPlanningAction() start");
+
+            // Handle the user response.
+            var element = document.getElementById("inputArea");
+            element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
+            LOGGER.trace("finishPlanningAction() end");
+
+            planningCallback(planningAction);
+        }
+
+        function finishShipAction(shipAction)
+        {
+            LOGGER.trace("finishShipAction() start");
+
+            // Handle the user response.
+            var element = document.getElementById("inputArea");
+            element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
+            LOGGER.trace("finishShipAction() end");
+
+            shipActionCallback(shipAction);
+        }
+
+        function finishWeaponAndDefender(weapon, defender)
+        {
+            LOGGER.trace("finishWeaponAndDefender() start");
+
+            // Handle the user response.
+            var element = document.getElementById("inputArea");
+            element.innerHTML = "";
+            window.dispatchEvent(new Event('resize'));
+            LOGGER.trace("finishWeaponAndDefender() end");
+
+            weaponAndDefenderCallback(weapon, defender);
+        }
+    }
+
+    HumanAgent.prototype.toString = function()
+    {
+        return this.name() + ", HumanAgent, " + this.team() + ", " + this.squadBuilder().name();
+    }
+
+    return HumanAgent;
+});

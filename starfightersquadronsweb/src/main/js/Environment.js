@@ -322,7 +322,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
                 {
                     LOGGER.info("Phase: " + Phase.properties[phase].displayName);
                     this.trigger(Environment.PHASE_EVENT, phase);
-                    performTokenPhaseEffects(phase);
+                    // performTokenPhaseEffects(phase);
                 }
             }
 
@@ -507,16 +507,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return touches.vizziniContains(defender);
         }
 
-        function performTokenPhaseEffects(phase)
-        {
-            var tokens = getTokensForPhase(phase);
-
-            tokens.forEach(function(token)
-            {
-                token.phaseEffect(that, phase);
-            });
-        }
-
         function placeTokens(tokens, isTop)
         {
             var size = tokens.length;
@@ -537,6 +527,10 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
                 var position = new Position(x, y, heading);
                 that.placeToken(position, token);
+                that.bind(Environment.PHASE_EVENT, function(phase)
+                {
+                    token.phaseEffect(that, phase);
+                });
             }
         }
     };
@@ -568,7 +562,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         }
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
-        var teams = [ imperialAgent.getTeam(), rebelAgent.getTeam() ];
+        var teams = [ imperialAgent.team(), rebelAgent.team() ];
 
         var answer = new Environment(teams);
 

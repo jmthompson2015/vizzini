@@ -64,7 +64,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
                 className: "combatDicePanel",
             }, attackPanel)));
 
-            if (attackDice.getSize() > 0 && phase === Phase.COMBAT_ROLL_ATTACK_DICE)
+            if (attackDice.size() > 0 && phase === Phase.COMBAT_ROLL_ATTACK_DICE)
             {
                 // Modify Attack Dice panel.
                 var modifyAttackPanel = React.createElement(CombatUI.ModifyAttackUI,
@@ -86,7 +86,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
                 key: rows.length,
             }, React.DOM.td({}, React.DOM.span({}, "Defender: " + defender.name()))));
 
-            if (defenseDice && defenseDice.getSize() > 0)
+            if (defenseDice && defenseDice.size() > 0)
             {
                 // Defense Dice panel.
                 var defensePanel = React.createElement(CombatUI.DefenseDiceUI,
@@ -208,6 +208,11 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
                 value = this.state.defenseModification;
             }
 
+            if (value === "null")
+            {
+                value = null;
+            }
+
             var okFunction = this.props.okFunction;
 
             if (okFunction)
@@ -231,7 +236,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
             var dice = this.props.dice;
             InputValidator.validateNotNull("attack dice", dice);
 
-            var values = dice.getSortedValues();
+            var values = dice.sortedValues();
 
             values.forEach(function(die)
             {
@@ -275,7 +280,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
 
             if (dice)
             {
-                var values = dice.getSortedValues();
+                var values = dice.sortedValues();
 
                 values.forEach(function(die)
                 {
@@ -345,7 +350,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
             LOGGER.trace("ModifyAttackUI.myOnChange()");
             var source = event.target;
             var modification = source.id;
-            LOGGER.debug("ModifyAttackUI.myOnChange() modification = " + modification);
+            LOGGER.info("ModifyAttackUI.myOnChange() modification = " + modification);
             this.props.onChange(modification);
         },
     });

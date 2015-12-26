@@ -1,3 +1,6 @@
+/*
+ * Provides an action to modify the defense dice.
+ */
 define(function()
 {
     function ModifyDefenseDiceAction(environment, defender, defenseDice, modification)
@@ -46,6 +49,9 @@ define(function()
         }
     }
 
+    /*
+     * Provides an enumeration of possible modifications.
+     */
     ModifyDefenseDiceAction.Modification =
     {
         SPEND_EVADE: "spendEvade",

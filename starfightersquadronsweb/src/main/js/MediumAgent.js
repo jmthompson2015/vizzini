@@ -1,8 +1,9 @@
 /*
  * Provides a medium implementation of a computer agent for Starfighter Squadrons.
  */
-define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "SimpleAgent" ], function(Maneuver,
-        PlanningAction, Position, RangeRuler, ShipBase, SimpleAgent)
+define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position",
+        "RangeRuler", "ShipAction", "ShipBase", "SimpleAgent" ], function(Difficulty, Maneuver, ModifyAttackDiceAction,
+        ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, ShipAction, ShipBase, SimpleAgent)
 {
     function MediumAgent(name, team, squadBuilder)
     {
@@ -10,19 +11,19 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
         InputValidator.validateNotNull("team", team);
         InputValidator.validateNotNull("squadBuilder", squadBuilder);
 
-        this.getName = function()
+        this.name = function()
         {
             return name;
         }
 
-        this.getSquadBuilder = function()
-        {
-            return squadBuilder;
-        }
-
-        this.getTeam = function()
+        this.team = function()
         {
             return team;
+        }
+
+        this.squadBuilder = function()
+        {
+            return squadBuilder;
         }
     }
 
@@ -33,13 +34,75 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
     // of the same name from SimpleAgent.prototype.
     Vizzini.extend(MediumAgent.prototype,
     {
+        getModifyAttackDiceAction: function(environment, adjudicator, attacker, attackDice, defender, callback)
+        {
+            // Maximize the hits and critical hits.
+            var answer;
+
+            if (attackDice.hitCount() + attackDice.criticalHitCount() === attackDice.size())
+            {
+                // All hits and critical hits. Pass.
+            }
+            else if (attacker.findTargetLockByDefender(defender))
+            {
+                var modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
+                answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
+            }
+            else if (attacker.focus().count() > 0 && attackDice.focusCount() > 0)
+            {
+                var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
+                answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
+            }
+            // else
+            // {
+            // answer = SimpleAgent.prototype.getModifyAttackDiceAction.call(this, environment, adjudicator, attacker,
+            // attackDice, defender, callback);
+            // }
+
+            callback(answer);
+        },
+
+        getModifyDefenseDiceAction: function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
+                callback)
+        {
+            var answer;
+            var totalHits = attackDice.hitCount() + attackDice.criticalHitCount();
+
+            if (defenseDice.evadeCount() >= totalHits)
+            {
+                // Enough evades. Pass.
+            }
+            else if (defender.evade().count() > 0 && defenseDice.evadeCount() + 1 >= totalHits)
+            {
+                var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
+                answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+            }
+            else if (defender.focus().count() > 0 && defenseDice.focusCount() > 0)
+            {
+                var modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
+                answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+            }
+            else if (defender.evade().count() > 0)
+            {
+                var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
+                answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+            }
+            // else
+            // {
+            // answer = SimpleAgent.prototype.getModifyDefenseDiceAction.call(this, environment, adjudicator,
+            // attacker, attackDice, defender, defenseDice, callback);
+            // }
+
+            callback(answer);
+        },
+
         getPlanningAction: function(environment, adjudicator, callback)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("callback", callback);
 
-            var team = this.getTeam();
+            var team = this.team();
             var tokens = environment.getTokensForTeam(team);
             var defenders = environment.getDefenders(team);
             var tokenToManeuver = {};
@@ -107,9 +170,24 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
                     }
                 });
 
-                LOGGER.trace("validManeuversR1.length = " + validManeuversR1.length + " for " + token);
+                var maneuver;
 
-                var maneuver = validManeuversR1.vizziniRandomElement();
+                if (token.isStressed())
+                {
+                    // Choose a green maneuver.
+                    var greenManeuvers = validManeuvers.filter(function(maneuver)
+                    {
+                        return Maneuver.properties[maneuver].difficulty === Difficulty.GREEN;
+                    });
+
+                    maneuver = greenManeuvers.vizziniRandomElement();
+                }
+
+                if (!maneuver)
+                {
+                    LOGGER.trace("validManeuversR1.length = " + validManeuversR1.length + " for " + token);
+                    maneuver = validManeuversR1.vizziniRandomElement();
+                }
 
                 if (!maneuver)
                 {
@@ -152,9 +230,41 @@ define([ "Maneuver", "PlanningAction", "Position", "RangeRuler", "ShipBase", "Si
             callback(answer);
         },
 
+        getShipAction: function(environment, adjudicator, token, callback)
+        {
+            var answer;
+
+            var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment, adjudicator,
+                    token);
+            var targetLocks = shipActions.filter(function(shipAction)
+            {
+                return shipAction.defender;
+            });
+
+            if (token.attackerTargetLocks().length === 0 && targetLocks.length > 0)
+            {
+                answer = targetLocks.vizziniRandomElement();
+            }
+            else if (token.focus().count() === 0 && shipActions.vizziniContains(ShipAction.FOCUS))
+            {
+                answer = ShipAction.FOCUS;
+            }
+            else if (token.evade().count() === 0 && shipActions.vizziniContains(ShipAction.EVADE))
+            {
+                answer = ShipAction.EVADE;
+            }
+            else
+            {
+                // answer = SimpleAgent.prototype.getShipAction.call(this, environment, adjudicator, token, callback);
+                answer = shipActions.vizziniRandomElement();
+            }
+
+            callback(answer);
+        },
+
         toString: function()
         {
-            return this.getName() + ", MediumAgent, " + this.getTeam() + ", " + this.getSquadBuilder().getName();
+            return this.name() + ", MediumAgent, " + this.team() + ", " + this.squadBuilder().name();
         },
     });
 

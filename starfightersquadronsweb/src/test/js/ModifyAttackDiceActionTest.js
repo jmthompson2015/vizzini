@@ -14,16 +14,16 @@ define([ "AttackDice", "Environment", "ModifyAttackDiceAction", "TargetLock" ], 
         var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
         var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
         assert.equal(attacker.focus().count(), 1);
-        var focusCount0 = attackDice.getFocusCount();
-        var hitCount0 = attackDice.getHitCount();
+        var focusCount0 = attackDice.focusCount();
+        var hitCount0 = attackDice.hitCount();
 
         // Run.
         action.doIt();
 
         // Verify.
         assert.equal(attacker.focus().count(), 0);
-        assert.equal(attackDice.getFocusCount(), 0);
-        assert.equal(attackDice.getHitCount(), hitCount0 + focusCount0);
+        assert.equal(attackDice.focusCount(), 0);
+        assert.equal(attackDice.hitCount(), hitCount0 + focusCount0);
     });
 
     QUnit.test("doIt() spend target lock", function(assert)
@@ -38,15 +38,15 @@ define([ "AttackDice", "Environment", "ModifyAttackDiceAction", "TargetLock" ], 
         attacker.addAttackerTargetLock(targetLock);
         defender.addDefenderTargetLock(targetLock);
         var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
-        var blankCount0 = attackDice.getBlankCount();
-        var focusCount0 = attackDice.getFocusCount();
-        var hitCount0 = attackDice.getHitCount();
+        var blankCount0 = attackDice.blankCount();
+        var focusCount0 = attackDice.focusCount();
+        var hitCount0 = attackDice.hitCount();
 
         // Run.
         action.doIt();
 
         // Verify.
-        assert.ok(attackDice.getHitCount() >= hitCount0);
-        assert.ok(attackDice.getHitCount() <= blankCount0 + focusCount0 + hitCount0);
+        assert.ok(attackDice.hitCount() >= hitCount0);
+        assert.ok(attackDice.hitCount() <= blankCount0 + focusCount0 + hitCount0);
     });
 });

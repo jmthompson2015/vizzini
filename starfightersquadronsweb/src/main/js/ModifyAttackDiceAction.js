@@ -1,3 +1,6 @@
+/*
+ * Provides an action to modify the attack dice.
+ */
 define(function()
 {
     function ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification)
@@ -54,6 +57,9 @@ define(function()
         }
     }
 
+    /*
+     * Provides an enumeration of possible modifications.
+     */
     ModifyAttackDiceAction.Modification =
     {
         SPEND_FOCUS: "spendFocus",
