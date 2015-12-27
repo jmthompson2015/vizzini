@@ -29,6 +29,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
         Y_WING: "yWing",
         YT_1300: "yt1300",
         YT_2400: "yt2400",
+        YV_666: "yv666",
         Z_95_HEADHUNTER: "z95Headhunter",
         properties:
         {
@@ -400,6 +401,20 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                 shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                         ShipAction.BARREL_ROLL_RIGHT ],
                 value: "yt2400",
+            },
+            "yv666":
+            {
+                name: "YV-666",
+                description: "A YV-666.",
+                shipBase: ShipBase.LARGE,
+                primaryFiringArc: FiringArc.FORWARD,
+                maneuvers: [ Maneuver.STATIONARY_0_HARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
+                        Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_LEFT_2_HARD, Maneuver.BANK_LEFT_2_STANDARD,
+                        Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_HARD,
+                        Maneuver.TURN_LEFT_3_STANDARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
+                        Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
+                value: "yv666",
             },
             "z95Headhunter":
             {

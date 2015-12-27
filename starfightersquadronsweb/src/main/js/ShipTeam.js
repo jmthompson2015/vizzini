@@ -44,6 +44,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
         SCUM_M3_A_INTERCEPTOR: "scumM3AInterceptor",
         SCUM_STAR_VIPER: "scumStarViper",
         SCUM_Y_WING: "scumYWing",
+        SCUM_YV_666: "scumYv666",
         SCUM_Z_95_HEADHUNTER: "scumZ95Headhunter",
 
         properties:
@@ -310,6 +311,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 team: Team.SCUM,
                 image: "Scum_Y-Wing.png",
                 value: "scumYWing",
+            },
+            "scumYv666":
+            {
+                name: "YV-666",
+                ship: Ship.YV_666,
+                team: Team.SCUM,
+                image: "Scum_YV-666.png",
+                value: "scumYv666",
             },
             "scumZ95Headhunter":
             {

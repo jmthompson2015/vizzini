@@ -26,6 +26,7 @@ define(
                 BLUE_SQUADRON_PILOT: "blueSquadronPilot",
                 BOBA_FETT_IMPERIAL: "bobaFettImperial",
                 BOBA_FETT_SCUM: "bobaFettScum",
+                BOSSK: "bossk",
                 BOUNTY_HUNTER: "bountyHunter",
                 CAPTAIN_JONUS: "captainJonus",
                 CAPTAIN_KAGI: "captainKagi",
@@ -90,6 +91,7 @@ define(
                 KYLE_KATARN: "kyleKatarn",
                 LAETIN_ASHERA: "laetinAshera",
                 LANDO_CALRISSIAN: "landoCalrissian",
+                LATTS_RAZZI: "lattsRazzi",
                 LEEBO: "leebo",
                 LIEUTENANT_BLOUNT: "lieutenantBlount",
                 LIEUTENANT_LORRIR: "lieutenantLorrir",
@@ -99,6 +101,8 @@ define(
                 MANDALORIAN_MERCENARY: "mandalorianMercenary",
                 MAULER_MITHEL: "maulerMithel",
                 MIRANDA_DONI: "mirandaDoni",
+                MORALO_EVAL: "moraloEval",
+                NASHTAH_PUP_PILOT: "nashtahPupPilot",
                 NERA_DANTELS: "neraDantels",
                 NDRU_SUHLAK: "ndruSuhlak",
                 NIGHT_BEAST: "nightBeast",
@@ -137,6 +141,7 @@ define(
                 TEN_NUMB: "tenNumb",
                 TETRAN_COWALL: "tetranCowall",
                 TORKIL_MUX: "torkilMux",
+                TRANDOSHAN_SLAVER: "trandoshanSlaver",
                 TURR_PHENNIR: "turrPhennir",
                 TYCHO_CELCHU: "tychoCelchu",
                 WARDEN_SQUADRON_PILOT: "wardenSquadronPilot",
@@ -399,6 +404,20 @@ define(
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW,
                                 UpgradeType.MISSILE, UpgradeType.ILLICIT ],
                         value: "bobaFettScum",
+                    },
+                    "bossk":
+                    {
+                        name: "Bossk",
+                        description: "When you perform an attack that hits, before dealing damage, you may cancel 1 of your Critical Hit results to add 2 Hit results.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.SCUM_YV_666,
+                        shipState: new ShipState(7, 3, 1, 6, 6),
+                        squadPointCost: 35,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW,
+                                UpgradeType.CREW, UpgradeType.CREW, UpgradeType.ILLICIT ],
+                        value: "bossk",
                     },
                     "bountyHunter":
                     {
@@ -1260,6 +1279,20 @@ define(
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW ],
                         value: "landoCalrissian",
                     },
+                    "lattsRazzi":
+                    {
+                        name: "Latts Razzi",
+                        description: "When a friendly ship declares an attack, you may spend a Target Lock you have on the defender to reduce its agility by 1 for that attack.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.SCUM_YV_666,
+                        shipState: new ShipState(5, 3, 1, 6, 6),
+                        squadPointCost: 33,
+                        upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW,
+                                UpgradeType.CREW, UpgradeType.ILLICIT ],
+                        value: "lattsRazzi",
+                    },
                     "leebo":
                     {
                         name: "\"Leebo\"",
@@ -1379,6 +1412,33 @@ define(
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.BOMB, UpgradeType.BOMB ],
                         value: "mirandaDoni",
+                    },
+                    "moraloEval":
+                    {
+                        name: "Moralo Eval",
+                        description: "You can perform Cannon secondary weapon attacks against ships inside your auxiliary firing arc.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.SCUM_YV_666,
+                        shipState: new ShipState(6, 3, 1, 6, 6),
+                        squadPointCost: 34,
+                        upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW,
+                                UpgradeType.CREW, UpgradeType.ILLICIT ],
+                        value: "moraloEval",
+                    },
+                    "nashtahPupPilot":
+                    {
+                        name: "Nashtah Pup Pilot",
+                        description: "You have the pilot skill and pilot ability of the friendly destroyed ship equipped with the Hound's Tooth Upgrade card.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.SCUM_Z_95_HEADHUNTER,
+                        shipState: new ShipState(undefined, 2, 2, 2, 2),
+                        squadPointCost: undefined,
+                        upgradeTypes: [],
+                        value: "nashtahPupPilot",
                     },
                     "ndruSuhlak":
                     {
@@ -1893,6 +1953,20 @@ define(
                         squadPointCost: 19,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.CREW, UpgradeType.ILLICIT ],
                         value: "torkilMux",
+                    },
+                    "trandoshanSlaver":
+                    {
+                        name: "Trandoshan Slaver",
+                        description: "The spacious triple-decker design of the YV-666 made it popular among bounty hunters and slavers, who often retrofitted an entire deck for prisoner transport.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.SCUM_YV_666,
+                        shipState: new ShipState(2, 3, 1, 6, 6),
+                        squadPointCost: 29,
+                        upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW,
+                                UpgradeType.CREW, UpgradeType.ILLICIT ],
+                        value: "trandoshanSlaver",
                     },
                     "turrPhennir":
                     {

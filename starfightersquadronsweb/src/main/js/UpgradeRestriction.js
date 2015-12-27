@@ -28,6 +28,8 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
         YT_1300_ONLY: "yt1300Only",
         YT_2400_ONLY: "yt2400Only",
         Y_WING_ONLY: "yWingOnly",
+        YV_666_ONLY: "yv666Only",
+
         properties:
         {
             "aWingOnly":
@@ -260,6 +262,16 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
                     var shipTeam = Pilot.properties[pilot].shipTeam;
                     var ship = ShipTeam.properties[shipTeam].ship;
                     return ship === Ship.Y_WING;
+                }
+            },
+            "yv666Only":
+            {
+                displayName: "YV-666 only.",
+                passes: function(pilot)
+                {
+                    var shipTeam = Pilot.properties[pilot].shipTeam;
+                    var ship = ShipTeam.properties[shipTeam].ship;
+                    return ship === Ship.YV_666;
                 }
             },
         },

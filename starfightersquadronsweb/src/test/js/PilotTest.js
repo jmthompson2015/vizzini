@@ -101,10 +101,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 140);
+        assert.equal(result.length, 145);
         assert.equal(result[0], "academyPilot");
-        assert.equal(result[137], "wingedGundark");
-        assert.equal(result[139], "zetaSquadronPilot");
+        assert.equal(result[142], "wingedGundark");
+        assert.equal(result[144], "zetaSquadronPilot");
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties
@@ -174,8 +174,9 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 32);
+        assert.equal(result.length, 37);
         assert.equal(result[0], "binayrePirate");
-        assert.equal(result[31], "torkilMux");
+        assert.equal(result[35], "torkilMux");
+        assert.equal(result[36], "trandoshanSlaver");
     });
 });
