@@ -1,7 +1,7 @@
 /*
  * Provides an action to modify the defense dice.
  */
-define(function()
+define([ "UpgradeCard" ], function(UpgradeCard)
 {
     function ModifyDefenseDiceAction(environment, defender, defenseDice, modification)
     {
