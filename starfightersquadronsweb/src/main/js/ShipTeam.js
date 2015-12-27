@@ -29,6 +29,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
         REBEL_B_WING_ACE: "rebelBWingAce",
         REBEL_E_WING: "rebelEWing",
         REBEL_HWK_290: "rebelHwk290",
+        REBEL_K_WING: "rebelKWing",
         REBEL_X_WING: "rebelXWing",
         REBEL_Y_WING: "rebelYWing",
         REBEL_YT_1300: "rebelYt1300",
@@ -203,6 +204,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 team: Team.REBEL,
                 image: "HWK-290.png",
                 value: "rebelHwk290",
+            },
+            "rebelKWing":
+            {
+                name: "K-Wing",
+                ship: Ship.K_WING,
+                team: Team.REBEL,
+                image: "K-Wing.png",
+                value: "rebelKWing",
             },
             "rebelXWing":
             {

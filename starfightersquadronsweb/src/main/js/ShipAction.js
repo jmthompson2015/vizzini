@@ -13,6 +13,7 @@ define([ "Maneuver" ], function(Maneuver)
         CLOAK: "cloak",
         EVADE: "evade",
         FOCUS: "focus",
+        SLAM: "slam",
         TARGET_LOCK: "targetLock",
 
         properties:
@@ -61,6 +62,11 @@ define([ "Maneuver" ], function(Maneuver)
             {
                 displayName: "Focus",
                 value: "focus",
+            },
+            "slam":
+            {
+                displayName: "SLAM (SubLight Acceleration Motor)",
+                value: "slam",
             },
             "targetLock":
             {

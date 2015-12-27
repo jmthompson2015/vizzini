@@ -11,6 +11,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
         E_WING: "eWing",
         FIRESPRAY_31: "firespray31",
         HWK_290: "hwk290",
+        K_WING: "kWing",
         KIHRAXZ_FIGHTER: "kihraxzFighter",
         LAMBDA_CLASS_SHUTTLE: "lambdaClassShuttle",
         M3_A_INTERCEPTOR: "m3AInterceptor",
@@ -121,6 +122,19 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_HARD, Maneuver.STRAIGHT_4_HARD ],
                 shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
                 value: "hwk290",
+            },
+            "kWing":
+            {
+                name: "K-Wing",
+                description: "A K-Wing.",
+                shipBase: ShipBase.STANDARD,
+                primaryFiringArc: FiringArc.FORWARD,
+                maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
+                        Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
+                        Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_STANDARD, Maneuver.BANK_LEFT_3_STANDARD,
+                        Maneuver.STRAIGHT_3_STANDARD, Maneuver.BANK_RIGHT_3_STANDARD ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.SLAM ],
+                value: "kWing",
             },
             "kihraxzFighter":
             {

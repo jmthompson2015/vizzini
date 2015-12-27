@@ -54,6 +54,7 @@ define(
                 EMON_AZZAMEEN: "emonAzzameen",
                 EPSILON_ACE: "epsilonAce",
                 EPSILON_SQUADRON_PILOT: "epsilonSquadronPilot",
+                ESEGE_TUKETU: "esegeTuketu",
                 ETAHN_ABAHT: "etahnAbaht",
                 FELS_WRATH: "felsWrath",
                 GAMMA_SQUADRON_PILOT: "gammaSquadronPilot",
@@ -63,6 +64,7 @@ define(
                 GRAY_SQUADRON_PILOT: "graySquadronPilot",
                 GRAZ_THE_HUNTER: "grazTheHunter",
                 GREEN_SQUADRON_PILOT: "greenSquadronPilot",
+                GUARDIAN_SQUADRON_PILOT: "guardianSquadronPilot",
                 GURI: "guri",
                 HAN_SOLO: "hanSolo",
                 HIRED_GUN: "hiredGun",
@@ -96,6 +98,7 @@ define(
                 MAJOR_RHYMER: "majorRhymer",
                 MANDALORIAN_MERCENARY: "mandalorianMercenary",
                 MAULER_MITHEL: "maulerMithel",
+                MIRANDA_DONI: "mirandaDoni",
                 NERA_DANTELS: "neraDantels",
                 NDRU_SUHLAK: "ndruSuhlak",
                 NIGHT_BEAST: "nightBeast",
@@ -136,6 +139,7 @@ define(
                 TORKIL_MUX: "torkilMux",
                 TURR_PHENNIR: "turrPhennir",
                 TYCHO_CELCHU: "tychoCelchu",
+                WARDEN_SQUADRON_PILOT: "wardenSquadronPilot",
                 WEDGE_ANTILLES: "wedgeAntilles",
                 WES_JANSON: "wesJanson",
                 WHISPER: "whisper",
@@ -771,6 +775,20 @@ define(
                         upgradeTypes: [ UpgradeType.TECH ],
                         value: "epsilonSquadronPilot",
                     },
+                    "esegeTuketu":
+                    {
+                        name: "Esege Tuketu",
+                        description: "When another friendly ship at Range 1-2 is attacking, it may treat your Focus tokens as its own.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.REBEL_K_WING,
+                        shipState: new ShipState(6, 2, 1, 5, 4),
+                        squadPointCost: 28,
+                        upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "esegeTuketu",
+                    },
                     "etahnAbaht":
                     {
                         name: "Etahn A'baht",
@@ -891,6 +909,20 @@ define(
                         squadPointCost: 19,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
                         value: "greenSquadronPilot",
+                    },
+                    "guardianSquadronPilot":
+                    {
+                        name: "Guardian Squadron Pilot",
+                        description: "The K-wing's surprising acceleration, heavy armor plating, and devastating ordnance made it a favorite for hit-and-run operations.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.REBEL_K_WING,
+                        shipState: new ShipState(4, 2, 1, 5, 4),
+                        squadPointCost: 25,
+                        upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "guardianSquadronPilot",
                     },
                     "guri":
                     {
@@ -1333,6 +1365,20 @@ define(
                         squadPointCost: 17,
                         upgradeTypes: [ UpgradeType.ELITE ],
                         value: "maulerMithel",
+                    },
+                    "mirandaDoni":
+                    {
+                        name: "Miranda Doni",
+                        description: "Once per round when attacking, you may either spend 1 Shield to roll 1 additional attack die or roll 1 fewer attack die to recover 1 Shield.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.REBEL_K_WING,
+                        shipState: new ShipState(8, 2, 1, 5, 4),
+                        squadPointCost: 29,
+                        upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "mirandaDoni",
                     },
                     "ndruSuhlak":
                     {
@@ -1873,6 +1919,20 @@ define(
                         squadPointCost: 26,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
                         value: "tychoCelchu",
+                    },
+                    "wardenSquadronPilot":
+                    {
+                        name: "Warden Squadron Pilot",
+                        description: "Koensayr Manufacturing's K-wing boasted an advanced Sublight Acceleration Motor (SLAM) and an unprecedented 18 hard points, granting it unrivaled speed and firepower.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.REBEL_K_WING,
+                        shipState: new ShipState(2, 2, 1, 5, 4),
+                        squadPointCost: 23,
+                        upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "wardenSquadronPilot",
                     },
                     "wedgeAntilles":
                     {

@@ -98,8 +98,8 @@ define(
                 assert.ok(result);
                 assert.equal(result.length, expected);
                 assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-                assert.equal(result[152], UpgradeCard.PROTON_ROCKETS);
-                assert.equal(result[153], UpgradeCard.PROTON_TORPEDOES);
+                assert.equal(result[156], UpgradeCard.PROTON_TORPEDOES);
+                assert.equal(result[157], UpgradeCard.TWIN_LASER_TURRET);
             });
 
             QUnit.test("valuesByPilotAndType() Astromech", function(assert)
@@ -121,8 +121,9 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 13);
+                assert.equal(result.length, 14);
                 var i = 0;
+                assert.equal(result[i++], UpgradeCard.ADVANCED_SLAM);
                 assert.equal(result[i++], UpgradeCard.ANTI_PURSUIT_LASERS);
                 assert.equal(result[i++], UpgradeCard.AUTOTHRUSTERS);
                 assert.equal(result[i++], UpgradeCard.COMBAT_RETROFIT);

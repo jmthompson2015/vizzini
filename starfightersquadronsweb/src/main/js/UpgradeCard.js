@@ -9,6 +9,7 @@ define(
                 ADRENALINE_RUSH: "adrenalineRush",
                 ADVANCED_CLOAKING_DEVICE: "advancedCloakingDevice",
                 ADVANCED_SENSORS: "advancedSensors",
+                ADVANCED_SLAM: "advancedSlam",
                 ADVANCED_TARGETING_COMPUTER: "advancedTargetingComputer",
                 ANDRASTA: "andrasta",
                 ANTI_PURSUIT_LASERS: "antiPursuitLasers",
@@ -16,6 +17,7 @@ define(
                 B_WING_E2: "bWingE2",
                 BODYGUARD: "bodyguard",
                 BOMB_LOADOUT: "bombLoadout",
+                BOMBARDIER: "bombardier",
                 BTL_A4_Y_WING: "btlA4YWing",
                 C_3PO: "c3po",
                 CALCULATION: "calculation",
@@ -25,6 +27,7 @@ define(
                 CLUSTER_MINES: "clusterMines",
                 COMBAT_RETROFIT: "combatRetrofit",
                 COMM_RELAY: "commRelay",
+                CONNER_NET: "connerNet",
                 COUNTERMEASURES: "countermeasures",
                 CRACK_SHOT: "crackShot",
                 DAREDEVIL: "daredevil",
@@ -160,6 +163,7 @@ define(
                 PLASMA_TORPEDOES: "plasmaTorpedoes",
                 PROTON_ROCKETS: "protonRockets",
                 PROTON_TORPEDOES: "protonTorpedoes",
+                TWIN_LASER_TURRET: "twinLaserTurret",
                 properties:
                 {
                     "aWingTestPilot":
@@ -213,6 +217,16 @@ define(
                         squadPointCost: 3,
                         hasAction: false,
                         value: "advancedSensors",
+                    },
+                    "advancedSlam":
+                    {
+                        name: "Advanced SLAM",
+                        type: UpgradeType.MODIFICATION,
+                        isUnique: false,
+                        description: "After performing a SLAM action, if you did not overlap an obstacle or another ship, you may perform a free action.",
+                        squadPointCost: 2,
+                        hasAction: false,
+                        value: "advancedSlam",
                     },
                     "advancedTargetingComputer":
                     {
@@ -278,6 +292,16 @@ define(
                         squadPointCost: 0,
                         hasAction: false,
                         value: "bombLoadout",
+                    },
+                    "bombardier":
+                    {
+                        name: "Bombardier",
+                        type: UpgradeType.CREW,
+                        isUnique: false,
+                        description: "When dropping a bomb, you may use the Straight 2 template instead of the Straight 1 template.",
+                        squadPointCost: 1,
+                        hasAction: false,
+                        value: "bombardier",
                     },
                     "btlA4YWing":
                     {
@@ -387,6 +411,16 @@ define(
                         squadPointCost: 3,
                         hasAction: false,
                         value: "commRelay",
+                    },
+                    "connerNet":
+                    {
+                        name: "Conner Net",
+                        type: UpgradeType.BOMB,
+                        isUnique: false,
+                        description: "Discard this card to drop 1 Conner net token. When a ship's base or maneuver template overlaps this token, this token detonates.",
+                        squadPointCost: 4,
+                        hasAction: true,
+                        value: "connerNet",
                     },
                     "countermeasures":
                     {
@@ -593,6 +627,7 @@ define(
                         name: "Extra Munitions",
                         type: UpgradeType.TORPEDO,
                         isUnique: false,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
                         description: "When you equip this card, place 1 ordnance token on each equipped Torpedo, Missile, and Bomb Upgrade card. When you are instructed to discard an Upgrade card, you may discard 1 ordnance token on that card instead.",
                         squadPointCost: 2,
                         hasAction: false,
@@ -1832,6 +1867,18 @@ define(
                         weaponValue: 4,
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         value: "protonTorpedoes",
+                    },
+                    "twinLaserTurret":
+                    {
+                        name: "Twin Laser Turret",
+                        type: UpgradeType.TURRET,
+                        isUnique: false,
+                        description: "Perform this attack twice (even against a ship outside your firing arc). Each time this attack hits, the defender suffers 1 damage. Then cancel all dice results.",
+                        squadPointCost: 6,
+                        hasAction: false,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        value: "twinLaserTurret",
                     },
                 },
 

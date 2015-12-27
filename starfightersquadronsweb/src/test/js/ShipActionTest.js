@@ -59,9 +59,9 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 9);
+        assert.equal(result.length, 10);
         assert.equal(result[0], "barrelRollLeft");
-        assert.equal(result[8], "targetLock");
+        assert.equal(result[9], "targetLock");
 
         var properties = Object.getOwnPropertyNames(ShipAction);
         var count = properties.length - 1 // properties
