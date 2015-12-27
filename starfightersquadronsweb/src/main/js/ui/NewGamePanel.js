@@ -138,7 +138,7 @@ define([ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent", 
             }
             var teamUI = React.createElement(Select,
             {
-                values: Team.values,
+                values: Team.values(),
                 labelFunction: teamLabelFunction,
                 initialSelectedValue: team,
                 onChange: this.handleTeamChange,

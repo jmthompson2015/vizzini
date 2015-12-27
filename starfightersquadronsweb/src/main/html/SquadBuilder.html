@@ -78,7 +78,7 @@
 
             function createTeamSelect()
             {
-                return createSelect(Team.values, Team.properties, team, teamChanged);
+                return createSelect(Team.values(), Team.properties, team, teamChanged);
             }
 
             function createSelect(values, properties, selectedValue, onChangeFunction)

@@ -98,8 +98,8 @@ define(
                 assert.ok(result);
                 assert.equal(result.length, expected);
                 assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-                assert.equal(result[150], UpgradeCard.PROTON_ROCKETS);
-                assert.equal(result[151], UpgradeCard.PROTON_TORPEDOES);
+                assert.equal(result[152], UpgradeCard.PROTON_ROCKETS);
+                assert.equal(result[153], UpgradeCard.PROTON_TORPEDOES);
             });
 
             QUnit.test("valuesByPilotAndType() Astromech", function(assert)
@@ -158,7 +158,7 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 25);
+                assert.equal(result.length, 26);
                 var i = 0;
                 assert.equal(result[i++], UpgradeCard.ADRENALINE_RUSH);
                 assert.equal(result[i++], UpgradeCard.CALCULATION);
@@ -172,6 +172,7 @@ define(
                 assert.equal(result[i++], UpgradeCard.EXPERT_HANDLING);
                 assert.equal(result[i++], UpgradeCard.EXPOSE);
                 assert.equal(result[i++], UpgradeCard.INTIMIDATION);
+                assert.equal(result[i++], UpgradeCard.JUKE);
                 assert.equal(result[i++], UpgradeCard.LIGHTNING_REFLEXES);
                 assert.equal(result[i++], UpgradeCard.LONE_WOLF);
                 assert.equal(result[i++], UpgradeCard.MARKSMANSHIP);
@@ -206,8 +207,8 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 26);
+                assert.equal(result.length, 27);
                 assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-                assert.equal(result[25], UpgradeCard.WINGMAN);
+                assert.equal(result[26], UpgradeCard.WINGMAN);
             });
         });

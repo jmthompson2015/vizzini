@@ -19,6 +19,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
         TIE_BOMBER: "tieBomber",
         TIE_DEFENDER: "tieDefender",
         TIE_FIGHTER: "tieFighter",
+        TIE_FO_FIGHTER: "tieFoFighter",
         TIE_INTERCEPTOR: "tieInterceptor",
         TIE_PHANTOM: "tiePhantom",
         TIE_PUNISHER: "tiePunisher",
@@ -245,6 +246,24 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                         ShipAction.EVADE ],
                 isTie: true,
                 value: "tieFighter",
+            },
+            "tieFoFighter":
+            {
+                name: "TIE/fo Fighter",
+                description: "A TIE/fo fighter.",
+                shipBase: ShipBase.STANDARD,
+                primaryFiringArc: FiringArc.FORWARD,
+                maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_EASY,
+                        Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_EASY,
+                        Maneuver.TURN_RIGHT_2_EASY, Maneuver.SEGNORS_LOOP_LEFT_2_HARD,
+                        Maneuver.SEGNORS_LOOP_RIGHT_2_HARD, Maneuver.TURN_LEFT_3_STANDARD,
+                        Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_STANDARD,
+                        Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD,
+                        Maneuver.STRAIGHT_5_STANDARD ],
+                shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
+                        ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
+                isTie: true,
+                value: "tieFoFighter",
             },
             "tieInterceptor":
             {

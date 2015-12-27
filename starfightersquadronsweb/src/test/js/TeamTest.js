@@ -31,10 +31,14 @@ define([ "Team" ], function(Team)
 
     QUnit.test("Team.values()", function(assert)
     {
-        assert.ok(Team.values);
-        assert.equal(Team.values.length, 3);
-        assert.equal(Team.values[0], Team.IMPERIAL);
-        assert.equal(Team.values[1], Team.REBEL);
-        assert.equal(Team.values[2], Team.SCUM);
+        var result = Team.values();
+        assert.ok(result);
+        assert.equal(result.length, 5);
+        var i =0;
+        assert.equal(result[i++], Team.FIRST_ORDER);
+        assert.equal(result[i++], Team.IMPERIAL);
+        assert.equal(result[i++], Team.REBEL);
+        assert.equal(result[i++], Team.RESISTANCE);
+        assert.equal(result[i++], Team.SCUM);
     });
 });

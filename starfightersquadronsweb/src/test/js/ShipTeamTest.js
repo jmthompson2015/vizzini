@@ -77,9 +77,9 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 31);
-        assert.equal(result[0], "imperialFirespray31");
-        assert.equal(result[30], "scumZ95Headhunter");
+        assert.equal(result.length, 32);
+        assert.equal(result[0], "firstOrderTieFoFighter");
+        assert.equal(result[31], "scumZ95Headhunter");
 
         var properties = Object.getOwnPropertyNames(ShipTeam);
         var count = properties.length - 1 // properties

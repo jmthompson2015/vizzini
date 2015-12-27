@@ -34,6 +34,8 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         KOIOGRAN_TURN_5_HARD: "koiogranTurn5Hard",
 
         // Segnor's loop.
+        SEGNORS_LOOP_LEFT_2_HARD: "segnorsLoopLeft2Hard",
+        SEGNORS_LOOP_RIGHT_2_HARD: "segnorsLoopRight2Hard",
         SEGNORS_LOOP_LEFT_3_HARD: "segnorsLoopLeft3Hard",
         SEGNORS_LOOP_RIGHT_3_HARD: "segnorsLoopRight3Hard",
 
@@ -214,6 +216,22 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 speed: 5,
                 difficulty: Difficulty.HARD,
                 value: "koiogranTurn5Hard",
+            },
+            "segnorsLoopLeft2Hard":
+            {
+                bearing: Bearing.SEGNORS_LOOP_LEFT,
+                speed: 2,
+                difficulty: Difficulty.HARD,
+                radius: 127.0,
+                value: "segnorsLoopLeft2Hard",
+            },
+            "segnorsLoopRight2Hard":
+            {
+                bearing: Bearing.SEGNORS_LOOP_RIGHT,
+                speed: 2,
+                difficulty: Difficulty.HARD,
+                radius: 127.0,
+                value: "segnorsLoopRight2Hard",
             },
             "segnorsLoopLeft3Hard":
             {

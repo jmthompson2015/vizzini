@@ -52,6 +52,8 @@ define(
                 EADEN_VRILL: "eadenVrill",
                 ECHO: "echo",
                 EMON_AZZAMEEN: "emonAzzameen",
+                EPSILON_ACE: "epsilonAce",
+                EPSILON_SQUADRON_PILOT: "epsilonSquadronPilot",
                 ETAHN_ABAHT: "etahnAbaht",
                 FELS_WRATH: "felsWrath",
                 GAMMA_SQUADRON_PILOT: "gammaSquadronPilot",
@@ -98,6 +100,8 @@ define(
                 NDRU_SUHLAK: "ndruSuhlak",
                 NIGHT_BEAST: "nightBeast",
                 OBSIDIAN_SQUADRON_PILOT: "obsidianSquadronPilot",
+                OMEGA_LEADER: "omegaLeader",
+                OMEGA_SQUADRON_PILOT: "omegaSquadronPilot",
                 OMICRON_GROUP_PILOT: "omicronGroupPilot",
                 ONYX_SQUADRON_PILOT: "onyxSquadronPilot",
                 OUTER_RIM_SMUGGLER: "outerRimSmuggler",
@@ -137,6 +141,8 @@ define(
                 WHISPER: "whisper",
                 WILD_SPACE_FRINGER: "wildSpaceFringer",
                 WINGED_GUNDARK: "wingedGundark",
+                ZETA_LEADER: "zetaLeader",
+                ZETA_SQUADRON_PILOT: "zetaSquadronPilot",
                 properties:
                 {
                     "academyPilot":
@@ -738,6 +744,32 @@ define(
                         upgradeTypes: [ UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE,
                                 UpgradeType.ILLICIT ],
                         value: "emonAzzameen",
+                    },
+                    "epsilonAce":
+                    {
+                        name: "\"Epsilon Ace\"",
+                        description: "While you do not have any Damage cards, treat your pilot skill value as \"12.\"",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(4, 2, 3, 3, 1),
+                        squadPointCost: 17,
+                        upgradeTypes: [ UpgradeType.TECH ],
+                        value: "epsilonAce",
+                    },
+                    "epsilonSquadronPilot":
+                    {
+                        name: "Epsilon Squadron Pilot",
+                        description: "Following the traditions of the Galactic Empire, the First Order has kept the TIE fighter design in service, but has updated the craft to modern combat standards.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(1, 2, 3, 3, 1),
+                        squadPointCost: 15,
+                        upgradeTypes: [ UpgradeType.TECH ],
+                        value: "epsilonSquadronPilot",
                     },
                     "etahnAbaht":
                     {
@@ -1355,6 +1387,32 @@ define(
                         upgradeTypes: [],
                         value: "obsidianSquadronPilot",
                     },
+                    "omegaLeader":
+                    {
+                        name: "\"Omega Leader\"",
+                        description: "Enemy ships that you have locked cannot modify any dice when attacking you or defending against your attacks.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(8, 2, 3, 3, 1),
+                        squadPointCost: 21,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TECH ],
+                        value: "omegaLeader",
+                    },
+                    "omegaSquadronPilot":
+                    {
+                        name: "Omega Squadron Pilot",
+                        description: "To attain a coveted position in the skilled Omega squadron, pilots had to demonstrate both their exceptional skill and their unwavering dedication to the First Order.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(4, 2, 3, 3, 1),
+                        squadPointCost: 17,
+                        upgradeTypes: [ UpgradeType.TECH ],
+                        value: "omegaSquadronPilot",
+                    },
                     "omicronGroupPilot":
                     {
                         name: "Omicron Group Pilot",
@@ -1880,6 +1938,32 @@ define(
                         squadPointCost: 15,
                         upgradeTypes: [],
                         value: "wingedGundark",
+                    },
+                    "zetaLeader":
+                    {
+                        name: "\"Zeta Leader\"",
+                        description: "When attacking, if you are not stressed, you may receive 1 stress token to roll 1 additional attack die.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(7, 2, 3, 3, 1),
+                        squadPointCost: 20,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TECH ],
+                        value: "zetaLeader",
+                    },
+                    "zetaSquadronPilot":
+                    {
+                        name: "Zeta Squadron Pilot",
+                        description: "The fragility of TIE Fighters during the Galactic Civil War led engineers to improve survivability, resulting in a more durable starfighter.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 2, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(3, 2, 3, 3, 1),
+                        squadPointCost: 16,
+                        upgradeTypes: [ UpgradeType.TECH ],
+                        value: "zetaSquadronPilot",
                     },
                 },
 

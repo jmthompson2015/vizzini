@@ -101,9 +101,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 130);
+        assert.equal(result.length, 136);
         assert.equal(result[0], "academyPilot");
-        assert.equal(result[129], "wingedGundark");
+        assert.equal(result[133], "wingedGundark");
+        assert.equal(result[135], "zetaSquadronPilot");
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties

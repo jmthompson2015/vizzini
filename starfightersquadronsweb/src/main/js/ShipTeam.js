@@ -5,6 +5,9 @@ define([ "Ship", "Team" ], function(Ship, Team)
 {
     var ShipTeam =
     {
+        // First Order.
+        FIRST_ORDER_TIE_FO_FIGHTER: "firstOrderTieFoFighter",
+
         // Imperial.
         IMPERIAL_FIRESPRAY_31: "imperialFirespray31",
         IMPERIAL_LAMBDA_CLASS_SHUTTLE: "imperialLambdaClassShuttle",
@@ -44,6 +47,16 @@ define([ "Ship", "Team" ], function(Ship, Team)
 
         properties:
         {
+            // First Order.
+            "firstOrderTieFoFighter":
+            {
+                name: "TIE/fo Fighter",
+                ship: Ship.TIE_FO_FIGHTER,
+                team: Team.FIRST_ORDER,
+                image: "TIE_fo_Fighter.png",
+                value: "firstOrderTieFoFighter",
+            },
+
             // Imperial.
             "imperialFirespray31":
             {

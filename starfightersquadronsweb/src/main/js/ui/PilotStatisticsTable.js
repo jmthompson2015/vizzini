@@ -112,7 +112,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
             var shipTeam = pilotProps.shipTeam;
             var team = ShipTeam.properties[shipTeam].team;
             var teamName0 = Team.properties[team].name;
-            var teamName1 = (teamName0 === "Scum & Villainy" ? "Scum" : teamName0);
+            var teamName1 = Team.properties[team].shortName;
             var imageFile = imageBase + teamName1 + "Icon24.png";
             cells.push(this.Td(
             {

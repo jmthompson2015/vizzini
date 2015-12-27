@@ -24,6 +24,7 @@ define(
                 CHEWBACCA: "chewbacca",
                 CLUSTER_MINES: "clusterMines",
                 COMBAT_RETROFIT: "combatRetrofit",
+                COMM_RELAY: "commRelay",
                 COUNTERMEASURES: "countermeasures",
                 CRACK_SHOT: "crackShot",
                 DAREDEVIL: "daredevil",
@@ -63,6 +64,7 @@ define(
                 ION_BOMBS: "ionBombs",
                 JAN_DODONNA: "janDodonna",
                 JAN_ORS: "janOrs",
+                JUKE: "juke",
                 K4_SECURITY_DROID: "k4SecurityDroid",
                 KYLE_KATARN: "kyleKatarn",
                 LANDO_CALRISSIAN: "landoCalrissian",
@@ -375,6 +377,16 @@ define(
                         hasAction: false,
                         isImplemented: true,
                         value: "combatRetrofit",
+                    },
+                    "commRelay":
+                    {
+                        name: "Comm Relay",
+                        type: UpgradeType.TECH,
+                        isUnique: false,
+                        description: "You cannot have more than 1 Evade token. During the End phase, do not remove an unused Evade token from your ship.",
+                        squadPointCost: 3,
+                        hasAction: false,
+                        value: "commRelay",
                     },
                     "countermeasures":
                     {
@@ -786,6 +798,17 @@ define(
                         squadPointCost: 2,
                         hasAction: false,
                         value: "janOrs",
+                    },
+                    "juke":
+                    {
+                        name: "Juke",
+                        type: UpgradeType.ELITE,
+                        isUnique: false,
+                        restrictions: [ UpgradeRestriction.SMALL_SHIP_ONLY ],
+                        description: "When attacking, if you have an evade token, you may change 1 of the defender's Evade results to a Focus result.",
+                        squadPointCost: 2,
+                        hasAction: false,
+                        value: "juke",
                     },
                     "k4SecurityDroid":
                     {
