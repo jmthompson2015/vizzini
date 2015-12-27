@@ -363,6 +363,7 @@ define(
                         hasAction: true,
                         value: "clusterMines",
                     },
+                    // @see Token.getHullValue() and Token.getShieldValue() for effect implementation.
                     "combatRetrofit":
                     {
                         name: "Combat Retrofit",
@@ -372,6 +373,7 @@ define(
                         shipState: new ShipState(null, null, null, 2, 1),
                         squadPointCost: 10,
                         hasAction: false,
+                        isImplemented: true,
                         value: "combatRetrofit",
                     },
                     "countermeasures":
@@ -477,6 +479,7 @@ define(
                         description: "When you are dealt a faceup Damage card with the Pilot trait, discard it immediately without resolving its effect.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "determination",
                     },
                     "drawTheirFire":
@@ -510,6 +513,7 @@ define(
                         hasAction: false,
                         value: "emperorPalpatine",
                     },
+                    // @see Token.shipActions() for effect implementation.
                     "engineUpgrade":
                     {
                         name: "Engine Upgrade",
@@ -518,6 +522,7 @@ define(
                         description: "Your action bar gains the Boost action icon.",
                         squadPointCost: 4,
                         hasAction: false,
+                        isImplemented: true,
                         value: "engineUpgrade",
                     },
                     "engineeringTeam":
@@ -696,6 +701,7 @@ define(
                         hasAction: false,
                         value: "heavyScykInterceptor",
                     },
+                    // @see Token.getHullValue() for effect implementation.
                     "hullUpgrade":
                     {
                         name: "Hull Upgrade",
@@ -705,6 +711,7 @@ define(
                         shipState: new ShipState(null, null, null, 1, null),
                         squadPointCost: 3,
                         hasAction: false,
+                        isImplemented: true,
                         value: "hullUpgrade",
                     },
                     "ig2000":
@@ -898,6 +905,7 @@ define(
                         hasAction: false,
                         value: "mercenaryCopilot",
                     },
+                    // @see Token.shipActions() for effect implementation.
                     "millenniumFalcon":
                     {
                         name: "Millennium Falcon",
@@ -907,6 +915,7 @@ define(
                         description: "Your action bar gains the Evade action icon.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "millenniumFalcon",
                     },
                     "moffJerjerrod":
@@ -930,6 +939,7 @@ define(
                         description: "During the End phase, do not remove unused focus tokens from your ship.",
                         squadPointCost: 3,
                         hasAction: false,
+                        isImplemented: true,
                         value: "moldyCrow",
                     },
                     "munitionsFailsafe":
@@ -962,6 +972,7 @@ define(
                         description: "You may treat all Straight maneuvers as green maneuvers.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "nienNunb",
                     },
                     "opportunist":
@@ -1055,6 +1066,7 @@ define(
                         description: "You may treat all 1- and 2-speed maneuvers as green maneuvers.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "r2Astromech",
                     },
                     "r2D2":
@@ -1220,6 +1232,7 @@ define(
                         hasAction: false,
                         value: "rebelCaptive",
                     },
+                    // @see ModifyAttackDiceAction.doIt() and ModifyDefenseDiceAction.doIt() for effect implementation.
                     "reconSpecialist":
                     {
                         name: "Recon Specialist",
@@ -1228,6 +1241,7 @@ define(
                         description: "When you perform a focus action, assign 1 additional focus token to your ship.",
                         squadPointCost: 3,
                         hasAction: false,
+                        isImplemented: true,
                         value: "reconSpecialist",
                     },
                     "royalGuardTie":
@@ -1302,6 +1316,7 @@ define(
                         hasAction: false,
                         value: "sensorTeam",
                     },
+                    // @see Token.getShieldValue() for effect implementation.
                     "shieldUpgrade":
                     {
                         name: "Shield Upgrade",
@@ -1311,6 +1326,7 @@ define(
                         shipState: new ShipState(null, null, null, null, 1),
                         squadPointCost: 4,
                         hasAction: false,
+                        isImplemented: true,
                         value: "shieldUpgrade",
                     },
                     "slaveI":
@@ -1407,6 +1423,7 @@ define(
                         hasAction: false,
                         value: "tacticalJammer",
                     },
+                    // @see Token.shipActions() for effect implementation.
                     "targetingComputer":
                     {
                         name: "Targeting Computer",
@@ -1415,6 +1432,7 @@ define(
                         description: "Your action bar gains the Target Lock action icon.",
                         squadPointCost: 2,
                         hasAction: false,
+                        isImplemented: true,
                         value: "targetingComputer",
                     },
                     "targetingCoordinator":
@@ -1471,6 +1489,7 @@ define(
                         hasAction: false,
                         value: "unhingedAstromech",
                     },
+                    // @see Token.getPilotSkillValue() for effect implementation.
                     "veteranInstincts":
                     {
                         name: "Veteran Instincts",
@@ -1480,6 +1499,7 @@ define(
                         shipState: new ShipState(2, null, null, null, null),
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "veteranInstincts",
                     },
                     "virago":

@@ -36,6 +36,11 @@ define(function()
             {
                 defenseDice.spendFocusToken();
                 defender.focus().decrease();
+
+                if (defender.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
+                {
+                    defender.focus().increase();
+                }
             }
             else if (modification === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
             {

@@ -49,6 +49,11 @@ define(function()
             {
                 attackDice.spendFocusToken();
                 attacker.focus().decrease();
+
+                if (attacker.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
+                {
+                    attacker.focus().increase();
+                }
             }
             else
             {
