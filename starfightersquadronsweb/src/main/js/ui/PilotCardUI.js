@@ -239,6 +239,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         actionName0 = actionName0.replace(" (left)", "");
         actionName0 = actionName0.replace(" (straight)", "");
         actionName0 = actionName0.replace(" (right)", "");
+        actionName0 = actionName0.replace(" (SubLight Acceleration Motor)", "");
         var actionName = actionName0.replace(" ", "");
         var fileString = imageBase + "pilotCard/" + actionName + "24.png";
 
