@@ -256,7 +256,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         {
             var titleString = Team.properties[this.props.team].name + " Faction";
             var teamName = Team.properties[this.props.team].shortName;
-            var fileString = imageBase + teamName + "Icon24.png";
+            var fileString = imageBase + teamName + "Icon32.png";
 
             var cells0 = [];
             cells0.push(React.DOM.td(
