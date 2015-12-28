@@ -7,10 +7,6 @@ define([ "UpgradeCard", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(Upg
         label: "Type",
     },
     {
-        key: "isUnique",
-        label: "Unique",
-    },
-    {
         key: "name",
         label: "Name",
         className: "textCell",
@@ -117,8 +113,6 @@ define([ "UpgradeCard", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(Upg
                 value: upgradeProps.type, // this allows sorting
             }, typeImage));
             i++;
-
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], isUnique));
 
             cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgradeProps.name));
 
