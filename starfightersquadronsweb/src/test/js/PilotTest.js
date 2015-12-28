@@ -143,6 +143,19 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         assert.equal(result[9], "wesJanson");
     });
 
+    QUnit.test("valuesByTeam() First Order", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByTeam(Team.FIRST_ORDER);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 58);
+        assert.equal(result[0], "epsilonAce");
+        assert.equal(result[6], "academyPilot");
+        assert.equal(result[57], "wingedGundark");
+    });
+
     QUnit.test("valuesByTeam() Imperial", function(assert)
     {
         // Run.
@@ -159,6 +172,18 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
     {
         // Run.
         var result = Pilot.valuesByTeam(Team.REBEL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 50);
+        assert.equal(result[0], "airenCracken");
+        assert.equal(result[49], "wildSpaceFringer");
+    });
+
+    QUnit.test("valuesByTeam() Resistance", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByTeam(Team.RESISTANCE);
 
         // Verify.
         assert.ok(result);

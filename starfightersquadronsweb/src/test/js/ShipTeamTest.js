@@ -89,6 +89,30 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.equal(result.length, count);
     });
 
+    QUnit.test("valuesByTeam() First Order", function(assert)
+    {
+        // Run.
+        var result = ShipTeam.valuesByTeam(Team.FIRST_ORDER);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 13);
+        var i = 0;
+        assert.equal(result[i++], "firstOrderTieFoFighter");
+        assert.equal(result[i++], "imperialFirespray31");
+        assert.equal(result[i++], "imperialLambdaClassShuttle");
+        assert.equal(result[i++], "imperialTieAdvanced");
+        assert.equal(result[i++], "imperialTieBomber");
+        assert.equal(result[i++], "imperialTieDefender");
+        assert.equal(result[i++], "imperialTieFighter");
+        assert.equal(result[i++], "imperialTieInterceptor");
+        assert.equal(result[i++], "imperialTieInterceptorRoyalGuard");
+        assert.equal(result[i++], "imperialTieInterceptorSaberSquadron");
+        assert.equal(result[i++], "imperialTiePhantom");
+        assert.equal(result[i++], "imperialTiePunisher");
+        assert.equal(result[i++], "imperialVt49Decimator");
+    });
+
     QUnit.test("valuesByTeam() Imperial", function(assert)
     {
         // Run.
@@ -116,6 +140,29 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
     {
         // Run.
         var result = ShipTeam.valuesByTeam(Team.REBEL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 12);
+        var i = 0;
+        assert.equal(result[i++], "rebelAWing");
+        assert.equal(result[i++], "rebelAWingAce");
+        assert.equal(result[i++], "rebelBWing");
+        assert.equal(result[i++], "rebelBWingAce");
+        assert.equal(result[i++], "rebelEWing");
+        assert.equal(result[i++], "rebelHwk290");
+        assert.equal(result[i++], "rebelKWing");
+        assert.equal(result[i++], "rebelXWing");
+        assert.equal(result[i++], "rebelYWing");
+        assert.equal(result[i++], "rebelYt1300");
+        assert.equal(result[i++], "rebelYt2400");
+        assert.equal(result[i++], "rebelZ95Headhunter");
+    });
+
+    QUnit.test("valuesByTeam() Resistance", function(assert)
+    {
+        // Run.
+        var result = ShipTeam.valuesByTeam(Team.RESISTANCE);
 
         // Verify.
         assert.ok(result);

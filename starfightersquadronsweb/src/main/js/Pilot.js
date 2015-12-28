@@ -2,8 +2,8 @@
  * Provides an enumeration of pilots for Starfighter Squadrons.
  */
 define(
-        [ "RangeRuler", "ShipState", "ShipTeam", "TurretWeapon", "UpgradeType", "Weapon" ],
-        function(RangeRuler, ShipState, ShipTeam, TurretWeapon, UpgradeType, Weapon)
+        [ "RangeRuler", "ShipState", "ShipTeam", "Team", "TurretWeapon", "UpgradeType", "Weapon" ],
+        function(RangeRuler, ShipState, ShipTeam, Team, TurretWeapon, UpgradeType, Weapon)
         {
             var Pilot =
             {
@@ -2120,11 +2120,22 @@ define(
                 {
                     InputValidator.validateNotNull("team", team);
 
-                    return this.values().filter(function(pilot)
+                    var answer = this.values().filter(function(pilot)
                     {
                         var shipTeam = Pilot.properties[pilot].shipTeam;
                         return ShipTeam.properties[shipTeam].team === team;
                     });
+
+                    if (team === Team.FIRST_ORDER)
+                    {
+                        answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
+                    }
+                    else if (team === Team.RESISTANCE)
+                    {
+                        answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
+                    }
+
+                    return answer;
                 },
             };
 

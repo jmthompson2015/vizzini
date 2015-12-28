@@ -339,10 +339,21 @@ define([ "Ship", "Team" ], function(Ship, Team)
         {
             InputValidator.validateNotNull("team", team);
 
-            return this.values().filter(function(shipTeam)
+            var answer = this.values().filter(function(shipTeam)
             {
                 return ShipTeam.properties[shipTeam].team === team;
             });
+
+            if (team === Team.FIRST_ORDER)
+            {
+                answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
+            }
+            else if (team === Team.RESISTANCE)
+            {
+                answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
+            }
+
+            return answer;
         },
     }
 
