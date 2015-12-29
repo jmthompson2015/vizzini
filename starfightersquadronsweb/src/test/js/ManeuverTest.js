@@ -702,6 +702,38 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         assert.equal(result.heading(), fromPosition.heading());
     });
 
+    QUnit.test("Maneuver.computeToPosition() TallonRollLeft3Hard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 300, 0);
+        var maneuver = Maneuver.TALLON_ROLL_LEFT_3_HARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.x(), fromPosition.x() + 109);
+        assert.equal(result.y(), fromPosition.y() - 109);
+        assert.equal(result.heading(), fromPosition.heading() + 180);
+    });
+
+    QUnit.test("Maneuver.computeToPosition() TallonRollRight3Hard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 300, 0);
+        var maneuver = Maneuver.TALLON_ROLL_RIGHT_3_HARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.x(), fromPosition.x() + 109);
+        assert.equal(result.y(), fromPosition.y() + 109);
+        assert.equal(result.heading(), fromPosition.heading() + 180);
+    });
+
     QUnit.test("Maneuver.computeToPosition() TurnLeft1Standard Standard", function(assert)
     {
         // Setup.
@@ -715,6 +747,22 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         assert.ok(result);
         assert.equal(result.x(), fromPosition.x() + 54);
         assert.equal(result.y(), fromPosition.y() - 54);
+        assert.equal(result.heading(), fromPosition.heading() + 270);
+    });
+
+    QUnit.test("Maneuver.computeToPosition() TurnLeft3Standard Standard", function(assert)
+    {
+        // Setup.
+        var fromPosition = new Position(10, 200, 0);
+        var maneuver = Maneuver.TURN_LEFT_3_STANDARD;
+
+        // Run.
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.x(), fromPosition.x() + 109);
+        assert.equal(result.y(), fromPosition.y() - 109);
         assert.equal(result.heading(), fromPosition.heading() + 270);
     });
 

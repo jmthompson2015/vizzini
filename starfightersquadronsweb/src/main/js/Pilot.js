@@ -23,6 +23,8 @@ define(
                 BLACK_SUN_SOLDIER: "blackSunSoldier",
                 BLACK_SUN_VIGO: "blackSunVigo",
                 BLACKMOON_SQUADRON_PILOT: "blackmoonSquadronPilot",
+                BLUE_ACE: "blueAce",
+                BLUE_SQUADRON_NOVICE: "blueSquadronNovice",
                 BLUE_SQUADRON_PILOT: "blueSquadronPilot",
                 BOBA_FETT_IMPERIAL: "bobaFettImperial",
                 BOBA_FETT_SCUM: "bobaFettScum",
@@ -114,11 +116,13 @@ define(
                 OUTER_RIM_SMUGGLER: "outerRimSmuggler",
                 PALOB_GODALHI: "palobGodalhi",
                 PATROL_LEADER: "patrolLeader",
+                POE_DAMERON: "poeDameron",
                 PRINCE_XIZOR: "princeXizor",
                 PROTOTYPE_PILOT: "prototypePilot",
                 REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
                 REBEL_OPERATIVE: "rebelOperative",
                 RED_SQUADRON_PILOT: "redSquadronPilot",
+                RED_SQUADRON_VETERAN: "redSquadronVeteran",
                 REDLINE: "redline",
                 REXLER_BRATH: "rexlerBrath",
                 ROARK_GARNET: "roarkGarnet",
@@ -362,6 +366,32 @@ define(
                         squadPointCost: 29,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
                         value: "blackmoonSquadronPilot",
+                    },
+                    "blueAce":
+                    {
+                        name: "\"Blue Ace\"",
+                        description: "When performing a boost action, you may use the left or right 1 turn template.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
+                        shipState: new ShipState(5, 3, 2, 3, 3),
+                        squadPointCost: 27,
+                        upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        value: "blueAce",
+                    },
+                    "blueSquadronNovice":
+                    {
+                        name: "Blue Squadron Novice",
+                        description: "The T-70 model benefits from its redesigned thrusters with increased maneuverability in both space and atmospheric flight.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
+                        shipState: new ShipState(2, 3, 2, 3, 3),
+                        squadPointCost: 24,
+                        upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        value: "blueSquadronNovice",
                     },
                     "blueSquadronPilot":
                     {
@@ -1585,6 +1615,19 @@ define(
                                 UpgradeType.BOMB ],
                         value: "patrolLeader",
                     },
+                    "poeDameron":
+                    {
+                        name: "Poe Dameron",
+                        description: "While attacking or defending, if you have a Focus token, you may change 1 of your Focus results to a Hit or Evade result.",
+                        isUnique: true,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
+                        shipState: new ShipState(8, 3, 2, 3, 3),
+                        squadPointCost: 31,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        value: "poeDameron",
+                    },
                     "princeXizor":
                     {
                         name: "Prince Xizor",
@@ -1664,6 +1707,19 @@ define(
                         squadPointCost: 23,
                         upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
                         value: "redSquadronPilot",
+                    },
+                    "redSquadronVeteran":
+                    {
+                        name: "Red Squadron Veteran",
+                        description: "The modern incarnation of a classic design, the Incom T-70 X-wing fighter is the signature combat craft of the Resistance forces in their fight against the First Order.",
+                        isUnique: false,
+                        primaryWeapon: new Weapon("Primary Weapon", true, 3, [ RangeRuler.ONE, RangeRuler.TWO,
+                                RangeRuler.THREE ]),
+                        shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
+                        shipState: new ShipState(4, 3, 2, 3, 3),
+                        squadPointCost: 26,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        value: "redSquadronVeteran",
                     },
                     "rexlerBrath":
                     {

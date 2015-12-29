@@ -10,11 +10,14 @@ define(function()
         STRAIGHT: "straight",
         BANK_RIGHT: "bankRight",
         TURN_RIGHT: "turnRight",
-        KOIOGRAN_TURN: "kTurn",
-        SEGNORS_LOOP_LEFT: "segnorsLoopLeft",
-        SEGNORS_LOOP_RIGHT: "segnorsLoopRight",
         BARREL_ROLL_LEFT: "barrelRollLeft",
+        SEGNORS_LOOP_LEFT: "segnorsLoopLeft",
+        TALLON_ROLL_LEFT: "tallonRollLeft",
+        KOIOGRAN_TURN: "kTurn",
         BARREL_ROLL_RIGHT: "barrelRollRight",
+        SEGNORS_LOOP_RIGHT: "segnorsLoopRight",
+        TALLON_ROLL_RIGHT: "tallonRollRight",
+
         properties:
         {
             "turnLeft":
@@ -47,9 +50,9 @@ define(function()
                 isBank: false,
                 isTurn: true,
             },
-            "kTurn":
+            "barrelRollLeft":
             {
-                headingChange: 180,
+                headingChange: 0,
                 isBank: false,
                 isTurn: false,
             },
@@ -59,21 +62,33 @@ define(function()
                 isBank: false,
                 isTurn: false,
             },
-            "segnorsLoopRight":
+            "tallonRollLeft":
             {
-                headingChange: 225,
+                headingChange: 180,
                 isBank: false,
                 isTurn: false,
             },
-            "barrelRollLeft":
+            "kTurn":
             {
-                headingChange: 0,
+                headingChange: 180,
                 isBank: false,
                 isTurn: false,
             },
             "barrelRollRight":
             {
                 headingChange: 0,
+                isBank: false,
+                isTurn: false,
+            },
+            "segnorsLoopRight":
+            {
+                headingChange: 225,
+                isBank: false,
+                isTurn: false,
+            },
+            "tallonRollRight":
+            {
+                headingChange: 180,
                 isBank: false,
                 isTurn: false,
             },

@@ -55,6 +55,10 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         STRAIGHT_5_EASY: "straight5Easy",
         STRAIGHT_5_STANDARD: "straight5Standard",
 
+        // Tallon Roll.
+        TALLON_ROLL_LEFT_3_HARD: "tallonRollLeft3Hard",
+        TALLON_ROLL_RIGHT_3_HARD: "tallonRollRight3Hard",
+
         // Turn.
         TURN_LEFT_1_HARD: "turnLeft1Hard",
         TURN_LEFT_1_STANDARD: "turnLeft1Standard",
@@ -332,6 +336,22 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 difficulty: Difficulty.STANDARD,
                 value: "straight5Standard",
             },
+            "tallonRollLeft3Hard":
+            {
+                bearing: Bearing.TALLON_ROLL_LEFT,
+                speed: 3,
+                difficulty: Difficulty.HARD,
+                radius: 88.9,
+                value: "tallonRollLeft3Hard",
+            },
+            "tallonRollRight3Hard":
+            {
+                bearing: Bearing.TALLON_ROLL_RIGHT,
+                speed: 3,
+                difficulty: Difficulty.HARD,
+                radius: 88.9,
+                value: "tallonRollRight3Hard",
+            },
             "turnLeft1Hard":
             {
                 bearing: Bearing.TURN_LEFT,
@@ -534,7 +554,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             lastX = 0.0;
             lastY = y;
         }
-        else if (maneuver != Maneuver.STATIONARY_0_HARD)
+        else if (maneuver !== Maneuver.STATIONARY_0_HARD)
         {
             var x = baseSize;
             answer.add(x, 0.0);
@@ -699,6 +719,25 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             // Curve.
             var factor = (bearing === Bearing.TURN_RIGHT ? 1.0 : -1.0);
             var angle = headingChange * Math.PI / 180.0;
+            var x2 = radius;
+            var y2 = factor * radius;
+
+            // Half base.
+            var x3 = baseSize * Math.cos(angle);
+            var y3 = baseSize * Math.sin(angle);
+
+            dx = x1 + x2 + x3;
+            dy = y1 + y2 + y3;
+        }
+        else if (bearing === Bearing.TALLON_ROLL_LEFT || bearing === Bearing.TALLON_ROLL_RIGHT)
+        {
+            // Half base.
+            var x1 = baseSize;
+            var y1 = 0.0;
+
+            // Curve.
+            var factor = (bearing === Bearing.TALLON_ROLL_RIGHT ? 1.0 : -1.0);
+            var angle = factor * 90.0 * Math.PI / 180.0;
             var x2 = radius;
             var y2 = factor * radius;
 

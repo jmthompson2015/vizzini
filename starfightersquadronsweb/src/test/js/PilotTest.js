@@ -101,10 +101,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 145);
+        assert.equal(result.length, 149);
         assert.equal(result[0], "academyPilot");
-        assert.equal(result[142], "wingedGundark");
-        assert.equal(result[144], "zetaSquadronPilot");
+        assert.equal(result[146], "wingedGundark");
+        assert.equal(result[148], "zetaSquadronPilot");
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties
@@ -187,9 +187,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 50);
-        assert.equal(result[0], "airenCracken");
-        assert.equal(result[49], "wildSpaceFringer");
+        assert.equal(result.length, 54);
+        assert.equal(result[0], "blueAce");
+        assert.equal(result[4], "airenCracken");
+        assert.equal(result[53], "wildSpaceFringer");
     });
 
     QUnit.test("valuesByTeam() Scum", function(assert)

@@ -36,6 +36,9 @@ define([ "Ship", "Team" ], function(Ship, Team)
         REBEL_YT_2400: "rebelYt2400",
         REBEL_Z_95_HEADHUNTER: "rebelZ95Headhunter",
 
+        // Resistance.
+        RESISTANCE_T_70_X_WING: "resistanceT70XWing",
+
         // Scum & Villainy.
         SCUM_AGGRESSOR: "scumAggressor",
         SCUM_FIRESPRAY_31: "scumFirespray31",
@@ -253,6 +256,16 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 team: Team.REBEL,
                 image: "Z-95_Headhunter.png",
                 value: "rebelZ95Headhunter",
+            },
+
+            // Resistance.
+            "resistanceT70XWing":
+            {
+                name: "T-70 X-Wing",
+                ship: Ship.T_70_X_WING,
+                team: Team.RESISTANCE,
+                image: "T-70_X-Wing.png",
+                value: "resistanceT70XWing",
             },
 
             // Scum & Villainy.

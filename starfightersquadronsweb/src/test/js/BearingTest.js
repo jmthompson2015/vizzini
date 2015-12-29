@@ -37,8 +37,9 @@ define([ "Bearing" ], function(Bearing)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 10);
+        assert.equal(result.length, 12);
         assert.equal(result[0], Bearing.TURN_LEFT);
         assert.equal(result[9], Bearing.BARREL_ROLL_RIGHT);
+        assert.equal(result[11], Bearing.TALLON_ROLL_RIGHT);
     });
 });

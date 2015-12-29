@@ -41,6 +41,8 @@
 	<div id="scumShips"></div>
 	<h2>First Order</h2>
 	<div id="firstOrderShips"></div>
+	<h2>Resistance</h2>
+	<div id="resistanceShips"></div>
 	<script>
         "use strict";
         var LOGGER = new Logger();
@@ -141,6 +143,11 @@
                         team: Team.FIRST_ORDER
                     });
                     React.render(element3, document.getElementById("firstOrderShips"));
+                    var element4 = React.createElement(ShipGallery,
+                    {
+                        team: Team.RESISTANCE
+                    });
+                    React.render(element4, document.getElementById("resistanceShips"));
                 });
     </script>
 </body>
