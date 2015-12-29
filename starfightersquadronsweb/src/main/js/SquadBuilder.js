@@ -216,6 +216,40 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         return answer;
     }));
 
+    // #1: Paul Heaver
+    // - Poe Dameron + R2‑D2 + Veteran Instincts + Autothrusters
+    // - Gold Squadron Pilot + R3‑A2 + BTL‑A4 Y‑wing + Twin Laser Turret
+    // - Gold Squadron Pilot + Twin Laser Turret
+    // - Bandit Squadron Pilot
+    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "1st World", 2015, "T-70 X-Wing/Y-Wings x2/Z-95", function(
+            agent)
+    {
+        var answer = [];
+        answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R2_D2,
+                UpgradeCard.AUTOTHRUSTERS));
+        answer.push(new Token(Pilot.GOLD_SQUADRON_PILOT, agent, UpgradeCard.BTL_A4_Y_WING,
+                UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.R3_A2));
+        answer.push(new Token(Pilot.GOLD_SQUADRON_PILOT, agent, UpgradeCard.TWIN_LASER_TURRET));
+        answer.push(new Token(Pilot.BANDIT_SQUADRON_PILOT, agent));
+        return answer;
+    }));
+
+    // #2: Nathan Eide
+    // - Corran Horn + R2-D2 + Engine Upgrade + Push The Limit + Fire Control Systems;
+    // - Poe Dameron + Veteran Instincts + Autothrusters + R5-P9
+    // - Prototype Pilot + Chardaan Refit
+    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "2nd World", 2015, "E-Wing/T-70 X-Wing/A-Wing",
+            function(agent)
+            {
+                var answer = [];
+                answer.push(new Token(Pilot.CORRAN_HORN, agent, UpgradeCard.PUSH_THE_LIMIT,
+                        UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE));
+                answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R5_P9,
+                        UpgradeCard.AUTOTHRUSTERS));
+                answer.push(new Token(Pilot.PROTOTYPE_PILOT, agent, UpgradeCard.CHARDAAN_REFIT));
+                return answer;
+            }));
+
     // #3: Phillip Booth - IG-88A&B + Heavy Laser Cannon + Autothrusters + Glitterstim + Crackshot + Fire Control
     // Systems +
     // IG-2000
@@ -247,6 +281,22 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
                         UpgradeCard.SENSOR_JAMMER));
                 return answer;
             }));
+
+    // #5: Aaron Bonar
+    // - Miranda Doni + Tactician + Twin Laser Turret;
+    // - 2x Warden Squadron Pilot + Tactician + Twin Laser Turret
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "5th World", 2015, "K-Wings x3", function(agent)
+    {
+        var answer = [];
+        answer.push(new Token(Pilot.MIRANDA_DONI, agent, UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.TACTICIAN));
+        answer
+                .push(new Token(Pilot.WARDEN_SQUADRON_PILOT, agent, UpgradeCard.TWIN_LASER_TURRET,
+                        UpgradeCard.TACTICIAN));
+        answer
+                .push(new Token(Pilot.WARDEN_SQUADRON_PILOT, agent, UpgradeCard.TWIN_LASER_TURRET,
+                        UpgradeCard.TACTICIAN));
+        return answer;
+    }));
 
     // Kirk Mistr: IG88B + Flechette Canon; Cartel Spacer; Binayre Pirate + Cluster Missiles; Talonbane Cobra + Predator
     SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor/M3-A/Z-95/Kihraxz", function(agent)

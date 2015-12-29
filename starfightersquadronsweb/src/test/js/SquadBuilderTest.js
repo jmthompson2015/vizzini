@@ -72,6 +72,13 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
         assert.equal(result, "2012 Rebel Core Set: 36 Points (X-Wing)");
     });
 
+    QUnit.test("SquadBuilder.findByTeam() First Order", function(assert)
+    {
+        var result = SquadBuilder.findByTeam(Team.FIRST_ORDER);
+        assert.ok(result);
+        assert.equal(result.length, 0);
+    });
+
     QUnit.test("SquadBuilder.findByTeam() Imperial", function(assert)
     {
         var result = SquadBuilder.findByTeam(Team.IMPERIAL);
@@ -83,7 +90,14 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
     {
         var result = SquadBuilder.findByTeam(Team.REBEL);
         assert.ok(result);
-        assert.equal(result.length, 10);
+        assert.equal(result.length, 11);
+    });
+
+    QUnit.test("SquadBuilder.findByTeam() Resistance", function(assert)
+    {
+        var result = SquadBuilder.findByTeam(Team.RESISTANCE);
+        assert.ok(result);
+        assert.equal(result.length, 2);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Scum", function(assert)
