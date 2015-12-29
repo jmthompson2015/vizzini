@@ -59,7 +59,8 @@
                         render: function()
                         {
                             var team = this.props.team;
-                            var shipTeams = ShipTeam.valuesByTeam(team);
+                            var isStrict = true;
+                            var shipTeams = ShipTeam.valuesByTeam(team, isStrict);
                             var agent = new SimpleAgent("Agent", team, SquadBuilder.CoreSetImperialSquadBuilder);
 
                             var cells0 = [];

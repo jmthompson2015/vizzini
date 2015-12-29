@@ -55,7 +55,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 name: "TIE/fo Fighter",
                 ship: Ship.TIE_FO_FIGHTER,
                 team: Team.FIRST_ORDER,
-                image: "TIE_fo_Fighter.png",
+                image: "FirstOrder_TIE_fo_Fighter.png",
                 value: "firstOrderTieFoFighter",
             },
 
@@ -145,7 +145,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 name: "TIE Punisher",
                 ship: Ship.TIE_PUNISHER,
                 team: Team.IMPERIAL,
-                image: "TIE_Punisher.png",
+                image: "Imperial_TIE_Punisher.png",
                 value: "imperialTiePunisher",
             },
             "imperialVt49Decimator":
@@ -211,7 +211,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 name: "K-Wing",
                 ship: Ship.K_WING,
                 team: Team.REBEL,
-                image: "K-Wing.png",
+                image: "Rebel_K-Wing.png",
                 value: "rebelKWing",
             },
             "rebelXWing":
@@ -335,7 +335,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
             return Object.getOwnPropertyNames(ShipTeam.properties);
         },
 
-        valuesByTeam: function(team)
+        valuesByTeam: function(team, isStrict)
         {
             InputValidator.validateNotNull("team", team);
 
@@ -344,13 +344,16 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 return ShipTeam.properties[shipTeam].team === team;
             });
 
-            if (team === Team.FIRST_ORDER)
+            if (!isStrict)
             {
-                answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
-            }
-            else if (team === Team.RESISTANCE)
-            {
-                answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
+                if (team === Team.FIRST_ORDER)
+                {
+                    answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
+                }
+                else if (team === Team.RESISTANCE)
+                {
+                    answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
+                }
             }
 
             return answer;

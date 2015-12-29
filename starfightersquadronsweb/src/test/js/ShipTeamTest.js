@@ -113,6 +113,21 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.equal(result[i++], "imperialVt49Decimator");
     });
 
+    QUnit.test("valuesByTeam() First Order strict", function(assert)
+    {
+        // Setup.
+        var isStrict=true;
+        
+        // Run.
+        var result = ShipTeam.valuesByTeam(Team.FIRST_ORDER, isStrict);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 1);
+        var i = 0;
+        assert.equal(result[i++], "firstOrderTieFoFighter");
+    });
+
     QUnit.test("valuesByTeam() Imperial", function(assert)
     {
         // Run.
@@ -180,6 +195,19 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.equal(result[i++], "rebelYt1300");
         assert.equal(result[i++], "rebelYt2400");
         assert.equal(result[i++], "rebelZ95Headhunter");
+    });
+
+    QUnit.test("valuesByTeam() Resistance strict", function(assert)
+    {
+        // Setup.
+        var isStrict=true;
+        
+        // Run.
+        var result = ShipTeam.valuesByTeam(Team.RESISTANCE, isStrict);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 0);
     });
 
     QUnit.test("valuesByTeam() Scum", function(assert)
