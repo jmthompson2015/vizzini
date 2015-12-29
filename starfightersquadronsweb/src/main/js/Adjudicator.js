@@ -6,8 +6,8 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            // A cloaked ship cannot attack.
-            return !attacker.isCloaked();
+            // A cloaked ship cannot attack. Cannot attack if weapons are disabled.
+            return !attacker.isCloaked() && attacker.weaponsDisabled().count() === 0;
         }
 
         this.canBarrelRoll = function(environment, attacker, maneuver)

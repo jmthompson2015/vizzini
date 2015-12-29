@@ -13,6 +13,30 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
         assert.ok(adjudicator.canAttack(attacker));
     });
 
+    QUnit.test("canAttack() no - cloaked", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var attacker = environment.tokens()[0];
+        attacker.cloak().increase();
+
+        // Run / Verify.
+        assert.ok(!adjudicator.canAttack(attacker));
+    });
+
+    QUnit.test("canAttack() no - weapons disabled", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
+        var attacker = environment.tokens()[0];
+        attacker.weaponsDisabled().increase();
+
+        // Run / Verify.
+        assert.ok(!adjudicator.canAttack(attacker));
+    });
+
     QUnit.test("canSelectShipAction() yes", function(assert)
     {
         // Setup.

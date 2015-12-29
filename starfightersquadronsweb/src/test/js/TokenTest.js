@@ -560,6 +560,19 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(token0.stress().count(), 0);
     });
 
+    QUnit.test("weaponsDisabled()", function(assert)
+    {
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        assert.equal(token0.weaponsDisabled().count(), 0);
+        token0.weaponsDisabled().increase();
+        assert.equal(token0.weaponsDisabled().count(), 1);
+        token0.weaponsDisabled().decrease();
+        assert.equal(token0.weaponsDisabled().count(), 0);
+        token0.weaponsDisabled().decrease();
+        assert.equal(token0.weaponsDisabled().count(), 0);
+    });
+
     QUnit.test("isCloaked()", function(assert)
     {
         // Setup.
