@@ -684,7 +684,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
                 title: "Weapons Disabled",
                 width: "32",
                 numberClass: "countTokenText",
-                path: imageBase + "token/WeaponsDisabled32.png",
+                path: imageBase + "token/WeaponsDisabledToken32.png",
                 count: this.props.weaponsDisabledCount
             });
             var element7 = React.createElement(PilotCardUI.CountToken,
