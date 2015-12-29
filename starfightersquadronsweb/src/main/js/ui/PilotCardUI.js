@@ -184,7 +184,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
                 className: "pilotCardUISquadPointCost",
                 title: "Squad Point cost"
             }, pilotCost));
-            innerRow2 = React.DOM.tr({}, innerCells20);
+            var innerRow2 = React.DOM.tr({}, innerCells20);
             var innerTable2 = React.DOM.table(
             {
                 className: "pilotCardUIUpgradeSquadCost"
@@ -681,13 +681,21 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             });
             var element6 = React.createElement(PilotCardUI.CountToken,
             {
+                title: "Weapons Disabled",
+                width: "32",
+                numberClass: "countTokenText",
+                path: imageBase + "token/WeaponsDisabled32.png",
+                count: this.props.weaponsDisabledCount
+            });
+            var element7 = React.createElement(PilotCardUI.CountToken,
+            {
                 title: "Damage",
                 width: "32",
                 numberClass: "damageCount",
                 path: imageBase + "pilotCard/Damage32.jpg",
                 count: this.props.damageCount
             });
-            var element7 = React.createElement(PilotCardUI.CountToken,
+            var element8 = React.createElement(PilotCardUI.CountToken,
             {
                 title: "Critical Damage",
                 width: "32",
@@ -764,6 +772,10 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             {
                 key: cells.length,
             }, element7));
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+            }, element8));
 
             var row = React.DOM.tr({}, cells);
             var table = React.DOM.table(

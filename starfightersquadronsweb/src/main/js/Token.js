@@ -54,6 +54,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             that.trigger("change");
         });
+        var weaponsDisabledCount = new Token.Count();
+        weaponsDisabledCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
         var attackerTargetLocks = [];
         var defenderTargetLocks = [];
 
@@ -499,6 +504,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.upgrades = function()
         {
             return upgrades;
+        }
+
+        this.weaponsDisabled = function()
+        {
+            return weaponsDisabledCount;
         }
 
         function changeBearingManeuversToEasy(maneuvers, bearing)

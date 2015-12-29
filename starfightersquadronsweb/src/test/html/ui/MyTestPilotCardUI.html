@@ -63,6 +63,7 @@
             var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM,
                     SquadBuilder.CoreSetImperialSquadBuilder);
             var scumToken = new Token(Pilot.SYNDICATE_THUG, scumAgent);
+            scumToken.weaponsDisabled().increase();
             environment.placeToken(new Position(200, 200, 0), scumToken);
 
             var targetLock0 = new TargetLock(imperialToken, rebelToken);
