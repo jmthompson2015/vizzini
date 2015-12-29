@@ -27,16 +27,15 @@ public final class AddFiringArcLines2
 	 */
 	public static final void main(final String[] args)
 	{
-		String[] ships = { "VT-49_Decimator", // imperial
-				"Rebel_Aces_A-Wing", "Rebel_Aces_B-Wing", "YT-2400", // rebel
-				"Scum_Aggressor", "Scum_Firespray-31", "Scum_HWK-290", "Scum_KihraxzFighter", "Scum_M3-A_Interceptor",
-				"Scum_StarViper", "Scum_Y-Wing", "Scum_Z-95_Headhunter" };
-		String[] teams = { "Imperial", // imperial
-				"Rebel", "Rebel", "Rebel", // rebel
-				"Scum", "Scum", "Scum", "Scum", "Scum", "Scum", "Scum", "Scum" };
-		String[] primaryFiringArcs = { "forward", // imperial
-				"forward", "forward", "forward", // rebel
-				"forward", "forwardAndAft", "forward", "forward", "forward", "forward", "forward", "forward" };
+		String[] ships = { "FirstOrder_TIE_fo_Fighter", "Imperial_TIE_Punisher", // imperial
+				"Rebel_K-Wing", // rebel
+				"Scum_YV-666" };
+		String[] teams = { "Imperial", "Imperial", // imperial
+				"Rebel", // rebel
+				"Scum" };
+		String[] primaryFiringArcs = { "forward", "forward", // imperial
+				"forward", // rebel
+				"forwardAndFullAft" };
 
 		for (int i = 0; i < ships.length; i++)
 		{
@@ -163,6 +162,12 @@ public final class AddFiringArcLines2
 				g2d.setStroke(FIRING_ARC_STROKE);
 				g2d.drawLine(0, 0, center, center);
 				g2d.drawLine(0, size - 1, center, center - 1);
+			}
+			else if (primaryFiringArc == "forwardAndFullAft")
+			{
+				g2d.setStroke(FIRING_ARC_STROKE);
+				g2d.drawLine(center, 0, center, center);
+				g2d.drawLine(center, size - 1, center, center - 1);
 			}
 
 			// Draw the ship image on top.

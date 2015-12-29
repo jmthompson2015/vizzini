@@ -407,7 +407,7 @@ define([ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ], function(FiringArc
                 name: "YV-666",
                 description: "A YV-666.",
                 shipBase: ShipBase.LARGE,
-                primaryFiringArc: FiringArc.FORWARD,
+                primaryFiringArc: FiringArc.FORWARD_AND_FULL_AFT,
                 maneuvers: [ Maneuver.STATIONARY_0_HARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
                         Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_LEFT_2_HARD, Maneuver.BANK_LEFT_2_STANDARD,
                         Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_HARD,
