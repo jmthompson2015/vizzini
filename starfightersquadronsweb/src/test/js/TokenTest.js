@@ -94,6 +94,31 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(defender.defenderTargetLocks().length, 1);
     });
 
+    QUnit.test("addAttackerTargetLock() replace", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = Environment.createCoreSetEnvironment();
+        var attacker = environment.tokens()[2]; // X-Wing.
+        var defender0 = environment.tokens()[0]; // TIE Fighter.
+        var targetLock0 = new TargetLock(attacker, defender0);
+        attacker.addAttackerTargetLock(targetLock0);
+        defender0.addDefenderTargetLock(targetLock0);
+        assert.equal(attacker.attackerTargetLocks().length, 1);
+        assert.equal(defender0.defenderTargetLocks().length, 1);
+        var defender1 = environment.tokens()[1]; // TIE Fighter.
+        var targetLock1 = new TargetLock(attacker, defender1);
+
+        // Run.
+        attacker.addAttackerTargetLock(targetLock1);
+        defender1.addDefenderTargetLock(targetLock1);
+
+        // Verify.
+        assert.equal(attacker.attackerTargetLocks().length, 1);
+        assert.equal(defender0.defenderTargetLocks().length, 0);
+        assert.equal(defender1.defenderTargetLocks().length, 1);
+    });
+
     QUnit.test("computeAttackDiceCount()", function(assert)
     {
         Token.resetNextId();

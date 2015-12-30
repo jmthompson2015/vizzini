@@ -82,6 +82,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             InputValidator.validateNotNull("targetLock", targetLock);
 
+            if (attackerTargetLocks.length > 0)
+            {
+                // Remove previous target lock.
+                var previous = attackerTargetLocks[0];
+                previous.defender().removeDefenderTargetLock(previous);
+                this.removeAttackerTargetLock(previous);
+            }
+
             attackerTargetLocks.push(targetLock);
             this.trigger("change");
         }
