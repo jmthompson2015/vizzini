@@ -234,9 +234,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "u
         {
             var team = this.props.team;
             var agentName = Team.properties[team].name + " Agent";
-            var squadBuilder = (team === Team.IMPERIAL) ? SquadBuilder.CoreSetImperialSquadBuilder
-                    : SquadBuilder.CoreSetRebelSquadBuilder;
-            var agent = new SimpleAgent(agentName, team, squadBuilder);
+            var agent = new SimpleAgent(agentName, team);
 
             return new Token(pilot, agent);
         },

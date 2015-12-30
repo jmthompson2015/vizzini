@@ -1,13 +1,14 @@
 define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator, Engine, Environment, Phase)
 {
-    function Game(agents)
+    function Game(agent1, squad1, agent2, squad2)
     {
-        InputValidator.validateNotNull("agents", agents);
+        InputValidator.validateNotNull("agent1", agent1);
+        InputValidator.validateNotNull("squad1", squad1);
+        InputValidator.validateNotNull("agent2", agent2);
+        InputValidator.validateNotNull("squad2", squad2);
 
-        var teams = [ agents[0].team(), agents[1].team() ];
-
-        var environment = new Environment(teams);
-        environment.placeInitialTokens(agents);
+        var environment = new Environment(agent1.team(), agent2.team());
+        environment.placeInitialTokens(agent1, squad1, agent2, squad2);
 
         var adjudicator = new Adjudicator();
         var engine = new Engine(environment, adjudicator);

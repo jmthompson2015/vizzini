@@ -18,10 +18,10 @@ define([ "Pilot", "Position", "RangeRuler", "ShipBase", "SimpleAgent", "SquadBui
     QUnit.test("getRange() One", function(assert)
     {
         // Setup.
-        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 80, -90);
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
 
@@ -36,10 +36,10 @@ define([ "Pilot", "Position", "RangeRuler", "ShipBase", "SimpleAgent", "SquadBui
     QUnit.test("getRange() Two", function(assert)
     {
         // Setup.
-        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 180, -90);
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
 
@@ -54,10 +54,10 @@ define([ "Pilot", "Position", "RangeRuler", "ShipBase", "SimpleAgent", "SquadBui
     QUnit.test("getRange() Three", function(assert)
     {
         // Setup.
-        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 280, -90);
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
 

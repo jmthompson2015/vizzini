@@ -42,11 +42,13 @@
             });
             React.render(element, document.getElementById("inputArea"));
 
-            function myOnChange(agent1, agent2)
+            function myOnChange(agent1, squad1, agent2, squad2)
             {
                 LOGGER.info("myOnChange()");
                 LOGGER.info("agent1 = " + agent1);
+                LOGGER.info("squad1 = " + squad1);
                 LOGGER.info("agent2 = " + agent2);
+                LOGGER.info("squad2 = " + squad2);
             }
         });
     </script>

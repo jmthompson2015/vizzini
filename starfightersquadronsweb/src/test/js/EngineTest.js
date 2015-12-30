@@ -5,25 +5,23 @@ define(
         {
             QUnit.module("Engine");
 
-            QUnit.skip("Engine.start()",
-                    function(assert)
-                    {
-                        // Setup.
-                        Token.resetNextId();
-                        var teams = [ Team.IMPERIAL, Team.REBEL ];
-                        var environment = new Environment(teams);
-                        var firstAgent = new SimpleAgent("firstAgent", Team.IMPERIAL,
-                                SquadBuilder.CoreSetImperialSquadBuilder);
-                        var secondAgent = new MediumAgent("secondAgent", Team.REBEL,
-                                SquadBuilder.CoreSetRebelSquadBuilder);
-                        environment.placeInitialTokens([ firstAgent, secondAgent ]);
-                        var adjudicator = new Adjudicator();
-                        var engine = new Engine(environment, adjudicator);
+            QUnit.skip("Engine.start()", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+                var firstAgent = new SimpleAgent("firstAgent", Team.IMPERIAL);
+                var squad1 = SquadBuilder.CoreSetImperialSquadBuilder.buildSquad(firstAgent);
+                var secondAgent = new MediumAgent("secondAgent", Team.REBEL);
+                var squad2 = SquadBuilder.CoreSetRebelSquadBuilder.buildSquad(secondAgent);
+                environment.placeInitialTokens(firstAgent, squad1, secondAgent, squad2);
+                var adjudicator = new Adjudicator();
+                var engine = new Engine(environment, adjudicator);
 
-                        // Run.
-                        environment.phase(Phase.PLANNING_START);
+                // Run.
+                environment.phase(Phase.PLANNING_START);
 
-                        // Verify.
-                        assert.equal(0, 0);
-                    });
+                // Verify.
+                assert.equal(0, 0);
+            });
         });

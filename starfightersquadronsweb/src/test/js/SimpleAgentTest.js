@@ -7,43 +7,11 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
     QUnit.test("properties", function(assert)
     {
         // Setup.
-        var result = new SimpleAgent("myAgent", "myTeam", "mySquadBuilder");
+        var result = new SimpleAgent("myAgent", "myTeam");
 
         // Run / Verify.
         assert.equal(result.name(), "myAgent");
         assert.equal(result.team(), "myTeam");
-        assert.equal(result.squadBuilder(), "mySquadBuilder");
-    });
-
-    QUnit.test("buildSquad() Imperial", function(assert)
-    {
-        // Setup.
-        var agent = new SimpleAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        Token.resetNextId();
-
-        // Run.
-        var result = agent.buildSquad();
-
-        // Verify.
-        assert.ok(result);
-        assert.equal(result.length, 2);
-        assert.equal(result[0].name(), "1 \"Mauler Mithel\" (TIE Fighter)");
-        assert.equal(result[1].name(), "2 \"Dark Curse\" (TIE Fighter)");
-    });
-
-    QUnit.test("buildSquad() Rebel", function(assert)
-    {
-        // Setup.
-        var agent = new SimpleAgent("myAgent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
-        Token.resetNextId();
-
-        // Run.
-        var result = agent.buildSquad();
-
-        // Verify.
-        assert.ok(result);
-        assert.equal(result.length, 1);
-        assert.equal(result[0].name(), "1 Luke Skywalker (X-Wing)");
     });
 
     QUnit.test("chooseWeaponAndDefender() Imperial", function(assert)
@@ -53,8 +21,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
         var adjudicator = new Adjudicator();
         var name = "myAgent";
         var team = Team.IMPERIAL;
-        var squadBuilder = SquadBuilder.CoreSetImperialSquadBuilder;
-        var agent = new SimpleAgent(name, team, squadBuilder);
+        var agent = new SimpleAgent(name, team);
 
         var oldPosition0 = new Position(305, 20, 90);
         var token0 = environment.getTokenAt(oldPosition0);
@@ -158,7 +125,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
-        var agent = new SimpleAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var agent = new SimpleAgent("myAgent", Team.IMPERIAL);
         var attacker = environment.tokens()[0];
         var attackDice = new AttackDice(3);
         var defender = environment.tokens()[2];
@@ -194,7 +161,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
-        var agent = new SimpleAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var agent = new SimpleAgent("myAgent", Team.IMPERIAL);
 
         var position0 = new Position(305, 20, 90);
         var token0 = environment.getTokenAt(position0);
@@ -268,7 +235,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
-        var agent = new SimpleAgent("myAgent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var agent = new SimpleAgent("myAgent", Team.REBEL);
 
         var oldPosition = new Position(458, 895, -90);
         var newPosition = new Position(20, 110, -90);
@@ -291,13 +258,13 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
     QUnit.test("toString()", function(assert)
     {
         // Setup.
-        var agent = new SimpleAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var agent = new SimpleAgent("myAgent", Team.IMPERIAL);
 
         // Run.
         var result = agent.toString();
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "myAgent, SimpleAgent, imperial, Imperial Core Set: 36 Points");
+        assert.equal(result, "myAgent, SimpleAgent, imperial");
     });
 });

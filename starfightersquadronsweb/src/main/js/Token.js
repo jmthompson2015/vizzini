@@ -353,6 +353,18 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return id + " " + pilotName + " (" + shipName + ")";
         }
 
+        this.newInstance = function(agent)
+        {
+            var answer = new Token(pilot, agent);
+
+            upgrades.forEach(function(upgrade)
+            {
+                answer.upgrades().push(upgrade);
+            });
+
+            return answer;
+        }
+
         this.phaseEffect = function(environment, phase)
         {
             LOGGER.trace("Token.phaseEffect() phase = " + phase);

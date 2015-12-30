@@ -5,11 +5,10 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
         "RangeRuler", "ShipAction", "ShipBase", "SimpleAgent" ], function(Difficulty, Maneuver, ModifyAttackDiceAction,
         ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, ShipAction, ShipBase, SimpleAgent)
 {
-    function MediumAgent(name, team, squadBuilder)
+    function MediumAgent(name, team)
     {
         InputValidator.validateNotEmpty("name", name);
         InputValidator.validateNotNull("team", team);
-        InputValidator.validateNotNull("squadBuilder", squadBuilder);
 
         this.name = function()
         {
@@ -19,11 +18,6 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
         this.team = function()
         {
             return team;
-        }
-
-        this.squadBuilder = function()
-        {
-            return squadBuilder;
         }
     }
 
@@ -254,7 +248,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
 
         toString: function()
         {
-            return this.name() + ", MediumAgent, " + this.team() + ", " + this.squadBuilder().name();
+            return this.name() + ", MediumAgent, " + this.team();
         },
     });
 

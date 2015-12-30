@@ -22,9 +22,10 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         MediumAgent, Phase, Position, RangeRuler, RectanglePath, ShipBase, SimpleAgent, SquadBuilder, Team, Token,
         Weapon, HumanAgent)
 {
-    function Environment(teams)
+    function Environment(team1, team2)
     {
-        InputValidator.validateNotEmpty("teams", teams);
+        InputValidator.validateNotNull("team1", team1);
+        InputValidator.validateNotNull("team2", team2);
 
         var that = this;
 
@@ -93,7 +94,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
         this.firstTeam = function()
         {
-            return teams[0];
+            return team1;
         }
 
         this.getDefenders = function(attackerTeam)
@@ -102,13 +103,13 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
             var defenderTeam;
 
-            if (attackerTeam === teams[0])
+            if (attackerTeam === team1)
             {
-                defenderTeam = teams[1];
+                defenderTeam = team2;
             }
-            else if (attackerTeam === teams[1])
+            else if (attackerTeam === team2)
             {
-                defenderTeam = teams[0];
+                defenderTeam = team1;
             }
             else
             {
@@ -329,17 +330,25 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return phase;
         }
 
-        this.placeInitialTokens = function(agents)
+        this.placeInitialTokens = function(agent1, squad1, agent2, squad2)
         {
-            InputValidator.validateNotNull("agents", agents);
-            if (agents.length !== 2) { throw "Environment.placeInitialTokens() must have two agents."; }
+            InputValidator.validateNotNull("agent1", agent1);
+            InputValidator.validateNotNull("squad1", squad1);
+            InputValidator.validateNotNull("agent2", agent2);
+            InputValidator.validateNotNull("squad2", squad2);
 
-            firstAgent = agents[0];
-            secondAgent = agents[1];
+            firstAgent = agent1;
+            secondAgent = agent2;
 
             Token.resetNextId();
-            var firstSquad = firstAgent.buildSquad();
-            var secondSquad = secondAgent.buildSquad();
+            var firstSquad = squad1.map(function(token)
+            {
+                return token.newInstance(agent1);
+            });
+            var secondSquad = squad2.map(function(token)
+            {
+                return token.newInstance(agent2);
+            });
 
             placeTokens(firstSquad, true);
             placeTokens(secondSquad, false);
@@ -370,7 +379,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
         this.secondTeam = function()
         {
-            return teams[1];
+            return team2;
         }
 
         this.tokens = function()
@@ -552,21 +561,23 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         switch (type)
         {
         case "SimpleAgent":
-            imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+            imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
             break;
         case "MediumAgent":
-            imperialAgent = new MediumAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+            imperialAgent = new MediumAgent("Imperial Agent", Team.IMPERIAL);
             break;
         default:
             throw "Unknown computerAgentType: " + computerAgentType;
         }
 
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
-        var teams = [ imperialAgent.team(), rebelAgent.team() ];
+        var imperialSquad = SquadBuilder.CoreSetImperialSquadBuilder.buildSquad(imperialAgent);
 
-        var answer = new Environment(teams);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+        var rebelSquad = SquadBuilder.CoreSetRebelSquadBuilder.buildSquad(rebelAgent);
 
-        answer.placeInitialTokens([ imperialAgent, rebelAgent ]);
+        var answer = new Environment(imperialAgent.team(), rebelAgent.team());
+
+        answer.placeInitialTokens(imperialAgent, imperialSquad, rebelAgent, rebelSquad);
 
         return answer;
     }

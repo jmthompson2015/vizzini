@@ -144,6 +144,11 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
             {
                 squad: squad
             });
+
+            if (this.props.onChange)
+            {
+                this.props.onChange(squad);
+            }
         },
 
         createToken: function(team, pilot)
@@ -152,9 +157,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
             InputValidator.validateNotNull("pilot", pilot);
 
             var agentName = Team.properties[team].name + " Agent";
-            var squadBuilder = (team === Team.IMPERIAL) ? SquadBuilder.CoreSetImperialSquadBuilder
-                    : SquadBuilder.CoreSetRebelSquadBuilder;
-            var agent = new SimpleAgent(agentName, team, squadBuilder);
+            var agent = new SimpleAgent(agentName, team);
 
             return new Token(pilot, agent);
         },
@@ -227,6 +230,11 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
                 {
                     squad: squad
                 });
+
+                if (this.props.onChange)
+                {
+                    this.props.onChange(squad);
+                }
             }
         },
 

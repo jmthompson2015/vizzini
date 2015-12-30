@@ -50,8 +50,8 @@
             function updateTokens()
             {
                 LOGGER.info("updateTokens() start");
-                tokens[0].increaseCloakCount();
-                tokens[1].increaseEvadeCount();
+                tokens[0].cloak().increase();
+                tokens[1].evade().increase();
                 LOGGER.info("updateTokens() end");
             }
 

@@ -6,11 +6,10 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
         ModifyDefenseDiceAction, SimpleAgent, ShipAction, CombatUI, PlanningPanel, ShipActionChooser,
         WeaponAndDefenderChooser)
 {
-    function HumanAgent(name, team, squadBuilder)
+    function HumanAgent(name, team)
     {
         InputValidator.validateNotEmpty("name", name);
         InputValidator.validateNotNull("team", team);
-        InputValidator.validateNotNull("squadBuilder", squadBuilder);
 
         this.name = function()
         {
@@ -20,11 +19,6 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
         this.team = function()
         {
             return team;
-        }
-
-        this.squadBuilder = function()
-        {
-            return squadBuilder;
         }
 
         var environment;
@@ -38,11 +32,6 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
         var modifyAttackCallback;
         var modifyDefenseCallback;
         var dealDamageCallback;
-
-        this.buildSquad = function()
-        {
-            return squadBuilder.buildSquad(this);
-        }
 
         this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
         {
@@ -318,7 +307,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
 
     HumanAgent.prototype.toString = function()
     {
-        return this.name() + ", HumanAgent, " + this.team() + ", " + this.squadBuilder().name();
+        return this.name() + ", HumanAgent, " + this.team();
     }
 
     return HumanAgent;

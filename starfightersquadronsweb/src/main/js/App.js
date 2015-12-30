@@ -19,17 +19,19 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
     React.render(newGamePanel, document.getElementById("inputArea"));
     var environmentUI;
 
-    function startNewGame(agents)
+    function startNewGame(agent1, squad1, agent2, squad2)
     {
         LOGGER.info("startNewGame() start");
 
-        LOGGER.info("agents[0] = " + agents[0]);
-        LOGGER.info("agents[1] = " + agents[1]);
+        LOGGER.info("agent1 = " + agent1);
+        LOGGER.info("squad1 = " + squad1);
+        LOGGER.info("agent2 = " + agent2);
+        LOGGER.info("squad2 = " + squad2);
 
         var element = document.getElementById("inputArea");
         element.innerHTML = "";
 
-        var game = new Game(agents);
+        var game = new Game(agent1, squad1, agent2, squad2);
         environmentUI = new EnvironmentUI(game.engine(), game.environment());
 
         game.start();

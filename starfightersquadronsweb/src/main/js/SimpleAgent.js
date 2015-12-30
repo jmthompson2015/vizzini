@@ -2,11 +2,10 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         "Ship", "ShipAction", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction,
         ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, Ship, ShipAction, ShipBase, Weapon)
 {
-    function SimpleAgent(name, team, squadBuilder)
+    function SimpleAgent(name, team)
     {
         InputValidator.validateNotEmpty("name", name);
         InputValidator.validateNotNull("team", team);
-        InputValidator.validateNotNull("squadBuilder", squadBuilder);
 
         this.name = function()
         {
@@ -17,16 +16,6 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         {
             return team;
         }
-
-        this.squadBuilder = function()
-        {
-            return squadBuilder;
-        }
-    }
-
-    SimpleAgent.prototype.buildSquad = function()
-    {
-        return this.squadBuilder().buildSquad(this);
     }
 
     SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
@@ -310,19 +299,14 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
         var shipActions = this.determineValidShipActions(environment, adjudicator, token);
 
-        var answer;
-
-        // if (shipActions.length > 0)
-        // {
-        answer = shipActions.vizziniRandomElement();
-        // }
+        var answer = shipActions.vizziniRandomElement();
 
         callback(answer);
     }
 
     SimpleAgent.prototype.toString = function()
     {
-        return this.name() + ", SimpleAgent, " + this.team() + ", " + this.squadBuilder().name();
+        return this.name() + ", SimpleAgent, " + this.team();
     }
 
     return SimpleAgent;

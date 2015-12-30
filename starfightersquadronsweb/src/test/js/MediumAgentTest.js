@@ -6,43 +6,11 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
             QUnit.test("properties", function(assert)
             {
                 // Setup.
-                var result = new MediumAgent("myAgent", "myTeam", "mySquadBuilder");
+                var result = new MediumAgent("myAgent", "myTeam");
 
                 // Run / Verify.
                 assert.equal(result.name(), "myAgent");
                 assert.equal(result.team(), "myTeam");
-                assert.equal(result.squadBuilder(), "mySquadBuilder");
-            });
-
-            QUnit.test("buildSquad() Imperial", function(assert)
-            {
-                // Setup.
-                var agent = new MediumAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-                Token.resetNextId();
-
-                // Run.
-                var result = agent.buildSquad();
-
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.length, 2);
-                assert.equal(result[0].name(), "1 \"Mauler Mithel\" (TIE Fighter)");
-                assert.equal(result[1].name(), "2 \"Dark Curse\" (TIE Fighter)");
-            });
-
-            QUnit.test("buildSquad() Rebel", function(assert)
-            {
-                // Setup.
-                var agent = new MediumAgent("myAgent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
-                Token.resetNextId();
-
-                // Run.
-                var result = agent.buildSquad();
-
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.length, 1);
-                assert.equal(result[0].name(), "1 Luke Skywalker (X-Wing)");
             });
 
             QUnit.test("chooseWeaponAndDefender() Imperial", function(assert)
@@ -53,7 +21,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
                 var name = "myAgent";
                 var team = Team.IMPERIAL;
                 var squadBuilder = SquadBuilder.CoreSetImperialSquadBuilder;
-                var agent = new MediumAgent(name, team, squadBuilder);
+                var agent = new MediumAgent(name, team);
 
                 var oldPosition0 = new Position(305, 20, 90);
                 var token0 = environment.getTokenAt(oldPosition0);
@@ -93,7 +61,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
                 // Setup.
                 var environment = Environment.createCoreSetEnvironment("MediumAgent");
                 var adjudicator = new Adjudicator();
-                var agent = new MediumAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+                var agent = new MediumAgent("myAgent", Team.IMPERIAL);
 
                 var position0 = new Position(305, 20, 90);
                 var token0 = environment.getTokenAt(position0);
@@ -130,7 +98,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
                 var name = "myAgent";
                 var team = Team.REBEL;
                 var squadBuilder = SquadBuilder.CoreSetRebelSquadBuilder;
-                var agent = new MediumAgent(name, team, squadBuilder);
+                var agent = new MediumAgent(name, team);
 
                 var position0 = new Position(305, 20, 90);
                 var token0 = environment.getTokenAt(position0);
@@ -167,7 +135,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
                 // Setup.
                 var environment = Environment.createCoreSetEnvironment();
                 var adjudicator = new Adjudicator();
-                var agent = new MediumAgent("myAgent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+                var agent = new MediumAgent("myAgent", Team.REBEL);
 
                 var oldPosition = new Position(458, 895, -90);
                 var newPosition = new Position(20, 110, -90);
@@ -190,13 +158,13 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
             QUnit.test("toString()", function(assert)
             {
                 // Setup.
-                var agent = new MediumAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+                var agent = new MediumAgent("myAgent", Team.IMPERIAL);
 
                 // Run.
                 var result = agent.toString();
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result, "myAgent, MediumAgent, imperial, Imperial Core Set: 36 Points");
+                assert.equal(result, "myAgent, MediumAgent, imperial");
             });
         });

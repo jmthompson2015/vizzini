@@ -8,13 +8,13 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("Token basics", function(assert)
     {
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.id(), 1);
         assert.equal(token0.pilot(), Pilot.ACADEMY_PILOT);
         assert.equal(token0.ship(), Ship.TIE_FIGHTER);
         assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.id(), 2);
         assert.equal(token1.pilot(), Pilot.ROOKIE_PILOT);
@@ -26,7 +26,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var damage = DamageCard.BLINDED_PILOT;
         assert.equal(token.getCriticalDamageCount(), 0);
@@ -44,7 +44,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var agent = new SimpleAgent("Imperial Agent", Team.REBEL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var agent = new SimpleAgent("Imperial Agent", Team.REBEL);
         var token = new Token(Pilot.CHEWBACCA, agent);
         var damage = DamageCard.BLINDED_PILOT;
         assert.equal(token.getDamageCount(), 0);
@@ -62,7 +62,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var damage = DamageCard.BLINDED_PILOT;
         assert.equal(token.getDamageCount(), 0);
@@ -97,7 +97,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("computeAttackDiceCount()", function(assert)
     {
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.id(), 1);
         assert.equal(token0.pilot(), Pilot.ACADEMY_PILOT);
@@ -108,7 +108,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(token0.computeAttackDiceCount(environment, token0.primaryWeapon(), RangeRuler.TWO), 2);
         assert.equal(token0.computeAttackDiceCount(environment, token0.primaryWeapon(), RangeRuler.THREE), 2);
 
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.id(), 2);
         assert.equal(token1.pilot(), Pilot.ROOKIE_PILOT);
@@ -123,7 +123,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("computeAttackDiceCount() Blinded Pilot", function(assert)
     {
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var environment;
         assert.equal(token.getDamageCount(), 0);
@@ -146,7 +146,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("computeDefenseDiceCount()", function(assert)
     {
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.id(), 1);
         assert.equal(token0.pilot(), Pilot.ACADEMY_PILOT);
@@ -157,7 +157,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
         assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.TWO), 3);
         assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.THREE), 4);
 
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.id(), 2);
         assert.equal(token1.pilot(), Pilot.ROOKIE_PILOT);
@@ -173,8 +173,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         var token2 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
@@ -216,7 +216,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("flipDamageCardFacedown()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var damage = DamageCard.BLINDED_PILOT;
         token.addCriticalDamage(damage);
@@ -234,8 +234,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getAgilityValue()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -249,7 +249,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getAgilityValue()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, UpgradeCard.STEALTH_DEVICE);
 
         // Run / Verify.
@@ -263,8 +263,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getHullValue()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -278,7 +278,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getHullValue()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, UpgradeCard.COMBAT_RETROFIT);
 
         // Run / Verify.
@@ -292,7 +292,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getHullValue() Direct Hit", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token.getHullValue(), 3);
 
@@ -303,7 +303,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
 
     QUnit.test("cloak()", function(assert)
     {
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.cloak().count(), 0);
         token0.cloak().increase();
@@ -316,7 +316,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
 
     QUnit.test("evade()", function(assert)
     {
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.evade().count(), 0);
         token0.evade().increase();
@@ -329,7 +329,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
 
     QUnit.test("focus()", function(assert)
     {
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.focus().count(), 0);
         token0.focus().increase();
@@ -342,7 +342,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
 
     QUnit.test("ion()", function(assert)
     {
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.ion().count(), 0);
         token0.ion().increase();
@@ -356,7 +356,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("maneuvers()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
 
         // Run.
@@ -369,7 +369,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("maneuvers() stressed", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         token.stress().increase();
 
@@ -383,7 +383,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("maneuvers() Nien Nunb crew", function(assert)
     {
         // Setup.
-        var agent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var token = new Token(Pilot.CHEWBACCA, agent, UpgradeCard.NIEN_NUNB);
 
         // Run.
@@ -404,7 +404,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("maneuvers() R2 Astromech", function(assert)
     {
         // Setup.
-        var agent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var token = new Token(Pilot.LUKE_SKYWALKER, agent, UpgradeCard.R2_ASTROMECH);
 
         // Run.
@@ -425,8 +425,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getPilotSkillValue()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -440,7 +440,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getPilotSkillValue() Whisper and Veteran Instincts", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.WHISPER, imperialAgent, UpgradeCard.ADVANCED_CLOAKING_DEVICE,
                 UpgradeCard.REBEL_CAPTIVE, UpgradeCard.VETERAN_INSTINCTS);
 
@@ -455,7 +455,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getPilotSkillValue() Damaged Cockpit", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token.getPilotSkillValue(), 1);
 
@@ -467,7 +467,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getPilotSkillValue() Injured Pilot", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token.getPilotSkillValue(), 1);
 
@@ -479,8 +479,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getPrimaryWeaponValue()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -494,7 +494,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getPrimaryWeaponValue() Weapon Malfunction", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token.getPrimaryWeaponValue(), 2);
 
@@ -505,7 +505,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
 
     QUnit.test("shield()", function(assert)
     {
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.shield().count(), 0);
         token0.shield().increase();
@@ -519,8 +519,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("getShieldValue()", function(assert)
     {
         // Setup.
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var token1 = new Token(Pilot.BOUNTY_HUNTER, imperialAgent);
         var token2 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -534,7 +534,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     QUnit.test("shipActions() Rookie Pilot", function(assert)
     {
         // Setup.
-        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
 
         // Run.
@@ -549,7 +549,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
 
     QUnit.test("stress()", function(assert)
     {
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.stress().count(), 0);
         token0.stress().increase();
@@ -562,7 +562,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
 
     QUnit.test("weaponsDisabled()", function(assert)
     {
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.weaponsDisabled().count(), 0);
         token0.weaponsDisabled().increase();
@@ -577,7 +577,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.SIGMA_SQUADRON_PILOT, imperialAgent);
 
         // Run / Verify.
@@ -590,7 +590,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var damage = DamageCard.BLINDED_PILOT;
 
@@ -602,7 +602,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var damage = DamageCard.BLINDED_PILOT;
         assert.ok(!token.isCriticallyDamagedWith(damage));
@@ -616,7 +616,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
 
         // Run / Verify.
@@ -633,7 +633,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
 
         // Run / Verify.
@@ -646,7 +646,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var upgrade = UpgradeCard.ADRENALINE_RUSH;
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
 
@@ -658,7 +658,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var upgrade = UpgradeCard.ADRENALINE_RUSH;
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, upgrade);
 
@@ -670,7 +670,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var damage = DamageCard.BLINDED_PILOT;
         token.addCriticalDamage(damage);
@@ -751,7 +751,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
     {
         // Setup.
         Token.resetNextId();
-        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
 
         // Run / Verify.

@@ -33,8 +33,7 @@
                 SimpleAgent, SquadBuilder, Team, Token, ManeuverChooser)
         {
             {
-                var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                        SquadBuilder.CoreSetImperialSquadBuilder);
+                var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
                 var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
                 var element = React.createElement(ManeuverChooser,
                 {
@@ -44,7 +43,7 @@
             }
 
             {
-                var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+                var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
                 var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
                 var element = React.createElement(ManeuverChooser,
                 {

@@ -26,9 +26,8 @@
                 [ "Pilot", "RangeRuler", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/WeaponAndDefenderChooser" ],
                 function(Pilot, RangeRuler, SimpleAgent, SquadBuilder, Team, Token, WeaponAndDefenderChooser)
                 {
-                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                            SquadBuilder.CoreSetImperialSquadBuilder);
-                    var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL, SquadBuilder.CoreSetRebelSquadBuilder);
+                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                    var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
                     var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
                     var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
                     var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);

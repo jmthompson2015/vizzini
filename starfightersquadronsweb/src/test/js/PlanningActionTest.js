@@ -2,12 +2,12 @@ define([ "Environment", "Maneuver", "PlanningAction", "Position", "SimpleAgent",
         Environment, Maneuver, PlanningAction, Position, SimpleAgent, SquadBuilder, Team)
 {
     QUnit.module("PlanningAction");
-    
+
     QUnit.test("PlanningAction properties", function(assert)
     {
         // Setup.
         var environment = Environment.createCoreSetEnvironment();
-        var agent = new SimpleAgent("myAgent", Team.IMPERIAL, SquadBuilder.CoreSetImperialSquadBuilder);
+        var agent = new SimpleAgent("myAgent", Team.IMPERIAL);
 
         var position0 = new Position(305, 20, 90);
         var token0 = environment.getTokenAt(position0);

@@ -6,7 +6,7 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
     QUnit.test("CoreSetImperialSquadBuilder buildSquad()", function(assert)
     {
         var squadBuilder = SquadBuilder.SquadBuilders[0];
-        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL, squadBuilder);
+        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var result = squadBuilder.buildSquad(agent);
         assert.equal(result.length, 2);
 
@@ -43,7 +43,7 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
     QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
     {
         var squadBuilder = SquadBuilder.SquadBuilders[1];
-        var agent = new HumanAgent("Rebel Agent", Team.REBEL, squadBuilder);
+        var agent = new HumanAgent("Rebel Agent", Team.REBEL);
         var result = squadBuilder.buildSquad(agent);
         assert.equal(result.length, 1);
 

@@ -45,7 +45,7 @@ define([ "SimpleAgent", "SquadBuilder", "ui/SquadUI" ], function(SimpleAgent, Sq
                 onChange: this.handleSquadChange,
                 panelClass: "squadChooserPanel",
             });
-            var agent = new SimpleAgent("Placeholder", faction, selectedSquadBuilder);
+            var agent = new SimpleAgent("Placeholder", faction);
             var mySquad = selectedSquadBuilder.buildSquad(agent);
             var squadDisplayPanel = React.createElement(SquadUI,
             {

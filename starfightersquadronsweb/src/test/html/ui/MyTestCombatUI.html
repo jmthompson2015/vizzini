@@ -90,9 +90,9 @@
             });
             React.render(element1, document.getElementById("inputArea1"));
 
-            var hitCount = attackDice.getHitCount();
-            var criticalHitCount = attackDice.getCriticalHitCount();
-            var evadeCount = defenseDice.getEvadeCount();
+            var hitCount = attackDice.hitCount();
+            var criticalHitCount = attackDice.criticalHitCount();
+            var evadeCount = defenseDice.evadeCount();
             var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
 
             var element2 = React.createElement(CombatUI,
@@ -102,8 +102,8 @@
                 attackDice: attackDice,
                 defender: defender,
                 defenseDice: defenseDice,
-                hitCount: damageDealer.getHits(),
-                criticalHitCount: damageDealer.getCriticalHits(),
+                hitCount: damageDealer.hits(),
+                criticalHitCount: damageDealer.criticalHits(),
                 okFunction: myOK2,
             });
             React.render(element2, document.getElementById("inputArea2"));

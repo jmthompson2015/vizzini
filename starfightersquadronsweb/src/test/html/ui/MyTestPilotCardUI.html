@@ -60,8 +60,7 @@
             rebelToken.stress().increase();
             rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
-            var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM,
-                    SquadBuilder.CoreSetImperialSquadBuilder);
+            var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM);
             var scumToken = new Token(Pilot.SYNDICATE_THUG, scumAgent);
             scumToken.weaponsDisabled().increase();
             environment.placeToken(new Position(200, 200, 0), scumToken);

@@ -34,8 +34,7 @@
                 {
                     var environment = Environment.createCoreSetEnvironment();
                     var adjudicator;
-                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL,
-                            SquadBuilder.CoreSetImperialSquadBuilder);
+                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
                     var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
                     var token1 = new Token(Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
                     var token2 = new Token(Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);
