@@ -1,6 +1,6 @@
 define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position", "RangeRuler",
-        "ShipAction", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction, ModifyDefenseDiceAction,
-        PlanningAction, Position, RangeRuler, ShipAction, ShipBase, Weapon)
+        "Ship", "ShipAction", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction,
+        ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, Ship, ShipAction, ShipBase, Weapon)
 {
     function SimpleAgent(name, team, squadBuilder)
     {
@@ -167,6 +167,22 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
                 && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
         {
             answer.push(ShipAction.BOOST_RIGHT);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.SLAM))
+        {
+            var previousManeuver = token.activationState().maneuverAction().maneuver();
+            var speed = Maneuver.properties[previousManeuver].speed;
+            var ship = token.ship();
+            var maneuvers = Ship.properties[ship].maneuvers;
+
+            maneuvers.forEach(function(maneuver)
+            {
+                if (Maneuver.properties[maneuver].speed === speed)
+                {
+                    answer.push(ShipAction.createSlamShipAction(maneuver));
+                }
+            });
         }
 
         if (shipActions.vizziniContains(ShipAction.EVADE))

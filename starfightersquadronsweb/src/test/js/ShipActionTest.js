@@ -66,6 +66,7 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
         var properties = Object.getOwnPropertyNames(ShipAction);
         var count = properties.length - 1 // properties
         - 1 // values
+        - 1 // createSlamShipAction
         - 1; // createTargetLockShipAction
         assert.equal(result.length, count);
     });

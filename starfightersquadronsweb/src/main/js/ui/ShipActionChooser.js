@@ -5,7 +5,7 @@
  * @param shipActions Ship actions.
  * @param callback Callback.
  */
-define([ "ShipAction" ], function(ShipAction)
+define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 {
     var ShipActionChooser = React.createClass(
     {
@@ -29,7 +29,14 @@ define([ "ShipAction" ], function(ShipAction)
                 var answer = value;
                 if (!ShipAction.properties[value])
                 {
-                    answer = value.defender.id();
+                    if (value.defender)
+                    {
+                        answer = value.defender.id();
+                    }
+                    else if (value.maneuver)
+                    {
+                        answer = value.maneuver;
+                    }
                 }
                 return answer;
             }
@@ -42,7 +49,14 @@ define([ "ShipAction" ], function(ShipAction)
                 }
                 else
                 {
-                    answer = "Target Lock: " + value.defender.name();
+                    if (value.defender)
+                    {
+                        answer = "Target Lock: " + value.defender.name();
+                    }
+                    else if (value.maneuver)
+                    {
+                        answer = "SLAM: " + Maneuver.toString(value.maneuver);
+                    }
                 }
                 return answer;
             }
@@ -87,7 +101,25 @@ define([ "ShipAction" ], function(ShipAction)
         {
             var selected = event.target.id;
 
-            if (!isNaN(selected))
+            if (isNaN(selected))
+            {
+                var myId = selected;
+                LOGGER.trace("myId = " + myId);
+                var shipActions = this.props.shipActions;
+
+                for (var i = 0; i < shipActions.length; i++)
+                {
+                    var shipAction = shipActions[i];
+
+                    if (!ShipAction.properties[shipAction] && shipAction.maneuver === myId)
+                    {
+                        selected = shipAction;
+                        LOGGER.trace("shipAction = " + JSON.stringify(shipAction));
+                        break;
+                    }
+                }
+            }
+            else
             {
                 var myId = parseInt(selected);
                 LOGGER.trace("myId = " + myId);

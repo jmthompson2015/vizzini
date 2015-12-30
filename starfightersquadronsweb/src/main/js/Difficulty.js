@@ -9,9 +9,25 @@ define(function()
         STANDARD: "standard",
         HARD: "hard",
 
+        properties:
+        {
+            "easy":
+            {
+                name: "Easy",
+            },
+            "standard":
+            {
+                name: "Standard",
+            },
+            "hard":
+            {
+                name: "Hard",
+            },
+        },
+
         values: function()
         {
-            return [ "easy", "standard", "hard" ];
+            return Object.getOwnPropertyNames(Difficulty.properties);
         },
     }
 

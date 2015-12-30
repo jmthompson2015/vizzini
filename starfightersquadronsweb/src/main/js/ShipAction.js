@@ -81,6 +81,17 @@ define([ "Maneuver" ], function(Maneuver)
         },
     };
 
+    ShipAction.createSlamShipAction = function(maneuver)
+    {
+        InputValidator.validateNotNull("maneuver", maneuver);
+
+        return (
+        {
+            shipAction: ShipAction.SLAM,
+            maneuver: maneuver,
+        });
+    }
+
     ShipAction.createTargetLockShipAction = function(defender)
     {
         InputValidator.validateNotNull("defender", defender);

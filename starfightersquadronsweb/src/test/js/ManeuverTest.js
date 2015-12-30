@@ -791,4 +791,19 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         assert.equal(Maneuver.find(Bearing.TURN_LEFT, 3, Difficulty.HARD), Maneuver.TURN_LEFT_3_HARD);
         assert.equal(Maneuver.find(undefined, 0, Difficulty.HARD), Maneuver.STATIONARY_0_HARD);
     });
+
+    QUnit.test("Maneuver.toString()", function(assert)
+    {
+        assert.equal(Maneuver.toString(Maneuver.TURN_LEFT_1_STANDARD), "Turn Left 1 Standard");
+        assert.equal(Maneuver.toString(Maneuver.BANK_LEFT_1_EASY), "Bank Left 1 Easy");
+        assert.equal(Maneuver.toString(Maneuver.STRAIGHT_1_EASY), "Straight 1 Easy");
+        assert.equal(Maneuver.toString(Maneuver.BANK_RIGHT_1_EASY), "Bank Right 1 Easy");
+        assert.equal(Maneuver.toString(Maneuver.TURN_RIGHT_1_STANDARD), "Turn Right 1 Standard");
+        
+        assert.equal(Maneuver.toString(Maneuver.TURN_LEFT_2_STANDARD), "Turn Left 2 Standard");
+        assert.equal(Maneuver.toString(Maneuver.BANK_LEFT_2_STANDARD), "Bank Left 2 Standard");
+        assert.equal(Maneuver.toString(Maneuver.STRAIGHT_2_STANDARD), "Straight 2 Standard");
+        assert.equal(Maneuver.toString(Maneuver.BANK_RIGHT_2_STANDARD), "Bank Right 2 Standard");
+        assert.equal(Maneuver.toString(Maneuver.TURN_RIGHT_2_STANDARD), "Turn Right 2 Standard");
+    });
 });

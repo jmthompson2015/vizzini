@@ -466,6 +466,16 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             },
         },
 
+        toString: function(maneuver)
+        {
+            var m = Maneuver.properties[maneuver];
+            var bearingName = Bearing.properties[m.bearing].name;
+            var speed = m.speed;
+            var difficultyName = Difficulty.properties[m.difficulty].name;
+
+            return bearingName + " " + speed + " " + difficultyName;
+        },
+
         values: function()
         {
             return Object.getOwnPropertyNames(Maneuver.properties);

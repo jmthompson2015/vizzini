@@ -22,30 +22,35 @@ define(function()
         {
             "turnLeft":
             {
+                name: "Turn Left",
                 headingChange: -90,
                 isBank: false,
                 isTurn: true,
             },
             "bankLeft":
             {
+                name: "Bank Left",
                 headingChange: -45,
                 isBank: true,
                 isTurn: false,
             },
             "straight":
             {
+                name: "Straight",
                 headingChange: 0,
                 isBank: false,
                 isTurn: false,
             },
             "bankRight":
             {
+                name: "Bank Right",
                 headingChange: 45,
                 isBank: true,
                 isTurn: false,
             },
             "turnRight":
             {
+                name: "Turn Right",
                 headingChange: 90,
                 isBank: false,
                 isTurn: true,

@@ -134,6 +134,15 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 {
                     attacker.focus().increase();
                 }
+                else if (shipAction.shipAction === ShipAction.SLAM)
+                {
+                    var attackerPosition = environment.getPositionFor(attacker);
+                    var shipBase = attacker.shipBase();
+                    var maneuverAction = new ManeuverAction(environment, shipAction.maneuver, attackerPosition,
+                            shipBase);
+                    maneuverAction.doIt();
+                    attacker.weaponsDisabled().increase();
+                }
                 else if (shipAction.shipAction === ShipAction.TARGET_LOCK)
                 {
                     var defender = shipAction.defender;
@@ -338,6 +347,8 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 {
                     token.focus().clear();
                 }
+
+                token.weaponsDisabled().clear();
             }
 
             setTimeout(processEndQueue, 100);
