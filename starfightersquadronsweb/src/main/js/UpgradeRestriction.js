@@ -1,5 +1,20 @@
 define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship, ShipBase, Team, ShipTeam)
 {
+    function PilotSkillRestriction(pilotSkill)
+    {
+        InputValidator.validateNotNull("pilotSkill", pilotSkill);
+
+        return (
+        {
+            displayName: "Pilot Skill above \"" + pilotSkill + "\".",
+            passes: function(pilot)
+            {
+                var myPilotSkill = Pilot.properties[pilot].shipState.getPilotSkillValue();
+                return myPilotSkill > pilotSkill;
+            }
+        });
+    }
+
     function ShipSizeRestriction(shipBase)
     {
         InputValidator.validateNotNull("shipBase", shipBase);
@@ -57,6 +72,10 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
 
     var UpgradeRestriction =
     {
+        // Pilot skill lower bound.
+        PILOT_SKILL_ABOVE_1: "pilotSkillAbove1",
+        PILOT_SKILL_ABOVE_3: "pilotSkillAbove3",
+
         // Ship specific.
         A_WING_ONLY: "aWingOnly",
         AGGRESSOR_ONLY: "aggressorOnly",
@@ -120,6 +139,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                 }
             },
             "m3AInterceptorOnly": ShipRestriction(Ship.M3_A_INTERCEPTOR),
+            "pilotSkillAbove1": PilotSkillRestriction(1),
+            "pilotSkillAbove3": PilotSkillRestriction(3),
             "rebelOnly": TeamRestriction(Team.REBEL),
             "scumOnly": TeamRestriction(Team.SCUM),
             "smallShipOnly": ShipSizeRestriction(ShipBase.SMALL),

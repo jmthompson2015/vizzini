@@ -170,15 +170,17 @@ define(
                 TWIN_LASER_TURRET: "twinLaserTurret",
                 properties:
                 {
+                    // @see Token.upgradeTypes() for effect implementation.
                     "aWingTestPilot":
                     {
                         name: "A-Wing Test Pilot",
                         type: UpgradeType.TITLE,
                         isUnique: false,
-                        restrictions: [ UpgradeRestriction.A_WING_ONLY ],
+                        restrictions: [ UpgradeRestriction.A_WING_ONLY, UpgradeRestriction.PILOT_SKILL_ABOVE_1 ],
                         description: "Your upgrade bar gains 1 Elite upgrade icon. You cannot equip 2 of the same Elite upgrade cards. You cannot equip this card if your pilot skill value is \"1\" or lower.",
                         squadPointCost: 0,
                         hasAction: false,
+                        isImplemented: true,
                         value: "aWingTestPilot",
                     },
                     "accuracyCorrector":
@@ -1618,15 +1620,17 @@ define(
                         isImplemented: true,
                         value: "veteranInstincts",
                     },
+                    // @see Token.upgradeTypes() for effect implementation.
                     "virago":
                     {
                         name: "Virago",
                         type: UpgradeType.TITLE,
                         isUnique: true,
-                        restrictions: [ UpgradeRestriction.STAR_VIPER_ONLY ],
-                        description: "Your upgrade bar gains the Sensor and Illicit upgrade icons. You cannot equip this card if your pilot skill value is \"3\" or lower.",
+                        restrictions: [ UpgradeRestriction.STAR_VIPER_ONLY, UpgradeRestriction.PILOT_SKILL_ABOVE_3 ],
+                        description: "Your upgrade bar gains the System and Illicit upgrade icons. You cannot equip this card if your pilot skill value is \"3\" or lower.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "virago",
                     },
                     "weaponsEngineer":

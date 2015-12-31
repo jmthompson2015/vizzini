@@ -22,6 +22,16 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         assert.ok(props.passes(Pilot.ARVEL_CRYNYD));
     });
 
+    QUnit.test("UpgradeRestriction properties Imperial only", function(assert)
+    {
+        var restriction = UpgradeRestriction.IMPERIAL_ONLY;
+        var props = UpgradeRestriction.properties[restriction];
+
+        assert.equal(props.displayName, "Imperial only.");
+        assert.ok(props.passes(Pilot.ACADEMY_PILOT));
+        assert.ok(!props.passes(Pilot.ARVEL_CRYNYD));
+    });
+
     QUnit.test("UpgradeRestriction properties Large ship only", function(assert)
     {
         var restriction = UpgradeRestriction.LARGE_SHIP_ONLY;
@@ -32,14 +42,14 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         assert.ok(props.passes(Pilot.BOBA_FETT_IMPERIAL));
     });
 
-    QUnit.test("UpgradeRestriction properties Imperial only", function(assert)
+    QUnit.test("UpgradeRestriction properties Pilot Skill above 3", function(assert)
     {
-        var restriction = UpgradeRestriction.IMPERIAL_ONLY;
+        var restriction = UpgradeRestriction.PILOT_SKILL_ABOVE_3;
         var props = UpgradeRestriction.properties[restriction];
 
-        assert.equal(props.displayName, "Imperial only.");
-        assert.ok(props.passes(Pilot.ACADEMY_PILOT));
-        assert.ok(!props.passes(Pilot.ARVEL_CRYNYD));
+        assert.equal(props.displayName, "Pilot Skill above \"3\".");
+        assert.ok(!props.passes(Pilot.ACADEMY_PILOT));
+        assert.ok(props.passes(Pilot.BOBA_FETT_IMPERIAL));
     });
 
     QUnit.test("passes()", function(assert)
@@ -98,10 +108,10 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
     {
         var result = UpgradeRestriction.values();
         assert.ok(result);
-        assert.equal(result.length, 24);
+        assert.equal(result.length, 26);
         assert.equal(result[0], UpgradeRestriction.A_WING_ONLY);
-        assert.equal(result[21], UpgradeRestriction.YT_2400_ONLY);
-        assert.equal(result[22], UpgradeRestriction.Y_WING_ONLY);
-        assert.equal(result[23], UpgradeRestriction.YV_666_ONLY);
+        assert.equal(result[23], UpgradeRestriction.YT_2400_ONLY);
+        assert.equal(result[24], UpgradeRestriction.Y_WING_ONLY);
+        assert.equal(result[25], UpgradeRestriction.YV_666_ONLY);
     });
 });

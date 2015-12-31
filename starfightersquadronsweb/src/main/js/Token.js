@@ -540,6 +540,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 answer.push(UpgradeType.MODIFICATION);
             }
 
+            if (this.isUpgradedWith(UpgradeCard.A_WING_TEST_PILOT))
+            {
+                answer.push(UpgradeType.ELITE);
+            }
+
             if (this.isUpgradedWith(UpgradeCard.ANDRASTA))
             {
                 answer.push(UpgradeType.BOMB);
@@ -559,6 +564,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             if (this.isUpgradedWith(UpgradeCard.SLAVE_I))
             {
                 answer.push(UpgradeType.TORPEDO);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.VIRAGO))
+            {
+                answer.push(UpgradeType.SYSTEM);
+                answer.push(UpgradeType.ILLICIT);
             }
 
             return answer;
