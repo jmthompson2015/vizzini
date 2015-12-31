@@ -173,7 +173,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "u
             this.props.onChangeFunction(event, pilot);
         },
 
-        renderPilotCardUI: function(token)
+        renderPilotCardUI: function()
         {
             var token = this.state.token;
 

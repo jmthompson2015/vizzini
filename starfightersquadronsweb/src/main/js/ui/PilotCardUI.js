@@ -110,7 +110,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             var pilotCost = pilotProps.squadPointCost;
             var prefix = myToken.toString();
             var shipActions = shipProps.shipActions;
-            var upgradeTypes = pilotProps.upgradeTypes;
+            var upgradeTypes = myToken.upgradeTypes();
             var rows = [];
 
             var element00 = React.createElement(PilotCardUI.NamePanel,

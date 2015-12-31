@@ -165,17 +165,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
         createUpgradesUI: function()
         {
             var pilot = this.state.pilot;
-            var upgradeTypes = Pilot.properties[pilot].upgradeTypes.slice();
-
-            if (UpgradeCard.valuesByPilotAndType(pilot, UpgradeType.TITLE).length > 0)
-            {
-                upgradeTypes.unshift(UpgradeType.TITLE);
-            }
-
-            if (UpgradeCard.valuesByPilotAndType(pilot, UpgradeType.MODIFICATION).length > 0)
-            {
-                upgradeTypes.push(UpgradeType.MODIFICATION);
-            }
+            var upgradeTypes = this.state.token.upgradeTypes();
 
             var rows = [];
 
@@ -209,6 +199,19 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
             LOGGER.debug("new pilot = " + pilot);
             var team = this.props.team;
             var token = this.createToken(team, pilot);
+
+            // Add upgrade cards.
+            var myUpgrades = this.state.upgrades;
+            var tokenUpgrades = token.upgrades();
+
+            myUpgrades.forEach(function(upgrade)
+            {
+                if (upgrade)
+                {
+                    tokenUpgrades.push(upgrade);
+                }
+            });
+
             this.setState(
             {
                 pilot: pilot,
@@ -241,14 +244,45 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
         upgradeChanged: function(event)
         {
             var upgradeCard = event.currentTarget.value;
-            LOGGER.debug("new upgradeCard = " + upgradeCard);
+            LOGGER.debug("SquadBuilderUI.upgradeChanged() new upgradeCard = " + upgradeCard);
             var index = event.currentTarget.dataset.index;
             var upgrades = this.state.upgrades;
 
             upgrades[index] = (upgradeCard == "*none*") ? undefined : upgradeCard;
+            LOGGER.debug("upgrades.length = " + upgrades.length);
+
+            var token = this.createToken(this.props.team, this.state.pilot);
+
+            // Add upgrade cards.
+            var tokenUpgrades = token.upgrades();
+
+            upgrades.forEach(function(upgrade, i)
+            {
+                if (upgrade)
+                {
+                    var tokenUpgradeTypes = token.upgradeTypes();
+                    var tokenUpgradeCount = tokenUpgradeTypes.length;
+                    LOGGER.info(i + " tokenUpgradeCount = " + tokenUpgradeCount);
+                    var upgradeType = UpgradeCard.properties[upgrade].type;
+
+                    if (i < tokenUpgradeCount && upgradeType === tokenUpgradeTypes[i])
+                    {
+                        tokenUpgrades.push(upgrade);
+                    }
+                    else
+                    {
+                        upgrades[i] = undefined;
+                    }
+                }
+            });
+
+            var tokenUpgradeCount = token.upgradeTypes().length;
+            LOGGER.info("tokenUpgradeCount = " + tokenUpgradeCount);
+
             this.setState(
             {
-                upgrades: upgrades
+                token: token,
+                upgrades: upgrades,
             });
         },
     });

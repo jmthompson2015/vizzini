@@ -2,8 +2,8 @@
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
 define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship", "ShipAction",
-        "ShipTeam", "UpgradeCard" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot, RangeRuler,
-        Ship, ShipAction, ShipTeam, UpgradeCard)
+        "ShipTeam", "UpgradeCard", "UpgradeType" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot,
+        RangeRuler, Ship, ShipAction, ShipTeam, UpgradeCard, UpgradeType)
 {
     function Token(pilot, agent)
     {
@@ -524,6 +524,44 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.upgrades = function()
         {
             return upgrades;
+        }
+
+        this.upgradeTypes = function()
+        {
+            var answer = Pilot.properties[pilot].upgradeTypes.slice();
+
+            if (UpgradeCard.valuesByPilotAndType(pilot, UpgradeType.TITLE).length > 0)
+            {
+                answer.unshift(UpgradeType.TITLE);
+            }
+
+            if (UpgradeCard.valuesByPilotAndType(pilot, UpgradeType.MODIFICATION).length > 0)
+            {
+                answer.push(UpgradeType.MODIFICATION);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.ANDRASTA))
+            {
+                answer.push(UpgradeType.BOMB);
+                answer.push(UpgradeType.BOMB);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.B_WING_E2))
+            {
+                answer.push(UpgradeType.CREW);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.BOMB_LOADOUT))
+            {
+                answer.push(UpgradeType.BOMB);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.SLAVE_I))
+            {
+                answer.push(UpgradeType.TORPEDO);
+            }
+
+            return answer;
         }
 
         this.weaponsDisabled = function()

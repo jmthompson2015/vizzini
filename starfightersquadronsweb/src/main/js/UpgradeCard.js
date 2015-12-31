@@ -243,6 +243,7 @@ define(
                         hasAction: false,
                         value: "advancedTargetingComputer",
                     },
+                    // @see Token.upgradeTypes() for effect implementation.
                     "andrasta":
                     {
                         name: "Andrasta",
@@ -252,6 +253,7 @@ define(
                         description: "Your upgrade bar gains two additional Bomb upgrade icons.",
                         squadPointCost: 0,
                         hasAction: false,
+                        isImplemented: true,
                         value: "andrasta",
                     },
                     "antiPursuitLasers":
@@ -286,6 +288,7 @@ define(
                         hasAction: false,
                         value: "bodyguard",
                     },
+                    // @see Token.upgradeTypes() for effect implementation.
                     "bombLoadout":
                     {
                         name: "Bomb Loadout",
@@ -295,6 +298,7 @@ define(
                         description: "Your upgrade bar gains the Bomb icon.",
                         squadPointCost: 0,
                         hasAction: false,
+                        isImplemented: true,
                         value: "bombLoadout",
                     },
                     "bombardier":
@@ -329,6 +333,7 @@ define(
                         hasAction: false,
                         value: "btlA4YWing",
                     },
+                    // @see Token.upgradeTypes() for effect implementation.
                     "bWingE2":
                     {
                         name: "B-Wing/E2",
@@ -338,6 +343,7 @@ define(
                         description: "Your upgrade bar gains the Crew Member upgrade icon.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "bWingE2",
                     },
                     "c3po":
@@ -372,6 +378,7 @@ define(
                         hasAction: false,
                         value: "carlistRieekan",
                     },
+                    // Effect implemented through squad point cost.
                     "chardaanRefit":
                     {
                         name: "Chardaan Refit",
@@ -381,6 +388,7 @@ define(
                         description: "This card has a negative squad point cost.",
                         squadPointCost: -2,
                         hasAction: false,
+                        isImplemented: true,
                         value: "chardaanRefit",
                     },
                     "chewbacca":
@@ -1435,6 +1443,7 @@ define(
                         isImplemented: true,
                         value: "shieldUpgrade",
                     },
+                    // @see Token.upgradeTypes() for effect implementation.
                     "slaveI":
                     {
                         name: "Slave I",
@@ -1444,6 +1453,7 @@ define(
                         description: "Your upgrade bar gains the Torpedo upgrade icon.",
                         squadPointCost: 0,
                         hasAction: false,
+                        isImplemented: true,
                         value: "slaveI",
                     },
                     "squadLeader":
