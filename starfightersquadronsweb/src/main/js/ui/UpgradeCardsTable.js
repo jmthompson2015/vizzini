@@ -93,7 +93,7 @@ define([ "UpgradeCard", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(Upg
             var upgradeProps = UpgradeCard.properties[upgrade];
             var typeImage = UpgradeCardUI.createUpgradeImage(upgradeProps.type);
             var isUnique = (upgradeProps.isUnique ? "\u25CF" : "");
-            var myRestrictions;
+            var myRestrictions = " ";
             if (upgradeProps.restrictions)
             {
                 myRestrictions = upgradeProps.restrictions.reduce(function(previousValue, restriction)

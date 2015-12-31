@@ -133,7 +133,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
             var shipState = Pilot.properties[pilot].shipState;
             var pilotSkill = shipState.getPilotSkillValue();
-            cells.push(this.createCell(cells.length, PilotColumns[3], pilotSkill));
+            cells.push(this.createCell(cells.length, PilotColumns[3], (pilotSkill ? pilotSkill : " ")));
 
             var primaryWeapon = shipState.getPrimaryWeaponValue();
             cells.push(this.createCell(cells.length, PilotColumns[4], primaryWeapon));
@@ -151,7 +151,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
             cells.push(this.createCell(cells.length, PilotColumns[8], sum));
 
             var squadPointCost = Pilot.properties[pilot].squadPointCost;
-            cells.push(this.createCell(cells.length, PilotColumns[9], squadPointCost));
+            cells.push(this.createCell(cells.length, PilotColumns[9], (squadPointCost ? squadPointCost : " ")));
 
             var ratio0 = (agility === 0 ? null : primaryWeapon / agility);
             cells.push(this.Td(
