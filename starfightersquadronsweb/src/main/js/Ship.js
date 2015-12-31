@@ -37,7 +37,7 @@ define(
                     {
                         name: "A-Wing",
                         description: "An A-Wing.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD,
                                 Maneuver.TURN_LEFT_2_EASY, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
@@ -71,7 +71,7 @@ define(
                     {
                         name: "B-Wing",
                         description: "A B-Wing.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
                                 Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_HARD, Maneuver.TURN_LEFT_2_STANDARD,
@@ -87,7 +87,7 @@ define(
                     {
                         name: "E-Wing",
                         description: "An E-Wing.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_EASY,
                                 Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_STANDARD,
@@ -121,7 +121,7 @@ define(
                     {
                         name: "HWK-290",
                         description: "An HWK-290.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
@@ -135,7 +135,7 @@ define(
                     {
                         name: "K-Wing",
                         description: "A K-Wing.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
@@ -149,7 +149,7 @@ define(
                     {
                         name: "Kihraxz Fighter",
                         description: "A Kihraxz fighter.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.BANK_LEFT_1_EASY,
                                 Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_STANDARD,
@@ -178,7 +178,7 @@ define(
                     {
                         name: "M3-A Interceptor",
                         description: "An M3-A Interceptor.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.BANK_LEFT_1_EASY,
                                 Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_STANDARD,
@@ -195,7 +195,7 @@ define(
                     {
                         name: "StarViper",
                         description: "A StarViper.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.BANK_LEFT_1_EASY,
                                 Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_STANDARD,
@@ -213,7 +213,7 @@ define(
                     {
                         name: "T-70 X-Wing",
                         description: "A T-70 X-Wing.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
@@ -231,7 +231,7 @@ define(
                     {
                         name: "TIE Advanced",
                         description: "A TIE Advanced.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
@@ -242,14 +242,13 @@ define(
                                 Maneuver.STRAIGHT_5_STANDARD ],
                         shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                                 ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
-                        isTie: true,
                         value: "tieAdvanced",
                     },
                     "tieBomber":
                     {
                         name: "TIE Bomber",
                         description: "A TIE bomber.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_EASY,
                                 Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_HARD, Maneuver.BANK_LEFT_2_EASY,
@@ -259,14 +258,13 @@ define(
                                 Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
                         shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                                 ShipAction.BARREL_ROLL_RIGHT ],
-                        isTie: true,
                         value: "tieBomber",
                     },
                     "tieDefender":
                     {
                         name: "TIE Defender",
                         description: "A TIE defender.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_STANDARD,
                                 Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_RIGHT_1_HARD, Maneuver.TURN_LEFT_2_HARD,
@@ -277,14 +275,13 @@ define(
                                 Maneuver.STRAIGHT_4_EASY, Maneuver.KOIOGRAN_TURN_4_STANDARD, Maneuver.STRAIGHT_5_EASY ],
                         shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                                 ShipAction.BARREL_ROLL_RIGHT ],
-                        isTie: true,
                         value: "tieDefender",
                     },
                     "tieFighter":
                     {
                         name: "TIE Fighter",
                         description: "A TIE fighter.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
@@ -295,14 +292,13 @@ define(
                                 Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
                         shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL_LEFT, ShipAction.BARREL_ROLL_RIGHT,
                                 ShipAction.EVADE ],
-                        isTie: true,
                         value: "tieFighter",
                     },
                     "tieFoFighter":
                     {
                         name: "TIE/fo Fighter",
                         description: "A TIE/fo fighter.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD,
                                 Maneuver.TURN_LEFT_2_EASY, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
@@ -314,14 +310,13 @@ define(
                                 Maneuver.STRAIGHT_5_STANDARD ],
                         shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                                 ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
-                        isTie: true,
                         value: "tieFoFighter",
                     },
                     "tieInterceptor":
                     {
                         name: "TIE Interceptor",
                         description: "A TIE interceptor.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD,
                                 Maneuver.TURN_LEFT_2_EASY, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
@@ -333,14 +328,13 @@ define(
                         shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL_LEFT, ShipAction.BARREL_ROLL_RIGHT,
                                 ShipAction.BOOST_LEFT, ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT,
                                 ShipAction.EVADE ],
-                        isTie: true,
                         value: "tieInterceptor",
                     },
                     "tiePhantom":
                     {
                         name: "TIE Phantom",
                         description: "A TIE phantom.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.TURN_LEFT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
@@ -350,14 +344,13 @@ define(
                                 Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
                                 Maneuver.KOIOGRAN_TURN_4_HARD ],
                         shipActions: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL, ShipAction.EVADE, ShipAction.CLOAK, ],
-                        isTie: true,
                         value: "tiePhantom",
                     },
                     "tiePunisher":
                     {
                         name: "TIE Punisher",
                         description: "A TIE punisher.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
                                 Maneuver.TURN_LEFT_2_HARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
@@ -367,7 +360,6 @@ define(
                                 Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
                         shipActions: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST_LEFT,
                                 ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT, ],
-                        isTie: true,
                         value: "tiePunisher",
                     },
                     "vt49Decimator":
@@ -390,7 +382,7 @@ define(
                     {
                         name: "X-Wing",
                         description: "An X-Wing.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
@@ -406,7 +398,7 @@ define(
                     {
                         name: "Y-Wing",
                         description: "A Y-Wing.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_EASY,
                                 Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_STANDARD,
@@ -471,7 +463,7 @@ define(
                     {
                         name: "Z-95 Headhunter",
                         description: "A Z-95 headhunter.",
-                        shipBase: ShipBase.STANDARD,
+                        shipBase: ShipBase.SMALL,
                         primaryFiringArc: FiringArc.FORWARD,
                         maneuvers: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_EASY,
                                 Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_LEFT_2_STANDARD,

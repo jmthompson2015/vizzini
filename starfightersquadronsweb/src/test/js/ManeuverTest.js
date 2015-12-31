@@ -19,7 +19,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var fromPosition = new Position(10, 20, 0);
 
         // Run.
-        var result = Maneuver.computeFromPolygon(fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeFromPolygon(fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -51,7 +51,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.STRAIGHT_1_EASY;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -80,7 +80,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.STRAIGHT_1_EASY;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -115,7 +115,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BANK_RIGHT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -159,7 +159,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BANK_RIGHT_3_STANDARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -209,7 +209,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -237,7 +237,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -265,7 +265,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.SEGNORS_LOOP_RIGHT_3_HARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -315,7 +315,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.TURN_RIGHT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -365,7 +365,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.STATIONARY_0_HARD;
 
         // Run.
-        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computePath(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -381,7 +381,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
     QUnit.test("computePolygon() Standard", function(assert)
     {
         // Setup.
-        var shipBase = ShipBase.STANDARD;
+        var shipBase = ShipBase.SMALL;
 
         // Run.
         var result = Maneuver.computePolygon(shipBase, 0, 0, 0);
@@ -407,7 +407,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
     QUnit.test("computePolygon() Standard 0", function(assert)
     {
         // Setup.
-        var shipBase = ShipBase.STANDARD;
+        var shipBase = ShipBase.SMALL;
 
         // Run.
         var result = Maneuver.computePolygon(shipBase, 10, 20, 0);
@@ -433,7 +433,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
     QUnit.test("computePolygon() Standard 45", function(assert)
     {
         // Setup.
-        var shipBase = ShipBase.STANDARD;
+        var shipBase = ShipBase.SMALL;
 
         // Run.
         var result = Maneuver.computePolygon(shipBase, 10, 20, 45);
@@ -469,7 +469,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.STRAIGHT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPolygon(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPolygon(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -501,7 +501,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BANK_LEFT_1_EASY;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -517,7 +517,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BANK_RIGHT_1_EASY;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -533,7 +533,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BANK_LEFT_3_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -549,7 +549,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BANK_RIGHT_3_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -565,7 +565,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -581,7 +581,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -597,7 +597,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BARREL_ROLL_LEFT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -613,7 +613,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.BARREL_ROLL_RIGHT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -629,7 +629,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.KOIOGRAN_TURN_3_HARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -645,7 +645,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.SEGNORS_LOOP_LEFT_3_HARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -661,7 +661,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.SEGNORS_LOOP_RIGHT_3_HARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -677,7 +677,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.STRAIGHT_1_EASY;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -693,7 +693,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.STRAIGHT_3_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -709,7 +709,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.TALLON_ROLL_LEFT_3_HARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -725,7 +725,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.TALLON_ROLL_RIGHT_3_HARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -741,7 +741,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.TURN_LEFT_1_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -757,7 +757,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.TURN_LEFT_3_STANDARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -773,7 +773,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         var maneuver = Maneuver.STATIONARY_0_HARD;
 
         // Run.
-        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.STANDARD);
+        var result = Maneuver.computeToPosition(maneuver, fromPosition, ShipBase.SMALL);
 
         // Verify.
         assert.ok(result);
@@ -799,7 +799,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         assert.equal(Maneuver.toString(Maneuver.STRAIGHT_1_EASY), "Straight 1 Easy");
         assert.equal(Maneuver.toString(Maneuver.BANK_RIGHT_1_EASY), "Bank Right 1 Easy");
         assert.equal(Maneuver.toString(Maneuver.TURN_RIGHT_1_STANDARD), "Turn Right 1 Standard");
-        
+
         assert.equal(Maneuver.toString(Maneuver.TURN_LEFT_2_STANDARD), "Turn Left 2 Standard");
         assert.equal(Maneuver.toString(Maneuver.BANK_LEFT_2_STANDARD), "Bank Left 2 Standard");
         assert.equal(Maneuver.toString(Maneuver.STRAIGHT_2_STANDARD), "Straight 2 Standard");

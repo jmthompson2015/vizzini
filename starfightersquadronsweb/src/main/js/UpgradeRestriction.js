@@ -1,28 +1,73 @@
-/*
- * Provides an enumeration of upgrade restrictions.
- */
-define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship, ShipBase, ShipTeam, Team)
+define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship, ShipBase, Team, ShipTeam)
 {
+    function ShipSizeRestriction(shipBase)
+    {
+        InputValidator.validateNotNull("shipBase", shipBase);
+
+        var props = ShipBase.properties[shipBase];
+
+        return (
+        {
+            displayName: props.name + " only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var ship = ShipTeam.properties[shipTeam].ship;
+                var myShipBase = Ship.properties[ship].shipBase;
+                return myShipBase === shipBase;
+            }
+        });
+    }
+
+    function ShipRestriction(ship)
+    {
+        InputValidator.validateNotNull("ship", ship);
+
+        var props = Ship.properties[ship];
+
+        return (
+        {
+            displayName: props.name + " only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var myShip = ShipTeam.properties[shipTeam].ship;
+                return myShip === ship;
+            }
+        });
+    }
+
+    function TeamRestriction(team)
+    {
+        InputValidator.validateNotNull("team", team);
+
+        var props = Team.properties[team];
+
+        return (
+        {
+            displayName: props.name + " only.",
+            passes: function(pilot)
+            {
+                var shipTeam = Pilot.properties[pilot].shipTeam;
+                var myTeam = ShipTeam.properties[shipTeam].team;
+                return myTeam === team;
+            }
+        });
+    }
+
     var UpgradeRestriction =
     {
+        // Ship specific.
         A_WING_ONLY: "aWingOnly",
         AGGRESSOR_ONLY: "aggressorOnly",
         B_WING_ONLY: "bWingOnly",
         FIRESPRAY_31_ONLY: "firespray31Only",
-        HUGE_SHIP_ONLY: "hugeShipOnly",
         HWK_290_ONLY: "hwk290Only",
-        IMPERIAL_ONLY: "imperialOnly",
-        LARGE_SHIP_ONLY: "largeShipOnly",
         LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
-        LIMITED: "limited",
         M3_A_INTERCEPTOR_ONLY: "m3AInterceptorOnly",
-        REBEL_ONLY: "rebelOnly",
-        SCUM_ONLY: "scumOnly",
-        SMALL_SHIP_ONLY: "smallShipOnly",
         STAR_VIPER_ONLY: "starViperOnly",
         TIE_ADVANCED_ONLY: "tieAdvancedOnly",
         TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
-        TIE_ONLY: "tieOnly",
         TIE_PHANTOM_ONLY: "tiePhantomOnly",
         VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
         YT_1300_ONLY: "yt1300Only",
@@ -30,48 +75,26 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
         Y_WING_ONLY: "yWingOnly",
         YV_666_ONLY: "yv666Only",
 
+        // Ship size.
+        HUGE_SHIP_ONLY: "hugeShipOnly",
+        LARGE_SHIP_ONLY: "largeShipOnly",
+        SMALL_SHIP_ONLY: "smallShipOnly",
+
+        // Team specific.
+        IMPERIAL_ONLY: "imperialOnly",
+        REBEL_ONLY: "rebelOnly",
+        SCUM_ONLY: "scumOnly",
+
+        // Miscellaneous.
+        LIMITED: "limited",
+        TIE_ONLY: "tieOnly",
+
         properties:
         {
-            "aWingOnly":
-            {
-                displayName: "A-Wing only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.A_WING;
-                }
-            },
-            "aggressorOnly":
-            {
-                displayName: "Aggressor only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.AGGRESSOR;
-                }
-            },
-            "bWingOnly":
-            {
-                displayName: "B-Wing only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.B_WING;
-                }
-            },
-            "firespray31Only":
-            {
-                displayName: "Firespray-31 only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.FIRESPRAY_31;
-                }
-            },
+            "aWingOnly": ShipRestriction(Ship.A_WING),
+            "aggressorOnly": ShipRestriction(Ship.AGGRESSOR),
+            "bWingOnly": ShipRestriction(Ship.B_WING),
+            "firespray31Only": ShipRestriction(Ship.FIRESPRAY_31),
             "hugeShipOnly":
             {
                 displayName: "Huge ship only.",
@@ -83,47 +106,10 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
                     return shipBase === ShipBase.HUGE1 || shipBase === ShipBase.HUGE2;
                 }
             },
-            "hwk290Only":
-            {
-                displayName: "HWK-290 only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.HWK_290;
-                }
-            },
-            "imperialOnly":
-            {
-                displayName: "Imperial only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var team = ShipTeam.properties[shipTeam].team;
-                    return team === Team.IMPERIAL;
-                }
-            },
-            "lambdaClassShuttleOnly":
-            {
-                displayName: "Lambda-class Shuttle only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.LAMBDA_CLASS_SHUTTLE;
-                }
-            },
-            "largeShipOnly":
-            {
-                displayName: "Large ship only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    var shipBase = Ship.properties[ship].shipBase;
-                    return shipBase === ShipBase.LARGE;
-                }
-            },
+            "hwk290Only": ShipRestriction(Ship.HWK_290),
+            "imperialOnly": TeamRestriction(Team.IMPERIAL),
+            "lambdaClassShuttleOnly": ShipRestriction(Ship.LAMBDA_CLASS_SHUTTLE),
+            "largeShipOnly": ShipSizeRestriction(ShipBase.LARGE),
             "limited":
             {
                 displayName: "Limited.",
@@ -133,77 +119,13 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
                     return true;
                 }
             },
-            "m3AInterceptorOnly":
-            {
-                displayName: "M3-A Interceptor only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.M3_A_INTERCEPTOR;
-                }
-            },
-            "rebelOnly":
-            {
-                displayName: "Rebel only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var team = ShipTeam.properties[shipTeam].team;
-                    return team === Team.REBEL;
-                }
-            },
-            "scumOnly":
-            {
-                displayName: "Scum only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var team = ShipTeam.properties[shipTeam].team;
-                    return team === Team.SCUM;
-                }
-            },
-            "smallShipOnly":
-            {
-                displayName: "Small ship only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    var shipBase = Ship.properties[ship].shipBase;
-                    return shipBase === ShipBase.STANDARD;
-                }
-            },
-            "starViperOnly":
-            {
-                displayName: "StarViper only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.STAR_VIPER;
-                }
-            },
-            "tieAdvancedOnly":
-            {
-                displayName: "TIE Advanced only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.TIE_ADVANCED;
-                }
-            },
-            "tieInterceptorOnly":
-            {
-                displayName: "TIE Interceptor only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.TIE_INTERCEPTOR;
-                }
-            },
+            "m3AInterceptorOnly": ShipRestriction(Ship.M3_A_INTERCEPTOR),
+            "rebelOnly": TeamRestriction(Team.REBEL),
+            "scumOnly": TeamRestriction(Team.SCUM),
+            "smallShipOnly": ShipSizeRestriction(ShipBase.SMALL),
+            "starViperOnly": ShipRestriction(Ship.STAR_VIPER),
+            "tieAdvancedOnly": ShipRestriction(Ship.TIE_ADVANCED),
+            "tieInterceptorOnly": ShipRestriction(Ship.TIE_INTERCEPTOR),
             "tieOnly":
             {
                 displayName: "TIE only.",
@@ -211,69 +133,15 @@ define([ "Pilot", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Pilot, Ship
                 {
                     var shipTeam = Pilot.properties[pilot].shipTeam;
                     var ship = ShipTeam.properties[shipTeam].ship;
-                    return Ship.properties[ship].isTie;
+                    return Ship.properties[ship].name.startsWith("TIE");
                 }
             },
-            "tiePhantomOnly":
-            {
-                displayName: "TIE Phantom only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.TIE_PHANTOM;
-                }
-            },
-            "vt49DecimatorOnly":
-            {
-                displayName: "VT-49 Decimator only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.VT_49_DECIMATOR;
-                }
-            },
-            "yt1300Only":
-            {
-                displayName: "YT-1300 only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.YT_1300;
-                }
-            },
-            "yt2400Only":
-            {
-                displayName: "YT-2400 only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.YT_2400;
-                }
-            },
-            "yWingOnly":
-            {
-                displayName: "Y-Wing only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.Y_WING;
-                }
-            },
-            "yv666Only":
-            {
-                displayName: "YV-666 only.",
-                passes: function(pilot)
-                {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.YV_666;
-                }
-            },
+            "tiePhantomOnly": ShipRestriction(Ship.TIE_PHANTOM),
+            "vt49DecimatorOnly": ShipRestriction(Ship.VT_49_DECIMATOR),
+            "yt1300Only": ShipRestriction(Ship.YT_1300),
+            "yt2400Only": ShipRestriction(Ship.YT_2400),
+            "yWingOnly": ShipRestriction(Ship.Y_WING),
+            "yv666Only": ShipRestriction(Ship.YV_666),
         },
 
         passes: function(restrictions, pilot)

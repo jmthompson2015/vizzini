@@ -10,9 +10,9 @@ define([ "ShipBase" ], function(ShipBase)
         assert.equal(properties.height, 80);
     });
 
-    QUnit.test("ShipBase properties Standard", function(assert)
+    QUnit.test("ShipBase properties Small", function(assert)
     {
-        var shipBase = ShipBase.STANDARD;
+        var shipBase = ShipBase.SMALL;
         var properties = ShipBase.properties[shipBase];
         assert.equal(properties.width, 40);
         assert.equal(properties.height, 40);
@@ -54,7 +54,9 @@ define([ "ShipBase" ], function(ShipBase)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 4);
-        assert.equal(result[0], "standard");
+        assert.equal(result[0], "small");
+        assert.equal(result[1], "large");
+        assert.equal(result[2], "huge1");
         assert.equal(result[3], "huge2");
 
         var properties = Object.getOwnPropertyNames(ShipBase);

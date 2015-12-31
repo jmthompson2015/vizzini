@@ -25,7 +25,7 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.equal(properties.description, "A TIE fighter.");
         assert.equal(properties.value, ship);
         assert.equal(properties.primaryFiringArc, FiringArc.FORWARD);
-        assert.equal(properties.shipBase, ShipBase.STANDARD);
+        assert.equal(properties.shipBase, ShipBase.SMALL);
         assert.ok(properties.maneuvers);
         assert.equal(properties.maneuvers.length, 16);
         assert.ok(properties.shipActions);
@@ -40,7 +40,7 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.equal(properties.description, "An X-Wing.");
         assert.equal(properties.value, ship);
         assert.equal(properties.primaryFiringArc, FiringArc.FORWARD);
-        assert.equal(properties.shipBase, ShipBase.STANDARD);
+        assert.equal(properties.shipBase, ShipBase.SMALL);
         assert.ok(properties.maneuvers);
         assert.equal(properties.maneuvers.length, 15);
         assert.ok(properties.shipActions);
