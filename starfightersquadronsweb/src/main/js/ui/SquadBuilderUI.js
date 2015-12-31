@@ -262,7 +262,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
                 {
                     var tokenUpgradeTypes = token.upgradeTypes();
                     var tokenUpgradeCount = tokenUpgradeTypes.length;
-                    LOGGER.info(i + " tokenUpgradeCount = " + tokenUpgradeCount);
+                    LOGGER.debug(i + " tokenUpgradeCount = " + tokenUpgradeCount);
                     var upgradeType = UpgradeCard.properties[upgrade].type;
 
                     if (i < tokenUpgradeCount && upgradeType === tokenUpgradeTypes[i])
@@ -277,7 +277,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
             });
 
             var tokenUpgradeCount = token.upgradeTypes().length;
-            LOGGER.info("tokenUpgradeCount = " + tokenUpgradeCount);
+            LOGGER.debug("tokenUpgradeCount = " + tokenUpgradeCount);
 
             this.setState(
             {
