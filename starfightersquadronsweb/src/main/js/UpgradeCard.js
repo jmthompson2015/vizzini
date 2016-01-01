@@ -1586,6 +1586,7 @@ define(
                         hasAction: true,
                         value: "torynFarr",
                     },
+                    // @see Token.maneuvers() for effect implementation.
                     "twinIonEngineMkII":
                     {
                         name: "Twin Ion Engine Mk. II",
@@ -1595,8 +1596,10 @@ define(
                         description: "You may treat all bank maneuvers (left or right) as green maneuvers.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "twinIonEngineMkII",
                     },
+                    // @see Token.maneuvers() for effect implementation.
                     "unhingedAstromech":
                     {
                         name: "Unhinged Astromech",
@@ -1605,6 +1608,7 @@ define(
                         description: "You may treat all 3 speed maneuvers as green maneuvers.",
                         squadPointCost: 1,
                         hasAction: false,
+                        isImplemented: true,
                         value: "unhingedAstromech",
                     },
                     // @see Token.getPilotSkillValue() for effect implementation.

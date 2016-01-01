@@ -13,12 +13,14 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         BANK_LEFT_1_STANDARD: "bankLeft1Standard",
         BANK_LEFT_2_EASY: "bankLeft2Easy",
         BANK_LEFT_2_STANDARD: "bankLeft2Standard",
+        BANK_LEFT_3_EASY: "bankLeft3Easy",
         BANK_LEFT_3_HARD: "bankLeft3Hard",
         BANK_LEFT_3_STANDARD: "bankLeft3Standard",
         BANK_RIGHT_1_EASY: "bankRight1Easy",
         BANK_RIGHT_1_STANDARD: "bankRight1Standard",
         BANK_RIGHT_2_EASY: "bankRight2Easy",
         BANK_RIGHT_2_STANDARD: "bankRight2Standard",
+        BANK_RIGHT_3_EASY: "bankRight3Easy",
         BANK_RIGHT_3_HARD: "bankRight3Hard",
         BANK_RIGHT_3_STANDARD: "bankRight3Standard",
 
@@ -65,6 +67,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         TURN_LEFT_2_EASY: "turnLeft2Easy",
         TURN_LEFT_2_HARD: "turnLeft2Hard",
         TURN_LEFT_2_STANDARD: "turnLeft2Standard",
+        TURN_LEFT_3_EASY: "turnLeft3Easy",
         TURN_LEFT_3_HARD: "turnLeft3Hard",
         TURN_LEFT_3_STANDARD: "turnLeft3Standard",
         TURN_RIGHT_1_HARD: "turnRight1Hard",
@@ -72,6 +75,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         TURN_RIGHT_2_EASY: "turnRight2Easy",
         TURN_RIGHT_2_HARD: "turnRight2Hard",
         TURN_RIGHT_2_STANDARD: "turnRight2Standard",
+        TURN_RIGHT_3_EASY: "turnRight3Easy",
         TURN_RIGHT_3_HARD: "turnRight3Hard",
         TURN_RIGHT_3_STANDARD: "turnRight3Standard",
         properties:
@@ -107,6 +111,14 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 difficulty: Difficulty.STANDARD,
                 radius: 127.0,
                 value: "bankLeft2Standard",
+            },
+            "bankLeft3Easy":
+            {
+                bearing: Bearing.BANK_LEFT,
+                speed: 3,
+                difficulty: Difficulty.EASY,
+                radius: 177.8,
+                value: "bankLeft3Easy",
             },
             "bankLeft3Hard":
             {
@@ -155,6 +167,14 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 difficulty: Difficulty.STANDARD,
                 radius: 127.0,
                 value: "bankRight2Standard",
+            },
+            "bankRight3Easy":
+            {
+                bearing: Bearing.BANK_RIGHT,
+                speed: 3,
+                difficulty: Difficulty.EASY,
+                radius: 177.8,
+                value: "bankRight3Easy",
             },
             "bankRight3Hard":
             {
@@ -392,6 +412,14 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 radius: 62.2,
                 value: "turnLeft2Standard",
             },
+            "turnLeft3Easy":
+            {
+                bearing: Bearing.TURN_LEFT,
+                speed: 3,
+                difficulty: Difficulty.EASY,
+                radius: 88.9,
+                value: "turnLeft3Easy",
+            },
             "turnLeft3Hard":
             {
                 bearing: Bearing.TURN_LEFT,
@@ -447,6 +475,14 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 difficulty: Difficulty.STANDARD,
                 radius: 62.2,
                 value: "turnRight2Standard",
+            },
+            "turnRight3Easy":
+            {
+                bearing: Bearing.TURN_RIGHT,
+                speed: 3,
+                difficulty: Difficulty.EASY,
+                radius: 88.9,
+                value: "turnRight3Easy",
             },
             "turnRight3Hard":
             {

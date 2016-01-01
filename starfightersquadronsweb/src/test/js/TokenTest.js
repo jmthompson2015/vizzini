@@ -405,6 +405,28 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(result.length, 14);
             });
 
+            QUnit.test("maneuvers() Damaged Engine", function(assert)
+            {
+                // Setup.
+                var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+                token.addCriticalDamage(DamageCard.DAMAGED_ENGINE);
+
+                // Run.
+                var result = token.maneuvers();
+
+                // Verify.
+                assert.equal(result.length, 16);
+                result.forEach(function(maneuver)
+                {
+                    var maneuverProps = Maneuver.properties[maneuver];
+                    if (maneuverProps.bearing === Bearing.TURN_LEFT || maneuverProps.bearing === Bearing.TURN_RIGHT)
+                    {
+                        assert.equal(maneuverProps.difficulty, Difficulty.HARD);
+                    }
+                });
+            });
+
             QUnit.test("maneuvers() Nien Nunb crew", function(assert)
             {
                 // Setup.
@@ -441,6 +463,50 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 {
                     var maneuverProps = Maneuver.properties[maneuver];
                     if (maneuverProps.speed === 1 || maneuverProps.speed === 2)
+                    {
+                        assert.equal(maneuverProps.difficulty, Difficulty.EASY);
+                    }
+                });
+            });
+
+            QUnit.test("maneuvers() Twin Ion Engine Mk. II", function(assert)
+            {
+                // Setup.
+                var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                var token = new Token(Pilot.ACADEMY_PILOT, agent, UpgradeCard.TWIN_ION_ENGINE_MK_II);
+
+                // Run.
+                var result = token.maneuvers();
+
+                // Verify.
+                assert.equal(result.length, 16);
+                result.forEach(function(maneuver)
+                {
+                    var maneuverProps = Maneuver.properties[maneuver];
+                    if (maneuverProps.bearing === Bearing.BANK_LEFT || maneuverProps.bearing === Bearing.BANK_RIGHT)
+                    {
+                        assert.equal(maneuverProps.difficulty, Difficulty.EASY);
+                    }
+                });
+            });
+
+            QUnit.test("maneuvers() Unhinged Astromech", function(assert)
+            {
+                // Setup.
+                var agent = new SimpleAgent("Scum Agent", Team.SCUM);
+                var token = new Token(Pilot.DREA_RENTHAL, agent, UpgradeCard.UNHINGED_ASTROMECH);
+
+                // Run.
+                var result = token.maneuvers();
+
+                // Verify.
+                assert.equal(result.length, 15);
+                result.forEach(function(maneuver)
+                {
+                    var maneuverProps = Maneuver.properties[maneuver];
+                    if (!maneuverProps)
+                        throw "Unknown maneuver: " + maneuver;
+                    if (maneuverProps.speed === 3)
                     {
                         assert.equal(maneuverProps.difficulty, Difficulty.EASY);
                     }
