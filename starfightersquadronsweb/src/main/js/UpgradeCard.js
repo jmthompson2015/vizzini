@@ -1360,15 +1360,17 @@ define(
                         isImplemented: true,
                         value: "reconSpecialist",
                     },
+                    // @see Token.upgradeTypes() for effect implementation.
                     "royalGuardTie":
                     {
                         name: "Royal Guard TIE",
                         type: UpgradeType.TITLE,
                         isUnique: false,
-                        restrictions: [ UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
+                        restrictions: [ UpgradeRestriction.TIE_INTERCEPTOR_ONLY, UpgradeRestriction.PILOT_SKILL_ABOVE_4 ],
                         description: "You may equip up to 2 different Modification upgrades (instead of 1). You cannot equip this card if your pilot skill value is \"4\" or lower.",
                         squadPointCost: 0,
                         hasAction: false,
+                        isImplemented: true,
                         value: "royalGuardTie",
                     },
                     "ruthlessness":

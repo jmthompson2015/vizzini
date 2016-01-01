@@ -74,7 +74,9 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
     {
         // Pilot skill lower bound.
         PILOT_SKILL_ABOVE_1: "pilotSkillAbove1",
+        PILOT_SKILL_ABOVE_2: "pilotSkillAbove2",
         PILOT_SKILL_ABOVE_3: "pilotSkillAbove3",
+        PILOT_SKILL_ABOVE_4: "pilotSkillAbove4",
 
         // Ship specific.
         A_WING_ONLY: "aWingOnly",
@@ -140,7 +142,9 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             },
             "m3AInterceptorOnly": ShipRestriction(Ship.M3_A_INTERCEPTOR),
             "pilotSkillAbove1": PilotSkillRestriction(1),
+            "pilotSkillAbove2": PilotSkillRestriction(2),
             "pilotSkillAbove3": PilotSkillRestriction(3),
+            "pilotSkillAbove4": PilotSkillRestriction(4),
             "rebelOnly": TeamRestriction(Team.REBEL),
             "scumOnly": TeamRestriction(Team.SCUM),
             "smallShipOnly": ShipSizeRestriction(ShipBase.SMALL),

@@ -900,6 +900,22 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.upgradeTypes()[6], UpgradeType.CREW);
             });
 
+            QUnit.test("upgradeTypes() Firespray-31 Andrasta", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var agent = new SimpleAgent("name", Team.IMPERIAL);
+                var token = new Token(Pilot.BOBA_FETT_IMPERIAL, agent, UpgradeCard.ANDRASTA);
+
+                // Run / Verify.
+                assert.ok(token.upgradeTypes());
+                assert.equal(token.upgradeTypes().length, 9);
+                assert.equal(token.upgradeTypes()[0], UpgradeType.TITLE);
+                assert.equal(token.upgradeTypes()[6], UpgradeType.MODIFICATION);
+                assert.equal(token.upgradeTypes()[7], UpgradeType.BOMB);
+                assert.equal(token.upgradeTypes()[8], UpgradeType.BOMB);
+            });
+
             QUnit.test("upgradeTypes() Firespray-31", function(assert)
             {
                 // Setup.
@@ -914,19 +930,20 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.upgradeTypes()[6], UpgradeType.MODIFICATION);
             });
 
-            QUnit.test("upgradeTypes() Firespray-31 Slave I", function(assert)
+            QUnit.test("upgradeTypes() TIE Interceptor Royal Guard TIE", function(assert)
             {
                 // Setup.
                 Token.resetNextId();
                 var agent = new SimpleAgent("name", Team.IMPERIAL);
-                var token = new Token(Pilot.BOBA_FETT_IMPERIAL, agent, UpgradeCard.SLAVE_I);
+                var token = new Token(Pilot.CARNOR_JAX, agent, UpgradeCard.ROYAL_GUARD_TIE);
 
                 // Run / Verify.
                 assert.ok(token.upgradeTypes());
-                assert.equal(token.upgradeTypes().length, 8);
+                assert.equal(token.upgradeTypes().length, 4);
                 assert.equal(token.upgradeTypes()[0], UpgradeType.TITLE);
-                assert.equal(token.upgradeTypes()[6], UpgradeType.MODIFICATION);
-                assert.equal(token.upgradeTypes()[7], UpgradeType.TORPEDO);
+                assert.equal(token.upgradeTypes()[1], UpgradeType.ELITE);
+                assert.equal(token.upgradeTypes()[2], UpgradeType.MODIFICATION);
+                assert.equal(token.upgradeTypes()[3], UpgradeType.MODIFICATION);
             });
 
             QUnit.test("upgradeTypes() Firespray-31 Andrasta", function(assert)

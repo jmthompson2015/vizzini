@@ -549,6 +549,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             if (UpgradeCard.valuesByPilotAndType(pilot, UpgradeType.MODIFICATION).length > 0)
             {
                 answer.push(UpgradeType.MODIFICATION);
+
+                if (this.isUpgradedWith(UpgradeCard.ROYAL_GUARD_TIE))
+                {
+                    answer.push(UpgradeType.MODIFICATION);
+                }
             }
 
             if (this.isUpgradedWith(UpgradeCard.A_WING_TEST_PILOT))
