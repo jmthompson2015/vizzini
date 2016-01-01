@@ -16,7 +16,13 @@
 
 </head>
 <body>
-	<div id="upgradeCardPanel"></div>
+	<div id="upgradeCardPanel0"></div>
+	<p />
+	<div id="upgradeCardPanel1"></div>
+	<p />
+	<div id="upgradeCardPanel2"></div>
+	<p />
+	<div id="upgradeCardPanel3"></div>
 	<script>
         "use strict";
         var LOGGER = new Logger();
@@ -29,13 +35,33 @@
 
         require([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardUI)
         {
-            var upgradeCard = UpgradeCard.DETERMINATION;
-
-            var element = React.createElement(UpgradeCardUI,
+            var upgradeCard0 = UpgradeCard.DETERMINATION;
+            var element0 = React.createElement(UpgradeCardUI,
             {
-                upgradeCard: upgradeCard
+                upgradeCard: upgradeCard0,
             });
-            React.render(element, document.getElementById("upgradeCardPanel"));
+            React.render(element0, document.getElementById("upgradeCardPanel0"));
+
+            var upgradeCard1 = UpgradeCard.EXPOSE;
+            var element1 = React.createElement(UpgradeCardUI,
+            {
+                upgradeCard: upgradeCard1,
+            });
+            React.render(element1, document.getElementById("upgradeCardPanel1"));
+
+            var upgradeCard2 = UpgradeCard.AUTOBLASTER;
+            var element2 = React.createElement(UpgradeCardUI,
+            {
+                upgradeCard: upgradeCard2,
+            });
+            React.render(element2, document.getElementById("upgradeCardPanel2"));
+
+            var upgradeCard3 = UpgradeCard.CONCUSSION_MISSILES;
+            var element3 = React.createElement(UpgradeCardUI,
+            {
+                upgradeCard: upgradeCard3,
+            });
+            React.render(element3, document.getElementById("upgradeCardPanel3"));
         });
     </script>
 </body>

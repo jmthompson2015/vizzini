@@ -52,7 +52,8 @@ table {
     background-color: black;
 }
 
-#BACKGROUND_DARK, .pilotCard, .pilotSkillValue, .squadUI tr th, .backgroundDark {
+#BACKGROUND_DARK, .pilotCard, .pilotSkillValue, .squadUI tr th, .upgradeCardUIRanges, .upgradeCardUIWeaponValue,
+    .backgroundDark {
     background-color: #555555;
 }
 
@@ -72,7 +73,7 @@ table {
 }
 
 #BORDER_BLACK, .namePanel, .newGamePanel, .squadUI tr td, .squadUI tr th, .upgradeCardUI, .upgradeCardUIName,
-    .borderBlack {
+    .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .borderBlack {
     border: 1px solid black;
 }
 
@@ -107,11 +108,11 @@ table {
     color: #FF7F00;
 }
 
-#COLOR_RED, .primaryWeaponValue, .colorRed {
+#COLOR_RED, .primaryWeaponValue, .upgradeCardUIWeaponValue, .colorRed {
     color: red;
 }
 
-#COLOR_WHITE, .countTokenText, .labelTokenText, .maneuverTable, .squadUI tr th, .colorWhite {
+#COLOR_WHITE, .countTokenText, .labelTokenText, .maneuverTable, .squadUI tr th, .upgradeCardUIRanges, .colorWhite {
     color: white;
 }
 
@@ -119,7 +120,7 @@ table {
     color: yellow;
 }
 
-#FONT_BOLD, .agentTitle, .damageCount, .fontBold {
+#FONT_BOLD, .agentTitle, .damageCount, .upgradeCardUIHeader, .fontBold {
     font-weight: bold;
 }
 

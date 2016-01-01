@@ -45,7 +45,6 @@ define(
                                                 result.description,
                                                 "Once per round, before you roll 1 or more defense dice, you may guess aloud a number of Evade results. If you roll that many Evade results (before modifying dice), add 1 Evade result.");
                                 assert.equal(result.squadPointCost, 3);
-                                assert.equal(result.hasAction, false);
                                 assert.equal(result.value, upgradeCard);
                             });
 
@@ -98,8 +97,8 @@ define(
                 assert.ok(result);
                 assert.equal(result.length, expected);
                 assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-                assert.equal(result[160], UpgradeCard.PROTON_TORPEDOES);
-                assert.equal(result[161], UpgradeCard.TWIN_LASER_TURRET);
+                assert.equal(result[160], UpgradeCard.WINGMAN);
+                assert.equal(result[161], UpgradeCard.YSANNE_ISARD);
             });
 
             QUnit.test("valuesByPilotAndType() Astromech", function(assert)

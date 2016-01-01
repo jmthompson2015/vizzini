@@ -3,7 +3,8 @@
  * 
  * @param upgradeCard Upgrade card.
  */
-define([ "UpgradeCard", "UpgradeType" ], function(UpgradeCard, UpgradeType)
+define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType" ], function(RangeRuler, UpgradeCard,
+        UpgradeHeader, UpgradeType)
 {
     var UpgradeCardUI = React.createClass(
     {
@@ -11,48 +12,117 @@ define([ "UpgradeCard", "UpgradeType" ], function(UpgradeCard, UpgradeType)
         {
             var upgradeCard = this.props.upgradeCard;
             var upgradeProps = UpgradeCard.properties[upgradeCard];
-
             var rows = [];
 
-            var cell00 = React.DOM.td(
+            var cells0 = [];
+            var colspan0 = (upgradeProps.weaponValue ? 1 : 2);
+            cells0.push(React.DOM.td(
             {
-                colSpan: 2
-            }, UpgradeCard.getName(upgradeCard));
+                key: cells0.length,
+                colSpan: colspan0,
+                className: "upgradeCardUIName",
+            }, UpgradeCard.getName(upgradeCard)));
+
+            if (upgradeProps.weaponValue)
+            {
+                cells0.push(React.DOM.td(
+                {
+                    key: cells0.length,
+                    className: "upgradeCardUIWeaponValue",
+                }, upgradeProps.weaponValue));
+            }
             rows.push(React.DOM.tr(
             {
-                key: 0,
-                className: "upgradeCardUIName"
-            }, cell00));
+                key: rows.length,
+            }, cells0));
 
-            var cell10 = React.DOM.td(
+            if (upgradeProps.header)
             {
-                colSpan: 2
-            }, upgradeProps.description);
+                var cells1 = [];
+                var colspan1 = (upgradeProps.ranges ? 1 : 2);
+                cells1.push(React.DOM.td(
+                {
+                    key: cells1.length,
+                    colSpan: colspan1,
+                    className: "upgradeCardUIHeader",
+                }, UpgradeHeader.properties[upgradeProps.header].name));
+
+                if (upgradeProps.ranges)
+                {
+                    var ranges = this.createRangesLabel();
+                    cells1.push(React.DOM.td(
+                    {
+                        key: cells1.length,
+                        className: "upgradeCardUIRanges",
+                    }, ranges));
+                }
+
+                rows.push(React.DOM.tr(
+                {
+                    key: rows.length,
+                }, cells1));
+            }
+
             rows.push(React.DOM.tr(
             {
-                key: 1
-            }, cell10));
-
-            var cell20 = React.DOM.td(
+                key: rows.length,
+            }, React.DOM.td(
             {
-                key: 0,
+                colSpan: 2,
+            }, upgradeProps.description)));
+
+            var cells3 = [];
+            cells3.push(React.DOM.td(
+            {
+                key: cells3.length,
                 className: "upgradeCardUIImage"
-            }, UpgradeCardUI.createUpgradeImage(upgradeProps.type));
-            var cell21 = React.DOM.td(
+            }, UpgradeCardUI.createUpgradeImage(upgradeProps.type)));
+            cells3.push(React.DOM.td(
             {
-                key: 1,
+                key: cells3.length,
                 className: "upgradeCardUISquadPoints",
                 title: "Squad Point cost"
-            }, upgradeProps.squadPointCost);
+            }, upgradeProps.squadPointCost));
             rows.push(React.DOM.tr(
             {
-                key: 2
-            }, [ cell20, cell21 ]));
+                key: rows.length,
+            }, cells3));
 
             return React.DOM.table(
             {
                 className: "upgradeCardUI"
-            }, rows);
+            }, React.DOM.tbody({}, rows));
+        },
+
+        createRangesLabel: function()
+        {
+            var upgradeCard = this.props.upgradeCard;
+            var upgradeProps = UpgradeCard.properties[upgradeCard];
+            var minRange;
+            var maxRange;
+            upgradeProps.ranges.forEach(function(range)
+            {
+                var myDistance = RangeRuler.properties[range].minDistance;
+
+                if (!minRange || myDistance < RangeRuler.properties[minRange].minDistance)
+                {
+                    minRange = range;
+                }
+
+                if (!maxRange || myDistance > RangeRuler.properties[maxRange].minDistance)
+                {
+                    maxRange = range;
+                }
+            });
+
+            var answer = RangeRuler.properties[minRange].displayName;
+
+            if (minRange !== maxRange)
+            {
+                answer += "-" + RangeRuler.properties[maxRange].displayName;
+            }
+
+            return answer;
         },
     });
 
@@ -70,7 +140,7 @@ define([ "UpgradeCard", "UpgradeType" ], function(UpgradeCard, UpgradeType)
             key: myKey,
             className: "upgradeCardUIImage",
             src: fileString,
-            title: typeName0
+            title: typeName0,
         });
     }
 

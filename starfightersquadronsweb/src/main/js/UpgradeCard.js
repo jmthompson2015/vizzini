@@ -1,6 +1,6 @@
 define(
-        [ "RangeRuler", "ShipState", "UpgradeRestriction", "UpgradeType" ],
-        function(RangeRuler, ShipState, UpgradeRestriction, UpgradeType)
+        [ "RangeRuler", "ShipState", "UpgradeHeader", "UpgradeRestriction", "UpgradeType" ],
+        function(RangeRuler, ShipState, UpgradeHeader, UpgradeRestriction, UpgradeType)
         {
             var UpgradeCard =
             {
@@ -8,13 +8,19 @@ define(
                 ACCURACY_CORRECTOR: "accuracyCorrector",
                 ADRENALINE_RUSH: "adrenalineRush",
                 ADVANCED_CLOAKING_DEVICE: "advancedCloakingDevice",
+                ADVANCED_HOMING_MISSILES: "advancedHomingMissiles",
+                ADVANCED_PROTON_TORPEDOES: "advancedProtonTorpedoes",
                 ADVANCED_SENSORS: "advancedSensors",
                 ADVANCED_SLAM: "advancedSlam",
                 ADVANCED_TARGETING_COMPUTER: "advancedTargetingComputer",
                 ANDRASTA: "andrasta",
                 ANTI_PURSUIT_LASERS: "antiPursuitLasers",
+                ASSAULT_MISSILES: "assaultMissiles",
+                AUTOBLASTER: "autoblaster",
+                AUTOBLASTER_TURRET: "autoblasterTurret",
                 AUTOTHRUSTERS: "autothrusters",
                 B_WING_E2: "bWingE2",
+                BLASTER_TURRET: "blasterTurret",
                 BODYGUARD: "bodyguard",
                 BOMB_LOADOUT: "bombLoadout",
                 BOMBARDIER: "bombardier",
@@ -26,8 +32,10 @@ define(
                 CHARDAAN_REFIT: "chardaanRefit",
                 CHEWBACCA: "chewbacca",
                 CLUSTER_MINES: "clusterMines",
+                CLUSTER_MISSILES: "clusterMissiles",
                 COMBAT_RETROFIT: "combatRetrofit",
                 COMM_RELAY: "commRelay",
+                CONCUSSION_MISSILES: "concussionMissiles",
                 CONNER_NET: "connerNet",
                 COUNTERMEASURES: "countermeasures",
                 CRACK_SHOT: "crackShot",
@@ -51,6 +59,8 @@ define(
                 EXTRA_MUNITIONS: "extraMunitions",
                 FEEDBACK_ARRAY: "feedbackArray",
                 FIRE_CONTROL_SYSTEM: "fireControlSystem",
+                FLECHETTE_CANNON: "flechetteCannon",
+                FLECHETTE_TORPEDOES: "flechetteTorpedoes",
                 FLEET_OFFICER: "fleetOfficer",
                 FLIGHT_INSTRUCTOR: "flightInstructor",
                 GENIUS: "genius",
@@ -59,7 +69,10 @@ define(
                 GUNNER: "gunner",
                 GUNNERY_TEAM: "gunneryTeam",
                 HAN_SOLO: "hanSolo",
+                HEAVY_LASER_CANNON: "heavyLaserCannon",
                 HEAVY_SCYK_INTERCEPTOR: "heavyScykInterceptor",
+                HOMING_MISSILES: "homingMissiles",
+                HOT_SHOT_BLASTER: "hotShotBlaster",
                 HOUNDS_TOOTH: "houndsTooth",
                 HULL_UPGRADE: "hullUpgrade",
                 IG_2000: "ig2000",
@@ -67,7 +80,11 @@ define(
                 INTELLIGENCE_AGENT: "intelligenceAgent",
                 INTIMIDATION: "intimidation",
                 ION_BOMBS: "ionBombs",
+                ION_CANNON: "ionCannon",
+                ION_CANNON_TURRET: "ionCannonTurret",
                 ION_PROJECTOR: "ionProjector",
+                ION_PULSE_MISSILES: "ionPulseMissiles",
+                ION_TORPEDOES: "ionTorpedoes",
                 JAN_DODONNA: "janDodonna",
                 JAN_ORS: "janOrs",
                 JUKE: "juke",
@@ -80,6 +97,7 @@ define(
                 LONE_WOLF: "loneWolf",
                 LUKE_SKYWALKER: "lukeSkywalker",
                 MANEUVERING_FINS: "maneuveringFins",
+                MANGLER_CANNON: "manglerCannon",
                 MARA_JADE: "maraJade",
                 MARKSMANSHIP: "marksmanship",
                 MERCENARY_COPILOT: "mercenaryCopilot",
@@ -93,8 +111,11 @@ define(
                 OUTLAW_TECH: "outlawTech",
                 OUTMANEUVER: "outmaneuver",
                 OUTRIDER: "outrider",
+                PLASMA_TORPEDOES: "plasmaTorpedoes",
                 PREDATOR: "predator",
                 PROTON_BOMBS: "protonBombs",
+                PROTON_ROCKETS: "protonRockets",
+                PROTON_TORPEDOES: "protonTorpedoes",
                 PROXIMITY_MINES: "proximityMines",
                 PUSH_THE_LIMIT: "pushTheLimit",
                 R2_ASTROMECH: "r2Astromech",
@@ -137,6 +158,7 @@ define(
                 TIE_X1: "tieX1",
                 TORYN_FARR: "torynFarr",
                 TWIN_ION_ENGINE_MK_II: "twinIonEngineMkII",
+                TWIN_LASER_TURRET: "twinLaserTurret",
                 UNHINGED_ASTROMECH: "unhingedAstromech",
                 VETERAN_INSTINCTS: "veteranInstincts",
                 VIRAGO: "virago",
@@ -145,29 +167,6 @@ define(
                 WINGMAN: "wingman",
                 YSANNE_ISARD: "ysanneIsard",
 
-                // Secondary weapons.
-                ADVANCED_HOMING_MISSILES: "advancedHomingMissiles",
-                ADVANCED_PROTON_TORPEDOES: "advancedProtonTorpedoes",
-                ASSAULT_MISSILES: "assaultMissiles",
-                AUTOBLASTER: "autoblaster",
-                AUTOBLASTER_TURRET: "autoblasterTurret",
-                BLASTER_TURRET: "blasterTurret",
-                CLUSTER_MISSILES: "clusterMissiles",
-                CONCUSSION_MISSILES: "concussionMissiles",
-                FLECHETTE_CANNON: "flechetteCannon",
-                FLECHETTE_TORPEDOES: "flechetteTorpedoes",
-                HEAVY_LASER_CANNON: "heavyLaserCannon",
-                HOMING_MISSILES: "homingMissiles",
-                HOT_SHOT_BLASTER: "hotShotBlaster",
-                ION_CANNON: "ionCannon",
-                ION_CANNON_TURRET: "ionCannonTurret",
-                ION_PULSE_MISSILES: "ionPulseMissiles",
-                ION_TORPEDOES: "ionTorpedoes",
-                MANGLER_CANNON: "manglerCannon",
-                PLASMA_TORPEDOES: "plasmaTorpedoes",
-                PROTON_ROCKETS: "protonRockets",
-                PROTON_TORPEDOES: "protonTorpedoes",
-                TWIN_LASER_TURRET: "twinLaserTurret",
                 properties:
                 {
                     // @see Token.upgradeTypes() for effect implementation.
@@ -179,7 +178,6 @@ define(
                         restrictions: [ UpgradeRestriction.A_WING_ONLY, UpgradeRestriction.PILOT_SKILL_ABOVE_1 ],
                         description: "Your upgrade bar gains 1 Elite upgrade icon. You cannot equip 2 of the same Elite upgrade cards. You cannot equip this card if your pilot skill value is \"1\" or lower.",
                         squadPointCost: 0,
-                        hasAction: false,
                         isImplemented: true,
                         value: "aWingTestPilot",
                     },
@@ -190,7 +188,6 @@ define(
                         isUnique: false,
                         description: "When attacking, you may cancel all of your dice results. Then, you may add 2 Hit results to your roll. Your dice cannot be modified again during this attack.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "accuracyCorrector",
                     },
                     "adrenalineRush":
@@ -200,7 +197,6 @@ define(
                         isUnique: false,
                         description: "When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "adrenalineRush",
                     },
                     "advancedCloakingDevice":
@@ -211,8 +207,31 @@ define(
                         restrictions: [ UpgradeRestriction.TIE_PHANTOM_ONLY ],
                         description: "After you perform an attack, you may perform a free cloak action.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "advancedCloakingDevice",
+                    },
+                    "advancedHomingMissiles":
+                    {
+                        name: "Advanced Homing Missiles",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.TWO ],
+                        description: "Discard this card to perform this attack. If this attack hits, deal 1 faceup Damage card to the defender. Then cancel all dice results.",
+                        squadPointCost: 3,
+                        value: "advancedHomingMissiles",
+                    },
+                    "advancedProtonTorpedoes":
+                    {
+                        name: "Advanced Proton Torpedoes",
+                        type: UpgradeType.TORPEDO,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 5,
+                        ranges: [ RangeRuler.ONE ],
+                        description: "Spend your Target Lock and discard this card to perform this attack. You may change up to 3 of your blank results to Focus results.",
+                        squadPointCost: 6,
+                        value: "advancedProtonTorpedoes",
                     },
                     "advancedSensors":
                     {
@@ -221,7 +240,6 @@ define(
                         isUnique: false,
                         description: "Immediately before you reveal your maneuver, you may perform 1 free action. If you use this ability, you must skip your \"Perform Action\" step during this round.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "advancedSensors",
                     },
                     "advancedSlam":
@@ -231,7 +249,6 @@ define(
                         isUnique: false,
                         description: "After performing a SLAM action, if you did not overlap an obstacle or another ship, you may perform a free action.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "advancedSlam",
                     },
                     "advancedTargetingComputer":
@@ -242,7 +259,6 @@ define(
                         restrictions: [ UpgradeRestriction.TIE_ADVANCED_ONLY ],
                         description: "When attacking with your primary weapon, if you have a Target Lock on the defender, you may add 1 critical result to your roll. If you do, you cannot spend Target Locks during this attack.",
                         squadPointCost: 5,
-                        hasAction: false,
                         value: "advancedTargetingComputer",
                     },
                     // @see Token.upgradeTypes() for effect implementation.
@@ -254,7 +270,6 @@ define(
                         restrictions: [ UpgradeRestriction.FIRESPRAY_31_ONLY ],
                         description: "Your upgrade bar gains two additional Bomb upgrade icons.",
                         squadPointCost: 0,
-                        hasAction: false,
                         isImplemented: true,
                         value: "andrasta",
                     },
@@ -266,8 +281,43 @@ define(
                         restrictions: [ UpgradeRestriction.LARGE_SHIP_ONLY ],
                         description: "After an enemy ship executes a maneuver that causes it to overlap your ship, roll 1 attack die. On a Hit or Critical Hit result, the enemy ship suffers 1 damage.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "antiPursuitLasers",
+                    },
+                    "assaultMissiles":
+                    {
+                        name: "Assault Missiles",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, each other ship at Range 1 of the defender suffers 1 damage.",
+                        squadPointCost: 5,
+                        value: "assaultMissiles",
+                    },
+                    "autoblaster":
+                    {
+                        name: "Autoblaster",
+                        type: UpgradeType.CANNON,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE ],
+                        description: "Attack 1 ship. Your Hit results cannot be canceled by defense dice. The defender may cancel Critical Hit results before Hit results.",
+                        squadPointCost: 5,
+                        value: "autoblaster",
+                    },
+                    "autoblasterTurret":
+                    {
+                        name: "Autoblaster Turret",
+                        type: UpgradeType.TURRET,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 2,
+                        ranges: [ RangeRuler.ONE ],
+                        description: "Attack 1 ship (even a ship outside your firing arc). Your Hit results cannot be canceled by defense dice. The defender may cancel Critical Hit results before Hit results.",
+                        squadPointCost: 2,
+                        value: "autoblasterTurret",
                     },
                     "autothrusters":
                     {
@@ -276,8 +326,19 @@ define(
                         isUnique: false,
                         description: "When defending, if you are beyond Range 2 or outside the attacker's firing arc, you may change 1 of your blank results to an Evade result. You can equip this card only if you have the Boost action icon.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "autothrusters",
+                    },
+                    "blasterTurret":
+                    {
+                        name: "Blaster Turret",
+                        type: UpgradeType.TURRET,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_FOCUS,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
+                        description: "Spend 1 Focus token to perform this attack against 1 ship (even a ship outside your firing arc).",
+                        squadPointCost: 4,
+                        value: "blasterTurret",
                     },
                     "bodyguard":
                     {
@@ -287,7 +348,6 @@ define(
                         restrictions: [ UpgradeRestriction.SCUM_ONLY ],
                         description: "At the start of the Combat phase, you may spend a Focus token to choose a friendly ship at Range 1 with higher pilot skill than you. Increase its agility value by 1 until the end of the round.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "bodyguard",
                     },
                     // @see Token.upgradeTypes() for effect implementation.
@@ -299,7 +359,6 @@ define(
                         restrictions: [ UpgradeRestriction.Y_WING_ONLY, UpgradeRestriction.LIMITED ],
                         description: "Your upgrade bar gains the Bomb icon.",
                         squadPointCost: 0,
-                        hasAction: false,
                         isImplemented: true,
                         value: "bombLoadout",
                     },
@@ -310,7 +369,6 @@ define(
                         isUnique: false,
                         description: "When dropping a bomb, you may use the Straight 2 template instead of the Straight 1 template.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "bombardier",
                     },
                     "bossk":
@@ -321,7 +379,6 @@ define(
                         restrictions: [ UpgradeRestriction.SCUM_ONLY ],
                         description: "After you perform an attack that does not hit, if you are not stressed, you must receive 1 Stress token. Then assign 1 Focus token to your ship and acquire a Target Lock on the defender.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "bossk",
                     },
                     "btlA4YWing":
@@ -332,7 +389,6 @@ define(
                         restrictions: [ UpgradeRestriction.Y_WING_ONLY ],
                         description: "You cannot attack ships outside your firing arc. After you perform a primary weapon attack, you may immediately perform an attack with a Turret secondary weapon.",
                         squadPointCost: 0,
-                        hasAction: false,
                         value: "btlA4YWing",
                     },
                     // @see Token.upgradeTypes() for effect implementation.
@@ -344,7 +400,6 @@ define(
                         restrictions: [ UpgradeRestriction.B_WING_ONLY ],
                         description: "Your upgrade bar gains the Crew Member upgrade icon.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "bWingE2",
                     },
@@ -356,7 +411,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "Once per round, before you roll 1 or more defense dice, you may guess aloud a number of Evade results. If you roll that many Evade results (before modifying dice), add 1 Evade result.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "c3po",
                     },
                     "calculation":
@@ -366,7 +420,6 @@ define(
                         isUnique: false,
                         description: "When attacking, you may spend a Focus token to change 1 of your Focus results to a Critical Hit result.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "calculation",
                     },
                     "carlistRieekan":
@@ -377,7 +430,6 @@ define(
                         restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
                         description: "At the start of the Activation phase, you may discard this card to treat each friendly ship's pilot skill value as \"12\" until the end of the phase.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "carlistRieekan",
                     },
                     // Effect implemented through squad point cost.
@@ -389,7 +441,6 @@ define(
                         restrictions: [ UpgradeRestriction.A_WING_ONLY ],
                         description: "This card has a negative squad point cost.",
                         squadPointCost: -2,
-                        hasAction: false,
                         isImplemented: true,
                         value: "chardaanRefit",
                     },
@@ -401,7 +452,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "When you are dealt a Damage card, you may immediately discard that card and recover 1 shield. Then, discard this Upgrade card.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "chewbacca",
                     },
                     "clusterMines":
@@ -409,10 +459,22 @@ define(
                         name: "Cluster Mines",
                         type: UpgradeType.BOMB,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Discard this card to drop 1 cluster mine token set. When a ship's base or maneuver template overlaps a cluster mine token, that token detonates.",
                         squadPointCost: 4,
-                        hasAction: true,
                         value: "clusterMines",
+                    },
+                    "clusterMissiles":
+                    {
+                        name: "Cluster Missiles",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
+                        description: "Spend your Target Lock and discard this card to perform this attack twice.",
+                        squadPointCost: 4,
+                        value: "clusterMissiles",
                     },
                     // @see Token.getHullValue() and Token.getShieldValue() for effect implementation.
                     "combatRetrofit":
@@ -423,7 +485,6 @@ define(
                         description: "Increase your hull value by 2 and your shield value by 1.",
                         shipState: new ShipState(null, null, null, 2, 1),
                         squadPointCost: 10,
-                        hasAction: false,
                         isImplemented: true,
                         value: "combatRetrofit",
                     },
@@ -434,17 +495,28 @@ define(
                         isUnique: false,
                         description: "You cannot have more than 1 Evade token. During the End phase, do not remove an unused Evade token from your ship.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "commRelay",
+                    },
+                    "concussionMissiles":
+                    {
+                        name: "Concussion Missiles",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Spend your Target Lock and discard this card to perform this attack. You may change 1 of your blank results to a Hit result.",
+                        squadPointCost: 4,
+                        value: "concussionMissiles",
                     },
                     "connerNet":
                     {
                         name: "Conner Net",
                         type: UpgradeType.BOMB,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Discard this card to drop 1 Conner net token. When a ship's base or maneuver template overlaps this token, this token detonates.",
                         squadPointCost: 4,
-                        hasAction: true,
                         value: "connerNet",
                     },
                     "countermeasures":
@@ -455,7 +527,6 @@ define(
                         restrictions: [ UpgradeRestriction.LARGE_SHIP_ONLY ],
                         description: "At the start of the Combat phase, you may discard this card to increase your agility value by 1 until the end of the round. Then you may remove 1 enemy Target Lock from your ship.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "countermeasures",
                     },
                     "crackShot":
@@ -465,7 +536,6 @@ define(
                         isUnique: false,
                         description: "When attacking a ship inside your firing arc, you may discard this card to cancel 1 of the defender's Evade results.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "crackShot",
                     },
                     "daredevil":
@@ -473,9 +543,9 @@ define(
                         name: "Daredevil",
                         type: UpgradeType.ELITE,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Execute a white Turn Left 1 or Turn Right 1 maneuver. Then, receive 1 stress token. Then, if you do not have the Boost action icon, roll 2 attack dice. Suffer any Damage and Critical Damage rolled.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "daredevil",
                     },
                     "darthVader":
@@ -486,7 +556,6 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "After you perform an attack against an enemy ship, you may suffer 2 damage to cause that ship to suffer 1 critical damage.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "darthVader",
                     },
                     "dashRendar":
@@ -497,7 +566,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "You may perform attacks while overlapping an obstacle. Your attacks cannot be obstructed.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "dashRendar",
                     },
                     "dauntless":
@@ -508,7 +576,6 @@ define(
                         restrictions: [ UpgradeRestriction.VT_49_DECIMATOR_ONLY ],
                         description: "After you execute a maneuver that causes you to overlap another ship, you may perform 1 free action. Then receive 1 stress token.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "dauntless",
                     },
                     "deadMansSwitch":
@@ -518,7 +585,6 @@ define(
                         isUnique: false,
                         description: "When you are destroyed, each ship at Range 1 suffers 1 damage.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "deadMansSwitch",
                     },
                     "deadeye":
@@ -528,7 +594,6 @@ define(
                         isUnique: false,
                         description: "You may treat the \"Attack [Target Lock]:\" header as \"Attack [Focus]:.\" When an attack instructs you to spend a Target Lock, you may spend a Focus token instead.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "deadeye",
                     },
                     "decoy":
@@ -538,7 +603,6 @@ define(
                         isUnique: false,
                         description: "At the start of the Combat phase, you may choose 1 friendly ship at Range 1-2. Exchange your pilot skill with that ship's pilot skill until the end of the phase.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "decoy",
                     },
                     // @see DamageDealer.dealDamage() for effect implementation.
@@ -549,7 +613,6 @@ define(
                         isUnique: false,
                         description: "When you are dealt a faceup Damage card with the Pilot trait, discard it immediately without resolving its effect.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "determination",
                     },
@@ -560,7 +623,6 @@ define(
                         isUnique: false,
                         description: "When a friendly ship at Range 1 is hit by an attack, you may suffer 1 of the uncanceled Critical Hit results instead of the target ship.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "drawTheirFire",
                     },
                     "elusiveness":
@@ -570,7 +632,6 @@ define(
                         isUnique: false,
                         description: "When defending, you may receive 1 stress token to choose 1 attack die. The attacker must reroll that die. If you have at least 1 stress token, you cannot use this ability.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "elusiveness",
                     },
                     "emperorPalpatine":
@@ -581,7 +642,6 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "Once per round, you may change a friendly ship's die result to any other die result. That die result cannot be modified again.",
                         squadPointCost: 8,
-                        hasAction: false,
                         value: "emperorPalpatine",
                     },
                     // @see Token.shipActions() for effect implementation.
@@ -592,7 +652,6 @@ define(
                         isUnique: false,
                         description: "Your action bar gains the Boost action icon.",
                         squadPointCost: 4,
-                        hasAction: false,
                         isImplemented: true,
                         value: "engineUpgrade",
                     },
@@ -604,7 +663,6 @@ define(
                         restrictions: [ UpgradeRestriction.LIMITED ],
                         description: "During the Activation phase, when you reveal a Straight maneuver, gain 1 additional energy during the \"Gain Energy\" step.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "engineeringTeam",
                     },
                     "enhancedScopes":
@@ -614,7 +672,6 @@ define(
                         isUnique: false,
                         description: "During the Activation phase, treat your pilot skill value as \"0.\"",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "enhancedScopes",
                     },
                     "experimentalInterface":
@@ -622,9 +679,9 @@ define(
                         name: "Experimental Interface",
                         type: UpgradeType.MODIFICATION,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Once per round, after you perform an action, you may perform 1 free action from an equipped Upgrade card with the \"Action:\" header. Then receive 1 stress token.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "experimentalInterface",
                     },
                     "expertHandling":
@@ -632,9 +689,9 @@ define(
                         name: "Expert Handling",
                         type: UpgradeType.ELITE,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Perform a free barrel roll action. If you do not have the Barrel Roll action icon, receive 1 stress token. You may then remove 1 enemy Target Lock from your ship.",
                         squadPointCost: 2,
-                        hasAction: true,
                         value: "expertHandling",
                     },
                     "expose":
@@ -642,9 +699,9 @@ define(
                         name: "Expose",
                         type: UpgradeType.ELITE,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Until the end of the round, increase your primary weapon value by 1 and decrease your agility value by 1.",
                         squadPointCost: 4,
-                        hasAction: true,
                         value: "expose",
                     },
                     "extraMunitions":
@@ -655,7 +712,6 @@ define(
                         restrictions: [ UpgradeRestriction.LIMITED ],
                         description: "When you equip this card, place 1 ordnance token on each equipped Torpedo, Missile, and Bomb Upgrade card. When you are instructed to discard an Upgrade card, you may discard 1 ordnance token on that card instead.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "extraMunitions",
                     },
                     "feedbackArray":
@@ -665,7 +721,6 @@ define(
                         isUnique: false,
                         description: "During the Combat phase, instead of performing any attacks, you may receive 1 ion token and suffer 1 damage to choose 1 enemy ship at Range 1. That ship suffers 1 damage.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "feedbackArray",
                     },
                     "fireControlSystem":
@@ -675,8 +730,31 @@ define(
                         isUnique: false,
                         description: "After you perform an attack, you may acquire a Target Lock on the defender.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "fireControlSystem",
+                    },
+                    "flechetteCannon":
+                    {
+                        name: "Flechette Cannon",
+                        type: UpgradeType.CANNON,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Attack 1 ship. If this attack hits, the defender suffers 1 damage and, if the defender is not stressed, it also receives 1 stress token. Then cancel all dice results.",
+                        squadPointCost: 2,
+                        value: "flechetteCannon",
+                    },
+                    "flechetteTorpedoes":
+                    {
+                        name: "Flechette Torpedoes",
+                        type: UpgradeType.TORPEDO,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Discard this card and spend your Target Lock to perform this attack. After you perform this attack, the defender receives 1 stress token if its hull value is \"4\" or lower.",
+                        squadPointCost: 2,
+                        value: "flechetteTorpedoes",
                     },
                     "fleetOfficer":
                     {
@@ -684,9 +762,9 @@ define(
                         type: UpgradeType.CREW,
                         isUnique: false,
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
+                        header: UpgradeHeader.ACTION,
                         description: "Choose up to 2 friendly ships at Range 1-2 and assign 1 Focus token to each of those ships. Then receive 1 stress token.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "fleetOfficer",
                     },
                     "flightInstructor":
@@ -696,7 +774,6 @@ define(
                         isUnique: false,
                         description: "When defending, you may reroll 1 of your Focus results. If the attacker's pilot skill value is \"2\" or lower, you may reroll 1 of your blank results instead.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "flightInstructor",
                     },
                     "genius":
@@ -706,7 +783,6 @@ define(
                         isUnique: true,
                         description: "If you are equipped with a bomb that can be dropped before you reveal your maneuver, you may drop the bomb after you execute your maneuver instead.",
                         squadPointCost: 0,
-                        hasAction: false,
                         value: "genius",
                     },
                     "glitterstim":
@@ -716,7 +792,6 @@ define(
                         isUnique: false,
                         description: "At the start of the Combat phase, you may discard this card and receive 1 stress token. If you do, until the end of the round, when attacking or defending, you may change all of your Focus results to Hit or Evade results.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "glitterstim",
                     },
                     "greedo":
@@ -727,7 +802,6 @@ define(
                         restrictions: [ UpgradeRestriction.SCUM_ONLY ],
                         description: "The first time you attack each round and the first time you defend each round, the first Damage card dealt is dealt faceup.",
                         squadPointCost: 0,
-                        hasAction: false,
                         value: "greedo",
                     },
                     "gunner":
@@ -737,7 +811,6 @@ define(
                         isUnique: false,
                         description: "After you perform an attack that does not hit, you may immediately perform a primary weapon attack. You cannot perform another attack this round.",
                         squadPointCost: 5,
-                        hasAction: false,
                         value: "gunner",
                     },
                     "gunneryTeam":
@@ -748,7 +821,6 @@ define(
                         restrictions: [ UpgradeRestriction.LIMITED ],
                         description: "Once per round, when attacking with a secondary weapon, you may spend 1 energy to change 1 of your blank results to a Hit result.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "gunneryTeam",
                     },
                     "hanSolo":
@@ -759,8 +831,19 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "When attacking, if you have a Target Lock on the defender, you may spend that Target Lock to change all of your Focus results to Hit results.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "hanSolo",
+                    },
+                    "heavyLaserCannon":
+                    {
+                        name: "Heavy Laser Cannon",
+                        type: UpgradeType.CANNON,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Attack 1 ship. Immediately after rolling your attack dice, you must change all of your Critical Hit results to Hit results.",
+                        squadPointCost: 7,
+                        value: "heavyLaserCannon",
                     },
                     "heavyScykInterceptor":
                     {
@@ -770,8 +853,31 @@ define(
                         restrictions: [ UpgradeRestriction.M3_A_INTERCEPTOR_ONLY ],
                         description: "Your upgrade bar gains the Cannon, Torpedo, or Missile upgrade icon.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "heavyScykInterceptor",
+                    },
+                    "homingMissiles":
+                    {
+                        name: "Homing Missiles",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Discard this card to perform this attack. The defender cannot spend Evade tokens during this attack.",
+                        squadPointCost: 5,
+                        value: "homingMissiles",
+                    },
+                    "hotShotBlaster":
+                    {
+                        name: "\"Hot Shot\" Blaster",
+                        type: UpgradeType.ILLICIT,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
+                        description: "Discard this card to attack 1 ship (even a ship outside your firing arc).",
+                        squadPointCost: 3,
+                        value: "hotShotBlaster",
                     },
                     "houndsTooth":
                     {
@@ -781,7 +887,6 @@ define(
                         restrictions: [ UpgradeRestriction.YV_666_ONLY ],
                         description: "After you are destroyed, before you are removed from the play area, you may deploy the Nashtah Pup Pilot. It cannot attack this round.",
                         squadPointCost: 6,
-                        hasAction: false,
                         value: "houndsTooth",
                     },
                     // @see Token.getHullValue() for effect implementation.
@@ -793,7 +898,6 @@ define(
                         description: "Increase your hull value by 1.",
                         shipState: new ShipState(null, null, null, 1, null),
                         squadPointCost: 3,
-                        hasAction: false,
                         isImplemented: true,
                         value: "hullUpgrade",
                     },
@@ -805,7 +909,6 @@ define(
                         restrictions: [ UpgradeRestriction.AGGRESSOR_ONLY ],
                         description: "You have the pilot ability of each other friendly ship with the IG-2000 upgrade card (in addition to your own pilot ability).",
                         squadPointCost: 0,
-                        hasAction: false,
                         value: "ig2000",
                     },
                     "inertialDampeners":
@@ -815,7 +918,6 @@ define(
                         isUnique: false,
                         description: "When you reveal your maneuver, you may discard this card to instead perform a white Stationary 0 maneuver. Then receive 1 stress token.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "inertialDampeners",
                     },
                     "intelligenceAgent":
@@ -825,7 +927,6 @@ define(
                         isUnique: false,
                         description: "At the start of the Activation phase, choose 1 enemy ship at Range 1-2. You may look at that ship's chosen maneuver.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "intelligenceAgent",
                     },
                     "intimidation":
@@ -835,7 +936,6 @@ define(
                         isUnique: false,
                         description: "While you are touching an enemy ship, reduce that ship's agility value by 1.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "intimidation",
                     },
                     "ionBombs":
@@ -845,8 +945,31 @@ define(
                         isUnique: false,
                         description: "When you reveal your maneuver dial, you may discard this card to drop 1 ion bomb token. This token detonates at the end of the Activation phase.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "ionBombs",
+                    },
+                    "ionCannon":
+                    {
+                        name: "Ion Cannon",
+                        type: UpgradeType.CANNON,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Attack 1 ship. If this attack hits, the defender suffers 1 damage and receives 1 ion token. Then cancel all dice results.",
+                        squadPointCost: 3,
+                        value: "ionCannon",
+                    },
+                    "ionCannonTurret":
+                    {
+                        name: "Ion Cannon Turret",
+                        type: UpgradeType.TURRET,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
+                        description: "Attack 1 ship (even a ship outside your firing arc). If this attack hits the target ship, the ship suffers 1 damage and receives 1 ion token. Then cancel all dice results.",
+                        squadPointCost: 5,
+                        value: "ionCannonTurret",
                     },
                     "ionProjector":
                     {
@@ -856,8 +979,31 @@ define(
                         restrictions: [ UpgradeRestriction.LARGE_SHIP_ONLY ],
                         description: "After an enemy ship executes a maneuver that causes it to overlap your ship, roll 1 attack die. On a Hit or Critical Hit result, the enemy ship receives 1 Ion token.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "ionProjector",
+                    },
+                    "ionPulseMissiles":
+                    {
+                        name: "Ion Pulse Missiles",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender suffers 1 damage and receives 2 ion tokens. Then cancel all dice results.",
+                        squadPointCost: 3,
+                        value: "ionPulseMissiles",
+                    },
+                    "ionTorpedoes":
+                    {
+                        name: "Ion Torpedoes",
+                        type: UpgradeType.TORPEDO,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender and each ship at Range 1 of it receives 1 ion token.",
+                        squadPointCost: 5,
+                        value: "ionPulseMissiles",
                     },
                     "janDodonna":
                     {
@@ -867,7 +1013,6 @@ define(
                         restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
                         description: "When another friendly ship at Range 1 is attacking, it may change 1 of its Hit results to a Critical Hit result.",
                         squadPointCost: 6,
-                        hasAction: false,
                         value: "janDodonna",
                     },
                     "janOrs":
@@ -878,7 +1023,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "Once per round, when a friendly ship at Range 1-3 performs a Focus action or would be assigned a Focus token, you may assign that ship an Evade token instead.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "janOrs",
                     },
                     "juke":
@@ -889,7 +1033,6 @@ define(
                         restrictions: [ UpgradeRestriction.SMALL_SHIP_ONLY ],
                         description: "When attacking, if you have an Evade token, you may change 1 of the defender's Evade results to a Focus result.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "juke",
                     },
                     "k4SecurityDroid":
@@ -900,7 +1043,6 @@ define(
                         restrictions: [ UpgradeRestriction.SCUM_ONLY ],
                         description: "After executing a green maneuver, you may acquire a Target Lock.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "k4SecurityDroid",
                     },
                     "kyleKatarn":
@@ -911,7 +1053,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "After you remove a stress token from your ship, you may assign a Focus token to your ship.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "kyleKatarn",
                     },
                     "landoCalrissian":
@@ -920,9 +1061,9 @@ define(
                         type: UpgradeType.CREW,
                         isUnique: true,
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        header: UpgradeHeader.ACTION,
                         description: "Roll 2 defense dice. For each Focus result, assign 1 Focus token to your ship. For each Evade result, assign 1 Evade token to your ship.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "landoCalrissian",
                     },
                     "leiaOrgana":
@@ -933,7 +1074,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "At the start of the Activation phase, you may discard this card to allow all friendly ships that reveal a red maneuver to treat that maneuver as a white maneuver until the end of the phase.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "leiaOrgana",
                     },
                     "leebo":
@@ -942,9 +1082,9 @@ define(
                         type: UpgradeType.CREW,
                         isUnique: true,
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        header: UpgradeHeader.ACTION,
                         description: "Perform a free boost action. Then receive 1 ion token.",
                         squadPointCost: 2,
-                        hasAction: true,
                         value: "leebo",
                     },
                     "lightningReflexes":
@@ -955,7 +1095,6 @@ define(
                         restrictions: [ UpgradeRestriction.SMALL_SHIP_ONLY ],
                         description: "After you execute a white or green maneuver on your dial, you may discard this card to rotate your ship 180˚. Then receive 1 stress token after the \"Check Pilot Stress\" step.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "lightningReflexes",
                     },
                     "loneWolf":
@@ -965,7 +1104,6 @@ define(
                         isUnique: true,
                         description: "When attacking or defending, if there are no friendly ships at Range 1-2, you may reroll 1 of your blank results.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "loneWolf",
                     },
                     "lukeSkywalker":
@@ -976,7 +1114,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "After you perform an attack that does not hit, you may immediately perform a primary weapon attack. You may change 1 Focus result to a Hit result. You cannot perform another attack this round.",
                         squadPointCost: 7,
-                        hasAction: false,
                         value: "lukeSkywalker",
                     },
                     "maneuveringFins":
@@ -987,8 +1124,19 @@ define(
                         restrictions: [ UpgradeRestriction.YV_666_ONLY ],
                         description: "When you reveal a turn maneuver (left or right), you may rotate your dial to the corresponding bank maneuver (left or right) of the same speed.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "maneuveringFins",
+                    },
+                    "manglerCannon":
+                    {
+                        name: "\"Mangler\" Cannon",
+                        type: UpgradeType.CANNON,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Attack 1 ship. When attacking, you may change 1 of your Hit results to a Critical Hit result.",
+                        squadPointCost: 4,
+                        value: "manglerCannon",
                     },
                     "maraJade":
                     {
@@ -998,7 +1146,6 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "At the end of the Combat phase, each enemy ship at Range 1 that does not have a stress token receives 1 stress token.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "maraJade",
                     },
                     "marksmanship":
@@ -1006,9 +1153,9 @@ define(
                         name: "Marksmanship",
                         type: UpgradeType.ELITE,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "When attacking this round, you may change 1 of your Focus results to a Critical Hit result and all of your other Focus results to Hit results.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "marksmanship",
                     },
                     "mercenaryCopilot":
@@ -1018,7 +1165,6 @@ define(
                         isUnique: false,
                         description: "When attacking at Range 3, you may change 1 of your Hit results to a Critical Hit result.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "mercenaryCopilot",
                     },
                     // @see Token.shipActions() for effect implementation.
@@ -1030,7 +1176,6 @@ define(
                         restrictions: [ UpgradeRestriction.YT_1300_ONLY ],
                         description: "Your action bar gains the Evade action icon.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "millenniumFalcon",
                     },
@@ -1042,7 +1187,6 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "When you are dealt a faceup Damage card, you may discard this Upgrade card or another Crew Upgrade card to flip that Damage card facedown (without resolving its effect).",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "moffJerjerrod",
                     },
                     // @see Engine.processEndQueue() for effect implementation.
@@ -1054,7 +1198,6 @@ define(
                         restrictions: [ UpgradeRestriction.HWK_290_ONLY ],
                         description: "During the End phase, do not remove unused Focus tokens from your ship.",
                         squadPointCost: 3,
-                        hasAction: false,
                         isImplemented: true,
                         value: "moldyCrow",
                     },
@@ -1065,7 +1208,6 @@ define(
                         isUnique: false,
                         description: "When attacking with a secondary weapon that instructs you to discard it to perform the attack, do not discard it unless the attack hits.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "munitionsFailsafe",
                     },
                     "navigator":
@@ -1075,7 +1217,6 @@ define(
                         isUnique: false,
                         description: "When you reveal a maneuver you may rotate your dial to another maneuver with the same bearing. You cannot rotate to a red maneuver if you have any stress tokens.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "navigator",
                     },
                     // @see Token.maneuvers() for effect implementation.
@@ -1087,7 +1228,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "You may treat all Straight maneuvers as green maneuvers.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "nienNunb",
                     },
@@ -1098,7 +1238,6 @@ define(
                         isUnique: false,
                         description: "When attacking, if the defender does not have any Focus or Evade tokens, you may receive 1 stress token to roll 1 additional attack die. You cannot use this ability if you have any stress tokens.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "opportunist",
                     },
                     "outlawTech":
@@ -1109,7 +1248,6 @@ define(
                         restrictions: [ UpgradeRestriction.SCUM_ONLY, UpgradeRestriction.LIMITED ],
                         description: "After you execute a red maneuver, you may assign 1 Focus token to your ship.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "outlawTech",
                     },
                     "outmaneuver":
@@ -1119,7 +1257,6 @@ define(
                         isUnique: false,
                         description: "When attacking a ship inside your firing arc, if you are not inside that ship's firing arc, reduce its agility value by 1 (to a minimum of 0).",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "outmaneuver",
                     },
                     "outrider":
@@ -1130,8 +1267,19 @@ define(
                         restrictions: [ UpgradeRestriction.YT_2400_ONLY ],
                         description: "While you have a Cannon upgrade card equipped, you cannot perform primary weapon attacks and you may perform Cannon secondary weapon attacks against ships outside your firing arc.",
                         squadPointCost: 5,
-                        hasAction: false,
                         value: "outrider",
+                    },
+                    "plasmaTorpedoes":
+                    {
+                        name: "Plasma Torpedoes",
+                        type: UpgradeType.TORPEDO,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, after dealing damage, remove 1 shield token from the defender.",
+                        squadPointCost: 3,
+                        value: "plasmaTorpedoes",
                     },
                     "predator":
                     {
@@ -1140,7 +1288,6 @@ define(
                         isUnique: false,
                         description: "When attacking, you may reroll 1 attack die. If the defender's pilot skill value if \"2\" or lower, you may instead reroll up to 2 attack dice.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "predator",
                     },
                     "protonBombs":
@@ -1150,17 +1297,40 @@ define(
                         isUnique: false,
                         description: "When you reveal your maneuver dial, you may discard this card to drop 1 proton bomb token. This token detonates at the end of the Activation phase.",
                         squadPointCost: 5,
-                        hasAction: false,
                         value: "protonBombs",
+                    },
+                    "protonRockets":
+                    {
+                        name: "Proton Rockets",
+                        type: UpgradeType.MISSILE,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_FOCUS,
+                        weaponValue: 2,
+                        ranges: [ RangeRuler.ONE ],
+                        description: "Discard this card to perform this attack. You may roll additional attack dice equal to your agility value, to a maximum of 3 additional dice.",
+                        squadPointCost: 3,
+                        value: "protonRockets",
+                    },
+                    "protonTorpedoes":
+                    {
+                        name: "Proton Torpedoes",
+                        type: UpgradeType.TORPEDO,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK_TARGET_LOCK,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Spend your Target Lock and discard this card to perform this attack. You may change 1 of your Focus results to a Critical Hit result.",
+                        squadPointCost: 4,
+                        value: "protonTorpedoes",
                     },
                     "proximityMines":
                     {
                         name: "Proximity Mines",
                         type: UpgradeType.BOMB,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Discard this card to drop 1 proximity mine token. When a ship's base or maneuver template overlaps this token, this token detonates.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "proximityMines",
                     },
                     "pushTheLimit":
@@ -1170,7 +1340,6 @@ define(
                         isUnique: false,
                         description: "Once per round, after you perform an action, you may perform 1 free action shown in your action bar. Then receive 1 stress token.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "pushTheLimit",
                     },
                     // @see Token.maneuvers() for effect implementation.
@@ -1181,7 +1350,6 @@ define(
                         isUnique: false,
                         description: "You may treat all 1- and 2-speed maneuvers as green maneuvers.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "r2Astromech",
                     },
@@ -1192,7 +1360,6 @@ define(
                         isUnique: true,
                         description: "After executing a green maneuver, you may recover 1 shield (up to your shield value).",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "r2D2",
                     },
                     "r2D2Crew":
@@ -1203,7 +1370,6 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "At the end of the End phase, if you have no shields, you may recover 1 shield and roll 1 attack die. On a Hit result, randomly flip 1 of your facedown Damage cards faceup and resolve it.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "r2D2Crew",
                     },
                     "r2D6":
@@ -1213,7 +1379,6 @@ define(
                         isUnique: true,
                         description: "Your upgrade bar gains the Elite upgrade icon. You cannot equip this upgrade if you already have a Elite upgrade icon or if your pilot skill value is 2 or lower.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "r2D6",
                     },
                     "r2F2":
@@ -1221,9 +1386,9 @@ define(
                         name: "R2-F2",
                         type: UpgradeType.ASTROMECH,
                         isUnique: true,
+                        header: UpgradeHeader.ACTION,
                         description: "Increase your agility value by 1 until the end of this game round.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "r2F2",
                     },
                     "r3A2":
@@ -1233,7 +1398,6 @@ define(
                         isUnique: true,
                         description: "When you declare the target of your attack, if the defender is inside your firing arc, you may receive 1 stress token to cause the defender to receive 1 stress token.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "r3A2",
                     },
                     "r4Agromech":
@@ -1243,7 +1407,6 @@ define(
                         isUnique: false,
                         description: "When attacking, after you spend a Focus token, you may acquire a Target Lock on the defender.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "r4Agromech",
                     },
                     "r4B11":
@@ -1253,7 +1416,6 @@ define(
                         isUnique: true,
                         description: "When attacking, if you have a Target Lock on the defender you may spend the Target Lock to choose any or all defense dice. The defender must reroll the chosen dice.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "r4B11",
                     },
                     "r4D6":
@@ -1263,7 +1425,6 @@ define(
                         isUnique: true,
                         description: "When you are hit by an attack and there are at least 3 uncanceled Hit results, you may choose and cancel those results until there are 2 remaining. For each result canceled in this way, receive 1 stress token.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "r4D6",
                     },
                     "r5Astromech":
@@ -1273,7 +1434,6 @@ define(
                         isUnique: false,
                         description: "During the End phase, you may choose 1 of your faceup Damage cards with the Ship trait and flip it facedown.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "r5Astromech",
                     },
                     "r5D8":
@@ -1281,9 +1441,9 @@ define(
                         name: "R5-D8",
                         type: UpgradeType.ASTROMECH,
                         isUnique: true,
+                        header: UpgradeHeader.ACTION,
                         description: "Roll 1 defense die. On an Evade or Focus result, discard 1 of your facedown Damage cards.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "r5D8",
                     },
                     "r5K6":
@@ -1293,7 +1453,6 @@ define(
                         isUnique: true,
                         description: "After spending your Target Lock, roll 1 defense die. On an Evade result, immediately acquire a Target Lock on that same ship. You cannot spend this Target Lock during this attack.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "r5K6",
                     },
                     "r5P9":
@@ -1303,7 +1462,6 @@ define(
                         isUnique: true,
                         description: "At the end of the Combat phase, you may spend 1 of your Focus tokens to recover 1 shield (up to your shield value).",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "r5P9",
                     },
                     "r7Astromech":
@@ -1313,7 +1471,6 @@ define(
                         isUnique: false,
                         description: "Once per round when defending, if you have a Target Lock on the attacker, you may spend the Target Lock to choose any or all attack dice. The attacker must reroll the chosen dice.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "r7Astromech",
                     },
                     "r7T1":
@@ -1321,9 +1478,9 @@ define(
                         name: "R7-T1",
                         type: UpgradeType.ASTROMECH,
                         isUnique: true,
+                        header: UpgradeHeader.ACTION,
                         description: "Choose an enemy ship at Range 1-2. If you are inside that ship's firing arc, you may acquire a Target Lock on that ship. Then you may perform a free boost action.",
                         squadPointCost: 3,
-                        hasAction: true,
                         value: "r7T1",
                     },
                     "raymusAntilles":
@@ -1334,7 +1491,6 @@ define(
                         restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
                         description: "At the start of the Activation phase, choose 1 enemy ship at Range 1-3. You may look at that ship's chosen maneuver. If the maneuver is white, assign that ship 1 stress token.",
                         squadPointCost: 6,
-                        hasAction: false,
                         value: "raymusAntilles",
                     },
                     "rebelCaptive":
@@ -1345,7 +1501,6 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "Once per round, the first ship that declares you as the target of an attack immediately receives 1 stress token.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "rebelCaptive",
                     },
                     // @see ModifyAttackDiceAction.doIt() and ModifyDefenseDiceAction.doIt() for effect implementation.
@@ -1356,7 +1511,6 @@ define(
                         isUnique: false,
                         description: "When you perform a Focus action, assign 1 additional Focus token to your ship.",
                         squadPointCost: 3,
-                        hasAction: false,
                         isImplemented: true,
                         value: "reconSpecialist",
                     },
@@ -1369,7 +1523,6 @@ define(
                         restrictions: [ UpgradeRestriction.TIE_INTERCEPTOR_ONLY, UpgradeRestriction.PILOT_SKILL_ABOVE_4 ],
                         description: "You may equip up to 2 different Modification upgrades (instead of 1). You cannot equip this card if your pilot skill value is \"4\" or lower.",
                         squadPointCost: 0,
-                        hasAction: false,
                         isImplemented: true,
                         value: "royalGuardTie",
                     },
@@ -1381,7 +1534,6 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "After you perform an attack that hits, you must choose 1 other ship at Range 1 of the defender (other than yourself). That ship suffers 1 damage.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "ruthlessness",
                     },
                     "saboteur":
@@ -1389,9 +1541,9 @@ define(
                         name: "Saboteur",
                         type: UpgradeType.CREW,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Choose 1 enemy ship at Range 1 and roll 1 attack die. On a Hit or Critical Hit result, choose 1 random facedown Damage card assigned to that ship, flip it faceup, and resolve it.",
                         squadPointCost: 2,
-                        hasAction: true,
                         value: "saboteur",
                     },
                     "salvagedAstromech":
@@ -1401,7 +1553,6 @@ define(
                         isUnique: false,
                         description: "When you are dealt a Damage card with the Ship trait, you may immediately discard that card (before resolving its effect). Then, discard this Upgrade card.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "salvagedAstromech",
                     },
                     "seismicCharges":
@@ -1411,7 +1562,6 @@ define(
                         isUnique: false,
                         description: "When you reveal your maneuver dial, you may discard this card to drop 1 seismic charge token. This token detonates at the end of the Activation phase.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "seismicCharges",
                     },
                     "sensorJammer":
@@ -1421,7 +1571,6 @@ define(
                         isUnique: false,
                         description: "When defending, you may change 1 of the attacker's Hit results to a Focus result. The attacker cannot reroll the die with the changed result.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "sensorJammer",
                     },
                     "sensorTeam":
@@ -1431,7 +1580,6 @@ define(
                         isUnique: false,
                         description: "When acquiring a Target Lock, you may lock onto an enemy ship at Range 1-5 (instead of Range 1-3).",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "sensorTeam",
                     },
                     // @see Token.getShieldValue() for effect implementation.
@@ -1443,7 +1591,6 @@ define(
                         description: "Increase your shield value by 1.",
                         shipState: new ShipState(null, null, null, null, 1),
                         squadPointCost: 4,
-                        hasAction: false,
                         isImplemented: true,
                         value: "shieldUpgrade",
                     },
@@ -1456,7 +1603,6 @@ define(
                         restrictions: [ UpgradeRestriction.FIRESPRAY_31_ONLY ],
                         description: "Your upgrade bar gains the Torpedo upgrade icon.",
                         squadPointCost: 0,
-                        hasAction: false,
                         isImplemented: true,
                         value: "slaveI",
                     },
@@ -1465,9 +1611,9 @@ define(
                         name: "Squad Leader",
                         type: UpgradeType.ELITE,
                         isUnique: false,
+                        header: UpgradeHeader.ACTION,
                         description: "Choose 1 ship at Range 1-2 that has a lower pilot skill than you. The chosen ship may immediately perform 1 free action.",
                         squadPointCost: 2,
-                        hasAction: true,
                         value: "squadLeader",
                     },
                     "st321":
@@ -1478,7 +1624,6 @@ define(
                         restrictions: [ UpgradeRestriction.LAMBDA_CLASS_SHUTTLE_ONLY ],
                         description: "When acquiring a Target Lock, you may lock onto any enemy ship in the play area.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "st321",
                     },
                     "stayOnTarget":
@@ -1488,7 +1633,6 @@ define(
                         isUnique: false,
                         description: "When you reveal a maneuver, you may rotate your dial to another maneuver with the same speed. Treat that maneuver as a red maneuver.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "stayOnTarget",
                     },
                     "stealthDevice":
@@ -1499,7 +1643,6 @@ define(
                         description: "Increase your agility value by 1. If you are hit by an attack, discard this card.",
                         shipState: new ShipState(null, null, 1, null, null),
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "stealthDevice",
                     },
                     "stygiumParticleAccelerator":
@@ -1509,7 +1652,6 @@ define(
                         isUnique: false,
                         description: "When you either decloak or perform a cloak action, you may perform a free Evade action.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "stygiumParticleAccelerator",
                     },
                     "swarmTactics":
@@ -1519,7 +1661,6 @@ define(
                         isUnique: false,
                         description: "At the start of the Combat phase, you may choose 1 friendly ship at Range 1. Until the end of this phase, treat the chosen ship as if its pilot skill were equal to your pilot skill.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "swarmTactics",
                     },
                     "tactician":
@@ -1529,7 +1670,6 @@ define(
                         isUnique: false,
                         description: "After you perform an attack against a ship inside your firing arc at Range 2, that ship receives 1 stress token.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "tactician",
                     },
                     "tacticalJammer":
@@ -1540,7 +1680,6 @@ define(
                         restrictions: [ UpgradeRestriction.LARGE_SHIP_ONLY ],
                         description: "Your ship can obstruct enemy attacks.",
                         squadPointCost: 1,
-                        hasAction: false,
                         value: "tacticalJammer",
                     },
                     // @see Token.shipActions() for effect implementation.
@@ -1551,7 +1690,6 @@ define(
                         isUnique: false,
                         description: "Your action bar gains the Target Lock action icon.",
                         squadPointCost: 2,
-                        hasAction: false,
                         isImplemented: true,
                         value: "targetingComputer",
                     },
@@ -1563,7 +1701,6 @@ define(
                         restrictions: [ UpgradeRestriction.LIMITED ],
                         description: "You may spend 1 energy to choose 1 friendly ship at Range 1-2. Acquire a Target Lock, then assign the blue Target Lock token to the chosen ship.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "targetingCoordinator",
                     },
                     "tieX1":
@@ -1574,7 +1711,6 @@ define(
                         restrictions: [ UpgradeRestriction.TIE_ADVANCED_ONLY ],
                         description: "Your upgrade bar gains the System upgrade icon. If you equip a System upgrade, its squad point cost is reduced by 4 (to a minimum of 0).",
                         squadPointCost: 0,
-                        hasAction: false,
                         value: "tieX1",
                     },
                     "torynFarr":
@@ -1583,9 +1719,9 @@ define(
                         type: UpgradeType.CREW,
                         isUnique: true,
                         restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.REBEL_ONLY ],
+                        header: UpgradeHeader.ACTION,
                         description: "Spend any amount of energy to choose that many enemy ships at Range 1-2. Remove all Focus, Evade, and blue Target Lock tokens from those ships.",
                         squadPointCost: 6,
-                        hasAction: true,
                         value: "torynFarr",
                     },
                     // @see Token.maneuvers() for effect implementation.
@@ -1597,9 +1733,20 @@ define(
                         restrictions: [ UpgradeRestriction.TIE_ONLY ],
                         description: "You may treat all bank maneuvers (left or right) as green maneuvers.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "twinIonEngineMkII",
+                    },
+                    "twinLaserTurret":
+                    {
+                        name: "Twin Laser Turret",
+                        type: UpgradeType.TURRET,
+                        isUnique: false,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
+                        description: "Perform this attack twice (even against a ship outside your firing arc). Each time this attack hits, the defender suffers 1 damage. Then cancel all dice results.",
+                        squadPointCost: 6,
+                        value: "twinLaserTurret",
                     },
                     // @see Token.maneuvers() for effect implementation.
                     "unhingedAstromech":
@@ -1609,7 +1756,6 @@ define(
                         isUnique: false,
                         description: "You may treat all 3 speed maneuvers as green maneuvers.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "unhingedAstromech",
                     },
@@ -1622,7 +1768,6 @@ define(
                         description: "Increase your pilot skill value by 2.",
                         shipState: new ShipState(2, null, null, null, null),
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "veteranInstincts",
                     },
@@ -1635,7 +1780,6 @@ define(
                         restrictions: [ UpgradeRestriction.STAR_VIPER_ONLY, UpgradeRestriction.PILOT_SKILL_ABOVE_3 ],
                         description: "Your upgrade bar gains the System and Illicit upgrade icons. You cannot equip this card if your pilot skill value is \"3\" or lower.",
                         squadPointCost: 1,
-                        hasAction: false,
                         isImplemented: true,
                         value: "virago",
                     },
@@ -1646,7 +1790,6 @@ define(
                         isUnique: false,
                         description: "You may maintain 2 Target Locks (only 1 per enemy ship). When you acquire a Target Lock, you may lock onto 2 different ships.",
                         squadPointCost: 3,
-                        hasAction: false,
                         value: "weaponsEngineer",
                     },
                     "wed15RepairDroid":
@@ -1655,9 +1798,9 @@ define(
                         type: UpgradeType.CREW,
                         isUnique: false,
                         restrictions: [ UpgradeRestriction.HUGE_SHIP_ONLY ],
+                        header: UpgradeHeader.ACTION,
                         description: "Spend 1 energy to discard 1 of your facedown Damage cards, or spend 3 energy to discard 1 of your faceup Damage cards.",
                         squadPointCost: 2,
-                        hasAction: true,
                         value: "wed15RepairDroid",
                     },
                     "wingman":
@@ -1667,7 +1810,6 @@ define(
                         isUnique: false,
                         description: "At the start of the Combat phase, remove 1 stress token from another friendly ship at Range 1.",
                         squadPointCost: 2,
-                        hasAction: false,
                         value: "wingman",
                     },
                     "ysanneIsard":
@@ -1678,275 +1820,7 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "At the start of the Combat phase, if you have no shields and at least 1 Damage card assigned to your ship, you may perform a free Evade action.",
                         squadPointCost: 4,
-                        hasAction: false,
                         value: "ysanneIsard",
-                    },
-
-                    // /////////////////////////////////////////////////////////////////////
-                    // Secondary weapons.
-                    "advancedHomingMissiles":
-                    {
-                        name: "Advanced Homing Missiles",
-                        type: UpgradeType.MISSILE,
-                        isUnique: false,
-                        description: "Discard this card to perform this attack. If this attack hits, deal 1 faceup Damage card to the defender. Then cancel all dice results.",
-                        squadPointCost: 3,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.TWO ],
-                        value: "advancedHomingMissiles",
-                    },
-                    "advancedProtonTorpedoes":
-                    {
-                        name: "Advanced Proton Torpedoes",
-                        type: UpgradeType.TORPEDO,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack. You may change up to 3 of your blank results to Focus results.",
-                        squadPointCost: 6,
-                        hasAction: false,
-                        weaponValue: 5,
-                        ranges: [ RangeRuler.ONE ],
-                        value: "advancedProtonTorpedoes",
-                    },
-                    "assaultMissiles":
-                    {
-                        name: "Assault Missiles",
-                        type: UpgradeType.MISSILE,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, each other ship at Range 1 of the defender suffers 1 damage.",
-                        squadPointCost: 5,
-                        hasAction: false,
-                        weaponValue: 4,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "assaultMissiles",
-                    },
-                    "autoblaster":
-                    {
-                        name: "Autoblaster",
-                        type: UpgradeType.CANNON,
-                        isUnique: false,
-                        description: "Attack 1 ship. Your Hit results cannot be canceled by defense dice. The defender may cancel Critical Hit results before Hit results.",
-                        squadPointCost: 5,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE ],
-                        value: "autoblaster",
-                    },
-                    "autoblasterTurret":
-                    {
-                        name: "Autoblaster Turret",
-                        type: UpgradeType.TURRET,
-                        isUnique: false,
-                        description: "Attack 1 ship (even a ship outside your firing arc). Your Hit results cannot be canceled by defense dice. The defender may cancel Critical Hit results before Hit results.",
-                        squadPointCost: 2,
-                        hasAction: false,
-                        weaponValue: 2,
-                        ranges: [ RangeRuler.ONE ],
-                        value: "autoblasterTurret",
-                    },
-                    "blasterTurret":
-                    {
-                        name: "Blaster Turret",
-                        type: UpgradeType.TURRET,
-                        isUnique: false,
-                        description: "Spend 1 Focus token to perform this attack against 1 ship (even a ship outside your firing arc).",
-                        squadPointCost: 4,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
-                        value: "blasterTurret",
-                    },
-                    "clusterMissiles":
-                    {
-                        name: "Cluster Missiles",
-                        type: UpgradeType.MISSILE,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack twice.",
-                        squadPointCost: 4,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
-                        value: "clusterMissiles",
-                    },
-                    "concussionMissiles":
-                    {
-                        name: "Concussion Missiles",
-                        type: UpgradeType.MISSILE,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack. You may change 1 of your blank results to a Hit result.",
-                        squadPointCost: 4,
-                        hasAction: false,
-                        weaponValue: 4,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "concussionMissiles",
-                    },
-                    "flechetteCannon":
-                    {
-                        name: "Flechette Cannon",
-                        type: UpgradeType.CANNON,
-                        isUnique: false,
-                        description: "Attack 1 ship. If this attack hits, the defender suffers 1 damage and, if the defender is not stressed, it also receives 1 stress token. Then cancel all dice results.",
-                        squadPointCost: 2,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "flechetteCannon",
-                    },
-                    "flechetteTorpedoes":
-                    {
-                        name: "Flechette Torpedoes",
-                        type: UpgradeType.TORPEDO,
-                        isUnique: false,
-                        description: "Discard this card and spend your Target Lock to perform this attack. After you perform this attack, the defender receives 1 stress token if its hull value is \"4\" or lower.",
-                        squadPointCost: 2,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "flechetteTorpedoes",
-                    },
-                    "heavyLaserCannon":
-                    {
-                        name: "Heavy Laser Cannon",
-                        type: UpgradeType.CANNON,
-                        isUnique: false,
-                        description: "Attack 1 ship. Immediately after rolling your attack dice, you must change all of your Critical Hit results to Hit results.",
-                        squadPointCost: 7,
-                        hasAction: false,
-                        weaponValue: 4,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "heavyLaserCannon",
-                    },
-                    "homingMissiles":
-                    {
-                        name: "Homing Missiles",
-                        type: UpgradeType.MISSILE,
-                        isUnique: false,
-                        description: "Discard this card to perform this attack. The defender cannot spend Evade tokens during this attack.",
-                        squadPointCost: 5,
-                        hasAction: false,
-                        weaponValue: 4,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "homingMissiles",
-                    },
-                    "hotShotBlaster":
-                    {
-                        name: "\"Hot Shot\" Blaster",
-                        type: UpgradeType.ILLICIT,
-                        isUnique: false,
-                        description: "Discard this card to attack 1 ship (even a ship outside your firing arc).",
-                        squadPointCost: 3,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
-                        value: "hotShotBlaster",
-                    },
-                    "ionCannon":
-                    {
-                        name: "Ion Cannon",
-                        type: UpgradeType.CANNON,
-                        isUnique: false,
-                        description: "Attack 1 ship. If this attack hits, the defender suffers 1 damage and receives 1 ion token. Then cancel all dice results.",
-                        squadPointCost: 3,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "ionCannon",
-                    },
-                    "ionCannonTurret":
-                    {
-                        name: "Ion Cannon Turret",
-                        type: UpgradeType.TURRET,
-                        isUnique: false,
-                        description: "Attack 1 ship (even a ship outside your firing arc). If this attack hits the target ship, the ship suffers 1 damage and receives 1 ion token. Then cancel all dice results.",
-                        squadPointCost: 5,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
-                        value: "ionCannonTurret",
-                    },
-                    "ionPulseMissiles":
-                    {
-                        name: "Ion Pulse Missiles",
-                        type: UpgradeType.MISSILE,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender suffers 1 damage and receives 2 ion tokens. Then cancel all dice results.",
-                        squadPointCost: 3,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "ionPulseMissiles",
-                    },
-                    "ionTorpedoes":
-                    {
-                        name: "Ion Torpedoes",
-                        type: UpgradeType.TORPEDO,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender and each ship at Range 1 of it receives 1 ion token.",
-                        squadPointCost: 5,
-                        hasAction: false,
-                        weaponValue: 4,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "ionPulseMissiles",
-                    },
-                    "manglerCannon":
-                    {
-                        name: "\"Mangler\" Cannon",
-                        type: UpgradeType.CANNON,
-                        isUnique: false,
-                        description: "Attack 1 ship. When attacking, you may change 1 of your Hit results to a Critical Hit result.",
-                        squadPointCost: 4,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "manglerCannon",
-                    },
-                    "plasmaTorpedoes":
-                    {
-                        name: "Plasma Torpedoes",
-                        type: UpgradeType.TORPEDO,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, after dealing damage, remove 1 shield token from the defender.",
-                        squadPointCost: 3,
-                        hasAction: false,
-                        weaponValue: 4,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "plasmaTorpedoes",
-                    },
-                    "protonRockets":
-                    {
-                        name: "Proton Rockets",
-                        type: UpgradeType.MISSILE,
-                        isUnique: false,
-                        description: "Discard this card to perform this attack. You may roll additional attack dice equal to your agility value, to a maximum of 3 additional dice.",
-                        squadPointCost: 3,
-                        hasAction: false,
-                        weaponValue: 2,
-                        ranges: [ RangeRuler.ONE ],
-                        value: "protonRockets",
-                    },
-                    "protonTorpedoes":
-                    {
-                        name: "Proton Torpedoes",
-                        type: UpgradeType.TORPEDO,
-                        isUnique: false,
-                        description: "Spend your Target Lock and discard this card to perform this attack. You may change 1 of your Focus results to a Critical Hit result.",
-                        squadPointCost: 4,
-                        hasAction: false,
-                        weaponValue: 4,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "protonTorpedoes",
-                    },
-                    "twinLaserTurret":
-                    {
-                        name: "Twin Laser Turret",
-                        type: UpgradeType.TURRET,
-                        isUnique: false,
-                        description: "Perform this attack twice (even against a ship outside your firing arc). Each time this attack hits, the defender suffers 1 damage. Then cancel all dice results.",
-                        squadPointCost: 6,
-                        hasAction: false,
-                        weaponValue: 3,
-                        ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
-                        value: "twinLaserTurret",
                     },
                 },
 
