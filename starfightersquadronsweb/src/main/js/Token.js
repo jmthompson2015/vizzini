@@ -59,8 +59,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             that.trigger("change");
         });
-        var primaryWeapon = new Weapon("Primary Weapon", true, Pilot.properties[pilot].shipState
-                .getPrimaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ]);
+        var primaryWeapon = createPrimaryWeapon();
         var secondaryWeapons = [];
         var attackerTargetLocks = [];
         var defenderTargetLocks = [];
@@ -77,14 +76,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
             if (upgrade.weaponValue)
             {
-                if (upgrade.type === UpgradeType.TURRET)
-                {
-                    secondaryWeapons.push(new TurretWeapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges));
-                }
-                else
-                {
-                    secondaryWeapons.push(new Weapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges));
-                }
+                secondaryWeapons.push(createSecondaryWeapon(upgrade));
             }
         }
 
@@ -653,6 +645,43 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                     return maneuver;
                 }
             });
+        }
+
+        function createPrimaryWeapon()
+        {
+            var answer;
+            var shipKey = ShipTeam.properties[Pilot.properties[pilot].shipTeam].ship;
+            var ship = Ship.properties[shipKey];
+            var shipState = Pilot.properties[pilot].shipState;
+
+            if (ship.isPrimaryWeaponTurret)
+            {
+                answer = new TurretWeapon("Primary Weapon", true, shipState.getPrimaryWeaponValue(), [ RangeRuler.ONE,
+                        RangeRuler.TWO, RangeRuler.THREE ]);
+            }
+            else
+            {
+                answer = new Weapon("Primary Weapon", true, shipState.getPrimaryWeaponValue(), [ RangeRuler.ONE,
+                        RangeRuler.TWO, RangeRuler.THREE ]);
+            }
+
+            return answer;
+        }
+
+        function createSecondaryWeapon(upgrade)
+        {
+            var answer;
+
+            if (upgrade.type === UpgradeType.TURRET)
+            {
+                answer = new TurretWeapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges);
+            }
+            else
+            {
+                answer = new Weapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges);
+            }
+
+            return answer;
         }
 
         function getShipState()

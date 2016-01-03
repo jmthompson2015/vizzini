@@ -282,11 +282,11 @@ define([ "RangeRuler" ], function(RangeRuler)
 
             if (rangeAndTokens.length > 0)
             {
-                answer[answer.length] =
+                answer.push(
                 {
                     weapon: primaryWeapon,
                     rangeAndTokens: rangeAndTokens
-                }
+                });
             }
 
             var weapons = attacker.secondaryWeapons();
@@ -299,11 +299,11 @@ define([ "RangeRuler" ], function(RangeRuler)
 
                 if (rangeAndTokens.length > 0)
                 {
-                    answer[answer.length] =
+                    answer.push(
                     {
                         weapon: weapon,
                         rangeAndTokens: rangeAndTokens
-                    }
+                    });
                 }
             }
         }
