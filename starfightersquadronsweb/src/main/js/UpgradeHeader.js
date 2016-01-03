@@ -11,22 +11,22 @@ define(function()
         {
             "action":
             {
-                name: "Action: ",
+                name: "Action",
                 value: "action",
             },
             "attack":
             {
-                name: "Attack: ",
+                name: "Attack",
                 value: "attack",
             },
             "attackFocus":
             {
-                name: "Attack (Focus): ",
+                name: "Attack (Focus)",
                 value: "attackFocus",
             },
             "attackTargetLock":
             {
-                name: "Attack (Target Lock): ",
+                name: "Attack (Target Lock)",
                 value: "attackTargetLock",
             },
         },

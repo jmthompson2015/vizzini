@@ -1,5 +1,5 @@
-define([ "UpgradeCard", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeRestriction,
-        UpgradeCardUI)
+define([ "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(UpgradeCard,
+        UpgradeHeader, UpgradeRestriction, UpgradeCardUI)
 {
     var UpgradeColumns = [
     {
@@ -14,6 +14,11 @@ define([ "UpgradeCard", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(Upg
     {
         key: "restrictions",
         label: "Restrictions",
+        className: "textCell",
+    },
+    {
+        key: "header",
+        label: "Header",
         className: "textCell",
     },
     {
@@ -101,6 +106,7 @@ define([ "UpgradeCard", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(Upg
                     return previousValue + " " + UpgradeRestriction.properties[restriction].displayName;
                 }, "");
             }
+            var myHeader = (upgradeProps.header ? UpgradeHeader.properties[upgradeProps.header].name : " ");
             var isImplemented = (upgradeProps.isImplemented !== undefined ? upgradeProps.isImplemented : false);
             var implementedImage = this.createImplementedImage(isImplemented);
             var i = 0;
@@ -117,6 +123,8 @@ define([ "UpgradeCard", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(Upg
             cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgradeProps.name));
 
             cells.push(this.createCell(cells.length, UpgradeColumns[i++], myRestrictions));
+
+            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myHeader));
 
             cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgradeProps.description));
 
