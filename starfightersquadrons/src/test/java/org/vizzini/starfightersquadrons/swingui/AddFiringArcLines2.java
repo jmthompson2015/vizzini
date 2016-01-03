@@ -29,13 +29,16 @@ public final class AddFiringArcLines2
 	{
 		String[] ships = { "FirstOrder_TIE_fo_Fighter", "Imperial_TIE_Punisher", // imperial
 				"Rebel_K-Wing", // rebel
-				"Scum_YV-666" };
+				"Scum_YV-666", // scum
+				"Resistance_T-70_X-Wing" };
 		String[] teams = { "Imperial", "Imperial", // imperial
 				"Rebel", // rebel
-				"Scum" };
+				"Scum", // scum
+				"Rebel" };
 		String[] primaryFiringArcs = { "forward", "forward", // imperial
 				"forward", // rebel
-				"forwardAndFullAft" };
+				"forwardAndFullAft", // scum
+				"forward" };
 
 		for (int i = 0; i < ships.length; i++)
 		{
