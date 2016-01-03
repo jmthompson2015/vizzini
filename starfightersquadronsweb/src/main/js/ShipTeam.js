@@ -264,7 +264,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 name: "T-70 X-Wing",
                 ship: Ship.T_70_X_WING,
                 team: Team.RESISTANCE,
-                image: "T-70_X-Wing.png",
+                image: "Resistance_T-70_X-Wing.png",
                 value: "resistanceT70XWing",
             },
 
