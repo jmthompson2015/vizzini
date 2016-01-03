@@ -184,7 +184,7 @@ define(
                     {
                         var squadIdFunction = function(value)
                         {
-                            return value.getYear() + "_" + value.getName();
+                            return value.year() + "_" + value.name();
                         };
                         var squadLabelFunction = function(value)
                         {
