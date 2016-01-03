@@ -5,17 +5,17 @@ define([ "Weapon" ], function(Weapon)
 {
     function TurretWeapon(name, isPrimary, weaponValue, ranges)
     {
-        this.getName = function()
+        this.name = function()
         {
             return name;
         }
 
-        this.getRanges = function()
+        this.ranges = function()
         {
             return ranges;
         }
 
-        this.getWeaponValue = function()
+        this.weaponValue = function()
         {
             return weaponValue;
         }

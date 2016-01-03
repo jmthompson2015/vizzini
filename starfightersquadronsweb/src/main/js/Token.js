@@ -2,8 +2,8 @@
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
 define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship", "ShipAction",
-        "ShipTeam", "UpgradeCard", "UpgradeType" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot,
-        RangeRuler, Ship, ShipAction, ShipTeam, UpgradeCard, UpgradeType)
+        "ShipTeam", "TurretWeapon", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty,
+        Maneuver, Phase, Pilot, RangeRuler, Ship, ShipAction, ShipTeam, TurretWeapon, UpgradeCard, UpgradeType, Weapon)
 {
     function Token(pilot, agent)
     {
@@ -59,6 +59,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             that.trigger("change");
         });
+        var primaryWeapon = new Weapon("Primary Weapon", true, Pilot.properties[pilot].shipState
+                .getPrimaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ]);
+        var secondaryWeapons = [];
         var attackerTargetLocks = [];
         var defenderTargetLocks = [];
 
@@ -67,7 +70,22 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         for (var i = 2; i < arguments.length; i++)
         {
-            upgrades.push(arguments[i]);
+            var upgradeKey = arguments[i];
+            var upgrade = UpgradeCard.properties[upgradeKey];
+
+            upgrades.push(upgradeKey);
+
+            if (upgrade.weaponValue)
+            {
+                if (upgrade.type === UpgradeType.TURRET)
+                {
+                    secondaryWeapons.push(new TurretWeapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges));
+                }
+                else
+                {
+                    secondaryWeapons.push(new Weapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges));
+                }
+            }
         }
 
         var activationState = new Token.ActivationState();
@@ -159,7 +177,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             var answer = getShipState().getAgilityValue();
 
-            this.upgrades().forEach(function(upgrade)
+            upgrades.forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -201,7 +219,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 return sum + DamageCard.properties[damage].shipState.getHullValue();
             }, answer);
 
-            this.upgrades().forEach(function(upgrade)
+            upgrades.forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -236,7 +254,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 return sum + DamageCard.properties[damage].shipState.getPilotSkillValue();
             }, answer);
 
-            this.upgrades().forEach(function(upgrade)
+            upgrades.forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -258,7 +276,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 return sum + DamageCard.properties[damage].shipState.getPrimaryWeaponValue();
             }, answer);
 
-            this.upgrades().forEach(function(upgrade)
+            upgrades.forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -275,7 +293,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             var answer = getShipState().getShieldValue();
 
-            this.upgrades().forEach(function(upgrade)
+            upgrades.forEach(function(upgrade)
             {
                 var shipState = UpgradeCard.properties[upgrade].shipState;
 
@@ -440,7 +458,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.primaryWeapon = function()
         {
-            return Pilot.properties[pilot].primaryWeapon;
+            return primaryWeapon;
         }
 
         this.removeAllTargetLocks = function()
@@ -482,8 +500,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.secondaryWeapons = function()
         {
-            // FIXME: find secondary weapons.
-            return [];
+            return secondaryWeapons.slice();
         }
 
         this.shield = function()
@@ -688,9 +705,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         }
         else
         {
-            answer = weapon.getWeaponValue();
+            answer = weapon.weaponValue();
 
-            if ((range == RangeRuler.ONE) && weapon.isPrimary())
+            if ((range === RangeRuler.ONE) && weapon.isPrimary())
             {
                 // Bonus attack die at range one.
                 answer++;

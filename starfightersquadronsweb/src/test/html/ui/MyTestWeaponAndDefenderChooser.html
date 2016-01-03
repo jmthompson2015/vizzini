@@ -13,6 +13,8 @@
 <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
 <script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
@@ -22,54 +24,43 @@
 	<script>
         var LOGGER = new Logger();
 
-        require(
-                [ "Pilot", "RangeRuler", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/WeaponAndDefenderChooser" ],
-                function(Pilot, RangeRuler, SimpleAgent, SquadBuilder, Team, Token, WeaponAndDefenderChooser)
-                {
-                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-                    var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-                    var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
-                    var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-                    var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-                    var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-                    var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-                    var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-                    var rangeOneToTokens =
-                    {
-                        range: RangeRuler.ONE,
-                        tokens: [ defender0, defender1 ]
-                    }
-                    var rangeTwoToTokens =
-                    {
-                        range: RangeRuler.TWO,
-                        tokens: [ defender2, defender3 ]
-                    }
-                    var rangeThreeToTokens =
-                    {
-                        range: RangeRuler.THREE,
-                        tokens: [ defender4 ]
-                    }
-                    var primaryWeaponToRangeAndTokens =
-                    {
-                        weapon: attacker.primaryWeapon(),
-                        rangeAndTokens: [ rangeOneToTokens, rangeTwoToTokens, rangeThreeToTokens ]
-                    }
-                    var choices = [ primaryWeaponToRangeAndTokens ];
-                    var callback = function(weapon, defender)
-                    {
-                        LOGGER.info("callback() start");
-                        LOGGER.info("weapon = " + weapon + " defender = " + defender);
-                        LOGGER.info("callback() end");
-                    }
+        require([ "Environment", "Pilot", "Position", "RangeRuler", "SimpleAgent", "SquadBuilder", "Team", "Token",
+                "UpgradeCard", "ui/WeaponAndDefenderChooser" ], function(Environment, Pilot, Position, RangeRuler,
+                SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, WeaponAndDefenderChooser)
+        {
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+            var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
+                    UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE);
+            var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+            var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+            var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+            var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+            var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+            var environment = new Environment(Team.IMPERIAL, Team.REBEL);
 
-                    var element = React.createElement(WeaponAndDefenderChooser,
-                    {
-                        attacker: attacker,
-                        choices: choices,
-                        callback: callback
-                    });
-                    React.render(element, document.getElementById("inputArea"));
-                });
+            environment.placeToken(new Position(458, 895, -90), attacker);
+            environment.placeToken(new Position(450, 845, 90), defender0);
+            environment.placeToken(new Position(450, 795, 90), defender1);
+            environment.placeToken(new Position(450, 745, 90), defender2);
+            environment.placeToken(new Position(450, 695, 90), defender3);
+            environment.placeToken(new Position(450, 645, 90), defender4);
+            var choices = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
+            var callback = function(weapon, defender)
+            {
+                LOGGER.info("callback() start");
+                LOGGER.info("weapon = " + weapon + " defender = " + defender);
+                LOGGER.info("callback() end");
+            }
+
+            var element = React.createElement(WeaponAndDefenderChooser,
+            {
+                attacker: attacker,
+                choices: choices,
+                callback: callback
+            });
+            React.render(element, document.getElementById("inputArea"));
+        });
     </script>
 </body>
 </html>

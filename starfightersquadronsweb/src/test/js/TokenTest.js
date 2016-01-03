@@ -594,6 +594,23 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.getPrimaryWeaponValue(), 1);
             });
 
+            QUnit.test("secondaryWeapons()", function(assert)
+            {
+                // Setup.
+                var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+                var token = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
+                        UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE);
+
+                // Run.
+                var result = token.secondaryWeapons();
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 2);
+                assert.equal(result[0].name(), "\"Mangler\" Cannon");
+                assert.equal(result[1].name(), "Cluster Missiles");
+            });
+
             QUnit.test("shield()", function(assert)
             {
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);

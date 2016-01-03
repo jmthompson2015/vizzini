@@ -20,10 +20,10 @@ define([ "TurretWeapon", "RangeRuler", "Weapon" ], function(TurretWeapon, RangeR
             var weapon = weapons[i];
 
             // Verify the functions exist.
-            assert.ok(weapon.getName);
+            assert.ok(weapon.name);
             assert.ok(weapon.isPrimary);
-            assert.ok(weapon.getWeaponValue);
-            assert.ok(weapon.getRanges);
+            assert.ok(weapon.weaponValue);
+            assert.ok(weapon.ranges);
             assert.ok(weapon.isDefenderInRange);
             assert.ok(weapon.isDefenderVulnerable);
             assert.ok(weapon.isDefenderTargetable);

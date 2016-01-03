@@ -9,10 +9,10 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.TWO, RangeRuler.THREE ]);
 
         // Run / Verify.
-        assert.equal(weapon.getName(), "myWeapon");
+        assert.equal(weapon.name(), "myWeapon");
         assert.equal(weapon.isPrimary(), true);
-        assert.equal(weapon.getWeaponValue(), 12);
-        var ranges = weapon.getRanges();
+        assert.equal(weapon.weaponValue(), 12);
+        var ranges = weapon.ranges();
         assert.equal(ranges.length, 2);
         assert.equal(ranges[0], RangeRuler.TWO);
         assert.equal(ranges[1], RangeRuler.THREE);

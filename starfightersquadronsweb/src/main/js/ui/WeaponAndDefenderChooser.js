@@ -44,7 +44,7 @@ define([ "RangeRuler" ], function(RangeRuler)
             {
                 var weaponAndRangeAndTokens = choices[i];
                 var weapon = weaponAndRangeAndTokens.weapon;
-                var weaponName = weapon.getName();
+                var weaponName = weapon.name();
 
                 rows.push(React.DOM.tr(
                 {
@@ -84,7 +84,7 @@ define([ "RangeRuler" ], function(RangeRuler)
                                 type: "radio",
                                 defaultChecked: (weapon === selectedWeapon && token === selectedDefender),
                                 onClick: self.selectionChanged,
-                                name: weaponName,
+                                name: "weaponChooserRadioButtons",
                                 "data-weapon-name": weaponName,
                                 "data-defender-id": token.id()
                             });
@@ -203,8 +203,25 @@ define([ "RangeRuler" ], function(RangeRuler)
         findWeapon: function(weaponName)
         {
             var attacker = this.props.attacker;
+            var answer = attacker.primaryWeapon();
 
-            return attacker.primaryWeapon();
+            if (weaponName !== "Primary Weapon")
+            {
+                var secondaryWeapons = attacker.secondaryWeapons();
+
+                for (var i = 0; i < secondaryWeapons.length; i++)
+                {
+                    var weapon = secondaryWeapons[i];
+
+                    if (weapon.name() === weaponName)
+                    {
+                        answer = weapon;
+                        break;
+                    }
+                }
+            }
+
+            return answer;
         },
     });
 

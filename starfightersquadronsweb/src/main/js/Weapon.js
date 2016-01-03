@@ -2,17 +2,17 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
 {
     function Weapon(name, isPrimary, weaponValue, ranges)
     {
-        this.getName = function()
+        this.name = function()
         {
             return name;
         }
 
-        this.getRanges = function()
+        this.ranges = function()
         {
             return ranges;
         }
 
-        this.getWeaponValue = function()
+        this.weaponValue = function()
         {
             return weaponValue;
         }
@@ -30,9 +30,9 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     {
         var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
         // LOGGER.trace("Weapon.isDefenderInRange() range = " + range);
-        // LOGGER.trace("Weapon.getRanges() = " + this.getRanges());
+        // LOGGER.trace("Weapon.ranges() = " + this.ranges());
 
-        return range && this.getRanges().vizziniContains(range);
+        return range && this.ranges().vizziniContains(range);
     }
 
     /*
@@ -58,7 +58,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
 
     Weapon.prototype.toString = function()
     {
-        return this.getName();
+        return this.name();
     }
 
     /*

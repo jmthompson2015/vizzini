@@ -7,7 +7,6 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.ACADEMY_PILOT;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Academy Pilot");
-        assert.ok(properties.primaryWeapon);
         assert.equal(properties.shipTeam, ShipTeam.IMPERIAL_TIE_FIGHTER);
         assert.equal(properties.shipState.getPilotSkillValue(), 1);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 2);
@@ -23,7 +22,6 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.BOUNTY_HUNTER;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Bounty Hunter");
-        assert.ok(properties.primaryWeapon);
         assert.equal(properties.shipTeam, ShipTeam.IMPERIAL_FIRESPRAY_31);
         assert.equal(properties.shipState.getPilotSkillValue(), 3);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 3);
@@ -39,7 +37,6 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.DUTCH_VANDER;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "\"Dutch\" Vander");
-        assert.ok(properties.primaryWeapon);
         assert.equal(properties.shipTeam, ShipTeam.REBEL_Y_WING);
         assert.equal(properties.shipState.getPilotSkillValue(), 6);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 2);
@@ -55,7 +52,6 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.ROOKIE_PILOT;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Rookie Pilot");
-        assert.ok(properties.primaryWeapon);
         assert.equal(properties.shipTeam, ShipTeam.REBEL_X_WING);
         assert.equal(properties.shipState.getPilotSkillValue(), 2);
         assert.equal(properties.shipState.getPrimaryWeaponValue(), 3);
