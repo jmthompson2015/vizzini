@@ -1,4 +1,4 @@
-define([ "Environment", "Position", "RangeRuler", "Token", "Weapon" ], function(Environment, 
+define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon" ], function(Environment, FiringArc,
         Position, RangeRuler, Token, Weapon)
 {
     QUnit.module("Weapon");
@@ -6,7 +6,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "Weapon" ], function(
     QUnit.test("Weapon properties", function(assert)
     {
         // Setup.
-        var weapon = new Weapon("Primary Weapon", 12, [ RangeRuler.TWO, RangeRuler.THREE ]);
+        var weapon = new Weapon("Primary Weapon", 12, [ RangeRuler.TWO, RangeRuler.THREE ], FiringArc.FORWARD);
 
         // Run / Verify.
         assert.equal(weapon.name(), "Primary Weapon");
@@ -31,7 +31,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "Weapon" ], function(
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
         var result = weapon.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition);
@@ -53,7 +53,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "Weapon" ], function(
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
         var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
@@ -75,7 +75,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "Weapon" ], function(
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, 0);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
         var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
@@ -97,7 +97,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "Weapon" ], function(
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
         var result = weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition);
@@ -109,7 +109,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "Weapon" ], function(
     QUnit.test("toString()", function(assert)
     {
         // Setup.
-        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.TWO, RangeRuler.THREE ]);
+        var weapon = new Weapon("myWeapon", 12, [ RangeRuler.TWO, RangeRuler.THREE ], FiringArc.FORWARD);
 
         // Run / Verify.
         assert.equal(weapon.toString(), "myWeapon");

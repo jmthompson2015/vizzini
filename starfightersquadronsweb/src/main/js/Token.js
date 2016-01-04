@@ -1,9 +1,9 @@
 /*
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
-define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship", "ShipAction",
-        "ShipTeam", "TurretWeapon", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty,
-        Maneuver, Phase, Pilot, RangeRuler, Ship, ShipAction, ShipTeam, TurretWeapon, UpgradeCard, UpgradeType, Weapon)
+define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship",
+        "ShipAction", "ShipTeam", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty,
+        FiringArc, Maneuver, Phase, Pilot, RangeRuler, Ship, ShipAction, ShipTeam, UpgradeCard, UpgradeType, Weapon)
 {
     function Token(pilotKey, agent)
     {
@@ -650,37 +650,15 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         function createPrimaryWeapon()
         {
-            var answer;
             var shipState = pilot.shipState;
 
-            if (ship.isPrimaryWeaponTurret)
-            {
-                answer = new TurretWeapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE,
-                        RangeRuler.TWO, RangeRuler.THREE ]);
-            }
-            else
-            {
-                answer = new Weapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO,
-                        RangeRuler.THREE ]);
-            }
-
-            return answer;
+            return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO,
+                    RangeRuler.THREE ], ship.primaryFiringArc);
         }
 
         function createSecondaryWeapon(upgrade)
         {
-            var answer;
-
-            if (upgrade.type === UpgradeType.TURRET)
-            {
-                answer = new TurretWeapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.value);
-            }
-            else
-            {
-                answer = new Weapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.value);
-            }
-
-            return answer;
+            return new Weapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.firingArc, upgrade.value);
         }
 
         function getShipState()

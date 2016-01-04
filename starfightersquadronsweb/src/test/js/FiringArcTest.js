@@ -46,4 +46,23 @@ define([ "FiringArc" ], function(FiringArc)
         assert.ok(!isInFiringArc(314),"314 deg");
         assert.ok(isInFiringArc(315),"315 deg");
     });
+
+    QUnit.test("values()", function(assert)
+    {
+        // Run.
+        var result = FiringArc.values();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 4);
+        assert.equal(result[0], "forward");
+        assert.equal(result[1], "forwardAndAft");
+        assert.equal(result[2], "forwardAndFullAft");
+        assert.equal(result[3], "turret");
+
+        var properties = Object.getOwnPropertyNames(FiringArc);
+        var count = properties.length - 1 // properties
+        - 1; // values
+        assert.equal(result.length, count);
+    });
 });

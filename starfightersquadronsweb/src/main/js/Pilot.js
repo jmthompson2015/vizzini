@@ -1,6 +1,6 @@
 define(
-        [ "RangeRuler", "ShipState", "ShipTeam", "Team", "TurretWeapon", "UpgradeType", "Weapon" ],
-        function(RangeRuler, ShipState, ShipTeam, Team, TurretWeapon, UpgradeType, Weapon)
+        [ "RangeRuler", "ShipState", "ShipTeam", "Team", "UpgradeType" ],
+        function(RangeRuler, ShipState, ShipTeam, Team, UpgradeType)
         {
             var Pilot =
             {

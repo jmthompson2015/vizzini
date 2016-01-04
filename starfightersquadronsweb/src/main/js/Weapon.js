@@ -1,10 +1,11 @@
 define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc, Maneuver, RangeRuler, ShipBase)
 {
-    function Weapon(name, weaponValue, ranges, upgradeKey)
+    function Weapon(name, weaponValue, ranges, firingArc, upgradeKey)
     {
         InputValidator.validateNotNull("name", name);
         InputValidator.validateNotNull("weaponValue", weaponValue);
         InputValidator.validateNotNull("ranges", ranges);
+        InputValidator.validateNotNull("firingArc", firingArc);
         // upgradeKey optional.
 
         this.name = function()
@@ -20,6 +21,11 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         this.ranges = function()
         {
             return ranges;
+        }
+
+        this.firingArc = function()
+        {
+            return firingArc;
         }
 
         this.upgradeKey = function()
@@ -68,7 +74,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
      */
     Weapon.prototype.isDefenderVulnerable = function(attacker, attackerPosition, defender, defenderPosition)
     {
-        return this._isDefenderInPrimaryFiringArc(attacker, attackerPosition, defender, defenderPosition);
+        return this._isDefenderInFiringArc(attacker, attackerPosition, defender, defenderPosition);
     }
 
     Weapon.prototype.isPrimary = function()
@@ -84,14 +90,14 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     /*
      * @return true if the defender is in this weapon's firing arc.
      */
-    Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
+    Weapon.prototype._isDefenderInFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
     {
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("attackerPosition", attackerPosition);
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        var firingArc = attacker.primaryFiringArc();
+        var firingArc = this.firingArc();
         var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
         // LOGGER.trace("bearing = " + bearing);
         var answer = FiringArc.properties[firingArc].isInFiringArc(bearing);

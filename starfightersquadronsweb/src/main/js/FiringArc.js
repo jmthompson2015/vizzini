@@ -5,6 +5,7 @@ define(function()
         FORWARD: "forward",
         FORWARD_AND_AFT: "forwardAndAft",
         FORWARD_AND_FULL_AFT: "forwardAndFullAft",
+        TURRET: "turret",
 
         properties:
         {
@@ -14,6 +15,7 @@ define(function()
                 {
                     return (315 <= bearing) || (bearing <= 45);
                 },
+                value: "forward",
             },
             "forwardAndAft":
             {
@@ -21,6 +23,7 @@ define(function()
                 {
                     return ((315 <= bearing) || (bearing <= 45)) || ((135 <= bearing) && (bearing <= 225));
                 },
+                value: "forwardAndAft",
             },
             "forwardAndFullAft":
             {
@@ -28,8 +31,22 @@ define(function()
                 {
                     return ((315 <= bearing) || (bearing <= 45)) || ((90 <= bearing) && (bearing <= 270));
                 },
+                value: "forwardAndFullAft",
             },
-        }
+            "turret":
+            {
+                isInFiringArc: function(bearing)
+                {
+                    return true;
+                },
+                value: "turret",
+            },
+        },
+
+        values: function()
+        {
+            return Object.getOwnPropertyNames(FiringArc.properties);
+        },
     };
 
     if (Object.freeze)

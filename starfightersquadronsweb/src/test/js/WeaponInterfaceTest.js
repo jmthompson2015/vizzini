@@ -1,4 +1,4 @@
-define([ "TurretWeapon", "RangeRuler", "Weapon" ], function(TurretWeapon, RangeRuler, Weapon)
+define([ "FiringArc",  "RangeRuler", "Weapon" ], function(FiringArc,  RangeRuler, Weapon)
 {
     QUnit.module("WeaponInterface");
 
@@ -8,10 +8,10 @@ define([ "TurretWeapon", "RangeRuler", "Weapon" ], function(TurretWeapon, RangeR
         var name = "myWeapon";
         var weaponValue = 12;
         var ranges = [ RangeRuler.TWO, RangeRuler.THREE ];
+        var firingArc = FiringArc.FORWARD;
 
-        var weapon0 = new Weapon(name, weaponValue, ranges);
-        var weapon1 = new TurretWeapon(name, weaponValue, ranges);
-        var weapons = [ weapon0, weapon1 ];
+        var weapon0 = new Weapon(name, weaponValue, ranges, firingArc);
+        var weapons = [ weapon0 ];
 
         // Run / Verify.
         for (var i = 0; i < weapons.length; i++)
@@ -23,6 +23,7 @@ define([ "TurretWeapon", "RangeRuler", "Weapon" ], function(TurretWeapon, RangeR
             assert.ok(weapon.isPrimary);
             assert.ok(weapon.weaponValue);
             assert.ok(weapon.ranges);
+            assert.ok(weapon.firingArc);
             assert.ok(weapon.upgradeKey);
             assert.ok(weapon.isDefenderInRange);
             assert.ok(weapon.isDefenderVulnerable);
