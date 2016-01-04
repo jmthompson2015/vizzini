@@ -83,7 +83,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             var imageUtils = this.props.imageUtils;
             var pilotName = token.pilotName();
             var shipName = token.shipName();
-            var maneuvers = token.maneuvers();
+            var maneuvers = token.maneuverKeys();
             var minSpeed = this.getMinimumSpeed(maneuvers);
             var maxSpeed = this.getMaximumSpeed(maneuvers);
             var bearingValues = Bearing.values();

@@ -50,10 +50,10 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
             var element0 = React.createElement(PilotCardUI.NamePanel,
             {
-                pilotSkillValue: myToken.getPilotSkillValue(),
+                pilotSkillValue: myToken.pilotSkillValue(),
                 pilotName: myToken.pilotName(),
                 shipName: myToken.shipName(),
-                team: myToken.team(),
+                team: myToken.teamKey(),
             });
             var cell0 = React.DOM.td({}, element0);
             rows.push(React.DOM.tr(
@@ -64,10 +64,10 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             var element1 = React.createElement(PilotCardUI.StatsPanel,
             {
                 isCompact: true,
-                primaryWeaponValue: myToken.getPrimaryWeaponValue(),
-                agilityValue: myToken.getAgilityValue(),
-                hullValue: myToken.getHullValue(),
-                shieldValue: myToken.getShieldValue(),
+                primaryWeaponValue: myToken.primaryWeaponValue(),
+                agilityValue: myToken.agilityValue(),
+                hullValue: myToken.hullValue(),
+                shieldValue: myToken.shieldValue(),
             });
             var cell1 = React.DOM.td({}, element1);
             rows.push(React.DOM.tr(
@@ -86,8 +86,8 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
                 weaponsDisabledCount: myToken.weaponsDisabled().count(),
                 attackerTargetLocks: myToken.attackerTargetLocks(),
                 defenderTargetLocks: myToken.defenderTargetLocks(),
-                damageCount: myToken.getDamageCount(),
-                criticalDamageCount: myToken.getCriticalDamageCount(),
+                damageCount: myToken.damageCount(),
+                criticalDamageCount: myToken.criticalDamageCount(),
             });
             var cell2 = React.DOM.td({}, element2);
             rows.push(React.DOM.tr(
@@ -104,21 +104,21 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         renderLarge: function()
         {
             var myToken = this.state.token;
-            var pilotProps = Pilot.properties[myToken.pilot()];
-            var shipProps = Ship.properties[myToken.ship()];
+            var pilotProps = Pilot.properties[myToken.pilotKey()];
+            var shipProps = Ship.properties[myToken.shipKey()];
             var pilotDescription = pilotProps.description;
             var pilotCost = pilotProps.squadPointCost;
             var prefix = myToken.toString();
             var shipActions = shipProps.shipActions;
-            var upgradeTypes = myToken.upgradeTypes();
+            var upgradeTypes = myToken.upgradeTypeKeys();
             var rows = [];
 
             var element00 = React.createElement(PilotCardUI.NamePanel,
             {
-                pilotSkillValue: myToken.getPilotSkillValue(),
+                pilotSkillValue: myToken.pilotSkillValue(),
                 pilotName: myToken.pilotName(),
                 shipName: myToken.shipName(),
-                team: myToken.team(),
+                team: myToken.teamKey(),
             });
             var cell00 = React.DOM.td({}, element00);
             rows.push(React.DOM.tr(
@@ -130,10 +130,10 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             var element100 = React.createElement(PilotCardUI.StatsPanel,
             {
                 isCompact: false,
-                primaryWeaponValue: myToken.getPrimaryWeaponValue(),
-                agilityValue: myToken.getAgilityValue(),
-                hullValue: myToken.getHullValue(),
-                shieldValue: myToken.getShieldValue(),
+                primaryWeaponValue: myToken.primaryWeaponValue(),
+                agilityValue: myToken.agilityValue(),
+                hullValue: myToken.hullValue(),
+                shieldValue: myToken.shieldValue(),
             });
             innerCells10.push(React.DOM.td(
             {
@@ -208,8 +208,8 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
                 weaponsDisabledCount: myToken.weaponsDisabled().count(),
                 attackerTargetLocks: myToken.attackerTargetLocks(),
                 defenderTargetLocks: myToken.defenderTargetLocks(),
-                damageCount: myToken.getDamageCount(),
-                criticalDamageCount: myToken.getCriticalDamageCount(),
+                damageCount: myToken.damageCount(),
+                criticalDamageCount: myToken.criticalDamageCount(),
             });
             var cell30 = React.DOM.td({}, element30);
             rows.push(React.DOM.tr(

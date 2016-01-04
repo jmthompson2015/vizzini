@@ -65,8 +65,8 @@ define([ "Maneuver" ], function(Maneuver)
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        var attackerBase = attacker.shipBase();
-        var defenderBase = defender.shipBase();
+        var attackerBase = attacker.shipBaseKey();
+        var defenderBase = defender.shipBaseKey();
 
         var attackerPolygon = Maneuver.computePolygon(attackerBase, attackerPosition.x(), attackerPosition.y(),
                 attackerPosition.heading());

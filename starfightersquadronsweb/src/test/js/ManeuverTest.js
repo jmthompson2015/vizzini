@@ -24,10 +24,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 10);
+        assert.equal(result.points().length, 10);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 20.0);
         assert.equal(points[i++], fromPosition.y() - 20.0);
 
@@ -56,10 +56,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 8);
+        assert.equal(result.points().length, 8);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 0.0);
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -85,10 +85,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 8);
+        assert.equal(result.points().length, 8);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 0.0);
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -120,10 +120,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 14);
+        assert.equal(result.points().length, 14);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 0.0);
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -164,10 +164,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 18);
+        assert.equal(result.points().length, 18);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 0.0);
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -213,10 +213,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPoints().length, 8);
+        assert.equal(result.points().length, 8);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x());
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -241,10 +241,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPoints().length, 8);
+        assert.equal(result.points().length, 8);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x());
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -270,10 +270,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 18);
+        assert.equal(result.points().length, 18);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 0.0);
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -320,10 +320,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 18);
+        assert.equal(result.points().length, 18);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 0.0);
         assert.equal(points[i++], fromPosition.y() + 0.0);
 
@@ -370,10 +370,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 2);
+        assert.equal(result.points().length, 2);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 0.0);
         assert.equal(points[i++], fromPosition.y() + 0.0);
     });
@@ -388,10 +388,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPoints().length, 10);
+        assert.equal(result.points().length, 10);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], 20);
         assert.equal(points[i++], -20);
         assert.equal(points[i++], 20);
@@ -414,10 +414,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPoints().length, 10);
+        assert.equal(result.points().length, 10);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], 30);
         assert.equal(points[i++], 0);
         assert.equal(points[i++], 30);
@@ -440,10 +440,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.getPoints().length, 10);
+        assert.equal(result.points().length, 10);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(myRound(points[i++]), 38.2843);
         assert.equal(myRound(points[i++]), 20);
         assert.equal(myRound(points[i++]), 10);
@@ -474,10 +474,10 @@ define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function
         // Verify.
         assert.ok(result);
         // console.log(result.toString());
-        assert.equal(result.getPoints().length, 10);
+        assert.equal(result.points().length, 10);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], fromPosition.x() + 100.0);
         assert.equal(points[i++], fromPosition.y() - 20.0);
 

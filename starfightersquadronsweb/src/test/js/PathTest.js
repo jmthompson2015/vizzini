@@ -14,10 +14,10 @@ define([ "Path" ], function(Path)
 
         // Run / Verify.
         assert.ok(result);
-        assert.equal(result.getPoints().length, 10);
+        assert.equal(result.points().length, 10);
 
         var i = 0;
-        var points = result.getPoints();
+        var points = result.points();
         assert.equal(points[i++], 20);
         assert.equal(points[i++], -20);
         assert.equal(points[i++], 20);
@@ -30,7 +30,7 @@ define([ "Path" ], function(Path)
         assert.equal(points[i++], -20);
     });
 
-    QUnit.test("getBoundingBox()", function(assert)
+    QUnit.test("boundingBox()", function(assert)
     {
         // Setup.
         var path = new Path();
@@ -41,7 +41,7 @@ define([ "Path" ], function(Path)
         path.close();
 
         // Run.
-        var result = path.getBoundingBox();
+        var result = path.boundingBox();
 
         // Verify.
         assert.ok(result);
@@ -52,13 +52,13 @@ define([ "Path" ], function(Path)
         assert.equal(result.area, 924);
     });
 
-    QUnit.test("getBoundingBox() degenerate", function(assert)
+    QUnit.test("boundingBox() degenerate", function(assert)
     {
         // Setup.
         var path = new Path();
 
         // Run.
-        var result = path.getBoundingBox();
+        var result = path.boundingBox();
 
         // Verify.
         assert.ok(!result);
@@ -79,7 +79,7 @@ define([ "Path" ], function(Path)
 
         // Verify.
         var i = 0;
-        var points = path.getPoints();
+        var points = path.points();
         assert.equal(Math.vizziniRound(points[i++], 2), 18.66);
         assert.equal(Math.vizziniRound(points[i++], 2), -12.32);
         assert.equal(Math.vizziniRound(points[i++], 2), -1.34);
@@ -124,7 +124,7 @@ define([ "Path" ], function(Path)
 
         // Verify.
         var i = 0;
-        var points = path.getPoints();
+        var points = path.points();
         assert.equal(points[i++], 15);
         assert.equal(points[i++], -14);
         assert.equal(points[i++], 16);

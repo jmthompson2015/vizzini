@@ -1,15 +1,20 @@
 define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc, Maneuver, RangeRuler, ShipBase)
 {
-    function Weapon(name, isPrimary, weaponValue, ranges)
+    function Weapon(name, isPrimary, weaponValue, ranges, upgradeKey)
     {
+        InputValidator.validateNotNull("name", name);
+        InputValidator.validateNotNull("isPrimary", isPrimary);
+        InputValidator.validateNotNull("weaponValue", weaponValue);
+        InputValidator.validateNotNull("ranges", ranges);
+
         this.name = function()
         {
             return name;
         }
 
-        this.ranges = function()
+        this.isPrimary = function()
         {
-            return ranges;
+            return isPrimary;
         }
 
         this.weaponValue = function()
@@ -17,9 +22,14 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
             return weaponValue;
         }
 
-        this.isPrimary = function()
+        this.ranges = function()
         {
-            return isPrimary;
+            return ranges;
+        }
+
+        this.upgradeKey = function()
+        {
+            return upgradeKey;
         }
     }
 
@@ -66,7 +76,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
      */
     Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
     {
-        var firingArc = attacker.shipPrimaryFiringArc();
+        var firingArc = attacker.primaryFiringArc();
         var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
         // LOGGER.trace("bearing = " + bearing);
         var answer = FiringArc.properties[firingArc].isInFiringArc(bearing);
@@ -74,7 +84,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
 
         if (!answer)
         {
-            var defenderBase = defender.shipBase();
+            var defenderBase = defender.shipBaseKey();
             var polygon = Maneuver.computePolygon(defenderBase, defenderPosition.x(), defenderPosition.y(),
                     defenderPosition.heading());
 

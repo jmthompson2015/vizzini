@@ -99,7 +99,7 @@ define(function()
     Position.isPathInPlayArea = function(path)
     {
         var answer = true;
-        var points = path.getPoints();
+        var points = path.points();
 
         for (var i = 0; i < points.length; i += 2)
         {

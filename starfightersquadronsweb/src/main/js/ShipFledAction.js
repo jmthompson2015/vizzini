@@ -24,8 +24,8 @@ define([ "Environment" ], function(Environment)
             token.removeAllTargetLocks();
 
             // Return the damage cards.
-            environment.discardAllDamage(token.getDamages());
-            environment.discardAllDamage(token.getCriticalDamages());
+            environment.discardAllDamage(token.damages());
+            environment.discardAllDamage(token.criticalDamages());
 
             environment.removeToken(fromPosition);
             environment.trigger(Environment.SHIP_FLED_EVENT, this);

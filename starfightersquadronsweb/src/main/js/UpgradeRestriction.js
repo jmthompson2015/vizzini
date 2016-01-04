@@ -9,7 +9,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             displayName: "Pilot Skill above \"" + pilotSkill + "\".",
             passes: function(pilot)
             {
-                var myPilotSkill = Pilot.properties[pilot].shipState.getPilotSkillValue();
+                var myPilotSkill = Pilot.properties[pilot].shipState.pilotSkillValue();
                 return myPilotSkill > pilotSkill;
             }
         });

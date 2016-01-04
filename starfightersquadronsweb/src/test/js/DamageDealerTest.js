@@ -30,15 +30,15 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var defender = environment.tokens()[0]; // TIE Fighter
         var evadeCount = 1;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
-        assert.equal(defender.getDamageCount(), 0);
-        assert.equal(defender.getCriticalDamageCount(), 0);
+        assert.equal(defender.damageCount(), 0);
+        assert.equal(defender.criticalDamageCount(), 0);
 
         // Run.
         damageDealer.dealDamage();
 
         // Verify.
-        assert.equal(defender.getDamageCount(), 1);
-        assert.equal(defender.getCriticalDamageCount(), 3);
+        assert.equal(defender.damageCount(), 1);
+        assert.equal(defender.criticalDamageCount(), 3);
     });
 
     QUnit.test("dealDamage() shields", function(assert)
@@ -50,15 +50,15 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var defender = environment.tokens()[2]; // X-Wing
         var evadeCount = 1;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
-        assert.equal(defender.getDamageCount(), 0);
-        assert.equal(defender.getCriticalDamageCount(), 0);
+        assert.equal(defender.damageCount(), 0);
+        assert.equal(defender.criticalDamageCount(), 0);
 
         // Run.
         damageDealer.dealDamage();
 
         // Verify.
-        assert.equal(defender.getDamageCount(), 0);
-        assert.equal(defender.getCriticalDamageCount(), 2);
+        assert.equal(defender.damageCount(), 0);
+        assert.equal(defender.criticalDamageCount(), 2);
     });
 
     QUnit.test("dealDamage() Determination", function(assert)
@@ -71,18 +71,18 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         var defender = new Token(Pilot.LUKE_SKYWALKER, rebelAgent, UpgradeCard.DETERMINATION);
         var evadeCount = 0;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
-        assert.equal(defender.getDamageCount(), 0);
-        assert.equal(defender.getCriticalDamageCount(), 0);
+        assert.equal(defender.damageCount(), 0);
+        assert.equal(defender.criticalDamageCount(), 0);
 
         // Run.
         damageDealer.dealDamage();
 
         // Verify.
-        assert.equal(defender.getDamageCount(), 0);
-        var criticalDamages = defender.getCriticalDamages();
+        assert.equal(defender.damageCount(), 0);
+        var criticalDamages = defender.criticalDamages();
         if (criticalDamages.length === 0)
         {
-            assert.equal(defender.getCriticalDamageCount(), 0);
+            assert.equal(defender.criticalDamageCount(), 0);
         }
         else
         {
@@ -91,7 +91,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
             LOGGER.debug("trait = " + trait);
             assert.ok(trait !== DamageCard.Trait.PILOT);
             assert.equal(trait, DamageCard.Trait.SHIP);
-            assert.equal(defender.getCriticalDamageCount(), 1);
+            assert.equal(defender.criticalDamageCount(), 1);
         }
     });
 
@@ -108,14 +108,14 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
         defender.shield().decrease(); // two shields remaining
         var evadeCount = 1;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
-        assert.equal(defender.getDamageCount(), 0);
-        assert.equal(defender.getCriticalDamageCount(), 0);
+        assert.equal(defender.damageCount(), 0);
+        assert.equal(defender.criticalDamageCount(), 0);
 
         // Run.
         damageDealer.dealDamage();
 
         // Verify.
-        assert.equal(defender.getDamageCount(), 2);
-        assert.equal(defender.getCriticalDamageCount(), 0);
+        assert.equal(defender.damageCount(), 2);
+        assert.equal(defender.criticalDamageCount(), 0);
     });
 });

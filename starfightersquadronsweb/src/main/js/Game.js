@@ -7,7 +7,7 @@ define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator
         InputValidator.validateNotNull("agent2", agent2);
         InputValidator.validateNotNull("squad2", squad2);
 
-        var environment = new Environment(agent1.team(), agent2.team());
+        var environment = new Environment(agent1.teamKey(), agent2.teamKey());
         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
 
         var adjudicator = new Adjudicator();

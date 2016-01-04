@@ -5,19 +5,19 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
         "RangeRuler", "ShipAction", "ShipBase", "SimpleAgent" ], function(Difficulty, Maneuver, ModifyAttackDiceAction,
         ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, ShipAction, ShipBase, SimpleAgent)
 {
-    function MediumAgent(name, team)
+    function MediumAgent(name, teamKey)
     {
         InputValidator.validateNotEmpty("name", name);
-        InputValidator.validateNotNull("team", team);
+        InputValidator.validateNotNull("teamKey", teamKey);
 
         this.name = function()
         {
             return name;
         }
 
-        this.team = function()
+        this.teamKey = function()
         {
-            return team;
+            return teamKey;
         }
     }
 
@@ -86,7 +86,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("callback", callback);
 
-            var team = this.team();
+            var team = this.teamKey();
             var tokens = environment.getTokensForTeam(team);
             var defenders = environment.getDefenders(team);
             var tokenToManeuver = {};
@@ -94,8 +94,8 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
             tokens.forEach(function(token)
             {
                 var fromPosition = environment.getPositionFor(token);
-                var shipBase = token.shipBase();
-                var maneuvers = token.maneuvers();
+                var shipBase = token.shipBaseKey();
+                var maneuvers = token.maneuverKeys();
                 LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
 
                 // Find the maneuvers which keep the ship on the battlefield.
@@ -248,7 +248,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
 
         toString: function()
         {
-            return this.name() + ", MediumAgent, " + this.team();
+            return this.name() + ", MediumAgent, " + this.teamKey();
         },
     });
 

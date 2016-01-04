@@ -41,7 +41,7 @@ define([ "Path" ], function(Path)
         InputValidator.validateNotNull("polygon", polygon);
 
         var wn = 0; // the winding number counter
-        var points = polygon.getPoints();
+        var points = polygon.points();
         var n = points.length - 2;
 
         // loop through all edges of the polygon
@@ -86,9 +86,9 @@ define([ "Path" ], function(Path)
         LOGGER.trace("polygon1 = " + polygon1);
 
         var answer;
-        var b0 = polygon0.getBoundingBox();
+        var b0 = polygon0.boundingBox();
         LOGGER.debug("b0 = " + JSON.stringify(b0));
-        var b1 = polygon1.getBoundingBox();
+        var b1 = polygon1.boundingBox();
         LOGGER.debug("b1 = " + JSON.stringify(b1));
 
         if ((b1.maxX < b0.minX || b0.maxX < b1.minX) // b1 is left or right of b0

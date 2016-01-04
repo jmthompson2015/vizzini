@@ -6,19 +6,19 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
         ModifyDefenseDiceAction, SimpleAgent, ShipAction, CombatUI, PlanningPanel, ShipActionChooser,
         WeaponAndDefenderChooser)
 {
-    function HumanAgent(name, team)
+    function HumanAgent(name, teamKey)
     {
         InputValidator.validateNotEmpty("name", name);
-        InputValidator.validateNotNull("team", team);
+        InputValidator.validateNotNull("teamKey", teamKey);
 
         this.name = function()
         {
             return name;
         }
 
-        this.team = function()
+        this.teamKey = function()
         {
-            return team;
+            return teamKey;
         }
 
         var environment;
@@ -182,7 +182,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
 
             planningCallback = callback;
 
-            var tokens = environment.getTokensForTeam(team);
+            var tokens = environment.getTokensForTeam(teamKey);
             tokens.sort(function(token0, token1)
             {
                 var id0 = token0.id();
@@ -307,7 +307,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
 
     HumanAgent.prototype.toString = function()
     {
-        return this.name() + ", HumanAgent, " + this.team();
+        return this.name() + ", HumanAgent, " + this.teamKey();
     }
 
     return HumanAgent;

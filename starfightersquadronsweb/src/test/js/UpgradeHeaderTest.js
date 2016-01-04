@@ -15,7 +15,7 @@ define([ "UpgradeHeader" ], function(UpgradeHeader)
     {
         var type = UpgradeHeader.ATTACK_FOCUS;
         var properties = UpgradeHeader.properties[type];
-        assert.equal(properties.name, "Attack (Focus): ");
+        assert.equal(properties.name, "Attack (Focus)");
         assert.equal(properties.value, "attackFocus");
     });
 

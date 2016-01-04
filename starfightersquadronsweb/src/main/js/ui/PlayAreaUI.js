@@ -168,7 +168,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
             if (fromPosition)
             {
-                var shipBase = token.shipBase();
+                var shipBase = token.shipBaseKey();
                 answer = new ExplosionUI(fromPosition, shipBase, explosionImage);
             }
 
@@ -188,7 +188,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
                 if (toPosition)
                 {
-                    var strokeStyle = Team.properties[attacker.team()].color;
+                    var strokeStyle = Team.properties[attacker.teamKey()].color;
                     var audioClip = getLaserAudioClip(attacker);
                     answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip);
                 }
@@ -199,9 +199,9 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
 
         function createManeuverUI(maneuverAction)
         {
-            var maneuver = maneuverAction.maneuver();
+            var maneuver = maneuverAction.maneuverKey();
             var fromPosition = maneuverAction.fromPosition();
-            var shipBase = maneuverAction.shipBase();
+            var shipBase = maneuverAction.shipBaseKey();
 
             return new ManeuverUI(maneuver, fromPosition, shipBase);
         }
@@ -210,13 +210,13 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
         {
             var image = new Image();
             image.id = token.id();
-            image.teamColor = Team.properties[token.team()].color;
+            image.teamColor = Team.properties[token.teamKey()].color;
             image.onload = function()
             {
                 callback();
             };
 
-            var filename = ShipTeam.properties[token.shipTeam()].image;
+            var filename = ShipTeam.properties[token.shipTeamKey()].image;
             image.src = imageBase + "ship/" + filename;
 
             return image;
@@ -354,7 +354,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
         {
             var answer;
 
-            var ship = token.ship();
+            var ship = token.shipKey();
 
             if (ship === Ship.YT_1300 || ship === Ship.YT_2400)
             {
@@ -366,7 +366,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             }
             else
             {
-                var team = token.team();
+                var team = token.teamKey();
 
                 if (team === Team.IMPERIAL)
                 {

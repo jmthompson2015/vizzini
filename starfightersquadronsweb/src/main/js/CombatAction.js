@@ -117,7 +117,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
 
             // Compare results.
             // Deal damage.
-            var beforeDamage = defender.getDamageCount() + defender.getCriticalDamageCount();
+            var beforeDamage = defender.damageCount() + defender.criticalDamageCount();
             LOGGER.trace("beforeDamage = " + beforeDamage);
             var attackDice = attacker.combatState().attackDice();
             var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice.criticalHitCount(),
@@ -143,7 +143,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
         function finishDealDamage(damageDealer, beforeDamage)
         {
             damageDealer.dealDamage();
-            var afterDamage = defender.getDamageCount() + defender.getCriticalDamageCount();
+            var afterDamage = defender.damageCount() + defender.criticalDamageCount();
             LOGGER.trace("afterDamage = " + afterDamage);
             var isDefenderHit = afterDamage > beforeDamage;
             attacker.combatState().isDefenderHit(isDefenderHit);

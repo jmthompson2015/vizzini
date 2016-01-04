@@ -118,7 +118,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 {
                     // Barrel roll and Boost.
                     var attackerPosition = environment.getPositionFor(attacker);
-                    var shipBase = attacker.shipBase();
+                    var shipBase = attacker.shipBaseKey();
                     var maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
                     maneuverAction.doIt();
                 }
@@ -137,7 +137,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
                 else if (shipAction.shipAction === ShipAction.SLAM)
                 {
                     var attackerPosition = environment.getPositionFor(attacker);
-                    var shipBase = attacker.shipBase();
+                    var shipBase = attacker.shipBaseKey();
                     var maneuverAction = new ManeuverAction(environment, shipAction.maneuver, attackerPosition,
                             shipBase);
                     maneuverAction.doIt();
@@ -252,7 +252,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
             {
                 environment.activeToken(token);
                 var agent = token.agent();
-                var maneuver = token.team() == environment.firstTeam() ? firstPlanningAction.getManeuver(token)
+                var maneuver = token.teamKey() == environment.firstTeam() ? firstPlanningAction.getManeuver(token)
                         : secondPlanningAction.getManeuver(token);
 
                 if (maneuver)
@@ -261,7 +261,7 @@ define([ "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "
 
                     if (fromPosition)
                     {
-                        var shipBase = token.shipBase();
+                        var shipBase = token.shipBaseKey();
                         var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
                         maneuverAction.doIt();
 

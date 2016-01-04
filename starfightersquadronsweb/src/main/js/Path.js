@@ -7,7 +7,7 @@ define(function()
     {
         var points = [];
 
-        this.getPoints = function()
+        this.points = function()
         {
             return points;
         }
@@ -21,7 +21,7 @@ define(function()
 
     Path.prototype.close = function()
     {
-        var points = this.getPoints();
+        var points = this.points();
 
         if (points.length >= 2)
         {
@@ -30,10 +30,10 @@ define(function()
         }
     }
 
-    Path.prototype.getBoundingBox = function()
+    Path.prototype.boundingBox = function()
     {
         var answer;
-        var points = this.getPoints();
+        var points = this.points();
 
         if (points.length > 1)
         {
@@ -70,7 +70,7 @@ define(function()
 
     Path.prototype.paintComponent = function(context, strokeStyle)
     {
-        var points = this.getPoints();
+        var points = this.points();
 
         if (points.length >= 2)
         {
@@ -92,7 +92,7 @@ define(function()
      */
     Path.prototype.rotate = function(angle, centerX, centerY)
     {
-        var points = this.getPoints();
+        var points = this.points();
         var cx = centerX || 0;
         var cy = centerY || 0;
         var sin = Math.sin(angle);
@@ -111,7 +111,7 @@ define(function()
     Path.prototype.toString = function()
     {
         var answer = "";
-        var points = this.getPoints();
+        var points = this.points();
 
         for (var i = 0; i < points.length; i += 2)
         {
@@ -126,7 +126,7 @@ define(function()
 
     Path.prototype.translate = function(dx, dy)
     {
-        var points = this.getPoints();
+        var points = this.points();
 
         for (var i = 0; i < points.length; i += 2)
         {

@@ -36,7 +36,7 @@ define(function()
 
         this.getTeam = function()
         {
-            return agent.team();
+            return agent.teamKey();
         }
     }
 

@@ -16,7 +16,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
         fromPosition = new Position(fromPosition.x(), fromPosition.y(), -30);
         environment.placeToken(fromPosition, token);
 
-        var shipBase = token.shipBase();
+        var shipBase = token.shipBaseKey();
         var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
 
         // Run.
@@ -42,7 +42,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
         fromPosition = new Position(fromPosition.x(), fromPosition.y(), -30);
         environment.placeToken(fromPosition, token);
 
-        var shipBase = token.shipBase();
+        var shipBase = token.shipBaseKey();
         var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
 
         // Run.
@@ -77,7 +77,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
         fromPosition0 = new Position(fromPosition2.x() + 139, fromPosition2.y() - 80, 90);
         environment.placeToken(fromPosition0, token0);
 
-        var shipBase = token2.shipBase();
+        var shipBase = token2.shipBaseKey();
         var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition2, shipBase);
 
         // Run.

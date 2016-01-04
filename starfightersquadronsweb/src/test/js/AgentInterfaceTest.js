@@ -20,7 +20,7 @@ define([ "MediumAgent", "SimpleAgent", "Team", "ui/HumanAgent" ], function(Mediu
 
             // Verify the functions exist.
             assert.ok(agent.name, agent.name() + ".name");
-            assert.ok(agent.team, agent.name() + ".team");
+            assert.ok(agent.teamKey, agent.name() + ".teamKey");
             assert.ok(agent.getPlanningAction, agent.name() + ".getPlanningAction");
             assert.ok(agent.getShipAction, agent.name() + ".getShipAction");
             assert.ok(agent.chooseWeaponAndDefender, agent.name() + ".chooseWeaponAndDefender");

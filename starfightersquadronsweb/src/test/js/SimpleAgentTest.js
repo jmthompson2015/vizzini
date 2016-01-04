@@ -11,7 +11,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Maneuver", 
 
         // Run / Verify.
         assert.equal(result.name(), "myAgent");
-        assert.equal(result.team(), "myTeam");
+        assert.equal(result.teamKey(), "myTeam");
     });
 
     QUnit.test("chooseWeaponAndDefender() Imperial", function(assert)

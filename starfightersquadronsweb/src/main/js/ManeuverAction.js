@@ -1,21 +1,21 @@
 define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBase", "ShipFledAction" ],
         function(Bearing, Maneuver, Phase, Position, RangeRuler, RectanglePath, ShipBase, ShipFledAction)
         {
-            function ManeuverAction(environment, maneuver, fromPosition, shipBase)
+            function ManeuverAction(environment, maneuverKey, fromPosition, shipBaseKey)
             {
                 InputValidator.validateNotNull("environment", environment);
-                InputValidator.validateNotNull("maneuver", maneuver);
+                InputValidator.validateNotNull("maneuverKey", maneuverKey);
                 InputValidator.validateNotNull("fromPosition", fromPosition);
-                InputValidator.validateNotNull("shipBase", shipBase);
+                InputValidator.validateNotNull("shipBaseKey", shipBaseKey);
 
                 this.environment = function()
                 {
                     return environment;
                 }
 
-                this.maneuver = function()
+                this.maneuverKey = function()
                 {
-                    return maneuver;
+                    return maneuverKey;
                 }
 
                 this.fromPosition = function()
@@ -23,9 +23,9 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
                     return fromPosition;
                 }
 
-                this.shipBase = function()
+                this.shipBaseKey = function()
                 {
-                    return shipBase;
+                    return shipBaseKey;
                 }
 
                 var token;
@@ -47,7 +47,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
                         token.activationState().maneuverAction(this);
                         token.activationState().isTouching(false);
                         environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
-                        var bearing = Maneuver.properties[maneuver].bearing;
+                        var bearing = Maneuver.properties[maneuverKey].bearing;
                         isBarrelRoll = (bearing === Bearing.BARREL_ROLL_LEFT || bearing === Bearing.BARREL_ROLL_RIGHT);
 
                         var toPosition = determineToPosition();
@@ -57,7 +57,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
 
                         if (toPosition)
                         {
-                            toPolygon = Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition
+                            toPolygon = Maneuver.computePolygon(shipBaseKey, toPosition.x(), toPosition.y(), toPosition
                                     .heading());
                         }
 
@@ -77,7 +77,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
                         {
                             environment.removeToken(fromPosition);
                             environment.placeToken(toPosition, token);
-                            token.maneuverEffect(maneuver);
+                            token.maneuverEffect(maneuverKey);
 
                             environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
                         }
@@ -88,37 +88,36 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
 
                 function ShipData(token, position, polygon)
                 {
-                    this.getToken = function()
+                    this.token = function()
                     {
                         return token;
                     }
 
-                    this.getPosition = function()
+                    this.position = function()
                     {
                         return position;
                     }
 
-                    this.getPolygon = function()
+                    this.polygon = function()
                     {
                         return polygon;
                     }
                 }
 
-                function backOffFrom(shipData1, startIndex)
+                function backOffFrom(shipData1, startIndex, shipDataMap)
                 {
                     InputValidator.validateNotNull("shipData1", shipData1);
 
                     var answer = -2;
 
-                    ShipData
-                    shipData0 = shipDataMap[token];
-                    var position0 = shipData0.getPosition();
-                    var polygon1 = shipData1.getPolygon();
+                    var shipData0 = shipDataMap[token];
+                    var position0 = shipData0.position();
+                    var polygon1 = shipData1.polygon();
 
                     // Find the shortest path until collision.
-                    var path = Maneuver.computePath(maneuver, fromPosition, shipBase);
+                    var path = Maneuver.computePath(maneuverKey, fromPosition, shipBaseKey);
                     var pathPoints = [];
-                    var points = path.getPoints();
+                    var points = path.points();
                     for (var i = 0; i < points.length; i += 2)
                     {
                         pathPoints.push(
@@ -143,8 +142,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
                         var heading = Position.computeHeading(x0, y0, x1, y1);
                         LOGGER.trace(i + " x0, y0 = " + x0 + ", " + y0 + " x1, y1 = " + x1 + ", " + y1 + " heading = "
                                 + heading);
-                        var polygon0 = Maneuver.computePolygon(shipBase, Math.vizziniRound(x0, 0), Math.vizziniRound(
-                                y0, 0), heading);
+                        var polygon0 = Maneuver.computePolygon(shipBaseKey, Math.vizziniRound(x0, 0), Math
+                                .vizziniRound(y0, 0), heading);
 
                         if (!RectanglePath.doPolygonsCollide(polygon0, polygon1))
                         {
@@ -198,8 +197,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
                     else
                     {
                         var heading01 = Position.computeHeading(x0, y0, x01, y01);
-                        var polygon01 = Maneuver.computePolygon(shipBase, Math.vizziniRound(x01, 0), Math.vizziniRound(
-                                y01, 0), heading01);
+                        var polygon01 = Maneuver.computePolygon(shipBaseKey, Math.vizziniRound(x01, 0), Math
+                                .vizziniRound(y01, 0), heading01);
 
                         if (RectanglePath.doPolygonsCollide(polygon01, polygon1))
                         {
@@ -237,18 +236,18 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
 
                         if (token1 == token)
                         {
-                            position1 = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
+                            position1 = Maneuver.computeToPosition(maneuverKey, fromPosition, shipBaseKey);
 
                             if (position1 != null)
                             {
-                                polygon1 = Maneuver.computePolygon(shipBase, position1.x(), position1.y(), position1
+                                polygon1 = Maneuver.computePolygon(shipBaseKey, position1.x(), position1.y(), position1
                                         .heading());
                             }
                         }
                         else
                         {
                             position1 = environment.getPositionFor(token1);
-                            var shipBase1 = token1.shipBase();
+                            var shipBase1 = token1.shipBaseKey();
                             polygon1 = Maneuver.computePolygon(shipBase1, position1.x(), position1.y(), position1
                                     .heading());
                         }
@@ -292,8 +291,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
 
                     LOGGER.trace("fromPosition = " + fromPosition);
 
-                    shipDataMap = createShipDataMap();
-                    var toPosition = shipDataMap[token].getPosition();
+                    var shipDataMap = createShipDataMap();
+                    var toPosition = shipDataMap[token].position();
                     LOGGER.trace("nominal toPosition = " + toPosition);
 
                     if (toPosition == null)
@@ -309,19 +308,19 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
 
                     do
                     {
-                        shipData = findCollision();
+                        shipData = findCollision(shipDataMap);
                         LOGGER.trace("index = " + index + " shipData = " + shipData);
 
                         if (shipData == null)
                         {
                             // No collision.
-                            answer = shipDataMap[token].getPosition();
+                            answer = shipDataMap[token].position();
                         }
                         else
                         {
                             // Collision with shipData, at least.
                             token.activationState().isTouching(true);
-                            index = backOffFrom(shipData, index);
+                            index = backOffFrom(shipData, index, shipDataMap);
                         }
 
                         count++;
@@ -355,8 +354,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
 
                     LOGGER.trace("fromPosition = " + fromPosition);
 
-                    shipDataMap = createShipDataMap();
-                    var toPosition = answer = shipDataMap[token].getPosition();
+                    var shipDataMap = createShipDataMap();
+                    var toPosition = answer = shipDataMap[token].position();
                     LOGGER.trace("nominal toPosition = " + toPosition);
 
                     if (toPosition == null)
@@ -368,25 +367,24 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
                     var shipData;
                     var index = -1;
 
-                    shipData = findCollision();
+                    shipData = findCollision(shipDataMap);
                     LOGGER.trace("index = " + index + " shipData = " + shipData);
 
                     if (shipData == null)
                     {
                         // No collision.
-                        answer = shipDataMap[token].getPosition();
+                        answer = shipDataMap[token].position();
                     }
 
                     return answer;
                 }
 
-                function findCollision()
+                function findCollision(shipDataMap)
                 {
-                    ShipData
-                    answer = null;
+                    var answer = null;
 
                     var shipData0 = shipDataMap[token];
-                    var area0 = shipData0.getPolygon();
+                    var area0 = shipData0.polygon();
 
                     var keys = Object.getOwnPropertyNames(shipDataMap);
                     for (var i = 0; i < keys.length; i++)
@@ -396,7 +394,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePat
                         if (shipData0 != shipData1)
                         {
                             LOGGER.trace("shipData1 = " + shipData1);
-                            var polygon1 = shipData1.getPolygon();
+                            var polygon1 = shipData1.polygon();
 
                             if (RectanglePath.doPolygonsCollide(area0, polygon1))
                             {

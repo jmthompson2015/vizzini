@@ -23,7 +23,7 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 
             if (fromPosition)
             {
-                var shipBase = attacker.shipBase();
+                var shipBase = attacker.shipBaseKey();
                 var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition, shipBase);
 
                 if (toPolygon)
@@ -37,7 +37,7 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
 
                         if (token !== attacker)
                         {
-                            var myShipBase = token.shipBase();
+                            var myShipBase = token.shipBaseKey();
                             var position = environment.getPositionFor(token);
                             var polygon = Maneuver.computePolygon(myShipBase, position.x(), position.y(), position
                                     .heading());
@@ -83,9 +83,9 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
             var answer;
 
             var firstAgent = environment.firstAgent();
-            var firstCount = environment.getTokenCountFor(firstAgent.team());
+            var firstCount = environment.getTokenCountFor(firstAgent.teamKey());
             var secondAgent = environment.secondAgent();
-            var secondCount = environment.getTokenCountFor(secondAgent.team());
+            var secondCount = environment.getTokenCountFor(secondAgent.teamKey());
 
             if (firstCount == 0)
             {
@@ -104,14 +104,14 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
             var answer = false;
 
             var firstAgent = environment.firstAgent();
-            var firstCount = environment.getTokenCountFor(firstAgent.team());
+            var firstCount = environment.getTokenCountFor(firstAgent.teamKey());
 
             answer = (firstCount == 0);
 
             if (!answer)
             {
                 var secondAgent = environment.secondAgent();
-                var secondCount = environment.getTokenCountFor(secondAgent.team());
+                var secondCount = environment.getTokenCountFor(secondAgent.teamKey());
                 answer = (secondCount == 0);
             }
 

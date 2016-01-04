@@ -128,7 +128,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
             if (attackerPosition)
             {
-                var defenders = this.getDefenders(attacker.team());
+                var defenders = this.getDefenders(attacker.teamKey());
 
                 if (defenders && defenders.length > 0)
                 {
@@ -155,7 +155,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             InputValidator.validateNotNull("attackerPosition", attackerPosition);
             InputValidator.validateNotNull("weapon", weapon);
 
-            var attackerTeam = attacker.team();
+            var attackerTeam = attacker.teamKey();
             var answer = this.getDefenders(attackerTeam);
             LOGGER.trace("0 defenders = " + answer);
             filterTargetable(attacker, attackerPosition, weapon, answer);
@@ -193,14 +193,14 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         {
             return this.tokens().sort(function(token0, token1)
             {
-                var skill0 = token0.getPilotSkillValue();
-                var skill1 = token1.getPilotSkillValue();
+                var skill0 = token0.pilotSkillValue();
+                var skill1 = token1.pilotSkillValue();
                 var answer = skill0 - skill1;
 
                 if (answer === 0)
                 {
-                    var team0 = token0.team();
-                    var team1 = token1.team();
+                    var team0 = token0.teamKey();
+                    var team1 = token1.teamKey();
 
                     if (team0 === team1)
                     {
@@ -224,14 +224,14 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         {
             return this.tokens().sort(function(token0, token1)
             {
-                var skill0 = token0.getPilotSkillValue();
-                var skill1 = token1.getPilotSkillValue();
+                var skill0 = token0.pilotSkillValue();
+                var skill1 = token1.pilotSkillValue();
                 var answer = skill1 - skill0;
 
                 if (answer === 0)
                 {
-                    var team0 = token0.team();
-                    var team1 = token1.team();
+                    var team0 = token0.teamKey();
+                    var team1 = token1.teamKey();
 
                     if (team0 === team1)
                     {
@@ -264,7 +264,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             {
                 var token = positionToToken[position];
 
-                if (token.team() === team)
+                if (token.teamKey() === team)
                 {
                     answer[answer.length] = token;
                 }
@@ -279,7 +279,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
             var answer = [];
 
-            var shipBase = token.shipBase();
+            var shipBase = token.shipBaseKey();
             var tokenPosition = this.getPositionFor(token);
             var polygon = Maneuver.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition
                     .heading());
@@ -289,7 +289,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             {
                 if (token !== token2)
                 {
-                    var shipBase2 = token2.shipBase();
+                    var shipBase2 = token2.shipBaseKey();
                     var tokenPosition2 = this.getPositionFor(token2);
                     var polygon2 = Maneuver.computePolygon(shipBase2, tokenPosition2.x(), tokenPosition2.y(),
                             tokenPosition2.heading());
@@ -525,7 +525,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             for (var i = 1; i <= tokens.length; i++)
             {
                 var token = tokens[i - 1];
-                var shipBase = token.shipBase();
+                var shipBase = token.shipBaseKey();
                 var x = i * dx;
                 var y = (ShipBase.properties[shipBase].height / 2);
 
@@ -575,7 +575,7 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var rebelSquad = SquadBuilder.CoreSetRebelSquadBuilder.buildSquad(rebelAgent);
 
-        var answer = new Environment(imperialAgent.team(), rebelAgent.team());
+        var answer = new Environment(imperialAgent.teamKey(), rebelAgent.teamKey());
 
         answer.placeInitialTokens(imperialAgent, imperialSquad, rebelAgent, rebelSquad);
 

@@ -24,8 +24,8 @@ define([ "Environment", "Position", "ShipDestroyedAction", "TargetLock", "Token"
         shipDestroyedAction.doIt();
 
         // Verify.
-        assert.equal(token.getDamageCount(), 0);
-        assert.equal(token.getCriticalDamageCount(), 0);
+        assert.equal(token.damageCount(), 0);
+        assert.equal(token.criticalDamageCount(), 0);
         assert.ok(!environment.getTokenAt(fromPosition));
         assert.equal(token.attackerTargetLocks().length, 0);
         assert.equal(token.defenderTargetLocks().length, 0);

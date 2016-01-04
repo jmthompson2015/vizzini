@@ -91,15 +91,15 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
             }
 
             LOGGER.debug("after both hits, shield              = " + defender.shield().count());
-            LOGGER.debug("before hits, damage                  = " + defender.getDamageCount());
+            LOGGER.debug("before hits, damage                  = " + defender.damageCount());
 
             for (var i = 0; i < hits; i++)
             {
                 defender.addDamage(environment.drawDamage());
             }
 
-            LOGGER.debug("after hits, damage                   = " + defender.getDamageCount());
-            LOGGER.debug("before critical hits, criticalDamage = " + defender.getCriticalDamageCount());
+            LOGGER.debug("after hits, damage                   = " + defender.damageCount());
+            LOGGER.debug("before critical hits, criticalDamage = " + defender.criticalDamageCount());
 
             for (var i = 0; i < criticalHits; i++)
             {
@@ -122,7 +122,7 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
                 }
             }
 
-            LOGGER.debug("after critical hits, criticalDamage  = " + defender.getCriticalDamageCount());
+            LOGGER.debug("after critical hits, criticalDamage  = " + defender.criticalDamageCount());
             LOGGER.debug("defender.isDestroyed() ? " + defender.isDestroyed());
         }
 

@@ -128,7 +128,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
 
             // Add upgrade cards.
             var myUpgrades = this.state.upgrades;
-            var tokenUpgrades = token.upgrades();
+            var tokenUpgrades = token.upgradeKeys();
 
             myUpgrades.forEach(function(upgrade)
             {
@@ -165,7 +165,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
         createUpgradesUI: function()
         {
             var pilot = this.state.pilot;
-            var upgradeTypes = this.state.token.upgradeTypes();
+            var upgradeTypes = this.state.token.upgradeTypeKeys();
 
             var rows = [];
 
@@ -202,7 +202,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
 
             // Add upgrade cards.
             var myUpgrades = this.state.upgrades;
-            var tokenUpgrades = token.upgrades();
+            var tokenUpgrades = token.upgradeKeys();
 
             myUpgrades.forEach(function(upgrade)
             {
@@ -254,13 +254,13 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
             var token = this.createToken(this.props.team, this.state.pilot);
 
             // Add upgrade cards.
-            var tokenUpgrades = token.upgrades();
+            var tokenUpgrades = token.upgradeKeys();
 
             upgrades.forEach(function(upgrade, i)
             {
                 if (upgrade)
                 {
-                    var tokenUpgradeTypes = token.upgradeTypes();
+                    var tokenUpgradeTypes = token.upgradeTypeKeys();
                     var tokenUpgradeCount = tokenUpgradeTypes.length;
                     LOGGER.debug(i + " tokenUpgradeCount = " + tokenUpgradeCount);
                     var upgradeType = UpgradeCard.properties[upgrade].type;
@@ -276,7 +276,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "U
                 }
             });
 
-            var tokenUpgradeCount = token.upgradeTypes().length;
+            var tokenUpgradeCount = token.upgradeTypeKeys().length;
             LOGGER.debug("tokenUpgradeCount = " + tokenUpgradeCount);
 
             this.setState(

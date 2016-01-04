@@ -2,19 +2,19 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         "Ship", "ShipAction", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction,
         ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, Ship, ShipAction, ShipBase, Weapon)
 {
-    function SimpleAgent(name, team)
+    function SimpleAgent(name, teamKey)
     {
         InputValidator.validateNotEmpty("name", name);
-        InputValidator.validateNotNull("team", team);
+        InputValidator.validateNotNull("teamKey", teamKey);
 
         this.name = function()
         {
             return name;
         }
 
-        this.team = function()
+        this.teamKey = function()
         {
-            return team;
+            return teamKey;
         }
     }
 
@@ -76,8 +76,8 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("token", token);
 
         var fromPosition = environment.getPositionFor(token);
-        var shipBase = token.shipBase();
-        var maneuvers = token.maneuvers();
+        var shipBase = token.shipBaseKey();
+        var maneuvers = token.maneuverKeys();
         LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
 
         // Find the maneuvers which keep the ship on the battlefield.
@@ -160,9 +160,9 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
         if (shipActions.vizziniContains(ShipAction.SLAM))
         {
-            var previousManeuver = token.activationState().maneuverAction().maneuver();
+            var previousManeuver = token.activationState().maneuverAction().maneuverKey();
             var speed = Maneuver.properties[previousManeuver].speed;
-            var ship = token.ship();
+            var ship = token.shipKey();
             var maneuvers = Ship.properties[ship].maneuvers;
 
             maneuvers.forEach(function(maneuver)
@@ -262,7 +262,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         InputValidator.validateNotNull("adjudicator", adjudicator);
         InputValidator.validateNotNull("callback", callback);
 
-        var team = this.team();
+        var team = this.teamKey();
         var tokens = environment.getTokensForTeam(team);
         var tokenToManeuver = {};
 
@@ -278,7 +278,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
             if (!maneuver)
             {
                 // Ship fled the battlefield.
-                var maneuvers = token.maneuvers();
+                var maneuvers = token.maneuverKeys();
                 maneuver = maneuvers.vizziniRandomElement();
                 LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
             }
@@ -306,7 +306,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
     SimpleAgent.prototype.toString = function()
     {
-        return this.name() + ", SimpleAgent, " + this.team();
+        return this.name() + ", SimpleAgent, " + this.teamKey();
     }
 
     return SimpleAgent;
