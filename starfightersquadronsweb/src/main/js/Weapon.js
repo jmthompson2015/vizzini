@@ -1,20 +1,15 @@
 define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc, Maneuver, RangeRuler, ShipBase)
 {
-    function Weapon(name, isPrimary, weaponValue, ranges, upgradeKey)
+    function Weapon(name, weaponValue, ranges, upgradeKey)
     {
         InputValidator.validateNotNull("name", name);
-        InputValidator.validateNotNull("isPrimary", isPrimary);
         InputValidator.validateNotNull("weaponValue", weaponValue);
         InputValidator.validateNotNull("ranges", ranges);
+        // upgradeKey optional.
 
         this.name = function()
         {
             return name;
-        }
-
-        this.isPrimary = function()
-        {
-            return isPrimary;
         }
 
         this.weaponValue = function()
@@ -38,6 +33,11 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
      */
     Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition, defender, defenderPosition)
     {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("attackerPosition", attackerPosition);
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("defenderPosition", defenderPosition);
+
         var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
         // LOGGER.trace("Weapon.isDefenderInRange() range = " + range);
         // LOGGER.trace("Weapon.ranges() = " + this.ranges());
@@ -50,6 +50,11 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
      */
     Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition, defender, defenderPosition)
     {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("attackerPosition", attackerPosition);
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("defenderPosition", defenderPosition);
+
         // LOGGER.trace("Weapon.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition) ? "
         // + this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition));
         // LOGGER.trace("Weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition) ? "
@@ -66,6 +71,11 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         return this._isDefenderInPrimaryFiringArc(attacker, attackerPosition, defender, defenderPosition);
     }
 
+    Weapon.prototype.isPrimary = function()
+    {
+        return this.name() === "Primary Weapon";
+    }
+
     Weapon.prototype.toString = function()
     {
         return this.name();
@@ -76,6 +86,11 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
      */
     Weapon.prototype._isDefenderInPrimaryFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
     {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("attackerPosition", attackerPosition);
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("defenderPosition", defenderPosition);
+
         var firingArc = attacker.primaryFiringArc();
         var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
         // LOGGER.trace("bearing = " + bearing);

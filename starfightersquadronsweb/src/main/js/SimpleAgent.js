@@ -27,36 +27,34 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
         var weapon;
         var defender;
-
         var attackerPosition = environment.getPositionFor(attacker);
 
         if (attackerPosition)
         {
-            var myWeapon = attacker.primaryWeapon();
-            var values = RangeRuler.values();
+            var choices = environment.createWeaponToRangeToDefenders(attacker);
 
-            for (var i = 0; i < values.length; i++)
+            if (choices.length > 0)
             {
-                var range = values[i];
-                var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, myWeapon,
-                        range);
-                LOGGER.trace("range = " + range + " rangeDefenders.length = " + rangeDefenders.length);
-
-                if (rangeDefenders.length > 0)
+                for (var i = 0; i < choices.length; i++)
                 {
-                    var myDefender = rangeDefenders.vizziniRandomElement();
+                    var weaponData = choices[i];
+                    LOGGER.trace("weaponData = " + JSON.stringify(weaponData));
+                    var myWeapon = weaponData.weapon;
+                    LOGGER.trace("myWeapon = " + myWeapon);
 
-                    // if (myDefender)
-                    // {
-                    var defenderPosition = environment.getPositionFor(myDefender);
-
-                    // if (defenderPosition)
-                    // {
-                    weapon = myWeapon;
-                    defender = myDefender;
-                    break;
-                    // }
-                    // }
+                    if (myWeapon.isPrimary())
+                    {
+                        // The first entry should be the closest.
+                        var rangeToDefenders = weaponData.rangeToDefenders;
+                        LOGGER.trace("rangeToDefenders = " + JSON.stringify(rangeToDefenders));
+                        LOGGER.trace("rangeToDefenders[0].range = " + rangeToDefenders[0].range);
+                        LOGGER.trace("rangeToDefenders[0].defenders = " + rangeToDefenders[0].defenders);
+                        var defenders = rangeToDefenders[0].defenders;
+                        LOGGER.trace("defenders = " + defenders);
+                        weapon = myWeapon;
+                        defender = defenders[0];
+                        break;
+                    }
                 }
             }
         }

@@ -45,7 +45,7 @@
             environment.placeToken(new Position(450, 745, 90), defender2);
             environment.placeToken(new Position(450, 695, 90), defender3);
             environment.placeToken(new Position(450, 645, 90), defender4);
-            var choices = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
+            var choices = environment.createWeaponToRangeToDefenders(attacker);
             var callback = function(weapon, defender)
             {
                 LOGGER.info("callback() start");

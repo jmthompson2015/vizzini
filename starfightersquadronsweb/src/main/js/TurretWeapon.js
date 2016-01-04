@@ -3,16 +3,16 @@
  */
 define([ "Weapon" ], function(Weapon)
 {
-    function TurretWeapon(name, isPrimary, weaponValue, ranges)
+    function TurretWeapon(name, weaponValue, ranges, upgradeKey)
     {
+        InputValidator.validateNotNull("name", name);
+        InputValidator.validateNotNull("weaponValue", weaponValue);
+        InputValidator.validateNotNull("ranges", ranges);
+        // upgradeKey optional.
+
         this.name = function()
         {
             return name;
-        }
-
-        this.ranges = function()
-        {
-            return ranges;
         }
 
         this.weaponValue = function()
@@ -20,9 +20,14 @@ define([ "Weapon" ], function(Weapon)
             return weaponValue;
         }
 
-        this.isPrimary = function()
+        this.ranges = function()
         {
-            return isPrimary;
+            return ranges;
+        }
+
+        this.upgradeKey = function()
+        {
+            return upgradeKey;
         }
     }
 

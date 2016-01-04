@@ -55,6 +55,38 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return activeToken;
         }
 
+        this.createWeaponToRangeToDefenders = function(attacker)
+        {
+            var answer = [];
+
+            var attackerPosition = this.getPositionFor(attacker);
+
+            if (attackerPosition != null)
+            {
+                var primaryWeapon = attacker.primaryWeapon();
+                var rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, primaryWeapon);
+
+                if (rangeToDefenders.length > 0)
+                {
+                    answer.push(createWeaponData(primaryWeapon, rangeToDefenders));
+                }
+
+                var weapons = attacker.secondaryWeapons();
+
+                weapons.forEach(function(weapon)
+                {
+                    rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
+
+                    if (rangeToDefenders.length > 0)
+                    {
+                        answer.push(createWeaponData(weapon, rangeToDefenders));
+                    }
+                });
+            }
+
+            return answer;
+        }
+
         this.discardAllDamage = function(damages)
         {
             Array.prototype.push.apply(damageDiscardPile, damages);
@@ -158,7 +190,11 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             var attackerTeam = attacker.teamKey();
             var answer = this.getDefenders(attackerTeam);
             LOGGER.trace("0 defenders = " + answer);
-            filterTargetable(attacker, attackerPosition, weapon, answer);
+            answer = answer.filter(function(defender)
+            {
+                var defenderPosition = this.getPositionFor(defender);
+                return isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition);
+            }, this);
             LOGGER.trace("1 targetable defenders = " + answer);
 
             return answer;
@@ -173,7 +209,12 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
 
             var answer = this.getTargetableDefenders(attacker, attackerPosition, weapon);
             LOGGER.trace("0 targetable defenders = " + answer);
-            filterAtRange(attacker, attackerPosition, answer, range);
+            answer = answer.filter(function(defender)
+            {
+                var defenderPosition = this.getPositionFor(defender);
+                var myRange = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
+                return (myRange === range);
+            }, this);
             LOGGER.trace("1 targetable defenders = " + answer);
 
             return answer;
@@ -323,7 +364,6 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
                 {
                     LOGGER.info("Phase: " + Phase.properties[phase].displayName);
                     this.trigger(Environment.PHASE_EVENT, phase);
-                    // performTokenPhaseEffects(phase);
                 }
             }
 
@@ -406,45 +446,50 @@ define([ "DamageCard", "Maneuver", "MediumAgent", "Phase", "Position", "RangeRul
             return answer;
         }
 
-        function filterAtRange(attacker, attackerPosition, defenders, range)
+        function createRangeData(range, defenders)
         {
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("attackerPosition", attackerPosition);
-            InputValidator.validateNotNull("defenders", defenders);
             InputValidator.validateNotNull("range", range);
+            InputValidator.validateNotNull("defenders", defenders);
+            InputValidator.validateNotEmpty("defenders", defenders);
 
-            for (var i = 0; i < defenders.length; i++)
+            return (
             {
-                var defender = defenders[i];
-                var defenderPosition = that.getPositionFor(defender);
-                var r = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
-
-                if (r != range)
-                {
-                    defenders.splice(i, 1);
-                    i--;
-                }
-            }
+                range: range,
+                defenders: defenders,
+            });
         }
 
-        function filterTargetable(attacker, attackerPosition, weapon, defenders)
+        function createRangeToDefenders(attacker, attackerPosition, weapon)
         {
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("attackerPosition", attackerPosition);
-            InputValidator.validateNotNull("weapon", weapon);
-            InputValidator.validateNotNull("defenders", defenders);
+            var answer = [];
 
-            for (var i = 0; i < defenders.length; i++)
+            var ranges = weapon.ranges();
+
+            ranges.forEach(function(range)
             {
-                var defender = defenders[i];
-                var defenderPosition = that.getPositionFor(defender);
+                LOGGER.trace("Environment.createRangeToDefenders() range = " + range);
+                var defenders = that.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
+                LOGGER.trace("Environment.createRangeToDefenders() defenders.length = " + defenders.length);
 
-                if (!isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition))
+                if (defenders.length > 0)
                 {
-                    defenders.splice(i, 1);
-                    i--;
+                    answer.push(createRangeData(range, defenders));
                 }
-            }
+            });
+
+            return answer;
+        }
+
+        function createWeaponData(weapon, rangeToDefenders)
+        {
+            InputValidator.validateNotNull("weapon", weapon);
+            InputValidator.validateNotNull("rangeToDefenders", rangeToDefenders);
+
+            return (
+            {
+                weapon: weapon,
+                rangeToDefenders: rangeToDefenders,
+            });
         }
 
         function getTokensForPhase(phase)

@@ -42,7 +42,7 @@ define([ "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "Sh
 
             weaponAndDefenderCallback = callback;
 
-            var choices = WeaponAndDefenderChooser.createWeaponAndRangeAndTokens(environment, attacker);
+            var choices = environment.createWeaponToRangeToDefenders(attacker);
 
             if (choices.length > 0)
             {

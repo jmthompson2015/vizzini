@@ -378,7 +378,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token0.ion().count(), 0);
             });
 
-            QUnit.test("maneuvers()", function(assert)
+            QUnit.test("maneuverKeys()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -391,7 +391,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(result.length, 16);
             });
 
-            QUnit.test("maneuvers() stressed", function(assert)
+            QUnit.test("maneuverKeys() stressed", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -405,7 +405,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(result.length, 14);
             });
 
-            QUnit.test("maneuvers() Damaged Engine", function(assert)
+            QUnit.test("maneuverKeys() Damaged Engine", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -427,7 +427,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 });
             });
 
-            QUnit.test("maneuvers() Nien Nunb crew", function(assert)
+            QUnit.test("maneuverKeys() Nien Nunb crew", function(assert)
             {
                 // Setup.
                 var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -448,7 +448,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 });
             });
 
-            QUnit.test("maneuvers() R2 Astromech", function(assert)
+            QUnit.test("maneuverKeys() R2 Astromech", function(assert)
             {
                 // Setup.
                 var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -469,7 +469,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 });
             });
 
-            QUnit.test("maneuvers() Twin Ion Engine Mk. II", function(assert)
+            QUnit.test("maneuverKeys() Twin Ion Engine Mk. II", function(assert)
             {
                 // Setup.
                 var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -490,7 +490,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 });
             });
 
-            QUnit.test("maneuvers() Unhinged Astromech", function(assert)
+            QUnit.test("maneuverKeys() Unhinged Astromech", function(assert)
             {
                 // Setup.
                 var agent = new SimpleAgent("Scum Agent", Team.SCUM);

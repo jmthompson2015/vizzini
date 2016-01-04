@@ -6,12 +6,11 @@ define([ "TurretWeapon", "RangeRuler", "Weapon" ], function(TurretWeapon, RangeR
     {
         // Setup.
         var name = "myWeapon";
-        var isPrimary = true;
         var weaponValue = 12;
         var ranges = [ RangeRuler.TWO, RangeRuler.THREE ];
 
-        var weapon0 = new Weapon(name, isPrimary, weaponValue, ranges);
-        var weapon1 = new TurretWeapon(name, isPrimary, weaponValue, ranges);
+        var weapon0 = new Weapon(name, weaponValue, ranges);
+        var weapon1 = new TurretWeapon(name, weaponValue, ranges);
         var weapons = [ weapon0, weapon1 ];
 
         // Run / Verify.
@@ -24,6 +23,7 @@ define([ "TurretWeapon", "RangeRuler", "Weapon" ], function(TurretWeapon, RangeR
             assert.ok(weapon.isPrimary);
             assert.ok(weapon.weaponValue);
             assert.ok(weapon.ranges);
+            assert.ok(weapon.upgradeKey);
             assert.ok(weapon.isDefenderInRange);
             assert.ok(weapon.isDefenderVulnerable);
             assert.ok(weapon.isDefenderTargetable);
