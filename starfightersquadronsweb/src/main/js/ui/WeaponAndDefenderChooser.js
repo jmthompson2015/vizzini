@@ -15,8 +15,8 @@ define([ "RangeRuler" ], function(RangeRuler)
             if (choices.length > 0)
             {
                 weapon = choices[0].weapon;
-                var rangeAndTokens = choices[0].rangeAndTokens;
-                defender = rangeAndTokens[0].tokens[0];
+                var rangeToDefenders = choices[0].rangeToDefenders;
+                defender = rangeToDefenders[0].defenders[0];
             }
 
             return (
@@ -54,12 +54,12 @@ define([ "RangeRuler" ], function(RangeRuler)
                     className: "weaponName"
                 }, weaponName)));
 
-                var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
+                var rangeToDefendersArray = weaponAndRangeAndTokens.rangeToDefenders;
 
-                for (var j = 0; j < rangeAndTokensArray.length; j++)
+                for (var j = 0; j < rangeToDefendersArray.length; j++)
                 {
-                    var rangeAndTokens = rangeAndTokensArray[j];
-                    var range = rangeAndTokens.range;
+                    var rangeToDefenders = rangeToDefendersArray[j];
+                    var range = rangeToDefenders.range;
                     var rangeName = RangeRuler.properties[range].displayName;
 
                     rows.push(React.DOM.tr(
@@ -70,13 +70,13 @@ define([ "RangeRuler" ], function(RangeRuler)
                         className: "rangeLabel"
                     }, "Range " + rangeName)));
 
-                    var tokens = rangeAndTokens.tokens;
+                    var defenders = rangeToDefenders.defenders;
 
-                    if (tokens)
+                    if (defenders)
                     {
-                        for (var k = 0; k < tokens.length; k++)
+                        for (var k = 0; k < defenders.length; k++)
                         {
-                            var token = tokens[k];
+                            var token = defenders[k];
 
                             var input = React.DOM.input(
                             {
@@ -173,19 +173,19 @@ define([ "RangeRuler" ], function(RangeRuler)
             {
                 var weaponAndRangeAndTokens = choices[i];
 
-                var rangeAndTokensArray = weaponAndRangeAndTokens.rangeAndTokens;
+                var rangeToDefendersArray = weaponAndRangeAndTokens.rangeToDefenders;
 
-                for (var j = 0; j < rangeAndTokensArray.length; j++)
+                for (var j = 0; j < rangeToDefendersArray.length; j++)
                 {
-                    var rangeAndTokens = rangeAndTokensArray[j];
+                    var rangeToDefenders = rangeToDefendersArray[j];
 
-                    var tokens = rangeAndTokens.tokens;
+                    var defenders = rangeToDefenders.defenders;
 
-                    if (tokens)
+                    if (defenders)
                     {
-                        for (var k = 0; k < tokens.length; k++)
+                        for (var k = 0; k < defenders.length; k++)
                         {
-                            var token = tokens[k];
+                            var token = defenders[k];
 
                             if (token.id() == tokenId)
                             {
@@ -224,92 +224,6 @@ define([ "RangeRuler" ], function(RangeRuler)
             return answer;
         },
     });
-
-    /*
-     * @param environment Environment.
-     * 
-     * @param attacker Attacker.
-     * 
-     * @param attackerPosition Attacker position.
-     * 
-     * @param weapon Weapon.
-     * 
-     * @return a new map of range to defenders.
-     */
-    WeaponAndDefenderChooser.createRangeAndTokens = function(environment, attacker, attackerPosition, weapon)
-    {
-        var answer = [];
-
-        var values = RangeRuler.values();
-
-        for (var i = 0; i < values.length; i++)
-        {
-            var range = values[i];
-            LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() range = " + range);
-            var rangeDefenders = environment.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
-            LOGGER.trace("WeaponAndDefenderChooser.createRangeAndTokens() rangeDefenders.length = "
-                    + rangeDefenders.length);
-
-            if (rangeDefenders.length > 0)
-            {
-                answer[answer.length] =
-                {
-                    range: range,
-                    tokens: rangeDefenders
-                }
-            }
-        }
-
-        return answer;
-    }
-
-    /*
-     * @param environment Environment. @param attacker Attacker.
-     * 
-     * @return a new map of weapon to range to defenders.
-     */
-    WeaponAndDefenderChooser.createWeaponAndRangeAndTokens = function(environment, attacker)
-    {
-        var answer = [];
-
-        var attackerPosition = environment.getPositionFor(attacker);
-
-        if (attackerPosition != null)
-        {
-            var primaryWeapon = attacker.primaryWeapon();
-            var rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
-                    primaryWeapon);
-
-            if (rangeAndTokens.length > 0)
-            {
-                answer.push(
-                {
-                    weapon: primaryWeapon,
-                    rangeAndTokens: rangeAndTokens
-                });
-            }
-
-            var weapons = attacker.secondaryWeapons();
-
-            for (var i = 0; i < weapons.length; i++)
-            {
-                var weapon = weapons[i];
-                rangeAndTokens = WeaponAndDefenderChooser.createRangeAndTokens(environment, attacker, attackerPosition,
-                        weapon);
-
-                if (rangeAndTokens.length > 0)
-                {
-                    answer.push(
-                    {
-                        weapon: weapon,
-                        rangeAndTokens: rangeAndTokens
-                    });
-                }
-            }
-        }
-
-        return answer;
-    }
 
     return WeaponAndDefenderChooser;
 });

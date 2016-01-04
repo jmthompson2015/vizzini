@@ -1,8 +1,147 @@
 define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "ShipDestroyedAction", "ShipFledAction",
-        "SimpleAgent", "Team", "Token" ], function(Environment, Phase, Pilot, Position, RangeRuler, Ship,
-        ShipDestroyedAction, ShipFledAction, SimpleAgent, Team, Token)
+        "SimpleAgent", "Team", "Token", "UpgradeCard" ], function(Environment, Phase, Pilot, Position, RangeRuler,
+        Ship, ShipDestroyedAction, ShipFledAction, SimpleAgent, Team, Token, UpgradeCard)
 {
     QUnit.module("Environment");
+
+    QUnit.test("createWeaponToRangeToDefenders() one", function(assert)
+    {
+        // Setup.
+        var environment = Environment.createCoreSetEnvironment();
+        var attackerPosition = new Position(458, 895, -90); // X-Wing.
+        var attacker = environment.getTokenAt(attackerPosition);
+        environment.removeToken(attackerPosition);
+        attackerPosition = new Position(300, 70, -90);
+        environment.placeToken(attackerPosition, attacker);
+        var weapon = attacker.primaryWeapon();
+
+        // Run.
+        var result = environment.createWeaponToRangeToDefenders(attacker);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 1);
+        {
+            var weaponToRangeToDefenders = result[0];
+            var weapon = weaponToRangeToDefenders.weapon;
+            assert.equal(weapon, attacker.primaryWeapon());
+
+            var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
+            assert.ok(rangeToDefendersArray);
+            assert.equal(rangeToDefendersArray.length, 1);
+
+            var rangeToDefenders = rangeToDefendersArray[0];
+            assert.equal(rangeToDefenders.range, RangeRuler.ONE);
+
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
+        }
+    });
+
+    QUnit.test("createWeaponToRangeToDefenders() one", function(assert)
+    {
+        // Setup.
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
+                UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE);
+        var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+        var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+        var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+        var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+
+        environment.placeToken(new Position(458, 895, -90), attacker);
+        environment.placeToken(new Position(450, 845, 90), defender0);
+        environment.placeToken(new Position(450, 795, 90), defender1);
+        environment.placeToken(new Position(450, 745, 90), defender2);
+        environment.placeToken(new Position(450, 695, 90), defender3);
+        environment.placeToken(new Position(450, 645, 90), defender4);
+
+        // Run.
+        var result = environment.createWeaponToRangeToDefenders(attacker);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 3);
+        {
+            var weaponToRangeToDefenders = result[0];
+            var weapon = weaponToRangeToDefenders.weapon;
+            assert.equal(weapon, attacker.primaryWeapon());
+
+            var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
+            assert.ok(rangeToDefendersArray);
+            assert.equal(rangeToDefendersArray.length, 3);
+
+            var rangeToDefenders = rangeToDefendersArray[0];
+            assert.equal(rangeToDefenders.range, RangeRuler.ONE);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
+
+            var rangeToDefenders = rangeToDefendersArray[1];
+            assert.equal(rangeToDefenders.range, RangeRuler.TWO);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 2);
+
+            var rangeToDefenders = rangeToDefendersArray[2];
+            assert.equal(rangeToDefenders.range, RangeRuler.THREE);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
+        }
+        {
+            var weaponToRangeToDefenders = result[1];
+            var weapon = weaponToRangeToDefenders.weapon;
+            assert.equal(weapon.upgradeKey(), UpgradeCard.MANGLER_CANNON);
+
+            var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
+            assert.ok(rangeToDefendersArray);
+            assert.equal(rangeToDefendersArray.length, 3);
+
+            var rangeToDefenders = rangeToDefendersArray[0];
+            assert.equal(rangeToDefenders.range, RangeRuler.ONE);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
+
+            var rangeToDefenders = rangeToDefendersArray[1];
+            assert.equal(rangeToDefenders.range, RangeRuler.TWO);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 2);
+
+            var rangeToDefenders = rangeToDefendersArray[2];
+            assert.equal(rangeToDefenders.range, RangeRuler.THREE);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
+        }
+        {
+            var weaponToRangeToDefenders = result[2];
+            var weapon = weaponToRangeToDefenders.weapon;
+            assert.equal(weapon.upgradeKey(), UpgradeCard.CLUSTER_MISSILES);
+
+            var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
+            assert.ok(rangeToDefendersArray);
+            assert.equal(rangeToDefendersArray.length, 2);
+
+            var rangeToDefenders = rangeToDefendersArray[0];
+            assert.equal(rangeToDefenders.range, RangeRuler.ONE);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
+
+            var rangeToDefenders = rangeToDefendersArray[1];
+            assert.equal(rangeToDefenders.range, RangeRuler.TWO);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 2);
+        }
+    });
 
     QUnit.test("getDefenders()", function(assert)
     {

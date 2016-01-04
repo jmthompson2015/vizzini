@@ -6,10 +6,10 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
     QUnit.test("TurretWeapon properties", function(assert)
     {
         // Setup.
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.TWO, RangeRuler.THREE ]);
+        var weapon = new TurretWeapon("Primary Weapon", 12, [ RangeRuler.TWO, RangeRuler.THREE ]);
 
         // Run / Verify.
-        assert.equal(weapon.name(), "myWeapon");
+        assert.equal(weapon.name(), "Primary Weapon");
         assert.equal(weapon.isPrimary(), true);
         assert.equal(weapon.weaponValue(), 12);
         var ranges = weapon.ranges();
@@ -31,7 +31,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition);
@@ -53,7 +53,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
@@ -75,7 +75,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, 0);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
@@ -97,7 +97,7 @@ define([ "Environment", "Position", "RangeRuler", "Token", "TurretWeapon" ], fun
         environment.removeToken(attackerPosition);
         attackerPosition = new Position(defenderPosition.x(), defenderPosition.y() + 50, -90);
         environment.placeToken(attackerPosition, attacker);
-        var weapon = new TurretWeapon("myWeapon", true, 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
+        var weapon = new TurretWeapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ]);
 
         // Run.
         var result = weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition);

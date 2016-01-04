@@ -655,13 +655,13 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
             if (ship.isPrimaryWeaponTurret)
             {
-                answer = new TurretWeapon("Primary Weapon", true, shipState.primaryWeaponValue(), [ RangeRuler.ONE,
+                answer = new TurretWeapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE,
                         RangeRuler.TWO, RangeRuler.THREE ]);
             }
             else
             {
-                answer = new Weapon("Primary Weapon", true, shipState.primaryWeaponValue(), [ RangeRuler.ONE,
-                        RangeRuler.TWO, RangeRuler.THREE ]);
+                answer = new Weapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO,
+                        RangeRuler.THREE ]);
             }
 
             return answer;
@@ -673,11 +673,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
             if (upgrade.type === UpgradeType.TURRET)
             {
-                answer = new TurretWeapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges, upgrade.value);
+                answer = new TurretWeapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.value);
             }
             else
             {
-                answer = new Weapon(upgrade.name, false, upgrade.weaponValue, upgrade.ranges, upgrade.value);
+                answer = new Weapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.value);
             }
 
             return answer;
