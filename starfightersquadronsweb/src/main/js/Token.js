@@ -317,6 +317,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             upgradeKeys.forEach(function(upgradeKey)
             {
                 answer.upgradeKeys().push(upgradeKey);
+                var upgrade = UpgradeCard.properties[upgradeKey];
+
+                if (upgrade.weaponValue)
+                {
+                    answer.secondaryWeapons().push(createSecondaryWeapon(upgrade));
+                }
             });
 
             return answer;
@@ -482,7 +488,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
         this.secondaryWeapons = function()
         {
-            return secondaryWeapons.slice();
+            return secondaryWeapons;
         }
 
         this.shield = function()

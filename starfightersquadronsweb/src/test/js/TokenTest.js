@@ -9,17 +9,25 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
             {
                 Token.resetNextId();
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-                var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+                var token0 = new Token(Pilot.DARTH_VADER, imperialAgent, UpgradeCard.CLUSTER_MISSILES);
                 assert.equal(token0.id(), 1);
-                assert.equal(token0.pilotKey(), Pilot.ACADEMY_PILOT);
-                assert.equal(token0.shipKey(), Ship.TIE_FIGHTER);
-                assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
+                assert.equal(token0.pilotKey(), Pilot.DARTH_VADER);
+                assert.equal(token0.shipKey(), Ship.TIE_ADVANCED);
+                assert.equal(token0.name(), "1 Darth Vader (TIE Advanced)");
+                assert.equal(token0.secondaryWeapons().length, 1);
+                var weapon0 = token0.secondaryWeapons()[0];
+                assert.equal(weapon0.upgradeKey(), UpgradeCard.CLUSTER_MISSILES);
+
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
-                var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+                var token1 = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
+                        UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA);
                 assert.equal(token1.id(), 2);
-                assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
-                assert.equal(token1.shipKey(), Ship.X_WING);
-                assert.equal(token1.name(), "2 Rookie Pilot (X-Wing)");
+                assert.equal(token1.pilotKey(), Pilot.DASH_RENDAR);
+                assert.equal(token1.shipKey(), Ship.YT_2400);
+                assert.equal(token1.name(), "2 Dash Rendar (YT-2400)");
+                assert.equal(token1.secondaryWeapons().length, 1);
+                var weapon1 = token1.secondaryWeapons()[0];
+                assert.equal(weapon1.upgradeKey(), UpgradeCard.MANGLER_CANNON);
             });
 
             QUnit.test("addCriticalDamage()", function(assert)

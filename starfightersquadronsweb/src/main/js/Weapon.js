@@ -1,11 +1,11 @@
 define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc, Maneuver, RangeRuler, ShipBase)
 {
-    function Weapon(name, weaponValue, ranges, firingArc, upgradeKey)
+    function Weapon(name, weaponValue, ranges, firingArcKey, upgradeKey)
     {
         InputValidator.validateNotNull("name", name);
         InputValidator.validateNotNull("weaponValue", weaponValue);
         InputValidator.validateNotNull("ranges", ranges);
-        InputValidator.validateNotNull("firingArc", firingArc);
+        InputValidator.validateNotNull("firingArcKey", firingArcKey);
         // upgradeKey optional.
 
         this.name = function()
@@ -23,9 +23,9 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
             return ranges;
         }
 
-        this.firingArc = function()
+        this.firingArcKey = function()
         {
-            return firingArc;
+            return firingArcKey;
         }
 
         this.upgradeKey = function()
@@ -34,9 +34,42 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         }
     }
 
-    /*
-     * @return true if the defender is in this weapon's range.
-     */
+    Weapon.prototype.isDefenderInFiringArc = function(attackerPosition, defender, defenderPosition)
+    {
+        InputValidator.validateNotNull("attackerPosition", attackerPosition);
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("defenderPosition", defenderPosition);
+
+        var firingArc = FiringArc.properties[this.firingArcKey()];
+        var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
+        var answer = firingArc.isInFiringArc(bearing);
+        LOGGER.debug("weapon = " + this.name());
+        LOGGER.debug("0 firingArcKey = " + this.firingArcKey() + " bearing = " + bearing + " answer ? " + answer);
+
+        if (!answer)
+        {
+            var shipBaseKey = defender.shipBaseKey();
+            var polygon = Maneuver.computePolygon(shipBaseKey, defenderPosition.x(), defenderPosition.y(),
+                    defenderPosition.heading());
+            var points = polygon.points();
+
+            for (var i = 0; i < points.length; i += 2)
+            {
+                var bearing = attackerPosition.computeBearing(points[i], points[i + 1]);
+
+                if (firingArc.isInFiringArc(bearing))
+                {
+                    answer = true;
+                    LOGGER.debug(i + " firingArcKey = " + this.firingArcKey() + " bearing = " + bearing + " answer ? "
+                            + answer);
+                    break;
+                }
+            }
+        }
+
+        return answer;
+    }
+
     Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition, defender, defenderPosition)
     {
         InputValidator.validateNotNull("attacker", attacker);
@@ -45,15 +78,10 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
         var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
-        // LOGGER.trace("Weapon.isDefenderInRange() range = " + range);
-        // LOGGER.trace("Weapon.ranges() = " + this.ranges());
 
-        return range && this.ranges().vizziniContains(range);
+        return this.ranges().vizziniContains(range);
     }
 
-    /*
-     * @return true if the defender is in this weapon's firing arc and range.
-     */
     Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition, defender, defenderPosition)
     {
         InputValidator.validateNotNull("attacker", attacker);
@@ -61,20 +89,8 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        // LOGGER.trace("Weapon.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition) ? "
-        // + this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition));
-        // LOGGER.trace("Weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition) ? "
-        // + this.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition));
         return this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition)
-                && this.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
-    }
-
-    /*
-     * @return true if the defender is in this weapon's firing arc.
-     */
-    Weapon.prototype.isDefenderVulnerable = function(attacker, attackerPosition, defender, defenderPosition)
-    {
-        return this._isDefenderInFiringArc(attacker, attackerPosition, defender, defenderPosition);
+                && this.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
     }
 
     Weapon.prototype.isPrimary = function()
@@ -85,50 +101,6 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
     Weapon.prototype.toString = function()
     {
         return this.name();
-    }
-
-    /*
-     * @return true if the defender is in this weapon's firing arc.
-     */
-    Weapon.prototype._isDefenderInFiringArc = function(attacker, attackerPosition, defender, defenderPosition)
-    {
-        InputValidator.validateNotNull("attacker", attacker);
-        InputValidator.validateNotNull("attackerPosition", attackerPosition);
-        InputValidator.validateNotNull("defender", defender);
-        InputValidator.validateNotNull("defenderPosition", defenderPosition);
-
-        var firingArc = this.firingArc();
-        var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
-        // LOGGER.trace("bearing = " + bearing);
-        var answer = FiringArc.properties[firingArc].isInFiringArc(bearing);
-        // LOGGER.trace("0 answer ? " + answer);
-
-        if (!answer)
-        {
-            var defenderBase = defender.shipBaseKey();
-            var polygon = Maneuver.computePolygon(defenderBase, defenderPosition.x(), defenderPosition.y(),
-                    defenderPosition.heading());
-
-            // FIXME
-            // final double[] coords = new double[6];
-            //
-            // for (final PathIterator iter = polygon.getPathIterator(null);
-            // !iter.isDone(); iter.next())
-            // {
-            // iter.currentSegment(coords);
-            // final int bearing = attackerPosition.computeBearing(coords[0],
-            // coords[1]);
-            // LOGGER.trace("bearing = " + bearing);
-            //
-            // if (firingArc.isInFiringArc(bearing))
-            // {
-            // answer = true;
-            // break;
-            // }
-            // }
-        }
-
-        return answer;
     }
 
     return Weapon;

@@ -51,6 +51,12 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
                 key: rows.length,
             }, React.DOM.td({}, React.DOM.span({}, "Attacker: " + attacker.name()))));
 
+            // Weapon label.
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, React.DOM.td({}, React.DOM.span({}, "Weapon: " + attacker.combatState().weapon()))));
+
             // Attack Dice panel.
             var attackPanel = React.createElement(CombatUI.AttackDiceUI,
             {

@@ -20,14 +20,15 @@ define([ "FiringArc",  "RangeRuler", "Weapon" ], function(FiringArc,  RangeRuler
 
             // Verify the functions exist.
             assert.ok(weapon.name);
-            assert.ok(weapon.isPrimary);
             assert.ok(weapon.weaponValue);
             assert.ok(weapon.ranges);
-            assert.ok(weapon.firingArc);
+            assert.ok(weapon.firingArcKey);
             assert.ok(weapon.upgradeKey);
+            assert.ok(weapon.isDefenderInFiringArc);
             assert.ok(weapon.isDefenderInRange);
-            assert.ok(weapon.isDefenderVulnerable);
+//            assert.ok(weapon.isDefenderVulnerable);
             assert.ok(weapon.isDefenderTargetable);
+            assert.ok(weapon.isPrimary);
             assert.ok(weapon.toString);
         }
     });

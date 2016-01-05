@@ -13,6 +13,31 @@ define(function()
             return valueCount(AttackDice.Value.BLANK);
         }
 
+        this.changeAllToValue = function(oldValue, newValue)
+        {
+            values.forEach(function(value, i)
+            {
+                if (value === oldValue)
+                {
+                    values[i] = newValue;
+                }
+            });
+        }
+
+        this.changeOneToValue = function(oldValue, newValue)
+        {
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === oldValue)
+                {
+                    values[i] = newValue;
+                    break;
+                }
+            };
+        }
+
         this.criticalHitCount = function()
         {
             return valueCount(AttackDice.Value.CRITICAL_HIT);
@@ -51,7 +76,7 @@ define(function()
         this.spendFocusToken = function()
         {
             // Change all focus results to hits.
-            changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+            this.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
         }
 
         this.spendTargetLock = function()
@@ -74,17 +99,6 @@ define(function()
         this.value = function(index)
         {
             return values[index];
-        }
-
-        function changeAllToValue(oldValue, newValue)
-        {
-            values.forEach(function(value, i)
-            {
-                if (value === oldValue)
-                {
-                    values[i] = newValue;
-                }
-            });
         }
 
         function rerollAll(size)
@@ -131,10 +145,10 @@ define(function()
 
         function valueCount(target)
         {
-            LOGGER.info( "target = " + target);
+            // LOGGER.info("target = " + target);
             return values.reduce(function(previousValue, currentValue, i)
             {
-//                LOGGER.info(i + " currentValue = " + currentValue);
+                // LOGGER.info(i + " currentValue = " + currentValue);
                 return previousValue + (currentValue === target ? 1 : 0);
             }, 0);
         }

@@ -47,10 +47,11 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
                 UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE);
         var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-        var defender1 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+        var defender1 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-        var defender3 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+        var defender3 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
         var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+        var defender5 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
         var environment = new Environment(Team.IMPERIAL, Team.REBEL);
 
         environment.placeToken(new Position(458, 895, -90), attacker);
@@ -59,6 +60,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         environment.placeToken(new Position(450, 745, 90), defender2);
         environment.placeToken(new Position(450, 695, 90), defender3);
         environment.placeToken(new Position(450, 645, 90), defender4);
+        environment.placeToken(new Position(450, 595, 90), defender5);
 
         // Run.
         var result = environment.createWeaponToRangeToDefenders(attacker);
@@ -79,7 +81,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
             assert.equal(rangeToDefenders.range, RangeRuler.ONE);
             var defenders = rangeToDefenders.defenders;
             assert.ok(defenders);
-            assert.equal(defenders.length, 1);
+            assert.equal(defenders.length, 2);
 
             var rangeToDefenders = rangeToDefendersArray[1];
             assert.equal(rangeToDefenders.range, RangeRuler.TWO);
@@ -106,7 +108,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
             assert.equal(rangeToDefenders.range, RangeRuler.ONE);
             var defenders = rangeToDefenders.defenders;
             assert.ok(defenders);
-            assert.equal(defenders.length, 1);
+            assert.equal(defenders.length, 2);
 
             var rangeToDefenders = rangeToDefendersArray[1];
             assert.equal(rangeToDefenders.range, RangeRuler.TWO);
@@ -133,7 +135,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
             assert.equal(rangeToDefenders.range, RangeRuler.ONE);
             var defenders = rangeToDefenders.defenders;
             assert.ok(defenders);
-            assert.equal(defenders.length, 1);
+            assert.equal(defenders.length, 2);
 
             var rangeToDefenders = rangeToDefendersArray[1];
             assert.equal(rangeToDefenders.range, RangeRuler.TWO);

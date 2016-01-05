@@ -843,6 +843,7 @@ define(
                         squadPointCost: 2,
                         value: "hanSolo",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "heavyLaserCannon":
                     {
                         name: "Heavy Laser Cannon",
@@ -854,6 +855,7 @@ define(
                         firingArc: FiringArc.FORWARD,
                         description: "Attack 1 ship. Immediately after rolling your attack dice, you must change all of your Critical Hit results to Hit results.",
                         squadPointCost: 7,
+                        isImplemented: true,
                         value: "heavyLaserCannon",
                     },
                     "heavyScykInterceptor":
@@ -1143,6 +1145,7 @@ define(
                         squadPointCost: 1,
                         value: "maneuveringFins",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "manglerCannon":
                     {
                         name: "\"Mangler\" Cannon",
@@ -1154,6 +1157,7 @@ define(
                         firingArc: FiringArc.FORWARD,
                         description: "Attack 1 ship. When attacking, you may change 1 of your Hit results to a Critical Hit result.",
                         squadPointCost: 4,
+                        isImplemented: true,
                         value: "manglerCannon",
                     },
                     "maraJade":

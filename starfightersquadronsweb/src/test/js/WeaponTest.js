@@ -40,7 +40,7 @@ define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon"
         assert.ok(result);
     });
 
-    QUnit.test("isDefenderVulnerable() range one", function(assert)
+    QUnit.test("isDefenderInFiringArc() range one", function(assert)
     {
         // Setup.
         Token.resetNextId();
@@ -56,13 +56,13 @@ define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon"
         var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
-        var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
+        var result = weapon.isDefenderInFiringArc( attackerPosition, defender, defenderPosition);
 
         // Verify.
         assert.ok(result);
     });
 
-    QUnit.test("isDefenderVulnerable() rotated", function(assert)
+    QUnit.test("isDefenderInFiringArc() rotated", function(assert)
     {
         // Setup.
         Token.resetNextId();
@@ -78,7 +78,7 @@ define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon"
         var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
-        var result = weapon.isDefenderVulnerable(attacker, attackerPosition, defender, defenderPosition);
+        var result = weapon.isDefenderInFiringArc( attackerPosition, defender, defenderPosition);
 
         // Verify.
         assert.ok(!result);
