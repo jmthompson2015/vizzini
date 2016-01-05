@@ -104,6 +104,37 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         assert.ok(!restriction.passes(Pilot.LUKE_SKYWALKER));
     });
 
+    QUnit.test("passes() X-Wing only", function(assert)
+    {
+        var restriction = UpgradeRestriction.properties[UpgradeRestriction.X_WING_ONLY];
+
+        // T-65 X-Wings.
+        assert.ok(restriction.passes(Pilot.BIGGS_DARKLIGHTER));
+        assert.ok(restriction.passes(Pilot.GARVEN_DREIS));
+        assert.ok(restriction.passes(Pilot.HOBBIE_KLIVIAN));
+        assert.ok(restriction.passes(Pilot.JEK_PORKINS));
+        assert.ok(restriction.passes(Pilot.LUKE_SKYWALKER));
+        assert.ok(restriction.passes(Pilot.RED_SQUADRON_PILOT));
+        assert.ok(restriction.passes(Pilot.ROOKIE_PILOT));
+        assert.ok(restriction.passes(Pilot.TARN_MISON));
+        assert.ok(restriction.passes(Pilot.WEDGE_ANTILLES));
+        assert.ok(restriction.passes(Pilot.WES_JANSON));
+
+        // T-70 X-Wings.
+        assert.ok(restriction.passes(Pilot.BLUE_ACE));
+        assert.ok(restriction.passes(Pilot.BLUE_SQUADRON_NOVICE));
+        assert.ok(restriction.passes(Pilot.ELLO_ASTY));
+        assert.ok(restriction.passes(Pilot.POE_DAMERON));
+        assert.ok(restriction.passes(Pilot.RED_ACE));
+        assert.ok(restriction.passes(Pilot.RED_SQUADRON_VETERAN));
+        
+        // Other.
+        assert.ok(!restriction.passes(Pilot.DARTH_VADER));
+        assert.ok(!restriction.passes(Pilot.CAPTAIN_JONUS));
+        assert.ok(!restriction.passes(Pilot.COLONEL_VESSERY));
+        assert.ok(!restriction.passes(Pilot.ACADEMY_PILOT));
+    });
+
     QUnit.test("values()", function(assert)
     {
         var result = UpgradeRestriction.values();

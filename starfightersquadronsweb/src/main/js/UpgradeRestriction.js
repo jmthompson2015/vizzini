@@ -164,7 +164,16 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             },
             "tiePhantomOnly": ShipRestriction(Ship.TIE_PHANTOM),
             "vt49DecimatorOnly": ShipRestriction(Ship.VT_49_DECIMATOR),
-            "xWingOnly": ShipRestriction(Ship.X_WING),
+            "xWingOnly":
+            {
+                displayName: "X-Wing only.",
+                passes: function(pilot)
+                {
+                    var shipTeam = Pilot.properties[pilot].shipTeam;
+                    var ship = ShipTeam.properties[shipTeam].ship;
+                    return ship === Ship.X_WING || ship === Ship.T_70_X_WING;
+                }
+            },
             "yt1300Only": ShipRestriction(Ship.YT_1300),
             "yt2400Only": ShipRestriction(Ship.YT_2400),
             "yWingOnly": ShipRestriction(Ship.Y_WING),
