@@ -1,4 +1,5 @@
-define([ "Environment", "TargetLock" ], function(Environment, TargetLock)
+define([ "Environment", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token" ], function(Environment, Pilot,
+        SimpleAgent, TargetLock, Team, Token)
 {
     QUnit.module("TargetLock");
 
@@ -31,5 +32,37 @@ define([ "Environment", "TargetLock" ], function(Environment, TargetLock)
         assert.equal(targetLock20.id(), "C");
         assert.equal(targetLock20.attacker(), token2);
         assert.equal(targetLock20.defender(), token0);
+    });
+
+    QUnit.test("TargetLock ids past Z", function(assert)
+    {
+        // Setup.
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var attacker = new Token(Pilot.DARTH_VADER, imperialAgent);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+        var defender = new Token(Pilot.DASH_RENDAR, rebelAgent);
+        TargetLock.resetNextId();
+        
+        // Run / Verify.
+        var targetLock = new TargetLock(attacker, defender);
+        assert.equal(targetLock.id(), "A");
+
+        for (var i = 0; i < 25; i++)
+        {
+            targetLock = new TargetLock(attacker, defender);
+        }
+
+        assert.equal(targetLock.id(), "Z");
+        var targetLock = new TargetLock(attacker, defender);
+        assert.equal(targetLock.id(), "AA");
+
+        for (var i = 0; i < 25; i++)
+        {
+            targetLock = new TargetLock(attacker, defender);
+        }
+
+        assert.equal(targetLock.id(), "ZZ");
+        var targetLock = new TargetLock(attacker, defender);
+        assert.equal(targetLock.id(), "A");
     });
 });

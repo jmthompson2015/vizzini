@@ -24,10 +24,22 @@ define(function()
     }
 
     TargetLock.nextIdValue = 0;
+    TargetLock.isDoubling = false;
 
     TargetLock.nextId = function()
     {
-        return String.fromCharCode(65 + TargetLock.nextIdValue++);
+        var letter = String.fromCharCode(65 + TargetLock.nextIdValue);
+        var answer = (TargetLock.isDoubling ? letter + letter : letter);
+
+        TargetLock.nextIdValue++;
+
+        if (TargetLock.nextIdValue >= 26)
+        {
+            TargetLock.isDoubling = !TargetLock.isDoubling;
+            TargetLock.nextIdValue = 0;
+        }
+
+        return answer;
     }
 
     TargetLock.resetNextId = function()
