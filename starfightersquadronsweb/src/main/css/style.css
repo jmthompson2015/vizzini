@@ -125,6 +125,10 @@ table {
     font-weight: bold;
 }
 
+#FONT_ITALIC, .flavorText, .fontItalic {
+    font-style: italic;
+}
+
 #FONT_MEDIUM, .countTokenText, .damageCount, .labelTokenText, .fontMedium {
     font-size: medium;
 }
