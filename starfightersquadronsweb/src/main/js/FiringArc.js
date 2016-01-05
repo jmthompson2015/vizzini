@@ -11,6 +11,7 @@ define(function()
         {
             "forward":
             {
+                name: "Forward",
                 isInFiringArc: function(bearing)
                 {
                     return (315 <= bearing) || (bearing <= 45);
@@ -19,6 +20,7 @@ define(function()
             },
             "forwardAndAft":
             {
+                name: "Forward and Aft",
                 isInFiringArc: function(bearing)
                 {
                     return ((315 <= bearing) || (bearing <= 45)) || ((135 <= bearing) && (bearing <= 225));
@@ -27,6 +29,7 @@ define(function()
             },
             "forwardAndFullAft":
             {
+                name: "Forward and Full Aft",
                 isInFiringArc: function(bearing)
                 {
                     return ((315 <= bearing) || (bearing <= 45)) || ((90 <= bearing) && (bearing <= 270));
@@ -35,6 +38,7 @@ define(function()
             },
             "turret":
             {
+                name: "Turret",
                 isInFiringArc: function(bearing)
                 {
                     return true;

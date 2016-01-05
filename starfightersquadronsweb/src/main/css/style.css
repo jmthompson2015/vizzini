@@ -86,7 +86,8 @@ table {
 }
 
 #CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .countTokenText, .damageCount, .labelTokenText,
-    .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle, .squadBuilderAdd, .statsTable, .tokensTable, .center {
+    .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle, .rangesCell, .squadBuilderAdd, .statsTable,
+    .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;

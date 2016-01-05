@@ -1,5 +1,5 @@
-define([ "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(UpgradeCard,
-        UpgradeHeader, UpgradeRestriction, UpgradeCardUI)
+define([ "FiringArc", "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(FiringArc,
+        UpgradeCard, UpgradeHeader, UpgradeRestriction, UpgradeCardUI)
 {
     var UpgradeColumns = [
     {
@@ -19,6 +19,21 @@ define([ "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI
     {
         key: "header",
         label: "Header",
+        className: "textCell",
+    },
+    {
+        key: "weaponValue",
+        label: "Weapon Value",
+        className: "numberCell",
+    },
+    {
+        key: "ranges",
+        label: "Ranges",
+        className: "rangesCell",
+    },
+    {
+        key: "firingArc",
+        label: "Firing Arc",
         className: "textCell",
     },
     {
@@ -48,12 +63,12 @@ define([ "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI
         {
             var rows = [];
 
-            var upgrades = UpgradeCard.values();
+            var upgradeKeys = UpgradeCard.values();
             var self = this;
 
-            upgrades.forEach(function(upgrade, i)
+            upgradeKeys.forEach(function(upgradeKey, i)
             {
-                rows.push(self.createRow(upgrade, i));
+                rows.push(self.createRow(upgradeKey, i));
             });
 
             return this.Table(
@@ -91,23 +106,26 @@ define([ "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI
             });
         },
 
-        createRow: function(upgrade, i)
+        createRow: function(upgradeKey, i)
         {
             var cells = [];
 
-            var upgradeProps = UpgradeCard.properties[upgrade];
-            var typeImage = UpgradeCardUI.createUpgradeImage(upgradeProps.type);
-            var isUnique = (upgradeProps.isUnique ? "\u25CF" : "");
+            var upgrade = UpgradeCard.properties[upgradeKey];
+            var typeImage = UpgradeCardUI.createUpgradeImage(upgrade.type);
+            var isUnique = (upgrade.isUnique ? "\u25CF" : "");
             var myRestrictions = " ";
-            if (upgradeProps.restrictions)
+            if (upgrade.restrictions)
             {
-                myRestrictions = upgradeProps.restrictions.reduce(function(previousValue, restriction)
+                myRestrictions = upgrade.restrictions.reduce(function(previousValue, restriction)
                 {
                     return previousValue + " " + UpgradeRestriction.properties[restriction].displayName;
                 }, "");
             }
-            var myHeader = (upgradeProps.header ? UpgradeHeader.properties[upgradeProps.header].name : " ");
-            var isImplemented = (upgradeProps.isImplemented !== undefined ? upgradeProps.isImplemented : false);
+            var myHeader = (upgrade.header ? UpgradeHeader.properties[upgrade.header].name : " ");
+            var myWeaponValue = (upgrade.weaponValue ? upgrade.weaponValue : " ");
+            var myRanges = (upgrade.ranges ? UpgradeCardUI.createRangesLabel(upgradeKey) : " ");
+            var myFiringArc = (upgrade.firingArc ? FiringArc.properties[upgrade.firingArc].name : " ");
+            var isImplemented = (upgrade.isImplemented !== undefined ? upgrade.isImplemented : false);
             var implementedImage = this.createImplementedImage(isImplemented);
             var i = 0;
 
@@ -116,19 +134,25 @@ define([ "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI
                 key: cells.length,
                 className: UpgradeColumns[i].className,
                 column: UpgradeColumns[i].key,
-                value: upgradeProps.type, // this allows sorting
+                value: upgrade.type, // this allows sorting
             }, typeImage));
             i++;
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgradeProps.name));
+            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgrade.name));
 
             cells.push(this.createCell(cells.length, UpgradeColumns[i++], myRestrictions));
 
             cells.push(this.createCell(cells.length, UpgradeColumns[i++], myHeader));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgradeProps.description));
+            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myWeaponValue));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgradeProps.squadPointCost));
+            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myRanges));
+
+            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myFiringArc));
+
+            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgrade.description));
+
+            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgrade.squadPointCost));
 
             cells.push(React.DOM.td(
             {
