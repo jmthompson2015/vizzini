@@ -79,13 +79,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                         attacker.combatState().combatAction(this);
 
                         // Roll attack dice.
-                        var attackDiceCount = attacker.computeAttackDiceCount(environment, weapon, range);
-
-                        if (weapon.upgradeKey() === UpgradeCard.PROTON_ROCKETS)
-                        {
-                            attackDiceCount += Math.min(attacker.agilityValue(), 3);
-                        }
-
+                        var attackDiceCount = attacker.computeAttackDiceCount(environment, weapon, defender, range);
                         var attackDice = new AttackDice(attackDiceCount);
 
                         if (weapon.upgradeKey() === UpgradeCard.ADVANCED_PROTON_TORPEDOES)

@@ -1,4 +1,4 @@
-define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
+define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, RectanglePath)
 {
     function Adjudicator()
     {
@@ -73,9 +73,10 @@ define([ "Maneuver", "RectanglePath" ], function(Maneuver, RectanglePath)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            // Cannot select a ship action if the ship is stressed, or
+            // Cannot select a ship action if the ship is stressed (exception: pilot Tycho Celchu), or
             // if the ship is touching another ship.
-            return !attacker.isStressed() && !attacker.activationState().isTouching();
+            return (attacker.pilotKey() === Pilot.TYCHO_CELCHU || !attacker.isStressed())
+                    && !attacker.activationState().isTouching();
         }
 
         this.determineWinner = function(environment)

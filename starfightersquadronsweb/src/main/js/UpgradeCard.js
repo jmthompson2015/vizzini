@@ -1336,7 +1336,7 @@ define(
                         squadPointCost: 5,
                         value: "protonBombs",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
+                    // @see Token.computeAttackDiceCount() for effect implementation.
                     "protonRockets":
                     {
                         name: "Proton Rockets",

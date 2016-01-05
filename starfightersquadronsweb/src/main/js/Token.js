@@ -391,33 +391,40 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         {
             var answer;
 
-            if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_COCKPIT))
+            if (pilotKey === Pilot.EPSILON_ACE && this.damageCount() === 0 && criticalDamageCount() === 0)
             {
-                answer = 0;
-            }
-            else if (this.isCriticallyDamagedWith(DamageCard.INJURED_PILOT))
-            {
-                answer = 0;
+                answer = 12;
             }
             else
             {
-                answer = getShipState().pilotSkillValue();
-            }
-
-            answer = criticalDamages.reduce(function(sum, damageKey)
-            {
-                return sum + DamageCard.properties[damageKey].shipState.pilotSkillValue();
-            }, answer);
-
-            upgradeKeys.forEach(function(upgradeKey)
-            {
-                var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                if (shipState)
+                if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_COCKPIT))
                 {
-                    answer += shipState.pilotSkillValue();
+                    answer = 0;
                 }
-            });
+                else if (this.isCriticallyDamagedWith(DamageCard.INJURED_PILOT))
+                {
+                    answer = 0;
+                }
+                else
+                {
+                    answer = getShipState().pilotSkillValue();
+                }
+
+                answer = criticalDamages.reduce(function(sum, damageKey)
+                {
+                    return sum + DamageCard.properties[damageKey].shipState.pilotSkillValue();
+                }, answer);
+
+                upgradeKeys.forEach(function(upgradeKey)
+                {
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
+
+                    if (shipState)
+                    {
+                        answer += shipState.pilotSkillValue();
+                    }
+                });
+            }
 
             return Math.max(answer, 0);
         }
@@ -727,8 +734,13 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         this.trigger("change");
     }
 
-    Token.prototype.computeAttackDiceCount = function(environment, weapon, range)
+    Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, range)
     {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("weapon", weapon);
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("range", range);
+
         var answer;
 
         if (this.isCriticallyDamagedWith(DamageCard.BLINDED_PILOT))
@@ -744,6 +756,16 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             {
                 // Bonus attack die at range one.
                 answer++;
+            }
+
+            if (this.pilotKey() === Pilot.EADEN_VRILL && weapon.isPrimary() && defender.isStressed())
+            {
+                answer++;
+            }
+
+            if (weapon.upgradeKey() === UpgradeCard.PROTON_ROCKETS)
+            {
+                answer += Math.min(this.agilityValue(), 3);
             }
         }
 

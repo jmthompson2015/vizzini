@@ -159,10 +159,12 @@ define(
                     {
                         name: "Academy Pilot",
                         description: "Developed by Sienar Fleet Systems, the Empire used the fast and agile TIE/In as its primary starfighter throughout most of the Galactic Civil War.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_FIGHTER,
                         shipState: new ShipState(1, 2, 3, 3, 0),
                         squadPointCost: 12,
                         upgradeTypes: [],
+                        isImplemented: true,
                         value: "academyPilot",
                     },
                     "airenCracken":
@@ -180,10 +182,12 @@ define(
                     {
                         name: "Alpha Squadron Pilot",
                         description: "Seiner Fleet Systems designed the TIE interceptor with four wing-mounted laser cannons, easily allowing it to outgun its predecessors.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_INTERCEPTOR,
                         shipState: new ShipState(1, 3, 3, 3, 0),
                         squadPointCost: 18,
                         upgradeTypes: [],
+                        isImplemented: true,
                         value: "alphaSquadronPilot",
                     },
                     "arvelCrynyd":
@@ -201,10 +205,12 @@ define(
                     {
                         name: "Avenger Squadron Pilot",
                         description: "The finest mass-produced starfighter of its time, the TIE interceptor excels at dogfighting thanks to its heightened maneuverability and speed.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_INTERCEPTOR,
                         shipState: new ShipState(3, 3, 3, 3, 0),
                         squadPointCost: 20,
                         upgradeTypes: [],
+                        isImplemented: true,
                         value: "avengerSquadronPilot",
                     },
                     "backstabber":
@@ -222,10 +228,12 @@ define(
                     {
                         name: "Bandit Squadron Pilot",
                         description: "The AF4 series was the latest in a long line of Headhunter designs. Cheap and durable, it became a favorite among independent outfits like the Rebellion and Black Sun.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_Z_95_HEADHUNTER,
                         shipState: new ShipState(2, 2, 2, 2, 2),
                         squadPointCost: 12,
                         upgradeTypes: [ UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "banditSquadronPilot",
                     },
                     "biggsDarklighter":
@@ -243,81 +251,97 @@ define(
                     {
                         name: "Binayre Pirate",
                         description: "Operating from the Double Worlds, Talus and Tralus, Kath Scarlet's gang of smugglers and pirates would never be described as reputable or dependable - even by other criminals.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_Z_95_HEADHUNTER,
                         shipState: new ShipState(1, 2, 2, 2, 2),
                         squadPointCost: 12,
                         upgradeTypes: [ UpgradeType.MISSILE, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "binayrePirate",
                     },
                     "blackEightSqPilot":
                     {
                         name: "Black Eight Sq. Pilot",
                         description: "Darth Vader's hand-picked Black Eight Squadron earned its reputation for ruthlessness when its bombardment of Callos rendered the planet uninhabitable.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
                         shipState: new ShipState(4, 2, 1, 6, 3),
                         squadPointCost: 23,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        isImplemented: true,
                         value: "blackEightSqPilot",
                     },
                     "blackSquadronPilot":
                     {
                         name: "Black Squadron Pilot",
                         description: "The TIE fighter has no shields or life support systems, forcing TIE pilots to depend solely on their skills to survive.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_FIGHTER,
                         shipState: new ShipState(4, 2, 3, 3, 0),
                         squadPointCost: 14,
                         upgradeTypes: [ UpgradeType.ELITE ],
+                        isImplemented: true,
                         value: "blackSquadronPilot",
                     },
                     "blackSunAce":
                     {
                         name: "Black Sun Ace",
                         description: "The Kihraxz assault fighter was developed specifically for the Black Sun crime syndicate, whose highly paid ace pilots demanded a nimble, powerful ship to match their skills.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_KIHRAXZ_FIGHTER,
                         shipState: new ShipState(5, 3, 2, 4, 1),
                         squadPointCost: 23,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "blackSunAce",
                     },
                     "blackSunEnforcer":
                     {
                         name: "Black Sun Enforcer",
                         description: "Prince Xizor himself collaborated with MandalMotors to design the StarViper-class attack platform, one of the most formidable starfighters in the galaxy.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_STAR_VIPER,
                         shipState: new ShipState(1, 3, 3, 4, 1),
                         squadPointCost: 25,
                         upgradeTypes: [ UpgradeType.TORPEDO ],
+                        isImplemented: true,
                         value: "blackSunEnforcer",
                     },
                     "blackSunSoldier":
                     {
                         name: "Black Sun Soldier",
                         description: "The vast and influential Black Sun crime syndicate can always find a use for talented pilots, provided they aren't particular about how they earn their credits.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_Z_95_HEADHUNTER,
                         shipState: new ShipState(3, 2, 2, 2, 2),
                         squadPointCost: 13,
                         upgradeTypes: [ UpgradeType.MISSILE, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "blackSunSoldier",
                     },
                     "blackSunVigo":
                     {
                         name: "Black Sun Vigo",
                         description: "Following the success of the Virago prototype, the StarViper-class attack platform was streamlined and redesigned for mass production.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_STAR_VIPER,
                         shipState: new ShipState(3, 3, 3, 4, 1),
                         squadPointCost: 27,
                         upgradeTypes: [ UpgradeType.TORPEDO ],
+                        isImplemented: true,
                         value: "blackSunVigo",
                     },
                     "blackmoonSquadronPilot":
                     {
                         name: "Blackmoon Squadron Pilot",
                         description: "Originally designed with only the R7-series of astromech in mind, the E-wing was later retrofitted to equip the standard R2- and R5-series droids.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_E_WING,
                         shipState: new ShipState(3, 3, 3, 2, 3),
                         squadPointCost: 29,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
+                        isImplemented: true,
                         value: "blackmoonSquadronPilot",
                     },
                     "blueAce":
@@ -345,11 +369,13 @@ define(
                     {
                         name: "Blue Squadron Pilot",
                         description: "Because of its heavy weapons array and resilient shielding, the B-wing solidified itself as the Alliance's most formidable assault fighter.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_B_WING,
                         shipState: new ShipState(2, 3, 1, 3, 5),
                         squadPointCost: 22,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.CANNON, UpgradeType.TORPEDO,
                                 UpgradeType.TORPEDO ],
+                        isImplemented: true,
                         value: "blueSquadronPilot",
                     },
                     "bobaFettImperial":
@@ -392,10 +418,12 @@ define(
                     {
                         name: "Bounty Hunter",
                         description: "Originally intended as a prisoner transport, the Firespray patrol craft features a versatile weapons array and heavy armor plating.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_FIRESPRAY_31,
                         shipState: new ShipState(3, 3, 2, 6, 4),
                         squadPointCost: 33,
                         upgradeTypes: [ UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "bountyHunter",
                     },
                     "captainJonus":
@@ -459,20 +487,24 @@ define(
                     {
                         name: "Cartel Marauder",
                         description: "The versatile Kihraxz was modeled after Incom's popular X-wing starfighter, but an array of after-market modification kits ensured a wide variety of designs.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_KIHRAXZ_FIGHTER,
                         shipState: new ShipState(2, 3, 2, 4, 1),
                         squadPointCost: 20,
                         upgradeTypes: [ UpgradeType.MISSILE, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "cartelMarauder",
                     },
                     "cartelSpacer":
                     {
                         name: "Cartel Spacer",
                         description: "MandalMotors M3-A \"Scyk\" Interceptor was purchased in large quantities by the Hutt Cartel and the Car'das smugglers due to its low cost and customizability.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_M3_A_INTERCEPTOR,
                         shipState: new ShipState(2, 2, 3, 2, 1),
                         squadPointCost: 14,
                         upgradeTypes: [],
+                        isImplemented: true,
                         value: "cartelSpacer",
                     },
                     // @see Token.addCriticalDamage() for effect implementation.
@@ -485,6 +517,7 @@ define(
                         shipState: new ShipState(5, 3, 1, 8, 5),
                         squadPointCost: 42,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "chewbacca",
                     },
                     "colonelJendon":
@@ -537,11 +570,13 @@ define(
                     {
                         name: "Cutlass Squadron Pilot",
                         description: "The TIE Punisher built upon the success of the TIE bomber, adding shielding, a second bomb chute, and three additional ordnance pods, each equipped with a twin ion engine.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
                         shipState: new ShipState(2, 2, 1, 6, 3),
                         squadPointCost: 21,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        isImplemented: true,
                         value: "cutlassSquadronPilot",
                     },
                     "daceBonearm":
@@ -559,11 +594,13 @@ define(
                     {
                         name: "Dagger Squadron Pilot",
                         description: "A unique gyrostabilization system surrounds the B-wing's cockpit, ensuring that the pilot always remains stationary during flight.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_B_WING,
                         shipState: new ShipState(4, 3, 1, 3, 5),
                         squadPointCost: 24,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.CANNON, UpgradeType.TORPEDO,
                                 UpgradeType.TORPEDO ],
+                        isImplemented: true,
                         value: "daggerSquadronPilot",
                     },
                     "darkCurse":
@@ -615,10 +652,12 @@ define(
                     {
                         name: "Delta Squadron Pilot",
                         description: "In addition to its four laser cannons and warhead launchers, the TIE defender came equipped with ion cannons in its upper wing.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_DEFENDER,
                         shipState: new ShipState(1, 3, 3, 3, 3),
                         squadPointCost: 30,
                         upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "deltaSquadronPilot",
                     },
                     "dreaRenthal":
@@ -645,6 +684,7 @@ define(
                                 UpgradeType.ASTROMECH ],
                         value: "dutchVander",
                     },
+                    // @see Token.computeAttackDiceCount() for effect implementation.
                     "eadenVrill":
                     {
                         name: "Eaden Vrill",
@@ -654,6 +694,7 @@ define(
                         shipState: new ShipState(3, 2, 2, 5, 5),
                         squadPointCost: 32,
                         upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "eadenVrill",
                     },
                     "echo":
@@ -678,6 +719,7 @@ define(
                                 UpgradeType.ILLICIT ],
                         value: "emonAzzameen",
                     },
+                    // @see Token.pilotSkillValue() for effect implementation.
                     "epsilonAce":
                     {
                         name: "\"Epsilon Ace\"",
@@ -687,16 +729,19 @@ define(
                         shipState: new ShipState(4, 2, 3, 3, 1),
                         squadPointCost: 17,
                         upgradeTypes: [ UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "epsilonAce",
                     },
                     "epsilonSquadronPilot":
                     {
                         name: "Epsilon Squadron Pilot",
                         description: "Following the traditions of the Galactic Empire, the First Order has kept the TIE fighter design in service, but has updated the craft to modern combat standards.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
                         shipState: new ShipState(1, 2, 3, 3, 1),
                         squadPointCost: 15,
                         upgradeTypes: [ UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "epsilonSquadronPilot",
                     },
                     "esegeTuketu":
@@ -738,11 +783,13 @@ define(
                     {
                         name: "Gamma Squadron Pilot",
                         description: "While not as agile or fast as other TIE variants, TIE bombers can carry enough firepower to destroy virtually any enemy target.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_BOMBER,
                         shipState: new ShipState(4, 2, 2, 6, 0),
                         squadPointCost: 18,
                         upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE,
                                 UpgradeType.MISSILE, UpgradeType.BOMB ],
+                        isImplemented: true,
                         value: "gammaSquadronPilot",
                     },
                     "garvenDreis":
@@ -771,22 +818,26 @@ define(
                     {
                         name: "Gold Squadron Pilot",
                         description: "The versatile and reliable BTL-A4 Y-wing was the Rebellion's primary starfighter until the arrival of the T-65 X-wing.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_Y_WING,
                         shipState: new ShipState(2, 2, 1, 5, 3),
                         squadPointCost: 18,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.ASTROMECH ],
+                        isImplemented: true,
                         value: "goldSquadronPilot",
                     },
                     "graySquadronPilot":
                     {
                         name: "Gray Squadron Pilot",
                         description: "Long after the Y-wing was to be phased out, its speed, durability, and weapon options helped it remain a staple in the Rebel fleet.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_Y_WING,
                         shipState: new ShipState(4, 2, 1, 5, 3),
                         squadPointCost: 20,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.ASTROMECH ],
+                        isImplemented: true,
                         value: "graySquadronPilot",
                     },
                     "grazTheHunter":
@@ -804,21 +855,25 @@ define(
                     {
                         name: "Green Squadron Pilot",
                         description: "Conceived by General Dodonna, the RZ-1 A-wing interceptor proved its worth by crippling Star Destroyers during the Battle of Endor.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_A_WING,
                         shipState: new ShipState(3, 2, 3, 2, 2),
                         squadPointCost: 19,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "greenSquadronPilot",
                     },
                     "guardianSquadronPilot":
                     {
                         name: "Guardian Squadron Pilot",
                         description: "The K-wing's surprising acceleration, heavy armor plating, and devastating ordnance made it a favorite for hit-and-run operations.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_K_WING,
                         shipState: new ShipState(4, 2, 1, 5, 4),
                         squadPointCost: 25,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        isImplemented: true,
                         value: "guardianSquadronPilot",
                     },
                     "guri":
@@ -847,11 +902,13 @@ define(
                     {
                         name: "Hired Gun",
                         description: "Just the mention of Imperial credits can bring a host of less-than-trustworthy individuals to your side.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_Y_WING,
                         shipState: new ShipState(4, 2, 1, 5, 3),
                         squadPointCost: 20,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.SALVAGED_ASTROMECH ],
+                        isImplemented: true,
                         value: "hiredGun",
                     },
                     "hobbieKlivian":
@@ -1055,10 +1112,12 @@ define(
                     {
                         name: "Knave Squadron Pilot",
                         description: "Specifically designed to combine the best features of the X-wing series with the A-wing series, the E-wing boasted superior firepower, speed, and maneuverability.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_E_WING,
                         shipState: new ShipState(1, 3, 3, 2, 3),
                         squadPointCost: 27,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
+                        isImplemented: true,
                         value: "knaveSquadronPilot",
                     },
                     "krassisTrelix":
@@ -1188,11 +1247,13 @@ define(
                     {
                         name: "Mandalorian Mercenary",
                         description: "Though the Mandalorian Crusaders were all but destroyed by the Old Republic, a handful of enterprising mercenaries still claim the mantle, instilling terror in their foes.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_FIRESPRAY_31,
                         shipState: new ShipState(5, 3, 2, 6, 4),
                         squadPointCost: 35,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW,
                                 UpgradeType.MISSILE, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "mandalorianMercenary",
                     },
                     "maulerMithel":
@@ -1279,10 +1340,12 @@ define(
                     {
                         name: "Obsidian Squadron Pilot",
                         description: "The TIE fighter's Twin Ion Engine system was designed for speed, making the TIE one of the most maneuverable starships ever produced.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_FIGHTER,
                         shipState: new ShipState(3, 2, 3, 3, 0),
                         squadPointCost: 13,
                         upgradeTypes: [],
+                        isImplemented: true,
                         value: "obsidianSquadronPilot",
                     },
                     "omegaLeader":
@@ -1300,40 +1363,48 @@ define(
                     {
                         name: "Omega Squadron Pilot",
                         description: "To attain a coveted position in the skilled Omega squadron, pilots had to demonstrate both their exceptional skill and their unwavering dedication to the First Order.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
                         shipState: new ShipState(4, 2, 3, 3, 1),
                         squadPointCost: 17,
                         upgradeTypes: [ UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "omegaSquadronPilot",
                     },
                     "omicronGroupPilot":
                     {
                         name: "Omicron Group Pilot",
                         description: "Noted for its tri-wing design, the Lambda-class shuttle served a critical role as a light utility craft in the Imperial Navy.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_LAMBDA_CLASS_SHUTTLE,
                         shipState: new ShipState(2, 3, 1, 5, 5),
                         squadPointCost: 21,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.CANNON, UpgradeType.CREW, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "omicronGroupPilot",
                     },
                     "onyxSquadronPilot":
                     {
                         name: "Onyx Squadron Pilot",
                         description: "The TIE defender outclassed all other starfighters of its time, though its size and array of weapons greatly increased its weight and cost in credits.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_DEFENDER,
                         shipState: new ShipState(3, 3, 3, 3, 3),
                         squadPointCost: 32,
                         upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "onyxSquadronPilot",
                     },
                     "outerRimSmuggler":
                     {
                         name: "Outer Rim Smuggler",
                         description: "Known for its durability and modular design, the YT-1300 is one of the most popular, widely used freighters in the galaxy.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_YT_1300,
                         shipState: new ShipState(1, 2, 1, 6, 4),
                         squadPointCost: 27,
                         upgradeTypes: [ UpgradeType.CREW, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "outerRimSmuggler",
                     },
                     "palobGodalhi":
@@ -1351,11 +1422,13 @@ define(
                     {
                         name: "Patrol Leader",
                         description: "To be granted command of a VT-49 Decimator was seen as a significant promotion for a middling officer of the Imperial Navy.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_VT_49_DECIMATOR,
                         shipState: new ShipState(3, 3, 0, 12, 4),
                         squadPointCost: 40,
                         upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.CREW,
                                 UpgradeType.BOMB ],
+                        isImplemented: true,
                         value: "patrolLeader",
                     },
                     "poeDameron":
@@ -1384,10 +1457,12 @@ define(
                     {
                         name: "Prototype Pilot",
                         description: "Due to its sensitive controls and high maneuverability, only the most talented pilots belong in an A-wing cockpit.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_A_WING,
                         shipState: new ShipState(1, 2, 3, 2, 2),
                         squadPointCost: 17,
                         upgradeTypes: [ UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "prototypePilot",
                     },
                     "rearAdmiralChiraneau":
@@ -1406,10 +1481,12 @@ define(
                     {
                         name: "Rebel Operative",
                         description: "Designed after a bird in flight by Corellian Engineering Corporation, the \"hawk\" series excelled in its role as a personal transport.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_HWK_290,
                         shipState: new ShipState(2, 1, 2, 4, 1),
                         squadPointCost: 16,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "rebelOperative",
                     },
                     "redline":
@@ -1428,10 +1505,12 @@ define(
                     {
                         name: "Red Squadron Pilot",
                         description: "Created as an elite starfighter squad, Red Squadron included some of the best pilots in the Rebel Alliance.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_X_WING,
                         shipState: new ShipState(4, 3, 2, 3, 2),
                         squadPointCost: 23,
                         upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
+                        isImplemented: true,
                         value: "redSquadronPilot",
                     },
                     "redSquadronVeteran":
@@ -1470,10 +1549,12 @@ define(
                     {
                         name: "Rookie Pilot",
                         description: "Designed by Incom Corporation, the T-65 X-wing quickly proved to be one of the most effective military vehicles in the galaxy and a boon to the Rebellion.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_X_WING,
                         shipState: new ShipState(2, 3, 2, 3, 2),
                         squadPointCost: 21,
                         upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
+                        isImplemented: true,
                         value: "rookiePilot",
                     },
                     "royalGuardPilot":
@@ -1489,11 +1570,13 @@ define(
                     "saberSquadronPilot":
                     {
                         name: "Saber Squadron Pilot",
-                        description: "A TIE Interceptor pilot.",
+                        description: "Led by Baron Soontir Fel, the pilots of Saber Squadron are among the Empire's best. Their TIE Interceptors are marked with red stripes to designate pilots with at least ten confirmed kills.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_INTERCEPTOR,
                         shipState: new ShipState(4, 3, 3, 3, 0),
                         squadPointCost: 21,
                         upgradeTypes: [],
+                        isImplemented: true,
                         value: "saberSquadronPilot",
                     },
                     "saberSquadronPilot":
@@ -1510,11 +1593,13 @@ define(
                     {
                         name: "Scimitar Squadron Pilot",
                         description: "The onboard targeting computer is extremely precise, allowing a TIE bomber to pinpoint its target while avoiding collateral damage to the surrounding area.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_BOMBER,
                         shipState: new ShipState(2, 2, 2, 6, 0),
                         squadPointCost: 16,
                         upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE,
                                 UpgradeType.MISSILE, UpgradeType.BOMB ],
+                        isImplemented: true,
                         value: "scimitarSquadronPilot",
                     },
                     "serissu":
@@ -1532,20 +1617,24 @@ define(
                     {
                         name: "Shadow Squadron Pilot",
                         description: "Featuring a hyperdrive and shields, the TIE phantom also came equipped with five laser cannons, giving it uprecedented firepower for such a small Imperial fighter.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_PHANTOM,
                         shipState: new ShipState(5, 4, 2, 2, 2),
                         squadPointCost: 27,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "shadowSquadronPilot",
                     },
                     "sigmaSquadronPilot":
                     {
                         name: "Sigma Squadron Pilot",
                         description: "The primary result of a hidden research facility on Imdaar Alpha, the TIE phantom added a small fighter with cloaking capabilities to the Imperial fleet.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_PHANTOM,
                         shipState: new ShipState(3, 4, 2, 2, 2),
                         squadPointCost: 25,
                         upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "sigmaSquadronPilot",
                     },
                     "soontirFel":
@@ -1563,41 +1652,49 @@ define(
                     {
                         name: "Spice Runner",
                         description: "With nothing more than a desire to fly and a junkyard at their disposal, crafty mechanics can make almost anything spaceworthy.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_HWK_290,
                         shipState: new ShipState(1, 1, 2, 4, 1),
                         squadPointCost: 16,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.CREW, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "spiceRunner",
                     },
                     "stormSquadronPilot":
                     {
                         name: "Storm Squadron Pilot",
                         description: "The TIE Advanced improved on the popular TIE/In design by adding shielding, better weapon systems, curved solar panels, and a hyperdrive.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_ADVANCED,
                         shipState: new ShipState(4, 2, 3, 3, 2),
                         squadPointCost: 23,
                         upgradeTypes: [ UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "stormSquadronPilot",
                     },
                     "syndicateThug":
                     {
                         name: "Syndicate Thug",
                         description: "Though far from nimble, the Y-wing's heavy hull, substantial shielding, and turret-mounted cannons make them excellent patrol craft.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_Y_WING,
                         shipState: new ShipState(2, 2, 1, 5, 3),
                         squadPointCost: 18,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.SALVAGED_ASTROMECH ],
+                        isImplemented: true,
                         value: "syndicateThug",
                     },
                     "talaSquadronPilot":
                     {
                         name: "Tala Squadron Pilot",
                         description: "Manufactured by Incom Corporation, the Z-95-AF4 was the primary inspiration for the design of the T-65 X-wing.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_Z_95_HEADHUNTER,
                         shipState: new ShipState(4, 2, 2, 2, 2),
                         squadPointCost: 13,
                         upgradeTypes: [ UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "talaSquadronPilot",
                     },
                     "talonbaneCobra":
@@ -1615,10 +1712,12 @@ define(
                     {
                         name: "Tansarii Point Veteran",
                         description: "The defeat of Black Sun ace Talonbane Cobra by Car'das smugglers turned the tide of the Battle of Tansarii Point Station. Survivors of the clash are respected throughout the sector.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_M3_A_INTERCEPTOR,
                         shipState: new ShipState(5, 2, 3, 2, 1),
                         squadPointCost: 17,
                         upgradeTypes: [ UpgradeType.ELITE ],
+                        isImplemented: true,
                         value: "tansariiPointVeteran",
                     },
                     "tarnMison":
@@ -1636,10 +1735,12 @@ define(
                     {
                         name: "Tempest Squadron Pilot",
                         description: "The TIE Advanced was produced in limited quantities, but later Sienar engineers incorporated many of its best qualities into their next TIE model: the TIE Interceptor.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_ADVANCED,
                         shipState: new ShipState(2, 2, 3, 3, 2),
                         squadPointCost: 21,
                         upgradeTypes: [ UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "tempestSquadronPilot",
                     },
                     "tenNumb":
@@ -1680,11 +1781,13 @@ define(
                     {
                         name: "Trandoshan Slaver",
                         description: "The spacious triple-decker design of the YV-666 made it popular among bounty hunters and slavers, who often retrofitted an entire deck for prisoner transport.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.SCUM_YV_666,
                         shipState: new ShipState(2, 3, 1, 6, 6),
                         squadPointCost: 29,
                         upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW,
                                 UpgradeType.CREW, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "trandoshanSlaver",
                     },
                     "turrPhennir":
@@ -1698,6 +1801,7 @@ define(
                         upgradeTypes: [ UpgradeType.ELITE ],
                         value: "turrPhennir",
                     },
+                    // @see Adjudicator.canSelectShipAction() for effect implementation.
                     "tychoCelchu":
                     {
                         name: "Tycho Celchu",
@@ -1707,17 +1811,20 @@ define(
                         shipState: new ShipState(8, 2, 3, 2, 2),
                         squadPointCost: 26,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        isImplemented: true,
                         value: "tychoCelchu",
                     },
                     "wardenSquadronPilot":
                     {
                         name: "Warden Squadron Pilot",
                         description: "Koensayr Manufacturing's K-wing boasted an advanced Sublight Acceleration Motor (SLAM) and an unprecedented 18 hard points, granting it unrivaled speed and firepower.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_K_WING,
                         shipState: new ShipState(2, 2, 1, 5, 4),
                         squadPointCost: 23,
                         upgradeTypes: [ UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        isImplemented: true,
                         value: "wardenSquadronPilot",
                     },
                     "wedgeAntilles":
@@ -1757,10 +1864,12 @@ define(
                     {
                         name: "Wild Space Fringer",
                         description: "Although a stock YT-2400 light freighter had plenty of space for cargo, that space was often annexed to support modified weapon systems and oversized engines.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.REBEL_YT_2400,
                         shipState: new ShipState(2, 2, 2, 5, 5),
                         squadPointCost: 30,
                         upgradeTypes: [ UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "wildSpaceFringer",
                     },
                     "wingedGundark":
@@ -1789,10 +1898,12 @@ define(
                     {
                         name: "Zeta Squadron Pilot",
                         description: "The fragility of TIE Fighters during the Galactic Civil War led engineers to improve survivability, resulting in a more durable starfighter.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
                         shipState: new ShipState(3, 2, 3, 3, 1),
                         squadPointCost: 16,
                         upgradeTypes: [ UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "zetaSquadronPilot",
                     },
                 },
