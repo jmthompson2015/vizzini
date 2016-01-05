@@ -1,4 +1,5 @@
-define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc, Maneuver, RangeRuler, ShipBase)
+define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase", "UpgradeCard", "UpgradeHeader" ], function(FiringArc,
+        Maneuver, RangeRuler, ShipBase, UpgradeCard, UpgradeHeader)
 {
     function Weapon(name, weaponValue, ranges, firingArcKey, upgradeKey)
     {
@@ -32,6 +33,51 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         {
             return upgradeKey;
         }
+
+        var upgrade = UpgradeCard.properties[upgradeKey];
+
+        this.upgrade = function()
+        {
+            return upgrade;
+        }
+    }
+
+    Weapon.prototype.isUsable = function(attacker, defender)
+    {
+        var answer;
+        var upgrade = this.upgrade();
+
+        if (upgrade)
+        {
+            if (upgrade.isImplemented)
+            {
+                switch (upgrade.header)
+                {
+                case UpgradeHeader.ATTACK:
+                    answer = true;
+                    break;
+                case UpgradeHeader.ATTACK_FOCUS:
+                    answer = (attacker.focus().count() > 0);
+                    break;
+                case UpgradeHeader.ATTACK_TARGET_LOCK:
+                    answer = (attacker.findTargetLockByDefender(defender) !== undefined);
+                    break;
+                default:
+                    throw "Unknown upgrade header: " + header;
+                }
+            }
+            else
+            {
+                answer = false;
+            }
+        }
+        else
+        {
+            // Primary weapon.
+            answer = true;
+        }
+
+        return answer;
     }
 
     Weapon.prototype.isDefenderInFiringArc = function(attackerPosition, defender, defenderPosition)
@@ -89,7 +135,8 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase" ], function(FiringArc
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        return this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition)
+        return this.isUsable(attacker, defender)
+                && this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition)
                 && this.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
     }
 

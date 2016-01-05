@@ -51,29 +51,66 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                 {
                     attacker.combatState().weapon(weapon);
 
-                    LOGGER.trace("attackerPosition = " + attackerPosition);
-                    LOGGER.trace("defenderPosition = " + defenderPosition);
+                    var upgrade = weapon.upgrade();
+
+                    if (upgrade)
+                    {
+                        if (upgrade.spendFocus)
+                        {
+                            attacker.focus().decrease();
+                        }
+
+                        if (upgrade.spendTargetLock)
+                        {
+                            var targetLock = attacker.findTargetLockByDefender(defender);
+                            attacker.removeAttackerTargetLock(targetLock);
+                            defender.removeDefenderTargetLock(targetLock);
+                        }
+
+                        if (upgrade.discardThisCard)
+                        {
+                            attacker.discardUpgrade(weapon.upgradeKey());
+                        }
+                    }
+
                     var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
-                    LOGGER.trace("range = " + range);
                     attacker.combatState().range(range);
 
                     if (range)
                     {
-                        LOGGER.trace("attacker = " + attacker);
-                        LOGGER.trace("defender = " + defender);
                         attacker.combatState().combatAction(this);
 
                         // Roll attack dice.
                         var attackDiceCount = attacker.computeAttackDiceCount(environment, weapon, range);
+
+                        if (weapon.upgradeKey() === UpgradeCard.PROTON_ROCKETS)
+                        {
+                            attackDiceCount += Math.min(attacker.agilityValue(), 3);
+                        }
+
                         var attackDice = new AttackDice(attackDiceCount);
 
-                        if (weapon.upgradeKey() === UpgradeCard.HEAVY_LASER_CANNON)
+                        if (weapon.upgradeKey() === UpgradeCard.ADVANCED_PROTON_TORPEDOES)
+                        {
+                            attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
+                            attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
+                            attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.CONCUSSION_MISSILES)
+                        {
+                            attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.HEAVY_LASER_CANNON)
                         {
                             attackDice.changeAllToValue(AttackDice.Value.CRITICAL_HIT, AttackDice.Value.HIT);
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.MANGLER_CANNON)
                         {
                             attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.PROTON_TORPEDOES)
+                        {
+                            attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
                         }
 
                         attacker.combatState().attackDice(attackDice);

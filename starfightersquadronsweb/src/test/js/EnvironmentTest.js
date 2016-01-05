@@ -1,6 +1,6 @@
 define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "ShipDestroyedAction", "ShipFledAction",
-        "SimpleAgent", "Team", "Token", "UpgradeCard" ], function(Environment, Phase, Pilot, Position, RangeRuler,
-        Ship, ShipDestroyedAction, ShipFledAction, SimpleAgent, Team, Token, UpgradeCard)
+        "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard" ], function(Environment, Phase, Pilot, Position,
+        RangeRuler, Ship, ShipDestroyedAction, ShipFledAction, SimpleAgent, TargetLock, Team, Token, UpgradeCard)
 {
     QUnit.module("Environment");
 
@@ -45,15 +45,20 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
-                UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE);
+                UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES);
         var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defender1 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
         var defender3 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
         var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
         var defender5 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
 
+        attacker.focus().increase();
+        var targetLock = new TargetLock(attacker, defender3);
+        attacker.addAttackerTargetLock(targetLock);
+        defender3.addDefenderTargetLock(targetLock);
+
+        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
         environment.placeToken(new Position(458, 895, -90), attacker);
         environment.placeToken(new Position(450, 845, 90), defender0);
         environment.placeToken(new Position(450, 795, 90), defender1);
@@ -67,7 +72,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 3);
+        assert.equal(result.length, 4);
         {
             var weaponToRangeToDefenders = result[0];
             var weapon = weaponToRangeToDefenders.weapon;
@@ -125,7 +130,7 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
         {
             var weaponToRangeToDefenders = result[2];
             var weapon = weaponToRangeToDefenders.weapon;
-            assert.equal(weapon.upgradeKey(), UpgradeCard.CLUSTER_MISSILES);
+            assert.equal(weapon.upgradeKey(), UpgradeCard.BLASTER_TURRET);
 
             var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
             assert.ok(rangeToDefendersArray);
@@ -142,6 +147,21 @@ define([ "Environment", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Shi
             var defenders = rangeToDefenders.defenders;
             assert.ok(defenders);
             assert.equal(defenders.length, 2);
+        }
+        {
+            var weaponToRangeToDefenders = result[3];
+            var weapon = weaponToRangeToDefenders.weapon;
+            assert.equal(weapon.upgradeKey(), UpgradeCard.PROTON_TORPEDOES);
+
+            var rangeToDefendersArray = weaponToRangeToDefenders.rangeToDefenders;
+            assert.ok(rangeToDefendersArray);
+            assert.equal(rangeToDefendersArray.length, 1);
+
+            var rangeToDefenders = rangeToDefendersArray[0];
+            assert.equal(rangeToDefenders.range, RangeRuler.TWO);
+            var defenders = rangeToDefenders.defenders;
+            assert.ok(defenders);
+            assert.equal(defenders.length, 1);
         }
     });
 

@@ -202,6 +202,23 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.THREE), 3);
             });
 
+            QUnit.test("discardUpgrade()", function(assert)
+            {
+                // Setup.
+                var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                var token = new Token(Pilot.DARTH_VADER, imperialAgent, UpgradeCard.DETERMINATION,
+                        UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE);
+                assert.equal(token.upgradeKeys().length, 3);
+                assert.equal(token.secondaryWeapons().length, 1);
+
+                // Run.
+                token.discardUpgrade(UpgradeCard.CLUSTER_MISSILES);
+
+                // Verify.
+                assert.equal(token.upgradeKeys().length, 2);
+                assert.equal(token.secondaryWeapons().length, 0);
+            });
+
             QUnit.test("equals()", function(assert)
             {
                 // Setup.

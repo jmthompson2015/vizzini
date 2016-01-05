@@ -172,6 +172,27 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             return defenderTargetLocks.slice();
         }
 
+        this.discardUpgrade = function(upgradeKey)
+        {
+            InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+            upgradeKeys.vizziniRemove(upgradeKey);
+            var upgrade = UpgradeCard.properties[upgradeKey];
+
+            if (upgrade.weaponValue !== undefined)
+            {
+                for (var i = 0; i < secondaryWeapons.length; i++)
+                {
+                    var weapon = secondaryWeapons[i];
+
+                    if (weapon.upgradeKey() === upgradeKey)
+                    {
+                        secondaryWeapons.vizziniRemove(weapon);
+                    }
+                }
+            }
+        }
+
         this.equals = function(other)
         {
             return id == other.id() && pilotKey == other.pilotKey();

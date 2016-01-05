@@ -1,5 +1,6 @@
-define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon" ], function(Environment, FiringArc,
-        Position, RangeRuler, Token, Weapon)
+define([ "Environment", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleAgent", "TargetLock", "Team", "Token",
+        "UpgradeCard", "Weapon" ], function(Environment, FiringArc, Pilot, Position, RangeRuler, SimpleAgent,
+        TargetLock, Team, Token, UpgradeCard, Weapon)
 {
     QUnit.module("Weapon");
 
@@ -56,7 +57,7 @@ define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon"
         var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
-        var result = weapon.isDefenderInFiringArc( attackerPosition, defender, defenderPosition);
+        var result = weapon.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
 
         // Verify.
         assert.ok(result);
@@ -78,7 +79,7 @@ define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon"
         var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
-        var result = weapon.isDefenderInFiringArc( attackerPosition, defender, defenderPosition);
+        var result = weapon.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
 
         // Verify.
         assert.ok(!result);
@@ -104,6 +105,43 @@ define([ "Environment", "FiringArc", "Position", "RangeRuler", "Token", "Weapon"
 
         // Verify.
         assert.ok(result);
+    });
+
+    QUnit.test("isUsable()", function(assert)
+    {
+        // Setup.
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET,
+                UpgradeCard.PROTON_TORPEDOES);
+        var weapon0 = attacker.secondaryWeapons()[0]; // Mangler cannon.
+        var weapon1 = attacker.secondaryWeapons()[1]; // Blaster turret.
+        var weapon2 = attacker.secondaryWeapons()[2]; // Cluster missiles.
+        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        environment.placeToken(new Position(458, 895, -90), attacker);
+        environment.placeToken(new Position(450, 845, 90), defender);
+
+        // Run / Verify.
+        assert.ok(weapon0.isUsable(attacker, defender));
+        assert.ok(!weapon1.isUsable(attacker, defender));
+        assert.ok(!weapon2.isUsable(attacker, defender));
+
+        attacker.focus().increase();
+
+        // Run / Verify.
+        assert.ok(weapon0.isUsable(attacker, defender));
+        assert.ok(weapon1.isUsable(attacker, defender));
+        assert.ok(!weapon2.isUsable(attacker, defender));
+
+        var targetLock = new TargetLock(attacker, defender);
+        attacker.addAttackerTargetLock(targetLock);
+        defender.addDefenderTargetLock(targetLock);
+
+        // Run / Verify.
+        assert.ok(weapon0.isUsable(attacker, defender));
+        assert.ok(weapon1.isUsable(attacker, defender));
+        assert.ok(weapon2.isUsable(attacker, defender));
     });
 
     QUnit.test("toString()", function(assert)

@@ -222,6 +222,7 @@ define(
                         squadPointCost: 3,
                         value: "advancedHomingMissiles",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "advancedProtonTorpedoes":
                     {
                         name: "Advanced Proton Torpedoes",
@@ -232,7 +233,10 @@ define(
                         ranges: [ RangeRuler.ONE ],
                         firingArc: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack. You may change up to 3 of your blank results to Focus results.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 6,
+                        isImplemented: true,
                         value: "advancedProtonTorpedoes",
                     },
                     "advancedSensors":
@@ -333,6 +337,7 @@ define(
                         squadPointCost: 2,
                         value: "autothrusters",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "blasterTurret":
                     {
                         name: "Blaster Turret",
@@ -343,7 +348,9 @@ define(
                         ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
                         firingArc: FiringArc.TURRET,
                         description: "Spend 1 Focus token to perform this attack against 1 ship (even a ship outside your firing arc).",
+                        spendFocus: true,
                         squadPointCost: 4,
+                        isImplemented: true,
                         value: "blasterTurret",
                     },
                     "bodyguard":
@@ -504,6 +511,7 @@ define(
                         squadPointCost: 3,
                         value: "commRelay",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "concussionMissiles":
                     {
                         name: "Concussion Missiles",
@@ -514,7 +522,10 @@ define(
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         firingArc: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack. You may change 1 of your blank results to a Hit result.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 4,
+                        isImplemented: true,
                         value: "concussionMissiles",
                     },
                     "connerNet":
@@ -881,6 +892,7 @@ define(
                         squadPointCost: 5,
                         value: "homingMissiles",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "hotShotBlaster":
                     {
                         name: "\"Hot Shot\" Blaster",
@@ -891,7 +903,9 @@ define(
                         ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
                         firingArc: FiringArc.TURRET,
                         description: "Discard this card to attack 1 ship (even a ship outside your firing arc).",
+                        discardThisCard: true,
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "hotShotBlaster",
                     },
                     "houndsTooth":
@@ -1322,6 +1336,7 @@ define(
                         squadPointCost: 5,
                         value: "protonBombs",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "protonRockets":
                     {
                         name: "Proton Rockets",
@@ -1332,9 +1347,12 @@ define(
                         ranges: [ RangeRuler.ONE ],
                         firingArc: FiringArc.FORWARD,
                         description: "Discard this card to perform this attack. You may roll additional attack dice equal to your agility value, to a maximum of 3 additional dice.",
+                        discardThisCard: true,
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "protonRockets",
                     },
+                    // @see CombatAction.doIt() for effect implementation.
                     "protonTorpedoes":
                     {
                         name: "Proton Torpedoes",
@@ -1345,7 +1363,10 @@ define(
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         firingArc: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack. You may change 1 of your Focus results to a Critical Hit result.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 4,
+                        isImplemented: true,
                         value: "protonTorpedoes",
                     },
                     "proximityMines":
