@@ -84,21 +84,15 @@ define(
 
             QUnit.test("values()", function(assert)
             {
-                // Setup.
-                var expected = Object.getOwnPropertyNames(UpgradeCard).length - 1 // properties
-                - 1 // getName
-                - 3 // values
-                ;
-
                 // Run.
                 var result = UpgradeCard.values();
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, expected);
+                assert.equal(result.length, 169);
                 assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-                assert.equal(result[160], UpgradeCard.WINGMAN);
-                assert.equal(result[161], UpgradeCard.YSANNE_ISARD);
+                assert.equal(result[166], UpgradeCard.WINGMAN);
+                assert.equal(result[168], UpgradeCard.YSANNE_ISARD);
             });
 
             QUnit.test("valuesByPilotAndType() Astromech", function(assert)
@@ -108,9 +102,11 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 12);
-                assert.equal(result[0], UpgradeCard.R2_ASTROMECH);
-                assert.equal(result[11], UpgradeCard.R7_T1);
+                assert.equal(result.length, 15);
+                assert.equal(result[0], UpgradeCard.BB_8);
+                assert.equal(result[1], UpgradeCard.R2_ASTROMECH);
+                assert.equal(result[13], UpgradeCard.R7_T1);
+                assert.equal(result[14], UpgradeCard.TARGETING_ASTROMECH);
             });
 
             QUnit.test("valuesByPilotAndType() Boba Fett Modification", function(assert)
@@ -159,10 +155,11 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 26);
+                assert.equal(result.length, 28);
                 var i = 0;
                 assert.equal(result[i++], UpgradeCard.ADRENALINE_RUSH);
                 assert.equal(result[i++], UpgradeCard.CALCULATION);
+                assert.equal(result[i++], UpgradeCard.COOL_HAND);
                 assert.equal(result[i++], UpgradeCard.CRACK_SHOT);
                 assert.equal(result[i++], UpgradeCard.DAREDEVIL);
                 assert.equal(result[i++], UpgradeCard.DEADEYE);
@@ -187,6 +184,7 @@ define(
                 assert.equal(result[i++], UpgradeCard.SWARM_TACTICS);
                 assert.equal(result[i++], UpgradeCard.VETERAN_INSTINCTS);
                 assert.equal(result[i++], UpgradeCard.WINGMAN);
+                assert.equal(result[i++], UpgradeCard.WIRED);
             });
 
             QUnit.test("valuesByType() Astromech", function(assert)
@@ -196,9 +194,11 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 12);
-                assert.equal(result[0], UpgradeCard.R2_ASTROMECH);
-                assert.equal(result[11], UpgradeCard.R7_T1);
+                assert.equal(result.length, 15);
+                assert.equal(result[0], UpgradeCard.BB_8);
+                assert.equal(result[1], UpgradeCard.R2_ASTROMECH);
+                assert.equal(result[13], UpgradeCard.R7_T1);
+                assert.equal(result[14], UpgradeCard.TARGETING_ASTROMECH);
             });
 
             QUnit.test("valuesByType() Elite", function(assert)
@@ -208,8 +208,9 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 27);
+                assert.equal(result.length, 29);
                 assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-                assert.equal(result[26], UpgradeCard.WINGMAN);
+                assert.equal(result[27], UpgradeCard.WINGMAN);
+                assert.equal(result[28], UpgradeCard.WIRED);
             });
         });

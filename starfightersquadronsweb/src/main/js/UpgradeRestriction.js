@@ -91,6 +91,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
         TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
         TIE_PHANTOM_ONLY: "tiePhantomOnly",
         VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
+        X_WING_ONLY: "xWingOnly",
         YT_1300_ONLY: "yt1300Only",
         YT_2400_ONLY: "yt2400Only",
         Y_WING_ONLY: "yWingOnly",
@@ -163,6 +164,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             },
             "tiePhantomOnly": ShipRestriction(Ship.TIE_PHANTOM),
             "vt49DecimatorOnly": ShipRestriction(Ship.VT_49_DECIMATOR),
+            "xWingOnly": ShipRestriction(Ship.X_WING),
             "yt1300Only": ShipRestriction(Ship.YT_1300),
             "yt2400Only": ShipRestriction(Ship.YT_2400),
             "yWingOnly": ShipRestriction(Ship.Y_WING),
@@ -179,6 +181,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             {
                 answer = restrictions.reduce(function(previousValue, restriction)
                 {
+                    if (!UpgradeRestriction.properties[restriction]) { throw "Can't find properties for restriction: "
+                            + restriction; }
                     return previousValue && UpgradeRestriction.properties[restriction].passes(pilot);
                 }, true);
             }

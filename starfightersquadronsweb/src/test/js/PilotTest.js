@@ -97,10 +97,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 149);
+        assert.equal(result.length, 154);
         assert.equal(result[0], "academyPilot");
-        assert.equal(result[146], "wingedGundark");
-        assert.equal(result[148], "zetaSquadronPilot");
+        assert.equal(result[150], "wingedGundark");
+        assert.equal(result[153], "zetaSquadronPilot");
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 // properties
@@ -146,10 +146,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 58);
+        assert.equal(result.length, 61);
         assert.equal(result[0], "epsilonAce");
-        assert.equal(result[6], "academyPilot");
-        assert.equal(result[57], "wingedGundark");
+        assert.equal(result[9], "academyPilot");
+        assert.equal(result[60], "wingedGundark");
     });
 
     QUnit.test("valuesByTeam() Imperial", function(assert)
@@ -183,10 +183,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 54);
+        assert.equal(result.length, 56);
         assert.equal(result[0], "blueAce");
-        assert.equal(result[4], "airenCracken");
-        assert.equal(result[53], "wildSpaceFringer");
+        assert.equal(result[6], "airenCracken");
+        assert.equal(result[55], "wildSpaceFringer");
     });
 
     QUnit.test("valuesByTeam() Scum", function(assert)

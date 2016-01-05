@@ -20,6 +20,7 @@ define(
                 AUTOBLASTER_TURRET: "autoblasterTurret",
                 AUTOTHRUSTERS: "autothrusters",
                 B_WING_E2: "bWingE2",
+                BB_8: "bb8",
                 BLASTER_TURRET: "blasterTurret",
                 BODYGUARD: "bodyguard",
                 BOMB_LOADOUT: "bombLoadout",
@@ -37,6 +38,7 @@ define(
                 COMM_RELAY: "commRelay",
                 CONCUSSION_MISSILES: "concussionMissiles",
                 CONNER_NET: "connerNet",
+                COOL_HAND: "coolHand",
                 COUNTERMEASURES: "countermeasures",
                 CRACK_SHOT: "crackShot",
                 DAREDEVIL: "daredevil",
@@ -77,6 +79,7 @@ define(
                 HULL_UPGRADE: "hullUpgrade",
                 IG_2000: "ig2000",
                 INERTIAL_DAMPENERS: "inertialDampeners",
+                INTEGRATED_ASTROMECH: "integratedAstromech",
                 INTELLIGENCE_AGENT: "intelligenceAgent",
                 INTIMIDATION: "intimidation",
                 ION_BOMBS: "ionBombs",
@@ -131,6 +134,7 @@ define(
                 R5_D8: "r5D8",
                 R5_K6: "r5K6",
                 R5_P9: "r5P9",
+                R5_X3: "r5x3",
                 R7_ASTROMECH: "r7Astromech",
                 R7_T1: "r7T1",
                 RAYMUS_ANTILLES: "raymusAntilles",
@@ -153,6 +157,7 @@ define(
                 SWARM_TACTICS: "swarmTactics",
                 TACTICIAN: "tactician",
                 TACTICAL_JAMMER: "tacticalJammer",
+                TARGETING_ASTROMECH: "targetingAstromech",
                 TARGETING_COMPUTER: "targetingComputer",
                 TARGETING_COORDINATOR: "targetingCoordinator",
                 TIE_X1: "tieX1",
@@ -163,8 +168,10 @@ define(
                 VETERAN_INSTINCTS: "veteranInstincts",
                 VIRAGO: "virago",
                 WEAPONS_ENGINEER: "weaponsEngineer",
+                WEAPONS_GUIDANCE: "weaponsGuidance",
                 WED_15_REPAIR_DROID: "wed15RepairDroid",
                 WINGMAN: "wingman",
+                WIRED: "wired",
                 YSANNE_ISARD: "ysanneIsard",
 
                 properties:
@@ -336,6 +343,15 @@ define(
                         description: "When defending, if you are beyond Range 2 or outside the attacker's firing arc, you may change 1 of your blank results to an Evade result. You can equip this card only if you have the Boost action icon.",
                         squadPointCost: 2,
                         value: "autothrusters",
+                    },
+                    "bb8":
+                    {
+                        name: "BB-8",
+                        type: UpgradeType.ASTROMECH,
+                        isUnique: true,
+                        description: "When you reveal a green maneuver, you may perform a free barrel roll action.",
+                        squadPointCost: 2,
+                        value: "bb8",
                     },
                     // @see CombatAction.doIt() for effect implementation.
                     "blasterTurret":
@@ -537,6 +553,15 @@ define(
                         description: "Discard this card to drop 1 Conner net token. When a ship's base or maneuver template overlaps this token, this token detonates.",
                         squadPointCost: 4,
                         value: "connerNet",
+                    },
+                    "coolHand":
+                    {
+                        name: "Cool Hand",
+                        type: UpgradeType.ELITE,
+                        isUnique: false,
+                        description: "When you receive a stress token, you may discard this card to assign 1 focus or evade token to your ship.",
+                        squadPointCost: 1,
+                        value: "coolHand",
                     },
                     "countermeasures":
                     {
@@ -948,6 +973,16 @@ define(
                         description: "When you reveal your maneuver, you may discard this card to instead perform a white Stationary 0 maneuver. Then receive 1 stress token.",
                         squadPointCost: 1,
                         value: "inertialDampeners",
+                    },
+                    "integratedAstromech":
+                    {
+                        name: "Integrated Astromech",
+                        type: UpgradeType.MODIFICATION,
+                        isUnique: false,
+                        restrictions: [ UpgradeRestriction.X_WING_ONLY ],
+                        description: "When you are dealt a Damage card, you may discard 1 of your Astromech Upgrade cards to discard that Damage card (without resolving its effect).",
+                        squadPointCost: 0,
+                        value: "integratedAstromech",
                     },
                     "intelligenceAgent":
                     {
@@ -1510,6 +1545,15 @@ define(
                         squadPointCost: 3,
                         value: "r5P9",
                     },
+                    "r5x3":
+                    {
+                        name: "R5-X3",
+                        type: UpgradeType.ASTROMECH,
+                        isUnique: true,
+                        description: "Before you reveal your maneuver, you may discard this card to ignore obstacles until the end of the round.",
+                        squadPointCost: 1,
+                        value: "r5x3",
+                    },
                     "r7Astromech":
                     {
                         name: "R7 Astromech",
@@ -1728,6 +1772,15 @@ define(
                         squadPointCost: 1,
                         value: "tacticalJammer",
                     },
+                    "targetingAstromech":
+                    {
+                        name: "Targeting Astromech",
+                        type: UpgradeType.ASTROMECH,
+                        isUnique: false,
+                        description: "After you execute a red maneuver, you may acquire a target lock.",
+                        squadPointCost: 2,
+                        value: "targetingAstromech",
+                    },
                     // @see Token.shipActions() for effect implementation.
                     "targetingComputer":
                     {
@@ -1839,6 +1892,15 @@ define(
                         squadPointCost: 3,
                         value: "weaponsEngineer",
                     },
+                    "weaponsGuidance":
+                    {
+                        name: "Weapons Guidance",
+                        type: UpgradeType.TECH,
+                        isUnique: false,
+                        description: "When attacking, you may spend a focus token to change 1 of your blank results to a Hit result.",
+                        squadPointCost: 2,
+                        value: "weaponsGuidance",
+                    },
                     "wed15RepairDroid":
                     {
                         name: "WED-15 Repair Droid",
@@ -1858,6 +1920,15 @@ define(
                         description: "At the start of the Combat phase, remove 1 stress token from another friendly ship at Range 1.",
                         squadPointCost: 2,
                         value: "wingman",
+                    },
+                    "wired":
+                    {
+                        name: "Wired",
+                        type: UpgradeType.ELITE,
+                        isUnique: false,
+                        description: "When attacking or defending, if you are stressed, you may reroll 1 or more of your Focus results.",
+                        squadPointCost: 1,
+                        value: "wired",
                     },
                     "ysanneIsard":
                     {
