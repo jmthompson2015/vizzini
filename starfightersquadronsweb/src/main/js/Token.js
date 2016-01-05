@@ -904,11 +904,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
     {
         var attackDice;
         var combatAction;
-        var defender;
         var defenseDice;
         var isDefenderHit;
         var range;
-        var weapon;
 
         this.attackDice = function(value)
         {
@@ -940,16 +938,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             return combatAction;
         }
 
-        this.defender = function(value)
-        {
-            if (value)
-            {
-                defender = value;
-            }
-
-            return defender;
-        }
-
         this.defenseDice = function(value)
         {
             if (value)
@@ -978,16 +966,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return range;
-        }
-
-        this.weapon = function(value)
-        {
-            if (value)
-            {
-                weapon = value;
-            }
-
-            return weapon;
         }
     }
 

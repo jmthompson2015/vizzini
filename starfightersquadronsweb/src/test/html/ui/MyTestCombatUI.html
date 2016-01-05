@@ -48,20 +48,27 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "AttackDice", "DamageDealer", "DefenseDice", "Environment", "ModifyAttackDiceAction",
-                "ModifyDefenseDiceAction", "Phase", "ui/CombatUI" ], function(AttackDice, DamageDealer, DefenseDice,
-                Environment, ModifyAttackDiceAction, ModifyDefenseDiceAction, Phase, CombatUI)
+        require([ "Adjudicator", "AttackDice", "CombatAction", "DamageDealer", "DefenseDice", "Environment",
+                "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Phase", "ui/CombatUI" ], function(Adjudicator,
+                AttackDice, CombatAction, DamageDealer, DefenseDice, Environment, ModifyAttackDiceAction,
+                ModifyDefenseDiceAction, Phase, CombatUI)
         {
             var environment = Environment.createCoreSetEnvironment();
+            var adjudicator = new Adjudicator();
             var attacker = environment.tokens()[0];
+            var attackerPosition = environment.getPositionFor(attacker);
             LOGGER.debug("attacker = " + attacker);
             attacker.focus().increase();
-            attacker.combatState().weapon(attacker.primaryWeapon());
+            var weapon = attacker.primaryWeapon();
             var attackDice = new AttackDice(5);
             var defender = environment.tokens()[2];
+            var defenderPosition = environment.getPositionFor(defender);
             LOGGER.debug("defender = " + defender);
             defender.focus().increase();
             defender.evade().increase();
+            attacker.combatState().combatAction(
+                    new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                            defenderPosition));
             var modifications0 = [ null, ModifyAttackDiceAction.Modification.SPEND_FOCUS ];
 
             var element0 = React.createElement(CombatUI,

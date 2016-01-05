@@ -49,8 +49,6 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
 
                 this.doIt = function()
                 {
-                    attacker.combatState().weapon(weapon);
-
                     var upgrade = weapon.upgrade();
 
                     if (upgrade)
