@@ -1018,7 +1018,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
         function setCount(newValue)
         {
-            if (newValue >= 0)
+            if (0 <= newValue && (!initialCount || newValue <= initialCount))
             {
                 count = newValue;
                 that.trigger("change");

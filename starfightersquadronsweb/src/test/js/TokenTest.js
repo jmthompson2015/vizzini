@@ -290,7 +290,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.damageCount(), 1);
             });
 
-            QUnit.test("getAgilityValue()", function(assert)
+            QUnit.test("agilityValue()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -305,7 +305,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token2.agilityValue(), 2);
             });
 
-            QUnit.test("getAgilityValue()", function(assert)
+            QUnit.test("agilityValue()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -319,7 +319,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.shieldValue(), 0);
             });
 
-            QUnit.test("getHullValue()", function(assert)
+            QUnit.test("hullValue()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -334,7 +334,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token2.hullValue(), 3);
             });
 
-            QUnit.test("getHullValue()", function(assert)
+            QUnit.test("hullValue()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -348,7 +348,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.shieldValue(), 1);
             });
 
-            QUnit.test("getHullValue() Direct Hit", function(assert)
+            QUnit.test("hullValue() Direct Hit", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -547,7 +547,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 });
             });
 
-            QUnit.test("getPilotSkillValue()", function(assert)
+            QUnit.test("pilotSkillValue()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -562,7 +562,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token2.pilotSkillValue(), 2);
             });
 
-            QUnit.test("getPilotSkillValue() Whisper and Veteran Instincts", function(assert)
+            QUnit.test("pilotSkillValue() Whisper and Veteran Instincts", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -577,7 +577,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.shieldValue(), 2);
             });
 
-            QUnit.test("getPilotSkillValue() Damaged Cockpit", function(assert)
+            QUnit.test("pilotSkillValue() Damaged Cockpit", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -589,7 +589,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.pilotSkillValue(), 0);
             });
 
-            QUnit.test("getPilotSkillValue() Injured Pilot", function(assert)
+            QUnit.test("pilotSkillValue() Injured Pilot", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -601,7 +601,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token.pilotSkillValue(), 0);
             });
 
-            QUnit.test("getPrimaryWeaponValue()", function(assert)
+            QUnit.test("primaryWeaponValue()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -616,7 +616,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token2.primaryWeaponValue(), 3);
             });
 
-            QUnit.test("getPrimaryWeaponValue() Weapon Malfunction", function(assert)
+            QUnit.test("primaryWeaponValue() Weapon Malfunction", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -658,7 +658,23 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Pilo
                 assert.equal(token0.shield().count(), 0);
             });
 
-            QUnit.test("getShieldValue()", function(assert)
+            QUnit.test("shield() increase to limit", function(assert)
+            {
+                var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
+                var token = new Token(Pilot.LUKE_SKYWALKER, agent);
+                assert.equal(token.shieldValue(), 2);
+                assert.equal(token.shield().count(), 2);
+                token.shield().increase();
+                assert.equal(token.shield().count(), 2); // stopped at limit
+                token.shield().decrease();
+                assert.equal(token.shield().count(), 1);
+                token.shield().increase();
+                assert.equal(token.shield().count(), 2);
+                token.shield().increase();
+                assert.equal(token.shield().count(), 2); // stopped at limit
+            });
+
+            QUnit.test("shieldValue()", function(assert)
             {
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
