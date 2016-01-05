@@ -51,8 +51,10 @@ define(
                 DUTCH_VANDER: "dutchVander",
                 EADEN_VRILL: "eadenVrill",
                 ECHO: "echo",
+                ELLO_ASTY: "elloAsty",
                 EMON_AZZAMEEN: "emonAzzameen",
                 EPSILON_ACE: "epsilonAce",
+                EPSILON_LEADER: "epsilonLeader",
                 EPSILON_SQUADRON_PILOT: "epsilonSquadronPilot",
                 ESEGE_TUKETU: "esegeTuketu",
                 ETAHN_ABAHT: "etahnAbaht",
@@ -106,6 +108,7 @@ define(
                 NDRU_SUHLAK: "ndruSuhlak",
                 NIGHT_BEAST: "nightBeast",
                 OBSIDIAN_SQUADRON_PILOT: "obsidianSquadronPilot",
+                OMEGA_ACE: "omegaAce",
                 OMEGA_LEADER: "omegaLeader",
                 OMEGA_SQUADRON_PILOT: "omegaSquadronPilot",
                 OMICRON_GROUP_PILOT: "omicronGroupPilot",
@@ -118,6 +121,7 @@ define(
                 PROTOTYPE_PILOT: "prototypePilot",
                 REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
                 REBEL_OPERATIVE: "rebelOperative",
+                RED_ACE: "redAce",
                 RED_SQUADRON_PILOT: "redSquadronPilot",
                 RED_SQUADRON_VETERAN: "redSquadronVeteran",
                 REDLINE: "redline",
@@ -151,6 +155,7 @@ define(
                 WHISPER: "whisper",
                 WILD_SPACE_FRINGER: "wildSpaceFringer",
                 WINGED_GUNDARK: "wingedGundark",
+                ZETA_ACE: "zetaAce",
                 ZETA_LEADER: "zetaLeader",
                 ZETA_SQUADRON_PILOT: "zetaSquadronPilot",
                 properties:
@@ -359,10 +364,12 @@ define(
                     {
                         name: "Blue Squadron Novice",
                         description: "The T-70 model benefits from its redesigned thrusters with increased maneuverability in both space and atmospheric flight.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
                         shipState: new ShipState(2, 3, 2, 3, 3),
                         squadPointCost: 24,
                         upgradeTypes: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "blueSquadronNovice",
                     },
                     "blueSquadronPilot":
@@ -708,6 +715,17 @@ define(
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CREW ],
                         value: "echo",
                     },
+                    "elloAsty":
+                    {
+                        name: "Ello Asty",
+                        description: "When you are not stressed, you may treat your Talon Roll Left and Talon Roll Right maneuvers as white maneuvers.",
+                        isUnique: true,
+                        shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
+                        shipState: new ShipState(7, 3, 2, 3, 3),
+                        squadPointCost: 30,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        value: "elloAsty",
+                    },
                     "emonAzzameen":
                     {
                         name: "Emon Azzameen",
@@ -731,6 +749,17 @@ define(
                         upgradeTypes: [ UpgradeType.TECH ],
                         isImplemented: true,
                         value: "epsilonAce",
+                    },
+                    "epsilonLeader":
+                    {
+                        name: "\"Epsilon Leader\"",
+                        description: "At the start of the Combat phase, remove 1 stress token from each friendly ship at Range 1.",
+                        isUnique: true,
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(6, 2, 3, 3, 1),
+                        squadPointCost: 19,
+                        upgradeTypes: [ UpgradeType.TECH ],
+                        value: "epsilonLeader",
                     },
                     "epsilonSquadronPilot":
                     {
@@ -1348,6 +1377,17 @@ define(
                         isImplemented: true,
                         value: "obsidianSquadronPilot",
                     },
+                    "omegaAce":
+                    {
+                        name: "\"Omega Ace\"",
+                        description: "When attacking, you may spend a focus token and a target lock you have on the defender to change all of your results to Critical Hit results.",
+                        isUnique: true,
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(7, 2, 3, 3, 1),
+                        squadPointCost: 20,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TECH ],
+                        value: "omegaAce",
+                    },
                     "omegaLeader":
                     {
                         name: "\"Omega Leader\"",
@@ -1489,17 +1529,16 @@ define(
                         isImplemented: true,
                         value: "rebelOperative",
                     },
-                    "redline":
+                    "redAce":
                     {
-                        name: "\"Redline\"",
-                        description: "You may maintain 2 target locks on the same ship. When you acquire a target lock, you may acquire a second lock on that same ship.",
+                        name: "\"Red Ace\"",
+                        description: "The first time you remove a shield token from your ship each round, assign 1 evade token to your ship.",
                         isUnique: true,
-                        shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
-                        shipState: new ShipState(7, 2, 1, 6, 3),
-                        squadPointCost: 27,
-                        upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
-                                UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
-                        value: "redline",
+                        shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
+                        shipState: new ShipState(6, 3, 2, 3, 3),
+                        squadPointCost: 29,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        value: "redAce",
                     },
                     "redSquadronPilot":
                     {
@@ -1517,11 +1556,25 @@ define(
                     {
                         name: "Red Squadron Veteran",
                         description: "The modern incarnation of a classic design, the Incom T-70 X-wing fighter is the signature combat craft of the Resistance forces in their fight against the First Order.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.RESISTANCE_T_70_X_WING,
                         shipState: new ShipState(4, 3, 2, 3, 3),
                         squadPointCost: 26,
                         upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "redSquadronVeteran",
+                    },
+                    "redline":
+                    {
+                        name: "\"Redline\"",
+                        description: "You may maintain 2 target locks on the same ship. When you acquire a target lock, you may acquire a second lock on that same ship.",
+                        isUnique: true,
+                        shipTeam: ShipTeam.IMPERIAL_TIE_PUNISHER,
+                        shipState: new ShipState(7, 2, 1, 6, 3),
+                        squadPointCost: 27,
+                        upgradeTypes: [ UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB ],
+                        value: "redline",
                     },
                     "rexlerBrath":
                     {
@@ -1882,6 +1935,17 @@ define(
                         squadPointCost: 15,
                         upgradeTypes: [],
                         value: "wingedGundark",
+                    },
+                    "zetaAce":
+                    {
+                        name: "\"Zeta Ace\"",
+                        description: "When performing a barrel roll, you may use the Straight 2 template (instead of the Straight 1 template).",
+                        isUnique: true,
+                        shipTeam: ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER,
+                        shipState: new ShipState(5, 2, 3, 3, 1),
+                        squadPointCost: 18,
+                        upgradeTypes: [ UpgradeType.ELITE, UpgradeType.TECH ],
+                        value: "zetaAce",
                     },
                     "zetaLeader":
                     {
