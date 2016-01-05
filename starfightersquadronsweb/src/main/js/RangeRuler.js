@@ -1,4 +1,4 @@
-define([ "Maneuver" ], function(Maneuver)
+define([ "Maneuver", "Position" ], function(Maneuver, Position)
 {
     var RangeRuler =
     {
@@ -65,19 +65,35 @@ define([ "Maneuver" ], function(Maneuver)
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        var attackerBase = attacker.shipBaseKey();
-        var defenderBase = defender.shipBaseKey();
-
-        var attackerPolygon = Maneuver.computePolygon(attackerBase, attackerPosition.x(), attackerPosition.y(),
-                attackerPosition.heading());
-        var defenderPolygon = Maneuver.computePolygon(defenderBase, defenderPosition.x(), defenderPosition.y(),
-                defenderPosition.heading());
-
-        // FIXME
-        // var distance = SHAPE_UTILS.computeMinimumDistance(attackerPolygon,
-        // defenderPolygon);
         var distance = attackerPosition.computeDistance(defenderPosition);
-        // LOGGER.trace("distance = "+distance);
+
+        var attackerPolygon = Maneuver.computePolygon(attacker.shipBaseKey(), attackerPosition.x(), attackerPosition
+                .y(), attackerPosition.heading());
+        var defenderPolygon = Maneuver.computePolygon(defender.shipBaseKey(), defenderPosition.x(), defenderPosition
+                .y(), defenderPosition.heading());
+
+        var points0 = attackerPolygon.points();
+        var points1 = defenderPolygon.points();
+
+        for (var i = 0; i < points0.length; i += 2)
+        {
+            if (Position.isPointInPlayArea(points0[i], points0[i + 1]))
+            {
+                var position0 = new Position(points0[i], points0[i + 1], 0);
+
+                for (var j = 0; j < points1.length; j += 2)
+                {
+                    if (Position.isPointInPlayArea(points1[j], points1[j + 1]))
+                    {
+                        var position1 = new Position(points1[j], points1[j + 1], 0);
+                        var myDistance = position0.computeDistance(position1);
+                        distance = Math.min(myDistance, distance);
+                    }
+                }
+            }
+        }
+
+        LOGGER.trace("distance = " + distance);
 
         return RangeRuler.findRange(Math.round(distance));
     }
