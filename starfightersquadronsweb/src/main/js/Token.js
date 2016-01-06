@@ -263,18 +263,25 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             LOGGER.trace("Token.maneuverEffect() start");
             InputValidator.validateNotNull("maneuverKey", maneuverKey);
 
-            var difficulty = Maneuver.properties[maneuverKey].difficulty;
-            LOGGER.trace("difficulty = " + difficulty);
-
-            if (difficulty === Difficulty.EASY)
+            if (this.isIonized())
             {
-                LOGGER.trace("calling that.stress().decrease()")
-                that.stress().decrease();
+                this.ion().clear();
             }
-            else if (difficulty === Difficulty.HARD)
+            else
             {
-                LOGGER.trace("calling stress().increase() for " + that.toString());
-                that.stress().increase();
+                var difficulty = Maneuver.properties[maneuverKey].difficulty;
+                LOGGER.trace("difficulty = " + difficulty);
+
+                if (difficulty === Difficulty.EASY)
+                {
+                    LOGGER.trace("calling that.stress().decrease()")
+                    that.stress().decrease();
+                }
+                else if (difficulty === Difficulty.HARD)
+                {
+                    LOGGER.trace("calling stress().increase() for " + that.toString());
+                    that.stress().increase();
+                }
             }
 
             LOGGER.trace("Token.maneuverEffect() end");
@@ -282,42 +289,51 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
         this.maneuverKeys = function()
         {
-            var answer = ship.maneuvers.slice();
+            var answer;
 
-            if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE))
+            if (this.isIonized())
             {
-                answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_LEFT, Difficulty.HARD);
-                answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_RIGHT, Difficulty.HARD);
+                answer = [ Maneuver.STRAIGHT_1_STANDARD ];
             }
-
-            if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
+            else
             {
-                answer = changeBearingManeuversToDifficulty(answer, Bearing.STRAIGHT, Difficulty.EASY);
-            }
+                answer = ship.maneuvers.slice();
 
-            if (this.isUpgradedWith(UpgradeCard.R2_ASTROMECH))
-            {
-                answer = changeSpeedManeuversToDifficulty(answer, 1, Difficulty.EASY);
-                answer = changeSpeedManeuversToDifficulty(answer, 2, Difficulty.EASY);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.TWIN_ION_ENGINE_MK_II))
-            {
-                answer = changeBearingManeuversToDifficulty(answer, Bearing.BANK_LEFT, Difficulty.EASY);
-                answer = changeBearingManeuversToDifficulty(answer, Bearing.BANK_RIGHT, Difficulty.EASY);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.UNHINGED_ASTROMECH))
-            {
-                answer = changeSpeedManeuversToDifficulty(answer, 3, Difficulty.EASY);
-            }
-
-            if (this.isStressed())
-            {
-                answer = answer.filter(function(maneuverKey)
+                if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE))
                 {
-                    return Maneuver.properties[maneuverKey].difficulty !== Difficulty.HARD;
-                });
+                    answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_LEFT, Difficulty.HARD);
+                    answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_RIGHT, Difficulty.HARD);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
+                {
+                    answer = changeBearingManeuversToDifficulty(answer, Bearing.STRAIGHT, Difficulty.EASY);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.R2_ASTROMECH))
+                {
+                    answer = changeSpeedManeuversToDifficulty(answer, 1, Difficulty.EASY);
+                    answer = changeSpeedManeuversToDifficulty(answer, 2, Difficulty.EASY);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.TWIN_ION_ENGINE_MK_II))
+                {
+                    answer = changeBearingManeuversToDifficulty(answer, Bearing.BANK_LEFT, Difficulty.EASY);
+                    answer = changeBearingManeuversToDifficulty(answer, Bearing.BANK_RIGHT, Difficulty.EASY);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.UNHINGED_ASTROMECH))
+                {
+                    answer = changeSpeedManeuversToDifficulty(answer, 3, Difficulty.EASY);
+                }
+
+                if (this.isStressed())
+                {
+                    answer = answer.filter(function(maneuverKey)
+                    {
+                        return Maneuver.properties[maneuverKey].difficulty !== Difficulty.HARD;
+                    });
+                }
             }
 
             return answer;
@@ -805,6 +821,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
     Token.prototype.isDestroyed = function()
     {
         return (this.damageCount() + this.criticalDamageCount()) >= this.hullValue();
+    }
+
+    Token.prototype.isIonized = function()
+    {
+        return this.ion().count() > 0;
     }
 
     Token.prototype.isStressed = function()
