@@ -117,7 +117,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
 
                 function finishModifyAttackDice(attackAction)
                 {
-                    LOGGER.info("CombatAction.finishModifyAttackDice() attackAction = " + attackAction);
+                    LOGGER.debug("CombatAction.finishModifyAttackDice() attackAction = " + attackAction);
 
                     if (attackAction)
                     {
