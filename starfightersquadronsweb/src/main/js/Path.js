@@ -3,6 +3,7 @@
  */
 define(function()
 {
+    "use strict";
     function Path()
     {
         var points = [];
@@ -10,13 +11,13 @@ define(function()
         this.points = function()
         {
             return points;
-        }
+        };
 
         this.add = function(x, y)
         {
             points.push(x);
             points.push(y);
-        }
+        };
     }
 
     Path.prototype.close = function()
@@ -28,7 +29,7 @@ define(function()
             points.push(points[0]);
             points.push(points[1]);
         }
-    }
+    };
 
     Path.prototype.boundingBox = function()
     {
@@ -66,7 +67,7 @@ define(function()
         }
 
         return answer;
-    }
+    };
 
     Path.prototype.paintComponent = function(context, strokeStyle)
     {
@@ -85,7 +86,7 @@ define(function()
             context.strokeStyle = strokeStyle;
             context.stroke();
         }
-    }
+    };
 
     /*
      * Rotate about the given point.
@@ -106,7 +107,7 @@ define(function()
             points[i] = (x * cos - y * sin) + cx;
             points[i + 1] = (x * sin + y * cos) + cy;
         }
-    }
+    };
 
     Path.prototype.toString = function()
     {
@@ -122,7 +123,7 @@ define(function()
         }
 
         return answer;
-    }
+    };
 
     Path.prototype.translate = function(dx, dy)
     {
@@ -133,7 +134,7 @@ define(function()
             points[i] = points[i] + dx;
             points[i + 1] = points[i + 1] + dy;
         }
-    }
+    };
 
     return Path;
 });

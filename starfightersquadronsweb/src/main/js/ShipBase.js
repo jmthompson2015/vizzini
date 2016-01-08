@@ -1,8 +1,6 @@
-/*
- * Provides an enumeration of ship bases for Starfighter Squadrons.
- */
 define(function()
 {
+    "use strict";
     var ShipBase =
     {
         SMALL: "small",
@@ -46,7 +44,7 @@ define(function()
     if (Object.freeze)
     {
         Object.freeze(ShipBase);
-    };
+    }
 
     return ShipBase;
 });

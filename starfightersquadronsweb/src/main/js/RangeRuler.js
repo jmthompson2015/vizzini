@@ -1,5 +1,6 @@
 define([ "Maneuver", "Position" ], function(Maneuver, Position)
 {
+    "use strict";
     var RangeRuler =
     {
         ONE: "one",
@@ -34,7 +35,7 @@ define([ "Maneuver", "Position" ], function(Maneuver, Position)
         {
             return Object.getOwnPropertyNames(this.properties);
         },
-    }
+    };
 
     RangeRuler.findRange = function(distance)
     {
@@ -56,7 +57,7 @@ define([ "Maneuver", "Position" ], function(Maneuver, Position)
         }
 
         return answer;
-    }
+    };
 
     RangeRuler.getRange = function(attacker, attackerPosition, defender, defenderPosition)
     {
@@ -96,12 +97,12 @@ define([ "Maneuver", "Position" ], function(Maneuver, Position)
         LOGGER.trace("distance = " + distance);
 
         return RangeRuler.findRange(Math.round(distance));
-    }
+    };
 
     if (Object.freeze)
     {
         Object.freeze(RangeRuler);
-    };
+    }
 
     return RangeRuler;
 });

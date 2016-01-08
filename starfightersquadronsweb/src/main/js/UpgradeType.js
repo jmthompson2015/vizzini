@@ -1,8 +1,6 @@
-/*
- * Provides an enumeration of upgrade types.
- */
 define(function()
 {
+    "use strict";
     var UpgradeType =
     {
         ASTROMECH: "astromech",
@@ -115,21 +113,21 @@ define(function()
         {
             return Object.getOwnPropertyNames(UpgradeType.properties);
         },
-    }
+    };
 
     /*
      * @return true if this is a secondary weapon.
      */
     UpgradeType.isSecondaryWeapon = function(upgradeType)
     {
-        return (upgradeType === CANNON) || (upgradeType === MISSILE) || (upgradeType === TORPEDO)
-                || (upgradeType === TURRET);
-    }
+        return (upgradeType === CANNON) || (upgradeType === MISSILE) || (upgradeType === TORPEDO) ||
+                (upgradeType === TURRET);
+    };
 
     if (Object.freeze)
     {
         Object.freeze(UpgradeType);
-    };
+    }
 
     return UpgradeType;
 });

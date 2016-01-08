@@ -1,8 +1,6 @@
-/*
- * Provides an enumeration of ship actions for Starfighter Squadrons.
- */
 define([ "Maneuver" ], function(Maneuver)
 {
+    "use strict";
     var ShipAction =
     {
         BARREL_ROLL_LEFT: "barrelRollLeft",

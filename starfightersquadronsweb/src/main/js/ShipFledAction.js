@@ -1,21 +1,22 @@
 define([ "Environment" ], function(Environment)
 {
+    "use strict";
     function ShipFledAction(environment, token, fromPosition)
     {
         this.environment = function()
         {
             return environment;
-        }
+        };
 
         this.token = function()
         {
             return token;
-        }
+        };
 
         this.fromPosition = function()
         {
             return fromPosition;
-        }
+        };
 
         this.doIt = function()
         {
@@ -31,7 +32,7 @@ define([ "Environment" ], function(Environment)
             environment.trigger(Environment.SHIP_FLED_EVENT, this);
 
             LOGGER.trace("ShipFledAction.doIt() end");
-        }
+        };
     }
 
     return ShipFledAction;

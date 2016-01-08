@@ -1,5 +1,6 @@
 define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token, UpgradeCard)
 {
+    "use strict";
     var SquadBuilders = [];
 
     SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Imperial Core Set: 36 Points", 2012, "TIE Fighters x2",
@@ -323,34 +324,34 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         this.faction = function()
         {
             return faction;
-        }
+        };
 
         this.name = function()
         {
             return name;
-        }
+        };
 
         this.year = function()
         {
             return year;
-        }
+        };
 
         this.description = function()
         {
             return description;
-        }
+        };
 
         this.buildSquad = function(agent)
         {
             InputValidator.validateNotNull("agent", agent);
             return buildFunction(agent);
-        }
-    };
+        };
+    }
 
     SquadBuilder.prototype.toString = function()
     {
         return this.year() + " " + this.name() + " (" + this.description() + ")";
-    }
+    };
 
     SquadBuilder.findByNameAndYear = function(name, year)
     {
@@ -369,7 +370,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         }
 
         return answer;
-    }
+    };
 
     SquadBuilder.findByTeam = function(team)
     {
@@ -379,7 +380,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         {
             return squadBuilder.faction() === team;
         });
-    }
+    };
 
     return (
     {

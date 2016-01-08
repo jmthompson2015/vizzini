@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     function DefenseDice(initialSize)
     {
         InputValidator.validateIsNumber("initialSize", initialSize);
@@ -11,19 +12,22 @@ define(function()
         this.blankCount = function()
         {
             return valueCount(DefenseDice.Value.BLANK);
-        }
+        };
 
         this.evadeCount = function()
         {
             return valueCount(DefenseDice.Value.EVADE);
-        }
+        };
 
         this.focusCount = function()
         {
             return valueCount(DefenseDice.Value.FOCUS);
-        }
-        
-        this.size=function(){return values.length;}
+        };
+
+        this.size = function()
+        {
+            return values.length;
+        };
 
         this.sortedValues = function()
         {
@@ -38,29 +42,29 @@ define(function()
             });
 
             return answer;
-        }
+        };
 
         this.spendEvadeToken = function()
         {
             // Add an evade result.
             values.push(DefenseDice.Value.EVADE);
-        }
+        };
 
         this.spendFocusToken = function()
         {
             // Change all focus results to evades.
             changeAllToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-        }
+        };
 
         this.toString = function()
         {
             return "size = " + values.length + ", values = " + values;
-        }
+        };
 
         this.value = function(index)
         {
             return values[index];
-        }
+        };
 
         function changeAllToValue(oldValue, newValue)
         {
@@ -88,6 +92,7 @@ define(function()
             var min = 1;
             var max = 8;
             var roll = Math.floor(Math.random() * (max - min + 1)) + min;
+            var value;
 
             // There are 2 focus, 3 evade, and 3 blank.
             switch (roll)
@@ -146,7 +151,7 @@ define(function()
                 sortOrder: 2,
             },
         },
-    }
+    };
 
     return DefenseDice;
 });

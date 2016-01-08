@@ -20,6 +20,7 @@
 define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBase", "Team", "Token", ],
         function(DamageCard, Maneuver, Phase, Position, RangeRuler, RectanglePath, ShipBase, Team, Token)
         {
+            "use strict";
             function Environment(team1, team2)
             {
                 InputValidator.validateNotNull("team1", team1);
@@ -59,7 +60,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
 
                     var attackerPosition = this.getPositionFor(attacker);
 
-                    if (attackerPosition !== null)
+                    if (attackerPosition)
                     {
                         var primaryWeapon = attacker.primaryWeapon();
                         var rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, primaryWeapon);
@@ -560,6 +561,14 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
                     return touches.vizziniContains(defender);
                 }
 
+                function makePhaseHandler(token)
+                {
+                    return function(phase)
+                    {
+                        token.phaseEffect(that, phase);
+                    };
+                }
+
                 function placeTokens(tokens, isTop)
                 {
                     var size = tokens.length;
@@ -580,10 +589,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
 
                         var position = new Position(x, y, heading);
                         that.placeToken(position, token);
-                        that.bind(Environment.PHASE_EVENT, function(phase)
-                        {
-                            token.phaseEffect(that, phase);
-                        });
+                        that.bind(Environment.PHASE_EVENT, makePhaseHandler(token));
                     }
                 }
             }

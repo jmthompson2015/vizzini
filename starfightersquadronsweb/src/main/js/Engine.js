@@ -1,6 +1,7 @@
 define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "ShipAction", "TargetLock", "UpgradeCard" ],
         function(CombatAction, Environment, ManeuverAction, Phase, ShipAction, TargetLock, UpgradeCard)
         {
+            "use strict";
             function Engine(environment, adjudicator)
             {
                 InputValidator.validateNotNull("environment", environment);

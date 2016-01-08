@@ -1,5 +1,6 @@
 define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator, Engine, Environment, Phase)
 {
+    "use strict";
     function Game(agent1, squad1, agent2, squad2)
     {
         InputValidator.validateNotNull("agent1", agent1);
@@ -16,17 +17,17 @@ define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator
         this.adjudicator = function()
         {
             return adjudicator;
-        }
+        };
 
         this.engine = function()
         {
             return engine;
-        }
+        };
 
         this.environment = function()
         {
             return environment;
-        }
+        };
     }
 
     Game.prototype.start = function()
@@ -38,7 +39,7 @@ define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator
         {
             environment.phase(Phase.PLANNING_START);
         }, 0);
-    }
+    };
 
     return Game;
 });

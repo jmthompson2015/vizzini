@@ -1,8 +1,6 @@
-/*
- * Provides a planning action for Starfighter Squadrons.
- */
 define(function()
 {
+    "use strict";
     function PlanningAction(environment, agent, tokenToManeuver)
     {
         InputValidator.validateNotNull("environment", environment);
@@ -12,32 +10,27 @@ define(function()
         this.getEnvironment = function()
         {
             return environment;
-        }
+        };
 
         this.getAgent = function()
         {
             return agent;
-        }
+        };
 
         this.getTokenToManeuver = function()
         {
             return tokenToManeuver;
-        }
+        };
 
-        /*
-         * @param token Token.
-         * 
-         * @return the maneuver action for the given token.
-         */
         this.getManeuver = function(token)
         {
             return tokenToManeuver[token];
-        }
+        };
 
         this.getTeam = function()
         {
             return agent.teamKey();
-        }
+        };
     }
 
     return PlanningAction;

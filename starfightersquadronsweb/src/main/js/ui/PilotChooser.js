@@ -1,12 +1,7 @@
-/*
- * Provides a user interface to choose a pilot.
- * 
- * @param team Team.
- * @param onChangeFunction Called for the select onChange event.
- */
 define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/PilotCardUI" ], function(Pilot,
         ShipTeam, SimpleAgent, SquadBuilder, Team, Token, PilotCardUI)
 {
+    "use strict";
     var PilotChooser = React.createClass(
     {
         getInitialState: function()
@@ -202,7 +197,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "u
             {
                 var properties = Pilot.properties[value];
                 return properties.name + " [" + properties.squadPointCost + "]";
-            }
+            };
 
             return React.createElement(Select,
             {
@@ -219,7 +214,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "u
             var labelFunction = function(value)
             {
                 return ShipTeam.properties[value].name;
-            }
+            };
 
             return React.createElement(Select,
             {

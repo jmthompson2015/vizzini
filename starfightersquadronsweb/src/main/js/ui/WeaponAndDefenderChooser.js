@@ -1,8 +1,6 @@
-/*
- * Provides a user interface to choose a weapon and defender.
- */
 define([ "RangeRuler" ], function(RangeRuler)
 {
+    "use strict";
     var WeaponAndDefenderChooser = React.createClass(
     {
         getInitialState: function()

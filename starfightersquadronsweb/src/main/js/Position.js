@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     function Position(xIn, yIn, headingIn)
     {
         var x = Math.round(xIn);
@@ -16,17 +17,17 @@ define(function()
         this.x = function()
         {
             return x;
-        }
+        };
 
         this.y = function()
         {
             return y;
-        }
+        };
 
         this.heading = function()
         {
             return heading;
-        }
+        };
     }
 
     Position.prototype.compareTo = function(that)
@@ -50,7 +51,7 @@ define(function()
         }
 
         return answer;
-    }
+    };
 
     Position.prototype.computeBearing = function(x2, y2)
     {
@@ -59,7 +60,7 @@ define(function()
         answer = Position.normalizeAngle(answer);
 
         return answer;
-    }
+    };
 
     Position.prototype.computeDistance = function(position)
     {
@@ -67,17 +68,17 @@ define(function()
         var dy = position.y() - this.y();
 
         return Math.round(Math.sqrt((dx * dx) + (dy * dy)));
-    }
+    };
 
     Position.prototype.equals = function(other)
     {
         return this.x() == other.x() && this.y() == other.y() && this.heading() == other.heading();
-    }
+    };
 
     Position.prototype.toString = function()
     {
         return "(" + this.x() + ", " + this.y() + ", " + this.heading() + ")";
-    }
+    };
 
     /* Maximum X coordinate value. (3 feet in mm) */
     Position.MAX_X = 915;
@@ -94,7 +95,7 @@ define(function()
         answer = Position.normalizeAngle(answer);
 
         return answer;
-    }
+    };
 
     Position.isPathInPlayArea = function(path)
     {
@@ -111,12 +112,12 @@ define(function()
         }
 
         return answer;
-    }
+    };
 
     Position.isPointInPlayArea = function(x, y)
     {
         return ((0 <= x) && (x < Position.MAX_X)) && ((0 <= y) && (y < Position.MAX_Y));
-    }
+    };
 
     Position.normalizeAngle = function(angle)
     {

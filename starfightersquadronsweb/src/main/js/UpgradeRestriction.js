@@ -1,5 +1,6 @@
 define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship, ShipBase, Team, ShipTeam)
 {
+    "use strict";
     function PilotSkillRestriction(pilotSkill)
     {
         InputValidator.validateNotNull("pilotSkill", pilotSkill);
@@ -113,10 +114,10 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
 
         properties:
         {
-            "aWingOnly": ShipRestriction(Ship.A_WING),
-            "aggressorOnly": ShipRestriction(Ship.AGGRESSOR),
-            "bWingOnly": ShipRestriction(Ship.B_WING),
-            "firespray31Only": ShipRestriction(Ship.FIRESPRAY_31),
+            "aWingOnly": new ShipRestriction(Ship.A_WING),
+            "aggressorOnly": new ShipRestriction(Ship.AGGRESSOR),
+            "bWingOnly": new ShipRestriction(Ship.B_WING),
+            "firespray31Only": new ShipRestriction(Ship.FIRESPRAY_31),
             "hugeShipOnly":
             {
                 displayName: "Huge ship only.",
@@ -128,10 +129,10 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                     return shipBase === ShipBase.HUGE1 || shipBase === ShipBase.HUGE2;
                 }
             },
-            "hwk290Only": ShipRestriction(Ship.HWK_290),
-            "imperialOnly": TeamRestriction(Team.IMPERIAL),
-            "lambdaClassShuttleOnly": ShipRestriction(Ship.LAMBDA_CLASS_SHUTTLE),
-            "largeShipOnly": ShipSizeRestriction(ShipBase.LARGE),
+            "hwk290Only": new ShipRestriction(Ship.HWK_290),
+            "imperialOnly": new TeamRestriction(Team.IMPERIAL),
+            "lambdaClassShuttleOnly": new ShipRestriction(Ship.LAMBDA_CLASS_SHUTTLE),
+            "largeShipOnly": new ShipSizeRestriction(ShipBase.LARGE),
             "limited":
             {
                 displayName: "Limited.",
@@ -141,17 +142,17 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                     return true;
                 }
             },
-            "m3AInterceptorOnly": ShipRestriction(Ship.M3_A_INTERCEPTOR),
-            "pilotSkillAbove1": PilotSkillRestriction(1),
-            "pilotSkillAbove2": PilotSkillRestriction(2),
-            "pilotSkillAbove3": PilotSkillRestriction(3),
-            "pilotSkillAbove4": PilotSkillRestriction(4),
-            "rebelOnly": TeamRestriction(Team.REBEL),
-            "scumOnly": TeamRestriction(Team.SCUM),
-            "smallShipOnly": ShipSizeRestriction(ShipBase.SMALL),
-            "starViperOnly": ShipRestriction(Ship.STAR_VIPER),
-            "tieAdvancedOnly": ShipRestriction(Ship.TIE_ADVANCED),
-            "tieInterceptorOnly": ShipRestriction(Ship.TIE_INTERCEPTOR),
+            "m3AInterceptorOnly": new ShipRestriction(Ship.M3_A_INTERCEPTOR),
+            "pilotSkillAbove1": new PilotSkillRestriction(1),
+            "pilotSkillAbove2": new PilotSkillRestriction(2),
+            "pilotSkillAbove3": new PilotSkillRestriction(3),
+            "pilotSkillAbove4": new PilotSkillRestriction(4),
+            "rebelOnly": new TeamRestriction(Team.REBEL),
+            "scumOnly": new TeamRestriction(Team.SCUM),
+            "smallShipOnly": new ShipSizeRestriction(ShipBase.SMALL),
+            "starViperOnly": new ShipRestriction(Ship.STAR_VIPER),
+            "tieAdvancedOnly": new ShipRestriction(Ship.TIE_ADVANCED),
+            "tieInterceptorOnly": new ShipRestriction(Ship.TIE_INTERCEPTOR),
             "tieOnly":
             {
                 displayName: "TIE only.",
@@ -162,8 +163,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                     return Ship.properties[ship].name.startsWith("TIE");
                 }
             },
-            "tiePhantomOnly": ShipRestriction(Ship.TIE_PHANTOM),
-            "vt49DecimatorOnly": ShipRestriction(Ship.VT_49_DECIMATOR),
+            "tiePhantomOnly": new ShipRestriction(Ship.TIE_PHANTOM),
+            "vt49DecimatorOnly": new ShipRestriction(Ship.VT_49_DECIMATOR),
             "xWingOnly":
             {
                 displayName: "X-Wing only.",
@@ -174,10 +175,10 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                     return ship === Ship.X_WING || ship === Ship.T_70_X_WING;
                 }
             },
-            "yt1300Only": ShipRestriction(Ship.YT_1300),
-            "yt2400Only": ShipRestriction(Ship.YT_2400),
-            "yWingOnly": ShipRestriction(Ship.Y_WING),
-            "yv666Only": ShipRestriction(Ship.YV_666),
+            "yt1300Only": new ShipRestriction(Ship.YT_1300),
+            "yt2400Only": new ShipRestriction(Ship.YT_2400),
+            "yWingOnly": new ShipRestriction(Ship.Y_WING),
+            "yv666Only": new ShipRestriction(Ship.YV_666),
         },
 
         passes: function(restrictions, pilot)
@@ -190,8 +191,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             {
                 answer = restrictions.reduce(function(previousValue, restriction)
                 {
-                    if (!UpgradeRestriction.properties[restriction]) { throw "Can't find properties for restriction: "
-                            + restriction; }
+                    if (!UpgradeRestriction.properties[restriction]) { throw "Can't find properties for restriction: " +
+                            restriction; }
                     return previousValue && UpgradeRestriction.properties[restriction].passes(pilot);
                 }, true);
             }
@@ -203,12 +204,12 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
         {
             return Object.getOwnPropertyNames(UpgradeRestriction.properties);
         },
-    }
+    };
 
     if (Object.freeze)
     {
         Object.freeze(UpgradeRestriction);
-    };
+    }
 
     return UpgradeRestriction;
 });

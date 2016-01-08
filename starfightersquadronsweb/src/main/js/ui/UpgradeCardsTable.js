@@ -1,6 +1,7 @@
 define([ "FiringArc", "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/UpgradeCardUI" ], function(FiringArc,
         UpgradeCard, UpgradeHeader, UpgradeRestriction, UpgradeCardUI)
 {
+    "use strict";
     var UpgradeColumns = [
     {
         key: "type",
@@ -127,41 +128,41 @@ define([ "FiringArc", "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/
             var myFiringArc = (upgrade.firingArc ? FiringArc.properties[upgrade.firingArc].name : " ");
             var isImplemented = (upgrade.isImplemented !== undefined ? upgrade.isImplemented : false);
             var implementedImage = this.createImplementedImage(isImplemented);
-            var i = 0;
+            var j = 0;
 
             cells.push(React.DOM.td(
             {
                 key: cells.length,
-                className: UpgradeColumns[i].className,
-                column: UpgradeColumns[i].key,
+                className: UpgradeColumns[j].className,
+                column: UpgradeColumns[j].key,
                 value: upgrade.type, // this allows sorting
             }, typeImage));
-            i++;
+            j++;
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgrade.name));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], upgrade.name));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myRestrictions));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], myRestrictions));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myHeader));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], myHeader));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myWeaponValue));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], myWeaponValue));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myRanges));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], myRanges));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], myFiringArc));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], myFiringArc));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgrade.description));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], upgrade.description));
 
-            cells.push(this.createCell(cells.length, UpgradeColumns[i++], upgrade.squadPointCost));
+            cells.push(this.createCell(cells.length, UpgradeColumns[j++], upgrade.squadPointCost));
 
             cells.push(React.DOM.td(
             {
                 key: cells.length,
-                className: UpgradeColumns[i].className,
-                column: UpgradeColumns[i].key,
+                className: UpgradeColumns[j].className,
+                column: UpgradeColumns[j].key,
                 value: isImplemented, // this allows sorting
             }, implementedImage));
-            i++;
+            j++;
 
             return this.Tr(
             {

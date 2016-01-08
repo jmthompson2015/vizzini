@@ -5,6 +5,7 @@
  */
 define([ "Path" ], function(Path)
 {
+    "use strict";
     function RectanglePath(width, height)
     {
         InputValidator.validateNotNull("width", width);
@@ -75,7 +76,7 @@ define([ "Path" ], function(Path)
         }
 
         return wn;
-    }
+    };
 
     RectanglePath.doPolygonsCollide = function(polygon0, polygon1)
     {
@@ -91,8 +92,8 @@ define([ "Path" ], function(Path)
         var b1 = polygon1.boundingBox();
         LOGGER.debug("b1 = " + JSON.stringify(b1));
 
-        if ((b1.maxX < b0.minX || b0.maxX < b1.minX) // b1 is left or right of b0
-                && (b1.maxY < b0.minY || b0.maxY < b1.minY) // b1 is below or above b0
+        if ((b1.maxX < b0.minX || b0.maxX < b1.minX) && // b1 is left or right of b0
+        (b1.maxY < b0.minY || b0.maxY < b1.minY) // b1 is below or above b0
         )
         {
             LOGGER.debug("bounding boxes do not overlap");
@@ -118,8 +119,8 @@ define([ "Path" ], function(Path)
                     // LOGGER.trace(x + "," + y + " isPointInPolygon ? " + RectanglePath.isPointInPolygon(x, y,
                     // polygon0)
                     // + " " + RectanglePath.isPointInPolygon(x, y, polygon1))
-                    answer = RectanglePath.isPointInPolygon(x, y, polygon0)
-                            && RectanglePath.isPointInPolygon(x, y, polygon1)
+                    answer = RectanglePath.isPointInPolygon(x, y, polygon0) &&
+                            RectanglePath.isPointInPolygon(x, y, polygon1);
                 }
             }
         }
@@ -127,7 +128,7 @@ define([ "Path" ], function(Path)
         LOGGER.debug("answer ? " + answer);
 
         return answer;
-    }
+    };
 
     /*
      * Tests if a point is Left|On|Right of an infinite line.
@@ -147,14 +148,14 @@ define([ "Path" ], function(Path)
     RectanglePath.isLeft = function(x0, y0, x1, y1, x2, y2)
     {
         return ((x1 - x0) * (y2 - y0) - (x2 - x0) * (y1 - y0));
-    }
+    };
 
     RectanglePath.isPointInPolygon = function(x, y, polygon)
     {
         var wn = RectanglePath.determineWindingNumber(x, y, polygon);
 
         return (wn % 2) !== 0;
-    }
+    };
 
     return RectanglePath;
 });

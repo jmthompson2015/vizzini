@@ -2,6 +2,7 @@ define(
         [ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ],
         function(FiringArc, Maneuver, ShipAction, ShipBase)
         {
+            "use strict";
             var Ship =
             {
                 A_WING: "aWing",
@@ -486,7 +487,7 @@ define(
             if (Object.freeze)
             {
                 Object.freeze(Ship);
-            };
+            }
 
             return Ship;
         });

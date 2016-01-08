@@ -2,6 +2,7 @@ define(
         [ "FiringArc", "RangeRuler", "ShipState", "UpgradeHeader", "UpgradeRestriction", "UpgradeType" ],
         function(FiringArc, RangeRuler, ShipState, UpgradeHeader, UpgradeRestriction, UpgradeType)
         {
+            "use strict";
             var UpgradeCard =
             {
                 A_WING_TEST_PILOT: "aWingTestPilot",
@@ -1984,12 +1985,12 @@ define(
                         return UpgradeCard.properties[upgradeCard].type === upgradeType;
                     });
                 },
-            }
+            };
 
             if (Object.freeze)
             {
                 Object.freeze(UpgradeCard);
-            };
+            }
 
             return UpgradeCard;
         });

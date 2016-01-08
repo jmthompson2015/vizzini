@@ -1,4 +1,3 @@
-"use strict";
 var LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
@@ -10,6 +9,8 @@ var imageBase = resourceBase + "images/";
 
 require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, EnvironmentUI, NewGamePanel)
 {
+    "use strict";
+
     // Create initial agents and tokens.
     var newGamePanel = React.createElement(NewGamePanel,
     {
@@ -52,32 +53,8 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         var ssPanel = document.getElementById("ssPanel");
         var messageArea = document.getElementById("messageArea");
         var inputArea = document.getElementById("inputArea");
-        var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight - inputArea.offsetHeight
-                - 20;
-
-        var size = Math.min(newWidth, newHeight);
-
-        var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
-        myPlayAreaCanvas.width = size;
-        myPlayAreaCanvas.height = size;
-
-        if (environmentUI)
-        {
-            environmentUI.setScale(size / 915.0);
-        }
-    }
-
-    function updateSizes(environmentUI)
-    {
-        var firstPilots = document.getElementById("firstPilots");
-        var secondPilots = document.getElementById("secondPilots");
-        var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
-
-        var ssPanel = document.getElementById("ssPanel");
-        var messageArea = document.getElementById("messageArea");
-        var inputArea = document.getElementById("inputArea");
-        var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight - inputArea.offsetHeight
-                - 20;
+        var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight - inputArea.offsetHeight -
+                20;
 
         var size = Math.min(newWidth, newHeight);
 
@@ -93,10 +70,10 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
 
     window.addEventListener("resize", function()
     {
-        updateSizes(environmentUI)
+        updateSizes(environmentUI);
     }, false);
     window.addEventListener("orientationchange", function()
     {
-        updateSizes(environmentUI)
+        updateSizes(environmentUI);
     }, false);
 });

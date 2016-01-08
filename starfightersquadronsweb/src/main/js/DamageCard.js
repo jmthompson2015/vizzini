@@ -1,19 +1,14 @@
-/*
- * Provides an enumeration of traits.
- */
 define(
         [ "ShipState" ],
         function(ShipState)
         {
+            "use strict";
             var Trait =
             {
                 PILOT: "pilot",
                 SHIP: "ship",
-            }
+            };
 
-            /*
-             * Provides an enumeration of damage cards.
-             */
             var DamageCard =
             {
                 BLINDED_PILOT: "blindedPilot",
@@ -182,7 +177,7 @@ define(
                 {
                     return Object.getOwnPropertyNames(DamageCard.properties);
                 },
-            }
+            };
 
             DamageCard.createDeck = function()
             {
@@ -205,7 +200,7 @@ define(
                 answer.vizziniShuffle();
 
                 return answer;
-            }
+            };
 
             DamageCard.Trait = Trait;
 

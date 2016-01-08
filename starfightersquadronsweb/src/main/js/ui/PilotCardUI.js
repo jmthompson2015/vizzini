@@ -1,12 +1,7 @@
-/*
- * Provides a token user interface for Starfighter Squadrons.
- * 
- * @param initialToken Initial token. (required)
- * @param isCompact Flag indicating whether to use a compact layout. (optional, default true)
- */
 define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(Pilot, Ship, ShipAction, Team,
         UpgradeCardUI)
 {
+    "use strict";
     var PilotCardUI = React.createClass(
     {
         getInitialState: function()
@@ -251,7 +246,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
             src: fileString,
             title: actionName0,
         });
-    }
+    };
 
     PilotCardUI.NamePanel = React.createClass(
     {
@@ -598,7 +593,7 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
 
             var answer;
 
-            if (this.props.count == 0)
+            if (this.props.count === 0)
             {
                 answer = React.DOM.span();
             }

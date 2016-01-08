@@ -1,6 +1,7 @@
 define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Difficulty,
         Environment, Maneuver, Ship, ShipBase, ShipTeam, Team)
 {
+    "use strict";
     function ExplosionUI(fromPosition, shipBase, explosionImage)
     {
         this.paintComponent = function(context)
@@ -16,7 +17,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             element.play();
 
             LOGGER.trace("ExplosionUI.paintComponent() end");
-        }
+        };
     }
 
     function LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip)
@@ -38,7 +39,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             audioClip.play();
 
             LOGGER.trace("LaserBeamUI.paintComponent() end");
-        }
+        };
     }
 
     function ManeuverUI(maneuver, fromPosition, shipBase)
@@ -75,7 +76,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             path.paintComponent(context, getColor(difficulty));
 
             LOGGER.trace("ManeuverUI.paintComponent() end");
-        }
+        };
 
         function getColor(difficulty)
         {
@@ -104,7 +105,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
         this.environment = function()
         {
             return environment;
-        }
+        };
 
         var DEG_TO_RADIANS = Math.PI / 180;
         var SHIP_BACKGROUND = "rgba(255,255,255,0.4)";
@@ -131,7 +132,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
             drawManeuver(context, playState);
             drawLaserBeam(context, playState);
             drawExplosion(context, playState);
-        }
+        };
 
         function createBackgroundImage(callback)
         {

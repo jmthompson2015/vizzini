@@ -6,6 +6,7 @@
 define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase" ], function(Bearing, Difficulty,
         Path, Position, RectanglePath, ShipBase)
 {
+    "use strict";
     var Maneuver =
     {
         // Bank.

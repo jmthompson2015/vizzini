@@ -1,8 +1,6 @@
-/*
- * Provides a pilots user interface for Starfighter Squadrons.
- */
 define([ "ui/PilotCardUI" ], function(PilotCardUI)
 {
+    "use strict";
     var PilotsUI = React.createClass(
     {
         getInitialState: function()

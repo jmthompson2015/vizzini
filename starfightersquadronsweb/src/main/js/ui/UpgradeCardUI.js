@@ -1,11 +1,7 @@
-/*
- * Provides a user interface for an upgrade card.
- * 
- * @param upgradeCard Upgrade card.
- */
 define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType" ], function(RangeRuler, UpgradeCard,
         UpgradeHeader, UpgradeType)
 {
+    "use strict";
     var UpgradeCardUI = React.createClass(
     {
         render: function()
@@ -125,7 +121,7 @@ define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType" ], function
         }
 
         return answer;
-    },
+    };
 
     UpgradeCardUI.createUpgradeImage = function(upgradeType, key)
     {
@@ -141,9 +137,9 @@ define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType" ], function
             key: myKey,
             className: "upgradeCardUIImage",
             src: fileString,
-            title: typeName0,
+            title: typeName0
         });
-    }
+    };
 
     return UpgradeCardUI;
 });

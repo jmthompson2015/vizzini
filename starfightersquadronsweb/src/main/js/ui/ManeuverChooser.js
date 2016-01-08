@@ -1,13 +1,6 @@
-/*
- * Provides a display panel of a ship's maneuvers.
- * 
- * @param token Token.
- * @param isPilotNameShown Flag indicating whether to show the pilot name.
- * @param imageUtils Image utilities.
- * @param callback Callback function.
- */
 define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 {
+    "use strict";
     var ManeuverChooser = React.createClass(
     {
         findManeuver: function(maneuvers, bearing, speed)
@@ -94,10 +87,11 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             var self = this;
 
             var myHtml = [];
+            var cell;
 
             if (isPilotNameShown && pilotName)
             {
-                var cell = React.DOM.td(
+                cell = React.DOM.td(
                 {
                     colSpan: bearingValues.length + 1
                 }, pilotName);
@@ -110,7 +104,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 
             if (shipName)
             {
-                var cell = React.DOM.td(
+                cell = React.DOM.td(
                 {
                     colSpan: bearingValues.length + 1
                 }, shipName);
@@ -120,6 +114,8 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                     id: "shipName"
                 }, cell));
             }
+
+            var maneuver, difficulty, iconSrc, image;
 
             for (var speed = maxSpeed; speed >= minSpeed; speed--)
             {
@@ -132,9 +128,9 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 
                 if (speed === 0)
                 {
-                    var maneuver = Maneuver.STATIONARY_0_HARD;
-                    var difficulty = Maneuver.properties[maneuver].difficulty;
-                    var iconSrc = this.createManeuverIconSource(undefined, difficulty);
+                    maneuver = Maneuver.STATIONARY_0_HARD;
+                    difficulty = Maneuver.properties[maneuver].difficulty;
+                    iconSrc = this.createManeuverIconSource(undefined, difficulty);
                     cells.push(React.DOM.td(
                     {
                         key: cells.length,
@@ -145,7 +141,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                         key: cells.length,
                         className: "maneuverCell"
                     }, " "));
-                    var image = React.DOM.img(
+                    image = React.DOM.img(
                     {
                         src: iconSrc
                     });
@@ -176,13 +172,13 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 
                         if (bearings.vizziniContains(bearing))
                         {
-                            var maneuver = this.findManeuver(maneuvers, bearing, speed);
+                            maneuver = this.findManeuver(maneuvers, bearing, speed);
 
                             if (maneuver)
                             {
-                                var difficulty = Maneuver.properties[maneuver].difficulty;
-                                var iconSrc = this.createManeuverIconSource(bearing, difficulty);
-                                var image = React.DOM.img(
+                                difficulty = Maneuver.properties[maneuver].difficulty;
+                                iconSrc = this.createManeuverIconSource(bearing, difficulty);
+                                image = React.DOM.img(
                                 {
                                     src: iconSrc
                                 });

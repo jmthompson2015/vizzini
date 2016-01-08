@@ -1,5 +1,6 @@
 define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, RectanglePath)
 {
+    "use strict";
     function Adjudicator()
     {
         this.canAttack = function(attacker)

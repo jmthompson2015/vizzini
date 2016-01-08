@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     var FiringArc =
     {
         FORWARD: "forward",
@@ -56,7 +57,7 @@ define(function()
     if (Object.freeze)
     {
         Object.freeze(FiringArc);
-    };
+    }
 
     return FiringArc;
 });

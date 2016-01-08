@@ -5,6 +5,7 @@
  */
 define(function()
 {
+    "use strict";
     var Team =
     {
         FIRST_ORDER: "firstOrder",
@@ -64,8 +65,8 @@ define(function()
 
     if (Object.freeze)
     {
-        Object.freeze(Team)
-    };
+        Object.freeze(Team);
+    }
 
     return Team;
 });

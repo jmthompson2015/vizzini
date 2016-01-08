@@ -1,6 +1,7 @@
-define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase", "UpgradeCard", "UpgradeHeader" ], function(FiringArc,
-        Maneuver, RangeRuler, ShipBase, UpgradeCard, UpgradeHeader)
+define([ "FiringArc", "Maneuver", "RangeRuler", "UpgradeCard", "UpgradeHeader" ], function(FiringArc, Maneuver,
+        RangeRuler, UpgradeCard, UpgradeHeader)
 {
+    "use strict";
     function Weapon(name, weaponValue, ranges, firingArcKey, upgradeKey)
     {
         InputValidator.validateNotNull("name", name);
@@ -12,34 +13,34 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase", "UpgradeCard", "Upgr
         this.name = function()
         {
             return name;
-        }
+        };
 
         this.weaponValue = function()
         {
             return weaponValue;
-        }
+        };
 
         this.ranges = function()
         {
             return ranges;
-        }
+        };
 
         this.firingArcKey = function()
         {
             return firingArcKey;
-        }
+        };
 
         this.upgradeKey = function()
         {
             return upgradeKey;
-        }
+        };
 
         var upgrade = UpgradeCard.properties[upgradeKey];
 
         this.upgrade = function()
         {
             return upgrade;
-        }
+        };
     }
 
     Weapon.prototype.isUsable = function(attacker, defender)
@@ -78,7 +79,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase", "UpgradeCard", "Upgr
         }
 
         return answer;
-    }
+    };
 
     Weapon.prototype.isDefenderInFiringArc = function(attackerPosition, defender, defenderPosition)
     {
@@ -101,20 +102,20 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase", "UpgradeCard", "Upgr
 
             for (var i = 0; i < points.length; i += 2)
             {
-                var bearing = attackerPosition.computeBearing(points[i], points[i + 1]);
+                bearing = attackerPosition.computeBearing(points[i], points[i + 1]);
 
                 if (firingArc.isInFiringArc(bearing))
                 {
                     answer = true;
-                    LOGGER.debug(i + " firingArcKey = " + this.firingArcKey() + " bearing = " + bearing + " answer ? "
-                            + answer);
+                    LOGGER.debug(i + " firingArcKey = " + this.firingArcKey() + " bearing = " + bearing + " answer ? " +
+                            answer);
                     break;
                 }
             }
         }
 
         return answer;
-    }
+    };
 
     Weapon.prototype.isDefenderInRange = function(attacker, attackerPosition, defender, defenderPosition)
     {
@@ -126,7 +127,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase", "UpgradeCard", "Upgr
         var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
 
         return this.ranges().vizziniContains(range);
-    }
+    };
 
     Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition, defender, defenderPosition)
     {
@@ -135,20 +136,20 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "ShipBase", "UpgradeCard", "Upgr
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        return this.isUsable(attacker, defender)
-                && this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition)
-                && this.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
-    }
+        return this.isUsable(attacker, defender) &&
+                this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition) &&
+                this.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
+    };
 
     Weapon.prototype.isPrimary = function()
     {
         return this.name() === "Primary Weapon";
-    }
+    };
 
     Weapon.prototype.toString = function()
     {
         return this.name();
-    }
+    };
 
     return Weapon;
 });

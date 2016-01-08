@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     function AttackDice(initialSize)
     {
         InputValidator.validateIsNumber("initialSize", initialSize);
@@ -11,7 +12,7 @@ define(function()
         this.blankCount = function()
         {
             return valueCount(AttackDice.Value.BLANK);
-        }
+        };
 
         this.changeAllToValue = function(oldValue, newValue)
         {
@@ -22,7 +23,7 @@ define(function()
                     values[i] = newValue;
                 }
             });
-        }
+        };
 
         this.changeOneToValue = function(oldValue, newValue)
         {
@@ -35,28 +36,28 @@ define(function()
                     values[i] = newValue;
                     break;
                 }
-            };
-        }
+            }
+        };
 
         this.criticalHitCount = function()
         {
             return valueCount(AttackDice.Value.CRITICAL_HIT);
-        }
+        };
 
         this.focusCount = function()
         {
             return valueCount(AttackDice.Value.FOCUS);
-        }
+        };
 
         this.hitCount = function()
         {
             return valueCount(AttackDice.Value.HIT);
-        }
+        };
 
         this.size = function()
         {
             return values.length;
-        }
+        };
 
         this.sortedValues = function()
         {
@@ -71,13 +72,13 @@ define(function()
             });
 
             return answer;
-        }
+        };
 
         this.spendFocusToken = function()
         {
             // Change all focus results to hits.
             this.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-        }
+        };
 
         this.spendTargetLock = function()
         {
@@ -89,17 +90,17 @@ define(function()
                     values[i] = rollRandomValue();
                 }
             });
-        }
+        };
 
         this.toString = function()
         {
             return "size = " + values.length + ", values = " + values;
-        }
+        };
 
         this.value = function(index)
         {
             return values[index];
-        }
+        };
 
         function rerollAll(size)
         {
@@ -116,6 +117,7 @@ define(function()
             var min = 1;
             var max = 8;
             var roll = Math.floor(Math.random() * (max - min + 1)) + min;
+            var value;
 
             // There are 2 focus, 3 hit, 1 critical hit, and 2 blank.
             switch (roll)
@@ -145,10 +147,8 @@ define(function()
 
         function valueCount(target)
         {
-            // LOGGER.info("target = " + target);
             return values.reduce(function(previousValue, currentValue, i)
             {
-                // LOGGER.info(i + " currentValue = " + currentValue);
                 return previousValue + (currentValue === target ? 1 : 0);
             }, 0);
         }
@@ -184,7 +184,7 @@ define(function()
                 sortOrder: 3,
             },
         },
-    }
+    };
 
     return AttackDice;
 });

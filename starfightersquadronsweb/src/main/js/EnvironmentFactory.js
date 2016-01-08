@@ -1,6 +1,7 @@
 define([ "Environment", "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(Environment,
         MediumAgent, SimpleAgent, SquadBuilder, Team, HumanAgent)
 {
+    "use strict";
     var EnvironmentFactory = {};
 
     EnvironmentFactory.createCoreSetEnvironment = function(computerAgentType0, computerAgentType1)

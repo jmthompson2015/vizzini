@@ -1,6 +1,7 @@
 define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ], function(
         Engine, Environment, Phase, PilotsUI, PlayAreaUI, PlayState, SSPanel)
 {
+    "use strict";
     function EnvironmentUI(engine, environment)
     {
         InputValidator.validateNotNull("engine", engine);
@@ -9,12 +10,12 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
         this.engine = function()
         {
             return engine;
-        }
+        };
 
         this.environment = function()
         {
             return environment;
-        }
+        };
 
         var ssPanel = new SSPanel(environment);
         var playAreaUI = new PlayAreaUI(environment);
@@ -25,7 +26,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
         });
         var firstPilots = React.render(element, document.getElementById("firstPilots"));
         var secondTokens = environment.getTokensForTeam(environment.secondTeam());
-        var element = React.createElement(PilotsUI,
+        element = React.createElement(PilotsUI,
         {
             initialTokens: secondTokens
         });
@@ -38,29 +39,30 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
             var round = environment.round();
             var activeToken = environment.activeToken();
             var tokenPositions = PlayState.createTokenPositions(environment);
+            var playState;
 
             switch (phase)
             {
             case Phase.ACTIVATION_EXECUTE_MANEUVER:
                 // Draw maneuver.
                 var maneuverAction = activeToken.activationState().maneuverAction();
-                var playState = new PlayState(round, phase, activeToken, tokenPositions, maneuverAction);
+                playState = new PlayState(round, phase, activeToken, tokenPositions, maneuverAction);
                 repaint(playState);
                 break;
             case Phase.ACTIVATION_END:
                 // End of Activation Phase: clear maneuver widgets.
-                var playState = new PlayState(round, phase, activeToken, tokenPositions);
+                playState = new PlayState(round, phase, activeToken, tokenPositions);
                 repaint(playState);
                 break;
             case Phase.COMBAT_DEAL_DAMAGE:
                 // Draw laser beam.
                 var combatAction = activeToken.combatState().combatAction();
-                var playState = PlayState.createCombat(round, phase, activeToken, tokenPositions, combatAction);
+                playState = PlayState.createCombat(round, phase, activeToken, tokenPositions, combatAction);
                 repaint(playState);
                 break;
             case Phase.COMBAT_END:
                 // End of Combat Phase: clear laser beam and explosion widgets.
-                var playState = new PlayState(round, phase, activeToken, tokenPositions);
+                playState = new PlayState(round, phase, activeToken, tokenPositions);
                 repaint(playState);
                 break;
             }
@@ -124,7 +126,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                 var playState = new PlayState(round, phase, activeToken, tokenPositions);
                 repaint(playState);
             }
-        }
+        };
 
         function repaint(playState)
         {
@@ -144,10 +146,11 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                 var shipDestroyedAction = playState.shipDestroyedAction();
                 var combatAction = playState.combatAction();
                 var winner = playState.winner();
+                var token;
 
                 if (shipFledAction)
                 {
-                    var token = shipFledAction.token();
+                    token = shipFledAction.token();
                     message = "Ship fled the battlefield: " + token;
                     firstPilots.setState(
                     {
@@ -160,7 +163,7 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                 }
                 else if (shipDestroyedAction)
                 {
-                    var token = shipDestroyedAction.token();
+                    token = shipDestroyedAction.token();
                     message = "Ship destroyed: " + token;
                     firstPilots.setState(
                     {

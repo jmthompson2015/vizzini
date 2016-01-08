@@ -1,11 +1,9 @@
-/*
- * Provides a human agent for Starfighter Squadrons.
- */
 define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "ShipAction",
         "ui/CombatUI", "ui/PlanningPanel", "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ],
         function(ManeuverAction, ModifyAttackDiceAction, ModifyDefenseDiceAction, SimpleAgent, ShipAction, CombatUI,
                 PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
         {
+            "use strict";
             function HumanAgent(name, teamKey)
             {
                 InputValidator.validateNotEmpty("name", name);

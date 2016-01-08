@@ -1,6 +1,7 @@
 define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "ShipDestroyedAction", "UpgradeCard" ],
         function(AttackDice, DamageDealer, DefenseDice, Phase, RangeRuler, ShipDestroyedAction, UpgradeCard)
         {
+            "use strict";
             function CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                     defenderPosition, callback)
             {
@@ -15,37 +16,37 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                 this.environment = function()
                 {
                     return environment;
-                }
+                };
 
                 this.adjudicator = function()
                 {
                     return adjudicator;
-                }
+                };
 
                 this.attacker = function()
                 {
                     return attacker;
-                }
+                };
 
                 this.attackerPosition = function()
                 {
                     return attackerPosition;
-                }
+                };
 
                 this.weapon = function()
                 {
                     return weapon;
-                }
+                };
 
                 this.defender = function()
                 {
                     return defender;
-                }
+                };
 
                 this.defenderPosition = function()
                 {
                     return defenderPosition;
-                }
+                };
 
                 this.doIt = function()
                 {
@@ -113,7 +114,7 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                         agent.getModifyAttackDiceAction(environment, adjudicator, attacker, attackDice, defender,
                                 finishModifyAttackDice);
                     }
-                }
+                };
 
                 function finishModifyAttackDice(attackAction)
                 {

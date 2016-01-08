@@ -1,8 +1,6 @@
-/*
- * Provides an enumeration of difficulties.
- */
 define(function()
 {
+    "use strict";
     var Difficulty =
     {
         EASY: "easy",
@@ -29,12 +27,12 @@ define(function()
         {
             return Object.getOwnPropertyNames(Difficulty.properties);
         },
-    }
+    };
 
     if (Object.freeze)
     {
         Object.freeze(Difficulty);
-    };
+    }
 
     return Difficulty;
 });

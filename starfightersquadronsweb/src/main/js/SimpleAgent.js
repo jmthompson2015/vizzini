@@ -2,6 +2,7 @@ define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseD
         "Position", "Ship", "ShipAction" ], function(Maneuver, ManeuverAction, ModifyAttackDiceAction,
         ModifyDefenseDiceAction, PlanningAction, Position, Ship, ShipAction)
 {
+    "use strict";
     function SimpleAgent(name, teamKey)
     {
         InputValidator.validateNotEmpty("name", name);

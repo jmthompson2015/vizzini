@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     function TargetLock(attacker, defender)
     {
         InputValidator.validateNotNull("attacker", attacker);
@@ -10,17 +11,17 @@ define(function()
         this.id = function()
         {
             return id;
-        }
+        };
 
         this.attacker = function()
         {
             return attacker;
-        }
+        };
 
         this.defender = function()
         {
             return defender;
-        }
+        };
     }
 
     TargetLock.nextIdValue = 0;
@@ -40,12 +41,12 @@ define(function()
         }
 
         return answer;
-    }
+    };
 
     TargetLock.resetNextId = function()
     {
         TargetLock.nextIdValue = 0;
-    }
+    };
 
     return TargetLock;
 });

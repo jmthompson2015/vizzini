@@ -1,5 +1,6 @@
 define([ "Environment", "Phase", "ui/PlayState" ], function(Environment, Phase, PlayState)
 {
+    "use strict";
     function SSPanel(environment)
     {
         var that = this;
@@ -53,7 +54,7 @@ define([ "Environment", "Phase", "ui/PlayState" ], function(Environment, Phase, 
             component.innerHTML = answer;
 
             LOGGER.trace("SSPanel.paintComponent() end");
-        }
+        };
 
         function updateFromEnvironment()
         {

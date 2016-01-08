@@ -1,13 +1,6 @@
-/*
- * Provides a user interface to choose an upgrade card.
- * 
- * @param pilot Pilot.
- * @param upgradeType Upgrade type.
- * @param index Index of this chooser.
- * @param onChangeFunction Called for the select onChange event.
- */
 define([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardUI)
 {
+    "use strict";
     var UpgradeChooser = React.createClass(
     {
         getInitialState: function()

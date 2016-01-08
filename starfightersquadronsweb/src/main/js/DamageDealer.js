@@ -1,5 +1,6 @@
 define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
 {
+    "use strict";
     function DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount)
     {
         InputValidator.validateNotNull("environment", environment);
@@ -11,27 +12,27 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
         this.environment = function()
         {
             return environment;
-        }
+        };
 
         this.hitCount = function()
         {
             return hitCount;
-        }
+        };
 
         this.criticalHitCount = function()
         {
             return criticalHitCount;
-        }
+        };
 
         this.defender = function()
         {
             return defender;
-        }
+        };
 
         this.evadeCount = function()
         {
             return evadeCount;
-        }
+        };
 
         var hits = hitCount;
         var criticalHits = criticalHitCount;
@@ -39,17 +40,18 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
         LOGGER.debug("hits = " + hits);
         LOGGER.debug("criticalHits = " + criticalHits);
         LOGGER.debug("evades = " + evades);
+        var count;
 
         if (hits > 0)
         {
-            var count = Math.min(hits, evades);
+            count = Math.min(hits, evades);
             hits -= count;
             evades -= count;
         }
 
         if (criticalHits > 0)
         {
-            var count = Math.min(criticalHits, evades);
+            count = Math.min(criticalHits, evades);
             criticalHits -= count;
             evades -= count;
         }
@@ -62,16 +64,18 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
         this.criticalHits = function()
         {
             return criticalHits;
-        }
+        };
 
         this.dealDamage = function()
         {
+            var count, i;
+
             if (defender.shield().count() > 0)
             {
-                var count = Math.min(hits, defender.shield().count());
+                count = Math.min(hits, defender.shield().count());
                 hits -= count;
 
-                for (var i = 0; i < count; i++)
+                for (i = 0; i < count; i++)
                 {
                     defender.shield().decrease();
                 }
@@ -81,10 +85,10 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
 
             if (defender.shield().count() > 0)
             {
-                var count = Math.min(criticalHits, defender.shield().count());
+                count = Math.min(criticalHits, defender.shield().count());
                 criticalHits -= count;
 
-                for (var i = 0; i < count; i++)
+                for (i = 0; i < count; i++)
                 {
                     defender.shield().decrease();
                 }
@@ -93,7 +97,7 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
             LOGGER.debug("after both hits, shield              = " + defender.shield().count());
             LOGGER.debug("before hits, damage                  = " + defender.damageCount());
 
-            for (var i = 0; i < hits; i++)
+            for (i = 0; i < hits; i++)
             {
                 defender.addDamage(environment.drawDamage());
             }
@@ -101,7 +105,7 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
             LOGGER.debug("after hits, damage                   = " + defender.damageCount());
             LOGGER.debug("before critical hits, criticalDamage = " + defender.criticalDamageCount());
 
-            for (var i = 0; i < criticalHits; i++)
+            for (i = 0; i < criticalHits; i++)
             {
                 var damage = environment.drawDamage();
                 var trait = DamageCard.properties[damage].trait;
@@ -124,17 +128,17 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
 
             LOGGER.debug("after critical hits, criticalDamage  = " + defender.criticalDamageCount());
             LOGGER.debug("defender.isDestroyed() ? " + defender.isDestroyed());
-        }
+        };
 
         this.hits = function()
         {
             return hits;
-        }
+        };
 
         this.remainingEvades = function()
         {
             return evades;
-        }
+        };
     }
 
     return DamageDealer;

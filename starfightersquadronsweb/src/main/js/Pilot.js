@@ -1,7 +1,8 @@
 define(
-        [ "RangeRuler", "ShipState", "ShipTeam", "Team", "UpgradeType" ],
-        function(RangeRuler, ShipState, ShipTeam, Team, UpgradeType)
+        [ "ShipState", "ShipTeam", "Team", "UpgradeType" ],
+        function(ShipState, ShipTeam, Team, UpgradeType)
         {
+            "use strict";
             var Pilot =
             {
                 ACADEMY_PILOT: "academyPilot",
@@ -1623,23 +1624,13 @@ define(
                     "saberSquadronPilot":
                     {
                         name: "Saber Squadron Pilot",
-                        description: "Led by Baron Soontir Fel, the pilots of Saber Squadron are among the Empire's best. Their TIE Interceptors are marked with red stripes to designate pilots with at least ten confirmed kills.",
-                        isFlavorText: true,
-                        shipTeam: ShipTeam.IMPERIAL_TIE_INTERCEPTOR,
-                        shipState: new ShipState(4, 3, 3, 3, 0),
-                        squadPointCost: 21,
-                        upgradeTypes: [],
-                        isImplemented: true,
-                        value: "saberSquadronPilot",
-                    },
-                    "saberSquadronPilot":
-                    {
-                        name: "Saber Squadron Pilot",
                         description: "Led by Baron Soontir Fel, the pilots of Saber Squadron are among the Empire's best. Their TIE interceptors are marked with red stripes to designate pilots with at least ten confirmed kills.",
+                        isFlavorText: true,
                         shipTeam: ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON,
                         shipState: new ShipState(4, 3, 3, 3, 0),
                         squadPointCost: 21,
                         upgradeTypes: [ UpgradeType.ELITE ],
+                        isImplemented: true,
                         value: "saberSquadronPilot",
                     },
                     "scimitarSquadronPilot":
@@ -2013,7 +2004,7 @@ define(
             if (Object.freeze)
             {
                 Object.freeze(Pilot);
-            };
+            }
 
             return Pilot;
         });

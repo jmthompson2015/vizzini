@@ -1,10 +1,8 @@
-/*
- * Provides a medium implementation of a computer agent for Starfighter Squadrons.
- */
 define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position",
-        "RangeRuler", "ShipAction", "ShipBase", "SimpleAgent" ], function(Difficulty, Maneuver, ModifyAttackDiceAction,
-        ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, ShipAction, ShipBase, SimpleAgent)
+        "RangeRuler", "ShipAction", "SimpleAgent" ], function(Difficulty, Maneuver, ModifyAttackDiceAction,
+        ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, ShipAction, SimpleAgent)
 {
+    "use strict";
     function MediumAgent(name, teamKey)
     {
         InputValidator.validateNotEmpty("name", name);
@@ -13,12 +11,12 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
         this.name = function()
         {
             return name;
-        }
+        };
 
         this.teamKey = function()
         {
             return teamKey;
-        }
+        };
     }
 
     // Create a prototype object that inherits from the prototype of SimpleAgent.
@@ -32,6 +30,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
         {
             // Maximize the hits and critical hits.
             var answer;
+            var modification;
 
             if (attackDice.hitCount() + attackDice.criticalHitCount() === attackDice.size())
             {
@@ -39,12 +38,12 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
             }
             else if (attacker.findTargetLockByDefender(defender))
             {
-                var modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
+                modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
                 answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
             }
             else if (attacker.focus().count() > 0 && attackDice.focusCount() > 0)
             {
-                var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
+                modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
                 answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
             }
 
@@ -56,6 +55,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
         {
             var answer;
             var totalHits = attackDice.hitCount() + attackDice.criticalHitCount();
+            var modification;
 
             if (defenseDice.evadeCount() >= totalHits)
             {
@@ -63,17 +63,17 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
             }
             else if (defender.evade().count() > 0 && defenseDice.evadeCount() + 1 >= totalHits)
             {
-                var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
+                modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
             }
             else if (defender.focus().count() > 0 && defenseDice.focusCount() > 0)
             {
-                var modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
+                modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
             }
             else if (defender.evade().count() > 0)
             {
-                var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
+                modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
             }
 
@@ -112,9 +112,9 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
                 {
                     var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
 
-                    if (toPosition
-                            && Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(), toPosition
-                                    .y(), toPosition.heading())))
+                    if (toPosition &&
+                            Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(),
+                                    toPosition.heading())))
                     {
                         validManeuvers.push(maneuver);
                         var weapon = token.primaryWeapon();

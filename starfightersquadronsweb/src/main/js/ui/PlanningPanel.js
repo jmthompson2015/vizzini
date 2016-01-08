@@ -1,14 +1,6 @@
-/*
- * Provides a user interface to create the planning action.
- * 
- * @param environment Environment.
- * @param agent Agent.
- * @param tokens Tokens.
- * @param imageUtils Image utilities.
- * @param callback Callback function.
- */
 define([ "PlanningAction", "ui/ManeuverChooser" ], function(PlanningAction, ManeuverChooser)
 {
+    "use strict";
     var PlanningPanel = React.createClass(
     {
         getInitialState: function()

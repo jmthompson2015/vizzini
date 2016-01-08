@@ -1,12 +1,8 @@
-/*
- * Provides a user interface to build a squad.
- * 
- * @param initialTeam Initial team.
- */
 define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "UpgradeCard", "UpgradeType",
         "ui/PilotChooser", "ui/SquadUI", "ui/UpgradeChooser" ], function(Pilot, ShipTeam, SimpleAgent, SquadBuilder,
         Team, Token, UpgradeCard, UpgradeType, PilotChooser, SquadUI, UpgradeChooser)
 {
+    "use strict";
     var SquadBuilderUI = React.createClass(
     {
         getInitialState: function()

@@ -1,12 +1,6 @@
-/*
- * Provides a squad chooser.
- * 
- * @param name Radio button list name.
- * @param squadBuilders Squad builders. (required)
- * @param onChange Function called when the selection changes. (optional)
- */
 define([ "SimpleAgent", "SquadBuilder", "ui/SquadUI" ], function(SimpleAgent, SquadBuilder, SquadUI)
 {
+    "use strict";
     var SquadChooser = React.createClass(
     {
         getInitialState: function()

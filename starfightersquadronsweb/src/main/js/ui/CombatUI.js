@@ -1,25 +1,7 @@
-/*
- * Provides a user interface for Combat.
- * 
- * @param phase Phase. (required)
- * 
- * @param attacker Attacking token. (required)
- * 
- * @param attackDice Attack dice. (required)
- * 
- * @param defender Defending token. (required)
- * 
- * @param defenseDice Defense dice. (optional)
- * 
- * @param hitCount Hit count. (required for Deal Damage)
- * 
- * @param criticalHitCount Critical hit count. (required for Deal Damage)
- * 
- * @param okFunction Function called for the OK button. (optional)
- */
 define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Phase" ], function(
         AttackDice, DefenseDice, ModifyAttackDiceAction, ModifyDefenseDiceAction, Phase)
 {
+    "use strict";
     var CombatUI = React.createClass(
     {
         getInitialState: function()
@@ -332,7 +314,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
                     answer = ModifyAttackDiceAction.Modification.properties[value].name;
                 }
                 return answer;
-            }
+            };
             var initialValue;
             if (modifications.length > 0)
             {
@@ -377,7 +359,7 @@ define([ "AttackDice", "DefenseDice", "ModifyAttackDiceAction", "ModifyDefenseDi
                     answer = ModifyDefenseDiceAction.Modification.properties[value].name;
                 }
                 return answer;
-            }
+            };
             var initialValue;
             if (modifications.length > 0)
             {

@@ -1,8 +1,6 @@
-/*
- * Provides an enumeration of game phases for Starfighter Squadrons.
- */
 define(function()
 {
+    "use strict";
     var Phase =
     {
         PLANNING_START: "planningStart",
@@ -118,8 +116,8 @@ define(function()
 
     if (Object.freeze)
     {
-        Object.freeze(Phase)
-    };
+        Object.freeze(Phase);
+    }
 
     return Phase;
 });

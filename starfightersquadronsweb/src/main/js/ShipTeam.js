@@ -1,8 +1,6 @@
-/*
- * Provides a mapping between Ship and Team.
- */
 define([ "Ship", "Team" ], function(Ship, Team)
 {
+    "use strict";
     var ShipTeam =
     {
         // First Order.
@@ -371,12 +369,12 @@ define([ "Ship", "Team" ], function(Ship, Team)
 
             return answer;
         },
-    }
+    };
 
     if (Object.freeze)
     {
         Object.freeze(ShipTeam);
-    };
+    }
 
     return ShipTeam;
 });

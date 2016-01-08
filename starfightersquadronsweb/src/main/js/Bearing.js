@@ -3,6 +3,7 @@
  */
 define(function()
 {
+    "use strict";
     var Bearing =
     {
         TURN_LEFT: "turnLeft",

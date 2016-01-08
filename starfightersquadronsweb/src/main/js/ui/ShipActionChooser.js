@@ -1,12 +1,6 @@
-/*
- * Provides a user interface to choose a ship action.
- * 
- * @param token Token.
- * @param shipActions Ship actions.
- * @param callback Callback.
- */
 define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 {
+    "use strict";
     var ShipActionChooser = React.createClass(
     {
         getInitialState: function()

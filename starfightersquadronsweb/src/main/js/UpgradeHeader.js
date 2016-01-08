@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     var UpgradeHeader =
     {
         ACTION: "action",
@@ -35,12 +36,12 @@ define(function()
         {
             return Object.getOwnPropertyNames(UpgradeHeader.properties);
         },
-    }
+    };
 
     if (Object.freeze)
     {
         Object.freeze(UpgradeHeader);
-    };
+    }
 
     return UpgradeHeader;
 });

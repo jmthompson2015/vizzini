@@ -1,8 +1,6 @@
-/*
- * Provides an action to modify the attack dice.
- */
 define([ "UpgradeCard" ], function(UpgradeCard)
 {
+    "use strict";
     function ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification)
     {
         InputValidator.validateNotNull("environment", environment);
@@ -14,27 +12,27 @@ define([ "UpgradeCard" ], function(UpgradeCard)
         this.getEnvironment = function()
         {
             return environment;
-        }
+        };
 
         this.getAttacker = function()
         {
             return attacker;
-        }
+        };
 
         this.getAttackDice = function()
         {
             return attackDice;
-        }
+        };
 
         this.getDefender = function()
         {
             return defender;
-        }
+        };
 
         this.getModification = function()
         {
             return modification;
-        }
+        };
 
         this.doIt = function()
         {
@@ -59,12 +57,9 @@ define([ "UpgradeCard" ], function(UpgradeCard)
             {
                 throw "Unknown modification: " + modification;
             }
-        }
+        };
     }
 
-    /*
-     * Provides an enumeration of possible modifications.
-     */
     ModifyAttackDiceAction.Modification =
     {
         SPEND_FOCUS: "spendFocus",
@@ -80,12 +75,12 @@ define([ "UpgradeCard" ], function(UpgradeCard)
                 name: "Spend Target Lock tokens",
             },
         },
-    }
+    };
 
     ModifyAttackDiceAction.prototype.toString = function()
     {
         return "ModifyAttackDiceAction modification=" + this.getModification();
-    }
+    };
 
     return ModifyAttackDiceAction;
 });

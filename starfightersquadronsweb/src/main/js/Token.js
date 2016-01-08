@@ -5,6 +5,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty,
         Maneuver, Phase, Pilot, RangeRuler, Ship, ShipAction, ShipTeam, Team, UpgradeCard, UpgradeType, Weapon)
 {
+    "use strict";
     function Token(pilotKey, agent)
     {
         InputValidator.validateNotNull("pilotKey", pilotKey);
@@ -970,7 +971,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             attackDice = undefined;
             combatAction = undefined;
-            defender = undefined;
             defenseDice = undefined;
             isDefenderHit = false;
             range = undefined;

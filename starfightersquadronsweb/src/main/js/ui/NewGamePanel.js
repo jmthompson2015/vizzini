@@ -2,6 +2,7 @@ define(
         [ "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent", "ui/SquadBuilderUI", "ui/SquadChooser" ],
         function(MediumAgent, SimpleAgent, SquadBuilder, Team, HumanAgent, SquadBuilderUI, SquadChooser)
         {
+            "use strict";
             var NewGamePanel = React.createClass(
             {
                 getInitialState: function()
@@ -145,7 +146,7 @@ define(
                     var teamLabelFunction = function(value)
                     {
                         return Team.properties[value].name;
-                    }
+                    };
                     var teamUI = React.createElement(Select,
                     {
                         values: Team.values(),
@@ -312,7 +313,7 @@ define(
                         name: name,
                     }, function()
                     {
-                        this.notifyNewAgent()
+                        this.notifyNewAgent();
                     });
                 },
 
@@ -327,7 +328,7 @@ define(
                         squad: squad,
                     }, function()
                     {
-                        this.notifyNewAgent()
+                        this.notifyNewAgent();
                     });
                 },
 
@@ -341,7 +342,7 @@ define(
                         squadBuilderType: selected,
                     }, function()
                     {
-                        this.notifyNewAgent()
+                        this.notifyNewAgent();
                     });
                 },
 
@@ -354,7 +355,7 @@ define(
                         squad: squad,
                     }, function()
                     {
-                        this.notifyNewAgent()
+                        this.notifyNewAgent();
                     });
                 },
 
@@ -371,7 +372,7 @@ define(
                         squadBuilder: squadBuilder,
                     }, function()
                     {
-                        this.notifyNewAgent()
+                        this.notifyNewAgent();
                     });
                 },
 
@@ -385,7 +386,7 @@ define(
                         type: selected,
                     }, function()
                     {
-                        this.notifyNewAgent()
+                        this.notifyNewAgent();
                     });
                 },
 
