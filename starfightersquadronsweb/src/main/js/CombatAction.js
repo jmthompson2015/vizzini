@@ -155,8 +155,6 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
 
                     // Compare results.
                     // Deal damage.
-                    var beforeDamage = defender.damageCount() + defender.criticalDamageCount();
-                    LOGGER.trace("beforeDamage = " + beforeDamage);
                     var attackDice = attacker.combatState().attackDice();
                     var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice
                             .criticalHitCount(), defender, defenseDice.evadeCount());
@@ -165,26 +163,43 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                     attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,
                             damageDealer, function()
                             {
-                                finishDealDamage(damageDealer, beforeDamage);
+                                finishDealDamage(damageDealer);
                             });
 
                     var defenderAgent = defender.agent();
                     defenderAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,
                             damageDealer, function()
                             {
-                                finishDealDamage(damageDealer, beforeDamage);
+                                finishDealDamage(damageDealer);
                             });
 
                     environment.phase(Phase.COMBAT_DEAL_DAMAGE);
                 }
 
-                function finishDealDamage(damageDealer, beforeDamage)
+                function finishDealDamage(damageDealer)
                 {
-                    damageDealer.dealDamage();
-                    var afterDamage = defender.damageCount() + defender.criticalDamageCount();
-                    LOGGER.trace("afterDamage = " + afterDamage);
-                    var isDefenderHit = afterDamage > beforeDamage;
+                    var isDefenderHit = (damageDealer.hits() + damageDealer.criticalHits() > 0);
                     attacker.combatState().isDefenderHit(isDefenderHit);
+
+                    if (isDefenderHit)
+                    {
+                        if (weapon.upgradeKey() === UpgradeCard.ION_CANNON ||
+                                weapon.upgradeKey() === UpgradeCard.ION_CANNON_TURRET)
+                        {
+                            defender.addDamage(environment.drawDamage());
+                            defender.ion().increase();
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.ION_PULSE_MISSILES)
+                        {
+                            defender.addDamage(environment.drawDamage());
+                            defender.ion().increase();
+                            defender.ion().increase();
+                        }
+                        else
+                        {
+                            damageDealer.dealDamage();
+                        }
+                    }
 
                     if (defender.isDestroyed())
                     {

@@ -1023,6 +1023,7 @@ define(
                         firingArc: FiringArc.FORWARD,
                         description: "Attack 1 ship. If this attack hits, the defender suffers 1 damage and receives 1 ion token. Then cancel all dice results.",
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "ionCannon",
                     },
                     "ionCannonTurret":
@@ -1036,6 +1037,7 @@ define(
                         firingArc: FiringArc.TURRET,
                         description: "Attack 1 ship (even a ship outside your firing arc). If this attack hits the target ship, the ship suffers 1 damage and receives 1 ion token. Then cancel all dice results.",
                         squadPointCost: 5,
+                        isImplemented: true,
                         value: "ionCannonTurret",
                     },
                     "ionProjector":
@@ -1058,7 +1060,10 @@ define(
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         firingArc: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender suffers 1 damage and receives 2 ion tokens. Then cancel all dice results.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "ionPulseMissiles",
                     },
                     "ionTorpedoes":
