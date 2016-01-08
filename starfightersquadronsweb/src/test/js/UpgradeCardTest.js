@@ -2,6 +2,7 @@ define(
         [ "Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType" ],
         function(Pilot, UpgradeCard, UpgradeRestriction, UpgradeType)
         {
+            "use strict";
             QUnit.module("UpgradeCard");
 
             QUnit

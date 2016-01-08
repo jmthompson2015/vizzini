@@ -1,6 +1,7 @@
 define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLock" ], function(AttackDice,
         EnvironmentFactory, ModifyAttackDiceAction, TargetLock)
 {
+    "use strict";
     QUnit.module("ModifyAttackDiceAction");
 
     QUnit.test("doIt() spend focus", function(assert)

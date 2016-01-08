@@ -1,14 +1,15 @@
 define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
 {
+    "use strict";
     QUnit.module("UpgradeRestriction");
 
     QUnit.test("UpgradeRestriction", function(assert)
     {
         var properties = Object.getOwnPropertyNames(UpgradeRestriction);
         var values = UpgradeRestriction.values();
-        assert.equal(properties.length - 1 // properties
-        - 1 // passes
-        - 1, // values
+        assert.equal(properties.length - 1 - // properties
+        1 - // passes
+        1, // values
         values.length);
     });
 
@@ -127,7 +128,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         assert.ok(restriction.passes(Pilot.POE_DAMERON));
         assert.ok(restriction.passes(Pilot.RED_ACE));
         assert.ok(restriction.passes(Pilot.RED_SQUADRON_VETERAN));
-        
+
         // Other.
         assert.ok(!restriction.passes(Pilot.DARTH_VADER));
         assert.ok(!restriction.passes(Pilot.CAPTAIN_JONUS));

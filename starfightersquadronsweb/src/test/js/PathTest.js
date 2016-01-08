@@ -1,7 +1,8 @@
 define([ "Path" ], function(Path)
 {
+    "use strict";
     QUnit.module("Path");
-    
+
     QUnit.test("Path properties", function(assert)
     {
         // Setup.

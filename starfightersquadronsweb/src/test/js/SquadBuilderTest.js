@@ -1,6 +1,7 @@
 define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(Pilot, Ship, SimpleAgent,
         SquadBuilder, Team, HumanAgent)
 {
+    "use strict";
     QUnit.module("SquadBuilder");
 
     QUnit.test("CoreSetImperialSquadBuilder buildSquad()", function(assert)

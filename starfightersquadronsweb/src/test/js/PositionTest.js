@@ -1,5 +1,6 @@
 define([ "Position" ], function(Position)
 {
+    "use strict";
     QUnit.module("Position");
 
     QUnit.test("Position()", function(assert)

@@ -1,6 +1,7 @@
 define([ "DamageCard", "DamageDealer", "EnvironmentFactory", "Pilot", "Token", "UpgradeCard" ], function(DamageCard,
         DamageDealer, EnvironmentFactory, Pilot, Token, UpgradeCard)
 {
+    "use strict";
     QUnit.module("DamageDealer");
 
     QUnit.test("DamageDealer()", function(assert)

@@ -1,14 +1,15 @@
 define([ "UpgradeType" ], function(UpgradeType)
 {
+    "use strict";
     QUnit.module("UpgradeType");
-    
+
     QUnit.test("UpgradeType", function(assert)
     {
         var properties = Object.getOwnPropertyNames(UpgradeType);
         var values = UpgradeType.values();
-        assert.equal(properties.length - 1 // properties
-        - 1 // values
-        - 1, // isSecondaryWeapon
+        assert.equal(properties.length - 1 - // properties
+        1 - // values
+        1, // isSecondaryWeapon
         values.length);
     });
 

@@ -3,6 +3,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent,
         TargetLock, Team, Token, UpgradeCard)
 {
+    "use strict";
     QUnit.module("CombatAction");
 
     QUnit.test("CombatAction.doIt() out of range", function(assert)

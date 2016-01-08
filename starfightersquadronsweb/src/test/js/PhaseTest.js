@@ -1,5 +1,6 @@
 define([ "Phase" ], function(Phase)
 {
+    "use strict";
     QUnit.module("Phase");
 
     QUnit.test("Phase properties Planning (start)", function(assert)

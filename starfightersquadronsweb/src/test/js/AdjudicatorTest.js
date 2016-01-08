@@ -1,5 +1,6 @@
 define([ "Adjudicator", "EnvironmentFactory" ], function(Adjudicator, EnvironmentFactory)
 {
+    "use strict";
     QUnit.module("Adjudicator");
 
     QUnit.test("canAttack() yes", function(assert)

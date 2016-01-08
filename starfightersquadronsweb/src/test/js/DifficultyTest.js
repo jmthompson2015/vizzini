@@ -1,5 +1,6 @@
 define([ "Difficulty" ], function(Difficulty)
 {
+    "use strict";
     QUnit.module("Difficulty");
 
     QUnit.test("values()", function(assert)

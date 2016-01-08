@@ -1,5 +1,6 @@
 define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 {
+    "use strict";
     QUnit.module("ShipTeam");
 
     QUnit.test("ShipTeam properties Imperial Firespray-31", function(assert)
@@ -83,9 +84,9 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.equal(result[34], "scumZ95Headhunter");
 
         var properties = Object.getOwnPropertyNames(ShipTeam);
-        var count = properties.length - 1 // properties
-        - 1 // values
-        - 1; // valuesByTeam
+        var count = properties.length - 1 - // properties
+        1 - // values
+        1; // valuesByTeam
         assert.equal(result.length, count);
     });
 
@@ -116,8 +117,8 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
     QUnit.test("valuesByTeam() First Order strict", function(assert)
     {
         // Setup.
-        var isStrict=true;
-        
+        var isStrict = true;
+
         // Run.
         var result = ShipTeam.valuesByTeam(Team.FIRST_ORDER, isStrict);
 
@@ -201,8 +202,8 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
     QUnit.test("valuesByTeam() Resistance strict", function(assert)
     {
         // Setup.
-        var isStrict=true;
-        
+        var isStrict = true;
+
         // Run.
         var result = ShipTeam.valuesByTeam(Team.RESISTANCE, isStrict);
 

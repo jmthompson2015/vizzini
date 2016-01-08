@@ -1,5 +1,6 @@
 define([ "Bearing" ], function(Bearing)
 {
+    "use strict";
     QUnit.module("Bearing");
 
     QUnit.test("isBank()", function(assert)

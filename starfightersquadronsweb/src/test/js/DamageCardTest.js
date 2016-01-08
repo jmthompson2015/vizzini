@@ -1,5 +1,6 @@
 define([ "DamageCard" ], function(DamageCard)
 {
+    "use strict";
     QUnit.module("DamageCard");
 
     QUnit.test("DamageCard properties Blinded Pilot", function(assert)
@@ -81,9 +82,10 @@ define([ "DamageCard" ], function(DamageCard)
 
         // Count each damage card type.
         var damageToCount = {};
+        var damage;
         for (var i = 0; i < deck.length; i++)
         {
-            var damage = deck[i];
+            damage = deck[i];
 
             if (damageToCount[damage])
             {
@@ -96,7 +98,7 @@ define([ "DamageCard" ], function(DamageCard)
         }
 
         // Verify.
-        for ( var damage in damageToCount)
+        for (damage in damageToCount)
         {
             if (damage === DamageCard.DIRECT_HIT)
             {

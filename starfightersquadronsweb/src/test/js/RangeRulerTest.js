@@ -1,6 +1,7 @@
-define([ "Pilot", "Position", "RangeRuler", "ShipBase", "SimpleAgent", "SquadBuilder", "Team", "Token" ], function(
-        Pilot, Position, RangeRuler, ShipBase, SimpleAgent, SquadBuilder, Team, Token)
+define([ "Pilot", "Position", "RangeRuler", "SimpleAgent", "Team", "Token" ], function(Pilot, Position, RangeRuler,
+        SimpleAgent, Team, Token)
 {
+    "use strict";
     QUnit.module("RangeRuler");
 
     QUnit.test("findRange()", function(assert)

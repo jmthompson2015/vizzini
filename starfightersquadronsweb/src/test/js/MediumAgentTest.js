@@ -1,6 +1,7 @@
-define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "MediumAgent", "Position", "SquadBuilder", "Team", "Token" ],
-        function(Adjudicator, EnvironmentFactory, Maneuver, MediumAgent, Position, SquadBuilder, Team, Token)
+define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "MediumAgent", "Position", "SquadBuilder", "Team" ],
+        function(Adjudicator, EnvironmentFactory, Maneuver, MediumAgent, Position, SquadBuilder, Team)
         {
+            "use strict";
             QUnit.module("MediumAgent");
 
             QUnit.test("properties", function(assert)

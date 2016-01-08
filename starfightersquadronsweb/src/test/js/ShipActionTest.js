@@ -1,5 +1,6 @@
 define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 {
+    "use strict";
     QUnit.module("ShipAction");
 
     QUnit.test("ShipAction properties Barrel Roll (left)", function(assert)
@@ -64,11 +65,11 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
         assert.equal(result[10], "targetLock");
 
         var properties = Object.getOwnPropertyNames(ShipAction);
-        var count = properties.length - 1 // properties
-        - 1 // values
-        - 1 // createDecloakShipAction
-        - 1 // createSlamShipAction
-        - 1; // createTargetLockShipAction
+        var count = properties.length - 1 - // properties
+        1 - // values
+        1 - // createDecloakShipAction
+        1 - // createSlamShipAction
+        1; // createTargetLockShipAction
         assert.equal(result.length, count);
     });
 });

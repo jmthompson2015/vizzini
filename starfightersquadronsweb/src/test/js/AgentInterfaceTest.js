@@ -1,5 +1,6 @@
 define([ "MediumAgent", "SimpleAgent", "Team", "ui/HumanAgent" ], function(MediumAgent, SimpleAgent, Team, HumanAgent)
 {
+    "use strict";
     QUnit.module("AgentInterface");
 
     QUnit.test("Agent interface", function(assert)

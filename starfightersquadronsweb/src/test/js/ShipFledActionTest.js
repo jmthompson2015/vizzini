@@ -1,6 +1,7 @@
-define([ "EnvironmentFactory", "Position", "ShipFledAction", "TargetLock", "Token" ], function(EnvironmentFactory, Position,
-        ShipFledAction, TargetLock, Token)
+define([ "EnvironmentFactory", "Position", "ShipFledAction", "TargetLock", "Token" ], function(EnvironmentFactory,
+        Position, ShipFledAction, TargetLock, Token)
 {
+    "use strict";
     QUnit.module("ShipFledAction");
 
     QUnit.test("doIt()", function(assert)

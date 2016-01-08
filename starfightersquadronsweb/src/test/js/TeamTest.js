@@ -1,5 +1,6 @@
 define([ "Team" ], function(Team)
 {
+    "use strict";
     QUnit.module("Team");
 
     QUnit.test("Team properties Imperial", function(assert)
@@ -34,7 +35,7 @@ define([ "Team" ], function(Team)
         var result = Team.values();
         assert.ok(result);
         assert.equal(result.length, 5);
-        var i =0;
+        var i = 0;
         assert.equal(result[i++], Team.FIRST_ORDER);
         assert.equal(result[i++], Team.IMPERIAL);
         assert.equal(result[i++], Team.REBEL);

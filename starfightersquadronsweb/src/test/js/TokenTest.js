@@ -1,9 +1,10 @@
-define([ "Bearing", "DamageCard", "Difficulty", "Environment","EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position",
-        "RangeRuler", "Ship", "ShipBase", "SimpleAgent", "SquadBuilder", "TargetLock", "Team", "Token", "UpgradeCard",
-        "UpgradeType", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Environment,EnvironmentFactory, Maneuver,
-        ManeuverAction, Pilot, Position, RangeRuler, Ship, ShipBase, SimpleAgent, SquadBuilder, TargetLock, Team,
-        Token, UpgradeCard, UpgradeType, HumanAgent)
+define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFactory", "Maneuver", "ManeuverAction",
+        "Pilot", "Position", "RangeRuler", "Ship", "ShipBase", "SimpleAgent", "TargetLock", "Team", "Token",
+        "UpgradeCard", "UpgradeType", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Environment,
+        EnvironmentFactory, Maneuver, ManeuverAction, Pilot, Position, RangeRuler, Ship, ShipBase, SimpleAgent,
+        TargetLock, Team, Token, UpgradeCard, UpgradeType, HumanAgent)
 {
+    "use strict";
     QUnit.module("Token");
 
     QUnit.test("Token basics", function(assert)
@@ -200,7 +201,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment","EnvironmentFactor
         assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
         assert.equal(token1.shipKey(), Ship.X_WING);
         assert.equal(token1.name(), "2 Rookie Pilot (X-Wing)");
-        var environment;
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.ONE), 2);
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.TWO), 2);
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.THREE), 3);

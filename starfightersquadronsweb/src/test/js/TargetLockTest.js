@@ -1,6 +1,7 @@
-define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token" ], function(EnvironmentFactory, Pilot,
-        SimpleAgent, TargetLock, Team, Token)
+define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token" ], function(EnvironmentFactory,
+        Pilot, SimpleAgent, TargetLock, Team, Token)
 {
+    "use strict";
     QUnit.module("TargetLock");
 
     QUnit.test("TargetLock properties", function(assert)
@@ -42,27 +43,28 @@ define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "To
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var defender = new Token(Pilot.DASH_RENDAR, rebelAgent);
         TargetLock.resetNextId();
-        
+
         // Run / Verify.
         var targetLock = new TargetLock(attacker, defender);
         assert.equal(targetLock.id(), "A");
+        var i;
 
-        for (var i = 0; i < 25; i++)
+        for (i = 0; i < 25; i++)
         {
             targetLock = new TargetLock(attacker, defender);
         }
 
         assert.equal(targetLock.id(), "Z");
-        var targetLock = new TargetLock(attacker, defender);
+        targetLock = new TargetLock(attacker, defender);
         assert.equal(targetLock.id(), "AA");
 
-        for (var i = 0; i < 25; i++)
+        for (i = 0; i < 25; i++)
         {
             targetLock = new TargetLock(attacker, defender);
         }
 
         assert.equal(targetLock.id(), "ZZ");
-        var targetLock = new TargetLock(attacker, defender);
+        targetLock = new TargetLock(attacker, defender);
         assert.equal(targetLock.id(), "A");
     });
 });

@@ -1,13 +1,14 @@
 define([ "UpgradeHeader" ], function(UpgradeHeader)
 {
+    "use strict";
     QUnit.module("UpgradeHeader");
-    
+
     QUnit.test("UpgradeHeader", function(assert)
     {
         var properties = Object.getOwnPropertyNames(UpgradeHeader);
         var values = UpgradeHeader.values();
-        assert.equal(properties.length - 1 // properties
-        - 1, // values
+        assert.equal(properties.length - 1 - // properties
+        1, // values
         values.length);
     });
 

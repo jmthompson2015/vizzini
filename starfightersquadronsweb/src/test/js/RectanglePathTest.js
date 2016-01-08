@@ -1,5 +1,6 @@
 define([ "RectanglePath" ], function(RectanglePath)
 {
+    "use strict";
     QUnit.module("RectanglePath");
 
     QUnit.test("RectanglePath properties", function(assert)

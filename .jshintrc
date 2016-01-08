@@ -1,0 +1,5 @@
+{
+   "browser": true, // Web Browser (window, document, etc)
+   "strict": true, // true: Requires all functions run in ES5 Strict Mode
+   "predef": ["HtmlUtilities", "Logger", "React", "require"]
+}

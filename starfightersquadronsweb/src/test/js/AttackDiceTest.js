@@ -1,5 +1,6 @@
 define([ "AttackDice" ], function(AttackDice)
 {
+    "use strict";
     QUnit.module("AttackDice");
 
     QUnit.test("AttackDice properties", function(assert)

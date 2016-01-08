@@ -1,6 +1,7 @@
 define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction" ], function(DefenseDice, EnvironmentFactory,
         ModifyDefenseDiceAction)
 {
+    "use strict";
     QUnit.module("ModifyDefenseDiceAction");
 
     QUnit.test("doIt() spend evade", function(assert)

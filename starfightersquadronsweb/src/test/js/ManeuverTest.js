@@ -1,6 +1,7 @@
 define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function(Bearing, Difficulty, Maneuver,
         Position, ShipBase)
 {
+    "use strict";
     QUnit.module("Maneuver");
 
     QUnit.test("Maneuver properties Straight1Standard", function(assert)

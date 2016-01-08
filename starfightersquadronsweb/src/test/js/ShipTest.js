@@ -1,5 +1,6 @@
 define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
 {
+    "use strict";
     QUnit.module("Ship");
 
     QUnit.test("Ship properties Firespray-31", function(assert)
@@ -87,8 +88,8 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.equal(result[26], "z95Headhunter");
 
         var properties = Object.getOwnPropertyNames(Ship);
-        var count = properties.length - 1 // properties
-        - 1; // values
+        var count = properties.length - 1 - // properties
+        1; // values
         assert.equal(result.length, count);
     });
 });

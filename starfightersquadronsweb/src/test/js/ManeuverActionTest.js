@@ -1,6 +1,7 @@
 define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token" ], function(EnvironmentFactory,
         Maneuver, ManeuverAction, Position, Token)
 {
+    "use strict";
     QUnit.module("ManeuverAction");
 
     QUnit.test("ManeuverAction.doIt() Straight1Easy", function(assert)

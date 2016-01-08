@@ -2,6 +2,7 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         "TargetLock", "Team", "Token", "UpgradeCard", "Weapon" ], function(Environment, EnvironmentFactory, FiringArc,
         Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Weapon)
 {
+    "use strict";
     QUnit.module("Weapon");
 
     QUnit.test("Weapon properties", function(assert)

@@ -1,5 +1,6 @@
-define([ "FiringArc",  "RangeRuler", "Weapon" ], function(FiringArc,  RangeRuler, Weapon)
+define([ "FiringArc", "RangeRuler", "Weapon" ], function(FiringArc, RangeRuler, Weapon)
 {
+    "use strict";
     QUnit.module("WeaponInterface");
 
     QUnit.test("Weapon interface", function(assert)
@@ -26,7 +27,6 @@ define([ "FiringArc",  "RangeRuler", "Weapon" ], function(FiringArc,  RangeRuler
             assert.ok(weapon.upgradeKey);
             assert.ok(weapon.isDefenderInFiringArc);
             assert.ok(weapon.isDefenderInRange);
-//            assert.ok(weapon.isDefenderVulnerable);
             assert.ok(weapon.isDefenderTargetable);
             assert.ok(weapon.isPrimary);
             assert.ok(weapon.toString);

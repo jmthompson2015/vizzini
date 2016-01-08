@@ -1,5 +1,6 @@
 define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 {
+    "use strict";
     QUnit.module("Pilot");
 
     QUnit.test("Pilot properties Academy Pilot", function(assert)
@@ -103,10 +104,10 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         assert.equal(result[153], "zetaSquadronPilot");
 
         var properties = Object.getOwnPropertyNames(Pilot);
-        var count = properties.length - 1 // properties
-                - 1 // values
-                - 1 // valuesByShipTeam
-                - 1; // valuesByTeam
+        var count = properties.length - 1 - // properties
+        1 - // values
+        1 - // valuesByShipTeam
+        1; // valuesByTeam
         assert.equal(result.length, count);
 
         for (var i = 0; i < result.length; i++)

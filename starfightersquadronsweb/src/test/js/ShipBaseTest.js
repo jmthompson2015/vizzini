@@ -1,5 +1,6 @@
 define([ "ShipBase" ], function(ShipBase)
 {
+    "use strict";
     QUnit.module("ShipBase");
 
     QUnit.test("ShipBase properties Large", function(assert)
@@ -60,8 +61,8 @@ define([ "ShipBase" ], function(ShipBase)
         assert.equal(result[3], "huge2");
 
         var properties = Object.getOwnPropertyNames(ShipBase);
-        var count = properties.length - 1 // properties
-        - 1; // values
+        var count = properties.length - 1 - // properties
+        1; // values
         assert.equal(result.length, count);
     });
 });

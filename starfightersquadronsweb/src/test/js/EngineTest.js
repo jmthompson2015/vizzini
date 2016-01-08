@@ -1,6 +1,7 @@
-define([ "Adjudicator", "Engine", "Environment", "EnvironmentFactory", "PlanningAction", "Position" ], function(
-        Adjudicator, Engine, Environment, EnvironmentFactory, PlanningAction, Position)
+define([ "Adjudicator", "Engine", "EnvironmentFactory", "PlanningAction", "Position" ], function(Adjudicator, Engine,
+        EnvironmentFactory, PlanningAction, Position)
 {
+    "use strict";
     QUnit.module("Engine");
 
     QUnit.test("performActivationPhase()", function(assert)
@@ -17,7 +18,7 @@ define([ "Adjudicator", "Engine", "Environment", "EnvironmentFactory", "Planning
         engine.performCombatPhase = function()
         {
             LOGGER.info("performCombatPhase() dummy");
-        }
+        };
 
         // Run.
         var done = assert.async();
@@ -47,7 +48,7 @@ define([ "Adjudicator", "Engine", "Environment", "EnvironmentFactory", "Planning
         engine.performEndPhase = function()
         {
             LOGGER.info("performEndPhase() dummy");
-        }
+        };
 
         // Run.
         var done = assert.async();
@@ -111,7 +112,7 @@ define([ "Adjudicator", "Engine", "Environment", "EnvironmentFactory", "Planning
         engine.performActivationPhase = function()
         {
             LOGGER.info("performActivationPhase() dummy");
-        }
+        };
 
         // Run.
         var done = assert.async();

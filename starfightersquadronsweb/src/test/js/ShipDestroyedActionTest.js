@@ -1,6 +1,7 @@
 define([ "EnvironmentFactory", "Position", "ShipDestroyedAction", "TargetLock", "Token" ], function(EnvironmentFactory,
         Position, ShipDestroyedAction, TargetLock, Token)
 {
+    "use strict";
     QUnit.module("ShipDestroyedAction");
 
     QUnit.test("doIt()", function(assert)
