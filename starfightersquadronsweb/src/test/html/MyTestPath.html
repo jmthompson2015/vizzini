@@ -24,9 +24,9 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        require([ "Environment", "Path", "RectanglePath" ], function(Environment, Path, RectanglePath)
+        require([ "EnvironmentFactory", "Path", "RectanglePath" ], function(EnvironmentFactory, Path, RectanglePath)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
             var fromPosition = environment.getPositionFor(environment.tokens()[0]);
             var fromPosition1 = environment.getPositionFor(environment.tokens()[1]);
 

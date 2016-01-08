@@ -1,6 +1,6 @@
-define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position", "RangeRuler",
-        "Ship", "ShipAction", "ShipBase", "Weapon" ], function(Maneuver, ModifyAttackDiceAction,
-        ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, Ship, ShipAction, ShipBase, Weapon)
+define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction",
+        "Position", "Ship", "ShipAction" ], function(Maneuver, ManeuverAction, ModifyAttackDiceAction,
+        ModifyDefenseDiceAction, PlanningAction, Position, Ship, ShipAction)
 {
     function SimpleAgent(name, teamKey)
     {
@@ -10,12 +10,12 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         this.name = function()
         {
             return name;
-        }
+        };
 
         this.teamKey = function()
         {
             return teamKey;
-        }
+        };
     }
 
     SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
@@ -60,13 +60,39 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         }
 
         callback(weapon, defender);
-    }
+    };
 
     SimpleAgent.prototype.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
-            damageDealer, callback, damageDealer)
+            damageDealer, callback)
     {
     // callback();
-    }
+    };
+
+    SimpleAgent.prototype.determineValidDecloakActions = function(environment, adjudicator, token)
+    {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("adjudicator", adjudicator);
+        InputValidator.validateNotNull("token", token);
+
+        var answer = [];
+
+        if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD))
+        {
+            answer.push(ShipAction.createDecloakShipAction(Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
+        }
+
+        if (adjudicator.canDecloak(environment, token, Maneuver.STRAIGHT_2_STANDARD))
+        {
+            answer.push(ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD));
+        }
+
+        if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
+        {
+            answer.push(ShipAction.createDecloakShipAction(Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
+        }
+
+        return answer;
+    };
 
     SimpleAgent.prototype.determineValidManeuvers = function(environment, token)
     {
@@ -91,7 +117,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
 
             return (toPosition && Position.isPathInPlayArea(polygon));
         });
-    }
+    };
 
     SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token)
     {
@@ -124,34 +150,34 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
             }
         }
 
-        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT)
-                && adjudicator.canBarrelRoll(environment, token,
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT) &&
+                adjudicator.canBarrelRoll(environment, token,
                         ShipAction.properties[ShipAction.BARREL_ROLL_LEFT].maneuver))
         {
             answer.push(ShipAction.BARREL_ROLL_LEFT);
         }
 
-        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT)
-                && adjudicator.canBarrelRoll(environment, token,
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT) &&
+                adjudicator.canBarrelRoll(environment, token,
                         ShipAction.properties[ShipAction.BARREL_ROLL_RIGHT].maneuver))
         {
             answer.push(ShipAction.BARREL_ROLL_RIGHT);
         }
 
-        if (shipActions.vizziniContains(ShipAction.BOOST_LEFT)
-                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_LEFT].maneuver))
+        if (shipActions.vizziniContains(ShipAction.BOOST_LEFT) &&
+                adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_LEFT].maneuver))
         {
             answer.push(ShipAction.BOOST_LEFT);
         }
 
-        if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT)
-                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_STRAIGHT].maneuver))
+        if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT) &&
+                adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_STRAIGHT].maneuver))
         {
             answer.push(ShipAction.BOOST_STRAIGHT);
         }
 
-        if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT)
-                && adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
+        if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT) &&
+                adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
         {
             answer.push(ShipAction.BOOST_RIGHT);
         }
@@ -183,7 +209,24 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         }
 
         return answer;
-    }
+    };
+
+    SimpleAgent.prototype.getDecloakAction = function(environment, adjudicator, token, callback)
+    {
+        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("adjudicator", adjudicator);
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("callback", callback);
+
+        var decloakActions = this.determineValidDecloakActions(environment, adjudicator, token);
+        var decloakAction = decloakActions.vizziniRandomElement();
+        var fromPosition = environment.getPositionFor(token);
+        var shipBaseKey = token.shipBaseKey();
+
+        var answer = new ManeuverAction(environment, decloakAction.maneuver, fromPosition, shipBaseKey);
+
+        callback(answer);
+    };
 
     SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice,
             defender, callback)
@@ -218,7 +261,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         }
 
         callback(answer);
-    }
+    };
 
     SimpleAgent.prototype.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice,
             defender, defenseDice, callback)
@@ -252,7 +295,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         }
 
         callback(answer);
-    }
+    };
 
     SimpleAgent.prototype.getPlanningAction = function(environment, adjudicator, callback)
     {
@@ -287,7 +330,7 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         var answer = new PlanningAction(environment, this, tokenToManeuver);
 
         callback(answer);
-    }
+    };
 
     SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback)
     {
@@ -300,12 +343,12 @@ define([ "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Plann
         var answer = shipActions.vizziniRandomElement();
 
         callback(answer);
-    }
+    };
 
     SimpleAgent.prototype.toString = function()
     {
         return this.name() + ", SimpleAgent, " + this.teamKey();
-    }
+    };
 
     return SimpleAgent;
 });

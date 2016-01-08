@@ -1,4 +1,4 @@
-define([ "Environment", "Position", "ShipFledAction", "TargetLock", "Token" ], function(Environment, Position,
+define([ "EnvironmentFactory", "Position", "ShipFledAction", "TargetLock", "Token" ], function(EnvironmentFactory, Position,
         ShipFledAction, TargetLock, Token)
 {
     QUnit.module("ShipFledAction");
@@ -7,7 +7,7 @@ define([ "Environment", "Position", "ShipFledAction", "TargetLock", "Token" ], f
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var fromPosition = new Position(305, 20, 90);
         LOGGER.trace("fromPosition = " + fromPosition.toString());
         var token = environment.getTokenAt(fromPosition);

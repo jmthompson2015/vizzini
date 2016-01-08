@@ -1,12 +1,12 @@
-define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "UpgradeCard" ], function(DamageCard,
-        DamageDealer, Environment, Pilot, Token, UpgradeCard)
+define([ "DamageCard", "DamageDealer", "EnvironmentFactory", "Pilot", "Token", "UpgradeCard" ], function(DamageCard,
+        DamageDealer, EnvironmentFactory, Pilot, Token, UpgradeCard)
 {
     QUnit.module("DamageDealer");
 
     QUnit.test("DamageDealer()", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
         var defender = environment.tokens()[0]; // TIE Fighter
@@ -24,7 +24,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
     QUnit.test("dealDamage()", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
         var defender = environment.tokens()[0]; // TIE Fighter
@@ -44,7 +44,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
     QUnit.test("dealDamage() shields", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
         var defender = environment.tokens()[2]; // X-Wing
@@ -64,7 +64,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
     QUnit.test("dealDamage() Determination", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 1;
         var rebelAgent = environment.tokens()[2].agent();
@@ -98,7 +98,7 @@ define([ "DamageCard", "DamageDealer", "Environment", "Pilot", "Token", "Upgrade
     QUnit.test("dealDamage() Chewbacca", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var hitCount = 2;
         var criticalHitCount = 3;
         var rebelAgent = environment.tokens()[2].agent();

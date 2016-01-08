@@ -28,11 +28,11 @@
         "use strict";
         var LOGGER = new Logger();
 
-        require([ "Environment", "Pilot", "ShipAction", "SimpleAgent", "SquadBuilder", "Team", "Token",
-                "ui/ShipActionChooser" ], function(Environment, Pilot, ShipAction, SimpleAgent, SquadBuilder, Team,
-                Token, ShipActionChooser)
+        require([ "EnvironmentFactory", "Pilot", "ShipAction", "SimpleAgent", "SquadBuilder", "Team", "Token",
+                "ui/ShipActionChooser" ], function(EnvironmentFactory, Pilot, ShipAction, SimpleAgent, SquadBuilder,
+                Team, Token, ShipActionChooser)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
             var token0 = environment.tokens()[0];
             var token1 = environment.tokens()[1];
             var token2 = environment.tokens()[2];

@@ -1,5 +1,5 @@
-define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], function(Environment, Maneuver,
-        ManeuverAction, Position, Token)
+define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token" ], function(EnvironmentFactory,
+        Maneuver, ManeuverAction, Position, Token)
 {
     QUnit.module("ManeuverAction");
 
@@ -7,7 +7,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var maneuver = Maneuver.STRAIGHT_1_EASY;
         var fromPosition = new Position(458, 895, -90); // X-Wing
         var token = environment.getTokenAt(fromPosition);
@@ -33,7 +33,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var maneuver = Maneuver.STRAIGHT_3_STANDARD;
         var fromPosition = new Position(458, 895, -90); // X-Wing
         var token = environment.getTokenAt(fromPosition);
@@ -59,7 +59,7 @@ define([ "Environment", "Maneuver", "ManeuverAction", "Position", "Token" ], fun
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
 
         var fromPosition0 = new Position(305, 20, 90);
         var token0 = environment.getTokenAt(fromPosition0); // TIE Fighter

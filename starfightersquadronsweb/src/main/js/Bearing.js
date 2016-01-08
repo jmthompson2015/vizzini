@@ -57,6 +57,7 @@ define(function()
             },
             "barrelRollLeft":
             {
+                name: "Barrel Roll Left",
                 headingChange: 0,
                 isBank: false,
                 isTurn: false,
@@ -81,6 +82,7 @@ define(function()
             },
             "barrelRollRight":
             {
+                name: "Barrel Roll Right",
                 headingChange: 0,
                 isBank: false,
                 isTurn: false,
@@ -108,7 +110,7 @@ define(function()
     if (Object.freeze)
     {
         Object.freeze(Bearing);
-    };
+    }
 
     return Bearing;
 });

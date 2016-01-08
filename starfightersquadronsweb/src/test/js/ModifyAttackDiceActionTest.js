@@ -1,12 +1,12 @@
-define([ "AttackDice", "Environment", "ModifyAttackDiceAction", "TargetLock" ], function(AttackDice, Environment,
-        ModifyAttackDiceAction, TargetLock)
+define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLock" ], function(AttackDice,
+        EnvironmentFactory, ModifyAttackDiceAction, TargetLock)
 {
     QUnit.module("ModifyAttackDiceAction");
 
     QUnit.test("doIt() spend focus", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attacker = environment.tokens()[0];
         attacker.focus().increase();
         var attackDice = new AttackDice(3);
@@ -29,7 +29,7 @@ define([ "AttackDice", "Environment", "ModifyAttackDiceAction", "TargetLock" ], 
     QUnit.test("doIt() spend target lock", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attacker = environment.tokens()[0]; // TIE Fighter.
         var attackDice = new AttackDice(3);
         var defender = environment.tokens()[2]; // X-Wing.

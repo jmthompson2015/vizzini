@@ -1,6 +1,7 @@
-define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler",
-        "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard" ], function(Adjudicator, CombatAction, Environment,
-        Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard)
+define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position",
+        "RangeRuler", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard" ], function(Adjudicator,
+        CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent,
+        TargetLock, Team, Token, UpgradeCard)
 {
     QUnit.module("CombatAction");
 
@@ -8,7 +9,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pil
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var maneuver = Maneuver.STRAIGHT_1_EASY;
         var attackerPosition = new Position(458, 895, -90);
@@ -34,7 +35,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "Phase", "Pil
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var maneuver = Maneuver.STRAIGHT_1_EASY;
         var attacker = environment.tokens()[2]; // X-Wing

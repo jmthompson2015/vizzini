@@ -8,7 +8,7 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
 
             // A cloaked ship cannot attack. Cannot attack if weapons are disabled.
             return !attacker.isCloaked() && attacker.weaponsDisabled().count() === 0;
-        }
+        };
 
         this.canBarrelRoll = function(environment, attacker, maneuver)
         {
@@ -54,7 +54,7 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
             }
 
             return answer;
-        }
+        };
 
         this.canBoost = function(environment, attacker, maneuver)
         {
@@ -67,7 +67,20 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
 
             // FIXME: implement Adjudicator.canBoost()
             return this.canBarrelRoll(environment, attacker, maneuver);
-        }
+        };
+
+        this.canDecloak = function(environment, attacker, maneuver)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("maneuver", maneuver);
+
+            // A ship cannot decloak if it would overlap another ship or an obstacle token, or if the maneuver template
+            // would overlap an obstacle token.
+
+            // FIXME: implement Adjudicator.canDecloak()
+            return attacker.isCloaked() && this.canBarrelRoll(environment, attacker, maneuver);
+        };
 
         this.canSelectShipAction = function(attacker)
         {
@@ -75,9 +88,9 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
 
             // Cannot select a ship action if the ship is stressed (exception: pilot Tycho Celchu), or
             // if the ship is touching another ship.
-            return (attacker.pilotKey() === Pilot.TYCHO_CELCHU || !attacker.isStressed())
-                    && !attacker.activationState().isTouching();
-        }
+            return (attacker.pilotKey() === Pilot.TYCHO_CELCHU || !attacker.isStressed()) &&
+                    !attacker.activationState().isTouching();
+        };
 
         this.determineWinner = function(environment)
         {
@@ -88,17 +101,17 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
             var secondAgent = environment.secondAgent();
             var secondCount = environment.getTokenCountFor(secondAgent.teamKey());
 
-            if (firstCount == 0)
+            if (firstCount === 0)
             {
                 answer = secondAgent;
             }
-            else if (secondCount == 0)
+            else if (secondCount === 0)
             {
                 answer = firstAgent;
             }
 
             return answer;
-        }
+        };
 
         this.isGameOver = function(environment)
         {
@@ -107,17 +120,17 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
             var firstAgent = environment.firstAgent();
             var firstCount = environment.getTokenCountFor(firstAgent.teamKey());
 
-            answer = (firstCount == 0);
+            answer = (firstCount === 0);
 
             if (!answer)
             {
                 var secondAgent = environment.secondAgent();
                 var secondCount = environment.getTokenCountFor(secondAgent.teamKey());
-                answer = (secondCount == 0);
+                answer = (secondCount === 0);
             }
 
             return answer;
-        }
+        };
     }
 
     return Adjudicator;

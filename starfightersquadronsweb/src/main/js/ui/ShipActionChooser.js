@@ -39,7 +39,7 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
                     }
                 }
                 return answer;
-            }
+            };
             var labelFunction = function(value)
             {
                 var answer;
@@ -53,13 +53,21 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
                     {
                         answer = "Target Lock: " + value.defender.name();
                     }
-                    else if (value.maneuver)
+                    else if (value.shipAction === ShipAction.SLAM)
                     {
                         answer = "SLAM: " + Maneuver.toString(value.maneuver);
                     }
+                    else if (value.shipAction === ShipAction.DECLOAK)
+                    {
+                        answer = "Decloak: " + Maneuver.toString(value.maneuver);
+                    }
+                    else
+                    {
+                        throw "Unknown ship action: " + value;
+                    }
                 }
                 return answer;
-            }
+            };
             var initialValue = (shipActions.length > 0 ? shipActions[0] : undefined);
             var initialInput = React.createElement(InputPanel,
             {
@@ -100,16 +108,17 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
         selectionChanged: function(event)
         {
             var selected = event.target.id;
+            var myId, shipActions, shipAction;
 
             if (isNaN(selected))
             {
-                var myId = selected;
+                myId = selected;
                 LOGGER.trace("myId = " + myId);
-                var shipActions = this.props.shipActions;
+                shipActions = this.props.shipActions;
 
                 for (var i = 0; i < shipActions.length; i++)
                 {
-                    var shipAction = shipActions[i];
+                    shipAction = shipActions[i];
 
                     if (!ShipAction.properties[shipAction] && shipAction.maneuver === myId)
                     {
@@ -121,13 +130,13 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
             }
             else
             {
-                var myId = parseInt(selected);
+                myId = parseInt(selected);
                 LOGGER.trace("myId = " + myId);
-                var shipActions = this.props.shipActions;
+                shipActions = this.props.shipActions;
 
-                for (var i = 0; i < shipActions.length; i++)
+                for (var j = 0; j < shipActions.length; j++)
                 {
-                    var shipAction = shipActions[i];
+                    shipAction = shipActions[j];
 
                     if (!ShipAction.properties[shipAction] && shipAction.defender.id() === myId)
                     {

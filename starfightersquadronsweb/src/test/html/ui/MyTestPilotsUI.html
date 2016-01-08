@@ -36,10 +36,10 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Environment", "Pilot", "Team", "Token", "ui/PilotsUI" ], function(Environment, Pilot, Team, Token,
-                PilotsUI)
+        require([ "EnvironmentFactory", "Pilot", "Team", "Token", "ui/PilotsUI" ], function(EnvironmentFactory, Pilot,
+                Team, Token, PilotsUI)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
             var tokens = environment.getTokensForTeam(Team.IMPERIAL);
             var element = React.createElement(PilotsUI,
             {

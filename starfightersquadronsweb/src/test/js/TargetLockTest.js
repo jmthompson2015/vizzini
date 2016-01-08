@@ -1,4 +1,4 @@
-define([ "Environment", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token" ], function(Environment, Pilot,
+define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token" ], function(EnvironmentFactory, Pilot,
         SimpleAgent, TargetLock, Team, Token)
 {
     QUnit.module("TargetLock");
@@ -6,7 +6,7 @@ define([ "Environment", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token" ],
     QUnit.test("TargetLock properties", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
 
         var token0 = environment.tokens()[0]; // TIE Fighter
         var token1 = environment.tokens()[1]; // TIE Fighter

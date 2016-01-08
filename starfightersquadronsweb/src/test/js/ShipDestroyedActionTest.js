@@ -1,5 +1,5 @@
-define([ "Environment", "Position", "ShipDestroyedAction", "TargetLock", "Token" ], function(Environment, Position,
-        ShipDestroyedAction, TargetLock, Token)
+define([ "EnvironmentFactory", "Position", "ShipDestroyedAction", "TargetLock", "Token" ], function(EnvironmentFactory,
+        Position, ShipDestroyedAction, TargetLock, Token)
 {
     QUnit.module("ShipDestroyedAction");
 
@@ -7,7 +7,7 @@ define([ "Environment", "Position", "ShipDestroyedAction", "TargetLock", "Token"
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var fromPosition = new Position(305, 20, 90); // TIE Fighter.
         var token = environment.getTokenAt(fromPosition);
         var defender = environment.tokens()[2]; // X-Wing.

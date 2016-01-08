@@ -1,4 +1,4 @@
-define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(DefenseDice, Environment,
+define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction" ], function(DefenseDice, EnvironmentFactory,
         ModifyDefenseDiceAction)
 {
     QUnit.module("ModifyDefenseDiceAction");
@@ -6,7 +6,7 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
     QUnit.test("doIt() spend evade", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var defender = environment.tokens()[0];
         defender.evade().increase();
         var defenseDice = new DefenseDice(3);
@@ -30,7 +30,7 @@ define([ "DefenseDice", "Environment", "ModifyDefenseDiceAction" ], function(Def
     QUnit.test("doIt() spend focus", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var defender = environment.tokens()[0];
         defender.focus().increase();
         var defenseDice = new DefenseDice(3);

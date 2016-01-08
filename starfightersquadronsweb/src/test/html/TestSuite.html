@@ -46,10 +46,10 @@
         return prefix + testModule + suffix;
     });
 
-    setTimeout(function()
+    require(testModules, function()
     {
-        require(testModules, QUnit.start);
-    }, 10);
+        QUnit.start();
+    });
 </script>
 </head>
 <body>

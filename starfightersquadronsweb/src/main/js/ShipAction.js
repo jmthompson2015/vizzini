@@ -11,6 +11,7 @@ define([ "Maneuver" ], function(Maneuver)
         BOOST_RIGHT: "boostRight",
         BOOST_STRAIGHT: "boostStraight",
         CLOAK: "cloak",
+        DECLOAK: "decloak",
         EVADE: "evade",
         FOCUS: "focus",
         SLAM: "slam",
@@ -53,6 +54,11 @@ define([ "Maneuver" ], function(Maneuver)
                 displayName: "Cloak",
                 value: "cloak",
             },
+            "decloak":
+            {
+                displayName: "Decloak",
+                value: "decloak",
+            },
             "evade":
             {
                 displayName: "Evade",
@@ -81,6 +87,17 @@ define([ "Maneuver" ], function(Maneuver)
         },
     };
 
+    ShipAction.createDecloakShipAction = function(maneuver)
+    {
+        InputValidator.validateNotNull("maneuver", maneuver);
+
+        return (
+        {
+            shipAction: ShipAction.DECLOAK,
+            maneuver: maneuver,
+        });
+    };
+
     ShipAction.createSlamShipAction = function(maneuver)
     {
         InputValidator.validateNotNull("maneuver", maneuver);
@@ -90,7 +107,7 @@ define([ "Maneuver" ], function(Maneuver)
             shipAction: ShipAction.SLAM,
             maneuver: maneuver,
         });
-    }
+    };
 
     ShipAction.createTargetLockShipAction = function(defender)
     {
@@ -101,12 +118,12 @@ define([ "Maneuver" ], function(Maneuver)
             shipAction: ShipAction.TARGET_LOCK,
             defender: defender,
         });
-    }
+    };
 
     if (Object.freeze)
     {
         Object.freeze(ShipAction);
-    };
+    }
 
     return ShipAction;
 });

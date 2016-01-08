@@ -1,9 +1,9 @@
 /*
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
-define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship",
-        "ShipAction", "ShipTeam", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty,
-        FiringArc, Maneuver, Phase, Pilot, RangeRuler, Ship, ShipAction, ShipTeam, UpgradeCard, UpgradeType, Weapon)
+define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship", "ShipAction",
+        "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty,
+        Maneuver, Phase, Pilot, RangeRuler, Ship, ShipAction, ShipTeam, Team, UpgradeCard, UpgradeType, Weapon)
 {
     function Token(pilotKey, agent)
     {
@@ -13,12 +13,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         this.pilotKey = function()
         {
             return pilotKey;
-        }
+        };
 
         this.agent = function()
         {
             return agent;
-        }
+        };
 
         var that = this;
         var id = Token.nextId();
@@ -89,7 +89,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         this.activationState = function()
         {
             return activationState;
-        }
+        };
 
         this.addAttackerTargetLock = function(targetLock)
         {
@@ -105,7 +105,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
             attackerTargetLocks.push(targetLock);
             this.trigger("change");
-        }
+        };
 
         this.addDefenderTargetLock = function(targetLock)
         {
@@ -113,7 +113,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
             defenderTargetLocks.push(targetLock);
             this.trigger("change");
-        }
+        };
 
         this.agilityValue = function()
         {
@@ -129,48 +129,53 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
                 }
             });
 
+            if (this.isCloaked())
+            {
+                answer += 2;
+            }
+
             return answer;
-        }
+        };
 
         this.attackerTargetLocks = function()
         {
             return attackerTargetLocks.slice();
-        }
+        };
 
         this.cloak = function()
         {
             return cloakCount;
-        }
+        };
 
         this.combatState = function()
         {
             return combatState;
-        }
+        };
 
         this.criticalDamageCount = function()
         {
             return criticalDamages.length;
-        }
+        };
 
         this.criticalDamages = function()
         {
             return criticalDamages;
-        }
+        };
 
         this.damageCount = function()
         {
             return damages.length;
-        }
+        };
 
         this.damages = function()
         {
             return damages;
-        }
+        };
 
         this.defenderTargetLocks = function()
         {
             return defenderTargetLocks.slice();
-        }
+        };
 
         this.discardUpgrade = function(upgradeKey)
         {
@@ -191,17 +196,17 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
                     }
                 }
             }
-        }
+        };
 
         this.equals = function(other)
         {
             return id == other.id() && pilotKey == other.pilotKey();
-        }
+        };
 
         this.evade = function()
         {
             return evadeCount;
-        }
+        };
 
         this.findTargetLockByDefender = function(defender)
         {
@@ -219,12 +224,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return answer;
-        }
+        };
 
         this.focus = function()
         {
             return focusCount;
-        }
+        };
 
         this.hullValue = function()
         {
@@ -246,17 +251,17 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             });
 
             return Math.max(answer, 0);
-        }
+        };
 
         this.id = function()
         {
             return id;
-        }
+        };
 
         this.ion = function()
         {
             return ionCount;
-        }
+        };
 
         this.maneuverEffect = function(maneuverKey)
         {
@@ -274,7 +279,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
                 if (difficulty === Difficulty.EASY)
                 {
-                    LOGGER.trace("calling that.stress().decrease()")
+                    LOGGER.trace("calling that.stress().decrease()");
                     that.stress().decrease();
                 }
                 else if (difficulty === Difficulty.HARD)
@@ -285,7 +290,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             LOGGER.trace("Token.maneuverEffect() end");
-        }
+        };
 
         this.maneuverKeys = function()
         {
@@ -337,7 +342,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return answer;
-        }
+        };
 
         this.name = function()
         {
@@ -345,7 +350,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             var shipName = ship.name;
 
             return id + " " + pilotName + " (" + shipName + ")";
-        }
+        };
 
         this.newInstance = function(agent)
         {
@@ -363,7 +368,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             });
 
             return answer;
-        }
+        };
 
         this.phaseEffect = function(environment, phase)
         {
@@ -401,7 +406,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             // {
             // upgrade.phaseEffect(environment, this, phase);
             // }
-        }
+        };
 
         this.pilotSkillValue = function()
         {
@@ -443,7 +448,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return Math.max(answer, 0);
-        }
+        };
 
         this.pilotName = function()
         {
@@ -459,17 +464,17 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             answer += properties.name;
 
             return answer;
-        }
+        };
 
         this.primaryFiringArc = function()
         {
             return ship.primaryFiringArc;
-        }
+        };
 
         this.primaryWeapon = function()
         {
             return primaryWeapon;
-        }
+        };
 
         this.primaryWeaponValue = function()
         {
@@ -491,7 +496,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             });
 
             return Math.max(answer, 0);
-        }
+        };
 
         this.removeAllTargetLocks = function()
         {
@@ -505,14 +510,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }, this);
 
             // Remove target locks in which this is the attacker.
-            var targetLocks = this.attackerTargetLocks();
+            targetLocks = this.attackerTargetLocks();
             targetLocks.forEach(function(targetLock)
             {
                 var defender = targetLock.defender();
                 this.removeAttackerTargetLock(targetLock);
                 defender.removeDefenderTargetLock(targetLock);
             }, this);
-        }
+        };
 
         this.removeAttackerTargetLock = function(targetLock)
         {
@@ -520,7 +525,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
             attackerTargetLocks.vizziniRemove(targetLock);
             this.trigger("change");
-        }
+        };
 
         this.removeDefenderTargetLock = function(targetLock)
         {
@@ -528,17 +533,17 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
             defenderTargetLocks.vizziniRemove(targetLock);
             this.trigger("change");
-        }
+        };
 
         this.secondaryWeapons = function()
         {
             return secondaryWeapons;
-        }
+        };
 
         this.shield = function()
         {
             return shieldCount;
-        }
+        };
 
         this.shieldValue = function()
         {
@@ -555,47 +560,47 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             });
 
             return answer;
-        }
+        };
 
         this.shipKey = function()
         {
             return shipTeam.ship;
-        }
+        };
 
         this.shipBaseKey = function()
         {
             return ship.shipBase;
-        }
+        };
 
         this.shipName = function()
         {
             return ship.name;
-        }
+        };
 
         this.shipTeamKey = function()
         {
             return pilot.shipTeam;
-        }
+        };
 
         this.stress = function()
         {
             return stressCount;
-        }
+        };
 
         this.teamKey = function()
         {
             return shipTeam.team;
-        }
+        };
 
         this.teamName = function()
         {
             return Team.properties[this.teamKey()].name;
-        }
+        };
 
         this.upgradeKeys = function()
         {
             return upgradeKeys;
-        }
+        };
 
         this.upgradeTypeKeys = function()
         {
@@ -649,12 +654,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return answer;
-        }
+        };
 
         this.weaponsDisabled = function()
         {
             return weaponsDisabledCount;
-        }
+        };
 
         function changeBearingManeuversToDifficulty(maneuvers, bearing, difficulty)
         {
@@ -722,12 +727,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
     Token.nextId = function()
     {
         return Token.nextIdValue++;
-    }
+    };
 
     Token.resetNextId = function()
     {
         Token.nextIdValue = 1;
-    }
+    };
 
     Token.prototype.addCriticalDamage = function(damageKey)
     {
@@ -741,14 +746,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             criticalDamages.push(damageKey);
             this.trigger("change");
         }
-    }
+    };
 
     Token.prototype.addDamage = function(damageKey)
     {
         var damages = this.damages();
         damages.push(damageKey);
         this.trigger("change");
-    }
+    };
 
     Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, range)
     {
@@ -786,7 +791,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         }
 
         return answer;
-    }
+    };
 
     Token.prototype.computeDefenseDiceCount = function(weapon, range)
     {
@@ -799,51 +804,51 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         }
 
         return answer;
-    }
+    };
 
     Token.prototype.flipDamageCardFacedown = function(damageKey)
     {
         this.removeCriticalDamage(damageKey);
         this.addDamage(damageKey);
-    }
+    };
 
     Token.prototype.isCloaked = function()
     {
         return this.cloak().count() > 0;
-    }
+    };
 
     Token.prototype.isCriticallyDamagedWith = function(damageKey)
     {
         var criticalDamages = this.criticalDamages();
         return criticalDamages.vizziniContains(damageKey);
-    }
+    };
 
     Token.prototype.isDestroyed = function()
     {
         return (this.damageCount() + this.criticalDamageCount()) >= this.hullValue();
-    }
+    };
 
     Token.prototype.isIonized = function()
     {
         return this.ion().count() > 0;
-    }
+    };
 
     Token.prototype.isStressed = function()
     {
         return this.stress().count() > 0;
-    }
+    };
 
     Token.prototype.isUpgradedWith = function(upgradeKey)
     {
         return this.upgradeKeys().vizziniContains(upgradeKey);
-    }
+    };
 
     Token.prototype.removeCriticalDamage = function(damageKey)
     {
         var criticalDamages = this.criticalDamages();
         criticalDamages.vizziniRemove(damageKey);
         this.trigger("change");
-    }
+    };
 
     Token.prototype.shipActions = function()
     {
@@ -878,7 +883,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             answer.push(ShipAction.TARGET_LOCK);
         }
 
-        var criticalDamages = this.criticalDamages();
+        criticalDamages = this.criticalDamages();
 
         criticalDamages.forEach(function(damage)
         {
@@ -903,12 +908,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         });
 
         return answer;
-    }
+    };
 
     Token.prototype.toString = function()
     {
         return this.name();
-    }
+    };
 
     Token.ActivationState = function()
     {
@@ -917,10 +922,10 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
 
         this.clear = function()
         {
-            LOGGER.info("Token.ActivationState.clear()");
+            LOGGER.debug("Token.ActivationState.clear()");
             isTouching = false;
             maneuverAction = undefined;
-        }
+        };
 
         this.isTouching = function(value)
         {
@@ -930,7 +935,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return isTouching;
-        }
+        };
 
         this.maneuverAction = function(value)
         {
@@ -940,8 +945,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return maneuverAction;
-        }
-    }
+        };
+    };
 
     Token.CombatState = function()
     {
@@ -959,7 +964,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return attackDice;
-        }
+        };
 
         this.clear = function()
         {
@@ -969,7 +974,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             defenseDice = undefined;
             isDefenderHit = false;
             range = undefined;
-        }
+        };
 
         this.combatAction = function(value)
         {
@@ -979,7 +984,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return combatAction;
-        }
+        };
 
         this.defenseDice = function(value)
         {
@@ -989,7 +994,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return defenseDice;
-        }
+        };
 
         this.isDefenderHit = function(value)
         {
@@ -999,7 +1004,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return isDefenderHit;
-        }
+        };
 
         this.range = function(value)
         {
@@ -1009,8 +1014,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
             }
 
             return range;
-        }
-    }
+        };
+    };
 
     Token.Count = function(initialCount)
     {
@@ -1020,12 +1025,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         this.clear = function()
         {
             setCount(0);
-        }
+        };
 
         this.count = function()
         {
             return count;
-        }
+        };
 
         this.decrease = function()
         {
@@ -1047,7 +1052,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "FiringArc", "Maneuver", "Phase"
         }
 
         MicroEvent.mixin(Token.Count);
-    }
+    };
 
     MicroEvent.mixin(Token);
 

@@ -61,8 +61,8 @@
             var ssPanel = document.getElementById("ssPanel");
             var messageArea = document.getElementById("messageArea");
             var inputArea = document.getElementById("inputArea");
-            var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight
-                    - inputArea.offsetHeight;
+            var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight -
+                    inputArea.offsetHeight;
 
             var size = Math.min(newWidth, newHeight)
 
@@ -78,11 +78,11 @@
             }
         }
 
-        require([ "Adjudicator", "CombatAction", "Environment", "Maneuver", "ManeuverAction", "Phase", "Team",
-                "ui/EnvironmentUI" ], function(Adjudicator, CombatAction, Environment, Maneuver, ManeuverAction, Phase,
-                Team, EnvironmentUI)
+        require([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Maneuver", "ManeuverAction",
+                "Phase", "Team", "ui/EnvironmentUI" ], function(Adjudicator, CombatAction, Environment,
+                EnvironmentFactory, Maneuver, ManeuverAction, Phase, Team, EnvironmentUI)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
             var adjudicator = new Adjudicator();
             var mockEngine = {};
             mockEngine.addWinnerListener = function(listener)

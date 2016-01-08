@@ -27,6 +27,8 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         // Barrel Roll.
         BARREL_ROLL_LEFT_1_STANDARD: "barrelRollLeft1Standard",
         BARREL_ROLL_RIGHT_1_STANDARD: "barrelRollRight1Standard",
+        BARREL_ROLL_LEFT_2_STANDARD: "barrelRollLeft2Standard",
+        BARREL_ROLL_RIGHT_2_STANDARD: "barrelRollRight2Standard",
 
         // Koiogran turn.
         KOIOGRAN_TURN_2_HARD: "koiogranTurn2Hard",
@@ -205,6 +207,20 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
                 speed: 1,
                 difficulty: Difficulty.STANDARD,
                 value: "barrelRightLeft1Standard",
+            },
+            "barrelRollLeft2Standard":
+            {
+                bearing: Bearing.BARREL_ROLL_LEFT,
+                speed: 2,
+                difficulty: Difficulty.STANDARD,
+                value: "barrelRollLeft2Standard",
+            },
+            "barrelRollRight2Standard":
+            {
+                bearing: Bearing.BARREL_ROLL_RIGHT,
+                speed: 2,
+                difficulty: Difficulty.STANDARD,
+                value: "barrelRightLeft2Standard",
             },
             "koiogranTurn2Hard":
             {
@@ -529,7 +545,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
     Maneuver.computeFromPolygon = function(fromPosition, shipBase)
     {
         return Maneuver.computePolygon(shipBase, fromPosition.x(), fromPosition.y(), fromPosition.heading());
-    }
+    };
 
     Maneuver.computePolygon = function(shipBase, x, y, heading)
     {
@@ -541,7 +557,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         answer.translate(x, y);
 
         return answer;
-    }
+    };
 
     /*
      * @param fromPosition Position.
@@ -566,7 +582,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         }
 
         return answer;
-    }
+    };
 
     /*
      * @param fromPosition From position.
@@ -591,18 +607,19 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         var baseSize = ShipBase.properties[shipBase].height / 2.0;
         var lastX;
         var lastY;
+        var x, y, factor;
 
         if (bearing === Bearing.BARREL_ROLL_LEFT || bearing === Bearing.BARREL_ROLL_RIGHT)
         {
-            var factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
-            var y = factor * baseSize;
+            factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
+            y = factor * baseSize;
             answer.add(0.0, y);
             lastX = 0.0;
             lastY = y;
         }
         else if (maneuver !== Maneuver.STATIONARY_0_HARD)
         {
-            var x = baseSize;
+            x = baseSize;
             answer.add(x, 0.0);
             lastX = x;
             lastY = 0.0;
@@ -613,7 +630,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         {
         case Bearing.STRAIGHT:
         case Bearing.KOIOGRAN_TURN:
-            var x = lastX;
+            x = lastX;
             for (var i = 0; i < speed; i++)
             {
                 x += 40;
@@ -637,9 +654,9 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             break;
         case Bearing.BARREL_ROLL_LEFT:
         case Bearing.BARREL_ROLL_RIGHT:
-            var factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
-            var y = lastY;
-            for (var i = 0; i < speed; i++)
+            factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
+            y = lastY;
+            for (var j = 0; j < speed; j++)
             {
                 y += factor * 40;
                 answer.add(0.0, y);
@@ -653,16 +670,16 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         {
         case Bearing.STRAIGHT:
         case Bearing.KOIOGRAN_TURN:
-            var x = baseSize + lastX;
+            x = baseSize + lastX;
             answer.add(x, 0.0);
             break;
         case Bearing.BANK_LEFT:
         case Bearing.BANK_RIGHT:
         case Bearing.SEGNORS_LOOP_LEFT:
         case Bearing.SEGNORS_LOOP_RIGHT:
-            var factor = (bearing === Bearing.BANK_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
+            factor = (bearing === Bearing.BANK_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
             x = (baseSize * Math.cos(Math.PI / 4.0)) + lastX;
-            var y = (factor * baseSize * Math.cos(Math.PI / 4.0)) + lastY;
+            y = (factor * baseSize * Math.cos(Math.PI / 4.0)) + lastY;
             answer.add(x, y);
             break;
         case Bearing.TURN_LEFT:
@@ -673,8 +690,8 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             break;
         case Bearing.BARREL_ROLL_LEFT:
         case Bearing.BARREL_ROLL_RIGHT:
-            var factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
-            var y = factor * baseSize + lastY;
+            factor = (bearing === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
+            y = factor * baseSize + lastY;
             answer.add(0.0, y);
             break;
         }
@@ -685,7 +702,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         answer.translate(fromPosition.x(), fromPosition.y());
 
         return answer;
-    }
+    };
 
     /*
      * @param fromPosition From position.
@@ -713,6 +730,10 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         }
         var radius = Maneuver.properties[maneuver].radius;
 
+        var x1, x2, x3;
+        var y1, y2, y3;
+        var factor, angle;
+
         if ((bearing === Bearing.STRAIGHT) || (bearing === Bearing.KOIOGRAN_TURN))
         {
             dx = (2 * baseSize) + (40 * speed);
@@ -721,18 +742,18 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         else if (bearing && Bearing.properties[bearing].isBank)
         {
             // Half base.
-            var x1 = baseSize;
-            var y1 = 0.0;
+            x1 = baseSize;
+            y1 = 0.0;
 
             // Curve.
-            var factor = (bearing === Bearing.BANK_RIGHT ? 1.0 : -1.0);
-            var angle = headingChange * Math.PI / 180.0;
-            var x2 = radius * Math.cos(angle);
-            var y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
+            factor = (bearing === Bearing.BANK_RIGHT ? 1.0 : -1.0);
+            angle = headingChange * Math.PI / 180.0;
+            x2 = radius * Math.cos(angle);
+            y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
 
             // Half base.
-            var x3 = baseSize * Math.cos(angle);
-            var y3 = baseSize * Math.sin(angle);
+            x3 = baseSize * Math.cos(angle);
+            y3 = baseSize * Math.sin(angle);
 
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
@@ -740,18 +761,18 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         else if (bearing === Bearing.SEGNORS_LOOP_LEFT || bearing === Bearing.SEGNORS_LOOP_RIGHT)
         {
             // Half base.
-            var x1 = baseSize;
-            var y1 = 0.0;
+            x1 = baseSize;
+            y1 = 0.0;
 
             // Curve.
-            var factor = (bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
-            var angle = factor * 45.0 * Math.PI / 180.0;
-            var x2 = radius * Math.cos(angle);
-            var y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
+            factor = (bearing === Bearing.SEGNORS_LOOP_RIGHT ? 1.0 : -1.0);
+            angle = factor * 45.0 * Math.PI / 180.0;
+            x2 = radius * Math.cos(angle);
+            y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
 
             // Half base.
-            var x3 = baseSize * Math.cos(angle);
-            var y3 = baseSize * Math.sin(angle);
+            x3 = baseSize * Math.cos(angle);
+            y3 = baseSize * Math.sin(angle);
 
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
@@ -759,18 +780,18 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         else if (bearing && Bearing.properties[bearing].isTurn)
         {
             // Half base.
-            var x1 = baseSize;
-            var y1 = 0.0;
+            x1 = baseSize;
+            y1 = 0.0;
 
             // Curve.
-            var factor = (bearing === Bearing.TURN_RIGHT ? 1.0 : -1.0);
-            var angle = headingChange * Math.PI / 180.0;
-            var x2 = radius;
-            var y2 = factor * radius;
+            factor = (bearing === Bearing.TURN_RIGHT ? 1.0 : -1.0);
+            angle = headingChange * Math.PI / 180.0;
+            x2 = radius;
+            y2 = factor * radius;
 
             // Half base.
-            var x3 = baseSize * Math.cos(angle);
-            var y3 = baseSize * Math.sin(angle);
+            x3 = baseSize * Math.cos(angle);
+            y3 = baseSize * Math.sin(angle);
 
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
@@ -778,26 +799,29 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         else if (bearing === Bearing.TALLON_ROLL_LEFT || bearing === Bearing.TALLON_ROLL_RIGHT)
         {
             // Half base.
-            var x1 = baseSize;
-            var y1 = 0.0;
+            x1 = baseSize;
+            y1 = 0.0;
 
             // Curve.
-            var factor = (bearing === Bearing.TALLON_ROLL_RIGHT ? 1.0 : -1.0);
-            var angle = factor * 90.0 * Math.PI / 180.0;
-            var x2 = radius;
-            var y2 = factor * radius;
+            factor = (bearing === Bearing.TALLON_ROLL_RIGHT ? 1.0 : -1.0);
+            angle = factor * 90.0 * Math.PI / 180.0;
+            x2 = radius;
+            y2 = factor * radius;
 
             // Half base.
-            var x3 = baseSize * Math.cos(angle);
-            var y3 = baseSize * Math.sin(angle);
+            x3 = baseSize * Math.cos(angle);
+            y3 = baseSize * Math.sin(angle);
 
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
         }
-        else if ((maneuver === Maneuver.BARREL_ROLL_LEFT_1_STANDARD)
-                || (maneuver === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
+        else if ((maneuver === Maneuver.BARREL_ROLL_LEFT_1_STANDARD) ||
+                (maneuver === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD) ||
+                (maneuver === Maneuver.BARREL_ROLL_LEFT_2_STANDARD) ||
+                (maneuver === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
         {
-            var factor = (maneuver === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD ? 1.0 : -1.0);
+            factor = (maneuver === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD ||
+                    maneuver === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD ? 1.0 : -1.0);
             dx = 0;
             dy = factor * ((2 * baseSize) + (40 * speed));
             headingChange = 0;
@@ -827,8 +851,8 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         var bearing = Maneuver.properties[maneuver].bearing;
         var radius = Maneuver.properties[maneuver].radius;
 
-        var factor = ((bearing === Bearing.BANK_RIGHT)
-                || (bearing === Bearing.TURN_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT) ? 1.0 : -1.0);
+        var factor = ((bearing === Bearing.BANK_RIGHT) ||
+                (bearing === Bearing.TURN_RIGHT || bearing === Bearing.SEGNORS_LOOP_RIGHT) ? 1.0 : -1.0);
         var deltaAngle = (heading * Math.PI / 180) / segmentCount;
 
         var myLastX = lastX;
@@ -848,7 +872,7 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         answer.x = Math.round(myLastX);
         answer.y = Math.round(myLastY);
         return answer;
-    }
+    };
 
     /*
      * @param fromPosition From position.
@@ -903,8 +927,8 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
             var maneuver = values[i];
             var properties = Maneuver.properties[maneuver];
 
-            if ((properties.bearing === bearing) && (properties.speed === speed)
-                    && (properties.difficulty === difficulty))
+            if ((properties.bearing === bearing) && (properties.speed === speed) &&
+                    (properties.difficulty === difficulty))
             {
                 answer = maneuver;
                 break;
@@ -912,12 +936,12 @@ define([ "Bearing", "Difficulty", "Path", "Position", "RectanglePath", "ShipBase
         }
 
         return answer;
-    }
+    };
 
     if (Object.freeze)
     {
         Object.freeze(Maneuver);
-    };
+    }
 
     return Maneuver;
 });

@@ -22,6 +22,7 @@ define([ "MediumAgent", "SimpleAgent", "Team", "ui/HumanAgent" ], function(Mediu
             assert.ok(agent.name, agent.name() + ".name");
             assert.ok(agent.teamKey, agent.name() + ".teamKey");
             assert.ok(agent.getPlanningAction, agent.name() + ".getPlanningAction");
+            assert.ok(agent.getDecloakAction, agent.name() + ".getDecloakAction");
             assert.ok(agent.getShipAction, agent.name() + ".getShipAction");
             assert.ok(agent.chooseWeaponAndDefender, agent.name() + ".chooseWeaponAndDefender");
             assert.ok(agent.getModifyAttackDiceAction, agent.name() + ".getModifyAttackDiceAction");

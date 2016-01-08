@@ -1,5 +1,5 @@
-define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "SquadBuilder", "Team", "Token" ],
-        function(Adjudicator, Environment, Maneuver, MediumAgent, Position, SquadBuilder, Team, Token)
+define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "MediumAgent", "Position", "SquadBuilder", "Team", "Token" ],
+        function(Adjudicator, EnvironmentFactory, Maneuver, MediumAgent, Position, SquadBuilder, Team, Token)
         {
             QUnit.module("MediumAgent");
 
@@ -16,7 +16,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
             QUnit.test("chooseWeaponAndDefender() Imperial", function(assert)
             {
                 // Setup.
-                var environment = Environment.createCoreSetEnvironment();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var adjudicator = new Adjudicator();
                 var name = "myAgent";
                 var team = Team.IMPERIAL;
@@ -59,7 +59,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
             QUnit.test("getPlanningAction() Imperial", function(assert)
             {
                 // Setup.
-                var environment = Environment.createCoreSetEnvironment("MediumAgent");
+                var environment = EnvironmentFactory.createCoreSetEnvironment("MediumAgent");
                 var adjudicator = new Adjudicator();
                 var agent = new MediumAgent("myAgent", Team.IMPERIAL);
 
@@ -93,7 +93,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
             QUnit.test("getPlanningAction() Rebel", function(assert)
             {
                 // Setup.
-                var environment = Environment.createCoreSetEnvironment();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var adjudicator = new Adjudicator();
                 var name = "myAgent";
                 var team = Team.REBEL;
@@ -133,7 +133,7 @@ define([ "Adjudicator", "Environment", "Maneuver", "MediumAgent", "Position", "S
             QUnit.test("getPlanningAction() Rebel 2", function(assert)
             {
                 // Setup.
-                var environment = Environment.createCoreSetEnvironment();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var adjudicator = new Adjudicator();
                 var agent = new MediumAgent("myAgent", Team.REBEL);
 

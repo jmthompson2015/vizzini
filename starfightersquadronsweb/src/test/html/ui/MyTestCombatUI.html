@@ -48,12 +48,12 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Adjudicator", "AttackDice", "CombatAction", "DamageDealer", "DefenseDice", "Environment",
+        require([ "Adjudicator", "AttackDice", "CombatAction", "DamageDealer", "DefenseDice", "EnvironmentFactory",
                 "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Phase", "ui/CombatUI" ], function(Adjudicator,
-                AttackDice, CombatAction, DamageDealer, DefenseDice, Environment, ModifyAttackDiceAction,
+                AttackDice, CombatAction, DamageDealer, DefenseDice, EnvironmentFactory, ModifyAttackDiceAction,
                 ModifyDefenseDiceAction, Phase, CombatUI)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
             var adjudicator = new Adjudicator();
             var attacker = environment.tokens()[0];
             var attackerPosition = environment.getPositionFor(attacker);

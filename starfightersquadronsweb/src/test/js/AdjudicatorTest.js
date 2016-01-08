@@ -1,11 +1,11 @@
-define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
+define([ "Adjudicator", "EnvironmentFactory" ], function(Adjudicator, EnvironmentFactory)
 {
     QUnit.module("Adjudicator");
 
     QUnit.test("canAttack() yes", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
 
@@ -16,7 +16,7 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
     QUnit.test("canAttack() no - cloaked", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
         attacker.cloak().increase();
@@ -28,7 +28,7 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
     QUnit.test("canAttack() no - weapons disabled", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
         attacker.weaponsDisabled().increase();
@@ -40,7 +40,7 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
     QUnit.test("canSelectShipAction() yes", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
 
@@ -51,7 +51,7 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
     QUnit.test("determineWinner()", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
 
         // Run / Verify.
@@ -61,7 +61,7 @@ define([ "Adjudicator", "Environment" ], function(Adjudicator, Environment)
     QUnit.test("isGameOver()", function(assert)
     {
         // Setup.
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
 
         // Run / Verify.

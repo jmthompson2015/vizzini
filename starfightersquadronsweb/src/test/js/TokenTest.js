@@ -1,6 +1,6 @@
-define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "ManeuverAction", "Pilot", "Position",
+define([ "Bearing", "DamageCard", "Difficulty", "Environment","EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position",
         "RangeRuler", "Ship", "ShipBase", "SimpleAgent", "SquadBuilder", "TargetLock", "Team", "Token", "UpgradeCard",
-        "UpgradeType", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Environment, Maneuver,
+        "UpgradeType", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Environment,EnvironmentFactory, Maneuver,
         ManeuverAction, Pilot, Position, RangeRuler, Ship, ShipBase, SimpleAgent, SquadBuilder, TargetLock, Team,
         Token, UpgradeCard, UpgradeType, HumanAgent)
 {
@@ -87,7 +87,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attacker = environment.tokens()[0]; // TIE Fighter.
         var defender = environment.tokens()[2]; // X-Wing.
         assert.equal(attacker.attackerTargetLocks().length, 0);
@@ -107,7 +107,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attacker = environment.tokens()[2]; // X-Wing.
         var defender0 = environment.tokens()[0]; // TIE Fighter.
         var targetLock0 = new TargetLock(attacker, defender0);
@@ -251,7 +251,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[2];
         var targetLock = new TargetLock(attacker, defender);
@@ -759,8 +759,10 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
 
         // Run / Verify.
         assert.ok(!token.isCloaked());
+        assert.equal(token.agilityValue(), 2);
         token.cloak().increase();
         assert.ok(token.isCloaked());
+        assert.equal(token.agilityValue(), 4);
     });
 
     QUnit.test("isCriticallyDamagedWith() none", function(assert)
@@ -864,7 +866,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token0 = environment.tokens()[0];
         var token1 = environment.tokens()[1];
         var token2 = environment.tokens()[2];
@@ -906,7 +908,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[2];
         var targetLock = new TargetLock(attacker, defender);
@@ -939,7 +941,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token0 = environment.tokens()[0]; // TIE Fighter.
         var token1 = environment.tokens()[1]; // TIE Fighter.
         var token2 = environment.tokens()[2]; // X-Wing.
@@ -957,7 +959,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "Maneuver", "Mane
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token0 = environment.tokens()[0]; // TIE Fighter.
         var token1 = environment.tokens()[1]; // TIE Fighter.
         var token2 = environment.tokens()[2]; // X-Wing.

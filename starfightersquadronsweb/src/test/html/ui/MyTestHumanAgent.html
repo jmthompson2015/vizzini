@@ -28,10 +28,9 @@
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
 
-        require([ "Adjudicator", "Environment", "Team" ], function(Adjudicator, Environment,
-                Team)
+        require([ "Adjudicator", "EnvironmentFactory", "Team" ], function(Adjudicator, EnvironmentFactory, Team)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment("SimpleAgent", "HumanAgent");
             var adjudicator = new Adjudicator();
             var tokens = environment.getTokensForTeam(Team.REBEL);
             var token = tokens[0];

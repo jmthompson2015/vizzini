@@ -27,10 +27,10 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Environment", "Phase", "ui/PlayAreaUI", "ui/PlayState" ], function(Environment, Phase, PlayAreaUI,
-                PlayState)
+        require([ "EnvironmentFactory", "Phase", "ui/PlayAreaUI", "ui/PlayState" ], function(EnvironmentFactory, Phase,
+                PlayAreaUI, PlayState)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
             var playAreaUI = new PlayAreaUI(environment);
 
             var round = environment.round();

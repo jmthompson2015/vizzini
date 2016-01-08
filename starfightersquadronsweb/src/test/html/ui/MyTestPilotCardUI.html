@@ -42,11 +42,11 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "DamageCard", "Environment", "Pilot", "Position", "SimpleAgent", "SquadBuilder", "TargetLock",
-                "Team", "Token", "ui/PilotCardUI" ], function(DamageCard, Environment, Pilot, Position, SimpleAgent,
-                SquadBuilder, TargetLock, Team, Token, PilotCardUI)
+        require([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "SimpleAgent", "SquadBuilder", "TargetLock",
+                "Team", "Token", "ui/PilotCardUI" ], function(DamageCard, EnvironmentFactory, Pilot, Position,
+                SimpleAgent, SquadBuilder, TargetLock, Team, Token, PilotCardUI)
         {
-            var environment = Environment.createCoreSetEnvironment();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
             var imperialToken = environment.tokens()[0]; // TIE Fighter.
             imperialToken.cloak().increase();
             imperialToken.evade().increase();

@@ -29,10 +29,10 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Environment", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/PlanningPanel" ],
-                function(Environment, Pilot, SimpleAgent, SquadBuilder, Team, Token, PlanningPanel)
+        require([ "EnvironmentFactory", "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/PlanningPanel" ],
+                function(EnvironmentFactory, Pilot, SimpleAgent, SquadBuilder, Team, Token, PlanningPanel)
                 {
-                    var environment = Environment.createCoreSetEnvironment();
+                    var environment = EnvironmentFactory.createCoreSetEnvironment();
                     var adjudicator;
                     var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
                     var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);

@@ -1,6 +1,6 @@
-define([ "Environment", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleAgent", "TargetLock", "Team", "Token",
-        "UpgradeCard", "Weapon" ], function(Environment, FiringArc, Pilot, Position, RangeRuler, SimpleAgent,
-        TargetLock, Team, Token, UpgradeCard, Weapon)
+define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleAgent",
+        "TargetLock", "Team", "Token", "UpgradeCard", "Weapon" ], function(Environment, EnvironmentFactory, FiringArc,
+        Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Weapon)
 {
     QUnit.module("Weapon");
 
@@ -23,7 +23,7 @@ define([ "Environment", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleA
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
         assert.ok(attacker);
@@ -45,7 +45,7 @@ define([ "Environment", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleA
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
         assert.ok(attacker);
@@ -67,7 +67,7 @@ define([ "Environment", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleA
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
         assert.ok(attacker);
@@ -89,7 +89,7 @@ define([ "Environment", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleA
     {
         // Setup.
         Token.resetNextId();
-        var environment = Environment.createCoreSetEnvironment();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
         assert.ok(attacker);
