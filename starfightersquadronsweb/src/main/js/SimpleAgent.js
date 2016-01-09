@@ -185,16 +185,16 @@ define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseD
 
         if (shipActions.vizziniContains(ShipAction.SLAM))
         {
-            var previousManeuver = token.activationState().maneuverAction().maneuverKey();
-            var speed = Maneuver.properties[previousManeuver].speed;
-            var ship = token.shipKey();
-            var maneuvers = Ship.properties[ship].maneuvers;
+            var previousManeuverKey = token.activationState().maneuverAction().maneuverKey();
+            var speed = Maneuver.properties[previousManeuverKey].speed;
+            var ship = token.ship();
+            var maneuverKeys = ship.maneuvers;
 
-            maneuvers.forEach(function(maneuver)
+            maneuverKeys.forEach(function(maneuverKey)
             {
-                if (Maneuver.properties[maneuver].speed === speed)
+                if (Maneuver.properties[maneuverKey].speed === speed)
                 {
-                    answer.push(ShipAction.createSlamShipAction(maneuver));
+                    answer.push(ShipAction.createSlamShipAction(maneuverKey));
                 }
             });
         }

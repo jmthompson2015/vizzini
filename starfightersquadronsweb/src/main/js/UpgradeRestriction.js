@@ -8,65 +8,65 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
         return (
         {
             displayName: "Pilot Skill above \"" + pilotSkill + "\".",
-            passes: function(pilot)
+            passes: function(pilotKey)
             {
-                var myPilotSkill = Pilot.properties[pilot].shipState.pilotSkillValue();
+                var myPilotSkill = Pilot.properties[pilotKey].shipState.pilotSkillValue();
                 return myPilotSkill > pilotSkill;
             }
         });
     }
 
-    function ShipSizeRestriction(shipBase)
+    function ShipSizeRestriction(shipBaseKey)
     {
-        InputValidator.validateNotNull("shipBase", shipBase);
+        InputValidator.validateNotNull("shipBaseKey", shipBaseKey);
 
-        var props = ShipBase.properties[shipBase];
+        var props = ShipBase.properties[shipBaseKey];
 
         return (
         {
             displayName: props.name + " only.",
-            passes: function(pilot)
+            passes: function(pilotKey)
             {
-                var shipTeam = Pilot.properties[pilot].shipTeam;
-                var ship = ShipTeam.properties[shipTeam].ship;
-                var myShipBase = Ship.properties[ship].shipBase;
-                return myShipBase === shipBase;
+                var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
+                var shipKey = ShipTeam.properties[shipTeamKey].ship;
+                var myShipBaseKey = Ship.properties[shipKey].shipBase;
+                return myShipBaseKey === shipBaseKey;
             }
         });
     }
 
-    function ShipRestriction(ship)
+    function ShipRestriction(shipKey)
     {
-        InputValidator.validateNotNull("ship", ship);
+        InputValidator.validateNotNull("shipKey", shipKey);
 
-        var props = Ship.properties[ship];
+        var props = Ship.properties[shipKey];
 
         return (
         {
             displayName: props.name + " only.",
-            passes: function(pilot)
+            passes: function(pilotKey)
             {
-                var shipTeam = Pilot.properties[pilot].shipTeam;
-                var myShip = ShipTeam.properties[shipTeam].ship;
-                return myShip === ship;
+                var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
+                var myShipKey = ShipTeam.properties[shipTeamKey].ship;
+                return myShipKey === shipKey;
             }
         });
     }
 
-    function TeamRestriction(team)
+    function TeamRestriction(teamKey)
     {
-        InputValidator.validateNotNull("team", team);
+        InputValidator.validateNotNull("teamKey", teamKey);
 
-        var props = Team.properties[team];
+        var props = Team.properties[teamKey];
 
         return (
         {
             displayName: props.name + " only.",
-            passes: function(pilot)
+            passes: function(pilotKey)
             {
-                var shipTeam = Pilot.properties[pilot].shipTeam;
-                var myTeam = ShipTeam.properties[shipTeam].team;
-                return myTeam === team;
+                var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
+                var myTeamKey = ShipTeam.properties[shipTeamKey].team;
+                return myTeamKey === teamKey;
             }
         });
     }
@@ -121,12 +121,12 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             "hugeShipOnly":
             {
                 displayName: "Huge ship only.",
-                passes: function(pilot)
+                passes: function(pilotKey)
                 {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    var shipBase = Ship.properties[ship].shipBase;
-                    return shipBase === ShipBase.HUGE1 || shipBase === ShipBase.HUGE2;
+                    var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
+                    var shipKey = ShipTeam.properties[shipTeamKey].ship;
+                    var shipBaseKey = Ship.properties[shipKey].shipBase;
+                    return shipBaseKey === ShipBase.HUGE1 || shipBaseKey === ShipBase.HUGE2;
                 }
             },
             "hwk290Only": new ShipRestriction(Ship.HWK_290),
@@ -136,7 +136,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             "limited":
             {
                 displayName: "Limited.",
-                passes: function(pilot)
+                passes: function(pilotKey)
                 {
                     // FIXME: implement Limited.passes()
                     return true;
@@ -156,11 +156,11 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             "tieOnly":
             {
                 displayName: "TIE only.",
-                passes: function(pilot)
+                passes: function(pilotKey)
                 {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return Ship.properties[ship].name.startsWith("TIE");
+                    var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
+                    var shipKey = ShipTeam.properties[shipTeamKey].ship;
+                    return Ship.properties[shipKey].name.startsWith("TIE");
                 }
             },
             "tiePhantomOnly": new ShipRestriction(Ship.TIE_PHANTOM),
@@ -168,11 +168,11 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             "xWingOnly":
             {
                 displayName: "X-Wing only.",
-                passes: function(pilot)
+                passes: function(pilotKey)
                 {
-                    var shipTeam = Pilot.properties[pilot].shipTeam;
-                    var ship = ShipTeam.properties[shipTeam].ship;
-                    return ship === Ship.X_WING || ship === Ship.T_70_X_WING;
+                    var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
+                    var shipKey = ShipTeam.properties[shipTeamKey].ship;
+                    return shipKey === Ship.X_WING || shipKey === Ship.T_70_X_WING;
                 }
             },
             "yt1300Only": new ShipRestriction(Ship.YT_1300),
@@ -181,9 +181,9 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             "yv666Only": new ShipRestriction(Ship.YV_666),
         },
 
-        passes: function(restrictions, pilot)
+        passes: function(restrictions, pilotKey)
         {
-            InputValidator.validateNotNull("pilot", pilot);
+            InputValidator.validateNotNull("pilotKey", pilotKey);
 
             var answer = true;
 
@@ -193,7 +193,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                 {
                     if (!UpgradeRestriction.properties[restriction]) { throw "Can't find properties for restriction: " +
                             restriction; }
-                    return previousValue && UpgradeRestriction.properties[restriction].passes(pilot);
+                    return previousValue && UpgradeRestriction.properties[restriction].passes(pilotKey);
                 }, true);
             }
 

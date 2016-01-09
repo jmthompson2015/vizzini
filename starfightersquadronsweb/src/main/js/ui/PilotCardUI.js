@@ -1,5 +1,4 @@
-define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(Pilot, Ship, ShipAction, Team,
-        UpgradeCardUI)
+define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, UpgradeCardUI)
 {
     "use strict";
     var PilotCardUI = React.createClass(
@@ -99,8 +98,8 @@ define([ "Pilot", "Ship", "ShipAction", "Team", "ui/UpgradeCardUI" ], function(P
         renderLarge: function()
         {
             var myToken = this.state.token;
-            var pilotProps = Pilot.properties[myToken.pilotKey()];
-            var shipProps = Ship.properties[myToken.shipKey()];
+            var pilotProps = myToken.pilot();
+            var shipProps = myToken.ship();
             var pilotDescription = pilotProps.description;
             var pilotCost = pilotProps.squadPointCost;
             var prefix = myToken.toString();

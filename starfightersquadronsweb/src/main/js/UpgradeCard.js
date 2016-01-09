@@ -1978,15 +1978,15 @@ define(
                     return Object.getOwnPropertyNames(UpgradeCard.properties);
                 },
 
-                valuesByPilotAndType: function(pilot, upgradeType)
+                valuesByPilotAndType: function(pilotKey, upgradeType)
                 {
-                    InputValidator.validateNotNull("pilot", pilot);
+                    InputValidator.validateNotNull("pilotKey", pilotKey);
                     InputValidator.validateNotNull("upgradeType", upgradeType);
 
                     return this.valuesByType(upgradeType).filter(function(upgradeCard)
                     {
                         var restrictions = UpgradeCard.properties[upgradeCard].restrictions;
-                        return UpgradeRestriction.passes(restrictions, pilot);
+                        return UpgradeRestriction.passes(restrictions, pilotKey);
                     });
                 },
 

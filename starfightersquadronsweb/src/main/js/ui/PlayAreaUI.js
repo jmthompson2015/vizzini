@@ -1,5 +1,5 @@
-define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam", "Team" ], function(Difficulty,
-        Environment, Maneuver, Ship, ShipBase, ShipTeam, Team)
+define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "Team" ], function(Difficulty, Environment,
+        Maneuver, Ship, ShipBase, Team)
 {
     "use strict";
     function ExplosionUI(fromPosition, shipBase, explosionImage)
@@ -217,7 +217,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "ShipTeam"
                 callback();
             };
 
-            var filename = ShipTeam.properties[token.shipTeamKey()].image;
+            var filename = token.shipTeam().image;
             image.src = imageBase + "ship/" + filename;
 
             return image;

@@ -1968,31 +1968,31 @@ define(
                     return Object.getOwnPropertyNames(Pilot.properties);
                 },
 
-                valuesByShipTeam: function(shipTeam)
+                valuesByShipTeam: function(shipTeamKey)
                 {
-                    InputValidator.validateNotNull("shipTeam", shipTeam);
+                    InputValidator.validateNotNull("shipTeamKey", shipTeamKey);
 
-                    return this.values().filter(function(pilot)
+                    return this.values().filter(function(pilotKey)
                     {
-                        return Pilot.properties[pilot].shipTeam === shipTeam;
+                        return Pilot.properties[pilotKey].shipTeam === shipTeamKey;
                     });
                 },
 
-                valuesByTeam: function(team)
+                valuesByTeam: function(teamKey)
                 {
-                    InputValidator.validateNotNull("team", team);
+                    InputValidator.validateNotNull("teamKey", teamKey);
 
-                    var answer = this.values().filter(function(pilot)
+                    var answer = this.values().filter(function(pilotKey)
                     {
-                        var shipTeam = Pilot.properties[pilot].shipTeam;
-                        return ShipTeam.properties[shipTeam].team === team;
+                        var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
+                        return ShipTeam.properties[shipTeamKey].team === teamKey;
                     });
 
-                    if (team === Team.FIRST_ORDER)
+                    if (teamKey === Team.FIRST_ORDER)
                     {
                         answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
                     }
-                    else if (team === Team.RESISTANCE)
+                    else if (teamKey === Team.RESISTANCE)
                     {
                         answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
                     }

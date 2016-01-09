@@ -409,6 +409,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             // }
         };
 
+        this.pilot = function()
+        {
+            return pilot;
+        }
+
         this.pilotSkillValue = function()
         {
             var answer;
@@ -563,6 +568,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return answer;
         };
 
+        this.ship = function()
+        {
+            return ship;
+        };
+
         this.shipKey = function()
         {
             return shipTeam.ship;
@@ -576,6 +586,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.shipName = function()
         {
             return ship.name;
+        };
+
+        this.shipTeam = function()
+        {
+            return shipTeam;
         };
 
         this.shipTeamKey = function()
@@ -859,7 +874,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
         {
-            answer.vizziniAddAll(Ship.properties[this.shipKey()].shipActions);
+            answer.vizziniAddAll(this.ship().shipActions);
         }
 
         if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())

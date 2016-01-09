@@ -1,4 +1,4 @@
-define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, Ship, UpgradeCard, UpgradeCardUI)
+define([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardUI)
 {
     "use strict";
     var SquadColumns = [
@@ -149,8 +149,8 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
             var createCell = this.createCell;
             var j = 0;
 
-            var pilotProps = Pilot.properties[token.pilotKey()];
-            var shipProps = Ship.properties[token.shipKey()];
+            var pilotProps = token.pilot();
+            var shipProps = token.ship();
             cells.push(createCell(cells.length, SquadColumns[j++], React.DOM.span(
             {
                 title: pilotProps.description,
@@ -190,8 +190,7 @@ define([ "Pilot", "Ship", "UpgradeCard", "ui/UpgradeCardUI" ], function(Pilot, S
 
             squad.forEach(function(token)
             {
-                var pilot = token.pilotKey();
-                var pilotProps = Pilot.properties[pilot];
+                var pilotProps = token.pilot();
                 var shipState = pilotProps.shipState;
                 var values = [ shipState.pilotSkillValue(), shipState.primaryWeaponValue(), shipState.agilityValue(),
                         shipState.hullValue(), shipState.shieldValue(), pilotProps.squadPointCost ];

@@ -346,22 +346,22 @@ define([ "Ship", "Team" ], function(Ship, Team)
             return Object.getOwnPropertyNames(ShipTeam.properties);
         },
 
-        valuesByTeam: function(team, isStrict)
+        valuesByTeam: function(teamKey, isStrict)
         {
-            InputValidator.validateNotNull("team", team);
+            InputValidator.validateNotNull("teamKey", teamKey);
 
-            var answer = this.values().filter(function(shipTeam)
+            var answer = this.values().filter(function(shipTeamKey)
             {
-                return ShipTeam.properties[shipTeam].team === team;
+                return ShipTeam.properties[shipTeamKey].team === teamKey;
             });
 
             if (!isStrict)
             {
-                if (team === Team.FIRST_ORDER)
+                if (teamKey === Team.FIRST_ORDER)
                 {
                     answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
                 }
-                else if (team === Team.RESISTANCE)
+                else if (teamKey === Team.RESISTANCE)
                 {
                     answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
                 }
