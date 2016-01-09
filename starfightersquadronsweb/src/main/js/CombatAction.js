@@ -183,7 +183,19 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
 
                     if (isDefenderHit)
                     {
-                        if (weapon.upgradeKey() === UpgradeCard.ION_CANNON ||
+                        if (weapon.upgradeKey() === UpgradeCard.ADVANCED_HOMING_MISSILES)
+                        {
+                            defender.addCriticalDamage(environment.drawDamage());
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_CANNON)
+                        {
+                            defender.addDamage(environment.drawDamage());
+                            if (!defender.isStressed())
+                            {
+                                defender.stress().increase()
+                            };
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.ION_CANNON ||
                                 weapon.upgradeKey() === UpgradeCard.ION_CANNON_TURRET)
                         {
                             defender.addDamage(environment.drawDamage());
@@ -198,6 +210,15 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                         else
                         {
                             damageDealer.dealDamage();
+                        }
+
+                        if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_TORPEDOES && defender.hullValue() <= 4)
+                        {
+                            defender.stress().increase()
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.PLASMA_TORPEDOES)
+                        {
+                            defender.shield().decrease()
                         }
                     }
 

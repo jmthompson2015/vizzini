@@ -227,7 +227,9 @@ define(
                         ranges: [ RangeRuler.TWO ],
                         firingArc: FiringArc.FORWARD,
                         description: "Discard this card to perform this attack. If this attack hits, deal 1 faceup Damage card to the defender. Then cancel all dice results.",
+                        discardThisCard: true,
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "advancedHomingMissiles",
                     },
                     // @see CombatAction.doIt() for effect implementation.
@@ -788,6 +790,7 @@ define(
                         firingArc: FiringArc.FORWARD,
                         description: "Attack 1 ship. If this attack hits, the defender suffers 1 damage and, if the defender is not stressed, it also receives 1 stress token. Then cancel all dice results.",
                         squadPointCost: 2,
+                        isImplemented: true,
                         value: "flechetteCannon",
                     },
                     "flechetteTorpedoes":
@@ -800,7 +803,10 @@ define(
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         firingArc: FiringArc.FORWARD,
                         description: "Discard this card and spend your Target Lock to perform this attack. After you perform this attack, the defender receives 1 stress token if its hull value is \"4\" or lower.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 2,
+                        isImplemented: true,
                         value: "flechetteTorpedoes",
                     },
                     "fleetOfficer":
@@ -1356,7 +1362,10 @@ define(
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         firingArc: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, after dealing damage, remove 1 shield token from the defender.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "plasmaTorpedoes",
                     },
                     "predator":
