@@ -241,7 +241,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
                 {
                     position1 = Maneuver.computeToPosition(maneuverKey, fromPosition, shipBaseKey);
 
-                    if (position1 !== null)
+                    if (position1)
                     {
                         polygon1 = Maneuver.computePolygon(shipBaseKey, position1.x(), position1.y(), position1
                                 .heading());
