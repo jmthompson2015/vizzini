@@ -2,13 +2,13 @@ define([ "Difficulty", "Environment", "Maneuver", "ManeuverComputer", "Ship", "S
         Difficulty, Environment, Maneuver, ManeuverComputer, Ship, ShipBase, Team)
 {
     "use strict";
-    function ExplosionUI(fromPosition, shipBase, explosionImage)
+    function ExplosionUI(fromPosition, shipBaseKey, explosionImage)
     {
         this.paintComponent = function(context)
         {
             LOGGER.trace("ExplosionUI.paintComponent() start");
 
-            var size = ShipBase.properties[shipBase].width;
+            var size = ShipBase.properties[shipBaseKey].width;
             var x = fromPosition.x() - size / 2;
             var y = fromPosition.y() - size / 2;
             context.drawImage(explosionImage, x, y, size, size);
@@ -42,17 +42,17 @@ define([ "Difficulty", "Environment", "Maneuver", "ManeuverComputer", "Ship", "S
         };
     }
 
-    function ManeuverUI(maneuver, fromPosition, shipBase)
+    function ManeuverUI(maneuverKey, fromPosition, shipBaseKey)
     {
         var FOREGROUND_COLOR = "white";
         var EASY_COLOR = "lime";
         var HARD_COLOR = "red";
 
-        var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var toPosition = ManeuverComputer.computeToPosition(maneuverKey, fromPosition, shipBaseKey);
 
-        var fromPolygon = ManeuverComputer.computeFromPolygon(fromPosition, shipBase);
-        var path = ManeuverComputer.computePath(maneuver, fromPosition, shipBase);
-        var toPolygon = ManeuverComputer.computeToPolygon(maneuver, fromPosition, shipBase);
+        var fromPolygon = ManeuverComputer.computeFromPolygon(fromPosition, shipBaseKey);
+        var path = ManeuverComputer.computePath(maneuverKey, fromPosition, shipBaseKey);
+        var toPolygon = ManeuverComputer.computeToPolygon(maneuverKey, fromPosition, shipBaseKey);
 
         this.paintComponent = function(context)
         {
@@ -72,7 +72,7 @@ define([ "Difficulty", "Environment", "Maneuver", "ManeuverComputer", "Ship", "S
             toPolygon.paintComponent(context, FOREGROUND_COLOR);
 
             // Draw maneuver path.
-            var difficulty = Maneuver.properties[maneuver].difficultyKey;
+            var difficulty = Maneuver.properties[maneuverKey].difficultyKey;
             path.paintComponent(context, getColor(difficulty));
 
             LOGGER.trace("ManeuverUI.paintComponent() end");
@@ -169,8 +169,8 @@ define([ "Difficulty", "Environment", "Maneuver", "ManeuverComputer", "Ship", "S
 
             if (fromPosition)
             {
-                var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
-                answer = new ExplosionUI(fromPosition, shipBase, explosionImage);
+                var shipBaseKey = token.pilot().shipTeam.ship.shipBaseKey;
+                answer = new ExplosionUI(fromPosition, shipBaseKey, explosionImage);
             }
 
             return answer;

@@ -649,12 +649,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             return maneuverKeys.map(function(maneuverKey)
             {
-                var properties = Maneuver.properties[maneuverKey];
-                var myBearingKey = properties.bearingKey;
+                var maneuver = Maneuver.properties[maneuverKey];
+                var myBearingKey = maneuver.bearingKey;
 
                 if (myBearingKey === bearingKey)
                 {
-                    var speed = properties.speed;
+                    var speed = maneuver.speed;
                     var answer = Maneuver.find(bearingKey, speed, difficultyKey);
                     if (!answer) { throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey; }
                     return answer;
@@ -670,12 +670,12 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             return maneuverKeys.map(function(maneuverKey)
             {
-                var properties = Maneuver.properties[maneuverKey];
-                var mySpeed = properties.speed;
+                var maneuver = Maneuver.properties[maneuverKey];
+                var mySpeed = maneuver.speed;
 
                 if (mySpeed === speed)
                 {
-                    var bearingKey = properties.bearingKey;
+                    var bearingKey = maneuver.bearingKey;
                     var answer = Maneuver.find(bearingKey, speed, difficultyKey);
                     if (!answer) { throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey; }
                     return answer;

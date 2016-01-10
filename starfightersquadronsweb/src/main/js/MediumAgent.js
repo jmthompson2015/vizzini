@@ -160,9 +160,9 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                 if (token.isStressed())
                 {
                     // Choose a green maneuver.
-                    var greenManeuvers = validManeuvers.filter(function(maneuver)
+                    var greenManeuvers = validManeuvers.filter(function(maneuverKey)
                     {
-                        return Maneuver.properties[maneuver].difficultyKey === Difficulty.GREEN;
+                        return Maneuver.properties[maneuverKey].difficultyKey === Difficulty.GREEN;
                     });
 
                     maneuver = greenManeuvers.vizziniRandomElement();

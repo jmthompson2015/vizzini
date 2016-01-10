@@ -10,9 +10,9 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             for (var i = 0; i < maneuverKeys.length; i++)
             {
                 var maneuverKey = maneuverKeys[i];
-                var properties = Maneuver.properties[maneuverKey];
+                var maneuver = Maneuver.properties[maneuverKey];
 
-                if (properties.bearingKey === bearingKey && properties.speed === speed)
+                if (maneuver.bearingKey === bearingKey && maneuver.speed === speed)
                 {
                     answer = maneuverKey;
                     break;
@@ -80,9 +80,9 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             var minSpeed = this.getMinimumSpeed(maneuverKeys);
             var maxSpeed = this.getMaximumSpeed(maneuverKeys);
             var bearingValues = Bearing.values();
-            var bearingKeys = maneuverKeys.map(function(maneuver)
+            var bearingKeys = maneuverKeys.map(function(maneuverKey)
             {
-                return Maneuver.properties[maneuver].bearingKey;
+                return Maneuver.properties[maneuverKey].bearingKey;
             });
             var self = this;
 
@@ -115,7 +115,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                 }, cell));
             }
 
-            var maneuver, difficulty, iconSrc, image;
+            var maneuverKey, difficulty, iconSrc, image;
 
             for (var speed = maxSpeed; speed >= minSpeed; speed--)
             {
@@ -128,8 +128,8 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 
                 if (speed === 0)
                 {
-                    maneuver = Maneuver.STATIONARY_0_HARD;
-                    difficulty = Maneuver.properties[maneuver].difficultyKey;
+                    maneuverKey = Maneuver.STATIONARY_0_HARD;
+                    difficulty = Maneuver.properties[maneuverKey].difficultyKey;
                     iconSrc = this.createManeuverIconSource(undefined, difficulty);
                     cells.push(React.DOM.td(
                     {
@@ -151,7 +151,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                         className: "maneuverCell",
                         onClick: self.selectionChanged,
                         "data-token": token,
-                        "data-maneuver": maneuver
+                        "data-maneuver": maneuverKey
                     }, image));
                     cells.push(React.DOM.td(
                     {
@@ -172,11 +172,11 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 
                         if (bearingKeys.vizziniContains(bearing))
                         {
-                            maneuver = this.findManeuver(maneuverKeys, bearing, speed);
+                            maneuverKey = this.findManeuver(maneuverKeys, bearing, speed);
 
-                            if (maneuver)
+                            if (maneuverKey)
                             {
-                                difficulty = Maneuver.properties[maneuver].difficultyKey;
+                                difficulty = Maneuver.properties[maneuverKey].difficultyKey;
                                 iconSrc = this.createManeuverIconSource(bearing, difficulty);
                                 image = React.DOM.img(
                                 {
@@ -188,7 +188,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                                     className: "maneuverCell",
                                     onClick: self.selectionChanged,
                                     "data-token": token,
-                                    "data-maneuver": maneuver
+                                    "data-maneuver": maneuverKey
                                 }, image));
                             }
                             else

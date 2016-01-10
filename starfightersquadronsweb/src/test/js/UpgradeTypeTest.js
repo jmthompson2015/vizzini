@@ -8,8 +8,7 @@ define([ "UpgradeType" ], function(UpgradeType)
         var properties = Object.getOwnPropertyNames(UpgradeType);
         var values = UpgradeType.values();
         assert.equal(properties.length - 1 - // properties
-        1 - // values
-        1, // isSecondaryWeapon
+        1, // values
         values.length);
     });
 

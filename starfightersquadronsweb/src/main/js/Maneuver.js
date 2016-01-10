@@ -528,13 +528,13 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
 
             for (var i = 0; i < values.length; i++)
             {
-                var maneuver = values[i];
-                var properties = Maneuver.properties[maneuver];
+                var maneuverKey = values[i];
+                var properties = Maneuver.properties[maneuverKey];
 
                 if ((properties.bearingKey === bearingKey) && (properties.speed === speed) &&
                         (properties.difficultyKey === difficultyKey))
                 {
-                    answer = maneuver;
+                    answer = maneuverKey;
                     break;
                 }
             }
@@ -544,10 +544,10 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
 
         toString: function(maneuverKey)
         {
-            var m = Maneuver.properties[maneuverKey];
-            var bearingName = Bearing.properties[m.bearingKey].name;
-            var speed = m.speed;
-            var difficultyName = Difficulty.properties[m.difficultyKey].name;
+            var maneuver = Maneuver.properties[maneuverKey];
+            var bearingName = maneuver.bearing.name;
+            var speed = maneuver.speed;
+            var difficultyName = maneuver.difficulty.name;
 
             return bearingName + " " + speed + " " + difficultyName;
         },
@@ -557,6 +557,13 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             return Object.getOwnPropertyNames(Maneuver.properties);
         },
     };
+
+    Maneuver.values().forEach(function(maneuverKey)
+    {
+        var maneuver = Maneuver.properties[maneuverKey];
+        maneuver.bearing = Bearing.properties[maneuver.bearingKey];
+        maneuver.difficulty = Difficulty.properties[maneuver.difficultyKey];
+    });
 
     if (Object.freeze)
     {

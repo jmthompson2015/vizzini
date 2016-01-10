@@ -115,15 +115,6 @@ define(function()
         },
     };
 
-    /*
-     * @return true if this is a secondary weapon.
-     */
-    UpgradeType.isSecondaryWeapon = function(upgradeType)
-    {
-        return (upgradeType === CANNON) || (upgradeType === MISSILE) || (upgradeType === TORPEDO) ||
-                (upgradeType === TURRET);
-    };
-
     if (Object.freeze)
     {
         Object.freeze(UpgradeType);
