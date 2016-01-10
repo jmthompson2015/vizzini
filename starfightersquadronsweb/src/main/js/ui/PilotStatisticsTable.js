@@ -88,12 +88,12 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         {
             var rows = [];
 
-            var pilots = Pilot.values();
+            var pilotKeys = Pilot.values();
             var self = this;
 
-            pilots.forEach(function(pilot, i)
+            pilotKeys.forEach(function(pilotKey, i)
             {
-                rows.push(self.createRow(pilot, i));
+                rows.push(self.createRow(pilotKey, i));
             });
 
             return this.Table(
@@ -131,15 +131,15 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
             });
         },
 
-        createRow: function(pilot, i)
+        createRow: function(pilotKey, i)
         {
             var cells = [];
 
-            var pilotProps = Pilot.properties[pilot];
-            var shipTeam = pilotProps.shipTeam;
-            var team = ShipTeam.properties[shipTeam].team;
-            var teamName0 = Team.properties[team].name;
-            var teamName1 = Team.properties[team].shortName;
+            var pilot = Pilot.properties[pilotKey];
+            var shipTeam = pilot.shipTeam;
+            var team = shipTeam.team;
+            var teamName0 = team.name;
+            var teamName1 = team.shortName;
             var imageFile = imageBase + teamName1 + "Icon24.png";
             var j = 0;
 
@@ -156,25 +156,25 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
                 title: teamName0,
             })));
 
-            cells.push(this.createCell(cells.length, PilotColumns[j++], pilotProps.name));
+            cells.push(this.createCell(cells.length, PilotColumns[j++], pilot.name));
 
-            cells.push(this.createCell(cells.length, PilotColumns[j++], ShipTeam.properties[shipTeam].name));
+            cells.push(this.createCell(cells.length, PilotColumns[j++], shipTeam.name));
 
-            if (pilotProps.isFlavorText)
+            if (pilot.isFlavorText)
             {
                 cells.push(React.DOM.td(
                 {
                     key: cells.length,
                     className: PilotColumns[j].className + " flavorText",
                     column: PilotColumns[j++].key,
-                }, pilotProps.description));
+                }, pilot.description));
             }
             else
             {
-                cells.push(this.createCell(cells.length, PilotColumns[j++], pilotProps.description));
+                cells.push(this.createCell(cells.length, PilotColumns[j++], pilot.description));
             }
 
-            var isImplemented = (pilotProps.isImplemented !== undefined ? pilotProps.isImplemented : false);
+            var isImplemented = (pilot.isImplemented !== undefined ? pilot.isImplemented : false);
             var implementedImage = this.createImplementedImage(isImplemented);
             cells.push(React.DOM.td(
             {
@@ -184,7 +184,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
                 value: isImplemented, // this allows sorting
             }, implementedImage));
 
-            var shipState = Pilot.properties[pilot].shipState;
+            var shipState = pilot.shipState;
             var pilotSkill = shipState.pilotSkillValue();
             cells.push(this.createCell(cells.length, PilotColumns[j++], (pilotSkill ? pilotSkill : " ")));
 
@@ -203,7 +203,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
             var sum = pilotSkill + primaryWeapon + agility + hull + shield;
             cells.push(this.createCell(cells.length, PilotColumns[j++], sum));
 
-            var squadPointCost = Pilot.properties[pilot].squadPointCost;
+            var squadPointCost = pilot.squadPointCost;
             cells.push(this.createCell(cells.length, PilotColumns[j++], (squadPointCost ? squadPointCost : " ")));
 
             var ratio0 = (agility === 0 ? null : primaryWeapon / agility);

@@ -62,19 +62,19 @@
                         {
                             var team = this.props.team;
                             var isStrict = true;
-                            var shipTeams = ShipTeam.valuesByTeam(team, isStrict);
+                            var shipTeamKeys = ShipTeam.valuesByTeam(team, isStrict);
                             var agent = new SimpleAgent("Agent", team);
 
                             var cells0 = [];
                             var cells1 = [];
                             var cells2 = [];
 
-                            shipTeams.forEach(function(shipTeam, i)
+                            shipTeamKeys.forEach(function(shipTeamKey, i)
                             {
-                                var shipName = ShipTeam.properties[shipTeam].name;
-                                var filename = imageBase + ShipTeam.properties[shipTeam].image;
-                                var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-                                var token = new Token(pilot, agent);
+                                var shipName = ShipTeam.properties[shipTeamKey].name;
+                                var filename = imageBase + ShipTeam.properties[shipTeamKey].image;
+                                var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
+                                var token = new Token(pilotKey, agent);
 
                                 var image = React.DOM.img(
                                 {

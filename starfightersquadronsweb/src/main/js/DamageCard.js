@@ -29,8 +29,6 @@ define(
                 {
                     "blindedPilot":
                     {
-                        // Effect implemented elsewhere.
-                        // @see SSToken#computeAttackDiceCount()
                         name: "Blinded Pilot",
                         trait: Trait.PILOT,
                         description: "The next time you attack, do not roll any attack dice. Then flip this card facedown.",
@@ -51,8 +49,6 @@ define(
                     },
                     "damagedCockpit":
                     {
-                        // Effect implemented elsewhere.
-                        // @see SSToken#getPilotSkillValue()
                         name: "Damaged Cockpit",
                         trait: Trait.PILOT,
                         description: "After the round in which you receive this card, treat your pilot skill value as \"0.\"",
@@ -82,8 +78,6 @@ define(
                     },
                     "directHit":
                     {
-                        // Effect implemented elsewhere.
-                        // @see SSToken#getHullValue()
                         name: "Direct Hit!",
                         trait: Trait.SHIP,
                         description: "This card counts as 2 damage against your hull.",
@@ -93,8 +87,6 @@ define(
                     },
                     "injuredPilot":
                     {
-                        // Effect implemented elsewhere.
-                        // @see SSToken#getPilotSkillValue()
                         name: "Injured Pilot",
                         trait: Trait.PILOT,
                         description: "All players must ignore your pilot ability and all of your Elite Upgrade cards.",
@@ -160,8 +152,6 @@ define(
                     },
                     "weaponMalfunction":
                     {
-                        // Effect implemented elsewhere.
-                        // @see SSToken#getPrimaryWeaponValue()
                         name: "Weapon Malfunction",
                         trait: Trait.SHIP,
                         description: "Reduce your primary weapon value by 1 (to a minimum of \"0\").",

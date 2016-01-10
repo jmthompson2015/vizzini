@@ -94,7 +94,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
             tokens.forEach(function(token)
             {
                 var fromPosition = environment.getPositionFor(token);
-                var shipBase = token.shipBaseKey();
+                var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
                 var maneuvers = token.maneuverKeys();
                 LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
 
@@ -201,7 +201,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
 
                 if (!maneuver)
                 {
-                    // Ship fled the battlefield.
+                    // The ship fled the battlefield.
                     maneuver = maneuvers.vizziniRandomElement();
                     LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
                 }

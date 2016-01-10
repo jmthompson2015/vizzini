@@ -10,12 +10,12 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.equal(properties.name, "Firespray-31");
         assert.equal(properties.description, "A Firespray-31.");
         assert.equal(properties.value, ship);
-        assert.equal(properties.primaryFiringArc, FiringArc.FORWARD_AND_AFT);
-        assert.equal(properties.shipBase, ShipBase.LARGE);
-        assert.ok(properties.maneuvers);
-        assert.equal(properties.maneuvers.length, 16);
-        assert.ok(properties.shipActions);
-        assert.equal(properties.shipActions.length, 3);
+        assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD_AND_AFT);
+        assert.equal(properties.shipBaseKey, ShipBase.LARGE);
+        assert.ok(properties.maneuverKeys);
+        assert.equal(properties.maneuverKeys.length, 16);
+        assert.ok(properties.shipActionKeys);
+        assert.equal(properties.shipActionKeys.length, 3);
     });
 
     QUnit.test("Ship properties TIE Fighter", function(assert)
@@ -25,12 +25,12 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.equal(properties.name, "TIE Fighter");
         assert.equal(properties.description, "A TIE fighter.");
         assert.equal(properties.value, ship);
-        assert.equal(properties.primaryFiringArc, FiringArc.FORWARD);
-        assert.equal(properties.shipBase, ShipBase.SMALL);
-        assert.ok(properties.maneuvers);
-        assert.equal(properties.maneuvers.length, 16);
-        assert.ok(properties.shipActions);
-        assert.equal(properties.shipActions.length, 4);
+        assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD);
+        assert.equal(properties.shipBaseKey, ShipBase.SMALL);
+        assert.ok(properties.maneuverKeys);
+        assert.equal(properties.maneuverKeys.length, 16);
+        assert.ok(properties.shipActionKeys);
+        assert.equal(properties.shipActionKeys.length, 4);
     });
 
     QUnit.test("Ship properties X-Wing", function(assert)
@@ -40,12 +40,12 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.equal(properties.name, "X-Wing");
         assert.equal(properties.description, "An X-Wing.");
         assert.equal(properties.value, ship);
-        assert.equal(properties.primaryFiringArc, FiringArc.FORWARD);
-        assert.equal(properties.shipBase, ShipBase.SMALL);
-        assert.ok(properties.maneuvers);
-        assert.equal(properties.maneuvers.length, 15);
-        assert.ok(properties.shipActions);
-        assert.equal(properties.shipActions.length, 2);
+        assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD);
+        assert.equal(properties.shipBaseKey, ShipBase.SMALL);
+        assert.ok(properties.maneuverKeys);
+        assert.equal(properties.maneuverKeys.length, 15);
+        assert.ok(properties.shipActionKeys);
+        assert.equal(properties.shipActionKeys.length, 2);
     });
 
     QUnit.test("keys and values", function(assert)

@@ -1,4 +1,5 @@
-define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "ShipAction", "TargetLock", "UpgradeCard" ],
+define(
+        [ "CombatAction", "Environment", "ManeuverAction", "Phase", "ShipAction", "TargetLock", "UpgradeCard" ],
         function(CombatAction, Environment, ManeuverAction, Phase, ShipAction, TargetLock, UpgradeCard)
         {
             "use strict";
@@ -180,17 +181,17 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "ShipAction",
 
                     var token = activationQueue.shift();
                     var agent = token.agent();
-                    var maneuver = token.teamKey() == environment.firstTeam() ? firstPlanningAction.getManeuver(token)
-                            : secondPlanningAction.getManeuver(token);
+                    var maneuverKey = token.pilot().shipTeam.teamKey == environment.firstTeam() ? firstPlanningAction
+                            .getManeuver(token) : secondPlanningAction.getManeuver(token);
 
-                    if (maneuver)
+                    if (maneuverKey)
                     {
                         var fromPosition = environment.getPositionFor(token);
 
                         if (fromPosition)
                         {
-                            var shipBase = token.shipBaseKey();
-                            var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
+                            var shipBaseKey = token.pilot().shipTeam.ship.shipBaseKey;
+                            var maneuverAction = new ManeuverAction(environment, maneuverKey, fromPosition, shipBaseKey);
                             maneuverAction.doIt();
 
                             if (adjudicator.canSelectShipAction(token))
@@ -323,16 +324,16 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "ShipAction",
                     {
                         LOGGER.debug("shipAction = " + shipAction);
                         var attacker = environment.activeToken();
-                        var maneuver = (ShipAction.properties[shipAction] ? ShipAction.properties[shipAction].maneuver
+                        var maneuverKey = (ShipAction.properties[shipAction] ? ShipAction.properties[shipAction].maneuver
                                 : undefined);
                         var attackerPosition, shipBase, maneuverAction;
 
-                        if (maneuver)
+                        if (maneuverKey)
                         {
                             // Barrel roll and Boost.
                             attackerPosition = environment.getPositionFor(attacker);
-                            shipBase = attacker.shipBaseKey();
-                            maneuverAction = new ManeuverAction(environment, maneuver, attackerPosition, shipBase);
+                            shipBaseKey = attacker.pilot().shipTeam.ship.shipBaseKey;
+                            maneuverAction = new ManeuverAction(environment, maneuverKey, attackerPosition, shipBaseKey);
                             maneuverAction.doIt();
                         }
                         else if (shipAction === ShipAction.CLOAK)
@@ -350,9 +351,9 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "ShipAction",
                         else if (shipAction.shipAction === ShipAction.SLAM)
                         {
                             attackerPosition = environment.getPositionFor(attacker);
-                            shipBase = attacker.shipBaseKey();
+                            shipBaseKey = attacker.pilot().shipTeam.ship.shipBaseKey;
                             maneuverAction = new ManeuverAction(environment, shipAction.maneuver, attackerPosition,
-                                    shipBase);
+                                    shipBaseKey);
                             maneuverAction.doIt();
                             attacker.weaponsDisabled().increase();
                         }

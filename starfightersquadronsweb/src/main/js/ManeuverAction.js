@@ -250,7 +250,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
                 else
                 {
                     position1 = environment.getPositionFor(token1);
-                    var shipBase1 = token1.shipBaseKey();
+                    var shipBase1 = token1.pilot().shipTeam.ship.shipBaseKey;
                     polygon1 = Maneuver.computePolygon(shipBase1, position1.x(), position1.y(), position1.heading());
                 }
 
@@ -388,20 +388,26 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
             var shipData0 = shipDataMap[token];
             var area0 = shipData0.polygon();
 
-            var keys = Object.getOwnPropertyNames(shipDataMap);
-            for (var i = 0; i < keys.length; i++)
+            if (area0)
             {
-                var shipData1 = shipDataMap[keys[i]];
-
-                if (shipData0 != shipData1)
+                var keys = Object.getOwnPropertyNames(shipDataMap);
+                for (var i = 0; i < keys.length; i++)
                 {
-                    LOGGER.trace("shipData1 = " + shipData1);
-                    var polygon1 = shipData1.polygon();
+                    var shipData1 = shipDataMap[keys[i]];
 
-                    if (RectanglePath.doPolygonsCollide(area0, polygon1))
+                    if (shipData0 != shipData1)
                     {
-                        answer = shipData1;
-                        break;
+                        LOGGER.trace("shipData1 = " + shipData1);
+                        var polygon1 = shipData1.polygon();
+
+                        if (polygon1)
+                        {
+                            if (RectanglePath.doPolygonsCollide(area0, polygon1))
+                            {
+                                answer = shipData1;
+                                break;
+                            }
+                        }
                     }
                 }
             }

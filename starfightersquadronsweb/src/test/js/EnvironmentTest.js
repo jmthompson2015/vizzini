@@ -179,7 +179,7 @@ define(
                 var weapon = attacker.primaryWeapon();
 
                 // Run.
-                var result = environment.getDefenders(attacker.teamKey());
+                var result = environment.getDefenders(attacker.pilot().shipTeam.teamKey);
 
                 // Verify.
                 assert.ok(result);
@@ -202,7 +202,7 @@ define(
                 // Verify.
                 assert.ok(result);
                 assert.equal(result.length, 2);
-                assert.equal(result[0].teamKey(), Team.IMPERIAL);
+                assert.equal(result[0].pilot().shipTeam.teamKey, Team.IMPERIAL);
             });
 
             QUnit.test("getPositionFor()", function(assert)
@@ -472,7 +472,7 @@ define(
                 // Verify.
                 assert.ok(result);
                 assert.equal(result.length, 1);
-                assert.equal(result[0].shipKey(), Ship.X_WING);
+                assert.equal(result[0].pilot().shipTeam.shipKey, Ship.X_WING);
             });
 
             QUnit.test("incrementRound()", function(assert)

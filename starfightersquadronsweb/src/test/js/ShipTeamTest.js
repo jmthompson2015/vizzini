@@ -8,8 +8,8 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         var shipTeam = ShipTeam.IMPERIAL_FIRESPRAY_31;
         var properties = ShipTeam.properties[shipTeam];
         assert.equal(properties.name, "Firespray-31 (Imperial)");
-        assert.equal(properties.ship, Ship.FIRESPRAY_31);
-        assert.equal(properties.team, Team.IMPERIAL);
+        assert.equal(properties.shipKey, Ship.FIRESPRAY_31);
+        assert.equal(properties.teamKey, Team.IMPERIAL);
         assert.equal(properties.value, shipTeam);
     });
 
@@ -18,8 +18,8 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         var shipTeam = ShipTeam.IMPERIAL_TIE_FIGHTER;
         var properties = ShipTeam.properties[shipTeam];
         assert.equal(properties.name, "TIE Fighter");
-        assert.equal(properties.ship, Ship.TIE_FIGHTER);
-        assert.equal(properties.team, Team.IMPERIAL);
+        assert.equal(properties.shipKey, Ship.TIE_FIGHTER);
+        assert.equal(properties.teamKey, Team.IMPERIAL);
         assert.equal(properties.value, shipTeam);
     });
 
@@ -28,8 +28,8 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         var shipTeam = ShipTeam.REBEL_X_WING;
         var properties = ShipTeam.properties[shipTeam];
         assert.equal(properties.name, "X-Wing");
-        assert.equal(properties.ship, Ship.X_WING);
-        assert.equal(properties.team, Team.REBEL);
+        assert.equal(properties.shipKey, Ship.X_WING);
+        assert.equal(properties.teamKey, Team.REBEL);
         assert.equal(properties.value, shipTeam);
     });
 
@@ -38,8 +38,8 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         var shipTeam = ShipTeam.SCUM_FIRESPRAY_31;
         var properties = ShipTeam.properties[shipTeam];
         assert.equal(properties.name, "Firespray-31 (Scum)");
-        assert.equal(properties.ship, Ship.FIRESPRAY_31);
-        assert.equal(properties.team, Team.SCUM);
+        assert.equal(properties.shipKey, Ship.FIRESPRAY_31);
+        assert.equal(properties.teamKey, Team.SCUM);
         assert.equal(properties.value, shipTeam);
     });
 

@@ -150,7 +150,7 @@ define([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardU
             var j = 0;
 
             var pilotProps = token.pilot();
-            var shipProps = token.ship();
+            var shipProps = pilotProps.shipTeam.ship;
             cells.push(createCell(cells.length, SquadColumns[j++], React.DOM.span(
             {
                 title: pilotProps.description,

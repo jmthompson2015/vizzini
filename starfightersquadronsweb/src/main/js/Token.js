@@ -1,9 +1,9 @@
 /*
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
-define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "Ship", "ShipAction",
-        "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty,
-        Maneuver, Phase, Pilot, RangeRuler, Ship, ShipAction, ShipTeam, Team, UpgradeCard, UpgradeType, Weapon)
+define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction",
+        "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot,
+        RangeRuler, ShipAction, UpgradeCard, UpgradeType, Weapon)
 {
     "use strict";
     function Token(pilotKey, agent)
@@ -24,8 +24,6 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         var that = this;
         var id = Token.nextId();
         var pilot = Pilot.properties[pilotKey];
-        var shipTeam = ShipTeam.properties[pilot.shipTeam];
-        var ship = Ship.properties[shipTeam.ship];
 
         var cloakCount = new Token.Count();
         cloakCount.bind("change", function()
@@ -303,7 +301,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             }
             else
             {
-                answer = ship.maneuvers.slice();
+                answer = pilot.shipTeam.ship.maneuverKeys.slice();
 
                 if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE))
                 {
@@ -348,7 +346,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.name = function()
         {
             var pilotName = pilot.name;
-            var shipName = ship.name;
+            var shipName = pilot.shipTeam.ship.name;
 
             return id + " " + pilotName + " (" + shipName + ")";
         };
@@ -412,7 +410,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.pilot = function()
         {
             return pilot;
-        }
+        };
 
         this.pilotSkillValue = function()
         {
@@ -472,9 +470,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return answer;
         };
 
-        this.primaryFiringArc = function()
+        this.primaryFiringArcKey = function()
         {
-            return ship.primaryFiringArc;
+            return pilot.shipTeam.ship.primaryFiringArcKey;
         };
 
         this.primaryWeapon = function()
@@ -568,34 +566,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return answer;
         };
 
-        this.ship = function()
-        {
-            return ship;
-        };
-
-        this.shipKey = function()
-        {
-            return shipTeam.ship;
-        };
-
-        this.shipBaseKey = function()
-        {
-            return ship.shipBase;
-        };
-
         this.shipName = function()
         {
-            return ship.name;
-        };
-
-        this.shipTeam = function()
-        {
-            return shipTeam;
-        };
-
-        this.shipTeamKey = function()
-        {
-            return pilot.shipTeam;
+            return pilot.shipTeam.ship.name;
         };
 
         this.stress = function()
@@ -603,14 +576,9 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return stressCount;
         };
 
-        this.teamKey = function()
-        {
-            return shipTeam.team;
-        };
-
         this.teamName = function()
         {
-            return Team.properties[this.teamKey()].name;
+            return pilot.shipTeam.team.name;
         };
 
         this.upgradeKeys = function()
@@ -620,7 +588,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.upgradeTypeKeys = function()
         {
-            var answer = pilot.upgradeTypes.slice();
+            var answer = pilot.upgradeTypeKeys.slice();
 
             if (UpgradeCard.valuesByPilotAndType(pilotKey, UpgradeType.TITLE).length > 0)
             {
@@ -724,7 +692,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             var shipState = pilot.shipState;
 
             return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO,
-                    RangeRuler.THREE ], ship.primaryFiringArc);
+                    RangeRuler.THREE ], pilot.shipTeam.ship.primaryFiringArcKey);
         }
 
         function createSecondaryWeapon(upgrade)
@@ -874,7 +842,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
         {
-            answer.vizziniAddAll(this.ship().shipActions);
+            answer.vizziniAddAll(this.pilot().shipTeam.ship.shipActionKeys);
         }
 
         if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())

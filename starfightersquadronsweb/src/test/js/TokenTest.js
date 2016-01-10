@@ -14,7 +14,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         var token0 = new Token(Pilot.DARTH_VADER, imperialAgent, UpgradeCard.CLUSTER_MISSILES);
         assert.equal(token0.id(), 1);
         assert.equal(token0.pilotKey(), Pilot.DARTH_VADER);
-        assert.equal(token0.shipKey(), Ship.TIE_ADVANCED);
+        assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_ADVANCED);
         assert.equal(token0.name(), "1 Darth Vader (TIE Advanced)");
         assert.equal(token0.secondaryWeapons().length, 1);
         var weapon0 = token0.secondaryWeapons()[0];
@@ -25,7 +25,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
                 UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA);
         assert.equal(token1.id(), 2);
         assert.equal(token1.pilotKey(), Pilot.DASH_RENDAR);
-        assert.equal(token1.shipKey(), Ship.YT_2400);
+        assert.equal(token1.pilot().shipTeam.shipKey, Ship.YT_2400);
         assert.equal(token1.name(), "2 Dash Rendar (YT-2400)");
         assert.equal(token1.secondaryWeapons().length, 1);
         var weapon1 = token1.secondaryWeapons()[0];
@@ -137,14 +137,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.id(), 1);
         assert.equal(token0.pilotKey(), Pilot.ACADEMY_PILOT);
-        assert.equal(token0.shipKey(), Ship.TIE_FIGHTER);
+        assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
         assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.id(), 2);
         assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
-        assert.equal(token1.shipKey(), Ship.X_WING);
+        assert.equal(token1.pilot().shipTeam.shipKey, Ship.X_WING);
         assert.equal(token1.name(), "2 Rookie Pilot (X-Wing)");
 
         assert.equal(token0.computeAttackDiceCount(environment, token0.primaryWeapon(), token1, RangeRuler.ONE), 3);
@@ -188,7 +188,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
         assert.equal(token0.id(), 1);
         assert.equal(token0.pilotKey(), Pilot.ACADEMY_PILOT);
-        assert.equal(token0.shipKey(), Ship.TIE_FIGHTER);
+        assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
         assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
         var environment;
         assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.ONE), 3);
@@ -199,7 +199,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
         assert.equal(token1.id(), 2);
         assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
-        assert.equal(token1.shipKey(), Ship.X_WING);
+        assert.equal(token1.pilot().shipTeam.shipKey, Ship.X_WING);
         assert.equal(token1.name(), "2 Rookie Pilot (X-Wing)");
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.ONE), 2);
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.TWO), 2);

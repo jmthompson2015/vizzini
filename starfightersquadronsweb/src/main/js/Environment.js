@@ -158,7 +158,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
 
                     if (attackerPosition)
                     {
-                        var defenders = this.getDefenders(attacker.teamKey());
+                        var defenders = this.getDefenders(attacker.pilot().shipTeam.teamKey);
 
                         if (defenders && defenders.length > 0)
                         {
@@ -187,7 +187,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
                     InputValidator.validateNotNull("attackerPosition", attackerPosition);
                     InputValidator.validateNotNull("weapon", weapon);
 
-                    var attackerTeam = attacker.teamKey();
+                    var attackerTeam = attacker.pilot().shipTeam.teamKey;
                     var answer = this.getDefenders(attackerTeam);
                     LOGGER.trace("0 defenders = " + answer);
                     answer = answer.filter(function(defender)
@@ -240,8 +240,8 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
 
                         if (answer === 0)
                         {
-                            var team0 = token0.teamKey();
-                            var team1 = token1.teamKey();
+                            var team0 = token0.pilot().shipTeam.teamKey;
+                            var team1 = token1.pilot().shipTeam.teamKey;
 
                             if (team0 === team1)
                             {
@@ -271,8 +271,8 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
 
                         if (answer === 0)
                         {
-                            var team0 = token0.teamKey();
-                            var team1 = token1.teamKey();
+                            var team0 = token0.pilot().shipTeam.teamKey;
+                            var team1 = token1.pilot().shipTeam.teamKey;
 
                             if (team0 === team1)
                             {
@@ -297,7 +297,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
                     });
                 };
 
-                this.getTokensForTeam = function(team)
+                this.getTokensForTeam = function(teamKey)
                 {
                     var answer = [];
 
@@ -305,7 +305,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
                     {
                         var token = positionToToken[position];
 
-                        if (token.teamKey() === team)
+                        if (token.pilot().shipTeam.teamKey === teamKey)
                         {
                             answer[answer.length] = token;
                         }
@@ -320,7 +320,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
 
                     var answer = [];
 
-                    var shipBase = token.shipBaseKey();
+                    var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
                     var tokenPosition = this.getPositionFor(token);
                     var polygon = Maneuver.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition
                             .heading());
@@ -330,7 +330,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
                     {
                         if (token !== token2)
                         {
-                            var shipBase2 = token2.shipBaseKey();
+                            var shipBase2 = token2.pilot().shipTeam.ship.shipBaseKey;
                             var tokenPosition2 = this.getPositionFor(token2);
                             var polygon2 = Maneuver.computePolygon(shipBase2, tokenPosition2.x(), tokenPosition2.y(),
                                     tokenPosition2.heading());
@@ -578,7 +578,7 @@ define([ "DamageCard", "Maneuver", "Phase", "Position", "RangeRuler", "Rectangle
                     for (var i = 1; i <= tokens.length; i++)
                     {
                         var token = tokens[i - 1];
-                        var shipBase = token.shipBaseKey();
+                        var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
                         var x = i * dx;
                         var y = (ShipBase.properties[shipBase].height / 2);
 
