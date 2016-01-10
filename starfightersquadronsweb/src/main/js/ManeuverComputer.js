@@ -165,12 +165,13 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
         var dx = -10000; // Integer.MIN_VALUE
         var dy = 10000; // Integer.MAX_VALUE
         var baseSize = ShipBase.properties[shipBase].height / 2;
-        var bearingKey = Maneuver.properties[maneuverKey].bearingKey;
-        var speed = Maneuver.properties[maneuverKey].speed;
+        var maneuver = Maneuver.properties[maneuverKey];
+        var bearingKey = maneuver.bearingKey;
+        var speed = maneuver.speed;
         var headingChange;
         if (bearingKey)
         {
-            headingChange = Bearing.properties[bearingKey].headingChange;
+            headingChange = maneuver.bearing.headingChange;
         }
         var radius = Maneuver.properties[maneuverKey].radius;
 
@@ -183,7 +184,7 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
             dx = (2 * baseSize) + (40 * speed);
             dy = 0;
         }
-        else if (bearingKey && Bearing.properties[bearingKey].isBank)
+        else if (bearingKey && maneuver.bearing.isBank)
         {
             // Half base.
             x1 = baseSize;
@@ -221,7 +222,7 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
         }
-        else if (bearingKey && Bearing.properties[bearingKey].isTurn)
+        else if (bearingKey && maneuver.bearing.isTurn)
         {
             // Half base.
             x1 = baseSize;
