@@ -169,7 +169,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "Team" ], 
 
             if (fromPosition)
             {
-                var shipBase = token.shipBaseKey();
+                var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
                 answer = new ExplosionUI(fromPosition, shipBase, explosionImage);
             }
 
@@ -189,7 +189,7 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "Team" ], 
 
                 if (toPosition)
                 {
-                    var strokeStyle = Team.properties[attacker.teamKey()].color;
+                    var strokeStyle = attacker.pilot().shipTeam.team.color;
                     var audioClip = getLaserAudioClip(attacker);
                     answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip);
                 }
@@ -200,24 +200,24 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "Team" ], 
 
         function createManeuverUI(maneuverAction)
         {
-            var maneuver = maneuverAction.maneuverKey();
+            var maneuverKey = maneuverAction.maneuverKey();
             var fromPosition = maneuverAction.fromPosition();
-            var shipBase = maneuverAction.shipBaseKey();
+            var shipBaseKey = maneuverAction.shipBaseKey();
 
-            return new ManeuverUI(maneuver, fromPosition, shipBase);
+            return new ManeuverUI(maneuverKey, fromPosition, shipBaseKey);
         }
 
         function createShipIcon(token, callback)
         {
             var image = new Image();
             image.id = token.id();
-            image.teamColor = Team.properties[token.teamKey()].color;
+            image.teamColor = token.pilot().shipTeam.team.color;
             image.onload = function()
             {
                 callback();
             };
 
-            var filename = token.shipTeam().image;
+            var filename = token.pilot().shipTeam.image;
             image.src = imageBase + "ship/" + filename;
 
             return image;
@@ -355,21 +355,21 @@ define([ "Difficulty", "Environment", "Maneuver", "Ship", "ShipBase", "Team" ], 
         {
             var answer;
 
-            var ship = token.shipKey();
+            var shipKey = token.pilot().shipTeam.shipKey;
 
-            if (ship === Ship.YT_1300 || ship === Ship.YT_2400)
+            if (shipKey === Ship.YT_1300 || shipKey === Ship.YT_2400)
             {
                 answer = document.getElementById("millenniumFalconLaserAudio");
             }
-            else if (ship === Ship.FIRESPRAY_31)
+            else if (shipKey === Ship.FIRESPRAY_31)
             {
                 answer = document.getElementById("slave1LaserAudio");
             }
             else
             {
-                var team = token.teamKey();
+                var teamKey = token.pilot().shipTeam.teamKey;
 
-                if (team === Team.IMPERIAL)
+                if (teamKey === Team.IMPERIAL)
                 {
                     answer = document.getElementById("tieFighterLaserAudio");
                 }

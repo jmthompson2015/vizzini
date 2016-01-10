@@ -8,7 +8,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.ACADEMY_PILOT;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Academy Pilot");
-        assert.equal(properties.shipTeam, ShipTeam.IMPERIAL_TIE_FIGHTER);
+        assert.equal(properties.shipTeamKey, ShipTeam.IMPERIAL_TIE_FIGHTER);
         assert.equal(properties.shipState.pilotSkillValue(), 1);
         assert.equal(properties.shipState.primaryWeaponValue(), 2);
         assert.equal(properties.shipState.agilityValue(), 3);
@@ -23,7 +23,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.BOUNTY_HUNTER;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Bounty Hunter");
-        assert.equal(properties.shipTeam, ShipTeam.IMPERIAL_FIRESPRAY_31);
+        assert.equal(properties.shipTeamKey, ShipTeam.IMPERIAL_FIRESPRAY_31);
         assert.equal(properties.shipState.pilotSkillValue(), 3);
         assert.equal(properties.shipState.primaryWeaponValue(), 3);
         assert.equal(properties.shipState.agilityValue(), 2);
@@ -38,7 +38,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.DUTCH_VANDER;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "\"Dutch\" Vander");
-        assert.equal(properties.shipTeam, ShipTeam.REBEL_Y_WING);
+        assert.equal(properties.shipTeamKey, ShipTeam.REBEL_Y_WING);
         assert.equal(properties.shipState.pilotSkillValue(), 6);
         assert.equal(properties.shipState.primaryWeaponValue(), 2);
         assert.equal(properties.shipState.agilityValue(), 1);
@@ -53,7 +53,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var pilot = Pilot.ROOKIE_PILOT;
         var properties = Pilot.properties[pilot];
         assert.equal(properties.name, "Rookie Pilot");
-        assert.equal(properties.shipTeam, ShipTeam.REBEL_X_WING);
+        assert.equal(properties.shipTeamKey, ShipTeam.REBEL_X_WING);
         assert.equal(properties.shipState.pilotSkillValue(), 2);
         assert.equal(properties.shipState.primaryWeaponValue(), 3);
         assert.equal(properties.shipState.agilityValue(), 2);

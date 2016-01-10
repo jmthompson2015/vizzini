@@ -47,7 +47,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
                 pilotSkillValue: myToken.pilotSkillValue(),
                 pilotName: myToken.pilotName(),
                 shipName: myToken.shipName(),
-                team: myToken.teamKey(),
+                team: myToken.pilot().shipTeam.teamKey,
             });
             var cell0 = React.DOM.td({}, element0);
             rows.push(React.DOM.tr(
@@ -98,13 +98,13 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
         renderLarge: function()
         {
             var myToken = this.state.token;
-            var pilotProps = myToken.pilot();
-            var shipProps = myToken.ship();
-            var pilotDescription = pilotProps.description;
-            var pilotCost = pilotProps.squadPointCost;
+            var pilot = myToken.pilot();
+            var ship = pilot.shipTeam.ship;
+            var pilotDescription = pilot.description;
+            var pilotCost = pilot.squadPointCost;
             var prefix = myToken.toString();
-            var shipActions = shipProps.shipActions;
-            var upgradeTypes = myToken.upgradeTypeKeys();
+            var shipActionKeys = ship.shipActionKeys;
+            var upgradeTypeKeys = myToken.upgradeTypeKeys();
             var rows = [];
 
             var element00 = React.createElement(PilotCardUI.NamePanel,
@@ -112,7 +112,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
                 pilotSkillValue: myToken.pilotSkillValue(),
                 pilotName: myToken.pilotName(),
                 shipName: myToken.shipName(),
-                team: myToken.teamKey(),
+                team: pilot.shipTeam.teamKey,
             });
             var cell00 = React.DOM.td({}, element00);
             rows.push(React.DOM.tr(
@@ -142,7 +142,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
 
             var element101 = React.createElement(PilotCardUI.ShipActionPanel,
             {
-                shipActions: shipActions
+                shipActions: shipActionKeys
             });
             var innerCell11 = React.DOM.td({}, element101);
 
@@ -166,7 +166,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var innerCells20 = [];
             var element200 = React.createElement(PilotCardUI.UpgradePanel,
             {
-                upgradeTypes: upgradeTypes
+                upgradeTypes: upgradeTypeKeys
             });
             innerCells20.push(React.DOM.td(
             {

@@ -114,7 +114,7 @@
             {
                 environment.activeToken(imperialToken0);
                 var fromPosition = environment.getPositionFor(imperialToken0);
-                var shipBase = imperialToken0.shipBaseKey();
+                var shipBase = imperialToken0.pilot().shipTeam.ship.shipBaseKey;
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_1_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();
@@ -124,7 +124,7 @@
             {
                 environment.activeToken(imperialToken1);
                 var fromPosition = environment.getPositionFor(imperialToken1);
-                var shipBase = imperialToken1.shipBaseKey();
+                var shipBase = imperialToken1.pilot().shipTeam.ship.shipBaseKey;
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();
@@ -134,7 +134,7 @@
             {
                 environment.activeToken(rebelToken);
                 var fromPosition = environment.getPositionFor(rebelToken);
-                var shipBase = rebelToken.shipBaseKey();
+                var shipBase = rebelToken.pilot().shipTeam.ship.shipBaseKey;
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();
@@ -144,7 +144,7 @@
             {
                 environment.activeToken(rebelToken);
                 var fromPosition = environment.getPositionFor(rebelToken);
-                var shipBase = rebelToken.shipBaseKey();
+                var shipBase = rebelToken.pilot().shipTeam.ship.shipBaseKey;
                 var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_3_STANDARD, fromPosition,
                         shipBase);
                 maneuverAction.doIt();

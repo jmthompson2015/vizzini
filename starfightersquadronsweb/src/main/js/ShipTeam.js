@@ -54,8 +54,8 @@ define([ "Ship", "Team" ], function(Ship, Team)
             "firstOrderTieFoFighter":
             {
                 name: "TIE/fo Fighter",
-                ship: Ship.TIE_FO_FIGHTER,
-                team: Team.FIRST_ORDER,
+                shipKey: Ship.TIE_FO_FIGHTER,
+                teamKey: Team.FIRST_ORDER,
                 image: "FirstOrder_TIE_fo_Fighter.png",
                 value: "firstOrderTieFoFighter",
             },
@@ -64,96 +64,96 @@ define([ "Ship", "Team" ], function(Ship, Team)
             "imperialFirespray31":
             {
                 name: "Firespray-31 (Imperial)",
-                ship: Ship.FIRESPRAY_31,
-                team: Team.IMPERIAL,
+                shipKey: Ship.FIRESPRAY_31,
+                teamKey: Team.IMPERIAL,
                 image: "Firespray-31.png",
                 value: "imperialFirespray31",
             },
             "imperialLambdaClassShuttle":
             {
                 name: "Lambda-class Shuttle",
-                ship: Ship.LAMBDA_CLASS_SHUTTLE,
-                team: Team.IMPERIAL,
+                shipKey: Ship.LAMBDA_CLASS_SHUTTLE,
+                teamKey: Team.IMPERIAL,
                 image: "Lambda-class_Shuttle.png",
                 value: "imperialLambdaClassShuttle",
             },
             "imperialTieAdvanced":
             {
                 name: "TIE Advanced",
-                ship: Ship.TIE_ADVANCED,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_ADVANCED,
+                teamKey: Team.IMPERIAL,
                 image: "TIE_Advanced.png",
                 value: "imperialTieAdvanced",
             },
             "imperialTieBomber":
             {
                 name: "TIE Bomber",
-                ship: Ship.TIE_BOMBER,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_BOMBER,
+                teamKey: Team.IMPERIAL,
                 image: "TIE_Bomber.png",
                 value: "imperialTieBomber",
             },
             "imperialTieDefender":
             {
                 name: "TIE Defender",
-                ship: Ship.TIE_DEFENDER,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_DEFENDER,
+                teamKey: Team.IMPERIAL,
                 image: "TIE_Defender.png",
                 value: "imperialTieDefender",
             },
             "imperialTieFighter":
             {
                 name: "TIE Fighter",
-                ship: Ship.TIE_FIGHTER,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_FIGHTER,
+                teamKey: Team.IMPERIAL,
                 image: "TIE_Fighter.png",
                 value: "imperialTieFighter",
             },
             "imperialTieInterceptor":
             {
                 name: "TIE Interceptor",
-                ship: Ship.TIE_INTERCEPTOR,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_INTERCEPTOR,
+                teamKey: Team.IMPERIAL,
                 image: "TIE_Interceptor.png",
                 value: "imperialTieInterceptor",
             },
             "imperialTieInterceptorRoyalGuard":
             {
                 name: "TIE Interceptor (Royal Guard)",
-                ship: Ship.TIE_INTERCEPTOR,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_INTERCEPTOR,
+                teamKey: Team.IMPERIAL,
                 image: "Royal_Guard_TIE.png",
                 value: "imperialTieInterceptorRoyalGuard",
             },
             "imperialTieInterceptorSaberSquadron":
             {
                 name: "TIE Interceptor (Saber Squadron)",
-                ship: Ship.TIE_INTERCEPTOR,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_INTERCEPTOR,
+                teamKey: Team.IMPERIAL,
                 image: "Saber_Squadron_TIE.png",
                 value: "imperialTieInterceptorSaberSquadron",
             },
             "imperialTiePhantom":
             {
                 name: "TIE Phantom",
-                ship: Ship.TIE_PHANTOM,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_PHANTOM,
+                teamKey: Team.IMPERIAL,
                 image: "TIE_Phantom.png",
                 value: "imperialTiePhantom",
             },
             "imperialTiePunisher":
             {
                 name: "TIE Punisher",
-                ship: Ship.TIE_PUNISHER,
-                team: Team.IMPERIAL,
+                shipKey: Ship.TIE_PUNISHER,
+                teamKey: Team.IMPERIAL,
                 image: "Imperial_TIE_Punisher.png",
                 value: "imperialTiePunisher",
             },
             "imperialVt49Decimator":
             {
                 name: "VT-49 Decimator",
-                ship: Ship.VT_49_DECIMATOR,
-                team: Team.IMPERIAL,
+                shipKey: Ship.VT_49_DECIMATOR,
+                teamKey: Team.IMPERIAL,
                 image: "VT-49_Decimator.png",
                 value: "imperialVt49Decimator",
             },
@@ -162,96 +162,96 @@ define([ "Ship", "Team" ], function(Ship, Team)
             "rebelAWing":
             {
                 name: "A-Wing",
-                ship: Ship.A_WING,
-                team: Team.REBEL,
+                shipKey: Ship.A_WING,
+                teamKey: Team.REBEL,
                 image: "A-Wing.png",
                 value: "rebelAWing",
             },
             "rebelAWingAce":
             {
                 name: "A-Wing (Ace)",
-                ship: Ship.A_WING,
-                team: Team.REBEL,
+                shipKey: Ship.A_WING,
+                teamKey: Team.REBEL,
                 image: "Rebel_Aces_A-Wing.png",
                 value: "rebelAWingAce",
             },
             "rebelBWing":
             {
                 name: "B-Wing",
-                ship: Ship.B_WING,
-                team: Team.REBEL,
+                shipKey: Ship.B_WING,
+                teamKey: Team.REBEL,
                 image: "B-Wing.png",
                 value: "rebelBWing",
             },
             "rebelBWingAce":
             {
                 name: "B-Wing (Ace)",
-                ship: Ship.B_WING,
-                team: Team.REBEL,
+                shipKey: Ship.B_WING,
+                teamKey: Team.REBEL,
                 image: "Rebel_Aces_B-Wing.png",
                 value: "rebelBWingAce",
             },
             "rebelEWing":
             {
                 name: "E-Wing",
-                ship: Ship.E_WING,
-                team: Team.REBEL,
+                shipKey: Ship.E_WING,
+                teamKey: Team.REBEL,
                 image: "E-Wing.png",
                 value: "rebelEWing",
             },
             "rebelHwk290":
             {
                 name: "HWK-290 (Rebel)",
-                ship: Ship.HWK_290,
-                team: Team.REBEL,
+                shipKey: Ship.HWK_290,
+                teamKey: Team.REBEL,
                 image: "HWK-290.png",
                 value: "rebelHwk290",
             },
             "rebelKWing":
             {
                 name: "K-Wing",
-                ship: Ship.K_WING,
-                team: Team.REBEL,
+                shipKey: Ship.K_WING,
+                teamKey: Team.REBEL,
                 image: "Rebel_K-Wing.png",
                 value: "rebelKWing",
             },
             "rebelXWing":
             {
                 name: "X-Wing",
-                ship: Ship.X_WING,
-                team: Team.REBEL,
+                shipKey: Ship.X_WING,
+                teamKey: Team.REBEL,
                 image: "X-Wing.png",
                 value: "rebelXWing",
             },
             "rebelYWing":
             {
                 name: "Y-Wing (Rebel)",
-                ship: Ship.Y_WING,
-                team: Team.REBEL,
+                shipKey: Ship.Y_WING,
+                teamKey: Team.REBEL,
                 image: "Y-Wing.png",
                 value: "rebelYWing",
             },
             "rebelYt1300":
             {
                 name: "YT-1300",
-                ship: Ship.YT_1300,
-                team: Team.REBEL,
+                shipKey: Ship.YT_1300,
+                teamKey: Team.REBEL,
                 image: "YT-1300.png",
                 value: "rebelYt1300",
             },
             "rebelYt2400":
             {
                 name: "YT-2400",
-                ship: Ship.YT_2400,
-                team: Team.REBEL,
+                shipKey: Ship.YT_2400,
+                teamKey: Team.REBEL,
                 image: "YT-2400.png",
                 value: "rebelYt2400",
             },
             "rebelZ95Headhunter":
             {
                 name: "Z-95 Headhunter (Rebel)",
-                ship: Ship.Z_95_HEADHUNTER,
-                team: Team.REBEL,
+                shipKey: Ship.Z_95_HEADHUNTER,
+                teamKey: Team.REBEL,
                 image: "Z-95_Headhunter.png",
                 value: "rebelZ95Headhunter",
             },
@@ -260,8 +260,8 @@ define([ "Ship", "Team" ], function(Ship, Team)
             "resistanceT70XWing":
             {
                 name: "T-70 X-Wing",
-                ship: Ship.T_70_X_WING,
-                team: Team.RESISTANCE,
+                shipKey: Ship.T_70_X_WING,
+                teamKey: Team.RESISTANCE,
                 image: "Resistance_T-70_X-Wing.png",
                 value: "resistanceT70XWing",
             },
@@ -270,72 +270,72 @@ define([ "Ship", "Team" ], function(Ship, Team)
             "scumAggressor":
             {
                 name: "Aggressor",
-                ship: Ship.AGGRESSOR,
-                team: Team.SCUM,
+                shipKey: Ship.AGGRESSOR,
+                teamKey: Team.SCUM,
                 image: "Scum_Aggressor.png",
                 value: "scumAggressor",
             },
             "scumFirespray31":
             {
                 name: "Firespray-31 (Scum)",
-                ship: Ship.FIRESPRAY_31,
-                team: Team.SCUM,
+                shipKey: Ship.FIRESPRAY_31,
+                teamKey: Team.SCUM,
                 image: "Scum_Firespray-31.png",
                 value: "scumFirespray31",
             },
             "scumHwk290":
             {
                 name: "HWK-290 (Scum)",
-                ship: Ship.HWK_290,
-                team: Team.SCUM,
+                shipKey: Ship.HWK_290,
+                teamKey: Team.SCUM,
                 image: "Scum_HWK-290.png",
                 value: "scumHwk290",
             },
             "scumKihraxzFighter":
             {
                 name: "Kihraxz Fighter",
-                ship: Ship.KIHRAXZ_FIGHTER,
-                team: Team.SCUM,
+                shipKey: Ship.KIHRAXZ_FIGHTER,
+                teamKey: Team.SCUM,
                 image: "Scum_KihraxzFighter.png",
                 value: "scumKihraxzFighter",
             },
             "scumM3AInterceptor":
             {
                 name: "M3-A Interceptor",
-                ship: Ship.M3_A_INTERCEPTOR,
-                team: Team.SCUM,
+                shipKey: Ship.M3_A_INTERCEPTOR,
+                teamKey: Team.SCUM,
                 image: "Scum_M3-A_Interceptor.png",
                 value: "scumM3AInterceptor",
             },
             "scumStarViper":
             {
                 name: "StarViper",
-                ship: Ship.STAR_VIPER,
-                team: Team.SCUM,
+                shipKey: Ship.STAR_VIPER,
+                teamKey: Team.SCUM,
                 image: "Scum_StarViper.png",
                 value: "scumStarViper",
             },
             "scumYWing":
             {
                 name: "Y-Wing (Scum)",
-                ship: Ship.Y_WING,
-                team: Team.SCUM,
+                shipKey: Ship.Y_WING,
+                teamKey: Team.SCUM,
                 image: "Scum_Y-Wing.png",
                 value: "scumYWing",
             },
             "scumYv666":
             {
                 name: "YV-666",
-                ship: Ship.YV_666,
-                team: Team.SCUM,
+                shipKey: Ship.YV_666,
+                teamKey: Team.SCUM,
                 image: "Scum_YV-666.png",
                 value: "scumYv666",
             },
             "scumZ95Headhunter":
             {
                 name: "Z-95 Headhunter (Scum)",
-                ship: Ship.Z_95_HEADHUNTER,
-                team: Team.SCUM,
+                shipKey: Ship.Z_95_HEADHUNTER,
+                teamKey: Team.SCUM,
                 image: "Scum_Z-95_Headhunter.png",
                 value: "scumZ95Headhunter",
             },
@@ -352,7 +352,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
 
             var answer = this.values().filter(function(shipTeamKey)
             {
-                return ShipTeam.properties[shipTeamKey].team === teamKey;
+                return ShipTeam.properties[shipTeamKey].teamKey === teamKey;
             });
 
             if (!isStrict)
@@ -370,6 +370,13 @@ define([ "Ship", "Team" ], function(Ship, Team)
             return answer;
         },
     };
+
+    ShipTeam.values().forEach(function(shipTeamKey)
+    {
+        var shipTeam = ShipTeam.properties[shipTeamKey];
+        shipTeam.ship = Ship.properties[shipTeam.shipKey];
+        shipTeam.team = Team.properties[shipTeam.teamKey];
+    });
 
     if (Object.freeze)
     {

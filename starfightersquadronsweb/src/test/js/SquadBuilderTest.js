@@ -16,7 +16,7 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
 
         for (var i = 0; i < 2; i++)
         {
-            assert.equal(result[i].shipKey(), Ship.TIE_FIGHTER);
+            assert.equal(result[i].pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
         }
     });
 
@@ -49,7 +49,7 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
         assert.equal(result.length, 1);
 
         assert.equal(result[0].pilotKey(), Pilot.LUKE_SKYWALKER);
-        assert.equal(result[0].shipKey(), Ship.X_WING);
+        assert.equal(result[0].pilot().shipTeam.shipKey, Ship.X_WING);
     });
 
     QUnit.test("CoreSetRebelSquadBuilder description()", function(assert)

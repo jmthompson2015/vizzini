@@ -24,7 +24,7 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
 
             if (fromPosition)
             {
-                var shipBase = attacker.shipBaseKey();
+                var shipBase = attacker.pilot().shipTeam.ship.shipBaseKey;
                 var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition, shipBase);
 
                 if (toPolygon)
@@ -38,7 +38,7 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
 
                         if (token !== attacker)
                         {
-                            var myShipBase = token.shipBaseKey();
+                            var myShipBase = token.pilot().shipTeam.ship.shipBaseKey;
                             var position = environment.getPositionFor(token);
                             var polygon = Maneuver.computePolygon(myShipBase, position.x(), position.y(), position
                                     .heading());

@@ -101,7 +101,7 @@ define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseD
         InputValidator.validateNotNull("token", token);
 
         var fromPosition = environment.getPositionFor(token);
-        var shipBase = token.shipBaseKey();
+        var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
         var maneuvers = token.maneuverKeys();
         LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
 
@@ -187,7 +187,7 @@ define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseD
         {
             var previousManeuverKey = token.activationState().maneuverAction().maneuverKey();
             var speed = Maneuver.properties[previousManeuverKey].speed;
-            var ship = token.ship();
+            var ship = token.pilot().shipTeam.ship;
             var maneuverKeys = ship.maneuvers;
 
             maneuverKeys.forEach(function(maneuverKey)
@@ -222,7 +222,7 @@ define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseD
         var decloakActions = this.determineValidDecloakActions(environment, adjudicator, token);
         var decloakAction = decloakActions.vizziniRandomElement();
         var fromPosition = environment.getPositionFor(token);
-        var shipBaseKey = token.shipBaseKey();
+        var shipBaseKey = token.pilot().shipTeam.ship.shipBaseKey;
 
         var answer = new ManeuverAction(environment, decloakAction.maneuver, fromPosition, shipBaseKey);
 

@@ -177,7 +177,6 @@ define(
 
                 properties:
                 {
-                    // @see Token.upgradeTypeKeys() for effect implementation.
                     "aWingTestPilot":
                     {
                         name: "A-Wing Test Pilot",
@@ -232,7 +231,6 @@ define(
                         isImplemented: true,
                         value: "advancedHomingMissiles",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
                     "advancedProtonTorpedoes":
                     {
                         name: "Advanced Proton Torpedoes",
@@ -277,7 +275,6 @@ define(
                         squadPointCost: 5,
                         value: "advancedTargetingComputer",
                     },
-                    // @see Token.upgradeTypeKeys() for effect implementation.
                     "andrasta":
                     {
                         name: "Andrasta",
@@ -356,7 +353,6 @@ define(
                         squadPointCost: 2,
                         value: "bb8",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
                     "blasterTurret":
                     {
                         name: "Blaster Turret",
@@ -382,7 +378,6 @@ define(
                         squadPointCost: 2,
                         value: "bodyguard",
                     },
-                    // @see Token.upgradeTypeKeys() for effect implementation.
                     "bombLoadout":
                     {
                         name: "Bomb Loadout",
@@ -423,7 +418,6 @@ define(
                         squadPointCost: 0,
                         value: "btlA4YWing",
                     },
-                    // @see Token.upgradeTypeKeys() for effect implementation.
                     "bWingE2":
                     {
                         name: "B-Wing/E2",
@@ -509,7 +503,6 @@ define(
                         squadPointCost: 4,
                         value: "clusterMissiles",
                     },
-                    // @see Token.hullValue() and Token.shieldValue() for effect implementation.
                     "combatRetrofit":
                     {
                         name: "Combat Retrofit",
@@ -530,7 +523,6 @@ define(
                         squadPointCost: 3,
                         value: "commRelay",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
                     "concussionMissiles":
                     {
                         name: "Concussion Missiles",
@@ -652,7 +644,6 @@ define(
                         squadPointCost: 2,
                         value: "decoy",
                     },
-                    // @see DamageDealer.dealDamage() for effect implementation.
                     "determination":
                     {
                         name: "Determination",
@@ -691,7 +682,6 @@ define(
                         squadPointCost: 8,
                         value: "emperorPalpatine",
                     },
-                    // @see Token.shipActions() for effect implementation.
                     "engineUpgrade":
                     {
                         name: "Engine Upgrade",
@@ -886,7 +876,6 @@ define(
                         squadPointCost: 2,
                         value: "hanSolo",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
                     "heavyLaserCannon":
                     {
                         name: "Heavy Laser Cannon",
@@ -924,7 +913,6 @@ define(
                         squadPointCost: 5,
                         value: "homingMissiles",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
                     "hotShotBlaster":
                     {
                         name: "\"Hot Shot\" Blaster",
@@ -950,7 +938,6 @@ define(
                         squadPointCost: 6,
                         value: "houndsTooth",
                     },
-                    // @see Token.hullValue() for effect implementation.
                     "hullUpgrade":
                     {
                         name: "Hull Upgrade",
@@ -1206,7 +1193,6 @@ define(
                         squadPointCost: 1,
                         value: "maneuveringFins",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
                     "manglerCannon":
                     {
                         name: "\"Mangler\" Cannon",
@@ -1250,7 +1236,6 @@ define(
                         squadPointCost: 2,
                         value: "mercenaryCopilot",
                     },
-                    // @see Token.shipActions() for effect implementation.
                     "millenniumFalcon":
                     {
                         name: "Millennium Falcon",
@@ -1272,7 +1257,6 @@ define(
                         squadPointCost: 2,
                         value: "moffJerjerrod",
                     },
-                    // @see Engine.processEndQueue() for effect implementation.
                     "moldyCrow":
                     {
                         name: "Moldy Crow",
@@ -1302,7 +1286,6 @@ define(
                         squadPointCost: 3,
                         value: "navigator",
                     },
-                    // @see Token.maneuverKeys() for effect implementation.
                     "nienNunb":
                     {
                         name: "Nien Nunb",
@@ -1386,7 +1369,6 @@ define(
                         squadPointCost: 5,
                         value: "protonBombs",
                     },
-                    // @see Token.computeAttackDiceCount() for effect implementation.
                     "protonRockets":
                     {
                         name: "Proton Rockets",
@@ -1402,7 +1384,6 @@ define(
                         isImplemented: true,
                         value: "protonRockets",
                     },
-                    // @see CombatAction.doIt() for effect implementation.
                     "protonTorpedoes":
                     {
                         name: "Proton Torpedoes",
@@ -1438,7 +1419,6 @@ define(
                         squadPointCost: 3,
                         value: "pushTheLimit",
                     },
-                    // @see Token.maneuverKeys() for effect implementation.
                     "r2Astromech":
                     {
                         name: "R2 Astromech",
@@ -1608,7 +1588,6 @@ define(
                         squadPointCost: 3,
                         value: "rebelCaptive",
                     },
-                    // @see ModifyAttackDiceAction.doIt() and ModifyDefenseDiceAction.doIt() for effect implementation.
                     "reconSpecialist":
                     {
                         name: "Recon Specialist",
@@ -1619,7 +1598,6 @@ define(
                         isImplemented: true,
                         value: "reconSpecialist",
                     },
-                    // @see Token.upgradeTypeKeys() for effect implementation.
                     "royalGuardTie":
                     {
                         name: "Royal Guard TIE",
@@ -1687,7 +1665,6 @@ define(
                         squadPointCost: 4,
                         value: "sensorTeam",
                     },
-                    // @see Token.shieldValue() for effect implementation.
                     "shieldUpgrade":
                     {
                         name: "Shield Upgrade",
@@ -1699,7 +1676,6 @@ define(
                         isImplemented: true,
                         value: "shieldUpgrade",
                     },
-                    // @see Token.upgradeTypeKeys() for effect implementation.
                     "slaveI":
                     {
                         name: "Slave I",
@@ -1796,7 +1772,6 @@ define(
                         squadPointCost: 2,
                         value: "targetingAstromech",
                     },
-                    // @see Token.shipActions() for effect implementation.
                     "targetingComputer":
                     {
                         name: "Targeting Computer",
@@ -1838,7 +1813,6 @@ define(
                         squadPointCost: 6,
                         value: "torynFarr",
                     },
-                    // @see Token.maneuverKeys() for effect implementation.
                     "twinIonEngineMkII":
                     {
                         name: "Twin Ion Engine Mk. II",
@@ -1863,7 +1837,6 @@ define(
                         squadPointCost: 6,
                         value: "twinLaserTurret",
                     },
-                    // @see Token.maneuverKeys() for effect implementation.
                     "unhingedAstromech":
                     {
                         name: "Unhinged Astromech",
@@ -1874,7 +1847,6 @@ define(
                         isImplemented: true,
                         value: "unhingedAstromech",
                     },
-                    // @see Token.pilotSkillValue() for effect implementation.
                     "veteranInstincts":
                     {
                         name: "Veteran Instincts",
@@ -1886,7 +1858,6 @@ define(
                         isImplemented: true,
                         value: "veteranInstincts",
                     },
-                    // @see Token.upgradeTypeKeys() for effect implementation.
                     "virago":
                     {
                         name: "Virago",

@@ -1,4 +1,4 @@
-define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship, ShipBase, Team, ShipTeam)
+define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, Team)
 {
     "use strict";
     function PilotSkillRestriction(pilotSkill)
@@ -10,7 +10,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             displayName: "Pilot Skill above \"" + pilotSkill + "\".",
             passes: function(pilotKey)
             {
-                var myPilotSkill = Pilot.properties[pilotKey].shipState.pilotSkillValue();
+                var pilot = Pilot.properties[pilotKey];
+                var myPilotSkill = pilot.shipState.pilotSkillValue();
                 return myPilotSkill > pilotSkill;
             }
         });
@@ -27,9 +28,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             displayName: props.name + " only.",
             passes: function(pilotKey)
             {
-                var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
-                var shipKey = ShipTeam.properties[shipTeamKey].ship;
-                var myShipBaseKey = Ship.properties[shipKey].shipBase;
+                var pilot = Pilot.properties[pilotKey];
+                var myShipBaseKey = pilot.shipTeam.ship.shipBaseKey;
                 return myShipBaseKey === shipBaseKey;
             }
         });
@@ -46,8 +46,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             displayName: props.name + " only.",
             passes: function(pilotKey)
             {
-                var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
-                var myShipKey = ShipTeam.properties[shipTeamKey].ship;
+                var pilot = Pilot.properties[pilotKey];
+                var myShipKey = pilot.shipTeam.shipKey;
                 return myShipKey === shipKey;
             }
         });
@@ -64,8 +64,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
             displayName: props.name + " only.",
             passes: function(pilotKey)
             {
-                var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
-                var myTeamKey = ShipTeam.properties[shipTeamKey].team;
+                var pilot = Pilot.properties[pilotKey];
+                var myTeamKey = pilot.shipTeam.teamKey;
                 return myTeamKey === teamKey;
             }
         });
@@ -123,9 +123,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                 displayName: "Huge ship only.",
                 passes: function(pilotKey)
                 {
-                    var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
-                    var shipKey = ShipTeam.properties[shipTeamKey].ship;
-                    var shipBaseKey = Ship.properties[shipKey].shipBase;
+                    var pilot = Pilot.properties[pilotKey];
+                    var shipBaseKey = pilot.shipTeam.ship.shipBaseKey;
                     return shipBaseKey === ShipBase.HUGE1 || shipBaseKey === ShipBase.HUGE2;
                 }
             },
@@ -158,8 +157,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                 displayName: "TIE only.",
                 passes: function(pilotKey)
                 {
-                    var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
-                    var shipKey = ShipTeam.properties[shipTeamKey].ship;
+                    var pilot = Pilot.properties[pilotKey];
+                    var shipKey = pilot.shipTeam.shipKey;
                     return Ship.properties[shipKey].name.startsWith("TIE");
                 }
             },
@@ -170,8 +169,8 @@ define([ "Pilot", "Ship", "ShipBase", "Team", "ShipTeam" ], function(Pilot, Ship
                 displayName: "X-Wing only.",
                 passes: function(pilotKey)
                 {
-                    var shipTeamKey = Pilot.properties[pilotKey].shipTeam;
-                    var shipKey = ShipTeam.properties[shipTeamKey].ship;
+                    var pilot = Pilot.properties[pilotKey];
+                    var shipKey = pilot.shipTeam.shipKey;
                     return shipKey === Ship.X_WING || shipKey === Ship.T_70_X_WING;
                 }
             },

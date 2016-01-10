@@ -61,16 +61,16 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require(["Pilot", "ui/PilotStatisticsTable" ], function(Pilot, PilotStatisticsTable)
+        require([ "Pilot", "ui/PilotStatisticsTable" ], function(Pilot, PilotStatisticsTable)
         {
-            var implementedCount = Pilot.values().reduce(function(previousValue, upgrade)
+            var implementedCount = Pilot.values().reduce(function(previousValue, pilotKey)
             {
-                return previousValue + (Pilot.properties[upgrade].isImplemented ? 1 : 0);
+                return previousValue + (Pilot.properties[pilotKey].isImplemented ? 1 : 0);
             }, 0);
             var upgradeCount = Pilot.values().length;
             var ratio = Math.vizziniRound(100.0 * implementedCount / upgradeCount, 0);
-            document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / "
-                    + upgradeCount + " = " + ratio + "%";
+            document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " +
+                    upgradeCount + " = " + ratio + "%";
 
             var element = React.createElement(PilotStatisticsTable);
             React.render(element, document.getElementById("tableContainer"));

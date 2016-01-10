@@ -269,7 +269,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                     LOGGER.trace("HumanAgent.finishDecloakAction() start");
 
                     var fromPosition = environment.getPositionFor(attacker);
-                    var shipBaseKey = attacker.shipBaseKey();
+                    var shipBaseKey = attacker.pilot().shipTeam.ship.shipBaseKey;
                     var answer = new ManeuverAction(environment, decloakAction.maneuver, fromPosition, shipBaseKey);
 
                     // Handle the user response.
