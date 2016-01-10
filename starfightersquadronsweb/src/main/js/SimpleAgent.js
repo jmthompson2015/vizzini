@@ -1,6 +1,6 @@
-define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction",
-        "Position", "Ship", "ShipAction" ], function(Maneuver, ManeuverAction, ModifyAttackDiceAction,
-        ModifyDefenseDiceAction, PlanningAction, Position, Ship, ShipAction)
+define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
+        "PlanningAction", "Position", "Ship", "ShipAction" ], function(Maneuver, ManeuverAction, ManeuverComputer,
+        ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, Position, Ship, ShipAction)
 {
     "use strict";
     function SimpleAgent(name, teamKey)
@@ -108,12 +108,13 @@ define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseD
         // Find the maneuvers which keep the ship on the battlefield.
         return maneuvers.filter(function(maneuver)
         {
-            var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
+            var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
             var polygon;
 
             if (toPosition)
             {
-                polygon = Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition.heading());
+                polygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition
+                        .heading());
             }
 
             return (toPosition && Position.isPathInPlayArea(polygon));
@@ -188,7 +189,7 @@ define([ "Maneuver", "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseD
             var previousManeuverKey = token.activationState().maneuverAction().maneuverKey();
             var speed = Maneuver.properties[previousManeuverKey].speed;
             var ship = token.pilot().shipTeam.ship;
-            var maneuverKeys = ship.maneuvers;
+            var maneuverKeys = ship.maneuverKeys;
 
             maneuverKeys.forEach(function(maneuverKey)
             {

@@ -517,7 +517,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
             var maneuverProps = Maneuver.properties[maneuver];
             if (maneuverProps.speed === 1 || maneuverProps.speed === 2)
             {
-                assert.equal(maneuverProps.difficulty, Difficulty.EASY);
+                assert.equal(maneuverProps.difficultyKey, Difficulty.EASY);
             }
         });
     });
@@ -538,7 +538,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
             var maneuverProps = Maneuver.properties[maneuver];
             if (maneuverProps.bearing === Bearing.BANK_LEFT || maneuverProps.bearing === Bearing.BANK_RIGHT)
             {
-                assert.equal(maneuverProps.difficulty, Difficulty.EASY);
+                assert.equal(maneuverProps.difficultyKey, Difficulty.EASY);
             }
         });
     });
@@ -561,7 +561,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
                 throw "Unknown maneuver: " + maneuver;
             if (maneuverProps.speed === 3)
             {
-                assert.equal(maneuverProps.difficulty, Difficulty.EASY);
+                assert.equal(maneuverProps.difficultyKey, Difficulty.EASY);
             }
         });
     });

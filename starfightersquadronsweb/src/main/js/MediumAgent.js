@@ -1,6 +1,7 @@
-define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction", "Position",
-        "RangeRuler", "ShipAction", "SimpleAgent" ], function(Difficulty, Maneuver, ModifyAttackDiceAction,
-        ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler, ShipAction, SimpleAgent)
+define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
+        "PlanningAction", "Position", "RangeRuler", "ShipAction", "SimpleAgent" ], function(Difficulty, Maneuver,
+        ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler,
+        ShipAction, SimpleAgent)
 {
     "use strict";
     function MediumAgent(name, teamKey)
@@ -110,11 +111,11 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
 
                 maneuvers.forEach(function(maneuver)
                 {
-                    var toPosition = Maneuver.computeToPosition(maneuver, fromPosition, shipBase);
+                    var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
 
                     if (toPosition &&
-                            Position.isPathInPlayArea(Maneuver.computePolygon(shipBase, toPosition.x(), toPosition.y(),
-                                    toPosition.heading())))
+                            Position.isPathInPlayArea(ManeuverComputer.computePolygon(shipBase, toPosition.x(),
+                                    toPosition.y(), toPosition.heading())))
                     {
                         validManeuvers.push(maneuver);
                         var weapon = token.primaryWeapon();
@@ -161,7 +162,7 @@ define([ "Difficulty", "Maneuver", "ModifyAttackDiceAction", "ModifyDefenseDiceA
                     // Choose a green maneuver.
                     var greenManeuvers = validManeuvers.filter(function(maneuver)
                     {
-                        return Maneuver.properties[maneuver].difficulty === Difficulty.GREEN;
+                        return Maneuver.properties[maneuver].difficultyKey === Difficulty.GREEN;
                     });
 
                     maneuver = greenManeuvers.vizziniRandomElement();

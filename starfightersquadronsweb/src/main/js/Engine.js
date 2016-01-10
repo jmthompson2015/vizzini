@@ -326,7 +326,7 @@ define(
                         var attacker = environment.activeToken();
                         var maneuverKey = (ShipAction.properties[shipAction] ? ShipAction.properties[shipAction].maneuver
                                 : undefined);
-                        var attackerPosition, shipBase, maneuverAction;
+                        var attackerPosition, shipBaseKey, maneuverAction;
 
                         if (maneuverKey)
                         {

@@ -1,5 +1,5 @@
-define([ "FiringArc", "Maneuver", "RangeRuler", "UpgradeCard", "UpgradeHeader" ], function(FiringArc, Maneuver,
-        RangeRuler, UpgradeCard, UpgradeHeader)
+define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeHeader" ], function(FiringArc,
+        ManeuverComputer, RangeRuler, UpgradeCard, UpgradeHeader)
 {
     "use strict";
     function Weapon(name, weaponValue, ranges, firingArcKey, upgradeKey)
@@ -96,7 +96,7 @@ define([ "FiringArc", "Maneuver", "RangeRuler", "UpgradeCard", "UpgradeHeader" ]
         if (!answer)
         {
             var shipBaseKey = defender.pilot().shipTeam.ship.shipBaseKey;
-            var polygon = Maneuver.computePolygon(shipBaseKey, defenderPosition.x(), defenderPosition.y(),
+            var polygon = ManeuverComputer.computePolygon(shipBaseKey, defenderPosition.x(), defenderPosition.y(),
                     defenderPosition.heading());
             var points = polygon.points();
 

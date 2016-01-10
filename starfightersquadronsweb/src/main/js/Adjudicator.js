@@ -1,4 +1,4 @@
-define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, RectanglePath)
+define([ "ManeuverComputer", "Pilot", "RectanglePath" ], function(ManeuverComputer, Pilot, RectanglePath)
 {
     "use strict";
     function Adjudicator()
@@ -11,11 +11,11 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
             return !attacker.isCloaked() && attacker.weaponsDisabled().count() === 0;
         };
 
-        this.canBarrelRoll = function(environment, attacker, maneuver)
+        this.canBarrelRoll = function(environment, attacker, maneuverKey)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("maneuver", maneuver);
+            InputValidator.validateNotNull("maneuverKey", maneuverKey);
 
             // A ship cannot barrel roll if this would cause its base to overlap with another ship's base or an obstacle
             // token.
@@ -25,7 +25,7 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
             if (fromPosition)
             {
                 var shipBase = attacker.pilot().shipTeam.ship.shipBaseKey;
-                var toPolygon = Maneuver.computeToPolygon(maneuver, fromPosition, shipBase);
+                var toPolygon = ManeuverComputer.computeToPolygon(maneuverKey, fromPosition, shipBase);
 
                 if (toPolygon)
                 {
@@ -40,8 +40,8 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
                         {
                             var myShipBase = token.pilot().shipTeam.ship.shipBaseKey;
                             var position = environment.getPositionFor(token);
-                            var polygon = Maneuver.computePolygon(myShipBase, position.x(), position.y(), position
-                                    .heading());
+                            var polygon = ManeuverComputer.computePolygon(myShipBase, position.x(), position.y(),
+                                    position.heading());
                             var collide = RectanglePath.doPolygonsCollide(polygon, toPolygon);
 
                             if (collide)
@@ -57,30 +57,30 @@ define([ "Maneuver", "Pilot", "RectanglePath" ], function(Maneuver, Pilot, Recta
             return answer;
         };
 
-        this.canBoost = function(environment, attacker, maneuver)
+        this.canBoost = function(environment, attacker, maneuverKey)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("maneuver", maneuver);
+            InputValidator.validateNotNull("maneuverKey", maneuverKey);
 
             // A ship cannot boost if this would cause its base to overlap with another ship's base or an obstacle
             // token, or if the maneuver template overlaps an obstacle token.
 
             // FIXME: implement Adjudicator.canBoost()
-            return this.canBarrelRoll(environment, attacker, maneuver);
+            return this.canBarrelRoll(environment, attacker, maneuverKey);
         };
 
-        this.canDecloak = function(environment, attacker, maneuver)
+        this.canDecloak = function(environment, attacker, maneuverKey)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("maneuver", maneuver);
+            InputValidator.validateNotNull("maneuverKey", maneuverKey);
 
             // A ship cannot decloak if it would overlap another ship or an obstacle token, or if the maneuver template
             // would overlap an obstacle token.
 
             // FIXME: implement Adjudicator.canDecloak()
-            return attacker.isCloaked() && this.canBarrelRoll(environment, attacker, maneuver);
+            return attacker.isCloaked() && this.canBarrelRoll(environment, attacker, maneuverKey);
         };
 
         this.canSelectShipAction = function(attacker)

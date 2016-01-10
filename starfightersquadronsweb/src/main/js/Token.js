@@ -273,15 +273,15 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             }
             else
             {
-                var difficulty = Maneuver.properties[maneuverKey].difficulty;
-                LOGGER.trace("difficulty = " + difficulty);
+                var difficultyKey = Maneuver.properties[maneuverKey].difficultyKey;
+                LOGGER.trace("difficultyKey = " + difficultyKey);
 
-                if (difficulty === Difficulty.EASY)
+                if (difficultyKey === Difficulty.EASY)
                 {
                     LOGGER.trace("calling that.stress().decrease()");
                     that.stress().decrease();
                 }
-                else if (difficulty === Difficulty.HARD)
+                else if (difficultyKey === Difficulty.HARD)
                 {
                     LOGGER.trace("calling stress().increase() for " + that.toString());
                     that.stress().increase();
@@ -335,7 +335,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 {
                     answer = answer.filter(function(maneuverKey)
                     {
-                        return Maneuver.properties[maneuverKey].difficulty !== Difficulty.HARD;
+                        return Maneuver.properties[maneuverKey].difficultyKey !== Difficulty.HARD;
                     });
                 }
             }
@@ -645,18 +645,18 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return weaponsDisabledCount;
         };
 
-        function changeBearingManeuversToDifficulty(maneuvers, bearing, difficulty)
+        function changeBearingManeuversToDifficulty(maneuverKeys, bearingKey, difficultyKey)
         {
-            return maneuvers.map(function(maneuverKey)
+            return maneuverKeys.map(function(maneuverKey)
             {
                 var properties = Maneuver.properties[maneuverKey];
-                var myBearing = properties.bearing;
+                var myBearingKey = properties.bearingKey;
 
-                if (myBearing === bearing)
+                if (myBearingKey === bearingKey)
                 {
                     var speed = properties.speed;
-                    var answer = Maneuver.find(bearing, speed, difficulty);
-                    if (!answer) { throw "Unknown maneuver: " + bearing + " " + speed + " " + difficulty; }
+                    var answer = Maneuver.find(bearingKey, speed, difficultyKey);
+                    if (!answer) { throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey; }
                     return answer;
                 }
                 else
@@ -666,18 +666,18 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             });
         }
 
-        function changeSpeedManeuversToDifficulty(maneuvers, speed, difficulty)
+        function changeSpeedManeuversToDifficulty(maneuverKeys, speed, difficultyKey)
         {
-            return maneuvers.map(function(maneuverKey)
+            return maneuverKeys.map(function(maneuverKey)
             {
                 var properties = Maneuver.properties[maneuverKey];
                 var mySpeed = properties.speed;
 
                 if (mySpeed === speed)
                 {
-                    var bearing = properties.bearing;
-                    var answer = Maneuver.find(bearing, speed, difficulty);
-                    if (!answer) { throw "Unknown maneuver: " + bearing + " " + speed + " " + difficulty; }
+                    var bearingKey = properties.bearingKey;
+                    var answer = Maneuver.find(bearingKey, speed, difficultyKey);
+                    if (!answer) { throw "Unknown maneuver: " + bearingKey + " " + speed + " " + difficultyKey; }
                     return answer;
                 }
                 else

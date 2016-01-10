@@ -3,18 +3,18 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
     "use strict";
     var ManeuverChooser = React.createClass(
     {
-        findManeuver: function(maneuvers, bearing, speed)
+        findManeuver: function(maneuverKeys, bearingKey, speed)
         {
             var answer;
 
-            for (var i = 0; i < maneuvers.length; i++)
+            for (var i = 0; i < maneuverKeys.length; i++)
             {
-                var maneuver = maneuvers[i];
-                var properties = Maneuver.properties[maneuver];
+                var maneuverKey = maneuverKeys[i];
+                var properties = Maneuver.properties[maneuverKey];
 
-                if (properties.bearing === bearing && properties.speed === speed)
+                if (properties.bearingKey === bearingKey && properties.speed === speed)
                 {
-                    answer = maneuver;
+                    answer = maneuverKey;
                     break;
                 }
             }
@@ -31,28 +31,28 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             });
         },
 
-        getMaximumSpeed: function(maneuvers)
+        getMaximumSpeed: function(maneuverKeys)
         {
             var answer = -10000;
 
-            for (var i = 0; i < maneuvers.length; i++)
+            for (var i = 0; i < maneuverKeys.length; i++)
             {
-                var maneuver = maneuvers[i];
-                var speed = Maneuver.properties[maneuver].speed;
+                var maneuverKey = maneuverKeys[i];
+                var speed = Maneuver.properties[maneuverKey].speed;
                 answer = Math.max(speed, answer);
             }
 
             return answer;
         },
 
-        getMinimumSpeed: function(maneuvers)
+        getMinimumSpeed: function(maneuverKeys)
         {
             var answer = 10000;
 
-            for (var i = 0; i < maneuvers.length; i++)
+            for (var i = 0; i < maneuverKeys.length; i++)
             {
-                var maneuver = maneuvers[i];
-                var speed = Maneuver.properties[maneuver].speed;
+                var maneuverKey = maneuverKeys[i];
+                var speed = Maneuver.properties[maneuverKey].speed;
                 answer = Math.min(speed, answer);
             }
 
@@ -76,13 +76,13 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             var imageUtils = this.props.imageUtils;
             var pilotName = token.pilotName();
             var shipName = token.shipName();
-            var maneuvers = token.maneuverKeys();
-            var minSpeed = this.getMinimumSpeed(maneuvers);
-            var maxSpeed = this.getMaximumSpeed(maneuvers);
+            var maneuverKeys = token.maneuverKeys();
+            var minSpeed = this.getMinimumSpeed(maneuverKeys);
+            var maxSpeed = this.getMaximumSpeed(maneuverKeys);
             var bearingValues = Bearing.values();
-            var bearings = maneuvers.map(function(maneuver)
+            var bearingKeys = maneuverKeys.map(function(maneuver)
             {
-                return Maneuver.properties[maneuver].bearing;
+                return Maneuver.properties[maneuver].bearingKey;
             });
             var self = this;
 
@@ -129,7 +129,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                 if (speed === 0)
                 {
                     maneuver = Maneuver.STATIONARY_0_HARD;
-                    difficulty = Maneuver.properties[maneuver].difficulty;
+                    difficulty = Maneuver.properties[maneuver].difficultyKey;
                     iconSrc = this.createManeuverIconSource(undefined, difficulty);
                     cells.push(React.DOM.td(
                     {
@@ -170,13 +170,13 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                     {
                         var bearing = bearingValues[i];
 
-                        if (bearings.vizziniContains(bearing))
+                        if (bearingKeys.vizziniContains(bearing))
                         {
-                            maneuver = this.findManeuver(maneuvers, bearing, speed);
+                            maneuver = this.findManeuver(maneuverKeys, bearing, speed);
 
                             if (maneuver)
                             {
-                                difficulty = Maneuver.properties[maneuver].difficulty;
+                                difficulty = Maneuver.properties[maneuver].difficultyKey;
                                 iconSrc = this.createManeuverIconSource(bearing, difficulty);
                                 image = React.DOM.img(
                                 {

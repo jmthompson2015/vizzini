@@ -1,5 +1,5 @@
-define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledAction" ], function(Bearing, Maneuver,
-        Phase, Position, RectanglePath, ShipFledAction)
+define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "RectanglePath", "ShipFledAction" ], function(
+        Bearing, Maneuver, ManeuverComputer, Phase, Position, RectanglePath, ShipFledAction)
 {
     "use strict";
     function ManeuverAction(environment, maneuverKey, fromPosition, shipBaseKey)
@@ -48,8 +48,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
                 token.activationState().maneuverAction(this);
                 token.activationState().isTouching(false);
                 environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
-                var bearing = Maneuver.properties[maneuverKey].bearing;
-                isBarrelRoll = (bearing === Bearing.BARREL_ROLL_LEFT || bearing === Bearing.BARREL_ROLL_RIGHT);
+                var bearingKey = Maneuver.properties[maneuverKey].bearingKey;
+                isBarrelRoll = (bearingKey === Bearing.BARREL_ROLL_LEFT || bearingKey === Bearing.BARREL_ROLL_RIGHT);
 
                 var toPosition = determineToPosition();
                 LOGGER.trace("toPosition = " + toPosition);
@@ -58,7 +58,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
 
                 if (toPosition)
                 {
-                    toPolygon = Maneuver.computePolygon(shipBaseKey, toPosition.x(), toPosition.y(), toPosition
+                    toPolygon = ManeuverComputer.computePolygon(shipBaseKey, toPosition.x(), toPosition.y(), toPosition
                             .heading());
                 }
 
@@ -116,7 +116,7 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
             var polygon1 = shipData1.polygon();
 
             // Find the shortest path until collision.
-            var path = Maneuver.computePath(maneuverKey, fromPosition, shipBaseKey);
+            var path = ManeuverComputer.computePath(maneuverKey, fromPosition, shipBaseKey);
             var pathPoints = [];
             var points = path.points();
             var i;
@@ -144,8 +144,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
                 var heading = Position.computeHeading(x0, y0, x1, y1);
                 LOGGER.trace(i + " x0, y0 = " + x0 + ", " + y0 + " x1, y1 = " + x1 + ", " + y1 + " heading = " +
                         heading);
-                var polygon0 = Maneuver.computePolygon(shipBaseKey, Math.vizziniRound(x0, 0), Math.vizziniRound(y0, 0),
-                        heading);
+                var polygon0 = ManeuverComputer.computePolygon(shipBaseKey, Math.vizziniRound(x0, 0), Math
+                        .vizziniRound(y0, 0), heading);
 
                 if (!RectanglePath.doPolygonsCollide(polygon0, polygon1))
                 {
@@ -200,8 +200,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
             else
             {
                 var heading01 = Position.computeHeading(x0, y0, x01, y01);
-                var polygon01 = Maneuver.computePolygon(shipBaseKey, Math.vizziniRound(x01, 0), Math.vizziniRound(y01,
-                        0), heading01);
+                var polygon01 = ManeuverComputer.computePolygon(shipBaseKey, Math.vizziniRound(x01, 0), Math
+                        .vizziniRound(y01, 0), heading01);
 
                 if (RectanglePath.doPolygonsCollide(polygon01, polygon1))
                 {
@@ -239,11 +239,11 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
 
                 if (token1 == token)
                 {
-                    position1 = Maneuver.computeToPosition(maneuverKey, fromPosition, shipBaseKey);
+                    position1 = ManeuverComputer.computeToPosition(maneuverKey, fromPosition, shipBaseKey);
 
                     if (position1)
                     {
-                        polygon1 = Maneuver.computePolygon(shipBaseKey, position1.x(), position1.y(), position1
+                        polygon1 = ManeuverComputer.computePolygon(shipBaseKey, position1.x(), position1.y(), position1
                                 .heading());
                     }
                 }
@@ -251,7 +251,8 @@ define([ "Bearing", "Maneuver", "Phase", "Position", "RectanglePath", "ShipFledA
                 {
                     position1 = environment.getPositionFor(token1);
                     var shipBase1 = token1.pilot().shipTeam.ship.shipBaseKey;
-                    polygon1 = Maneuver.computePolygon(shipBase1, position1.x(), position1.y(), position1.heading());
+                    polygon1 = ManeuverComputer.computePolygon(shipBase1, position1.x(), position1.y(), position1
+                            .heading());
                 }
 
                 var shipData = new ShipData(token1, position1, polygon1);
