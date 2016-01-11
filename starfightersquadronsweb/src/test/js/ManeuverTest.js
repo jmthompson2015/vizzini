@@ -1,5 +1,4 @@
-define([ "Bearing", "Difficulty", "Maneuver", "Position", "ShipBase" ], function(Bearing, Difficulty, Maneuver,
-        Position, ShipBase)
+define([ "Bearing", "Difficulty", "Maneuver" ], function(Bearing, Difficulty, Maneuver)
 {
     "use strict";
     QUnit.module("Maneuver");

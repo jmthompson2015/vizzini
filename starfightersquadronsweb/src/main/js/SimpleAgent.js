@@ -101,13 +101,14 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
         InputValidator.validateNotNull("token", token);
 
         var fromPosition = environment.getPositionFor(token);
-        var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
-        var maneuvers = token.maneuverKeys();
-        LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
+        var shipBase = token.pilot().shipTeam.ship.shipBase;
+        var maneuverKeys = token.maneuverKeys();
+        LOGGER.trace("maneuverKeys.length = " + maneuverKeys.length + " for " + token);
 
         // Find the maneuvers which keep the ship on the battlefield.
-        return maneuvers.filter(function(maneuver)
+        return maneuverKeys.filter(function(maneuverKey)
         {
+            var maneuver = Maneuver.properties[maneuverKey];
             var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
             var polygon;
 
@@ -186,13 +187,14 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
 
         if (shipActions.vizziniContains(ShipAction.SLAM))
         {
-            var previousManeuverKey = token.activationState().maneuverAction().maneuverKey();
-            var speed = Maneuver.properties[previousManeuverKey].speed;
+            var previousManeuver = token.activationState().maneuverAction().maneuver();
+            var speed = previousManeuver.speed;
             var ship = token.pilot().shipTeam.ship;
             var maneuverKeys = ship.maneuverKeys;
 
             maneuverKeys.forEach(function(maneuverKey)
             {
+                // FIXME: check Adjudicator.canSlam()
                 if (Maneuver.properties[maneuverKey].speed === speed)
                 {
                     answer.push(ShipAction.createSlamShipAction(maneuverKey));
@@ -222,10 +224,8 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
 
         var decloakActions = this.determineValidDecloakActions(environment, adjudicator, token);
         var decloakAction = decloakActions.vizziniRandomElement();
-        var fromPosition = environment.getPositionFor(token);
-        var shipBaseKey = token.pilot().shipTeam.ship.shipBaseKey;
 
-        var answer = new ManeuverAction(environment, decloakAction.maneuver, fromPosition, shipBaseKey);
+        var answer = new ManeuverAction(environment, token, decloakAction.maneuver);
 
         callback(answer);
     };

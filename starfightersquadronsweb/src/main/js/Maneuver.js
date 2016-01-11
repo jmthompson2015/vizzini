@@ -206,7 +206,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 bearingKey: Bearing.BARREL_ROLL_RIGHT,
                 speed: 1,
                 difficultyKey: Difficulty.STANDARD,
-                value: "barrelRightLeft1Standard",
+                value: "barrelRollRight1Standard",
             },
             "barrelRollLeft2Standard":
             {
@@ -220,7 +220,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 bearingKey: Bearing.BARREL_ROLL_RIGHT,
                 speed: 2,
                 difficultyKey: Difficulty.STANDARD,
-                value: "barrelRightLeft2Standard",
+                value: "barrelRollRight2Standard",
             },
             "koiogranTurn2Hard":
             {
@@ -529,10 +529,10 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             for (var i = 0; i < values.length; i++)
             {
                 var maneuverKey = values[i];
-                var properties = Maneuver.properties[maneuverKey];
+                var maneuver = Maneuver.properties[maneuverKey];
 
-                if ((properties.bearingKey === bearingKey) && (properties.speed === speed) &&
-                        (properties.difficultyKey === difficultyKey))
+                if ((maneuver.bearingKey === bearingKey) && (maneuver.speed === speed) &&
+                        (maneuver.difficultyKey === difficultyKey))
                 {
                     answer = maneuverKey;
                     break;

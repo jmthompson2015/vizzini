@@ -1,8 +1,8 @@
 define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFactory", "Maneuver", "ManeuverAction",
-        "Pilot", "Position", "RangeRuler", "Ship", "ShipBase", "SimpleAgent", "TargetLock", "Team", "Token",
-        "UpgradeCard", "UpgradeType", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Environment,
-        EnvironmentFactory, Maneuver, ManeuverAction, Pilot, Position, RangeRuler, Ship, ShipBase, SimpleAgent,
-        TargetLock, Team, Token, UpgradeCard, UpgradeType, HumanAgent)
+        "Pilot", "Position", "RangeRuler", "Ship", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard",
+        "UpgradeType", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Environment, EnvironmentFactory,
+        Maneuver, ManeuverAction, Pilot, Position, RangeRuler, Ship, SimpleAgent, TargetLock, Team, Token, UpgradeCard,
+        UpgradeType, HumanAgent)
 {
     "use strict";
     QUnit.module("Token");
@@ -407,29 +407,27 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token0.ion().count(), 0);
     });
 
-    QUnit.test("ion token",
-            function(assert)
-            {
-                // Setup.
-                var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-                var token = new Token(Pilot.ACADEMY_PILOT, agent);
-                token.ion().increase();
-                assert.equal(token.ion().count(), 1);
+    QUnit.test("ion token", function(assert)
+    {
+        // Setup.
+        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var token = new Token(Pilot.ACADEMY_PILOT, agent);
+        token.ion().increase();
+        assert.equal(token.ion().count(), 1);
 
-                // Run / Verify.
-                var maneuverKeys = token.maneuverKeys();
-                assert.ok(maneuverKeys);
-                assert.equal(maneuverKeys.length, 1);
-                assert.equal(maneuverKeys[0], Maneuver.STRAIGHT_1_STANDARD);
+        // Run / Verify.
+        var maneuverKeys = token.maneuverKeys();
+        assert.ok(maneuverKeys);
+        assert.equal(maneuverKeys.length, 1);
+        assert.equal(maneuverKeys[0], Maneuver.STRAIGHT_1_STANDARD);
 
-                var environment = new Environment(Team.IMPERIAL, Team.REBEL);
-                var fromPosition = new Position(200, 200, 0);
-                environment.placeToken(fromPosition, token);
-                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_1_STANDARD, fromPosition,
-                        ShipBase.SMALL);
-                maneuverAction.doIt();
-                assert.equal(token.ion().count(), 0);
-            });
+        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var fromPosition = new Position(200, 200, 0);
+        environment.placeToken(fromPosition, token);
+        var maneuverAction = new ManeuverAction(environment, token, Maneuver.STRAIGHT_1_STANDARD);
+        maneuverAction.doIt();
+        assert.equal(token.ion().count(), 0);
+    });
 
     QUnit.test("maneuverKeys()", function(assert)
     {

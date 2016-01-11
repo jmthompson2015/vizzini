@@ -1,6 +1,6 @@
-define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "UpgradeCard", "UpgradeType",
-        "ui/PilotChooser", "ui/SquadUI", "ui/UpgradeChooser" ], function(Pilot, ShipTeam, SimpleAgent, SquadBuilder,
-        Team, Token, UpgradeCard, UpgradeType, PilotChooser, SquadUI, UpgradeChooser)
+define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "UpgradeCard", "ui/PilotChooser", "ui/SquadUI",
+        "ui/UpgradeChooser" ], function(Pilot, ShipTeam, SimpleAgent, Team, Token, UpgradeCard, PilotChooser, SquadUI,
+        UpgradeChooser)
 {
     "use strict";
     var SquadBuilderUI = React.createClass(

@@ -1,7 +1,7 @@
-define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "ShipAction",
-        "ui/CombatUI", "ui/PlanningPanel", "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ],
-        function(ManeuverAction, ModifyAttackDiceAction, ModifyDefenseDiceAction, SimpleAgent, ShipAction, CombatUI,
-                PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "SimpleAgent", "ui/CombatUI",
+        "ui/PlanningPanel", "ui/ShipActionChooser", "ui/WeaponAndDefenderChooser" ],
+        function(ManeuverAction, ModifyAttackDiceAction, ModifyDefenseDiceAction, SimpleAgent, CombatUI, PlanningPanel,
+                ShipActionChooser, WeaponAndDefenderChooser)
         {
             "use strict";
             function HumanAgent(name, teamKey)
@@ -268,9 +268,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                 {
                     LOGGER.trace("HumanAgent.finishDecloakAction() start");
 
-                    var fromPosition = environment.getPositionFor(attacker);
-                    var shipBaseKey = attacker.pilot().shipTeam.ship.shipBaseKey;
-                    var answer = new ManeuverAction(environment, decloakAction.maneuver, fromPosition, shipBaseKey);
+                    var answer = new ManeuverAction(environment, attacker, decloakAction.maneuver);
 
                     // Handle the user response.
                     var element = document.getElementById("inputArea");

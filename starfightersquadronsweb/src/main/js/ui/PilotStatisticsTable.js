@@ -1,4 +1,4 @@
-define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
+define([ "Pilot" ], function(Pilot)
 {
     "use strict";
     var PilotColumns = [

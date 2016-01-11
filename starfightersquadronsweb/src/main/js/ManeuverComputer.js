@@ -2,8 +2,8 @@
  * Small ship base is 40mm x 40mm.
  * <p>Bearing straight, speed one maneuver is 40mm long. Other straight maneuvers are multiples of this.</p>
  */
-define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" ], function(Bearing, Maneuver, Path,
-        Position, RectanglePath, ShipBase)
+define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(Bearing, Maneuver, Path, Position,
+        RectanglePath)
 {
     "use strict";
     var ManeuverComputer = {};
@@ -15,9 +15,12 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
 
     ManeuverComputer.computePolygon = function(shipBase, x, y, heading)
     {
-        var properties = ShipBase.properties[shipBase];
+        InputValidator.validateNotNull("shipBase", shipBase);
+        InputValidator.validateIsNumber("x", x);
+        InputValidator.validateIsNumber("y", y);
+        InputValidator.validateIsNumber("heading", heading);
 
-        var answer = new RectanglePath(properties.width, properties.height);
+        var answer = new RectanglePath(shipBase.width, shipBase.height);
 
         answer.rotate(heading * Math.PI / 180);
         answer.translate(x, y);
@@ -27,8 +30,9 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
 
     ManeuverComputer.computeToPolygon = function(maneuver, fromPosition, shipBase)
     {
+        InputValidator.validateNotNull("maneuverKey", maneuver);
         InputValidator.validateNotNull("fromPosition", fromPosition);
-        InputValidator.validateNotNull("shipBase", shipBase);
+        InputValidator.validateNotNull("shipBaseKey", shipBase);
 
         var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
 
@@ -42,11 +46,12 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
         return answer;
     };
 
-    ManeuverComputer.computePath = function(maneuverKey, fromPosition, shipBase)
+    ManeuverComputer.computePath = function(maneuver, fromPosition, shipBase)
     {
+        InputValidator.validateNotNull("maneuver", maneuver);
         InputValidator.validateNotNull("fromPosition", fromPosition);
         InputValidator.validateNotNull("shipBase", shipBase);
-        var maneuver = Maneuver.properties[maneuverKey];
+
         var bearingKey = maneuver.bearingKey;
         var speed = maneuver.speed;
 
@@ -56,7 +61,7 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
         answer.add(0.0, 0.0);
 
         // First segment: move base center.
-        var baseSize = ShipBase.properties[shipBase].height / 2.0;
+        var baseSize = shipBase.height / 2.0;
         var lastX;
         var lastY;
         var x, y, factor;
@@ -69,7 +74,7 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
             lastX = 0.0;
             lastY = y;
         }
-        else if (maneuverKey !== Maneuver.STATIONARY_0_HARD)
+        else if (maneuver.value !== Maneuver.STATIONARY_0_HARD)
         {
             x = baseSize;
             answer.add(x, 0.0);
@@ -94,13 +99,13 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
         case Bearing.BANK_RIGHT:
         case Bearing.SEGNORS_LOOP_LEFT:
         case Bearing.SEGNORS_LOOP_RIGHT:
-            var last = ManeuverComputer.addSegments(maneuverKey, answer, lastX, 45, 3 + speed);
+            var last = ManeuverComputer._addSegments(maneuver, answer, lastX, 45, 3 + speed);
             lastX = last.x;
             lastY = last.y;
             break;
         case Bearing.TURN_LEFT:
         case Bearing.TURN_RIGHT:
-            last = ManeuverComputer.addSegments(maneuverKey, answer, lastX, 90, 5 + speed);
+            last = ManeuverComputer._addSegments(maneuver, answer, lastX, 90, 5 + speed);
             lastX = last.x;
             lastY = last.y;
             break;
@@ -156,17 +161,17 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
         return answer;
     };
 
-    ManeuverComputer.computeToPosition = function(maneuverKey, fromPosition, shipBase)
+    ManeuverComputer.computeToPosition = function(maneuver, fromPosition, shipBase)
     {
+        InputValidator.validateNotNull("maneuver", maneuver);
         InputValidator.validateNotNull("fromPosition", fromPosition);
         InputValidator.validateNotNull("shipBase", shipBase);
 
-        if (maneuverKey === Maneuver.STATIONARY_0_HARD) { return fromPosition; }
+        if (maneuver.value === Maneuver.STATIONARY_0_HARD) { return fromPosition; }
 
         var dx = -10000; // Integer.MIN_VALUE
         var dy = 10000; // Integer.MAX_VALUE
-        var baseSize = ShipBase.properties[shipBase].height / 2;
-        var maneuver = Maneuver.properties[maneuverKey];
+        var baseSize = shipBase.height / 2;
         var bearingKey = maneuver.bearingKey;
         var speed = maneuver.speed;
         var headingChange;
@@ -261,29 +266,33 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
         }
-        else if ((maneuverKey === Maneuver.BARREL_ROLL_LEFT_1_STANDARD) ||
-                (maneuverKey === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD) ||
-                (maneuverKey === Maneuver.BARREL_ROLL_LEFT_2_STANDARD) ||
-                (maneuverKey === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
+        else if ((maneuver.value === Maneuver.BARREL_ROLL_LEFT_1_STANDARD) ||
+                (maneuver.value === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD) ||
+                (maneuver.value === Maneuver.BARREL_ROLL_LEFT_2_STANDARD) ||
+                (maneuver.value === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
         {
-            factor = (maneuverKey === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD ||
-                    maneuverKey === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD ? 1.0 : -1.0);
+            factor = (maneuver.value === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD ||
+                    maneuver.value === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD ? 1.0 : -1.0);
             dx = 0;
             dy = factor * ((2 * baseSize) + (40 * speed));
             headingChange = 0;
         }
         else
         {
-            throw "Unknown maneuverKey: " + maneuverKey;
+            throw "Unknown maneuver: " + maneuver.value;
         }
 
-        return ManeuverComputer.createPosition(fromPosition, dx, dy, headingChange);
+        return ManeuverComputer._createPosition(fromPosition, dx, dy, headingChange);
     };
 
-    ManeuverComputer.addSegments = function(maneuverKey, path, lastX, heading, segmentCount)
+    ManeuverComputer._addSegments = function(maneuver, path, lastX, heading, segmentCount)
     {
+        InputValidator.validateNotNull("maneuver", maneuver);
         InputValidator.validateNotNull("path", path);
-        var maneuver = Maneuver.properties[maneuverKey];
+        InputValidator.validateIsNumber("lastX", lastX);
+        InputValidator.validateIsNumber("heading", heading);
+        InputValidator.validateIsNumber("segmentCount", segmentCount);
+
         var bearingKey = maneuver.bearingKey;
         var radius = maneuver.radius;
 
@@ -310,8 +319,13 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath", "ShipBase" 
         return answer;
     };
 
-    ManeuverComputer.createPosition = function(fromPosition, dx, dy, headingChange)
+    ManeuverComputer._createPosition = function(fromPosition, dx, dy, headingChange)
     {
+        InputValidator.validateNotNull("fromPosition", fromPosition);
+        InputValidator.validateIsNumber("dx", dx);
+        InputValidator.validateIsNumber("dy", dy);
+        InputValidator.validateIsNumber("headingChange", headingChange);
+
         var x0 = fromPosition.x();
         var y0 = fromPosition.y();
         var angle = fromPosition.heading() * Math.PI / 180;

@@ -2,16 +2,21 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
         Bearing, Maneuver, ManeuverComputer, Phase, Position, RectanglePath, ShipFledAction)
 {
     "use strict";
-    function ManeuverAction(environment, maneuverKey, fromPosition, shipBaseKey)
+    function ManeuverAction(environment, token, maneuverKey, isBoost)
     {
         InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("maneuverKey", maneuverKey);
-        InputValidator.validateNotNull("fromPosition", fromPosition);
-        InputValidator.validateNotNull("shipBaseKey", shipBaseKey);
+        // isBoost is optional
 
         this.environment = function()
         {
             return environment;
+        };
+
+        this.token = function()
+        {
+            return token;
         };
 
         this.maneuverKey = function()
@@ -19,36 +24,45 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
             return maneuverKey;
         };
 
+        this.isBoost = function()
+        {
+            return isBoost;
+        };
+
+        var maneuver = Maneuver.properties[maneuverKey];
+
+        this.maneuver = function()
+        {
+            return maneuver;
+        };
+
+        var fromPosition = environment.getPositionFor(token);
+
         this.fromPosition = function()
         {
             return fromPosition;
         };
 
-        this.shipBaseKey = function()
-        {
-            return shipBaseKey;
-        };
+        var shipBase = token.pilot().shipTeam.ship.shipBase;
 
-        var token;
+        this.shipBase = function()
+        {
+            return shipBase;
+        };
 
         // Flag indicating if the maneuver is a barrel roll.
         var isBarrelRoll = false;
 
-        // Flag indicating if the maneuver is a boost.
-        var isBoost = false;
-
         this.doIt = function()
         {
             LOGGER.trace("ManeuverAction.doIt() start");
-            token = environment.getTokenAt(fromPosition);
-            LOGGER.trace("token = " + token);
 
             if (token)
             {
                 token.activationState().maneuverAction(this);
                 token.activationState().isTouching(false);
                 environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
-                var bearingKey = Maneuver.properties[maneuverKey].bearingKey;
+                var bearingKey = this.maneuver().bearingKey;
                 isBarrelRoll = (bearingKey === Bearing.BARREL_ROLL_LEFT || bearingKey === Bearing.BARREL_ROLL_RIGHT);
 
                 var toPosition = determineToPosition();
@@ -58,7 +72,7 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
 
                 if (toPosition)
                 {
-                    toPolygon = ManeuverComputer.computePolygon(shipBaseKey, toPosition.x(), toPosition.y(), toPosition
+                    toPolygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition
                             .heading());
                 }
 
@@ -116,7 +130,7 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
             var polygon1 = shipData1.polygon();
 
             // Find the shortest path until collision.
-            var path = ManeuverComputer.computePath(maneuverKey, fromPosition, shipBaseKey);
+            var path = ManeuverComputer.computePath(maneuver, fromPosition, shipBase);
             var pathPoints = [];
             var points = path.points();
             var i;
@@ -144,8 +158,8 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
                 var heading = Position.computeHeading(x0, y0, x1, y1);
                 LOGGER.trace(i + " x0, y0 = " + x0 + ", " + y0 + " x1, y1 = " + x1 + ", " + y1 + " heading = " +
                         heading);
-                var polygon0 = ManeuverComputer.computePolygon(shipBaseKey, Math.vizziniRound(x0, 0), Math
-                        .vizziniRound(y0, 0), heading);
+                var polygon0 = ManeuverComputer.computePolygon(shipBase, Math.vizziniRound(x0, 0), Math.vizziniRound(
+                        y0, 0), heading);
 
                 if (!RectanglePath.doPolygonsCollide(polygon0, polygon1))
                 {
@@ -200,8 +214,8 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
             else
             {
                 var heading01 = Position.computeHeading(x0, y0, x01, y01);
-                var polygon01 = ManeuverComputer.computePolygon(shipBaseKey, Math.vizziniRound(x01, 0), Math
-                        .vizziniRound(y01, 0), heading01);
+                var polygon01 = ManeuverComputer.computePolygon(shipBase, Math.vizziniRound(x01, 0), Math.vizziniRound(
+                        y01, 0), heading01);
 
                 if (RectanglePath.doPolygonsCollide(polygon01, polygon1))
                 {
@@ -239,18 +253,18 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
 
                 if (token1 == token)
                 {
-                    position1 = ManeuverComputer.computeToPosition(maneuverKey, fromPosition, shipBaseKey);
+                    position1 = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
 
                     if (position1)
                     {
-                        polygon1 = ManeuverComputer.computePolygon(shipBaseKey, position1.x(), position1.y(), position1
+                        polygon1 = ManeuverComputer.computePolygon(shipBase, position1.x(), position1.y(), position1
                                 .heading());
                     }
                 }
                 else
                 {
                     position1 = environment.getPositionFor(token1);
-                    var shipBase1 = token1.pilot().shipTeam.ship.shipBaseKey;
+                    var shipBase1 = token1.pilot().shipTeam.ship.shipBase;
                     polygon1 = ManeuverComputer.computePolygon(shipBase1, position1.x(), position1.y(), position1
                             .heading());
                 }

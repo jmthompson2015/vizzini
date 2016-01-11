@@ -95,9 +95,9 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
             tokens.forEach(function(token)
             {
                 var fromPosition = environment.getPositionFor(token);
-                var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
-                var maneuvers = token.maneuverKeys();
-                LOGGER.trace("maneuvers.length = " + maneuvers.length + " for " + token);
+                var shipBase = token.pilot().shipTeam.ship.shipBase;
+                var maneuverKeys = token.maneuverKeys();
+                LOGGER.trace("maneuverKeys.length = " + maneuverKeys.length + " for " + token);
 
                 // Find the maneuvers which keep the ship on the battlefield.
                 var validManeuvers = [];
@@ -109,15 +109,16 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                 var validManeuversR2 = [];
                 var validManeuversR3 = [];
 
-                maneuvers.forEach(function(maneuver)
+                maneuverKeys.forEach(function(maneuverKey)
                 {
+                    var maneuver = Maneuver.properties[maneuverKey];
                     var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
 
                     if (toPosition &&
                             Position.isPathInPlayArea(ManeuverComputer.computePolygon(shipBase, toPosition.x(),
                                     toPosition.y(), toPosition.heading())))
                     {
-                        validManeuvers.push(maneuver);
+                        validManeuvers.push(maneuverKey);
                         var weapon = token.primaryWeapon();
 
                         for (var i = 0; i < defenders.length; i++)
@@ -130,7 +131,7 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
 
                             if (!minDistance || distance < minDistance)
                             {
-                                closestManeuver = maneuver;
+                                closestManeuver = maneuverKey;
                                 minDistance = distance;
                             }
 
@@ -140,22 +141,22 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
 
                                 if (range === RangeRuler.ONE)
                                 {
-                                    validManeuversR1.push(maneuver);
+                                    validManeuversR1.push(maneuverKey);
                                 }
                                 else if (range === RangeRuler.TWO)
                                 {
-                                    validManeuversR2.push(maneuver);
+                                    validManeuversR2.push(maneuverKey);
                                 }
                                 else if (range === RangeRuler.THREE)
                                 {
-                                    validManeuversR3.push(maneuver);
+                                    validManeuversR3.push(maneuverKey);
                                 }
                             }
                         }
                     }
                 });
 
-                var maneuver;
+                var myManeuver;
 
                 if (token.isStressed())
                 {
@@ -165,49 +166,49 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                         return Maneuver.properties[maneuverKey].difficultyKey === Difficulty.GREEN;
                     });
 
-                    maneuver = greenManeuvers.vizziniRandomElement();
+                    myManeuver = greenManeuvers.vizziniRandomElement();
                 }
 
-                if (!maneuver)
+                if (!myManeuver)
                 {
                     LOGGER.trace("validManeuversR1.length = " + validManeuversR1.length + " for " + token);
-                    maneuver = validManeuversR1.vizziniRandomElement();
+                    myManeuver = validManeuversR1.vizziniRandomElement();
                 }
 
-                if (!maneuver)
+                if (!myManeuver)
                 {
                     LOGGER.trace("validManeuversR2.length = " + validManeuversR2.length + " for " + token);
-                    maneuver = validManeuversR2.vizziniRandomElement();
+                    myManeuver = validManeuversR2.vizziniRandomElement();
                 }
 
-                if (!maneuver)
+                if (!myManeuver)
                 {
                     LOGGER.trace("validManeuversR3.length = " + validManeuversR3.length + " for " + token);
-                    maneuver = validManeuversR3.vizziniRandomElement();
+                    myManeuver = validManeuversR3.vizziniRandomElement();
                 }
 
-                if (!maneuver && closestManeuver)
+                if (!myManeuver && closestManeuver)
                 {
                     LOGGER.trace("closestManeuver = " + closestManeuver + " for " + token);
-                    maneuver = closestManeuver;
+                    myManeuver = closestManeuver;
                 }
 
-                if (!maneuver)
+                if (!myManeuver)
                 {
                     LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
-                    maneuver = validManeuvers.vizziniRandomElement();
+                    myManeuver = validManeuvers.vizziniRandomElement();
                 }
 
-                LOGGER.trace("0 maneuver = " + maneuver + " for " + token);
+                LOGGER.trace("0 myManeuver = " + myManeuver + " for " + token);
 
-                if (!maneuver)
+                if (!myManeuver)
                 {
                     // The ship fled the battlefield.
-                    maneuver = maneuvers.vizziniRandomElement();
-                    LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
+                    myManeuver = maneuverKeys.vizziniRandomElement();
+                    LOGGER.trace("1 myManeuver = " + myManeuver + " for " + token);
                 }
 
-                tokenToManeuver[token] = maneuver;
+                tokenToManeuver[token] = myManeuver;
             });
 
             var answer = new PlanningAction(environment, this, tokenToManeuver);
@@ -243,6 +244,8 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                 // answer = SimpleAgent.prototype.getShipAction.call(this, environment, adjudicator, token, callback);
                 answer = shipActions.vizziniRandomElement();
             }
+
+            LOGGER.info("shipAction for " + token.name() + ": " + answer);
 
             callback(answer);
         },

@@ -1,5 +1,5 @@
-define([ "Pilot", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/PilotCardUI" ], function(Pilot,
-        ShipTeam, SimpleAgent, SquadBuilder, Team, Token, PilotCardUI)
+define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ], function(Pilot, ShipTeam,
+        SimpleAgent, Team, Token, PilotCardUI)
 {
     "use strict";
     var PilotChooser = React.createClass(

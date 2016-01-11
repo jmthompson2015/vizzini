@@ -21,9 +21,13 @@ define([ "Phase" ], function(Phase)
 
     QUnit.test("Phase.values()", function(assert)
     {
-        assert.ok(Phase.values);
-        assert.equal(Phase.values.length, 17);
-        assert.equal(Phase.values[0], Phase.PLANNING_START);
-        assert.equal(Phase.values[16], Phase.END_END);
+        // Run.
+        var result = Phase.values();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 17);
+        assert.equal(result[0], Phase.PLANNING_START);
+        assert.equal(result[16], Phase.END_END);
     });
 });

@@ -1,4 +1,5 @@
-define([ "ManeuverComputer", "Pilot", "RectanglePath" ], function(ManeuverComputer, Pilot, RectanglePath)
+define([ "Maneuver", "ManeuverComputer", "Pilot", "RectanglePath" ], function(Maneuver, ManeuverComputer, Pilot,
+        RectanglePath)
 {
     "use strict";
     function Adjudicator()
@@ -24,8 +25,9 @@ define([ "ManeuverComputer", "Pilot", "RectanglePath" ], function(ManeuverComput
 
             if (fromPosition)
             {
-                var shipBase = attacker.pilot().shipTeam.ship.shipBaseKey;
-                var toPolygon = ManeuverComputer.computeToPolygon(maneuverKey, fromPosition, shipBase);
+                var maneuver = Maneuver.properties[maneuverKey];
+                var shipBase = attacker.pilot().shipTeam.ship.shipBase;
+                var toPolygon = ManeuverComputer.computeToPolygon(maneuver, fromPosition, shipBase);
 
                 if (toPolygon)
                 {
@@ -38,7 +40,7 @@ define([ "ManeuverComputer", "Pilot", "RectanglePath" ], function(ManeuverComput
 
                         if (token !== attacker)
                         {
-                            var myShipBase = token.pilot().shipTeam.ship.shipBaseKey;
+                            var myShipBase = token.pilot().shipTeam.ship.shipBase;
                             var position = environment.getPositionFor(token);
                             var polygon = ManeuverComputer.computePolygon(myShipBase, position.x(), position.y(),
                                     position.heading());

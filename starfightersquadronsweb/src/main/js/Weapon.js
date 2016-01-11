@@ -95,8 +95,8 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
 
         if (!answer)
         {
-            var shipBaseKey = defender.pilot().shipTeam.ship.shipBaseKey;
-            var polygon = ManeuverComputer.computePolygon(shipBaseKey, defenderPosition.x(), defenderPosition.y(),
+            var shipBase = defender.pilot().shipTeam.ship.shipBase;
+            var polygon = ManeuverComputer.computePolygon(shipBase, defenderPosition.x(), defenderPosition.y(),
                     defenderPosition.heading());
             var points = polygon.points();
 

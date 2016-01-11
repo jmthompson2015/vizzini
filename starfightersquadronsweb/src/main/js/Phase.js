@@ -108,10 +108,11 @@ define(function()
                 value: "endEnd",
             },
         },
-        values: [ "planningStart", "planningEnd", "activationStart", "activationRevealDial",
-                "activationExecuteManeuver", "activationPerformAction", "activationEnd", "combatStart",
-                "combatDeclareTarget", "combatRollAttackDice", "combatModifyAttackDice", "combatRollDefenseDice",
-                "combatModifyDefenseDice", "combatDealDamage", "combatEnd", "endStart", "endEnd", ],
+
+        values: function()
+        {
+            return Object.getOwnPropertyNames(Phase.properties);
+        },
     };
 
     if (Object.freeze)

@@ -68,10 +68,10 @@ define([ "ManeuverComputer", "Position" ], function(ManeuverComputer, Position)
 
         var distance = attackerPosition.computeDistance(defenderPosition);
 
-        var attackerPolygon = ManeuverComputer.computePolygon(attacker.pilot().shipTeam.ship.shipBaseKey,
-                attackerPosition.x(), attackerPosition.y(), attackerPosition.heading());
-        var defenderPolygon = ManeuverComputer.computePolygon(defender.pilot().shipTeam.ship.shipBaseKey,
-                defenderPosition.x(), defenderPosition.y(), defenderPosition.heading());
+        var attackerPolygon = ManeuverComputer.computePolygon(attacker.pilot().shipTeam.ship.shipBase, attackerPosition
+                .x(), attackerPosition.y(), attackerPosition.heading());
+        var defenderPolygon = ManeuverComputer.computePolygon(defender.pilot().shipTeam.ship.shipBase, defenderPosition
+                .x(), defenderPosition.y(), defenderPosition.heading());
 
         var points0 = attackerPolygon.points();
         var points1 = defenderPolygon.points();

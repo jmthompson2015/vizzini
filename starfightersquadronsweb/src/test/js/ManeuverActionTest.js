@@ -1,15 +1,37 @@
-define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token" ], function(EnvironmentFactory,
-        Maneuver, ManeuverAction, Position, Token)
+define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "ShipBase", "Token" ], function(
+        EnvironmentFactory, Maneuver, ManeuverAction, Position, ShipBase, Token)
 {
     "use strict";
     QUnit.module("ManeuverAction");
+
+    QUnit.test("ManeuverAction properties", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var maneuverKey = Maneuver.STRAIGHT_1_EASY;
+        var fromPosition = new Position(458, 895, -90); // X-Wing
+        var token = environment.getTokenAt(fromPosition);
+        var shipBaseKey = token.pilot().shipTeam.ship.shipBaseKey;
+        var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
+
+        // Run / Verify.
+        assert.equal(maneuverAction.environment(), environment);
+        assert.equal(maneuverAction.token(), token);
+        assert.equal(maneuverAction.maneuverKey(), maneuverKey);
+        // assert.equal(maneuverAction.fromPosition(), fromPosition);
+        // assert.equal(maneuverAction.shipBaseKey(), shipBaseKey);
+        assert.equal(maneuverAction.maneuver(), Maneuver.properties[maneuverKey]);
+        // assert.equal(maneuverAction.shipBase(), ShipBase.properties[shipBaseKey]);
+
+    });
 
     QUnit.test("ManeuverAction.doIt() Straight1Easy", function(assert)
     {
         // Setup.
         Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
-        var maneuver = Maneuver.STRAIGHT_1_EASY;
+        var maneuverKey = Maneuver.STRAIGHT_1_EASY;
         var fromPosition = new Position(458, 895, -90); // X-Wing
         var token = environment.getTokenAt(fromPosition);
         assert.ok(token);
@@ -18,13 +40,14 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token"
         environment.placeToken(fromPosition, token);
 
         var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
-        var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
+        var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
 
         // Run.
         maneuverAction.doIt();
 
         // Verify.
         var toPosition = environment.getPositionFor(token);
+        assert.ok(toPosition);
         assert.equal(toPosition.x(), fromPosition.x() + 69);
         assert.equal(toPosition.y(), fromPosition.y() - 40);
         assert.equal(toPosition.heading(), 330);
@@ -35,7 +58,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token"
         // Setup.
         Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
-        var maneuver = Maneuver.STRAIGHT_3_STANDARD;
+        var maneuverKey = Maneuver.STRAIGHT_3_STANDARD;
         var fromPosition = new Position(458, 895, -90); // X-Wing
         var token = environment.getTokenAt(fromPosition);
         assert.ok(token);
@@ -44,13 +67,14 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token"
         environment.placeToken(fromPosition, token);
 
         var shipBase = token.pilot().shipTeam.ship.shipBaseKey;
-        var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition, shipBase);
+        var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
 
         // Run.
         maneuverAction.doIt();
 
         // Verify.
         var toPosition = environment.getPositionFor(token);
+        assert.ok(toPosition);
         assert.equal(toPosition.x(), fromPosition.x() + 139);
         assert.equal(toPosition.y(), fromPosition.y() - 80);
         assert.equal(toPosition.heading(), 330);
@@ -66,7 +90,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token"
         var token0 = environment.getTokenAt(fromPosition0); // TIE Fighter
         assert.ok(token0);
 
-        var maneuver = Maneuver.STRAIGHT_3_STANDARD;
+        var maneuverKey = Maneuver.STRAIGHT_3_STANDARD;
         var fromPosition2 = new Position(458, 895, -90);
         var token2 = environment.getTokenAt(fromPosition2); // X-Wing
         assert.ok(token2);
@@ -79,7 +103,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "Token"
         environment.placeToken(fromPosition0, token0);
 
         var shipBase = token2.pilot().shipTeam.ship.shipBaseKey;
-        var maneuverAction = new ManeuverAction(environment, maneuver, fromPosition2, shipBase);
+        var maneuverAction = new ManeuverAction(environment, token2, maneuverKey);
 
         // Run.
         maneuverAction.doIt();

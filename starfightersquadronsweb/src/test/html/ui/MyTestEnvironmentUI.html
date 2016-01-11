@@ -113,40 +113,28 @@
             // Move imperial token 0.
             {
                 environment.activeToken(imperialToken0);
-                var fromPosition = environment.getPositionFor(imperialToken0);
-                var shipBase = imperialToken0.pilot().shipTeam.ship.shipBaseKey;
-                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_1_STANDARD, fromPosition,
-                        shipBase);
+                var maneuverAction = new ManeuverAction(environment, imperialToken0, Maneuver.STRAIGHT_1_STANDARD);
                 maneuverAction.doIt();
             }
 
             // Move imperial token 1.
             {
                 environment.activeToken(imperialToken1);
-                var fromPosition = environment.getPositionFor(imperialToken1);
-                var shipBase = imperialToken1.pilot().shipTeam.ship.shipBaseKey;
-                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
-                        shipBase);
+                var maneuverAction = new ManeuverAction(environment, imperialToken1, Maneuver.STRAIGHT_5_STANDARD);
                 maneuverAction.doIt();
             }
 
             // Move rebel token.
             {
                 environment.activeToken(rebelToken);
-                var fromPosition = environment.getPositionFor(rebelToken);
-                var shipBase = rebelToken.pilot().shipTeam.ship.shipBaseKey;
-                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_5_STANDARD, fromPosition,
-                        shipBase);
+                var maneuverAction = new ManeuverAction(environment, rebelToken, Maneuver.STRAIGHT_5_STANDARD);
                 maneuverAction.doIt();
             }
 
             // Move rebel token.
             {
                 environment.activeToken(rebelToken);
-                var fromPosition = environment.getPositionFor(rebelToken);
-                var shipBase = rebelToken.pilot().shipTeam.ship.shipBaseKey;
-                var maneuverAction = new ManeuverAction(environment, Maneuver.STRAIGHT_3_STANDARD, fromPosition,
-                        shipBase);
+                var maneuverAction = new ManeuverAction(environment, rebelToken, Maneuver.STRAIGHT_3_STANDARD);
                 maneuverAction.doIt();
             }
 
