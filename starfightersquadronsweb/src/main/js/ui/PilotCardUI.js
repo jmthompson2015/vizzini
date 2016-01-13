@@ -325,7 +325,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cells = [];
             var image0 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/WeaponIcon24.jpg",
+                src: imageBase + "pilotCard/WeaponIcon24.png",
             });
             cells.push(React.DOM.td(
             {
@@ -342,7 +342,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
 
             var image1 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/AgilityIcon24.jpg",
+                src: imageBase + "pilotCard/AgilityIcon24.png",
             });
             cells.push(React.DOM.td(
             {
@@ -359,7 +359,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
 
             var image2 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/HullIcon24.jpg",
+                src: imageBase + "pilotCard/HullIcon24.png",
             });
             cells.push(React.DOM.td(
             {
@@ -376,7 +376,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
 
             var image3 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/ShieldIcon24.jpg",
+                src: imageBase + "pilotCard/ShieldIcon24.png",
             });
             cells.push(React.DOM.td(
             {
@@ -405,7 +405,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cells0 = [];
             var image0 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/WeaponIcon24.jpg",
+                src: imageBase + "pilotCard/WeaponIcon24.png",
             });
             cells0.push(React.DOM.td(
             {
@@ -427,7 +427,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cells1 = [];
             var image1 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/AgilityIcon24.jpg",
+                src: imageBase + "pilotCard/AgilityIcon24.png",
             });
             cells1.push(React.DOM.td(
             {
@@ -449,7 +449,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cells2 = [];
             var image2 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/HullIcon24.jpg",
+                src: imageBase + "pilotCard/HullIcon24.png",
             });
             cells2.push(React.DOM.td(
             {
@@ -471,7 +471,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cells3 = [];
             var image3 = React.DOM.img(
             {
-                src: imageBase + "pilotCard/ShieldIcon24.jpg",
+                src: imageBase + "pilotCard/ShieldIcon24.png",
             });
             cells3.push(React.DOM.td(
             {
