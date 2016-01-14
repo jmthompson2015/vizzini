@@ -19,6 +19,11 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                     return teamKey;
                 };
 
+                this.isComputerAgent = function()
+                {
+                    return false;
+                };
+
                 var environment;
                 var attacker;
                 var attackDice;

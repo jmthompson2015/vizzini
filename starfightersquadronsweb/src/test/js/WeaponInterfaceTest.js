@@ -23,7 +23,8 @@ define([ "FiringArc", "RangeRuler", "Weapon" ], function(FiringArc, RangeRuler, 
             assert.ok(weapon.name);
             assert.ok(weapon.weaponValue);
             assert.ok(weapon.ranges);
-            assert.ok(weapon.firingArcKey);
+            assert.ok(weapon.primaryFiringArcKey);
+            assert.ok(weapon.auxiliaryFiringArcKey);
             assert.ok(weapon.upgradeKey);
             assert.ok(weapon.isDefenderInFiringArc);
             assert.ok(weapon.isDefenderInRange);

@@ -66,7 +66,7 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
     SimpleAgent.prototype.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
             damageDealer, callback)
     {
-    // callback();
+        // Nothing to do.
     };
 
     SimpleAgent.prototype.determineValidDecloakActions = function(environment, adjudicator, token)
@@ -345,6 +345,11 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
         var answer = shipActions.vizziniRandomElement();
 
         callback(answer);
+    };
+
+    SimpleAgent.prototype.isComputerAgent = function()
+    {
+        return true;
     };
 
     SimpleAgent.prototype.toString = function()

@@ -2,12 +2,14 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
         ManeuverComputer, RangeRuler, UpgradeCard, UpgradeHeader)
 {
     "use strict";
-    function Weapon(name, weaponValue, ranges, firingArcKey, upgradeKey)
+    function Weapon(name, weaponValue, ranges, primaryFiringArcKey, auxiliaryFiringArcKey, isTurret, upgradeKey)
     {
         InputValidator.validateNotNull("name", name);
         InputValidator.validateNotNull("weaponValue", weaponValue);
         InputValidator.validateNotNull("ranges", ranges);
-        InputValidator.validateNotNull("firingArcKey", firingArcKey);
+        InputValidator.validateNotNull("primaryFiringArcKey", primaryFiringArcKey);
+        // auxiliaryFiringArcKey optional.
+        // isTurret optional.
         // upgradeKey optional.
 
         this.name = function()
@@ -25,14 +27,38 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
             return ranges;
         };
 
-        this.firingArcKey = function()
+        this.primaryFiringArcKey = function()
         {
-            return firingArcKey;
+            return primaryFiringArcKey;
+        };
+
+        this.auxiliaryFiringArcKey = function()
+        {
+            return auxiliaryFiringArcKey;
+        };
+
+        this.isTurret = function()
+        {
+            return isTurret;
         };
 
         this.upgradeKey = function()
         {
             return upgradeKey;
+        };
+
+        var primaryFiringArc = FiringArc.properties[primaryFiringArcKey];
+
+        this.primaryFiringArc = function()
+        {
+            return primaryFiringArc;
+        };
+
+        var auxiliaryFiringArc = FiringArc.properties[auxiliaryFiringArcKey];
+
+        this.auxiliaryFiringArc = function()
+        {
+            return auxiliaryFiringArc;
         };
 
         var upgrade = UpgradeCard.properties[upgradeKey];
@@ -81,17 +107,17 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
         return answer;
     };
 
-    Weapon.prototype.isDefenderInFiringArc = function(attackerPosition, defender, defenderPosition)
+    Weapon.prototype.isDefenderInFiringArc = function(attackerPosition, firingArc, defender, defenderPosition)
     {
         InputValidator.validateNotNull("attackerPosition", attackerPosition);
+        InputValidator.validateNotNull("firingArc", firingArc);
         InputValidator.validateNotNull("defender", defender);
         InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
-        var firingArc = FiringArc.properties[this.firingArcKey()];
         var bearing = attackerPosition.computeBearing(defenderPosition.x(), defenderPosition.y());
         var answer = firingArc.isInFiringArc(bearing);
         LOGGER.debug("weapon = " + this.name());
-        LOGGER.debug("0 firingArcKey = " + this.firingArcKey() + " bearing = " + bearing + " answer ? " + answer);
+        LOGGER.debug("0 firingArc = " + firingArc.value + " bearing = " + bearing + " answer ? " + answer);
 
         if (!answer)
         {
@@ -103,11 +129,12 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
             for (var i = 0; i < points.length; i += 2)
             {
                 bearing = attackerPosition.computeBearing(points[i], points[i + 1]);
+                LOGGER.debug(i + " firingArc.isInFiringArc(" + bearing + ") ? " + firingArc.isInFiringArc(bearing));
 
                 if (firingArc.isInFiringArc(bearing))
                 {
                     answer = true;
-                    LOGGER.debug(i + " firingArcKey = " + this.firingArcKey() + " bearing = " + bearing + " answer ? " +
+                    LOGGER.debug(i + " firingArc = " + firingArc.value + " bearing = " + bearing + " answer ? " +
                             answer);
                     break;
                 }
@@ -138,7 +165,10 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
 
         return this.isUsable(attacker, defender) &&
                 this.isDefenderInRange(attacker, attackerPosition, defender, defenderPosition) &&
-                this.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
+                (this.isTurret() ||
+                        this.isDefenderInFiringArc(attackerPosition, this.primaryFiringArc(), defender,
+                                defenderPosition) || (this.auxiliaryFiringArc() && this.isDefenderInFiringArc(
+                        attackerPosition, this.auxiliaryFiringArc(), defender, defenderPosition)));
     };
 
     Weapon.prototype.isPrimary = function()

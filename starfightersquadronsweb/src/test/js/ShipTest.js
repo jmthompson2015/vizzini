@@ -10,7 +10,8 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         assert.equal(properties.name, "Firespray-31");
         assert.equal(properties.description, "A Firespray-31.");
         assert.equal(properties.value, ship);
-        assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD_AND_AFT);
+        assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD);
+        assert.equal(properties.auxiliaryFiringArcKey, FiringArc.AFT);
         assert.equal(properties.shipBaseKey, ShipBase.LARGE);
         assert.ok(properties.maneuverKeys);
         assert.equal(properties.maneuverKeys.length, 16);

@@ -690,14 +690,17 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         function createPrimaryWeapon()
         {
             var shipState = pilot.shipState;
+            var ship = pilot.shipTeam.ship;
 
             return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO,
-                    RangeRuler.THREE ], pilot.shipTeam.ship.primaryFiringArcKey);
+                    RangeRuler.THREE ], ship.primaryFiringArcKey, ship.auxiliaryFiringArcKey,
+                    ship.isPrimaryWeaponTurret);
         }
 
         function createSecondaryWeapon(upgrade)
         {
-            return new Weapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.firingArc, upgrade.value);
+            return new Weapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.firingArcKey, undefined,
+                    upgrade.isWeaponTurret, upgrade.value);
         }
 
         function getShipState()

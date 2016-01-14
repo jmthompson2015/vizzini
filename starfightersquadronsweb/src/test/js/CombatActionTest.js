@@ -224,6 +224,82 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         assert.equal(attacker.combatState().attackDice().size(), 4);
     });
 
+    QUnit.test("CombatAction.doIt() Tactician", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var upgradeKey = UpgradeCard.TACTICIAN;
+        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var adjudicator = new Adjudicator();
+
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, upgradeKey);
+        var attackerPosition = new Position(458, 895, -90);
+        var weapon = attacker.primaryWeapon();
+
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defenderPosition = new Position(attackerPosition.x(), attackerPosition.y() - 250, 90);
+
+        environment.placeToken(attackerPosition, attacker);
+        environment.placeToken(defenderPosition, defender);
+
+        attacker.focus().increase();
+
+        var targetLock = new TargetLock(attacker, defender);
+        attacker.addAttackerTargetLock(targetLock);
+        defender.addDefenderTargetLock(targetLock);
+
+        var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                defenderPosition);
+
+        // Run.
+        var done = assert.async();
+        combatAction.doIt();
+
+        // Verify.
+        setTimeout(function()
+        {
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(attacker.isUpgradedWith(upgradeKey));
+            assert.equal(combatAction.executionCount(), 1);
+            assert.equal(attacker.combatState().attackDice().size(), 2);
+            assert.equal(attacker.combatState().defenseDice().size(), 3);
+            assert.equal(defender.stress().count(), 1);
+            done();
+        }, 1000);
+    });
+
+    QUnit.test("CombatAction.doIt() Twin Laser Turret", function(assert)
+    {
+        // Setup.
+        var upgradeKey = UpgradeCard.TWIN_LASER_TURRET;
+        var combatAction = createCombatAction(upgradeKey);
+        var environment = combatAction.environment();
+        var attacker = environment.tokens()[0];
+        assert.ok(attacker.isUpgradedWith(upgradeKey));
+        assert.equal(attacker.secondaryWeapons().length, 1);
+        var defender = environment.tokens()[1];
+        assert.equal(defender.damageCount(), 0);
+
+        // Run.
+        var done = assert.async();
+        combatAction.doIt();
+
+        // Verify.
+        setTimeout(function()
+        {
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(attacker.isUpgradedWith(upgradeKey));
+            assert.equal(combatAction.executionCount(), 2);
+            assert.equal(attacker.secondaryWeapons().length, 1);
+            assert.equal(attacker.combatState().attackDice().size(), 3);
+            assert.ok(0 <= defender.damageCount() && defender.damageCount() <= 2, "defender.damageCount() = " +
+                    defender.damageCount());
+            done();
+        }, 1000);
+    });
+
     function createCombatAction(upgradeKey)
     {
         var environment = new Environment(Team.IMPERIAL, Team.REBEL);

@@ -4,9 +4,8 @@ define(function()
     var FiringArc =
     {
         FORWARD: "forward",
-        FORWARD_AND_AFT: "forwardAndAft",
-        FORWARD_AND_FULL_AFT: "forwardAndFullAft",
-        TURRET: "turret",
+        AFT: "aft",
+        FULL_AFT: "fullAft",
 
         properties:
         {
@@ -19,32 +18,23 @@ define(function()
                 },
                 value: "forward",
             },
-            "forwardAndAft":
+            "aft":
             {
-                name: "Forward and Aft",
+                name: "Aft",
                 isInFiringArc: function(bearing)
                 {
-                    return ((315 <= bearing) || (bearing <= 45)) || ((135 <= bearing) && (bearing <= 225));
+                    return (135 <= bearing) && (bearing <= 225);
                 },
-                value: "forwardAndAft",
+                value: "aft",
             },
-            "forwardAndFullAft":
+            "fullAft":
             {
-                name: "Forward and Full Aft",
+                name: "Full Aft",
                 isInFiringArc: function(bearing)
                 {
-                    return ((315 <= bearing) || (bearing <= 45)) || ((90 <= bearing) && (bearing <= 270));
+                    return (90 <= bearing) && (bearing <= 270);
                 },
-                value: "forwardAndFullAft",
-            },
-            "turret":
-            {
-                name: "Turret",
-                isInFiringArc: function(bearing)
-                {
-                    return true;
-                },
-                value: "turret",
+                value: "fullAft",
             },
         },
 

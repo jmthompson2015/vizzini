@@ -13,6 +13,8 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                 InputValidator.validateNotNull("defender", defender);
                 InputValidator.validateNotNull("defenderPosition", defenderPosition);
 
+                var that = this;
+
                 this.environment = function()
                 {
                     return environment;
@@ -48,8 +50,16 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                     return defenderPosition;
                 };
 
+                var executionCount = 0;
+
+                this.executionCount = function()
+                {
+                    return executionCount;
+                };
+
                 this.doIt = function()
                 {
+                    executionCount++;
                     var upgrade = weapon.upgrade();
 
                     if (upgrade)
@@ -159,27 +169,52 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                     var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice
                             .criticalHitCount(), defender, defenseDice.evadeCount());
 
+                    // Four possibilities:
+                    // computer vs computer: call finishDealDamage() once
+                    // computer vs human: call finishDealDamage() once
+                    // human vs computer: call finishDealDamage() once
+                    // human vs human: call finishDealDamage() once
                     var attackerAgent = attacker.agent();
-                    attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,
-                            damageDealer, function()
-                            {
-                                finishDealDamage(damageDealer);
-                            });
-
                     var defenderAgent = defender.agent();
-                    defenderAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,
-                            damageDealer, function()
-                            {
-                                finishDealDamage(damageDealer);
-                            });
+                    var attackerIsComputerAgent = attackerAgent.isComputerAgent();
+                    var defenderIsComputerAgent = defenderAgent.isComputerAgent();
+                    var callbackFunction = function()
+                    {
+                        finishDealDamage(damageDealer);
+                    };
+
+                    if (attackerIsComputerAgent && defenderIsComputerAgent)
+                    {
+                        // Both computer agents.
+                        setTimeout(callbackFunction, 1000);
+                    }
+                    else if (attackerIsComputerAgent && !defenderIsComputerAgent)
+                    {
+                        defenderAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,
+                                damageDealer, callbackFunction);
+                    }
+                    else if (!attackerIsComputerAgent && defenderIsComputerAgent)
+                    {
+                        attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,
+                                damageDealer, callbackFunction);
+                    }
+                    else if (!attackerIsComputerAgent && !defenderIsComputerAgent)
+                    {
+                        // Both human agents.
+                        attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice,
+                                damageDealer, callbackFunction);
+                    }
 
                     environment.phase(Phase.COMBAT_DEAL_DAMAGE);
                 }
 
                 function finishDealDamage(damageDealer)
                 {
+                    LOGGER.trace("CombatAction.finishDealDamage() start");
+
                     var isDefenderHit = (damageDealer.hits() + damageDealer.criticalHits() > 0);
                     attacker.combatState().isDefenderHit(isDefenderHit);
+                    LOGGER.debug("isDefenderHit ? " + isDefenderHit);
 
                     if (isDefenderHit)
                     {
@@ -207,6 +242,10 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                             defender.ion().increase();
                             defender.ion().increase();
                         }
+                        else if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET)
+                        {
+                            defender.addDamage(environment.drawDamage());
+                        }
                         else
                         {
                             damageDealer.dealDamage();
@@ -219,6 +258,20 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                         else if (weapon.upgradeKey() === UpgradeCard.PLASMA_TORPEDOES)
                         {
                             defender.shield().decrease();
+                        }
+                    }
+                    LOGGER.info("range = " + attacker.combatState().range());
+
+                    if (attacker.isUpgradedWith(UpgradeCard.TACTICIAN) &&
+                            attacker.combatState().range() === RangeRuler.TWO)
+                    {
+                        var firingArc = attacker.pilot().shipTeam.ship.primaryFiringArc;
+                        LOGGER.info("firingArc = " + JSON.stringify(firingArc));
+                        LOGGER.info("weapon.isDefenderInFiringArc() ? " +
+                                weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition));
+                        if (weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition))
+                        {
+                            defender.stress().increase();
                         }
                     }
 
@@ -237,11 +290,20 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                     }
                     else
                     {
-                        if (callback)
+                        if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET && executionCount < 2)
                         {
-                            callback();
+                            that.doIt();
+                        }
+                        else
+                        {
+                            if (callback)
+                            {
+                                callback();
+                            }
                         }
                     }
+
+                    LOGGER.trace("CombatAction.finishDealDamage() end");
                 }
             }
 

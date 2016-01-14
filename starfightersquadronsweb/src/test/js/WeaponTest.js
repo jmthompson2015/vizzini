@@ -58,7 +58,8 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
-        var result = weapon.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
+        var result = weapon.isDefenderInFiringArc(attackerPosition, attacker.primaryWeapon().primaryFiringArc(),
+                defender, defenderPosition);
 
         // Verify.
         assert.ok(result);
@@ -80,7 +81,7 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
-        var result = weapon.isDefenderInFiringArc(attackerPosition, defender, defenderPosition);
+        var result = weapon.isDefenderInFiringArc(attackerPosition, attacker.primaryWeapon().primaryFiringArc(), defender, defenderPosition);
 
         // Verify.
         assert.ok(!result);
