@@ -19,6 +19,24 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         return answer;
     }));
 
+    SquadBuilders.push(new SquadBuilder(Team.FIRST_ORDER, "First Order TFA Core Set: 39 Points", 2015,
+            "TIE/fo Fighters x2", function(agent)
+            {
+                var answer = [];
+                answer.push(new Token(Pilot.EPSILON_LEADER, agent, UpgradeCard.WIRED));
+                answer.push(new Token(Pilot.ZETA_ACE, agent));
+                return answer;
+            }));
+
+    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Resistance TFA Core Set: 39 Points", 2015, "T-70 X-Wing",
+            function(agent)
+            {
+                var answer = [];
+                answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.BB_8, UpgradeCard.PROTON_TORPEDOES,
+                        UpgradeCard.WEAPONS_GUIDANCE));
+                return answer;
+            }));
+
     // - Winner - Rick Sidebotham (#1 Swiss, 23 pts, 754 MoV, flight 1): Whisper + Veteran Instincts + Fire-Control
     // Systems
     // + Advanced Cloaking Device + Gunner; Soontir Fel + Push the Limit; Captain Yorr
@@ -312,6 +330,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     var CoreSetImperialSquadBuilder = SquadBuilders[0];
     var CoreSetRebelSquadBuilder = SquadBuilders[1];
+    var CoreSetFirstOrderSquadBuilder = SquadBuilders[2];
+    var CoreSetResistanceSquadBuilder = SquadBuilders[3];
 
     function SquadBuilder(faction, name, year, description, buildFunction)
     {
@@ -387,8 +407,10 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         findByNameAndYear: SquadBuilder.findByNameAndYear,
         findByTeam: SquadBuilder.findByTeam,
         SquadBuilders: SquadBuilders,
+        CoreSetFirstOrderSquadBuilder: CoreSetFirstOrderSquadBuilder,
         CoreSetImperialSquadBuilder: CoreSetImperialSquadBuilder,
         CoreSetRebelSquadBuilder: CoreSetRebelSquadBuilder,
+        CoreSetResistanceSquadBuilder: CoreSetResistanceSquadBuilder,
         SquadBuilder: SquadBuilder,
     });
 });
