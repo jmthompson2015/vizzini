@@ -230,6 +230,28 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                     return this.getTokensForTeam(team).length;
                 };
 
+                this.getTokensAtRange = function(token0, range)
+                {
+                    InputValidator.validateNotNull("token0", token0);
+                    InputValidator.validateNotNull("range", range);
+
+                    var position0 = this.getPositionFor(token0);
+
+                    return this.tokens().filter(function(token)
+                    {
+                        if (token === token0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            var position = this.getPositionFor(token);
+                            var myRange = RangeRuler.getRange(token0, position0, token, position);
+                        }
+                        return (myRange === range);
+                    }, this);
+                };
+
                 this.getTokensForActivation = function()
                 {
                     return this.tokens().sort(function(token0, token1)

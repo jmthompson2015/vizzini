@@ -306,7 +306,10 @@ define(
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         firingArcKey: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, each other ship at Range 1 of the defender suffers 1 damage.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 5,
+                        isImplemented: true,
                         value: "assaultMissiles",
                     },
                     "autoblaster":
@@ -502,7 +505,10 @@ define(
                         ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
                         firingArcKey: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack twice.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 4,
+                        isImplemented: true,
                         value: "clusterMissiles",
                     },
                     "combatRetrofit":
@@ -1073,8 +1079,11 @@ define(
                         ranges: [ RangeRuler.TWO, RangeRuler.THREE ],
                         firingArcKey: FiringArc.FORWARD,
                         description: "Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender and each ship at Range 1 of it receives 1 ion token.",
+                        spendTargetLock: true,
+                        discardThisCard: true,
                         squadPointCost: 5,
-                        value: "ionPulseMissiles",
+                        isImplemented: true,
+                        value: "ionTorpedoes",
                     },
                     "janDodonna":
                     {

@@ -1,4 +1,5 @@
-define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "ShipDestroyedAction", "UpgradeCard" ],
+define(
+        [ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "ShipDestroyedAction", "UpgradeCard" ],
         function(AttackDice, DamageDealer, DefenseDice, Phase, RangeRuler, ShipDestroyedAction, UpgradeCard)
         {
             "use strict";
@@ -72,8 +73,12 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                         if (upgrade.spendTargetLock)
                         {
                             var targetLock = attacker.findTargetLockByDefender(defender);
-                            attacker.removeAttackerTargetLock(targetLock);
-                            defender.removeDefenderTargetLock(targetLock);
+
+                            if (targetLock)
+                            {
+                                attacker.removeAttackerTargetLock(targetLock);
+                                defender.removeDefenderTargetLock(targetLock);
+                            }
                         }
 
                         if (upgrade.discardThisCard)
@@ -251,24 +256,35 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                             damageDealer.dealDamage();
                         }
 
-                        if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_TORPEDOES && defender.hullValue() <= 4)
+                        if (weapon.upgradeKey() === UpgradeCard.ASSAULT_MISSILES)
+                        {
+                            environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
+                            {
+                                token.addDamage(environment.drawDamage());
+                            });
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_TORPEDOES && defender.hullValue() <= 4)
                         {
                             defender.stress().increase();
+                        }
+                        else if (weapon.upgradeKey() === UpgradeCard.ION_TORPEDOES)
+                        {
+                            environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
+                            {
+                                token.ion().increase();
+                            });
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.PLASMA_TORPEDOES)
                         {
                             defender.shield().decrease();
                         }
                     }
-                    LOGGER.info("range = " + attacker.combatState().range());
 
                     if (attacker.isUpgradedWith(UpgradeCard.TACTICIAN) &&
                             attacker.combatState().range() === RangeRuler.TWO)
                     {
                         var firingArc = attacker.pilot().shipTeam.ship.primaryFiringArc;
-                        LOGGER.info("firingArc = " + JSON.stringify(firingArc));
-                        LOGGER.info("weapon.isDefenderInFiringArc() ? " +
-                                weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition));
+
                         if (weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition))
                         {
                             defender.stress().increase();
@@ -290,7 +306,8 @@ define([ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "Sh
                     }
                     else
                     {
-                        if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET && executionCount < 2)
+                        if ((weapon.upgradeKey() === UpgradeCard.CLUSTER_MISSILES || weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET) &&
+                                executionCount < 2)
                         {
                             that.doIt();
                         }

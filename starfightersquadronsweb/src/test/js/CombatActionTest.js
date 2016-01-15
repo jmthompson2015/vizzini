@@ -82,6 +82,48 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         assert.equal(attacker.combatState().attackDice().size(), 5);
     });
 
+    QUnit.test("CombatAction.doIt() Assault Missiles", function(assert)
+    {
+        // Setup.
+        var upgradeKey = UpgradeCard.ASSAULT_MISSILES;
+        var combatAction = createCombatAction(upgradeKey);
+        var environment = combatAction.environment();
+        var attacker = environment.tokens()[0];
+        var defender = environment.tokens()[1];
+        assert.ok(attacker.findTargetLockByDefender(defender));
+        assert.ok(attacker.isUpgradedWith(upgradeKey));
+        assert.equal(attacker.secondaryWeapons().length, 1);
+
+        // Run.
+        combatAction.doIt();
+
+        // Verify.
+        assert.ok(true, "test resumed from async operation");
+        assert.ok(!attacker.findTargetLockByDefender(defender));
+        assert.ok(!attacker.isUpgradedWith(upgradeKey));
+        assert.equal(combatAction.executionCount(), 1);
+        assert.equal(attacker.secondaryWeapons().length, 0);
+        assert.equal(attacker.combatState().attackDice().size(), 4);
+        if (attacker.combatState().isDefenderHit())
+        {
+            var token0 = environment.tokens()[0];
+            assert.ok(token0);
+            assert.equal(token0.damageCount(), 0);
+            var token1 = environment.tokens()[1];
+            if (token1)
+            {
+                assert.ok(token1);
+                assert.equal(token1.damageCount(), 1);
+            }
+            var token2 = environment.tokens()[2];
+            if (token2)
+            {
+                assert.ok(token2);
+                assert.equal(token2.damageCount(), 1);
+            }
+        }
+    });
+
     QUnit.test("CombatAction.doIt() Blaster Turret", function(assert)
     {
         // Setup.
@@ -102,6 +144,35 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         assert.ok(attacker.isUpgradedWith(upgradeKey));
         assert.equal(attacker.secondaryWeapons().length, 1);
         assert.equal(attacker.combatState().attackDice().size(), 3);
+    });
+
+    QUnit.test("CombatAction.doIt() Cluster Missiles", function(assert)
+    {
+        // Setup.
+        var upgradeKey = UpgradeCard.CLUSTER_MISSILES;
+        var combatAction = createCombatAction(upgradeKey);
+        var environment = combatAction.environment();
+        var attacker = environment.tokens()[0];
+        var defender = environment.tokens()[1];
+        assert.ok(attacker.findTargetLockByDefender(defender));
+        assert.ok(attacker.isUpgradedWith(upgradeKey));
+        assert.equal(attacker.secondaryWeapons().length, 1);
+
+        // Run.
+        var done = assert.async();
+        combatAction.doIt();
+
+        // Verify.
+        setTimeout(function()
+        {
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!attacker.isUpgradedWith(upgradeKey));
+            assert.equal(combatAction.executionCount(), 2);
+            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(attacker.combatState().attackDice().size(), 3);
+            done();
+        }, 1100);
     });
 
     QUnit.test("CombatAction.doIt() Concussion Missiles", function(assert)
@@ -162,6 +233,42 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         assert.ok(!attacker.isUpgradedWith(upgradeKey));
         assert.equal(attacker.secondaryWeapons().length, 0);
         assert.equal(attacker.combatState().attackDice().size(), 3);
+    });
+
+    QUnit.test("CombatAction.doIt() Ion Torpedoes", function(assert)
+    {
+        // Setup.
+        var upgradeKey = UpgradeCard.ION_TORPEDOES;
+        var combatAction = createCombatAction(upgradeKey);
+        var environment = combatAction.environment();
+        var attacker = environment.tokens()[0];
+        var defender = environment.tokens()[1];
+        assert.ok(attacker.findTargetLockByDefender(defender));
+        assert.ok(attacker.isUpgradedWith(upgradeKey));
+        assert.equal(attacker.secondaryWeapons().length, 1);
+
+        // Run.
+        combatAction.doIt();
+
+        // Verify.
+        assert.ok(true, "test resumed from async operation");
+        assert.ok(!attacker.findTargetLockByDefender(defender));
+        assert.ok(!attacker.isUpgradedWith(upgradeKey));
+        assert.equal(combatAction.executionCount(), 1);
+        assert.equal(attacker.secondaryWeapons().length, 0);
+        assert.equal(attacker.combatState().attackDice().size(), 4);
+        if (attacker.combatState().isDefenderHit())
+        {
+            var token0 = environment.tokens()[0];
+            assert.ok(token0);
+            assert.equal(token0.ion().count(), 0);
+            var token1 = environment.tokens()[1];
+            assert.ok(token1);
+            assert.equal(token1.ion().count(), 1);
+            var token2 = environment.tokens()[2];
+            assert.ok(token2);
+            assert.equal(token2.ion().count(), 1);
+        }
     });
 
     QUnit.test("CombatAction.doIt() Mangler Cannon", function(assert)
