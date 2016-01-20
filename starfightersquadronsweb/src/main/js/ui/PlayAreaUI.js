@@ -20,7 +20,7 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], func
         };
     }
 
-    function LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip)
+    function LaserBeamUI(fromPosition, toPosition, strokeStyle, lineDashSegments, audioClip)
     {
         InputValidator.validateNotNull("fromPosition", fromPosition);
         InputValidator.validateNotNull("toPosition", toPosition);
@@ -29,11 +29,17 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], func
         {
             LOGGER.trace("LaserBeamUI.paintComponent() start");
 
+            context.lineWidth = 3;
+            context.strokeStyle = strokeStyle;
+
+            if (lineDashSegments)
+            {
+                context.setLineDash(lineDashSegments);
+            }
+
             context.beginPath();
             context.moveTo(fromPosition.x(), fromPosition.y());
             context.lineTo(toPosition.x(), toPosition.y());
-            context.lineWidth = 3;
-            context.strokeStyle = strokeStyle;
             context.stroke();
 
             audioClip.play();
@@ -190,8 +196,9 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], func
                 if (toPosition)
                 {
                     var strokeStyle = attacker.pilot().shipTeam.team.color;
+                    var lineDashSegments = (combatAction.weapon().isPrimary() ? undefined : [ 10, 5 ]);
                     var audioClip = getLaserAudioClip(attacker);
-                    answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle, audioClip);
+                    answer = new LaserBeamUI(fromPosition, toPosition, strokeStyle, lineDashSegments, audioClip);
                 }
             }
 
