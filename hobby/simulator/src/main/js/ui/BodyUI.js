@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     function BodyUI(body, isBump, isSpecular)
     {
         InputValidator.validateNotNull("body", body);
@@ -9,7 +10,7 @@ define(function()
         var mesh = new THREE.Mesh(geometry, material);
         mesh.name = body.name;
         var radius = (body.equatorialRadius ? body.equatorialRadius : body.radius);
-        
+
         // FIXME: temporary.
         mesh.add(new THREE.AxisHelper(1.50 * radius));
 
@@ -26,7 +27,7 @@ define(function()
             }
             else if (body.radius)
             {
-                answer = new THREE.SphereGeometry(body.radius, 32, 32)
+                answer = new THREE.SphereGeometry(body.radius, 32, 32);
             }
             else
             {

@@ -1,5 +1,6 @@
-define([ "Body", "StateFactory", "ui/BodyUI" ], function(Body, StateFactory, BodyUI)
+define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
 {
+    "use strict";
     function SceneUI(environment)
     {
         InputValidator.validateNotNull("environment", environment);

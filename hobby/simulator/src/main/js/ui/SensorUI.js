@@ -1,5 +1,6 @@
 define([ "ui/SceneUI" ], function(SceneUI)
 {
+    "use strict";
     function SensorUI(sensor, canvasId, width, height)
     {
         InputValidator.validateNotNull("sensor", sensor);
@@ -45,7 +46,7 @@ define([ "ui/SceneUI" ], function(SceneUI)
             }
 
             LOGGER.trace("SensorUI.update() end");
-        };
+        }
     }
 
     return SensorUI;

@@ -1,5 +1,4 @@
-define([ "Body", "Quaternion", "Ship", "State", "StateFactory", "Vector" ], function(Body, Quaternion, Ship, State,
-        StateFactory, Vector)
+define([ "Body", "Quaternion", "State", "Vector" ], function(Body, Quaternion, State, Vector)
 {
     "use strict";
     function Environment(bodyToState)

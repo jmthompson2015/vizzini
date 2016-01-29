@@ -58,7 +58,7 @@ define([ "Quaternion", "State", "Vector" ], function(Quaternion, State, Vector)
 
                 // Remove the A.D. prefix.
                 var part1 = parts[1].trim().substring(5);
-                var date = moment(part1, "YYYY-MMM-DD HH:mm:ss.SSS")
+                var date = moment(part1, "YYYY-MMM-DD HH:mm:ss.SSS");
 
                 var x = parseFloat(parts[2].trim());
                 var y = parseFloat(parts[3].trim());
