@@ -1,0 +1,97 @@
+[Log] 10:08:14:181 TRACE textDocument = ******************************************************************************* (Logger.js, line 148)
+ Revised: Jul 31, 2013              Mercury                             199 / 1
+
+ GEOPHYSICAL DATA (updated 2008-Feb-07):
+  Mean radius (km)      =  2440(+-1)     Density (g cm^-3)     =  5.427
+  Mass (10^23 kg )      =     3.302      Flattening, f         =  
+  Volume (x10^10 km^3)  =     6.085      Semi-major axis       = 
+  Sidereal rot. period  =    58.6462 d   Rot. Rate (x10^5 s)   =  0.124001
+  Mean solar day        =   175.9421 d   Polar gravity ms^-2   =
+  Mom. of Inertia       =     0.33       Equ. gravity  ms^-2   =  3.701     
+  Core radius (km)      = ~1600          Potential Love # k2   =
+
+  GM (km^3 s^-2)        = 22032.09       Equatorial Radius, Re =    2440 km
+  GM 1-sigma (km^3 s^-2)=   +-0.91       Mass ratio (sun/plnt) = 6023600
+ 
+  Atmos. pressure (bar) =                Max. angular diam.    = 11.0"   
+  Mean Temperature (K)  =                Visual mag. V(1,0)    = -0.42 
+  Geometric albedo      =   0.106        Obliquity to orbit[1] = 2.11' +/- 0.1'  
+  Sidereal orb. per.    =   0.2408467 y  Mean Orbit vel.  km/s = 47.362 
+  Sidereal orb. per.    =  87.969257  d  Escape vel. km/s      =  4.435
+  Hill's sphere rad. Rp =  94.4          Planetary Solar Const = 9936.9 (Wm^2)
+
+[1] Margot et al., Science 316, 2007
+*******************************************************************************
+ 
+ 
+*******************************************************************************
+Ephemeris / WWW_USER Fri Jan 29 09:08:15 2016 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: Mercury (199)                   {source: DE431mx}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2016-Jan-22 00:00:00.0000 CT 
+Stop  time      : A.D. 2016-Jan-23 00:00:00.0000 CT 
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)                                                  
+Output units    : KM-S                                                         
+Output format   : 03
+Reference frame : ICRF/J2000.0                                                 
+Output type     : GEOMETRIC cartesian states
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch                 
+*******************************************************************************
+JDCT ,   , X, Y, Z, VX, VY, VZ, LT, RG, RR,
+*******************************************************************************
+$$SOE
+2457409.500000000, A.D. 2016-Jan-22 00:00:00.0000, -4.655269736772238E+07,  2.340402089738802E+07,  6.191685566492947E+06, -3.151563668985122E+01, -4.164038960478674E+01, -5.119994272692079E-01,  1.750254638985022E+02,  5.247131403472223E+07,  9.327290886982249E+00,
+2457410.500000000, A.D. 2016-Jan-23 00:00:00.0000, -4.911734876737419E+07,  1.973381823794576E+07,  6.127003853199637E+06, -2.784821551245089E+01, -4.325872345957943E+01, -9.807009241209741E-01,  1.777454649608727E+02,  5.328674983897290E+07,  9.536366378355547E+00,
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    xy-plane: plane of the Earth's orbit at the reference epoch
+    x-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+Symbol meaning  
+
+    JDTDB    Epoch Julian Date, Barycentric Dynamical Time
+      X      x-component of position vector (km)                               
+      Y      y-component of position vector (km)                               
+      Z      z-component of position vector (km)                               
+      VX     x-component of velocity vector (km/sec)                           
+      VY     y-component of velocity vector (km/sec)                           
+      VZ     z-component of velocity vector (km/sec)                           
+      LT     One-way down-leg Newtonian light-time (sec)                       
+      RG     Range; distance from coordinate center (km)                       
+      RR     Range-rate; radial velocity wrt coord. center (km/sec)            
+
+Geometric states/elements have no aberration corrections applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+COMMAND = 199
+CENTER = 500@0
+START_TIME = 2016-01-22
+STOP_TIME = 2016-01-23
+STEP_SIZE = 1
+TABLE_TYPE = VECTORS
+CSV_FORMAT = YES
