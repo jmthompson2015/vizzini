@@ -1,4 +1,4 @@
-define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Vector)
+define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, Constants, Quaternion, Vector)
 {
     "use strict";
     var Body =
@@ -60,6 +60,8 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 id: "10",
                 mass: 1.988544e+30, // kg
                 radius: 6.9630e+05, // km
+                northPole: Quaternion.newInstanceRADec(286.13, 63.87).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (25.38 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "sol",
             },
 
@@ -73,7 +75,7 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 mass: 3.3020e+23, // kg
                 radius: 2.4400e+03, // km
                 northPole: Quaternion.newInstanceRADec(281.01, 61.42).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (58.646 * 24.0 * 60.0 * 60.0), // deg/sec
+                rotationRate: 360.0 / (58.646 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "mercury",
             },
             "venus":
@@ -85,7 +87,7 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 mass: 4.8685e+24, // kg
                 radius: 6.0518e+03, // km
                 northPole: Quaternion.newInstanceRADec(92.76, -67.16).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (243.025 * 24.0 * 60.0 * 60.0), // deg/sec
+                rotationRate: 360.0 / (243.025 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "venus",
             },
             "earth":
@@ -97,8 +99,7 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 mass: 5.97219E+24, // kg
                 equatorialRadius: 6378.14, // km
                 polarRadius: 6356.752, // km
-                northPole: Vector.Z_AXIS,
-                rotationRate: 360.0 / (0.99726968 * 24.0 * 60.0 * 60.0), // deg/sec
+                rotationRate: 360.0 / (0.99726968 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "earth",
             },
             "mars":
@@ -110,7 +111,7 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 mass: 6.4185e+23, // kg
                 radius: 3389.9, // km
                 northPole: Quaternion.newInstanceRADec(317.68, 52.89).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (1.025957 * 24.0 * 60.0 * 60.0), // deg/sec
+                rotationRate: 360.0 / (1.025957 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "mars",
             },
             "jupiter":
@@ -219,7 +220,7 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 parent: "earth",
                 mass: 7.3490e+22, // kg
                 radius: 1.7375e+03, // km
-                rotationRate: 360.0 / (27.321661 * 24.0 * 60.0 * 60.0), // deg/sec
+                rotationRate: 360.0 / (27.321661 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "luna",
             },
             "phobos":
@@ -228,8 +229,11 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 type: BodyType.MOON,
                 id: "401",
                 parent: "mars",
-                mass: 1.0800e+20, // kg
-                radius: 1.3100e+01, // km
+                mass: 1.0800e+16, // kg
+                radiusX: 13.1, // km
+                radiusY: 11.1, // km
+                radiusZ: 9.3, // km
+                rotationRate: 360.0 / (0.319 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "phobos",
             },
             "deimos":
@@ -238,8 +242,11 @@ define([ "BodyType", "Quaternion", "Vector" ], function(BodyType, Quaternion, Ve
                 type: BodyType.MOON,
                 id: "402",
                 parent: "mars",
-                mass: 1.8000e+20, // kg
-                radius: 7.8000e+00, // km
+                mass: 1.80e+15, // kg
+                radiusX: 7.8, // km
+                radiusY: 6.0, // km
+                radiusZ: 5.1, // km
+                rotationRate: 360.0 / (1.263 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "deimos",
             },
             "io":

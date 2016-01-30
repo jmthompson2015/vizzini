@@ -143,4 +143,50 @@ define([ "Body", "JPLHorizons" ], function(Body, JPLHorizons)
         var done = assert.async();
         horizons.fetchData();
     });
+
+    QUnit.test("fetchData() Phobos", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.PHOBOS];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            verifyVector(assert, state.position(), -245341784.62, -14487714.1007, 5698994.1288);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            verifyVector(assert, state.velocity(), 3.3902, -20.3162, -0.9673);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.0);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Deimos", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.DEIMOS];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            verifyVector(assert, state.position(), -245341967.3608, -14460170.7875, 5701610.9722);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            verifyVector(assert, state.velocity(), 1.1941, -21.722, 0.0629);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.0);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
 });

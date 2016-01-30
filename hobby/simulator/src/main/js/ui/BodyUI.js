@@ -9,9 +9,9 @@ define(function()
         var material = createMaterial(body, isBump, isSpecular);
         var mesh = new THREE.Mesh(geometry, material);
         mesh.name = body.name;
-        var radius = (body.equatorialRadius ? body.equatorialRadius : body.radius);
 
         // FIXME: temporary.
+        var radius = (body.radiusX ? body.radiusX : (body.equatorialRadius ? body.equatorialRadius : body.radius));
         mesh.add(new THREE.AxisHelper(1.50 * radius));
 
         return mesh;
@@ -20,7 +20,14 @@ define(function()
         {
             var answer;
 
-            if (body.equatorialRadius && body.polarRadius)
+            if (body.radiusX && body.radiusY && body.radiusZ)
+            {
+                var max = Math.max(body.radiusX, Math.max(body.radiusY, body.radiusZ));
+                answer = new THREE.SphereGeometry(max, 32, 32);
+                answer.applyMatrix(new THREE.Matrix4().makeScale(body.radiusX / max, body.radiusY / max, body.radiusZ /
+                        max));
+            }
+            else if (body.equatorialRadius && body.polarRadius)
             {
                 answer = new THREE.SphereGeometry(body.equatorialRadius, 32, 32);
                 answer.applyMatrix(new THREE.Matrix4().makeScale(1.0, 1.0, body.polarRadius / body.equatorialRadius));

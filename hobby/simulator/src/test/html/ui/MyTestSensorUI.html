@@ -87,10 +87,10 @@
             {
                 var bodyToState0 = StateFactory.Reference.createStates();
                 var bodyToState = {};
-                var distance = 2.0E+04;
+                var distance = 4.5e+04;
 
                 var bodyKey = Body.SOL;
-                var position = new Vector(-5.0E+08, -5.0E+08, 0.0);
+                var position = new Vector(-5.0e+08, -5.0e+08, 0.0);
                 bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
 
                 var bodyKey = Body.MERCURY;
@@ -105,8 +105,20 @@
                 var position = new Vector(0.0, -distance, 0.0);
                 bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
 
+                var bodyKey = Body.LUNA;
+                var position = new Vector(1.5e+04, -distance, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
                 var bodyKey = Body.MARS;
                 var position = new Vector(-distance, 0.0, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.PHOBOS;
+                var position = new Vector(-2.0e+02, -6.0e+01, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.DEIMOS;
+                var position = new Vector(-2.0e+02, 6.0e+01, 0.0);
                 bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
 
                 var environment = new Environment(bodyToState);
@@ -130,6 +142,10 @@
                 if (body.northPole)
                 {
                     angularVelocity = Quaternion.newInstance(2.0, body.northPole);
+                }
+                else
+                {
+                    angularVelocity = Quaternion.newInstance(2.0, Vector.Z_AXIS);
                 }
 
                 return new State.State(julianDate, position, orientation, velocity, angularVelocity);

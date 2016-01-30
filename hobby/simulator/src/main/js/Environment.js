@@ -1,4 +1,4 @@
-define([ "Body", "Quaternion", "State", "Vector" ], function(Body, Quaternion, State, Vector)
+define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, Constants, Quaternion, State, Vector)
 {
     "use strict";
     function Environment(bodyToState)
@@ -110,9 +110,6 @@ define([ "Body", "Quaternion", "State", "Vector" ], function(Body, Quaternion, S
             LOGGER.trace("Environment.tick() end");
         };
 
-        // Gravitational constant.
-        var G = 6.67408E-20; // km^3 / (kg * sec^2)
-
         function computeGravityAcceleration(mass1, position1, mass2, position2)
         {
             // F = G * m1 * m2 / r^2
@@ -120,7 +117,7 @@ define([ "Body", "Quaternion", "State", "Vector" ], function(Body, Quaternion, S
             var rmag2 = r.magnitudeSquared();
 
             // the force applied on object 2 due to object 1
-            var fmag = -G * mass1 * mass2 / rmag2;
+            var fmag = -Constants.G * mass1 * mass2 / rmag2;
 
             // a = F / m
             var amag = fmag / mass2;
