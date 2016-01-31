@@ -328,6 +328,19 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         return answer;
     }));
 
+    // Kirk Mistr: IG88B + IG-2000 + Flechette Canon + Autothrusters; IG88C + IG-2000 + Ion Canon + Autothrusters;
+    // Tansarii Point Veteran + Lone Wolf
+    SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2016, "Aggressors x2/M3-A", function(agent)
+    {
+        var answer = [];
+        answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.IG_2000, UpgradeCard.FLECHETTE_CANNON,
+                UpgradeCard.AUTOTHRUSTERS));
+        answer.push(new Token(Pilot.IG_88C, agent, UpgradeCard.IG_2000, UpgradeCard.ION_CANNON,
+                UpgradeCard.AUTOTHRUSTERS));
+        answer.push(new Token(Pilot.TANSARII_POINT_VETERAN, agent, UpgradeCard.LONE_WOLF));
+        return answer;
+    }));
+
     var CoreSetImperialSquadBuilder = SquadBuilders[0];
     var CoreSetRebelSquadBuilder = SquadBuilders[1];
     var CoreSetFirstOrderSquadBuilder = SquadBuilders[2];

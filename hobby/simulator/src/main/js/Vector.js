@@ -146,11 +146,8 @@ define(function()
     Vector.prototype.unit = function()
     {
         var mag = this.magnitude();
-        var newX = this.x() / mag;
-        var newY = this.y() / mag;
-        var newZ = this.z() / mag;
 
-        return new Vector(newX, newY, newZ);
+        return this.multiply(1.0 / mag);
     };
 
     return Vector;
