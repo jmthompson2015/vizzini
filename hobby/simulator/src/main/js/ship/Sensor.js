@@ -1,4 +1,4 @@
-define([ "Body", "State", "ship/Device", "ship/SupplyType" ], function(Body, State, Device, SupplyType)
+define([ "State", "ship/Device", "ship/SupplyType" ], function(State, Device, SupplyType)
 {
     "use strict";
     function Camera(name, environment, parentKey, position, orientation, consumePerTick)
