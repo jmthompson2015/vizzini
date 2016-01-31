@@ -40,8 +40,7 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
         var result = body.northPole;
 
         // Verify.
-        assert.equal(Math.vizziniRound(result.magnitude(), 4), 1.0);
-        verifyVector(assert, result, 0.0, 0.0, 1.0);
+        assert.ok(!result);
     });
 
     QUnit.test("northPole Venus", function(assert)

@@ -19,7 +19,7 @@ define([ "Body", "JPLHorizons" ], function(Body, JPLHorizons)
             verifyVector(assert, state.position(), 561524.6657, 231553.661, -24203.0858);
             verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
             verifyVector(assert, state.velocity(), 0.0011, 0.012, 0.0);
-            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.0);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000001);
             done();
         };
         var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
@@ -157,7 +157,7 @@ define([ "Body", "JPLHorizons" ], function(Body, JPLHorizons)
             verifyVector(assert, state.position(), -245341784.62, -14487714.1007, 5698994.1288);
             verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
             verifyVector(assert, state.velocity(), 3.3902, -20.3162, -0.9673);
-            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.0);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000114);
             done();
         };
         var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
@@ -180,7 +180,7 @@ define([ "Body", "JPLHorizons" ], function(Body, JPLHorizons)
             verifyVector(assert, state.position(), -245341967.3608, -14460170.7875, 5701610.9722);
             verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
             verifyVector(assert, state.velocity(), 1.1941, -21.722, 0.0629);
-            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.0);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000029);
             done();
         };
         var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);

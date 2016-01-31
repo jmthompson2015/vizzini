@@ -27,9 +27,10 @@ define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sh
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 6);
+        assert.equal(result.length, 8);
         assert.equal(result[0], Body.SOL);
         assert.equal(result[5], Body.MARS);
+        assert.equal(result[7], Body.DEIMOS);
     });
 
     QUnit.test("tick()", function(assert)
