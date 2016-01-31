@@ -130,7 +130,7 @@ define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, 
             var amag = fmag / mass2;
             var runit = r.unit();
 
-            return new Vector(amag * runit.x(), amag * runit.y(), amag * runit.z());
+            return runit.multiply(amag);
         }
     }
 

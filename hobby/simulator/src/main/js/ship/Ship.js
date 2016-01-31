@@ -11,12 +11,12 @@ define([ "Quaternion", "Vector", "ship/Conduit", "ship/Power", "ship/Sensor", "s
         var width = 0.030; // 30 m
         var height = 0.010; // 10 m
 
-        var forward = new Vector(length / 2.0, 0.0, 0.0);
-        var aft = new Vector(-length / 2.0, 0.0, 0.0);
-        var port = new Vector(0.0, width / 2.0, 0.0);
-        var starboard = new Vector(0.0, -width / 2.0, 0.0);
-        var dorsal = new Vector(0.0, 0.0, height / 2.0);
-        var ventral = new Vector(0.0, 0.0, -height / 2.0);
+        var forward = Vector.X_AXIS.multiply(length / 2.0);
+        var aft = Vector.X_AXIS.multiply(-length / 2.0);
+        var port = Vector.Y_AXIS.multiply(width / 2.0);
+        var starboard = Vector.Y_AXIS.multiply(-width / 2.0);
+        var dorsal = Vector.Z_AXIS.multiply(height / 2.0);
+        var ventral = Vector.Z_AXIS.multiply(-height / 2.0);
 
         var forwardQ = Quaternion.ZERO;
         var aftQ = Quaternion.newInstance(180.0, Vector.Z_AXIS);
@@ -26,7 +26,7 @@ define([ "Quaternion", "Vector", "ship/Conduit", "ship/Power", "ship/Sensor", "s
         var ventralQ = Quaternion.newInstance(90.0, Vector.Y_AXIS);
 
         // Fuel.
-        var storage = new Storage.FuelTank("1", environment, name, new Vector(-length / 4.0, 0.0, 0.0),
+        var storage = new Storage.FuelTank("1", environment, name, Vector.X_AXIS.multiply(-length / 4.0),
                 Quaternion.ZERO, 10000);
 
         // Power.

@@ -61,7 +61,7 @@ define(function()
                 var sinAngle = c.magnitude() / mags; // Note this is always positive.
                 var angle0 = Math.atan2(sinAngle, cosAngle);
                 answer = ((angle0 >= 0.0) ? angle0 : Math.atan2(-sinAngle, cosAngle));
-                answer *= 180.0/Math.PI;
+                answer *= 180.0 / Math.PI;
             }
         }
 
@@ -114,6 +114,17 @@ define(function()
         var z = this.z();
 
         return (x * x) + (y * y) + (z * z);
+    };
+
+    Vector.prototype.multiply = function(scalar)
+    {
+        InputValidator.validateNotNull("scalar", scalar);
+
+        var newX = scalar * this.x();
+        var newY = scalar * this.y();
+        var newZ = scalar * this.z();
+
+        return new Vector(newX, newY, newZ);
     };
 
     Vector.prototype.subtract = function(another)

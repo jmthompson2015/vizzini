@@ -132,6 +132,16 @@ define([ "Vector" ], function(Vector)
         assert.equal(result, 14.0);
     });
 
+    QUnit.test("multiply()", function(assert)
+    {
+        // Setup.
+        var v = new Vector(1.0, 2.0, 3.0);
+
+        // Run / Verify.
+        verifyVector(assert, v.multiply(3.0), 3.0, 6.0, 9.0);
+        verifyVector(assert, v.multiply(-1.0), -1.0, -2.0, -3.0);
+    });
+
     QUnit.test("subtract()", function(assert)
     {
         // Setup.
