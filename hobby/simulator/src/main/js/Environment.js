@@ -76,9 +76,11 @@ define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, 
                 }
             }
 
+            var ship;
+
             for (shipKey in shipToState)
             {
-                var ship = nameToShip[shipKey];
+                ship = nameToShip[shipKey];
                 state0 = shipToState[shipKey];
                 mass0 = ship.mass();
                 position0 = state0.position();
@@ -94,6 +96,13 @@ define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, 
                 }
             }
 
+            // Update ship devices.
+            for (shipKey in shipToState)
+            {
+                ship = nameToShip[shipKey];
+                ship.tick();
+            }
+
             // Integrate states.
             for ( var bodyKey in bodyToState)
             {
@@ -104,8 +113,6 @@ define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, 
             {
                 shipToState[shipKey].tick();
             }
-
-            this.trigger("dataUpdated", this);
 
             LOGGER.trace("Environment.tick() end");
         };
@@ -126,8 +133,6 @@ define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, 
             return new Vector(amag * runit.x(), amag * runit.y(), amag * runit.z());
         }
     }
-
-    MicroEvent.mixin(Environment);
 
     return Environment;
 });
