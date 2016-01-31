@@ -22,8 +22,8 @@ define([ "Quaternion", "Vector", "ship/Conduit", "ship/Power", "ship/Sensor", "s
         var aftQ = Quaternion.newInstance(180.0, Vector.Z_AXIS);
         var portQ = Quaternion.newInstance(90.0, Vector.Z_AXIS);
         var starboardQ = Quaternion.newInstance(-90.0, Vector.Z_AXIS);
-        var dorsalQ = Quaternion.newInstance(-90.0, Vector.Y_AXIS);
-        var ventralQ = Quaternion.newInstance(90.0, Vector.Y_AXIS);
+        var dorsalQ = Quaternion.newInstance(90.0, Vector.X_AXIS);
+        var ventralQ = Quaternion.newInstance(-90.0, Vector.X_AXIS);
 
         // Fuel.
         var storage = new Storage.FuelTank("1", environment, name, Vector.X_AXIS.multiply(-length / 4.0),
