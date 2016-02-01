@@ -8,6 +8,33 @@ define([ "ui/SceneUI" ], function(SceneUI)
         InputValidator.validateNotNull("width", width);
         InputValidator.validateNotNull("height", height);
 
+        this.sensor = function(newSensor)
+        {
+            if (newSensor)
+            {
+                sensor.unbind("dataUpdated", update);
+                sensor = newSensor;
+                sensor.bind("dataUpdated", update);
+            }
+
+            return sensor;
+        };
+
+        this.canvasId = function()
+        {
+            return canvasId;
+        };
+
+        this.width = function()
+        {
+            return width;
+        };
+
+        this.height = function()
+        {
+            return height;
+        };
+
         sensor.bind("dataUpdated", update);
 
         var myCanvas = document.getElementById(canvasId);

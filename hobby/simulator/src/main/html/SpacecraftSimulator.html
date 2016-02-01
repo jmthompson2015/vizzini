@@ -19,6 +19,22 @@
 <body>
 	<table>
 		<tr>
+			<td>Observer Satellite <select id="observerSelect">
+					<option value="sol">Sol</option>
+					<option value="mercury">Mercury</option>
+					<option value="venus">Venus</option>
+					<option value="earth">Earth</option>
+					<option value="mars">Mars</option>
+			</select></td>
+		</tr>
+		<tr>
+			<td>
+				<canvas id="observerCameraUI"></canvas>
+			</td>
+		</tr>
+	</table>
+	<table>
+		<tr>
 			<td></td>
 			<td>Dorsal</td>
 			<td></td>
@@ -68,6 +84,23 @@
         require([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship", "ui/SensorUI" ],
                 function(Body, Environment, Quaternion, StateFactory, Vector, Ship, SensorUI)
                 {
+                    document.getElementById("observerSelect").onchange = function()
+                    {
+                        setObserver(this.options[this.selectedIndex].value)
+                    };
+
+                    var environment;
+                    var observerSensor;
+                    var observerSensorUI;
+
+                    function setObserver(bodyKey)
+                    {
+                        LOGGER.info("setObserver() bodyKey = " + bodyKey);
+                        var body = Body.properties[bodyKey];
+                        observerSensor = environment.ship(body.name + " Observer").device("Camera");
+                        observerSensorUI.sensor(observerSensor);
+                    }
+
                     createEnvironment();
 
                     function createEnvironment()
@@ -80,7 +113,20 @@
 
                     function finishEnvironment(bodyToState)
                     {
-                        var environment = new Environment(bodyToState);
+                        environment = new Environment(bodyToState);
+                        var solState = bodyToState[Body.SOL];
+
+                        for ( var bodyKey in bodyToState)
+                        {
+                            var body = Body.properties[bodyKey];
+                            var name = body.name + " Observer";
+                            var parentState = bodyToState[bodyKey];
+                            var distance = 3.0 * body.maxRadius;
+                            var satellite = new Ship.ObserverSatellite(name, environment);
+                            var state = StateFactory.createCircularOrbit(solState, bodyKey, parentState, distance);
+                            environment.addShip(satellite, state.position(), state.orientation(), state.velocity(),
+                                    state.angularVelocity());
+                        }
 
                         var ship = new Ship.ReferenceShip("ReferenceShip", environment);
                         var state0 = bodyToState[Body.EARTH];
@@ -90,10 +136,10 @@
                         var velocity = state0.velocity();
                         environment.addShip(ship, position, orientation, velocity);
 
-                        finishInit(environment);
+                        finishInit();
                     }
 
-                    function finishInit(environment)
+                    function finishInit()
                     {
                         var parentKey = "ReferenceShip";
                         var ship = environment.ship(parentKey);
@@ -113,6 +159,9 @@
                         var dorsalSensorUI = new SensorUI(dorsalSensor, "dorsalCameraUI", width, height);
                         var ventralSensorUI = new SensorUI(ventralSensor, "ventralCameraUI", width, height);
 
+                        observerSensor = environment.ship("Sol Observer").device("Camera");
+                        observerSensorUI = new SensorUI(observerSensor, "observerCameraUI", width, height);
+
                         var render = function()
                         {
                             requestAnimationFrame(render);
@@ -123,6 +172,8 @@
                             aftSensorUI.render();
                             dorsalSensorUI.render();
                             ventralSensorUI.render();
+
+                            observerSensorUI.render();
                         };
 
                         var tick = function()
