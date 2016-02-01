@@ -19,17 +19,18 @@ define(function()
         function createGeometry(body)
         {
             var answer;
+            var max;
 
             if (body.radiusX && body.radiusY && body.radiusZ)
             {
-                var max = body.maxRadius;
+                max = body.maxRadius;
                 answer = new THREE.SphereGeometry(max, 32, 32);
                 answer.applyMatrix(new THREE.Matrix4().makeScale(body.radiusX / max, body.radiusY / max, body.radiusZ /
                         max));
             }
             else if (body.equatorialRadius && body.polarRadius)
             {
-                var max = body.maxRadius;
+                max = body.maxRadius;
                 answer = new THREE.SphereGeometry(max, 32, 32);
                 answer.applyMatrix(new THREE.Matrix4().makeScale(body.equatorialRadius / max, body.equatorialRadius /
                         max, body.polarRadius / max));
