@@ -21,6 +21,26 @@ define([ "Body", "StateFactory" ], function(Body, StateFactory)
         verifyVector(assert, lunaState.velocity(), -26.9966, -15.5789, 0.0178);
     });
 
+    QUnit.test("StateFactory.createCircularOrbit()", function(assert)
+    {
+        // Setup.
+        var states = StateFactory.Reference.createStates();
+        var solState = states[Body.SOL];
+        var parentKey = Body.EARTH;
+        var parentState = states[parentKey];
+        var distance = 2.0 * Body.properties[parentKey].equatorialRadius;
+
+        // Run.
+        var result = StateFactory.createCircularOrbit(solState, parentKey, parentState, distance);
+
+        // Verify.
+        assert.ok(result);
+        verifyVector(assert, result.position(), -75606978.5976, 126195994.0223, -27995.3397);
+        verifyQuaternion(assert, result.orientation(), 0.491203, 0.0, 0.000026, 0.871045);
+        verifyVector(assert, result.velocity(), -21.1791, -12.6201, 0.0004);
+        verifyQuaternion(assert, result.angularVelocity(), 1.0, 0.0, 0.0, 0.000219);
+    });
+
     QUnit.test("StateFactory.createRelativeState()", function(assert)
     {
         // Setup.

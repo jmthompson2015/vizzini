@@ -1,5 +1,5 @@
-define([ "Body", "JPLHorizons", "Quaternion", "State", "Vector" ], function(Body, JPLHorizons, Quaternion, State,
-        Vector)
+define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], function(Body, Constants, JPLHorizons,
+        Quaternion, State, Vector)
 {
     "use strict";
     var Reference =
@@ -180,15 +180,58 @@ define([ "Body", "JPLHorizons", "Quaternion", "State", "Vector" ], function(Body
         return Quaternion.newInstance(angle, vector);
     };
 
-    Reference.createRelativeState = function(parentState, radius, speed)
+    Reference.createCircularOrbit = function(solState, parentKey, parentState, distance)
+    {
+        InputValidator.validateNotEmpty("solState", solState);
+        InputValidator.validateNotEmpty("parentKey", parentKey);
+        InputValidator.validateNotEmpty("parentState", parentState);
+        InputValidator.validateNotEmpty("distance", distance);
+
+        var body = Body.properties[parentKey];
+        var position0 = parentState.position();
+        var velocity0 = parentState.velocity();
+        LOGGER.debug(parentKey + " velocity0 = " + velocity0);
+        var orientation;
+        var direction, angle, vector;
+
+        if (parentKey === Body.SOL)
+        {
+            direction = Vector.X_AXIS.multiply(-1.0).unit();
+            orientation = Quaternion.newInstance(180.0, Vector.Z_AXIS);
+        }
+        else
+        {
+            direction = position0.subtract(solState.position()).unit();
+            angle = Vector.X_AXIS.angle(direction);
+            vector = Vector.X_AXIS.cross(direction).unit();
+            LOGGER.debug(parentKey + " angle = " + angle + " vector = " + vector);
+            orientation = Quaternion.newInstance(angle, vector);
+        }
+
+        var date = parentState.date();
+        var position = position0.subtract(direction.multiply(distance));
+        var mu = Constants.G * body.mass;
+        var speed = Math.sqrt(mu / distance);
+        var vector2 = direction.cross(Vector.Z_AXIS).unit();
+        LOGGER.debug(parentKey + " speed = " + speed + " vector2 = " + vector2);
+        var velocity = velocity0.add(vector2.multiply(speed));
+        var period = 2.0 * Math.PI * Math.sqrt(distance * distance * distance / mu);
+        var vector3 = Vector.Y_AXIS.cross(direction).unit();
+        LOGGER.debug(parentKey + " period = " + period + " vector3 = " + vector3);
+        var angularVelocity = Quaternion.newInstance(360.0 / period, vector3);
+
+        return new State.State(date, position, orientation, velocity, angularVelocity);
+    };
+
+    Reference.createRelativeState = function(parentState, distance, speed)
     {
         InputValidator.validateNotEmpty("parentState", parentState);
-        InputValidator.validateNotEmpty("radius", radius);
+        InputValidator.validateNotEmpty("distance", distance);
         InputValidator.validateNotEmpty("speed", speed);
 
         var date = parentState.date();
         var position0 = parentState.position();
-        var position = new Vector(position0.x() + radius, position0.y(), position0.z());
+        var position = new Vector(position0.x() + distance, position0.y(), position0.z());
         var orientation = Quaternion.ZERO;
         var velocity0 = parentState.velocity();
         var velocity = new Vector(velocity0.x(), velocity0.y() + speed, velocity0.z());
@@ -199,6 +242,7 @@ define([ "Body", "JPLHorizons", "Quaternion", "State", "Vector" ], function(Body
 
     return (
     {
+        createCircularOrbit: Reference.createCircularOrbit,
         createRelativeState: Reference.createRelativeState,
         Reference: Reference,
         Horizons: Horizons,
