@@ -447,6 +447,36 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
         },
     };
 
+    Body.values().forEach(function(bodyKey)
+    {
+        var body = Body.properties[bodyKey];
+
+        if (!body.maxRadius)
+        {
+            if (body.radiusX && body.radiusY && body.radiusZ)
+            {
+                body.maxRadius = Math.max(body.radiusX, Math.max(body.radiusY, body.radiusZ));
+            }
+            else if (body.equatorialRadius && body.polarRadius)
+            {
+                body.maxRadius = Math.max(body.equatorialRadius, body.polarRadius);
+            }
+            else if (body.radius)
+            {
+                body.maxRadius = body.radius;
+            }
+            else
+            {
+                throw "Unknown radius for body: " + body.value;
+            }
+        }
+
+        if (!body.northPole)
+        {
+            body.northPole = Vector.Z_AXIS;
+        }
+    });
+
     if (Object.freeze)
     {
         Object.freeze(Body);

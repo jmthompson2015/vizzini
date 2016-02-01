@@ -31,6 +31,45 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
         });
     });
 
+    QUnit.test("maxRadius Earth", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.EARTH];
+
+        // Run.
+        var result = body.maxRadius;
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, body.equatorialRadius);
+    });
+
+    QUnit.test("maxRadius Mercury", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.MERCURY];
+
+        // Run.
+        var result = body.maxRadius;
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, body.radius);
+    });
+
+    QUnit.test("maxRadius Phobos", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.PHOBOS];
+
+        // Run.
+        var result = body.maxRadius;
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, body.radiusX);
+    });
+
     QUnit.test("northPole Earth", function(assert)
     {
         // Setup.
@@ -40,7 +79,9 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
         var result = body.northPole;
 
         // Verify.
-        assert.ok(!result);
+        assert.ok(result);
+        assert.equal(Math.vizziniRound(result.magnitude(), 4), 1.0);
+        verifyVector(assert, result, 0.0, 0.0, 1.0);
     });
 
     QUnit.test("northPole Venus", function(assert)
