@@ -38,7 +38,7 @@ define([ "Vector" ], function(Vector)
 
         // Verify.
         assert.ok(result);
-        assert.equal(Math.vizziniRound(result, 4), 17.2722);
+        assert.equal(Math.vizziniRound(result, 4), 12.9332);
     });
 
     QUnit.test("angle() XY", function(assert)
@@ -79,6 +79,21 @@ define([ "Vector" ], function(Vector)
         // Verify.
         assert.ok(result);
         verifyVector(assert, result, 1.0, 0.0, 0.0);
+    });
+
+    QUnit.test("cross() Z(-X)", function(assert)
+    {
+        // Setup.
+        var v0 = Vector.Z_AXIS;
+        var v1 = Vector.X_AXIS.multiply(-1.0);
+
+        // Run.
+        var result = v0.cross(v1);
+
+        // Verify.
+        assert.ok(result);
+        verifyVector(assert, result, 0.0, -1.0, 0.0);
+        assert.equal(Math.vizziniRound(result.magnitude(), 4), 1.0);
     });
 
     QUnit.test("dot()", function(assert)

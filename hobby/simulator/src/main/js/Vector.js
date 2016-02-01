@@ -81,7 +81,7 @@ define(function()
         var z1 = another.z();
 
         var newX = (y0 * z1) - (z0 * y1);
-        var newY = (z0 * y1) - (x0 * z1);
+        var newY = (z0 * x1) - (x0 * z1);
         var newZ = (x0 * y1) - (y0 * x1);
 
         return new Vector(newX, newY, newZ);
