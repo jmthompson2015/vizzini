@@ -3,6 +3,39 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     "use strict";
     QUnit.module("Ship");
 
+    QUnit.test("ObserverSatellite()", function(assert)
+    {
+        // Setup.
+        var bodyToState = {};
+        var environment = new Environment(bodyToState);
+
+        // Run.
+        var result = new Ship.ObserverSatellite("ObserverSatellite", environment);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(result.devices());
+        assert.equal(result.devices().length, 2);
+    });
+
+    QUnit.test("ObserverSatellite.tick()", function(assert)
+    {
+        // Setup.
+        var bodyToState = {};
+        var environment = new Environment(bodyToState);
+
+        // Run.
+        var ship = new Ship.ObserverSatellite("ObserverSatellite", environment);
+        environment.addShip(ship, Vector.ZERO, Quaternion.ZERO);
+
+        // Run.
+        ship.tick();
+
+        // Verify.
+        assert.equal(ship.devices()[0].level(), 1, "power");
+        assert.ok(ship.devices()[1].produce(), "sensor");
+    });
+
     QUnit.test("ReferenceShip()", function(assert)
     {
         // Setup.

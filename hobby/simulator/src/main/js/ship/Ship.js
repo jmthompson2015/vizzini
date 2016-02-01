@@ -2,6 +2,28 @@ define([ "Quaternion", "Vector", "ship/Conduit", "ship/Power", "ship/Sensor", "s
         Vector, Conduit, Power, Sensor, Storage)
 {
     "use strict";
+    function ObserverSatellite(name, environment)
+    {
+        InputValidator.validateNotNull("name", name);
+        InputValidator.validateNotNull("environment", environment);
+
+        // Power.
+        var power = new Power.RTG("RTG", environment, name, Vector.ZERO, Quaternion.ZERO, 2);
+
+        // Sensor.
+        var sensor = new Sensor.Camera("Camera", environment, name, Vector.X_AXIS, Quaternion.ZERO, 1);
+
+        var devices = [];
+        devices.push(power);
+        devices.push(sensor);
+
+        var conduit = new Conduit(name, power.produceType(), power, sensor);
+        power.addProduceConduit(conduit);
+        sensor.addConsumeConduit(conduit);
+
+        return new Ship(name, devices);
+    }
+
     function ReferenceShip(name, environment)
     {
         InputValidator.validateNotNull("name", name);
@@ -125,6 +147,7 @@ define([ "Quaternion", "Vector", "ship/Conduit", "ship/Power", "ship/Sensor", "s
 
     return (
     {
+        ObserverSatellite: ObserverSatellite,
         ReferenceShip: ReferenceShip,
         Ship: Ship
     });
