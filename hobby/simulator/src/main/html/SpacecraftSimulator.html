@@ -15,6 +15,7 @@
 <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 </head>
 <body>
 	<table>
@@ -25,6 +26,7 @@
 					<option value="venus">Venus</option>
 					<option value="earth">Earth</option>
 					<option value="mars">Mars</option>
+					<option value="jupiter">Jupiter</option>
 			</select></td>
 		</tr>
 		<tr>
@@ -106,7 +108,8 @@
                     function createEnvironment()
                     {
                         var bodyKeys = [ Body.SOL, Body.MERCURY, Body.VENUS, Body.EARTH, Body.LUNA, Body.MARS,
-                                Body.PHOBOS, Body.DEIMOS ];
+                                Body.PHOBOS, Body.DEIMOS, Body.JUPITER, Body.IO, Body.EUROPA, Body.GANYMEDE,
+                                Body.CALLISTO ];
                         var factory = new StateFactory.Horizons(bodyKeys, finishEnvironment);
                         factory.createStates();
                     }

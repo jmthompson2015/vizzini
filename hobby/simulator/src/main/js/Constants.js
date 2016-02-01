@@ -11,6 +11,7 @@ define(function()
         MINUTES_TO_SECONDS: 60.0,
 
         DAYS_TO_SECONDS: 24.0 * 60.0 * 60.0,
+        HOURS_TO_SECONDS: 60.0 * 60.0,
     };
 
     return Constants;

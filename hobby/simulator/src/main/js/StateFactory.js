@@ -6,14 +6,24 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
     {
         DATE: moment("2016-Jan-22 00:00:00.0000", "YYYY-MMM-DD HH:mm:ss.SSS"),
 
+        createCallistoState: function()
+        {
+            var body = Body.properties[Body.CALLISTO];
+            var position = new Vector(-7.820937503326939E+08, 2.151879625930370E+08, 1.650013550381620E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(1.866166856427782E+00, -1.798937152675281E+01, 1.380205322338579E-02); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
         createDeimosState: function()
         {
             var body = Body.properties[Body.DEIMOS];
             var position = new Vector(-2.453419673607886E+08, -1.446017078752224E+07, 5.701610972238690E+06); // km
             var orientation = Quaternion.ZERO;
             var velocity = new Vector(1.194122461504781E+00, -2.172198484009983E+01, 6.291012176784427E-02); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -24,8 +34,51 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(-7.561357919474147E+07, 1.262069098272267E+08, -2.799566829568148E+04); // km
             var orientation = Quaternion.ZERO;
             var velocity = new Vector(-2.596245358914444E+01, -1.551250076715294E+01, 4.301894898413039E-04); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createEuropaState: function()
+        {
+            var body = Body.properties[Body.EUROPA];
+            var position = new Vector(-7.800183323944567E+08, 2.165206482789710E+08, 1.657266098092231E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-4.832828809811526E+00, 1.592536382978167E+00, 7.112233733367845E-01); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createGanymedeState: function()
+        {
+            var body = Body.properties[Body.GANYMEDE];
+            var position = new Vector(-7.810201844602801E+08, 2.174791859668944E+08, 1.659362473474739E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-1.398875642089171E+01, -1.527674892083302E+01, -1.291837436964505E-01); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createIoState: function()
+        {
+            var body = Body.properties[Body.IO];
+            var position = new Vector(-7.802996402910351E+08, 2.163071800772197E+08, 1.655983276992474E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(2.580477571789114E+00, 4.241009036666952E+00, 7.978367852589356E-01); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createJupiterState: function()
+        {
+            var body = Body.properties[Body.JUPITER];
+            var position = new Vector(-7.806918810584401E+08, 2.164591897759456E+08, 1.655940332772167E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-3.643003676886735E+00, -1.197544163731336E+01, 1.312630691799290E-01); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -36,8 +89,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(-7.565136822630262E+07, 1.265841740842660E+08, -6.103129894522578E+04); // km
             var orientation = Quaternion.ZERO;
             var velocity = new Vector(-2.699663514092948E+01, -1.557892634656363E+01, 1.780050153023804E-02); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -48,8 +100,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(-2.453488126809445E+08, -1.448257689212526E+07, 5.702725398832533E+06); // km
             var orientation = Reference.computeOrientation(body.northPole);
             var velocity = new Vector(2.351151896390406E+00, -2.210471406998296E+01, -5.211780858316031E-01); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -60,8 +111,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(-4.655269736772238E+07, 2.340402089738802E+07, 6.191685566492947E+06); // km
             var orientation = Reference.computeOrientation(body.northPole);
             var velocity = new Vector(-3.151563668985122E+01, -4.164038960478674E+01, -5.119994272692079E-01); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -72,8 +122,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(-2.453417846199759E+08, -1.448771410074829E+07, 5.698994128798394E+06); // km
             var orientation = Quaternion.ZERO;
             var velocity = new Vector(3.390151660992808E+00, -2.031619475579002E+01, -9.672556353593000E-01); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -84,8 +133,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(5.615246656543500E+05, 2.315536610010385E+05, -2.420308582415251E+04); // km
             var orientation = Quaternion.ZERO;
             var velocity = new Vector(1.087228969233570E-03, 1.203657799485593E-02, -3.669325133155450E-05); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -96,8 +144,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(-8.403620927028121E+07, -6.704756289839806E+07, 3.935176501556642E+06); // km
             var orientation = Reference.computeOrientation(body.northPole);
             var velocity = new Vector(2.155331421046835E+01, -2.756300898657247E+01, -1.621810352088923E+00); // km/sec
-            var pole = (body.northPole ? body.northPole : Vector.Z_AXIS);
-            var angularVelocity = Quaternion.newInstance(body.rotationRate, pole);
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
@@ -114,6 +161,11 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             answer[Body.MARS] = this.createMarsState();
             answer[Body.PHOBOS] = this.createPhobosState();
             answer[Body.DEIMOS] = this.createDeimosState();
+            answer[Body.JUPITER] = this.createJupiterState();
+            answer[Body.IO] = this.createIoState();
+            answer[Body.EUROPA] = this.createEuropaState();
+            answer[Body.GANYMEDE] = this.createGanymedeState();
+            answer[Body.CALLISTO] = this.createCallistoState();
 
             return answer;
         },

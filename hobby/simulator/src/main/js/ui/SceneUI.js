@@ -5,6 +5,8 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
     {
         InputValidator.validateNotNull("environment", environment);
 
+        var bumps = [ Body.MERCURY, Body.VENUS, Body.EARTH, Body.LUNA, Body.MARS, Body.PHOBOS, Body.DEIMOS ];
+        var speculars = [ Body.EARTH ];
         var scene = new THREE.Scene();
         var bodyKeys = environment.bodyKeys();
         var bodyToUI = {};
@@ -13,8 +15,8 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
         {
             var bodyKey = bodyKeys[i];
             var body = Body.properties[bodyKey];
-            var isBump = (bodyKey === Body.SOL ? false : true);
-            var isSpecular = (bodyKey === Body.EARTH ? true : false);
+            var isBump = bumps.vizziniContains(bodyKey);
+            var isSpecular = speculars.vizziniContains(bodyKey);
             var bodyUI = new BodyUI(body, isBump, isSpecular);
             bodyToUI[bodyKey] = bodyUI;
             var state = environment.state(bodyKey);

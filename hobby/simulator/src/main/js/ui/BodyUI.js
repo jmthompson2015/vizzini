@@ -11,8 +11,7 @@ define(function()
         mesh.name = body.name;
 
         // FIXME: temporary.
-        var radius = body.maxRadius;
-        mesh.add(new THREE.AxisHelper(1.50 * radius));
+        mesh.add(new THREE.AxisHelper(1.33 * body.maxRadius));
 
         return mesh;
 
@@ -32,8 +31,8 @@ define(function()
             {
                 max = body.maxRadius;
                 answer = new THREE.SphereGeometry(max, 32, 32);
-                answer.applyMatrix(new THREE.Matrix4().makeScale(body.equatorialRadius / max, body.equatorialRadius /
-                        max, body.polarRadius / max));
+                answer.applyMatrix(new THREE.Matrix4().makeScale(body.equatorialRadius / max, body.polarRadius / max,
+                        body.equatorialRadius / max));
             }
             else if (body.radius)
             {

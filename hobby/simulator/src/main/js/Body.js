@@ -1,3 +1,6 @@
+/*
+ * @see https://en.wikipedia.org/wiki/Axial_tilt#Solar_System_bodies
+ */
 define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, Constants, Quaternion, Vector)
 {
     "use strict";
@@ -123,6 +126,8 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 1.89813e+27, // kg
                 equatorialRadius: 71492, // km
                 polarRadius: 66854, // km
+                northPole: Quaternion.newInstanceRADec(268.05, 64.49).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (9 * Constants.HOURS_TO_SECONDS + 55 * Constants.MINUTES_TO_SECONDS + 29.685), // deg/sec
                 value: "jupiter",
             },
             "saturn":
@@ -257,6 +262,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "jupiter",
                 mass: 8.9330e+22, // kg
                 radius: 1.8213e+03, // km
+                rotationRate: 360.0 / (1.769138 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "io",
             },
             "europa":
@@ -267,6 +273,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "jupiter",
                 mass: 4.7970e+22, // kg
                 radius: 1.5650e+03, // km
+                rotationRate: 360.0 / (3.551810 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "europa",
             },
             "ganymede":
@@ -277,6 +284,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "jupiter",
                 mass: 1.4820e+23, // kg
                 radius: 2.6340e+03, // km
+                rotationRate: 360.0 / (7.154553 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "ganymede",
             },
             "callisto":
@@ -287,6 +295,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "jupiter",
                 mass: 1.0760e+23, // kg
                 radius: 2.4030e+03, // km
+                rotationRate: 360.0 / (16.689018 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "callisto",
             },
             "mimas":
