@@ -21,7 +21,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
         assert.equal(result.producePerTick(), 2);
     });
 
-    QUnit.test("request()", function(assert)
+    QUnit.test("FusionReactor.request()", function(assert)
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
@@ -42,7 +42,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
         assert.equal(device.level(), 1);
     });
 
-    QUnit.test("toString()", function(assert)
+    QUnit.test("FusionReactor.toString()", function(assert)
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
@@ -52,5 +52,49 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
 
         // Run / Verify.
         assert.equal(device.toString(), "FusionReactor 1 consumePerTick=1 producePerTick=2");
+    });
+
+    QUnit.test("RTG()", function(assert)
+    {
+        // Setup.
+        var bodyToState = StateFactory.Reference.createStates();
+        var environment = new Environment(bodyToState);
+        var name = "ReferenceShip";
+
+        // Run.
+        var result = new Power.RTG("1", environment, name, Vector.ZERO, Quaternion.ZERO, 2);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.producePerTick(), 2);
+    });
+
+    QUnit.test("RTG.request()", function(assert)
+    {
+        // Setup.
+        var bodyToState = StateFactory.Reference.createStates();
+        var environment = new Environment(bodyToState);
+        var name = "ReferenceShip";
+        var device = new Power.RTG("1", environment, name, Vector.ZERO, Quaternion.ZERO, 2);
+
+        // Run.
+        var result = device.request(1);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, 1);
+        assert.equal(device.level(), 1);
+    });
+
+    QUnit.test("RTG.toString()", function(assert)
+    {
+        // Setup.
+        var bodyToState = StateFactory.Reference.createStates();
+        var environment = new Environment(bodyToState);
+        var name = "ReferenceShip";
+        var device = new Power.RTG("1", environment, name, Vector.ZERO, Quaternion.ZERO, 2);
+
+        // Run / Verify.
+        assert.equal(device.toString(), "RTG 1 producePerTick=2");
     });
 });

@@ -76,8 +76,55 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
                 this.producePerTick();
     };
 
+    /*
+     * Radioisotope thermoelectric generator.
+     */
+    function RTG(name, environment, parentKey, position, orientation, producePerTick)
+    {
+        InputValidator.validateNotNull("producePerTick", producePerTick);
+
+        this.producePerTick = function()
+        {
+            return producePerTick;
+        };
+
+        this.produceType = function()
+        {
+            return SupplyType.POWER;
+        };
+
+        var level = producePerTick;
+
+        this.level = function()
+        {
+            return level;
+        };
+
+        this.request = function(amount)
+        {
+            // Produce power.
+            var got = Math.min(amount, level);
+            level -= got;
+
+            return got;
+        };
+
+        this.tick = function()
+        {
+            level = producePerTick;
+        };
+
+        Vizzini.extend(this, new Device(name, environment, parentKey, position, orientation));
+    }
+
+    RTG.prototype.toString = function()
+    {
+        return "RTG " + this.name() + " producePerTick=" + this.producePerTick();
+    };
+
     return (
     {
-        FusionReactor: FusionReactor
+        FusionReactor: FusionReactor,
+        RTG: RTG
     });
 });
