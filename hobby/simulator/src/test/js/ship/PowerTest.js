@@ -9,7 +9,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
 
         // Run.
@@ -25,7 +25,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         var storage = new Storage.FuelTank("1", environment, name, Vector.ZERO, Quaternion.ZERO, 100);
         var device = new Power.FusionReactor("1", environment, name, Vector.ZERO, Quaternion.ZERO, 1, 2);
@@ -46,7 +46,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         var device = new Power.FusionReactor("1", environment, name, Vector.ZERO, Quaternion.ZERO, 1, 2);
 
@@ -58,7 +58,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
 
         // Run.
@@ -73,7 +73,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         var device = new Power.RTG("1", environment, name, Vector.ZERO, Quaternion.ZERO, 2);
 
@@ -90,7 +90,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         var device = new Power.RTG("1", environment, name, Vector.ZERO, Quaternion.ZERO, 2);
 

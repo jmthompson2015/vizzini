@@ -8,7 +8,7 @@ define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sh
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
 
         // Run / Verify.
         assert.ok(environment.state(Body.SOL));
@@ -20,7 +20,7 @@ define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sh
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
 
         // Run.
         var result = environment.bodyKeys();
@@ -47,7 +47,7 @@ define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sh
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var earthState = bodyToState[Body.EARTH];
         var state = StateFactory.createRelativeState(earthState, 42164, 3.0746);
         environment.addShip(new Ship.ReferenceShip("ReferenceShip", environment), state.position(), Quaternion.ZERO,

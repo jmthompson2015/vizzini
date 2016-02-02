@@ -11,7 +11,7 @@ define(
                 // Setup.
                 var supplyType = SupplyType.POWER;
                 var bodyToState = StateFactory.Reference.createStates();
-                var environment = new Environment(bodyToState);
+                var environment = new Environment.Environment(bodyToState);
                 var name = "ReferenceShip";
                 var producer = new Power.FusionReactor("1", environment, name, Vector.ZERO, Quaternion.ZERO, 1, 2);
                 var consumer = new Sensor.Camera("1", environment, name, Vector.ZERO, Quaternion.ZERO, 1);
@@ -30,7 +30,7 @@ define(
                                 // Setup.
                                 var supplyType = SupplyType.POWER;
                                 var bodyToState = StateFactory.Reference.createStates();
-                                var environment = new Environment(bodyToState);
+                                var environment = new Environment.Environment(bodyToState);
                                 var name = "ReferenceShip";
                                 var producer = new Power.FusionReactor("1", environment, name, Vector.ZERO,
                                         Quaternion.ZERO, 1, 2);

@@ -7,7 +7,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     {
         // Setup.
         var bodyToState = {};
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
 
         // Run.
         var result = new Ship.ObserverSatellite("ObserverSatellite", environment);
@@ -22,7 +22,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     {
         // Setup.
         var bodyToState = {};
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
 
         // Run.
         var ship = new Ship.ObserverSatellite("ObserverSatellite", environment);
@@ -40,7 +40,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     {
         // Setup.
         var bodyToState = {};
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
 
         // Run.
         var result = new Ship.ReferenceShip("ReferenceShip", environment);
@@ -55,7 +55,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     {
         // Setup.
         var bodyToState = {};
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
 
         // Run.
         var ship = new Ship.ReferenceShip("ReferenceShip", environment);

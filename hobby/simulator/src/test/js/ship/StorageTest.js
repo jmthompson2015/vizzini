@@ -8,7 +8,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Storage" ]
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
 
         // Run.
@@ -23,7 +23,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Storage" ]
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         var device = new Storage.FuelTank("1", environment, name, Vector.ZERO, Quaternion.ZERO, 100);
 
@@ -41,7 +41,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Storage" ]
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         var device = new Storage.FuelTank("1", environment, name, Vector.ZERO, Quaternion.ZERO, 10);
 
@@ -59,7 +59,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Storage" ]
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         var device = new Storage.FuelTank("1", environment, name, Vector.ZERO, Quaternion.ZERO, 100);
 

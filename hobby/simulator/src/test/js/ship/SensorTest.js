@@ -9,7 +9,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
 
         // Run.
@@ -24,7 +24,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
     {
         // Setup.
         var bodyToState = StateFactory.Reference.createStates();
-        var environment = new Environment(bodyToState);
+        var environment = new Environment.Environment(bodyToState);
         var name = "ReferenceShip";
         environment.addShip(new Ship.ReferenceShip(name, environment), Vector.ZERO, Quaternion.ZERO);
         var ship = environment.ship(name);
@@ -45,7 +45,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
             {
                 // Setup.
                 var bodyToState = StateFactory.Reference.createStates();
-                var environment = new Environment(bodyToState);
+                var environment = new Environment.Environment(bodyToState);
                 var parentKey = "ReferenceShip";
                 var consumePerTick = 1;
                 var device = new Sensor.Camera("Forward", environment, parentKey, Vector.ZERO, Quaternion.ZERO,
