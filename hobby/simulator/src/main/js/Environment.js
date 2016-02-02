@@ -1,4 +1,5 @@
-define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, Constants, Quaternion, State, Vector)
+define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "ship/Ship" ], function(Body, Constants,
+        Quaternion, State, StateFactory, Vector, Ship)
 {
     "use strict";
     function Environment(bodyToState)
@@ -134,5 +135,43 @@ define([ "Body", "Constants", "Quaternion", "State", "Vector" ], function(Body, 
         }
     }
 
-    return Environment;
+    function Reference()
+    {
+        var stateFactory = StateFactory.Reference;
+        var bodyToState = stateFactory.createStates();
+        var environment = new Environment(bodyToState);
+
+        // Add observer satellites.
+        var solState = bodyToState[Body.SOL];
+
+        for ( var bodyKey in bodyToState)
+        {
+            var body = Body.properties[bodyKey];
+            var name = body.name + " Observer";
+            var parentState = bodyToState[bodyKey];
+            var distance = 3.0 * body.maxRadius;
+            var satellite = new Ship.ObserverSatellite(name, environment);
+            var state = StateFactory.createCircularOrbit(solState, bodyKey, parentState, distance);
+            environment.addShip(satellite, state.position(), state.orientation(), state.velocity(), state
+                    .angularVelocity());
+        }
+
+        // Add a ship.
+        var ship = new Ship.ReferenceShip("ReferenceShip", environment);
+        var state0 = bodyToState[Body.EARTH];
+        var position0 = state0.position();
+        var position = new Vector(position0.x(), position0.y() + 5.0e+04, position0.z());
+        var orientation = Quaternion.newInstance(-90.0, Vector.Z_AXIS);
+        var velocity = state0.velocity();
+        environment.addShip(ship, position, orientation, velocity);
+
+        return environment;
+    }
+
+    return (
+    {
+        Environment: Environment,
+        Reference: Reference,
+    });
+
 });

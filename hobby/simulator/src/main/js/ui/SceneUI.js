@@ -19,19 +19,19 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
             var isSpecular = speculars.vizziniContains(bodyKey);
             var bodyUI = new BodyUI(body, isBump, isSpecular);
             bodyToUI[bodyKey] = bodyUI;
-            var state = environment.state(bodyKey);
-            bodyUI.position.set(state.position().x(), state.position().y(), state.position().z());
+            var position = environment.state(bodyKey).position();
+            bodyUI.position.set(position.x(), position.y(), position.z());
             scene.add(bodyUI);
         }
 
-        // var ambientLight = new THREE.AmbientLight(0x343434);
-        var ambientLight = new THREE.AmbientLight(0x808080);
-        // var ambientLight = new THREE.AmbientLight(0xffffff);
+        // var color = 0x343434;
+        var color = 0x808080;
+        // var color = 0xffffff;
+        var ambientLight = new THREE.AmbientLight(color);
         scene.add(ambientLight);
 
-        var pointLight = new THREE.PointLight(0xffffff, 1.0);
         var solState = environment.state(Body.SOL);
-        pointLight.position.set(solState.position().x(), solState.position().y(), solState.position().z());
+        var pointLight = createPointLight(solState.position());
         scene.add(pointLight);
 
         this.bodyToState = function()
@@ -44,10 +44,29 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
             return bodyToUI;
         };
 
+        this.pointLight = function()
+        {
+            return pointLight;
+        };
+
         this.scene = function()
         {
             return scene;
         };
+
+        function createPointLight(position)
+        {
+            InputValidator.validateNotNull("position", position);
+
+            var color = 0xffffff;
+            var intensity = 1.0;
+            var distance = 0.0;
+            var decay = 0;
+            var pointLight = new THREE.PointLight(color, intensity, distance, decay);
+            pointLight.position.set(position.x(), position.y(), position.z());
+
+            return pointLight;
+        }
     }
 
     return SceneUI;

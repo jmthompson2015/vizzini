@@ -13,6 +13,7 @@
 <script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
 </head>
 <body>
@@ -137,16 +138,7 @@
                 var julianDate = 12345.6;
                 var orientation = state0.orientation();
                 var velocity = Vector.ZERO;
-                var angularVelocity = Quaternion.ZERO;
-
-                if (body.northPole)
-                {
-                    angularVelocity = Quaternion.newInstance(2.0, body.northPole);
-                }
-                else
-                {
-                    angularVelocity = Quaternion.newInstance(2.0, Vector.Z_AXIS);
-                }
+                var angularVelocity = Quaternion.newInstance(2.0, body.northPole);
 
                 return new State.State(julianDate, position, orientation, velocity, angularVelocity);
             }
