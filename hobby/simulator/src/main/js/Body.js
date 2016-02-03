@@ -139,6 +139,11 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 5.6832e+26, // kg
                 equatorialRadius: 60268, // km
                 polarRadius: 54364, // km
+                northPole: Quaternion.newInstanceRADec(40.60, 83.54).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (10 * Constants.HOURS_TO_SECONDS + 39 * Constants.MINUTES_TO_SECONDS + 22.4), // deg/sec
+                // @see https://en.wikipedia.org/wiki/Rings_of_Saturn
+                ringInnerRadius: 60268 + 7000, // km
+                ringOuterRadius: 60268 + 80000, // km
                 value: "saturn",
             },
             "uranus":
@@ -306,6 +311,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "saturn",
                 mass: 3.7500e+22, // kg
                 radius: 1.9880e+02, // km
+                rotationRate: 360.0 / (0.9424218 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "mimas",
             },
             "enceladus":
@@ -316,6 +322,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "saturn",
                 mass: 1.0805e+23, // kg
                 radius: 2.5230e+02, // km
+                rotationRate: 360.0 / (1.370218 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "enceladus",
             },
             "tethys":
@@ -326,6 +333,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "saturn",
                 mass: 6.1760e+23, // kg
                 radius: 5.3630e+02, // km
+                rotationRate: 360.0 / (1.888 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "tethys",
             },
             "dione":
@@ -334,8 +342,9 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 type: BodyType.MOON,
                 id: "604",
                 parent: "saturn",
-                mass: 1.0957e+24, // kg
+                mass: 1.09572e+24, // kg
                 radius: 5.6250e+02, // km
+                rotationRate: 360.0 / (2.736915 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "dione",
             },
             "rhea":
@@ -346,6 +355,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "saturn",
                 mass: 2.3090e+24, // kg
                 radius: 7.6450e+02, // km
+                rotationRate: 360.0 / (4.518 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "rhea",
             },
             "titan":
@@ -356,16 +366,18 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "saturn",
                 mass: 1.3455e+26, // kg
                 radius: 2.5755e+03, // km
+                rotationRate: 360.0 / (15.945421 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "titan",
             },
             "iapetus":
             {
                 name: "Iapetus",
                 type: BodyType.MOON,
-                id: "607",
+                id: "608",
                 parent: "saturn",
-                mass: 1.0800e+22, // kg
-                radius: 1.3300e+02, // km
+                mass: 180.59e+22, // kg
+                radius: 734.5, // km
+                rotationRate: 360.0 / (79.33 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "iapetus",
             },
             "ariel":
@@ -462,7 +474,11 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
 
         if (!body.maxRadius)
         {
-            if (body.radiusX && body.radiusY && body.radiusZ)
+            if (body.ringOuterRadius)
+            {
+                body.maxRadius = body.ringOuterRadius;
+            }
+            else if (body.radiusX && body.radiusY && body.radiusZ)
             {
                 body.maxRadius = Math.max(body.radiusX, Math.max(body.radiusY, body.radiusZ));
             }

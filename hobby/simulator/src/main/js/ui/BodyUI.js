@@ -10,6 +10,12 @@ define(function()
         var mesh = new THREE.Mesh(geometry, material);
         mesh.name = body.name;
 
+        if (body.ringInnerRadius && body.ringOuterRadius)
+        {
+            // Add rings.
+            mesh.add(createRings(body));
+        }
+
         // FIXME: temporary.
         mesh.add(new THREE.AxisHelper(1.33 * body.maxRadius));
 
@@ -71,6 +77,39 @@ define(function()
             }
 
             return new THREE.MeshPhongMaterial(materialProps);
+        }
+
+        function createRings(body)
+        {
+            var innerRadius = body.ringInnerRadius;
+            var outerRadius = body.ringOuterRadius;
+            var thetaSegments = 32;
+            var phiSegments = 8;
+            var thetaStart = 0;
+            var thetaLength = 2.0 * Math.PI;
+            var geometry = new THREE.RingGeometry2(innerRadius, outerRadius, thetaSegments, phiSegments, thetaStart,
+                    thetaLength);
+
+            var loader = new THREE.TextureLoader();
+            var name = body.name.toLowerCase();
+            var texture = loader.load(imageBase + name + "ringcolor.jpg");
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            texture.repeat.set(2, 2);
+            var materialProps =
+            {
+                map: texture,
+                color: 0xffff00,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.6,
+            };
+
+            // var material = new THREE.MeshBasicMaterial(materialProps);
+            var material = new THREE.MeshPhongMaterial(materialProps);
+            var mesh = new THREE.Mesh(geometry, material);
+
+            return mesh;
         }
     }
 

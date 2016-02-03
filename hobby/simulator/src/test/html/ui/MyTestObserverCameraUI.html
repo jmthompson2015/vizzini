@@ -10,6 +10,7 @@
 <script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
 <script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Body"></script>
 <script src="../../../../../../coreweb/lib/three/three.min-0.73.0.js"></script>
+<script src="../../../../../../coreweb/lib/three/RingGeometry2.js"></script>
 
 <script src="../../../../../../coreweb/src/main/js/ui/Select.js"></script>
 
@@ -31,9 +32,7 @@
         // var resourceBase = "/Volumes/StorageDrive/jmthompson/git/vizzini/hobby/simulator/src/main/resources/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Body", "Environment", "Quaternion", "State", "StateFactory", "Vector", "ship/Sensor", "ship/Ship",
-                "ui/ObserverCameraUI" ], function(Body, Environment, Quaternion, State, StateFactory, Vector, Sensor,
-                Ship, ObserverCameraUI)
+        require([ "Body", "Environment", "ui/ObserverCameraUI" ], function(Body, Environment, ObserverCameraUI)
         {
             var environment = new Environment.Reference();
             var width = 300;

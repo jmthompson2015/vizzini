@@ -8,8 +8,9 @@ define([ "Body", "ui/CameraUI" ], function(Body, CameraUI)
             InputValidator.validateNotNull("environment", this.props.environment);
 
             var environment = this.props.environment;
-            var bodyKey = Body.SOL;
-            var observer = environment.ship("Sol Observer");
+            var bodyKey = (this.props.initialSelectedValue ? this.props.initialSelectedValue : Body.SOL);
+            var body = Body.properties[bodyKey];
+            var observer = environment.ship(body.name + " Observer");
             var sensor = observer.device("Camera");
 
             return (
@@ -29,11 +30,13 @@ define([ "Body", "ui/CameraUI" ], function(Body, CameraUI)
             {
                 return Body.properties[bodyKey].name;
             };
+            var initialSelectedValue = this.props.initialSelectedValue;
 
             var select = React.createElement(Select,
             {
                 values: bodyKeys,
                 labelFunction: labelFunction,
+                initialSelectedValue: initialSelectedValue,
                 onChange: this.bodyChanged,
             });
 
