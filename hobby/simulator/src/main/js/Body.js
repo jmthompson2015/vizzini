@@ -172,6 +172,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 equatorialRadius: 24766, // km
                 polarRadius: 24342, // km
                 northPole: Quaternion.newInstanceRADec(299.36, 43.46).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (16.11 * Constants.HOURS_TO_SECONDS), // deg/sec
                 value: "neptune",
             },
 
@@ -454,6 +455,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "neptune",
                 mass: 2.1470e+22, // kg
                 radius: 1.3526e+03, // km
+                rotationRate: 360.0 / (5.876854 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "triton",
             },
             "charon":

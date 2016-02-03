@@ -27,7 +27,7 @@ define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sh
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 27);
+        assert.equal(result.length, 29);
         assert.equal(result[0], Body.SOL);
         assert.equal(result[1], Body.MERCURY);
         assert.equal(result[2], Body.VENUS);
@@ -55,6 +55,8 @@ define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sh
         assert.equal(result[24], Body.UMBRIEL);
         assert.equal(result[25], Body.TITANIA);
         assert.equal(result[26], Body.OBERON);
+        assert.equal(result[27], Body.NEPTUNE);
+        assert.equal(result[28], Body.TRITON);
     });
 
     QUnit.test("tick()", function(assert)
