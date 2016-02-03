@@ -1,0 +1,86 @@
+[Log] 09:30:39:591 TRACE textDocument = ******************************************************************************* (Logger.js, line 148)
+ Revised: Jan 08, 2014             Ariel  / (Uranus)                        701
+
+ SATELLITE PHYSICAL PROPERTIES:
+  Radius (km)           = 581.1x577.9x577.7 Density (g cm^-3)   = 1.67 +- 0.15
+  Mass (10^20 kg )      =   13.53 +- 1.20   Geometric Albedo    =  0.34 
+                                            V(1,0)              = +1.45
+
+ SATELLITE ORBITAL DATA:
+  Semi-major axis, a (km) = 191.2 (10^3)    Orbital period      = 2.520 d
+  Eccentricity, e         =   0.0034        Rotational period   = Synchronous
+  Inclination, i  (deg)   =   0.31
+*******************************************************************************
+ 
+ 
+*******************************************************************************
+Ephemeris / WWW_USER Wed Feb  3 08:30:40 2016 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: Ariel (701)                     {source: ura111}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2016-Jan-22 00:00:00.0000 CT 
+Stop  time      : A.D. 2016-Jan-23 00:00:00.0000 CT 
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)                                                  
+Output units    : KM-S                                                         
+Output format   : 03
+Reference frame : ICRF/J2000.0                                                 
+Output type     : GEOMETRIC cartesian states
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch                 
+*******************************************************************************
+JDCT ,   , X, Y, Z, VX, VY, VZ, LT, RG, RR,
+*******************************************************************************
+$$SOE
+2457409.500000000, A.D. 2016-Jan-22 00:00:00.0000,  2.819194484674286E+09,  9.916633948179582E+08, -3.271087771774310E+07,  1.205016392375063E+00,  4.777438900596774E+00, -3.981073432256014E+00,  9.969227960573431E+03,  2.988699354662636E+09,  2.765420763838553E+00,
+2457410.500000000, A.D. 2016-Jan-23 00:00:00.0000,  2.818814197846350E+09,  9.921870998716830E+08, -3.301995575950152E+07, -7.571136954710870E+00,  7.396210083061472E+00,  1.044310578788073E+00,  9.968622582465103E+03,  2.988517866871521E+09, -4.697207051744882E+00,
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    xy-plane: plane of the Earth's orbit at the reference epoch
+    x-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+Symbol meaning  
+
+    JDTDB    Epoch Julian Date, Barycentric Dynamical Time
+      X      x-component of position vector (km)                               
+      Y      y-component of position vector (km)                               
+      Z      z-component of position vector (km)                               
+      VX     x-component of velocity vector (km/sec)                           
+      VY     y-component of velocity vector (km/sec)                           
+      VZ     z-component of velocity vector (km/sec)                           
+      LT     One-way down-leg Newtonian light-time (sec)                       
+      RG     Range; distance from coordinate center (km)                       
+      RR     Range-rate; radial velocity wrt coord. center (km/sec)            
+
+Geometric states/elements have no aberration corrections applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+COMMAND = 701
+CENTER = 500@0
+START_TIME = 2016-01-22
+STOP_TIME = 2016-01-23
+STEP_SIZE = 1
+TABLE_TYPE = VECTORS
+CSV_FORMAT = YES
