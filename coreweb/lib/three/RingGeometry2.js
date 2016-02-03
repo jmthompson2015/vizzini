@@ -42,8 +42,12 @@ THREE.RingGeometry = function ( innerRadius, outerRadius, thetaSegments, phiSegm
 			vertex.y = radius * Math.sin( segment );
 
 			this.vertices.push( vertex );
-			uvs.push( new THREE.Vector2( ( vertex.x / outerRadius + 1 ) / 2, ( vertex.y / outerRadius + 1 ) / 2 ) );
-
+			///////////////////////////////////////////////////////////////////
+			// Vizzini start
+			// uvs.push( new THREE.Vector2( ( vertex.x / outerRadius + 1 ) / 2, ( vertex.y / outerRadius + 1 ) / 2 ) );
+			uvs.push( new THREE.Vector2( i/(thetaSegments-1), o/ (phiSegments-1) ) );
+            // Vizzini end
+            ///////////////////////////////////////////////////////////////////
 		}
 
 		radius += radiusStep;
