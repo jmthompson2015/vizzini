@@ -654,4 +654,204 @@ define([ "Body", "JPLHorizons" ], function(Body, JPLHorizons)
         var done = assert.async();
         horizons.fetchData();
     });
+
+    QUnit.test("fetchData() Neptune", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.NEPTUNE];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), 4.185418054676996E+09, -1.602805727653323E+09,
+            // -6.345050017997658E+07);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), 1.907442620119111E+00, 5.107370101220092E+00,
+            // -1.496869677359534E-01);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000054);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Triton", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.TRITON];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), 4.185118124357553E+09, -1.602863598314968E+09,
+            // -6.327009543629968E+07);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), 2.771820544935911E+00, 8.575066648097195E+00,
+            // 2.399703661665448E+00);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000006);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Ceres", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.CERES];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), 3.999343837926300E+08, -1.803792825699942E+08,
+            // -7.931951687023476E+07);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), 6.646171370777949E+00, 1.520052409886607E+01,
+            // -7.474507264528834E-01);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000096);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Pluto", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.PLUTO];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), 1.286570671885723E+09, -4.768182431348478E+09,
+            // 1.380725358681972E+08);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), 5.359268577933973E+00, 2.851079648272089E-01,
+            // -1.602805052138219E+00);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000006);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Charon", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.CHARON];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), 1.286556295944259E+09, -4.768194341470391E+09,
+            // 1.380785049826846E+08);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), 5.348893201406136E+00, 3.948465947370057E-01,
+            // -1.408850950467001E+00);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000006);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Haumea", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.HAUMEA];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), -6.203986405415936E+09, -2.530510595239978E+09,
+            // 3.541373437433648E+09);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), 1.827512845121738E+00, -3.332841999954446E+00,
+            // 1.141198506451382E-01);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000223);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Makemake", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.MAKEMAKE];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), -6.893149582817187E+09, -1.784674742039695E+08,
+            // 3.738431092046375E+09);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), -2.535359653718248E-01, -3.773084327398640E+00,
+            // -2.450773505550299E-01);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000039);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
+
+    QUnit.test("fetchData() Eris", function(assert)
+    {
+        // Setup.
+        var body = Body.properties[Body.ERIS];
+        var callback = function(state)
+        {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(state);
+            assert.equal(state.date().valueOf(), 1453446000000);
+            // verifyVector(assert, state.position(), 1.297525331953531E+10, 5.424227790340644E+09,
+            // -3.121060706646293E+09);
+            verifyQuaternion(assert, state.orientation(), 1.0, 0.0, 0.0, 0.0);
+            // verifyVector(assert, state.velocity(), -6.342899994091096E-01, 1.564963693029050E+00,
+            // 1.582458658824998E+00);
+            verifyQuaternion(assert, state.angularVelocity(), 1.0, 0.0, 0.0, 0.000034);
+            done();
+        };
+        var horizons = new JPLHorizons(body, START_TIME, STOP_TIME, callback);
+
+        // Run.
+        var done = assert.async();
+        horizons.fetchData();
+    });
 });

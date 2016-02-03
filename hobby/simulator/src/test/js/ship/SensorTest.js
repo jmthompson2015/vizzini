@@ -37,7 +37,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", 
         // Verify.
         assert.ok(result);
         assert.ok(Object.getOwnPropertyNames(result));
-        assert.equal(Object.getOwnPropertyNames(result).length, 29);
+        assert.equal(Object.getOwnPropertyNames(result).length, 35);
     });
 
     QUnit.test("toString()",

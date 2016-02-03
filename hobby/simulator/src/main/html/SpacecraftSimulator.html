@@ -85,11 +85,7 @@
 
             function createEnvironment()
             {
-                var bodyKeys = [ Body.SOL, Body.MERCURY, Body.VENUS, Body.EARTH, Body.LUNA, Body.MARS, Body.PHOBOS,
-                        Body.DEIMOS, Body.JUPITER, Body.IO, Body.EUROPA, Body.GANYMEDE, Body.CALLISTO, Body.SATURN,
-                        Body.MIMAS, Body.ENCELADUS, Body.TETHYS, Body.DIONE, Body.RHEA, Body.TITAN, Body.IAPETUS,
-                        Body.URANUS, Body.MIRANDA, Body.ARIEL, Body.UMBRIEL, Body.TITANIA, Body.OBERON, Body.NEPTUNE,
-                        Body.TRITON ];
+                var bodyKeys = Body.values();
                 var factory = new StateFactory.Horizons(bodyKeys, finishEnvironment);
                 factory.createStates();
             }

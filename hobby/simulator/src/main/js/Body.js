@@ -184,7 +184,10 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 id: "Ceres",
                 parent: "sol",
                 mass: 9.3930e+20, // kg
-                radius: 4.7300e+02, // km
+                radiusX: 965.2, // km
+                radiusY: 961.2, // km
+                radiusZ: 891.2, // km
+                rotationRate: 360.0 / (9.07417 * Constants.HOURS_TO_SECONDS), // deg/sec
                 value: "ceres",
             },
             "pluto":
@@ -193,9 +196,10 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 type: BodyType.DWARF_PLANET,
                 id: "999",
                 parent: "sol",
-                mass: 1.3030e+22, // kg
-                radius: 1.1870e+03, // km
+                mass: 1.307e+22, // kg
+                radius: 1195, // km
                 northPole: Quaternion.newInstanceRADec(132.99, -6.16).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (6.387230 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "pluto",
             },
             "haumea":
@@ -205,7 +209,10 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 id: "Haumea",
                 parent: "sol",
                 mass: 4.0060e+21, // kg
-                radius: 6.2000e+02, // km
+                radiusX: 1920, // km
+                radiusY: 1540, // km
+                radiusZ: 990, // km
+                rotationRate: 360.0 / (3.9154 * Constants.HOURS_TO_SECONDS), // deg/sec
                 value: "haumea",
             },
             "makemake":
@@ -215,7 +222,10 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 id: "Makemake",
                 parent: "sol",
                 mass: 2.0000e+21, // kg
-                radius: 7.1500e+02, // km
+                radiusX: 1502, // km
+                radiusY: 1430, // km
+                radiusZ: 1430, // km
+                rotationRate: 360.0 / (22.48 * Constants.HOURS_TO_SECONDS), // deg/sec
                 value: "makemake",
             },
             "eris":
@@ -225,7 +235,8 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 id: "Eris",
                 parent: "sol",
                 mass: 1.6600e+22, // kg
-                radius: 1.1630e+03, // km
+                radius: 1163, // km
+                rotationRate: 360.0 / (25.9 * Constants.HOURS_TO_SECONDS), // deg/sec
                 value: "eris",
             },
 
@@ -465,7 +476,8 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 id: "901",
                 parent: "pluto",
                 mass: 1.5300e+21, // kg
-                radius: 6.0500e+02, // km
+                radius: 605, // km
+                rotationRate: 360.0 / (6.3872304 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "charon",
             },
         },
