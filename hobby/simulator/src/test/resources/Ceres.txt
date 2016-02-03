@@ -1,0 +1,106 @@
+[Log] 11:29:32:431 TRACE textDocument = ******************************************************************************* (Logger.js, line 148)
+JPL/HORIZONS                       1 Ceres                 2016-Feb-03 10:29:32
+Rec #:     1 (+COV)   Soln.date: 2014-Jul-16_12:44:28   # obs: 6461 (1830-2014)
+ 
+FK5/J2000.0 helio. ecliptic osc. elements (au, days, deg., period=Julian yrs): 
+ 
+  EPOCH=  2448916.5 ! 1992-Oct-21.00 (TDB)         Residual RMS= .38835        
+   EC= .07646881615610954  QR= 2.556093757459296   TP= 2448139.8924996872      
+   OM= 80.67354255829908   W=  71.17556363381966   IN= 10.59946296272898       
+   A= 2.7677395221463      MA= 166.2332253774163   ADIST= 2.979385286833304    
+   PER= 4.60464            N= .214050496           ANGMOM= .028534519          
+   DAN= 2.6853             DDN= 2.82117            L= 151.5458945              
+   B= 10.0264853           MOID= 1.59070003        TP= 1990-Sep-05.3924996871  
+ 
+Asteroid physical parameters (km, seconds, rotational period in hours):        
+   GM= 63.2                RAD= 476.2              ROTPER= 9.07417             
+   H= 3.34                 G= .120                 B-V= .713                   
+                           ALBEDO= .090            STYP= C                     
+ 
+ASTEROID comments: 
+1: soln ref.= JPL#33, OCC=0
+2: source=ORB
+*******************************************************************************
+ 
+ 
+*******************************************************************************
+Ephemeris / WWW_USER Wed Feb  3 10:29:32 2016 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: 1 Ceres                         {source: JPL#33}
+Center body name: Solar System Barycenter (0)     {source: DE431}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2016-Jan-22 00:00:00.0000 CT 
+Stop  time      : A.D. 2016-Jan-23 00:00:00.0000 CT 
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)                                                  
+Small perturbers: Yes                             {source: SB431-BIG16}
+Output units    : KM-S                                                         
+Output format   : 03
+Reference frame : ICRF/J2000.0                                                 
+Output type     : GEOMETRIC cartesian states
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch                 
+*******************************************************************************
+Initial FK5/J2000.0 heliocentric ecliptic osculating elements (au, days, deg.):
+  EPOCH=  2448916.5 ! 1992-Oct-21.00 (TDB)         Residual RMS= .38835        
+   EC= .07646881615610954  QR= 2.556093757459296   TP= 2448139.8924996872      
+   OM= 80.67354255829908   W=  71.17556363381966   IN= 10.59946296272898       
+Asteroid physical parameters (km, seconds, rotational period in hours):        
+   GM= 63.2                RAD= 476.2              ROTPER= 9.07417             
+   H= 3.34                 G= .120                 B-V= .713                   
+                           ALBEDO= .090            STYP= C                     
+*******************************************************************************
+JDCT ,   , X, Y, Z, VX, VY, VZ, LT, RG, RR,
+*******************************************************************************
+$$SOE
+2457409.500000000, A.D. 2016-Jan-22 00:00:00.0000,  3.999343837926300E+08, -1.803792825699942E+08, -7.931951687023476E+07,  6.646171370777949E+00,  1.520052409886607E+01, -7.474507264528834E-01,  1.487171428374022E+03,  4.458427779796190E+08, -5.504126251349546E-02,
+2457410.500000000, A.D. 2016-Jan-23 00:00:00.0000,  4.005063730912859E+08, -1.790649473521438E+08, -7.938365200795531E+07,  6.594308935714806E+00,  1.522387399623703E+01, -7.371574865666046E-01,  1.487154937920738E+03,  4.458378342660955E+08, -5.939645611321603E-02,
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    xy-plane: plane of the Earth's orbit at the reference epoch
+    x-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+Symbol meaning  
+
+    JDTDB    Epoch Julian Date, Barycentric Dynamical Time
+      X      x-component of position vector (km)                               
+      Y      y-component of position vector (km)                               
+      Z      z-component of position vector (km)                               
+      VX     x-component of velocity vector (km/sec)                           
+      VY     y-component of velocity vector (km/sec)                           
+      VZ     z-component of velocity vector (km/sec)                           
+      LT     One-way down-leg Newtonian light-time (sec)                       
+      RG     Range; distance from coordinate center (km)                       
+      RR     Range-rate; radial velocity wrt coord. center (km/sec)            
+
+Geometric states/elements have no aberration corrections applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+COMMAND = Ceres
+CENTER = 500@0
+START_TIME = 2016-01-22
+STOP_TIME = 2016-01-23
+STEP_SIZE = 1
+TABLE_TYPE = VECTORS
+CSV_FORMAT = YES

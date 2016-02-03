@@ -1,0 +1,106 @@
+[Log] 11:29:32:942 TRACE textDocument = ******************************************************************************* (Logger.js, line 148)
+JPL/HORIZONS              136108 Haumea (2003 EL61)        2016-Feb-03 10:29:32
+Rec #:136108 (+COV)   Soln.date: 2016-Jan-04_17:43:05   # obs: 1201 (1955-2015)
+ 
+FK5/J2000.0 helio. ecliptic osc. elements (au, days, deg., period=Julian yrs): 
+ 
+  EPOCH=  2454877.5 ! 2009-Feb-15.00 (TDB)         Residual RMS= .25944        
+   EC= .1954830541486162   QR= 34.68534135412776   TP= 2500009.4408821175      
+   OM= 122.1019582731637   W=  239.2534874657251   IN= 28.22416597176257       
+   A= 43.11325141501132    MA= 202.8653655932125   ADIST= 51.54116147589488    
+   PER= 283.0899           N= .003481672           ANGMOM= .110771016          
+   DAN= 46.06991           DDN= 37.69822           L= 358.0777124              
+   B= -23.9818554          MOID= 33.76959991       TP= 2132-Sep-09.9408821175  
+ 
+Asteroid physical parameters (km, seconds, rotational period in hours):        
+   GM= n.a.                RAD= n.a.               ROTPER= 3.9154              
+   H= .100                 G= .150                 B-V= n.a.                   
+                           ALBEDO= n.a.            STYP= n.a.                  
+ 
+ASTEROID comments: 
+1: soln ref.= JPL#75, OCC=2
+2: source=ORB
+*******************************************************************************
+ 
+ 
+*******************************************************************************
+Ephemeris / WWW_USER Wed Feb  3 10:29:32 2016 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: 136108 Haumea (2003 EL61)       {source: JPL#75}
+Center body name: Solar System Barycenter (0)     {source: DE431}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2016-Jan-22 00:00:00.0000 CT 
+Stop  time      : A.D. 2016-Jan-23 00:00:00.0000 CT 
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)                                                  
+Small perturbers: Yes                             {source: SB431-BIG16}
+Output units    : KM-S                                                         
+Output format   : 03
+Reference frame : ICRF/J2000.0                                                 
+Output type     : GEOMETRIC cartesian states
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch                 
+*******************************************************************************
+Initial FK5/J2000.0 heliocentric ecliptic osculating elements (au, days, deg.):
+  EPOCH=  2454877.5 ! 2009-Feb-15.00 (TDB)         Residual RMS= .25944        
+   EC= .1954830541486162   QR= 34.68534135412776   TP= 2500009.4408821175      
+   OM= 122.1019582731637   W=  239.2534874657251   IN= 28.22416597176257       
+Asteroid physical parameters (km, seconds, rotational period in hours):        
+   GM= n.a.                RAD= n.a.               ROTPER= 3.9154              
+   H= .100                 G= .150                 B-V= n.a.                   
+                           ALBEDO= n.a.            STYP= n.a.                  
+*******************************************************************************
+JDCT ,   , X, Y, Z, VX, VY, VZ, LT, RG, RR,
+*******************************************************************************
+$$SOE
+2457409.500000000, A.D. 2016-Jan-22 00:00:00.0000, -6.203986405415936E+09, -2.530510595239978E+09,  3.541373437433648E+09,  1.827512845121738E+00, -3.332841999954446E+00,  1.141198506451382E-01,  2.527928584565972E+04,  7.578539240154935E+09, -3.298698821414351E-01,
+2457410.500000000, A.D. 2016-Jan-23 00:00:00.0000, -6.203828501236324E+09, -2.530798549904855E+09,  3.541383293352817E+09,  1.827676497343970E+00, -3.332775241184230E+00,  1.140264262031527E-01,  2.527919077213446E+04,  7.578510737829108E+09, -3.299061785949330E-01,
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    xy-plane: plane of the Earth's orbit at the reference epoch
+    x-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+Symbol meaning  
+
+    JDTDB    Epoch Julian Date, Barycentric Dynamical Time
+      X      x-component of position vector (km)                               
+      Y      y-component of position vector (km)                               
+      Z      z-component of position vector (km)                               
+      VX     x-component of velocity vector (km/sec)                           
+      VY     y-component of velocity vector (km/sec)                           
+      VZ     z-component of velocity vector (km/sec)                           
+      LT     One-way down-leg Newtonian light-time (sec)                       
+      RG     Range; distance from coordinate center (km)                       
+      RR     Range-rate; radial velocity wrt coord. center (km/sec)            
+
+Geometric states/elements have no aberration corrections applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+COMMAND = Haumea
+CENTER = 500@0
+START_TIME = 2016-01-22
+STOP_TIME = 2016-01-23
+STEP_SIZE = 1
+TABLE_TYPE = VECTORS
+CSV_FORMAT = YES
