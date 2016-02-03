@@ -6,6 +6,17 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
     {
         DATE: moment("2016-Jan-22 00:00:00.0000", "YYYY-MMM-DD HH:mm:ss.SSS"),
 
+        createArielState: function()
+        {
+            var body = Body.properties[Body.ARIEL];
+            var position = new Vector(2.819194484674286E+09,  9.916633948179582E+08, -3.271087771774310E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(1.205016392375063E+00,  4.777438900596774E+00, -3.981073432256014E+00); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
         createCallistoState: function()
         {
             var body = Body.properties[Body.CALLISTO];
@@ -160,6 +171,28 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
         },
 
+        createMirandaState: function()
+        {
+            var body = Body.properties[Body.MIRANDA];
+            var position = new Vector(2.818955398895836E+09,  9.916848420951180E+08, -3.292353698682529E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-6.587200208719543E+00,  7.213326540610735E+00,  5.059004142935319E+00); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createOberonState: function()
+        {
+            var body = Body.properties[Body.OBERON];
+            var position = new Vector(2.819577096915115E+09,  9.915329062568698E+08, -3.304818261420089E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-3.514212254726945E+00,  5.954315942810359E+00, -2.861984436721071E+00); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
         createPhobosState: function()
         {
             var body = Body.properties[Body.PHOBOS];
@@ -221,6 +254,39 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             var position = new Vector(-5.392243778366202E+08, -1.395212203579206E+09, 4.521445495943147E+07); // km
             var orientation = Reference.computeOrientation(body.northPole);
             var velocity = new Vector(3.528643985180384E+00, -1.020276420468635E+00, -1.070395192800617E+00); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createTitaniaState: function()
+        {
+            var body = Body.properties[Body.TITANIA];
+            var position = new Vector(2.819395992666658E+09,  9.916389536473927E+08, -3.257047279925245E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-1.954456579059287E-01,  5.245553907418606E+00, -2.783075119487653E+00); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createUmbrielState: function()
+        {
+            var body = Body.properties[Body.UMBRIEL];
+            var position = new Vector(2.818964473929857E+09,  9.916613991577127E+08, -3.308884354711443E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-6.588835522359806E+00,  7.243998449138942E+00,  1.520583396930457E+00); // km/sec
+            var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
+
+            return new State.State(this.DATE, position, orientation, velocity, angularVelocity);
+        },
+
+        createUranusState: function()
+        {
+            var body = Body.properties[Body.URANUS];
+            var position = new Vector(2.819053187742383E+09,  9.916766731526206E+08, -3.283839780774784E+07); // km
+            var orientation = Quaternion.ZERO;
+            var velocity = new Vector(-2.309639763842593E+00,  6.106707998087125E+00,  5.285445549107637E-02); // km/sec
             var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
             return new State.State(this.DATE, position, orientation, velocity, angularVelocity);

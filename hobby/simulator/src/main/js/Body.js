@@ -155,6 +155,11 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 8.68103e+25, // kg
                 equatorialRadius: 25559, // km
                 polarRadius: 24973, // km
+                northPole: Quaternion.newInstanceRADec(77.43, 15.10).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (17.24 * Constants.HOURS_TO_SECONDS), // deg/sec
+                // @see https://en.wikipedia.org/wiki/Rings_of_Uranus
+                ringInnerRadius: 38000, // km
+                ringOuterRadius: 98000, // km
                 value: "uranus",
             },
             "neptune":
@@ -166,6 +171,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 1.0241e+26, // kg
                 equatorialRadius: 24766, // km
                 polarRadius: 24342, // km
+                northPole: Quaternion.newInstanceRADec(299.36, 43.46).preMultiply(Vector.X_AXIS).unit(),
                 value: "neptune",
             },
 
@@ -188,6 +194,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "sol",
                 mass: 1.3030e+22, // kg
                 radius: 1.1870e+03, // km
+                northPole: Quaternion.newInstanceRADec(132.99, -6.16).preMultiply(Vector.X_AXIS).unit(),
                 value: "pluto",
             },
             "haumea":
@@ -380,6 +387,19 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 rotationRate: 360.0 / (79.33 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "iapetus",
             },
+            "miranda":
+            {
+                name: "Miranda",
+                type: BodyType.MOON,
+                id: "705",
+                parent: "uranus",
+                mass: 6.5900e+19, // kg
+                radiusX: 240, // km
+                radiusY: 234.2, // km
+                radiusZ: 232.9, // km
+                rotationRate: 360.0 / (1.413 * Constants.DAYS_TO_SECONDS), // deg/sec
+                value: "miranda",
+            },
             "ariel":
             {
                 name: "Ariel",
@@ -387,7 +407,10 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 id: "701",
                 parent: "uranus",
                 mass: 1.3530e+21, // kg
-                radius: 5.8110e+02, // km
+                radiusX: 581.1, // km
+                radiusY: 577.9, // km
+                radiusZ: 577.7, // km
+                rotationRate: 360.0 / (2.520 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "ariel",
             },
             "umbriel":
@@ -398,6 +421,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "uranus",
                 mass: 1.1720e+21, // kg
                 radius: 5.8470e+02, // km
+                rotationRate: 360.0 / (4.144 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "umbriel",
             },
             "titania":
@@ -408,6 +432,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "uranus",
                 mass: 3.5270e+21, // kg
                 radius: 7.8890e+02, // km
+                rotationRate: 360.0 / (8.706 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "titania",
             },
             "oberon":
@@ -418,17 +443,8 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "uranus",
                 mass: 3.0140e+21, // kg
                 radius: 7.6140e+02, // km
+                rotationRate: 360.0 / (13.463 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "oberon",
-            },
-            "miranda":
-            {
-                name: "Miranda",
-                type: BodyType.MOON,
-                id: "705",
-                parent: "uranus",
-                mass: 6.5900e+19, // kg
-                radius: 2.4000e+02, // km
-                value: "miranda",
             },
             "triton":
             {
