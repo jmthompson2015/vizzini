@@ -12,6 +12,7 @@
 <script src="../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
 <script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../js/Body.js"></script>
 <script src="../../../../../coreweb/lib/three/three.min-0.73.0.js"></script>
+<script src="../../../../../coreweb/lib/three/RingGeometry2.js"></script>
 
 <script src="../../../../../coreweb/src/main/js/ui/Select.js"></script>
 
@@ -85,7 +86,8 @@
             function createEnvironment()
             {
                 var bodyKeys = [ Body.SOL, Body.MERCURY, Body.VENUS, Body.EARTH, Body.LUNA, Body.MARS, Body.PHOBOS,
-                        Body.DEIMOS, Body.JUPITER, Body.IO, Body.EUROPA, Body.GANYMEDE, Body.CALLISTO ];
+                        Body.DEIMOS, Body.JUPITER, Body.IO, Body.EUROPA, Body.GANYMEDE, Body.CALLISTO, Body.SATURN,
+                        Body.MIMAS, Body.ENCELADUS, Body.TETHYS, Body.DIONE, Body.RHEA, Body.TITAN, Body.IAPETUS ];
                 var factory = new StateFactory.Horizons(bodyKeys, finishEnvironment);
                 factory.createStates();
             }
