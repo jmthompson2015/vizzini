@@ -12,31 +12,19 @@ define([ "Quaternion", "State", "Vector" ], function(Quaternion, State, Vector)
         InputValidator.validateNotNull("stopTime", stopTime);
         InputValidator.validateNotNull("callback", callback);
 
-        var that = this;
-
         this.fetchData = function()
         {
-            var url = "http://ssd.jpl.nasa.gov/horizons_batch.cgi";
-            var data =
+            var url = createUrl();
+            $.ajax(url).done(this.receiveData).fail(function(jqXHR, textStatus, errorThrown)
             {
-                batch: 1,
-                COMMAND: body.id,
-                CENTER: '500@0',
-                START_TIME: startTime,
-                STOP_TIME: stopTime,
-                STEP_SIZE: '1',
-                TABLE_TYPE: 'VECTORS',
-                CSV_FORMAT: 'YES',
-            };
-
-            var success = this.receiveData;
-            var dataType = "text";
-
-            $.post(url, data, success, dataType);
+                LOGGER.error(errorThrown);
+            });
         };
 
-        this.receiveData = function(textDocument)
+        this.receiveData = function(myDocument)
         {
+            var textDocument = myDocument.documentElement.textContent;
+
             // LOGGER.trace("textDocument = " + textDocument);
             // LOGGER.trace("textDocument = " + textDocument.substring(0, 160));
 
@@ -44,6 +32,38 @@ define([ "Quaternion", "State", "Vector" ], function(Quaternion, State, Vector)
 
             callback(state);
         };
+
+        function createUrl()
+        {
+            var baseUrl = "http://query.yahooapis.com/v1/public/yql?q=";
+            var sourceUrl = "http://ssd.jpl.nasa.gov/horizons_batch.cgi";
+
+            var postdata = "\"";
+            postdata += "batch=1";
+            postdata += "&COMMAND=";
+            postdata += body.id;
+            postdata += "&CENTER=500@0";
+            postdata += "&START_TIME=";
+            postdata += startTime;
+            postdata += "&STOP_TIME=";
+            postdata += stopTime;
+            postdata += "&STEP_SIZE=1";
+            postdata += "&TABLE_TYPE=VECTORS";
+            postdata += "&CSV_FORMAT=YES";
+            postdata += "\"";
+
+            var query = "use 'http://isithackday.com/hacks/htmlpost/htmlpost.xml' as htmlpost;";
+            query += " select * from htmlpost where url='";
+            query += sourceUrl;
+            query += "' and postdata=";
+            query += postdata;
+            query += " and xpath='/'";
+
+            var answer = baseUrl + encodeURIComponent(query);
+            LOGGER.debug("url = _" + answer + "_");
+
+            return answer;
+        }
 
         function parseState(textDocument)
         {
