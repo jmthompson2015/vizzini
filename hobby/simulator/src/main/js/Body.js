@@ -105,6 +105,17 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 rotationRate: 360.0 / (0.99726968 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "earth",
             },
+            "luna":
+            {
+                name: "Luna",
+                type: BodyType.MOON,
+                id: "301",
+                parent: "earth",
+                mass: 7.3490e+22, // kg
+                radius: 1.7375e+03, // km
+                rotationRate: 360.0 / (27.321661 * Constants.DAYS_TO_SECONDS), // deg/sec
+                value: "luna",
+            },
             "mars":
             {
                 name: "Mars",
@@ -116,141 +127,6 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 northPole: Quaternion.newInstanceRADec(317.68, 52.89).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (1.025957 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "mars",
-            },
-            "jupiter":
-            {
-                name: "Jupiter",
-                type: BodyType.PLANET,
-                id: "599",
-                parent: "sol",
-                mass: 1.89813e+27, // kg
-                equatorialRadius: 71492, // km
-                polarRadius: 66854, // km
-                northPole: Quaternion.newInstanceRADec(268.05, 64.49).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (9 * Constants.HOURS_TO_SECONDS + 55 * Constants.MINUTES_TO_SECONDS + 29.685), // deg/sec
-                value: "jupiter",
-            },
-            "saturn":
-            {
-                name: "Saturn",
-                type: BodyType.PLANET,
-                id: "699",
-                parent: "sol",
-                mass: 5.6832e+26, // kg
-                equatorialRadius: 60268, // km
-                polarRadius: 54364, // km
-                northPole: Quaternion.newInstanceRADec(40.60, 83.54).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (10 * Constants.HOURS_TO_SECONDS + 39 * Constants.MINUTES_TO_SECONDS + 22.4), // deg/sec
-                // @see https://en.wikipedia.org/wiki/Rings_of_Saturn
-                ringInnerRadius: 60268 + 7000, // km
-                ringOuterRadius: 60268 + 80000, // km
-                value: "saturn",
-            },
-            "uranus":
-            {
-                name: "Uranus",
-                type: BodyType.PLANET,
-                id: "799",
-                parent: "sol",
-                mass: 8.68103e+25, // kg
-                equatorialRadius: 25559, // km
-                polarRadius: 24973, // km
-                northPole: Quaternion.newInstanceRADec(77.43, 15.10).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (17.24 * Constants.HOURS_TO_SECONDS), // deg/sec
-                // @see https://en.wikipedia.org/wiki/Rings_of_Uranus
-                ringInnerRadius: 38000, // km
-                ringOuterRadius: 98000, // km
-                value: "uranus",
-            },
-            "neptune":
-            {
-                name: "Neptune",
-                type: BodyType.PLANET,
-                id: "899",
-                parent: "sol",
-                mass: 1.0241e+26, // kg
-                equatorialRadius: 24766, // km
-                polarRadius: 24342, // km
-                northPole: Quaternion.newInstanceRADec(299.36, 43.46).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (16.11 * Constants.HOURS_TO_SECONDS), // deg/sec
-                value: "neptune",
-            },
-
-            // Dwarf planets.
-            "ceres":
-            {
-                name: "Ceres",
-                type: BodyType.DWARF_PLANET,
-                id: "Ceres",
-                parent: "sol",
-                mass: 9.3930e+20, // kg
-                radiusX: 965.2, // km
-                radiusY: 961.2, // km
-                radiusZ: 891.2, // km
-                rotationRate: 360.0 / (9.07417 * Constants.HOURS_TO_SECONDS), // deg/sec
-                value: "ceres",
-            },
-            "pluto":
-            {
-                name: "Pluto",
-                type: BodyType.DWARF_PLANET,
-                id: "999",
-                parent: "sol",
-                mass: 1.307e+22, // kg
-                radius: 1195, // km
-                northPole: Quaternion.newInstanceRADec(132.99, -6.16).preMultiply(Vector.X_AXIS).unit(),
-                rotationRate: 360.0 / (6.387230 * Constants.DAYS_TO_SECONDS), // deg/sec
-                value: "pluto",
-            },
-            "haumea":
-            {
-                name: "Haumea",
-                type: BodyType.DWARF_PLANET,
-                id: "Haumea",
-                parent: "sol",
-                mass: 4.0060e+21, // kg
-                radiusX: 1920, // km
-                radiusY: 1540, // km
-                radiusZ: 990, // km
-                rotationRate: 360.0 / (3.9154 * Constants.HOURS_TO_SECONDS), // deg/sec
-                value: "haumea",
-            },
-            "makemake":
-            {
-                name: "Makemake",
-                type: BodyType.DWARF_PLANET,
-                id: "Makemake",
-                parent: "sol",
-                mass: 2.0000e+21, // kg
-                radiusX: 1502, // km
-                radiusY: 1430, // km
-                radiusZ: 1430, // km
-                rotationRate: 360.0 / (22.48 * Constants.HOURS_TO_SECONDS), // deg/sec
-                value: "makemake",
-            },
-            "eris":
-            {
-                name: "Eris",
-                type: BodyType.DWARF_PLANET,
-                id: "Eris",
-                parent: "sol",
-                mass: 1.6600e+22, // kg
-                radius: 1163, // km
-                rotationRate: 360.0 / (25.9 * Constants.HOURS_TO_SECONDS), // deg/sec
-                value: "eris",
-            },
-
-            // Moons.
-            "luna":
-            {
-                name: "Luna",
-                type: BodyType.MOON,
-                id: "301",
-                parent: "earth",
-                mass: 7.3490e+22, // kg
-                radius: 1.7375e+03, // km
-                rotationRate: 360.0 / (27.321661 * Constants.DAYS_TO_SECONDS), // deg/sec
-                value: "luna",
             },
             "phobos":
             {
@@ -277,6 +153,32 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 radiusZ: 5.1, // km
                 rotationRate: 360.0 / (1.263 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "deimos",
+            },
+            "ceres":
+            {
+                name: "Ceres",
+                type: BodyType.DWARF_PLANET,
+                id: "Ceres",
+                parent: "sol",
+                mass: 9.3930e+20, // kg
+                radiusX: 965.2, // km
+                radiusY: 961.2, // km
+                radiusZ: 891.2, // km
+                rotationRate: 360.0 / (9.07417 * Constants.HOURS_TO_SECONDS), // deg/sec
+                value: "ceres",
+            },
+            "jupiter":
+            {
+                name: "Jupiter",
+                type: BodyType.PLANET,
+                id: "599",
+                parent: "sol",
+                mass: 1.89813e+27, // kg
+                equatorialRadius: 71492, // km
+                polarRadius: 66854, // km
+                northPole: Quaternion.newInstanceRADec(268.05, 64.49).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (9 * Constants.HOURS_TO_SECONDS + 55 * Constants.MINUTES_TO_SECONDS + 29.685), // deg/sec
+                value: "jupiter",
             },
             "io":
             {
@@ -321,6 +223,22 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 radius: 2.4030e+03, // km
                 rotationRate: 360.0 / (16.689018 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "callisto",
+            },
+            "saturn":
+            {
+                name: "Saturn",
+                type: BodyType.PLANET,
+                id: "699",
+                parent: "sol",
+                mass: 5.6832e+26, // kg
+                equatorialRadius: 60268, // km
+                polarRadius: 54364, // km
+                northPole: Quaternion.newInstanceRADec(40.60, 83.54).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (10 * Constants.HOURS_TO_SECONDS + 39 * Constants.MINUTES_TO_SECONDS + 22.4), // deg/sec
+                // @see https://en.wikipedia.org/wiki/Rings_of_Saturn
+                ringInnerRadius: 60268 + 7000, // km
+                ringOuterRadius: 60268 + 80000, // km
+                value: "saturn",
             },
             "mimas":
             {
@@ -399,6 +317,22 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 rotationRate: 360.0 / (79.33 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "iapetus",
             },
+            "uranus":
+            {
+                name: "Uranus",
+                type: BodyType.PLANET,
+                id: "799",
+                parent: "sol",
+                mass: 8.68103e+25, // kg
+                equatorialRadius: 25559, // km
+                polarRadius: 24973, // km
+                northPole: Quaternion.newInstanceRADec(77.43, 15.10).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (17.24 * Constants.HOURS_TO_SECONDS), // deg/sec
+                // @see https://en.wikipedia.org/wiki/Rings_of_Uranus
+                ringInnerRadius: 38000, // km
+                ringOuterRadius: 98000, // km
+                value: "uranus",
+            },
             "miranda":
             {
                 name: "Miranda",
@@ -458,6 +392,19 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 rotationRate: 360.0 / (13.463 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "oberon",
             },
+            "neptune":
+            {
+                name: "Neptune",
+                type: BodyType.PLANET,
+                id: "899",
+                parent: "sol",
+                mass: 1.0241e+26, // kg
+                equatorialRadius: 24766, // km
+                polarRadius: 24342, // km
+                northPole: Quaternion.newInstanceRADec(299.36, 43.46).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (16.11 * Constants.HOURS_TO_SECONDS), // deg/sec
+                value: "neptune",
+            },
             "triton":
             {
                 name: "Triton",
@@ -469,6 +416,18 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 rotationRate: 360.0 / (5.876854 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "triton",
             },
+            "pluto":
+            {
+                name: "Pluto",
+                type: BodyType.DWARF_PLANET,
+                id: "999",
+                parent: "sol",
+                mass: 1.307e+22, // kg
+                radius: 1195, // km
+                northPole: Quaternion.newInstanceRADec(132.99, -6.16).preMultiply(Vector.X_AXIS).unit(),
+                rotationRate: 360.0 / (6.387230 * Constants.DAYS_TO_SECONDS), // deg/sec
+                value: "pluto",
+            },
             "charon":
             {
                 name: "Charon",
@@ -479,6 +438,43 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 radius: 605, // km
                 rotationRate: 360.0 / (6.3872304 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "charon",
+            },
+            "haumea":
+            {
+                name: "Haumea",
+                type: BodyType.DWARF_PLANET,
+                id: "Haumea",
+                parent: "sol",
+                mass: 4.0060e+21, // kg
+                radiusX: 1920, // km
+                radiusY: 1540, // km
+                radiusZ: 990, // km
+                rotationRate: 360.0 / (3.9154 * Constants.HOURS_TO_SECONDS), // deg/sec
+                value: "haumea",
+            },
+            "makemake":
+            {
+                name: "Makemake",
+                type: BodyType.DWARF_PLANET,
+                id: "Makemake",
+                parent: "sol",
+                mass: 2.0000e+21, // kg
+                radiusX: 1502, // km
+                radiusY: 1430, // km
+                radiusZ: 1430, // km
+                rotationRate: 360.0 / (22.48 * Constants.HOURS_TO_SECONDS), // deg/sec
+                value: "makemake",
+            },
+            "eris":
+            {
+                name: "Eris",
+                type: BodyType.DWARF_PLANET,
+                id: "Eris",
+                parent: "sol",
+                mass: 1.6600e+22, // kg
+                radius: 1163, // km
+                rotationRate: 360.0 / (25.9 * Constants.HOURS_TO_SECONDS), // deg/sec
+                value: "eris",
             },
         },
 

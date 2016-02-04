@@ -107,7 +107,7 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
         assert.equal(result.length, 35);
         assert.equal(result.length, (1 + 8 + 5 + (19 + 2)));
         assert.equal(result[0], "sol");
-        assert.equal(result[34], "charon");
+        assert.equal(result[34], "eris");
 
         var properties = Object.getOwnPropertyNames(Body);
         var count = properties.length - 1 - // properties
