@@ -1,4 +1,4 @@
-define([ "Body", "ui/CameraUI" ], function(Body, CameraUI)
+define([ "Body", "BodyType", "ui/CameraUI" ], function(Body, BodyType, CameraUI)
 {
     "use strict";
     var ObserverCameraUI = React.createClass(
@@ -28,7 +28,9 @@ define([ "Body", "ui/CameraUI" ], function(Body, CameraUI)
             var bodyKeys = environment.bodyKeys();
             var labelFunction = function(bodyKey)
             {
-                return Body.properties[bodyKey].name;
+                var body = Body.properties[bodyKey];
+                var prefix = (body.type === BodyType.MOON ? "\u25D0 " : "");
+                return prefix + body.name;
             };
             var initialSelectedValue = this.props.initialSelectedValue;
 
