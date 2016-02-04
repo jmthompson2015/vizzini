@@ -1,10 +1,12 @@
 define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
 {
     "use strict";
-    function SceneUI(environment)
+    function SceneUI(environment, callback)
     {
         InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("callback", callback);
 
+        var that = this;
         var bumps = [ Body.MERCURY, Body.VENUS, Body.EARTH, Body.LUNA, Body.MARS, Body.PHOBOS, Body.DEIMOS ];
         var speculars = [ Body.EARTH ];
         var scene = new THREE.Scene();
@@ -17,26 +19,19 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
             var body = Body.properties[bodyKey];
             var isBump = bumps.vizziniContains(bodyKey);
             var isSpecular = speculars.vizziniContains(bodyKey);
-            var bodyUI = new BodyUI(body, isBump, isSpecular);
-            bodyToUI[bodyKey] = bodyUI;
-            var position = environment.state(bodyKey).position();
-            bodyUI.position.set(position.x(), position.y(), position.z());
-            scene.add(bodyUI);
+            new BodyUI(body, isBump, isSpecular, finishBodyUI);
         }
 
-        // var color = 0x343434;
-        var color = 0x808080;
-        // var color = 0xffffff;
-        var ambientLight = new THREE.AmbientLight(color);
+        var ambientLight = createAmbientLight();
         scene.add(ambientLight);
 
         var solState = environment.state(Body.SOL);
         var pointLight = createPointLight(solState.position());
         scene.add(pointLight);
 
-        this.bodyToState = function()
+        this.ambientLight = function()
         {
-            return bodyToState;
+            return ambientLight;
         };
 
         this.bodyToUI = function()
@@ -54,6 +49,15 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
             return scene;
         };
 
+        function createAmbientLight()
+        {
+            // var color = 0x343434;
+            var color = 0x808080;
+            // var color = 0xffffff;
+
+            return new THREE.AmbientLight(color);
+        }
+
         function createPointLight(position)
         {
             InputValidator.validateNotNull("position", position);
@@ -66,6 +70,18 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
             pointLight.position.set(position.x(), position.y(), position.z());
 
             return pointLight;
+        }
+
+        function finishBodyUI(bodyUI)
+        {
+            var bodyKey = bodyUI.bodyKey;
+            bodyToUI[bodyKey] = bodyUI;
+            scene.add(bodyUI);
+
+            if (Object.getOwnPropertyNames(bodyToUI).length === environment.bodyKeys().length)
+            {
+                callback(that);
+            }
         }
     }
 

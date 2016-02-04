@@ -5,16 +5,10 @@ define([ "Body", "ui/SceneUI" ], function(Body, SceneUI)
     {
         getInitialState: function()
         {
-            InputValidator.validateNotNull("sensor", this.props.sensor);
-
-            var sensor = this.props.sensor;
-            sensor.bind("dataUpdated", this.updateScene);
-
-            var sceneUI = new SceneUI(sensor.environment());
+            this.createSceneUI();
 
             return (
             {
-                sceneUI: sceneUI,
                 camera: this.createCamera(),
             });
         },
@@ -24,7 +18,7 @@ define([ "Body", "ui/SceneUI" ], function(Body, SceneUI)
             this.setState(
             {
                 renderer: this.createRenderer(),
-            }, this.startRenderLoop);
+            });
         },
 
         componentWillUnmount: function()
@@ -82,6 +76,30 @@ define([ "Body", "ui/SceneUI" ], function(Body, SceneUI)
             answer.setSize(this.props.width, this.props.height);
 
             return answer;
+        },
+
+        createSceneUI: function()
+        {
+            InputValidator.validateNotNull("sensor", this.props.sensor);
+
+            var sensor = this.props.sensor;
+            var answer = new SceneUI(sensor.environment(), this.finishSceneUI);
+
+            return answer;
+        },
+
+        finishSceneUI: function(sceneUI)
+        {
+            this.setState(
+            {
+                sceneUI: sceneUI,
+            }, function()
+            {
+                var sensor = this.props.sensor;
+                sensor.bind("dataUpdated", this.updateScene);
+                
+                this.startRenderLoop();
+            });
         },
 
         render3D: function()
