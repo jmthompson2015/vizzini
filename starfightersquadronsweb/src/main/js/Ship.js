@@ -350,7 +350,8 @@ define(
                                 Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD,
                                 Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
                                 Maneuver.KOIOGRAN_TURN_4_HARD ],
-                        shipActionKeys: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL, ShipAction.EVADE, ShipAction.CLOAK, ],
+                        shipActionKeys: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL_LEFT, ShipAction.BARREL_ROLL_RIGHT,
+                                ShipAction.EVADE, ShipAction.CLOAK, ],
                         value: "tiePhantom",
                     },
                     "tiePunisher":
