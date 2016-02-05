@@ -11,6 +11,7 @@ define(function()
         // Start loading textures.
         var map, bumpMap, specularMap, ringMap;
         var loader = new THREE.TextureLoader();
+        loader.crossOrigin = "anonymous";
         var name = body.name.toLowerCase();
         loader.load(imageBase + name + "map.jpg", onLoadMap);
 
@@ -141,6 +142,13 @@ define(function()
         {
             return (map !== undefined) && (!isBump || bumpMap !== undefined) &&
                     (!isSpecular || specularMap !== undefined) && (!isRing || ringMap !== undefined);
+        }
+
+        function onError(xhr)
+        {
+            LOGGER.error("xhr = " + xhr);
+            LOGGER.error("xhr.error = " + xhr.error);
+            LOGGER.error("xhr.error.type = " + xhr.error.type);
         }
 
         function onLoadBump(texture)
