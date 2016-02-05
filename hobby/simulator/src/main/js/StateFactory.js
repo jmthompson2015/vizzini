@@ -440,6 +440,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
         InputValidator.validateNotEmpty("bodyKeys", bodyKeys);
         InputValidator.validateNotEmpty("callback", callback);
 
+        var that = this;
         var index = -1;
         var bodyToState = {};
         var startTime = moment().format("'YYYY-MM-DD HH:mm'");
@@ -462,12 +463,12 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
                 bodyToState[bodyKey] = state;
                 end = moment();
                 totalTime += end.valueOf() - start.valueOf();
-                LOGGER.time(index + " Received JPL Horizons data for " + Body.properties[bodyKey].name,
-                        start.valueOf(), end.valueOf());
+                // LOGGER.time(index + " Received JPL Horizons data for " + Body.properties[bodyKey].name, start.valueOf(), end.valueOf());
             }
 
             start = moment();
             index++;
+            that.trigger("dataLoaded", index);
 
             if (index < bodyKeys.length)
             {
@@ -484,6 +485,8 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             }
         }
     }
+
+    MicroEvent.mixin(Horizons);
 
     Reference.computeOrientation = function(northPole)
     {

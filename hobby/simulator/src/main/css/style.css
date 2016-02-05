@@ -13,3 +13,7 @@ canvas {
 td {
     text-align: center;
 }
+
+#messageArea {
+    background-color: white;
+}

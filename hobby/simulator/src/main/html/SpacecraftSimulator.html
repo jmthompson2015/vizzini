@@ -10,6 +10,7 @@
 <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 <script src="../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
 <script src="../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
+<script src="../../../../../coreweb/lib/react-progress/react-progress-0.1.js"></script>
 <script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../js/Body.js"></script>
 <script src="../../../../../coreweb/lib/three/three.min-0.73.0.js"></script>
 <script src="../../../../../coreweb/lib/three/RingGeometry2.js"></script>
@@ -23,22 +24,17 @@
 <script src="../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
 </head>
 <body>
-	<table>
-		<tr>
-			<td id="observerCameraUI"></td>
-		</tr>
-	</table>
+	<div id="progressArea"></div>
 	<table>
 		<tr>
 			<td></td>
 			<td>Dorsal</td>
 			<td></td>
-			<td></td>
+			<td id="observerCameraUI" rowspan="2"></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td id="dorsalCameraUI"></td>
-			<td></td>
 			<td></td>
 		</tr>
 		<tr>
@@ -66,6 +62,7 @@
 			<td></td>
 		</tr>
 	</table>
+	<div id="messageArea"></div>
 	<script>
         "use strict";
         var LOGGER = new Logger();
@@ -80,14 +77,15 @@
                 "ui/ObserverCameraUI" ], function(Body, Environment, Quaternion, StateFactory, Vector, Ship, CameraUI,
                 ObserverCameraUI)
         {
+            var bodyKeys = Body.values();
             var environment;
 
             createEnvironment();
 
             function createEnvironment()
             {
-                var bodyKeys = Body.values();
                 var factory = new StateFactory.Horizons(bodyKeys, finishEnvironment);
+                factory.bind("dataLoaded", notifyDataLoaded);
                 factory.createStates();
             }
 
@@ -207,6 +205,34 @@
                 }
 
                 tick();
+            }
+
+            function notifyDataLoaded(index)
+            {
+                var progress = Math.round(index / bodyKeys.length * 100.0);
+                var progressElement = React.createElement(Progress,
+                {
+                    color: "blue",
+                    height: 8,
+                    percent: progress,
+                });
+                React.render(progressElement, document.getElementById("progressArea"));
+
+                if (index < bodyKeys.length)
+                {
+                    var bodyKey = bodyKeys[index];
+                    var body = Body.properties[bodyKey];
+                    LOGGER.info("Loaded data for " + body.name + ". " + progress + "%");
+                    React.render(React.DOM.span({}, "Loaded data for " + body.name + ". " + progress + "%"), document
+                            .getElementById("messageArea"));
+                }
+                else
+                {
+                    // Done.
+                    LOGGER.info("Loaded all data.");
+                    React.render(React.DOM.span({}, "Loaded all data. " + progress + "%"), document
+                            .getElementById("messageArea"));
+                }
             }
         });
     </script>
