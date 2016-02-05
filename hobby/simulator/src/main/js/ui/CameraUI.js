@@ -73,6 +73,7 @@ define([ "Body", "ui/SceneUI" ], function(Body, SceneUI)
                 logarithmicDepthBuffer: true,
             });
 
+            answer.setClearColor(0x000000, 1);
             answer.setSize(this.props.width, this.props.height);
 
             return answer;
