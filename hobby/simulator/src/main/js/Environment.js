@@ -16,13 +16,14 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
             InputValidator.validateNotNull("position", position);
             InputValidator.validateNotNull("orientation", orientation);
 
-            var julianDate = 0.0;
+            var state0 = this.state(this.bodyKeys()[0]);
+            var date = (state0 ? state0.date() : moment());
             var myVelocity = (velocity ? velocity : Vector.ZERO);
             var myAngularVelocity = (angularVelocity ? angularVelocity : Quaternion.ZERO);
 
             var shipKey = ship.name();
             nameToShip[shipKey] = ship;
-            shipToState[shipKey] = new State.State(julianDate, position, orientation, myVelocity, myAngularVelocity);
+            shipToState[shipKey] = new State.State(date, position, orientation, myVelocity, myAngularVelocity);
         };
 
         this.bodyKeys = function()
@@ -35,6 +36,11 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
             InputValidator.validateNotNull("shipKey", shipKey);
 
             return nameToShip[shipKey];
+        };
+
+        this.shipKeys = function()
+        {
+            return Object.getOwnPropertyNames(shipToState);
         };
 
         this.state = function(bodyKey)
@@ -115,6 +121,8 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
                 shipToState[shipKey].tick();
             }
 
+            this.trigger("tick", this);
+
             LOGGER.trace("Environment.tick() end");
         };
 
@@ -134,6 +142,8 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
             return runit.multiply(amag);
         }
     }
+
+    MicroEvent.mixin(Environment);
 
     function Reference()
     {
@@ -173,5 +183,4 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
         Environment: Environment,
         Reference: Reference,
     });
-
 });
