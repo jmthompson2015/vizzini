@@ -12,13 +12,21 @@ define([ "Body", "StateFactory" ], function(Body, StateFactory)
         assert.ok(result);
         var solState = result[Body.SOL];
         verifyVector(assert, solState.position(), 561524.6657, 231553.661, -24203.0858);
+        verifyQuaternion(assert, solState.orientation(), 0.974114, 0.217157, 0.062802, 0.0);
         verifyVector(assert, solState.velocity(), 0.0011, 0.012, 0.0);
+        verifyQuaternion(assert, solState.angularVelocity(), 1.0, 0.0, -0.000001, 0.000001);
+
         var earthState = result[Body.EARTH];
         verifyVector(assert, earthState.position(), -75613579.1947, 126206909.8272, -27995.6683);
+        verifyQuaternion(assert, earthState.orientation(), 1.0, 0.0, 0.0, 0.0);
         verifyVector(assert, earthState.velocity(), -25.9625, -15.5125, 0.0004);
+        verifyQuaternion(assert, earthState.angularVelocity(), 1.0, 0.0, 0.0, 0.000036);
+
         var lunaState = result[Body.LUNA];
         verifyVector(assert, lunaState.position(), -75651368.2263, 126584174.0843, -61031.2989);
+        verifyQuaternion(assert, lunaState.orientation(), 1.0, 0.0, 0.0, 0.0);
         verifyVector(assert, lunaState.velocity(), -26.9966, -15.5789, 0.0178);
+        verifyQuaternion(assert, lunaState.angularVelocity(), 1.0, 0.0, 0.0, 0.000001);
     });
 
     QUnit.test("StateFactory.createCircularOrbit()", function(assert)

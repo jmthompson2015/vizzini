@@ -6,11 +6,11 @@ define([ "Body", "Environment", "StateFactory", "ui/SceneUI" ], function(Body, E
     QUnit.test("SceneUI()", function(assert)
     {
         // Setup.
+        var bodyToState0 = StateFactory.Reference.createStates();
         var bodyToState = {};
-        var stateFactory = StateFactory.Reference;
-        bodyToState[Body.SOL] = stateFactory.createSolState();
-        bodyToState[Body.EARTH] = stateFactory.createEarthState();
-        bodyToState[Body.LUNA] = stateFactory.createLunaState();
+        bodyToState[Body.SOL] = bodyToState0[Body.SOL];
+        bodyToState[Body.EARTH] = bodyToState0[Body.EARTH];
+        bodyToState[Body.LUNA] = bodyToState0[Body.LUNA];
         var environment = new Environment.Environment(bodyToState);
         var callback = function(sceneUI)
         {

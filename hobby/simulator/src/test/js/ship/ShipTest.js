@@ -1,4 +1,5 @@
-define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environment, Quaternion, Vector, Ship)
+define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], function(Environment, Quaternion,
+        StateFactory, Vector, Ship)
 {
     "use strict";
     QUnit.module("Ship");
@@ -6,7 +7,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     QUnit.test("ObserverSatellite()", function(assert)
     {
         // Setup.
-        var bodyToState = {};
+        var bodyToState = StateFactory.Reference.createStates();
         var environment = new Environment.Environment(bodyToState);
 
         // Run.
@@ -21,7 +22,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     QUnit.test("ObserverSatellite.tick()", function(assert)
     {
         // Setup.
-        var bodyToState = {};
+        var bodyToState = StateFactory.Reference.createStates();
         var environment = new Environment.Environment(bodyToState);
 
         // Run.
@@ -39,7 +40,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     QUnit.test("ReferenceShip()", function(assert)
     {
         // Setup.
-        var bodyToState = {};
+        var bodyToState = StateFactory.Reference.createStates();
         var environment = new Environment.Environment(bodyToState);
 
         // Run.
@@ -54,7 +55,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Ship" ], function(Environm
     QUnit.test("ReferenceShip.tick()", function(assert)
     {
         // Setup.
-        var bodyToState = {};
+        var bodyToState = StateFactory.Reference.createStates();
         var environment = new Environment.Environment(bodyToState);
 
         // Run.
