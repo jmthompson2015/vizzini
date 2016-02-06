@@ -61,13 +61,18 @@ define([ "Body", "BodyType", "ui/CameraUI" ], function(Body, BodyType, CameraUI)
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
-            }, React.DOM.td({}, React.DOM.span({}, "Observer Satellite "), select)));
+            }, React.DOM.td(
+            {
+                className: "viewLabel",
+            }, React.DOM.span({}, "Observer Satellite "), select)));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
             }, React.DOM.td({}, cameraUI)));
 
-            return React.DOM.table({}, rows);
+            return React.DOM.table({
+                className:"observerCameraPanel",
+            }, rows);
         },
 
         bodyChanged: function(event)
