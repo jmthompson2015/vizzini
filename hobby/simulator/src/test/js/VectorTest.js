@@ -195,4 +195,16 @@ define([ "Vector" ], function(Vector)
         // Run / Verify.
         verifyVector(assert, result, 0.2673, 0.5345, 0.8018);
     });
+
+    QUnit.test("unit() zero vector", function(assert)
+    {
+        // Setup.
+        var v = Vector.ZERO;
+
+        // Run.
+        var result = v.unit();
+
+        // Run / Verify.
+        verifyVector(assert, result, 1.0, 0.0, 0.0);
+    });
 });

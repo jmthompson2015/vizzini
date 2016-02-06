@@ -43,26 +43,37 @@ define([ "Vector" ], function(Vector)
         InputValidator.validateNotNull("angle", angle);
         InputValidator.validateNotNull("vector", vector);
 
-        // Adjust the angle and rotation axis so that it is in the range [-pi,pi].
-        var myAngle = angle * Math.PI / 180.0;
+        var answer;
 
-        if (Math.abs(myAngle) > Math.PI)
+        if (angle === 0.0 || vector.magnitudeSquared() === 0.0)
         {
-            var sign = ((myAngle > 0.0) ? 1.0 : (-1.0));
-            var offset = Math.PI * sign;
-            myAngle = ((myAngle + offset) % (2.0 * Math.PI)) - offset;
+            answer = Quaternion.ZERO;
+        }
+        else
+        {
+            // Adjust the angle and rotation axis so that it is in the range [-pi,pi].
+            var myAngle = angle * Math.PI / 180.0;
+
+            if (Math.abs(myAngle) > Math.PI)
+            {
+                var sign = ((myAngle > 0.0) ? 1.0 : (-1.0));
+                var offset = Math.PI * sign;
+                myAngle = ((myAngle + offset) % (2.0 * Math.PI)) - offset;
+            }
+
+            var halfAngle = myAngle / 2.0;
+            var sinang = Math.sin(halfAngle);
+            var myVector = vector.unit();
+
+            var w = Math.cos(halfAngle);
+            var x = myVector.x() * sinang;
+            var y = myVector.y() * sinang;
+            var z = myVector.z() * sinang;
+
+            answer = new Quaternion(w, x, y, z).unit();
         }
 
-        var halfAngle = myAngle / 2.0;
-        var sinang = Math.sin(halfAngle);
-        var myVector = vector.unit();
-
-        var w = Math.cos(halfAngle);
-        var x = myVector.x() * sinang;
-        var y = myVector.y() * sinang;
-        var z = myVector.z() * sinang;
-
-        return new Quaternion(w, x, y, z).unit();
+        return answer;
     };
 
     /*
@@ -81,11 +92,6 @@ define([ "Vector" ], function(Vector)
 
     Quaternion.ZERO = new Quaternion(1.0, 0.0, 0.0, 0.0);
 
-    Quaternion.prototype.conjugate = function()
-    {
-        return new Quaternion(this.w(), -this.x(), -this.y(), -this.z());
-    };
-
     /*
      * @return the rotation angle in degrees.
      */
@@ -103,6 +109,25 @@ define([ "Vector" ], function(Vector)
         return angle * 180.0 / Math.PI;
     };
 
+    Quaternion.prototype.conjugate = function()
+    {
+        return new Quaternion(this.w(), -this.x(), -this.y(), -this.z());
+    };
+
+    Quaternion.prototype.declination = function()
+    {
+        var v0 = this.preMultiply(Vector.X_AXIS);
+        var v1 = new Vector(v0.x(), v0.y(), 0.0);
+        var answer = v0.angle(v1);
+
+        if (v0.z() < 0.0)
+        {
+            answer = -answer;
+        }
+
+        return answer;
+    };
+
     Quaternion.prototype.magnitude = function()
     {
         var w = this.w();
@@ -111,31 +136,6 @@ define([ "Vector" ], function(Vector)
         var z = this.z();
 
         return Math.sqrt((w * w) + (x * x) + (y * y) + (z * z));
-    };
-
-    /*
-     * @return the rotation vector.
-     */
-    Quaternion.prototype.vector = function()
-    {
-        var answer;
-        var angle = this.angle() * Math.PI / 180.0;
-
-        if (angle === 0.0)
-        {
-            // The rotation angle is zero, so the rotation vector doesn't matter.
-            answer = Vector.X_AXIS;
-        }
-        else
-        {
-            var sinAngle = Math.sin(angle / 2.0);
-            var x = this.x() / sinAngle;
-            var y = this.y() / sinAngle;
-            var z = this.z() / sinAngle;
-            answer = new Vector(x, y, z);
-        }
-
-        return answer;
     };
 
     Quaternion.prototype.multiply = function(q)
@@ -170,6 +170,20 @@ define([ "Vector" ], function(Vector)
         return new Vector(q.x(), q.y(), q.z());
     };
 
+    Quaternion.prototype.rightAscension = function()
+    {
+        var v0 = this.preMultiply(Vector.X_AXIS);
+        var v1 = new Vector(v0.x(), v0.y(), 0.0);
+        var answer = v1.angle(Vector.X_AXIS);
+
+        if (v0.y() < 0.0)
+        {
+            answer = 360.0 - answer;
+        }
+
+        return answer;
+    };
+
     Quaternion.prototype.toString = function()
     {
         return "(" + this.w() + ", " + this.x() + ", " + this.y() + ", " + this.z() + ")";
@@ -184,6 +198,31 @@ define([ "Vector" ], function(Vector)
         var newZ = this.z() / mag;
 
         return new Quaternion(newW, newX, newY, newZ);
+    };
+
+    /*
+     * @return the rotation vector.
+     */
+    Quaternion.prototype.vector = function()
+    {
+        var answer;
+        var angle = this.angle() * Math.PI / 180.0;
+
+        if (angle === 0.0)
+        {
+            // The rotation angle is zero, so the rotation vector doesn't matter.
+            answer = Vector.X_AXIS;
+        }
+        else
+        {
+            var sinAngle = Math.sin(angle / 2.0);
+            var x = this.x() / sinAngle;
+            var y = this.y() / sinAngle;
+            var z = this.z() / sinAngle;
+            answer = new Vector(x, y, z);
+        }
+
+        return answer;
     };
 
     return Quaternion;

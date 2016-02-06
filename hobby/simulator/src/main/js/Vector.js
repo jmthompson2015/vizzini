@@ -40,6 +40,8 @@ define(function()
      */
     Vector.prototype.angle = function(another)
     {
+        InputValidator.validateNotNull("another", another);
+
         // Find the angle between two Vectors
         var answer = 90.0;
 
@@ -145,9 +147,20 @@ define(function()
 
     Vector.prototype.unit = function()
     {
+        var answer;
+
         var mag = this.magnitude();
 
-        return this.multiply(1.0 / mag);
+        if (mag === 0.0)
+        {
+            answer = Vector.X_AXIS;
+        }
+        else
+        {
+            answer = this.multiply(1.0 / mag);
+        }
+
+        return answer;
     };
 
     return Vector;

@@ -57,6 +57,32 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         verifyQuaternion(assert, result, 0.996195, 0.023293, 0.046587, 0.06988);
     });
 
+    QUnit.test("Quaternion.newInstance() zero angle", function(assert)
+    {
+        // Setup.
+        var angle = 0.0;
+        var v = new Vector(1.0, 2.0, 3.0);
+
+        // Run.
+        var result = Quaternion.newInstance(angle, v);
+
+        // Verify.
+        verifyQuaternion(assert, result, 1.0, 0.0, 0.0, 0.0);
+    });
+
+    QUnit.test("Quaternion.newInstance() zero vector", function(assert)
+    {
+        // Setup.
+        var angle = 10.0;
+        var v = Vector.ZERO;
+
+        // Run.
+        var result = Quaternion.newInstance(angle, v);
+
+        // Verify.
+        verifyQuaternion(assert, result, 1.0, 0.0, 0.0, 0.0);
+    });
+
     QUnit.test("Quaternion.newInstanceRADec()", function(assert)
     {
         // Setup.
@@ -74,6 +100,40 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         verifyVector(assert, v, 0.7912, 0.5540, 0.2588);
     });
 
+    QUnit.test("Quaternion.newInstanceRADec() zero right ascension", function(assert)
+    {
+        // Setup.
+        var rightAscension = 0.0;
+        var declination = 15.0;
+
+        // Run.
+        var result = Quaternion.newInstanceRADec(rightAscension, declination);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(Math.vizziniRound(result.magnitude(), 6), 1.0);
+        verifyQuaternion(assert, result, 0.991445, 0.0, -0.130526, 0.0);
+        var v = result.preMultiply(Vector.X_AXIS);
+        verifyVector(assert, v, 0.9659, 0.0, 0.2588);
+    });
+
+    QUnit.test("Quaternion.newInstanceRADec() zero declination", function(assert)
+    {
+        // Setup.
+        var rightAscension = 35.0;
+        var declination = 0.0;
+
+        // Run.
+        var result = Quaternion.newInstanceRADec(rightAscension, declination);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(Math.vizziniRound(result.magnitude(), 6), 1.0);
+        verifyQuaternion(assert, result, 0.953717, 0.0, 0, 0.300706);
+        var v = result.preMultiply(Vector.X_AXIS);
+        verifyVector(assert, v, 0.8192, 0.5736, 0.0);
+    });
+
     QUnit.test("angle()", function(assert)
     {
         // Setup.
@@ -89,6 +149,28 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         assert.equal(Math.vizziniRound(q0.angle(), 4), angle0);
         assert.equal(Math.vizziniRound(q1.angle(), 4), angle1);
         assert.equal(Math.vizziniRound(q2.angle(), 4), angle2);
+    });
+
+    QUnit.test("declination() negative", function(assert)
+    {
+        // Setup.
+        var rightAscension = 35.0;
+        var declination = -15.0;
+        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(q.declination(), 4), declination);
+    });
+
+    QUnit.test("declination() positive", function(assert)
+    {
+        // Setup.
+        var rightAscension = 35.0;
+        var declination = 15.0;
+        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(q.declination(), 4), declination);
     });
 
     QUnit.test("magnitude()", function(assert)
@@ -226,6 +308,28 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
 
         v = q0.postMultiply(Vector.Z_AXIS);
         verifyVector(assert, v, 0.0, 0.0, 1.0);
+    });
+
+    QUnit.test("rightAscension() negative", function(assert)
+    {
+        // Setup.
+        var rightAscension = -35.0;
+        var declination = 15.0;
+        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(q.rightAscension(), 4), 325.0);
+    });
+
+    QUnit.test("rightAscension() positive", function(assert)
+    {
+        // Setup.
+        var rightAscension = 35.0;
+        var declination = 15.0;
+        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(q.rightAscension(), 4), rightAscension);
     });
 
     QUnit.test("vector()", function(assert)
