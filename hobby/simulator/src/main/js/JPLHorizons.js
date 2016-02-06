@@ -85,14 +85,14 @@ define([ "Quaternion", "State", "Vector" ], function(Quaternion, State, Vector)
                 var z = parseFloat(parts[4].trim());
                 var position = new Vector(x, y, z);
 
-                var orientation = Quaternion.ZERO;
+                var orientation = Quaternion.newInstanceVector(body.northPole);
 
                 var vx = parseFloat(parts[5].trim());
                 var vy = parseFloat(parts[6].trim());
                 var vz = parseFloat(parts[7].trim());
                 var velocity = new Vector(vx, vy, vz);
 
-                var angularVelocity = Quaternion.ZERO;
+                var angularVelocity = Quaternion.newInstance(body.rotationRate, body.northPole);
 
                 if (body.rotationRate !== undefined)
                 {
