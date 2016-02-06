@@ -21,6 +21,7 @@
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
 </head>
 <body>
@@ -28,20 +29,20 @@
 	<table>
 		<tr>
 			<td></td>
-			<td>Dorsal</td>
-			<td></td>
+			<td class="viewLabel">Dorsal</td>
+			<td class="viewLabel">Spacecraft</td>
 			<td id="observerCameraUI" rowspan="2"></td>
 		</tr>
 		<tr>
 			<td></td>
 			<td id="dorsalCameraUI"></td>
-			<td></td>
+			<td id="spacecraftStatusPanel"></td>
 		</tr>
 		<tr>
-			<td>Port</td>
-			<td>Forward</td>
-			<td>Starboard</td>
-			<td>Aft</td>
+			<td class="viewLabel">Port</td>
+			<td class="viewLabel">Forward</td>
+			<td class="viewLabel">Starboard</td>
+			<td class="viewLabel">Aft</td>
 		</tr>
 		<tr>
 			<td id="portCameraUI"></td>
@@ -51,7 +52,7 @@
 		</tr>
 		<tr>
 			<td></td>
-			<td>Ventral</td>
+			<td class="viewLabel">Ventral</td>
 			<td></td>
 			<td></td>
 		</tr>
@@ -70,12 +71,11 @@
         LOGGER.setDebugEnabled(false);
 
         var resourceBase = "../../main/resources/";
-        // var resourceBase = "/Volumes/StorageDrive/jmthompson/git/vizzini/hobby/simulator/src/main/resources/";
         var imageBase = resourceBase + "images/";
 
         require([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship", "ui/CameraUI",
-                "ui/ObserverCameraUI" ], function(Body, Environment, Quaternion, StateFactory, Vector, Ship, CameraUI,
-                ObserverCameraUI)
+                "ui/ObserverCameraUI", "ui/SpacecraftStatus" ], function(Body, Environment, Quaternion, StateFactory,
+                Vector, Ship, CameraUI, ObserverCameraUI, SpacecraftStatus)
         {
             var bodyKeys = Body.values();
             var environment;
@@ -84,6 +84,7 @@
 
             function createEnvironment()
             {
+                // var factory = new StateFactory.ReferenceFactory(bodyKeys, finishEnvironment);
                 var factory = new StateFactory.Horizons(bodyKeys, finishEnvironment);
                 factory.bind("dataLoaded", notifyDataLoaded);
                 factory.createStates();
@@ -92,6 +93,7 @@
             function finishEnvironment(bodyToState)
             {
                 environment = new Environment.Environment(bodyToState);
+                environment.bind("tick", notifyTick);
                 var solState = bodyToState[Body.SOL];
 
                 for ( var bodyKey in bodyToState)
@@ -222,7 +224,7 @@
                 {
                     var bodyKey = bodyKeys[index];
                     var body = Body.properties[bodyKey];
-                    LOGGER.info("Loaded data for " + body.name + ". " + progress + "%");
+                    // LOGGER.info("Loaded data for " + body.name + ". " + progress + "%");
                     React.render(React.DOM.span({}, "Loaded data for " + body.name + ". " + progress + "%"), document
                             .getElementById("messageArea"));
                 }
@@ -233,6 +235,17 @@
                     React.render(React.DOM.span({}, "Loaded all data. " + progress + "%"), document
                             .getElementById("messageArea"));
                 }
+            }
+
+            function notifyTick(environment)
+            {
+                var state = environment.state(environment.shipKeys()[0]);
+                var date = state.date();
+                var spacecraftStatus = React.createElement(SpacecraftStatus,
+                {
+                    state: state,
+                });
+                React.render(spacecraftStatus, document.getElementById("spacecraftStatusPanel"));
             }
         });
     </script>
