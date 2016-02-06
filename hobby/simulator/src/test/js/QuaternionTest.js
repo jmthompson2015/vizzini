@@ -134,6 +134,41 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         verifyVector(assert, v, 0.8192, 0.5736, 0.0);
     });
 
+    QUnit.test("Quaternion.newInstanceVector()", function(assert)
+    {
+        // Setup.
+        var rightAscension = 35.0;
+        var declination = 15.0;
+        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+        var vector = q.preMultiply(Vector.X_AXIS);
+
+        // Run.
+        var result = Quaternion.newInstanceVector(vector);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(Math.vizziniRound(result.magnitude(), 6), 1.0);
+        verifyQuaternion(assert, result, 0.793353, -0.349171, 0.498668, 0.0);
+        var v = result.preMultiply(Vector.X_AXIS);
+        verifyVector(assert, v, 0.5027, -0.3482, -0.7912);
+    });
+
+    QUnit.test("Quaternion.newInstanceVector() zero", function(assert)
+    {
+        // Setup.
+        var vector = Vector.ZERO;
+
+        // Run.
+        var result = Quaternion.newInstanceVector(vector);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(Math.vizziniRound(result.magnitude(), 6), 1.0);
+        verifyQuaternion(assert, result, 1.0, 0.0, 0.0, 0.0);
+        var v = result.preMultiply(Vector.X_AXIS);
+        verifyVector(assert, v, 1.0, 0.0, 0.0);
+    });
+
     QUnit.test("angle()", function(assert)
     {
         // Setup.

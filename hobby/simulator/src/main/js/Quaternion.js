@@ -90,6 +90,19 @@ define([ "Vector" ], function(Vector)
         return q0.multiply(q1).unit();
     };
 
+    /*
+     * This quaternion represents the rotation required to move the X axis to the given vector.
+     */
+    Quaternion.newInstanceVector = function(vector)
+    {
+        InputValidator.validateNotNull("vector", vector);
+
+        var angle = Vector.Z_AXIS.angle(vector);
+        var v = Vector.Z_AXIS.cross(vector);
+
+        return Quaternion.newInstance(angle, v);
+    };
+
     Quaternion.ZERO = new Quaternion(1.0, 0.0, 0.0, 0.0);
 
     /*
