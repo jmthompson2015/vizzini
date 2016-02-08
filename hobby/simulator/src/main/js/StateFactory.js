@@ -52,7 +52,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
             this.trigger("dataLoaded", Object.getOwnPropertyNames(answer).length);
             callback(answer);
             return answer;
-        }
+        };
 
         function createArielState()
         {
@@ -438,7 +438,7 @@ define([ "Body", "Constants", "JPLHorizons", "Quaternion", "State", "Vector" ], 
 
             return new State.State(DATE, position, orientation, velocity, angularVelocity);
         }
-    };
+    }
 
     MicroEvent.mixin(ReferenceFactory);
 
