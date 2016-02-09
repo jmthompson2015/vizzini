@@ -1,3 +1,4 @@
+"use strict";
 
 // String.endsWith polyfill.
 if (!String.prototype.endsWith)
@@ -22,5 +23,22 @@ if (!String.prototype.startsWith)
     {
         position = position || 0;
         return this.indexOf(searchString, position) === position;
+    };
+}
+
+if (!String.pad)
+{
+    /*
+     * @param n Number. (required)
+     * 
+     * @param width Desired padded width. (required)
+     * 
+     * @param z Pad character. (optional; default '0')
+     */
+    String.pad = function(n, width, z)
+    {
+        z = z || '0';
+        n = n + '';
+        return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     };
 }
