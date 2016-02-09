@@ -22,6 +22,7 @@
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
 </head>
 <body>
@@ -84,8 +85,8 @@
 
             function createEnvironment()
             {
-                // var factory = new StateFactory.ReferenceFactory(bodyKeys, finishEnvironment);
-                var factory = new StateFactory.Horizons(bodyKeys, finishEnvironment);
+                var factory = new StateFactory.ReferenceFactory(bodyKeys, finishEnvironment);
+                // var factory = new StateFactory.Horizons(bodyKeys, finishEnvironment);
                 factory.bind("dataLoaded", notifyDataLoaded);
                 factory.createStates();
             }
@@ -111,8 +112,8 @@
                 var ship = new Ship.ReferenceShip("ReferenceShip", environment);
                 var state0 = bodyToState[Body.EARTH];
                 var position0 = state0.position();
-                var position = new Vector(position0.x(), position0.y() + 5.0e+04, position0.z());
-                var orientation = Quaternion.newInstance(-90.0, Vector.Z_AXIS);
+                var position = new Vector(position0.x() - 5.0e+04, position0.y(), position0.z());
+                var orientation = Quaternion.ZERO;
                 var velocity = state0.velocity();
                 environment.addShip(ship, position, orientation, velocity);
 
@@ -202,7 +203,9 @@
 
                     var now = Date.now();
                     var delay = 1000 - (now - lastUpdate);
-                    LOGGER.info("delay = " + delay + " ms diff = " + (now - lastUpdate));
+                    // LOGGER.info("delay = " + delay + " ms diff = " + (now - lastUpdate));
+                    React.render(React.DOM.span({}, "delay = " + delay + " ms diff = " + (now - lastUpdate)), document
+                            .getElementById("messageArea"));
                     setTimeout(tick, delay);
                 }
 
@@ -231,7 +234,7 @@
                 else
                 {
                     // Done.
-                    LOGGER.info("Loaded all data.");
+                    // LOGGER.info("Loaded all data.");
                     React.render(React.DOM.span({}, "Loaded all data. " + progress + "%"), document
                             .getElementById("messageArea"));
                 }
@@ -239,10 +242,12 @@
 
             function notifyTick(environment)
             {
-                var state = environment.state(environment.shipKeys()[0]);
-                var date = state.date();
+                var ship = environment.ship("ReferenceShip");
+                var state = environment.state("ReferenceShip");
+                // var date = state.date();
                 var spacecraftStatus = React.createElement(SpacecraftStatus,
                 {
+                    ship: ship,
                     state: state,
                 });
                 React.render(spacecraftStatus, document.getElementById("spacecraftStatusPanel"));

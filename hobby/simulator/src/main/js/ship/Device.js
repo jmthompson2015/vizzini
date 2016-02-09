@@ -1,4 +1,4 @@
-define(function()
+define([ "ship/SupplyType" ], function(SupplyType)
 {
     "use strict";
     function Device(name, environment, parentKey, position, orientation)
@@ -94,6 +94,36 @@ define(function()
         {
             return conduit.supplyType() === supplyType;
         });
+    };
+
+    Device.prototype.isSupplied = function(supplyType, consumePerTick)
+    {
+        InputValidator.validateNotNull("supplyType", supplyType);
+        InputValidator.validateNotNull("consumePerTick", consumePerTick);
+
+        var answer = false;
+
+        var conduits = this.consumeConduitsByType(supplyType);
+        var need = consumePerTick;
+
+        if (conduits)
+        {
+            for (var i = 0; need > 0 && i < conduits.length; i++)
+            {
+                var conduit = conduits[i];
+                var got = conduit.producer().request(need);
+
+                need -= got;
+            }
+
+            answer = (need === 0);
+        }
+        else
+        {
+            throw "No " + SupplyType.properties[supplyType] + " conduit for " + this;
+        }
+
+        return answer;
     };
 
     return Device;

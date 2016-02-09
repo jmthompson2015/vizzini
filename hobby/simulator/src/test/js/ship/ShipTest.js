@@ -49,7 +49,12 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], f
         // Verify.
         assert.ok(result);
         assert.ok(result.devices());
-        assert.equal(result.devices().length, 8);
+        assert.equal(result.devices().length, 22);
+        var power = result.device("FusionReactor");
+        assert.ok(power);
+        var conduit1 = power.consumeConduits()[0];
+        assert.ok(conduit1);
+        assert.equal(conduit1.name(), "1");
     });
 
     QUnit.test("ReferenceShip.tick()", function(assert)

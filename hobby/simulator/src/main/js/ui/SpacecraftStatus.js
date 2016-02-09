@@ -1,40 +1,167 @@
-define(function()
+define([ "Body", "BodyType", "Quaternion", "Vector" ], function(Body, BodyType, Quaternion, Vector)
 {
     "use strict";
     var SpacecraftStatus = React.createClass(
     {
+        getInitialState: function()
+        {
+            return (
+            {
+                targetBodyKey: Body.SOL,
+            });
+        },
+
         render: function()
         {
+            InputValidator.validateNotNull("ship", this.props.ship);
             InputValidator.validateNotNull("state", this.props.state);
 
+            var ship = this.props.ship;
             var state = this.props.state;
             var timestamp = state.date().format("YYYY-MM-DD HH:mm:ss");
-            var rightAscension = state.orientation().rightAscension();
-            var declination = state.orientation().declination();
-            var heading = this.pad(Math.round(rightAscension), 3) + "m" + this.pad(Math.round(declination), 2);
+            var heading = state.orientation().toHeadingString();
+            var environment = ship.devices()[0].environment();
+            var bodyKeys = environment.bodyKeys();
+            var labelFunction = function(bodyKey)
+            {
+                var body = Body.properties[bodyKey];
+                var prefix = (body.type === BodyType.MOON ? "\u25D0 " : "");
+                return prefix + body.name;
+            };
+            var targetSelect = React.createElement(Select,
+            {
+                values: bodyKeys,
+                labelFunction: labelFunction,
+                onChange: this.targetBodyChanged,
+            });
+            var targetBodyKey = this.state.targetBodyKey;
+            var targetState = environment.state(targetBodyKey);
+            var targetVector = targetState.position().subtract(state.position());
 
             var rows = [];
 
+            var cells0 = [];
+            cells0.push(React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Time"));
+            cells0.push(React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+                colSpan: "2",
+            }, timestamp));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells0));
+
+            var cells1 = [];
+            cells1.push(React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Heading"));
+            cells1.push(React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+                colSpan: "2",
+            }, heading));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells1));
+
+            var cells2 = [];
+            cells2.push(React.DOM.td(
+            {
+                rowSpan: "2",
+            }, targetSelect));
+            cells2.push(React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Heading"));
+            cells2.push(React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+            }, targetVector.toHeadingString()));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells2));
+
+            var cells3 = [];
+            cells3.push(React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Distance"));
+            cells3.push(React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+            }, Math.round(targetVector.magnitude())));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells3));
+
+            // FIXME: temporary
+            var positionString = "(" + Math.round(state.position().x()) + ", " + Math.round(state.position().y()) +
+                    ", " + Math.round(state.position().z()) + ")";
+            var velocityString = "(" + Math.vizziniRound(state.velocity().x(), 2) + ", " +
+                    Math.vizziniRound(state.velocity().y(), 2) + ", " + Math.vizziniRound(state.velocity().z(), 2) +
+                    ")";
+            var accelerationString = "(" + Math.vizziniRound(state.acceleration().x(), 4) + ", " +
+                    Math.vizziniRound(state.acceleration().y(), 4) + ", " +
+                    Math.vizziniRound(state.acceleration().z(), 4) + ")";
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
             }, React.DOM.td(
             {
                 className: "spacecraftStatusLabel",
-            }, "Time"), React.DOM.td(
+            }, "Position"), React.DOM.td(
             {
                 className: "spacecraftStatusValue",
-            }, timestamp)));
+                colSpan: "2",
+            }, positionString)));
+
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
             }, React.DOM.td(
             {
                 className: "spacecraftStatusLabel",
-            }, "Heading"), React.DOM.td(
+            }, "Velocity"), React.DOM.td(
             {
                 className: "spacecraftStatusValue",
-            }, heading)));
+                colSpan: "2",
+            }, velocityString)));
+
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Acceleration"), React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+                colSpan: "2",
+            }, accelerationString)));
+
+            var maneuverPanel = React.createElement(ManeuverPanel,
+            {
+                ship: ship,
+                state: state,
+                callback: ship.maneuverChanged,
+            });
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+                className: "maneuverContainer",
+            }, React.DOM.td(
+            {
+                className: "maneuverContainer",
+                colSpan: "3"
+            }, maneuverPanel)));
 
             return React.DOM.table(
             {
@@ -42,11 +169,191 @@ define(function()
             }, rows);
         },
 
-        pad: function(n, width, z)
+        targetBodyChanged: function(event)
         {
-            z = z || '0';
-            n = n + '';
-            return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+            var bodyKey = event.target.value;
+            LOGGER.trace("bodyChanged() bodyKey = " + bodyKey);
+
+            this.setState(
+            {
+                targetBodyKey: bodyKey,
+            });
+        },
+    });
+
+    var ManeuverPanel = React.createClass(
+    {
+        render: function()
+        {
+            InputValidator.validateNotNull("ship", this.props.ship);
+            InputValidator.validateNotNull("state", this.props.state);
+            InputValidator.validateNotNull("callback", this.props.callback);
+
+            var portYaw = React.createElement(ToggleButton,
+            {
+                name: "portYaw",
+                text: "\u21E6",
+                callback: this.props.callback,
+            });
+            var starboardYaw = React.createElement(ToggleButton,
+            {
+                name: "starboardYaw",
+                text: "\u21E8",
+                callback: this.props.callback,
+            });
+            var dorsalPitch = React.createElement(ToggleButton,
+            {
+                name: "dorsalPitch",
+                text: "\u21E7",
+                callback: this.props.callback,
+            });
+            var ventralPitch = React.createElement(ToggleButton,
+            {
+                name: "ventralPitch",
+                text: "\u21E9",
+                callback: this.props.callback,
+            });
+            var ventralRoll = React.createElement(ToggleButton,
+            {
+                name: "ventralRoll",
+                text: "\u21E6",
+                callback: this.props.callback,
+            });
+            var dorsalRoll = React.createElement(ToggleButton,
+            {
+                name: "dorsalRoll",
+                text: "\u21E8",
+                callback: this.props.callback,
+            });
+            var forwardThrust = React.createElement(ToggleButton,
+            {
+                name: "forwardThrust",
+                text: "\u21E7",
+                callback: this.props.callback,
+            });
+            var reverseThrust = React.createElement(ToggleButton,
+            {
+                name: "reverseThrust",
+                text: "\u21E9",
+                callback: this.props.callback,
+            });
+
+            var rows = [];
+
+            var cells0 = [];
+            cells0.push(React.DOM.td({}, ""));
+            cells0.push(React.DOM.td({}, dorsalPitch));
+            cells0.push(React.DOM.td({}, ""));
+            cells0.push(React.DOM.td(
+            {
+                rowSpan: "2",
+            }, forwardThrust));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells0));
+
+            var cells1 = [];
+            cells1.push(React.DOM.td(
+            {
+                rowSpan: "2",
+            }, portYaw));
+            cells1.push(React.DOM.td({}, "Yaw"));
+            cells1.push(React.DOM.td(
+            {
+                rowSpan: "2",
+            }, starboardYaw));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells1));
+
+            var cells2 = [];
+            cells2.push(React.DOM.td({}, "Pitch"));
+            cells2.push(React.DOM.td({}, "Thrust"));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells2));
+
+            var cells3 = [];
+            cells3.push(React.DOM.td({}, ""));
+            cells3.push(React.DOM.td({}, ventralPitch));
+            cells3.push(React.DOM.td({}, ""));
+            cells3.push(React.DOM.td(
+            {
+                rowSpan: "2",
+            }, reverseThrust));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells3));
+
+            var cells4 = [];
+            cells4.push(React.DOM.td({}, ventralRoll));
+            cells4.push(React.DOM.td({}, "Roll"));
+            cells4.push(React.DOM.td({}, dorsalRoll));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells4));
+
+            var cells5 = [];
+            cells5.push(React.DOM.td(
+            {
+                colSpan: "3",
+            }, React.DOM.button(
+            {
+                onClick: this.props.state.zeroRotation,
+            }, "Zero Rotation")));
+            cells5.push(React.DOM.td({}, ""));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells5));
+
+            return React.DOM.table(
+            {
+                className: "manueverPanel",
+            }, rows);
+        },
+    });
+
+    var ToggleButton = React.createClass(
+    {
+        getInitialState: function()
+        {
+            return (
+            {
+                isOn: false,
+            });
+        },
+
+        render: function()
+        {
+            InputValidator.validateNotNull("name", this.props.name);
+            InputValidator.validateNotNull("text", this.props.text);
+            InputValidator.validateNotNull("callback", this.props.callback);
+
+            var isOn = this.state.isOn;
+            var background = (isOn ? "toggleIsOn" : "toggleIsOff");
+
+            return React.DOM.span(
+            {
+                className: background,
+                onClick: this.toggleButton,
+            }, this.props.text);
+        },
+
+        toggleButton: function(event)
+        {
+            var isOn = !this.state.isOn;
+            LOGGER.info("ToggleButton.toggleButton() " + this.props.name + " isOn ? " + isOn);
+
+            this.setState(
+            {
+                isOn: isOn,
+            }, this.props.callback(this.props.name, isOn));
         },
     });
 

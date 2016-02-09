@@ -13,11 +13,24 @@ table {
     vertical-align: middle;
 }
 
+.manueverPanel {
+    background-color: #DCDCDC;
+    font-size: small;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.manueverPanel tr td {
+    background-color: #DCDCDC;
+}
+
 #messageArea {
     background-color: white;
 }
 
 .spacecraftStatusLabel {
+    padding: 3px;
     text-align: left;
 }
 
@@ -27,15 +40,29 @@ table {
 
 .spacecraftStatusPanel {
     background-color: white;
+    font-size: small;
     margin: 4px;
     margin-left: auto;
     margin-right: auto;
+    padding: 5px;
     text-align: center;
-    margin-right: auto;
+}
+/* 
+.spacecraftStatusPanel tr td {
+    border: 1px solid black;
+}
+ */
+.spacecraftStatusValue {
+    padding: 3px;
+    text-align: right;
 }
 
-.spacecraftStatusValue {
-    text-align: right;
+.toggleIsOff {
+    background-color: #A9A9A9;
+}
+
+.toggleIsOn {
+    background-color: red;
 }
 
 .viewLabel {

@@ -112,6 +112,12 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
             acceleration = Vector.ZERO;
             angularAcceleration = Quaternion.ZERO;
         };
+
+        this.zeroRotation = function()
+        {
+            angularVelocity = Quaternion.ZERO;
+            angularAcceleration = Quaternion.ZERO;
+        };
     }
 
     State.prototype.toString = function()
