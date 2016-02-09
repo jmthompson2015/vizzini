@@ -46,42 +46,19 @@ define([ "State", "ship/Device", "ship/SupplyType" ], function(State, Device, Su
 
         function isPowered()
         {
-            var answer = false;
-
-            // Consume power to produce data.
-            var conduits = that.consumeConduitsByType(that.consumeType());
-            var need = that.consumePerTick();
-
-            if (conduits)
-            {
-                for (var i = 0; need > 0 && i < conduits.length; i++)
-                {
-                    var conduit = conduits[i];
-                    var got = conduit.producer().request(need);
-
-                    need -= got;
-                }
-
-                answer = (need === 0);
-            }
-            else
-            {
-                throw "No power conduit for " + that;
-            }
-
-            return answer;
+            return that.isSupplied(SupplyType.POWER, that.consumePerTick());
         }
 
         function update()
         {
-            LOGGER.trace("Sensor.update() start");
+            LOGGER.trace("Camera.update() start");
+
+            myOutput = {};
 
             var myPosition = that.absolutePosition();
             var myOrientation = that.absoluteOrientation();
             var environment = that.environment();
             var bodyKeys = environment.bodyKeys();
-
-            myOutput = {};
 
             bodyKeys.forEach(function(bodyKey)
             {
@@ -95,7 +72,7 @@ define([ "State", "ship/Device", "ship/SupplyType" ], function(State, Device, Su
                 myOutput[bodyKey] = new State.SimpleState(date, position, orientation);
             });
 
-            LOGGER.trace("Sensor.update() end");
+            LOGGER.trace("Camera.update() end");
         }
     }
 

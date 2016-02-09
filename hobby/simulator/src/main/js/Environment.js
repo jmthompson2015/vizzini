@@ -24,6 +24,15 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
             var shipKey = ship.name();
             nameToShip[shipKey] = ship;
             shipToState[shipKey] = new State.State(date, position, orientation, myVelocity, myAngularVelocity);
+
+            var devices = ship.devices();
+            devices.forEach(function(device)
+            {
+                if (device.bind)
+                {
+                    device.bind("dataUpdated", updateDevice);
+                }
+            });
         };
 
         this.bodyKeys = function()
@@ -141,6 +150,16 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
 
             return runit.multiply(amag);
         }
+
+        function updateDevice(myOutput)
+        {
+            if (myOutput.acceleration && myOutput.angularAcceleration)
+            {
+                var state = that.state(myOutput.shipKey);
+                state.addAcceleration(myOutput.acceleration);
+                state.addAngularAcceleration(myOutput.angularAcceleration);
+            }
+        }
     }
 
     MicroEvent.mixin(Environment);
@@ -170,8 +189,8 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
         var ship = new Ship.ReferenceShip("ReferenceShip", environment);
         var state0 = bodyToState[Body.EARTH];
         var position0 = state0.position();
-        var position = new Vector(position0.x(), position0.y() + 5.0e+04, position0.z());
-        var orientation = Quaternion.newInstance(-90.0, Vector.Z_AXIS);
+        var position = new Vector(position0.x() - 5.0e+04, position0.y(), position0.z());
+        var orientation = Quaternion.ZERO;
         var velocity = state0.velocity();
         environment.addShip(ship, position, orientation, velocity);
 
