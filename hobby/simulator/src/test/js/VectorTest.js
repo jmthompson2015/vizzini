@@ -13,6 +13,13 @@ define([ "Vector" ], function(Vector)
         verifyVector(assert, result, 1.0, 2.0, 3.0);
     });
 
+    QUnit.test("Vector.normalizeAngle()", function(assert)
+    {
+        assert.equal(Vector.normalizeAngle(3), 3);
+        assert.equal(Vector.normalizeAngle(363), 3);
+        assert.equal(Vector.normalizeAngle(-357), 3);
+    });
+
     QUnit.test("add()", function(assert)
     {
         // Setup.
@@ -39,6 +46,18 @@ define([ "Vector" ], function(Vector)
         // Verify.
         assert.ok(result);
         assert.equal(Math.vizziniRound(result, 4), 12.9332);
+
+        var v0 = new Vector(0.0, 0.0, 1.0);
+        var v1 = new Vector(0.0, 0.0, 0.0);
+        assert.equal(Math.vizziniRound(v0.angle(v1), 4), 90.0);
+
+        var v0 = new Vector(1.0, 0.0, 1.0);
+        var v1 = new Vector(0.0, 0.0, 0.0);
+        assert.equal(Math.vizziniRound(v0.angle(v1), 4), 90.0);
+
+        var v0 = new Vector(1.0, 1.0, 1.0);
+        var v1 = new Vector(1.0, 1.0, 0.0);
+        assert.equal(Math.vizziniRound(v0.angle(v1), 4), 35.2644);
     });
 
     QUnit.test("angle() XY", function(assert)
@@ -51,6 +70,28 @@ define([ "Vector" ], function(Vector)
         // Verify.
         assert.ok(result);
         assert.equal(result, 90.0);
+    });
+
+    QUnit.test("azimuth()", function(assert)
+    {
+        assert.equal(Math.vizziniRound(Vector.ZERO.azimuth(), 4), 0.0);
+
+        assert.equal(Math.vizziniRound(new Vector(1.0, 0.0, 0.0).azimuth(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 1.0, 0.0).azimuth(), 4), 90.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 0.0, 1.0).azimuth(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, 0.0, 0.0).azimuth(), 4), 180.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, -1.0, 0.0).azimuth(), 4), 270.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 0.0, -1.0).azimuth(), 4), 0.0);
+
+        assert.equal(Math.vizziniRound(new Vector(1.0, 1.0, 0.0).azimuth(), 4), 45.0);
+        assert.equal(Math.vizziniRound(new Vector(1.0, 0.0, 1.0).azimuth(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 1.0, 1.0).azimuth(), 4), 90.0);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, -1.0, 0.0).azimuth(), 4), 225.0);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, 0.0, -1.0).azimuth(), 4), 180.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, -1.0, -1.0).azimuth(), 4), 270.0);
+
+        assert.equal(Math.vizziniRound(new Vector(1.0, 1.0, 1.0).azimuth(), 4), 45.0);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, -1.0, -1.0).azimuth(), 4), 225.0);
     });
 
     QUnit.test("cross() XY", function(assert)
@@ -108,6 +149,28 @@ define([ "Vector" ], function(Vector)
         // Verify.
         assert.ok(result);
         assert.equal(result, 32.0);
+    });
+
+    QUnit.test("elevation()", function(assert)
+    {
+        assert.equal(Math.vizziniRound(Vector.ZERO.elevation(), 4), 0.0);
+
+        assert.equal(Math.vizziniRound(new Vector(1.0, 0.0, 0.0).elevation(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 1.0, 0.0).elevation(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 0.0, 1.0).elevation(), 4), 90.0);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, 0.0, 0.0).elevation(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, -1.0, 0.0).elevation(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 0.0, -1.0).elevation(), 4), 270.0);
+
+        assert.equal(Math.vizziniRound(new Vector(1.0, 1.0, 0.0).elevation(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(1.0, 0.0, 1.0).elevation(), 4), 45.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, 1.0, 1.0).elevation(), 4), 45.0);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, -1.0, 0.0).elevation(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, 0.0, -1.0).elevation(), 4), 315.0);
+        assert.equal(Math.vizziniRound(new Vector(0.0, -1.0, -1.0).elevation(), 4), 315.0);
+
+        assert.equal(Math.vizziniRound(new Vector(1.0, 1.0, 1.0).elevation(), 4), 35.2644);
+        assert.equal(Math.vizziniRound(new Vector(-1.0, -1.0, -1.0).elevation(), 4), 324.7356);
     });
 
     QUnit.test("getters", function(assert)
@@ -169,6 +232,25 @@ define([ "Vector" ], function(Vector)
         // Verify.
         assert.ok(result);
         verifyVector(assert, result, -5.0, -3.0, -1.0);
+    });
+
+    QUnit.test("toHeadingString()", function(assert)
+    {
+        assert.equal(Vector.ZERO.toHeadingString(), "000m000");
+
+        assert.equal(new Vector(1.0, 0.0, 0.0).toHeadingString(), "000m000");
+        assert.equal(new Vector(0.0, 1.0, 0.0).toHeadingString(), "090m000");
+        assert.equal(new Vector(0.0, 0.0, 1.0).toHeadingString(), "000m090");
+        assert.equal(new Vector(-1.0, 0.0, 0.0).toHeadingString(), "180m000");
+        assert.equal(new Vector(0.0, -1.0, 0.0).toHeadingString(), "270m000");
+        assert.equal(new Vector(0.0, 0.0, -1.0).toHeadingString(), "000m270");
+
+        assert.equal(new Vector(1.0, 1.0, 0.0).toHeadingString(), "045m000");
+        assert.equal(new Vector(1.0, 0.0, 1.0).toHeadingString(), "000m045");
+        assert.equal(new Vector(0.0, 1.0, 1.0).toHeadingString(), "090m045");
+        assert.equal(new Vector(-1.0, -1.0, 0.0).toHeadingString(), "225m000");
+        assert.equal(new Vector(-1.0, 0.0, -1.0).toHeadingString(), "180m315");
+        assert.equal(new Vector(0.0, -1.0, -1.0).toHeadingString(), "270m315");
     });
 
     QUnit.test("toString()", function(assert)

@@ -83,14 +83,14 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         verifyQuaternion(assert, result, 1.0, 0.0, 0.0, 0.0);
     });
 
-    QUnit.test("Quaternion.newInstanceRADec()", function(assert)
+    QUnit.test("Quaternion.newInstanceAzimuthElevation()", function(assert)
     {
         // Setup.
-        var rightAscension = 35.0;
-        var declination = 15.0;
+        var azimuth = 35.0;
+        var elevation = 15.0;
 
         // Run.
-        var result = Quaternion.newInstanceRADec(rightAscension, declination);
+        var result = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
 
         // Verify.
         assert.ok(result);
@@ -100,14 +100,14 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         verifyVector(assert, v, 0.7912, 0.5540, 0.2588);
     });
 
-    QUnit.test("Quaternion.newInstanceRADec() zero right ascension", function(assert)
+    QUnit.test("Quaternion.newInstanceAzimuthElevation() zero azimuth", function(assert)
     {
         // Setup.
-        var rightAscension = 0.0;
-        var declination = 15.0;
+        var azimuth = 0.0;
+        var elevation = 15.0;
 
         // Run.
-        var result = Quaternion.newInstanceRADec(rightAscension, declination);
+        var result = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
 
         // Verify.
         assert.ok(result);
@@ -117,19 +117,19 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         verifyVector(assert, v, 0.9659, 0.0, 0.2588);
     });
 
-    QUnit.test("Quaternion.newInstanceRADec() zero declination", function(assert)
+    QUnit.test("Quaternion.newInstanceAzimuthElevation() zero elevation", function(assert)
     {
         // Setup.
-        var rightAscension = 35.0;
-        var declination = 0.0;
+        var azimuth = 35.0;
+        var elevation = 0.0;
 
         // Run.
-        var result = Quaternion.newInstanceRADec(rightAscension, declination);
+        var result = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
 
         // Verify.
         assert.ok(result);
         assert.equal(Math.vizziniRound(result.magnitude(), 6), 1.0);
-        verifyQuaternion(assert, result, 0.953717, 0.0, 0, 0.300706);
+        verifyQuaternion(assert, result, 0.953717, 0.0, 0.0, 0.300706);
         var v = result.preMultiply(Vector.X_AXIS);
         verifyVector(assert, v, 0.8192, 0.5736, 0.0);
     });
@@ -137,9 +137,9 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
     QUnit.test("Quaternion.newInstanceVector()", function(assert)
     {
         // Setup.
-        var rightAscension = 35.0;
-        var declination = 15.0;
-        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+        var azimuth = 35.0;
+        var elevation = 15.0;
+        var q = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
         var vector = q.preMultiply(Vector.X_AXIS);
 
         // Run.
@@ -186,26 +186,48 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         assert.equal(Math.vizziniRound(q2.angle(), 4), angle2);
     });
 
-    QUnit.test("declination() negative", function(assert)
+    QUnit.test("azimuth() negative", function(assert)
     {
         // Setup.
-        var rightAscension = 35.0;
-        var declination = -15.0;
-        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+        var azimuth = -35.0;
+        var elevation = 15.0;
+        var q = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
 
         // Run / Verify.
-        assert.equal(Math.vizziniRound(q.declination(), 4), declination);
+        assert.equal(Math.vizziniRound(q.azimuth(), 4), 325.0);
     });
 
-    QUnit.test("declination() positive", function(assert)
+    QUnit.test("azimuth() positive", function(assert)
     {
         // Setup.
-        var rightAscension = 35.0;
-        var declination = 15.0;
-        var q = Quaternion.newInstanceRADec(rightAscension, declination);
+        var azimuth = 35.0;
+        var elevation = 15.0;
+        var q = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
 
         // Run / Verify.
-        assert.equal(Math.vizziniRound(q.declination(), 4), declination);
+        assert.equal(Math.vizziniRound(q.azimuth(), 4), azimuth);
+    });
+
+    QUnit.test("elevation() negative", function(assert)
+    {
+        // Setup.
+        var azimuth = 35.0;
+        var elevation = -15.0;
+        var q = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(q.elevation(), 4), 345.0);
+    });
+
+    QUnit.test("elevation() positive", function(assert)
+    {
+        // Setup.
+        var azimuth = 35.0;
+        var elevation = 15.0;
+        var q = Quaternion.newInstanceAzimuthElevation(azimuth, elevation);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(q.elevation(), 4), elevation);
     });
 
     QUnit.test("magnitude()", function(assert)
@@ -345,28 +367,6 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         verifyVector(assert, v, 0.0, 0.0, 1.0);
     });
 
-    QUnit.test("rightAscension() negative", function(assert)
-    {
-        // Setup.
-        var rightAscension = -35.0;
-        var declination = 15.0;
-        var q = Quaternion.newInstanceRADec(rightAscension, declination);
-
-        // Run / Verify.
-        assert.equal(Math.vizziniRound(q.rightAscension(), 4), 325.0);
-    });
-
-    QUnit.test("rightAscension() positive", function(assert)
-    {
-        // Setup.
-        var rightAscension = 35.0;
-        var declination = 15.0;
-        var q = Quaternion.newInstanceRADec(rightAscension, declination);
-
-        // Run / Verify.
-        assert.equal(Math.vizziniRound(q.rightAscension(), 4), rightAscension);
-    });
-
     QUnit.test("vector()", function(assert)
     {
         // Setup.
@@ -382,6 +382,19 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
         // Verify.
         assert.equal(Math.vizziniRound(result.magnitude(), 6), 15.968719);
         verifyVector(assert, result, 6.4132, 8.9785, 11.5437);
+    });
+
+    QUnit.test("toHeadingString()", function(assert)
+    {
+        assert.equal(Quaternion.ZERO.toHeadingString(), "000m000");
+
+        assert.equal(Quaternion.newInstance(0.0, Vector.Z_AXIS).toHeadingString(), "000m000");
+        assert.equal(Quaternion.newInstance(90.0, Vector.Z_AXIS).toHeadingString(), "090m000");
+        assert.equal(Quaternion.newInstance(180.0, Vector.Z_AXIS).toHeadingString(), "180m000");
+        assert.equal(Quaternion.newInstance(270.0, Vector.Z_AXIS).toHeadingString(), "270m000");
+        
+        assert.equal(Quaternion.newInstance(-90.0, Vector.Y_AXIS).toHeadingString(), "000m090");
+        assert.equal(Quaternion.newInstance(90.0, Vector.Y_AXIS).toHeadingString(), "000m270");
     });
 
     QUnit.test("toString()", function(assert)

@@ -24,6 +24,20 @@ define(function()
     Vector.Y_AXIS = new Vector(0.0, 1.0, 0.0);
     Vector.Z_AXIS = new Vector(0.0, 0.0, 1.0);
 
+    Vector.normalizeAngle = function(angle)
+    {
+        var answer = angle;
+
+        while (answer < 0.0)
+        {
+            answer += 360.0;
+        }
+
+        answer = answer % 360.0;
+
+        return answer;
+    };
+
     Vector.prototype.add = function(another)
     {
         InputValidator.validateNotNull("another", another);
@@ -70,6 +84,27 @@ define(function()
         return answer;
     };
 
+    Vector.prototype.azimuth = function()
+    {
+        var answer = 0.0;
+        var v0 = this.unit();
+        var v1 = (new Vector(this.x(), this.y(), 0.0)).unit();
+
+        if (v1.magnitude() > 0.0)
+        {
+            answer = v1.angle(Vector.X_AXIS);
+
+            if (v0.y() < 0.0)
+            {
+                answer = 360.0 - answer;
+            }
+
+            answer = Vector.normalizeAngle(answer);
+        }
+
+        return answer;
+    };
+
     Vector.prototype.cross = function(another)
     {
         InputValidator.validateNotNull("another", another);
@@ -102,6 +137,35 @@ define(function()
         var z1 = another.z();
 
         return (x0 * x1) + (y0 * y1) + (z0 * z1);
+    };
+
+    Vector.prototype.elevation = function()
+    {
+        var answer = 0.0;
+
+        if (this.magnitude() > 0.0)
+        {
+            var v0 = this;
+            var v1 = new Vector(this.x(), this.y(), 0.0);
+
+            if (v1.magnitude() > 0.0)
+            {
+                answer = v0.angle(v1);
+            }
+            else
+            {
+                answer = 90.0;
+            }
+
+            if (v0.z() < 0.0)
+            {
+                answer = -answer;
+            }
+
+            answer = Vector.normalizeAngle(answer);
+        }
+
+        return answer;
     };
 
     Vector.prototype.magnitude = function()
@@ -138,6 +202,14 @@ define(function()
         var newZ = this.z() - another.z();
 
         return new Vector(newX, newY, newZ);
+    };
+
+    Vector.prototype.toHeadingString = function()
+    {
+        var azimuth = Math.round(this.azimuth()) % 360.0;
+        var elevation = Math.round(this.elevation()) % 360.0;
+
+        return String.pad(azimuth, 3) + "m" + String.pad(elevation, 3);
     };
 
     Vector.prototype.toString = function()

@@ -79,13 +79,13 @@ define([ "Vector" ], function(Vector)
     /*
      * This quaternion represents a rotation through the given angles.
      */
-    Quaternion.newInstanceRADec = function(rightAscension, declination)
+    Quaternion.newInstanceAzimuthElevation = function(azimuth, elevation)
     {
-        InputValidator.validateIsNumber("rightAscension", rightAscension);
-        InputValidator.validateIsNumber("declination", declination);
+        InputValidator.validateIsNumber("azimuth", azimuth);
+        InputValidator.validateIsNumber("elevation", elevation);
 
-        var q0 = Quaternion.newInstance(rightAscension, Vector.Z_AXIS);
-        var q1 = Quaternion.newInstance(-declination, Vector.Y_AXIS);
+        var q0 = Quaternion.newInstance(azimuth, Vector.Z_AXIS);
+        var q1 = Quaternion.newInstance(-elevation, Vector.Y_AXIS);
 
         return q0.multiply(q1).unit();
     };
@@ -122,23 +122,23 @@ define([ "Vector" ], function(Vector)
         return angle * 180.0 / Math.PI;
     };
 
+    Quaternion.prototype.azimuth = function()
+    {
+        var v = this.preMultiply(Vector.X_AXIS);
+
+        return v.azimuth();
+    };
+
     Quaternion.prototype.conjugate = function()
     {
         return new Quaternion(this.w(), -this.x(), -this.y(), -this.z());
     };
 
-    Quaternion.prototype.declination = function()
+    Quaternion.prototype.elevation = function()
     {
-        var v0 = this.preMultiply(Vector.X_AXIS);
-        var v1 = new Vector(v0.x(), v0.y(), 0.0);
-        var answer = v0.angle(v1);
+        var v = this.preMultiply(Vector.X_AXIS);
 
-        if (v0.z() < 0.0)
-        {
-            answer = -answer;
-        }
-
-        return answer;
+        return v.elevation();
     };
 
     Quaternion.prototype.magnitude = function()
@@ -183,18 +183,11 @@ define([ "Vector" ], function(Vector)
         return new Vector(q.x(), q.y(), q.z());
     };
 
-    Quaternion.prototype.rightAscension = function()
+    Quaternion.prototype.toHeadingString = function()
     {
-        var v0 = this.preMultiply(Vector.X_AXIS);
-        var v1 = new Vector(v0.x(), v0.y(), 0.0);
-        var answer = v1.angle(Vector.X_AXIS);
+        var vector = this.preMultiply(Vector.X_AXIS);
 
-        if (v0.y() < 0.0)
-        {
-            answer = 360.0 - answer;
-        }
-
-        return answer;
+        return vector.toHeadingString();
     };
 
     Quaternion.prototype.toString = function()

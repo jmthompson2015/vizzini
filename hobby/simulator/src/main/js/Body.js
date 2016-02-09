@@ -63,7 +63,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 id: "10",
                 mass: 1.988544e+30, // kg
                 radius: 6.9630e+05, // km
-                northPole: Quaternion.newInstanceRADec(286.13, 63.87).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(286.13, 63.87).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (25.38 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "sol",
             },
@@ -77,7 +77,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "sol",
                 mass: 3.3020e+23, // kg
                 radius: 2.4400e+03, // km
-                northPole: Quaternion.newInstanceRADec(281.01, 61.42).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(281.01, 61.42).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (58.646 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "mercury",
             },
@@ -89,7 +89,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "sol",
                 mass: 4.8685e+24, // kg
                 radius: 6.0518e+03, // km
-                northPole: Quaternion.newInstanceRADec(92.76, -67.16).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(92.76, -67.16).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (243.025 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "venus",
             },
@@ -124,7 +124,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "sol",
                 mass: 6.4185e+23, // kg
                 radius: 3389.9, // km
-                northPole: Quaternion.newInstanceRADec(317.68, 52.89).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(317.68, 52.89).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (1.025957 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "mars",
             },
@@ -176,7 +176,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 1.89813e+27, // kg
                 equatorialRadius: 71492, // km
                 polarRadius: 66854, // km
-                northPole: Quaternion.newInstanceRADec(268.05, 64.49).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(268.05, 64.49).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (9 * Constants.HOURS_TO_SECONDS + 55 * Constants.MINUTES_TO_SECONDS + 29.685), // deg/sec
                 value: "jupiter",
             },
@@ -233,7 +233,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 5.6832e+26, // kg
                 equatorialRadius: 60268, // km
                 polarRadius: 54364, // km
-                northPole: Quaternion.newInstanceRADec(40.60, 83.54).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(40.60, 83.54).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (10 * Constants.HOURS_TO_SECONDS + 39 * Constants.MINUTES_TO_SECONDS + 22.4), // deg/sec
                 // @see https://en.wikipedia.org/wiki/Rings_of_Saturn
                 ringInnerRadius: 60268 + 7000, // km
@@ -326,7 +326,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 8.68103e+25, // kg
                 equatorialRadius: 25559, // km
                 polarRadius: 24973, // km
-                northPole: Quaternion.newInstanceRADec(77.43, 15.10).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(77.43, 15.10).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (17.24 * Constants.HOURS_TO_SECONDS), // deg/sec
                 // @see https://en.wikipedia.org/wiki/Rings_of_Uranus
                 ringInnerRadius: 38000, // km
@@ -401,7 +401,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 mass: 1.0241e+26, // kg
                 equatorialRadius: 24766, // km
                 polarRadius: 24342, // km
-                northPole: Quaternion.newInstanceRADec(299.36, 43.46).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(299.36, 43.46).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (16.11 * Constants.HOURS_TO_SECONDS), // deg/sec
                 value: "neptune",
             },
@@ -424,7 +424,7 @@ define([ "BodyType", "Constants", "Quaternion", "Vector" ], function(BodyType, C
                 parent: "sol",
                 mass: 1.307e+22, // kg
                 radius: 1195, // km
-                northPole: Quaternion.newInstanceRADec(132.99, -6.16).preMultiply(Vector.X_AXIS).unit(),
+                northPole: Quaternion.newInstanceAzimuthElevation(132.99, -6.16).preMultiply(Vector.X_AXIS).unit(),
                 rotationRate: 360.0 / (6.387230 * Constants.DAYS_TO_SECONDS), // deg/sec
                 value: "pluto",
             },
