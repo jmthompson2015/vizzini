@@ -98,7 +98,7 @@ define([ "Body", "ui/SceneUI" ], function(Body, SceneUI)
             {
                 var sensor = this.props.sensor;
                 sensor.bind("dataUpdated", this.updateScene);
-                
+
                 this.startRenderLoop();
             });
         },
@@ -141,8 +141,11 @@ define([ "Body", "ui/SceneUI" ], function(Body, SceneUI)
             // Move the point light.
             var pointLight = sceneUI.pointLight();
             var solState = bodyToState[Body.SOL];
-            var solPosition = solState.position();
-            pointLight.position.set(solPosition.x(), solPosition.y(), solPosition.z());
+            if (solState)
+            {
+                var solPosition = solState.position();
+                pointLight.position.set(solPosition.x(), solPosition.y(), solPosition.z());
+            }
         }
     });
 

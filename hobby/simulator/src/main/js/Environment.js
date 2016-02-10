@@ -66,7 +66,7 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
             return answer;
         };
 
-        this.tick = function()
+        this.tick = function(isSilent)
         {
             LOGGER.trace("Environment.tick() start");
 
@@ -116,21 +116,24 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
             for (shipKey in shipToState)
             {
                 ship = nameToShip[shipKey];
-                ship.tick();
+                ship.tick(isSilent);
             }
 
             // Integrate states.
             for ( var bodyKey in bodyToState)
             {
-                bodyToState[bodyKey].tick();
+                bodyToState[bodyKey].tick(isSilent);
             }
 
             for (shipKey in shipToState)
             {
-                shipToState[shipKey].tick();
+                shipToState[shipKey].tick(isSilent);
             }
 
-            this.trigger("tick", this);
+            if (!isSilent)
+            {
+                this.trigger("tick", this);
+            }
 
             LOGGER.trace("Environment.tick() end");
         };

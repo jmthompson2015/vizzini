@@ -48,13 +48,13 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
             if (this.isActive() && isFueled() && isPowered())
             {
                 update();
+
+                this.trigger("dataUpdated", myOutput);
             }
             else
             {
                 myOutput = {};
             }
-
-            this.trigger("dataUpdated", myOutput);
         };
 
         Vizzini.extend(this, new Device(name, environment, parentKey, position, orientation));

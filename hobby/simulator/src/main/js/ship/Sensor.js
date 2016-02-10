@@ -28,9 +28,9 @@ define([ "State", "ship/Device", "ship/SupplyType" ], function(State, Device, Su
             return SupplyType.DATA;
         };
 
-        this.tick = function()
+        this.tick = function(isSilent)
         {
-            if (isPowered())
+            if (isPowered() && !isSilent)
             {
                 update();
             }
@@ -39,7 +39,10 @@ define([ "State", "ship/Device", "ship/SupplyType" ], function(State, Device, Su
                 myOutput = {};
             }
 
-            this.trigger("dataUpdated", myOutput);
+            if (!isSilent)
+            {
+                this.trigger("dataUpdated", myOutput);
+            }
         };
 
         Vizzini.extend(this, new Device(name, environment, parentKey, position, orientation));

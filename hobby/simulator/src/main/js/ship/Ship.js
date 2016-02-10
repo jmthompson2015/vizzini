@@ -264,11 +264,11 @@ define(
                 return answer;
             };
 
-            Ship.prototype.tick = function()
+            Ship.prototype.tick = function(isSilent)
             {
                 this.devices().forEach(function(device)
                 {
-                    device.tick();
+                    device.tick(isSilent);
                 });
             };
 

@@ -31,8 +31,8 @@
 		<tr>
 			<td></td>
 			<td class="viewLabel">Dorsal</td>
-			<td class="viewLabel">Spacecraft</td>
 			<td id="observerCameraUI" rowspan="2"></td>
+			<td class="viewLabel">Spacecraft</td>
 		</tr>
 		<tr>
 			<td></td>
@@ -55,13 +55,13 @@
 			<td></td>
 			<td class="viewLabel">Ventral</td>
 			<td></td>
-			<td></td>
+			<td class="viewLabel">Simulation</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td id="ventralCameraUI"></td>
 			<td></td>
-			<td></td>
+			<td id="simulationPanel"></td>
 		</tr>
 	</table>
 	<div id="messageArea"></div>
@@ -75,11 +75,14 @@
         var imageBase = resourceBase + "images/";
 
         require([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship", "ui/CameraUI",
-                "ui/ObserverCameraUI", "ui/SpacecraftStatus" ], function(Body, Environment, Quaternion, StateFactory,
-                Vector, Ship, CameraUI, ObserverCameraUI, SpacecraftStatus)
+                "ui/ObserverCameraUI", "ui/SimulationPanel", "ui/SpacecraftStatus" ], function(Body, Environment,
+                Quaternion, StateFactory, Vector, Ship, CameraUI, ObserverCameraUI, SimulationPanel, SpacecraftStatus)
         {
             var bodyKeys = Body.values();
             var environment;
+
+            // Ticks per second.
+            var tickCount = 1;
 
             createEnvironment();
 
@@ -196,17 +199,38 @@
                 });
                 React.render(observerElement, document.getElementById("observerCameraUI"));
 
+                var simulationElement = React.createElement(SimulationPanel,
+                {
+                    callback: updateTickCount,
+                });
+                React.render(simulationElement, document.getElementById("simulationPanel"));
+
                 var tick = function()
                 {
                     var lastUpdate = Date.now();
-                    environment.tick();
+
+                    for (var i = 0; i < tickCount - 1; i++)
+                    {
+                        environment.tick(true);
+                    }
+
+                    environment.tick(false);
 
                     var now = Date.now();
-                    var delay = 1000 - (now - lastUpdate);
-                    // LOGGER.info("delay = " + delay + " ms diff = " + (now - lastUpdate));
-                    React.render(React.DOM.span({}, "delay = " + delay + " ms diff = " + (now - lastUpdate)), document
-                            .getElementById("messageArea"));
-                    setTimeout(tick, delay);
+                    var elapsed = now - lastUpdate;
+                    if (elapsed > 1000)
+                    {
+                        React.render(React.DOM.span({}, "delay = 0 ms diff = " + elapsed), document
+                                .getElementById("timingDisplay"));
+                        setTimeout(tick, 50);
+                    }
+                    else
+                    {
+                        var delay = 1000 - elapsed;
+                        React.render(React.DOM.span({}, "delay = " + delay + " ms diff = " + elapsed), document
+                                .getElementById("timingDisplay"));
+                        setTimeout(tick, delay);
+                    }
                 }
 
                 tick();
@@ -251,6 +275,12 @@
                     state: state,
                 });
                 React.render(spacecraftStatus, document.getElementById("spacecraftStatusPanel"));
+            }
+
+            function updateTickCount(newTickCount)
+            {
+                LOGGER.info("updateTickCount() newTickCount = " + newTickCount);
+                tickCount = newTickCount;
             }
         });
     </script>
