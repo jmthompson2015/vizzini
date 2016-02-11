@@ -49,7 +49,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], f
         // Verify.
         assert.ok(result);
         assert.ok(result.devices());
-        assert.equal(result.devices().length, 22);
+        assert.equal(result.devices().length, 23);
         var power = result.device("FusionReactor");
         assert.ok(power);
         var conduit1 = power.consumeConduits()[0];
@@ -71,13 +71,15 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], f
         ship.tick();
 
         // Verify.
-        assert.equal(ship.devices()[0].level(), 9994, "storage");
-        assert.equal(ship.devices()[1].level(), 194, "power");
-        assert.ok(ship.devices()[2].produce(), "sensor");
-        assert.ok(ship.devices()[3].produce(), "sensor");
-        assert.ok(ship.devices()[4].produce(), "sensor");
-        assert.ok(ship.devices()[5].produce(), "sensor");
-        assert.ok(ship.devices()[6].produce(), "sensor");
-        assert.ok(ship.devices()[7].produce(), "sensor");
+        var i = 0;
+        assert.equal(ship.devices()[i++].level(), 9994, "storage");
+        assert.equal(ship.devices()[i++].level(), 194, "power");
+        assert.ok(ship.devices()[i++].targetVector(), "computer");
+        assert.ok(ship.devices()[i++].produce(), "sensor");
+        assert.ok(ship.devices()[i++].produce(), "sensor");
+        assert.ok(ship.devices()[i++].produce(), "sensor");
+        assert.ok(ship.devices()[i++].produce(), "sensor");
+        assert.ok(ship.devices()[i++].produce(), "sensor");
+        assert.ok(ship.devices()[i++].produce(), "sensor");
     });
 });
