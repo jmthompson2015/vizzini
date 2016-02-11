@@ -1,4 +1,4 @@
-define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
+define([ "Body", "BodyType" ], function(Body, BodyType)
 {
     "use strict";
     QUnit.module("Body");
