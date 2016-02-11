@@ -1,5 +1,5 @@
-define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], function(Body, Environment,
-        Quaternion, StateFactory, Vector, Ship)
+define([ "Body", "Environment", "Quaternion", "StateFactory", "ship/Ship" ], function(Body, Environment, Quaternion,
+        StateFactory, Ship)
 {
     "use strict";
     QUnit.module("Environment");
@@ -78,7 +78,7 @@ define([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sh
 
         var solState = environment.state(Body.SOL);
         verifyVector(assert, solState.position(), 561524.6657, 231553.661, -24203.0858);
-        var earthState = environment.state(Body.EARTH);
+        earthState = environment.state(Body.EARTH);
         verifyVector(assert, earthState.position(), -75613579.1947, 126206909.8272, -27995.6683);
         var lunaState = environment.state(Body.LUNA);
         verifyVector(assert, lunaState.position(), -75651368.2263, 126584174.0843, -61031.2989);

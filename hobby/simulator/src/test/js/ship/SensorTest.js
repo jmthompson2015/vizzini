@@ -1,6 +1,5 @@
-define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Conduit", "ship/Power", "ship/Sensor",
-        "ship/Ship", "ship/Storage", "ship/SupplyType" ], function(Environment, Quaternion, StateFactory, Vector,
-        Conduit, Power, Sensor, Ship, Storage, SupplyType)
+define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Sensor", "ship/Ship" ], function(Environment,
+        Quaternion, StateFactory, Vector, Sensor, Ship)
 {
     "use strict";
     QUnit.module("Sensor");

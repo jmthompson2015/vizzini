@@ -10,7 +10,7 @@ define([ "ship/SupplyType" ], function(SupplyType)
         assert.equal(supplyType.name, "Fuel");
     });
 
-    QUnit.test("SupplyType properties Power", function(assert)
+    QUnit.test("SupplyType properties power", function(assert)
     {
         var supplyTypeKey = SupplyType.POWER;
         var supplyType = SupplyType.properties[supplyTypeKey];

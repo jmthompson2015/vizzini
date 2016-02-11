@@ -47,16 +47,16 @@ define([ "Vector" ], function(Vector)
         assert.ok(result);
         assert.equal(Math.vizziniRound(result, 4), 12.9332);
 
-        var v0 = new Vector(0.0, 0.0, 1.0);
-        var v1 = new Vector(0.0, 0.0, 0.0);
+        v0 = new Vector(0.0, 0.0, 1.0);
+        v1 = new Vector(0.0, 0.0, 0.0);
         assert.equal(Math.vizziniRound(v0.angle(v1), 4), 90.0);
 
-        var v0 = new Vector(1.0, 0.0, 1.0);
-        var v1 = new Vector(0.0, 0.0, 0.0);
+        v0 = new Vector(1.0, 0.0, 1.0);
+        v1 = new Vector(0.0, 0.0, 0.0);
         assert.equal(Math.vizziniRound(v0.angle(v1), 4), 90.0);
 
-        var v0 = new Vector(1.0, 1.0, 1.0);
-        var v1 = new Vector(1.0, 1.0, 0.0);
+        v0 = new Vector(1.0, 1.0, 1.0);
+        v1 = new Vector(1.0, 1.0, 0.0);
         assert.equal(Math.vizziniRound(v0.angle(v1), 4), 35.2644);
     });
 
