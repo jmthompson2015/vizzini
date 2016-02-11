@@ -386,15 +386,15 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
 
     QUnit.test("toHeadingString()", function(assert)
     {
-        assert.equal(Quaternion.ZERO.toHeadingString(), "000m000");
+        assert.equal(Quaternion.ZERO.toHeadingString(), "0° around 000m000");
 
-        assert.equal(Quaternion.newInstance(0.0, Vector.Z_AXIS).toHeadingString(), "000m000");
-        assert.equal(Quaternion.newInstance(90.0, Vector.Z_AXIS).toHeadingString(), "090m000");
-        assert.equal(Quaternion.newInstance(180.0, Vector.Z_AXIS).toHeadingString(), "180m000");
-        assert.equal(Quaternion.newInstance(270.0, Vector.Z_AXIS).toHeadingString(), "270m000");
-        
-        assert.equal(Quaternion.newInstance(-90.0, Vector.Y_AXIS).toHeadingString(), "000m090");
-        assert.equal(Quaternion.newInstance(90.0, Vector.Y_AXIS).toHeadingString(), "000m270");
+        assert.equal(Quaternion.newInstance(0.0, Vector.Z_AXIS).toHeadingString(), "0° around 000m000");
+        assert.equal(Quaternion.newInstance(90.0, Vector.Z_AXIS).toHeadingString(), "90° around 000m090");
+        assert.equal(Quaternion.newInstance(180.0, Vector.Z_AXIS).toHeadingString(), "180° around 000m090");
+        assert.equal(Quaternion.newInstance(270.0, Vector.Z_AXIS).toHeadingString(), "90° around 000m270");
+
+        assert.equal(Quaternion.newInstance(-90.0, Vector.Y_AXIS).toHeadingString(), "90° around 270m000");
+        assert.equal(Quaternion.newInstance(90.0, Vector.Y_AXIS).toHeadingString(), "90° around 090m000");
     });
 
     QUnit.test("toString()", function(assert)

@@ -185,9 +185,10 @@ define([ "Vector" ], function(Vector)
 
     Quaternion.prototype.toHeadingString = function()
     {
-        var vector = this.preMultiply(Vector.X_AXIS);
+        var angle = Math.vizziniRound(this.angle(), 2);
+        var vector = this.vector();
 
-        return vector.toHeadingString();
+        return angle + "\u00B0 around " + vector.toHeadingString();
     };
 
     Quaternion.prototype.toString = function()
