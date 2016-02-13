@@ -1,4 +1,4 @@
-define([ "Body", "BodyType" ], function(Body, BodyType)
+define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
 {
     "use strict";
     var SpacecraftStatus = React.createClass(
@@ -19,6 +19,7 @@ define([ "Body", "BodyType" ], function(Body, BodyType)
             var ship = this.props.ship;
             var state = this.props.state;
             var timestamp = state.date().format("YYYY-MM-DD HH:mm:ss");
+            var heading = state.orientation().preMultiply(Vector.X_AXIS).toHeadingString();
             var environment = ship.devices()[0].environment();
             var bodyKeys = environment.bodyKeys();
             var labelFunction = function(bodyKey)
@@ -61,7 +62,7 @@ define([ "Body", "BodyType" ], function(Body, BodyType)
             cells.push(React.DOM.td(
             {
                 className: "spacecraftStatusValue",
-            }, state.orientation().toHeadingString()));
+            }, heading));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
