@@ -13,6 +13,20 @@ table {
     vertical-align: middle;
 }
 
+#autopilotPanel, #simulationPanel, #spacecraftStatusPanel {
+    vertical-align: top;
+}
+
+.autopilotPanel, .simulationPanel, .spacecraftStatusPanel {
+    background-color: white;
+    font-size: small;
+    margin: 4px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px;
+    text-align: center;
+}
+
 .manueverPanel {
     font-size: small;
     margin-left: auto;
@@ -29,23 +43,13 @@ table {
     text-align: left;
 }
 
+.numberInput {
+    width: 40px;
+}
+
 .spacecraftStatusLabel {
     padding: 3px;
     text-align: left;
-}
-
-#simulationPanel, #spacecraftStatusPanel {
-    vertical-align: top;
-}
-
-.simulationPanel, .spacecraftStatusPanel {
-    background-color: white;
-    font-size: small;
-    margin: 4px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 5px;
-    text-align: center;
 }
 
 /*
