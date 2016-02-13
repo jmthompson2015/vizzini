@@ -233,7 +233,7 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
         this.isPowered = function()
         {
             return this.isSupplied(SupplyType.POWER, consumePerTick);
-        }
+        };
 
         Vizzini.extend(this, new Device(name, environment, parentKey, position, orientation));
     }
@@ -248,7 +248,7 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
         }
 
         return answer;
-    }
+    };
 
     return (
     {
