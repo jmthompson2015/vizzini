@@ -51,12 +51,14 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
 
         // Fuel.
         var storage = new Storage.FuelTank("FuelTank", environment, name, Vector.X_AXIS.multiply(-length / 4.0),
-                Quaternion.ZERO, 10000);
+                Quaternion.ZERO, 1.0e+08);
 
         // Power.
         var power = new Power.FusionReactor("FusionReactor", environment, name, Vector.ZERO, Quaternion.ZERO, 1, 200);
 
         // Computer.
+        var fakeComputer = new Computer.FakeAlignmentAutopilot("FakeAlignmentAutopilot", environment, name,
+                Vector.ZERO, Quaternion.ZERO, 1);
         var computer = new Computer.AlignmentAutopilot("AlignmentAutopilot", environment, name, Vector.ZERO,
                 Quaternion.ZERO, 1);
 
@@ -107,6 +109,7 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         var devices = [];
         devices.push(storage);
         devices.push(power);
+        devices.push(fakeComputer);
         devices.push(computer);
         devices.push(forwardSensor);
         devices.push(aftSensor);
@@ -144,7 +147,8 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         // Fuel to power.
         connect((i++).toString(), storage, power);
 
-        // Power to computer.
+        // Power to computers.
+        connect((i++).toString(), power, fakeComputer);
         connect((i++).toString(), power, computer);
 
         // Power to sensors.

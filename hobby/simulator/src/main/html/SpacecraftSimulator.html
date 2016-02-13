@@ -54,13 +54,13 @@
 		<tr>
 			<td></td>
 			<td class="viewLabel">Ventral</td>
-			<td></td>
+			<td class="viewLabel">Autopilot</td>
 			<td class="viewLabel">Simulation</td>
 		</tr>
 		<tr>
 			<td></td>
 			<td id="ventralCameraUI"></td>
-			<td></td>
+			<td id="autopilotPanel"></td>
 			<td id="simulationPanel"></td>
 		</tr>
 	</table>
@@ -74,9 +74,10 @@
         var resourceBase = "../../main/resources/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship", "ui/CameraUI",
-                "ui/ObserverCameraUI", "ui/SimulationPanel", "ui/SpacecraftStatus" ], function(Body, Environment,
-                Quaternion, StateFactory, Vector, Ship, CameraUI, ObserverCameraUI, SimulationPanel, SpacecraftStatus)
+        require([ "Body", "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship", "ui/AutopilotPanel",
+                "ui/CameraUI", "ui/ObserverCameraUI", "ui/SimulationPanel", "ui/SpacecraftStatus" ], function(Body,
+                Environment, Quaternion, StateFactory, Vector, Ship, AutopilotPanel, CameraUI, ObserverCameraUI,
+                SimulationPanel, SpacecraftStatus)
         {
             var bodyKeys = Body.values();
             var environment;
@@ -127,6 +128,7 @@
             {
                 var parentKey = "ReferenceShip";
                 var ship = environment.ship(parentKey);
+                var computer = ship.device("FakeAlignmentAutopilot");
                 var portSensor = ship.device("PortCamera");
                 var forwardSensor = ship.device("ForwardCamera");
                 var starboardSensor = ship.device("StarboardCamera");
@@ -198,6 +200,13 @@
                     height: height,
                 });
                 React.render(observerElement, document.getElementById("observerCameraUI"));
+
+                var autopilotElement = React.createElement(AutopilotPanel,
+                {
+                    computer: computer,
+                    state: environment.state("ReferenceShip"),
+                });
+                React.render(autopilotElement, document.getElementById("autopilotPanel"));
 
                 var simulationElement = React.createElement(SimulationPanel,
                 {

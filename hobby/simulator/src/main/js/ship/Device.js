@@ -126,5 +126,10 @@ define([ "ship/SupplyType" ], function(SupplyType)
         return answer;
     };
 
+    Device.prototype.state = function()
+    {
+        return this.environment().state(this.parentKey());
+    };
+
     return Device;
 });
