@@ -49,7 +49,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], f
         // Verify.
         assert.ok(result);
         assert.ok(result.devices());
-        assert.equal(result.devices().length, 23);
+        assert.equal(result.devices().length, 24);
         var power = result.device("FusionReactor");
         assert.ok(power);
         var conduit1 = power.consumeConduits()[0];
@@ -72,8 +72,9 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], f
 
         // Verify.
         var i = 0;
-        assert.equal(ship.devices()[i++].level(), 9994, "storage");
+        assert.equal(ship.devices()[i++].level(), 99999994, "storage");
         assert.equal(ship.devices()[i++].level(), 194, "power");
+        assert.ok(ship.devices()[i++].targetVector(), "fakeComputer");
         assert.ok(ship.devices()[i++].targetVector(), "computer");
         assert.ok(ship.devices()[i++].produce(), "sensor");
         assert.ok(ship.devices()[i++].produce(), "sensor");
