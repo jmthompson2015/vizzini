@@ -13,14 +13,13 @@ table {
     vertical-align: middle;
 }
 
-#autopilotPanel, #simulationPanel, #spacecraftStatusPanel {
+#autopilotPanel, #dorsalCameraUI, #observerCameraUI, #simulationPanel, #spacecraftStatusPanel {
     vertical-align: top;
 }
 
 .autopilotPanel, .simulationPanel, .spacecraftStatusPanel {
     background-color: white;
     font-size: small;
-    margin: 4px;
     margin-left: auto;
     margin-right: auto;
     padding: 5px;

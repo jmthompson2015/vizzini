@@ -52,6 +52,8 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
                     need -= got;
                     level -= got;
                     answer += got;
+
+                    this.trigger("dataUpdated", level);
                 }
             }
             else
@@ -65,6 +67,8 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
         this.tick = function()
         {
             level = producePerTick;
+
+            this.trigger("dataUpdated", level);
         };
 
         Vizzini.extend(this, new Device(name, environment, parentKey, position, orientation));
@@ -75,6 +79,8 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
         return "FusionReactor " + this.name() + " consumePerTick=" + this.consumePerTick() + " producePerTick=" +
                 this.producePerTick();
     };
+
+    MicroEvent.mixin(FusionReactor);
 
     /*
      * Radioisotope thermoelectric generator.
@@ -106,12 +112,16 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
             var got = Math.min(amount, level);
             level -= got;
 
+            this.trigger("dataUpdated", level);
+
             return got;
         };
 
         this.tick = function()
         {
             level = producePerTick;
+
+            this.trigger("dataUpdated", level);
         };
 
         Vizzini.extend(this, new Device(name, environment, parentKey, position, orientation));
@@ -121,6 +131,8 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
     {
         return "RTG " + this.name() + " producePerTick=" + this.producePerTick();
     };
+
+    MicroEvent.mixin(RTG);
 
     return (
     {

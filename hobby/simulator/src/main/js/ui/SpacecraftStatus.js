@@ -7,8 +7,21 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
         {
             return (
             {
+                fuelLevel: 0,
+                powerLevel: 0,
                 targetBodyKey: Body.SOL,
             });
+        },
+
+        componentDidMount: function()
+        {
+            InputValidator.validateNotNull("ship", this.props.ship);
+
+            var ship = this.props.ship;
+            var fuelTank = ship.device("FuelTank");
+            fuelTank.bind("dataUpdated", this.updateFuelLevel);
+            var fusionReactor = ship.device("FusionReactor");
+            fusionReactor.bind("dataUpdated", this.updatePowerLevel);
         },
 
         render: function()
@@ -90,6 +103,39 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
                 className: "spacecraftStatusValue",
             }, Math.vizziniRound(state.velocity().magnitude(), 2) + " km/s " + state.velocity().toHeadingString())));
 
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Angular Velocity"), React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+            }, state.angularVelocity().toHeadingString())));
+
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Power Level"), React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+            }, this.state.powerLevel + "/" + ship.device("FusionReactor").producePerTick())));
+
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, React.DOM.td(
+            {
+                className: "spacecraftStatusLabel",
+            }, "Fuel Level"), React.DOM.td(
+            {
+                className: "spacecraftStatusValue",
+            }, this.state.fuelLevel + "/" + ship.device("FuelTank").capacity().toExponential())));
+
             cells = [];
             cells.push(React.DOM.td(
             {
@@ -134,6 +180,22 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
             this.setState(
             {
                 targetBodyKey: bodyKey,
+            });
+        },
+
+        updateFuelLevel: function(newFuelLevel)
+        {
+            this.setState(
+            {
+                fuelLevel: newFuelLevel,
+            });
+        },
+
+        updatePowerLevel: function(newPowerLevel)
+        {
+            this.setState(
+            {
+                powerLevel: newPowerLevel,
             });
         },
     });

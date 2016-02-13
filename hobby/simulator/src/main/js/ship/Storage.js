@@ -24,9 +24,16 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
 
         this.request = function(amount)
         {
+            if (level < amount)
+            {
+                LOGGER.warn("Ran out of fuel!");
+            }
+
             var answer = Math.min(level, amount);
 
             level -= answer;
+
+            this.trigger("dataUpdated", level);
 
             return answer;
         };
@@ -43,6 +50,8 @@ define([ "ship/Device", "ship/SupplyType" ], function(Device, SupplyType)
     {
     // Nothing to do.
     };
+
+    MicroEvent.mixin(FuelTank);
 
     return (
     {
