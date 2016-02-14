@@ -9,21 +9,15 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             InputValidator.validateNotNull("environment", this.props.environment);
 
             var bodyKeys = this.props.environment.bodyKeys();
-            var r0 = this.props.state.position();
-            var r1 = this.props.environment.state(bodyKeys[0]).position();
-            var bodyVector = r1.subtract(r0);
-
             var shipKeys = this.props.environment.shipKeys();
-            var r2 = this.props.environment.state(shipKeys[0]).position();
-            var shipVector = r2.subtract(r0);
 
             return (
             {
                 azimuth: 0,
+                bodyKey: bodyKeys[0],
                 elevation: 0,
                 isEngaged: false,
-                bodyVector: bodyVector,
-                shipVector: shipVector,
+                shipKey: shipKeys[0],
             });
         },
 
@@ -37,6 +31,12 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
         render: function()
         {
             InputValidator.validateNotNull("environment", this.props.environment);
+
+            var r0 = this.props.state.position();
+            var r1 = this.props.environment.state(this.state.bodyKey).position();
+            var bodyVector = r1.subtract(r0);
+            var r2 = this.props.environment.state(this.state.shipKey).position();
+            var shipVector = r2.subtract(r0);
 
             var azimuthUI = React.DOM.input(
             {
@@ -155,7 +155,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             cells.push(React.DOM.td(
             {
                 className: "autopilotValue",
-            }, Math.round(this.state.bodyVector.magnitude()) + " km " + this.state.bodyVector.toHeadingString()));
+            }, Math.round(bodyVector.magnitude()) + " km " + bodyVector.toHeadingString()));
             rows.push(React.DOM.tr(
             {
                 className: "autopilotRow",
@@ -170,7 +170,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             cells.push(React.DOM.td(
             {
                 className: "autopilotValue",
-            }, Math.round(this.state.shipVector.magnitude()) + " km " + this.state.shipVector.toHeadingString()));
+            }, Math.round(shipVector.magnitude()) + " km " + shipVector.toHeadingString()));
             rows.push(React.DOM.tr(
             {
                 className: "autopilotRow",
@@ -203,7 +203,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
 
             this.setState(
             {
-                bodyVector: r10,
+                bodyKey: newBodyKey,
             });
             this.setVector(r10);
         },
@@ -236,7 +236,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
 
             this.setState(
             {
-                shipVector: r10,
+                shipKey: newShipKey,
             });
             this.setVector(r10);
         },

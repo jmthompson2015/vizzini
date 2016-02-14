@@ -81,6 +81,7 @@
         {
             var bodyKeys = Body.values();
             var environment;
+            var computer;
 
             // Ticks per second.
             var tickCount = 1;
@@ -128,7 +129,7 @@
             {
                 var parentKey = "ReferenceShip";
                 var ship = environment.ship(parentKey);
-                var computer = ship.device("FakeAlignmentAutopilot");
+                computer = ship.device("FakeAlignmentAutopilot");
                 var portSensor = ship.device("PortCamera");
                 var forwardSensor = ship.device("ForwardCamera");
                 var starboardSensor = ship.device("StarboardCamera");
@@ -201,14 +202,6 @@
                 });
                 React.render(observerElement, document.getElementById("observerCameraUI"));
 
-                var autopilotElement = React.createElement(AutopilotPanel,
-                {
-                    computer: computer,
-                    state: environment.state("ReferenceShip"),
-                    environment: environment,
-                });
-                React.render(autopilotElement, document.getElementById("autopilotPanel"));
-
                 var simulationElement = React.createElement(SimulationPanel,
                 {
                     callback: updateTickCount,
@@ -276,8 +269,18 @@
 
             function notifyTick(environment)
             {
-                var ship = environment.ship("ReferenceShip");
                 var state = environment.state("ReferenceShip");
+
+                var autopilotElement = React.createElement(AutopilotPanel,
+                {
+                    computer: computer,
+                    state: environment.state("ReferenceShip"),
+                    environment: environment,
+                });
+                React.render(autopilotElement, document.getElementById("autopilotPanel"));
+
+                var ship = environment.ship("ReferenceShip");
+
                 var spacecraftStatus = React.createElement(SpacecraftStatus,
                 {
                     ship: ship,
