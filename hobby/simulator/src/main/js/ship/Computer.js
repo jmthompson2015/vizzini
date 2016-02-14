@@ -16,6 +16,7 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
             if (newValue === false || newValue === true)
             {
                 isActive = newValue;
+                this.trigger("isActive", isActive);
                 LOGGER.trace(this.name() + " isActive() ? " + isActive);
 
                 if (!isActive)
@@ -142,6 +143,8 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
         return "AlignmentAutopilot " + this.name() + " consumePerTick=" + this.consumePerTick();
     };
 
+    MicroEvent.mixin(AlignmentAutopilot);
+
     function FakeAlignmentAutopilot(name, environment, parentKey, position, orientation, consumePerTick)
     {
         var that = this;
@@ -154,6 +157,7 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
             if (newValue === false || newValue === true)
             {
                 isActive = newValue;
+                this.trigger("isActive", isActive);
             }
 
             return isActive;
@@ -215,6 +219,8 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
     {
         return "FakeAlignmentAutopilot " + this.name() + " consumePerTick=" + this.consumePerTick();
     };
+
+    MicroEvent.mixin(FakeAlignmentAutopilot);
 
     function Computer(name, environment, parentKey, position, orientation, consumePerTick)
     {

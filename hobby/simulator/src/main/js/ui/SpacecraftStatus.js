@@ -1,4 +1,4 @@
-define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
+define([ "Body", "Vector" ], function(Body, Vector)
 {
     "use strict";
     var SpacecraftStatus = React.createClass(
@@ -35,18 +35,6 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
             var heading = state.orientation().preMultiply(Vector.X_AXIS).toHeadingString();
             var environment = ship.devices()[0].environment();
             var bodyKeys = environment.bodyKeys();
-            var labelFunction = function(bodyKey)
-            {
-                var body = Body.properties[bodyKey];
-                var prefix = (body.type === BodyType.MOON ? "\u25D0 " : "");
-                return prefix + body.name;
-            };
-            var targetSelect = React.createElement(Select,
-            {
-                values: bodyKeys,
-                labelFunction: labelFunction,
-                onChange: this.targetBodyChanged,
-            });
             var targetBodyKey = this.state.targetBodyKey;
             var targetState = environment.state(targetBodyKey);
             var targetVector = targetState.position().subtract(state.position());
@@ -56,11 +44,11 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
             var cells = [];
             cells.push(React.DOM.td(
             {
-                className: "spacecraftStatusLabel",
+                className: "spacecraftLabel",
             }, "Time"));
             cells.push(React.DOM.td(
             {
-                className: "spacecraftStatusValue",
+                className: "spacecraftValue",
             }, timestamp));
             rows.push(React.DOM.tr(
             {
@@ -70,11 +58,11 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
             cells = [];
             cells.push(React.DOM.td(
             {
-                className: "spacecraftStatusLabel",
+                className: "spacecraftLabel",
             }, "Heading"));
             cells.push(React.DOM.td(
             {
-                className: "spacecraftStatusValue",
+                className: "spacecraftValue",
             }, heading));
             rows.push(React.DOM.tr(
             {
@@ -86,10 +74,10 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
                 key: rows.length,
             }, React.DOM.td(
             {
-                className: "spacecraftStatusLabel",
+                className: "spacecraftLabel",
             }, "Position"), React.DOM.td(
             {
-                className: "spacecraftStatusValue",
+                className: "spacecraftValue",
             }, Math.round(state.position().magnitude()) + " km " + state.position().toHeadingString())));
 
             rows.push(React.DOM.tr(
@@ -97,10 +85,10 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
                 key: rows.length,
             }, React.DOM.td(
             {
-                className: "spacecraftStatusLabel",
+                className: "spacecraftLabel",
             }, "Velocity"), React.DOM.td(
             {
-                className: "spacecraftStatusValue",
+                className: "spacecraftValue",
             }, Math.vizziniRound(state.velocity().magnitude(), 2) + " km/s " + state.velocity().toHeadingString())));
 
             rows.push(React.DOM.tr(
@@ -108,10 +96,10 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
                 key: rows.length,
             }, React.DOM.td(
             {
-                className: "spacecraftStatusLabel",
+                className: "spacecraftLabel",
             }, "Angular Velocity"), React.DOM.td(
             {
-                className: "spacecraftStatusValue",
+                className: "spacecraftValue",
             }, state.angularVelocity().toHeadingString())));
 
             rows.push(React.DOM.tr(
@@ -119,10 +107,10 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
                 key: rows.length,
             }, React.DOM.td(
             {
-                className: "spacecraftStatusLabel",
+                className: "spacecraftLabel",
             }, "Power Level"), React.DOM.td(
             {
-                className: "spacecraftStatusValue",
+                className: "spacecraftValue",
             }, this.state.powerLevel + "/" + ship.device("FusionReactor").producePerTick())));
 
             rows.push(React.DOM.tr(
@@ -130,25 +118,11 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
                 key: rows.length,
             }, React.DOM.td(
             {
-                className: "spacecraftStatusLabel",
+                className: "spacecraftLabel",
             }, "Fuel Level"), React.DOM.td(
             {
-                className: "spacecraftStatusValue",
+                className: "spacecraftValue",
             }, this.state.fuelLevel + "/" + ship.device("FuelTank").capacity().toExponential())));
-
-            cells = [];
-            cells.push(React.DOM.td(
-            {
-                className: "spacecraftStatusLabel",
-            }, targetSelect));
-            cells.push(React.DOM.td(
-            {
-                className: "spacecraftStatusValue",
-            }, Math.round(targetVector.magnitude()) + " km " + targetVector.toHeadingString()));
-            rows.push(React.DOM.tr(
-            {
-                key: rows.length,
-            }, cells));
 
             var maneuverPanel = React.createElement(ManeuverPanel,
             {
@@ -168,18 +142,17 @@ define([ "Body", "BodyType", "Vector" ], function(Body, BodyType, Vector)
 
             return React.DOM.table(
             {
-                className: "spacecraftStatusPanel",
+                className: "spacecraftPanel",
             }, rows);
         },
 
-        targetBodyChanged: function(event)
+        targetBodyChanged: function(newBodyKey)
         {
-            var bodyKey = event.target.value;
-            LOGGER.trace("bodyChanged() bodyKey = " + bodyKey);
+            LOGGER.trace("targetBodyChanged() newBodyKey = " + newBodyKey);
 
             this.setState(
             {
-                targetBodyKey: bodyKey,
+                targetBodyKey: newBodyKey,
             });
         },
 

@@ -13,67 +13,63 @@ table {
     vertical-align: middle;
 }
 
-#autopilotPanel, #dorsalCameraUI, #observerCameraUI, #simulationPanel, #spacecraftStatusPanel {
-    vertical-align: top;
-}
-
-.autopilotPanel, .simulationPanel, .spacecraftStatusPanel {
-    background-color: white;
-    font-size: small;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 5px;
-    text-align: center;
-}
-
-.manueverPanel {
-    font-size: small;
+#ALIGN_CENTER, .autopilotPanel, .manueverPanel, .simulationPanel, .spacecraftPanel, .viewLabel, .alignCenter {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
 
-.manueverPanel tr td {
-    background-color: #DCDCDC;
-}
-
-#messageArea, #timingDisplay {
-    background-color: white;
+#ALIGN_LEFT, .autopilotLabel, .spacecraftLabel, .alignLeft {
     text-align: left;
 }
 
-.numberInput {
-    width: 40px;
-}
-
-.spacecraftStatusLabel {
-    padding: 3px;
-    text-align: left;
-}
-
-/*
-.spacecraftStatusPanel tr td {
-    border: 1px solid black;
-}
-*/
-.spacecraftStatusValue {
-    padding: 3px;
+#ALIGN_RIGHT, .autopilotValue, .spacecraftValue, .alignRight {
     text-align: right;
 }
 
-.toggle {
-    font-size: large;
+#ALIGN_TOP, #autopilotPanel, #dorsalCameraUI, #observerCameraUI, #simulationPanel, #spacecraftPanel, .alignTop {
+    vertical-align: top;
 }
 
-.toggleIsOff {
-    background-color: white;
+#BACKGROUND_GAINSBORO, .manueverPanel tr td, .backgroundGainsboro {
+    background-color: #DCDCDC;
 }
 
-.toggleIsOn {
+#BACKGROUND_LIGHT_GRAY, .viewLabel, .backgroundLightGray {
+    background-color: lightGray;
+}
+
+#BACKGROUND_RED, .toggleIsOn, .backgroundRed {
     background-color: red;
 }
 
-.viewLabel {
-    background-color: lightGray;
-    text-align: center;
+#BACKGROUND_WHITE, .autopilotPanel, #messageArea, .simulationPanel, .spacecraftPanel, #timingDisplay, .toggleIsOff,
+    .backgroundWhite {
+    background-color: white;
 }
+
+#BORDER_GAINSBORO, .autopilotRow, .simulationPanel tr, .spacecraftPanel tr, .borderGainsboro {
+    border: 1px solid #DCDCDC;
+}
+
+#FONT_LARGE, .toggle, .fontLarge {
+    font-size: large;
+}
+
+#FONT_SMALL, .autopilotPanel, .manueverPanel, .simulationPanel, .spacecraftPanel, .fontSmall {
+    font-size: small;
+}
+
+#PADDING_2, .autopilotValue, .spacecraftLabel, .spacecraftValue, .padding3 {
+    padding: 2px;
+}
+
+#WIDTH_35, .numberInput, .width35 {
+    width: 35px;
+}
+
+/*
+.autopilotPanel tr td, .simulationPanel tr td, .spacecraftPanel tr td {
+    border: 1px solid black;
+}
+*/

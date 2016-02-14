@@ -37,7 +37,7 @@
 		<tr>
 			<td></td>
 			<td id="dorsalCameraUI"></td>
-			<td id="spacecraftStatusPanel"></td>
+			<td id="spacecraftPanel"></td>
 		</tr>
 		<tr>
 			<td class="viewLabel">Port</td>
@@ -205,6 +205,7 @@
                 {
                     computer: computer,
                     state: environment.state("ReferenceShip"),
+                    environment: environment,
                 });
                 React.render(autopilotElement, document.getElementById("autopilotPanel"));
 
@@ -277,13 +278,12 @@
             {
                 var ship = environment.ship("ReferenceShip");
                 var state = environment.state("ReferenceShip");
-                // var date = state.date();
                 var spacecraftStatus = React.createElement(SpacecraftStatus,
                 {
                     ship: ship,
                     state: state,
                 });
-                React.render(spacecraftStatus, document.getElementById("spacecraftStatusPanel"));
+                React.render(spacecraftStatus, document.getElementById("spacecraftPanel"));
             }
 
             function updateTickCount(newTickCount)

@@ -1,20 +1,43 @@
-define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
+define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vector, ObjectSelect)
 {
     "use strict";
     var AutopilotPanel = React.createClass(
     {
         getInitialState: function()
         {
+            InputValidator.validateNotNull("state", this.props.state);
+            InputValidator.validateNotNull("environment", this.props.environment);
+
+            var bodyKeys = this.props.environment.bodyKeys();
+            var r0 = this.props.state.position();
+            var r1 = this.props.environment.state(bodyKeys[0]).position();
+            var bodyVector = r1.subtract(r0);
+
+            var shipKeys = this.props.environment.shipKeys();
+            var r2 = this.props.environment.state(shipKeys[0]).position();
+            var shipVector = r2.subtract(r0);
+
             return (
             {
                 azimuth: 0,
                 elevation: 0,
                 isEngaged: false,
+                bodyVector: bodyVector,
+                shipVector: shipVector,
             });
+        },
+
+        componentDidMount: function()
+        {
+            InputValidator.validateNotNull("computer", this.props.computer);
+
+            this.props.computer.bind("isActive", this.handleIsEngagedChange);
         },
 
         render: function()
         {
+            InputValidator.validateNotNull("environment", this.props.environment);
+
             var azimuthUI = React.DOM.input(
             {
                 className: "numberInput",
@@ -31,6 +54,11 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
                 value: this.state.elevation,
                 onChange: this.handleElevationChange,
             });
+            var engageButton = new React.DOM.button(
+            {
+                className: (this.state.isEngaged ? "toggleIsOn" : ""),
+                onClick: this.toggleEngage,
+            }, "Engage");
             var plusV = React.DOM.button(
             {
                 onClick: this.setPlusV,
@@ -50,6 +78,22 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
 
             var rows = [];
             var cells = [];
+            cells.push(React.DOM.td({}, "Alignment Target"));
+            cells.push(React.DOM.td({}, azimuthUI));
+            cells.push(React.DOM.td({}, "m"));
+            cells.push(React.DOM.td({}, elevationUI));
+            cells.push(React.DOM.td({}, engageButton));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells));
+            var targetUI = React.DOM.table(
+            {
+                className: "alignCenter",
+            }, rows);
+
+            rows = [];
+            cells = [];
             cells.push(React.DOM.td({}, plusV));
             cells.push(React.DOM.td({}, portV));
             cells.push(React.DOM.td({}, minusV));
@@ -58,42 +102,78 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
             {
                 key: rows.length,
             }, cells));
-            var buttonsUI = React.DOM.table({}, rows);
-
-            var engageButton = new React.DOM.button(
+            var buttonsUI = React.DOM.table(
             {
-                className: (this.state.isEngaged ? "toggleIsOn" : ""),
-                onClick: this.toggleEngage,
-            }, "Engage");
+                className: "alignCenter",
+            }, rows);
+
+            var bodyKeys = this.props.environment.bodyKeys();
+            var bodySelect = React.createElement(ObjectSelect.BodySelect,
+            {
+                bodyKeys: bodyKeys,
+                callback: this.handleBodyChange,
+            });
+
+            var shipKeys = this.props.environment.shipKeys();
+            var shipSelect = React.createElement(ObjectSelect.ShipSelect,
+            {
+                shipKeys: shipKeys,
+                environment: this.props.environment,
+                callback: this.handleShipChange,
+            });
 
             rows = [];
             cells = [];
-            cells.push(React.DOM.td({}, "Alignment Target"));
-            cells.push(React.DOM.td({}, azimuthUI));
-            cells.push(React.DOM.td({}, "m"));
-            cells.push(React.DOM.td({}, elevationUI));
+            cells.push(React.DOM.td(
+            {
+                className: "alignCenter",
+                colSpan: "2",
+            }, targetUI));
             rows.push(React.DOM.tr(
             {
+                className: "autopilotRow",
                 key: rows.length,
             }, cells));
 
             cells = [];
             cells.push(React.DOM.td(
             {
-                colSpan: "4",
+                className: "alignCenter",
+                colSpan: "2",
             }, buttonsUI));
             rows.push(React.DOM.tr(
             {
+                className: "autopilotRow",
                 key: rows.length,
             }, cells));
 
             cells = [];
             cells.push(React.DOM.td(
             {
-                colSpan: "4",
-            }, engageButton));
+                className: "autopilotLabel",
+            }, bodySelect));
+            cells.push(React.DOM.td(
+            {
+                className: "autopilotValue",
+            }, Math.round(this.state.bodyVector.magnitude()) + " km " + this.state.bodyVector.toHeadingString()));
             rows.push(React.DOM.tr(
             {
+                className: "autopilotRow",
+                key: rows.length,
+            }, cells));
+
+            cells = [];
+            cells.push(React.DOM.td(
+            {
+                className: "autopilotLabel",
+            }, shipSelect));
+            cells.push(React.DOM.td(
+            {
+                className: "autopilotValue",
+            }, Math.round(this.state.shipVector.magnitude()) + " km " + this.state.shipVector.toHeadingString()));
+            rows.push(React.DOM.tr(
+            {
+                className: "autopilotRow",
                 key: rows.length,
             }, cells));
 
@@ -111,12 +191,54 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
             });
         },
 
+        handleBodyChange: function(newBodyKey)
+        {
+            InputValidator.validateNotNull("state", this.props.state);
+            InputValidator.validateNotNull("environment", this.props.environment);
+
+            LOGGER.trace("handleBodyChange() newBodyKey = " + newBodyKey);
+            var r0 = this.props.state.position();
+            var r1 = this.props.environment.state(newBodyKey).position();
+            var r10 = r1.subtract(r0);
+
+            this.setState(
+            {
+                bodyVector: r10,
+            });
+            this.setVector(r10);
+        },
+
         handleElevationChange: function(event)
         {
             this.setState(
             {
                 elevation: event.target.value,
             });
+        },
+
+        handleIsEngagedChange: function(newIsEngaged)
+        {
+            this.setState(
+            {
+                isEngaged: newIsEngaged,
+            });
+        },
+
+        handleShipChange: function(newShipKey)
+        {
+            InputValidator.validateNotNull("state", this.props.state);
+            InputValidator.validateNotNull("environment", this.props.environment);
+
+            LOGGER.trace("handleShipChange() newShipKey = " + newShipKey);
+            var r0 = this.props.state.position();
+            var r1 = this.props.environment.state(newShipKey).position();
+            var r10 = r1.subtract(r0);
+
+            this.setState(
+            {
+                shipVector: r10,
+            });
+            this.setVector(r10);
         },
 
         setMinusV: function()
@@ -170,7 +292,6 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
 
         toggleEngage: function()
         {
-            InputValidator.validateNotNull("state", this.props.state);
             InputValidator.validateNotNull("computer", this.props.computer);
 
             var isEngaged = !this.state.isEngaged;
