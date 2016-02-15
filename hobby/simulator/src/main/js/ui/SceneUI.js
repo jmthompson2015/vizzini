@@ -1,4 +1,4 @@
-define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
+define([ "Body", "ui/BodyUI", "ui/ShipUI" ], function(Body, BodyUI, ShipUI)
 {
     "use strict";
     function SceneUI(environment, callback)
@@ -12,14 +12,25 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
         var scene = new THREE.Scene();
         var bodyKeys = environment.bodyKeys();
         var bodyToUI = {};
+        var i;
 
-        for (var i = 0; i < bodyKeys.length; i++)
+        for (i = 0; i < bodyKeys.length; i++)
         {
             var bodyKey = bodyKeys[i];
             var body = Body.properties[bodyKey];
             var isBump = bumps.vizziniContains(bodyKey);
             var isSpecular = speculars.vizziniContains(bodyKey);
             new BodyUI(body, isBump, isSpecular, finishBodyUI);
+        }
+
+        var shipKeys = environment.shipKeys();
+        var shipToUI = {};
+
+        for (i = 0; i < shipKeys.length; i++)
+        {
+            var shipKey = shipKeys[i];
+            var ship = environment.ship(shipKey);
+            new ShipUI(ship, finishShipUI);
         }
 
         var ambientLight = createAmbientLight();
@@ -78,10 +89,28 @@ define([ "Body", "ui/BodyUI" ], function(Body, BodyUI)
             bodyToUI[bodyKey] = bodyUI;
             scene.add(bodyUI);
 
-            if (Object.getOwnPropertyNames(bodyToUI).length === environment.bodyKeys().length)
+            if (isDone())
             {
                 callback(that);
             }
+        }
+
+        function finishShipUI(shipUI)
+        {
+            var shipKey = shipUI.shipKey;
+            shipToUI[shipKey] = shipUI;
+            scene.add(shipUI);
+
+            if (isDone())
+            {
+                callback(that);
+            }
+        }
+
+        function isDone()
+        {
+            return (Object.getOwnPropertyNames(bodyToUI).length === environment.bodyKeys().length) &&
+                    (Object.getOwnPropertyNames(shipToUI).length === environment.shipKeys().length);
         }
     }
 

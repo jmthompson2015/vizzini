@@ -23,7 +23,9 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         power.addProduceConduit(conduit);
         sensor.addConsumeConduit(conduit);
 
-        return new Ship(name, devices, propulsionGroups);
+        var radii = new Vector(0.005, 0.006, 0.007); // 5m x 6m x 7m
+
+        return new Ship(name, devices, propulsionGroups, radii);
     }
 
     function ReferenceShip(name, environment)
@@ -31,16 +33,14 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         InputValidator.validateNotNull("name", name);
         InputValidator.validateNotNull("environment", environment);
 
-        var length = 0.040; // 40 m
-        var width = 0.030; // 30 m
-        var height = 0.010; // 10 m
+        var radii = new Vector(0.040 / 2.0, 0.030 / 2.0, 0.010 / 2.0); // 40m x 30m x 10m
 
-        var forward = Vector.X_AXIS.multiply(length / 2.0);
-        var aft = Vector.X_AXIS.multiply(-length / 2.0);
-        var port = Vector.Y_AXIS.multiply(width / 2.0);
-        var starboard = Vector.Y_AXIS.multiply(-width / 2.0);
-        var dorsal = Vector.Z_AXIS.multiply(height / 2.0);
-        var ventral = Vector.Z_AXIS.multiply(-height / 2.0);
+        var forward = Vector.X_AXIS.multiply(radii.x());
+        var aft = Vector.X_AXIS.multiply(-radii.x());
+        var port = Vector.Y_AXIS.multiply(radii.y());
+        var starboard = Vector.Y_AXIS.multiply(-radii.y());
+        var dorsal = Vector.Z_AXIS.multiply(radii.z());
+        var ventral = Vector.Z_AXIS.multiply(-radii.z());
 
         var forwardQ = Quaternion.ZERO;
         var portQ = Quaternion.newInstance(90.0, Vector.Z_AXIS);
@@ -191,7 +191,7 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         connect((i++).toString(), power, dorsalRollStarboardEngine);
         connect((i++).toString(), power, ventralRollStarboardEngine);
 
-        return new Ship(name, devices, propulsionGroups);
+        return new Ship(name, devices, propulsionGroups, radii);
 
         function connect(name, producer, consumer)
         {
@@ -201,11 +201,12 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         }
     }
 
-    function Ship(name, devices, propulsionGroups)
+    function Ship(name, devices, propulsionGroups, radii)
     {
         InputValidator.validateNotNull("name", name);
         InputValidator.validateNotNull("devices", devices);
         InputValidator.validateNotNull("propulsionGroups", propulsionGroups);
+        InputValidator.validateNotNull("radii", radii);
 
         this.name = function()
         {
@@ -263,6 +264,11 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         this.propulsionGroups = function()
         {
             return propulsionGroups;
+        };
+
+        this.radii = function()
+        {
+            return radii;
         };
     }
 
