@@ -174,6 +174,6 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
     {
         var result = SquadBuilder.findByTeam(Team.SCUM);
         assert.ok(result);
-        assert.equal(result.length, 3);
+        assert.equal(result.length, 4);
     });
 });
