@@ -191,7 +191,7 @@ table {
     width: 24px;
 }
 
-#WIDTH_FULL, .nameTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage,
+#WIDTH_FULL, #mainTable, .nameTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage,
     .squadBuilderAdd, .tokensPanel, .widthFull {
     width: 100%;
 }

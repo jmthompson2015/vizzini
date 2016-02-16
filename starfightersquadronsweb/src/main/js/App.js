@@ -44,27 +44,24 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         LOGGER.info("startNewGame() end");
     }
 
+    /*
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements
+     */
     function updateSizes(environmentUI)
     {
+        var mainTable = document.getElementById("mainTable");
+        var windowWidth = Math.min(window.innerWidth - 8, mainTable.clientWidth);
         var firstPilots = document.getElementById("firstPilots");
         var secondPilots = document.getElementById("secondPilots");
-        var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
-
-        var ssPanel = document.getElementById("ssPanel");
-        var messageArea = document.getElementById("messageArea");
-        var inputArea = document.getElementById("inputArea");
-        var newHeight = window.innerHeight - ssPanel.offsetHeight - messageArea.offsetHeight - inputArea.offsetHeight -
-                20;
-
-        var size = Math.min(newWidth, newHeight);
+        var newWidth = windowWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
 
         var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
-        myPlayAreaCanvas.width = size;
-        myPlayAreaCanvas.height = size;
+        myPlayAreaCanvas.width = newWidth;
+        myPlayAreaCanvas.height = newWidth;
 
         if (environmentUI)
         {
-            environmentUI.setScale(size / 915.0);
+            environmentUI.setScale(newWidth / 915.0);
         }
     }
 
