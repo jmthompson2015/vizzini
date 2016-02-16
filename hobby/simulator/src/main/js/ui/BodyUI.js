@@ -1,4 +1,4 @@
-define(function()
+define([ "Body" ], function(Body)
 {
     "use strict";
     function BodyUI(body, isBump, isSpecular, callback)
@@ -85,7 +85,18 @@ define(function()
                 materialProps.specular = new THREE.Color('grey');
             }
 
-            return new THREE.MeshPhongMaterial(materialProps);
+            var answer;
+
+            if (body.value === Body.SOL)
+            {
+                answer = new THREE.MeshBasicMaterial(materialProps);
+            }
+            else
+            {
+                answer = new THREE.MeshPhongMaterial(materialProps);
+            }
+
+            return answer;
         }
 
         function createRing(body, ringMap)
