@@ -170,11 +170,11 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
                 targetVector = newValue;
                 var state = this.state();
                 var headingVector = state.orientation().preMultiply(Vector.X_AXIS);
-                var stepCount = 10;
-                var angle = headingVector.angle(targetVector) / stepCount;
+                var angle = headingVector.angle(targetVector);
+                var stepCount = (angle < 5.0 ? 2 : 10);
                 var vector = headingVector.cross(targetVector).unit();
                 LOGGER.debug("angle = " + angle + " vector = " + vector.toHeadingString());
-                myAngularAcceleration = Quaternion.newInstance(angle, vector);
+                myAngularAcceleration = Quaternion.newInstance(angle / stepCount, vector);
                 LOGGER.debug("myAngularAcceleration = " + myAngularAcceleration.toHeadingString());
                 state.addAngularAcceleration(myAngularAcceleration);
             }
