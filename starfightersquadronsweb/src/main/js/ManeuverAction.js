@@ -1,5 +1,6 @@
-define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "RectanglePath", "ShipFledAction" ], function(
-        Bearing, Maneuver, ManeuverComputer, Phase, Position, RectanglePath, ShipFledAction)
+define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Position", "RectanglePath",
+        "ShipFledAction", "UpgradeCard" ], function(Bearing, Difficulty, Maneuver, ManeuverComputer, Phase, Position,
+        RectanglePath, ShipFledAction, UpgradeCard)
 {
     "use strict";
     function ManeuverAction(environment, token, maneuverKey, isBoost)
@@ -93,6 +94,12 @@ define([ "Bearing", "Maneuver", "ManeuverComputer", "Phase", "Position", "Rectan
                     environment.removeToken(fromPosition);
                     environment.placeToken(toPosition, token);
                     token.maneuverEffect(maneuverKey);
+
+                    if (token.isUpgradedWith(UpgradeCard.R2_D2) && this.maneuver().difficultyKey === Difficulty.EASY &&
+                            token.shield().count() < token.shieldValue())
+                    {
+                        token.shield().increase();
+                    }
 
                     environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
                 }

@@ -1449,6 +1449,7 @@ define(
                         isUnique: true,
                         description: "After executing a green maneuver, you may recover 1 shield (up to your shield value).",
                         squadPointCost: 4,
+                        isImplemented: true,
                         value: "r2D2",
                     },
                     "r2D2Crew":
