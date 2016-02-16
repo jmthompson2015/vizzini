@@ -115,6 +115,24 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "ShipBa
                 assert.equal(toPosition.heading(), 330);
             });
 
+            QUnit.test("doIt() Outlaw Tech", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var token = environment.tokens()[2]; // X-Wing
+                token.upgradeKeys().push(UpgradeCard.OUTLAW_TECH);
+                assert.equal(token.focus().count(), 0);
+                var maneuverKey = Maneuver.STRAIGHT_4_HARD;
+                var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
+
+                // Run.
+                maneuverAction.doIt();
+
+                // Verify.
+                assert.equal(token.focus().count(), 1);
+            });
+
             QUnit.test("doIt() R2-D2", function(assert)
             {
                 // Setup.

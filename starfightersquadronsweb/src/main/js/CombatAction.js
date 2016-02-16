@@ -278,6 +278,11 @@ define(
                         {
                             defender.shield().decrease();
                         }
+
+                        if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
+                        {
+                            defender.upgrades().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
+                        }
                     }
 
                     if (attacker.isUpgradedWith(UpgradeCard.TACTICIAN) &&

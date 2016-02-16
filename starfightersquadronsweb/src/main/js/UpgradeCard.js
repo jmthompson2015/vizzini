@@ -1327,6 +1327,7 @@ define(
                         restrictions: [ UpgradeRestriction.SCUM_ONLY, UpgradeRestriction.LIMITED ],
                         description: "After you execute a red maneuver, you may assign 1 Focus token to your ship.",
                         squadPointCost: 2,
+                        isImplemented: true,
                         value: "outlawTech",
                     },
                     "outmaneuver":
@@ -1738,6 +1739,7 @@ define(
                         description: "Increase your agility value by 1. If you are hit by an attack, discard this card.",
                         shipState: new ShipState(null, null, 1, null, null),
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "stealthDevice",
                     },
                     "stygiumParticleAccelerator":
