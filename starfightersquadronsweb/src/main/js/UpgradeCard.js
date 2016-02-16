@@ -1327,6 +1327,7 @@ define(
                         restrictions: [ UpgradeRestriction.SCUM_ONLY, UpgradeRestriction.LIMITED ],
                         description: "After you execute a red maneuver, you may assign 1 Focus token to your ship.",
                         squadPointCost: 2,
+                        isImplemented: true,
                         value: "outlawTech",
                     },
                     "outmaneuver":

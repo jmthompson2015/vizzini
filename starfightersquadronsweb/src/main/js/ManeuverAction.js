@@ -101,6 +101,12 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Posi
                         token.shield().increase();
                     }
 
+                    if (token.isUpgradedWith(UpgradeCard.OUTLAW_TECH) &&
+                            this.maneuver().difficultyKey === Difficulty.HARD)
+                    {
+                        token.focus().increase();
+                    }
+
                     environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
                 }
             }
