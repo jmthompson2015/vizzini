@@ -1248,6 +1248,7 @@ define(
                         shipState: new ShipState(8, 3, 2, 3, 2),
                         squadPointCost: 28,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
+                        isImplemented: true,
                         value: "lukeSkywalker",
                     },
                     "maarekStele":

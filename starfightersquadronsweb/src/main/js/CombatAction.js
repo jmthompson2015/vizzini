@@ -166,6 +166,11 @@ define(
                     var defenderDiceCount = defender.computeDefenseDiceCount(weapon, range);
                     var defenseDice = new DefenseDice(defenderDiceCount);
 
+                    if (defender.pilotKey() === Pilot.LUKE_SKYWALKER && defenseDice.focusCount() > 0)
+                    {
+                        defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+                    }
+
                     if (defender.pilotKey() === Pilot.POE_DAMERON && defender.focus().count() > 0)
                     {
                         defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
