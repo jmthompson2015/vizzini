@@ -1185,6 +1185,7 @@ define(
                         isUnique: true,
                         description: "When attacking or defending, if there are no friendly ships at Range 1-2, you may reroll 1 of your blank results.",
                         squadPointCost: 2,
+                        isImplemented: true,
                         value: "loneWolf",
                     },
                     "lukeSkywalker":
