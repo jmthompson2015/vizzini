@@ -156,6 +156,22 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token1.computeAttackDiceCount(environment, token1.primaryWeapon(), token0, RangeRuler.THREE), 3);
     });
 
+    QUnit.test("computeAttackDiceCount() Mauler Mithel", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var attacker = environment.tokens()[0]; // Mauler Mithel
+        var defender = environment.tokens()[2]; // X-Wing
+        assert.equal(attacker.name(), "1 \"Mauler Mithel\" (TIE Fighter)");
+        var weapon = attacker.primaryWeapon();
+
+        // Run / Verify.
+        assert.equal(attacker.computeAttackDiceCount(environment, weapon, defender, RangeRuler.ONE), 4);
+        assert.equal(attacker.computeAttackDiceCount(environment, weapon, defender, RangeRuler.TWO), 2);
+        assert.equal(attacker.computeAttackDiceCount(environment, weapon, defender, RangeRuler.THREE), 2);
+    });
+
     QUnit.test("computeAttackDiceCount() Blinded Pilot", function(assert)
     {
         Token.resetNextId();

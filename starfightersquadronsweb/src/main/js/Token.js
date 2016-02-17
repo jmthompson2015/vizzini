@@ -774,6 +774,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
                 answer++;
             }
 
+            if (this.pilotKey() === Pilot.MAULER_MITHEL && range === RangeRuler.ONE)
+            {
+                answer++;
+            }
+
             if (weapon.upgradeKey() === UpgradeCard.PROTON_ROCKETS)
             {
                 answer += Math.min(this.agilityValue(), 3);

@@ -1293,6 +1293,7 @@ define(
                         shipState: new ShipState(7, 2, 3, 3, 0),
                         squadPointCost: 17,
                         upgradeTypeKeys: [ UpgradeType.ELITE ],
+                        isImplemented: true,
                         value: "maulerMithel",
                     },
                     "mirandaDoni":
