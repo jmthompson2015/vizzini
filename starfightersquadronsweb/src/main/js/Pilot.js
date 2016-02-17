@@ -1755,6 +1755,7 @@ define(
                         shipState: new ShipState(9, 3, 2, 4, 1),
                         squadPointCost: 28,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "talonbaneCobra",
                     },
                     "tansariiPointVeteran":

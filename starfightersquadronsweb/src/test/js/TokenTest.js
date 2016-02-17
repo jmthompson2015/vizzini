@@ -172,6 +172,22 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(attacker.computeAttackDiceCount(environment, weapon, defender, RangeRuler.THREE), 2);
     });
 
+    QUnit.test("computeAttackDiceCount() Talonbane Cobra", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var agent = environment.tokens()[0].agent(); // Mauler Mithel
+        var token = new Token(Pilot.TALONBANE_COBRA, agent);
+        var weapon = token.primaryWeapon();
+        var defender = environment.tokens()[2]; // X-Wing
+
+        // Run / Verify.
+        assert.equal(token.computeAttackDiceCount(environment, weapon, defender, RangeRuler.ONE), 5);
+        assert.equal(token.computeAttackDiceCount(environment, weapon, defender, RangeRuler.TWO), 3);
+        assert.equal(token.computeAttackDiceCount(environment, weapon, defender, RangeRuler.THREE), 3);
+    });
+
     QUnit.test("computeAttackDiceCount() Blinded Pilot", function(assert)
     {
         Token.resetNextId();
@@ -220,6 +236,21 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.ONE), 2);
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.TWO), 2);
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.THREE), 3);
+    });
+
+    QUnit.test("computeDefenseDiceCount() Talonbane Cobra", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var agent = environment.tokens()[0].agent(); // Mauler Mithel
+        var token = new Token(Pilot.TALONBANE_COBRA, agent);
+        var weapon = token.primaryWeapon();
+
+        // Run / Verify.
+        assert.equal(token.computeDefenseDiceCount( weapon,  RangeRuler.ONE), 2);
+        assert.equal(token.computeDefenseDiceCount( weapon,  RangeRuler.TWO), 2);
+        assert.equal(token.computeDefenseDiceCount( weapon,  RangeRuler.THREE), 4);
     });
 
     QUnit.test("discardUpgrade()", function(assert)

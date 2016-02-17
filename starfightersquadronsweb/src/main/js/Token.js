@@ -767,6 +767,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             {
                 // Bonus attack die at range one.
                 answer++;
+
+                if (this.pilotKey() === Pilot.TALONBANE_COBRA)
+                {
+                    answer++;
+                }
             }
 
             if (this.pilotKey() === Pilot.EADEN_VRILL && weapon.isPrimary() && defender.isStressed())
@@ -796,6 +801,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             // Bonus defense die at range three.
             answer++;
+
+            if (this.pilotKey() === Pilot.TALONBANE_COBRA)
+            {
+                answer++;
+            }
         }
 
         return answer;
