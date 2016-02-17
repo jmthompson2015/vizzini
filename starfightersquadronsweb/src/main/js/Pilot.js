@@ -995,6 +995,7 @@ define(
                         squadPointCost: 36,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CANNON,
                                 UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.ILLICIT ],
+                        isImplemented: true,
                         value: "ig88A",
                     },
                     "ig88B":

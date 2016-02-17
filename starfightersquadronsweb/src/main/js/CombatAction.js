@@ -350,6 +350,11 @@ define(
 
                     if (defender.isDestroyed())
                     {
+                        if (attacker.pilotKey() === Pilot.IG_88A && attacker.shield().count() < attacker.shieldValue())
+                        {
+                            attacker.shield().increase();
+                        }
+
                         var shipDestroyedAction = new ShipDestroyedAction(environment, defender, defenderPosition);
                         shipDestroyedAction.doIt();
                         var delay = 1500;
