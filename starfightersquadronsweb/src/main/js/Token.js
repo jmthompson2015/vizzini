@@ -278,13 +278,16 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
                 if (difficultyKey === Difficulty.EASY)
                 {
-                    LOGGER.trace("calling that.stress().decrease()");
-                    that.stress().decrease();
+                    this.stress().decrease();
+
+                    if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
+                    {
+                        this.focus().increase();
+                    }
                 }
                 else if (difficultyKey === Difficulty.HARD)
                 {
-                    LOGGER.trace("calling stress().increase() for " + that.toString());
-                    that.stress().increase();
+                    this.stress().increase();
                 }
             }
 

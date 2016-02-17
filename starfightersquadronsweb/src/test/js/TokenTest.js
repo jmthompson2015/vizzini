@@ -735,6 +735,27 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token0.stress().count(), 0);
     });
 
+    QUnit.test("stress() Kyle Katarn", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var token = environment.tokens()[2]; // X-Wing
+        token.upgradeKeys().push(UpgradeCard.KYLE_KATARN);
+        token.stress().increase();
+        assert.equal(token.focus().count(), 0);
+        assert.equal(token.stress().count(), 1);
+        var maneuverKey = Maneuver.STRAIGHT_1_EASY;
+        var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
+
+        // Run.
+        maneuverAction.doIt();
+
+        // Verify.
+        assert.equal(token.focus().count(), 1);
+        assert.equal(token.stress().count(), 0);
+    });
+
     QUnit.test("weaponsDisabled()", function(assert)
     {
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);

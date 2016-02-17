@@ -1133,6 +1133,7 @@ define(
                         restrictions: [ UpgradeRestriction.REBEL_ONLY ],
                         description: "After you remove a stress token from your ship, you may assign a Focus token to your ship.",
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "kyleKatarn",
                     },
                     "landoCalrissian":
