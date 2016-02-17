@@ -346,6 +346,7 @@ define(
                         isUnique: false,
                         description: "When defending, if you are beyond Range 2 or outside the attacker's firing arc, you may change 1 of your blank results to an Evade result. You can equip this card only if you have the Boost action icon.",
                         squadPointCost: 2,
+                        isImplemented: true,
                         value: "autothrusters",
                     },
                     "bb8":

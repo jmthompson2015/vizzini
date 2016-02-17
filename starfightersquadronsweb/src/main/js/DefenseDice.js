@@ -14,6 +14,20 @@ define(function()
             return valueCount(DefenseDice.Value.BLANK);
         };
 
+        this.changeOneToValue = function(oldValue, newValue)
+        {
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === oldValue)
+                {
+                    values[i] = newValue;
+                    break;
+                }
+            }
+        };
+
         this.evadeCount = function()
         {
             return valueCount(DefenseDice.Value.EVADE);

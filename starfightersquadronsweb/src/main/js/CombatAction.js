@@ -160,6 +160,18 @@ define(
                     var defenderDiceCount = defender.computeDefenseDiceCount(weapon, range);
                     var defenseDice = new DefenseDice(defenderDiceCount);
 
+                    if (defender.isUpgradedWith(UpgradeCard.AUTOTHRUSTERS) && defenseDice.blankCount() > 0)
+                    {
+                        var isBeyondRange2 = (range === undefined || range === RangeRuler.THREE);
+                        var isOutsideFiringArc = !weapon.isDefenderInFiringArc(attackerPosition, weapon
+                                .primaryFiringArc(), defender, defenderPosition);
+
+                        if (isBeyondRange2 || isOutsideFiringArc)
+                        {
+                            defenseDice.changeOneToValue(DefenseDice.Value.BLANK, DefenseDice.Value.EVADE);
+                        }
+                    }
+
                     if (defender.isUpgradedWith(UpgradeCard.LONE_WOLF) && defenseDice.blankCount() > 0)
                     {
                         var tokens1 = environment.getFriendlyTokensAtRange(defender, RangeRuler.ONE);
