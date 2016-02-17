@@ -1,7 +1,8 @@
 define(
-        [ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "ShipDestroyedAction", "TargetLock",
-                "UpgradeCard" ],
-        function(AttackDice, DamageDealer, DefenseDice, Phase, RangeRuler, ShipDestroyedAction, TargetLock, UpgradeCard)
+        [ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipDestroyedAction",
+                "TargetLock", "UpgradeCard" ],
+        function(AttackDice, DamageDealer, DefenseDice, Phase, Pilot, RangeRuler, ShipDestroyedAction, TargetLock,
+                UpgradeCard)
         {
             "use strict";
             function CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
@@ -122,6 +123,11 @@ define(
                             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
                         }
 
+                        if (attacker.pilotKey() === Pilot.POE_DAMERON && attacker.focus().count() > 0)
+                        {
+                            attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+                        }
+
                         if (attacker.isUpgradedWith(UpgradeCard.LONE_WOLF) && attackDice.blankCount() > 0)
                         {
                             var tokens1 = environment.getFriendlyTokensAtRange(attacker, RangeRuler.ONE);
@@ -159,6 +165,11 @@ define(
                     var range = attacker.combatState().range();
                     var defenderDiceCount = defender.computeDefenseDiceCount(weapon, range);
                     var defenseDice = new DefenseDice(defenderDiceCount);
+
+                    if (defender.pilotKey() === Pilot.POE_DAMERON && defender.focus().count() > 0)
+                    {
+                        defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+                    }
 
                     if (defender.isUpgradedWith(UpgradeCard.AUTOTHRUSTERS) && defenseDice.blankCount() > 0)
                     {

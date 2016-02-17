@@ -1483,6 +1483,7 @@ define(
                         squadPointCost: 31,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH,
                                 UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "poeDameron",
                     },
                     "princeXizor":
