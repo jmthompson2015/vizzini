@@ -1,5 +1,5 @@
-define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "ShipBase", "Token", "UpgradeCard" ],
-        function(EnvironmentFactory, Maneuver, ManeuverAction, Position, ShipBase, Token, UpgradeCard)
+define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position", "ShipBase", "Token", "UpgradeCard" ],
+        function(EnvironmentFactory, Maneuver, ManeuverAction, Pilot, Position, ShipBase, Token, UpgradeCard)
         {
             "use strict";
             QUnit.module("ManeuverAction");
@@ -113,6 +113,27 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Position", "ShipBa
                 assert.equal(toPosition.x(), fromPosition2.x() + 95);
                 assert.equal(toPosition.y(), fromPosition2.y() - 55);
                 assert.equal(toPosition.heading(), 330);
+            });
+
+            QUnit.test("doIt() IG-88C", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var agent = environment.tokens()[2].agent(); // X-Wing
+                var token = new Token(Pilot.IG_88C, agent);
+                var position = new Position(450, 450, 0);
+                environment.placeToken(position, token);
+                assert.equal(token.evade().count(), 0);
+                var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
+                var isBoost = true;
+                var maneuverAction = new ManeuverAction(environment, token, maneuverKey, isBoost);
+
+                // Run.
+                maneuverAction.doIt();
+
+                // Verify.
+                assert.equal(token.evade().count(), 1);
             });
 
             QUnit.test("doIt() Outlaw Tech", function(assert)
