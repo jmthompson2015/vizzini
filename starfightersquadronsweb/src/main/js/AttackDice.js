@@ -54,6 +54,21 @@ define(function()
             return valueCount(AttackDice.Value.HIT);
         };
 
+        this.rerollBlank = function()
+        {
+            // Reroll a blank value.
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === AttackDice.Value.BLANK)
+                {
+                    values[i] = rollRandomValue();
+                    break;
+                }
+            }
+        }
+
         this.size = function()
         {
             return values.length;

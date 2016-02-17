@@ -66,4 +66,27 @@ define([ "AttackDice" ], function(AttackDice)
             assert.equal(dice.hitCount(), 0);
         }
     });
+
+    QUnit.test("rerollBlank()", function(assert)
+    {
+        var dice;
+        do
+        {
+            dice = new AttackDice(1);
+        }
+        while (dice.blankCount() === 0)
+
+        // Run.
+        dice.rerollBlank();
+
+        // Verify.
+        if (dice.value(0) === AttackDice.Value.BLANK)
+        {
+            assert.equal(dice.blankCount(), 1);
+        }
+        else
+        {
+            assert.equal(dice.blankCount(), 0);
+        }
+    });
 });

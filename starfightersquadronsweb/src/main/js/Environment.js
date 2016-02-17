@@ -176,6 +176,14 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                     return answer;
                 };
 
+                this.getFriendlyTokensAtRange = function(token0, range)
+                {
+                    return this.getTokensAtRange(token0, range).filter(function(token)
+                    {
+                        return token.agent().teamKey() === token0.agent().teamKey();
+                    });
+                };
+
                 this.getPositionFor = function(token)
                 {
                     return tokenToPosition[token];

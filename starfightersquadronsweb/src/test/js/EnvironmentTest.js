@@ -356,6 +356,43 @@ define(
                 assert.equal(tokens[2].pilotKey(), Pilot.LUKE_SKYWALKER);
             });
 
+            QUnit.test("getFriendlyTokensAtRange() zero", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var attacker = environment.tokens()[2]; // X-Wing
+                var attackerPosition = new Position(458, 50, -90);
+                environment.removeToken(attacker);
+                environment.placeToken(attackerPosition, attacker);
+
+                // Run.
+                var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 0);
+            });
+
+            QUnit.test("getFriendlyTokensAtRange() one", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var attacker = environment.tokens()[0]; // TIE Fighter
+                var attackerPosition = new Position(458, 50, -90);
+                environment.removeToken(attacker);
+                environment.placeToken(attackerPosition, attacker);
+
+                // Run.
+                var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 1);
+                assert.equal(result[0].pilotKey(), Pilot.DARK_CURSE);
+            });
+
             QUnit.test("getTokensAtRange()", function(assert)
             {
                 // Setup.

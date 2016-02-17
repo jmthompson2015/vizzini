@@ -122,6 +122,17 @@ define(
                             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
                         }
 
+                        if (attacker.isUpgradedWith(UpgradeCard.LONE_WOLF) && attackDice.blankCount() > 0)
+                        {
+                            var tokens1 = environment.getFriendlyTokensAtRange(attacker, RangeRuler.ONE);
+                            var tokens2 = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
+
+                            if (tokens1.length === 0 && tokens2.length === 0)
+                            {
+                                attackDice.rerollBlank();
+                            }
+                        }
+
                         attacker.combatState().attackDice(attackDice);
                         environment.phase(Phase.COMBAT_ROLL_ATTACK_DICE);
 
@@ -148,6 +159,18 @@ define(
                     var range = attacker.combatState().range();
                     var defenderDiceCount = defender.computeDefenseDiceCount(weapon, range);
                     var defenseDice = new DefenseDice(defenderDiceCount);
+
+                    if (defender.isUpgradedWith(UpgradeCard.LONE_WOLF) && defenseDice.blankCount() > 0)
+                    {
+                        var tokens1 = environment.getFriendlyTokensAtRange(defender, RangeRuler.ONE);
+                        var tokens2 = environment.getFriendlyTokensAtRange(defender, RangeRuler.TWO);
+
+                        if (tokens1.length === 0 && tokens2.length === 0)
+                        {
+                            defenseDice.rerollBlank();
+                        }
+                    }
+
                     attacker.combatState().defenseDice(defenseDice);
                     environment.phase(Phase.COMBAT_ROLL_DEFENSE_DICE);
 
