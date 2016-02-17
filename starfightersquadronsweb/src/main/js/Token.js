@@ -987,7 +987,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.isDefenderHit = function(value)
         {
-            if (value)
+            if (value === true || value === false)
             {
                 isDefenderHit = value;
             }

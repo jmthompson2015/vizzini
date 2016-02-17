@@ -146,6 +146,46 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         assert.equal(attacker.combatState().attackDice().size(), 3);
     });
 
+    QUnit.test("CombatAction.doIt() Bossk", function(assert)
+    {
+        // Setup.
+        var upgradeKey = UpgradeCard.BOSSK;
+        var combatAction = createCombatAction2(upgradeKey);
+        var environment = combatAction.environment();
+        var attacker = environment.tokens()[0];
+        var defender = environment.tokens()[1];
+        assert.ok(attacker.isUpgradedWith(upgradeKey));
+        assert.equal(attacker.stress().count(), 0);
+        assert.equal(attacker.focus().count(), 0);
+        assert.equal(attacker.attackerTargetLocks().length, 0);
+        assert.equal(defender.defenderTargetLocks().length, 0);
+
+        // Run.
+        var done = assert.async();
+        combatAction.doIt();
+
+        // Verify.
+        setTimeout(function()
+        {
+            assert.ok(true, "test resumed from async operation");
+            if (attacker.combatState().isDefenderHit())
+            {
+                assert.equal(attacker.stress().count(), 0);
+                assert.equal(attacker.focus().count(), 0);
+                assert.equal(attacker.attackerTargetLocks().length, 0);
+                assert.equal(defender.defenderTargetLocks().length, 0);
+            }
+            else
+            {
+                assert.equal(attacker.stress().count(), 1);
+                assert.equal(attacker.focus().count(), 1);
+                assert.equal(attacker.attackerTargetLocks().length, 1);
+                assert.equal(defender.defenderTargetLocks().length, 1);
+            }
+            done();
+        }, 1100);
+    });
+
     QUnit.test("CombatAction.doIt() Cluster Missiles", function(assert)
     {
         // Setup.
@@ -429,6 +469,27 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var targetLock = new TargetLock(attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
         defender.addDefenderTargetLock(targetLock);
+
+        return new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                defenderPosition);
+    }
+
+    function createCombatAction2(upgradeKey)
+    {
+        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var adjudicator = new Adjudicator();
+
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, upgradeKey);
+        var attackerPosition = new Position(458, 895, -90);
+        var weapon = attacker.primaryWeapon();
+
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defenderPosition = new Position(450, 845, 90);
+
+        environment.placeToken(attackerPosition, attacker);
+        environment.placeToken(defenderPosition, defender);
 
         return new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                 defenderPosition);

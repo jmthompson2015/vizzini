@@ -1,6 +1,7 @@
 define(
-        [ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "ShipDestroyedAction", "UpgradeCard" ],
-        function(AttackDice, DamageDealer, DefenseDice, Phase, RangeRuler, ShipDestroyedAction, UpgradeCard)
+        [ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "RangeRuler", "ShipDestroyedAction", "TargetLock",
+                "UpgradeCard" ],
+        function(AttackDice, DamageDealer, DefenseDice, Phase, RangeRuler, ShipDestroyedAction, TargetLock, UpgradeCard)
         {
             "use strict";
             function CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
@@ -282,6 +283,22 @@ define(
                         if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
                         {
                             defender.upgrades().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
+                        }
+                    }
+                    else
+                    {
+                        // Defender not hit.
+                        if (attacker.isUpgradedWith(UpgradeCard.BOSSK))
+                        {
+                            if (!attacker.isStressed())
+                            {
+                                attacker.stress().increase();
+                            }
+
+                            attacker.focus().increase();
+                            var targetLock = new TargetLock(attacker, defender);
+                            attacker.addAttackerTargetLock(targetLock);
+                            defender.addDefenderTargetLock(targetLock);
                         }
                     }
 
