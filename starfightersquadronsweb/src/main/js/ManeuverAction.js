@@ -100,10 +100,9 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
                         token.evade().increase();
                     }
 
-                    if (token.isUpgradedWith(UpgradeCard.R2_D2) && this.maneuver().difficultyKey === Difficulty.EASY &&
-                            token.shield().count() < token.shieldValue())
+                    if (token.isUpgradedWith(UpgradeCard.R2_D2) && this.maneuver().difficultyKey === Difficulty.EASY)
                     {
-                        token.shield().increase();
+                        token.recoverShield();
                     }
 
                     if (token.isUpgradedWith(UpgradeCard.OUTLAW_TECH) &&

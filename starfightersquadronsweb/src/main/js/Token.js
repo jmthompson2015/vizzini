@@ -505,6 +505,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return Math.max(answer, 0);
         };
 
+        this.recoverShield = function()
+        {
+            if (this.shield().count() < this.shieldValue())
+            {
+                this.shield().increase();
+            }
+        }
+
         this.removeAllTargetLocks = function()
         {
             // Remove target locks which have this as the defender.
@@ -1048,7 +1056,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         function setCount(newValue)
         {
-            if (0 <= newValue && (!initialCount || newValue <= initialCount))
+            if (0 <= newValue)
             {
                 count = newValue;
                 that.trigger("change");

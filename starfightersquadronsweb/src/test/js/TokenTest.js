@@ -692,6 +692,22 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token.primaryWeaponValue(), 1);
     });
 
+    QUnit.test("recoverShield() increase to limit", function(assert)
+    {
+        var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
+        var token = new Token(Pilot.LUKE_SKYWALKER, agent);
+        assert.equal(token.shieldValue(), 2);
+        assert.equal(token.shield().count(), 2);
+        token.recoverShield();
+        assert.equal(token.shield().count(), 2); // stopped at limit
+        token.shield().decrease();
+        assert.equal(token.shield().count(), 1);
+        token.recoverShield();
+        assert.equal(token.shield().count(), 2);
+        token.recoverShield();
+        assert.equal(token.shield().count(), 2); // stopped at limit
+    });
+
     QUnit.test("secondaryWeapons()", function(assert)
     {
         // Setup.
@@ -724,18 +740,19 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
 
     QUnit.test("shield() increase to limit", function(assert)
     {
+        // use recoverShield() instead of shield().increase()
         var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var token = new Token(Pilot.LUKE_SKYWALKER, agent);
         assert.equal(token.shieldValue(), 2);
         assert.equal(token.shield().count(), 2);
         token.shield().increase();
-        assert.equal(token.shield().count(), 2); // stopped at limit
+        assert.equal(token.shield().count(), 3); // didn't stop at limit
         token.shield().decrease();
-        assert.equal(token.shield().count(), 1);
-        token.shield().increase();
         assert.equal(token.shield().count(), 2);
         token.shield().increase();
-        assert.equal(token.shield().count(), 2); // stopped at limit
+        assert.equal(token.shield().count(), 3);
+        token.shield().increase();
+        assert.equal(token.shield().count(), 4); // didn't stop at limit
     });
 
     QUnit.test("shieldValue()", function(assert)

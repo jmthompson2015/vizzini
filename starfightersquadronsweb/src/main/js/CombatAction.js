@@ -371,9 +371,9 @@ define(
 
                     if (defender.isDestroyed())
                     {
-                        if (attacker.pilotKey() === Pilot.IG_88A && attacker.shield().count() < attacker.shieldValue())
+                        if (attacker.pilotKey() === Pilot.IG_88A)
                         {
-                            attacker.shield().increase();
+                            attacker.recoverShield();
                         }
 
                         var shipDestroyedAction = new ShipDestroyedAction(environment, defender, defenderPosition);
