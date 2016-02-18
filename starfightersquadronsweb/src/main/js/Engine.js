@@ -250,6 +250,23 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
 
             if (combatQueue.length === 0)
             {
+                // Search for a ship upgraded with R5-P9.
+                var tokens = environment.getTokensForCombat().filter(function(token)
+                {
+                    return token.isUpgradedWith(UpgradeCard.R5_P9);
+                });
+
+                if (tokens.length > 0)
+                {
+                    var r5p9 = tokens[0];
+
+                    if (r5p9.focus().count() > 0 && r5p9.shield().count() < r5p9.shieldValue())
+                    {
+                        r5p9.focus().decrease();
+                        r5p9.recoverShield();
+                    }
+                }
+
                 environment.activeToken(undefined);
                 LOGGER.trace("Engine.processCombatQueue() done");
                 environment.phase(Phase.COMBAT_END);

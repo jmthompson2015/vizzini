@@ -1556,6 +1556,7 @@ define(
                         isUnique: true,
                         description: "At the end of the Combat phase, you may spend 1 of your Focus tokens to recover 1 shield (up to your shield value).",
                         squadPointCost: 3,
+                        isImplemented: true,
                         value: "r5P9",
                     },
                     "r5x3":
