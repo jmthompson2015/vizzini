@@ -503,6 +503,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         this.receiveStress = function()
         {
             this.stress().increase();
+
+            if (pilotKey === Pilot.SOONTIR_FEL)
+            {
+                this.focus().increase();
+            }
         };
 
         this.recoverShield = function()
@@ -552,11 +557,14 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
         this.removeStress = function()
         {
-            this.stress().decrease();
-
-            if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
+            if (this.stress().count() > 0)
             {
-                this.focus().increase();
+                this.stress().decrease();
+
+                if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
+                {
+                    this.focus().increase();
+                }
             }
         };
 

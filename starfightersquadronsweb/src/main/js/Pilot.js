@@ -1695,6 +1695,7 @@ define(
                         shipState: new ShipState(9, 3, 3, 3, 0),
                         squadPointCost: 27,
                         upgradeTypeKeys: [ UpgradeType.ELITE ],
+                        isImplemented: true,
                         value: "soontirFel",
                     },
                     "spiceRunner":
