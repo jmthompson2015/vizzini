@@ -758,6 +758,7 @@ define(
                         shipState: new ShipState(6, 2, 3, 3, 1),
                         squadPointCost: 19,
                         upgradeTypeKeys: [ UpgradeType.TECH ],
+                        isImplemented: true,
                         value: "epsilonLeader",
                     },
                     "epsilonSquadronPilot":
