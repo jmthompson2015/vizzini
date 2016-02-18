@@ -284,7 +284,7 @@ define(
                             defender.addDamage(environment.drawDamage());
                             if (!defender.isStressed())
                             {
-                                defender.stress().increase();
+                                defender.receiveStress();
                             }
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.ION_CANNON ||
@@ -322,7 +322,7 @@ define(
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_TORPEDOES && defender.hullValue() <= 4)
                         {
-                            defender.stress().increase();
+                            defender.receiveStress();
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.ION_TORPEDOES)
                         {
@@ -348,7 +348,7 @@ define(
                         {
                             if (!attacker.isStressed())
                             {
-                                attacker.stress().increase();
+                                attacker.receiveStress();
                             }
 
                             attacker.focus().increase();
@@ -365,7 +365,7 @@ define(
 
                         if (weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition))
                         {
-                            defender.stress().increase();
+                            defender.receiveStress();
                         }
                     }
 

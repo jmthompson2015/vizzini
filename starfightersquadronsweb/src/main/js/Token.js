@@ -278,16 +278,11 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
                 if (difficultyKey === Difficulty.EASY)
                 {
-                    this.stress().decrease();
-
-                    if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
-                    {
-                        this.focus().increase();
-                    }
+                    this.removeStress();
                 }
                 else if (difficultyKey === Difficulty.HARD)
                 {
-                    this.stress().increase();
+                    this.receiveStress();
                 }
             }
 
@@ -505,13 +500,18 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             return Math.max(answer, 0);
         };
 
+        this.receiveStress = function()
+        {
+            this.stress().increase();
+        };
+
         this.recoverShield = function()
         {
             if (this.shield().count() < this.shieldValue())
             {
                 this.shield().increase();
             }
-        }
+        };
 
         this.removeAllTargetLocks = function()
         {
@@ -548,6 +548,16 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
 
             defenderTargetLocks.vizziniRemove(targetLock);
             this.trigger("change");
+        };
+
+        this.removeStress = function()
+        {
+            this.stress().decrease();
+
+            if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
+            {
+                this.focus().increase();
+            }
         };
 
         this.secondaryWeapons = function()
