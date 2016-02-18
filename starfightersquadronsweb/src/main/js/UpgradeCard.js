@@ -1946,6 +1946,7 @@ define(
                         restrictions: [ UpgradeRestriction.IMPERIAL_ONLY ],
                         description: "At the start of the Combat phase, if you have no shields and at least 1 Damage card assigned to your ship, you may perform a free Evade action.",
                         squadPointCost: 4,
+                        isImplemented: true,
                         value: "ysanneIsard",
                     },
                 },

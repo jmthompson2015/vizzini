@@ -111,6 +111,23 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
                 });
             }
 
+            // Search for a ship upgraded with Ysanne Isard.
+            tokens = environment.getTokensForCombat().filter(function(token)
+            {
+                return token.isUpgradedWith(UpgradeCard.YSANNE_ISARD);
+            });
+
+            if (tokens.length > 0)
+            {
+                var ysanneIsard = tokens[0];
+
+                if (ysanneIsard.shield().count() === 0 &&
+                        (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
+                {
+                    ysanneIsard.evade().increase();
+                }
+            }
+
             combatQueue = environment.getTokensForCombat();
             this.processCombatQueue();
         };
