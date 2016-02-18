@@ -70,7 +70,7 @@ define([ "Body", "ui/SceneUI" ], function(Body, SceneUI)
             {
                 antialias: true,
                 canvas: canvas,
-                logarithmicDepthBuffer: true,
+            // logarithmicDepthBuffer: true,
             });
 
             answer.setClearColor(0x000000, 1);
