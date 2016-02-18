@@ -447,6 +447,44 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         }, 1000);
     });
 
+    QUnit.test("CombatAction.doIt() Whisper", function(assert)
+    {
+        // Setup.
+        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var adjudicator = new Adjudicator();
+        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        var attacker = new Token(Pilot.WHISPER, imperialAgent);
+        var attackerPosition = new Position(458, 895, -90);
+        var weapon = attacker.primaryWeapon();
+        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+        var defender = new Token(Pilot.DASH_RENDAR, rebelAgent);
+        var defenderPosition = new Position(450, 845, 90);
+        environment.placeToken(attackerPosition, attacker);
+        environment.placeToken(defenderPosition, defender);
+        assert.equal(attacker.focus().count(), 0);
+        var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                defenderPosition);
+
+        // Run.
+        var done = assert.async();
+        combatAction.doIt();
+
+        // Verify.
+        setTimeout(function()
+        {
+            assert.ok(true, "test resumed from async operation");
+            if (attacker.combatState().isDefenderHit())
+            {
+                assert.equal(attacker.focus().count(), 1);
+            }
+            else
+            {
+                assert.equal(attacker.focus().count(), 0);
+            }
+            done();
+        }, 1100);
+    });
+
     function createCombatAction(upgradeKey)
     {
         var environment = new Environment(Team.IMPERIAL, Team.REBEL);

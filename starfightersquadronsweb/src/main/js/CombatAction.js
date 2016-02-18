@@ -308,6 +308,11 @@ define(
                             damageDealer.dealDamage();
                         }
 
+                        if (attacker.pilotKey() === Pilot.WHISPER)
+                        {
+                            attacker.focus().increase();
+                        }
+
                         if (weapon.upgradeKey() === UpgradeCard.ASSAULT_MISSILES)
                         {
                             environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)

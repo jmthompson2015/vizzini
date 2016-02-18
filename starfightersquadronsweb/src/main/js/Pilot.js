@@ -1907,6 +1907,7 @@ define(
                         shipState: new ShipState(7, 4, 2, 2, 2),
                         squadPointCost: 32,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CREW ],
+                        isImplemented: true,
                         value: "whisper",
                     },
                     "wildSpaceFringer":
