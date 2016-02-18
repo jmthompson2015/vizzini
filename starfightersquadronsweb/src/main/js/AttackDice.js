@@ -67,7 +67,7 @@ define(function()
                     break;
                 }
             }
-        }
+        };
 
         this.size = function()
         {

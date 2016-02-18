@@ -247,16 +247,18 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
 
                     return this.tokens().filter(function(token)
                     {
+                        var answer;
                         if (token === token0)
                         {
-                            return false;
+                            answer = false;
                         }
                         else
                         {
                             var position = this.getPositionFor(token);
                             var myRange = RangeRuler.getRange(token0, position0, token, position);
+                            answer = (myRange === range);
                         }
-                        return (myRange === range);
+                        return answer;
                     }, this);
                 };
 
