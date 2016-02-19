@@ -60,6 +60,36 @@ define(
                 verifyQuaternion(assert, state.angularAcceleration(), 1.0, 0.0, 0.0, 0.0);
             });
 
+            QUnit.test("angularMomentum()", function(assert)
+            {
+                // Setup.
+                var position = new Vector(100.0, 200.0, 0.0);
+                var velocity = new Vector(3.0, 2.0, 1.0);
+                var state = new State.State(DATE, position, Quaternion.ZERO, velocity, Quaternion.ZERO);
+
+                // Run.
+                var result = state.angularMomentum();
+
+                // Verify.
+                assert.ok(result);
+                verifyVector(assert, result, 200.0, -100.0, -400.0);
+            });
+
+            QUnit.test("angularMomentum() XY axes", function(assert)
+            {
+                // Setup.
+                var position = Vector.X_AXIS;
+                var velocity = Vector.Y_AXIS;
+                var state = new State.State(DATE, position, Quaternion.ZERO, velocity, Quaternion.ZERO);
+
+                // Run.
+                var result = state.angularMomentum();
+
+                // Verify.
+                assert.ok(result);
+                verifyVector(assert, result, 0.0, 0.0, 1.0);
+            });
+
             QUnit.test("tick() velocity", function(assert)
             {
                 // Setup.

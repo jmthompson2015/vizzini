@@ -276,7 +276,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
 
             var r = this.props.state.position().unit();
             var v = this.props.state.velocity().unit();
-            var h = r.cross(v).unit();
+            var h = this.props.state.angularMomentum().unit();
             var portV = h.cross(v).unit();
             this.setVector(portV);
         },
@@ -287,7 +287,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
 
             var r = this.props.state.position().unit();
             var v = this.props.state.velocity().unit();
-            var h = r.cross(v).unit();
+            var h = this.props.state.angularMomentum().unit();
             var starboardV = v.cross(h).unit();
             this.setVector(starboardV);
         },

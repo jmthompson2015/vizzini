@@ -99,6 +99,14 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
             angularAcceleration = angularAcceleration.multiply(newAngularAcceleration).unit();
         };
 
+        this.angularMomentum = function()
+        {
+            var r = this.position();
+            var v = this.velocity();
+
+            return r.cross(v);
+        }
+
         this.tick = function()
         {
             // TODO: numerical integration
