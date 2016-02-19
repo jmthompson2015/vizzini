@@ -58,6 +58,10 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
                 className: (this.state.isEngaged ? "toggleIsOn" : ""),
                 onClick: this.toggleEngage,
             }, "Engage");
+            var dorsalV = React.DOM.button(
+            {
+                onClick: this.setDorsalV,
+            }, "Dorsal \u27C2 V");
             var plusV = React.DOM.button(
             {
                 onClick: this.setPlusV,
@@ -74,6 +78,10 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             {
                 onClick: this.setStarboardV,
             }, "Starboard \u27C2 V");
+            var ventralV = React.DOM.button(
+            {
+                onClick: this.setVentralV,
+            }, "Ventral \u27C2 V");
 
             var rows = [];
             var cells = [];
@@ -93,10 +101,30 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
 
             rows = [];
             cells = [];
-            cells.push(React.DOM.td({}, plusV));
+            cells.push(React.DOM.td(
+            {
+                colSpan: "3",
+            }, dorsalV));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells));
+
+            cells = [];
             cells.push(React.DOM.td({}, portV));
-            cells.push(React.DOM.td({}, minusV));
+            cells.push(React.DOM.td({}, plusV));
             cells.push(React.DOM.td({}, starboardV));
+            cells.push(React.DOM.td({}, minusV));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells));
+
+            cells = [];
+            cells.push(React.DOM.td(
+            {
+                colSpan: "3",
+            }, ventralV));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -275,7 +303,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             this.setState(
             {
                 bodyKey: newBodyKey,
-            }, this.bodySet);
+            }, this.bodyPositionSet);
         },
 
         handleElevationChange: function(event)
@@ -303,7 +331,17 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             this.setState(
             {
                 shipKey: newShipKey,
-            }, this.shipSet);
+            }, this.shipPositionSet);
+        },
+
+        setDorsalV: function()
+        {
+            InputValidator.validateNotNull("state", this.props.state);
+
+            var v = this.props.state.velocity().unit();
+            var z = this.props.state.orientation().postMultiply(Vector.Z_AXIS).unit();
+            var vector = v.cross(z).cross(v).unit();
+            this.setVector(vector);
         },
 
         setMinusV: function()
@@ -326,22 +364,20 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
         {
             InputValidator.validateNotNull("state", this.props.state);
 
-            var r = this.props.state.position().unit();
             var v = this.props.state.velocity().unit();
-            var h = this.props.state.angularMomentum().unit();
-            var portV = h.cross(v).unit();
-            this.setVector(portV);
+            var y = this.props.state.orientation().postMultiply(Vector.Y_AXIS).unit();
+            var vector = y.cross(v).cross(v).unit();
+            this.setVector(vector);
         },
 
         setStarboardV: function()
         {
             InputValidator.validateNotNull("state", this.props.state);
 
-            var r = this.props.state.position().unit();
             var v = this.props.state.velocity().unit();
-            var h = this.props.state.angularMomentum().unit();
-            var starboardV = v.cross(h).unit();
-            this.setVector(starboardV);
+            var y = this.props.state.orientation().postMultiply(Vector.Y_AXIS).unit();
+            var vector = v.cross(y).cross(v).unit();
+            this.setVector(vector);
         },
 
         setVector: function(v)
@@ -353,6 +389,16 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
                 azimuth: Vector.normalizeAngle(Math.round(v.azimuth())),
                 elevation: Vector.normalizeAngle(Math.round(v.elevation())),
             });
+        },
+
+        setVentralV: function()
+        {
+            InputValidator.validateNotNull("state", this.props.state);
+
+            var v = this.props.state.velocity().unit();
+            var z = this.props.state.orientation().postMultiply(Vector.Z_AXIS).unit();
+            var vector = z.cross(v).cross(v).unit();
+            this.setVector(vector);
         },
 
         shipPositionSet: function()
