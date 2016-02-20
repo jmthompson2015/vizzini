@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Pilot Report</title>
+
+<link rel="stylesheet" href="../../main/css/style.css">
+
+<script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
+<script src="../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../main/js/Team"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<style>
+#pilotTable {
+    background-color: white;
+    border-collapse: collapse;
+    font-size: small;
+}
+
+#pilotTable tbody tr:nth-child(2n) td {
+    background: lightCyan;
+}
+
+#pilotTable tbody tr:nth-child(2n+1) td {
+    background: white;
+}
+
+#pilotTable th {
+    background-color: #555555;
+    border: 1px solid lightGray;
+    color: white;
+}
+
+#pilotTable td {
+    border: 1px solid lightGray;
+}
+
+.textCell {
+    text-align: left;
+}
+
+.numberCell {
+    text-align: right;
+}
+</style>
+</head>
+<body>
+	<div id="count"></div>
+	<div id="panel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "SquadBuilder", "Pilot" ], function(SquadBuilder, Pilot)
+        {
+            var agent = {};
+            var pilotKeys = [];
+            SquadBuilder.SquadBuilders.forEach(function(squadBuilder)
+            {
+                var squad = squadBuilder.buildSquad(agent);
+                squad.forEach(function(token)
+                {
+                    var myPilotKey = token.pilotKey();
+                    if (!pilotKeys.vizziniContains(myPilotKey))
+                    {
+                        pilotKeys.push(myPilotKey);
+                    }
+                });
+            });
+
+            var pilotRows = [];
+            pilotKeys.forEach(function(pilotKey)
+            {
+                var pilot = Pilot.properties[pilotKey];
+                if (!pilot.isImplemented)
+                {
+                    pilotRows.push(pilot);
+                }
+            });
+
+            var PilotColumns = [
+            {
+                key: "name",
+                label: "Name",
+                className: "textCell",
+            },
+            {
+                key: "restrictions",
+                label: "Restrictions",
+                className: "textCell",
+            },
+            {
+                key: "header",
+                label: "Header",
+                className: "textCell",
+            },
+            {
+                key: "description",
+                label: "Description",
+                className: "textCell",
+            },
+            {
+                key: "squadPointCost",
+                label: "Squad Point Cost",
+                className: "numberCell",
+            }, ];
+
+            // Factories.
+            var Table = React.createFactory(Reactable.Table);
+            var Tr = React.createFactory(Reactable.Tr);
+            var Td = React.createFactory(Reactable.Td);
+
+            var rows = [];
+            pilotRows.forEach(function(pilotRow)
+            {
+                var cells = [];
+                for (var i = 0; i < PilotColumns.length; i++)
+                {
+                    cells.push(createCell(i, PilotColumns[i], pilotRow[PilotColumns[i].key]));
+                }
+                rows.push(Tr(
+                {
+                    key: rows.length,
+                }, cells));
+            });
+
+            React.render(React.DOM.span({}, pilotRows.length), document.getElementById("count"));
+            var element = Table(
+            {
+                id: "pilotTable",
+                columns: PilotColumns,
+                sortable: true,
+            }, rows);
+            React.render(element, document.getElementById("panel"));
+
+            function createCell(key, column, value)
+            {
+                return Td(
+                {
+                    key: key,
+                    className: column.className,
+                    column: column.key,
+                }, value);
+            }
+        });
+    </script>
+</body>
+</html>
