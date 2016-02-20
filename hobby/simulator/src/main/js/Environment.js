@@ -190,10 +190,10 @@ define([ "Body", "Constants", "Quaternion", "State", "StateFactory", "Vector", "
 
         // Add a ship.
         var ship = new Ship.ReferenceShip("ReferenceShip", environment);
-        var earthState = bodyToState[Body.EARTH];
-        var state0 = StateFactory.createCircularOrbit(solState, Body.EARTH, earthState, 5.0e+04);
-        var position = state0.position();
-        var orientation = Quaternion.newInstance(121.0, Vector.Z_AXIS);
+        var state0 = bodyToState[Body.EARTH];
+        var position0 = state0.position();
+        var position = new Vector(position0.x() - 5.0e+04, position0.y(), position0.z());
+        var orientation = Quaternion.ZERO;
         var velocity = state0.velocity();
         environment.addShip(ship, position, orientation, velocity);
 
