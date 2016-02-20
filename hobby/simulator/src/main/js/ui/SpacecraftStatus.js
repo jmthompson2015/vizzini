@@ -175,6 +175,14 @@ define([ "Body", "Vector" ], function(Body, Vector)
 
     var ManeuverPanel = React.createClass(
     {
+        getInitialState: function()
+        {
+            return (
+            {
+                throttle: 100,
+            });
+        },
+
         render: function()
         {
             InputValidator.validateNotNull("ship", this.props.ship);
@@ -185,43 +193,60 @@ define([ "Body", "Vector" ], function(Body, Vector)
             {
                 name: "portYaw",
                 text: "\u21E6",
+                throttle: 100,
                 callback: this.props.callback,
             });
             var starboardYaw = React.createElement(ToggleButton,
             {
                 name: "starboardYaw",
                 text: "\u21E8",
+                throttle: 100,
                 callback: this.props.callback,
             });
             var dorsalPitch = React.createElement(ToggleButton,
             {
                 name: "dorsalPitch",
                 text: "\u21E7",
+                throttle: 100,
                 callback: this.props.callback,
             });
             var ventralPitch = React.createElement(ToggleButton,
             {
                 name: "ventralPitch",
                 text: "\u21E9",
+                throttle: 100,
                 callback: this.props.callback,
             });
             var ventralRoll = React.createElement(ToggleButton,
             {
                 name: "ventralRoll",
                 text: "\u21E6",
+                throttle: 100,
                 callback: this.props.callback,
             });
             var dorsalRoll = React.createElement(ToggleButton,
             {
                 name: "dorsalRoll",
                 text: "\u21E8",
+                throttle: 100,
                 callback: this.props.callback,
             });
             var forwardThrust = React.createElement(ToggleButton,
             {
                 name: "forwardThrust",
                 text: "\u21E7",
+                throttle: this.state.throttle,
                 callback: this.props.callback,
+            });
+            var throttleUI = React.DOM.input(
+            {
+                className: "numberInput",
+                type: "number",
+                min: 20,
+                max: 100,
+                step: 20,
+                value: this.state.throttle,
+                onChange: this.handleThrottleChange,
             });
 
             var rows = [];
@@ -232,7 +257,7 @@ define([ "Body", "Vector" ], function(Body, Vector)
             cells.push(React.DOM.td({}, ""));
             cells.push(React.DOM.td(
             {
-                rowSpan: "2",
+                colSpan: "2",
             }, forwardThrust));
             rows.push(React.DOM.tr(
             {
@@ -249,6 +274,8 @@ define([ "Body", "Vector" ], function(Body, Vector)
             {
                 rowSpan: "2",
             }, starboardYaw));
+            cells.push(React.DOM.td({}, throttleUI));
+            cells.push(React.DOM.td({}, "%"));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -256,7 +283,10 @@ define([ "Body", "Vector" ], function(Body, Vector)
 
             cells = [];
             cells.push(React.DOM.td({}, "Pitch"));
-            cells.push(React.DOM.td({}, "Thrust"));
+            cells.push(React.DOM.td(
+            {
+                colSpan: "2",
+            }, "Thrust"));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -266,7 +296,10 @@ define([ "Body", "Vector" ], function(Body, Vector)
             cells.push(React.DOM.td({}, ""));
             cells.push(React.DOM.td({}, ventralPitch));
             cells.push(React.DOM.td({}, ""));
-            cells.push(React.DOM.td({}, ""));
+            cells.push(React.DOM.td(
+            {
+                colSpan: "2",
+            }, ""));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -276,7 +309,10 @@ define([ "Body", "Vector" ], function(Body, Vector)
             cells.push(React.DOM.td({}, ventralRoll));
             cells.push(React.DOM.td({}, "Roll"));
             cells.push(React.DOM.td({}, dorsalRoll));
-            cells.push(React.DOM.td({}, ""));
+            cells.push(React.DOM.td(
+            {
+                colSpan: "2",
+            }, ""));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -290,7 +326,10 @@ define([ "Body", "Vector" ], function(Body, Vector)
             {
                 onClick: this.props.state.zeroRotation,
             }, "Zero Rotation")));
-            cells.push(React.DOM.td({}, ""));
+            cells.push(React.DOM.td(
+            {
+                colSpan: "2",
+            }, ""));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -300,6 +339,14 @@ define([ "Body", "Vector" ], function(Body, Vector)
             {
                 className: "manueverPanel",
             }, rows);
+        },
+
+        handleThrottleChange: function(event)
+        {
+            this.setState(
+            {
+                throttle: event.target.value,
+            });
         },
     });
 
@@ -331,13 +378,16 @@ define([ "Body", "Vector" ], function(Body, Vector)
 
         toggleButton: function(event)
         {
+            InputValidator.validateNotNull("throttle", this.props.throttle);
+
             var isOn = !this.state.isOn;
-            LOGGER.info("ToggleButton.toggleButton() " + this.props.name + " isOn ? " + isOn);
+            LOGGER.debug("ToggleButton.toggleButton() " + this.props.name + " isOn ? " + isOn);
+            var throttle = (isOn ? this.props.throttle : 0);
 
             this.setState(
             {
                 isOn: isOn,
-            }, this.props.callback(this.props.name, isOn));
+            }, this.props.callback(this.props.name, throttle));
         },
     });
 

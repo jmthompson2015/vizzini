@@ -229,9 +229,12 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
             return devices.slice();
         };
 
-        this.maneuverChanged = function(maneuver, isOn)
+        this.maneuverChanged = function(maneuver, throttle)
         {
-            LOGGER.info("Ship.maneuverChanged() maneuver = " + maneuver + " isOn ? " + isOn);
+            InputValidator.validateNotNull("maneuver", maneuver);
+            InputValidator.validateNotNull("throttle", throttle);
+
+            LOGGER.debug("Ship.maneuverChanged() maneuver = " + maneuver + " throttle = " + throttle);
 
             var propulsionGroup = propulsionGroups[maneuver];
 
@@ -239,7 +242,7 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
             {
                 propulsionGroup.forEach(function(engine)
                 {
-                    engine.isActive(isOn);
+                    engine.throttle(throttle);
                 });
             }
             else

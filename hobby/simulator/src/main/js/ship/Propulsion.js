@@ -24,22 +24,28 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
         };
 
         var that = this;
-        var isActive = false;
+        var throttle = 0;
         var myOutput = {};
 
-        this.isActive = function(newValue)
+        this.isActive = function()
         {
-            if (newValue === false || newValue === true)
-            {
-                isActive = newValue;
-            }
-
-            return isActive;
+            return (throttle > 0);
         };
 
         this.produce = function()
         {
             return myOutput;
+        };
+
+        this.throttle = function(newValue)
+        {
+            if (newValue !== undefined && 0 <= newValue && newValue <= 100)
+            {
+                throttle = newValue;
+                LOGGER.info(this.name() + " throttle = " + throttle);
+            }
+
+            return throttle;
         };
 
         this.tick = function()
@@ -86,7 +92,7 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
             var momentOfInertia = ship.momentOfInertia();
 
             // a = F / m
-            var forceLocal = orientation.preMultiply(Vector.X_AXIS).multiply(that.producePerTick());
+            var forceLocal = orientation.preMultiply(Vector.X_AXIS).multiply(that.producePerTick() * throttle / 100.0);
             LOGGER.debug("forceLocal = " + forceLocal);
             var force = shipOrientation.preMultiply(forceLocal);
             LOGGER.debug("force = " + force);
@@ -113,7 +119,8 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
     IonEngine.prototype.toString = function()
     {
         return "IonEngine " + this.name() + " consumeFuelPerTick=" + this.consumeFuelPerTick() +
-                " consumePowerPerTick=" + this.consumePowerPerTick() + " producePerTick=" + this.producePerTick();
+                " consumePowerPerTick=" + this.consumePowerPerTick() + " producePerTick=" + this.producePerTick() +
+                " throttle=" + this.throttle();
     };
 
     MicroEvent.mixin(IonEngine);

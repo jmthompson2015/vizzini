@@ -28,9 +28,9 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         var ship = environment.ship(name);
         var device = ship.device("PortYawAftEngine");
         assert.ok(!device.isActive());
-        device.isActive(true);
+        device.throttle(100);
         assert.ok(device.isActive());
-        device.isActive(false);
+        device.throttle(0);
         assert.ok(!device.isActive());
     });
 
@@ -42,8 +42,8 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         var ship = environment.ship(name);
         var device0 = ship.device("DorsalPitchAftEngine");
         var device1 = ship.device("DorsalPitchForwardEngine");
-        device0.isActive(true);
-        device1.isActive(true);
+        device0.throttle(100);
+        device1.throttle(100);
         environment.tick();
 
         // Run.
@@ -80,8 +80,8 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         var ship = environment.ship(name);
         var device0 = ship.device("DorsalRollPortEngine");
         var device1 = ship.device("DorsalRollStarboardEngine");
-        device0.isActive(true);
-        device1.isActive(true);
+        device0.throttle(100);
+        device1.throttle(100);
         environment.tick();
 
         // Run.
@@ -118,8 +118,8 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         var ship = environment.ship(name);
         var device0 = ship.device("PortYawAftEngine");
         var device1 = ship.device("PortYawForwardEngine");
-        device0.isActive(true);
-        device1.isActive(true);
+        device0.throttle(100);
+        device1.throttle(100);
         environment.tick();
 
         // Run.
@@ -156,8 +156,8 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         var ship = environment.ship(name);
         var device0 = ship.device("StarboardYawAftEngine");
         var device1 = ship.device("StarboardYawForwardEngine");
-        device0.isActive(true);
-        device1.isActive(true);
+        device0.throttle(100);
+        device1.throttle(100);
         environment.tick();
 
         // Run.
@@ -193,7 +193,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         var name = "ReferenceShip";
         var ship = environment.ship(name);
         var device = ship.device("MainEngine");
-        device.isActive(true);
+        device.throttle(100);
         environment.tick();
 
         // Run.
@@ -209,17 +209,29 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         assert.ok(device.isActive());
     });
 
-    QUnit.test("toString()",
-            function(assert)
-            {
-                // Setup.
-                var environment = new Environment.Reference();
-                var parentKey = "ReferenceShip";
-                var device = new Propulsion.IonEngine("Main", environment, parentKey, Vector.ZERO, Quaternion.ZERO, 2,
-                        1, 100);
+    QUnit.test("throttle()", function(assert)
+    {
+        // Setup.
+        var environment = new Environment.Reference();
+        var name = "ReferenceShip";
+        var ship = environment.ship(name);
+        var device = ship.device("PortYawAftEngine");
+        assert.equal(device.throttle(), 0);
+        device.throttle(100);
+        assert.equal(device.throttle(), 100);
+        device.throttle(50);
+        assert.equal(device.throttle(), 50);
+    });
 
-                // Run / Verify.
-                assert.equal(device.toString(),
-                        "IonEngine Main consumeFuelPerTick=2 consumePowerPerTick=1 producePerTick=100");
-            });
+    QUnit.test("toString()", function(assert)
+    {
+        // Setup.
+        var environment = new Environment.Reference();
+        var parentKey = "ReferenceShip";
+        var device = new Propulsion.IonEngine("Main", environment, parentKey, Vector.ZERO, Quaternion.ZERO, 2, 1, 100);
+
+        // Run / Verify.
+        assert.equal(device.toString(),
+                "IonEngine Main consumeFuelPerTick=2 consumePowerPerTick=1 producePerTick=100 throttle=0");
+    });
 });

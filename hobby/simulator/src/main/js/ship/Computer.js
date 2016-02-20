@@ -76,7 +76,7 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
                 {
                     propulsionGroup.forEach(function(engine)
                     {
-                        engine.isActive(isActive);
+                        engine.throttle(isActive ? 100 : 0);
                     });
                 }
             });
