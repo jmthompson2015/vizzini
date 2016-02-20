@@ -71,10 +71,8 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         var ventralSensor = new Sensor.Camera("VentralCamera", environment, name, ventral, ventralQ, 1);
 
         // Propulsion (aft cluster).
-        var mainProducePerTick = 1000;
         var retroProducePerTick = 10;
-        var mainEngine = new Propulsion.IonEngine("MainEngine", environment, name, aft, forwardQ, 2, 1,
-                mainProducePerTick);
+        var mainEngine = new Propulsion.IonEngine("MainEngine", environment, name, aft, forwardQ, 2, 1, 10000);
         var portYawAftEngine = new Propulsion.IonEngine("PortYawAftEngine", environment, name, aft, starboardQ, 2, 1,
                 retroProducePerTick);
         var starboardYawAftEngine = new Propulsion.IonEngine("StarboardYawAftEngine", environment, name, aft, portQ, 2,
@@ -85,8 +83,6 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
                 2, 1, retroProducePerTick);
 
         // Propulsion (forward cluster).
-        var brakingEngine = new Propulsion.IonEngine("BrakingEngine", environment, name, forward, aftQ, 2, 1,
-                mainProducePerTick / 2.0);
         var portYawForwardEngine = new Propulsion.IonEngine("PortYawForwardEngine", environment, name, forward, portQ,
                 2, 1, retroProducePerTick);
         var starboardYawForwardEngine = new Propulsion.IonEngine("StarboardYawForwardEngine", environment, name,
@@ -122,7 +118,6 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         devices.push(starboardYawAftEngine);
         devices.push(dorsalPitchAftEngine);
         devices.push(ventralPitchAftEngine);
-        devices.push(brakingEngine);
         devices.push(portYawForwardEngine);
         devices.push(starboardYawForwardEngine);
         devices.push(dorsalPitchForwardEngine);
@@ -140,7 +135,6 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         propulsionGroups.dorsalRoll = [ dorsalRollPortEngine, dorsalRollStarboardEngine ];
         propulsionGroups.ventralRoll = [ ventralRollPortEngine, ventralRollStarboardEngine ];
         propulsionGroups.forwardThrust = [ mainEngine ];
-        propulsionGroups.reverseThrust = [ brakingEngine ];
 
         var i = 1;
 
@@ -165,7 +159,6 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         connect((i++).toString(), storage, starboardYawAftEngine);
         connect((i++).toString(), storage, dorsalPitchAftEngine);
         connect((i++).toString(), storage, ventralPitchAftEngine);
-        connect((i++).toString(), storage, brakingEngine);
         connect((i++).toString(), storage, portYawForwardEngine);
         connect((i++).toString(), storage, starboardYawForwardEngine);
         connect((i++).toString(), storage, dorsalPitchForwardEngine);
@@ -181,7 +174,6 @@ define([ "Quaternion", "Vector", "ship/Computer", "ship/Conduit", "ship/Power", 
         connect((i++).toString(), power, starboardYawAftEngine);
         connect((i++).toString(), power, dorsalPitchAftEngine);
         connect((i++).toString(), power, ventralPitchAftEngine);
-        connect((i++).toString(), power, brakingEngine);
         connect((i++).toString(), power, portYawForwardEngine);
         connect((i++).toString(), power, starboardYawForwardEngine);
         connect((i++).toString(), power, dorsalPitchForwardEngine);

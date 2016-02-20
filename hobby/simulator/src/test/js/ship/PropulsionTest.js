@@ -204,7 +204,7 @@ define([ "Environment", "Quaternion", "Vector", "ship/Propulsion" ], function(En
         assert.ok(Object.getOwnPropertyNames(result));
         assert.equal(Object.getOwnPropertyNames(result).length, 3);
         assert.equal(result.shipKey, name);
-        verifyVector(assert, result.acceleration, 1.0, 0.0, 0.0);
+        verifyVector(assert, result.acceleration, 10.0, 0.0, 0.0);
         verifyQuaternion(assert, result.angularAcceleration, 1.0, 0.0, 0.0, 0.0);
         assert.ok(device.isActive());
     });

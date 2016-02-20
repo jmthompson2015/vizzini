@@ -49,7 +49,7 @@ define([ "Environment", "Quaternion", "StateFactory", "Vector", "ship/Ship" ], f
         // Verify.
         assert.ok(result);
         assert.ok(result.devices());
-        assert.equal(result.devices().length, 24);
+        assert.equal(result.devices().length, 23);
         var power = result.device("FusionReactor");
         assert.ok(power);
         var conduit1 = power.consumeConduits()[0];

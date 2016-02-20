@@ -223,12 +223,6 @@ define([ "Body", "Vector" ], function(Body, Vector)
                 text: "\u21E7",
                 callback: this.props.callback,
             });
-            var reverseThrust = React.createElement(ToggleButton,
-            {
-                name: "reverseThrust",
-                text: "\u21E9",
-                callback: this.props.callback,
-            });
 
             var rows = [];
 
@@ -272,10 +266,7 @@ define([ "Body", "Vector" ], function(Body, Vector)
             cells.push(React.DOM.td({}, ""));
             cells.push(React.DOM.td({}, ventralPitch));
             cells.push(React.DOM.td({}, ""));
-            cells.push(React.DOM.td(
-            {
-                rowSpan: "2",
-            }, reverseThrust));
+            cells.push(React.DOM.td({}, ""));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -285,6 +276,7 @@ define([ "Body", "Vector" ], function(Body, Vector)
             cells.push(React.DOM.td({}, ventralRoll));
             cells.push(React.DOM.td({}, "Roll"));
             cells.push(React.DOM.td({}, dorsalRoll));
+            cells.push(React.DOM.td({}, ""));
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
