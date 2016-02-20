@@ -105,7 +105,7 @@ define([ "Quaternion", "Vector" ], function(Quaternion, Vector)
             var v = this.velocity();
 
             return r.cross(v);
-        }
+        };
 
         this.tick = function()
         {
