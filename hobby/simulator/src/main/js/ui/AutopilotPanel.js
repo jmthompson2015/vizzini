@@ -144,6 +144,10 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             {
                 onClick: this.bodyPositionSet,
             }, "Set");
+            var bodyPositionDeltaVButton = React.DOM.button(
+            {
+                onClick: this.bodyPositionDeltaVSet,
+            }, "\u0394V");
             var bodyVelocitySetButton = React.DOM.button(
             {
                 onClick: this.bodyVelocitySet,
@@ -160,6 +164,10 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             {
                 onClick: this.shipPositionSet,
             }, "Set");
+            var shipPositionDeltaVButton = React.DOM.button(
+            {
+                onClick: this.shipPositionDeltaVSet,
+            }, "\u0394V");
             var shipVelocitySetButton = React.DOM.button(
             {
                 onClick: this.shipVelocitySet,
@@ -170,7 +178,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             cells.push(React.DOM.td(
             {
                 className: "alignCenter",
-                colSpan: "3",
+                colSpan: "4",
             }, targetUI));
             rows.push(React.DOM.tr(
             {
@@ -182,7 +190,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
             cells.push(React.DOM.td(
             {
                 className: "alignCenter",
-                colSpan: "3",
+                colSpan: "4",
             }, buttonsUI));
             rows.push(React.DOM.tr(
             {
@@ -201,6 +209,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
                 className: "autopilotValue",
             }, Math.round(bodyPositionVector.magnitude()) + " km " + bodyPositionVector.toHeadingString()));
             cells.push(React.DOM.td({}, bodyPositionSetButton));
+            cells.push(React.DOM.td({}, bodyPositionDeltaVButton));
             rows.push(React.DOM.tr(
             {
                 className: "autopilotRow",
@@ -230,6 +239,7 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
                 className: "autopilotValue",
             }, Math.round(shipPositionVector.magnitude()) + " km " + shipPositionVector.toHeadingString()));
             cells.push(React.DOM.td({}, shipPositionSetButton));
+            cells.push(React.DOM.td({}, shipPositionDeltaVButton));
             rows.push(React.DOM.tr(
             {
                 className: "autopilotRow",
@@ -257,6 +267,16 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
         bodyPositionSet: function()
         {
             this.setVector(this.computeRelativePositionVector(this.state.bodyKey));
+        },
+
+        bodyPositionDeltaVSet: function()
+        {
+            InputValidator.validateNotNull("state", this.props.state);
+
+            var vDesired = this.computeRelativePositionVector(this.state.bodyKey).unit();
+            var v = this.props.state.velocity().unit();
+            var vector = vDesired.subtract(v).unit();
+            this.setVector(vector);
         },
 
         bodyVelocitySet: function()
@@ -404,6 +424,16 @@ define([ "Quaternion", "Vector", "ui/ObjectSelect" ], function(Quaternion, Vecto
         shipPositionSet: function()
         {
             this.setVector(this.computeRelativePositionVector(this.state.shipKey));
+        },
+
+        shipPositionDeltaVSet: function()
+        {
+            InputValidator.validateNotNull("state", this.props.state);
+
+            var vDesired = this.computeRelativePositionVector(this.state.shipKey).unit();
+            var v = this.props.state.velocity().unit();
+            var vector = vDesired.subtract(v).unit();
+            this.setVector(vector);
         },
 
         shipVelocitySet: function()
