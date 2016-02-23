@@ -171,7 +171,7 @@ define([ "Quaternion", "Vector", "ship/Device", "ship/SupplyType" ], function(Qu
                 var state = this.state();
                 var headingVector = state.orientation().preMultiply(Vector.X_AXIS);
                 var angle = headingVector.angle(targetVector);
-                var stepCount = (angle < 5.0 ? 2 : 10);
+                var stepCount = (angle <= 5.0 ? 1 : 6);
                 var vector = headingVector.cross(targetVector).unit();
                 LOGGER.debug("angle = " + angle + " vector = " + vector.toHeadingString());
                 myAngularAcceleration = Quaternion.newInstance(angle / stepCount, vector);
