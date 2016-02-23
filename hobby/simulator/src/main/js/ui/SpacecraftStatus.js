@@ -242,9 +242,9 @@ define([ "Body", "Vector" ], function(Body, Vector)
             {
                 className: "numberInput",
                 type: "number",
-                min: 20,
+                min: 0,
                 max: 100,
-                step: 20,
+                step: 10,
                 value: this.state.throttle,
                 onChange: this.handleThrottleChange,
             });
