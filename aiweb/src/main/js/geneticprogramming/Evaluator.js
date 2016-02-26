@@ -1,7 +1,7 @@
-define(function()
+define([ "CountVisitor" ], function(CountVisitor)
 {
     "use strict";
-    function Evaluator(contexts, outputs, isMatches, errorThreshold)
+    function Evaluator(contexts, outputs, isMatches, errorThreshold, idealGenomeLength)
     {
         InputValidator.validateNotEmpty("contexts", contexts);
         InputValidator.validateNotEmpty("outputs", outputs);
@@ -27,6 +27,11 @@ define(function()
         {
             return errorThreshold;
         };
+
+        this.idealGenomeLength = function()
+        {
+            return idealGenomeLength;
+        }
 
         this.idealEvaluation = function()
         {
@@ -114,7 +119,8 @@ define(function()
                 if (idealGenomeLength)
                 {
                     // Add pressure for the shortest genome.
-                    genome.fitness += idealGenomeLength - genome.length;
+                    var visitor = new CountVisitor(genome);
+                    genome.fitness += idealGenomeLength - visitor.nodeCount();
                 }
             }
             else
@@ -138,6 +144,13 @@ define(function()
             {
                 // Perfect evaluation.
                 genome.fitness = idealEvaluation;
+
+                if (idealGenomeLength)
+                {
+                    // Add pressure for the shortest genome.
+                    var visitor = new CountVisitor(genome);
+                    genome.fitness += idealGenomeLength - visitor.nodeCount();
+                }
             }
             else
             {
