@@ -211,6 +211,55 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
         assert.equal(result, "Multiply child0=Constant value=1,child1=Constant value=2");
     });
 
+    QUnit.test("SquareRoot()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+
+        // Run.
+        var result = new Arithmetic.SquareRoot([ child1 ]);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.childAt(0), child1);
+    });
+
+    QUnit.test("SquareRoot.evaluate()", function(assert)
+    {
+        // Setup.
+        var child2 = new Terminal.Constant(2);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(new Arithmetic.SquareRoot([ child2 ]).evaluate(), 4), 1.4142);
+    });
+
+    QUnit.test("SquareRoot.evaluate() context", function(assert)
+    {
+        // Setup.
+        var childX = new Terminal.Variable("x");
+        var context =
+        {
+            x: 2,
+        };
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(new Arithmetic.SquareRoot([ childX ]).evaluate(context), 4), 1.4142);
+    });
+
+    QUnit.test("SquareRoot.toString()", function(assert)
+    {
+        // Setup.
+        var child2 = new Terminal.Constant(2);
+        var gpFunction = new Arithmetic.SquareRoot([ child2 ]);
+
+        // Run.
+        var result = gpFunction.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "SquareRoot child0=Constant value=2");
+    });
+
     QUnit.test("Subtract()", function(assert)
     {
         // Setup.

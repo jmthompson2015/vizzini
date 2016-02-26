@@ -46,6 +46,20 @@ define([ "GPFunction" ], function(GPFunction)
         return value0 * value1;
     };
 
+    function SquareRoot(children)
+    {
+        Vizzini.extend(this, new GPFunction.Unary("SquareRoot", "√", children));
+    }
+
+    SquareRoot.ARITY = GPFunction.Unary.ARITY;
+
+    SquareRoot.prototype.evaluate = function(context)
+    {
+        var value0 = this.childAt(0).evaluate(context);
+
+        return Math.sqrt(Math.abs(value0));
+    };
+
     function Subtract(children)
     {
         Vizzini.extend(this, new GPFunction.Binary("Subtract", "-", children));
@@ -66,6 +80,7 @@ define([ "GPFunction" ], function(GPFunction)
         Add: Add,
         Divide: Divide,
         Multiply: Multiply,
+        SquareRoot: SquareRoot,
         Subtract: Subtract,
     });
 });
