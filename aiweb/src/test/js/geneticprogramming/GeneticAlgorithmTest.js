@@ -1,8 +1,8 @@
-define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "GeneticAlgorithm", "GenomeComparator",
-        "Operator", "PopulationGenerator", "SelectionOperator", "StringifyVisitor", "Terminal", "TreeGenerator",
-        "TreeVisitor" ], function(Arithmetic, CopyOperator, CrossoverOperator, Evaluator, GeneticAlgorithm,
-        GenomeComparator, Operator, PopulationGenerator, SelectionOperator, StringifyVisitor, Terminal, TreeGenerator,
-        TreeVisitor)
+define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Evaluator", "GeneticAlgorithm",
+        "GenomeComparator", "Operator", "PopulationGenerator", "SelectionOperator", "StringifyVisitor", "Terminal",
+        "TreeGenerator" ], function(Arithmetic, CopyOperator, CountVisitor, CrossoverOperator, Evaluator,
+        GeneticAlgorithm, GenomeComparator, Operator, PopulationGenerator, SelectionOperator, StringifyVisitor,
+        Terminal, TreeGenerator)
 {
     "use strict";
     QUnit.module("GeneticAlgorithm");
@@ -59,9 +59,10 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
         ga.bind("generation", function(generationCount)
         {
             var best = ga.population()[0];
-            var visitor = new StringifyVisitor(best);
+            var visitor1 = new StringifyVisitor(best);
+            var visitor2 = new CountVisitor(best);
             LOGGER.info("Generation " + generationCount + ": " + Math.vizziniRound(best.fitness, 4) + " " +
-                    visitor.string())
+                    visitor1.string() + " nodeCount=" + visitor2.nodeCount());
         });
         var callback = function(state)
         {
@@ -69,8 +70,7 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
             assert.ok(true, "test resumed from async operation");
             var best = ga.population()[0];
             assert.ok(best);
-            var visitor = new TreeVisitor(best);
-            LOGGER.info(Math.vizziniRound(best.fitness, 4) + "\n" + visitor.description());
+            LOGGER.info("Run finished.");
             done();
         };
 
@@ -84,7 +84,9 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
         var fitnessCases = createFitnessCases();
         var isMatches = false;
         var errorThreshold = 0.001;
-        var evaluator = new Evaluator(fitnessCases.contexts, fitnessCases.outputs, isMatches, errorThreshold);
+        var idealGenomeLength = 10;
+        var evaluator = new Evaluator(fitnessCases.contexts, fitnessCases.outputs, isMatches, errorThreshold,
+                idealGenomeLength);
 
         return evaluator;
     }
