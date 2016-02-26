@@ -26,7 +26,7 @@ define([ "GPFunction" ], function(GPFunction)
     {
         var value = this.childAt(0).evaluate(context);
 
-        return (value === 0.0 ? 0.0 : Math.log(value));
+        return (value === 0.0 ? 0.0 : Math.log(Math.abs(value)));
     };
 
     return (
