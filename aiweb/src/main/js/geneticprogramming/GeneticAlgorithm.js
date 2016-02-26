@@ -138,6 +138,8 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
 
     GeneticAlgorithm.prototype.determineBest = function(callback)
     {
+        InputValidator.validateNotNull("callback", callback);
+
         LOGGER.trace("GeneticAlgorithm.determineBest() start");
         this.runGeneration(0, callback);
         LOGGER.trace("GeneticAlgorithm.determineBest() end");
@@ -170,7 +172,7 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
         {
             if (callback)
             {
-                callback(bestGenome);
+                callback(this, bestGenome);
             }
         }
         else
