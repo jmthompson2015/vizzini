@@ -31,7 +31,7 @@ define([ "CountVisitor" ], function(CountVisitor)
         this.idealGenomeLength = function()
         {
             return idealGenomeLength;
-        }
+        };
 
         this.idealEvaluation = function()
         {

@@ -1,5 +1,4 @@
-define([ "Arithmetic", "PopulationGenerator", "StringifyVisitor", "Terminal" ], function(Arithmetic,
-        PopulationGenerator, StringifyVisitor, Terminal)
+define([ "Arithmetic", "PopulationGenerator", "Terminal" ], function(Arithmetic, PopulationGenerator, Terminal)
 {
     "use strict";
     QUnit.module("PopulationGenerator");

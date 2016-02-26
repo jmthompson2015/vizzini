@@ -9,10 +9,10 @@ define([ "CrossoverOperator", "Logic", "StringifyVisitor", "Terminal" ], functio
         // Setup.
         var genome0 = createTree0();
         var genome1 = createTree1();
-        var visitor = new StringifyVisitor(genome0);
-        LOGGER.debug("genome0 = " + visitor.string());
-        var visitor = new StringifyVisitor(genome1);
-        LOGGER.debug("genome1 = " + visitor.string());
+        var visitor0 = new StringifyVisitor(genome0);
+        LOGGER.debug("genome0 = " + visitor0.string());
+        var visitor1 = new StringifyVisitor(genome1);
+        LOGGER.debug("genome1 = " + visitor1.string());
 
         // Run.
         var result = CrossoverOperator.tree(genome0, genome1);
