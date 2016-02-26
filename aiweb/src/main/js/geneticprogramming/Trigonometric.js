@@ -6,12 +6,7 @@ define([ "GPFunction" ], function(GPFunction)
         Vizzini.extend(this, new GPFunction.Unary("Sin", "sin", children));
     }
 
-    Sin.ARITY = 1;
-
-    Sin.prototype.copy = function(context)
-    {
-        return new Sin(this.copyChildren());
-    };
+    Sin.ARITY = GPFunction.Unary.ARITY;
 
     Sin.prototype.evaluate = function(context)
     {
@@ -25,12 +20,7 @@ define([ "GPFunction" ], function(GPFunction)
         Vizzini.extend(this, new GPFunction.Unary("Cos", "cos", children));
     }
 
-    Cos.ARITY = 1;
-
-    Cos.prototype.copy = function(context)
-    {
-        return new Cos(this.copyChildren());
-    };
+    Cos.ARITY = GPFunction.Unary.ARITY;
 
     Cos.prototype.evaluate = function(context)
     {
@@ -44,12 +34,7 @@ define([ "GPFunction" ], function(GPFunction)
         Vizzini.extend(this, new GPFunction.Unary("Tan", "tan", children));
     }
 
-    Tan.ARITY = 1;
-
-    Tan.prototype.copy = function(context)
-    {
-        return new Tan(this.copyChildren());
-    };
+    Tan.ARITY = GPFunction.Unary.ARITY;
 
     Tan.prototype.evaluate = function(context)
     {

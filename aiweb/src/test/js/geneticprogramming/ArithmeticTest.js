@@ -18,6 +18,18 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
         assert.equal(result.childAt(1), child2);
     });
 
+    QUnit.test("Add.ARITY", function(assert)
+    {
+        // Setup.
+
+        // Run.
+        var result = Arithmetic.Add.ARITY;
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, 2);
+    });
+
     QUnit.test("Add.copy()", function(assert)
     {
         // Setup.
@@ -62,6 +74,21 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Run / Verify.
         assert.equal(new Arithmetic.Add([ childX, childY ]).evaluate(context), 3);
+    });
+
+    QUnit.test("Add.toString()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var child2 = new Terminal.Constant(2);
+        var gpFunction = new Arithmetic.Add([ child1, child2 ]);
+
+        // Run.
+        var result = gpFunction.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "Add child0=Constant value=1,child1=Constant value=2");
     });
 
     QUnit.test("Divide()", function(assert)
@@ -114,6 +141,21 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
         assert.equal(new Arithmetic.Divide([ child1, child0 ]).evaluate(), 1);
     });
 
+    QUnit.test("Divide.toString()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var child2 = new Terminal.Constant(2);
+        var gpFunction = new Arithmetic.Divide([ child1, child2 ]);
+
+        // Run.
+        var result = gpFunction.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "Divide child0=Constant value=1,child1=Constant value=2");
+    });
+
     QUnit.test("Multiply()", function(assert)
     {
         // Setup.
@@ -154,6 +196,21 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
         assert.equal(new Arithmetic.Multiply([ childX, childY ]).evaluate(context), 2);
     });
 
+    QUnit.test("Multiply.toString()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var child2 = new Terminal.Constant(2);
+        var gpFunction = new Arithmetic.Multiply([ child1, child2 ]);
+
+        // Run.
+        var result = gpFunction.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "Multiply child0=Constant value=1,child1=Constant value=2");
+    });
+
     QUnit.test("Subtract()", function(assert)
     {
         // Setup.
@@ -192,5 +249,20 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Run / Verify.
         assert.equal(new Arithmetic.Subtract([ childX, childY ]).evaluate(context), -1);
+    });
+
+    QUnit.test("Subtract.toString()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var child2 = new Terminal.Constant(2);
+        var gpFunction = new Arithmetic.Subtract([ child1, child2 ]);
+
+        // Run.
+        var result = gpFunction.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "Subtract child0=Constant value=1,child1=Constant value=2");
     });
 });

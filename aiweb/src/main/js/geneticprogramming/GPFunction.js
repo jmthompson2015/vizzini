@@ -39,6 +39,31 @@ define([ "TreeNode" ], function(TreeNode)
         };
     }
 
+    GPFunction.prototype.copy = function(context)
+    {
+        return new this.constructor(this.copyChildren());
+    };
+
+    GPFunction.prototype.toString = function()
+    {
+        var sb = this.constructor.name;
+        sb += " ";
+
+        this.children().forEach(function(child, i)
+        {
+            if (i > 0)
+            {
+                sb += ",";
+            }
+            sb += "child";
+            sb += i;
+            sb += "=";
+            sb += child;
+        });
+
+        return sb;
+    };
+
     function Unary(name, symbol, children)
     {
         InputValidator.validateNotNull("children", children);

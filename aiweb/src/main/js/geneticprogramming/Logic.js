@@ -6,12 +6,7 @@ define([ "GPFunction" ], function(GPFunction)
         Vizzini.extend(this, new GPFunction.Binary("And", "AND", children));
     }
 
-    And.ARITY = 2;
-
-    And.prototype.copy = function(context)
-    {
-        return new And(this.copyChildren());
-    };
+    And.ARITY = GPFunction.Binary.ARITY;
 
     And.prototype.evaluate = function(context)
     {
@@ -26,12 +21,7 @@ define([ "GPFunction" ], function(GPFunction)
         Vizzini.extend(this, new GPFunction.Unary("Not", "NOT", children));
     }
 
-    Not.ARITY = 1;
-
-    Not.prototype.copy = function(context)
-    {
-        return new Not(this.copyChildren());
-    };
+    Not.ARITY = GPFunction.Unary.ARITY;
 
     Not.prototype.evaluate = function(context)
     {
@@ -45,12 +35,7 @@ define([ "GPFunction" ], function(GPFunction)
         Vizzini.extend(this, new GPFunction.Binary("Or", "OR", children));
     }
 
-    Or.ARITY = 2;
-
-    Or.prototype.copy = function(context)
-    {
-        return new Or(this.copyChildren());
-    };
+    Or.ARITY = GPFunction.Binary.ARITY;
 
     Or.prototype.evaluate = function(context)
     {
