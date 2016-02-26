@@ -1,4 +1,4 @@
-define([ "Arithmetic", "Terminal", "TreeGenerator", "TreeVisitor" ], function(Arithmetic, Terminal, TreeGenerator,
+define([ "Arithmetic", "GenomeFactory", "Terminal", "TreeVisitor" ], function(Arithmetic, GenomeFactory, Terminal,
         TreeVisitor)
 {
     "use strict";
@@ -17,7 +17,7 @@ define([ "Arithmetic", "Terminal", "TreeGenerator", "TreeVisitor" ], function(Ar
     QUnit.test("visit()", function(assert)
     {
         // Setup.
-        var treeGenerator = new TreeGenerator.Full(functions, terminals, maxDepth);
+        var treeGenerator = new GenomeFactory.Full(functions, terminals, maxDepth);
         var root = treeGenerator.generate();
 
         // Run.

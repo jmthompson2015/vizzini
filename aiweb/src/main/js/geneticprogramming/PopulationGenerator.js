@@ -1,4 +1,4 @@
-define([ "StringifyVisitor", "TreeGenerator" ], function(StringifyVisitor, TreeGenerator)
+define([ "GenomeFactory", "StringifyVisitor" ], function(GenomeFactory, StringifyVisitor)
 {
     "use strict";
     function PopulationGenerator(functions, terminals, maxDepth, popSize)
@@ -54,8 +54,8 @@ define([ "StringifyVisitor", "TreeGenerator" ], function(StringifyVisitor, TreeG
     PopulationGenerator.prototype.generate = function()
     {
         var answer = [];
-        var fullGenerator = new TreeGenerator.Full(this.functions(), this.terminals(), this.maxDepth());
-        var growGenerator = new TreeGenerator.Grow(this.functions(), this.terminals(), this.maxDepth());
+        var fullGenerator = new GenomeFactory.Full(this.functions(), this.terminals(), this.maxDepth());
+        var growGenerator = new GenomeFactory.Grow(this.functions(), this.terminals(), this.maxDepth());
 
         while (answer.length < this.popSize())
         {

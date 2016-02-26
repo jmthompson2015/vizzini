@@ -1,8 +1,8 @@
 define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Evaluator", "GeneticAlgorithm",
-        "GenomeComparator", "Operator", "PopulationGenerator", "SelectionOperator", "StringifyVisitor", "Terminal",
-        "TreeGenerator" ], function(Arithmetic, CopyOperator, CountVisitor, CrossoverOperator, Evaluator,
-        GeneticAlgorithm, GenomeComparator, Operator, PopulationGenerator, SelectionOperator, StringifyVisitor,
-        Terminal, TreeGenerator)
+        "GenomeComparator", "GenomeFactory", "Operator", "PopulationGenerator", "SelectionOperator",
+        "StringifyVisitor", "Terminal" ], function(Arithmetic, CopyOperator, CountVisitor, CrossoverOperator,
+        Evaluator, GeneticAlgorithm, GenomeComparator, GenomeFactory, Operator, PopulationGenerator, SelectionOperator,
+        StringifyVisitor, Terminal)
 {
     "use strict";
     QUnit.module("GeneticAlgorithm");
@@ -13,7 +13,6 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
     functions.push(Arithmetic.Multiply);
     functions.push(Arithmetic.Subtract);
     var terminals = [];
-    terminals.push(new Terminal.Constant(1));
     terminals.push(new Terminal.Variable("x"));
     var maxDepth = 6;
     var popSize = 500;
@@ -29,7 +28,7 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         var comparator = GenomeComparator;
         var selector = createSelector(population);
         var operators = [];
-        var fullGenerator = new TreeGenerator.Full(functions, terminals, maxDepth);
+        var fullGenerator = new GenomeFactory.Full(functions, terminals, maxDepth);
 
         // Run.
         var result = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators,
@@ -53,7 +52,7 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         var selector = createSelector(population);
         var operators = [ new Operator(0.20, 1, new CopyOperator.Copier(CopyOperator.copy)),
                 new Operator(0.80, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.tree)) ];
-        var genomeFactory = new TreeGenerator.Full(functions, terminals, maxDepth);
+        var genomeFactory = new GenomeFactory.Full(functions, terminals, maxDepth);
         var ga = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators,
                 genomeFactory);
         ga.bind("generation", function(generationCount)
