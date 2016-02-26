@@ -18,11 +18,11 @@ define([ "Terminal", "Trigonometric" ], function(Terminal, Trigonometric)
 
     QUnit.test("Sin.evaluate()", function(assert)
     {
-        // Setup.
-        var child = new Terminal.Constant(Math.PI / 4.0);
-
-        // Run / Verify.
-        assert.equal(Math.vizziniRound(new Trigonometric.Sin([ child ]).evaluate(), 4), 0.7071);
+        assert.equal(Math.vizziniRound(new Trigonometric.Sin([ new Terminal.Constant(0.0) ]).evaluate(), 4), 0.0);
+        assert.equal(Math.vizziniRound(new Trigonometric.Sin([ new Terminal.Constant(Math.PI / 4.0) ]).evaluate(), 4),
+                0.7071);
+        assert.equal(Math.vizziniRound(new Trigonometric.Sin([ new Terminal.Constant(Math.PI / 2.0) ]).evaluate(), 4),
+                1.0);
     });
 
     QUnit.test("Sin.evaluate() context", function(assert)
@@ -53,11 +53,11 @@ define([ "Terminal", "Trigonometric" ], function(Terminal, Trigonometric)
 
     QUnit.test("Cos.evaluate()", function(assert)
     {
-        // Setup.
-        var child = new Terminal.Constant(Math.PI / 4.0);
-
-        // Run / Verify.
-        assert.equal(Math.vizziniRound(new Trigonometric.Cos([ child ]).evaluate(), 4), 0.7071);
+        assert.equal(Math.vizziniRound(new Trigonometric.Cos([ new Terminal.Constant(0.0) ]).evaluate(), 4), 1.0);
+        assert.equal(Math.vizziniRound(new Trigonometric.Cos([ new Terminal.Constant(Math.PI / 4.0) ]).evaluate(), 4),
+                0.7071);
+        assert.equal(Math.vizziniRound(new Trigonometric.Cos([ new Terminal.Constant(Math.PI / 2.0) ]).evaluate(), 4),
+                0.0);
     });
 
     QUnit.test("Cos.evaluate() context", function(assert)
@@ -88,11 +88,11 @@ define([ "Terminal", "Trigonometric" ], function(Terminal, Trigonometric)
 
     QUnit.test("Tan.evaluate()", function(assert)
     {
-        // Setup.
-        var child = new Terminal.Constant(Math.PI / 4.0);
-
-        // Run / Verify.
-        assert.equal(Math.vizziniRound(new Trigonometric.Tan([ child ]).evaluate(), 4), 1);
+        assert.equal(Math.vizziniRound(new Trigonometric.Tan([ new Terminal.Constant(0.0) ]).evaluate(), 4), 0);
+        assert.equal(Math.vizziniRound(new Trigonometric.Tan([ new Terminal.Constant(Math.PI / 4.0) ]).evaluate(), 4),
+                1);
+        assert.equal(Math.vizziniRound(
+                new Trigonometric.Tan([ new Terminal.Constant(3.0 * Math.PI / 4.0) ]).evaluate(), 4), -1);
     });
 
     QUnit.test("Tan.evaluate() context", function(assert)
