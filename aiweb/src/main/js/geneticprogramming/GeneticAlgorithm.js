@@ -166,7 +166,7 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
         population.sort(comparator);
         bestGenome = population[0];
         bestEval = bestGenome.fitness;
-        this.trigger("generation", g);
+        this.trigger("generation", this, g);
 
         if (isDone)
         {
