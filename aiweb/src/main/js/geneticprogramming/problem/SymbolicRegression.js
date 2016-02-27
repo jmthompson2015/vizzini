@@ -1,8 +1,8 @@
 define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "GeneticAlgorithm", "GenomeComparator",
-        "GenomeFactory", "Logarithmic", "Operator", "PopulationGenerator", "SelectionOperator", "StringifyVisitor",
-        "Terminal", "Trigonometric" ], function(Arithmetic, CopyOperator, CrossoverOperator, Evaluator,
-        GeneticAlgorithm, GenomeComparator, GenomeFactory, Logarithmic, Operator, PopulationGenerator,
-        SelectionOperator, StringifyVisitor, Terminal, Trigonometric)
+        "GenomeFactory", "Logarithmic", "Operator", "PopulationGenerator", "SelectionOperator", "Terminal",
+        "Trigonometric" ], function(Arithmetic, CopyOperator, CrossoverOperator, Evaluator, GeneticAlgorithm,
+        GenomeComparator, GenomeFactory, Logarithmic, Operator, PopulationGenerator, SelectionOperator, Terminal,
+        Trigonometric)
 {
     "use strict";
     function SymbolicRegression(popSize, generationCount)
