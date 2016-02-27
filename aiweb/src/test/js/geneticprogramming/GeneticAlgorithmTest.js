@@ -50,26 +50,25 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         var generationCount = 11;
         var comparator = GenomeComparator;
         var selector = createSelector(population);
-        var operators = [ new Operator(0.20, 1, new CopyOperator.Copier(CopyOperator.copy)),
-                new Operator(0.80, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.tree)) ];
+        var operators = [ new Operator(0.05, 1, new CopyOperator.Copier(CopyOperator.copy)),
+                new Operator(0.95, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)) ];
         var genomeFactory = new GenomeFactory.Full(functions, terminals, maxDepth);
         var ga = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators,
                 genomeFactory);
-        ga.bind("generation", function(generationCount)
+        ga.bind("generation", function(geneticAlgorithm, generationCount)
         {
-            var best = ga.population()[0];
+            var best = geneticAlgorithm.population()[0];
             var visitor1 = new StringifyVisitor(best);
             var visitor2 = new CountVisitor(best);
             LOGGER.info("Generation " + generationCount + ": " + Math.vizziniRound(best.fitness, 4) + " " +
                     visitor1.string() + " nodeCount=" + visitor2.nodeCount());
         });
-        var callback = function(state)
+        var callback = function(geneticAlgorithm, bestGenome)
         {
             // Verify.
             assert.ok(true, "test resumed from async operation");
-            var best = ga.population()[0];
-            assert.ok(best);
-            LOGGER.info("Run finished.");
+            assert.ok(bestGenome);
+            LOGGER.info("Run completed.");
             done();
         };
 
@@ -82,8 +81,8 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
     {
         var fitnessCases = createFitnessCases();
         var isMatches = false;
-        var errorThreshold = 0.001;
-        var idealGenomeLength = 10;
+        var errorThreshold = 0.01;
+        var idealGenomeLength = 13;
         var evaluator = new Evaluator(fitnessCases.contexts, fitnessCases.outputs, isMatches, errorThreshold,
                 idealGenomeLength);
 

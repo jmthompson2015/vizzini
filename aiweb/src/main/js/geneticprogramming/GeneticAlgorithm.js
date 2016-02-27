@@ -47,7 +47,7 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
 
             if (!PopulationGenerator.isDuplicate(newPop, genome))
             {
-                newPop[newPop.length] = genome;
+                newPop.push(genome);
                 answer = true;
             }
 
@@ -65,8 +65,17 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
 
             operators.forEach(function(operator)
             {
+                var isCopier = (operator.executor() instanceof CopyOperator.Copier);
                 var count = Math.max(0, Math.floor(operator.ratio() * popSize));
-                this.fillPopulation(newPop, newPop.length + count, maxTries, operator);
+
+                if (isCopier)
+                {
+                    this.fillPopulationCopy(newPop, newPop.length + count, maxTries, operator);
+                }
+                else
+                {
+                    this.fillPopulationCrossover(newPop, newPop.length + count, maxTries, operator);
+                }
             }, this);
 
             population = newPop.slice();
@@ -74,10 +83,9 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
             LOGGER.trace("GeneticAlgorithm.createNextGeneration() end");
         };
 
-        this.fillPopulation = function(newPop, popSize, maxTries, operator)
+        this.fillPopulationCopy = function(newPop, popSize, maxTries, operator)
         {
             var executor = operator.executor();
-            var isCopier = (executor instanceof CopyOperator.Copier);
             var count = 0;
 
             while (newPop.length < popSize)
@@ -86,27 +94,53 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
 
                 if (count < maxTries)
                 {
-                    var genome1;
+                    var genome1 = population[count];
+                    genome = executor.execute(genome1);
+                }
+                else
+                {
+                    genome = genomeFactory.generate();
+                }
 
-                    if (isCopier)
-                    {
-                        genome1 = population[count];
-                        genome = executor.execute(genome1);
-                    }
-                    else
-                    {
-                        genome1 = selector.select(population);
+                if (genome === undefined || genome === null)
+                {
+                    LOGGER.error("ERROR: genome is undefined or null");
+                    throw "ERROR: genome is undefined or null";
+                }
 
-                        if (operator.argCount() === 2)
-                        {
-                            var genome2 = selector.select(population);
-                            genome = executor.execute(genome1, genome2);
-                        }
-                        else
-                        {
-                            genome = executor.execute(genome1);
-                        }
-                    }
+                if (this.addUnique(newPop, genome))
+                {
+                    count = -1;
+                }
+
+                count++;
+
+                if (count > 2 * maxTries)
+                {
+                    var message = "ERROR: can't fill population. count = " + count + " isCrossover ? " + isCrossover;
+                    LOGGER.error(message);
+                    throw message;
+                }
+            }
+        };
+
+        this.fillPopulationCrossover = function(newPop, popSize, maxTries, operator)
+        {
+            var executor = operator.executor();
+            var count = 0;
+
+            while (newPop.length < popSize)
+            {
+                var genome = null;
+
+                if (count < maxTries)
+                {
+                    var genome1 = selector.select(population);
+                    var genome2 = selector.select(population);
+                    var genomes = executor.execute(genome1, genome2);
+                    genome = genomes[0];
+                    this.addUnique(newPop, genome);
+                    genome = genomes[1];
                 }
                 else
                 {
@@ -167,6 +201,24 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
         bestGenome = population[0];
         bestEval = bestGenome.fitness;
         this.trigger("generation", this, g);
+
+        if (bestEval >= evaluator.idealEvaluation())
+        {
+            message = "Ideal evaluation. Stopping.";
+            LOGGER.debug(message);
+            isDone = true;
+        }
+        // else
+        // {
+        // var bestEvalBack = bestEvals[g - backCount];
+        //
+        // if (bestEvalBack && bestEval == bestEvalBack)
+        // {
+        // message = "No improvement. Stopping.";
+        // LOGGER.debug(message);
+        // isDone = true;
+        // }
+        // }
 
         if (isDone)
         {

@@ -3,27 +3,38 @@ define([ "CountVisitor", "FragmentVisitor" ], function(CountVisitor, FragmentVis
     "use strict";
     var CrossoverOperator =
     {
-        tree: function(genome0, genome1)
+        crossover: function(genome0, genome1)
         {
             InputValidator.validateNotNull("genome0", genome0);
             InputValidator.validateNotNull("genome1", genome1);
 
-            var visitor0 = new CountVisitor(genome0);
-            var length0 = visitor0.nodeCount();
-            var visitor1 = new CountVisitor(genome1);
-            var length1 = visitor1.nodeCount();
+            var length0 = (new CountVisitor(genome0)).nodeCount();
+            var length1 = (new CountVisitor(genome1)).nodeCount();
+            LOGGER.debug("length0 = " + length0 + " length1 = " + length1);
 
             var index0 = Math.vizziniRandomIntFromRange(1, length0);
             var index1 = Math.vizziniRandomIntFromRange(1, length1);
+            LOGGER.debug("index0 = " + index0 + " index1 = " + index1);
 
-            var visitor3 = new FragmentVisitor(genome1, index1);
-            var fragment1 = visitor3.fragment();
+            var newGenome0 = genome0.copy();
+            var visitor0 = new FragmentVisitor(newGenome0, index0);
+            var parentNode0 = visitor0.parent();
+            var fragment0 = visitor0.fragment();
 
-            var answer = genome0.copy();
-            var visitor4 = new FragmentVisitor(answer, index0);
-            var parentNode = visitor4.parent();
-            var fragment0 = visitor4.fragment();
+            var newGenome1 = genome1.copy();
+            var visitor1 = new FragmentVisitor(newGenome1, index1);
+            var parentNode1 = visitor1.parent();
+            var fragment1 = visitor1.fragment();
 
+            CrossoverOperator.assemble(parentNode0, fragment0, fragment1);
+            CrossoverOperator.assemble(parentNode1, fragment1, fragment0);
+            var answer = [ newGenome0, newGenome1 ];
+
+            return answer;
+        },
+
+        assemble: function(parentNode, fragment0, fragment1)
+        {
             var children = parentNode.children();
 
             for (var i = 0; i < children.length; i++)
@@ -36,8 +47,6 @@ define([ "CountVisitor", "FragmentVisitor" ], function(CountVisitor, FragmentVis
                     break;
                 }
             }
-
-            return answer;
         },
     };
 
@@ -53,7 +62,7 @@ define([ "CountVisitor", "FragmentVisitor" ], function(CountVisitor, FragmentVis
 
     return (
     {
-        tree: CrossoverOperator.tree,
+        crossover: CrossoverOperator.crossover,
         Crossoverer: Crossoverer,
     });
 });
