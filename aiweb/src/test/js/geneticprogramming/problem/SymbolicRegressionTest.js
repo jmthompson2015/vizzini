@@ -32,7 +32,7 @@ define([ "CountVisitor", "StringifyVisitor", "problem/SymbolicRegression" ], fun
         var visitor2 = new CountVisitor(bestGenome);
         LOGGER.info("Generation " + generationCount + ": " + Math.vizziniRound(bestGenome.fitness, 4) + " " +
                 visitor1.string() + " nodeCount=" + visitor2.nodeCount());
-    };
+    }
 
     function runFinished(geneticAlgorithm, bestGenome)
     {
