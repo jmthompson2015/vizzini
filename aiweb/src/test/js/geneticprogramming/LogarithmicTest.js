@@ -3,29 +3,29 @@ define([ "Logarithmic", "Terminal" ], function(Logarithmic, Terminal)
     "use strict";
     QUnit.module("Logarithmic");
 
-    QUnit.test("Exp()", function(assert)
+    QUnit.test("Exponential()", function(assert)
     {
         // Setup.
         var child = new Terminal.Constant(0);
 
         // Run.
-        var result = new Logarithmic.Exp([ child ]);
+        var result = new Logarithmic.Exponential([ child ]);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.childAt(0), child);
     });
 
-    QUnit.test("Exp.evaluate()", function(assert)
+    QUnit.test("Exponential.evaluate()", function(assert)
     {
         // Setup.
         var child = new Terminal.Constant(0);
 
         // Run / Verify.
-        assert.equal(Math.vizziniRound(new Logarithmic.Exp([ child ]).evaluate(), 4), 1);
+        assert.equal(Math.vizziniRound(new Logarithmic.Exponential([ child ]).evaluate(), 4), 1);
     });
 
-    QUnit.test("Exp.evaluate() context", function(assert)
+    QUnit.test("Exponential.evaluate() context", function(assert)
     {
         // Setup.
         var childX = new Terminal.Variable("x");
@@ -35,41 +35,41 @@ define([ "Logarithmic", "Terminal" ], function(Logarithmic, Terminal)
         };
 
         // Run / Verify.
-        assert.equal(Math.vizziniRound(new Logarithmic.Exp([ childX ]).evaluate(context), 4), 1);
+        assert.equal(Math.vizziniRound(new Logarithmic.Exponential([ childX ]).evaluate(context), 4), 1);
     });
 
-    QUnit.test("Log()", function(assert)
+    QUnit.test("Logarithm()", function(assert)
     {
         // Setup.
         var child = new Terminal.Constant(1);
 
         // Run.
-        var result = new Logarithmic.Log([ child ]);
+        var result = new Logarithmic.Logarithm([ child ]);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.childAt(0), child);
     });
 
-    QUnit.test("Log.evaluate()", function(assert)
+    QUnit.test("Logarithm.evaluate()", function(assert)
     {
         // Setup.
         var child = new Terminal.Constant(1);
 
         // Run / Verify.
-        assert.equal(Math.vizziniRound(new Logarithmic.Log([ child ]).evaluate(), 4), 0);
+        assert.equal(Math.vizziniRound(new Logarithmic.Logarithm([ child ]).evaluate(), 4), 0);
     });
 
-    QUnit.test("Log.evaluate() zero", function(assert)
+    QUnit.test("Logarithm.evaluate() zero", function(assert)
     {
         // Setup.
         var child = new Terminal.Constant(0);
 
         // Run / Verify.
-        assert.equal(new Logarithmic.Log([ child ]).evaluate(), 0);
+        assert.equal(new Logarithmic.Logarithm([ child ]).evaluate(), 0);
     });
 
-    QUnit.test("Log.evaluate() context", function(assert)
+    QUnit.test("Logarithm.evaluate() context", function(assert)
     {
         // Setup.
         var childX = new Terminal.Variable("x");
@@ -79,6 +79,6 @@ define([ "Logarithmic", "Terminal" ], function(Logarithmic, Terminal)
         };
 
         // Run / Verify.
-        assert.equal(Math.vizziniRound(new Logarithmic.Log([ childX ]).evaluate(context), 4), 0);
+        assert.equal(Math.vizziniRound(new Logarithmic.Logarithm([ childX ]).evaluate(context), 4), 0);
     });
 });

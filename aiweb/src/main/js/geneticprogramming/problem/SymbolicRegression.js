@@ -105,10 +105,10 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
                 functions.push(Arithmetic.Divide);
                 functions.push(Arithmetic.Multiply);
                 functions.push(Arithmetic.Subtract);
-                functions.push(Trigonometric.Sin);
-                functions.push(Trigonometric.Cos);
-                functions.push(Logarithmic.Exp);
-                functions.push(Logarithmic.Log);
+                functions.push(Trigonometric.Sine);
+                functions.push(Trigonometric.Cosine);
+                functions.push(Logarithmic.Exponential);
+                functions.push(Logarithmic.Logarithm);
             }
 
             return functions;

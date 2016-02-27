@@ -1,9 +1,9 @@
 define([ "TreeNode" ], function(TreeNode)
 {
     "use strict";
-    function Terminal(name, symbol)
+    function Terminal(symbol)
     {
-        Vizzini.extend(this, new TreeNode(name, symbol));
+        Vizzini.extend(this, new TreeNode(symbol));
     }
 
     Terminal.prototype.arity = function()
@@ -20,7 +20,7 @@ define([ "TreeNode" ], function(TreeNode)
             return value;
         };
 
-        Vizzini.extend(this, new Terminal("Constant", value));
+        Vizzini.extend(this, new Terminal(value));
     }
 
     Constant.prototype.copy = function()
@@ -47,7 +47,7 @@ define([ "TreeNode" ], function(TreeNode)
             return variableName;
         };
 
-        Vizzini.extend(this, new Terminal("Variable", variableName));
+        Vizzini.extend(this, new Terminal(variableName));
     }
 
     Variable.prototype.copy = function()

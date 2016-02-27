@@ -1,42 +1,42 @@
 define([ "GPFunction" ], function(GPFunction)
 {
     "use strict";
-    function Sin(children)
+    function Sine(children)
     {
-        Vizzini.extend(this, new GPFunction.Unary("Sin", "sin", children));
+        Vizzini.extend(this, new GPFunction.Unary("sin", children));
     }
 
-    Sin.ARITY = GPFunction.Unary.ARITY;
+    Sine.ARITY = GPFunction.Unary.ARITY;
 
-    Sin.prototype.evaluate = function(context)
+    Sine.prototype.evaluate = function(context)
     {
         var value = this.childAt(0).evaluate(context);
 
         return Math.sin(value);
     };
 
-    function Cos(children)
+    function Cosine(children)
     {
-        Vizzini.extend(this, new GPFunction.Unary("Cos", "cos", children));
+        Vizzini.extend(this, new GPFunction.Unary("cos", children));
     }
 
-    Cos.ARITY = GPFunction.Unary.ARITY;
+    Cosine.ARITY = GPFunction.Unary.ARITY;
 
-    Cos.prototype.evaluate = function(context)
+    Cosine.prototype.evaluate = function(context)
     {
         var value = this.childAt(0).evaluate(context);
 
         return Math.cos(value);
     };
 
-    function Tan(children)
+    function Tangent(children)
     {
-        Vizzini.extend(this, new GPFunction.Unary("Tan", "tan", children));
+        Vizzini.extend(this, new GPFunction.Unary("tan", children));
     }
 
-    Tan.ARITY = GPFunction.Unary.ARITY;
+    Tangent.ARITY = GPFunction.Unary.ARITY;
 
-    Tan.prototype.evaluate = function(context)
+    Tangent.prototype.evaluate = function(context)
     {
         var value = this.childAt(0).evaluate(context);
 
@@ -45,8 +45,8 @@ define([ "GPFunction" ], function(GPFunction)
 
     return (
     {
-        Sin: Sin,
-        Cos: Cos,
-        Tan: Tan,
+        Sine: Sine,
+        Cosine: Cosine,
+        Tangent: Tangent,
     });
 });

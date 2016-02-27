@@ -3,7 +3,7 @@ define([ "GPFunction" ], function(GPFunction)
     "use strict";
     function And(children)
     {
-        Vizzini.extend(this, new GPFunction.Binary("And", "AND", children));
+        Vizzini.extend(this, new GPFunction.Binary("AND", children));
     }
 
     And.ARITY = GPFunction.Binary.ARITY;
@@ -18,7 +18,7 @@ define([ "GPFunction" ], function(GPFunction)
 
     function Not(children)
     {
-        Vizzini.extend(this, new GPFunction.Unary("Not", "NOT", children));
+        Vizzini.extend(this, new GPFunction.Unary("NOT", children));
     }
 
     Not.ARITY = GPFunction.Unary.ARITY;
@@ -32,7 +32,7 @@ define([ "GPFunction" ], function(GPFunction)
 
     function Or(children)
     {
-        Vizzini.extend(this, new GPFunction.Binary("Or", "OR", children));
+        Vizzini.extend(this, new GPFunction.Binary("OR", children));
     }
 
     Or.ARITY = GPFunction.Binary.ARITY;

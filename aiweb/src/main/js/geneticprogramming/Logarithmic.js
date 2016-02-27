@@ -1,28 +1,28 @@
 define([ "GPFunction" ], function(GPFunction)
 {
     "use strict";
-    function Exp(children)
+    function Exponential(children)
     {
-        Vizzini.extend(this, new GPFunction.Unary("Exp", "exp", children));
+        Vizzini.extend(this, new GPFunction.Unary("exp", children));
     }
 
-    Exp.ARITY = GPFunction.Unary.ARITY;
+    Exponential.ARITY = GPFunction.Unary.ARITY;
 
-    Exp.prototype.evaluate = function(context)
+    Exponential.prototype.evaluate = function(context)
     {
         var value = this.childAt(0).evaluate(context);
 
         return Math.exp(value);
     };
 
-    function Log(children)
+    function Logarithm(children)
     {
-        Vizzini.extend(this, new GPFunction.Unary("Log", "log", children));
+        Vizzini.extend(this, new GPFunction.Unary("log", children));
     }
 
-    Log.ARITY = GPFunction.Unary.ARITY;
+    Logarithm.ARITY = GPFunction.Unary.ARITY;
 
-    Log.prototype.evaluate = function(context)
+    Logarithm.prototype.evaluate = function(context)
     {
         var value = this.childAt(0).evaluate(context);
 
@@ -31,7 +31,7 @@ define([ "GPFunction" ], function(GPFunction)
 
     return (
     {
-        Exp: Exp,
-        Log: Log,
+        Exponential: Exponential,
+        Logarithm: Logarithm,
     });
 });

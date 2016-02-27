@@ -29,7 +29,7 @@ define(function()
             sb += ": ";
             sb += treeNode.symbol();
             sb += " ";
-            sb += treeNode.name();
+            sb += treeNode.constructor.name;
             sb += "\n";
 
             nodeCount++;

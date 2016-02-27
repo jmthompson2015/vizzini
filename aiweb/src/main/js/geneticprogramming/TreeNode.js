@@ -1,15 +1,9 @@
 define(function()
 {
     "use strict";
-    function TreeNode(name, symbol)
+    function TreeNode(symbol)
     {
-        InputValidator.validateNotNull("name", name);
         InputValidator.validateNotNull("symbol", symbol);
-
-        this.name = function()
-        {
-            return name;
-        };
 
         this.symbol = function()
         {

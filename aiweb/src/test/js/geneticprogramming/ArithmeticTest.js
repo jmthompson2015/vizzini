@@ -211,6 +211,60 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
         assert.equal(result, "Multiply child0=Constant value=1,child1=Constant value=2");
     });
 
+    QUnit.test("Remainder()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var child2 = new Terminal.Constant(2);
+
+        // Run.
+        var result = new Arithmetic.Remainder([ child1, child2 ]);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.childAt(0), child1);
+        assert.equal(result.childAt(1), child2);
+    });
+
+    QUnit.test("Remainder.evaluate()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var child2 = new Terminal.Constant(2);
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(new Arithmetic.Remainder([ child1, child2 ]).evaluate(), 4), 1);
+    });
+
+    QUnit.test("Remainder.evaluate() context", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var childX = new Terminal.Variable("x");
+        var context =
+        {
+            x: 2,
+        };
+
+        // Run / Verify.
+        assert.equal(Math.vizziniRound(new Arithmetic.Remainder([ child1, childX ]).evaluate(context), 4), 1);
+    });
+
+    QUnit.test("Remainder.toString()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(1);
+        var child2 = new Terminal.Constant(2);
+        var gpFunction = new Arithmetic.Remainder([ child1, child2 ]);
+
+        // Run.
+        var result = gpFunction.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "Remainder child0=Constant value=1,child1=Constant value=2");
+    });
+
     QUnit.test("SquareRoot()", function(assert)
     {
         // Setup.

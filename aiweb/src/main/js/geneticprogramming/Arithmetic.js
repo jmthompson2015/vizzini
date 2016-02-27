@@ -3,7 +3,7 @@ define([ "GPFunction" ], function(GPFunction)
     "use strict";
     function Add(children)
     {
-        Vizzini.extend(this, new GPFunction.Binary("Add", "+", children));
+        Vizzini.extend(this, new GPFunction.Binary("+", children));
     }
 
     Add.ARITY = GPFunction.Binary.ARITY;
@@ -18,7 +18,7 @@ define([ "GPFunction" ], function(GPFunction)
 
     function Divide(children)
     {
-        Vizzini.extend(this, new GPFunction.Binary("Divide", "/", children));
+        Vizzini.extend(this, new GPFunction.Binary("/", children));
     }
 
     Divide.ARITY = GPFunction.Binary.ARITY;
@@ -33,7 +33,7 @@ define([ "GPFunction" ], function(GPFunction)
 
     function Multiply(children)
     {
-        Vizzini.extend(this, new GPFunction.Binary("Multiply", "*", children));
+        Vizzini.extend(this, new GPFunction.Binary("*", children));
     }
 
     Multiply.ARITY = GPFunction.Binary.ARITY;
@@ -46,9 +46,24 @@ define([ "GPFunction" ], function(GPFunction)
         return value0 * value1;
     };
 
+    function Remainder(children)
+    {
+        Vizzini.extend(this, new GPFunction.Binary("%", children));
+    }
+
+    Remainder.ARITY = GPFunction.Binary.ARITY;
+
+    Remainder.prototype.evaluate = function(context)
+    {
+        var value0 = this.childAt(0).evaluate(context);
+        var value1 = this.childAt(1).evaluate(context);
+
+        return value0 % value1;
+    };
+
     function SquareRoot(children)
     {
-        Vizzini.extend(this, new GPFunction.Unary("SquareRoot", "√", children));
+        Vizzini.extend(this, new GPFunction.Unary("√", children));
     }
 
     SquareRoot.ARITY = GPFunction.Unary.ARITY;
@@ -62,7 +77,7 @@ define([ "GPFunction" ], function(GPFunction)
 
     function Subtract(children)
     {
-        Vizzini.extend(this, new GPFunction.Binary("Subtract", "-", children));
+        Vizzini.extend(this, new GPFunction.Binary("-", children));
     }
 
     Subtract.ARITY = GPFunction.Binary.ARITY;
@@ -80,6 +95,7 @@ define([ "GPFunction" ], function(GPFunction)
         Add: Add,
         Divide: Divide,
         Multiply: Multiply,
+        Remainder: Remainder,
         SquareRoot: SquareRoot,
         Subtract: Subtract,
     });
