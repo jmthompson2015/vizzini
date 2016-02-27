@@ -1,4 +1,4 @@
-define([ "GenomeFactory", "StringifyVisitor" ], function(GenomeFactory, StringifyVisitor)
+define([ "GenomeFactory", "PopulationUtilities" ], function(GenomeFactory, PopulationUtilities)
 {
     "use strict";
     function PopulationGenerator(functions, terminals, maxDepth, popSize)
@@ -28,28 +28,6 @@ define([ "GenomeFactory", "StringifyVisitor" ], function(GenomeFactory, Stringif
             return popSize;
         };
     }
-
-    PopulationGenerator.isDuplicate = function(population, newTreeNode)
-    {
-        if (newTreeNode.string === undefined)
-        {
-            var visitor = new StringifyVisitor(newTreeNode);
-            newTreeNode.string = visitor.string();
-        }
-
-        var nodes = population.filter(function(treeNode)
-        {
-            if (treeNode.string === undefined)
-            {
-                var visitor = new StringifyVisitor(treeNode);
-                treeNode.string = visitor.string();
-            }
-
-            return newTreeNode.string === treeNode.string;
-        });
-
-        return (nodes.length > 0);
-    };
 
     PopulationGenerator.prototype.generate = function()
     {
@@ -83,7 +61,7 @@ define([ "GenomeFactory", "StringifyVisitor" ], function(GenomeFactory, Stringif
                     // countGrow++;
                 }
 
-                if (!PopulationGenerator.isDuplicate(answer, tree))
+                if (!PopulationUtilities.isDuplicate(answer, tree))
                 {
                     answer.push(tree);
                 }

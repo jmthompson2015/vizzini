@@ -1,4 +1,4 @@
-define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, PopulationGenerator)
+define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, PopulationUtilities)
 {
     "use strict";
     function GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators, genomeFactory)
@@ -45,7 +45,7 @@ define([ "CopyOperator", "PopulationGenerator" ], function(CopyOperator, Populat
         {
             var answer = false;
 
-            if (!PopulationGenerator.isDuplicate(newPop, genome))
+            if (!PopulationUtilities.isDuplicate(newPop, genome))
             {
                 newPop.push(genome);
                 answer = true;

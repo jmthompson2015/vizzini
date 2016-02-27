@@ -44,30 +44,6 @@ define([ "Arithmetic", "PopulationGenerator", "Terminal" ], function(Arithmetic,
         assert.equal(result.length, popSize);
     });
 
-    QUnit.test("isDuplicate()", function(assert)
-    {
-        // Setup.
-        var genome0 = createTree0();
-        var genome1 = createTree1();
-        var genome2 = createTree0();
-        var population = [];
-
-        // Run / Verify.
-        assert.ok(!PopulationGenerator.isDuplicate(population, genome0));
-        assert.ok(!PopulationGenerator.isDuplicate(population, genome1));
-        assert.ok(!PopulationGenerator.isDuplicate(population, genome2));
-
-        population.push(genome0);
-        assert.ok(PopulationGenerator.isDuplicate(population, genome0));
-        assert.ok(!PopulationGenerator.isDuplicate(population, genome1));
-        assert.ok(PopulationGenerator.isDuplicate(population, genome2));
-
-        population.push(genome1);
-        assert.ok(PopulationGenerator.isDuplicate(population, genome0));
-        assert.ok(PopulationGenerator.isDuplicate(population, genome1));
-        assert.ok(PopulationGenerator.isDuplicate(population, genome2));
-    });
-
     function createTree0()
     {
         var node3 = new Terminal.Variable("x");
