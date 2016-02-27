@@ -32,8 +32,8 @@ define([ "Arithmetic", "PopulationGenerator", "Terminal" ], function(Arithmetic,
     QUnit.test("generate()", function(assert)
     {
         // Setup.
-        var maxDepth = 3;
-        var popSize = 10;
+        var maxDepth = 6;
+        var popSize = 100;
         var generator = new PopulationGenerator(functions, terminals, maxDepth, popSize);
 
         // Run.

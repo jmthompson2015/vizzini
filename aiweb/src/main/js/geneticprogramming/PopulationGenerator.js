@@ -54,26 +54,43 @@ define([ "GenomeFactory", "StringifyVisitor" ], function(GenomeFactory, Stringif
     PopulationGenerator.prototype.generate = function()
     {
         var answer = [];
-        var fullGenerator = new GenomeFactory.Full(this.functions(), this.terminals(), this.maxDepth());
-        var growGenerator = new GenomeFactory.Grow(this.functions(), this.terminals(), this.maxDepth());
+        var minDepth = 2;
+        var maxDepth = this.maxDepth();
+        var steps = maxDepth - minDepth + 1;
 
-        while (answer.length < this.popSize())
+        for (var depth = minDepth; depth <= maxDepth; depth++)
         {
-            var tree;
+            var fullGenerator = new GenomeFactory.Full(this.functions(), this.terminals(), depth);
+            var growGenerator = new GenomeFactory.Grow(this.functions(), this.terminals(), depth);
+            var portion = this.popSize() / steps;
+            var start = (depth - minDepth) * this.popSize() / steps;
+            var end = (depth - minDepth + 1) * this.popSize() / steps;
+            // var countFull = 0;
+            // var countGrow = 0;
 
-            if (answer.length < 0.5 * this.popSize())
+            while (answer.length < end)
             {
-                tree = fullGenerator.generate();
-            }
-            else
-            {
-                tree = growGenerator.generate();
+                var tree;
+
+                if (answer.length < 0.5 * portion + start)
+                {
+                    tree = fullGenerator.generate();
+                    // countFull++;
+                }
+                else
+                {
+                    tree = growGenerator.generate();
+                    // countGrow++;
+                }
+
+                if (!PopulationGenerator.isDuplicate(answer, tree))
+                {
+                    answer.push(tree);
+                }
             }
 
-            if (!PopulationGenerator.isDuplicate(answer, tree))
-            {
-                answer.push(tree);
-            }
+            // LOGGER.info(depth + " countFull = " + countFull + " countGrow = " + countGrow + " sum = " +
+            // (countFull + countGrow));
         }
 
         return answer;
