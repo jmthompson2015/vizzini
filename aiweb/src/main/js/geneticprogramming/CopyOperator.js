@@ -7,9 +7,7 @@ define(function()
         {
             InputValidator.validateNotNull("genome", genome);
 
-            var answer = genome.copy();
-
-            return answer;
+            return genome.copy();
         }
     };
 
