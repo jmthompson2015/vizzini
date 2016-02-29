@@ -1,5 +1,5 @@
-define([ "CountVisitor", "StringifyVisitor", "problem/SymbolicRegression" ], function(CountVisitor, StringifyVisitor,
-        SymbolicRegression)
+define([ "CountVisitor", "DepthVisitor", "StringifyVisitor", "problem/SymbolicRegression" ], function(CountVisitor,
+        DepthVisitor, StringifyVisitor, SymbolicRegression)
 {
     "use strict";
     QUnit.module("SymbolicRegression");
@@ -30,8 +30,9 @@ define([ "CountVisitor", "StringifyVisitor", "problem/SymbolicRegression" ], fun
         var bestGenome = geneticAlgorithm.population()[0];
         var visitor1 = new StringifyVisitor(bestGenome);
         var visitor2 = new CountVisitor(bestGenome);
+        var visitor3 = new DepthVisitor(bestGenome);
         LOGGER.info("Generation " + generationCount + ": " + Math.vizziniRound(bestGenome.fitness, 4) + " " +
-                visitor1.string() + " nodeCount=" + visitor2.nodeCount());
+                visitor1.string() + " nodeCount=" + visitor2.nodeCount() + " depth=" + visitor3.depth());
     }
 
     function runFinished(geneticAlgorithm, bestGenome)

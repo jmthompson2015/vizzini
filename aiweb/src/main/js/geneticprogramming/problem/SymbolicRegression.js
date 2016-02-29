@@ -47,8 +47,8 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
         this.createOperators = function()
         {
             var operators = [];
-            operators.push(new Operator(0.05, 1, new CopyOperator.Copier(CopyOperator.copy)));
-            operators.push(new Operator(0.95, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)));
+            operators.push(new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy)));
+            operators.push(new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)));
 
             return operators;
         };
@@ -62,7 +62,7 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
 
         this.createSelector = function()
         {
-            var selectionCount = Math.floor(0.20 * popSize);
+            var selectionCount = Math.floor(0.50 * popSize);
 
             return new SelectionOperator.Selector(selectionCount, SelectionOperator.fitnessProportionalSelect);
         };
