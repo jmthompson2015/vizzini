@@ -473,6 +473,22 @@ define(
                 }
             });
 
+            QUnit.test("getTokensForTeam() First Order", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createTFACoreSetEnvironment();
+
+                // Run.
+                var result = environment.getTokensForTeam(Team.FIRST_ORDER);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 2);
+                assert.equal(result[0].pilotKey(), Pilot.EPSILON_LEADER);
+                assert.equal(result[1].pilotKey(), Pilot.ZETA_ACE);
+            });
+
             QUnit.test("getTokensForTeam() Imperial", function(assert)
             {
                 // Setup.
@@ -502,6 +518,21 @@ define(
                 assert.ok(result);
                 assert.equal(result.length, 1);
                 assert.equal(result[0].pilotKey(), Pilot.LUKE_SKYWALKER);
+            });
+
+            QUnit.test("getTokensForTeam() Resistance", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createTFACoreSetEnvironment();
+
+                // Run.
+                var result = environment.getTokensForTeam(Team.RESISTANCE);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 1);
+                assert.equal(result[0].pilotKey(), Pilot.POE_DAMERON);
             });
 
             QUnit.test("getTokensTouching()", function(assert)

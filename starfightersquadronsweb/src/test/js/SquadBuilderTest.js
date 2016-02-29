@@ -146,28 +146,28 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
     {
         var result = SquadBuilder.findByTeam(Team.FIRST_ORDER);
         assert.ok(result);
-        assert.equal(result.length, 1);
+        assert.equal(result.length, 8);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Imperial", function(assert)
     {
         var result = SquadBuilder.findByTeam(Team.IMPERIAL);
         assert.ok(result);
-        assert.equal(result.length, 7);
+        assert.equal(result.length, 8);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Rebel", function(assert)
     {
         var result = SquadBuilder.findByTeam(Team.REBEL);
         assert.ok(result);
-        assert.equal(result.length, 11);
+        assert.equal(result.length, 14);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Resistance", function(assert)
     {
         var result = SquadBuilder.findByTeam(Team.RESISTANCE);
         assert.ok(result);
-        assert.equal(result.length, 3);
+        assert.equal(result.length, 14);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Scum", function(assert)

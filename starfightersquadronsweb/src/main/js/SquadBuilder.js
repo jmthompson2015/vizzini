@@ -40,7 +40,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // - Winner - Rick Sidebotham (#1 Swiss, 23 pts, 754 MoV, flight 1): Whisper + Veteran Instincts + Fire-Control
     // Systems
     // + Advanced Cloaking Device + Gunner; Soontir Fel + Push the Limit; Captain Yorr
-    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "1st US Nationals", 2014,
+    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #1", 2014,
             "TIE Phantom/Interceptor/Lambda Shuttle", function(agent)
             {
                 var answer = [];
@@ -54,7 +54,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // 2nd place - Jeff Berling (#3 Swiss, 20 pts, 802 MoV, flight 1): Chewbacca + Millennium Falcon + C-3P0 + R2-D2 +
     // Draw
     // Their Fire; Lando + Nien Nunb + Han Solo + Draw Their Fire
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "2nd US Nationals", 2014, "YT-1300 x2", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #2", 2014, "YT-1300 x2", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.CHEWBACCA, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DRAW_THEIR_FIRE,
@@ -66,7 +66,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     // Top 4 - Paul Heaver (#2 Swiss, 21 pts, 763 MoV, flight 1, lost to Jeff): Han Solo + Luke Skywalker + Veteran
     // Instincts + C-3P0 + Millennium Falcon + Engine Upgrade; Biggs; Tala Squadron Pilot
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "3rd US Nationals", 2014, "YT-1300/X-Wing/Z-95", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2014, "YT-1300/X-Wing/Z-95", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.VETERAN_INSTINCTS,
@@ -79,7 +79,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // Top 4 - Nick Jones (lost to winner, #4 Swiss, 20 pts, 758 MoV, flight 1): Howlrunner + Push the Limit; 6x
     // Obsidian
     // Squadron Pilot
-    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "4th US Nationals", 2014, "TIE Fighters x7", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #4", 2014, "TIE Fighters x7", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.HOWLRUNNER, agent, UpgradeCard.PUSH_THE_LIMIT));
@@ -95,7 +95,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // Top 8 - David Pontier (lost to Nick, #5 Swiss, 20 pts, 745 MoV, flight 2): Han Solo + Determination + Luke
     // Skywalker
     // + Millenium Falcon; Corran Horn + Push the Limit + R2-D2 + Fire Control System
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "5th US Nationals", 2014, "YT-1300/E-Wing", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #5", 2014, "YT-1300/E-Wing", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DETERMINATION,
@@ -107,7 +107,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     // 2014 World Champion Paul Heaver (2013 VASSAL winner, 2013 World Champion, 2014 US Nationals Top 4. Flight 2, rank
     // #2): 100 pts: Han Solo + Predator + C-3P0 + R2-D2 + MF + Engine Upgrade; 3x Tala
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "1st World", 2014, "YT-1300/Z-95 x3", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #1", 2014, "YT-1300/Z-95 x3", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
@@ -120,7 +120,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     // Morgan Reid (2014 Australian Nationals Champion. Flight 1, rank #2): 98 pts: Whisper + VI + ACD + FCS + Rebel
     // Captive; Howlrunner + Swarm; 3x Academy
-    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "2nd World", 2014, "TIE Phantom/Fighters x4", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #2", 2014, "TIE Phantom/Fighters x4", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.WHISPER, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM,
@@ -134,7 +134,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     // Ira Mayers (2014 NOVA Open winner. Flight 1, rank #1): 100 pts: Han + MF + Gunner + C-3P0 + Engine + Predator; 2x
     // Tala; Bandit
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "3rd World", 2014, "YT-1300/Z-95 x3", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #3", 2014, "YT-1300/Z-95 x3", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
@@ -148,7 +148,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // Keith Wilson (2014 UK National Champion. Flight 2, rank #1): 99 pts: Howlrunner; Dark Curse; Black + DtF; 2x
     // Obsidan,
     // 2x Academy Pilot
-    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "4th World", 2014, "TIE Fighters x7", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #4", 2014, "TIE Fighters x7", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.HOWLRUNNER, agent));
@@ -162,7 +162,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     }));
 
     // Richard Hsu (2014 US Nationals #16. Flight 1, rank #4): 100 pts: Wedge + DTF + R2D2; Cracken + VI; Biggs; Rookie
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "5th World", 2014, "X-Wings x3/Z-95", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #5", 2014, "X-Wings x3/Z-95", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.WEDGE_ANTILLES, agent, UpgradeCard.DRAW_THEIR_FIRE, UpgradeCard.R2_D2));
@@ -173,7 +173,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     }));
 
     // 1st (#7 Swiss) Jeff Berling: Dash + Lone Wolf + HLC + Outrider + R2-D2 crew + Anti-Pursuit Lasers; 2x Blue
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "1st US Nationals", 2015, "YT-2400/B-Wings x2", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #1", 2015, "YT-2400/B-Wings x2", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.DASH_RENDAR, agent, UpgradeCard.OUTRIDER, UpgradeCard.LONE_WOLF,
@@ -185,7 +185,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     // 2nd (#13 Swiss) Phillip Horny: Oicunn + Predator + ysanne + gunner + rebel captive + engine + proximity mine;
     // Soontir + PtL + autothruster + stealth device + title
-    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "2nd US Nationals", 2015, "Decimator/TIE Interceptor", function(
+    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #2", 2015, "Decimator/TIE Interceptor", function(
             agent)
     {
         var answer = [];
@@ -200,7 +200,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     // 3rd (#14 Swiss) Jonathan Grasser: Chewbacca + Predator + Luke + C-3PO + MF; Vrill + HLC (no title) + Recon
     // Specialist + Anti-pursuit Lasers
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "3rd US Nationals", 2015, "YT-1300/YT-2400", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2015, "YT-1300/YT-2400", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.CHEWBACCA, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
@@ -212,7 +212,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
 
     // 4th (#16 Swiss) Kyle Adams: Dash + Predator + Title + Mangler + Chewbacca crew; Corran + PtL + FCS + R2-D2 +
     // Engine
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "4th US Nationals", 2015, "YT-2400/E-Wing", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #4", 2015, "YT-2400/E-Wing", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.DASH_RENDAR, agent, UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
@@ -223,7 +223,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     }));
 
     // 5th (#5 Swiss) Mark Moriarity: IG88B&C + VI + HLC + FCS + Autothrusters + Inertial dampeners + title
-    SquadBuilders.push(new SquadBuilder(Team.SCUM, "5th US Nationals", 2015, "Aggressors x2", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.SCUM, "US Nationals #5", 2015, "Aggressors x2", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.IG_2000, UpgradeCard.VETERAN_INSTINCTS,
@@ -240,7 +240,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // - Gold Squadron Pilot + R3‑A2 + BTL‑A4 Y‑wing + Twin Laser Turret
     // - Gold Squadron Pilot + Twin Laser Turret
     // - Bandit Squadron Pilot
-    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "1st World", 2015, "T-70 X-Wing/Y-Wings x2/Z-95", function(
+    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "World #1", 2015, "T-70 X-Wing/Y-Wings x2/Z-95", function(
             agent)
     {
         var answer = [];
@@ -257,22 +257,21 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // - Corran Horn + R2-D2 + Engine Upgrade + Push The Limit + Fire Control Systems;
     // - Poe Dameron + Veteran Instincts + Autothrusters + R5-P9
     // - Prototype Pilot + Chardaan Refit
-    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "2nd World", 2015, "E-Wing/T-70 X-Wing/A-Wing",
-            function(agent)
-            {
-                var answer = [];
-                answer.push(new Token(Pilot.CORRAN_HORN, agent, UpgradeCard.PUSH_THE_LIMIT,
-                        UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE));
-                answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R5_P9,
-                        UpgradeCard.AUTOTHRUSTERS));
-                answer.push(new Token(Pilot.PROTOTYPE_PILOT, agent, UpgradeCard.CHARDAAN_REFIT));
-                return answer;
-            }));
+    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "World #2", 2015, "E-Wing/T-70 X-Wing/A-Wing", function(agent)
+    {
+        var answer = [];
+        answer.push(new Token(Pilot.CORRAN_HORN, agent, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
+                UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE));
+        answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R5_P9,
+                UpgradeCard.AUTOTHRUSTERS));
+        answer.push(new Token(Pilot.PROTOTYPE_PILOT, agent, UpgradeCard.CHARDAAN_REFIT));
+        return answer;
+    }));
 
     // #3: Phillip Booth - IG-88A&B + Heavy Laser Cannon + Autothrusters + Glitterstim + Crackshot + Fire Control
     // Systems +
     // IG-2000
-    SquadBuilders.push(new SquadBuilder(Team.SCUM, "3rd World", 2015, "Aggressors x2", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.SCUM, "World #3", 2015, "Aggressors x2", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.IG_88A, agent, UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT,
@@ -288,7 +287,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // - Fel + PtL + Royal Guard Title + Stealth + Autothrusters
     // - Vader + Lone Wolf + title + ATC
     // - Omicron Group Shuttle + Palpatine + Sensor Jammer
-    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "4th World", 2015, "TIE Interceptor/Advanced/Lambda-class",
+    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #4", 2015, "TIE Interceptor/Advanced/Lambda-class",
             function(agent)
             {
                 var answer = [];
@@ -304,7 +303,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     // #5: Aaron Bonar
     // - Miranda Doni + Tactician + Twin Laser Turret;
     // - 2x Warden Squadron Pilot + Tactician + Twin Laser Turret
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "5th World", 2015, "K-Wings x3", function(agent)
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #5", 2015, "K-Wings x3", function(agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.MIRANDA_DONI, agent, UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.TACTICIAN));
@@ -405,13 +404,13 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         return answer;
     };
 
-    SquadBuilder.findByTeam = function(team)
+    SquadBuilder.findByTeam = function(teamKey)
     {
-        InputValidator.validateNotNull("team", team);
+        InputValidator.validateNotNull("teamKey", teamKey);
 
         return SquadBuilders.filter(function(squadBuilder)
         {
-            return squadBuilder.faction() === team;
+            return Team.isFriendly(squadBuilder.faction(), teamKey);
         });
     };
 

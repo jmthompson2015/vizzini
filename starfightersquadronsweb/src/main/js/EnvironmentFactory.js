@@ -55,5 +55,56 @@ define([ "Environment", "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "u
         return answer;
     };
 
+    EnvironmentFactory.createTFACoreSetEnvironment = function(computerAgentType0, computerAgentType1)
+    {
+        var type0 = (computerAgentType0 ? computerAgentType0 : "SimpleAgent");
+        var type1 = (computerAgentType1 ? computerAgentType1 : "SimpleAgent");
+
+        // Create initial agents and tokens.
+        var firstAgent;
+
+        switch (type0)
+        {
+        case "SimpleAgent":
+            firstAgent = new SimpleAgent("First Agent", Team.FIRST_ORDER);
+            break;
+        case "MediumAgent":
+            firstAgent = new MediumAgent("First Agent", Team.FIRST_ORDER);
+            break;
+        case "HumanAgent":
+            firstAgent = new HumanAgent("First Agent", Team.FIRST_ORDER);
+            break;
+        default:
+            throw "Unknown computerAgentType: " + computerAgentType;
+        }
+
+        var firstSquad = SquadBuilder.CoreSetFirstOrderSquadBuilder.buildSquad(firstAgent);
+
+        var secondAgent;
+
+        switch (type1)
+        {
+        case "SimpleAgent":
+            secondAgent = new SimpleAgent("Second Agent", Team.RESISTANCE);
+            break;
+        case "MediumAgent":
+            secondAgent = new MediumAgent("Second Agent", Team.RESISTANCE);
+            break;
+        case "HumanAgent":
+            secondAgent = new HumanAgent("Second Agent", Team.RESISTANCE);
+            break;
+        default:
+            throw "Unknown computerAgentType: " + computerAgentType;
+        }
+
+        var secondSquad = SquadBuilder.CoreSetResistanceSquadBuilder.buildSquad(secondAgent);
+
+        var answer = new Environment(firstAgent.teamKey(), secondAgent.teamKey());
+
+        answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
+
+        return answer;
+    };
+
     return EnvironmentFactory;
 });

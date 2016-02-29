@@ -57,6 +57,35 @@ define(function()
             },
         },
 
+        friend: function(teamKey)
+        {
+            var answer;
+
+            switch (teamKey)
+            {
+            case Team.FIRST_ORDER:
+                answer = Team.IMPERIAL;
+                break;
+            case Team.IMPERIAL:
+                answer = Team.FIRST_ORDER;
+                break;
+            case Team.REBEL:
+                answer = Team.RESISTANCE;
+                break;
+            case Team.RESISTANCE:
+                answer = Team.REBEL;
+                break;
+            }
+
+            return answer;
+        },
+
+        isFriendly: function(teamKey0, teamKey1)
+        {
+
+            return (teamKey0 === teamKey1) || (teamKey0 === this.friend(teamKey1));
+        },
+
         values: function()
         {
             return Object.getOwnPropertyNames(Team.properties);

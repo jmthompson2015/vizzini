@@ -21,10 +21,10 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
         function(DamageCard, ManeuverComputer, Phase, Position, RangeRuler, RectanglePath, Team, Token)
         {
             "use strict";
-            function Environment(team1, team2)
+            function Environment(teamKey1, teamKey2)
             {
-                InputValidator.validateNotNull("team1", team1);
-                InputValidator.validateNotNull("team2", team2);
+                InputValidator.validateNotNull("teamKey1", teamKey1);
+                InputValidator.validateNotNull("teamKey2", teamKey2);
 
                 var that = this;
 
@@ -124,7 +124,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
 
                 this.firstTeam = function()
                 {
-                    return team1;
+                    return teamKey1;
                 };
 
                 this.getDefenders = function(attackerTeam)
@@ -133,13 +133,13 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
 
                     var defenderTeam;
 
-                    if (attackerTeam === team1)
+                    if (Team.isFriendly(attackerTeam, teamKey1))
                     {
-                        defenderTeam = team2;
+                        defenderTeam = teamKey2;
                     }
-                    else if (attackerTeam === team2)
+                    else if (Team.isFriendly(attackerTeam, teamKey2))
                     {
-                        defenderTeam = team1;
+                        defenderTeam = teamKey1;
                     }
                     else
                     {
@@ -180,7 +180,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                 {
                     return this.getTokensAtRange(token0, range).filter(function(token)
                     {
-                        return token.agent().teamKey() === token0.agent().teamKey();
+                        return Team.isFriendly(token.agent().teamKey(), token0.agent().teamKey());
                     });
                 };
 
@@ -233,9 +233,9 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                     return positionToToken[position];
                 };
 
-                this.getTokenCountFor = function(team)
+                this.getTokenCountFor = function(teamKey)
                 {
-                    return this.getTokensForTeam(team).length;
+                    return this.getTokensForTeam(teamKey).length;
                 };
 
                 this.getTokensAtRange = function(token0, range)
@@ -272,20 +272,20 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
 
                         if (answer === 0)
                         {
-                            var team0 = token0.pilot().shipTeam.teamKey;
-                            var team1 = token1.pilot().shipTeam.teamKey;
+                            var teamKey0 = token0.pilot().shipTeam.teamKey;
+                            var teamKey1 = token1.pilot().shipTeam.teamKey;
 
-                            if (team0 === team1)
+                            if (Team.isFriendly(teamKey0, teamKey1))
                             {
                                 answer = 0;
                             }
-                            else if (team0 === Team.IMPERIAL)
+                            else if (Team.isFriendly(teamKey0, Team.IMPERIAL))
                             {
                                 answer = 1;
                             }
                             else
                             {
-                                answer = 1;
+                                answer = -1;
                             }
                         }
 
@@ -303,20 +303,20 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
 
                         if (answer === 0)
                         {
-                            var team0 = token0.pilot().shipTeam.teamKey;
-                            var team1 = token1.pilot().shipTeam.teamKey;
+                            var teamKey0 = token0.pilot().shipTeam.teamKey;
+                            var teamKey1 = token1.pilot().shipTeam.teamKey;
 
-                            if (team0 === team1)
+                            if (Team.isFriendly(teamKey0, teamKey1))
                             {
                                 answer = 0;
                             }
-                            else if (team0 === Team.IMPERIAL)
+                            else if (Team.isFriendly(teamKey0, Team.IMPERIAL))
                             {
                                 answer = 1;
                             }
                             else
                             {
-                                answer = 1;
+                                answer = -1;
                             }
                         }
 
@@ -337,7 +337,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                     {
                         var token = positionToToken[position];
 
-                        if (token.pilot().shipTeam.teamKey === teamKey)
+                        if (Team.isFriendly(token.pilot().shipTeam.teamKey, teamKey))
                         {
                             answer[answer.length] = token;
                         }
@@ -451,7 +451,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
 
                 this.secondTeam = function()
                 {
-                    return team2;
+                    return teamKey2;
                 };
 
                 this.tokens = function()

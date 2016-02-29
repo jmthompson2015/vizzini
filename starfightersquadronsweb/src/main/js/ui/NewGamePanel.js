@@ -143,13 +143,14 @@ define(
                     var name = this.state.name;
                     var type = this.state.type;
 
+                    var teamValues = [ Team.IMPERIAL, Team.REBEL, Team.SCUM ];
                     var teamLabelFunction = function(value)
                     {
                         return Team.properties[value].name;
                     };
                     var teamUI = React.createElement(Select,
                     {
-                        values: Team.values(),
+                        values: teamValues,
                         labelFunction: teamLabelFunction,
                         initialSelectedValue: team,
                         onChange: this.handleTeamChange,

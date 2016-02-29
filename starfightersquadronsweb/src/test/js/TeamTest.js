@@ -30,6 +30,30 @@ define([ "Team" ], function(Team)
         assert.equal(properties.value, "scum");
     });
 
+    QUnit.test("Team.friend()", function(assert)
+    {
+        assert.equal(Team.friend(Team.FIRST_ORDER), Team.IMPERIAL);
+        assert.equal(Team.friend(Team.IMPERIAL), Team.FIRST_ORDER);
+        assert.equal(Team.friend(Team.REBEL), Team.RESISTANCE);
+        assert.equal(Team.friend(Team.RESISTANCE), Team.REBEL);
+        assert.ok(!Team.friend(Team.SCUM));
+    });
+
+    QUnit.test("Team.isFriendly()", function(assert)
+    {
+        assert.ok(Team.isFriendly(Team.FIRST_ORDER, Team.FIRST_ORDER));
+        assert.ok(Team.isFriendly(Team.IMPERIAL, Team.IMPERIAL));
+        assert.ok(Team.isFriendly(Team.REBEL, Team.REBEL));
+        assert.ok(Team.isFriendly(Team.RESISTANCE, Team.RESISTANCE));
+        assert.ok(Team.isFriendly(Team.SCUM, Team.SCUM));
+
+        assert.ok(Team.isFriendly(Team.IMPERIAL, Team.FIRST_ORDER));
+        assert.ok(Team.isFriendly(Team.REBEL, Team.RESISTANCE));
+
+        assert.ok(!Team.isFriendly(Team.IMPERIAL, Team.REBEL));
+        assert.ok(!Team.isFriendly(Team.FIRST_ORDER, Team.RESISTANCE));
+    });
+
     QUnit.test("Team.values()", function(assert)
     {
         var result = Team.values();
