@@ -1,12 +1,14 @@
-define([ "CountVisitor", "FragmentVisitor" ], function(CountVisitor, FragmentVisitor)
+define([ "CountVisitor", "DepthVisitor", "FragmentVisitor" ], function(CountVisitor, DepthVisitor, FragmentVisitor)
 {
     "use strict";
     var CrossoverOperator =
     {
-        crossover: function(genome0, genome1)
+        crossover: function(genome0, genome1, maxDepthIn)
         {
             InputValidator.validateNotNull("genome0", genome0);
             InputValidator.validateNotNull("genome1", genome1);
+
+            var maxDepth = (maxDepthIn !== undefined ? maxDepthIn : 17);
 
             var length0 = (new CountVisitor(genome0)).nodeCount();
             var length1 = (new CountVisitor(genome1)).nodeCount();
@@ -28,7 +30,10 @@ define([ "CountVisitor", "FragmentVisitor" ], function(CountVisitor, FragmentVis
 
             CrossoverOperator.assemble(parentNode0, fragment0, fragment1);
             CrossoverOperator.assemble(parentNode1, fragment1, fragment0);
-            var answer = [ newGenome0, newGenome1 ];
+
+            var answer = [];
+            answer.push((new DepthVisitor(newGenome0)).depth() <= maxDepth ? newGenome0 : genome0);
+            answer.push((new DepthVisitor(newGenome1)).depth() <= maxDepth ? newGenome1 : genome1);
 
             return answer;
         },
