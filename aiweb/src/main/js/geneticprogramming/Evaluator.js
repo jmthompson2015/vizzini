@@ -154,7 +154,7 @@ define([ "CountVisitor" ], function(CountVisitor)
             }
             else
             {
-                genome.fitness += idealEvaluation / (sumError / errorThreshold);
+                genome.fitness += 0.5 * idealEvaluation / (sumError / errorThreshold);
             }
         };
     }

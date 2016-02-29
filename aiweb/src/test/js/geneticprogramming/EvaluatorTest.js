@@ -27,15 +27,15 @@ define([ "Arithmetic", "Evaluator", "GenomeComparator", "Terminal" ], function(A
         }
 
         i = 0;
-        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 3.3595);
-        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 1.0842);
+        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 1.6797);
+        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 0.5421);
         assert.equal(Math.vizziniRound(population[i++].fitness, 4), 1000);
 
         population.sort(GenomeComparator);
         i = 0;
         assert.equal(Math.vizziniRound(population[i++].fitness, 4), 1000);
-        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 3.3595);
-        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 1.0842);
+        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 1.6797);
+        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 0.5421);
     });
 
     function createTree0()
