@@ -26,8 +26,9 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         population.push(createTree1());
         var evaluator = createEvaluator();
         var comparator = GenomeComparator;
-        var selector = createSelector(population);
-        var operators = [];
+        var selector = createSelector(popSize);
+        var operators = [ new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy)),
+                new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)) ];
         var fullGenerator = new GenomeFactory.Full(functions, terminals, maxDepth);
 
         // Run.
@@ -47,11 +48,11 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         var populationGenerator = new PopulationGenerator(functions, terminals, maxDepth, popSize);
         var population = populationGenerator.generate();
         var evaluator = createEvaluator();
-        var generationCount = 11;
+        var generationCount = 21;
         var comparator = GenomeComparator;
-        var selector = createSelector(population);
-        var operators = [ new Operator(0.05, 1, new CopyOperator.Copier(CopyOperator.copy)),
-                new Operator(0.95, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)) ];
+        var selector = createSelector(popSize);
+        var operators = [ new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy)),
+                new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)) ];
         var genomeFactory = new GenomeFactory.Full(functions, terminals, maxDepth);
         var ga = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators,
                 genomeFactory);
@@ -113,9 +114,9 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         return answer;
     }
 
-    function createSelector(population)
+    function createSelector(popSize)
     {
-        var selectionCount = Math.floor(0.20 * population.length);
+        var selectionCount = Math.floor(0.50 * popSize);
         var selector = new SelectionOperator.Selector(selectionCount, SelectionOperator.fitnessProportionalSelect);
 
         return selector;

@@ -11,6 +11,12 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
         InputValidator.validateNotNull("operators", operators);
         InputValidator.validateNotNull("genomeFactory", genomeFactory);
 
+        if (operators.length !== 2) { throw "Two operators (Copy and Crossover) required; operators.length = " +
+                operators.length; }
+
+        if (operators[0].ratio() + operators[1].ratio() !== 1.0) { throw "Sum of operators ratio must be 1.0: " +
+                (operators[0].ratio() + operators[1].ratio()); }
+
         this.population = function()
         {
             return population;
@@ -41,19 +47,6 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
             return operators;
         };
 
-        this.addUnique = function(newPop, genome)
-        {
-            var answer = false;
-
-            if (!PopulationUtilities.isDuplicate(newPop, genome))
-            {
-                newPop.push(genome);
-                answer = true;
-            }
-
-            return answer;
-        };
-
         this.createNextGeneration = function()
         {
             LOGGER.trace("GeneticAlgorithm.createNextGeneration() start");
@@ -63,20 +56,15 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
             var popSize = population.length;
             var maxTries = 100;
 
-            operators.forEach(function(operator)
-            {
-                var isCopier = (operator.executor() instanceof CopyOperator.Copier);
-                var count = Math.max(0, Math.floor(operator.ratio() * popSize));
+            // Copy.
+            var operator = operators[0];
+            var count = Math.max(0, Math.floor(operator.ratio() * popSize));
+            this.fillPopulationCopy(newPop, newPop.length + count, maxTries, operator);
 
-                if (isCopier)
-                {
-                    this.fillPopulationCopy(newPop, newPop.length + count, maxTries, operator);
-                }
-                else
-                {
-                    this.fillPopulationCrossover(newPop, newPop.length + count, maxTries, operator);
-                }
-            }, this);
+            // Crossover.
+            operator = operators[1];
+            count = Math.max(0, Math.floor(operator.ratio() * popSize));
+            this.fillPopulationCrossover(newPop, newPop.length + count, maxTries, operator);
 
             population = newPop.slice();
             LOGGER.debug("population.length = " + population.length);
@@ -86,86 +74,26 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
         this.fillPopulationCopy = function(newPop, popSize, maxTries, operator)
         {
             var executor = operator.executor();
-            var count = 0;
 
             while (newPop.length < popSize)
             {
-                var genome = null;
-
-                if (count < maxTries)
-                {
-                    var genome1 = population[count];
-                    genome = executor.execute(genome1);
-                }
-                else
-                {
-                    genome = genomeFactory.generate();
-                }
-
-                if (genome === undefined || genome === null)
-                {
-                    LOGGER.error("ERROR: genome is undefined or null");
-                    throw "ERROR: genome is undefined or null";
-                }
-
-                if (this.addUnique(newPop, genome))
-                {
-                    count = -1;
-                }
-
-                count++;
-
-                if (count > 2 * maxTries)
-                {
-                    var message = "ERROR: can't fill population. count = " + count + " isCrossover ? " + isCrossover;
-                    LOGGER.error(message);
-                    throw message;
-                }
+                var genome1 = selector.select(population);
+                var genome = executor.execute(genome1);
+                newPop.push(genome);
             }
         };
 
         this.fillPopulationCrossover = function(newPop, popSize, maxTries, operator)
         {
             var executor = operator.executor();
-            var count = 0;
 
             while (newPop.length < popSize)
             {
-                var genome = null;
-
-                if (count < maxTries)
-                {
-                    var genome1 = selector.select(population);
-                    var genome2 = selector.select(population);
-                    var genomes = executor.execute(genome1, genome2);
-                    genome = genomes[0];
-                    this.addUnique(newPop, genome);
-                    genome = genomes[1];
-                }
-                else
-                {
-                    genome = genomeFactory.generate();
-                }
-
-                if (genome === undefined || genome === null)
-                {
-                    LOGGER.error("ERROR: genome is undefined or null");
-                    throw "ERROR: genome is undefined or null";
-                }
-
-                if (this.addUnique(newPop, genome))
-                {
-                    count = -1;
-                }
-
-                count++;
-
-                if (count > 2 * maxTries)
-                {
-                    var message = "ERROR: can't fill population. count = " + count + " isCrossover ? " + isCrossover;
-                    LOGGER.error(message);
-                    throw message;
-                }
+                var genome1 = selector.select(population);
+                var genome2 = selector.select(population);
+                var genomes = executor.execute(genome1, genome2);
+                newPop.push(genomes[0]);
+                newPop.push(genomes[1]);
             }
         };
     }
@@ -208,24 +136,10 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
             LOGGER.debug(message);
             isDone = true;
         }
-        // else
-        // {
-        // var bestEvalBack = bestEvals[g - backCount];
-        //
-        // if (bestEvalBack && bestEval == bestEvalBack)
-        // {
-        // message = "No improvement. Stopping.";
-        // LOGGER.debug(message);
-        // isDone = true;
-        // }
-        // }
 
         if (isDone)
         {
-            if (callback)
-            {
-                callback(this, bestGenome);
-            }
+            callback(this, bestGenome);
         }
         else
         {
@@ -234,7 +148,7 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
             setTimeout(function()
             {
                 self.runGeneration(g + 1, callback);
-            }, 300);
+            }, 100);
         }
 
         LOGGER.trace("GeneticAlgorithm.runGeneration() end g = " + g);
