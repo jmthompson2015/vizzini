@@ -78,7 +78,8 @@
 
             function createTeamSelect()
             {
-                return createSelect(Team.values(), Team.properties, team, teamChanged);
+                var teamValues = [ Team.IMPERIAL, Team.REBEL, Team.SCUM ];
+                return createSelect(teamValues, Team.properties, team, teamChanged);
             }
 
             function createSelect(values, properties, selectedValue, onChangeFunction)

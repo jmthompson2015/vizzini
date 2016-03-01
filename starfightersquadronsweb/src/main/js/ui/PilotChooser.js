@@ -1,5 +1,5 @@
-define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ], function(Pilot, ShipTeam,
-        SimpleAgent, Team, Token, PilotCardUI)
+define([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ], function(Pilot, Ship,
+        ShipTeam, SimpleAgent, Team, Token, PilotCardUI)
 {
     "use strict";
     var PilotChooser = React.createClass(
@@ -9,15 +9,16 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ]
             LOGGER.trace("PilotChooser.getInitialState()");
 
             // Default to first ship, first pilot.
-            var team = this.props.team;
-            var shipTeam = ShipTeam.valuesByTeam(team)[0];
-            var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-            var token = this.createToken(pilot);
+            var teamKey = this.props.team;
+            var shipTeamKey = ShipTeam.valuesByTeam(teamKey)[0];
+            var shipKey = ShipTeam.properties[shipTeamKey].shipKey;
+            var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
+            var token = this.createToken(pilotKey);
 
             return (
             {
-                shipTeam: shipTeam,
-                pilot: pilot,
+                ship: shipKey,
+                pilot: pilotKey,
                 token: token
             });
         },
@@ -33,22 +34,23 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ]
         {
             LOGGER.trace("PilotChooser.componentWillReceiveProps()");
 
-            var oldTeam = this.props.team;
-            var newTeam = nextProps.team;
+            var oldTeamKey = this.props.team;
+            var newTeamKey = nextProps.team;
 
-            if (oldTeam != newTeam)
+            if (oldTeamKey != newTeamKey)
             {
                 // Team changed.
-                LOGGER.debug("oldTeam = " + oldTeam);
-                LOGGER.debug("newTeam = " + newTeam);
-                var shipTeam = ShipTeam.valuesByTeam(newTeam)[0];
-                var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-                var token = this.createToken(pilot);
-                LOGGER.debug("new state = " + shipTeam + ", " + pilot + ", " + token);
+                LOGGER.debug("oldTeamKey = " + oldTeamKey);
+                LOGGER.debug("newTeamKey = " + newTeamKey);
+                var shipTeamKey = ShipTeam.valuesByTeam(newTeamKey)[0];
+                var shipKey = ShipTeam.properties[shipTeamKey].shipKey;
+                var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
+                var token = this.createToken(pilotKey);
+                LOGGER.debug("new state = " + shipKey + ", " + pilotKey + ", " + token);
                 this.setState(
                 {
-                    shipTeam: shipTeam,
-                    pilot: pilot,
+                    ship: shipKey,
+                    pilot: pilotKey,
                     token: token
                 });
             }
@@ -61,7 +63,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ]
             InputValidator.validateNotNull("team property", this.props.team);
             InputValidator.validateNotNull("onChangeFunction property", this.props.onChangeFunction);
 
-            var shipSelect = this.createShipTeamSelect();
+            var shipSelect = this.createShipSelect();
             var pilotSelect = this.createPilotSelect();
 
             var innerCells0 = [];
@@ -138,20 +140,21 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ]
 
         pilotCardUI: undefined,
 
-        shipTeamChanged: function(event)
+        shipChanged: function(event)
         {
-            var shipTeam = event.currentTarget.value;
-            var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-            var token = this.createToken(pilot);
-            LOGGER.debug("new shipTeam = " + shipTeam);
+            var shipKey = event.currentTarget.value;
+            var shipTeamValues = ShipTeam.valuesByShipAndTeam(shipKey, this.props.team);
+            var pilotKey = Pilot.valuesByShipTeam(shipTeamValues[0])[0];
+            var token = this.createToken(pilotKey);
+            LOGGER.debug("new shipKey = " + shipKey);
             this.setState(
             {
-                shipTeam: shipTeam,
-                pilot: pilot,
+                ship: shipKey,
+                pilot: pilotKey,
                 token: token
             });
 
-            this.props.onChangeFunction(event, pilot);
+            this.props.onChangeFunction(event, pilotKey);
         },
 
         pilotChanged: function(event)
@@ -192,7 +195,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ]
 
         createPilotSelect: function()
         {
-            var values = Pilot.valuesByShipTeam(this.state.shipTeam);
+            var values = Pilot.valuesByShipAndTeam(this.state.ship, this.props.team);
             var labelFunction = function(value)
             {
                 var properties = Pilot.properties[value];
@@ -208,20 +211,20 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ]
             });
         },
 
-        createShipTeamSelect: function()
+        createShipSelect: function()
         {
-            var values = ShipTeam.valuesByTeam(this.props.team);
+            var values = ShipTeam.shipValuesByTeam(this.props.team);
             var labelFunction = function(value)
             {
-                return ShipTeam.properties[value].name;
+                return Ship.properties[value].name;
             };
 
             return React.createElement(Select,
             {
                 values: values,
                 labelFunction: labelFunction,
-                initialSelectedValue: this.state.shipTeam,
-                onChange: this.shipTeamChanged,
+                initialSelectedValue: this.state.ship,
+                onChange: this.shipChanged,
             });
         },
 
