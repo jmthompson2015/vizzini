@@ -1986,7 +1986,7 @@ define(
                     });
                 },
 
-                valuesByTeam: function(teamKey)
+                valuesByTeam: function(teamKey, isStrict)
                 {
                     InputValidator.validateNotNull("teamKey", teamKey);
 
@@ -1996,13 +1996,14 @@ define(
                         return pilot.shipTeam.teamKey === teamKey;
                     });
 
-                    if (teamKey === Team.FIRST_ORDER)
+                    if (!isStrict)
                     {
-                        answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
-                    }
-                    else if (teamKey === Team.RESISTANCE)
-                    {
-                        answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
+                        var friend = Team.friend(teamKey);
+
+                        if (friend)
+                        {
+                            answer.vizziniAddAll(this.valuesByTeam(friend, true));
+                        }
                     }
 
                     return answer;

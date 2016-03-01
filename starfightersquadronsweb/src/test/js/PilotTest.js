@@ -15,7 +15,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         assert.equal(properties.shipState.hullValue(), 3);
         assert.equal(properties.shipState.shieldValue(), 0);
         assert.equal(properties.squadPointCost, 12);
-        assert.equal(properties.value, "academyPilot");
+        assert.equal(properties.value, Pilot.ACADEMY_PILOT);
     });
 
     QUnit.test("Pilot properties Bounty Hunter", function(assert)
@@ -99,9 +99,9 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 154);
-        assert.equal(result[0], "academyPilot");
-        assert.equal(result[150], "wingedGundark");
-        assert.equal(result[153], "zetaSquadronPilot");
+        assert.equal(result[0], Pilot.ACADEMY_PILOT);
+        assert.equal(result[150], Pilot.WINGED_GUNDARK);
+        assert.equal(result[153], Pilot.ZETA_SQUADRON_PILOT);
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 - // properties
@@ -124,8 +124,8 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 9);
-        assert.equal(result[0], "academyPilot");
-        assert.equal(result[8], "wingedGundark");
+        assert.equal(result[0], Pilot.ACADEMY_PILOT);
+        assert.equal(result[8], Pilot.WINGED_GUNDARK);
     });
 
     QUnit.test("valuesByShipTeam() X-Wing", function(assert)
@@ -148,9 +148,24 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 61);
-        assert.equal(result[0], "epsilonAce");
-        assert.equal(result[9], "academyPilot");
-        assert.equal(result[60], "wingedGundark");
+        assert.equal(result[0], Pilot.EPSILON_ACE);
+        assert.equal(result[9], Pilot.ACADEMY_PILOT);
+        assert.equal(result[60], Pilot.WINGED_GUNDARK);
+    });
+
+    QUnit.test("valuesByTeam() First Order strict", function(assert)
+    {
+        // Setup.
+        var isStrict = true;
+
+        // Run.
+        var result = Pilot.valuesByTeam(Team.FIRST_ORDER, isStrict);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 9);
+        assert.equal(result[0], Pilot.EPSILON_ACE);
+        assert.equal(result[8], Pilot.ZETA_SQUADRON_PILOT);
     });
 
     QUnit.test("valuesByTeam() Imperial", function(assert)
@@ -160,9 +175,24 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
+        assert.equal(result.length, 61);
+        assert.equal(result[0], Pilot.ACADEMY_PILOT);
+        assert.equal(result[60], Pilot.ZETA_SQUADRON_PILOT);
+    });
+
+    QUnit.test("valuesByTeam() Imperial strict", function(assert)
+    {
+        // Setup.
+        var isStrict = true;
+
+        // Run.
+        var result = Pilot.valuesByTeam(Team.IMPERIAL, isStrict);
+
+        // Verify.
+        assert.ok(result);
         assert.equal(result.length, 52);
-        assert.equal(result[0], "academyPilot");
-        assert.equal(result[51], "wingedGundark");
+        assert.equal(result[0], Pilot.ACADEMY_PILOT);
+        assert.equal(result[51], Pilot.WINGED_GUNDARK);
     });
 
     QUnit.test("valuesByTeam() Rebel", function(assert)
@@ -172,9 +202,24 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
+        assert.equal(result.length, 56);
+        assert.equal(result[0], Pilot.AIREN_CRACKEN);
+        assert.equal(result[55], Pilot.RED_SQUADRON_VETERAN);
+    });
+
+    QUnit.test("valuesByTeam() Rebel strict", function(assert)
+    {
+        // Setup.
+        var isStrict = true;
+
+        // Run.
+        var result = Pilot.valuesByTeam(Team.REBEL, isStrict);
+
+        // Verify.
+        assert.ok(result);
         assert.equal(result.length, 50);
-        assert.equal(result[0], "airenCracken");
-        assert.equal(result[49], "wildSpaceFringer");
+        assert.equal(result[0], Pilot.AIREN_CRACKEN);
+        assert.equal(result[49], Pilot.WILD_SPACE_FRINGER);
     });
 
     QUnit.test("valuesByTeam() Resistance", function(assert)
@@ -185,9 +230,24 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 56);
-        assert.equal(result[0], "blueAce");
-        assert.equal(result[6], "airenCracken");
-        assert.equal(result[55], "wildSpaceFringer");
+        assert.equal(result[0], Pilot.BLUE_ACE);
+        assert.equal(result[6], Pilot.AIREN_CRACKEN);
+        assert.equal(result[55], Pilot.WILD_SPACE_FRINGER);
+    });
+
+    QUnit.test("valuesByTeam() Resistance strict", function(assert)
+    {
+        // Setup.
+        var isStrict = true;
+
+        // Run.
+        var result = Pilot.valuesByTeam(Team.RESISTANCE, isStrict);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 6);
+        assert.equal(result[0], Pilot.BLUE_ACE);
+        assert.equal(result[5], Pilot.RED_SQUADRON_VETERAN);
     });
 
     QUnit.test("valuesByTeam() Scum", function(assert)
@@ -198,8 +258,8 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 37);
-        assert.equal(result[0], "binayrePirate");
-        assert.equal(result[35], "torkilMux");
-        assert.equal(result[36], "trandoshanSlaver");
+        assert.equal(result[0], Pilot.BINAYRE_PIRATE);
+        assert.equal(result[35], Pilot.TORKIL_MUX);
+        assert.equal(result[36], Pilot.TRANDOSHAN_SLAVER);
     });
 });

@@ -341,9 +341,42 @@ define([ "Ship", "Team" ], function(Ship, Team)
             },
         },
 
+        shipValuesByTeam: function(teamKey, isStrict)
+        {
+            InputValidator.validateNotNull("teamKey", teamKey);
+
+            var shipTeamValues = ShipTeam.valuesByTeam(teamKey, isStrict);
+            var answer = [];
+
+            shipTeamValues.forEach(function(shipTeamKey)
+            {
+                var shipKey = ShipTeam.properties[shipTeamKey].shipKey;
+
+                if (!answer.vizziniContains(shipKey))
+                {
+                    answer.push(shipKey);
+                }
+            });
+
+            return answer;
+        },
+
         values: function()
         {
             return Object.getOwnPropertyNames(ShipTeam.properties);
+        },
+
+        valuesByShipAndTeam: function(shipKey, teamKey, isStrict)
+        {
+            InputValidator.validateNotNull("shipKey", shipKey);
+            InputValidator.validateNotNull("teamKey", teamKey);
+
+            var answer = this.valuesByTeam(teamKey, isStrict).filter(function(shipTeamKey)
+            {
+                return ShipTeam.properties[shipTeamKey].shipKey === shipKey;
+            });
+
+            return answer;
         },
 
         valuesByTeam: function(teamKey, isStrict)
@@ -357,13 +390,11 @@ define([ "Ship", "Team" ], function(Ship, Team)
 
             if (!isStrict)
             {
-                if (teamKey === Team.FIRST_ORDER)
+                var friend = Team.friend(teamKey);
+
+                if (friend)
                 {
-                    answer.vizziniAddAll(this.valuesByTeam(Team.IMPERIAL));
-                }
-                else if (teamKey === Team.RESISTANCE)
-                {
-                    answer.vizziniAddAll(this.valuesByTeam(Team.REBEL));
+                    answer.vizziniAddAll(this.valuesByTeam(friend, true));
                 }
             }
 
