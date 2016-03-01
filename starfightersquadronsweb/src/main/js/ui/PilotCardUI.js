@@ -101,6 +101,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var pilot = myToken.pilot();
             var ship = pilot.shipTeam.ship;
             var pilotDescription = pilot.description;
+            var pilotDescriptionClassName = "pilotCardUIDescription" + (pilot.isFlavorText ? " flavorText" : "");
             var pilotCost = pilot.squadPointCost;
             var prefix = myToken.toString();
             var shipActionKeys = ship.shipActionKeys;
@@ -137,7 +138,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             innerCells10.push(React.DOM.td(
             {
                 key: 1,
-                className: "pilotCardUIDescription"
+                className: pilotDescriptionClassName
             }, pilotDescription));
 
             var element101 = React.createElement(PilotCardUI.ShipActionPanel,
