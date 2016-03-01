@@ -1976,6 +1976,20 @@ define(
                     return Object.getOwnPropertyNames(Pilot.properties);
                 },
 
+                valuesByShipAndTeam: function(shipKey, teamKey, isStrict)
+                {
+                    InputValidator.validateNotNull("shipKey", shipKey);
+                    InputValidator.validateNotNull("teamKey", teamKey);
+
+                    var answer = this.valuesByTeam(teamKey, isStrict).filter(function(pilotKey)
+                    {
+                        var shipTeamKey = Pilot.properties[pilotKey].shipTeamKey;
+                        return ShipTeam.properties[shipTeamKey].shipKey === shipKey;
+                    });
+
+                    return answer;
+                },
+
                 valuesByShipTeam: function(shipTeamKey)
                 {
                     InputValidator.validateNotNull("shipTeamKey", shipTeamKey);

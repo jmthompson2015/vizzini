@@ -1,4 +1,4 @@
-define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
+define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, Team)
 {
     "use strict";
     QUnit.module("Pilot");
@@ -106,6 +106,7 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 - // properties
         1 - // values
+        1 - // valuesByShipAndTeam
         1 - // valuesByShipTeam
         1; // valuesByTeam
         assert.equal(result.length, count);
@@ -114,6 +115,54 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         {
             assert.ok(!result[i].ship, result[i].ship);
         }
+    });
+
+    QUnit.test("valuesByShipAndTeam() TIE Fighter", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByShipAndTeam(Ship.TIE_FIGHTER, Team.IMPERIAL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 9);
+        assert.equal(result[0], Pilot.ACADEMY_PILOT);
+        assert.equal(result[8], Pilot.WINGED_GUNDARK);
+    });
+
+    QUnit.test("valuesByShipAndTeam() X-Wing", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByShipAndTeam(Ship.X_WING, Team.REBEL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 10);
+        assert.equal(result[0], Pilot.BIGGS_DARKLIGHTER);
+        assert.equal(result[9], Pilot.WES_JANSON);
+    });
+
+    QUnit.test("valuesByShipAndTeam() Y-Wing Rebel", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByShipAndTeam(Ship.Y_WING, Team.REBEL);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 4);
+        assert.equal(result[0], Pilot.DUTCH_VANDER);
+        assert.equal(result[3], Pilot.HORTON_SALM);
+    });
+
+    QUnit.test("valuesByShipAndTeam() Y-Wing Scum", function(assert)
+    {
+        // Run.
+        var result = Pilot.valuesByShipAndTeam(Ship.Y_WING, Team.SCUM);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 4);
+        assert.equal(result[0], Pilot.DREA_RENTHAL);
+        assert.equal(result[3], Pilot.SYNDICATE_THUG);
     });
 
     QUnit.test("valuesByShipTeam() TIE Fighter", function(assert)
@@ -136,8 +185,8 @@ define([ "Pilot", "ShipTeam", "Team" ], function(Pilot, ShipTeam, Team)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 10);
-        assert.equal(result[0], "biggsDarklighter");
-        assert.equal(result[9], "wesJanson");
+        assert.equal(result[0], Pilot.BIGGS_DARKLIGHTER);
+        assert.equal(result[9], Pilot.WES_JANSON);
     });
 
     QUnit.test("valuesByTeam() First Order", function(assert)
