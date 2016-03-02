@@ -1621,6 +1621,7 @@ define(
                     {
                         name: "Royal Guard Pilot",
                         description: "Only members of the Emperor's royal guard are premitted to fly their unique crimson fighters, which are often used to escort the Emperor's shuttle as well as its decoys.",
+                        isFlavorText: true,
                         shipTeamKey: ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
                         shipState: new ShipState(6, 3, 3, 3, 0),
                         squadPointCost: 22,
