@@ -64,10 +64,10 @@
             });
             React.render(element, document.getElementById("squadBuilderPanel"));
 
-            function teamChanged(event)
+            function handleTeamChange(event)
             {
                 team = event.currentTarget.value;
-                LOGGER.debug("teamChanged() team = " + team);
+                LOGGER.debug("handleTeamChange() team = " + team);
                 React.render(createTeamSelect(), document.getElementById("factionSelect"));
                 var element = React.createElement(SquadBuilderUI,
                 {
@@ -79,29 +79,24 @@
             function createTeamSelect()
             {
                 var teamValues = [ Team.IMPERIAL, Team.REBEL, Team.SCUM ];
-                return createSelect(teamValues, Team.properties, team, teamChanged);
-            }
-
-            function createSelect(values, properties, selectedValue, onChangeFunction)
-            {
-                var options = [];
-
-                for (var i = 0; i < values.length; i++)
+                var teamLabelFunction = function(value)
                 {
-                    var value = values[i];
-                    var label = properties[value].name;
-                    options.push(React.DOM.option(
+                    var answer = Team.properties[value].name;
+                    var friend = Team.friend(value);
+                    if (friend)
                     {
-                        key: i,
-                        value: value
-                    }, label));
-                }
+                        answer += " + " + Team.properties[friend].name;
+                    }
+                    return answer;
+                };
 
-                return React.DOM.select(
+                return React.createElement(Select,
                 {
-                    value: selectedValue,
-                    onChange: onChangeFunction
-                }, options);
+                    values: teamValues,
+                    labelFunction: teamLabelFunction,
+                    initialSelectedValue: team,
+                    onChange: handleTeamChange,
+                });
             }
         });
     </script>

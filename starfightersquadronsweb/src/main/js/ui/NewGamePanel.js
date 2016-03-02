@@ -146,7 +146,13 @@ define(
                     var teamValues = [ Team.IMPERIAL, Team.REBEL, Team.SCUM ];
                     var teamLabelFunction = function(value)
                     {
-                        return Team.properties[value].name;
+                        var answer = Team.properties[value].name;
+                        var friend = Team.friend(value);
+                        if (friend)
+                        {
+                            answer += " + " + Team.properties[friend].name;
+                        }
+                        return answer;
                     };
                     var teamUI = React.createElement(Select,
                     {
