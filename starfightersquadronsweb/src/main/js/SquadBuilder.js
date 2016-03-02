@@ -196,24 +196,6 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         return answer;
     }));
 
-    SquadBuilders.push(new SquadBuilder(Team.FIRST_ORDER, "First Order TFA Core Set: 39 Points", 2015,
-            "TIE/fo Fighters x2", function(agent)
-            {
-                var answer = [];
-                answer.push(new Token(Pilot.EPSILON_LEADER, agent, UpgradeCard.WIRED));
-                answer.push(new Token(Pilot.ZETA_ACE, agent));
-                return answer;
-            }));
-
-    SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Resistance TFA Core Set: 39 Points", 2015, "T-70 X-Wing",
-            function(agent)
-            {
-                var answer = [];
-                answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.BB_8, UpgradeCard.PROTON_TORPEDOES,
-                        UpgradeCard.WEAPONS_GUIDANCE));
-                return answer;
-            }));
-
     // Thug Life
     // - Syndicate Thug + Twin Laser Turret + Unhinged Astromech x2
     // - Syndicate Thug + Ion Cannon Turret + R4 Astromech x2
@@ -228,6 +210,26 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         answer.push(new Token(Pilot.SYNDICATE_THUG, agent, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.R4_AGROMECH));
         return answer;
     }));
+
+    var CoreSetFirstOrderSquadBuilder = new SquadBuilder(Team.FIRST_ORDER, "First Order TFA Core Set: 39 Points", 2015,
+            "TIE/fo Fighters x2", function(agent)
+            {
+                var answer = [];
+                answer.push(new Token(Pilot.EPSILON_LEADER, agent, UpgradeCard.WIRED));
+                answer.push(new Token(Pilot.ZETA_ACE, agent));
+                return answer;
+            });
+    SquadBuilders.push(CoreSetFirstOrderSquadBuilder);
+
+    var CoreSetResistanceSquadBuilder = new SquadBuilder(Team.RESISTANCE, "Resistance TFA Core Set: 39 Points", 2015,
+            "T-70 X-Wing", function(agent)
+            {
+                var answer = [];
+                answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.BB_8, UpgradeCard.PROTON_TORPEDOES,
+                        UpgradeCard.WEAPONS_GUIDANCE));
+                return answer;
+            });
+    SquadBuilders.push(CoreSetResistanceSquadBuilder);
 
     // Paul Heaver
     // - Han Solo + Predator + C-3P0 + R2-D2 + MF + Engine Upgrade
@@ -457,26 +459,24 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         return answer;
     }));
 
-    SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Imperial Core Set: 36 Points", 2012, "TIE Fighters x2",
-            function(agent)
+    var CoreSetImperialSquadBuilder = new SquadBuilder(Team.IMPERIAL, "Imperial Core Set: 36 Points", 2012,
+            "TIE Fighters x2", function(agent)
             {
                 var answer = [];
                 answer.push(new Token(Pilot.MAULER_MITHEL, agent, UpgradeCard.MARKSMANSHIP));
                 answer.push(new Token(Pilot.DARK_CURSE, agent));
                 return answer;
-            }));
+            });
+    SquadBuilders.push(CoreSetImperialSquadBuilder);
 
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "Rebel Core Set: 36 Points", 2012, "X-Wing", function(agent)
+    var CoreSetRebelSquadBuilder = new SquadBuilder(Team.REBEL, "Rebel Core Set: 36 Points", 2012, "X-Wing", function(
+            agent)
     {
         var answer = [];
         answer.push(new Token(Pilot.LUKE_SKYWALKER, agent, UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2));
         return answer;
-    }));
-
-    var CoreSetImperialSquadBuilder = SquadBuilders[0];
-    var CoreSetRebelSquadBuilder = SquadBuilders[1];
-    var CoreSetFirstOrderSquadBuilder = SquadBuilders[2];
-    var CoreSetResistanceSquadBuilder = SquadBuilders[3];
+    });
+    SquadBuilders.push(CoreSetRebelSquadBuilder);
 
     function SquadBuilder(faction, name, year, description, buildFunction)
     {
