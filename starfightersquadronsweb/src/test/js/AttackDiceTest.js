@@ -74,7 +74,7 @@ define([ "AttackDice" ], function(AttackDice)
         {
             dice = new AttackDice(1);
         }
-        while (dice.blankCount() === 0)
+        while (dice.blankCount() === 0);
 
         // Run.
         dice.rerollBlank();

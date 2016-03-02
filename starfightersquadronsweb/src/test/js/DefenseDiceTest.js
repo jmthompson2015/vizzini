@@ -60,7 +60,7 @@ define([ "DefenseDice" ], function(DefenseDice)
         {
             dice = new DefenseDice(1);
         }
-        while (dice.blankCount() === 0)
+        while (dice.blankCount() === 0);
 
         // Run.
         dice.rerollBlank();
