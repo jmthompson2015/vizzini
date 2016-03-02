@@ -338,7 +338,7 @@ define(
 
                         if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
                         {
-                            defender.upgrades().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
+                            defender.upgradeKeys().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
                         }
                     }
                     else
