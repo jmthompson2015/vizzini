@@ -1,4 +1,4 @@
-define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
+define([ "DamageCard", "DamageCardTrait", "UpgradeCard" ], function(DamageCard, DamageCardTrait, UpgradeCard)
 {
     "use strict";
     function DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount)
@@ -110,7 +110,7 @@ define([ "DamageCard", "UpgradeCard" ], function(DamageCard, UpgradeCard)
                 var damage = environment.drawDamage();
                 var trait = DamageCard.properties[damage].trait;
 
-                if (defender.isUpgradedWith(UpgradeCard.DETERMINATION) && (trait === DamageCard.Trait.PILOT))
+                if (defender.isUpgradedWith(UpgradeCard.DETERMINATION) && (trait === DamageCardTrait.PILOT))
                 {
                     environment.discardDamage(damage);
                 }
