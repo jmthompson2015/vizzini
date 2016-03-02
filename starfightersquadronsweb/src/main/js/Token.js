@@ -414,7 +414,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
         {
             var answer;
 
-            if (pilotKey === Pilot.EPSILON_ACE && this.damageCount() === 0 && criticalDamageCount() === 0)
+            if (pilotKey === Pilot.EPSILON_ACE && this.damageCount() === 0 && this.criticalDamageCount() === 0)
             {
                 answer = 12;
             }
