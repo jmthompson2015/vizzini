@@ -1,9 +1,9 @@
 /*
  * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
  */
-define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction",
-        "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, Difficulty, Maneuver, Phase, Pilot,
-        RangeRuler, ShipAction, UpgradeCard, UpgradeType, Weapon)
+define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler",
+        "ShipAction", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, DamageCardV2, Difficulty,
+        Maneuver, Phase, Pilot, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Weapon)
 {
     "use strict";
     function Token(pilotKey, agent)
@@ -301,7 +301,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Maneuver", "Phase", "Pilot", "R
             {
                 answer = pilot.shipTeam.ship.maneuverKeys.slice();
 
-                if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE))
+                if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE) ||
+                        this.isCriticallyDamagedWith(DamageCardV2.DAMAGED_ENGINE))
                 {
                     answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_LEFT, Difficulty.HARD);
                     answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_RIGHT, Difficulty.HARD);
