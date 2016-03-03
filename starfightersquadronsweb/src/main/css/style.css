@@ -35,7 +35,7 @@ table {
 }
 
 #ALIGN_MIDDLE, .countTokenBox, .factionUIImage, .labelTokenBox, .shipSilhouetteUIImage, .upgradeCardUIImage,
-    .alignMiddle {
+    .upgradeTypeUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
