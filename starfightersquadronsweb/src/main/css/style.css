@@ -34,7 +34,7 @@ table {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .countTokenBox, .labelTokenBox, .upgradeCardUIImage, .alignMiddle {
+#ALIGN_MIDDLE, .countTokenBox, .labelTokenBox, .shipSilhouetteUIImage, .upgradeCardUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
