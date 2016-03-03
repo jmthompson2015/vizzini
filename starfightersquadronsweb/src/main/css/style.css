@@ -34,8 +34,8 @@ table {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .countTokenBox, .factionUIImage, .labelTokenBox, .shipSilhouetteUIImage, .upgradeCardUIImage,
-    .upgradeTypeUIImage, .alignMiddle {
+#ALIGN_MIDDLE, .countTokenBox, .factionUIImage, .labelTokenBox, .shipActionUIImage, .shipSilhouetteUIImage,
+    .upgradeCardUIImage, .upgradeTypeUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
