@@ -1,3 +1,7 @@
+/*
+ * @param shipKey (required)
+ * @param key (optional; default: 0)
+ */
 define([ "Ship" ], function(Ship)
 {
     "use strict";

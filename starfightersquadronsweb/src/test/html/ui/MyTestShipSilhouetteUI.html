@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MyTestShipUI</title>
+<title>MyTestShipSilhouetteUI</title>
 
 <link rel="stylesheet" href="../../../main/css/style.css">
 
@@ -31,9 +31,7 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "Ship", "SimpleAgent", "SquadBuilder",
-                "TargetLock", "Team", "Token", "ui/ShipSilhouetteUI" ], function(DamageCard, EnvironmentFactory, Pilot,
-                Position, Ship, SimpleAgent, SquadBuilder, TargetLock, Team, Token, ShipSilhouetteUI)
+        require([ "Ship", "Team", "ui/ShipSilhouetteUI" ], function(Ship, Team, ShipSilhouetteUI)
         {
             var teamValues = Team.values();
             var shipValues = Ship.values();
