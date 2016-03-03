@@ -8,9 +8,9 @@ define(
                 getInitialState: function()
                 {
                     var agent1 = new MediumAgent("Agent 1", Team.IMPERIAL);
-                    var squad1 = SquadBuilder.CoreSetImperialSquadBuilder.buildSquad(agent1);
+                    var squad1 = SquadBuilder.findByTeam(agent1.teamKey())[0].buildSquad(agent1);
                     var agent2 = new HumanAgent("Agent 2", Team.REBEL);
-                    var squad2 = SquadBuilder.CoreSetRebelSquadBuilder.buildSquad(agent2);
+                    var squad2 = SquadBuilder.findByTeam(agent2.teamKey())[0].buildSquad(agent2);
 
                     return (
                     {
