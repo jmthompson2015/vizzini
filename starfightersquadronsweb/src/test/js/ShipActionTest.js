@@ -60,9 +60,21 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 11);
-        assert.equal(result[0], "barrelRollLeft");
-        assert.equal(result[10], "targetLock");
+        assert.equal(result.length, 13);
+        var i = 0;
+        assert.equal(result[i++], ShipAction.BARREL_ROLL);
+        assert.equal(result[i++], ShipAction.BARREL_ROLL_LEFT);
+        assert.equal(result[i++], ShipAction.BARREL_ROLL_RIGHT);
+        assert.equal(result[i++], ShipAction.BOOST);
+        assert.equal(result[i++], ShipAction.BOOST_LEFT);
+        assert.equal(result[i++], ShipAction.BOOST_STRAIGHT);
+        assert.equal(result[i++], ShipAction.BOOST_RIGHT);
+        assert.equal(result[i++], ShipAction.CLOAK);
+        assert.equal(result[i++], ShipAction.DECLOAK);
+        assert.equal(result[i++], ShipAction.EVADE);
+        assert.equal(result[i++], ShipAction.FOCUS);
+        assert.equal(result[i++], ShipAction.SLAM);
+        assert.equal(result[i++], ShipAction.TARGET_LOCK);
 
         var properties = Object.getOwnPropertyNames(ShipAction);
         var count = properties.length - 1 - // properties
