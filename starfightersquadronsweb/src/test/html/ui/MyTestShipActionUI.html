@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestShipActionUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+</head>
+<body>
+	<div id="panel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "ShipAction", "ui/ShipActionUI" ], function(ShipAction, ShipActionUI)
+        {
+            var values = ShipAction.values();
+            var rows = [];
+            values.forEach(function(shipActionKey, i)
+            {
+                var cells = [];
+                var image0 = React.createElement(ShipActionUI,
+                {
+                    shipActionKey: shipActionKey,
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    style:
+                    {
+                        backgroundColor: "#F0F0F0",
+                        border: "1px solid gray",
+                    },
+                }, image0));
+
+                var image1 = React.createElement(ShipActionUI,
+                {
+                    shipActionKey: shipActionKey,
+                    showName: true,
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    style:
+                    {
+                        backgroundColor: "#F0F0F0",
+                        border: "1px solid gray",
+                        fontSize: "small",
+                    },
+                }, image1));
+
+                rows.push(React.DOM.tr(
+                {
+                    key: rows.length,
+                }, cells));
+            });
+
+            React.render(React.DOM.table({}, rows), document.getElementById("panel"));
+        });
+    </script>
+</body>
+</html>
