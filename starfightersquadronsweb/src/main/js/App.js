@@ -38,6 +38,7 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         game.start();
 
         HtmlUtilities.removeClass(document.getElementById("ssPanel"), "hidden");
+        HtmlUtilities.removeClass(document.getElementById("helpLink"), "hidden");
         HtmlUtilities.removeClass(document.getElementById("messageArea"), "hidden");
         updateSizes(environmentUI);
 
