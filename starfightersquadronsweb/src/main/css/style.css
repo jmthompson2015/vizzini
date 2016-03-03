@@ -57,7 +57,7 @@ table {
     background-color: #555555;
 }
 
-#BACKGROUND_LIGHT, #messageArea, .newGamePanel, .optionPane, .pilotCardUIDescription, .pilotCardUIShipActions,
+#BACKGROUND_LIGHT, #helpLink, #messageArea, .newGamePanel, .optionPane, .pilotCardUIDescription, .pilotCardUIShipActions,
     .pilotCardUIShipActionCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName, .squadChooser,
     .squadUI, #ssPanel, .upgradeCardUI, .backgroundLight {
     background-color: #F0F0F0;
