@@ -1,5 +1,5 @@
-define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType" ], function(RangeRuler, UpgradeCard,
-        UpgradeHeader, UpgradeType)
+define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "ui/UpgradeTypeUI" ], function(RangeRuler, UpgradeCard,
+        UpgradeHeader, UpgradeTypeUI)
 {
     "use strict";
     var UpgradeCardUI = React.createClass(
@@ -72,7 +72,10 @@ define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType" ], function
             {
                 key: cells3.length,
                 className: "upgradeCardUIImage"
-            }, UpgradeCardUI.createUpgradeImage(upgrade.type)));
+            }, React.createElement(UpgradeTypeUI,
+            {
+                upgradeTypeKey: upgrade.type,
+            })));
             cells3.push(React.DOM.td(
             {
                 key: cells3.length,
@@ -121,24 +124,6 @@ define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType" ], function
         }
 
         return answer;
-    };
-
-    UpgradeCardUI.createUpgradeImage = function(upgradeType, key)
-    {
-        InputValidator.validateNotNull("upgradeType", upgradeType);
-
-        var typeName0 = UpgradeType.properties[upgradeType].displayName;
-        var typeName = typeName0.replace(" ", "");
-        var fileString = imageBase + "upgrade/" + typeName + "24.png";
-        var myKey = (key ? key : 0);
-
-        return React.DOM.img(
-        {
-            key: myKey,
-            className: "upgradeCardUIImage",
-            src: fileString,
-            title: typeName0
-        });
     };
 
     return UpgradeCardUI;

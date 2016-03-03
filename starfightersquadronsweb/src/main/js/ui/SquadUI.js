@@ -1,4 +1,4 @@
-define([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardUI)
+define([ "UpgradeCard", "ui/UpgradeTypeUI" ], function(UpgradeCard, UpgradeTypeUI)
 {
     "use strict";
     var SquadColumns = [
@@ -252,7 +252,10 @@ define([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardU
             {
                 LOGGER.error("Missing upgradeProps.type for " + upgrade);
             }
-            var image = UpgradeCardUI.createUpgradeImage(upgradeProps.type, 0);
+            var image = React.createElement(UpgradeTypeUI,
+            {
+                upgradeTypeKey: upgradeProps.type,
+            });
             cells.push(this.Td(
             {
                 key: cells.length,

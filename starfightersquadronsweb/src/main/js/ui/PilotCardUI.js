@@ -1,4 +1,5 @@
-define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, UpgradeCardUI)
+define([ "ShipAction", "ui/FactionUI", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(ShipAction, FactionUI,
+        ShipSilhouetteUI, UpgradeTypeUI)
 {
     "use strict";
     var PilotCardUI = React.createClass(
@@ -118,7 +119,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cell00 = React.DOM.td({}, element00);
             rows.push(React.DOM.tr(
             {
-                key: 0
+                key: rows.length,
             }, cell00));
 
             var innerCells10 = [];
@@ -161,22 +162,30 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cell10 = React.DOM.td({}, innerTable1);
             rows.push(React.DOM.tr(
             {
-                key: 1
+                key: rows.length,
             }, cell10));
 
             var innerCells20 = [];
-            var element200 = React.createElement(PilotCardUI.UpgradePanel,
+            var element201 = React.createElement(PilotCardUI.UpgradePanel,
             {
                 upgradeTypes: upgradeTypeKeys
             });
             innerCells20.push(React.DOM.td(
             {
-                key: 0,
-                className: "pilotCardUIUpgradeCell"
-            }, element200));
+                key: innerCells20.length,
+                className: "pilotCardUISilhouetteCell"
+            }, React.createElement(ShipSilhouetteUI,
+            {
+                shipKey: pilot.shipTeam.shipKey,
+            })));
             innerCells20.push(React.DOM.td(
             {
-                key: 1,
+                key: innerCells20.length,
+                className: "pilotCardUIUpgradeCell"
+            }, element201));
+            innerCells20.push(React.DOM.td(
+            {
+                key: innerCells20.length,
                 className: "pilotCardUISquadPointCost",
                 title: "Squad Point cost"
             }, pilotCost));
@@ -188,7 +197,7 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             var cell20 = React.DOM.td({}, innerTable2);
             rows.push(React.DOM.tr(
             {
-                key: 2
+                key: rows.length,
             }, cell20));
 
             var element30 = React.createElement(PilotCardUI.TokensPanel,
@@ -252,10 +261,6 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
     {
         render: function()
         {
-            var titleString = Team.properties[this.props.team].name + " Faction";
-            var teamName = Team.properties[this.props.team].shortName;
-            var fileString = imageBase + teamName + "Icon32.png";
-
             var cells0 = [];
             cells0.push(React.DOM.td(
             {
@@ -270,17 +275,15 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
                 title: "Name",
                 className: "namePanel"
             }, this.props.pilotName));
-            var image = React.DOM.img(
-            {
-                title: titleString,
-                src: fileString
-            });
             cells0.push(React.DOM.td(
             {
                 key: 2,
                 className: "namePanel",
                 rowSpan: 2
-            }, image));
+            }, React.createElement(FactionUI,
+            {
+                factionKey: this.props.team,
+            })));
 
             var cell1 = React.DOM.td(
             {
@@ -543,10 +546,13 @@ define([ "ShipAction", "Team", "ui/UpgradeCardUI" ], function(ShipAction, Team, 
             for (var i = 0; i < upgradeTypes.length; i++)
             {
                 var upgradeType = upgradeTypes[i];
-                var img = UpgradeCardUI.createUpgradeImage(upgradeType);
+                var img = React.createElement(UpgradeTypeUI,
+                {
+                    upgradeTypeKey: upgradeType,
+                });
                 cells.push(React.DOM.td(
                 {
-                    key: i
+                    key: i,
                 }, img));
             }
 

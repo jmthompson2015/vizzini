@@ -1,4 +1,4 @@
-define([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardUI)
+define([ "UpgradeCard", "ui/UpgradeCardUI", "ui/UpgradeTypeUI" ], function(UpgradeCard, UpgradeCardUI, UpgradeTypeUI)
 {
     "use strict";
     var UpgradeChooser = React.createClass(
@@ -20,7 +20,10 @@ define([ "UpgradeCard", "ui/UpgradeCardUI" ], function(UpgradeCard, UpgradeCardU
 
             var rows = [];
 
-            var image = UpgradeCardUI.createUpgradeImage(upgradeType, 0);
+            var image = React.createElement(UpgradeTypeUI,
+            {
+                upgradeTypeKey: upgradeType,
+            });
             var labelFunction = function(value)
             {
                 var upgradeProps = UpgradeCard.properties[value];

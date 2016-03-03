@@ -1,4 +1,4 @@
-define([ "Pilot" ], function(Pilot)
+define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, FactionUI, ShipSilhouetteUI)
 {
     "use strict";
     var PilotColumns = [
@@ -137,10 +137,6 @@ define([ "Pilot" ], function(Pilot)
 
             var pilot = Pilot.properties[pilotKey];
             var shipTeam = pilot.shipTeam;
-            var team = shipTeam.team;
-            var teamName0 = team.name;
-            var teamName1 = team.shortName;
-            var imageFile = imageBase + teamName1 + "Icon24.png";
             var j = 0;
 
             cells.push(this.Td(
@@ -148,17 +144,25 @@ define([ "Pilot" ], function(Pilot)
                 key: cells.length,
                 className: PilotColumns[j].className,
                 column: PilotColumns[j++].key,
-                value: teamName0, // this allows sorting
-            }, React.DOM.img(
+                value: shipTeam.team.name, // this allows sorting
+            }, React.createElement(FactionUI,
             {
-                alt: teamName0,
-                src: imageFile,
-                title: teamName0,
+                factionKey: shipTeam.teamKey,
+                isSmall: true,
             })));
 
             cells.push(this.createCell(cells.length, PilotColumns[j++], pilot.name));
 
-            cells.push(this.createCell(cells.length, PilotColumns[j++], shipTeam.name));
+            cells.push(this.Td(
+            {
+                key: cells.length,
+                className: PilotColumns[j].className,
+                column: PilotColumns[j++].key,
+                value: shipTeam.ship.name, // this allows sorting
+            }, React.createElement(ShipSilhouetteUI,
+            {
+                shipKey: shipTeam.shipKey,
+            })));
 
             if (pilot.isFlavorText)
             {
