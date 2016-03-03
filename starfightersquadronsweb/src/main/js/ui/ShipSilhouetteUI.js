@@ -1,4 +1,4 @@
-define([ "Ship", "ShipTeam" ], function(Ship, ShipTeam)
+define([ "Ship" ], function(Ship)
 {
     "use strict";
     var ShipSilhouetteUI = React.createClass(
