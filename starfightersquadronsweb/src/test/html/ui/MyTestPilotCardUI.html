@@ -37,7 +37,7 @@
         "use strict";
         var LOGGER = new Logger();
 
-        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var resourceBase = "../../../main/resources/";
         var audioBase = resourceBase + "audio/";
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
@@ -61,7 +61,7 @@
             rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
             var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM);
-            var scumToken = new Token(Pilot.SYNDICATE_THUG, scumAgent);
+            var scumToken = new Token(Pilot.IG_88A, scumAgent);
             scumToken.weaponsDisabled().increase();
             environment.placeToken(new Position(200, 200, 0), scumToken);
 

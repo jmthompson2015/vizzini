@@ -1,5 +1,5 @@
-define([ "ShipAction", "ui/FactionUI", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(ShipAction, FactionUI,
-        ShipSilhouetteUI, UpgradeTypeUI)
+define([ "ShipAction", "ui/FactionUI", "ui/ShipActionUI", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(
+        ShipAction, FactionUI, ShipActionUI, ShipSilhouetteUI, UpgradeTypeUI)
 {
     "use strict";
     var PilotCardUI = React.createClass(
@@ -236,26 +236,6 @@ define([ "ShipAction", "ui/FactionUI", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI"
             });
         },
     });
-
-    PilotCardUI.createActionImage = function(shipAction)
-    {
-        InputValidator.validateNotNull("shipAction", shipAction);
-
-        var actionName0 = ShipAction.properties[shipAction].displayName;
-        actionName0 = actionName0.replace(" (left)", "");
-        actionName0 = actionName0.replace(" (straight)", "");
-        actionName0 = actionName0.replace(" (right)", "");
-        actionName0 = actionName0.replace(" (SubLight Acceleration Motor)", "");
-        var actionName = actionName0.replace(" ", "");
-        var fileString = imageBase + "pilotCard/" + actionName + "24.png";
-
-        return React.DOM.img(
-        {
-            className: "pilotCardUIImage",
-            src: fileString,
-            title: actionName0,
-        });
-    };
 
     PilotCardUI.NamePanel = React.createClass(
     {
@@ -516,7 +496,22 @@ define([ "ShipAction", "ui/FactionUI", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI"
 
                 if (!this.excludes.vizziniContains(shipAction))
                 {
-                    var img = PilotCardUI.createActionImage(shipAction);
+                    var myActionKey = shipAction;
+
+                    if (shipAction === ShipAction.BARREL_ROLL_LEFT)
+                    {
+                        myActionKey = ShipAction.BARREL_ROLL;
+                    }
+                    else if (shipAction === ShipAction.BOOST_LEFT)
+                    {
+                        myActionKey = ShipAction.BOOST;
+                    }
+
+                    var img = React.createElement(ShipActionUI,
+                    {
+                        shipActionKey: myActionKey,
+                    });
+
                     cells.push(React.DOM.td(
                     {
                         key: i,
