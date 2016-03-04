@@ -50,7 +50,25 @@
                         border: "1px solid black",
                     },
                 }, image0));
+
                 var image1 = React.createElement(FactionUI,
+                {
+                    key: i,
+                    factionKey: factionKey,
+                    showName: true,
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    style:
+                    {
+                        backgroundColor: "#F0F0F0",
+                        border: "1px solid black",
+                        fontSize: "small",
+                    },
+                }, image1));
+
+                var image2 = React.createElement(FactionUI,
                 {
                     key: 10 + i,
                     factionKey: factionKey,
@@ -64,7 +82,15 @@
                         backgroundColor: "#F0F0F0",
                         border: "1px solid black",
                     },
-                }, image1));
+                }, image2));
+
+                var image3 = React.createElement(FactionUI,
+                {
+                    key: 10 + i,
+                    factionKey: factionKey,
+                    isSmall: true,
+                    showName: true,
+                });
                 cells.push(React.DOM.td(
                 {
                     key: cells.length,
@@ -74,7 +100,8 @@
                         border: "1px solid black",
                         fontSize: "small",
                     },
-                }, Team.properties[factionKey].name));
+                }, image3));
+
                 rows.push(React.DOM.tr(
                 {
                     key: rows.length,

@@ -18,13 +18,26 @@ define([ "Ship" ], function(Ship)
             var fileString = imageBase + "silhouette/" + shipName + ".png";
             var myKey = (this.props.key !== undefined ? this.props.key : 0);
 
-            return React.DOM.img(
+            var image = React.DOM.img(
             {
                 key: myKey,
                 className: "shipSilhouetteUIImage",
                 src: fileString,
                 title: shipName0,
             });
+            var showName = (this.props.showName !== undefined ? this.props.showName : false);
+
+            var answer = image;
+
+            if (showName)
+            {
+                answer = React.DOM.span(
+                {
+                    className: "shipSilhouetteUIImage",
+                }, image, " ", shipName0);
+            }
+
+            return answer;
         },
     });
 

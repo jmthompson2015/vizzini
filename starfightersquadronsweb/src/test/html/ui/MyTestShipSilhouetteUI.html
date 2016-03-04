@@ -16,12 +16,7 @@
 
 </head>
 <body>
-	<table>
-		<tr>
-			<td id="shipPanel"></td>
-			<td id="silhouettePanel"></td>
-		</tr>
-	</table>
+	<div id="panel"></div>
 	<script>
         "use strict";
         var LOGGER = new Logger();
@@ -31,45 +26,50 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Ship", "Team", "ui/ShipSilhouetteUI" ], function(Ship, Team, ShipSilhouetteUI)
+        require([ "Ship", "ui/ShipSilhouetteUI" ], function(Ship, ShipSilhouetteUI)
         {
-            var teamValues = Team.values();
             var shipValues = Ship.values();
             var rows = [];
             shipValues.forEach(function(shipKey, i)
             {
-                var image = React.createElement(ShipSilhouetteUI,
+                var cells = [];
+                var image0 = React.createElement(ShipSilhouetteUI,
                 {
-                    key: i,
                     shipKey: shipKey,
                 });
-                var cells = [];
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                    style:
-                    {
-                        backgroundColor: "gray",
-                        border: "1px solid lightGray",
-                    },
-                }, image));
                 cells.push(React.DOM.td(
                 {
                     key: cells.length,
                     style:
                     {
                         backgroundColor: "#F0F0F0",
-                        border: "1px solid lightGray",
+                        border: "1px solid gray",
+                    },
+                }, image0));
+
+                var image1 = React.createElement(ShipSilhouetteUI,
+                {
+                    shipKey: shipKey,
+                    showName: true,
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    style:
+                    {
+                        backgroundColor: "#F0F0F0",
+                        border: "1px solid gray",
                         fontSize: "small",
                     },
-                }, Ship.properties[shipKey].name));
+                }, image1));
+
                 rows.push(React.DOM.tr(
                 {
                     key: rows.length,
                 }, cells));
             });
 
-            React.render(React.DOM.table({}, rows), document.getElementById("silhouettePanel"));
+            React.render(React.DOM.table({}, rows), document.getElementById("panel"));
         });
     </script>
 </body>
