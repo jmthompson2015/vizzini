@@ -28,22 +28,34 @@
         "use strict";
         var LOGGER = new Logger();
 
-        require([ "EnvironmentFactory", "Pilot", "ShipAction", "SimpleAgent", "SquadBuilder", "Team", "Token",
-                "ui/ShipActionChooser" ], function(EnvironmentFactory, Pilot, ShipAction, SimpleAgent, SquadBuilder,
-                Team, Token, ShipActionChooser)
+        var resourceBase = "../../../main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "EnvironmentFactory", "Maneuver", "Pilot", "ShipAction", "SimpleAgent", "SquadBuilder", "Team",
+                "Token", "ui/ShipActionChooser" ], function(EnvironmentFactory, Maneuver, Pilot, ShipAction,
+                SimpleAgent, SquadBuilder, Team, Token, ShipActionChooser)
         {
             var environment = EnvironmentFactory.createCoreSetEnvironment();
             var token0 = environment.tokens()[0];
             var token1 = environment.tokens()[1];
             var token2 = environment.tokens()[2];
-            var shipActions = token2.shipActions();
 
-            if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
-            {
-                shipActions.vizziniRemove(ShipAction.TARGET_LOCK);
-                shipActions.push(ShipAction.createTargetLockShipAction(token0));
-                shipActions.push(ShipAction.createTargetLockShipAction(token1));
-            }
+            var shipActions = [];
+
+            shipActions.push(ShipAction.BARREL_ROLL_LEFT);
+            shipActions.push(ShipAction.BARREL_ROLL_RIGHT);
+            shipActions.push(ShipAction.BOOST_LEFT);
+            shipActions.push(ShipAction.BOOST_STRAIGHT);
+            shipActions.push(ShipAction.BOOST_RIGHT);
+            shipActions.push(ShipAction.CLOAK);
+            shipActions.push(ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD));
+            shipActions.push(ShipAction.EVADE);
+            shipActions.push(ShipAction.FOCUS);
+            shipActions.push(ShipAction.createSlamShipAction(Maneuver.STRAIGHT_2_STANDARD));
+            shipActions.push(ShipAction.createTargetLockShipAction(token0));
+            shipActions.push(ShipAction.createTargetLockShipAction(token1));
 
             var element = React.createElement(ShipActionChooser,
             {

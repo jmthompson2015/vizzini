@@ -1,4 +1,4 @@
-define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
+define([ "ShipAction", "ui/ShipActionUI" ], function(ShipAction, ShipActionUI)
 {
     "use strict";
     var ShipActionChooser = React.createClass(
@@ -36,30 +36,11 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
             };
             var labelFunction = function(value)
             {
-                var answer;
-                if (ShipAction.properties[value])
+                var answer = React.createElement(ShipActionUI,
                 {
-                    answer = ShipAction.properties[value].displayName;
-                }
-                else
-                {
-                    if (value.defender)
-                    {
-                        answer = "Target Lock: " + value.defender.name();
-                    }
-                    else if (value.shipAction === ShipAction.SLAM)
-                    {
-                        answer = "SLAM: " + Maneuver.toString(value.maneuver);
-                    }
-                    else if (value.shipAction === ShipAction.DECLOAK)
-                    {
-                        answer = "Decloak: " + Maneuver.toString(value.maneuver);
-                    }
-                    else
-                    {
-                        throw "Unknown ship action: " + value;
-                    }
-                }
+                    shipActionKey: value,
+                    showName: true,
+                });
                 return answer;
             };
             var initialValue = (shipActions.length > 0 ? shipActions[0] : undefined);
@@ -132,7 +113,7 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
                 {
                     shipAction = shipActions[j];
 
-                    if (!ShipAction.properties[shipAction] && shipAction.defender.id() === myId)
+                    if (!ShipAction.properties[shipAction] && shipAction.defender && shipAction.defender.id() === myId)
                     {
                         selected = shipAction;
                         LOGGER.trace("shipAction = " + JSON.stringify(shipAction));
