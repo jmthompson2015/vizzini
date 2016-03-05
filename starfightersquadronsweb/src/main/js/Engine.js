@@ -1,6 +1,6 @@
 define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "ShipAction", "TargetLock",
-        "UpgradeCard" ], function(CombatAction, Environment, ManeuverAction, Phase, Pilot, RangeRuler, ShipAction,
-        TargetLock, UpgradeCard)
+        "Team", "UpgradeCard" ], function(CombatAction, Environment, ManeuverAction, Phase, Pilot, RangeRuler,
+        ShipAction, TargetLock, Team, UpgradeCard)
 {
     "use strict";
     function Engine(environment, adjudicator)
@@ -215,8 +215,17 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
 
             var token = activationQueue.shift();
             var agent = token.agent();
-            var maneuverKey = token.pilot().shipTeam.teamKey == environment.firstTeam() ? firstPlanningAction
-                    .getManeuver(token) : secondPlanningAction.getManeuver(token);
+            var factionKey = token.pilot().shipTeam.teamKey;
+            var maneuverKey;
+
+            if (factionKey === environment.firstTeam() || Team.friend(factionKey) === environment.firstTeam())
+            {
+                maneuverKey = firstPlanningAction.getManeuver(token);
+            }
+            else
+            {
+                maneuverKey = secondPlanningAction.getManeuver(token);
+            }
 
             if (maneuverKey)
             {
