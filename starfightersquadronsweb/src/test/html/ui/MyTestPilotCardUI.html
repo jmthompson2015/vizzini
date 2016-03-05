@@ -18,18 +18,24 @@
 <body>
 	<table>
 		<tr>
+			<td id="foPilotCompact" style="vertical-align: top"></td>
 			<td id="imperialPilotCompact" style="vertical-align: top"></td>
 			<td id="rebelPilotCompact" style="vertical-align: top"></td>
+			<td id="resistancePilotCompact" style="vertical-align: top"></td>
 			<td id="scumPilotCompact" style="vertical-align: top"></td>
 		</tr>
 		<tr>
+			<td id="foPilotLarge" style="vertical-align: top"></td>
 			<td id="imperialPilotLarge" style="vertical-align: top"></td>
 			<td id="rebelPilotLarge" style="vertical-align: top"></td>
+			<td id="resistancePilotLarge" style="vertical-align: top"></td>
 			<td id="scumPilotLarge" style="vertical-align: top"></td>
 		</tr>
 		<tr>
+			<td></td>
 			<td><button id="updateImperial" type="button">Update</button></td>
 			<td><button id="updateRebel" type="button">Update</button></td>
+			<td></td>
 			<td><button id="updateScum" type="button">Update</button></td>
 		</tr>
 	</table>
@@ -60,6 +66,16 @@
             rebelToken.stress().increase();
             rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
+            var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
+            var foToken = new Token(Pilot.EPSILON_LEADER, foAgent);
+            foToken.weaponsDisabled().increase();
+            environment.placeToken(new Position(200, 200, 0), foToken);
+
+            var resistanceAgent = new SimpleAgent("Resistance Agent", Team.RESISTANCE);
+            var resistanceToken = new Token(Pilot.POE_DAMERON, resistanceAgent);
+            resistanceToken.weaponsDisabled().increase();
+            environment.placeToken(new Position(200, 200, 0), resistanceToken);
+
             var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM);
             var scumToken = new Token(Pilot.IG_88A, scumAgent);
             scumToken.weaponsDisabled().increase();
@@ -80,6 +96,13 @@
             var element = React.createElement(PilotCardUI,
             {
                 isCompact: true,
+                initialToken: foToken
+            });
+            React.render(element, document.getElementById("foPilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: true,
                 initialToken: imperialToken
             });
             React.render(element, document.getElementById("imperialPilotCompact"));
@@ -94,9 +117,23 @@
             var element = React.createElement(PilotCardUI,
             {
                 isCompact: true,
+                initialToken: resistanceToken
+            });
+            React.render(element, document.getElementById("resistancePilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: true,
                 initialToken: scumToken
             });
             React.render(element, document.getElementById("scumPilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: false,
+                initialToken: foToken
+            });
+            React.render(element, document.getElementById("foPilotLarge"));
 
             var element = React.createElement(PilotCardUI,
             {
@@ -111,6 +148,13 @@
                 initialToken: rebelToken
             });
             React.render(element, document.getElementById("rebelPilotLarge"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: false,
+                initialToken: resistanceToken
+            });
+            React.render(element, document.getElementById("resistancePilotLarge"));
 
             var element = React.createElement(PilotCardUI,
             {

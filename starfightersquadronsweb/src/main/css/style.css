@@ -12,17 +12,8 @@ table {
     vertical-align: middle;
 }
 
-.countTokenText, .damageCount, .labelTokenText {
-    padding: 6px 0 0 0;
-}
-
 .hidden {
     display: none;
-}
-
-.namePanel {
-    /* If this is integrated below, pilotSkillValue background is wrong. Not sure why. */
-    background-color: #F0F0F0;
 }
 
 #ALIGN_BOTTOM, .newGameOk, .alignBottom {
@@ -34,8 +25,8 @@ table {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .countTokenBox, .factionUIImage, .labelTokenBox, .shipActionUIImage, .shipSilhouetteUIImage,
-    .upgradeCardUIImage, .upgradeTypeUIImage, .alignMiddle {
+#ALIGN_MIDDLE, .factionUIImage, .shipActionUIImage, .shipSilhouetteUIImage, .shipStateUIImage, .upgradeCardUIImage,
+    .upgradeTypeUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
@@ -53,14 +44,13 @@ table {
     background-color: black;
 }
 
-#BACKGROUND_DARK, .pilotCard, .pilotSkillValue, .squadUI tr th, .upgradeCardUIRanges, .upgradeCardUIWeaponValue,
-    .backgroundDark {
+#BACKGROUND_DARK, .pilotCard, .squadUI tr th, .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .backgroundDark {
     background-color: #555555;
 }
 
-#BACKGROUND_LIGHT, #helpLink, #messageArea, .newGamePanel, .optionPane, .pilotCardUIDescription, .pilotCardUIShipActions,
-    .pilotCardUIShipActionCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName, .squadChooser,
-    .squadUI, #ssPanel, .upgradeCardUI, .backgroundLight {
+#BACKGROUND_LIGHT, #helpLink, #messageArea, .namePanel, .newGamePanel, .optionPane, .pilotCardUIDescription,
+    .pilotCardUIShipActions, .pilotCardUIShipActionCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName,
+    #shipName, .squadChooser, .squadUI, #ssPanel, .upgradeCardUI, .backgroundLight {
     background-color: #F0F0F0;
 }
 
@@ -69,7 +59,7 @@ table {
     background-color: lightGray;
 }
 
-#BACKGROUND_NO_REPEAT, .countTokenBox, .labelTokenBox, .backgroundNoRepeat {
+#BACKGROUND_NO_REPEAT, .backgroundNoRepeat {
     background-repeat: no-repeat;
 }
 
@@ -86,15 +76,14 @@ table {
     border: 1px solid lightGray;
 }
 
-#CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .countTokenText, .damageCount, .labelTokenText,
-    .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle, .rangesCell, .squadBuilderAdd, .statsTable,
-    .tokensTable, .center {
+#CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .maneuverTable, .newGamePanel, .optionPane,
+    .optionPaneTitle, .rangesCell, .squadBuilderAdd, .statsTable, .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
 }
 
-#COLOR_BLACK, .damageCount, #pilotName, #shipName, .colorBlack {
+#COLOR_BLACK, .damageImageText, #pilotName, #shipName, .colorBlack {
     color: black;
 }
 
@@ -114,7 +103,7 @@ table {
     color: red;
 }
 
-#COLOR_WHITE, .countTokenText, .labelTokenText, .maneuverTable, .squadUI tr th, .upgradeCardUIRanges, .colorWhite {
+#COLOR_WHITE, .labelImageText, .maneuverTable, .squadUI tr th, .upgradeCardUIRanges, .colorWhite {
     color: white;
 }
 
@@ -122,7 +111,7 @@ table {
     color: yellow;
 }
 
-#FONT_BOLD, .agentTitle, .damageCount, .upgradeCardUIHeader, .fontBold {
+#FONT_BOLD, .agentTitle, .damageImageText, .upgradeCardUIHeader, .fontBold {
     font-weight: bold;
 }
 
@@ -130,7 +119,7 @@ table {
     font-style: italic;
 }
 
-#FONT_MEDIUM, .countTokenText, .damageCount, .labelTokenText, .fontMedium {
+#FONT_MEDIUM, .damageImageText, .labelImageText, .pilotSkillValue, .fontMedium {
     font-size: medium;
 }
 
@@ -139,7 +128,7 @@ table {
     font-size: small;
 }
 
-#HEIGHT_32, .countTokenBox, .labelTokenBox, .height32 {
+#HEIGHT_32, .height32 {
     height: 32px;
 }
 
@@ -152,7 +141,7 @@ table {
     margin-left: 10px;
 }
 
-#MARGIN_NONE, .countTokenText, .damageCount, #firstPilots, .labelTokenText, #secondPilots, .marginNone {
+#MARGIN_NONE, #firstPilots, #secondPilots, .marginNone {
     margin: 0px;
 }
 
