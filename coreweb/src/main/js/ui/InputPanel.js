@@ -63,7 +63,7 @@ var InputPanel = React.createClass(
         var idFunction = this.props.idFunction;
         var id = String(idFunction ? idFunction(value) : value);
         var labelFunction = this.props.labelFunction;
-        var label = String(labelFunction ? labelFunction(value) : value);
+        var label = (labelFunction ? labelFunction(value) : value);
 
         inputProps.id = id;
 
