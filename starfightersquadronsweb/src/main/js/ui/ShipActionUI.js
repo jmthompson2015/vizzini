@@ -1,4 +1,9 @@
-define([ "ShipAction" ], function(ShipAction)
+/*
+ * @param shipActionKey (required)
+ * 
+ * @param showName (optional)
+ */
+define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 {
     "use strict";
     var ShipActionUI = React.createClass(
@@ -7,9 +12,21 @@ define([ "ShipAction" ], function(ShipAction)
         {
             InputValidator.validateNotNull("shipActionKey", this.props.shipActionKey);
 
-            var shipActionKey = this.props.shipActionKey;
+            var shipActionKey0 = this.props.shipActionKey;
+            var shipActionKey = (shipActionKey0.shipAction ? shipActionKey0.shipAction : shipActionKey0);
             var shipAction = ShipAction.properties[shipActionKey];
             var actionName0 = shipAction.displayName;
+            var actionName1 = actionName0;
+
+            if (this.props.shipActionKey.defender)
+            {
+                actionName1 += ": " + shipActionKey0.defender.name();
+            }
+            else if (this.props.shipActionKey.maneuver)
+            {
+                actionName1 += ": " + Maneuver.toString(shipActionKey0.maneuver);
+            }
+
             var fileString;
 
             if (shipAction.image)
@@ -29,7 +46,7 @@ define([ "ShipAction" ], function(ShipAction)
             {
                 className: "shipActionUIImage",
                 src: fileString,
-                title: actionName0,
+                title: actionName1,
             });
             var showName = (this.props.showName !== undefined ? this.props.showName : false);
 
@@ -40,7 +57,7 @@ define([ "ShipAction" ], function(ShipAction)
                 answer = React.DOM.span(
                 {
                     className: "shipActionUIImage",
-                }, image, " ", actionName0);
+                }, image, " ", actionName1);
             }
 
             return answer;

@@ -26,16 +26,35 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "ShipAction", "ui/ShipActionUI" ], function(ShipAction, ShipActionUI)
+        require([ "Maneuver", "Pilot", "ShipAction", "SimpleAgent", "Team", "Token", "ui/ShipActionUI" ], function(
+                Maneuver, Pilot, ShipAction, SimpleAgent, Team, Token, ShipActionUI)
         {
             var values = ShipAction.values();
             var rows = [];
             values.forEach(function(shipActionKey, i)
             {
+                var myShipActionKey = shipActionKey;
+
+                if (shipActionKey === ShipAction.DECLOAK)
+                {
+                    myShipActionKey = ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD);
+                }
+                else if (shipActionKey === ShipAction.SLAM)
+                {
+                    myShipActionKey = ShipAction.createSlamShipAction(Maneuver.STRAIGHT_2_STANDARD);
+                }
+                else if (shipActionKey === ShipAction.TARGET_LOCK)
+                {
+                    Token.resetNextId();
+                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                    var token0 = new Token(Pilot.DARTH_VADER, imperialAgent);
+                    myShipActionKey = ShipAction.createTargetLockShipAction(token0);
+                }
+
                 var cells = [];
                 var image0 = React.createElement(ShipActionUI,
                 {
-                    shipActionKey: shipActionKey,
+                    shipActionKey: myShipActionKey,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -49,7 +68,7 @@
 
                 var image1 = React.createElement(ShipActionUI,
                 {
-                    shipActionKey: shipActionKey,
+                    shipActionKey: myShipActionKey,
                     showName: true,
                 });
                 cells.push(React.DOM.td(
