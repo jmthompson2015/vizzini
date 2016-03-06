@@ -1,6 +1,8 @@
 /*
  * @param shipKey (required)
+ * 
  * @param key (optional; default: 0)
+ * @param showName (optional; default: false)
  */
 define([ "Ship" ], function(Ship)
 {
