@@ -26,6 +26,10 @@
     text-align: center;
 }
 
+.galleryShipCell {
+    padding: 5px;
+}
+
 .shipName {
     color: white;
 }
@@ -52,103 +56,155 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ManeuverChooser" ],
-                function(Pilot, Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token, ManeuverChooser)
+        require([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ManeuverChooser",
+                "ui/ShipActionPanel", "ui/ShipSilhouetteUI" ], function(Pilot, Ship, ShipTeam, SimpleAgent,
+                SquadBuilder, Team, Token, ManeuverChooser, ShipActionPanel, ShipSilhouetteUI)
+        {
+            var imageBase = "../resources/images/ship/";
+            var ShipGallery = React.createClass(
+            {
+                render: function()
                 {
-                    var imageBase = "../resources/images/ship/";
-                    var ShipGallery = React.createClass(
+                    var team = this.props.team;
+                    var isStrict = true;
+                    var shipTeamKeys = ShipTeam.valuesByTeam(team, isStrict);
+                    var agent = new SimpleAgent("Agent", team);
+
+                    var cells0 = [];
+                    var cells1 = [];
+                    var cells2 = [];
+                    var cells3 = [];
+                    var excludes = [ ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
+                            ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON, ShipTeam.REBEL_A_WING_ACE,
+                            ShipTeam.REBEL_B_WING_ACE ];
+
+                    shipTeamKeys.forEach(function(shipTeamKey, i)
                     {
-                        render: function()
+                        if (!excludes.vizziniContains(shipTeamKey))
                         {
-                            var team = this.props.team;
-                            var isStrict = true;
-                            var shipTeamKeys = ShipTeam.valuesByTeam(team, isStrict);
-                            var agent = new SimpleAgent("Agent", team);
+                            var shipTeam = ShipTeam.properties[shipTeamKey];
+                            var filename = imageBase + shipTeam.image;
+                            var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
+                            var token = new Token(pilotKey, agent);
 
-                            var cells0 = [];
-                            var cells1 = [];
-                            var cells2 = [];
+                            var images = [];
+                            images.push(this.createShipImage(shipTeamKey));
 
-                            shipTeamKeys.forEach(function(shipTeamKey, i)
+                            if (shipTeamKey === ShipTeam.IMPERIAL_TIE_INTERCEPTOR)
                             {
-                                var shipName = ShipTeam.properties[shipTeamKey].name;
-                                var filename = imageBase + ShipTeam.properties[shipTeamKey].image;
-                                var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
-                                var token = new Token(pilotKey, agent);
+                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD));
+                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON));
+                            }
+                            else if (shipTeamKey === ShipTeam.REBEL_A_WING)
+                            {
+                                images.push(this.createShipImage(ShipTeam.REBEL_A_WING_ACE));
+                            }
+                            else if (shipTeamKey === ShipTeam.REBEL_B_WING)
+                            {
+                                images.push(this.createShipImage(ShipTeam.REBEL_B_WING_ACE));
+                            }
 
-                                var image = React.DOM.img(
-                                {
-                                    src: filename
-                                });
-                                var chooser = React.createElement(ManeuverChooser,
-                                {
-                                    token: token,
-                                    isPilotNameShown: false,
-                                });
-                                cells0.push(React.DOM.td(
-                                {
-                                    key: "image" + i,
-                                    className: "galleryCell"
-                                }, image));
-                                cells1.push(React.DOM.td(
-                                {
-                                    key: "name" + i,
-                                    className: "galleryCell"
-                                }, shipName));
-                                cells2.push(React.DOM.td(
-                                {
-                                    key: "maneuvers" + i,
-                                    className: "galleryCell alignTop"
-                                }, chooser));
+                            var silhouette = React.createElement(ShipSilhouetteUI,
+                            {
+                                shipKey: shipTeam.shipKey,
+                                showName: true,
                             });
-
-                            var rows = [];
-                            rows.push(React.DOM.tr(
+                            var shipActionPanel = React.createElement(ShipActionPanel,
                             {
-                                key: 0
-                            }, cells0));
-                            rows.push(React.DOM.tr(
+                                shipActionKeys: shipTeam.ship.shipActionKeys,
+                            });
+                            var chooser = React.createElement(ManeuverChooser,
                             {
-                                key: 1,
-                                className: "shipName"
-                            }, cells1));
-                            rows.push(React.DOM.tr(
+                                token: token,
+                                isPilotNameShown: false,
+                            });
+                            cells0.push(React.DOM.td(
                             {
-                                key: 2
-                            }, cells2));
-                            return React.DOM.table(
+                                key: "image" + i,
+                                className: "galleryCell"
+                            }, images));
+                            cells1.push(React.DOM.td(
                             {
-                                className: "galleryTable"
-                            }, rows);
+                                key: "name" + i,
+                                className: "galleryCell"
+                            }, silhouette));
+                            cells2.push(React.DOM.td(
+                            {
+                                key: "actions" + i,
+                                className: "galleryCell"
+                            }, shipActionPanel));
+                            cells3.push(React.DOM.td(
+                            {
+                                key: "maneuvers" + i,
+                                className: "galleryCell alignBottom"
+                            }, chooser));
                         }
-                    });
+                    }, this);
 
-                    var element0 = React.createElement(ShipGallery,
+                    var rows = [];
+                    rows.push(React.DOM.tr(
                     {
-                        team: Team.IMPERIAL
-                    });
-                    React.render(element0, document.getElementById("imperialShips"));
-                    var element1 = React.createElement(ShipGallery,
+                        key: rows.length,
+                    }, cells0));
+                    rows.push(React.DOM.tr(
                     {
-                        team: Team.REBEL
-                    });
-                    React.render(element1, document.getElementById("rebelShips"));
-                    var element2 = React.createElement(ShipGallery,
+                        key: rows.length,
+                        className: "shipName"
+                    }, cells1));
+                    rows.push(React.DOM.tr(
                     {
-                        team: Team.SCUM
-                    });
-                    React.render(element2, document.getElementById("scumShips"));
-                    var element3 = React.createElement(ShipGallery,
+                        key: rows.length,
+                    }, cells2));
+                    rows.push(React.DOM.tr(
                     {
-                        team: Team.FIRST_ORDER
-                    });
-                    React.render(element3, document.getElementById("firstOrderShips"));
-                    var element4 = React.createElement(ShipGallery,
+                        key: rows.length,
+                    }, cells3));
+                    return React.DOM.table(
                     {
-                        team: Team.RESISTANCE
+                        className: "galleryTable"
+                    }, rows);
+                },
+
+                createShipImage: function(shipTeamKey)
+                {
+                    var shipTeam = ShipTeam.properties[shipTeamKey];
+                    var filename = imageBase + shipTeam.image;
+
+                    return React.DOM.img(
+                    {
+                        className: "galleryShipCell",
+                        src: filename,
+                        title: shipTeam.name,
                     });
-                    React.render(element4, document.getElementById("resistanceShips"));
-                });
+                }
+            });
+
+            var element0 = React.createElement(ShipGallery,
+            {
+                team: Team.IMPERIAL
+            });
+            React.render(element0, document.getElementById("imperialShips"));
+            var element1 = React.createElement(ShipGallery,
+            {
+                team: Team.REBEL
+            });
+            React.render(element1, document.getElementById("rebelShips"));
+            var element2 = React.createElement(ShipGallery,
+            {
+                team: Team.SCUM
+            });
+            React.render(element2, document.getElementById("scumShips"));
+            var element3 = React.createElement(ShipGallery,
+            {
+                team: Team.FIRST_ORDER
+            });
+            React.render(element3, document.getElementById("firstOrderShips"));
+            var element4 = React.createElement(ShipGallery,
+            {
+                team: Team.RESISTANCE
+            });
+            React.render(element4, document.getElementById("resistanceShips"));
+        });
     </script>
 </body>
 </html>
