@@ -1,6 +1,6 @@
-define([ "ShipAction", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionUI", "ui/ShipSilhouetteUI", "ui/ShipStateUI",
-        "ui/UpgradeTypeUI" ], function(ShipAction, FactionUI, LabeledImage, ShipActionUI, ShipSilhouetteUI,
-        ShipStateUI, UpgradeTypeUI)
+define([ "ShipAction", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipActionUI",
+        "ui/ShipSilhouetteUI", "ui/ShipStateUI", "ui/UpgradeTypeUI" ], function(ShipAction, FactionUI, LabeledImage,
+        ShipActionPanel, ShipActionUI, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI)
 {
     "use strict";
     var PilotCardUI = React.createClass(
@@ -147,7 +147,7 @@ define([ "ShipAction", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionUI", "ui
 
             var element101 = React.createElement(ShipActionPanel,
             {
-                shipActions: shipActionKeys
+                shipActionKeys: shipActionKeys,
             });
             var innerCell11 = React.DOM.td({}, element101);
 
@@ -495,56 +495,6 @@ define([ "ShipAction", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionUI", "ui
             {
                 className: "statsTable"
             }, rows);
-        },
-    });
-
-    var ShipActionPanel = React.createClass(
-    {
-        excludes: [ ShipAction.BARREL_ROLL_RIGHT, ShipAction.BOOST_STRAIGHT, ShipAction.BOOST_RIGHT ],
-
-        render: function()
-        {
-            var shipActions = this.props.shipActions;
-            var cells = [];
-
-            for (var i = 0; i < shipActions.length; i++)
-            {
-                var shipAction = shipActions[i];
-
-                if (!this.excludes.vizziniContains(shipAction))
-                {
-                    var myActionKey = shipAction;
-
-                    if (shipAction === ShipAction.BARREL_ROLL_LEFT)
-                    {
-                        myActionKey = ShipAction.BARREL_ROLL;
-                    }
-                    else if (shipAction === ShipAction.BOOST_LEFT)
-                    {
-                        myActionKey = ShipAction.BOOST;
-                    }
-
-                    var img = React.createElement(ShipActionUI,
-                    {
-                        shipActionKey: myActionKey,
-                    });
-
-                    cells.push(React.DOM.td(
-                    {
-                        key: i,
-                        className: "pilotCardUIShipActionCell"
-                    }, img));
-                }
-            }
-
-            var row = React.DOM.tr(
-            {
-                className: "pilotCardUIShipActions"
-            }, cells);
-            return React.DOM.table(
-            {
-                className: "pilotCardUIShipActions"
-            }, row);
         },
     });
 

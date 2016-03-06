@@ -49,8 +49,8 @@ table {
 }
 
 #BACKGROUND_LIGHT, #helpLink, #messageArea, .namePanel, .newGamePanel, .optionPane, .pilotCardUIDescription,
-    .pilotCardUIShipActions, .pilotCardUIShipActionCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName,
-    #shipName, .squadChooser, .squadUI, #ssPanel, .upgradeCardUI, .backgroundLight {
+    .pilotCardUIShipActions, .shipActionPanelCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName,
+    .squadChooser, .squadUI, #ssPanel, .upgradeCardUI, .backgroundLight {
     background-color: #F0F0F0;
 }
 
@@ -175,10 +175,6 @@ table {
 
 #WIDTH_16, .maneuverCell, .width16 {
     width: 16px;
-}
-
-#WIDTH_24, .pilotCardUIShipActionCell, .width24 {
-    width: 24px;
 }
 
 #WIDTH_FULL, #mainTable, .nameTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage,
