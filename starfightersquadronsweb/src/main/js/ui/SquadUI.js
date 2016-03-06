@@ -1,4 +1,5 @@
-define([ "UpgradeCard", "ui/UpgradeTypeUI" ], function(UpgradeCard, UpgradeTypeUI)
+define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(UpgradeCard, ShipSilhouetteUI,
+        UpgradeTypeUI)
 {
     "use strict";
     var SquadColumns = [
@@ -68,21 +69,20 @@ define([ "UpgradeCard", "ui/UpgradeTypeUI" ], function(UpgradeCard, UpgradeTypeU
         render: function()
         {
             var squad = this.props.squad;
-            var self = this;
 
             // Assign actions.
             squad.forEach(function(token)
             {
                 if (!token.removeAction)
                 {
-                    token.removeAction = self.createRemoveAction(token);
+                    token.removeAction = this.createRemoveAction(token);
                 }
-            });
+            }, this);
 
             var rows = squad.map(function(token, i)
             {
-                return self.createRows(token, i);
-            });
+                return this.createRows(token, i);
+            }, this);
             var footer = this.Tfoot(
             {
                 key: "footer",
@@ -155,7 +155,10 @@ define([ "UpgradeCard", "ui/UpgradeTypeUI" ], function(UpgradeCard, UpgradeTypeU
             {
                 title: pilotProps.description,
             }, pilotProps.name)));
-            cells.push(createCell(cells.length, SquadColumns[j++], shipProps.name));
+            cells.push(createCell(cells.length, SquadColumns[j++], React.createElement(ShipSilhouetteUI,
+            {
+                shipKey: pilotProps.shipTeam.shipKey,
+            })));
 
             var shipState = pilotProps.shipState;
             cells.push(createCell(cells.length, SquadColumns[j++], shipState.pilotSkillValue()));
