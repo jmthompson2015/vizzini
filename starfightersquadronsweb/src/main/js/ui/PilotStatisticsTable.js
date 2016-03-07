@@ -162,6 +162,7 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
             }, React.createElement(ShipSilhouetteUI,
             {
                 shipKey: shipTeam.shipKey,
+                showName: true,
             })));
 
             if (pilot.isFlavorText)

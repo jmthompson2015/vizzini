@@ -158,6 +158,7 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
             cells.push(createCell(cells.length, SquadColumns[j++], React.createElement(ShipSilhouetteUI,
             {
                 shipKey: pilotProps.shipTeam.shipKey,
+                showName: true,
             })));
 
             var shipState = pilotProps.shipState;
