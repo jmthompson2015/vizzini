@@ -348,7 +348,7 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], func
             context.rotate(90 * DEG_TO_RADIANS);
             context.fillStyle = teamColor;
             context.font = "14px sans-serif";
-            context.fillText(id, -width / 2, height / 2);
+            context.fillText(id, -height / 2, width / 2);
             context.rotate(-90 * DEG_TO_RADIANS);
 
             // Cleanup.
