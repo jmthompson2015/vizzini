@@ -244,16 +244,23 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                     var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment,
                             adjudicator, token);
 
-                    var element = React.createElement(ShipActionChooser,
+                    if (shipActions.length > 0)
                     {
-                        token: token,
-                        shipActions: shipActions,
-                        callback: finishShipAction
-                    });
-                    React.render(element, document.getElementById("inputArea"));
-                    window.dispatchEvent(new Event('resize'));
+                        var element = React.createElement(ShipActionChooser,
+                        {
+                            token: token,
+                            shipActions: shipActions,
+                            callback: finishShipAction
+                        });
+                        React.render(element, document.getElementById("inputArea"));
+                        window.dispatchEvent(new Event('resize'));
 
-                    // Wait for the user to respond.
+                        // Wait for the user to respond.
+                    }
+                    else
+                    {
+                        setTimeout(finishShipAction, 1000);
+                    }
                 };
 
                 function finishDealDamage()
