@@ -114,8 +114,11 @@ define(function()
         return answer;
     };
 
-    Position.isPointInPlayArea = function(x, y)
+    Position.isPointInPlayArea = function(xIn, yIn)
     {
+        var x = Math.round(xIn);
+        var y = Math.round(yIn);
+
         return ((0 <= x) && (x < Position.MAX_X)) && ((0 <= y) && (y < Position.MAX_Y));
     };
 
