@@ -6,6 +6,8 @@ define([ "ManeuverComputer", "Position" ], function(ManeuverComputer, Position)
         ONE: "one",
         TWO: "two",
         THREE: "three",
+        FOUR: "four",
+        FIVE: "five",
         properties:
         {
             "one":
@@ -28,6 +30,20 @@ define([ "ManeuverComputer", "Position" ], function(ManeuverComputer, Position)
                 maxDistance: 300, // Maximum distance. (mm)
                 displayName: "3",
                 value: "three",
+            },
+            "four":
+            {
+                minDistance: 301, // Minimum distance. (mm)
+                maxDistance: 400, // Maximum distance. (mm)
+                displayName: "4",
+                value: "four",
+            },
+            "five":
+            {
+                minDistance: 401, // Minimum distance. (mm)
+                maxDistance: 500, // Maximum distance. (mm)
+                displayName: "5",
+                value: "five",
             },
         },
 

@@ -13,7 +13,9 @@ define([ "Pilot", "Position", "RangeRuler", "SimpleAgent", "Team", "Token" ], fu
         assert.equal(RangeRuler.findRange(200), RangeRuler.TWO);
         assert.equal(RangeRuler.findRange(201), RangeRuler.THREE);
         assert.equal(RangeRuler.findRange(300), RangeRuler.THREE);
-        assert.ok(!RangeRuler.findRange(301));
+        assert.equal(RangeRuler.findRange(301), RangeRuler.FOUR);
+        assert.equal(RangeRuler.findRange(401), RangeRuler.FIVE);
+        assert.ok(!RangeRuler.findRange(501));
     });
 
     QUnit.test("getRange() One", function(assert)

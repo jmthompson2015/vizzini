@@ -140,10 +140,10 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
     {
         var result = UpgradeRestriction.values();
         assert.ok(result);
-        assert.equal(result.length, 29);
+        assert.equal(result.length, 31);
         assert.equal(result[0], UpgradeRestriction.A_WING_ONLY);
-        assert.equal(result[26], UpgradeRestriction.YT_2400_ONLY);
-        assert.equal(result[27], UpgradeRestriction.Y_WING_ONLY);
-        assert.equal(result[28], UpgradeRestriction.YV_666_ONLY);
+        assert.equal(result[28], UpgradeRestriction.YT_2400_ONLY);
+        assert.equal(result[29], UpgradeRestriction.Y_WING_ONLY);
+        assert.equal(result[30], UpgradeRestriction.YV_666_ONLY);
     });
 });

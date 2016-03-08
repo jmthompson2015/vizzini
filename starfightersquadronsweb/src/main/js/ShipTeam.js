@@ -25,7 +25,9 @@ define([ "Ship", "Team" ], function(Ship, Team)
         REBEL_A_WING_ACE: "rebelAWingAce",
         REBEL_B_WING: "rebelBWing",
         REBEL_B_WING_ACE: "rebelBWingAce",
+        REBEL_CR90_CORVETTE: "rebelCr90Corvette",
         REBEL_E_WING: "rebelEWing",
+        REBEL_GR_75_MEDIUM_TRANSPORT: "rebelGr75MediumTransport",
         REBEL_HWK_290: "rebelHwk290",
         REBEL_K_WING: "rebelKWing",
         REBEL_X_WING: "rebelXWing",
@@ -191,6 +193,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 image: "Rebel_Aces_B-Wing.png",
                 value: "rebelBWingAce",
             },
+            "rebelCr90Corvette":
+            {
+                name: "CR90 Corvette",
+                shipKey: Ship.CR90_CORVETTE,
+                teamKey: Team.REBEL,
+                image: "Rebel_CR90_Corvette.png",
+                value: "rebelCr90Corvette",
+            },
             "rebelEWing":
             {
                 name: "E-Wing",
@@ -198,6 +208,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 teamKey: Team.REBEL,
                 image: "E-Wing.png",
                 value: "rebelEWing",
+            },
+            "rebelGr75MediumTransport":
+            {
+                name: "GR-75 Medium Transport",
+                shipKey: Ship.GR_75_MEDIUM_TRANSPORT,
+                teamKey: Team.REBEL,
+                image: "Rebel_GR-75_Medium_Transport.png",
+                value: "rebelGr75MediumTransport",
             },
             "rebelHwk290":
             {

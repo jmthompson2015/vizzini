@@ -5,6 +5,7 @@ define(function()
     {
         ACTION: "action",
         ATTACK: "attack",
+        ATTACK_ENERGY: "attackEnergy",
         ATTACK_FOCUS: "attackFocus",
         ATTACK_TARGET_LOCK: "attackTargetLock",
 
@@ -19,6 +20,11 @@ define(function()
             {
                 name: "Attack",
                 value: "attack",
+            },
+            "attackEnergy":
+            {
+                name: "Attack (Energy)",
+                value: "attackEnergy",
             },
             "attackFocus":
             {

@@ -98,10 +98,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 154);
+        assert.equal(result.length, 156);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
-        assert.equal(result[150], Pilot.WINGED_GUNDARK);
-        assert.equal(result[153], Pilot.ZETA_SQUADRON_PILOT);
+        assert.equal(result[152], Pilot.WINGED_GUNDARK);
+        assert.equal(result[155], Pilot.ZETA_SQUADRON_PILOT);
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 - // properties
@@ -251,9 +251,9 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 56);
+        assert.equal(result.length, 58);
         assert.equal(result[0], Pilot.AIREN_CRACKEN);
-        assert.equal(result[55], Pilot.RED_SQUADRON_VETERAN);
+        assert.equal(result[57], Pilot.RED_SQUADRON_VETERAN);
     });
 
     QUnit.test("valuesByTeam() Rebel strict", function(assert)
@@ -266,9 +266,9 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 50);
+        assert.equal(result.length, 52);
         assert.equal(result[0], Pilot.AIREN_CRACKEN);
-        assert.equal(result[49], Pilot.WILD_SPACE_FRINGER);
+        assert.equal(result[51], Pilot.WILD_SPACE_FRINGER);
     });
 
     QUnit.test("valuesByTeam() Resistance", function(assert)
@@ -278,10 +278,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 56);
+        assert.equal(result.length, 58);
         assert.equal(result[0], Pilot.BLUE_ACE);
         assert.equal(result[6], Pilot.AIREN_CRACKEN);
-        assert.equal(result[55], Pilot.WILD_SPACE_FRINGER);
+        assert.equal(result[57], Pilot.WILD_SPACE_FRINGER);
     });
 
     QUnit.test("valuesByTeam() Resistance strict", function(assert)

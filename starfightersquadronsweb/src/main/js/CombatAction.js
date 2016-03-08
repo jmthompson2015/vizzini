@@ -92,7 +92,7 @@ define(
                     var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
                     attacker.combatState().range(range);
 
-                    if (range)
+                    if ([ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ].vizziniContains(range))
                     {
                         attacker.combatState().combatAction(this);
 

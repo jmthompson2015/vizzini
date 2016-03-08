@@ -40,10 +40,16 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
         InputValidator.validateNotNull("shipKey", shipKey);
 
         var props = Ship.properties[shipKey];
+        var name = props.name;
+
+        if (shipKey === Ship.CR90_CORVETTE || shipKey === Ship.GR_75_MEDIUM_TRANSPORT)
+        {
+            name = props.name.split(" ")[0];
+        }
 
         return (
         {
-            displayName: props.name + " only.",
+            displayName: name + " only.",
             passes: function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
@@ -83,7 +89,9 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
         A_WING_ONLY: "aWingOnly",
         AGGRESSOR_ONLY: "aggressorOnly",
         B_WING_ONLY: "bWingOnly",
+        CR90_ONLY: "cr90Only",
         FIRESPRAY_31_ONLY: "firespray31Only",
+        GR_75_ONLY: "gr75Only",
         HWK_290_ONLY: "hwk290Only",
         LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
         M3_A_INTERCEPTOR_ONLY: "m3AInterceptorOnly",
@@ -117,7 +125,9 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "aWingOnly": new ShipRestriction(Ship.A_WING),
             "aggressorOnly": new ShipRestriction(Ship.AGGRESSOR),
             "bWingOnly": new ShipRestriction(Ship.B_WING),
+            "cr90Only": new ShipRestriction(Ship.CR90_CORVETTE),
             "firespray31Only": new ShipRestriction(Ship.FIRESPRAY_31),
+            "gr75Only": new ShipRestriction(Ship.GR_75_MEDIUM_TRANSPORT),
             "hugeShipOnly":
             {
                 displayName: "Huge ship only.",

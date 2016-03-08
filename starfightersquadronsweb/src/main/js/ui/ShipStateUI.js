@@ -19,7 +19,7 @@ define([ "Team", "ui/LabeledImage" ], function(Team, LabeledImage)
             var factionKey = this.determineFactionKey();
             var factionName = Team.properties[factionKey].shortName;
             var size = (shipStateKey === "Skill" ? 32 : 24);
-            var src = imageBase + "pilotCard/" + factionName + "_" + shipStateKey + size + ".png";
+            var src = "pilotCard/" + factionName + "_" + shipStateKey + size + ".png";
             var myKey = (this.props.key !== undefined ? this.props.key : 0);
             var label = this.props.label;
             var cellStyle =
@@ -44,7 +44,7 @@ define([ "Team", "ui/LabeledImage" ], function(Team, LabeledImage)
             {
                 image = React.DOM.img(
                 {
-                    src: src,
+                    src: imageBase + src,
                     style: cellStyle,
                 });
             }

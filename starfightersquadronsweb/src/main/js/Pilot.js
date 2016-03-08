@@ -40,6 +40,7 @@ define(
                 COLONEL_VESSERY: "colonelVessery",
                 COMMANDER_KENKIRK: "commanderKenkirk",
                 CORRAN_HORN: "corranHorn",
+                CR90_CORVETTE: "cr90Corvette",
                 CUTLASS_SQUADRON_PILOT: "cutlassSquadronPilot",
                 DACE_BONEARM: "daceBonearm",
                 DAGGER_SQUADRON_PILOT: "daggerSquadronPilot",
@@ -64,6 +65,7 @@ define(
                 GARVEN_DREIS: "garvenDreis",
                 GEMMER_SOJAN: "gemmerSojan",
                 GOLD_SQUADRON_PILOT: "goldSquadronPilot",
+                GR_75_MEDIUM_TRANSPORT: "gr75MediumTransport",
                 GRAY_SQUADRON_PILOT: "graySquadronPilot",
                 GRAZ_THE_HUNTER: "grazTheHunter",
                 GREEN_SQUADRON_PILOT: "greenSquadronPilot",
@@ -573,6 +575,36 @@ define(
                                 UpgradeType.ASTROMECH ],
                         value: "corranHorn",
                     },
+                    "cr90Corvette":
+                    {
+                        fore:
+                        {
+                            name: "CR90 Corvette (fore)",
+                            description: "When attacking with your primary weapon, you may spend 1 energy to roll 1 additional attack die.",
+                            shipState: new ShipState(4, 4, 0, 8, 5),
+                            squadPointCost: 50,
+                            upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.HARDPOINT, UpgradeType.HARDPOINT,
+                                    UpgradeType.TEAM, UpgradeType.TEAM, UpgradeType.CARGO ],
+                        },
+                        aft:
+                        {
+                            name: "CR90 Corvette (aft)",
+                            description: "Equipped with 11 Girodyne Ter58 high-output ion-turbine engines and a hardy hull, the Rebel Alliance prized the CR90 for its sublight speed and durability.",
+                            isFlavorText: true,
+                            shipState: new ShipState(4, null, 0, 8, 3, 5),
+                            squadPointCost: 40,
+                            upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.HARDPOINT, UpgradeType.TEAM,
+                                    UpgradeType.CARGO ],
+                            isImplemented: true,
+                        },
+                        name: "CR90 Corvette",
+                        description: "Fore: When attacking with your primary weapon, you may spend 1 energy to roll 1 additional attack die.",
+                        shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
+                        shipState: new ShipState(4, 4, 0, 8, 5, 5),
+                        squadPointCost: 50 + 40,
+                        upgradeTypeKeys: [],
+                        value: "cr90CorvetteFore",
+                    },
                     "cutlassSquadronPilot":
                     {
                         name: "Cutlass Squadron Pilot",
@@ -855,6 +887,19 @@ define(
                                 UpgradeType.ASTROMECH ],
                         isImplemented: true,
                         value: "goldSquadronPilot",
+                    },
+                    "gr75MediumTransport":
+                    {
+                        name: "GR-75 Medium Transport",
+                        description: "The GR-75 played an integral role in the evacuation of Hoth, transporting the bulk of the Alliance's supplies and personnel to the rendezvous point.",
+                        isFlavorText: true,
+                        shipTeamKey: ShipTeam.REBEL_GR_75_MEDIUM_TRANSPORT,
+                        shipState: new ShipState(3, null, 0, 8, 4, 4),
+                        squadPointCost: 30,
+                        upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.CREW, UpgradeType.CARGO, UpgradeType.CARGO,
+                                UpgradeType.CARGO ],
+                        isImplemented: true,
+                        value: "gr75MediumTransport",
                     },
                     "graySquadronPilot":
                     {

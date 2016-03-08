@@ -1,6 +1,6 @@
 define(
-        [ "FiringArc", "Maneuver", "ShipAction", "ShipBase" ],
-        function(FiringArc, Maneuver, ShipAction, ShipBase)
+        [ "FiringArc", "Maneuver", "RangeRuler", "ShipAction", "ShipBase" ],
+        function(FiringArc, Maneuver, RangeRuler, ShipAction, ShipBase)
         {
             "use strict";
             var Ship =
@@ -8,8 +8,10 @@ define(
                 A_WING: "aWing",
                 AGGRESSOR: "aggressor",
                 B_WING: "bWing",
+                CR90_CORVETTE: "cr90Corvette",
                 E_WING: "eWing",
                 FIRESPRAY_31: "firespray31",
+                GR_75_MEDIUM_TRANSPORT: "gr75MediumTransport",
                 HWK_290: "hwk290",
                 K_WING: "kWing",
                 KIHRAXZ_FIGHTER: "kihraxzFighter",
@@ -84,6 +86,36 @@ define(
                                 ShipAction.BARREL_ROLL_RIGHT ],
                         value: "bWing",
                     },
+                    "cr90Corvette":
+                    {
+                        fore:
+                        {
+                            name: "CR90 Corvette (fore)",
+                            description: "A CR90 Corvette (fore).",
+                            primaryFiringArcKey: FiringArc.FORWARD,
+                            isPrimaryWeaponTurret: true,
+                            primaryWeaponRanges: [ RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE ],
+                            shipActionKeys: [ ShipAction.COORDINATE, ShipAction.TARGET_LOCK ],
+                        },
+                        aft:
+                        {
+                            name: "CR90 Corvette (aft)",
+                            description: "A CR90 Corvette (aft).",
+                            shipActionKeys: [ ShipAction.RECOVER, ShipAction.REINFORCE ],
+                        },
+                        name: "CR90 Corvette",
+                        description: "A CR90 Corvette.",
+                        shipBaseKey: ShipBase.HUGE2,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        isPrimaryWeaponTurret: true,
+                        maneuverKeys: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.BANK_RIGHT_1_STANDARD,
+                                Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_STANDARD,
+                                Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.STRAIGHT_3_STANDARD,
+                                Maneuver.STRAIGHT_4_STANDARD ],
+                        shipActionKeys: [ ShipAction.COORDINATE, ShipAction.TARGET_LOCK, ShipAction.RECOVER,
+                                ShipAction.REINFORCE ],
+                        value: "cr90Corvette",
+                    },
                     "eWing":
                     {
                         name: "E-Wing",
@@ -119,6 +151,20 @@ define(
                                 Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
                         shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE ],
                         value: "firespray31",
+                    },
+                    "gr75MediumTransport":
+                    {
+                        name: "GR-75 Medium Transport",
+                        description: "A GR-75 Medium Transport.",
+                        shipBaseKey: ShipBase.HUGE1,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        maneuverKeys: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_STANDARD,
+                                Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.BANK_LEFT_2_STANDARD,
+                                Maneuver.STRAIGHT_2_STANDARD, Maneuver.BANK_RIGHT_2_STANDARD,
+                                Maneuver.STRAIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD ],
+                        shipActionKeys: [ ShipAction.RECOVER, ShipAction.REINFORCE, ShipAction.COORDINATE,
+                                ShipAction.JAM ],
+                        value: "gr75MediumTransport",
                     },
                     "hwk290":
                     {

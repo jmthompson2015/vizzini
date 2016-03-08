@@ -20,6 +20,7 @@ define(
                 AUTOBLASTER: "autoblaster",
                 AUTOBLASTER_TURRET: "autoblasterTurret",
                 AUTOTHRUSTERS: "autothrusters",
+                BACKUP_SHIELD_GENERATOR: "backupShieldGenerator",
                 B_WING_E2: "bWingE2",
                 BB_8: "bb8",
                 BLASTER_TURRET: "blasterTurret",
@@ -27,6 +28,7 @@ define(
                 BOMB_LOADOUT: "bombLoadout",
                 BOMBARDIER: "bombardier",
                 BOSSK: "bossk",
+                BRIGHT_HOPE: "brightHope",
                 BTL_A4_Y_WING: "btlA4YWing",
                 C_3PO: "c3po",
                 CALCULATION: "calculation",
@@ -37,6 +39,7 @@ define(
                 CLUSTER_MISSILES: "clusterMissiles",
                 COMBAT_RETROFIT: "combatRetrofit",
                 COMM_RELAY: "commRelay",
+                COMMS_BOOSTER: "commsBooster",
                 CONCUSSION_MISSILES: "concussionMissiles",
                 CONNER_NET: "connerNet",
                 COOL_HAND: "coolHand",
@@ -50,12 +53,17 @@ define(
                 DEADEYE: "deadeye",
                 DECOY: "decoy",
                 DETERMINATION: "determination",
+                DODONNAS_PRIDE: "dodonnasPride",
                 DRAW_THEIR_FIRE: "drawTheirFire",
+                DUTYFREE: "dutyfree",
                 ELUSIVENESS: "elusiveness",
+                EM_EMITTER: "emEmitter",
                 EMPEROR_PALPATINE: "emperorPalpatine",
+                ENGINE_BOOSTER: "engineBooster",
                 ENGINE_UPGRADE: "engineUpgrade",
                 ENGINEERING_TEAM: "engineeringTeam",
                 ENHANCED_SCOPES: "enhancedScopes",
+                EXPANDED_CARGO_HOLD: "expandedCargoHold",
                 EXPERIMENTAL_INTERFACE: "experimentalInterface",
                 EXPERT_HANDLING: "expertHandling",
                 EXPOSE: "expose",
@@ -66,6 +74,7 @@ define(
                 FLECHETTE_TORPEDOES: "flechetteTorpedoes",
                 FLEET_OFFICER: "fleetOfficer",
                 FLIGHT_INSTRUCTOR: "flightInstructor",
+                FREQUENCY_JAMMER: "frequencyJammer",
                 GENIUS: "genius",
                 GLITTERSTIM: "glitterstim",
                 GREEDO: "greedo",
@@ -86,9 +95,11 @@ define(
                 ION_BOMBS: "ionBombs",
                 ION_CANNON: "ionCannon",
                 ION_CANNON_TURRET: "ionCannonTurret",
+                IONIZATION_REACTOR: "ionizationReactor",
                 ION_PROJECTOR: "ionProjector",
                 ION_PULSE_MISSILES: "ionPulseMissiles",
                 ION_TORPEDOES: "ionTorpedoes",
+                JAINAS_LIGHT: "jainasLight",
                 JAN_DODONNA: "janDodonna",
                 JAN_ORS: "janOrs",
                 JUKE: "juke",
@@ -122,6 +133,8 @@ define(
                 PROTON_TORPEDOES: "protonTorpedoes",
                 PROXIMITY_MINES: "proximityMines",
                 PUSH_THE_LIMIT: "pushTheLimit",
+                QUAD_LASER_CANNONS: "quadLaserCannons",
+                QUANTUM_STORM: "quantumStorm",
                 R2_ASTROMECH: "r2Astromech",
                 R2_D2: "r2D2",
                 R2_D2_CREW: "r2D2Crew",
@@ -148,8 +161,11 @@ define(
                 SEISMIC_CHARGES: "seismicCharges",
                 SENSOR_JAMMER: "sensorJammer",
                 SENSOR_TEAM: "sensorTeam",
+                SHIELD_PROJECTOR: "shieldProjector",
                 SHIELD_UPGRADE: "shieldUpgrade",
+                SINGLE_TURBOLASERS: "singleTurbolasers",
                 SLAVE_I: "slaveI",
+                SLICER_TOOLS: "slicerTools",
                 SQUAD_LEADER: "squadLeader",
                 ST_321: "st321",
                 STAY_ON_TARGET: "stayOnTarget",
@@ -158,9 +174,11 @@ define(
                 SWARM_TACTICS: "swarmTactics",
                 TACTICIAN: "tactician",
                 TACTICAL_JAMMER: "tacticalJammer",
+                TANTIVE_IV: "tantiveIv",
                 TARGETING_ASTROMECH: "targetingAstromech",
                 TARGETING_COMPUTER: "targetingComputer",
                 TARGETING_COORDINATOR: "targetingCoordinator",
+                TIBANNA_GAS_SUPPLIES: "tibannaGasSupplies",
                 TIE_X1: "tieX1",
                 TORYN_FARR: "torynFarr",
                 TWIN_ION_ENGINE_MK_II: "twinIonEngineMkII",
@@ -349,6 +367,15 @@ define(
                         isImplemented: true,
                         value: "autothrusters",
                     },
+                    "backupShieldGenerator":
+                    {
+                        name: "Backup Shield Generator",
+                        type: UpgradeType.CARGO,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
+                        description: "At the end of each round, you may spend 1 energy to recover 1 shield (up to your shield value).",
+                        squadPointCost: 3,
+                        value: "backupShieldGenerator",
+                    },
                     "bb8":
                     {
                         name: "BB-8",
@@ -413,6 +440,17 @@ define(
                         description: "After you perform an attack that does not hit, if you are not stressed, you must receive 1 Stress token. Then assign 1 Focus token to your ship and acquire a Target Lock on the defender.",
                         squadPointCost: 2,
                         value: "bossk",
+                    },
+                    "brightHope":
+                    {
+                        name: "Bright Hope",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.GR_75_ONLY ],
+                        description: "A reinforce token assigned to your fore section adds 2 evade results (instead of 1).",
+                        shipState: new ShipState(null, null, null, null, null, 2),
+                        squadPointCost: 5,
+                        value: "brightHope",
                     },
                     "btlA4YWing":
                     {
@@ -516,7 +554,7 @@ define(
                     {
                         name: "Combat Retrofit",
                         type: UpgradeType.MODIFICATION,
-                        isUnique: false,
+                        restrictions: [ UpgradeRestriction.GR_75_ONLY, UpgradeRestriction.HUGE_SHIP_ONLY ],
                         description: "Increase your hull value by 2 and your shield value by 1.",
                         shipState: new ShipState(null, null, null, 2, 1),
                         squadPointCost: 10,
@@ -531,6 +569,14 @@ define(
                         description: "You cannot have more than 1 Evade token. During the End phase, do not remove an unused Evade token from your ship.",
                         squadPointCost: 3,
                         value: "commRelay",
+                    },
+                    "commsBooster":
+                    {
+                        name: "Comms Booster",
+                        type: UpgradeType.CARGO,
+                        description: "Energy: Spend 1 energy to remove all stress tokens from a friendly ship at Range 1-3. Then assign 1 focus token to that ship.",
+                        squadPointCost: 4,
+                        value: "commsBooster",
                     },
                     "concussionMissiles":
                     {
@@ -663,6 +709,16 @@ define(
                         isImplemented: true,
                         value: "determination",
                     },
+                    "dodonnasPride":
+                    {
+                        name: "Dodonna's Pride",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.CR90_ONLY ],
+                        description: "When you perform a coordinate action, you may choose 2 friendly ships (instead of 1). Those ships may each perform 1 free action.",
+                        squadPointCost: 4,
+                        value: "dodonnasPride",
+                    },
                     "drawTheirFire":
                     {
                         name: "Draw Their Fire",
@@ -671,6 +727,17 @@ define(
                         description: "When a friendly ship at Range 1 is hit by an attack, you may suffer 1 of the uncanceled Critical Hit results instead of the target ship.",
                         squadPointCost: 1,
                         value: "drawTheirFire",
+                    },
+                    "dutyfree":
+                    {
+                        name: "Dutyfree",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.GR_75_ONLY ],
+                        description: "When performing a jam action, you may choose an enemy ship at Range 1-3 (instead of at Range 1-2).",
+                        shipState: new ShipState(null, null, null, null, null, 0),
+                        squadPointCost: 2,
+                        value: "dutyfree",
                     },
                     "elusiveness":
                     {
@@ -681,6 +748,15 @@ define(
                         squadPointCost: 2,
                         value: "elusiveness",
                     },
+                    "emEmitter":
+                    {
+                        name: "EM Emitter",
+                        type: UpgradeType.CARGO,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
+                        description: "When you obstruct an attack, the defender rolls 3 additional defense dice (instead of 1).",
+                        squadPointCost: 3,
+                        value: "emEmitter",
+                    },
                     "emperorPalpatine":
                     {
                         name: "Emperor Palpatine",
@@ -690,6 +766,24 @@ define(
                         description: "Once per round, you may change a friendly ship's die result to any other die result. That die result cannot be modified again.",
                         squadPointCost: 8,
                         value: "emperorPalpatine",
+                    },
+                    "engineBooster":
+                    {
+                        name: "Engine Booster",
+                        type: UpgradeType.CARGO,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
+                        description: "Immediately before you reveal your maneuver dial, you may spend 1 energy to execute a white [Straight 1] maneuver. You cannot use this ability if you would overlap another ship.",
+                        squadPointCost: 3,
+                        value: "engineBooster",
+                    },
+                    "engineeringTeam":
+                    {
+                        name: "Engineering Team",
+                        type: UpgradeType.TEAM,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
+                        description: "During the Activation phase, when you reveal a Straight maneuver, gain 1 additional energy during the \"Gain Energy\" step.",
+                        squadPointCost: 4,
+                        value: "engineeringTeam",
                     },
                     "engineUpgrade":
                     {
@@ -719,6 +813,16 @@ define(
                         description: "During the Activation phase, treat your pilot skill value as \"0.\"",
                         squadPointCost: 1,
                         value: "enhancedScopes",
+                    },
+                    "expandedCargoHold":
+                    {
+                        name: "Expanded Cargo Hold",
+                        type: UpgradeType.CARGO,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.GR_75_ONLY ],
+                        description: "Once per round, when you would be dealt a faceup Damage card, you may draw that card from either the fore or aft Damage deck.",
+                        squadPointCost: 1,
+                        value: "expandedCargoHold",
                     },
                     "experimentalInterface":
                     {
@@ -828,6 +932,15 @@ define(
                         squadPointCost: 4,
                         value: "flightInstructor",
                     },
+                    "frequencyJammer":
+                    {
+                        name: "Frequency Jammer",
+                        type: UpgradeType.CARGO,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
+                        description: "When you perform a jam action, choose 1 enemy ship that does not have a stress token and is at Range 1 of the jammed ship. The chosen ship receives 1 stress token.",
+                        squadPointCost: 4,
+                        value: "frequencyJammer",
+                    },
                     "genius":
                     {
                         name: "\"Genius\"",
@@ -869,7 +982,6 @@ define(
                     {
                         name: "Gunnery Team",
                         type: UpgradeType.TEAM,
-                        isUnique: false,
                         restrictions: [ UpgradeRestriction.LIMITED ],
                         description: "Once per round, when attacking with a secondary weapon, you may spend 1 energy to change 1 of your blank results to a Hit result.",
                         squadPointCost: 4,
@@ -1044,6 +1156,15 @@ define(
                         isImplemented: true,
                         value: "ionCannonTurret",
                     },
+                    "ionizationReactor":
+                    {
+                        name: "Ionization Reactor",
+                        type: UpgradeType.CARGO,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
+                        description: "Energy: Spend 5 energy from this card and discard this card to cause each other ship at Range 1 to suffer 1 damage and receive 1 ion token.",
+                        squadPointCost: 4,
+                        value: "ionizationReactor",
+                    },
                     "ionProjector":
                     {
                         name: "Ion Projector",
@@ -1085,6 +1206,16 @@ define(
                         squadPointCost: 5,
                         isImplemented: true,
                         value: "ionTorpedoes",
+                    },
+                    "jainasLight":
+                    {
+                        name: "Jaina's Light",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.CR90_ONLY ],
+                        description: "When defending, once per attack, if you are dealt a faceup Damage card, you may discard it and draw another faceup Damage card.",
+                        squadPointCost: 2,
+                        value: "jainasLight",
                     },
                     "janDodonna":
                     {
@@ -1436,6 +1567,30 @@ define(
                         squadPointCost: 3,
                         value: "pushTheLimit",
                     },
+                    "quadLaserCannons":
+                    {
+                        name: "Quad Laser Cannons",
+                        type: UpgradeType.HARDPOINT,
+                        header: UpgradeHeader.ATTACK_ENERGY,
+                        energyValue: 2,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
+                        firingArcKey: FiringArc.FORWARD,
+                        description: "Attack (Energy):  Spend 1 energy from this card to perform this attack. If this attack does not hit, you may immediately spend 1 energy from this card to perform this attack again.",
+                        squadPointCost: 6,
+                        value: "quadLaserCannons",
+                    },
+                    "quantumStorm":
+                    {
+                        name: "Quantum Storm",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.GR_75_ONLY ],
+                        description: "At the start of the End phase, if you have 1 or fewer energy tokens, gain 1 energy token.",
+                        shipState: new ShipState(null, null, null, null, null, 1),
+                        squadPointCost: 4,
+                        value: "quantumStorm",
+                    },
                     "r2Astromech":
                     {
                         name: "R2 Astromech",
@@ -1679,10 +1834,17 @@ define(
                     {
                         name: "Sensor Team",
                         type: UpgradeType.TEAM,
-                        isUnique: false,
                         description: "When acquiring a Target Lock, you may lock onto an enemy ship at Range 1-5 (instead of Range 1-3).",
                         squadPointCost: 4,
                         value: "sensorTeam",
+                    },
+                    "shieldProjector":
+                    {
+                        name: "Shield Projector",
+                        type: UpgradeType.CARGO,
+                        description: "When an enemy ship is declaring either a small or large ship as the target of its attack, you may spend 3 energy to force that ship to target you if possible.",
+                        squadPointCost: 4,
+                        value: "shieldProjector",
                     },
                     "shieldUpgrade":
                     {
@@ -1695,6 +1857,19 @@ define(
                         isImplemented: true,
                         value: "shieldUpgrade",
                     },
+                    "singleTurbolasers":
+                    {
+                        name: "Single Turbolasers",
+                        type: UpgradeType.HARDPOINT,
+                        header: UpgradeHeader.ATTACK_ENERGY,
+                        energyValue: 2,
+                        weaponValue: 4,
+                        ranges: [ RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE ],
+                        firingArcKey: FiringArc.FORWARD,
+                        description: "Attack (Energy): Spend 2 energy from this card to perform this attack. The defender doubles his agility value against this attack. You may change 1 of your focus results to a hit result.",
+                        squadPointCost: 8,
+                        value: "singleTurbolasers",
+                    },
                     "slaveI":
                     {
                         name: "Slave I",
@@ -1705,6 +1880,14 @@ define(
                         squadPointCost: 0,
                         isImplemented: true,
                         value: "slaveI",
+                    },
+                    "slicerTools":
+                    {
+                        name: "Slicer Tools",
+                        type: UpgradeType.CARGO,
+                        description: "ACTION: Choose 1 or more enemy ships at Range 1-3 that have a stress token. For each ship chosen, you may spend 1 energy to cause that ship to suffer 1 damage.",
+                        squadPointCost: 7,
+                        value: "slicerTools",
                     },
                     "squadLeader":
                     {
@@ -1784,6 +1967,16 @@ define(
                         squadPointCost: 1,
                         value: "tacticalJammer",
                     },
+                    "tantiveIv":
+                    {
+                        name: "Tantive IV",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.CR90_ONLY ],
+                        description: "Your fore section upgrade bar gains 1 additional Crew and 1 additional Team upgrade icon.",
+                        squadPointCost: 4,
+                        value: "tantiveIv",
+                    },
                     "targetingAstromech":
                     {
                         name: "Targeting Astromech",
@@ -1812,6 +2005,15 @@ define(
                         description: "You may spend 1 energy to choose 1 friendly ship at Range 1-2. Acquire a Target Lock, then assign the blue Target Lock token to the chosen ship.",
                         squadPointCost: 4,
                         value: "targetingCoordinator",
+                    },
+                    "tibannaGasSupplies":
+                    {
+                        name: "Tibanna Gas Supplies",
+                        type: UpgradeType.CARGO,
+                        restrictions: [ UpgradeRestriction.LIMITED ],
+                        description: "Energy: You may discard this card to gain 3 energy.",
+                        squadPointCost: 4,
+                        value: "tibannaGasSupplies",
                     },
                     "tieX1":
                     {

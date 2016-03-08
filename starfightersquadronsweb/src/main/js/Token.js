@@ -62,7 +62,7 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
         {
             that.trigger("change");
         });
-        var primaryWeapon = createPrimaryWeapon();
+        var primaryWeapon = (pilot.shipState.primaryWeaponValue() !== null ? createPrimaryWeapon() : undefined);
         var secondaryWeapons = [];
         var attackerTargetLocks = [];
         var defenderTargetLocks = [];

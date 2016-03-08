@@ -1,11 +1,16 @@
 define(function()
 {
     "use strict";
-    function ShipState(pilotSkillValue, primaryWeaponValue, agilityValue, hullValue, shieldValue)
+    function ShipState(pilotSkillValue, primaryWeaponValue, agilityValue, hullValue, shieldValue, energyValue)
     {
         this.agilityValue = function()
         {
             return agilityValue;
+        };
+
+        this.energyValue = function()
+        {
+            return energyValue;
         };
 
         this.hullValue = function()
@@ -29,7 +34,7 @@ define(function()
         };
     }
 
-    ShipState.ZERO = new ShipState(0, 0, 0, 0, 0);
+    ShipState.ZERO = new ShipState(0, 0, 0, 0, 0, 0);
 
     return ShipState;
 });

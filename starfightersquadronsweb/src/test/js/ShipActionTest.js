@@ -60,7 +60,7 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 13);
+        assert.equal(result.length, 17);
         var i = 0;
         assert.equal(result[i++], ShipAction.BARREL_ROLL);
         assert.equal(result[i++], ShipAction.BARREL_ROLL_LEFT);
@@ -70,9 +70,13 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
         assert.equal(result[i++], ShipAction.BOOST_STRAIGHT);
         assert.equal(result[i++], ShipAction.BOOST_RIGHT);
         assert.equal(result[i++], ShipAction.CLOAK);
+        assert.equal(result[i++], ShipAction.COORDINATE);
         assert.equal(result[i++], ShipAction.DECLOAK);
         assert.equal(result[i++], ShipAction.EVADE);
         assert.equal(result[i++], ShipAction.FOCUS);
+        assert.equal(result[i++], ShipAction.JAM);
+        assert.equal(result[i++], ShipAction.RECOVER);
+        assert.equal(result[i++], ShipAction.REINFORCE);
         assert.equal(result[i++], ShipAction.SLAM);
         assert.equal(result[i++], ShipAction.TARGET_LOCK);
 

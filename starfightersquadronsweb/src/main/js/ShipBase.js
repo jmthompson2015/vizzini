@@ -23,14 +23,16 @@ define(function()
             },
             "huge1":
             {
+                // GR-75 Medium Transport
                 name: "Huge ship",
-                width: 195,
+                width: 192,
                 height: 80,
             },
             "huge2":
             {
+                // CR90 Corvette
                 name: "Huge ship",
-                width: 225,
+                width: 224,
                 height: 80,
             }
         },

@@ -11,9 +11,13 @@ define([ "Maneuver" ], function(Maneuver)
         BOOST_RIGHT: "boostRight",
         BOOST_STRAIGHT: "boostStraight",
         CLOAK: "cloak",
+        COORDINATE: "coordinate",
         DECLOAK: "decloak",
         EVADE: "evade",
         FOCUS: "focus",
+        JAM: "jam",
+        RECOVER: "recover",
+        REINFORCE: "reinforce",
         SLAM: "slam",
         TARGET_LOCK: "targetLock",
 
@@ -71,6 +75,11 @@ define([ "Maneuver" ], function(Maneuver)
                 displayName: "Cloak",
                 value: "cloak",
             },
+            "coordinate":
+            {
+                displayName: "Coordinate",
+                value: "coordinate",
+            },
             "decloak":
             {
                 displayName: "Decloak",
@@ -85,6 +94,21 @@ define([ "Maneuver" ], function(Maneuver)
             {
                 displayName: "Focus",
                 value: "focus",
+            },
+            "jam":
+            {
+                displayName: "Jam",
+                value: "jam",
+            },
+            "recover":
+            {
+                displayName: "Recover",
+                value: "recover",
+            },
+            "reinforce":
+            {
+                displayName: "Reinforce",
+                value: "reinforce",
             },
             "slam":
             {

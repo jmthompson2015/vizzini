@@ -78,10 +78,10 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 35);
+        assert.equal(result.length, 37);
         assert.equal(result[0], "firstOrderTieFoFighter");
-        assert.equal(result[33], "scumYv666");
-        assert.equal(result[34], "scumZ95Headhunter");
+        assert.equal(result[35], "scumYv666");
+        assert.equal(result[36], "scumZ95Headhunter");
 
         var properties = Object.getOwnPropertyNames(ShipTeam);
         var count = properties.length - 1 - // properties
@@ -136,11 +136,13 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 11);
+        assert.equal(result.length, 13);
         var i = 0;
         assert.equal(result[i++], Ship.A_WING);
         assert.equal(result[i++], Ship.B_WING);
+        assert.equal(result[i++], Ship.CR90_CORVETTE);
         assert.equal(result[i++], Ship.E_WING);
+        assert.equal(result[i++], Ship.GR_75_MEDIUM_TRANSPORT);
         assert.equal(result[i++], Ship.HWK_290);
         assert.equal(result[i++], Ship.K_WING);
         assert.equal(result[i++], Ship.X_WING);
@@ -289,13 +291,15 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 13);
+        assert.equal(result.length, 15);
         var i = 0;
         assert.equal(result[i++], "rebelAWing");
         assert.equal(result[i++], "rebelAWingAce");
         assert.equal(result[i++], "rebelBWing");
         assert.equal(result[i++], "rebelBWingAce");
+        assert.equal(result[i++], "rebelCr90Corvette");
         assert.equal(result[i++], "rebelEWing");
+        assert.equal(result[i++], "rebelGr75MediumTransport");
         assert.equal(result[i++], "rebelHwk290");
         assert.equal(result[i++], "rebelKWing");
         assert.equal(result[i++], "rebelXWing");
@@ -316,13 +320,15 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 12);
+        assert.equal(result.length, 14);
         var i = 0;
         assert.equal(result[i++], "rebelAWing");
         assert.equal(result[i++], "rebelAWingAce");
         assert.equal(result[i++], "rebelBWing");
         assert.equal(result[i++], "rebelBWingAce");
+        assert.equal(result[i++], "rebelCr90Corvette");
         assert.equal(result[i++], "rebelEWing");
+        assert.equal(result[i++], "rebelGr75MediumTransport");
         assert.equal(result[i++], "rebelHwk290");
         assert.equal(result[i++], "rebelKWing");
         assert.equal(result[i++], "rebelXWing");
@@ -339,14 +345,16 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 13);
+        assert.equal(result.length, 15);
         var i = 0;
         assert.equal(result[i++], "resistanceT70XWing");
         assert.equal(result[i++], "rebelAWing");
         assert.equal(result[i++], "rebelAWingAce");
         assert.equal(result[i++], "rebelBWing");
         assert.equal(result[i++], "rebelBWingAce");
+        assert.equal(result[i++], "rebelCr90Corvette");
         assert.equal(result[i++], "rebelEWing");
+        assert.equal(result[i++], "rebelGr75MediumTransport");
         assert.equal(result[i++], "rebelHwk290");
         assert.equal(result[i++], "rebelKWing");
         assert.equal(result[i++], "rebelXWing");

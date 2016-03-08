@@ -63,24 +63,28 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                     if (attackerPosition)
                     {
                         var primaryWeapon = attacker.primaryWeapon();
-                        var rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, primaryWeapon);
 
-                        if (rangeToDefenders.length > 0)
+                        if (primaryWeapon)
                         {
-                            answer.push(createWeaponData(primaryWeapon, rangeToDefenders));
-                        }
-
-                        var weapons = attacker.secondaryWeapons();
-
-                        weapons.forEach(function(weapon)
-                        {
-                            rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
+                            var rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, primaryWeapon);
 
                             if (rangeToDefenders.length > 0)
                             {
-                                answer.push(createWeaponData(weapon, rangeToDefenders));
+                                answer.push(createWeaponData(primaryWeapon, rangeToDefenders));
                             }
-                        });
+
+                            var weapons = attacker.secondaryWeapons();
+
+                            weapons.forEach(function(weapon)
+                            {
+                                rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
+
+                                if (rangeToDefenders.length > 0)
+                                {
+                                    answer.push(createWeaponData(weapon, rangeToDefenders));
+                                }
+                            });
+                        }
                     }
 
                     return answer;
@@ -168,7 +172,8 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                                         var defenderPosition = this.getPositionFor(defender);
                                         var range = RangeRuler.getRange(attacker, attackerPosition, defender,
                                                 defenderPosition);
-                                        return (range !== undefined);
+                                        return ([ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ]
+                                                .vizziniContains(range));
                                     }, this);
                         }
                     }
@@ -612,7 +617,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "Position", "RangeRuler", "R
                         var token = tokens[i - 1];
                         var shipBase = token.pilot().shipTeam.ship.shipBase;
                         var x = i * dx;
-                        var y = (shipBase.height / 2);
+                        var y = (shipBase.width / 2);
 
                         if (!isTop)
                         {
