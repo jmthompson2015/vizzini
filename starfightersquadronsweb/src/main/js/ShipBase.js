@@ -43,6 +43,13 @@ define(function()
         },
     };
 
+    ShipBase.isHuge = function(shipBaseKey)
+    {
+        InputValidator.validateNotNull("shipBaseKey", shipBaseKey);
+
+        return shipBaseKey === ShipBase.HUGE1 || shipBaseKey === ShipBase.HUGE2;
+    };
+
     if (Object.freeze)
     {
         Object.freeze(ShipBase);

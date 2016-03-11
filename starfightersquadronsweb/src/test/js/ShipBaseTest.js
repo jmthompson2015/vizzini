@@ -19,6 +19,14 @@ define([ "ShipBase" ], function(ShipBase)
         assert.equal(properties.height, 40);
     });
 
+    QUnit.test("isHuge()", function(assert)
+    {
+        assert.ok(!ShipBase.isHuge(ShipBase.SMALL));
+        assert.ok(!ShipBase.isHuge(ShipBase.LARGE));
+        assert.ok(ShipBase.isHuge(ShipBase.HUGE1));
+        assert.ok(ShipBase.isHuge(ShipBase.HUGE2));
+    });
+
     QUnit.test("keys and values", function(assert)
     {
         // Setup.
@@ -62,6 +70,7 @@ define([ "ShipBase" ], function(ShipBase)
 
         var properties = Object.getOwnPropertyNames(ShipBase);
         var count = properties.length - 1 - // properties
+        1 - // isHuge
         1; // values
         assert.equal(result.length, count);
     });

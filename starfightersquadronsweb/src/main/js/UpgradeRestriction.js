@@ -135,7 +135,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
                 {
                     var pilot = Pilot.properties[pilotKey];
                     var shipBaseKey = pilot.shipTeam.ship.shipBaseKey;
-                    return shipBaseKey === ShipBase.HUGE1 || shipBaseKey === ShipBase.HUGE2;
+                    return ShipBase.isHuge(shipBaseKey);
                 }
             },
             "hwk290Only": new ShipRestriction(Ship.HWK_290),
