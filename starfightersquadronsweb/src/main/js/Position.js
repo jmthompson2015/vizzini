@@ -64,6 +64,8 @@ define(function()
 
     Position.prototype.computeDistance = function(position)
     {
+        InputValidator.validateNotNull("position", position);
+
         var dx = position.x() - this.x();
         var dy = position.y() - this.y();
 
