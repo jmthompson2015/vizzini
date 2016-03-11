@@ -93,7 +93,17 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
 
             pilotKeys.forEach(function(pilotKey, i)
             {
-                rows.push(self.createRow(pilotKey, i));
+                var pilot = Pilot.properties[pilotKey];
+
+                if (pilot.fore || pilot.aft)
+                {
+                    rows.push(self.createRow(pilot.fore, "fore" + i));
+                    rows.push(self.createRow(pilot.aft, "aft" + i));
+                }
+                else
+                {
+                    rows.push(self.createRow(pilot, i));
+                }
             });
 
             return this.Table(
@@ -131,11 +141,10 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
             });
         },
 
-        createRow: function(pilotKey, i)
+        createRow: function(pilot, i)
         {
             var cells = [];
 
-            var pilot = Pilot.properties[pilotKey];
             var shipTeam = pilot.shipTeam;
             var j = 0;
 

@@ -20,6 +20,8 @@
 	<div id="squadPanel0"></div>
 	<p />
 	<div id="squadPanel1"></div>
+	<p />
+	<div id="squadPanel2"></div>
 	<script>
         "use strict";
         var LOGGER = new Logger();
@@ -58,6 +60,16 @@
                 removeFunction: removeActionPerformed
             });
             React.render(element, document.getElementById("squadPanel1"));
+
+            var squadBuilder2 = SquadBuilder.SquadBuilders[0];
+            var squad2 = squadBuilder2.buildSquad(agent1);
+
+            var element = React.createElement(SquadUI,
+            {
+                squad: squad2,
+                removeFunction: removeActionPerformed
+            });
+            React.render(element, document.getElementById("squadPanel2"));
 
             function removeActionPerformed(selected, event)
             {

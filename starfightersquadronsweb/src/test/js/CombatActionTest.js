@@ -380,7 +380,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, upgradeKey);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
         var attackerPosition = new Position(458, 895, -90);
         var weapon = attacker.primaryWeapon();
 
@@ -491,7 +491,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, upgradeKey);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
         var attackerPosition = new Position(458, 895, -90);
         var weapon = attacker.secondaryWeapons()[0];
 
@@ -518,7 +518,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, upgradeKey);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
         var attackerPosition = new Position(458, 895, -90);
         var weapon = attacker.primaryWeapon();
 

@@ -10,42 +10,10 @@ define([ "Environment", "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "u
         var type1 = (computerAgentType1 ? computerAgentType1 : "SimpleAgent");
 
         // Create initial agents and tokens.
-        var firstAgent;
-
-        switch (type0)
-        {
-        case "SimpleAgent":
-            firstAgent = new SimpleAgent("First Agent", Team.IMPERIAL);
-            break;
-        case "MediumAgent":
-            firstAgent = new MediumAgent("First Agent", Team.IMPERIAL);
-            break;
-        case "HumanAgent":
-            firstAgent = new HumanAgent("First Agent", Team.IMPERIAL);
-            break;
-        default:
-            throw "Unknown computerAgentType: " + computerAgentType;
-        }
-
+        var firstAgent = EnvironmentFactory.createAgent(type0, "First Agent", Team.IMPERIAL);
         var firstSquad = SquadBuilder.CoreSetImperialSquadBuilder.buildSquad(firstAgent);
 
-        var secondAgent;
-
-        switch (type1)
-        {
-        case "SimpleAgent":
-            secondAgent = new SimpleAgent("Second Agent", Team.REBEL);
-            break;
-        case "MediumAgent":
-            secondAgent = new MediumAgent("Second Agent", Team.REBEL);
-            break;
-        case "HumanAgent":
-            secondAgent = new HumanAgent("Second Agent", Team.REBEL);
-            break;
-        default:
-            throw "Unknown computerAgentType: " + computerAgentType;
-        }
-
+        var secondAgent = EnvironmentFactory.createAgent(type1, "Second Agent", Team.REBEL);
         var secondSquad = SquadBuilder.CoreSetRebelSquadBuilder.buildSquad(secondAgent);
 
         var answer = new Environment(firstAgent.teamKey(), secondAgent.teamKey());
@@ -61,47 +29,56 @@ define([ "Environment", "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "u
         var type1 = (computerAgentType1 ? computerAgentType1 : "SimpleAgent");
 
         // Create initial agents and tokens.
-        var firstAgent;
-
-        switch (type0)
-        {
-        case "SimpleAgent":
-            firstAgent = new SimpleAgent("First Agent", Team.FIRST_ORDER);
-            break;
-        case "MediumAgent":
-            firstAgent = new MediumAgent("First Agent", Team.FIRST_ORDER);
-            break;
-        case "HumanAgent":
-            firstAgent = new HumanAgent("First Agent", Team.FIRST_ORDER);
-            break;
-        default:
-            throw "Unknown computerAgentType: " + computerAgentType;
-        }
-
+        var firstAgent = EnvironmentFactory.createAgent(type0, "First Agent", Team.FIRST_ORDER);
         var firstSquad = SquadBuilder.CoreSetFirstOrderSquadBuilder.buildSquad(firstAgent);
 
-        var secondAgent;
-
-        switch (type1)
-        {
-        case "SimpleAgent":
-            secondAgent = new SimpleAgent("Second Agent", Team.RESISTANCE);
-            break;
-        case "MediumAgent":
-            secondAgent = new MediumAgent("Second Agent", Team.RESISTANCE);
-            break;
-        case "HumanAgent":
-            secondAgent = new HumanAgent("Second Agent", Team.RESISTANCE);
-            break;
-        default:
-            throw "Unknown computerAgentType: " + computerAgentType;
-        }
-
+        var secondAgent = EnvironmentFactory.createAgent(type1, "Second Agent", Team.RESISTANCE);
         var secondSquad = SquadBuilder.CoreSetResistanceSquadBuilder.buildSquad(secondAgent);
 
         var answer = new Environment(firstAgent.teamKey(), secondAgent.teamKey());
 
         answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
+
+        return answer;
+    };
+
+    EnvironmentFactory.createHugeShipEnvironment = function(computerAgentType0, computerAgentType1)
+    {
+        var type0 = (computerAgentType0 ? computerAgentType0 : "SimpleAgent");
+        var type1 = (computerAgentType1 ? computerAgentType1 : "SimpleAgent");
+
+        // Create initial agents and tokens.
+        var firstAgent = EnvironmentFactory.createAgent(type0, "First Agent", Team.IMPERIAL);
+        var firstSquad = SquadBuilder.CoreSetImperialSquadBuilder.buildSquad(firstAgent);
+
+        var secondAgent = EnvironmentFactory.createAgent(type1, "Second Agent", Team.REBEL);
+        var secondSquad = SquadBuilder.SquadBuilders[0].buildSquad(secondAgent);
+
+        var answer = new Environment(firstAgent.teamKey(), secondAgent.teamKey());
+
+        answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
+
+        return answer;
+    };
+
+    EnvironmentFactory.createAgent = function(type, name, teamKey)
+    {
+        var answer;
+
+        switch (type)
+        {
+        case "SimpleAgent":
+            answer = new SimpleAgent(name, teamKey);
+            break;
+        case "MediumAgent":
+            answer = new MediumAgent(name, teamKey);
+            break;
+        case "HumanAgent":
+            answer = new HumanAgent(name, teamKey);
+            break;
+        default:
+            throw "Unknown computerAgentType: " + computerAgentType;
+        }
 
         return answer;
     };

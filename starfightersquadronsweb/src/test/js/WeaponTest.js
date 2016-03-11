@@ -114,8 +114,8 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET,
-                UpgradeCard.PROTON_TORPEDOES);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET,
+                UpgradeCard.PROTON_TORPEDOES]);
         var weapon0 = attacker.secondaryWeapons()[0]; // Mangler cannon.
         var weapon1 = attacker.secondaryWeapons()[1]; // Blaster turret.
         var weapon2 = attacker.secondaryWeapons()[2]; // Cluster missiles.

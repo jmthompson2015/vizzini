@@ -83,12 +83,16 @@ table {
     text-align: center;
 }
 
-#COLOR_BLACK, .damageImageText, #pilotName, #shipName, .colorBlack {
+#COLOR_BLACK, .darkImageText, #pilotName, #shipName, .colorBlack {
     color: black;
 }
 
 #COLOR_CYAN, .shieldValue, .colorCyan {
     color: rgb(127, 191, 255);
+}
+
+#COLOR_GRAY, .mediumImageText, .colorGray {
+    color: Gray;
 }
 
 #COLOR_GREEN, .agilityValue, .colorGreen {
@@ -103,7 +107,11 @@ table {
     color: red;
 }
 
-#COLOR_WHITE, .labelImageText, .maneuverTable, .squadUI tr th, .upgradeCardUIRanges, .colorWhite {
+#COLOR_VIOLET, .energyValue, .colorViolet {
+    color: violet;
+}
+
+#COLOR_WHITE, .lightImageText, .maneuverTable, .squadUI tr th, .upgradeCardUIRanges, .colorWhite {
     color: white;
 }
 
@@ -111,7 +119,7 @@ table {
     color: yellow;
 }
 
-#FONT_BOLD, .agentTitle, .damageImageText, .upgradeCardUIHeader, .fontBold {
+#FONT_BOLD, .agentTitle, .darkImageText, .lightImageText, .mediumImageText, .upgradeCardUIHeader, .fontBold {
     font-weight: bold;
 }
 
@@ -119,7 +127,7 @@ table {
     font-style: italic;
 }
 
-#FONT_MEDIUM, .damageImageText, .labelImageText, .pilotSkillValue, .fontMedium {
+#FONT_MEDIUM, .darkImageText, .lightImageText, .mediumImageText, .pilotSkillValue, .fontMedium {
     font-size: medium;
 }
 

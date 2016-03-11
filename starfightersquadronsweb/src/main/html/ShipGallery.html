@@ -56,9 +56,10 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ManeuverChooser",
-                "ui/ShipActionPanel", "ui/ShipSilhouetteUI" ], function(Pilot, Ship, ShipTeam, SimpleAgent,
-                SquadBuilder, Team, Token, ManeuverChooser, ShipActionPanel, ShipSilhouetteUI)
+        require([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "TokenFactory",
+                "ui/ManeuverChooser", "ui/ShipActionPanel", "ui/ShipSilhouetteUI" ], function(Pilot, Ship, ShipTeam,
+                SimpleAgent, SquadBuilder, Team, Token, TokenFactory, ManeuverChooser, ShipActionPanel,
+                ShipSilhouetteUI)
         {
             var imageBase = "../resources/images/ship/";
             var ShipGallery = React.createClass(
@@ -85,23 +86,25 @@
                             var shipTeam = ShipTeam.properties[shipTeamKey];
                             var filename = imageBase + shipTeam.image;
                             var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
-                            var token = new Token(pilotKey, agent);
+                            var token = TokenFactory.create(pilotKey, agent);
 
                             var images = [];
-                            images.push(this.createShipImage(shipTeamKey));
+                            images.push(this.createShipImage(shipTeamKey, images.length));
 
                             if (shipTeamKey === ShipTeam.IMPERIAL_TIE_INTERCEPTOR)
                             {
-                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD));
-                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON));
+                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
+                                        images.length));
+                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON,
+                                        images.length));
                             }
                             else if (shipTeamKey === ShipTeam.REBEL_A_WING)
                             {
-                                images.push(this.createShipImage(ShipTeam.REBEL_A_WING_ACE));
+                                images.push(this.createShipImage(ShipTeam.REBEL_A_WING_ACE, images.length));
                             }
                             else if (shipTeamKey === ShipTeam.REBEL_B_WING)
                             {
-                                images.push(this.createShipImage(ShipTeam.REBEL_B_WING_ACE));
+                                images.push(this.createShipImage(ShipTeam.REBEL_B_WING_ACE, images.length));
                             }
 
                             var silhouette = React.createElement(ShipSilhouetteUI,
@@ -109,10 +112,28 @@
                                 shipKey: shipTeam.shipKey,
                                 showName: true,
                             });
-                            var shipActionPanel = React.createElement(ShipActionPanel,
+
+                            var shipActionPanel0, shipActionPanel1;
+
+                            if (shipTeamKey === ShipTeam.REBEL_CR90_CORVETTE)
                             {
-                                shipActionKeys: shipTeam.ship.shipActionKeys,
-                            });
+                                shipActionPanel0 = React.createElement(ShipActionPanel,
+                                {
+                                    shipActionKeys: shipTeam.ship.fore.shipActionKeys,
+                                });
+                                shipActionPanel1 = React.createElement(ShipActionPanel,
+                                {
+                                    shipActionKeys: shipTeam.ship.aft.shipActionKeys,
+                                });
+                            }
+                            else
+                            {
+                                shipActionPanel0 = React.createElement(ShipActionPanel,
+                                {
+                                    shipActionKeys: shipTeam.ship.shipActionKeys,
+                                });
+                            }
+
                             var chooser = React.createElement(ManeuverChooser,
                             {
                                 token: token,
@@ -128,11 +149,28 @@
                                 key: "name" + i,
                                 className: "galleryCell"
                             }, silhouette));
-                            cells2.push(React.DOM.td(
+                            if (shipActionPanel1 !== undefined)
                             {
-                                key: "actions" + i,
-                                className: "galleryCell"
-                            }, shipActionPanel));
+                                cells2
+                                        .push(React.DOM.td(
+                                        {
+                                            key: "actions" + i,
+                                            className: "galleryCell colorWhite"
+                                        }, React.DOM.table(
+                                        {
+                                            className: "center",
+                                        }, React.DOM.tr({}, React.DOM.td({}, "Fore"), React.DOM
+                                                .td({}, shipActionPanel0)), React.DOM.tr({}, React.DOM.td({}, "Aft",
+                                                React.DOM.td({}, shipActionPanel1))))));
+                            }
+                            else
+                            {
+                                cells2.push(React.DOM.td(
+                                {
+                                    key: "actions" + i,
+                                    className: "galleryCell"
+                                }, shipActionPanel0));
+                            }
                             cells3.push(React.DOM.td(
                             {
                                 key: "maneuvers" + i,
@@ -165,13 +203,14 @@
                     }, rows);
                 },
 
-                createShipImage: function(shipTeamKey)
+                createShipImage: function(shipTeamKey, key)
                 {
                     var shipTeam = ShipTeam.properties[shipTeamKey];
                     var filename = imageBase + shipTeam.image;
 
                     return React.DOM.img(
                     {
+                        key: key,
                         className: "galleryShipCell",
                         src: filename,
                         title: shipTeam.name,

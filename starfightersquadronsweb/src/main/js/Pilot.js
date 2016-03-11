@@ -581,29 +581,47 @@ define(
                         {
                             name: "CR90 Corvette (fore)",
                             description: "When attacking with your primary weapon, you may spend 1 energy to roll 1 additional attack die.",
+                            shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
                             shipState: new ShipState(4, 4, 0, 8, 5),
                             squadPointCost: 50,
                             upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.HARDPOINT, UpgradeType.HARDPOINT,
                                     UpgradeType.TEAM, UpgradeType.TEAM, UpgradeType.CARGO ],
+                            value: "cr90Corvette.fore",
                         },
                         aft:
                         {
                             name: "CR90 Corvette (aft)",
                             description: "Equipped with 11 Girodyne Ter58 high-output ion-turbine engines and a hardy hull, the Rebel Alliance prized the CR90 for its sublight speed and durability.",
                             isFlavorText: true,
+                            shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
                             shipState: new ShipState(4, null, 0, 8, 3, 5),
                             squadPointCost: 40,
                             upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.HARDPOINT, UpgradeType.TEAM,
                                     UpgradeType.CARGO ],
-                            isImplemented: true,
+                            value: "cr90Corvette.aft",
+                        },
+                        crippledFore:
+                        {
+                            name: "CR90 Corvette (crippled fore)",
+                            description: "Although the CR90 contained 8 Faberstien-Lago 37s escape pods, only 48 of the potential 165 passengers could safely escape.",
+                            isFlavorText: true,
+                            shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
+                            shipState: new ShipState(4, 2, null, null, null),
+                            upgradeTypeKeys: [ UpgradeType.CREW ],
+                            value: "cr90Corvette.crippledFore",
+                        },
+                        crippledAft:
+                        {
+                            name: "CR90 Corvette (crippled aft)",
+                            description: "You cannot choose or execute Straight 4, Bank Left 2, or Bank Right 2 maneuvers.",
+                            shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
+                            shipState: new ShipState(4, null, null, null, null, 1),
+                            upgradeTypeKeys: [ UpgradeType.CARGO ],
+                            value: "cr90Corvette.crippledAft",
                         },
                         name: "CR90 Corvette",
-                        description: "Fore: When attacking with your primary weapon, you may spend 1 energy to roll 1 additional attack die.",
                         shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
-                        shipState: new ShipState(4, 4, 0, 8, 5, 5),
-                        squadPointCost: 50 + 40,
-                        upgradeTypeKeys: [],
-                        value: "cr90CorvetteFore",
+                        value: "cr90Corvette",
                     },
                     "cutlassSquadronPilot":
                     {
@@ -2074,6 +2092,18 @@ define(
             {
                 var pilot = Pilot.properties[pilotKey];
                 pilot.shipTeam = ShipTeam.properties[pilot.shipTeamKey];
+
+                if (pilot.fore)
+                {
+                    pilot.fore.parent = pilot;
+                    pilot.fore.shipTeam = ShipTeam.properties[pilot.fore.shipTeamKey];
+                }
+
+                if (pilot.aft)
+                {
+                    pilot.aft.parent = pilot;
+                    pilot.aft.shipTeam = ShipTeam.properties[pilot.aft.shipTeamKey];
+                }
             });
 
             if (Object.freeze)

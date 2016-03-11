@@ -100,9 +100,9 @@ define([ "Maneuver", "ManeuverComputer", "Pilot", "RectanglePath" ], function(Ma
             var answer;
 
             var firstAgent = environment.firstAgent();
-            var firstCount = environment.getTokenCountFor(firstAgent.teamKey());
+            var firstCount = environment.getTokensForTeam(firstAgent.teamKey()).length;
             var secondAgent = environment.secondAgent();
-            var secondCount = environment.getTokenCountFor(secondAgent.teamKey());
+            var secondCount = environment.getTokensForTeam(secondAgent.teamKey()).length;
 
             if (firstCount === 0)
             {
@@ -121,14 +121,14 @@ define([ "Maneuver", "ManeuverComputer", "Pilot", "RectanglePath" ], function(Ma
             var answer = false;
 
             var firstAgent = environment.firstAgent();
-            var firstCount = environment.getTokenCountFor(firstAgent.teamKey());
+            var firstCount = environment.getTokensForTeam(firstAgent.teamKey()).length;
 
             answer = (firstCount === 0);
 
             if (!answer)
             {
                 var secondAgent = environment.secondAgent();
-                var secondCount = environment.getTokenCountFor(secondAgent.teamKey());
+                var secondCount = environment.getTokensForTeam(secondAgent.teamKey()).length;
                 answer = (secondCount === 0);
             }
 

@@ -1,7 +1,20 @@
-define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token, UpgradeCard)
+define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualToken, Pilot, Team, Token, UpgradeCard)
 {
     "use strict";
     var SquadBuilders = [];
+
+    // Experimental: Huge ships
+    SquadBuilders.push(new SquadBuilder(Team.REBEL, "Huge Ships", 2016, "CR90/G-75/X-Wing", function(agent)
+    {
+        var answer = [];
+        answer.push(new DualToken(Pilot.CR90_CORVETTE, agent, [ UpgradeCard.QUAD_LASER_CANNONS,
+                UpgradeCard.SINGLE_TURBOLASERS, UpgradeCard.BACKUP_SHIELD_GENERATOR ], [
+                UpgradeCard.WED_15_REPAIR_DROID, UpgradeCard.EM_EMITTER, ]));
+        answer.push(new Token(Pilot.GR_75_MEDIUM_TRANSPORT, agent, [ UpgradeCard.WED_15_REPAIR_DROID,
+                UpgradeCard.EM_EMITTER, UpgradeCard.FREQUENCY_JAMMER ]));
+        answer.push(new Token(Pilot.ROOKIE_PILOT, agent, [ UpgradeCard.R2_D2 ]));
+        return answer;
+    }));
 
     // Kirk Mistr
     // - IG88B + IG-2000 + Flechette Canon + Autothrusters
@@ -10,11 +23,11 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2016, "Aggressors x2/M3-A", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.IG_2000, UpgradeCard.FLECHETTE_CANNON,
-                UpgradeCard.AUTOTHRUSTERS));
-        answer.push(new Token(Pilot.IG_88C, agent, UpgradeCard.IG_2000, UpgradeCard.ION_CANNON,
-                UpgradeCard.AUTOTHRUSTERS));
-        answer.push(new Token(Pilot.TANSARII_POINT_VETERAN, agent, UpgradeCard.LONE_WOLF));
+        answer.push(new Token(Pilot.IG_88B, agent, [ UpgradeCard.IG_2000, UpgradeCard.FLECHETTE_CANNON,
+                UpgradeCard.AUTOTHRUSTERS ]));
+        answer.push(new Token(Pilot.IG_88C, agent, [ UpgradeCard.IG_2000, UpgradeCard.ION_CANNON,
+                UpgradeCard.AUTOTHRUSTERS ]));
+        answer.push(new Token(Pilot.TANSARII_POINT_VETERAN, agent, [ UpgradeCard.LONE_WOLF ]));
         return answer;
     }));
 
@@ -27,9 +40,9 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     {
         var answer = [];
         answer.push(new Token(Pilot.WINGED_GUNDARK, agent));
-        answer.push(new Token(Pilot.CAPTAIN_OICUNN, agent, UpgradeCard.PREDATOR, UpgradeCard.YSANNE_ISARD,
-                UpgradeCard.GUNNER, UpgradeCard.REBEL_CAPTIVE, UpgradeCard.ENGINE_UPGRADE));
-        answer.push(new Token(Pilot.OMICRON_GROUP_PILOT, agent, UpgradeCard.DARTH_VADER));
+        answer.push(new Token(Pilot.CAPTAIN_OICUNN, agent, [ UpgradeCard.PREDATOR, UpgradeCard.YSANNE_ISARD,
+                UpgradeCard.GUNNER, UpgradeCard.REBEL_CAPTIVE, UpgradeCard.ENGINE_UPGRADE ]));
+        answer.push(new Token(Pilot.OMICRON_GROUP_PILOT, agent, [ UpgradeCard.DARTH_VADER ]));
         return answer;
     }));
 
@@ -42,11 +55,11 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
             agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R2_D2,
-                UpgradeCard.AUTOTHRUSTERS));
-        answer.push(new Token(Pilot.GOLD_SQUADRON_PILOT, agent, UpgradeCard.BTL_A4_Y_WING,
-                UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.R3_A2));
-        answer.push(new Token(Pilot.GOLD_SQUADRON_PILOT, agent, UpgradeCard.TWIN_LASER_TURRET));
+        answer.push(new Token(Pilot.POE_DAMERON, agent, [ UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R2_D2,
+                UpgradeCard.AUTOTHRUSTERS ]));
+        answer.push(new Token(Pilot.GOLD_SQUADRON_PILOT, agent, [ UpgradeCard.BTL_A4_Y_WING,
+                UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.R3_A2 ]));
+        answer.push(new Token(Pilot.GOLD_SQUADRON_PILOT, agent, [ UpgradeCard.TWIN_LASER_TURRET ]));
         answer.push(new Token(Pilot.BANDIT_SQUADRON_PILOT, agent));
         return answer;
     }));
@@ -58,11 +71,11 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "World #2", 2015, "E-Wing/T-70 X-Wing/A-Wing", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.CORRAN_HORN, agent, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
-                UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE));
-        answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R5_P9,
-                UpgradeCard.AUTOTHRUSTERS));
-        answer.push(new Token(Pilot.PROTOTYPE_PILOT, agent, UpgradeCard.CHARDAAN_REFIT));
+        answer.push(new Token(Pilot.CORRAN_HORN, agent, [ UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
+                UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE ]));
+        answer.push(new Token(Pilot.POE_DAMERON, agent, [ UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R5_P9,
+                UpgradeCard.AUTOTHRUSTERS ]));
+        answer.push(new Token(Pilot.PROTOTYPE_PILOT, agent, [ UpgradeCard.CHARDAAN_REFIT ]));
         return answer;
     }));
 
@@ -71,12 +84,12 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.SCUM, "World #3", 2015, "Aggressors x2", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.IG_88A, agent, UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT,
+        answer.push(new Token(Pilot.IG_88A, agent, [ UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT,
                 UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.GLITTERSTIM,
-                UpgradeCard.AUTOTHRUSTERS));
-        answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT,
+                UpgradeCard.AUTOTHRUSTERS ]));
+        answer.push(new Token(Pilot.IG_88B, agent, [ UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT,
                 UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.GLITTERSTIM,
-                UpgradeCard.AUTOTHRUSTERS));
+                UpgradeCard.AUTOTHRUSTERS ]));
         return answer;
     }));
 
@@ -88,12 +101,12 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
             function(agent)
             {
                 var answer = [];
-                answer.push(new Token(Pilot.SOONTIR_FEL, agent, UpgradeCard.ROYAL_GUARD_TIE,
-                        UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.AUTOTHRUSTERS, UpgradeCard.STEALTH_DEVICE));
-                answer.push(new Token(Pilot.DARTH_VADER, agent, UpgradeCard.TIE_X1, UpgradeCard.LONE_WOLF,
-                        UpgradeCard.ADVANCED_TARGETING_COMPUTER));
-                answer.push(new Token(Pilot.OMICRON_GROUP_PILOT, agent, UpgradeCard.EMPEROR_PALPATINE,
-                        UpgradeCard.SENSOR_JAMMER));
+                answer.push(new Token(Pilot.SOONTIR_FEL, agent, [ UpgradeCard.ROYAL_GUARD_TIE,
+                        UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.AUTOTHRUSTERS, UpgradeCard.STEALTH_DEVICE ]));
+                answer.push(new Token(Pilot.DARTH_VADER, agent, [ UpgradeCard.TIE_X1, UpgradeCard.LONE_WOLF,
+                        UpgradeCard.ADVANCED_TARGETING_COMPUTER ]));
+                answer.push(new Token(Pilot.OMICRON_GROUP_PILOT, agent, [ UpgradeCard.EMPEROR_PALPATINE,
+                        UpgradeCard.SENSOR_JAMMER ]));
                 return answer;
             }));
 
@@ -103,13 +116,11 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #5", 2015, "K-Wings x3", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.MIRANDA_DONI, agent, UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.TACTICIAN));
-        answer
-                .push(new Token(Pilot.WARDEN_SQUADRON_PILOT, agent, UpgradeCard.TWIN_LASER_TURRET,
-                        UpgradeCard.TACTICIAN));
-        answer
-                .push(new Token(Pilot.WARDEN_SQUADRON_PILOT, agent, UpgradeCard.TWIN_LASER_TURRET,
-                        UpgradeCard.TACTICIAN));
+        answer.push(new Token(Pilot.MIRANDA_DONI, agent, [ UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.TACTICIAN ]));
+        answer.push(new Token(Pilot.WARDEN_SQUADRON_PILOT, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                UpgradeCard.TACTICIAN ]));
+        answer.push(new Token(Pilot.WARDEN_SQUADRON_PILOT, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                UpgradeCard.TACTICIAN ]));
         return answer;
     }));
 
@@ -119,8 +130,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #1", 2015, "YT-2400/B-Wings x2", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.DASH_RENDAR, agent, UpgradeCard.OUTRIDER, UpgradeCard.LONE_WOLF,
-                UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.R2_D2_CREW, UpgradeCard.ANTI_PURSUIT_LASERS));
+        answer.push(new Token(Pilot.DASH_RENDAR, agent, [ UpgradeCard.OUTRIDER, UpgradeCard.LONE_WOLF,
+                UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.R2_D2_CREW, UpgradeCard.ANTI_PURSUIT_LASERS ]));
         answer.push(new Token(Pilot.BLUE_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.BLUE_SQUADRON_PILOT, agent));
         return answer;
@@ -133,12 +144,11 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
             agent)
     {
         var answer = [];
-        answer
-                .push(new Token(Pilot.CAPTAIN_OICUNN, agent, UpgradeCard.PREDATOR, UpgradeCard.YSANNE_ISARD,
-                        UpgradeCard.GUNNER, UpgradeCard.REBEL_CAPTIVE, UpgradeCard.PROXIMITY_MINES,
-                        UpgradeCard.ENGINE_UPGRADE));
-        answer.push(new Token(Pilot.SOONTIR_FEL, agent, UpgradeCard.ROYAL_GUARD_TIE, UpgradeCard.PUSH_THE_LIMIT,
-                UpgradeCard.AUTOTHRUSTERS, UpgradeCard.STEALTH_DEVICE));
+        answer.push(new Token(Pilot.CAPTAIN_OICUNN, agent,
+                [ UpgradeCard.PREDATOR, UpgradeCard.YSANNE_ISARD, UpgradeCard.GUNNER, UpgradeCard.REBEL_CAPTIVE,
+                        UpgradeCard.PROXIMITY_MINES, UpgradeCard.ENGINE_UPGRADE ]));
+        answer.push(new Token(Pilot.SOONTIR_FEL, agent, [ UpgradeCard.ROYAL_GUARD_TIE, UpgradeCard.PUSH_THE_LIMIT,
+                UpgradeCard.AUTOTHRUSTERS, UpgradeCard.STEALTH_DEVICE ]));
         return answer;
     }));
 
@@ -148,10 +158,10 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2015, "YT-1300/YT-2400", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.CHEWBACCA, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
-                UpgradeCard.LUKE_SKYWALKER, UpgradeCard.C_3PO));
-        answer.push(new Token(Pilot.EADEN_VRILL, agent, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.RECON_SPECIALIST,
-                UpgradeCard.ANTI_PURSUIT_LASERS));
+        answer.push(new Token(Pilot.CHEWBACCA, agent, [ UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
+                UpgradeCard.LUKE_SKYWALKER, UpgradeCard.C_3PO ]));
+        answer.push(new Token(Pilot.EADEN_VRILL, agent, [ UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.RECON_SPECIALIST,
+                UpgradeCard.ANTI_PURSUIT_LASERS ]));
         return answer;
     }));
 
@@ -161,10 +171,10 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #4", 2015, "YT-2400/E-Wing", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.CORRAN_HORN, agent, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
-                UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE));
-        answer.push(new Token(Pilot.DASH_RENDAR, agent, UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
-                UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA));
+        answer.push(new Token(Pilot.CORRAN_HORN, agent, [ UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
+                UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE ]));
+        answer.push(new Token(Pilot.DASH_RENDAR, agent, [ UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
+                UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA ]));
         return answer;
     }));
 
@@ -173,12 +183,12 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.SCUM, "US Nationals #5", 2015, "Aggressors x2", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.IG_2000, UpgradeCard.VETERAN_INSTINCTS,
+        answer.push(new Token(Pilot.IG_88B, agent, [ UpgradeCard.IG_2000, UpgradeCard.VETERAN_INSTINCTS,
                 UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.INERTIAL_DAMPENERS,
-                UpgradeCard.AUTOTHRUSTERS));
-        answer.push(new Token(Pilot.IG_88C, agent, UpgradeCard.IG_2000, UpgradeCard.VETERAN_INSTINCTS,
+                UpgradeCard.AUTOTHRUSTERS ]));
+        answer.push(new Token(Pilot.IG_88C, agent, [ UpgradeCard.IG_2000, UpgradeCard.VETERAN_INSTINCTS,
                 UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.INERTIAL_DAMPENERS,
-                UpgradeCard.AUTOTHRUSTERS));
+                UpgradeCard.AUTOTHRUSTERS ]));
         return answer;
     }));
 
@@ -189,33 +199,36 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor/M3-A/Z-95/Kihraxz", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.IG_88B, agent, UpgradeCard.FLECHETTE_CANNON));
-        answer.push(new Token(Pilot.TALONBANE_COBRA, agent, UpgradeCard.PREDATOR));
-        answer.push(new Token(Pilot.CARTEL_SPACER, agent, UpgradeCard.CALCULATION));
-        answer.push(new Token(Pilot.BINAYRE_PIRATE, agent, UpgradeCard.CLUSTER_MISSILES));
+        answer.push(new Token(Pilot.IG_88B, agent, [ UpgradeCard.FLECHETTE_CANNON ]));
+        answer.push(new Token(Pilot.TALONBANE_COBRA, agent, [ UpgradeCard.PREDATOR ]));
+        answer.push(new Token(Pilot.CARTEL_SPACER, agent, [ UpgradeCard.CALCULATION ]));
+        answer.push(new Token(Pilot.BINAYRE_PIRATE, agent, [ UpgradeCard.CLUSTER_MISSILES ]));
         return answer;
     }));
 
     // Thug Life
     // - Syndicate Thug + Twin Laser Turret + Unhinged Astromech x2
     // - Syndicate Thug + Ion Cannon Turret + R4 Astromech x2
-    SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life", 2015, "Y-Wings x4", function(agent)
-    {
-        var answer = [];
-        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, UpgradeCard.TWIN_LASER_TURRET,
-                UpgradeCard.UNHINGED_ASTROMECH));
-        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.R4_AGROMECH));
-        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, UpgradeCard.TWIN_LASER_TURRET,
-                UpgradeCard.UNHINGED_ASTROMECH));
-        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.R4_AGROMECH));
-        return answer;
-    }));
+    SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life", 2015, "Y-Wings x4",
+            function(agent)
+            {
+                var answer = [];
+                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                        UpgradeCard.UNHINGED_ASTROMECH ]));
+                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.ION_CANNON_TURRET,
+                        UpgradeCard.R4_AGROMECH ]));
+                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                        UpgradeCard.UNHINGED_ASTROMECH ]));
+                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.ION_CANNON_TURRET,
+                        UpgradeCard.R4_AGROMECH ]));
+                return answer;
+            }));
 
     var CoreSetFirstOrderSquadBuilder = new SquadBuilder(Team.FIRST_ORDER, "First Order TFA Core Set: 39 Points", 2015,
             "TIE/fo Fighters x2", function(agent)
             {
                 var answer = [];
-                answer.push(new Token(Pilot.EPSILON_LEADER, agent, UpgradeCard.WIRED));
+                answer.push(new Token(Pilot.EPSILON_LEADER, agent, [ UpgradeCard.WIRED ]));
                 answer.push(new Token(Pilot.ZETA_ACE, agent));
                 return answer;
             });
@@ -225,8 +238,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
             "T-70 X-Wing", function(agent)
             {
                 var answer = [];
-                answer.push(new Token(Pilot.POE_DAMERON, agent, UpgradeCard.BB_8, UpgradeCard.PROTON_TORPEDOES,
-                        UpgradeCard.WEAPONS_GUIDANCE));
+                answer.push(new Token(Pilot.POE_DAMERON, agent, [ UpgradeCard.BB_8, UpgradeCard.PROTON_TORPEDOES,
+                        UpgradeCard.WEAPONS_GUIDANCE ]));
                 return answer;
             });
     SquadBuilders.push(CoreSetResistanceSquadBuilder);
@@ -237,8 +250,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #1", 2014, "YT-1300/Z-95s x3", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
-                UpgradeCard.C_3PO, UpgradeCard.R2_D2_CREW, UpgradeCard.ENGINE_UPGRADE));
+        answer.push(new Token(Pilot.HAN_SOLO, agent, [ UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
+                UpgradeCard.C_3PO, UpgradeCard.R2_D2_CREW, UpgradeCard.ENGINE_UPGRADE ]));
         answer.push(new Token(Pilot.TALA_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.TALA_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.TALA_SQUADRON_PILOT, agent));
@@ -251,9 +264,9 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #2", 2014, "TIE Phantom/TIE Fighters x4", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.WHISPER, agent, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM,
-                UpgradeCard.REBEL_CAPTIVE, UpgradeCard.ADVANCED_CLOAKING_DEVICE));
-        answer.push(new Token(Pilot.HOWLRUNNER, agent, UpgradeCard.SWARM_TACTICS));
+        answer.push(new Token(Pilot.WHISPER, agent, [ UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM,
+                UpgradeCard.REBEL_CAPTIVE, UpgradeCard.ADVANCED_CLOAKING_DEVICE ]));
+        answer.push(new Token(Pilot.HOWLRUNNER, agent, [ UpgradeCard.SWARM_TACTICS ]));
         answer.push(new Token(Pilot.ACADEMY_PILOT, agent));
         answer.push(new Token(Pilot.ACADEMY_PILOT, agent));
         answer.push(new Token(Pilot.ACADEMY_PILOT, agent));
@@ -267,8 +280,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #3", 2014, "YT-1300/Z-95s x3", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
-                UpgradeCard.GUNNER, UpgradeCard.C_3PO, UpgradeCard.ENGINE_UPGRADE));
+        answer.push(new Token(Pilot.HAN_SOLO, agent, [ UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR,
+                UpgradeCard.GUNNER, UpgradeCard.C_3PO, UpgradeCard.ENGINE_UPGRADE ]));
         answer.push(new Token(Pilot.TALA_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.TALA_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.BANDIT_SQUADRON_PILOT, agent));
@@ -286,7 +299,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
         var answer = [];
         answer.push(new Token(Pilot.HOWLRUNNER, agent));
         answer.push(new Token(Pilot.DARK_CURSE, agent));
-        answer.push(new Token(Pilot.BLACK_SQUADRON_PILOT, agent, UpgradeCard.DRAW_THEIR_FIRE));
+        answer.push(new Token(Pilot.BLACK_SQUADRON_PILOT, agent, [ UpgradeCard.DRAW_THEIR_FIRE ]));
         answer.push(new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.ACADEMY_PILOT, agent));
@@ -302,8 +315,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #5", 2014, "X-Wings x3/Z-95", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.WEDGE_ANTILLES, agent, UpgradeCard.DRAW_THEIR_FIRE, UpgradeCard.R2_D2));
-        answer.push(new Token(Pilot.AIREN_CRACKEN, agent, UpgradeCard.VETERAN_INSTINCTS));
+        answer.push(new Token(Pilot.WEDGE_ANTILLES, agent, [ UpgradeCard.DRAW_THEIR_FIRE, UpgradeCard.R2_D2 ]));
+        answer.push(new Token(Pilot.AIREN_CRACKEN, agent, [ UpgradeCard.VETERAN_INSTINCTS ]));
         answer.push(new Token(Pilot.BIGGS_DARKLIGHTER, agent));
         answer.push(new Token(Pilot.ROOKIE_PILOT, agent));
         return answer;
@@ -317,9 +330,9 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
             "TIE Phantom/Interceptor/Lambda Shuttle", function(agent)
             {
                 var answer = [];
-                answer.push(new Token(Pilot.WHISPER, agent, UpgradeCard.VETERAN_INSTINCTS,
-                        UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.GUNNER, UpgradeCard.ADVANCED_CLOAKING_DEVICE));
-                answer.push(new Token(Pilot.SOONTIR_FEL, agent, UpgradeCard.PUSH_THE_LIMIT));
+                answer.push(new Token(Pilot.WHISPER, agent, [ UpgradeCard.VETERAN_INSTINCTS,
+                        UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.GUNNER, UpgradeCard.ADVANCED_CLOAKING_DEVICE ]));
+                answer.push(new Token(Pilot.SOONTIR_FEL, agent, [ UpgradeCard.PUSH_THE_LIMIT ]));
                 answer.push(new Token(Pilot.CAPTAIN_YORR, agent));
                 return answer;
             }));
@@ -330,10 +343,10 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #2", 2014, "YT-1300s x2", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.LANDO_CALRISSIAN, agent, UpgradeCard.DRAW_THEIR_FIRE, UpgradeCard.NIEN_NUNB,
-                UpgradeCard.HAN_SOLO));
-        answer.push(new Token(Pilot.CHEWBACCA, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DRAW_THEIR_FIRE,
-                UpgradeCard.C_3PO, UpgradeCard.R2_D2_CREW));
+        answer.push(new Token(Pilot.LANDO_CALRISSIAN, agent, [ UpgradeCard.DRAW_THEIR_FIRE, UpgradeCard.NIEN_NUNB,
+                UpgradeCard.HAN_SOLO ]));
+        answer.push(new Token(Pilot.CHEWBACCA, agent, [ UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DRAW_THEIR_FIRE,
+                UpgradeCard.C_3PO, UpgradeCard.R2_D2_CREW ]));
         return answer;
     }));
 
@@ -344,8 +357,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2014, "YT-1300/X-Wing/Z-95", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.VETERAN_INSTINCTS,
-                UpgradeCard.LUKE_SKYWALKER, UpgradeCard.C_3PO, UpgradeCard.ENGINE_UPGRADE));
+        answer.push(new Token(Pilot.HAN_SOLO, agent, [ UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.VETERAN_INSTINCTS,
+                UpgradeCard.LUKE_SKYWALKER, UpgradeCard.C_3PO, UpgradeCard.ENGINE_UPGRADE ]));
         answer.push(new Token(Pilot.BIGGS_DARKLIGHTER, agent));
         answer.push(new Token(Pilot.TALA_SQUADRON_PILOT, agent));
         return answer;
@@ -357,7 +370,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #4", 2014, "TIE Fighters x7", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.HOWLRUNNER, agent, UpgradeCard.PUSH_THE_LIMIT));
+        answer.push(new Token(Pilot.HOWLRUNNER, agent, [ UpgradeCard.PUSH_THE_LIMIT ]));
         answer.push(new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, agent));
@@ -373,10 +386,10 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #5", 2014, "YT-1300/E-Wing", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.HAN_SOLO, agent, UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DETERMINATION,
-                UpgradeCard.LUKE_SKYWALKER));
-        answer.push(new Token(Pilot.CORRAN_HORN, agent, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
-                UpgradeCard.R2_D2));
+        answer.push(new Token(Pilot.HAN_SOLO, agent, [ UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DETERMINATION,
+                UpgradeCard.LUKE_SKYWALKER ]));
+        answer.push(new Token(Pilot.CORRAN_HORN, agent, [ UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
+                UpgradeCard.R2_D2 ]));
         return answer;
     }));
 
@@ -389,8 +402,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     {
         var answer = [];
         answer.push(new Token(Pilot.BIGGS_DARKLIGHTER, agent));
-        answer.push(new Token(Pilot.DAGGER_SQUADRON_PILOT, agent, UpgradeCard.ADVANCED_SENSORS));
-        answer.push(new Token(Pilot.DAGGER_SQUADRON_PILOT, agent, UpgradeCard.ADVANCED_SENSORS));
+        answer.push(new Token(Pilot.DAGGER_SQUADRON_PILOT, agent, [ UpgradeCard.ADVANCED_SENSORS ]));
+        answer.push(new Token(Pilot.DAGGER_SQUADRON_PILOT, agent, [ UpgradeCard.ADVANCED_SENSORS ]));
         answer.push(new Token(Pilot.ROOKIE_PILOT, agent));
         return answer;
     }));
@@ -402,7 +415,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #2", 2013, "TIE Fighters x7", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.HOWLRUNNER, agent, UpgradeCard.STEALTH_DEVICE, UpgradeCard.DETERMINATION));
+        answer.push(new Token(Pilot.HOWLRUNNER, agent, [ UpgradeCard.STEALTH_DEVICE, UpgradeCard.DETERMINATION ]));
         answer.push(new Token(Pilot.DARK_CURSE, agent));
         answer.push(new Token(Pilot.ACADEMY_PILOT, agent));
         answer.push(new Token(Pilot.ACADEMY_PILOT, agent));
@@ -418,8 +431,8 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #3", 2013, "X-Wings x4", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.LUKE_SKYWALKER, agent, UpgradeCard.SHIELD_UPGRADE, UpgradeCard.R2_D2,
-                UpgradeCard.DRAW_THEIR_FIRE));
+        answer.push(new Token(Pilot.LUKE_SKYWALKER, agent, [ UpgradeCard.SHIELD_UPGRADE, UpgradeCard.R2_D2,
+                UpgradeCard.DRAW_THEIR_FIRE ]));
         answer.push(new Token(Pilot.ROOKIE_PILOT, agent));
         answer.push(new Token(Pilot.ROOKIE_PILOT, agent));
         answer.push(new Token(Pilot.ROOKIE_PILOT, agent));
@@ -434,7 +447,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
     SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #4", 2013, "TIE Fighters x7", function(agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.HOWLRUNNER, agent, UpgradeCard.STEALTH_DEVICE));
+        answer.push(new Token(Pilot.HOWLRUNNER, agent, [ UpgradeCard.STEALTH_DEVICE ]));
         answer.push(new Token(Pilot.BACKSTABBER, agent));
         answer.push(new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, agent));
         answer.push(new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, agent));
@@ -463,7 +476,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
             "TIE Fighters x2", function(agent)
             {
                 var answer = [];
-                answer.push(new Token(Pilot.MAULER_MITHEL, agent, UpgradeCard.MARKSMANSHIP));
+                answer.push(new Token(Pilot.MAULER_MITHEL, agent, [ UpgradeCard.MARKSMANSHIP ]));
                 answer.push(new Token(Pilot.DARK_CURSE, agent));
                 return answer;
             });
@@ -473,7 +486,7 @@ define([ "Pilot", "Team", "Token", "UpgradeCard" ], function(Pilot, Team, Token,
             agent)
     {
         var answer = [];
-        answer.push(new Token(Pilot.LUKE_SKYWALKER, agent, UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2));
+        answer.push(new Token(Pilot.LUKE_SKYWALKER, agent, [ UpgradeCard.PROTON_TORPEDOES, UpgradeCard.R2_D2 ]));
         return answer;
     });
     SquadBuilders.push(CoreSetRebelSquadBuilder);

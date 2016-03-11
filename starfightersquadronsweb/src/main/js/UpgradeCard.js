@@ -1,6 +1,6 @@
 define(
-        [ "FiringArc", "RangeRuler", "ShipState", "UpgradeHeader", "UpgradeRestriction", "UpgradeType" ],
-        function(FiringArc, RangeRuler, ShipState, UpgradeHeader, UpgradeRestriction, UpgradeType)
+        [ "FiringArc", "Pilot", "RangeRuler", "ShipState", "UpgradeHeader", "UpgradeRestriction", "UpgradeType" ],
+        function(FiringArc, Pilot, RangeRuler, ShipState, UpgradeHeader, UpgradeRestriction, UpgradeType)
         {
             "use strict";
             var UpgradeCard =
@@ -776,15 +776,6 @@ define(
                         squadPointCost: 3,
                         value: "engineBooster",
                     },
-                    "engineeringTeam":
-                    {
-                        name: "Engineering Team",
-                        type: UpgradeType.TEAM,
-                        restrictions: [ UpgradeRestriction.LIMITED ],
-                        description: "During the Activation phase, when you reveal a Straight maneuver, gain 1 additional energy during the \"Gain Energy\" step.",
-                        squadPointCost: 4,
-                        value: "engineeringTeam",
-                    },
                     "engineUpgrade":
                     {
                         name: "Engine Upgrade",
@@ -799,7 +790,6 @@ define(
                     {
                         name: "Engineering Team",
                         type: UpgradeType.TEAM,
-                        isUnique: false,
                         restrictions: [ UpgradeRestriction.LIMITED ],
                         description: "During the Activation phase, when you reveal a Straight maneuver, gain 1 additional energy during the \"Gain Energy\" step.",
                         squadPointCost: 4,
@@ -2180,10 +2170,19 @@ define(
                     InputValidator.validateNotNull("pilotKey", pilotKey);
                     InputValidator.validateNotNull("upgradeType", upgradeType);
 
+                    var pilot = Pilot.properties[pilotKey];
+                    if (!pilot)
+                    {
+                        var parentPilotKey = pilotKey.split(".")[0];
+                        pilot = Pilot.properties[parentPilotKey];
+                    }
+                    if (pilot === undefined) { throw "UpgradeCard: Can't find pilot for pilotKey: " + pilotKey; }
+                    var myPilotKey = pilot.value;
+
                     return this.valuesByType(upgradeType).filter(function(upgradeCard)
                     {
                         var restrictions = UpgradeCard.properties[upgradeCard].restrictions;
-                        return UpgradeRestriction.passes(restrictions, pilotKey);
+                        return UpgradeRestriction.passes(restrictions, myPilotKey);
                     });
                 },
 

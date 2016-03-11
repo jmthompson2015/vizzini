@@ -1,6 +1,6 @@
-define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "ShipAction", "TargetLock",
-        "Team", "UpgradeCard" ], function(CombatAction, Environment, ManeuverAction, Phase, Pilot, RangeRuler,
-        ShipAction, TargetLock, Team, UpgradeCard)
+define([ "CombatAction", "DualToken", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "ShipAction",
+        "TargetLock", "Team", "UpgradeCard" ], function(CombatAction, DualToken, Environment, ManeuverAction, Phase,
+        Pilot, RangeRuler, ShipAction, TargetLock, Team, UpgradeCard)
 {
     "use strict";
     function Engine(environment, adjudicator)
@@ -238,7 +238,15 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
 
                     if (adjudicator.canSelectShipAction(token))
                     {
-                        agent.getShipAction(environment, adjudicator, token, that.setShipAction);
+                        if (token instanceof DualToken)
+                        {
+                            agent.getShipAction(environment, adjudicator, token.tokenFore(), that.setShipAction);
+                            // FIXME: need to query for tokenAft
+                        }
+                        else
+                        {
+                            agent.getShipAction(environment, adjudicator, token, that.setShipAction);
+                        }
 
                         // Wait for agent to respond.
                     }

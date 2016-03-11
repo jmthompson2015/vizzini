@@ -1,63 +1,94 @@
-/*
- * Provides a token for Starfighter Squadrons. Can pass upgrade cards after the first two arguments.
- */
-define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler",
-        "ShipAction", "UpgradeCard", "UpgradeType", "Weapon" ], function(Bearing, DamageCard, DamageCardV2, Difficulty,
-        Maneuver, Phase, Pilot, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Weapon)
+define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot",
+        "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "Weapon" ], function(ActivationState, Bearing,
+        DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, UpgradeCard, UpgradeType,
+        Weapon)
 {
     "use strict";
-    function Token(pilotKey, agent)
+    function Token(pilotKeyIn, agent, upgradeKeysIn)
     {
-        InputValidator.validateNotNull("pilotKey", pilotKey);
+        InputValidator.validateNotNull("pilotKeyIn", pilotKeyIn);
         InputValidator.validateNotNull("agent", agent);
 
-        this.pilotKey = function()
+        var pilotKey, pilot;
+
+        if (typeof pilotKeyIn === "string")
         {
-            return pilotKey;
-        };
+            pilotKey = pilotKeyIn;
+            pilot = Pilot.properties[pilotKey];
+        }
+        else
+        {
+            pilot = pilotKeyIn;
+            pilotKey = pilot.value;
+        }
 
         this.agent = function()
         {
             return agent;
         };
 
+        var ship;
+
+        this.ship = function()
+        {
+            if (!ship)
+            {
+                ship = pilot.shipTeam.ship;
+
+                if (pilot.value.endsWith("fore"))
+                {
+                    ship = ship.fore;
+                }
+                else if (pilot.value.endsWith("aft"))
+                {
+                    ship = ship.aft;
+                }
+            }
+
+            return ship;
+        };
+
         var that = this;
         var id = Token.nextId();
-        var pilot = Pilot.properties[pilotKey];
 
-        var cloakCount = new Token.Count();
+        var cloakCount = new Count();
         cloakCount.bind("change", function()
         {
             that.trigger("change");
         });
         var criticalDamages = [];
         var damages = [];
-        var evadeCount = new Token.Count();
+        var energyCount = new Count();
+        energyCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
+        var evadeCount = new Count();
         evadeCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var focusCount = new Token.Count();
+        var focusCount = new Count();
         focusCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var ionCount = new Token.Count();
+        var ionCount = new Count();
         ionCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var shieldCount = new Token.Count(pilot.shipState.shieldValue());
+        var shieldCount = new Count(pilot.shipState.shieldValue());
         shieldCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var stressCount = new Token.Count();
+        var stressCount = new Count();
         stressCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var weaponsDisabledCount = new Token.Count();
+        var weaponsDisabledCount = new Count();
         weaponsDisabledCount.bind("change", function()
         {
             that.trigger("change");
@@ -70,20 +101,22 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
         // Initialize the upgrades.
         var upgradeKeys = [];
 
-        for (var i = 2; i < arguments.length; i++)
+        if (upgradeKeysIn)
         {
-            var upgradeKey = arguments[i];
-            upgradeKeys.push(upgradeKey);
-            var upgrade = UpgradeCard.properties[upgradeKey];
-
-            if (upgrade.weaponValue)
+            upgradeKeysIn.forEach(function(upgradeKey)
             {
-                secondaryWeapons.push(createSecondaryWeapon(upgrade));
-            }
+                upgradeKeys.push(upgradeKey);
+                var upgrade = UpgradeCard.properties[upgradeKey];
+
+                if (upgrade.weaponValue)
+                {
+                    secondaryWeapons.push(createSecondaryWeapon(upgrade));
+                }
+            });
         }
 
-        var activationState = new Token.ActivationState();
-        var combatState = new Token.CombatState();
+        var activationState = new ActivationState();
+        var combatState = new CombatState();
 
         this.activationState = function()
         {
@@ -195,6 +228,38 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
                     }
                 }
             }
+        };
+
+        this.energy = function()
+        {
+            return energyCount;
+        };
+
+        this.energyValue = function()
+        {
+            var answer = getShipState().energyValue();
+
+            if (answer !== null)
+            {
+                answer = criticalDamages.reduce(function(sum, damageKey)
+                {
+                    return sum + DamageCard.properties[damageKey].shipState.energyValue();
+                }, answer);
+
+                upgradeKeys.forEach(function(upgradeKey)
+                {
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
+
+                    if (shipState)
+                    {
+                        answer += shipState.energyValue();
+                    }
+                });
+
+                answer = Math.max(answer, 0);
+            }
+
+            return answer;
         };
 
         this.equals = function(other)
@@ -409,6 +474,11 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
         this.pilot = function()
         {
             return pilot;
+        };
+
+        this.pilotKey = function()
+        {
+            return pilotKey;
         };
 
         this.pilotSkillValue = function()
@@ -720,7 +790,14 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
         function createPrimaryWeapon()
         {
             var shipState = pilot.shipState;
-            var ship = pilot.shipTeam.ship;
+            var ship = that.ship();
+
+            if (!ship.primaryFiringArcKey)
+            {
+                LOGGER.info("pilot.value = " + pilot.value);
+                LOGGER.info("ship.value = " + ship.value);
+                LOGGER.info("ship.primaryFiringArcKey = " + ship.primaryFiringArcKey);
+            }
 
             return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO,
                     RangeRuler.THREE ], ship.primaryFiringArcKey, ship.auxiliaryFiringArcKey,
@@ -947,40 +1024,7 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
         return this.name();
     };
 
-    Token.ActivationState = function()
-    {
-        var isTouching = false;
-        var maneuverAction;
-
-        this.clear = function()
-        {
-            LOGGER.debug("Token.ActivationState.clear()");
-            isTouching = false;
-            maneuverAction = undefined;
-        };
-
-        this.isTouching = function(value)
-        {
-            if (value === true || value === false)
-            {
-                isTouching = value;
-            }
-
-            return isTouching;
-        };
-
-        this.maneuverAction = function(value)
-        {
-            if (value)
-            {
-                maneuverAction = value;
-            }
-
-            return maneuverAction;
-        };
-    };
-
-    Token.CombatState = function()
+    function CombatState()
     {
         var attackDice;
         var combatAction;
@@ -1046,9 +1090,9 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
 
             return range;
         };
-    };
+    }
 
-    Token.Count = function(initialCount)
+    function Count(initialCount)
     {
         var that = this;
         var count = (initialCount ? initialCount : 0);
@@ -1082,8 +1126,8 @@ define([ "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pha
             }
         }
 
-        MicroEvent.mixin(Token.Count);
-    };
+        MicroEvent.mixin(Count);
+    }
 
     MicroEvent.mixin(Token);
 

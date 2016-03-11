@@ -38,6 +38,14 @@
 			<td></td>
 			<td><button id="updateScum" type="button">Update</button></td>
 		</tr>
+		<tr>
+			<td id="cr90PilotCompact" style="vertical-align: top"></td>
+			<td id="gr75PilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="cr90PilotLarge" style="vertical-align: top"></td>
+			<td id="gr75PilotLarge" style="vertical-align: top"></td>
+		</tr>
 	</table>
 	<script>
         "use strict";
@@ -48,9 +56,9 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "SimpleAgent", "SquadBuilder", "TargetLock",
-                "Team", "Token", "ui/PilotCardUI" ], function(DamageCard, EnvironmentFactory, Pilot, Position,
-                SimpleAgent, SquadBuilder, TargetLock, Team, Token, PilotCardUI)
+        require([ "DamageCard", "DualToken", "EnvironmentFactory", "Pilot", "Position", "SimpleAgent", "SquadBuilder",
+                "TargetLock", "Team", "Token", "ui/PilotCardUI" ], function(DamageCard, DualToken, EnvironmentFactory,
+                Pilot, Position, SimpleAgent, SquadBuilder, TargetLock, Team, Token, PilotCardUI)
         {
             var environment = EnvironmentFactory.createCoreSetEnvironment();
             var imperialToken = environment.tokens()[0]; // TIE Fighter.
@@ -81,6 +89,15 @@
             scumToken.weaponsDisabled().increase();
             environment.placeToken(new Position(200, 200, 0), scumToken);
 
+            var cr90Token = new DualToken(Pilot.CR90_CORVETTE, environment.secondAgent());
+            cr90Token.tokenAft().energy().increase();
+            environment.placeToken(new Position(100, 100, 0), cr90Token);
+
+            var gr75Token = new Token(Pilot.GR_75_MEDIUM_TRANSPORT, environment.secondAgent());
+            gr75Token.energy().increase();
+            gr75Token.energy().increase();
+            environment.placeToken(new Position(200, 100, 0), gr75Token);
+
             var targetLock0 = new TargetLock(imperialToken, rebelToken);
             imperialToken.addAttackerTargetLock(targetLock0);
             rebelToken.addDefenderTargetLock(targetLock0);
@@ -92,6 +109,10 @@
             var targetLock2 = new TargetLock(scumToken, imperialToken);
             scumToken.addAttackerTargetLock(targetLock2);
             imperialToken.addDefenderTargetLock(targetLock2);
+
+            var targetLock3 = new TargetLock(cr90Token.tokenFore(), foToken);
+            cr90Token.tokenFore().addAttackerTargetLock(targetLock2);
+            foToken.addDefenderTargetLock(targetLock2);
 
             var element = React.createElement(PilotCardUI,
             {
@@ -130,38 +151,59 @@
 
             var element = React.createElement(PilotCardUI,
             {
-                isCompact: false,
+                isCompact: true,
+                initialToken: cr90Token,
+            });
+            React.render(element, document.getElementById("cr90PilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: true,
+                initialToken: gr75Token,
+            });
+            React.render(element, document.getElementById("gr75PilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
                 initialToken: foToken
             });
             React.render(element, document.getElementById("foPilotLarge"));
 
             var element = React.createElement(PilotCardUI,
             {
-                isCompact: false,
                 initialToken: imperialToken
             });
             React.render(element, document.getElementById("imperialPilotLarge"));
 
             var element = React.createElement(PilotCardUI,
             {
-                isCompact: false,
                 initialToken: rebelToken
             });
             React.render(element, document.getElementById("rebelPilotLarge"));
 
             var element = React.createElement(PilotCardUI,
             {
-                isCompact: false,
                 initialToken: resistanceToken
             });
             React.render(element, document.getElementById("resistancePilotLarge"));
 
             var element = React.createElement(PilotCardUI,
             {
-                isCompact: false,
                 initialToken: scumToken
             });
             React.render(element, document.getElementById("scumPilotLarge"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                initialToken: cr90Token,
+            });
+            React.render(element, document.getElementById("cr90PilotLarge"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                initialToken: gr75Token,
+            });
+            React.render(element, document.getElementById("gr75PilotLarge"));
 
             function updateImperialToken()
             {

@@ -69,7 +69,7 @@ define([ "DamageCard", "DamageCardTrait", "DamageDealer", "EnvironmentFactory", 
                 var hitCount = 2;
                 var criticalHitCount = 1;
                 var rebelAgent = environment.tokens()[2].agent();
-                var defender = new Token(Pilot.LUKE_SKYWALKER, rebelAgent, UpgradeCard.DETERMINATION);
+                var defender = new Token(Pilot.LUKE_SKYWALKER, rebelAgent, [UpgradeCard.DETERMINATION]);
                 var evadeCount = 0;
                 var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
                 assert.equal(defender.damageCount(), 0);

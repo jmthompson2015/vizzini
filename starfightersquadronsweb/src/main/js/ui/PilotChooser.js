@@ -1,5 +1,5 @@
-define([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotCardUI" ], function(Pilot, Ship,
-        ShipTeam, SimpleAgent, Team, Token, PilotCardUI)
+define([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "ui/PilotCardUI" ], function(Pilot, Ship,
+        ShipTeam, SimpleAgent, Team, TokenFactory, PilotCardUI)
 {
     "use strict";
     var PilotChooser = React.createClass(
@@ -179,7 +179,6 @@ define([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotC
             {
                 var element = React.createElement(PilotCardUI,
                 {
-                    isCompact: false,
                     initialToken: token
                 });
                 this.pilotCardUI = React.render(element, document.getElementById("pilotCardPanel"));
@@ -228,13 +227,13 @@ define([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "Team", "Token", "ui/PilotC
             });
         },
 
-        createToken: function(pilot)
+        createToken: function(pilotKey)
         {
-            var team = this.props.team;
-            var agentName = Team.properties[team].name + " Agent";
-            var agent = new SimpleAgent(agentName, team);
+            var teamKey = this.props.team;
+            var agentName = Team.properties[teamKey].name + " Agent";
+            var agent = new SimpleAgent(agentName, teamKey);
 
-            return new Token(pilot, agent);
+            return TokenFactory.create(pilotKey, agent);
         },
     });
 

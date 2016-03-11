@@ -1,5 +1,5 @@
-define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(UpgradeCard, ShipSilhouetteUI,
-        UpgradeTypeUI)
+define([ "DualToken", "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(DualToken, UpgradeCard,
+        ShipSilhouetteUI, UpgradeTypeUI)
 {
     "use strict";
     var SquadColumns = [
@@ -79,9 +79,18 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
                 }
             }, this);
 
-            var rows = squad.map(function(token, i)
+            var rows = [];
+            squad.forEach(function(token, i)
             {
-                return this.createRows(token, i);
+                if (token instanceof DualToken)
+                {
+                    rows.push(this.createRows(token.tokenFore(), "fore" + i));
+                    rows.push(this.createRows(token.tokenAft(), "aft" + i));
+                }
+                else
+                {
+                    rows.push(this.createRows(token, i));
+                }
             }, this);
             var footer = this.Tfoot(
             {
@@ -103,7 +112,7 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
                 key: key,
                 className: column.className,
                 column: column.key,
-            }, value);
+            }, (value ? value : ""));
         },
 
         createRemoveAction: function(token)
@@ -126,11 +135,11 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
             }, image);
         },
 
-        createRows: function(token, i)
+        createRows: function(token, key)
         {
             var answer = [];
 
-            answer.push(this.createTokenRow(token, i));
+            answer.push(this.createTokenRow(token, key));
 
             var upgrades = token.upgradeKeys();
             var self = this;
@@ -143,7 +152,7 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
             return answer;
         },
 
-        createTokenRow: function(token, i)
+        createTokenRow: function(token, key)
         {
             var cells = [];
             var createCell = this.createCell;
@@ -175,7 +184,7 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
 
             return this.Tr(
             {
-                key: i,
+                key: key,
             }, cells);
         },
 
@@ -192,37 +201,53 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
                 sums[SquadColumns[j].key] = 0;
             }
 
-            squad.forEach(function(token)
+            squad.forEach(function(token0)
             {
-                var pilotProps = token.pilot();
-                var shipState = pilotProps.shipState;
-                var values = [ shipState.pilotSkillValue(), shipState.primaryWeaponValue(), shipState.agilityValue(),
-                        shipState.hullValue(), shipState.shieldValue(), pilotProps.squadPointCost ];
-                for (var i = start; i < SquadColumns.length; i++)
+                var tokens = [];
+
+                if (token0 instanceof DualToken)
                 {
-                    sums[SquadColumns[i].key] += values[i - start];
+                    tokens.push(token0.tokenFore());
+                    tokens.push(token0.tokenAft());
+                }
+                else
+                {
+                    tokens.push(token0);
                 }
 
-                var upgrades = token.upgradeKeys();
-                upgrades.forEach(function(upgrade)
+                tokens.forEach(function(token)
                 {
-                    var upgradeProps = UpgradeCard.properties[upgrade];
-                    var shipState = upgradeProps.shipState;
-
-                    if (shipState)
+                    var pilotProps = token.pilot();
+                    var shipState = pilotProps.shipState;
+                    var values = [ shipState.pilotSkillValue(), shipState.primaryWeaponValue(),
+                            shipState.agilityValue(), shipState.hullValue(), shipState.shieldValue(),
+                            pilotProps.squadPointCost ];
+                    for (var i = start; i < SquadColumns.length; i++)
                     {
-                        var values = [ shipState.pilotSkillValue(), shipState.primaryWeaponValue(),
-                                shipState.agilityValue(), shipState.hullValue(), shipState.shieldValue() ];
-                        for (var i = start; i < SquadColumns.length - 2; i++)
-                        {
-                            sums[SquadColumns[i].key] += values[i - start];
-                        }
+                        sums[SquadColumns[i].key] += values[i - start];
                     }
-                    sums[SquadColumns[SquadColumns.length - 2].key] += upgradeProps.squadPointCost;
-                });
-            });
 
-            sums[SquadColumns[SquadColumns.length - 1].key] = "";
+                    var upgrades = token.upgradeKeys();
+                    upgrades.forEach(function(upgrade)
+                    {
+                        var upgradeProps = UpgradeCard.properties[upgrade];
+                        var shipState = upgradeProps.shipState;
+
+                        if (shipState)
+                        {
+                            var values = [ shipState.pilotSkillValue(), shipState.primaryWeaponValue(),
+                                    shipState.agilityValue(), shipState.hullValue(), shipState.shieldValue() ];
+                            for (var i = start; i < SquadColumns.length - 2; i++)
+                            {
+                                sums[SquadColumns[i].key] += values[i - start];
+                            }
+                        }
+                        sums[SquadColumns[SquadColumns.length - 2].key] += upgradeProps.squadPointCost;
+                    });
+                });
+
+                sums[SquadColumns[SquadColumns.length - 1].key] = "";
+            });
 
             var cells = [];
             var isEditable = this.isEditable();

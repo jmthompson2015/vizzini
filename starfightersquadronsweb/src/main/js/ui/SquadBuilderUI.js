@@ -1,6 +1,6 @@
-define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "UpgradeCard", "ui/PilotChooser", "ui/SquadUI",
-        "ui/UpgradeChooser" ], function(Pilot, ShipTeam, SimpleAgent, Team, Token, UpgradeCard, PilotChooser, SquadUI,
-        UpgradeChooser)
+define([ "DualToken", "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "TokenFactory", "UpgradeCard",
+        "ui/PilotChooser", "ui/SquadUI", "ui/UpgradeChooser" ], function(DualToken, Pilot, ShipTeam, SimpleAgent, Team,
+        Token, TokenFactory, UpgradeCard, PilotChooser, SquadUI, UpgradeChooser)
 {
     "use strict";
     var SquadBuilderUI = React.createClass(
@@ -68,16 +68,41 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "UpgradeCard", "ui
                 key: 0,
                 className: "pilotChooserCell",
             }, pilotChooser);
-            var upgradesUI = this.createUpgradesUI();
-            var cell1 = React.DOM.td(
+            var token = this.state.token;
+            var cell1, cell2;
+            if (token instanceof DualToken)
             {
-                key: 1,
-                className: "upgradesUICell",
-            }, upgradesUI);
-            rows.push(React.DOM.tr(
+                var upgradesUI1 = this.createUpgradesUI(token.tokenFore());
+                cell1 = React.DOM.td(
+                {
+                    key: 1,
+                    className: "upgradesUICell",
+                }, upgradesUI1);
+                var upgradesUI2 = this.createUpgradesUI(token.tokenAft());
+                cell2 = React.DOM.td(
+                {
+                    key: 2,
+                    className: "upgradesUICell",
+                }, upgradesUI2);
+                rows.push(React.DOM.tr(
+                {
+                    key: rows.length,
+                }, cell0, cell1, cell2));
+
+            }
+            else
             {
-                key: 0,
-            }, cell0, cell1));
+                var upgradesUI = this.createUpgradesUI(token);
+                cell1 = React.DOM.td(
+                {
+                    key: 1,
+                    className: "upgradesUICell",
+                }, upgradesUI);
+                rows.push(React.DOM.tr(
+                {
+                    key: 0,
+                }, cell0, cell1));
+            }
 
             var addButton = React.DOM.input(
             {
@@ -85,7 +110,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "UpgradeCard", "ui
                 value: "Add",
                 onClick: this.addActionPerformed
             });
-            var cell2 = React.DOM.td(
+            cell2 = React.DOM.td(
             {
                 className: "squadBuilderAdd",
                 colSpan: 2,
@@ -147,21 +172,21 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "UpgradeCard", "ui
             }
         },
 
-        createToken: function(team, pilot)
+        createToken: function(teamKey, pilotKey)
         {
-            InputValidator.validateNotNull("team", team);
-            InputValidator.validateNotNull("pilot", pilot);
+            InputValidator.validateNotNull("teamKey", teamKey);
+            InputValidator.validateNotNull("pilotKey", pilotKey);
 
-            var agentName = Team.properties[team].name + " Agent";
-            var agent = new SimpleAgent(agentName, team);
+            var agentName = Team.properties[teamKey].name + " Agent";
+            var agent = new SimpleAgent(agentName, teamKey);
 
-            return new Token(pilot, agent);
+            return TokenFactory.create(pilotKey, agent);
         },
 
-        createUpgradesUI: function()
+        createUpgradesUI: function(token)
         {
             var pilot = this.state.pilot;
-            var upgradeTypes = this.state.token.upgradeTypeKeys();
+            var upgradeTypes = token.upgradeTypeKeys();
 
             var rows = [];
 
@@ -196,23 +221,11 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "Token", "UpgradeCard", "ui
             var team = this.props.team;
             var token = this.createToken(team, pilot);
 
-            // Add upgrade cards.
-            var myUpgrades = this.state.upgrades;
-            var tokenUpgrades = token.upgradeKeys();
-
-            myUpgrades.forEach(function(upgrade)
-            {
-                if (upgrade)
-                {
-                    tokenUpgrades.push(upgrade);
-                }
-            });
-
             this.setState(
             {
                 pilot: pilot,
                 token: token,
-                upgrades: []
+                upgrades: [],
             });
         },
 

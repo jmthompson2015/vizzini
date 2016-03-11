@@ -7,6 +7,25 @@ define(
             "use strict";
             QUnit.module("Environment");
 
+            QUnit.test("activeToken()", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var token0 = environment.tokens()[0]; // TIE Fighter.
+                assert.ok(!environment.activeToken());
+                environment.bind(Environment.ACTIVE_TOKEN_EVENT, function(activeToken)
+                {
+                    assert.equal(activeToken, token0);
+                });
+
+                // Run.
+                environment.activeToken(token0);
+
+                // Verify.
+                assert.equal(environment.activeToken(), token0);
+            });
+
             QUnit.test("createWeaponToRangeToDefenders() one", function(assert)
             {
                 // Setup.
@@ -47,8 +66,9 @@ define(
                 // Setup.
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
                 var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-                var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
-                        UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES);
+                var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.OUTRIDER,
+                        UpgradeCard.CALCULATION, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET,
+                        UpgradeCard.PROTON_TORPEDOES ]);
                 var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
                 var defender1 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
                 var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
@@ -205,6 +225,43 @@ define(
                 assert.equal(result[0].pilot().shipTeam.teamKey, Team.IMPERIAL);
             });
 
+            QUnit.test("getFriendlyTokensAtRange() zero", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var attacker = environment.tokens()[2]; // X-Wing
+                var attackerPosition = new Position(458, 50, -90);
+                environment.removeToken(attacker);
+                environment.placeToken(attackerPosition, attacker);
+
+                // Run.
+                var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 0);
+            });
+
+            QUnit.test("getFriendlyTokensAtRange() one", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var attacker = environment.tokens()[0]; // TIE Fighter
+                var attackerPosition = new Position(458, 50, -90);
+                environment.removeToken(attacker);
+                environment.placeToken(attackerPosition, attacker);
+
+                // Run.
+                var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 1);
+                assert.equal(result[0].pilotKey(), Pilot.DARK_CURSE);
+            });
+
             QUnit.test("getPositionFor()", function(assert)
             {
                 Token.resetNextId();
@@ -335,64 +392,6 @@ define(
                 assert.strictEqual(token.pilotKey(), Pilot.LUKE_SKYWALKER);
             });
 
-            QUnit.test("getTokenCountFor()", function(assert)
-            {
-                Token.resetNextId();
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-
-                assert.strictEqual(environment.getTokenCountFor(Team.IMPERIAL), 2);
-                assert.strictEqual(environment.getTokenCountFor(Team.REBEL), 1);
-            });
-
-            QUnit.test("tokens()", function(assert)
-            {
-                Token.resetNextId();
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-
-                var tokens = environment.tokens();
-                assert.equal(tokens.length, 3);
-                assert.equal(tokens[0].pilotKey(), Pilot.MAULER_MITHEL);
-                assert.equal(tokens[1].pilotKey(), Pilot.DARK_CURSE);
-                assert.equal(tokens[2].pilotKey(), Pilot.LUKE_SKYWALKER);
-            });
-
-            QUnit.test("getFriendlyTokensAtRange() zero", function(assert)
-            {
-                // Setup.
-                Token.resetNextId();
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-                var attacker = environment.tokens()[2]; // X-Wing
-                var attackerPosition = new Position(458, 50, -90);
-                environment.removeToken(attacker);
-                environment.placeToken(attackerPosition, attacker);
-
-                // Run.
-                var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
-
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.length, 0);
-            });
-
-            QUnit.test("getFriendlyTokensAtRange() one", function(assert)
-            {
-                // Setup.
-                Token.resetNextId();
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-                var attacker = environment.tokens()[0]; // TIE Fighter
-                var attackerPosition = new Position(458, 50, -90);
-                environment.removeToken(attacker);
-                environment.placeToken(attackerPosition, attacker);
-
-                // Run.
-                var result = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
-
-                // Verify.
-                assert.ok(result);
-                assert.equal(result.length, 1);
-                assert.equal(result[0].pilotKey(), Pilot.DARK_CURSE);
-            });
-
             QUnit.test("getTokensAtRange()", function(assert)
             {
                 // Setup.
@@ -426,20 +425,68 @@ define(
                 assert.ok(result);
                 assert.equal(result.length, 3);
                 var token;
+                var i = 0;
                 {
-                    token = result[0];
+                    token = result[i++];
                     assert.equal(token.id(), 2);
                     assert.equal(token.pilotKey(), Pilot.DARK_CURSE);
                 }
                 {
-                    token = result[1];
+                    token = result[i++];
                     assert.equal(token.id(), 1);
                     assert.equal(token.pilotKey(), Pilot.MAULER_MITHEL);
                 }
                 {
-                    token = result[2];
+                    token = result[i++];
                     assert.equal(token.id(), 3);
                     assert.equal(token.pilotKey(), Pilot.LUKE_SKYWALKER);
+                }
+            });
+
+            QUnit.test("getTokensForActivation() Huge", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createHugeShipEnvironment();
+
+                // Run.
+                var result = environment.getTokensForActivation();
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 5);
+                var token;
+                var i = 0;
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 7);
+                    assert.equal(token.pilotSkillValue(), 2);
+                    assert.equal(token.pilotKey(), Pilot.ROOKIE_PILOT);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 2);
+                    assert.equal(token.pilotSkillValue(), 6);
+                    assert.equal(token.pilotKey(), Pilot.DARK_CURSE);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 1);
+                    assert.equal(token.pilotSkillValue(), 7);
+                    assert.equal(token.pilotKey(), Pilot.MAULER_MITHEL);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 6);
+                    assert.equal(token.pilotSkillValue(), 3);
+                    assert.equal(token.pilotKey(), Pilot.GR_75_MEDIUM_TRANSPORT);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 3);
+                    assert.equal(token.tokenFore().pilotSkillValue(), 4);
+                    assert.equal(token.tokenAft().pilotSkillValue(), 4);
+                    assert.equal(token.pilotKey(), Pilot.CR90_CORVETTE);
                 }
             });
 
@@ -456,20 +503,73 @@ define(
                 assert.ok(result);
                 assert.equal(result.length, 3);
                 var token;
+                var i = 0;
                 {
-                    token = result[0];
+                    token = result[i++];
                     assert.equal(token.id(), 3);
                     assert.equal(token.pilotKey(), Pilot.LUKE_SKYWALKER);
                 }
                 {
-                    token = result[1];
+                    token = result[i++];
                     assert.equal(token.id(), 1);
                     assert.equal(token.pilotKey(), Pilot.MAULER_MITHEL);
                 }
                 {
-                    token = result[2];
+                    token = result[i++];
                     assert.equal(token.id(), 2);
                     assert.equal(token.pilotKey(), Pilot.DARK_CURSE);
+                }
+            });
+
+            QUnit.test("getTokensForCombat() Huge", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createHugeShipEnvironment();
+
+                // Run.
+                var result = environment.getTokensForCombat();
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 6);
+                var token;
+                var i = 0;
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 1);
+                    assert.equal(token.pilotSkillValue(), 7);
+                    assert.equal(token.pilotKey(), Pilot.MAULER_MITHEL);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 2);
+                    assert.equal(token.pilotSkillValue(), 6);
+                    assert.equal(token.pilotKey(), Pilot.DARK_CURSE);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 4);
+                    assert.equal(token.pilotSkillValue(), 4);
+                    assert.equal(token.pilotKey(), "cr90Corvette.fore");
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 5);
+                    assert.equal(token.pilotSkillValue(), 4);
+                    assert.equal(token.pilotKey(), "cr90Corvette.aft");
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 6);
+                    assert.equal(token.pilotSkillValue(), 3);
+                    assert.equal(token.pilotKey(), Pilot.GR_75_MEDIUM_TRANSPORT);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 7);
+                    assert.equal(token.pilotSkillValue(), 2);
+                    assert.equal(token.pilotKey(), Pilot.ROOKIE_PILOT);
                 }
             });
 
@@ -618,25 +718,6 @@ define(
                 assert.strictEqual(environment.getTokenAt(position), undefined);
             });
 
-            QUnit.test("activeToken()", function(assert)
-            {
-                // Setup.
-                Token.resetNextId();
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-                var token0 = environment.tokens()[0]; // TIE Fighter.
-                assert.ok(!environment.activeToken());
-                environment.bind(Environment.ACTIVE_TOKEN_EVENT, function(activeToken)
-                {
-                    assert.equal(activeToken, token0);
-                });
-
-                // Run.
-                environment.activeToken(token0);
-
-                // Verify.
-                assert.equal(environment.activeToken(), token0);
-            });
-
             QUnit.test("phase()", function(assert)
             {
                 // Setup.
@@ -692,6 +773,31 @@ define(
 
                 // Run.
                 environment.trigger(Environment.SHIP_FLED_EVENT, action);
+            });
+
+            QUnit.test("tokens()", function(assert)
+            {
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+
+                var tokens = environment.tokens();
+                assert.equal(tokens.length, 3);
+                assert.equal(tokens[0].pilotKey(), Pilot.MAULER_MITHEL);
+                assert.equal(tokens[1].pilotKey(), Pilot.DARK_CURSE);
+                assert.equal(tokens[2].pilotKey(), Pilot.LUKE_SKYWALKER);
+            });
+
+            QUnit.test("tokens() Pure", function(assert)
+            {
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+
+                var isPure = true;
+                var tokens = environment.tokens(isPure);
+                assert.equal(tokens.length, 3);
+                assert.equal(tokens[0].pilotKey(), Pilot.MAULER_MITHEL);
+                assert.equal(tokens[1].pilotKey(), Pilot.DARK_CURSE);
+                assert.equal(tokens[2].pilotKey(), Pilot.LUKE_SKYWALKER);
             });
 
             QUnit
