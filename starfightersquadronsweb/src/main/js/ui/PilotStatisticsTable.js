@@ -36,6 +36,11 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
         className: "numberCell",
     },
     {
+        key: "energy",
+        label: "Energy",
+        className: "numberCell",
+    },
+    {
         key: "agility",
         label: "Agility",
         className: "numberCell",
@@ -121,7 +126,7 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
                 key: key,
                 className: column.className,
                 column: column.key,
-            }, value);
+            }, (value ? value : ""));
         },
 
         createImplementedImage: function(isImplemented, key)
@@ -204,6 +209,9 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
 
             var primaryWeapon = shipState.primaryWeaponValue();
             cells.push(this.createCell(cells.length, PilotColumns[j++], primaryWeapon));
+
+            var energy = shipState.energyValue();
+            cells.push(this.createCell(cells.length, PilotColumns[j++], energy));
 
             var agility = shipState.agilityValue();
             cells.push(this.createCell(cells.length, PilotColumns[j++], agility));
