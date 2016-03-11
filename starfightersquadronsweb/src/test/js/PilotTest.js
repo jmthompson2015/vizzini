@@ -98,10 +98,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 156);
+        assert.equal(result.length, 158);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
-        assert.equal(result[152], Pilot.WINGED_GUNDARK);
-        assert.equal(result[155], Pilot.ZETA_SQUADRON_PILOT);
+        assert.equal(result[154], Pilot.WINGED_GUNDARK);
+        assert.equal(result[157], Pilot.ZETA_SQUADRON_PILOT);
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 - // properties
@@ -196,10 +196,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 61);
+        assert.equal(result.length, 63);
         assert.equal(result[0], Pilot.EPSILON_ACE);
         assert.equal(result[9], Pilot.ACADEMY_PILOT);
-        assert.equal(result[60], Pilot.WINGED_GUNDARK);
+        assert.equal(result[62], Pilot.WINGED_GUNDARK);
     });
 
     QUnit.test("valuesByTeam() First Order strict", function(assert)
@@ -224,9 +224,9 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 61);
+        assert.equal(result.length, 63);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
-        assert.equal(result[60], Pilot.ZETA_SQUADRON_PILOT);
+        assert.equal(result[62], Pilot.ZETA_SQUADRON_PILOT);
     });
 
     QUnit.test("valuesByTeam() Imperial strict", function(assert)
@@ -239,9 +239,9 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 52);
+        assert.equal(result.length, 54);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
-        assert.equal(result[51], Pilot.WINGED_GUNDARK);
+        assert.equal(result[53], Pilot.WINGED_GUNDARK);
     });
 
     QUnit.test("valuesByTeam() Rebel", function(assert)

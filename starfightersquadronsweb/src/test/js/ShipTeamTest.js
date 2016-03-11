@@ -78,10 +78,10 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 37);
+        assert.equal(result.length, 39);
         assert.equal(result[0], "firstOrderTieFoFighter");
-        assert.equal(result[35], "scumYv666");
-        assert.equal(result[36], "scumZ95Headhunter");
+        assert.equal(result[37], "scumYv666");
+        assert.equal(result[38], "scumZ95Headhunter");
 
         var properties = Object.getOwnPropertyNames(ShipTeam);
         var count = properties.length - 1 - // properties
@@ -114,10 +114,12 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 11);
+        assert.equal(result.length, 13);
         var i = 0;
         assert.equal(result[i++], Ship.FIRESPRAY_31);
+        assert.equal(result[i++], Ship.GOZANTI_CLASS_CRUISER);
         assert.equal(result[i++], Ship.LAMBDA_CLASS_SHUTTLE);
+        assert.equal(result[i++], Ship.RAIDER_CLASS_CORVETTE);
         assert.equal(result[i++], Ship.TIE_ADVANCED);
         assert.equal(result[i++], Ship.TIE_BOMBER);
         assert.equal(result[i++], Ship.TIE_DEFENDER);
@@ -177,9 +179,9 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 3);
         var i = 0;
-        assert.equal(result[i++], "imperialTieInterceptor");
-        assert.equal(result[i++], "imperialTieInterceptorRoyalGuard");
-        assert.equal(result[i++], "imperialTieInterceptorSaberSquadron");
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON);
     });
 
     QUnit.test("valuesByShipAndTeam() Rebel", function(assert)
@@ -191,8 +193,8 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 2);
         var i = 0;
-        assert.equal(result[i++], "rebelAWing");
-        assert.equal(result[i++], "rebelAWingAce");
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING_ACE);
     });
 
     QUnit.test("valuesByTeam() First Order", function(assert)
@@ -202,21 +204,23 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 13);
+        assert.equal(result.length, 15);
         var i = 0;
-        assert.equal(result[i++], "firstOrderTieFoFighter");
-        assert.equal(result[i++], "imperialFirespray31");
-        assert.equal(result[i++], "imperialLambdaClassShuttle");
-        assert.equal(result[i++], "imperialTieAdvanced");
-        assert.equal(result[i++], "imperialTieBomber");
-        assert.equal(result[i++], "imperialTieDefender");
-        assert.equal(result[i++], "imperialTieFighter");
-        assert.equal(result[i++], "imperialTieInterceptor");
-        assert.equal(result[i++], "imperialTieInterceptorRoyalGuard");
-        assert.equal(result[i++], "imperialTieInterceptorSaberSquadron");
-        assert.equal(result[i++], "imperialTiePhantom");
-        assert.equal(result[i++], "imperialTiePunisher");
-        assert.equal(result[i++], "imperialVt49Decimator");
+        assert.equal(result[i++], ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_FIRESPRAY_31);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_GOZANTI_CLASS_CRUISER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_LAMBDA_CLASS_SHUTTLE);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_ADVANCED);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_BOMBER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_DEFENDER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_FIGHTER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_PHANTOM);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_PUNISHER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_VT_49_DECIMATOR);
     });
 
     QUnit.test("valuesByTeam() First Order strict", function(assert)
@@ -231,7 +235,7 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 1);
         var i = 0;
-        assert.equal(result[i++], "firstOrderTieFoFighter");
+        assert.equal(result[i++], ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER);
     });
 
     QUnit.test("valuesByTeam() Imperial", function(assert)
@@ -241,21 +245,23 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 13);
+        assert.equal(result.length, 15);
         var i = 0;
-        assert.equal(result[i++], "imperialFirespray31");
-        assert.equal(result[i++], "imperialLambdaClassShuttle");
-        assert.equal(result[i++], "imperialTieAdvanced");
-        assert.equal(result[i++], "imperialTieBomber");
-        assert.equal(result[i++], "imperialTieDefender");
-        assert.equal(result[i++], "imperialTieFighter");
-        assert.equal(result[i++], "imperialTieInterceptor");
-        assert.equal(result[i++], "imperialTieInterceptorRoyalGuard");
-        assert.equal(result[i++], "imperialTieInterceptorSaberSquadron");
-        assert.equal(result[i++], "imperialTiePhantom");
-        assert.equal(result[i++], "imperialTiePunisher");
-        assert.equal(result[i++], "imperialVt49Decimator");
-        assert.equal(result[i++], "firstOrderTieFoFighter");
+        assert.equal(result[i++], ShipTeam.IMPERIAL_FIRESPRAY_31);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_GOZANTI_CLASS_CRUISER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_LAMBDA_CLASS_SHUTTLE);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_ADVANCED);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_BOMBER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_DEFENDER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_FIGHTER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_PHANTOM);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_PUNISHER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_VT_49_DECIMATOR);
+        assert.equal(result[i++], ShipTeam.FIRST_ORDER_TIE_FO_FIGHTER);
     });
 
     QUnit.test("valuesByTeam() Imperial strict", function(assert)
@@ -268,20 +274,22 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 12);
+        assert.equal(result.length, 14);
         var i = 0;
-        assert.equal(result[i++], "imperialFirespray31");
-        assert.equal(result[i++], "imperialLambdaClassShuttle");
-        assert.equal(result[i++], "imperialTieAdvanced");
-        assert.equal(result[i++], "imperialTieBomber");
-        assert.equal(result[i++], "imperialTieDefender");
-        assert.equal(result[i++], "imperialTieFighter");
-        assert.equal(result[i++], "imperialTieInterceptor");
-        assert.equal(result[i++], "imperialTieInterceptorRoyalGuard");
-        assert.equal(result[i++], "imperialTieInterceptorSaberSquadron");
-        assert.equal(result[i++], "imperialTiePhantom");
-        assert.equal(result[i++], "imperialTiePunisher");
-        assert.equal(result[i++], "imperialVt49Decimator");
+        assert.equal(result[i++], ShipTeam.IMPERIAL_FIRESPRAY_31);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_GOZANTI_CLASS_CRUISER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_LAMBDA_CLASS_SHUTTLE);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_ADVANCED);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_BOMBER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_DEFENDER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_FIGHTER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_PHANTOM);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_TIE_PUNISHER);
+        assert.equal(result[i++], ShipTeam.IMPERIAL_VT_49_DECIMATOR);
     });
 
     QUnit.test("valuesByTeam() Rebel", function(assert)
@@ -293,21 +301,21 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 15);
         var i = 0;
-        assert.equal(result[i++], "rebelAWing");
-        assert.equal(result[i++], "rebelAWingAce");
-        assert.equal(result[i++], "rebelBWing");
-        assert.equal(result[i++], "rebelBWingAce");
-        assert.equal(result[i++], "rebelCr90Corvette");
-        assert.equal(result[i++], "rebelEWing");
-        assert.equal(result[i++], "rebelGr75MediumTransport");
-        assert.equal(result[i++], "rebelHwk290");
-        assert.equal(result[i++], "rebelKWing");
-        assert.equal(result[i++], "rebelXWing");
-        assert.equal(result[i++], "rebelYWing");
-        assert.equal(result[i++], "rebelYt1300");
-        assert.equal(result[i++], "rebelYt2400");
-        assert.equal(result[i++], "rebelZ95Headhunter");
-        assert.equal(result[i++], "resistanceT70XWing");
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING_ACE);
+        assert.equal(result[i++], ShipTeam.REBEL_B_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_B_WING_ACE);
+        assert.equal(result[i++], ShipTeam.REBEL_CR90_CORVETTE);
+        assert.equal(result[i++], ShipTeam.REBEL_E_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_GR_75_MEDIUM_TRANSPORT);
+        assert.equal(result[i++], ShipTeam.REBEL_HWK_290);
+        assert.equal(result[i++], ShipTeam.REBEL_K_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_X_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_Y_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_YT_1300);
+        assert.equal(result[i++], ShipTeam.REBEL_YT_2400);
+        assert.equal(result[i++], ShipTeam.REBEL_Z_95_HEADHUNTER);
+        assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
     });
 
     QUnit.test("valuesByTeam() Rebel strict", function(assert)
@@ -322,20 +330,20 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 14);
         var i = 0;
-        assert.equal(result[i++], "rebelAWing");
-        assert.equal(result[i++], "rebelAWingAce");
-        assert.equal(result[i++], "rebelBWing");
-        assert.equal(result[i++], "rebelBWingAce");
-        assert.equal(result[i++], "rebelCr90Corvette");
-        assert.equal(result[i++], "rebelEWing");
-        assert.equal(result[i++], "rebelGr75MediumTransport");
-        assert.equal(result[i++], "rebelHwk290");
-        assert.equal(result[i++], "rebelKWing");
-        assert.equal(result[i++], "rebelXWing");
-        assert.equal(result[i++], "rebelYWing");
-        assert.equal(result[i++], "rebelYt1300");
-        assert.equal(result[i++], "rebelYt2400");
-        assert.equal(result[i++], "rebelZ95Headhunter");
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING_ACE);
+        assert.equal(result[i++], ShipTeam.REBEL_B_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_B_WING_ACE);
+        assert.equal(result[i++], ShipTeam.REBEL_CR90_CORVETTE);
+        assert.equal(result[i++], ShipTeam.REBEL_E_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_GR_75_MEDIUM_TRANSPORT);
+        assert.equal(result[i++], ShipTeam.REBEL_HWK_290);
+        assert.equal(result[i++], ShipTeam.REBEL_K_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_X_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_Y_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_YT_1300);
+        assert.equal(result[i++], ShipTeam.REBEL_YT_2400);
+        assert.equal(result[i++], ShipTeam.REBEL_Z_95_HEADHUNTER);
     });
 
     QUnit.test("valuesByTeam() Resistance", function(assert)
@@ -347,21 +355,21 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 15);
         var i = 0;
-        assert.equal(result[i++], "resistanceT70XWing");
-        assert.equal(result[i++], "rebelAWing");
-        assert.equal(result[i++], "rebelAWingAce");
-        assert.equal(result[i++], "rebelBWing");
-        assert.equal(result[i++], "rebelBWingAce");
-        assert.equal(result[i++], "rebelCr90Corvette");
-        assert.equal(result[i++], "rebelEWing");
-        assert.equal(result[i++], "rebelGr75MediumTransport");
-        assert.equal(result[i++], "rebelHwk290");
-        assert.equal(result[i++], "rebelKWing");
-        assert.equal(result[i++], "rebelXWing");
-        assert.equal(result[i++], "rebelYWing");
-        assert.equal(result[i++], "rebelYt1300");
-        assert.equal(result[i++], "rebelYt2400");
-        assert.equal(result[i++], "rebelZ95Headhunter");
+        assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_A_WING_ACE);
+        assert.equal(result[i++], ShipTeam.REBEL_B_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_B_WING_ACE);
+        assert.equal(result[i++], ShipTeam.REBEL_CR90_CORVETTE);
+        assert.equal(result[i++], ShipTeam.REBEL_E_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_GR_75_MEDIUM_TRANSPORT);
+        assert.equal(result[i++], ShipTeam.REBEL_HWK_290);
+        assert.equal(result[i++], ShipTeam.REBEL_K_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_X_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_Y_WING);
+        assert.equal(result[i++], ShipTeam.REBEL_YT_1300);
+        assert.equal(result[i++], ShipTeam.REBEL_YT_2400);
+        assert.equal(result[i++], ShipTeam.REBEL_Z_95_HEADHUNTER);
     });
 
     QUnit.test("valuesByTeam() Resistance strict", function(assert)
@@ -376,7 +384,7 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 1);
         var i = 0;
-        assert.equal(result[i++], "resistanceT70XWing");
+        assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
     });
 
     QUnit.test("valuesByTeam() Scum", function(assert)
@@ -388,14 +396,14 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         assert.ok(result);
         assert.equal(result.length, 9);
         var i = 0;
-        assert.equal(result[i++], "scumAggressor");
-        assert.equal(result[i++], "scumFirespray31");
-        assert.equal(result[i++], "scumHwk290");
-        assert.equal(result[i++], "scumKihraxzFighter");
-        assert.equal(result[i++], "scumM3AInterceptor");
-        assert.equal(result[i++], "scumStarViper");
-        assert.equal(result[i++], "scumYWing");
-        assert.equal(result[i++], "scumYv666");
-        assert.equal(result[i++], "scumZ95Headhunter");
+        assert.equal(result[i++], ShipTeam.SCUM_AGGRESSOR);
+        assert.equal(result[i++], ShipTeam.SCUM_FIRESPRAY_31);
+        assert.equal(result[i++], ShipTeam.SCUM_HWK_290);
+        assert.equal(result[i++], ShipTeam.SCUM_KIHRAXZ_FIGHTER);
+        assert.equal(result[i++], ShipTeam.SCUM_M3_A_INTERCEPTOR);
+        assert.equal(result[i++], ShipTeam.SCUM_STAR_VIPER);
+        assert.equal(result[i++], ShipTeam.SCUM_Y_WING);
+        assert.equal(result[i++], ShipTeam.SCUM_YV_666);
+        assert.equal(result[i++], ShipTeam.SCUM_Z_95_HEADHUNTER);
     });
 });

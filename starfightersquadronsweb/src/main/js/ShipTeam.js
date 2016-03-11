@@ -8,7 +8,9 @@ define([ "Ship", "Team" ], function(Ship, Team)
 
         // Imperial.
         IMPERIAL_FIRESPRAY_31: "imperialFirespray31",
+        IMPERIAL_GOZANTI_CLASS_CRUISER: "imperialGozantiClassCruiser",
         IMPERIAL_LAMBDA_CLASS_SHUTTLE: "imperialLambdaClassShuttle",
+        IMPERIAL_RAIDER_CLASS_CORVETTE: "imperialRaiderClassCorvette",
         IMPERIAL_TIE_ADVANCED: "imperialTieAdvanced",
         IMPERIAL_TIE_BOMBER: "imperialTieBomber",
         IMPERIAL_TIE_DEFENDER: "imperialTieDefender",
@@ -71,6 +73,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 image: "Firespray-31.png",
                 value: "imperialFirespray31",
             },
+            "imperialGozantiClassCruiser":
+            {
+                name: "Gozanti-class Cruiser",
+                shipKey: Ship.GOZANTI_CLASS_CRUISER,
+                teamKey: Team.IMPERIAL,
+                image: "Imperial_Gozanti-class_Cruiser.png",
+                value: "imperialGozantiClassCruiser",
+            },
             "imperialLambdaClassShuttle":
             {
                 name: "Lambda-class Shuttle",
@@ -78,6 +88,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 teamKey: Team.IMPERIAL,
                 image: "Lambda-class_Shuttle.png",
                 value: "imperialLambdaClassShuttle",
+            },
+            "imperialRaiderClassCorvette":
+            {
+                name: "Raider-class Corvette",
+                shipKey: Ship.RAIDER_CLASS_CORVETTE,
+                teamKey: Team.IMPERIAL,
+                image: "Imperial_Raider-class_Corvette.png",
+                value: "imperialRaiderClassCorvette",
             },
             "imperialTieAdvanced":
             {

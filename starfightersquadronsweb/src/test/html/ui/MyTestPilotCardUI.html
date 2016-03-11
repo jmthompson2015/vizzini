@@ -46,6 +46,14 @@
 			<td id="cr90PilotLarge" style="vertical-align: top"></td>
 			<td id="gr75PilotLarge" style="vertical-align: top"></td>
 		</tr>
+		<tr>
+			<td id="gozantiPilotCompact" style="vertical-align: top"></td>
+			<td id="raiderPilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="gozantiPilotLarge" style="vertical-align: top"></td>
+			<td id="raiderPilotLarge" style="vertical-align: top"></td>
+		</tr>
 	</table>
 	<script>
         "use strict";
@@ -97,6 +105,15 @@
             gr75Token.energy().increase();
             gr75Token.energy().increase();
             environment.placeToken(new Position(200, 100, 0), gr75Token);
+
+            var gozantiToken = new Token(Pilot.GOZANTI_CLASS_CRUISER, environment.firstAgent());
+            gozantiToken.energy().increase();
+            environment.placeToken(new Position(150, 100, 0), gozantiToken);
+
+            var raiderToken = new DualToken(Pilot.RAIDER_CLASS_CORVETTE, environment.firstAgent());
+            raiderToken.tokenAft().energy().increase();
+            raiderToken.tokenAft().energy().increase();
+            environment.placeToken(new Position(250, 100, 0), raiderToken);
 
             var targetLock0 = new TargetLock(imperialToken, rebelToken);
             imperialToken.addAttackerTargetLock(targetLock0);
@@ -165,6 +182,20 @@
 
             var element = React.createElement(PilotCardUI,
             {
+                isCompact: true,
+                initialToken: gozantiToken,
+            });
+            React.render(element, document.getElementById("gozantiPilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                isCompact: true,
+                initialToken: raiderToken,
+            });
+            React.render(element, document.getElementById("raiderPilotCompact"));
+
+            var element = React.createElement(PilotCardUI,
+            {
                 initialToken: foToken
             });
             React.render(element, document.getElementById("foPilotLarge"));
@@ -204,6 +235,18 @@
                 initialToken: gr75Token,
             });
             React.render(element, document.getElementById("gr75PilotLarge"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                initialToken: gozantiToken,
+            });
+            React.render(element, document.getElementById("gozantiPilotLarge"));
+
+            var element = React.createElement(PilotCardUI,
+            {
+                initialToken: raiderToken,
+            });
+            React.render(element, document.getElementById("raiderPilotLarge"));
 
             function updateImperialToken()
             {

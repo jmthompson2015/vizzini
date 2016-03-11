@@ -65,6 +65,7 @@ define(
                 GARVEN_DREIS: "garvenDreis",
                 GEMMER_SOJAN: "gemmerSojan",
                 GOLD_SQUADRON_PILOT: "goldSquadronPilot",
+                GOZANTI_CLASS_CRUISER: "gozantiClassCruiser",
                 GR_75_MEDIUM_TRANSPORT: "gr75MediumTransport",
                 GRAY_SQUADRON_PILOT: "graySquadronPilot",
                 GRAZ_THE_HUNTER: "grazTheHunter",
@@ -122,6 +123,7 @@ define(
                 POE_DAMERON: "poeDameron",
                 PRINCE_XIZOR: "princeXizor",
                 PROTOTYPE_PILOT: "prototypePilot",
+                RAIDER_CLASS_CORVETTE: "raiderClassCorvette",
                 REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
                 REBEL_OPERATIVE: "rebelOperative",
                 RED_ACE: "redAce",
@@ -906,6 +908,17 @@ define(
                         isImplemented: true,
                         value: "goldSquadronPilot",
                     },
+                    "gozantiClassCruiser":
+                    {
+                        name: "Gozanti-class Cruiser",
+                        description: "After you execute a maneuver, you may deploy up to 2 docked ships.",
+                        shipTeamKey: ShipTeam.IMPERIAL_GOZANTI_CLASS_CRUISER,
+                        shipState: new ShipState(2, null, 0, 9, 5, 4),
+                        squadPointCost: 40,
+                        upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.CREW, UpgradeType.HARDPOINT, UpgradeType.TEAM,
+                                UpgradeType.CARGO, UpgradeType.CARGO ],
+                        value: "gozantiClassCruiser",
+                    },
                     "gr75MediumTransport":
                     {
                         name: "GR-75 Medium Transport",
@@ -1573,6 +1586,53 @@ define(
                         upgradeTypeKeys: [ UpgradeType.MISSILE ],
                         isImplemented: true,
                         value: "prototypePilot",
+                    },
+                    "raiderClassCorvette":
+                    {
+                        fore:
+                        {
+                            name: "Raider-class Corvette (fore)",
+                            description: "Once per round, after you perform a primary weapon attack, you may spend 2 energy to perform another primary weapon attack.",
+                            shipTeamKey: ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE,
+                            shipState: new ShipState(4, 4, 0, 8, 6),
+                            squadPointCost: 50,
+                            upgradeTypeKeys: [ UpgradeType.HARDPOINT, UpgradeType.TEAM, UpgradeType.CARGO ],
+                            value: "raiderClassCorvette.fore",
+                        },
+                        aft:
+                        {
+                            name: "Raider-class Corvette (aft)",
+                            description: "The demise of the Death Star proved to Imperial High Command the importance of anti-fighter craft which renewed interest in the Raider-class corvette.",
+                            isFlavorText: true,
+                            shipTeamKey: ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE,
+                            shipState: new ShipState(4, null, 0, 8, 4, 6),
+                            squadPointCost: 50,
+                            upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.CREW, UpgradeType.HARDPOINT,
+                                    UpgradeType.HARDPOINT, UpgradeType.TEAM, UpgradeType.TEAM, UpgradeType.CARGO ],
+                            value: "raiderClassCorvette.aft",
+                        },
+                        crippledFore:
+                        {
+                            name: "Raider-class Corvette (crippled fore)",
+                            description: "Conceived by Lira Wessex to support the larger craft of the Imperial Navy, the Raider-class corvette was a durable design for a ship of its size.",
+                            isFlavorText: true,
+                            shipTeamKey: ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE,
+                            shipState: new ShipState(4, 2, null, null, null),
+                            upgradeTypeKeys: [ UpgradeType.HARDPOINT ],
+                            value: "raiderClassCorvette.crippledFore",
+                        },
+                        crippledAft:
+                        {
+                            name: "Raider-class Corvette (crippled aft)",
+                            description: "You cannot choose or execute Bank Left 1 or Bank Right 1 maneuvers.",
+                            shipTeamKey: ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE,
+                            shipState: new ShipState(4, null, null, null, null, 1),
+                            upgradeTypeKeys: [ UpgradeType.TEAM ],
+                            value: "raiderClassCorvette.crippledAft",
+                        },
+                        name: "Raider-class Corvette",
+                        shipTeamKey: ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE,
+                        value: "raiderClassCorvette",
                     },
                     "rearAdmiralChiraneau":
                     {

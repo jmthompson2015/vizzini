@@ -11,12 +11,14 @@ define(
                 CR90_CORVETTE: "cr90Corvette",
                 E_WING: "eWing",
                 FIRESPRAY_31: "firespray31",
+                GOZANTI_CLASS_CRUISER: "gozantiClassCruiser",
                 GR_75_MEDIUM_TRANSPORT: "gr75MediumTransport",
                 HWK_290: "hwk290",
                 K_WING: "kWing",
                 KIHRAXZ_FIGHTER: "kihraxzFighter",
                 LAMBDA_CLASS_SHUTTLE: "lambdaClassShuttle",
                 M3_A_INTERCEPTOR: "m3AInterceptor",
+                RAIDER_CLASS_CORVETTE: "raiderClassCorvette",
                 STAR_VIPER: "starViper",
                 T_70_X_WING: "t70XWing",
                 TIE_ADVANCED: "tieAdvanced",
@@ -171,6 +173,20 @@ define(
                         shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE ],
                         value: "firespray31",
                     },
+                    "gozantiClassCruiser":
+                    {
+                        name: "Gozanti-class Cruiser",
+                        description: "A Gozanti-class Cruiser.",
+                        shipBaseKey: ShipBase.HUGE1,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        maneuverKeys: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_STANDARD,
+                                Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.BANK_LEFT_2_STANDARD,
+                                Maneuver.STRAIGHT_2_STANDARD, Maneuver.BANK_RIGHT_2_STANDARD,
+                                Maneuver.STRAIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD ],
+                        shipActionKeys: [ ShipAction.RECOVER, ShipAction.REINFORCE, ShipAction.COORDINATE,
+                                ShipAction.TARGET_LOCK ],
+                        value: "gozantiClassCruiser",
+                    },
                     "gr75MediumTransport":
                     {
                         name: "GR-75 Medium Transport",
@@ -261,6 +277,53 @@ define(
                         shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL_LEFT,
                                 ShipAction.BARREL_ROLL_RIGHT, ShipAction.EVADE ],
                         value: "m3AInterceptor",
+                    },
+                    "raiderClassCorvette":
+                    {
+                        fore:
+                        {
+                            name: "Raider-class Corvette (fore)",
+                            description: "A Raider-class Corvette (fore).",
+                            shipBaseKey: ShipBase.LARGE,
+                            primaryFiringArcKey: FiringArc.FORWARD,
+                            primaryWeaponRanges: [ RangeRuler.TWO, RangeRuler.THREE, RangeRuler.FOUR ],
+                            shipActionKeys: [ ShipAction.RECOVER, ShipAction.REINFORCE ],
+                            value: "raiderClassCorvette.fore",
+                        },
+                        aft:
+                        {
+                            name: "Raider-class Corvette (aft)",
+                            description: "A Raider-class Corvette (aft).",
+                            shipBaseKey: ShipBase.LARGE,
+                            shipActionKeys: [ ShipAction.COORDINATE, ShipAction.TARGET_LOCK ],
+                            value: "raiderClassCorvette.aft",
+                        },
+                        crippledFore:
+                        {
+                            name: "Raider-class Corvette (crippled fore)",
+                            description: "A Raider-class Corvette (crippled fore).",
+                            shipBaseKey: ShipBase.LARGE,
+                            primaryFiringArcKey: FiringArc.FORWARD,
+                            primaryWeaponRanges: [ RangeRuler.TWO, RangeRuler.THREE, RangeRuler.FOUR ],
+                            shipActionKeys: [],
+                            value: "raiderClassCorvette.crippledFore",
+                        },
+                        crippledAft:
+                        {
+                            name: "Raider-class Corvette (crippled aft)",
+                            description: "A Raider-class Corvette (crippled aft).",
+                            shipBaseKey: ShipBase.LARGE,
+                            shipActionKeys: [],
+                            value: "raiderClassCorvette.crippledAft",
+                        },
+                        name: "Raider-class Corvette",
+                        description: "A Raider-class Corvette.",
+                        shipBaseKey: ShipBase.HUGE2,
+                        maneuverKeys: [ Maneuver.BANK_LEFT_1_STANDARD, Maneuver.STRAIGHT_1_STANDARD,
+                                Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.BANK_LEFT_2_STANDARD,
+                                Maneuver.STRAIGHT_2_STANDARD, Maneuver.BANK_RIGHT_2_STANDARD,
+                                Maneuver.STRAIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD ],
+                        value: "raiderClassCorvette",
                     },
                     "starViper":
                     {
