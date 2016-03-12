@@ -159,6 +159,11 @@ define([ "ActivationState", "Difficulty", "Maneuver", "Pilot", "Token" ],
                 return answer;
             };
 
+            DualToken.prototype.primaryWeapon = function()
+            {
+                return this.tokenFore().primaryWeapon();
+            };
+
             DualToken.prototype.removeAllTargetLocks = function()
             {
                 this.tokenFore().removeAllTargetLocks();
@@ -182,6 +187,11 @@ define([ "ActivationState", "Difficulty", "Maneuver", "Pilot", "Token" ],
             DualToken.prototype.stress = function()
             {
                 return this.tokenFore().stress();
+            };
+
+            DualToken.prototype.toString = function()
+            {
+                return this.name();
             };
 
             MicroEvent.mixin(DualToken);

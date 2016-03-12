@@ -121,35 +121,38 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                         validManeuvers.push(maneuverKey);
                         var weapon = token.primaryWeapon();
 
-                        for (var i = 0; i < defenders.length; i++)
+                        if (weapon)
                         {
-                            var defender = defenders[i];
-                            var defenderPosition = environment.getPositionFor(defender);
-
-                            // Save the maneuver which has the minimum distance.
-                            var distance = toPosition.computeDistance(defenderPosition);
-
-                            if (!minDistance || distance < minDistance)
+                            for (var i = 0; i < defenders.length; i++)
                             {
-                                closestManeuver = maneuverKey;
-                                minDistance = distance;
-                            }
+                                var defender = defenders[i];
+                                var defenderPosition = environment.getPositionFor(defender);
 
-                            if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
-                            {
-                                var range = RangeRuler.getRange(token, toPosition, defender, defenderPosition);
+                                // Save the maneuver which has the minimum distance.
+                                var distance = toPosition.computeDistance(defenderPosition);
 
-                                if (range === RangeRuler.ONE)
+                                if (!minDistance || distance < minDistance)
                                 {
-                                    validManeuversR1.push(maneuverKey);
+                                    closestManeuver = maneuverKey;
+                                    minDistance = distance;
                                 }
-                                else if (range === RangeRuler.TWO)
+
+                                if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
                                 {
-                                    validManeuversR2.push(maneuverKey);
-                                }
-                                else if (range === RangeRuler.THREE)
-                                {
-                                    validManeuversR3.push(maneuverKey);
+                                    var range = RangeRuler.getRange(token, toPosition, defender, defenderPosition);
+
+                                    if (range === RangeRuler.ONE)
+                                    {
+                                        validManeuversR1.push(maneuverKey);
+                                    }
+                                    else if (range === RangeRuler.TWO)
+                                    {
+                                        validManeuversR2.push(maneuverKey);
+                                    }
+                                    else if (range === RangeRuler.THREE)
+                                    {
+                                        validManeuversR3.push(maneuverKey);
+                                    }
                                 }
                             }
                         }
