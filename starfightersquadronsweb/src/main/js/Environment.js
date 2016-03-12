@@ -17,9 +17,9 @@
  * but not touching.
  * </dl>
  */
-define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "RangeRuler", "RectanglePath", "ShipBase",
-        "Team", "Token", ], function(DamageCard, DualToken, ManeuverComputer, Phase, Position, RangeRuler,
-        RectanglePath, ShipBase, Team, Token)
+define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler",
+        "RectanglePath", "ShipBase", "Team", "Token", ], function(DamageCard, DualToken, ManeuverComputer, Phase,
+        PlayFormat, Position, RangeRuler, RectanglePath, ShipBase, Team, Token)
 {
     "use strict";
     function Environment(teamKey1, teamKey2)
@@ -29,6 +29,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "Ra
 
         var that = this;
 
+        var playFormatKey;
         var activeToken;
         var firstAgent;
         var phase;
@@ -448,14 +449,37 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "Ra
                 return token.newInstance(agent2);
             });
 
+            // Determine the play format.
+            var tokens = [];
+            tokens.vizziniAddAll(squad1);
+            tokens.vizziniAddAll(squad2);
+            playFormatKey = determinePlayFormat(tokens);
+
             placeTokens(firstSquad, true);
             placeTokens(secondSquad, false);
+
+            LOGGER.info("playFormatKey = " + playFormatKey);
         };
 
         this.placeToken = function(position, token)
         {
             positionToToken[position] = token;
             tokenToPosition[token] = position;
+        };
+
+        this.playFormat = function()
+        {
+            return PlayFormat.properties[this.playFormatKey()];
+        };
+
+        this.playFormatKey = function()
+        {
+            if (!playFormatKey)
+            {
+                playFormatKey = determinePlayFormat(this.tokens());
+            }
+
+            return playFormatKey;
         };
 
         this.removeToken = function(position)
@@ -560,6 +584,31 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "Ra
             });
         }
 
+        function determinePlayFormat(tokens)
+        {
+            InputValidator.validateNotNull("tokens", tokens);
+
+            var answer;
+
+            if (tokens.length > 0)
+            {
+                answer = PlayFormat.STANDARD;
+
+                for (var i = 0; i < tokens.length; i++)
+                {
+                    var token = tokens[i];
+
+                    if (ShipBase.isHuge(token.ship().shipBaseKey))
+                    {
+                        answer = PlayFormat.EPIC;
+                        break;
+                    }
+                }
+            }
+
+            return answer;
+        }
+
         function getTokensForPhase(phase)
         {
             var answer;
@@ -640,7 +689,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "Ra
         function placeTokens(tokens, isTop)
         {
             var size = tokens.length;
-            var dx = Position.MAX_X / (size + 1);
+            var dx = that.playFormat().width / (size + 1);
             var heading = isTop ? 90 : -90;
 
             for (var i = 1; i <= tokens.length; i++)
@@ -652,7 +701,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "Ra
 
                 if (!isTop)
                 {
-                    y = Position.MAX_Y - y;
+                    y = that.playFormat().height - y;
                 }
 
                 var position = new Position(x, y, heading);

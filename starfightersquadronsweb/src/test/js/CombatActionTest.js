@@ -212,7 +212,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
             assert.equal(attacker.secondaryWeapons().length, 0);
             assert.equal(attacker.combatState().attackDice().size(), 3);
             done();
-        }, 1100);
+        }, 1200);
     });
 
     QUnit.test("CombatAction.doIt() Concussion Missiles", function(assert)

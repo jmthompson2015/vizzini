@@ -133,7 +133,7 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], func
 
         this.paintComponent = function(context, playState)
         {
-            context.drawImage(backgroundImage, 0, 0, 915, 915);
+            context.drawImage(backgroundImage, 0, 0, environment.playFormat().width, environment.playFormat().height);
             drawTokens(context, playState);
             drawManeuver(context, playState);
             drawLaserBeam(context, playState);

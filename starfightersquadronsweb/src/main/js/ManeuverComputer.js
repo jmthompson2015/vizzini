@@ -334,14 +334,7 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(
         var y = Math.round((y0 + (dx * Math.sin(angle))) + (dy * Math.cos(angle)));
         var heading = fromPosition.heading() + headingChange;
 
-        var answer;
-
-        if (Position.isPointInPlayArea(x, y))
-        {
-            answer = new Position(x, y, heading);
-        }
-
-        return answer;
+        return new Position(x, y, heading);
     };
 
     if (Object.freeze)

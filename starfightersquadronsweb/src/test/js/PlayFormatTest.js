@@ -39,6 +39,21 @@ define([ "PlayFormat" ], function(PlayFormat)
         });
     });
 
+    QUnit.test("PlayFormat.isPointInPlayArea()", function(assert)
+    {
+        assert.ok(PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, 3, 4));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, -1, 4));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, 3, -1));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, 915, 4));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, 3, 915));
+        
+        assert.ok(PlayFormat.isPointInPlayArea(PlayFormat.EPIC, 3, 4));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.EPIC, -1, 4));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.EPIC, 3, -1));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.EPIC, 1830, 4));
+        assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.EPIC, 3, 915));
+    });
+
     QUnit.test("PlayFormat.values()", function(assert)
     {
         var result = PlayFormat.values();

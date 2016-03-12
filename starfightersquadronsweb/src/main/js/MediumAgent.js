@@ -1,6 +1,6 @@
 define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
-        "PlanningAction", "Position", "RangeRuler", "ShipAction", "SimpleAgent" ], function(Difficulty, Maneuver,
-        ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, Position, RangeRuler,
+        "PlanningAction", "PlayFormat", "RangeRuler", "ShipAction", "SimpleAgent" ], function(Difficulty, Maneuver,
+        ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat, RangeRuler,
         ShipAction, SimpleAgent)
 {
     "use strict";
@@ -115,8 +115,8 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                     var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
 
                     if (toPosition &&
-                            Position.isPathInPlayArea(ManeuverComputer.computePolygon(shipBase, toPosition.x(),
-                                    toPosition.y(), toPosition.heading())))
+                            PlayFormat.isPathInPlayArea(environment.playFormatKey(), ManeuverComputer.computePolygon(
+                                    shipBase, toPosition.x(), toPosition.y(), toPosition.heading())))
                     {
                         validManeuvers.push(maneuverKey);
                         var weapon = token.primaryWeapon();

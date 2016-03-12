@@ -1,6 +1,6 @@
-define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilot", "Position", "RectanglePath",
-        "ShipFledAction", "UpgradeCard" ], function(Bearing, Difficulty, Maneuver, ManeuverComputer, Phase, Pilot,
-        Position, RectanglePath, ShipFledAction, UpgradeCard)
+define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilot", "PlayFormat", "Position",
+        "RectanglePath", "ShipFledAction", "UpgradeCard" ], function(Bearing, Difficulty, Maneuver, ManeuverComputer,
+        Phase, Pilot, PlayFormat, Position, RectanglePath, ShipFledAction, UpgradeCard)
 {
     "use strict";
     function ManeuverAction(environment, token, maneuverKey, isBoost)
@@ -83,7 +83,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
                     var message = isBarrelRoll ? "Barrel Roll failed." : "Boost failed.";
                     LOGGER.info(message);
                 }
-                else if (!toPosition || !Position.isPathInPlayArea(toPolygon))
+                else if (!toPosition || !PlayFormat.isPathInPlayArea(environment.playFormatKey(), toPolygon))
                 {
                     LOGGER.info("Ship fled the battlefield: " + token.name());
                     var shipFledAction = new ShipFledAction(environment, token, fromPosition);

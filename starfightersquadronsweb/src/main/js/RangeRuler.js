@@ -94,19 +94,13 @@ define([ "ManeuverComputer", "Position" ], function(ManeuverComputer, Position)
 
         for (var i = 0; i < points0.length; i += 2)
         {
-            if (Position.isPointInPlayArea(points0[i], points0[i + 1]))
-            {
-                var position0 = new Position(points0[i], points0[i + 1], 0);
+            var position0 = new Position(points0[i], points0[i + 1], 0);
 
-                for (var j = 0; j < points1.length; j += 2)
-                {
-                    if (Position.isPointInPlayArea(points1[j], points1[j + 1]))
-                    {
-                        var position1 = new Position(points1[j], points1[j + 1], 0);
-                        var myDistance = position0.computeDistance(position1);
-                        distance = Math.min(myDistance, distance);
-                    }
-                }
+            for (var j = 0; j < points1.length; j += 2)
+            {
+                var position1 = new Position(points1[j], points1[j + 1], 0);
+                var myDistance = position0.computeDistance(position1);
+                distance = Math.min(myDistance, distance);
             }
         }
 

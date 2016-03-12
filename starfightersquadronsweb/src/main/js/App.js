@@ -58,11 +58,15 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
 
         var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
         myPlayAreaCanvas.width = newWidth;
-        myPlayAreaCanvas.height = newWidth;
 
         if (environmentUI)
         {
-            environmentUI.setScale(newWidth / 915.0);
+            var playFormat = environmentUI.environment().playFormat();
+            var aspectRatio = playFormat.width / playFormat.height;
+
+            myPlayAreaCanvas.height = newWidth / aspectRatio;
+
+            environmentUI.setScale(newWidth / playFormat.width);
         }
     }
 

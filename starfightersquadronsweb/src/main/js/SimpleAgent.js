@@ -1,6 +1,6 @@
 define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
-        "PlanningAction", "Position", "Ship", "ShipAction" ], function(Maneuver, ManeuverAction, ManeuverComputer,
-        ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, Position, Ship, ShipAction)
+        "PlanningAction", "PlayFormat", "Ship", "ShipAction" ], function(Maneuver, ManeuverAction, ManeuverComputer,
+        ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat, Ship, ShipAction)
 {
     "use strict";
     function SimpleAgent(name, teamKey)
@@ -66,7 +66,7 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
     SimpleAgent.prototype.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
             damageDealer, callback)
     {
-        // Nothing to do.
+    // Nothing to do.
     };
 
     SimpleAgent.prototype.determineValidDecloakActions = function(environment, adjudicator, token)
@@ -118,7 +118,7 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
                         .heading());
             }
 
-            return (toPosition && Position.isPathInPlayArea(polygon));
+            return (toPosition && PlayFormat.isPathInPlayArea(environment.playFormatKey(), polygon));
         });
     };
 
