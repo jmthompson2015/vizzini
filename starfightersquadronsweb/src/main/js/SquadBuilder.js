@@ -9,8 +9,8 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
             {
                 var answer = [];
                 answer.push(new Token(Pilot.GOZANTI_CLASS_CRUISER, agent));
-                answer.push(new DualToken(Pilot.RAIDER_CLASS_CORVETTE, agent));
                 answer.push(new Token(Pilot.JUNO_ECLIPSE, agent));
+                answer.push(new DualToken(Pilot.RAIDER_CLASS_CORVETTE, agent));
                 return answer;
             });
     SquadBuilders.push(HugeShipImperialSquadBuilder);
@@ -23,9 +23,9 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
                 answer.push(new DualToken(Pilot.CR90_CORVETTE, agent, [ UpgradeCard.QUAD_LASER_CANNONS,
                         UpgradeCard.SINGLE_TURBOLASERS, UpgradeCard.BACKUP_SHIELD_GENERATOR ], [
                         UpgradeCard.WED_15_REPAIR_DROID, UpgradeCard.EM_EMITTER, ]));
+                answer.push(new Token(Pilot.WES_JANSON, agent, [ UpgradeCard.R2_D2 ]));
                 answer.push(new Token(Pilot.GR_75_MEDIUM_TRANSPORT, agent, [ UpgradeCard.WED_15_REPAIR_DROID,
                         UpgradeCard.EM_EMITTER, UpgradeCard.FREQUENCY_JAMMER ]));
-                answer.push(new Token(Pilot.WES_JANSON, agent, [ UpgradeCard.R2_D2 ]));
                 return answer;
             });
     SquadBuilders.push(HugeShipRebelSquadBuilder);
