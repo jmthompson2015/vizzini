@@ -1,4 +1,4 @@
-define([ "Environment" ], function(Environment)
+define([ "DualToken", "Environment" ], function(DualToken, Environment)
 {
     "use strict";
     function ShipFledAction(environment, token, fromPosition)
@@ -22,14 +22,29 @@ define([ "Environment" ], function(Environment)
         {
             LOGGER.trace("ShipFledAction.doIt() start");
 
-            token.removeAllTargetLocks();
+            var tokens = [];
 
-            // Return the damage cards.
-            environment.discardAllDamage(token.damages());
-            environment.discardAllDamage(token.criticalDamages());
+            if (token instanceof DualToken)
+            {
+                tokens.push(token.tokenFore());
+                tokens.push(token.tokenAft());
+            }
+            else
+            {
+                tokens.push(token);
+            }
 
-            environment.removeToken(fromPosition);
-            environment.trigger(Environment.SHIP_FLED_EVENT, this);
+            tokens.forEach(function(token)
+            {
+                token.removeAllTargetLocks();
+
+                // Return the damage cards.
+                environment.discardAllDamage(token.damages());
+                environment.discardAllDamage(token.criticalDamages());
+
+                environment.removeToken(fromPosition);
+                environment.trigger(Environment.SHIP_FLED_EVENT, this);
+            });
 
             LOGGER.trace("ShipFledAction.doIt() end");
         };
