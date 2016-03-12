@@ -35,9 +35,11 @@ define(
                 CARNOR_JAX: "carnorJax",
                 CARTEL_MARAUDER: "cartelMarauder",
                 CARTEL_SPACER: "cartelSpacer",
+                CHASER: "chaser",
                 CHEWBACCA: "chewbacca",
                 COLONEL_JENDON: "colonelJendon",
                 COLONEL_VESSERY: "colonelVessery",
+                COMMANDER_ALOZEN: "commanderAlozen",
                 COMMANDER_KENKIRK: "commanderKenkirk",
                 CORRAN_HORN: "corranHorn",
                 CR90_CORVETTE: "cr90Corvette",
@@ -85,6 +87,7 @@ define(
                 JAKE_FARRELL: "jakeFarrell",
                 JAN_ORS: "janOrs",
                 JEK_PORKINS: "jekPorkins",
+                JUNO_ECLIPSE: "junoEclipse",
                 KAATO_LEEACHOS: "kaatoLeeachos",
                 KATH_SCARLET_IMPERIAL: "kathScarletImperial",
                 KATH_SCARLET_SCUM: "kathScarletScum",
@@ -99,6 +102,7 @@ define(
                 LATTS_RAZZI: "lattsRazzi",
                 LEEBO: "leebo",
                 LIEUTENANT_BLOUNT: "lieutenantBlount",
+                LIEUTENANT_COLZET: "lieutenantColzet",
                 LIEUTENANT_LORRIR: "lieutenantLorrir",
                 LUKE_SKYWALKER: "lukeSkywalker",
                 MAAREK_STELE: "maarekStele",
@@ -136,6 +140,7 @@ define(
                 ROYAL_GUARD_PILOT: "royalGuardPilot",
                 SABER_SQUADRON_PILOT: "saberSquadronPilot",
                 SCIMITAR_SQUADRON_PILOT: "scimitarSquadronPilot",
+                SCOURGE: "scourge",
                 SERISSU: "serissu",
                 SHADOW_SQUADRON_PILOT: "shadowSquadronPilot",
                 SIGMA_SQUADRON_PILOT: "sigmaSquadronPilot",
@@ -154,12 +159,15 @@ define(
                 TRANDOSHAN_SLAVER: "trandoshanSlaver",
                 TURR_PHENNIR: "turrPhennir",
                 TYCHO_CELCHU: "tychoCelchu",
+                WAMPA: "wampa",
                 WARDEN_SQUADRON_PILOT: "wardenSquadronPilot",
                 WEDGE_ANTILLES: "wedgeAntilles",
                 WES_JANSON: "wesJanson",
                 WHISPER: "whisper",
                 WILD_SPACE_FRINGER: "wildSpaceFringer",
                 WINGED_GUNDARK: "wingedGundark",
+                YOUNGSTER: "youngster",
+                ZERTIK_STROM: "zertikStrom",
                 ZETA_ACE: "zetaAce",
                 ZETA_LEADER: "zetaLeader",
                 ZETA_SQUADRON_PILOT: "zetaSquadronPilot",
@@ -519,6 +527,17 @@ define(
                         isImplemented: true,
                         value: "cartelSpacer",
                     },
+                    "chaser":
+                    {
+                        name: "\"Chaser\"",
+                        description: "When another friendly ship at Range 1 spends a focus token, assign a focus token to your ship.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_FIGHTER,
+                        shipState: new ShipState(3, 2, 3, 3, 0),
+                        squadPointCost: 14,
+                        upgradeTypeKeys: [],
+                        value: "chaser",
+                    },
                     "chewbacca":
                     {
                         name: "Chewbacca",
@@ -552,6 +571,17 @@ define(
                         squadPointCost: 35,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE ],
                         value: "colonelVessery",
+                    },
+                    "commanderAlozen":
+                    {
+                        name: "Commander Alozen",
+                        description: "At the start of the Combat phase, you may acquire a target lock on an enemy ship at Range 1.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED,
+                        shipState: new ShipState(5, 2, 3, 3, 2),
+                        squadPointCost: 25,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        value: "commanderAlozen",
                     },
                     "commanderKenkirk":
                     {
@@ -1145,6 +1175,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
                         value: "jekPorkins",
                     },
+                    "junoEclipse":
+                    {
+                        name: "Juno Eclipse",
+                        description: "When you reveal your maneuver, you may increase or decrease its speed by 1 (to a minimum of 1).",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED,
+                        shipState: new ShipState(8, 2, 3, 3, 2),
+                        squadPointCost: 28,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        value: "junoEclipse",
+                    },
                     "kaatoLeeachos":
                     {
                         name: "Kaa'To Leeachos",
@@ -1304,6 +1345,17 @@ define(
                         squadPointCost: 17,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
                         value: "lieutenantBlount",
+                    },
+                    "lieutenantColzet":
+                    {
+                        name: "Lieutenant Colzet",
+                        description: "At the start of the End phase, you may spend a target lock you have on an enemy ship to flip 1 random facedown Damage card assigned to it faceup.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED,
+                        shipState: new ShipState(3, 2, 3, 3, 2),
+                        squadPointCost: 23,
+                        upgradeTypeKeys: [ UpgradeType.MISSILE ],
+                        value: "lieutenantColzet",
                     },
                     "lieutenantLorrir":
                     {
@@ -1776,6 +1828,17 @@ define(
                         isImplemented: true,
                         value: "scimitarSquadronPilot",
                     },
+                    "scourge":
+                    {
+                        name: "\"Scourge\"",
+                        description: "When attacking a defender that has 1 or more Damage cards, roll 1 additional attack die.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_FIGHTER,
+                        shipState: new ShipState(7, 2, 3, 3, 0),
+                        squadPointCost: 17,
+                        upgradeTypeKeys: [ UpgradeType.ELITE ],
+                        value: "scourge",
+                    },
                     "serissu":
                     {
                         name: "Serissu",
@@ -1989,6 +2052,17 @@ define(
                         isImplemented: true,
                         value: "tychoCelchu",
                     },
+                    "wampa":
+                    {
+                        name: "\"Wampa\"",
+                        description: "When attacking, you may cancel all dice results. If you cancel a critical result, deal 1 facedown Damage card to the defender.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_FIGHTER,
+                        shipState: new ShipState(4, 2, 3, 3, 0),
+                        squadPointCost: 14,
+                        upgradeTypeKeys: [],
+                        value: "wampa",
+                    },
                     "wardenSquadronPilot":
                     {
                         name: "Warden Squadron Pilot",
@@ -2058,6 +2132,28 @@ define(
                         squadPointCost: 15,
                         upgradeTypeKeys: [],
                         value: "wingedGundark",
+                    },
+                    "youngster":
+                    {
+                        name: "\"Youngster\"",
+                        description: "Friendly TIE fighters at Range 1-3 may perform the action on your equipped Elite Talent Upgrade card.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_FIGHTER,
+                        shipState: new ShipState(6, 2, 3, 3, 0),
+                        squadPointCost: 15,
+                        upgradeTypeKeys: [ UpgradeType.ELITE ],
+                        value: "youngster",
+                    },
+                    "zertikStrom":
+                    {
+                        name: "Zertik Strom",
+                        description: "Enemy ships at Range 1 cannot add their range combat bonus when attacking.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED,
+                        shipState: new ShipState(6, 2, 3, 3, 2),
+                        squadPointCost: 26,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        value: "zertikStrom",
                     },
                     "zetaAce":
                     {

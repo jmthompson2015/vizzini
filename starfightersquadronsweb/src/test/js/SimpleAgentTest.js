@@ -282,7 +282,8 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
             // Verify.
             assert.ok(planningAction);
             assert.ok(planningAction.getManeuver(token));
-            assert.equal(planningAction.getManeuver(token), Maneuver.TURN_RIGHT_2_STANDARD);
+            var maneuver = planningAction.getManeuver(token);
+            assert.ok(maneuver === Maneuver.STRAIGHT_1_EASY || maneuver === Maneuver.TURN_RIGHT_2_STANDARD);
         }
 
         // Run.

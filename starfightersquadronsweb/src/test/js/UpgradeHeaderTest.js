@@ -24,12 +24,13 @@ define([ "UpgradeHeader" ], function(UpgradeHeader)
     {
         var result = UpgradeHeader.values();
         assert.ok(result);
-        assert.equal(result.length, 5);
+        assert.equal(result.length, 6);
         var i=0;
         assert.equal(result[i++], UpgradeHeader.ACTION);
         assert.equal(result[i++], UpgradeHeader.ATTACK);
         assert.equal(result[i++], UpgradeHeader.ATTACK_ENERGY);
         assert.equal(result[i++], UpgradeHeader.ATTACK_FOCUS);
         assert.equal(result[i++], UpgradeHeader.ATTACK_TARGET_LOCK);
+        assert.equal(result[i++], UpgradeHeader.ENERGY);
     });
 });

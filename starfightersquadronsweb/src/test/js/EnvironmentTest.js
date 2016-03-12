@@ -454,36 +454,43 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 5);
+                assert.equal(result.length, 6);
                 var token;
                 var i = 0;
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 7);
-                    assert.equal(token.pilotSkillValue(), 2);
-                    assert.equal(token.pilotKey(), Pilot.ROOKIE_PILOT);
+                    assert.equal(token.id(), 5);
+                    assert.equal(token.pilotSkillValue(), 8);
+                    assert.equal(token.pilotKey(), Pilot.JUNO_ECLIPSE);
                 }
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 2);
-                    assert.equal(token.pilotSkillValue(), 6);
-                    assert.equal(token.pilotKey(), Pilot.DARK_CURSE);
+                    assert.equal(token.id(), 10);
+                    assert.equal(token.pilotSkillValue(), 8);
+                    assert.equal(token.pilotKey(), Pilot.WES_JANSON);
                 }
                 {
                     token = result[i++];
                     assert.equal(token.id(), 1);
-                    assert.equal(token.pilotSkillValue(), 7);
-                    assert.equal(token.pilotKey(), Pilot.MAULER_MITHEL);
+                    assert.equal(token.pilotSkillValue(), 2);
+                    assert.equal(token.pilotKey(), Pilot.GOZANTI_CLASS_CRUISER);
                 }
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 6);
+                    assert.equal(token.id(), 9);
                     assert.equal(token.pilotSkillValue(), 3);
                     assert.equal(token.pilotKey(), Pilot.GR_75_MEDIUM_TRANSPORT);
                 }
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 3);
+                    assert.equal(token.id(), 2);
+                    assert.equal(token.tokenFore().pilotSkillValue(), 4);
+                    assert.equal(token.tokenAft().pilotSkillValue(), 4);
+                    assert.equal(token.pilotKey(), Pilot.RAIDER_CLASS_CORVETTE);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 6);
                     assert.equal(token.tokenFore().pilotSkillValue(), 4);
                     assert.equal(token.tokenAft().pilotSkillValue(), 4);
                     assert.equal(token.pilotKey(), Pilot.CR90_CORVETTE);
@@ -532,44 +539,56 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 6);
+                assert.equal(result.length, 8);
                 var token;
                 var i = 0;
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 1);
-                    assert.equal(token.pilotSkillValue(), 7);
-                    assert.equal(token.pilotKey(), Pilot.MAULER_MITHEL);
+                    assert.equal(token.id(), 5);
+                    assert.equal(token.pilotSkillValue(), 8);
+                    assert.equal(token.pilotKey(), Pilot.JUNO_ECLIPSE);
                 }
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 2);
-                    assert.equal(token.pilotSkillValue(), 6);
-                    assert.equal(token.pilotKey(), Pilot.DARK_CURSE);
+                    assert.equal(token.id(), 10);
+                    assert.equal(token.pilotSkillValue(), 8);
+                    assert.equal(token.pilotKey(), Pilot.WES_JANSON);
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 3);
+                    assert.equal(token.pilotSkillValue(), 4);
+                    assert.equal(token.pilotKey(), Pilot.RAIDER_CLASS_CORVETTE + ".fore");
                 }
                 {
                     token = result[i++];
                     assert.equal(token.id(), 4);
                     assert.equal(token.pilotSkillValue(), 4);
-                    assert.equal(token.pilotKey(), "cr90Corvette.fore");
+                    assert.equal(token.pilotKey(), Pilot.RAIDER_CLASS_CORVETTE + ".aft");
                 }
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 5);
+                    assert.equal(token.id(), 7);
                     assert.equal(token.pilotSkillValue(), 4);
-                    assert.equal(token.pilotKey(), "cr90Corvette.aft");
+                    assert.equal(token.pilotKey(), Pilot.CR90_CORVETTE + ".fore");
                 }
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 6);
+                    assert.equal(token.id(), 8);
+                    assert.equal(token.pilotSkillValue(), 4);
+                    assert.equal(token.pilotKey(), Pilot.CR90_CORVETTE + ".aft");
+                }
+                {
+                    token = result[i++];
+                    assert.equal(token.id(), 9);
                     assert.equal(token.pilotSkillValue(), 3);
                     assert.equal(token.pilotKey(), Pilot.GR_75_MEDIUM_TRANSPORT);
                 }
                 {
                     token = result[i++];
-                    assert.equal(token.id(), 7);
+                    assert.equal(token.id(), 1);
                     assert.equal(token.pilotSkillValue(), 2);
-                    assert.equal(token.pilotKey(), Pilot.ROOKIE_PILOT);
+                    assert.equal(token.pilotKey(), Pilot.GOZANTI_CLASS_CRUISER);
                 }
             });
 

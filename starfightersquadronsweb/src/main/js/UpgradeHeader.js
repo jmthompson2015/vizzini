@@ -8,6 +8,7 @@ define(function()
         ATTACK_ENERGY: "attackEnergy",
         ATTACK_FOCUS: "attackFocus",
         ATTACK_TARGET_LOCK: "attackTargetLock",
+        ENERGY: "energy",
 
         properties:
         {
@@ -35,6 +36,11 @@ define(function()
             {
                 name: "Attack (Target Lock)",
                 value: "attackTargetLock",
+            },
+            "energy":
+            {
+                name: "Energy",
+                value: "energy",
             },
         },
 

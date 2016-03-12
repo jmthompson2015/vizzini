@@ -49,10 +49,10 @@ define([ "Environment", "MediumAgent", "SimpleAgent", "SquadBuilder", "Team", "u
 
         // Create initial agents and tokens.
         var firstAgent = EnvironmentFactory.createAgent(type0, "First Agent", Team.IMPERIAL);
-        var firstSquad = SquadBuilder.CoreSetImperialSquadBuilder.buildSquad(firstAgent);
+        var firstSquad = SquadBuilder.HugeShipImperialSquadBuilder.buildSquad(firstAgent);
 
         var secondAgent = EnvironmentFactory.createAgent(type1, "Second Agent", Team.REBEL);
-        var secondSquad = SquadBuilder.SquadBuilders[0].buildSquad(secondAgent);
+        var secondSquad = SquadBuilder.HugeShipRebelSquadBuilder.buildSquad(secondAgent);
 
         var answer = new Environment(firstAgent.teamKey(), secondAgent.teamKey());
 

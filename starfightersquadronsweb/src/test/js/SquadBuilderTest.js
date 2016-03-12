@@ -146,14 +146,14 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
     {
         var result = SquadBuilder.findByTeam(Team.FIRST_ORDER);
         assert.ok(result);
-        assert.equal(result.length, 11);
+        assert.equal(result.length, 12);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Imperial", function(assert)
     {
         var result = SquadBuilder.findByTeam(Team.IMPERIAL);
         assert.ok(result);
-        assert.equal(result.length, 11);
+        assert.equal(result.length, 12);
     });
 
     QUnit.test("SquadBuilder.findByTeam() Rebel", function(assert)

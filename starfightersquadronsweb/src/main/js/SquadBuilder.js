@@ -4,17 +4,31 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
     var SquadBuilders = [];
 
     // Experimental: Huge ships
-    SquadBuilders.push(new SquadBuilder(Team.REBEL, "Huge Ships", 2016, "CR90/G-75/X-Wing", function(agent)
-    {
-        var answer = [];
-        answer.push(new DualToken(Pilot.CR90_CORVETTE, agent, [ UpgradeCard.QUAD_LASER_CANNONS,
-                UpgradeCard.SINGLE_TURBOLASERS, UpgradeCard.BACKUP_SHIELD_GENERATOR ], [
-                UpgradeCard.WED_15_REPAIR_DROID, UpgradeCard.EM_EMITTER, ]));
-        answer.push(new Token(Pilot.GR_75_MEDIUM_TRANSPORT, agent, [ UpgradeCard.WED_15_REPAIR_DROID,
-                UpgradeCard.EM_EMITTER, UpgradeCard.FREQUENCY_JAMMER ]));
-        answer.push(new Token(Pilot.ROOKIE_PILOT, agent, [ UpgradeCard.R2_D2 ]));
-        return answer;
-    }));
+    var HugeShipImperialSquadBuilder = new SquadBuilder(Team.IMPERIAL, "Huge Ships", 2016,
+            "Gozanti-class/Raider-class/TIE Advanced", function(agent)
+            {
+                var answer = [];
+                answer.push(new Token(Pilot.GOZANTI_CLASS_CRUISER, agent));
+                answer.push(new DualToken(Pilot.RAIDER_CLASS_CORVETTE, agent));
+                answer.push(new Token(Pilot.JUNO_ECLIPSE, agent));
+                return answer;
+            });
+    SquadBuilders.push(HugeShipImperialSquadBuilder);
+
+    // Experimental: Huge ships
+    var HugeShipRebelSquadBuilder = new SquadBuilder(Team.REBEL, "Huge Ships", 2016, "CR90/G-75/X-Wing",
+            function(agent)
+            {
+                var answer = [];
+                answer.push(new DualToken(Pilot.CR90_CORVETTE, agent, [ UpgradeCard.QUAD_LASER_CANNONS,
+                        UpgradeCard.SINGLE_TURBOLASERS, UpgradeCard.BACKUP_SHIELD_GENERATOR ], [
+                        UpgradeCard.WED_15_REPAIR_DROID, UpgradeCard.EM_EMITTER, ]));
+                answer.push(new Token(Pilot.GR_75_MEDIUM_TRANSPORT, agent, [ UpgradeCard.WED_15_REPAIR_DROID,
+                        UpgradeCard.EM_EMITTER, UpgradeCard.FREQUENCY_JAMMER ]));
+                answer.push(new Token(Pilot.WES_JANSON, agent, [ UpgradeCard.R2_D2 ]));
+                return answer;
+            });
+    SquadBuilders.push(HugeShipRebelSquadBuilder);
 
     // Kirk Mistr
     // - IG88B + IG-2000 + Flechette Canon + Autothrusters
@@ -569,6 +583,8 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
         CoreSetImperialSquadBuilder: CoreSetImperialSquadBuilder,
         CoreSetRebelSquadBuilder: CoreSetRebelSquadBuilder,
         CoreSetResistanceSquadBuilder: CoreSetResistanceSquadBuilder,
+        HugeShipImperialSquadBuilder: HugeShipImperialSquadBuilder,
+        HugeShipRebelSquadBuilder: HugeShipRebelSquadBuilder,
         SquadBuilder: SquadBuilder,
     });
 });

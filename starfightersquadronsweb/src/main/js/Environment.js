@@ -313,11 +313,11 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "Ra
                                 }
                                 else if (Team.isFriendly(teamKey0, Team.IMPERIAL))
                                 {
-                                    answer = 1;
+                                    answer = -1;
                                 }
                                 else
                                 {
-                                    answer = -1;
+                                    answer = 1;
                                 }
                             }
                         }
@@ -347,11 +347,11 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "Position", "Ra
                     }
                     else if (Team.isFriendly(teamKey0, Team.IMPERIAL))
                     {
-                        answer = 1;
+                        answer = -1;
                     }
                     else
                     {
-                        answer = -1;
+                        answer = 1;
                     }
                 }
 

@@ -38,13 +38,31 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
     function ShipRestriction(shipKey)
     {
         InputValidator.validateNotNull("shipKey", shipKey);
+        var myShipKey = shipKey;
+        var props = Ship.properties[myShipKey];
 
-        var props = Ship.properties[shipKey];
+        if (shipKey.endsWith("fore"))
+        {
+            myShipKey = shipKey.split(".")[0];
+            props = Ship.properties[myShipKey].fore;
+        }
+        else if (shipKey.endsWith("aft"))
+        {
+            myShipKey = shipKey.split(".")[0];
+            props = Ship.properties[myShipKey].aft;
+        }
+
         var name = props.name;
 
         if (shipKey === Ship.CR90_CORVETTE || shipKey === Ship.GR_75_MEDIUM_TRANSPORT)
         {
             name = props.name.split(" ")[0];
+        }
+        else if (shipKey.startsWith(Ship.RAIDER_CLASS_CORVETTE))
+        {
+            name = name.replace("(", "");
+            name = name.replace(")", "");
+            name += " section";
         }
 
         return (
@@ -91,10 +109,12 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
         B_WING_ONLY: "bWingOnly",
         CR90_ONLY: "cr90Only",
         FIRESPRAY_31_ONLY: "firespray31Only",
+        GOZANTI_CLASS_CRUISER_ONLY: "gozantiClassCruiserOnly",
         GR_75_ONLY: "gr75Only",
         HWK_290_ONLY: "hwk290Only",
         LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
         M3_A_INTERCEPTOR_ONLY: "m3AInterceptorOnly",
+        RAIDER_CLASS_CORVETTE_AFT_SECTION_ONLY: "raiderClassCorvetteAftSectionOnly",
         STAR_VIPER_ONLY: "starViperOnly",
         TIE_ADVANCED_ONLY: "tieAdvancedOnly",
         TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
@@ -127,6 +147,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "bWingOnly": new ShipRestriction(Ship.B_WING),
             "cr90Only": new ShipRestriction(Ship.CR90_CORVETTE),
             "firespray31Only": new ShipRestriction(Ship.FIRESPRAY_31),
+            "gozantiClassCruiserOnly": new ShipRestriction(Ship.GOZANTI_CLASS_CRUISER),
             "gr75Only": new ShipRestriction(Ship.GR_75_MEDIUM_TRANSPORT),
             "hugeShipOnly":
             {
@@ -156,6 +177,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "pilotSkillAbove2": new PilotSkillRestriction(2),
             "pilotSkillAbove3": new PilotSkillRestriction(3),
             "pilotSkillAbove4": new PilotSkillRestriction(4),
+            "raiderClassCorvetteAftSectionOnly": new ShipRestriction("raiderClassCorvette.aft"),
             "rebelOnly": new TeamRestriction(Team.REBEL),
             "scumOnly": new TeamRestriction(Team.SCUM),
             "smallShipOnly": new ShipSizeRestriction(ShipBase.SMALL),
