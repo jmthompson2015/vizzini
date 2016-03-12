@@ -1,5 +1,5 @@
-define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], function(Difficulty, Environment,
-        ManeuverComputer, Ship, Team)
+define([ "Difficulty", "Environment", "ManeuverComputer", "PlayFormat", "Ship", "Team" ], function(Difficulty,
+        Environment, ManeuverComputer, PlayFormat, Ship, Team)
 {
     "use strict";
     function ExplosionUI(fromPosition, shipBase, explosionImage)
@@ -134,6 +134,7 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], func
         this.paintComponent = function(context, playState)
         {
             context.drawImage(backgroundImage, 0, 0, environment.playFormat().width, environment.playFormat().height);
+
             drawTokens(context, playState);
             drawManeuver(context, playState);
             drawLaserBeam(context, playState);
@@ -148,7 +149,14 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "Ship", "Team" ], func
                 callback();
             };
 
-            image.src = imageBase + "pia13845.jpg";
+            if (environment.playFormatKey() === PlayFormat.STANDARD)
+            {
+                image.src = imageBase + "pia13845.jpg";
+            }
+            else
+            {
+                image.src = imageBase + "horsehead_nebula_02092008.jpg";
+            }
 
             return image;
         }
