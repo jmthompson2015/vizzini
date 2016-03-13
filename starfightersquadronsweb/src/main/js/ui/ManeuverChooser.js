@@ -73,7 +73,6 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
         {
             var token = this.props.token;
             var isPilotNameShown = (this.props.isPilotNameShown === undefined ? true : this.props.isPilotNameShown);
-            var imageUtils = this.props.imageUtils;
             var pilotName = token.pilotName();
             var shipName = token.shipName();
             var maneuverKeys = token.maneuverKeys();
@@ -176,8 +175,18 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 
                             if (maneuverKey)
                             {
-                                difficulty = Maneuver.properties[maneuverKey].difficultyKey;
-                                iconSrc = this.createManeuverIconSource(bearing, difficulty);
+                                var maneuver = Maneuver.properties[maneuverKey];
+
+                                if (maneuver.energy !== undefined)
+                                {
+                                    iconSrc = this.createManeuverEnergyIconSource(bearing, maneuver.energy);
+                                }
+                                else
+                                {
+                                    difficulty = maneuver.difficultyKey;
+                                    iconSrc = this.createManeuverIconSource(bearing, difficulty);
+                                }
+
                                 image = React.DOM.img(
                                 {
                                     src: iconSrc
@@ -240,6 +249,15 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             }
 
             return answer;
+        },
+
+        createManeuverEnergyIconSource: function(bearing, energy)
+        {
+            var bearingName = bearing.replace(/L/g, "_l");
+            bearingName = bearingName.replace(/R/g, "_r");
+            bearingName = bearingName.replace("Straight", "straight");
+
+            return imageBase + "maneuver/" + bearingName + "_energy" + energy + ".png";
         },
 
         selectionChanged: function(event)

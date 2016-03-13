@@ -24,6 +24,16 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
         BANK_RIGHT_3_HARD: "bankRight3Hard",
         BANK_RIGHT_3_STANDARD: "bankRight3Standard",
 
+        // Bank with energy.
+        BANK_LEFT_1_2: "bankLeft1_2",
+        BANK_LEFT_1_3: "bankLeft1_3",
+        BANK_LEFT_2_1: "bankLeft2_1",
+        BANK_LEFT_2_2: "bankLeft2_2",
+        BANK_RIGHT_1_2: "bankRight1_2",
+        BANK_RIGHT_1_3: "bankRight1_3",
+        BANK_RIGHT_2_1: "bankRight2_1",
+        BANK_RIGHT_2_2: "bankRight2_2",
+
         // Barrel Roll.
         BARREL_ROLL_LEFT_1_STANDARD: "barrelRollLeft1Standard",
         BARREL_ROLL_RIGHT_1_STANDARD: "barrelRollRight1Standard",
@@ -58,6 +68,16 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
         STRAIGHT_4_STANDARD: "straight4Standard",
         STRAIGHT_5_EASY: "straight5Easy",
         STRAIGHT_5_STANDARD: "straight5Standard",
+
+        // Straight with energy.
+        STRAIGHT_1_3: "straight1_3",
+        STRAIGHT_2_2: "straight2_2",
+        STRAIGHT_2_3: "straight2_3",
+        STRAIGHT_3_1: "straight3_1",
+        STRAIGHT_3_2: "straight3_2",
+        STRAIGHT_4_0: "straight4_0",
+        STRAIGHT_4_1: "straight4_1",
+        STRAIGHT_4_2: "straight4_2",
 
         // Tallon Roll.
         TALLON_ROLL_LEFT_3_HARD: "tallonRollLeft3Hard",
@@ -138,6 +158,42 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 radius: 177.8,
                 value: "bankLeft3Standard",
             },
+            "bankLeft1_2":
+            {
+                bearingKey: Bearing.BANK_LEFT,
+                speed: 1,
+                energy: 2,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 82.6,
+                value: "bankLeft1_2",
+            },
+            "bankLeft1_3":
+            {
+                bearingKey: Bearing.BANK_LEFT,
+                speed: 1,
+                energy: 3,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 82.6,
+                value: "bankLeft1_3",
+            },
+            "bankLeft2_1":
+            {
+                bearingKey: Bearing.BANK_LEFT,
+                speed: 2,
+                energy: 1,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 127.0,
+                value: "bankLeft2_1",
+            },
+            "bankLeft2_2":
+            {
+                bearingKey: Bearing.BANK_LEFT,
+                speed: 2,
+                energy: 2,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 127.0,
+                value: "bankLeft2_2",
+            },
             "bankRight1Easy":
             {
                 bearingKey: Bearing.BANK_RIGHT,
@@ -193,6 +249,42 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 difficultyKey: Difficulty.STANDARD,
                 radius: 177.8,
                 value: "bankRight3Standard",
+            },
+            "bankRight1_2":
+            {
+                bearingKey: Bearing.BANK_RIGHT,
+                speed: 1,
+                energy: 2,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 82.6,
+                value: "bankRight1_2",
+            },
+            "bankRight1_3":
+            {
+                bearingKey: Bearing.BANK_RIGHT,
+                speed: 1,
+                energy: 3,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 82.6,
+                value: "bankRight1_3",
+            },
+            "bankRight2_1":
+            {
+                bearingKey: Bearing.BANK_RIGHT,
+                speed: 2,
+                energy: 1,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 127.0,
+                value: "bankRight2_1",
+            },
+            "bankRight2_2":
+            {
+                bearingKey: Bearing.BANK_RIGHT,
+                speed: 2,
+                energy: 2,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 127.0,
+                value: "bankRight2_2",
             },
             "barrelRollLeft1Standard":
             {
@@ -371,6 +463,70 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 speed: 5,
                 difficultyKey: Difficulty.STANDARD,
                 value: "straight5Standard",
+            },
+            "straight1_3":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 1,
+                energy: 3,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight1_3",
+            },
+            "straight2_2":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 2,
+                energy: 2,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight2_2",
+            },
+            "straight2_3":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 2,
+                energy: 3,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight2_3",
+            },
+            "straight3_1":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 3,
+                energy: 1,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight3_1",
+            },
+            "straight3_2":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 3,
+                energy: 2,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight3_2",
+            },
+            "straight4_0":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 4,
+                energy: 0,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight4_0",
+            },
+            "straight4_1":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 4,
+                energy: 1,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight4_1",
+            },
+            "straight4_2":
+            {
+                bearingKey: Bearing.STRAIGHT,
+                speed: 4,
+                energy: 2,
+                difficultyKey: Difficulty.STANDARD,
+                value: "straight4_2",
             },
             "tallonRollLeft3Hard":
             {

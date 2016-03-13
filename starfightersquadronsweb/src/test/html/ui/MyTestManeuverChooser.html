@@ -21,10 +21,12 @@
 	<div id="inputArea0"></div>
 	<br />
 	<div id="inputArea1"></div>
+	<br />
+	<div id="inputArea2"></div>
 	<script>
         var LOGGER = new Logger();
 
-        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var resourceBase = "../../../main/resources/";
         var audioBase = resourceBase + "audio/";
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
@@ -51,6 +53,17 @@
                     isPilotNameShown: false,
                 });
                 React.render(element, document.getElementById("inputArea1"));
+            }
+
+            {
+                var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+                var token = new Token(Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
+                var element = React.createElement(ManeuverChooser,
+                {
+                    token: token,
+                    isPilotNameShown: false,
+                });
+                React.render(element, document.getElementById("inputArea2"));
             }
         });
     </script>

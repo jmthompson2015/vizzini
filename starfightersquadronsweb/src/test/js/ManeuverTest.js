@@ -9,6 +9,18 @@ define([ "Bearing", "Difficulty", "Maneuver" ], function(Bearing, Difficulty, Ma
         var properties = Maneuver.properties[maneuver];
         assert.equal(properties.bearingKey, Bearing.STRAIGHT);
         assert.equal(properties.speed, 1);
+        assert.equal(properties.energy, undefined);
+        assert.equal(properties.difficultyKey, Difficulty.STANDARD);
+        assert.equal(properties.value, maneuver);
+    });
+
+    QUnit.test("Maneuver properties Straight1_3", function(assert)
+    {
+        var maneuver = Maneuver.STRAIGHT_1_3;
+        var properties = Maneuver.properties[maneuver];
+        assert.equal(properties.bearingKey, Bearing.STRAIGHT);
+        assert.equal(properties.speed, 1);
+        assert.equal(properties.energy, 3);
         assert.equal(properties.difficultyKey, Difficulty.STANDARD);
         assert.equal(properties.value, maneuver);
     });
@@ -34,9 +46,12 @@ define([ "Bearing", "Difficulty", "Maneuver" ], function(Bearing, Difficulty, Ma
         // Verify.
         ownPropertyNames.forEach(function(key)
         {
-            if (key !== "properties" && typeof key !== "function")
+            var key2 = Maneuver[key];
+            LOGGER.info("key = " + key + " typeof key2 = " + (typeof key2));
+            
+            if (key !== "properties" && typeof key2 === "string")
             {
-                assert.ok(Maneuver[key], "Missing value for key = " + key);
+                assert.ok(Maneuver.properties[key2], "Missing value for key = " + key);
             }
         });
 
@@ -73,9 +88,9 @@ define([ "Bearing", "Difficulty", "Maneuver" ], function(Bearing, Difficulty, Ma
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 57);
+        assert.equal(result.length, 73);
         assert.equal(result[0], "bankLeft1Easy");
-        assert.equal(result[56], "turnRight3Standard");
+        assert.equal(result[72], "turnRight3Standard");
 
         var properties = Object.getOwnPropertyNames(Maneuver);
         var count = properties.length - 1 - // properties
