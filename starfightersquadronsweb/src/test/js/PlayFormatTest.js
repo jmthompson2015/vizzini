@@ -22,9 +22,11 @@ define([ "PlayFormat" ], function(PlayFormat)
         // Verify.
         ownPropertyNames.forEach(function(key)
         {
-            if (key !== "properties" && typeof key !== "function")
+            var key2 = PlayFormat[key];
+
+            if (key !== "properties" && typeof key2 === "string")
             {
-                assert.ok(PlayFormat[key], "Missing value for key = " + key);
+                assert.ok(PlayFormat.properties[key2], "Missing value for key = " + key);
             }
         });
 
@@ -46,7 +48,7 @@ define([ "PlayFormat" ], function(PlayFormat)
         assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, 3, -1));
         assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, 915, 4));
         assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.STANDARD, 3, 915));
-        
+
         assert.ok(PlayFormat.isPointInPlayArea(PlayFormat.EPIC, 3, 4));
         assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.EPIC, -1, 4));
         assert.ok(!PlayFormat.isPointInPlayArea(PlayFormat.EPIC, 3, -1));

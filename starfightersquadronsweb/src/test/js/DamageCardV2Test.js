@@ -54,9 +54,11 @@ define(
                 // Verify.
                 ownPropertyNames.forEach(function(key)
                 {
-                    if (key !== "properties" && typeof key !== "function")
+                    var key2 = DamageCardV2[key];
+                    
+                    if (key !== "properties" && typeof key2 === "string")
                     {
-                        assert.ok(DamageCardV2[key], "Missing value for key = " + key);
+                        assert.ok(DamageCardV2.properties[key2], "Missing value for key = " + key);
                     }
                 });
 

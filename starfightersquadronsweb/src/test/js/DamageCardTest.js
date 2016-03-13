@@ -44,9 +44,11 @@ define([ "DamageCard", "DamageCardTrait" ], function(DamageCard, DamageCardTrait
         // Verify.
         ownPropertyNames.forEach(function(key)
         {
-            if (key !== "properties" && typeof key !== "function")
+            var key2 = DamageCard[key];
+
+            if (key !== "properties" && typeof key2 === "string")
             {
-                assert.ok(DamageCard[key], "Missing value for key = " + key);
+                assert.ok(DamageCard.properties[key2], "Missing value for key = " + key);
             }
         });
 

@@ -5,6 +5,17 @@ define(function()
     {
         PILOT: "pilot",
         SHIP: "ship",
+        properties:
+        {
+            "pilot":
+            {
+                name: "Pilot",
+            },
+            "ship":
+            {
+                name: "Ship",
+            },
+        },
 
         values: function()
         {
