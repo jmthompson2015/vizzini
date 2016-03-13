@@ -60,9 +60,11 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         // Verify.
         ownPropertyNames.forEach(function(key)
         {
-            if (key !== "properties" && typeof key !== "function")
+            var key2 = Ship[key];
+
+            if (key !== "properties" && typeof key2 === "string")
             {
-                assert.ok(Ship[key], "Missing value for key = " + key);
+                assert.ok(Ship.properties[key2], "Missing value for key = " + key);
             }
         });
 

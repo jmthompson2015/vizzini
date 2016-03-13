@@ -54,9 +54,11 @@ define([ "Ship", "ShipTeam", "Team" ], function(Ship, ShipTeam, Team)
         // Verify.
         ownPropertyNames.forEach(function(key)
         {
-            if (key !== "properties" && typeof key !== "function")
+            var key2 = ShipTeam[key];
+
+            if (key !== "properties" && typeof key2 === "string")
             {
-                assert.ok(ShipTeam[key], "Missing value for key = " + key);
+                assert.ok(ShipTeam.properties[key2], "Missing value for key = " + key);
             }
         });
 

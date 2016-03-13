@@ -66,9 +66,11 @@ define(
                 // Verify.
                 ownPropertyNames.forEach(function(key)
                 {
-                    if (key !== "properties" && typeof key !== "function")
+                    var key2 = UpgradeCard[key];
+
+                    if (key !== "properties" && typeof key2 === "string")
                     {
-                        assert.ok(UpgradeCard[key], "Missing value for key = " + key);
+                        assert.ok(UpgradeCard.properties[key2], "Missing value for key = " + key);
                     }
                 });
 
