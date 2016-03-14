@@ -16,11 +16,23 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
         componentDidMount: function()
         {
             this.state.token.bind("change", this.tokenChanged);
+
+            if (this.state.token instanceof DualToken)
+            {
+                this.state.token.tokenFore().bind("change", this.tokenChanged);
+                this.state.token.tokenAft().bind("change", this.tokenChanged);
+            }
         },
 
         componentWillUnmount: function()
         {
             this.state.token.unbind("change", this.tokenChanged);
+
+            if (this.state.token instanceof DualToken)
+            {
+                this.state.token.tokenFore().unbind("change", this.tokenChanged);
+                this.state.token.tokenAft().unbind("change", this.tokenChanged);
+            }
         },
 
         render: function()

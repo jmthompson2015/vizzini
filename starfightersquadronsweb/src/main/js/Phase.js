@@ -8,6 +8,8 @@ define(function()
         ACTIVATION_START: "activationStart",
         ACTIVATION_REVEAL_DIAL: "activationRevealDial",
         ACTIVATION_EXECUTE_MANEUVER: "activationExecuteManeuver",
+        ACTIVATION_ALLOCATE_ENERGY: "activationAllocateEnergy",
+        ACTIVATION_USE_ENERGY: "activationUseEnergy",
         ACTIVATION_PERFORM_ACTION: "activationPerformAction",
         ACTIVATION_END: "activationEnd",
         COMBAT_START: "combatStart",
@@ -46,6 +48,16 @@ define(function()
             {
                 displayName: "Activation (execute maneuver)",
                 value: "activationExecuteManeuver",
+            },
+            "activationAllocateEnergy":
+            {
+                displayName: "Activation (allocate energy)",
+                value: "activationAllocateEnergy",
+            },
+            "activationUseEnergy":
+            {
+                displayName: "Activation (use energy)",
+                value: "activationUseEnergy",
             },
             "activationPerformAction":
             {

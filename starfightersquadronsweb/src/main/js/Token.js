@@ -332,13 +332,15 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             LOGGER.trace("Token.maneuverEffect() start");
             InputValidator.validateNotNull("maneuverKey", maneuverKey);
 
+            var maneuver = Maneuver.properties[maneuverKey];
+
             if (this.isIonized())
             {
                 this.ion().clear();
             }
             else
             {
-                var difficultyKey = Maneuver.properties[maneuverKey].difficultyKey;
+                var difficultyKey = maneuver.difficultyKey;
                 LOGGER.trace("difficultyKey = " + difficultyKey);
 
                 if (difficultyKey === Difficulty.EASY)
@@ -348,6 +350,21 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                 else if (difficultyKey === Difficulty.HARD)
                 {
                     this.receiveStress();
+                }
+            }
+
+            if (maneuver.energy)
+            {
+                // Gain energy up to the energy limit.
+                var energyLimit = this.energyValue();
+                LOGGER.trace(this.pilotName() + " energyLimit = " + energyLimit);
+
+                for (var i = 0; i < maneuver.energy; i++)
+                {
+                    if (this.energy().count() < energyLimit)
+                    {
+                        this.energy().increase();
+                    }
                 }
             }
 

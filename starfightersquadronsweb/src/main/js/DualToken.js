@@ -1,5 +1,5 @@
-define([ "ActivationState", "Difficulty", "Maneuver", "Pilot", "Token" ],
-        function(ActivationState, Difficulty, Maneuver, Pilot, Token)
+define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
+        function(ActivationState, Maneuver, Pilot, Token)
         {
             "use strict";
             function DualToken(pilotKey, agent, upgradeKeysFore, upgradeKeysAft)
@@ -112,16 +112,21 @@ define([ "ActivationState", "Difficulty", "Maneuver", "Pilot", "Token" ],
                 LOGGER.trace("Token.maneuverEffect() start");
                 InputValidator.validateNotNull("maneuverKey", maneuverKey);
 
-                var difficultyKey = Maneuver.properties[maneuverKey].difficultyKey;
-                LOGGER.trace("difficultyKey = " + difficultyKey);
+                var maneuver = Maneuver.properties[maneuverKey];
 
-                if (difficultyKey === Difficulty.EASY)
+                if (maneuver.energy)
                 {
-                    this.removeStress();
-                }
-                else if (difficultyKey === Difficulty.HARD)
-                {
-                    this.receiveStress();
+                    // Gain energy up to the energy limit.
+                    var energyLimit = this.tokenAft().energyValue();
+                    LOGGER.trace(this.pilotName() + " energyLimit = " + energyLimit);
+
+                    for (var i = 0; i < maneuver.energy; i++)
+                    {
+                        if (this.tokenAft().energy().count() < energyLimit)
+                        {
+                            this.tokenAft().energy().increase();
+                        }
+                    }
                 }
 
                 LOGGER.trace("Token.maneuverEffect() end");
