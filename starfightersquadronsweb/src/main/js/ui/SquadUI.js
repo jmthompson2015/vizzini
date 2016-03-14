@@ -112,7 +112,7 @@ define([ "DualToken", "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ]
                 key: key,
                 className: column.className,
                 column: column.key,
-            }, (value ? value : ""));
+            }, (value !== undefined ? value : ""));
         },
 
         createRemoveAction: function(token)
