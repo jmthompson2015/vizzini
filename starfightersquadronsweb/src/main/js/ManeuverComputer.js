@@ -215,7 +215,7 @@ define([ "Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath
                     break;
                 default:
                     throw "Unknown huge bank speed: " + bearingKey + " " + speed;
-                };
+                }
                 LOGGER.info("HUGE1 dx = " + dx + " dy = " + dy);
             }
             else if (shipBase.value === ShipBase.HUGE2)
@@ -234,7 +234,7 @@ define([ "Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath
                     break;
                 default:
                     throw "Unknown huge bank speed: " + bearingKey + " " + speed;
-                };
+                }
             }
             else
             {
