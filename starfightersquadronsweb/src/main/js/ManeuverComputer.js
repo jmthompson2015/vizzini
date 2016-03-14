@@ -2,8 +2,8 @@
  * Small ship base is 40mm x 40mm.
  * <p>Bearing straight, speed one maneuver is 40mm long. Other straight maneuvers are multiples of this.</p>
  */
-define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(Bearing, Maneuver, Path, Position,
-        RectanglePath)
+define([ "Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath" ], function(Bearing, Maneuver, Path,
+        PlayFormat, Position, RectanglePath)
 {
     "use strict";
     var ManeuverComputer = {};
@@ -28,13 +28,14 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(
         return answer;
     };
 
-    ManeuverComputer.computeToPolygon = function(maneuver, fromPosition, shipBase)
+    ManeuverComputer.computeToPolygon = function(playFormatKey, maneuver, fromPosition, shipBase)
     {
+        InputValidator.validateNotNull("playFormatKey", playFormatKey);
         InputValidator.validateNotNull("maneuverKey", maneuver);
         InputValidator.validateNotNull("fromPosition", fromPosition);
         InputValidator.validateNotNull("shipBaseKey", shipBase);
 
-        var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var toPosition = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         var answer;
 
@@ -161,8 +162,9 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(
         return answer;
     };
 
-    ManeuverComputer.computeToPosition = function(maneuver, fromPosition, shipBase)
+    ManeuverComputer.computeToPosition = function(playFormatKey, maneuver, fromPosition, shipBase)
     {
+        InputValidator.validateNotNull("playFormatKey", playFormatKey);
         InputValidator.validateNotNull("maneuver", maneuver);
         InputValidator.validateNotNull("fromPosition", fromPosition);
         InputValidator.validateNotNull("shipBase", shipBase);
@@ -282,7 +284,7 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(
             throw "Unknown maneuver: " + maneuver.value;
         }
 
-        return ManeuverComputer._createPosition(fromPosition, dx, dy, headingChange);
+        return ManeuverComputer._createPosition(playFormatKey, fromPosition, dx, dy, headingChange);
     };
 
     ManeuverComputer._addSegments = function(maneuver, path, lastX, heading, segmentCount)
@@ -319,8 +321,9 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(
         return answer;
     };
 
-    ManeuverComputer._createPosition = function(fromPosition, dx, dy, headingChange)
+    ManeuverComputer._createPosition = function(playFormatKey, fromPosition, dx, dy, headingChange)
     {
+        InputValidator.validateNotNull("playFormatKey", playFormatKey);
         InputValidator.validateNotNull("fromPosition", fromPosition);
         InputValidator.validateIsNumber("dx", dx);
         InputValidator.validateIsNumber("dy", dy);
@@ -334,7 +337,14 @@ define([ "Bearing", "Maneuver", "Path", "Position", "RectanglePath" ], function(
         var y = Math.round((y0 + (dx * Math.sin(angle))) + (dy * Math.cos(angle)));
         var heading = fromPosition.heading() + headingChange;
 
-        return new Position(x, y, heading);
+        var answer;
+
+        if (PlayFormat.isPointInPlayArea(playFormatKey, x, y))
+        {
+            answer = new Position(x, y, heading);
+        }
+
+        return answer;
     };
 
     if (Object.freeze)

@@ -27,7 +27,8 @@ define([ "Maneuver", "ManeuverComputer", "Pilot", "RectanglePath" ], function(Ma
             {
                 var maneuver = Maneuver.properties[maneuverKey];
                 var shipBase = attacker.pilot().shipTeam.ship.shipBase;
-                var toPolygon = ManeuverComputer.computeToPolygon(maneuver, fromPosition, shipBase);
+                var toPolygon = ManeuverComputer.computeToPolygon(environment.playFormatKey(), maneuver, fromPosition,
+                        shipBase);
 
                 if (toPolygon)
                 {

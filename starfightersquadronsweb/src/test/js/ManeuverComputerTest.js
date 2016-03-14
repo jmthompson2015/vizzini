@@ -1,8 +1,10 @@
-define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Maneuver, ManeuverComputer, Position,
-        ShipBase)
+define([ "Maneuver", "ManeuverComputer", "PlayFormat", "Position", "ShipBase" ], function(Maneuver, ManeuverComputer,
+        PlayFormat, Position, ShipBase)
 {
     "use strict";
     QUnit.module("ManeuverComputer");
+
+    var playFormatKey = PlayFormat.STANDARD;
 
     QUnit.test("ManeuverComputer.computeFromPolygon() 0 Standard", function(assert)
     {
@@ -470,7 +472,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPolygon(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPolygon(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -503,7 +505,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -520,7 +522,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -537,7 +539,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -554,7 +556,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -571,7 +573,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -588,7 +590,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -605,7 +607,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -622,7 +624,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -639,7 +641,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -656,7 +658,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -673,7 +675,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -690,7 +692,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -707,7 +709,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -724,7 +726,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -741,7 +743,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -758,7 +760,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -775,7 +777,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);
@@ -792,7 +794,7 @@ define([ "Maneuver", "ManeuverComputer", "Position", "ShipBase" ], function(Mane
         var shipBase = ShipBase.properties[ShipBase.SMALL];
 
         // Run.
-        var result = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var result = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         // Verify.
         assert.ok(result);

@@ -109,7 +109,8 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
         return maneuverKeys.filter(function(maneuverKey)
         {
             var maneuver = Maneuver.properties[maneuverKey];
-            var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+            var toPosition = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition,
+                    shipBase);
             var polygon;
 
             if (toPosition)

@@ -270,7 +270,8 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
 
                 if (token1 == token)
                 {
-                    position1 = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+                    position1 = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition,
+                            shipBase);
 
                     if (position1)
                     {
