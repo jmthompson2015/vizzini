@@ -223,20 +223,19 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
     // Thug Life
     // - Syndicate Thug + Twin Laser Turret + Unhinged Astromech x2
     // - Syndicate Thug + Ion Cannon Turret + R4 Astromech x2
-    SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life", 2015, "Y-Wings x4",
-            function(agent)
-            {
-                var answer = [];
-                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
-                        UpgradeCard.UNHINGED_ASTROMECH ]));
-                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.ION_CANNON_TURRET,
-                        UpgradeCard.R4_AGROMECH ]));
-                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
-                        UpgradeCard.UNHINGED_ASTROMECH ]));
-                answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.ION_CANNON_TURRET,
-                        UpgradeCard.R4_AGROMECH ]));
-                return answer;
-            }));
+    SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life v2", 2015, "Y-Wings x4", function(agent)
+    {
+        var answer = [];
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                UpgradeCard.UNHINGED_ASTROMECH ]));
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                UpgradeCard.UNHINGED_ASTROMECH ]));
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                UpgradeCard.UNHINGED_ASTROMECH ]));
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.TWIN_LASER_TURRET,
+                UpgradeCard.UNHINGED_ASTROMECH ]));
+        return answer;
+    }));
 
     var CoreSetFirstOrderSquadBuilder = new SquadBuilder(Team.FIRST_ORDER, "First Order TFA Core Set: 39 Points", 2015,
             "TIE/fo Fighters x2", function(agent)
@@ -404,6 +403,23 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
                 UpgradeCard.LUKE_SKYWALKER ]));
         answer.push(new Token(Pilot.CORRAN_HORN, agent, [ UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM,
                 UpgradeCard.R2_D2 ]));
+        return answer;
+    }));
+
+    // Thug Life
+    // - Syndicate Thug + Twin Laser Turret + Unhinged Astromech x2
+    // - Syndicate Thug + Ion Cannon Turret + R4 Astromech x2
+    SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life v1", 2014, "Y-Wings x4", function(agent)
+    {
+        var answer = [];
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET,
+                UpgradeCard.R4_AGROMECH ]));
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET,
+                UpgradeCard.R4_AGROMECH ]));
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET,
+                UpgradeCard.R4_AGROMECH ]));
+        answer.push(new Token(Pilot.SYNDICATE_THUG, agent, [ UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET,
+                UpgradeCard.R4_AGROMECH ]));
         return answer;
     }));
 
