@@ -160,7 +160,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankLeft1_2":
             {
-                bearingKey: Bearing.BANK_LEFT,
+                bearingKey: Bearing.HUGE_BANK_LEFT,
                 speed: 1,
                 energy: 2,
                 difficultyKey: Difficulty.STANDARD,
@@ -169,7 +169,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankLeft1_3":
             {
-                bearingKey: Bearing.BANK_LEFT,
+                bearingKey: Bearing.HUGE_BANK_LEFT,
                 speed: 1,
                 energy: 3,
                 difficultyKey: Difficulty.STANDARD,
@@ -178,7 +178,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankLeft2_1":
             {
-                bearingKey: Bearing.BANK_LEFT,
+                bearingKey: Bearing.HUGE_BANK_LEFT,
                 speed: 2,
                 energy: 1,
                 difficultyKey: Difficulty.STANDARD,
@@ -187,7 +187,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankLeft2_2":
             {
-                bearingKey: Bearing.BANK_LEFT,
+                bearingKey: Bearing.HUGE_BANK_LEFT,
                 speed: 2,
                 energy: 2,
                 difficultyKey: Difficulty.STANDARD,
@@ -252,7 +252,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankRight1_2":
             {
-                bearingKey: Bearing.BANK_RIGHT,
+                bearingKey: Bearing.HUGE_BANK_RIGHT,
                 speed: 1,
                 energy: 2,
                 difficultyKey: Difficulty.STANDARD,
@@ -261,7 +261,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankRight1_3":
             {
-                bearingKey: Bearing.BANK_RIGHT,
+                bearingKey: Bearing.HUGE_BANK_RIGHT,
                 speed: 1,
                 energy: 3,
                 difficultyKey: Difficulty.STANDARD,
@@ -270,7 +270,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankRight2_1":
             {
-                bearingKey: Bearing.BANK_RIGHT,
+                bearingKey: Bearing.HUGE_BANK_RIGHT,
                 speed: 2,
                 energy: 1,
                 difficultyKey: Difficulty.STANDARD,
@@ -279,7 +279,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
             },
             "bankRight2_2":
             {
-                bearingKey: Bearing.BANK_RIGHT,
+                bearingKey: Bearing.HUGE_BANK_RIGHT,
                 speed: 2,
                 energy: 2,
                 difficultyKey: Difficulty.STANDARD,

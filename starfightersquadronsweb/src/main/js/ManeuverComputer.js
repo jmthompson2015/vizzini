@@ -2,8 +2,8 @@
  * Small ship base is 40mm x 40mm.
  * <p>Bearing straight, speed one maneuver is 40mm long. Other straight maneuvers are multiples of this.</p>
  */
-define([ "Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath" ], function(Bearing, Maneuver, Path,
-        PlayFormat, Position, RectanglePath)
+define([ "Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath", "ShipBase" ], function(Bearing,
+        Maneuver, Path, PlayFormat, Position, RectanglePath, ShipBase)
 {
     "use strict";
     var ManeuverComputer = {};
@@ -189,27 +189,72 @@ define([ "Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath
 
         if ((bearingKey === Bearing.STRAIGHT) || (bearingKey === Bearing.KOIOGRAN_TURN))
         {
+            if (ShipBase.isHuge(shipBase.value))
+            {
+                baseSize = 0;
+            }
+
             dx = (2 * baseSize) + (40 * speed);
             dy = 0;
         }
         else if (bearingKey && maneuver.bearing.isBank)
         {
-            // Half base.
-            x1 = baseSize;
-            y1 = 0.0;
+            if (shipBase.value === ShipBase.HUGE1)
+            {
+                factor = (bearingKey === Bearing.HUGE_BANK_RIGHT ? 1.0 : -1.0);
+                angle = headingChange * Math.PI / 180.0;
+                switch (speed)
+                {
+                case 1:
+                    dx = 66;
+                    dy = factor * 18;
+                    break;
+                case 2:
+                    dx = 107;
+                    dy = factor * 23;
+                    break;
+                default:
+                    throw "Unknown huge bank speed: " + bearingKey + " " + speed;
+                };
+                LOGGER.info("HUGE1 dx = " + dx + " dy = " + dy);
+            }
+            else if (shipBase.value === ShipBase.HUGE2)
+            {
+                factor = (bearingKey === Bearing.HUGE_BANK_RIGHT ? 1.0 : -1.0);
+                angle = headingChange * Math.PI / 180.0;
+                switch (speed)
+                {
+                case 1:
+                    dx = 69;
+                    dy = factor * 11;
+                    break;
+                case 2:
+                    dx = 112;
+                    dy = factor * 18;
+                    break;
+                default:
+                    throw "Unknown huge bank speed: " + bearingKey + " " + speed;
+                };
+            }
+            else
+            {
+                // Half base.
+                x1 = baseSize;
+                y1 = 0.0;
 
-            // Curve.
-            factor = (bearingKey === Bearing.BANK_RIGHT ? 1.0 : -1.0);
-            angle = headingChange * Math.PI / 180.0;
-            x2 = radius * Math.cos(angle);
-            y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
+                // Curve.
+                factor = (bearingKey === Bearing.BANK_RIGHT ? 1.0 : -1.0);
+                angle = headingChange * Math.PI / 180.0;
+                x2 = radius * Math.cos(angle);
+                y2 = factor * radius * (1.0 - (Math.sin(angle) * factor));
 
-            // Half base.
-            x3 = baseSize * Math.cos(angle);
-            y3 = baseSize * Math.sin(angle);
+                // Half base.
+                x3 = baseSize * Math.cos(angle);
+                y3 = baseSize * Math.sin(angle);
 
-            dx = x1 + x2 + x3;
-            dy = y1 + y2 + y3;
+                dx = x1 + x2 + x3;
+                dy = y1 + y2 + y3;
+            }
         }
         else if (bearingKey === Bearing.SEGNORS_LOOP_LEFT || bearingKey === Bearing.SEGNORS_LOOP_RIGHT)
         {

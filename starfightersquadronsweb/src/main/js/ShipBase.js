@@ -14,26 +14,30 @@ define(function()
                 name: "Small ship",
                 width: 40,
                 height: 40,
+                value: "small",
             },
             "large":
             {
                 name: "Large ship",
                 width: 80,
                 height: 80,
+                value: "large",
             },
             "huge1":
             {
-                // GR-75 Medium Transport
+                // Gozanti-class Cruiser, GR-75 Medium Transport
                 name: "Huge ship",
                 width: 192,
                 height: 80,
+                value: "huge1",
             },
             "huge2":
             {
-                // CR90 Corvette
+                // CR90 Corvette, Raider-class Corvette
                 name: "Huge ship",
                 width: 224,
                 height: 80,
+                value: "huge2",
             }
         },
 

@@ -253,11 +253,12 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
 
         createManeuverEnergyIconSource: function(bearing, energy)
         {
-            var bearingName = bearing.replace(/L/g, "_l");
+            var bearingName = bearing.replace(/B/g, "_b");
+            bearingName = bearingName.replace(/L/g, "_l");
             bearingName = bearingName.replace(/R/g, "_r");
-            bearingName = bearingName.replace("Straight", "straight");
+            bearingName = bearingName.replace("straight", "huge_straight");
 
-            return imageBase + "maneuver/" + bearingName + "_energy" + energy + ".png";
+            return imageBase + "maneuver/" + bearingName + "_" + energy + ".png";
         },
 
         selectionChanged: function(event)

@@ -9,6 +9,7 @@ define([ "ShipBase" ], function(ShipBase)
         var properties = ShipBase.properties[shipBase];
         assert.equal(properties.width, 80);
         assert.equal(properties.height, 80);
+        assert.equal(properties.value, shipBase);
     });
 
     QUnit.test("ShipBase properties Small", function(assert)
@@ -17,6 +18,7 @@ define([ "ShipBase" ], function(ShipBase)
         var properties = ShipBase.properties[shipBase];
         assert.equal(properties.width, 40);
         assert.equal(properties.height, 40);
+        assert.equal(properties.value, shipBase);
     });
 
     QUnit.test("isHuge()", function(assert)
