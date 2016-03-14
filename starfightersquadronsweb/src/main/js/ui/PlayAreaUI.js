@@ -48,17 +48,17 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "PlayFormat", "Ship", 
         };
     }
 
-    function ManeuverUI(maneuver, fromPosition, shipBase)
+    function ManeuverUI(playFormatKey, maneuver, fromPosition, shipBase)
     {
         var FOREGROUND_COLOR = "white";
         var EASY_COLOR = "lime";
         var HARD_COLOR = "red";
 
-        var toPosition = ManeuverComputer.computeToPosition(maneuver, fromPosition, shipBase);
+        var toPosition = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
 
         var fromPolygon = ManeuverComputer.computeFromPolygon(fromPosition, shipBase);
         var path = ManeuverComputer.computePath(maneuver, fromPosition, shipBase);
-        var toPolygon = ManeuverComputer.computeToPolygon(maneuver, fromPosition, shipBase);
+        var toPolygon = ManeuverComputer.computeToPolygon(playFormatKey, maneuver, fromPosition, shipBase);
 
         this.paintComponent = function(context)
         {
@@ -219,7 +219,7 @@ define([ "Difficulty", "Environment", "ManeuverComputer", "PlayFormat", "Ship", 
             var fromPosition = maneuverAction.fromPosition();
             var shipBase = maneuverAction.shipBase();
 
-            return new ManeuverUI(maneuver, fromPosition, shipBase);
+            return new ManeuverUI(environment.playFormatKey(), maneuver, fromPosition, shipBase);
         }
 
         function createShipIcon(token, callback)
