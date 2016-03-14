@@ -369,7 +369,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
         {
             return this.tokens(isPure).filter(function(token)
             {
-                return token.pilot().shipTeam.teamKey === teamKey;
+                return Team.isFriendly(token.pilot().shipTeam.teamKey, teamKey);
             });
         };
 

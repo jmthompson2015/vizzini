@@ -624,6 +624,43 @@ define(
                 assert.equal(result[1].pilotKey(), Pilot.DARK_CURSE);
             });
 
+            QUnit.test("getTokensForTeam() Imperial mixed teams", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
+                var token3 = new Token(Pilot.EPSILON_ACE, foAgent);
+                environment.placeToken(new Position(200, 200, 0), token3);
+
+                // Run.
+                var result = environment.getTokensForTeam(Team.IMPERIAL);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 3);
+                assert.equal(result[0].pilotKey(), Pilot.MAULER_MITHEL);
+                assert.equal(result[1].pilotKey(), Pilot.DARK_CURSE);
+                assert.equal(result[2].pilotKey(), Pilot.EPSILON_ACE);
+            });
+
+            QUnit.test("getTokensForTeam() Imperial pure", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var isPure = true;
+
+                // Run.
+                var result = environment.getTokensForTeam(Team.IMPERIAL, isPure);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 2);
+                assert.equal(result[0].pilotKey(), Pilot.MAULER_MITHEL);
+                assert.equal(result[1].pilotKey(), Pilot.DARK_CURSE);
+            });
+
             QUnit.test("getTokensForTeam() Rebel", function(assert)
             {
                 // Setup.
