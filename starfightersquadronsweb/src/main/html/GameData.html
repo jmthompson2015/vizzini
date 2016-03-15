@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Game Data</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
+<script src="../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../main/js/Team"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<style>
+#gameTable {
+    background-color: white;
+    border-collapse: collapse;
+    font-size: small;
+}
+
+#gameTable tbody tr:nth-child(2n) td {
+    background: lightCyan;
+}
+
+#gameTable tbody tr:nth-child(2n+1) td {
+    background: white;
+}
+
+#gameTable th {
+    background-color: #555555;
+    border: 1px solid lightGray;
+    color: white;
+}
+
+#gameTable td {
+    border: 1px solid lightGray;
+}
+
+.textCell {
+    text-align: left;
+}
+
+.numberCell {
+    text-align: right;
+}
+</style>
+</head>
+<body>
+	<h1>Starfighter Squadrons Game Data</h1>
+	<div id="implementedStatistics"></div>
+	<section id="tableContainer"></section>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "ui/GameDataTable" ], function(GameDataTable, PilotStatisticsTable)
+        {
+            var element = React.createElement(GameDataTable);
+            React.render(element, document.getElementById("tableContainer"));
+        });
+    </script>
+</body>
+</html>
