@@ -264,6 +264,7 @@ define(
 
             QUnit.test("getPositionFor()", function(assert)
             {
+                // Setup.
                 Token.resetNextId();
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
@@ -271,7 +272,91 @@ define(
                 var token = new Token(Pilot.ACADEMY_PILOT, agent);
                 environment.placeToken(position, token);
 
-                assert.strictEqual(environment.getPositionFor(token), position);
+                // Run.
+                var result = environment.getPositionFor(token);
+
+                // Verify.
+                assert.ok(result);
+                assert.strictEqual(result, position);
+            });
+
+            QUnit.test("getPositionFor() Huge2", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createHugeShipEnvironment();
+                var token = environment.tokens()[3]; // CR90
+                // LOGGER.info("token = " + token);
+
+                // Run.
+                var result = environment.getPositionFor(token);
+                LOGGER.info("0 result = " + result);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.x(), 458);
+                assert.equal(result.y(), 803);
+                assert.equal(result.heading(), 270);
+
+                // Run.
+                result = environment.getPositionFor(token.tokenFore());
+                LOGGER.info("1 result = " + result);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.x(), 458);
+                assert.equal(result.y(), 803 - 72);
+                assert.equal(result.heading(), 270);
+
+                // Run.
+                result = environment.getPositionFor(token.tokenAft());
+                LOGGER.info("2 result = " + result);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.x(), 458);
+                assert.equal(result.y(), 803 + 72);
+                assert.equal(result.heading(), 270);
+            });
+
+            QUnit.test("getPositionFor() Huge2 330 deg", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createHugeShipEnvironment();
+                var token = environment.tokens()[3]; // CR90
+                environment.removeToken(new Position(458, 803, 270));
+                environment.placeToken(new Position(458, 750, 330), token);
+
+                // Run.
+                var result = environment.getPositionFor(token);
+                LOGGER.info("0 result = " + result);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.x(), 458);
+                assert.equal(result.y(), 750);
+                assert.equal(result.heading(), 330);
+
+                // Run.
+                result = environment.getPositionFor(token.tokenFore());
+                LOGGER.info("1 result = " + result);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.x(), 458 + 62);
+                assert.equal(result.y(), 750 - 36);
+                assert.equal(result.heading(), 330);
+
+                // Run.
+                result = environment.getPositionFor(token.tokenAft());
+                LOGGER.info("2 result = " + result);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.x(), 458 - 62);
+                assert.equal(result.y(), 750 + 36);
+                assert.equal(result.heading(), 330);
             });
 
             QUnit.test("getTargetableDefenders() none", function(assert)

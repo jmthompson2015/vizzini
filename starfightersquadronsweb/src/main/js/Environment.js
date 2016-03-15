@@ -195,14 +195,37 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
         {
             InputValidator.validateNotNull("token", token);
 
-            var myToken = token;
+            var answer;
 
             if (token.parent)
             {
-                myToken = token.parent;
+                var parentPosition = this.getPositionFor(token.parent);
+                var angle = parentPosition.heading() * Math.PI / 180.0;
+                var length = 72;
+                var x, y;
+
+                if (token.pilot().value.endsWith("fore"))
+                {
+                    x = parentPosition.x() + length * Math.cos(angle);
+                    y = parentPosition.y() + length * Math.sin(angle);
+                }
+                else
+                {
+                    x = parentPosition.x() - length * Math.cos(angle);
+                    y = parentPosition.y() - length * Math.sin(angle);
+                }
+
+                if (PlayFormat.isPointInPlayArea(playFormatKey, x, y))
+                {
+                    answer = new Position(x, y, parentPosition.heading());
+                }
+            }
+            else
+            {
+                answer = tokenToPosition[token];
             }
 
-            return tokenToPosition[myToken];
+            return answer;
         };
 
         this.getTargetableDefenders = function(attacker, attackerPosition, weapon)
