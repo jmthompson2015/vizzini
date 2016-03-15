@@ -74,19 +74,19 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
                     {
                         answer.push(createWeaponData(primaryWeapon, rangeToDefenders));
                     }
-
-                    var weapons = attacker.secondaryWeapons();
-
-                    weapons.forEach(function(weapon)
-                    {
-                        rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
-
-                        if (rangeToDefenders.length > 0)
-                        {
-                            answer.push(createWeaponData(weapon, rangeToDefenders));
-                        }
-                    });
                 }
+
+                var weapons = attacker.secondaryWeapons();
+
+                weapons.forEach(function(weapon)
+                {
+                    rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
+
+                    if (rangeToDefenders.length > 0)
+                    {
+                        answer.push(createWeaponData(weapon, rangeToDefenders));
+                    }
+                });
             }
 
             return answer;
@@ -175,7 +175,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
                     {
                         var defenderPosition = this.getPositionFor(defender);
                         var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
-                        return ([ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ].vizziniContains(range));
+                        return (RangeRuler.STANDARD_RANGES.vizziniContains(range));
                     }, this);
                 }
             }

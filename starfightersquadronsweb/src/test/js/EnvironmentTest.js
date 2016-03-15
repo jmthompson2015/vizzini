@@ -290,7 +290,6 @@ define(
 
                 // Run.
                 var result = environment.getPositionFor(token);
-                LOGGER.info("0 result = " + result);
 
                 // Verify.
                 assert.ok(result);
@@ -300,7 +299,6 @@ define(
 
                 // Run.
                 result = environment.getPositionFor(token.tokenFore());
-                LOGGER.info("1 result = " + result);
 
                 // Verify.
                 assert.ok(result);
@@ -310,7 +308,6 @@ define(
 
                 // Run.
                 result = environment.getPositionFor(token.tokenAft());
-                LOGGER.info("2 result = " + result);
 
                 // Verify.
                 assert.ok(result);
@@ -330,7 +327,6 @@ define(
 
                 // Run.
                 var result = environment.getPositionFor(token);
-                LOGGER.info("0 result = " + result);
 
                 // Verify.
                 assert.ok(result);
@@ -340,7 +336,6 @@ define(
 
                 // Run.
                 result = environment.getPositionFor(token.tokenFore());
-                LOGGER.info("1 result = " + result);
 
                 // Verify.
                 assert.ok(result);
@@ -350,7 +345,6 @@ define(
 
                 // Run.
                 result = environment.getPositionFor(token.tokenAft());
-                LOGGER.info("2 result = " + result);
 
                 // Verify.
                 assert.ok(result);

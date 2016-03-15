@@ -626,6 +626,11 @@ define(
                 var ship = Ship.properties[shipKey];
                 ship.shipBase = ShipBase.properties[ship.shipBaseKey];
                 ship.primaryFiringArc = FiringArc.properties[ship.primaryFiringArcKey];
+
+                if (ship.fore === undefined && ship.primaryWeaponRanges === undefined)
+                {
+                    ship.primaryWeaponRanges = RangeRuler.STANDARD_RANGES;
+                }
             });
 
             if (Object.freeze)

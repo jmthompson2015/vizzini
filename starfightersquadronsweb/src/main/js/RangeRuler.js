@@ -53,6 +53,8 @@ define([ "ManeuverComputer", "Position" ], function(ManeuverComputer, Position)
         },
     };
 
+    RangeRuler.STANDARD_RANGES = [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ];
+
     RangeRuler.findRange = function(distance)
     {
         var answer;

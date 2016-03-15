@@ -816,9 +816,8 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                 LOGGER.info("ship.primaryFiringArcKey = " + ship.primaryFiringArcKey);
             }
 
-            return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), [ RangeRuler.ONE, RangeRuler.TWO,
-                    RangeRuler.THREE ], ship.primaryFiringArcKey, ship.auxiliaryFiringArcKey,
-                    ship.isPrimaryWeaponTurret);
+            return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), ship.primaryWeaponRanges,
+                    ship.primaryFiringArcKey, ship.auxiliaryFiringArcKey, ship.isPrimaryWeaponTurret);
         }
 
         function createSecondaryWeapon(upgrade)
@@ -1051,7 +1050,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.attackDice = function(value)
         {
-            if (value)
+            if (value !== undefined)
             {
                 attackDice = value;
             }
@@ -1070,7 +1069,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.combatAction = function(value)
         {
-            if (value)
+            if (value !== undefined)
             {
                 combatAction = value;
             }
@@ -1080,7 +1079,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.defenseDice = function(value)
         {
-            if (value)
+            if (value !== undefined)
             {
                 defenseDice = value;
             }
@@ -1100,7 +1099,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.range = function(value)
         {
-            if (value)
+            if (value !== undefined)
             {
                 range = value;
             }

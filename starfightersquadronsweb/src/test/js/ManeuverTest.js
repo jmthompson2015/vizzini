@@ -47,8 +47,7 @@ define([ "Bearing", "Difficulty", "Maneuver" ], function(Bearing, Difficulty, Ma
         ownPropertyNames.forEach(function(key)
         {
             var key2 = Maneuver[key];
-            LOGGER.info("key = " + key + " typeof key2 = " + (typeof key2));
-            
+
             if (key !== "properties" && typeof key2 === "string")
             {
                 assert.ok(Maneuver.properties[key2], "Missing value for key = " + key);

@@ -4,7 +4,7 @@ define([ "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/Human
     "use strict";
     QUnit.module("DualToken");
 
-    QUnit.test("DualToken basics", function(assert)
+    QUnit.test("DualToken properties CR90 Corvette", function(assert)
     {
         Token.resetNextId();
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
@@ -44,7 +44,6 @@ define([ "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/Human
 
         // Verify.
         assert.ok(result);
-        LOGGER.info("result = " + JSON.stringify(result));
         assert.equal(result.value, "fore");
     });
 });

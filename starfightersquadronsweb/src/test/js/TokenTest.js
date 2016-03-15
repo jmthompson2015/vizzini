@@ -7,29 +7,46 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     "use strict";
     QUnit.module("Token");
 
-    QUnit.test("Token basics", function(assert)
+    QUnit.test("Token properties Darth Vader", function(assert)
     {
         Token.resetNextId();
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var token0 = new Token(Pilot.DARTH_VADER, imperialAgent, [UpgradeCard.CLUSTER_MISSILES]);
-        assert.equal(token0.id(), 1);
-        assert.equal(token0.pilotKey(), Pilot.DARTH_VADER);
-        assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_ADVANCED);
-        assert.equal(token0.name(), "1 Darth Vader (TIE Advanced)");
-        assert.equal(token0.secondaryWeapons().length, 1);
-        var weapon0 = token0.secondaryWeapons()[0];
+        var token = new Token(Pilot.DARTH_VADER, imperialAgent, [ UpgradeCard.CLUSTER_MISSILES ]);
+        assert.equal(token.id(), 1);
+        assert.equal(token.pilotKey(), Pilot.DARTH_VADER);
+        assert.equal(token.pilot().shipTeam.shipKey, Ship.TIE_ADVANCED);
+        assert.equal(token.name(), "1 Darth Vader (TIE Advanced)");
+        assert.equal(token.secondaryWeapons().length, 1);
+        var weapon0 = token.secondaryWeapons()[0];
         assert.equal(weapon0.upgradeKey(), UpgradeCard.CLUSTER_MISSILES);
+    });
 
+    QUnit.test("Token properties Dash Rendar", function(assert)
+    {
+        Token.resetNextId();
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
-        var token1 = new Token(Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
-                UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA]);
-        assert.equal(token1.id(), 2);
-        assert.equal(token1.pilotKey(), Pilot.DASH_RENDAR);
-        assert.equal(token1.pilot().shipTeam.shipKey, Ship.YT_2400);
-        assert.equal(token1.name(), "2 Dash Rendar (YT-2400)");
-        assert.equal(token1.secondaryWeapons().length, 1);
-        var weapon1 = token1.secondaryWeapons()[0];
+        var token = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
+                UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA ]);
+        assert.equal(token.id(), 1);
+        assert.equal(token.pilotKey(), Pilot.DASH_RENDAR);
+        assert.equal(token.pilot().shipTeam.shipKey, Ship.YT_2400);
+        assert.equal(token.name(), "1 Dash Rendar (YT-2400)");
+        assert.equal(token.secondaryWeapons().length, 1);
+        var weapon1 = token.secondaryWeapons()[0];
         assert.equal(weapon1.upgradeKey(), UpgradeCard.MANGLER_CANNON);
+    });
+
+    QUnit.test("Token properties GR-75 Medium Transport", function(assert)
+    {
+        Token.resetNextId();
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+        var token = new Token(Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent, [ UpgradeCard.CARLIST_RIEEKAN,
+                UpgradeCard.EM_EMITTER ]);
+        assert.equal(token.id(), 1);
+        assert.equal(token.pilotKey(), Pilot.GR_75_MEDIUM_TRANSPORT);
+        assert.equal(token.pilot().shipTeam.shipKey, Ship.GR_75_MEDIUM_TRANSPORT);
+        assert.equal(token.name(), "1 GR-75 Medium Transport (GR-75 Medium Transport)");
+        assert.equal(token.secondaryWeapons().length, 0);
     });
 
     QUnit.test("addCriticalDamage()", function(assert)
@@ -248,17 +265,17 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         var weapon = token.primaryWeapon();
 
         // Run / Verify.
-        assert.equal(token.computeDefenseDiceCount( weapon,  RangeRuler.ONE), 2);
-        assert.equal(token.computeDefenseDiceCount( weapon,  RangeRuler.TWO), 2);
-        assert.equal(token.computeDefenseDiceCount( weapon,  RangeRuler.THREE), 4);
+        assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.ONE), 2);
+        assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.TWO), 2);
+        assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.THREE), 4);
     });
 
     QUnit.test("discardUpgrade()", function(assert)
     {
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var token = new Token(Pilot.DARTH_VADER, imperialAgent, [UpgradeCard.DETERMINATION,
-                UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE]);
+        var token = new Token(Pilot.DARTH_VADER, imperialAgent, [ UpgradeCard.DETERMINATION,
+                UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE ]);
         assert.equal(token.upgradeKeys().length, 3);
         assert.equal(token.secondaryWeapons().length, 1);
 
@@ -351,7 +368,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent,[ UpgradeCard.STEALTH_DEVICE]);
+        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, [ UpgradeCard.STEALTH_DEVICE ]);
 
         // Run / Verify.
         assert.equal(token.pilotSkillValue(), 1);
@@ -380,7 +397,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, [UpgradeCard.COMBAT_RETROFIT]);
+        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, [ UpgradeCard.COMBAT_RETROFIT ]);
 
         // Run / Verify.
         assert.equal(token.pilotSkillValue(), 1);
@@ -529,7 +546,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var token = new Token(Pilot.CHEWBACCA, agent, [UpgradeCard.NIEN_NUNB]);
+        var token = new Token(Pilot.CHEWBACCA, agent, [ UpgradeCard.NIEN_NUNB ]);
 
         // Run.
         var result = token.maneuverKeys();
@@ -550,7 +567,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var token = new Token(Pilot.LUKE_SKYWALKER, agent, [UpgradeCard.R2_ASTROMECH]);
+        var token = new Token(Pilot.LUKE_SKYWALKER, agent, [ UpgradeCard.R2_ASTROMECH ]);
 
         // Run.
         var result = token.maneuverKeys();
@@ -571,7 +588,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var token = new Token(Pilot.ACADEMY_PILOT, agent, [UpgradeCard.TWIN_ION_ENGINE_MK_II]);
+        var token = new Token(Pilot.ACADEMY_PILOT, agent, [ UpgradeCard.TWIN_ION_ENGINE_MK_II ]);
 
         // Run.
         var result = token.maneuverKeys();
@@ -592,7 +609,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var agent = new SimpleAgent("Scum Agent", Team.SCUM);
-        var token = new Token(Pilot.DREA_RENTHAL, agent, [UpgradeCard.UNHINGED_ASTROMECH]);
+        var token = new Token(Pilot.DREA_RENTHAL, agent, [ UpgradeCard.UNHINGED_ASTROMECH ]);
 
         // Run.
         var result = token.maneuverKeys();
@@ -630,8 +647,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var token = new Token(Pilot.WHISPER, imperialAgent, [UpgradeCard.ADVANCED_CLOAKING_DEVICE,
-                UpgradeCard.REBEL_CAPTIVE, UpgradeCard.VETERAN_INSTINCTS]);
+        var token = new Token(Pilot.WHISPER, imperialAgent, [ UpgradeCard.ADVANCED_CLOAKING_DEVICE,
+                UpgradeCard.REBEL_CAPTIVE, UpgradeCard.VETERAN_INSTINCTS ]);
 
         // Run / Verify.
         assert.equal(token.pilotSkillValue(), 9);
@@ -712,8 +729,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
     {
         // Setup.
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var token = new Token(Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
-                UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE]);
+        var token = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
+                UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE ]);
 
         // Run.
         var result = token.secondaryWeapons();
@@ -922,7 +939,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         Token.resetNextId();
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var upgrade = UpgradeCard.ADRENALINE_RUSH;
-        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, [upgrade]);
+        var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent, [ upgrade ]);
 
         // Run / Verify.
         assert.ok(token.isUpgradedWith(upgrade));
@@ -1061,7 +1078,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         // Setup.
         Token.resetNextId();
         var agent = new SimpleAgent("name", Team.IMPERIAL);
-        var token = new Token(Pilot.TEN_NUMB, agent, [UpgradeCard.B_WING_E2]);
+        var token = new Token(Pilot.TEN_NUMB, agent, [ UpgradeCard.B_WING_E2 ]);
 
         // Run / Verify.
         assert.ok(token.upgradeTypeKeys());
@@ -1076,7 +1093,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         // Setup.
         Token.resetNextId();
         var agent = new SimpleAgent("name", Team.IMPERIAL);
-        var token = new Token(Pilot.BOBA_FETT_IMPERIAL, agent, [UpgradeCard.ANDRASTA]);
+        var token = new Token(Pilot.BOBA_FETT_IMPERIAL, agent, [ UpgradeCard.ANDRASTA ]);
 
         // Run / Verify.
         assert.ok(token.upgradeTypeKeys());
@@ -1106,7 +1123,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         // Setup.
         Token.resetNextId();
         var agent = new SimpleAgent("name", Team.IMPERIAL);
-        var token = new Token(Pilot.CARNOR_JAX, agent, [UpgradeCard.ROYAL_GUARD_TIE]);
+        var token = new Token(Pilot.CARNOR_JAX, agent, [ UpgradeCard.ROYAL_GUARD_TIE ]);
 
         // Run / Verify.
         assert.ok(token.upgradeTypeKeys());
@@ -1122,7 +1139,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         // Setup.
         Token.resetNextId();
         var agent = new SimpleAgent("name", Team.IMPERIAL);
-        var token = new Token(Pilot.BOBA_FETT_IMPERIAL, agent, [UpgradeCard.ANDRASTA]);
+        var token = new Token(Pilot.BOBA_FETT_IMPERIAL, agent, [ UpgradeCard.ANDRASTA ]);
 
         // Run / Verify.
         assert.ok(token.upgradeTypeKeys());
@@ -1138,7 +1155,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         // Setup.
         Token.resetNextId();
         var agent = new SimpleAgent("name", Team.IMPERIAL);
-        var token = new Token(Pilot.HORTON_SALM, agent, [UpgradeCard.BOMB_LOADOUT]);
+        var token = new Token(Pilot.HORTON_SALM, agent, [ UpgradeCard.BOMB_LOADOUT ]);
 
         // Run / Verify.
         assert.ok(token.upgradeTypeKeys());

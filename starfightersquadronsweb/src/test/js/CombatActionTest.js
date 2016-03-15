@@ -86,7 +86,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     {
         // Setup.
         var upgradeKey = UpgradeCard.ASSAULT_MISSILES;
-        var combatAction = createCombatAction(upgradeKey);
+        var combatAction = createCombatActionRange2(upgradeKey);
         var environment = combatAction.environment();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[1];
@@ -212,14 +212,14 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
             assert.equal(attacker.secondaryWeapons().length, 0);
             assert.equal(attacker.combatState().attackDice().size(), 3);
             done();
-        }, 1200);
+        }, 1300);
     });
 
     QUnit.test("CombatAction.doIt() Concussion Missiles", function(assert)
     {
         // Setup.
         var upgradeKey = UpgradeCard.CONCUSSION_MISSILES;
-        var combatAction = createCombatAction(upgradeKey);
+        var combatAction = createCombatActionRange2(upgradeKey);
         var environment = combatAction.environment();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[1];
@@ -241,7 +241,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     {
         // Setup.
         var upgradeKey = UpgradeCard.HEAVY_LASER_CANNON;
-        var combatAction = createCombatAction(upgradeKey);
+        var combatAction = createCombatActionRange2(upgradeKey);
         var environment = combatAction.environment();
         var attacker = environment.tokens()[0];
         assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -279,7 +279,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     {
         // Setup.
         var upgradeKey = UpgradeCard.ION_TORPEDOES;
-        var combatAction = createCombatAction(upgradeKey);
+        var combatAction = createCombatActionRange2(upgradeKey);
         var environment = combatAction.environment();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[1];
@@ -353,7 +353,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     {
         // Setup.
         var upgradeKey = UpgradeCard.PROTON_TORPEDOES;
-        var combatAction = createCombatAction(upgradeKey);
+        var combatAction = createCombatActionRange2(upgradeKey);
         var environment = combatAction.environment();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[1];
@@ -421,7 +421,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     {
         // Setup.
         var upgradeKey = UpgradeCard.TWIN_LASER_TURRET;
-        var combatAction = createCombatAction(upgradeKey);
+        var combatAction = createCombatActionRange2(upgradeKey);
         var environment = combatAction.environment();
         var attacker = environment.tokens()[0];
         assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -440,6 +440,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 2);
             assert.equal(attacker.secondaryWeapons().length, 1);
+            assert.ok(attacker.combatState() !== undefined);
+            assert.ok(attacker.combatState().attackDice() !== undefined);
             assert.equal(attacker.combatState().attackDice().size(), 3);
             assert.ok(0 <= defender.damageCount() && defender.damageCount() <= 2, "defender.damageCount() = " +
                     defender.damageCount());
@@ -485,7 +487,7 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         }, 1100);
     });
 
-    function createCombatAction(upgradeKey)
+    function createCombatAction(upgradeKey, y)
     {
         var environment = new Environment(Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
@@ -497,7 +499,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
 
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-        var defenderPosition = new Position(450, 845, 90);
+        var myY = (y !== undefined ? y : 845);
+        var defenderPosition = new Position(450, myY, 90);
 
         environment.placeToken(attackerPosition, attacker);
         environment.placeToken(defenderPosition, defender);
@@ -510,6 +513,11 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
 
         return new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                 defenderPosition);
+    }
+
+    function createCombatActionRange2(upgradeKey)
+    {
+        return createCombatAction(upgradeKey, 700);
     }
 
     function createCombatAction2(upgradeKey)
