@@ -1,9 +1,8 @@
-define([ "AttackDice", "Bearing", "DamageCard", "DamageCardTrait", "DamageCardV2", "DefenseDice", "Difficulty",
-        "FiringArc", "Maneuver", "Phase", "Pilot", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "ShipBase",
-        "ShipTeam", "Team", "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "UpgradeType" ], function(AttackDice,
-        Bearing, DamageCard, DamageCardTrait, DamageCardV2, DefenseDice, Difficulty, FiringArc, Maneuver, Phase, Pilot,
-        PlayFormat, RangeRuler, Ship, ShipAction, ShipBase, ShipTeam, Team, UpgradeCard, UpgradeHeader,
-        UpgradeRestriction, UpgradeType)
+define([ "Bearing", "DamageCard", "DamageCardTrait", "DamageCardV2", "Difficulty", "FiringArc", "Maneuver", "Phase",
+        "Pilot", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "ShipBase", "ShipTeam", "Team", "UpgradeCard",
+        "UpgradeHeader", "UpgradeRestriction", "UpgradeType" ], function(Bearing, DamageCard, DamageCardTrait,
+        DamageCardV2, Difficulty, FiringArc, Maneuver, Phase, Pilot, PlayFormat, RangeRuler, Ship, ShipAction,
+        ShipBase, ShipTeam, Team, UpgradeCard, UpgradeHeader, UpgradeRestriction, UpgradeType)
 {
     "use strict";
     var GameColumns = [
