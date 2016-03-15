@@ -33,7 +33,36 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "PlanningAction", "Posit
         });
     });
 
-    QUnit.test("performCombatPhase()", function(assert)
+    QUnit.test("performActivationPhase() Huge", function(assert)
+    {
+        // Setup.
+        var engine = createEngine(true);
+        var environment = engine.environment();
+        var firstAgent = environment.firstAgent();
+        var secondAgent = environment.secondAgent();
+        var firstTokenToManeuver = {};
+        var secondTokenToManeuver = {};
+        var firstPlanningAction = new PlanningAction(environment, firstAgent, firstTokenToManeuver);
+        var secondPlanningAction = new PlanningAction(environment, secondAgent, secondTokenToManeuver);
+        engine.performCombatPhase = function()
+        {
+            LOGGER.info("performCombatPhase() dummy");
+        };
+
+        // Run.
+        var done = assert.async();
+        engine.setPlanningAction(firstPlanningAction);
+        engine.setPlanningAction(secondPlanningAction);
+
+        // Verify.
+        setTimeout(function()
+        {
+            assert.ok(true, "test resumed from async operation");
+            done();
+        });
+    });
+
+    QUnit.skip("performCombatPhase()", function(assert)
     {
         // Setup.
         var engine = createEngine();
@@ -128,9 +157,19 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "PlanningAction", "Posit
         });
     });
 
-    function createEngine()
+    function createEngine(isHuge)
     {
-        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var environment;
+
+        if (isHuge)
+        {
+            environment = EnvironmentFactory.createHugeShipEnvironment();
+        }
+        else
+        {
+            environment = EnvironmentFactory.createCoreSetEnvironment();
+        }
+
         var adjudicator = new Adjudicator();
 
         return new Engine(environment, adjudicator);

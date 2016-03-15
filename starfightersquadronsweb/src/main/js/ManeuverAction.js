@@ -261,7 +261,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
         {
             var answer = {};
 
-            var tokens = environment.getTokensForActivation();
+            var tokens = environment.getTokensForActivation(false);
 
             tokens.forEach(function(token1)
             {

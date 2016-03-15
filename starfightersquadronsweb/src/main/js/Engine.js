@@ -1,6 +1,6 @@
-define([ "CombatAction", "DualToken", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "ShipAction",
-        "TargetLock", "Team", "UpgradeCard" ], function(CombatAction, DualToken, Environment, ManeuverAction, Phase,
-        Pilot, RangeRuler, ShipAction, TargetLock, Team, UpgradeCard)
+define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "ShipAction", "TargetLock",
+        "Team", "UpgradeCard" ], function(CombatAction, Environment, ManeuverAction, Phase, Pilot, RangeRuler,
+        ShipAction, TargetLock, Team, UpgradeCard)
 {
     "use strict";
     function Engine(environment, adjudicator)
@@ -86,7 +86,7 @@ define([ "CombatAction", "DualToken", "Environment", "ManeuverAction", "Phase", 
         this.performActivationPhase = function()
         {
             LOGGER.trace("Engine.performActivationPhase() start");
-            activationQueue = environment.getTokensForActivation();
+            activationQueue = environment.getTokensForActivation(true);
             this.processActivationQueue();
         };
 
@@ -216,46 +216,48 @@ define([ "CombatAction", "DualToken", "Environment", "ManeuverAction", "Phase", 
             var token = activationQueue.shift();
             var agent = token.agent();
             var factionKey = token.pilot().shipTeam.teamKey;
+
+            var myToken = token;
+
+            if (token.parent && token.pilot().value.endsWith("fore"))
+            {
+                myToken = token.parent;
+            }
+
             var maneuverKey;
 
-            if (factionKey === environment.firstTeam() || Team.friend(factionKey) === environment.firstTeam())
+            if (Team.isFriendly(factionKey, environment.firstTeam()))
             {
-                maneuverKey = firstPlanningAction.getManeuver(token);
+                maneuverKey = firstPlanningAction.getManeuver(myToken);
             }
             else
             {
-                maneuverKey = secondPlanningAction.getManeuver(token);
+                maneuverKey = secondPlanningAction.getManeuver(myToken);
             }
 
             if (maneuverKey)
             {
-                var fromPosition = environment.getPositionFor(token);
+                var fromPosition = environment.getPositionFor(myToken);
 
                 if (fromPosition)
                 {
-                    var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
+                    var maneuverAction = new ManeuverAction(environment, myToken, maneuverKey);
                     maneuverAction.doIt();
-
-                    if (adjudicator.canSelectShipAction(token))
-                    {
-                        if (token instanceof DualToken)
-                        {
-                            agent.getShipAction(environment, adjudicator, token.tokenFore(), that.setShipAction);
-                            // FIXME: need to query for tokenAft
-                        }
-                        else
-                        {
-                            agent.getShipAction(environment, adjudicator, token, that.setShipAction);
-                        }
-
-                        // Wait for agent to respond.
-                    }
-                    else
-                    {
-                        // Proceed.
-                        setTimeout(that.processActivationQueue, 1000);
-                    }
                 }
+            }
+
+            LOGGER.debug("adjudicator.canSelectShipAction(token) ? " + adjudicator.canSelectShipAction(token));
+
+            if (adjudicator.canSelectShipAction(token))
+            {
+                agent.getShipAction(environment, adjudicator, token, that.setShipAction);
+
+                // Wait for agent to respond.
+            }
+            else
+            {
+                // Proceed.
+                setTimeout(that.processActivationQueue, 1000);
             }
 
             LOGGER.trace("Engine.processActivationQueue3() end");

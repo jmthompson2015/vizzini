@@ -984,7 +984,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
         {
-            answer.vizziniAddAll(this.pilot().shipTeam.ship.shipActionKeys);
+            answer.vizziniAddAll(this.ship().shipActionKeys);
         }
 
         if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())

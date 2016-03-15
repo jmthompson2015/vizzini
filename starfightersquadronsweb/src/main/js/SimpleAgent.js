@@ -213,6 +213,28 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
             answer.push(ShipAction.CLOAK);
         }
 
+        if (shipActions.vizziniContains(ShipAction.COORDINATE))
+        {
+            answer.push(ShipAction.COORDINATE);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.JAM))
+        {
+            answer.push(ShipAction.JAM);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.RECOVER))
+        {
+            answer.push(ShipAction.RECOVER);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.REINFORCE))
+        {
+            answer.push(ShipAction.REINFORCE);
+        }
+
+        LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);
+
         return answer;
     };
 

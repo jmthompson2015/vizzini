@@ -296,14 +296,14 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
             }, this);
         };
 
-        this.getTokensForActivation = function()
+        this.getTokensForActivation = function(isPure)
         {
-            return this.tokens().sort(
+            return this.tokens(isPure).sort(
                     function(token0, token1)
                     {
                         var answer;
-                        var isHuge0 = ShipBase.isHuge(token0.ship().shipBaseKey);
-                        var isHuge1 = ShipBase.isHuge(token1.ship().shipBaseKey);
+                        var isHuge0 = ShipBase.isHuge(token0.ship().shipBaseKey) || (token0.parent !== undefined);
+                        var isHuge1 = ShipBase.isHuge(token1.ship().shipBaseKey) || (token1.parent !== undefined);
 
                         if (isHuge0 === isHuge1)
                         {
@@ -406,7 +406,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
             var tokenPosition = this.getPositionFor(token);
             var polygon = ManeuverComputer.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition
                     .heading());
-            var tokens = this.getTokensForActivation();
+            var tokens = this.getTokensForActivation(false);
 
             tokens.forEach(function(token2)
             {
@@ -480,8 +480,6 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
 
             placeTokens(firstSquad, true);
             placeTokens(secondSquad, false);
-
-            LOGGER.info("playFormatKey = " + playFormatKey);
         };
 
         this.placeToken = function(position, token)
@@ -627,44 +625,6 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
                         break;
                     }
                 }
-            }
-
-            return answer;
-        }
-
-        function getTokensForPhase(phase)
-        {
-            var answer;
-
-            switch (phase)
-            {
-            case Phase.PLANNING_START:
-            case Phase.PLANNING_END:
-                answer = that.getTokensForActivation();
-                break;
-            case Phase.ACTIVATION_START:
-            case Phase.ACTIVATION_REVEAL_DIAL:
-            case Phase.ACTIVATION_EXECUTE_MANEUVER:
-            case Phase.ACTIVATION_PERFORM_ACTION:
-            case Phase.ACTIVATION_END:
-                answer = that.getTokensForActivation();
-                break;
-            case Phase.COMBAT_START:
-            case Phase.COMBAT_DECLARE_TARGET:
-            case Phase.COMBAT_ROLL_ATTACK_DICE:
-            case Phase.COMBAT_MODIFY_ATTACK_DICE:
-            case Phase.COMBAT_ROLL_DEFENSE_DICE:
-            case Phase.COMBAT_MODIFY_DEFENSE_DICE:
-            case Phase.COMBAT_DEAL_DAMAGE:
-            case Phase.COMBAT_END:
-                answer = that.getTokensForCombat();
-                break;
-            case Phase.END_START:
-            case Phase.END_END:
-                answer = that.getTokensForCombat();
-                break;
-            default:
-                throw "Unknown phase: " + phase;
             }
 
             return answer;
