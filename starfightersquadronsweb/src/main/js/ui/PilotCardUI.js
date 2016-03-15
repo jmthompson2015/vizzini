@@ -488,9 +488,18 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
 
             if (primaryWeaponValue)
             {
+                var shipStateKey;
+                if (myToken.ship().isPrimaryWeaponTurret)
+                {
+                    shipStateKey = "Turret_Weapon";
+                }
+                else
+                {
+                    shipStateKey = "Weapon";
+                }
                 image = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Weapon",
+                    shipStateKey: shipStateKey,
                     factionKey: factionKey,
                 });
                 cells.push(React.DOM.td(
