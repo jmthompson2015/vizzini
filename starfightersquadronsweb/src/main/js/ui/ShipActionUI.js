@@ -18,11 +18,15 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
             var actionName0 = shipAction.displayName;
             var actionName1 = actionName0;
 
-            if (this.props.shipActionKey.defender)
+            if (shipActionKey0.defender && shipActionKey0.defender.parent !== undefined)
+            {
+                actionName1 += ": " + shipActionKey0.defender.pilotName();
+            }
+            else if (shipActionKey0.defender && shipActionKey !== ShipAction.REINFORCE)
             {
                 actionName1 += ": " + shipActionKey0.defender.name();
             }
-            else if (this.props.shipActionKey.maneuver)
+            else if (shipActionKey0.maneuver)
             {
                 actionName1 += ": " + Maneuver.toString(shipActionKey0.maneuver);
             }

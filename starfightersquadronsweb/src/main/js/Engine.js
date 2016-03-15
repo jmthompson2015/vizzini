@@ -345,6 +345,7 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
                     token.focus().clear();
                 }
 
+                token.reinforce().clear();
                 token.weaponsDisabled().clear();
             }
 
@@ -428,6 +429,10 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
                 else if (shipAction === ShipAction.FOCUS)
                 {
                     attacker.focus().increase();
+                }
+                else if (shipAction.shipAction === ShipAction.REINFORCE)
+                {
+                    shipAction.defender.reinforce().increase();
                 }
                 else if (shipAction.shipAction === ShipAction.SLAM)
                 {

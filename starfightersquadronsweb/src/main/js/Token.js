@@ -78,6 +78,11 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             that.trigger("change");
         });
+        var reinforceCount = new Count();
+        reinforceCount.bind("change", function()
+        {
+            that.trigger("change");
+        });
         var shieldCount = new Count(pilot.shipState.shieldValue());
         shieldCount.bind("change", function()
         {
@@ -604,6 +609,11 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             {
                 this.shield().increase();
             }
+        };
+
+        this.reinforce = function()
+        {
+            return reinforceCount;
         };
 
         this.removeAllTargetLocks = function()

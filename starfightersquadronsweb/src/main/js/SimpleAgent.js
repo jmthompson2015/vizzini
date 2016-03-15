@@ -230,7 +230,15 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
 
         if (shipActions.vizziniContains(ShipAction.REINFORCE))
         {
-            answer.push(ShipAction.REINFORCE);
+            if (token.parent !== undefined)
+            {
+                answer.push(ShipAction.createReinforceShipAction(token.parent.tokenFore()));
+                answer.push(ShipAction.createReinforceShipAction(token.parent.tokenAft()));
+            }
+            else
+            {
+                answer.push(ShipAction.createReinforceShipAction(token));
+            }
         }
 
         LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);

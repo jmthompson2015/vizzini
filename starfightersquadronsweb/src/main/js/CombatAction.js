@@ -199,6 +199,12 @@ define(
                         }
                     }
 
+                    if (defender.reinforce().count() > 0)
+                    {
+                        // Add one evade result.
+                        defenseDice.spendEvadeToken();
+                    }
+
                     attacker.combatState().defenseDice(defenseDice);
                     environment.phase(Phase.COMBAT_ROLL_DEFENSE_DICE);
 

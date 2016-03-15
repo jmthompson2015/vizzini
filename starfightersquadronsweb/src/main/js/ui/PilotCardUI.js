@@ -786,6 +786,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             var evadeCount = myToken.evade().count();
             var focusCount = myToken.focus().count();
             var ionCount = myToken.ion().count();
+            var reinforceCount = myToken.reinforce().count();
             var shieldCount = myToken.shield().count();
             var stressCount = myToken.stress().count();
             var weaponsDisabledCount = myToken.weaponsDisabled().count();
@@ -812,7 +813,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             {
                 image: "token/EnergyToken32.png",
                 label: energyCount,
-                labelClass: "mediumImageText",
+                labelClass: "lightImageText",
                 title: "Energy",
             });
             cells.push(React.DOM.td(
@@ -850,6 +851,18 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
                 label: ionCount,
                 labelClass: "lightImageText",
                 title: "Ion",
+            });
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+            }, element));
+
+            element = React.createElement(LabeledImage,
+            {
+                image: "token/ReinforceToken32.png",
+                label: reinforceCount,
+                labelClass: "lightImageText",
+                title: "Reinforce",
             });
             cells.push(React.DOM.td(
             {

@@ -26,70 +26,77 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Maneuver", "Pilot", "ShipAction", "SimpleAgent", "Team", "Token", "ui/ShipActionUI" ], function(
-                Maneuver, Pilot, ShipAction, SimpleAgent, Team, Token, ShipActionUI)
-        {
-            var values = ShipAction.values();
-            var rows = [];
-            values.forEach(function(shipActionKey, i)
-            {
-                var myShipActionKey = shipActionKey;
-
-                if (shipActionKey === ShipAction.DECLOAK)
+        require([ "DualToken", "Maneuver", "Pilot", "ShipAction", "SimpleAgent", "Team", "Token", "ui/ShipActionUI" ],
+                function(DualToken, Maneuver, Pilot, ShipAction, SimpleAgent, Team, Token, ShipActionUI)
                 {
-                    myShipActionKey = ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD);
-                }
-                else if (shipActionKey === ShipAction.SLAM)
-                {
-                    myShipActionKey = ShipAction.createSlamShipAction(Maneuver.STRAIGHT_2_STANDARD);
-                }
-                else if (shipActionKey === ShipAction.TARGET_LOCK)
-                {
-                    Token.resetNextId();
-                    var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-                    var token0 = new Token(Pilot.DARTH_VADER, imperialAgent);
-                    myShipActionKey = ShipAction.createTargetLockShipAction(token0);
-                }
-
-                var cells = [];
-                var image0 = React.createElement(ShipActionUI,
-                {
-                    shipActionKey: myShipActionKey,
-                });
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                    style:
+                    var values = ShipAction.values();
+                    var rows = [];
+                    values.forEach(function(shipActionKey, i)
                     {
-                        backgroundColor: "#F0F0F0",
-                        border: "1px solid gray",
-                    },
-                }, image0));
+                        var myShipActionKey = shipActionKey;
 
-                var image1 = React.createElement(ShipActionUI,
-                {
-                    shipActionKey: myShipActionKey,
-                    showName: true,
+                        if (shipActionKey === ShipAction.DECLOAK)
+                        {
+                            myShipActionKey = ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD);
+                        }
+                        else if (shipActionKey === ShipAction.SLAM)
+                        {
+                            myShipActionKey = ShipAction.createSlamShipAction(Maneuver.STRAIGHT_2_STANDARD);
+                        }
+                        else if (shipActionKey === ShipAction.TARGET_LOCK)
+                        {
+                            Token.resetNextId();
+                            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                            var token0 = new Token(Pilot.DARTH_VADER, imperialAgent);
+                            myShipActionKey = ShipAction.createTargetLockShipAction(token0);
+                        }
+                        else if (shipActionKey === ShipAction.REINFORCE)
+                        {
+                            Token.resetNextId();
+                            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                            var token0 = new DualToken(Pilot.RAIDER_CLASS_CORVETTE, imperialAgent);
+                            myShipActionKey = ShipAction.createReinforceShipAction(token0.tokenFore());
+                        }
+
+                        var cells = [];
+                        var image0 = React.createElement(ShipActionUI,
+                        {
+                            shipActionKey: myShipActionKey,
+                        });
+                        cells.push(React.DOM.td(
+                        {
+                            key: cells.length,
+                            style:
+                            {
+                                backgroundColor: "#F0F0F0",
+                                border: "1px solid gray",
+                            },
+                        }, image0));
+
+                        var image1 = React.createElement(ShipActionUI,
+                        {
+                            shipActionKey: myShipActionKey,
+                            showName: true,
+                        });
+                        cells.push(React.DOM.td(
+                        {
+                            key: cells.length,
+                            style:
+                            {
+                                backgroundColor: "#F0F0F0",
+                                border: "1px solid gray",
+                                fontSize: "small",
+                            },
+                        }, image1));
+
+                        rows.push(React.DOM.tr(
+                        {
+                            key: rows.length,
+                        }, cells));
+                    });
+
+                    React.render(React.DOM.table({}, rows), document.getElementById("panel"));
                 });
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                    style:
-                    {
-                        backgroundColor: "#F0F0F0",
-                        border: "1px solid gray",
-                        fontSize: "small",
-                    },
-                }, image1));
-
-                rows.push(React.DOM.tr(
-                {
-                    key: rows.length,
-                }, cells));
-            });
-
-            React.render(React.DOM.table({}, rows), document.getElementById("panel"));
-        });
     </script>
 </body>
 </html>

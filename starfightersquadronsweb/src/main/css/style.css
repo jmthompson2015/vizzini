@@ -91,10 +91,6 @@ table {
     color: rgb(127, 191, 255);
 }
 
-#COLOR_GRAY, .mediumImageText, .colorGray {
-    color: Gray;
-}
-
 #COLOR_GREEN, .agilityValue, .colorGreen {
     color: rgb(127, 191, 127);
 }
@@ -119,7 +115,7 @@ table {
     color: yellow;
 }
 
-#FONT_BOLD, .agentTitle, .darkImageText, .lightImageText, .mediumImageText, .upgradeCardUIHeader, .fontBold {
+#FONT_BOLD, .agentTitle, .darkImageText, .lightImageText, .upgradeCardUIHeader, .fontBold {
     font-weight: bold;
 }
 
@@ -127,7 +123,7 @@ table {
     font-style: italic;
 }
 
-#FONT_MEDIUM, .darkImageText, .lightImageText, .mediumImageText, .pilotSkillValue, .fontMedium {
+#FONT_MEDIUM, .darkImageText, .lightImageText, .pilotSkillValue, .fontMedium {
     font-size: medium;
 }
 
