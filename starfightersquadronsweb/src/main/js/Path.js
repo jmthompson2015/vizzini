@@ -54,7 +54,7 @@ define(function()
                 maxY = Math.max(y, maxY);
             }
 
-            LOGGER.debug("min = " + minX + " " + minY + " max = " + maxX + " " + maxY);
+            LOGGER.trace("min = " + minX + " " + minY + " max = " + maxX + " " + maxY);
 
             answer =
             {

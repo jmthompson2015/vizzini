@@ -88,15 +88,15 @@ define([ "Path" ], function(Path)
 
         var answer;
         var b0 = polygon0.boundingBox();
-        LOGGER.debug("b0 = " + JSON.stringify(b0));
+        LOGGER.trace("b0 = " + JSON.stringify(b0));
         var b1 = polygon1.boundingBox();
-        LOGGER.debug("b1 = " + JSON.stringify(b1));
+        LOGGER.trace("b1 = " + JSON.stringify(b1));
 
         if ((b1.maxX < b0.minX || b0.maxX < b1.minX) && // b1 is left or right of b0
         (b1.maxY < b0.minY || b0.maxY < b1.minY) // b1 is below or above b0
         )
         {
-            LOGGER.debug("bounding boxes do not overlap");
+            LOGGER.trace("bounding boxes do not overlap");
             answer = false;
         }
         else
@@ -110,7 +110,7 @@ define([ "Path" ], function(Path)
             var startY = Math.vizziniRound(bb.minY, 0);
             var endX = Math.vizziniRound(bb.maxX, 0);
             var endY = Math.vizziniRound(bb.maxY, 0);
-            LOGGER.debug("start = " + startX + ", " + startY + " end = " + endX + ", " + endY);
+            LOGGER.trace("start = " + startX + ", " + startY + " end = " + endX + ", " + endY);
 
             for (var y = startY; !answer && y <= endY; y++)
             {
@@ -125,7 +125,7 @@ define([ "Path" ], function(Path)
             }
         }
 
-        LOGGER.debug("answer ? " + answer);
+        LOGGER.trace("RectanglePath.doPolygonsCollide() answer ? " + answer);
 
         return answer;
     };
