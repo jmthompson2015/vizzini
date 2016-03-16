@@ -58,7 +58,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         });
         var criticalDamages = [];
         var damages = [];
-        var energyCount = new Count();
+        var energyCount = new Count(pilot.shipState.energyValue());
         energyCount.bind("change", function()
         {
             that.trigger("change");
@@ -119,6 +119,52 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                 }
             });
         }
+
+        this.energyLimit = function()
+        {
+            var answer = getShipState().energyValue();
+
+            if (answer !== null)
+            {
+                answer = criticalDamages.reduce(function(sum, damageKey)
+                {
+                    return sum + DamageCard.properties[damageKey].shipState.energyValue();
+                }, answer);
+
+                upgradeKeys.forEach(function(upgradeKey)
+                {
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
+
+                    if (shipState)
+                    {
+                        answer += shipState.energyValue();
+                    }
+                });
+
+                answer = Math.max(answer, 0);
+            }
+
+            return answer;
+        };
+
+        // Initialize the energy.
+        while (energyCount.count() < this.energyLimit())
+        {
+            energyCount.increase();
+        }
+
+        var upgradeToEnergy = {};
+
+        upgradeKeys.forEach(function(upgradeKey)
+        {
+            var upgrade = UpgradeCard.properties[upgradeKey];
+
+            if (upgrade.energyLimit !== undefined)
+            {
+                var energy = new Count(upgrade.energyLimit);
+                upgradeToEnergy[upgradeKey] = energy;
+            }
+        });
 
         var activationState = new ActivationState();
         var combatState = new CombatState();
@@ -240,33 +286,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             return energyCount;
         };
 
-        this.energyValue = function()
-        {
-            var answer = getShipState().energyValue();
-
-            if (answer !== null)
-            {
-                answer = criticalDamages.reduce(function(sum, damageKey)
-                {
-                    return sum + DamageCard.properties[damageKey].shipState.energyValue();
-                }, answer);
-
-                upgradeKeys.forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.energyValue();
-                    }
-                });
-
-                answer = Math.max(answer, 0);
-            }
-
-            return answer;
-        };
-
         this.equals = function(other)
         {
             return id == other.id() && pilotKey == other.pilotKey();
@@ -361,7 +380,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             if (maneuver.energy)
             {
                 // Gain energy up to the energy limit.
-                var energyLimit = this.energyValue();
+                var energyLimit = this.energyLimit();
                 LOGGER.trace(this.pilotName() + " energyLimit = " + energyLimit);
 
                 for (var i = 0; i < maneuver.energy; i++)
