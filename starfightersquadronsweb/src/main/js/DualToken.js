@@ -82,16 +82,6 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
                 this.tokenFore().addDefenderTargetLock(targetLock);
             };
 
-            DualToken.prototype.evade = function()
-            {
-                return this.tokenFore().evade();
-            };
-
-            DualToken.prototype.focus = function()
-            {
-                return this.tokenFore().focus();
-            };
-
             DualToken.prototype.isCloaked = function()
             {
                 return false;
@@ -187,11 +177,6 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
             DualToken.prototype.shipName = function()
             {
                 return this.pilot().shipTeam.ship.name;
-            };
-
-            DualToken.prototype.stress = function()
-            {
-                return this.tokenFore().stress();
             };
 
             DualToken.prototype.toString = function()

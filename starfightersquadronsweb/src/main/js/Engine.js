@@ -1,6 +1,6 @@
-define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "ShipAction", "TargetLock",
-        "Team", "UpgradeCard" ], function(CombatAction, Environment, ManeuverAction, Phase, Pilot, RangeRuler,
-        ShipAction, TargetLock, Team, UpgradeCard)
+define([ "CombatAction", "DualToken", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "ShipAction",
+        "ShipBase", "TargetLock", "Team", "UpgradeCard" ], function(CombatAction, DualToken, Environment,
+        ManeuverAction, Phase, Pilot, RangeRuler, ShipAction, ShipBase, TargetLock, Team, UpgradeCard)
 {
     "use strict";
     function Engine(environment, adjudicator)
@@ -429,6 +429,17 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
                 else if (shipAction === ShipAction.FOCUS)
                 {
                     attacker.focus().increase();
+                }
+                else if (shipAction.shipAction === ShipAction.JAM)
+                {
+                    if (shipAction.defender.stress().count() < 2)
+                    {
+                        shipAction.defender.stress().increase();
+                    }
+                    if (shipAction.defender.stress().count() < 2)
+                    {
+                        shipAction.defender.stress().increase();
+                    }
                 }
                 else if (shipAction.shipAction === ShipAction.REINFORCE)
                 {

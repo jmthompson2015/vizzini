@@ -862,6 +862,26 @@ define(
                 assert.equal(result[0].pilot().shipTeam.shipKey, Ship.X_WING);
             });
 
+            QUnit.test("getUnfriendlyTokensAtRange() one", function(assert)
+            {
+                // Setup.
+                Token.resetNextId();
+                var environment = EnvironmentFactory.createCoreSetEnvironment();
+                var attacker = environment.tokens()[2]; // X-Wing
+                var attackerPosition = new Position(458, 50, -90);
+                environment.removeToken(attacker);
+                environment.placeToken(attackerPosition, attacker);
+
+                // Run.
+                var result = environment.getUnfriendlyTokensAtRange(attacker, RangeRuler.TWO);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal(result.length, 2);
+                assert.equal(result[0].pilotKey(), Pilot.MAULER_MITHEL);
+                assert.equal(result[1].pilotKey(), Pilot.DARK_CURSE);
+            });
+
             QUnit.test("incrementRound()", function(assert)
             {
                 // Setup.

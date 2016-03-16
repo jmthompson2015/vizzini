@@ -139,6 +139,17 @@ define([ "Maneuver" ], function(Maneuver)
         });
     };
 
+    ShipAction.createJamShipAction = function(defender)
+    {
+        InputValidator.validateNotNull("defender", defender);
+
+        return (
+        {
+            shipAction: ShipAction.JAM,
+            defender: defender,
+        });
+    };
+
     ShipAction.createReinforceShipAction = function(defender)
     {
         InputValidator.validateNotNull("defender", defender);

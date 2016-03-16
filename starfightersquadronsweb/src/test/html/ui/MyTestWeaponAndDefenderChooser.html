@@ -30,8 +30,8 @@
         {
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
             var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-            var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
-                    UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE);
+            var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
+                    UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE ]);
             var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
             var defender1 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
             var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);

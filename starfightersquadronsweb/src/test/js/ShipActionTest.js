@@ -86,6 +86,7 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
         var count = properties.length - 1 - // properties
         1 - // values
         1 - // createDecloakShipAction
+        1 - // createJamShipAction
         1 - // createReinforceShipAction
         1 - // createSlamShipAction
         1; // createTargetLockShipAction

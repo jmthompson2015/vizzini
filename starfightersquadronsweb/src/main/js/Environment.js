@@ -427,6 +427,14 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
             return answer;
         };
 
+        this.getUnfriendlyTokensAtRange = function(token0, range)
+        {
+            return this.getTokensAtRange(token0, range).filter(function(token)
+            {
+                return !Team.isFriendly(token.agent().teamKey(), token0.agent().teamKey());
+            });
+        };
+
         this.incrementRound = function()
         {
             round++;

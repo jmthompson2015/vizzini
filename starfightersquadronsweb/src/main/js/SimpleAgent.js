@@ -1,6 +1,7 @@
 define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
-        "PlanningAction", "PlayFormat", "Ship", "ShipAction" ], function(Maneuver, ManeuverAction, ManeuverComputer,
-        ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat, Ship, ShipAction)
+        "PlanningAction", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "ShipBase" ], function(Maneuver,
+        ManeuverAction, ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat,
+        RangeRuler, Ship, ShipAction, ShipBase)
 {
     "use strict";
     function SimpleAgent(name, teamKey)
@@ -213,21 +214,6 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
             answer.push(ShipAction.CLOAK);
         }
 
-        if (shipActions.vizziniContains(ShipAction.COORDINATE))
-        {
-            answer.push(ShipAction.COORDINATE);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.JAM))
-        {
-            answer.push(ShipAction.JAM);
-        }
-
-        if (shipActions.vizziniContains(ShipAction.RECOVER))
-        {
-            answer.push(ShipAction.RECOVER);
-        }
-
         if (shipActions.vizziniContains(ShipAction.REINFORCE))
         {
             if (token.parent !== undefined)
@@ -239,6 +225,32 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
             {
                 answer.push(ShipAction.createReinforceShipAction(token));
             }
+        }
+
+        if (shipActions.vizziniContains(ShipAction.COORDINATE))
+        {
+            answer.push(ShipAction.COORDINATE);
+        }
+
+        if (shipActions.vizziniContains(ShipAction.JAM))
+        {
+            var tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+            tokens.vizziniAddAll(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
+
+            tokens.forEach(function(myToken)
+            {
+                var isHuge = ShipBase.isHuge(myToken.ship().shipBaseKey) || (myToken.parent !== undefined);
+
+                if (!isHuge && myToken.stress().count() < 2)
+                {
+                    answer.push(ShipAction.createJamShipAction(myToken));
+                }
+            });
+        }
+
+        if (shipActions.vizziniContains(ShipAction.RECOVER))
+        {
+            answer.push(ShipAction.RECOVER);
         }
 
         LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);
