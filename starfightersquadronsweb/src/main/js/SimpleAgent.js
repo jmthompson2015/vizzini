@@ -156,33 +156,31 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
         }
 
         if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT) &&
-                adjudicator.canBarrelRoll(environment, token,
-                        ShipAction.properties[ShipAction.BARREL_ROLL_LEFT].maneuver))
+                adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
         {
             answer.push(ShipAction.BARREL_ROLL_LEFT);
         }
 
         if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT) &&
-                adjudicator.canBarrelRoll(environment, token,
-                        ShipAction.properties[ShipAction.BARREL_ROLL_RIGHT].maneuver))
+                adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
         {
             answer.push(ShipAction.BARREL_ROLL_RIGHT);
         }
 
         if (shipActions.vizziniContains(ShipAction.BOOST_LEFT) &&
-                adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_LEFT].maneuver))
+                adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
         {
             answer.push(ShipAction.BOOST_LEFT);
         }
 
         if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT) &&
-                adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_STRAIGHT].maneuver))
+                adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
         {
             answer.push(ShipAction.BOOST_STRAIGHT);
         }
 
         if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT) &&
-                adjudicator.canBoost(environment, token, ShipAction.properties[ShipAction.BOOST_RIGHT].maneuver))
+                adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
         {
             answer.push(ShipAction.BOOST_RIGHT);
         }
