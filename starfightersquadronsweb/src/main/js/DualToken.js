@@ -72,21 +72,6 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
                 };
             }
 
-            DualToken.prototype.addAttackerTargetLock = function(targetLock)
-            {
-                this.tokenFore().addAttackerTargetLock(targetLock);
-            };
-
-            DualToken.prototype.addDefenderTargetLock = function(targetLock)
-            {
-                this.tokenFore().addDefenderTargetLock(targetLock);
-            };
-
-            DualToken.prototype.isCloaked = function()
-            {
-                return false;
-            };
-
             DualToken.prototype.isStressed = function()
             {
                 return false;
@@ -107,7 +92,7 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
                 if (maneuver.energy)
                 {
                     // Gain energy up to the energy limit.
-                    var energyLimit = this.tokenAft().energyValue();
+                    var energyLimit = this.tokenAft().energyLimit();
                     LOGGER.trace(this.pilotName() + " energyLimit = " + energyLimit);
 
                     for (var i = 0; i < maneuver.energy; i++)
@@ -157,21 +142,6 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
             DualToken.prototype.primaryWeapon = function()
             {
                 return this.tokenFore().primaryWeapon();
-            };
-
-            DualToken.prototype.removeAllTargetLocks = function()
-            {
-                this.tokenFore().removeAllTargetLocks();
-            };
-
-            DualToken.prototype.removeAttackerTargetLock = function(targetLock)
-            {
-                this.tokenFore().removeAttackerTargetLock();
-            };
-
-            DualToken.prototype.removeDefenderTargetLock = function(targetLock)
-            {
-                this.tokenFore().removeDefenderTargetLock();
             };
 
             DualToken.prototype.shipName = function()

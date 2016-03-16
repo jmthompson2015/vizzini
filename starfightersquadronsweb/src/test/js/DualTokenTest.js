@@ -44,6 +44,6 @@ define([ "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/Human
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.value, "fore");
+        assert.equal(result.value, "cr90Corvette.fore");
     });
 });
