@@ -99,7 +99,7 @@ define(
                             isPrimaryWeaponTurret: true,
                             primaryWeaponRanges: [ RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE ],
                             shipActionKeys: [ ShipAction.COORDINATE, ShipAction.TARGET_LOCK ],
-                            value: "fore",
+                            value: "cr90Corvette.fore",
                         },
                         aft:
                         {
@@ -107,7 +107,7 @@ define(
                             description: "A CR90 Corvette (aft).",
                             shipBaseKey: ShipBase.LARGE,
                             shipActionKeys: [ ShipAction.RECOVER, ShipAction.REINFORCE ],
-                            value: "aft",
+                            value: "cr90Corvette.aft",
                         },
                         crippledFore:
                         {
@@ -118,7 +118,7 @@ define(
                             isPrimaryWeaponTurret: true,
                             primaryWeaponRanges: [ RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE ],
                             shipActionKeys: [],
-                            value: "crippledFore",
+                            value: "cr90Corvette.crippledFore",
                         },
                         crippledAft:
                         {
@@ -126,7 +126,7 @@ define(
                             description: "A CR90 Corvette (crippled aft).",
                             shipBaseKey: ShipBase.LARGE,
                             shipActionKeys: [],
-                            value: "crippledAft",
+                            value: "cr90Corvette.crippledAft",
                         },
                         name: "CR90 Corvette",
                         description: "A CR90 Corvette.",
@@ -174,6 +174,18 @@ define(
                     },
                     "gozantiClassCruiser":
                     {
+                        fore:
+                        {
+                            name: "Gozanti-class Cruiser (fore)",
+                            shipBaseKey: ShipBase.LARGE,
+                            value: "gozantiClassCruiser.fore",
+                        },
+                        aft:
+                        {
+                            name: "Gozanti-class Cruiser (aft)",
+                            shipBaseKey: ShipBase.LARGE,
+                            value: "gozantiClassCruiser.aft",
+                        },
                         name: "Gozanti-class Cruiser",
                         description: "A Gozanti-class Cruiser.",
                         shipBaseKey: ShipBase.HUGE1,
@@ -187,6 +199,18 @@ define(
                     },
                     "gr75MediumTransport":
                     {
+                        fore:
+                        {
+                            name: "GR-75 Medium Transport (fore)",
+                            shipBaseKey: ShipBase.LARGE,
+                            value: "gr75MediumTransport.fore",
+                        },
+                        aft:
+                        {
+                            name: "GR-75 Medium Transport (aft)",
+                            shipBaseKey: ShipBase.LARGE,
+                            value: "gr75MediumTransport.aft",
+                        },
                         name: "GR-75 Medium Transport",
                         description: "A GR-75 Medium Transport.",
                         shipBaseKey: ShipBase.HUGE1,
