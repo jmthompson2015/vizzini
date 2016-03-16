@@ -1,4 +1,4 @@
-define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
+define([ "ShipAction" ], function(ShipAction)
 {
     "use strict";
     QUnit.module("ShipAction");
@@ -8,7 +8,6 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
         var shipAction = ShipAction.BARREL_ROLL_LEFT;
         var properties = ShipAction.properties[shipAction];
         assert.equal(properties.displayName, "Barrel Roll (left)");
-        assert.equal(properties.maneuver, Maneuver.BARREL_ROLL_LEFT_1_STANDARD);
     });
 
     QUnit.test("ShipAction properties Evade", function(assert)
