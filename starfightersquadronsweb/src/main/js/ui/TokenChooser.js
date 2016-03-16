@@ -7,6 +7,7 @@
  */
 define(function()
 {
+    "use strict";
     var TokenChooser = React.createClass(
     {
         getInitialState: function()
