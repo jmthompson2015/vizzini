@@ -4,7 +4,7 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
     var SquadBuilders = [];
 
     // Experimental: Huge ships
-    var HugeShipImperialSquadBuilder = new SquadBuilder(Team.IMPERIAL, "Huge Ships", 2016,
+    var HugeShipImperialSquadBuilder = new SquadBuilder(Team.IMPERIAL, "Huge Ships: 168 Points", 2016,
             "Gozanti-class/Raider-class/TIE Advanced", function(agent)
             {
                 var answer = [];
@@ -16,16 +16,18 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
     SquadBuilders.push(HugeShipImperialSquadBuilder);
 
     // Experimental: Huge ships
-    var HugeShipRebelSquadBuilder = new SquadBuilder(Team.REBEL, "Huge Ships", 2016, "CR90/G-75/X-Wing",
+    var HugeShipRebelSquadBuilder = new SquadBuilder(Team.REBEL, "Huge Ships: 219 Points", 2016, "CR90/G-75/X-Wing",
             function(agent)
             {
                 var answer = [];
-                answer.push(new DualToken(Pilot.CR90_CORVETTE, agent, [ UpgradeCard.QUAD_LASER_CANNONS,
-                        UpgradeCard.SINGLE_TURBOLASERS, UpgradeCard.BACKUP_SHIELD_GENERATOR ], [
-                        UpgradeCard.WED_15_REPAIR_DROID, UpgradeCard.EM_EMITTER, ]));
+                answer.push(new DualToken(Pilot.CR90_CORVETTE, agent, [ UpgradeCard.HAN_SOLO,
+                        UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.GUNNERY_TEAM,
+                        UpgradeCard.SENSOR_TEAM, UpgradeCard.TIBANNA_GAS_SUPPLIES, UpgradeCard.CHEWBACCA,
+                        UpgradeCard.TANTIVE_IV ], [ UpgradeCard.WEAPONS_ENGINEER, UpgradeCard.QUAD_LASER_CANNONS,
+                        UpgradeCard.ENGINEERING_TEAM, UpgradeCard.IONIZATION_REACTOR ]));
                 answer.push(new Token(Pilot.WES_JANSON, agent, [ UpgradeCard.R2_D2 ]));
-                answer.push(new Token(Pilot.GR_75_MEDIUM_TRANSPORT, agent, [ UpgradeCard.WED_15_REPAIR_DROID,
-                        UpgradeCard.EM_EMITTER, UpgradeCard.FREQUENCY_JAMMER ]));
+                answer.push(new Token(Pilot.GR_75_MEDIUM_TRANSPORT, agent, [ UpgradeCard.DUTYFREE,
+                        UpgradeCard.RAYMUS_ANTILLES, UpgradeCard.FREQUENCY_JAMMER, UpgradeCard.EM_EMITTER ]));
                 return answer;
             });
     SquadBuilders.push(HugeShipRebelSquadBuilder);
