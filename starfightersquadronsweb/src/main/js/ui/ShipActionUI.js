@@ -13,7 +13,7 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
             InputValidator.validateNotNull("shipActionKey", this.props.shipActionKey);
 
             var shipActionKey0 = this.props.shipActionKey;
-            var shipActionKey = (shipActionKey0.shipAction ? shipActionKey0.shipAction : shipActionKey0);
+            var shipActionKey = (shipActionKey0.shipAction !== undefined ? shipActionKey0.shipAction : shipActionKey0);
             var shipAction = ShipAction.properties[shipActionKey];
             var actionName0 = shipAction.displayName;
             var actionName1 = actionName0;
@@ -31,20 +31,11 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
                 actionName1 += ": " + Maneuver.toString(shipActionKey0.maneuver);
             }
 
-            var fileString;
-
-            if (shipAction.image)
-            {
-                fileString = imageBase + "pilotCard/" + shipAction.image;
-            }
-            else
-            {
-                var actionName = actionName0.replace(" (left)", "");
-                actionName = actionName.replace(" (straight)", "");
-                actionName = actionName.replace(" (right)", "");
-                actionName = actionName.replace(" ", "");
-                fileString = imageBase + "pilotCard/" + actionName + "24.png";
-            }
+            var actionName = actionName0.replace(" (left)", "Left");
+            actionName = actionName.replace(" (straight)", "Straight");
+            actionName = actionName.replace(" (right)", "Right");
+            actionName = actionName.replace(" ", "");
+            var fileString = imageBase + "pilotCard/" + actionName + "24.png";
 
             var image = React.DOM.img(
             {
