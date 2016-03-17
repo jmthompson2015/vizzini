@@ -122,9 +122,9 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.energyLimit = function()
         {
-            var answer = getShipState().energyValue();
+            var answer = pilot.shipState.energyValue();
 
-            if (answer !== null)
+            if (answer !== undefined && answer !== null)
             {
                 answer = criticalDamages.reduce(function(sum, damageKey)
                 {
@@ -452,8 +452,14 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             var pilotName = pilot.name;
             var shipName = pilot.shipTeam.ship.name;
+            var answer = id + " " + pilotName;
 
-            return id + " " + pilotName + " (" + shipName + ")";
+            if (!pilotName.startsWith(shipName))
+            {
+                answer += " (" + shipName + ")";
+            }
+
+            return answer;
         };
 
         this.newInstance = function(agent)
@@ -1022,9 +1028,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
         {
-            answer.push(ShipAction.BOOST_LEFT);
-            answer.push(ShipAction.BOOST_STRAIGHT);
-            answer.push(ShipAction.BOOST_RIGHT);
+            answer.push(ShipAction.BOOST);
         }
 
         if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))

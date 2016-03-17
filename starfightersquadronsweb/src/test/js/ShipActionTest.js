@@ -3,11 +3,11 @@ define([ "ShipAction" ], function(ShipAction)
     "use strict";
     QUnit.module("ShipAction");
 
-    QUnit.test("ShipAction properties Barrel Roll (left)", function(assert)
+    QUnit.test("ShipAction properties Barrel Roll", function(assert)
     {
-        var shipAction = ShipAction.BARREL_ROLL_LEFT;
+        var shipAction = ShipAction.BARREL_ROLL;
         var properties = ShipAction.properties[shipAction];
-        assert.equal(properties.displayName, "Barrel Roll (left)");
+        assert.equal(properties.displayName, "Barrel Roll");
     });
 
     QUnit.test("ShipAction properties Evade", function(assert)
@@ -61,15 +61,10 @@ define([ "ShipAction" ], function(ShipAction)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 17);
+        assert.equal(result.length, 12);
         var i = 0;
         assert.equal(result[i++], ShipAction.BARREL_ROLL);
-        assert.equal(result[i++], ShipAction.BARREL_ROLL_LEFT);
-        assert.equal(result[i++], ShipAction.BARREL_ROLL_RIGHT);
         assert.equal(result[i++], ShipAction.BOOST);
-        assert.equal(result[i++], ShipAction.BOOST_LEFT);
-        assert.equal(result[i++], ShipAction.BOOST_STRAIGHT);
-        assert.equal(result[i++], ShipAction.BOOST_RIGHT);
         assert.equal(result[i++], ShipAction.CLOAK);
         assert.equal(result[i++], ShipAction.COORDINATE);
         assert.equal(result[i++], ShipAction.DECLOAK);
@@ -83,12 +78,7 @@ define([ "ShipAction" ], function(ShipAction)
 
         var properties = Object.getOwnPropertyNames(ShipAction);
         var count = properties.length - 1 - // properties
-        1 - // values
-        1 - // createDecloakShipAction
-        1 - // createJamShipAction
-        1 - // createReinforceShipAction
-        1 - // createSlamShipAction
-        1; // createTargetLockShipAction
+        1; // values
         assert.equal(result.length, count);
     });
 });

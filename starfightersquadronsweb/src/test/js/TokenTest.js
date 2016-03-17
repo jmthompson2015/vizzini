@@ -45,7 +45,7 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token.id(), 1);
         assert.equal(token.pilotKey(), Pilot.GR_75_MEDIUM_TRANSPORT);
         assert.equal(token.pilot().shipTeam.shipKey, Ship.GR_75_MEDIUM_TRANSPORT);
-        assert.equal(token.name(), "1 GR-75 Medium Transport (GR-75 Medium Transport)");
+        assert.equal(token.name(), "1 GR-75 Medium Transport");
         assert.equal(token.secondaryWeapons().length, 0);
     });
 
@@ -626,6 +626,25 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
                 assert.equal(maneuverProps.difficultyKey, Difficulty.EASY);
             }
         });
+    });
+
+    QUnit.test("name()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createHugeShipEnvironment();
+
+        // Run / Verify.
+        var i = 0;
+        assert.equal(environment.tokens()[i++].name(), "1 Gozanti-class Cruiser");
+        assert.equal(environment.tokens()[i++].name(), "2 Juno Eclipse (TIE Advanced)");
+        assert.equal(environment.tokens()[i].name(), "3 Raider-class Corvette");
+        assert.equal(environment.tokens()[i].tokenFore().name(), "4 Raider-class Corvette (fore)");
+        assert.equal(environment.tokens()[i++].tokenAft().name(), "5 Raider-class Corvette (aft)");
+        assert.equal(environment.tokens()[i].name(), "6 CR90 Corvette");
+        assert.equal(environment.tokens()[i].tokenFore().name(), "7 CR90 Corvette (fore)");
+        assert.equal(environment.tokens()[i++].tokenAft().name(), "8 CR90 Corvette (aft)");
+        assert.equal(environment.tokens()[i++].name(), "9 Wes Janson (X-Wing)");
+        assert.equal(environment.tokens()[i++].name(), "10 GR-75 Medium Transport");
     });
 
     QUnit.test("pilotSkillValue()", function(assert)

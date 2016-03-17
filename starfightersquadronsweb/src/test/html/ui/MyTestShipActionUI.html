@@ -34,30 +34,6 @@
                     values.forEach(function(shipActionKey, i)
                     {
                         var myShipActionKey = shipActionKey;
-
-                        if (shipActionKey === ShipAction.DECLOAK)
-                        {
-                            myShipActionKey = ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD);
-                        }
-                        else if (shipActionKey === ShipAction.SLAM)
-                        {
-                            myShipActionKey = ShipAction.createSlamShipAction(Maneuver.STRAIGHT_2_STANDARD);
-                        }
-                        else if (shipActionKey === ShipAction.TARGET_LOCK)
-                        {
-                            Token.resetNextId();
-                            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-                            var token0 = new Token(Pilot.DARTH_VADER, imperialAgent);
-                            myShipActionKey = ShipAction.createTargetLockShipAction(token0);
-                        }
-                        else if (shipActionKey === ShipAction.REINFORCE)
-                        {
-                            Token.resetNextId();
-                            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-                            var token0 = new DualToken(Pilot.RAIDER_CLASS_CORVETTE, imperialAgent);
-                            myShipActionKey = ShipAction.createReinforceShipAction(token0.tokenFore());
-                        }
-
                         var cells = [];
                         var image0 = React.createElement(ShipActionUI,
                         {

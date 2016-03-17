@@ -1,4 +1,4 @@
-define([ "ShipAction", "ui/ShipActionUI" ], function(ShipAction, ShipActionUI)
+define([ "ui/ShipActionUI" ], function(ShipActionUI)
 {
     "use strict";
     var ShipActionChooser = React.createClass(
@@ -20,27 +20,14 @@ define([ "ShipAction", "ui/ShipActionUI" ], function(ShipAction, ShipActionUI)
             var shipActions = this.props.shipActions;
             var idFunction = function(value)
             {
-                var answer = value;
-                if (!ShipAction.properties[value])
-                {
-                    if (value.defender)
-                    {
-                        answer = value.defender.id();
-                    }
-                    else if (value.maneuver)
-                    {
-                        answer = value.maneuver;
-                    }
-                }
-                return answer;
+                return value.toString();
             };
             var labelFunction = function(value)
             {
-                var answer = React.createElement(ShipActionUI,
+                var answer = React.DOM.span({}, React.createElement(ShipActionUI,
                 {
-                    shipActionKey: value,
-                    showName: true,
-                });
+                    shipActionKey: value.shipActionKey(),
+                }), " ", value.toString());
                 return answer;
             };
             var initialValue = (shipActions.length > 0 ? shipActions[0] : undefined);
@@ -83,42 +70,17 @@ define([ "ShipAction", "ui/ShipActionUI" ], function(ShipAction, ShipActionUI)
         selectionChanged: function(event)
         {
             var selected = event.target.id;
-            var myId, shipActions, shipAction;
+            var shipActions = this.props.shipActions;
 
-            if (isNaN(selected))
+            for (var i = 0; i < shipActions.length; i++)
             {
-                myId = selected;
-                LOGGER.trace("myId = " + myId);
-                shipActions = this.props.shipActions;
+                var shipAction = shipActions[i];
 
-                for (var i = 0; i < shipActions.length; i++)
+                if (shipAction.toString() === selected)
                 {
-                    shipAction = shipActions[i];
-
-                    if (!ShipAction.properties[shipAction] && shipAction.maneuver === myId)
-                    {
-                        selected = shipAction;
-                        LOGGER.trace("shipAction = " + JSON.stringify(shipAction));
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                myId = parseInt(selected);
-                LOGGER.trace("myId = " + myId);
-                shipActions = this.props.shipActions;
-
-                for (var j = 0; j < shipActions.length; j++)
-                {
-                    shipAction = shipActions[j];
-
-                    if (!ShipAction.properties[shipAction] && shipAction.defender && shipAction.defender.id() === myId)
-                    {
-                        selected = shipAction;
-                        LOGGER.trace("shipAction = " + JSON.stringify(shipAction));
-                        break;
-                    }
+                    selected = shipAction;
+                    LOGGER.trace("shipAction = " + JSON.stringify(shipAction));
+                    break;
                 }
             }
 

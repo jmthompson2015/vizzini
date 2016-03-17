@@ -13,11 +13,11 @@ define([ "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/Human
         assert.equal(token.id(), 1);
         assert.equal(token.pilotKey(), Pilot.CR90_CORVETTE);
         assert.equal(token.pilot().shipTeam.shipKey, Ship.CR90_CORVETTE);
-        assert.equal(token.name(), "1 CR90 Corvette (CR90 Corvette)");
+        assert.equal(token.name(), "1 CR90 Corvette");
 
         var tokenFore = token.tokenFore();
         assert.ok(tokenFore);
-        assert.equal(tokenFore.name(), "2 CR90 Corvette (fore) (CR90 Corvette)");
+        assert.equal(tokenFore.name(), "2 CR90 Corvette (fore)");
         assert.equal(tokenFore.upgradeKeys().length, 3);
         assert.equal(tokenFore.secondaryWeapons().length, 1);
         var weapon = tokenFore.secondaryWeapons()[0];
@@ -26,7 +26,7 @@ define([ "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/Human
 
         var tokenAft = token.tokenAft();
         assert.ok(tokenAft);
-        assert.equal(tokenAft.name(), "3 CR90 Corvette (aft) (CR90 Corvette)");
+        assert.equal(tokenAft.name(), "3 CR90 Corvette (aft)");
         assert.equal(tokenAft.upgradeKeys().length, 1);
         assert.equal(tokenAft.secondaryWeapons().length, 0);
     });

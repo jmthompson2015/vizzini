@@ -114,7 +114,7 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
 
             DualToken.prototype.name = function()
             {
-                return this.id() + " " + this.pilot().name + " (" + this.ship().name + ")";
+                return this.id() + " " + this.pilot().name;
             };
 
             DualToken.prototype.phaseEffect = function(environment, phase)

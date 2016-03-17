@@ -33,9 +33,9 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "EnvironmentFactory", "Maneuver", "Pilot", "ShipAction", "SimpleAgent", "SquadBuilder", "Team",
-                "Token", "ui/ShipActionChooser" ], function(EnvironmentFactory, Maneuver, Pilot, ShipAction,
-                SimpleAgent, SquadBuilder, Team, Token, ShipActionChooser)
+        require([ "EnvironmentFactory", "Maneuver", "Pilot", "ShipAction", "ShipActionAction", "SimpleAgent",
+                "SquadBuilder", "Team", "Token", "ui/ShipActionChooser" ], function(EnvironmentFactory, Maneuver,
+                Pilot, ShipAction, ShipActionAction, SimpleAgent, SquadBuilder, Team, Token, ShipActionChooser)
         {
             var environment = EnvironmentFactory.createCoreSetEnvironment();
             var token0 = environment.tokens()[0];
@@ -43,19 +43,29 @@
             var token2 = environment.tokens()[2];
 
             var shipActions = [];
-
-            shipActions.push(ShipAction.BARREL_ROLL_LEFT);
-            shipActions.push(ShipAction.BARREL_ROLL_RIGHT);
-            shipActions.push(ShipAction.BOOST_LEFT);
-            shipActions.push(ShipAction.BOOST_STRAIGHT);
-            shipActions.push(ShipAction.BOOST_RIGHT);
-            shipActions.push(ShipAction.CLOAK);
-            shipActions.push(ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD));
-            shipActions.push(ShipAction.EVADE);
-            shipActions.push(ShipAction.FOCUS);
-            shipActions.push(ShipAction.createSlamShipAction(Maneuver.STRAIGHT_2_STANDARD));
-            shipActions.push(ShipAction.createTargetLockShipAction(token0));
-            shipActions.push(ShipAction.createTargetLockShipAction(token1));
+            shipActions
+                    .push(new ShipActionAction.BarrelRoll(environment, token2, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
+            shipActions
+                    .push(new ShipActionAction.BarrelRoll(environment, token2, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
+            shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.BANK_LEFT_1_STANDARD));
+            shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.STRAIGHT_1_STANDARD));
+            shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.BANK_RIGHT_1_STANDARD));
+            shipActions.push(new ShipActionAction.Cloak(token2));
+            shipActions.push(new ShipActionAction.Coordinate(token2));
+            shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
+            shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.STRAIGHT_2_STANDARD));
+            shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
+            shipActions.push(new ShipActionAction.Evade(token2));
+            shipActions.push(new ShipActionAction.Focus(token2));
+            shipActions.push(new ShipActionAction.Jam(token0));
+            shipActions.push(new ShipActionAction.Jam(token1));
+            shipActions.push(new ShipActionAction.Recover(token2));
+            shipActions.push(new ShipActionAction.Reinforce(token2));
+            shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_LEFT_2_STANDARD));
+            shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.STRAIGHT_2_STANDARD));
+            shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_RIGHT_2_STANDARD));
+            shipActions.push(new ShipActionAction.SAATargetLock(token2, token0));
+            shipActions.push(new ShipActionAction.SAATargetLock(token2, token1));
 
             var element = React.createElement(ShipActionChooser,
             {

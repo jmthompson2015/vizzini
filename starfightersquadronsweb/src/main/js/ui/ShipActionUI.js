@@ -1,9 +1,9 @@
 /*
  * @param shipActionKey (required)
  * 
- * @param showName (optional)
+ * @param showName (optional; default: false)
  */
-define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
+define([ "ShipAction" ], function(ShipAction)
 {
     "use strict";
     var ShipActionUI = React.createClass(
@@ -17,19 +17,6 @@ define([ "Maneuver", "ShipAction" ], function(Maneuver, ShipAction)
             var shipAction = ShipAction.properties[shipActionKey];
             var actionName0 = shipAction.displayName;
             var actionName1 = actionName0;
-
-            if (shipActionKey0.defender && shipActionKey0.defender.parent !== undefined)
-            {
-                actionName1 += ": " + shipActionKey0.defender.pilotName();
-            }
-            else if (shipActionKey0.defender && shipActionKey !== ShipAction.REINFORCE)
-            {
-                actionName1 += ": " + shipActionKey0.defender.name();
-            }
-            else if (shipActionKey0.maneuver)
-            {
-                actionName1 += ": " + Maneuver.toString(shipActionKey0.maneuver);
-            }
 
             var actionName = actionName0.replace(" (left)", "Left");
             actionName = actionName.replace(" (straight)", "Straight");

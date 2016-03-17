@@ -289,8 +289,16 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
                 else
                 {
                     var position = this.getPositionFor(token);
-                    var myRange = RangeRuler.getRange(token0, position0, token, position);
-                    answer = (myRange === range);
+
+                    if (position !== undefined)
+                    {
+                        var myRange = RangeRuler.getRange(token0, position0, token, position);
+                        answer = (myRange === range);
+                    }
+                    else
+                    {
+                        answer = false;
+                    }
                 }
                 return answer;
             }, this);

@@ -277,7 +277,14 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Recover.prototype.toString = function()
     {
-        return "Recover: " + this.token().name();
+        var answer = "Recover";
+
+        if (this.token().parent !== undefined)
+        {
+            answer += ": " + this.token().name();
+        }
+
+        return answer;
     };
 
     function Reinforce(token)
@@ -302,7 +309,14 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Reinforce.prototype.toString = function()
     {
-        return "Reinforce: " + this.token().name();
+        var answer = "Reinforce";
+
+        if (this.token().parent !== undefined)
+        {
+            answer += ": " + this.token().name();
+        }
+
+        return answer;
     };
 
     function SAATargetLock(attacker, defender)

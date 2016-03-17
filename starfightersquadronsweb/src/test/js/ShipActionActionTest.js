@@ -1,5 +1,5 @@
-define([ "EnvironmentFactory", "Maneuver", "Position", "ShipAction", "ShipActionAction", "Token" ], function(
-        EnvironmentFactory, Maneuver, Position, ShipAction, ShipActionAction, Token)
+define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Token" ], function(EnvironmentFactory,
+        Maneuver, Position, ShipActionAction, Token)
 {
     "use strict";
     QUnit.module("ShipActionAction");
@@ -230,6 +230,22 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipAction", "ShipAction
         assert.equal(result, "Cloak");
     });
 
+    QUnit.test("Coordinate.toString()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createHugeShipEnvironment();
+        var token = environment.tokens()[0]; // Gozanti-class
+        var action = new ShipActionAction.Coordinate(token);
+
+        // Run.
+        var result = action.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "Coordinate: 1 Gozanti-class Cruiser");
+    });
+
     QUnit.test("Decloak.doIt() left", function(assert)
     {
         // Setup.
@@ -410,6 +426,22 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipAction", "ShipAction
         assert.equal(result, "Jam: 3 Luke Skywalker (X-Wing)");
     });
 
+    QUnit.test("Recover.toString()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createHugeShipEnvironment();
+        var token = environment.tokens()[0]; // Gozanti-class
+        var action = new ShipActionAction.Recover(token);
+
+        // Run.
+        var result = action.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "Recover");
+    });
+
     QUnit.test("Reinforce.doIt()", function(assert)
     {
         // Setup.
@@ -426,12 +458,13 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipAction", "ShipAction
         assert.equal(token.reinforce().count(), 1);
     });
 
-    QUnit.test("Reinforce.toString()", function(assert)
+    QUnit.test("Reinforce.toString() Gozanti-class", function(assert)
     {
         // Setup.
         Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
-        var token = environment.tokens()[2]; // X-Wing
+        var environment = EnvironmentFactory.createHugeShipEnvironment();
+        var token = environment.tokens()[0]; // Gozanti-class
         var action = new ShipActionAction.Reinforce(token);
 
         // Run.
@@ -439,7 +472,21 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipAction", "ShipAction
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "Reinforce: 3 Luke Skywalker (X-Wing)");
+        assert.equal(result, "Reinforce");
+    });
+
+    QUnit.test("Reinforce.toString() CR90", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var environment = EnvironmentFactory.createHugeShipEnvironment();
+
+        // Run / Verify.
+        assert.equal(new ShipActionAction.Reinforce(environment.tokens()[3]).toString(), "Reinforce");
+        assert.equal(new ShipActionAction.Reinforce(environment.tokens()[3].tokenFore()).toString(),
+                "Reinforce: 7 CR90 Corvette (fore)");
+        assert.equal(new ShipActionAction.Reinforce(environment.tokens()[3].tokenAft()).toString(),
+                "Reinforce: 8 CR90 Corvette (aft)");
     });
 
     QUnit.test("Slam.doIt()", function(assert)
@@ -487,7 +534,7 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipAction", "ShipAction
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var defender = environment.tokens()[0]; // TIE Fighter
         var attacker = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.TargetLock(attacker, defender);
+        var action = new ShipActionAction.SAATargetLock(attacker, defender);
 
         // Run.
         assert.equal(attacker.attackerTargetLocks().length, 0);
@@ -506,7 +553,7 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipAction", "ShipAction
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var defender = environment.tokens()[0]; // TIE Fighter
         var attacker = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.TargetLock(attacker, defender);
+        var action = new ShipActionAction.SAATargetLock(attacker, defender);
 
         // Run.
         var result = action.toString();

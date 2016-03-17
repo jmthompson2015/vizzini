@@ -1,7 +1,7 @@
-define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
-        "PlanningAction", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "ShipBase" ], function(Maneuver,
-        ManeuverAction, ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat,
-        RangeRuler, Ship, ShipAction, ShipBase)
+define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction",
+        "PlayFormat", "RangeRuler", "Ship", "ShipAction", "ShipActionAction", "ShipBase" ], function(Maneuver,
+        ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat, RangeRuler,
+        Ship, ShipAction, ShipActionAction, ShipBase)
 {
     "use strict";
     function SimpleAgent(name, teamKey)
@@ -80,17 +80,17 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
 
         if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD))
         {
-            answer.push(ShipAction.createDecloakShipAction(Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
+            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
         }
 
         if (adjudicator.canDecloak(environment, token, Maneuver.STRAIGHT_2_STANDARD))
         {
-            answer.push(ShipAction.createDecloakShipAction(Maneuver.STRAIGHT_2_STANDARD));
+            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD));
         }
 
         if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
         {
-            answer.push(ShipAction.createDecloakShipAction(Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
+            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
         }
 
         return answer;
@@ -135,7 +135,7 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
 
         if (shipActions.vizziniContains(ShipAction.FOCUS))
         {
-            answer.push(ShipAction.FOCUS);
+            answer.push(new ShipActionAction.Focus(token));
         }
 
         if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
@@ -149,40 +149,40 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
                     // Only put choices without a current target lock.
                     if (!token.findTargetLockByDefender(defender))
                     {
-                        answer.push(ShipAction.createTargetLockShipAction(defender));
+                        answer.push(new ShipActionAction.SAATargetLock(token, defender));
                     }
                 });
             }
         }
 
-        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_LEFT) &&
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
                 adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
         {
-            answer.push(ShipAction.BARREL_ROLL_LEFT);
+            answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
         }
 
-        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL_RIGHT) &&
+        if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
                 adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
         {
-            answer.push(ShipAction.BARREL_ROLL_RIGHT);
+            answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
         }
 
-        if (shipActions.vizziniContains(ShipAction.BOOST_LEFT) &&
+        if (shipActions.vizziniContains(ShipAction.BOOST) &&
                 adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
         {
-            answer.push(ShipAction.BOOST_LEFT);
+            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD));
         }
 
-        if (shipActions.vizziniContains(ShipAction.BOOST_STRAIGHT) &&
+        if (shipActions.vizziniContains(ShipAction.BOOST) &&
                 adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
         {
-            answer.push(ShipAction.BOOST_STRAIGHT);
+            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD));
         }
 
-        if (shipActions.vizziniContains(ShipAction.BOOST_RIGHT) &&
+        if (shipActions.vizziniContains(ShipAction.BOOST) &&
                 adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
         {
-            answer.push(ShipAction.BOOST_RIGHT);
+            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD));
         }
 
         if (shipActions.vizziniContains(ShipAction.SLAM))
@@ -197,42 +197,53 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
                 // FIXME: check Adjudicator.canSlam()
                 if (Maneuver.properties[maneuverKey].speed === speed)
                 {
-                    answer.push(ShipAction.createSlamShipAction(maneuverKey));
+                    answer.push(new ShipActionAction.Slam(environment, token, maneuverKey));
                 }
             });
         }
 
         if (shipActions.vizziniContains(ShipAction.EVADE))
         {
-            answer.push(ShipAction.EVADE);
+            answer.push(new ShipActionAction.Evade(token));
         }
 
         if (shipActions.vizziniContains(ShipAction.CLOAK))
         {
-            answer.push(ShipAction.CLOAK);
+            answer.push(new ShipActionAction.Cloak(token));
         }
 
         if (shipActions.vizziniContains(ShipAction.REINFORCE))
         {
             if (token.parent !== undefined)
             {
-                answer.push(ShipAction.createReinforceShipAction(token.parent.tokenFore()));
-                answer.push(ShipAction.createReinforceShipAction(token.parent.tokenAft()));
+                answer.push(new ShipActionAction.Reinforce(token.parent.tokenFore()));
+                answer.push(new ShipActionAction.Reinforce(token.parent.tokenAft()));
             }
             else
             {
-                answer.push(ShipAction.createReinforceShipAction(token));
+                answer.push(new ShipActionAction.Reinforce(token));
             }
         }
 
+        var tokens;
+
         if (shipActions.vizziniContains(ShipAction.COORDINATE))
         {
-            answer.push(ShipAction.COORDINATE);
+            tokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
+            tokens.vizziniAddAll(environment.getFriendlyTokensAtRange(token, RangeRuler.TWO));
+
+            tokens.forEach(function(myToken)
+            {
+                if (myToken !== token && (token.parent === undefined || token.parent !== myToken))
+                {
+                    answer.push(new ShipActionAction.Coordinate(myToken));
+                }
+            });
         }
 
         if (shipActions.vizziniContains(ShipAction.JAM))
         {
-            var tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+            tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
             tokens.vizziniAddAll(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
 
             tokens.forEach(function(myToken)
@@ -241,14 +252,22 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
 
                 if (!isHuge && myToken.stress().count() < 2)
                 {
-                    answer.push(ShipAction.createJamShipAction(myToken));
+                    answer.push(new ShipActionAction.Jam(myToken));
                 }
             });
         }
 
         if (shipActions.vizziniContains(ShipAction.RECOVER))
         {
-            answer.push(ShipAction.RECOVER);
+            if (token.parent !== undefined)
+            {
+                answer.push(new ShipActionAction.Recover(token.parent.tokenFore()));
+                answer.push(new ShipActionAction.Recover(token.parent.tokenAft()));
+            }
+            else
+            {
+                answer.push(new ShipActionAction.Recover(token));
+            }
         }
 
         LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);
@@ -264,9 +283,7 @@ define([ "Maneuver", "ManeuverAction", "ManeuverComputer", "ModifyAttackDiceActi
         InputValidator.validateNotNull("callback", callback);
 
         var decloakActions = this.determineValidDecloakActions(environment, adjudicator, token);
-        var decloakAction = decloakActions.vizziniRandomElement();
-
-        var answer = new ManeuverAction(environment, token, decloakAction.maneuver);
+        var answer = decloakActions.vizziniRandomElement();
 
         callback(answer);
     };
