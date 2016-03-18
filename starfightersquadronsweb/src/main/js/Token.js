@@ -976,9 +976,9 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
     {
         var answer = this.agilityValue();
 
-        if ((range == RangeRuler.THREE) && weapon.isPrimary())
+        if ([ RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE ].vizziniContains(range) && weapon.isPrimary())
         {
-            // Bonus defense die at range three.
+            // Bonus defense die at range three, four, and five.
             answer++;
 
             if (this.pilotKey() === Pilot.TALONBANE_COBRA)

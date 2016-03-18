@@ -243,6 +243,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.ONE), 3);
         assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.TWO), 3);
         assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.THREE), 4);
+        assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.FOUR), 4);
+        assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.FIVE), 4);
 
         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
         var token1 = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
@@ -253,6 +255,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.ONE), 2);
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.TWO), 2);
         assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.THREE), 3);
+        assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.FOUR), 3);
+        assert.equal(token1.computeDefenseDiceCount(token1.primaryWeapon(), RangeRuler.FIVE), 3);
     });
 
     QUnit.test("computeDefenseDiceCount() Talonbane Cobra", function(assert)
@@ -268,6 +272,8 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.ONE), 2);
         assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.TWO), 2);
         assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.THREE), 4);
+        assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.FOUR), 4);
+        assert.equal(token.computeDefenseDiceCount(weapon, RangeRuler.FIVE), 4);
     });
 
     QUnit.test("discardUpgrade()", function(assert)
