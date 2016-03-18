@@ -126,7 +126,7 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
                 key: key,
                 className: column.className,
                 column: column.key,
-            }, (value ? value : ""));
+            }, (value !== undefined && value !== null ? value : " "));
         },
 
         createImplementedImage: function(isImplemented, key)
@@ -222,13 +222,13 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
             var shield = shipState.shieldValue();
             cells.push(this.createCell(cells.length, PilotColumns[j++], shield));
 
-            var sum = pilotSkill + primaryWeapon + agility + hull + shield;
-            cells.push(this.createCell(cells.length, PilotColumns[j++], sum));
-
             var squadPointCost = pilot.squadPointCost;
             cells.push(this.createCell(cells.length, PilotColumns[j++], (squadPointCost ? squadPointCost : " ")));
 
-            var ratio0 = (agility === 0 ? null : primaryWeapon / agility);
+            var sum = (pilotSkill ? pilotSkill : 0) + (primaryWeapon ? primaryWeapon : 0) + agility + hull + shield;
+            cells.push(this.createCell(cells.length, PilotColumns[j++], sum));
+
+            var ratio0 = (agility ? primaryWeapon / agility : "");
             cells.push(this.Td(
             {
                 key: cells.length,
@@ -239,7 +239,7 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
 
             cells.push(this.createCell(cells.length, PilotColumns[j++], hull + shield));
 
-            var ratio1 = sum / squadPointCost;
+            var ratio1 = (squadPointCost ? sum / squadPointCost : " ");
             cells.push(this.Td(
             {
                 key: cells.length,
