@@ -486,7 +486,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             var cells = [];
             var image;
 
-            if (primaryWeaponValue !== undefined)
+            if (primaryWeaponValue !== undefined && primaryWeaponValue !== null)
             {
                 var shipStateKey;
                 if (myToken.ship().isPrimaryWeaponTurret)
@@ -516,7 +516,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
                 }, primaryWeaponValue));
             }
 
-            if (energyLimit !== undefined)
+            if (energyLimit !== undefined && energyLimit !== null)
             {
                 image = React.createElement(ShipStateUI,
                 {
@@ -616,7 +616,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             var cells = [];
             var image;
 
-            if (primaryWeaponValue !== undefined)
+            if (primaryWeaponValue !== undefined && primaryWeaponValue !== null)
             {
                 image = React.createElement(ShipStateUI,
                 {
@@ -641,7 +641,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
                 }, cells));
             }
 
-            if (energyLimit !== undefined)
+            if (energyLimit !== undefined && energyLimit !== null)
             {
                 cells = [];
                 image = React.createElement(ShipStateUI,

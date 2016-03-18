@@ -600,22 +600,27 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             var answer = getShipState().primaryWeaponValue();
 
-            answer = criticalDamages.reduce(function(sum, damageKey)
+            if (answer !== undefined && answer !== null)
             {
-                return sum + DamageCard.properties[damageKey].shipState.primaryWeaponValue();
-            }, answer);
-
-            upgradeKeys.forEach(function(upgradeKey)
-            {
-                var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                if (shipState)
+                answer = criticalDamages.reduce(function(sum, damageKey)
                 {
-                    answer += shipState.primaryWeaponValue();
-                }
-            });
+                    return sum + DamageCard.properties[damageKey].shipState.primaryWeaponValue();
+                }, answer);
 
-            return Math.max(answer, 0);
+                upgradeKeys.forEach(function(upgradeKey)
+                {
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
+
+                    if (shipState)
+                    {
+                        answer += shipState.primaryWeaponValue();
+                    }
+                });
+
+                answer = Math.max(answer, 0);
+            }
+
+            return answer;
         };
 
         this.receiveStress = function()
