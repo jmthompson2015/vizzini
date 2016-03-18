@@ -630,6 +630,7 @@ define(
                             squadPointCost: 40,
                             upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.HARDPOINT, UpgradeType.TEAM,
                                     UpgradeType.CARGO ],
+                            isImplemented: true,
                             value: "cr90Corvette.aft",
                         },
                         crippledFore:
@@ -640,6 +641,7 @@ define(
                             shipTeamKey: ShipTeam.REBEL_CR90_CORVETTE,
                             shipState: new ShipState(4, 2, null, null, null),
                             upgradeTypeKeys: [ UpgradeType.CREW ],
+                            isImplemented: true,
                             value: "cr90Corvette.crippledFore",
                         },
                         crippledAft:
@@ -1661,6 +1663,7 @@ define(
                             squadPointCost: 50,
                             upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.CREW, UpgradeType.HARDPOINT,
                                     UpgradeType.HARDPOINT, UpgradeType.TEAM, UpgradeType.TEAM, UpgradeType.CARGO ],
+                            isImplemented: true,
                             value: "raiderClassCorvette.aft",
                         },
                         crippledFore:
@@ -1671,6 +1674,7 @@ define(
                             shipTeamKey: ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE,
                             shipState: new ShipState(4, 2, null, null, null),
                             upgradeTypeKeys: [ UpgradeType.HARDPOINT ],
+                            isImplemented: true,
                             value: "raiderClassCorvette.crippledFore",
                         },
                         crippledAft:
