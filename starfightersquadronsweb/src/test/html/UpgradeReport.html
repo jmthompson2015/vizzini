@@ -74,7 +74,20 @@
                 var squad = squadBuilder.buildSquad(agent);
                 squad.forEach(function(token)
                 {
-                    var myUpgradeKeys = token.upgradeKeys();
+                    var myUpgradeKeys;
+                    if (token.tokenFore !== undefined)
+                    {
+                        myUpgradeKeys = token.tokenFore().upgradeKeys();
+                        myUpgradeKeys.vizziniAddAll(token.tokenAft().upgradeKeys());
+                    }
+                    else
+                    {
+                        if (!token.upgradeKeys)
+                        {
+                            LOGGER.error("No upgradeKeys() for token = " + token);
+                        }
+                        myUpgradeKeys = token.upgradeKeys();
+                    }
                     myUpgradeKeys.forEach(function(myUpgradeKey)
                     {
                         if (!upgradeKeys.vizziniContains(myUpgradeKey))
@@ -157,7 +170,7 @@
                     key: key,
                     className: column.className,
                     column: column.key,
-                }, value);
+                }, (value !== undefined ? value : ""));
             }
         });
     </script>

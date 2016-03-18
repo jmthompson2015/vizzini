@@ -86,9 +86,23 @@
             pilotKeys.forEach(function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
-                if (!pilot.isImplemented)
+                if (pilot.fore || pilot.aft)
                 {
-                    pilotRows.push(pilot);
+                    if (!pilot.fore.isImplemented)
+                    {
+                        pilotRows.push(pilot.fore);
+                    }
+                    if (!pilot.aft.isImplemented)
+                    {
+                        pilotRows.push(pilot.aft);
+                    }
+                }
+                else
+                {
+                    if (!pilot.isImplemented)
+                    {
+                        pilotRows.push(pilot);
+                    }
                 }
             });
 
@@ -154,7 +168,7 @@
                     key: key,
                     className: column.className,
                     column: column.key,
-                }, value);
+                }, (value !== undefined ? value : ""));
             }
         });
     </script>
