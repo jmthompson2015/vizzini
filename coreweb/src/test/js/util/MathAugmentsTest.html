@@ -17,6 +17,8 @@
         assert.equal(Math.vizziniFormat(1.2345, 2), "1.23");
         assert.equal(Math.vizziniFormat(1.2345, 3), "1.234");
         assert.equal(Math.vizziniFormat(1.2345, 4), "1.2345");
+        
+        assert.equal(Math.vizziniFormat("bob", 0), "bob");
     });
 
     QUnit.test("Math.vizziniRandomFloatFromRange()", function(assert)

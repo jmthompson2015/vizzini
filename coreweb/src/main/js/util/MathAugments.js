@@ -8,9 +8,9 @@
  */
 Math.vizziniFormat = function(number, digits)
 {
-    var answer = null;
+    var answer = number;
 
-    if (number && !isNaN(number))
+    if (number && typeof number === "number" && !isNaN(number))
     {
         answer = number.toFixed(digits);
     }
