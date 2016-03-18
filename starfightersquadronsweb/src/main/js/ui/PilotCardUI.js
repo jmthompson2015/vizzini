@@ -1,6 +1,10 @@
-define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipSilhouetteUI", "ui/ShipStateUI",
-        "ui/UpgradeTypeUI" ], function(DualToken, FactionUI, LabeledImage, ShipActionPanel, ShipSilhouetteUI,
-        ShipStateUI, UpgradeTypeUI)
+/*
+ * @param initialToken
+ * @param isCompact
+ */
+define([ "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipSilhouetteUI", "ui/ShipStateUI",
+        "ui/UpgradeTypeUI" ], function(FactionUI, LabeledImage, ShipActionPanel, ShipSilhouetteUI, ShipStateUI,
+        UpgradeTypeUI)
 {
     "use strict";
     var PilotCardUI = React.createClass(
@@ -17,7 +21,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
         {
             this.state.token.bind("change", this.tokenChanged);
 
-            if (this.state.token instanceof DualToken)
+            if (this.state.token.tokenFore && this.state.token.tokenAft)
             {
                 this.state.token.tokenFore().bind("change", this.tokenChanged);
                 this.state.token.tokenAft().bind("change", this.tokenChanged);
@@ -28,7 +32,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
         {
             this.state.token.unbind("change", this.tokenChanged);
 
-            if (this.state.token instanceof DualToken)
+            if (this.state.token.tokenFore && this.state.token.tokenAft)
             {
                 this.state.token.tokenFore().unbind("change", this.tokenChanged);
                 this.state.token.tokenAft().unbind("change", this.tokenChanged);
@@ -54,7 +58,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             var token = this.state.token;
             var myToken, myTokenAft;
 
-            if (token instanceof DualToken)
+            if (token.tokenFore && token.tokenAft)
             {
                 myToken = token.tokenFore();
                 myTokenAft = token.tokenAft();
@@ -76,25 +80,27 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
                 isCompact: true,
             });
             var cell = React.DOM.td({}, element);
-            rows.push(React.DOM.tr(
-            {
-                key: rows.length,
-            }, cell));
 
             if (myTokenAft)
             {
-                element = React.createElement(StatsPanel,
+                var element2 = React.createElement(StatsPanel,
                 {
                     token: myTokenAft,
                     isCompact: true,
                 });
-                cell = React.DOM.td({}, element);
-
-                rows.push(React.DOM.tr(
+                cell = React.DOM.td({}, React.DOM.table({}, React.DOM.tr({}, React.DOM.td(
                 {
-                    key: rows.length,
-                }, cell));
+                    key: 0,
+                }, element), React.DOM.td(
+                {
+                    key: 1,
+                }, element2))));
             }
+
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cell));
 
             rows.push(React.DOM.tr(
             {
@@ -103,7 +109,8 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
 
             return React.DOM.table(
             {
-                className: "pilotCard"
+                key: token.id(),
+                className: "pilotCard",
             }, rows);
         },
 
@@ -112,7 +119,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             var token = this.state.token;
             var myToken, myTokenAft;
 
-            if (token instanceof DualToken)
+            if (token.tokenFore && token.tokenAft)
             {
                 myToken = token.tokenFore();
                 myTokenAft = token.tokenAft();
@@ -145,6 +152,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
 
             return React.DOM.table(
             {
+                key: token.id(),
                 className: "pilotCard",
             }, rows);
         },
@@ -293,9 +301,10 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             {
                 pilotSkillValue: myToken.pilotSkillValue(),
                 pilotName: token.pilotName(),
-                shipName: token.shipName(),
+                shipName: (myTokenAft ? myToken.ship().name : token.shipName()),
                 team: token.agent().teamKey(),
                 pilotAftSkillValue: (myTokenAft ? myTokenAft.pilotSkillValue() : undefined),
+                shipAftName: (myTokenAft ? myTokenAft.ship().name : undefined),
             });
 
             return React.DOM.td({}, element);
@@ -315,26 +324,21 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
                 {
                     token: myTokenAft,
                 });
-                answer = React.DOM.td(
+                var table = React.DOM.table(
                 {
-                    className: "center fullWidth",
-                },
-                // FIXME: don't use an embedded table
-                React.DOM.table(
-                {
-                    className: "center fullWidth",
-                }, React.DOM.tr(
-                {
-                    className: "center fullWidth",
-                }, React.DOM.td(
+                    className: "pilotCardUITokensTable",
+                }, React.DOM.tr({}, React.DOM.td(
                 {
                     key: "tokens0",
-                    className: "center fullWidth",
                 }, element0), React.DOM.td(
                 {
                     key: "tokens1",
-                    className: "center fullWidth",
-                }, element1))));
+                }, element1)));
+
+                answer = React.DOM.td(
+                {
+                    className: "pilotCardUITokensPanel",
+                }, table);
             }
             else
             {
@@ -354,6 +358,11 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
         },
     });
 
+    /*
+     * @param pilot
+     * 
+     * @param myKey
+     */
     var DescriptionPanel = React.createClass(
     {
         render: function()
@@ -375,6 +384,19 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
         },
     });
 
+    /*
+     * @param pilotSkillValue (required)
+     * 
+     * @param pilotName (required)
+     * 
+     * @param shipName (required)
+     * 
+     * @param team (required)
+     * 
+     * @param pilotAftSkillValue (optional)
+     * 
+     * @param shipAftName (optional)
+     */
     var NamePanel = React.createClass(
     {
         render: function()
@@ -402,7 +424,8 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             {
                 key: cells.length,
                 title: "Name",
-                className: "namePanel"
+                className: "namePanel",
+                colSpan: (this.props.shipAftName ? 2 : 1),
             }, this.props.pilotName));
 
             if (this.props.pilotAftSkillValue)
@@ -435,13 +458,30 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             }, cells));
 
             cells = [];
-            cells.push(React.DOM.td(
+            if (this.props.shipAftName)
             {
-                key: cells.length,
-                title: "Ship",
-                className: "namePanel"
-            }, this.props.shipName));
-
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    title: "Ship",
+                    className: "namePanel",
+                }, this.props.shipName));
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    title: "Ship",
+                    className: "namePanel"
+                }, this.props.shipAftName));
+            }
+            else
+            {
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                    title: "Ship",
+                    className: "namePanel",
+                }, this.props.shipName));
+            }
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
@@ -486,7 +526,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             var cells = [];
             var image;
 
-            if (primaryWeaponValue !== undefined && primaryWeaponValue !== null)
+            if (primaryWeaponValue !== null)
             {
                 var shipStateKey;
                 if (myToken.ship().isPrimaryWeaponTurret)
@@ -516,7 +556,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
                 }, primaryWeaponValue));
             }
 
-            if (energyLimit !== undefined && energyLimit !== null)
+            if (energyLimit !== null)
             {
                 image = React.createElement(ShipStateUI,
                 {
@@ -616,11 +656,20 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
             var cells = [];
             var image;
 
-            if (primaryWeaponValue !== undefined && primaryWeaponValue !== null)
+            if (primaryWeaponValue !== null)
             {
+                var shipStateKey;
+                if (myToken.ship().isPrimaryWeaponTurret)
+                {
+                    shipStateKey = "Turret_Weapon";
+                }
+                else
+                {
+                    shipStateKey = "Weapon";
+                }
                 image = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Weapon",
+                    shipStateKey: shipStateKey,
                     factionKey: factionKey,
                 });
                 cells.push(React.DOM.td(
@@ -641,7 +690,7 @@ define([ "DualToken", "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "
                 }, cells));
             }
 
-            if (energyLimit !== undefined && energyLimit !== null)
+            if (energyLimit !== null)
             {
                 cells = [];
                 image = React.createElement(ShipStateUI,

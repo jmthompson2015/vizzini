@@ -1,5 +1,5 @@
-define([ "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/HumanAgent" ], function(DualToken, Pilot,
-        Ship, Team, Token, UpgradeCard, HumanAgent)
+define([ "DamageCard", "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/HumanAgent" ], function(
+        DamageCard, DualToken, Pilot, Ship, Team, Token, UpgradeCard, HumanAgent)
 {
     "use strict";
     QUnit.module("DualToken");
@@ -29,6 +29,113 @@ define([ "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "ui/Human
         assert.equal(tokenAft.name(), "3 CR90 Corvette (aft)");
         assert.equal(tokenAft.upgradeKeys().length, 1);
         assert.equal(tokenAft.secondaryWeapons().length, 0);
+    });
+
+    QUnit.test("isDestroyed()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+        var token = new DualToken(Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
+                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER ], [ UpgradeCard.FREQUENCY_JAMMER ]);
+        var tokenFore = token.tokenFore();
+        var i;
+        for (i = 0; i < tokenFore.hullValue() - 1; i++)
+        {
+            tokenFore.addDamage(DamageCard.DIRECT_HIT);
+        }
+        var tokenAft = token.tokenAft();
+        for (i = 0; i < tokenAft.hullValue() - 1; i++)
+        {
+            tokenAft.addDamage(DamageCard.DIRECT_HIT);
+        }
+        assert.ok(!token.isDestroyed());
+
+        // Run / Verify.
+        tokenFore.addDamage(DamageCard.DIRECT_HIT);
+        assert.ok(!token.isDestroyed());
+        tokenAft.addDamage(DamageCard.DIRECT_HIT);
+        assert.ok(token.isDestroyed());
+    });
+
+    QUnit.test("tokenAft()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+        var token = new DualToken(Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
+                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER ], [ UpgradeCard.FREQUENCY_JAMMER ]);
+
+        // Run.
+        var result = token.tokenAft();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.pilot().value, "cr90Corvette.aft");
+    });
+
+    QUnit.test("tokenAft() crippled", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+        var token = new DualToken(Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
+                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER ], [ UpgradeCard.FREQUENCY_JAMMER ]);
+        var tokenAft = token.tokenAft();
+        for (var i = 0; i < tokenAft.hullValue(); i++)
+        {
+            token.tokenAft().addDamage(DamageCard.BLINDED_PILOT);
+        }
+        assert.ok(tokenAft.isDestroyed());
+
+        // Run.
+        var result = token.tokenAft();
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.info("result = " + result);
+        LOGGER.info("typeof result = " + (typeof result));
+        assert.equal(result.pilot().value, "cr90Corvette.crippledAft");
+    });
+
+    QUnit.test("tokenFore()", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+        var token = new DualToken(Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
+                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER ], [ UpgradeCard.FREQUENCY_JAMMER ]);
+
+        // Run.
+        var result = token.tokenFore();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.pilot().value, "cr90Corvette.fore");
+    });
+
+    QUnit.test("tokenFore() crippled", function(assert)
+    {
+        // Setup.
+        Token.resetNextId();
+        var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+        var token = new DualToken(Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
+                UpgradeCard.SENSOR_TEAM, UpgradeCard.EM_EMITTER ], [ UpgradeCard.FREQUENCY_JAMMER ]);
+        var tokenFore = token.tokenFore();
+        for (var i = 0; i < tokenFore.hullValue(); i++)
+        {
+            token.tokenFore().addDamage(DamageCard.BLINDED_PILOT);
+        }
+        assert.ok(tokenFore.isDestroyed());
+
+        // Run.
+        var result = token.tokenFore();
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.info("result = " + result);
+        LOGGER.info("typeof result = " + (typeof result));
+        assert.equal(result.pilot().value, "cr90Corvette.crippledFore");
     });
 
     QUnit.test("tokenFore().ship()", function(assert)

@@ -31,6 +31,10 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
                 tokenFore.parent = this;
                 var tokenAft = new Token(pilotAft, agent, upgradeKeysAft);
                 tokenAft.parent = this;
+
+                var myCrippledPilotFore, myCrippledPilotAft;
+                var myCrippledTokenFore, myCrippledTokenAft;
+
                 var activationState = new ActivationState();
 
                 this.activationState = function()
@@ -41,6 +45,14 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
                 this.id = function()
                 {
                     return id;
+                };
+
+                this.isDestroyed = function()
+                {
+                    this.tokenFore();
+                    this.tokenAft();
+
+                    return !(myCrippledTokenFore === undefined || myCrippledTokenAft === undefined);
                 };
 
                 this.newInstance = function(agent)
@@ -56,20 +68,120 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
                     return pilot;
                 };
 
+                this.pilotAft = function()
+                {
+                    var answer = pilotAft;
+
+                    if (tokenAft.isDestroyed())
+                    {
+                        answer = crippledPilotAft();
+                    }
+
+                    return answer;
+                };
+
+                this.pilotFore = function()
+                {
+                    var answer = pilotFore;
+
+                    if (tokenFore.isDestroyed())
+                    {
+                        answer = crippledPilotFore();
+                    }
+
+                    return answer;
+                };
+
+                this.removeAllTargetLocks = function()
+                {
+                    tokenFore.removeAllTargetLocks();
+                    tokenAft.removeAllTargetLocks();
+
+                    if (myCrippledTokenFore !== undefined)
+                    {
+                        myCrippledTokenFore.removeAllTargetLocks();
+                    }
+
+                    if (myCrippledTokenAft)
+                    {
+                        myCrippledTokenAft.removeAllTargetLocks();
+                    }
+                };
+
                 this.ship = function()
                 {
                     return ship;
                 };
 
-                this.tokenFore = function()
-                {
-                    return tokenFore;
-                };
-
                 this.tokenAft = function()
                 {
-                    return tokenAft;
+                    var answer = tokenAft;
+
+                    if (tokenAft.isDestroyed())
+                    {
+                        answer = crippledTokenAft();
+                    }
+
+                    return answer;
                 };
+
+                this.tokenFore = function()
+                {
+                    var answer = tokenFore;
+
+                    if (tokenFore.isDestroyed())
+                    {
+                        answer = crippledTokenFore();
+                    }
+
+                    return answer;
+                };
+
+                function crippledPilotAft()
+                {
+                    if (myCrippledPilotAft === undefined)
+                    {
+                        myCrippledPilotAft = pilot.crippledAft;
+                        myCrippledPilotAft.shipTeam = pilot.shipTeam;
+                    }
+
+                    return myCrippledPilotAft;
+                }
+
+                function crippledPilotFore()
+                {
+                    if (myCrippledPilotFore === undefined)
+                    {
+                        myCrippledPilotFore = pilot.crippledFore;
+                        myCrippledPilotFore.shipTeam = pilot.shipTeam;
+                    }
+
+                    return myCrippledPilotFore;
+                }
+
+                function crippledTokenAft()
+                {
+                    if (myCrippledTokenAft === undefined)
+                    {
+                        var upgradeKeys = [];
+                        myCrippledTokenAft = new Token(crippledPilotAft(), agent, upgradeKeys);
+                        myCrippledTokenAft.parent = that;
+                    }
+
+                    return myCrippledTokenAft;
+                }
+
+                function crippledTokenFore()
+                {
+                    if (myCrippledTokenFore === undefined)
+                    {
+                        var upgradeKeys = [];
+                        myCrippledTokenFore = new Token(crippledPilotFore(), agent, upgradeKeys);
+                        myCrippledTokenFore.parent = that;
+                    }
+
+                    return myCrippledTokenFore;
+                }
             }
 
             DualToken.prototype.isStressed = function()

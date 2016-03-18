@@ -47,12 +47,20 @@
 			<td id="gr75PilotLarge" style="vertical-align: top"></td>
 		</tr>
 		<tr>
+			<td><button id="updateCR90" type="button">Update</button></td>
+			<td></td>
+		</tr>
+		<tr>
 			<td id="gozantiPilotCompact" style="vertical-align: top"></td>
 			<td id="raiderPilotCompact" style="vertical-align: top"></td>
 		</tr>
 		<tr>
 			<td id="gozantiPilotLarge" style="vertical-align: top"></td>
 			<td id="raiderPilotLarge" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><button id="updateRaider" type="button">Update</button></td>
 		</tr>
 	</table>
 	<script>
@@ -281,9 +289,25 @@
                 LOGGER.info("updateScumToken() end");
             }
 
+            function updateCR90Token()
+            {
+                LOGGER.info("updateCR90Token() start");
+                cr90Token.tokenFore().addDamage(DamageCard.DIRECT_HIT);
+                LOGGER.info("updateCR90Token() end");
+            }
+
+            function updateRaiderToken()
+            {
+                LOGGER.info("updateRaiderToken() start");
+                raiderToken.tokenFore().addDamage(DamageCard.DIRECT_HIT);
+                LOGGER.info("updateRaiderToken() end");
+            }
+
             document.getElementById("updateImperial").onclick = updateImperialToken;
             document.getElementById("updateRebel").onclick = updateRebelToken;
             document.getElementById("updateScum").onclick = updateScumToken;
+            document.getElementById("updateCR90").onclick = updateCR90Token;
+            document.getElementById("updateRaider").onclick = updateRaiderToken;
         });
     </script>
 </body>

@@ -25,8 +25,18 @@ define([ "Environment" ], function(Environment)
             token.removeAllTargetLocks();
 
             // Return the damage cards.
-            environment.discardAllDamage(token.damages());
-            environment.discardAllDamage(token.criticalDamages());
+            if (token.tokenFore && token.tokenAft)
+            {
+                environment.discardAllDamage(token.tokenFore().damages());
+                environment.discardAllDamage(token.tokenFore().criticalDamages());
+                environment.discardAllDamage(token.tokenAft().damages());
+                environment.discardAllDamage(token.tokenAft().criticalDamages());
+            }
+            else
+            {
+                environment.discardAllDamage(token.damages());
+                environment.discardAllDamage(token.criticalDamages());
+            }
 
             environment.removeToken(fromPosition);
             environment.trigger(Environment.SHIP_DESTROYED_EVENT, this);

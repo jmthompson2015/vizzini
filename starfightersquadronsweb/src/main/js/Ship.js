@@ -89,7 +89,7 @@ define(
                     {
                         fore:
                         {
-                            name: "CR90 Corvette (fore)",
+                            name: "fore",
                             description: "A CR90 Corvette (fore).",
                             shipBaseKey: ShipBase.LARGE,
                             primaryFiringArcKey: FiringArc.FORWARD,
@@ -100,7 +100,7 @@ define(
                         },
                         aft:
                         {
-                            name: "CR90 Corvette (aft)",
+                            name: "aft",
                             description: "A CR90 Corvette (aft).",
                             shipBaseKey: ShipBase.LARGE,
                             shipActionKeys: [ ShipAction.RECOVER, ShipAction.REINFORCE ],
@@ -108,7 +108,7 @@ define(
                         },
                         crippledFore:
                         {
-                            name: "CR90 Corvette (crippled fore)",
+                            name: "crippled fore",
                             description: "A CR90 Corvette (crippled fore).",
                             shipBaseKey: ShipBase.LARGE,
                             primaryFiringArcKey: FiringArc.FORWARD,
@@ -119,7 +119,7 @@ define(
                         },
                         crippledAft:
                         {
-                            name: "CR90 Corvette (crippled aft)",
+                            name: "crippled aft",
                             description: "A CR90 Corvette (crippled aft).",
                             shipBaseKey: ShipBase.LARGE,
                             shipActionKeys: [],
@@ -300,7 +300,7 @@ define(
                     {
                         fore:
                         {
-                            name: "Raider-class Corvette (fore)",
+                            name: "fore",
                             description: "A Raider-class Corvette (fore).",
                             shipBaseKey: ShipBase.LARGE,
                             primaryFiringArcKey: FiringArc.FORWARD,
@@ -310,7 +310,7 @@ define(
                         },
                         aft:
                         {
-                            name: "Raider-class Corvette (aft)",
+                            name: "aft",
                             description: "A Raider-class Corvette (aft).",
                             shipBaseKey: ShipBase.LARGE,
                             shipActionKeys: [ ShipAction.COORDINATE, ShipAction.TARGET_LOCK ],
@@ -318,7 +318,7 @@ define(
                         },
                         crippledFore:
                         {
-                            name: "Raider-class Corvette (crippled fore)",
+                            name: "crippled fore",
                             description: "A Raider-class Corvette (crippled fore).",
                             shipBaseKey: ShipBase.LARGE,
                             primaryFiringArcKey: FiringArc.FORWARD,
@@ -328,7 +328,7 @@ define(
                         },
                         crippledAft:
                         {
-                            name: "Raider-class Corvette (crippled aft)",
+                            name: "crippled aft",
                             description: "A Raider-class Corvette (crippled aft).",
                             shipBaseKey: ShipBase.LARGE,
                             shipActionKeys: [],

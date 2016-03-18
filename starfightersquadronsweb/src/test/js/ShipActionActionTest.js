@@ -462,7 +462,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         Token.resetNextId();
-        var environment = EnvironmentFactory.createCoreSetEnvironment();
         var environment = EnvironmentFactory.createHugeShipEnvironment();
         var token = environment.tokens()[0]; // Gozanti-class
         var action = new ShipActionAction.Reinforce(token);

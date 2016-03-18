@@ -48,6 +48,10 @@ table {
     background-color: #555555;
 }
 
+#BACKGROUND_JET, .statsTable, .backgroundJet {
+    background-color: #343434;
+}
+
 #BACKGROUND_LIGHT, #helpLink, #messageArea, .namePanel, .newGamePanel, .optionPane, .pilotCardUIDescription,
     .pilotCardUIShipActions, .shipActionPanelCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName,
     .squadChooser, .squadUI, #ssPanel, .upgradeCardUI, .backgroundLight {
@@ -63,8 +67,8 @@ table {
     background-repeat: no-repeat;
 }
 
-#BORDER_BLACK, .namePanel, .newGamePanel, .squadUI tr td, .squadUI tr th, .upgradeCardUI, .upgradeCardUIName,
-    .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .borderBlack {
+#BORDER_BLACK, .namePanel, .newGamePanel, .pilotCardUIDescription, .squadUI tr td, .squadUI tr th, .upgradeCardUI,
+    .upgradeCardUIName, .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .borderBlack {
     border: 1px solid black;
 }
 
@@ -77,7 +81,7 @@ table {
 }
 
 #CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .maneuverTable, .newGamePanel, .optionPane,
-    .optionPaneTitle, .rangesCell, .squadBuilderAdd, .statsTable, .tokensTable, .center {
+    .optionPaneTitle, .pilotCardUITokensTable, .rangesCell, .squadBuilderAdd, .statsTable, .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -136,7 +140,7 @@ table {
     height: 32px;
 }
 
-#MARGIN_AUTO, .pilotCardUIShipActions, .pilotCardUIUpgrades, .pilotChooserFilter, .marginAuto {
+#MARGIN_AUTO, .pilotCardUIShipActions, .pilotCardUIUpgrades, .pilotChooserFilter, .statsTable, .marginAuto {
     margin-left: auto;
     margin-right: auto;
 }
@@ -181,8 +185,8 @@ table {
     width: 16px;
 }
 
-#WIDTH_FULL, #mainTable, .nameTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage,
-    .squadBuilderAdd, .tokensPanel, .widthFull {
+#WIDTH_FULL, #mainTable, .nameTable, .pilotCardUITokensPanel, .pilotCardUITokensTable, .pilotCardUIUpgradeCell,
+    .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .squadBuilderAdd, .tokensPanel, .widthFull {
     width: 100%;
 }
 

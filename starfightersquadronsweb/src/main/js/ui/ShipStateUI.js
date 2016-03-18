@@ -56,11 +56,6 @@ define([ "Team", "ui/LabeledImage" ], function(Team, LabeledImage)
                 title: shipStateKey,
             }, image);
 
-            if (label === undefined)
-            {
-                cellStyle.paddingLeft = "3px";
-            }
-
             var showName = (this.props.showName !== undefined ? this.props.showName : false);
             var answer = cell0;
 

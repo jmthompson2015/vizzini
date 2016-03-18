@@ -43,6 +43,14 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                 {
                     ship = ship.aft;
                 }
+                else if (pilot.value.endsWith("crippledFore"))
+                {
+                    ship = ship.crippledFore;
+                }
+                else if (pilot.value.endsWith("crippledAft"))
+                {
+                    ship = ship.crippledAft;
+                }
             }
 
             return ship;
@@ -124,7 +132,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             var answer = pilot.shipState.energyValue();
 
-            if (answer !== undefined && answer !== null)
+            if (answer !== null)
             {
                 answer = criticalDamages.reduce(function(sum, damageKey)
                 {
@@ -202,19 +210,22 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             var answer = getShipState().agilityValue();
 
-            upgradeKeys.forEach(function(upgradeKey)
+            if (answer !== null)
             {
-                var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                if (shipState)
+                upgradeKeys.forEach(function(upgradeKey)
                 {
-                    answer += shipState.agilityValue();
-                }
-            });
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
 
-            if (this.isCloaked())
-            {
-                answer += 2;
+                    if (shipState)
+                    {
+                        answer += shipState.agilityValue();
+                    }
+                });
+
+                if (this.isCloaked())
+                {
+                    answer += 2;
+                }
             }
 
             return answer;
@@ -323,22 +334,27 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             var answer = getShipState().hullValue();
 
-            answer = criticalDamages.reduce(function(sum, damageKey)
+            if (answer !== null)
             {
-                return sum + DamageCard.properties[damageKey].shipState.hullValue();
-            }, answer);
-
-            upgradeKeys.forEach(function(upgradeKey)
-            {
-                var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                if (shipState)
+                answer = criticalDamages.reduce(function(sum, damageKey)
                 {
-                    answer += shipState.hullValue();
-                }
-            });
+                    return sum + DamageCard.properties[damageKey].shipState.hullValue();
+                }, answer);
 
-            return Math.max(answer, 0);
+                upgradeKeys.forEach(function(upgradeKey)
+                {
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
+
+                    if (shipState)
+                    {
+                        answer += shipState.hullValue();
+                    }
+                });
+
+                answer = Math.max(answer, 0);
+            }
+
+            return answer;
         };
 
         this.id = function()
@@ -600,7 +616,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             var answer = getShipState().primaryWeaponValue();
 
-            if (answer !== undefined && answer !== null)
+            if (answer !== null)
             {
                 answer = criticalDamages.reduce(function(sum, damageKey)
                 {
@@ -710,15 +726,18 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             var answer = getShipState().shieldValue();
 
-            upgradeKeys.forEach(function(upgradeKey)
+            if (answer !== null)
             {
-                var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                if (shipState)
+                upgradeKeys.forEach(function(upgradeKey)
                 {
-                    answer += shipState.shieldValue();
-                }
-            });
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
+
+                    if (shipState)
+                    {
+                        answer += shipState.shieldValue();
+                    }
+                });
+            }
 
             return answer;
         };

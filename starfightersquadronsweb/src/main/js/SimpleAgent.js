@@ -216,8 +216,14 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
         {
             if (token.parent !== undefined)
             {
-                answer.push(new ShipActionAction.Reinforce(token.parent.tokenFore()));
-                answer.push(new ShipActionAction.Reinforce(token.parent.tokenAft()));
+                if (!token.parent.tokenFore().isDestroyed())
+                {
+                    answer.push(new ShipActionAction.Reinforce(token.parent.tokenFore()));
+                }
+                if (!token.parent.tokenAft().isDestroyed())
+                {
+                    answer.push(new ShipActionAction.Reinforce(token.parent.tokenAft()));
+                }
             }
             else
             {
@@ -261,8 +267,14 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
         {
             if (token.parent !== undefined)
             {
-                answer.push(new ShipActionAction.Recover(token.parent.tokenFore()));
-                answer.push(new ShipActionAction.Recover(token.parent.tokenAft()));
+                if (!token.parent.tokenFore().isDestroyed())
+                {
+                    answer.push(new ShipActionAction.Recover(token.parent.tokenFore()));
+                }
+                if (!token.parent.tokenAft().isDestroyed())
+                {
+                    answer.push(new ShipActionAction.Recover(token.parent.tokenAft()));
+                }
             }
             else
             {

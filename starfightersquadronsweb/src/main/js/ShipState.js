@@ -1,8 +1,11 @@
 define(function()
 {
     "use strict";
-    function ShipState(pilotSkillValue, primaryWeaponValue, agilityValue, hullValue, shieldValue, energyValue)
+    function ShipState(pilotSkillValueIn, primaryWeaponValue, agilityValue, hullValue, shieldValue, energyValueIn)
     {
+        var pilotSkillValue = (pilotSkillValueIn !== undefined ? pilotSkillValueIn : null);
+        var energyValue = (energyValueIn !== undefined ? energyValueIn : null);
+
         this.agilityValue = function()
         {
             return agilityValue;

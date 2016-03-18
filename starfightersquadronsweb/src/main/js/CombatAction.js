@@ -375,14 +375,27 @@ define(
                         }
                     }
 
-                    if (defender.isDestroyed())
+                    var myDefender, myDefenderPosition;
+
+                    if (defender.parent !== undefined)
+                    {
+                        myDefender = defender.parent;
+                        myDefenderPosition = environment.getPositionFor(myDefender);
+                    }
+                    else
+                    {
+                        myDefender = defender;
+                        myDefenderPosition = defenderPosition;
+                    }
+
+                    if (myDefender.isDestroyed())
                     {
                         if (attacker.pilotKey() === Pilot.IG_88A)
                         {
                             attacker.recoverShield();
                         }
 
-                        var shipDestroyedAction = new ShipDestroyedAction(environment, defender, defenderPosition);
+                        var shipDestroyedAction = new ShipDestroyedAction(environment, myDefender, myDefenderPosition);
                         shipDestroyedAction.doIt();
                         var delay = 1500;
                         setTimeout(function()

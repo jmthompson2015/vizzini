@@ -17,9 +17,9 @@
  * but not touching.
  * </dl>
  */
-define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler",
-        "RectanglePath", "ShipBase", "Team", "Token", ], function(DamageCard, DualToken, ManeuverComputer, Phase,
-        PlayFormat, Position, RangeRuler, RectanglePath, ShipBase, Team, Token)
+define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler", "RectanglePath",
+        "ShipBase", "Team", "Token", ], function(DamageCard, ManeuverComputer, Phase, PlayFormat, Position, RangeRuler,
+        RectanglePath, ShipBase, Team, Token)
 {
     "use strict";
     function Environment(teamKey1, teamKey2)
@@ -155,7 +155,10 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
 
             var isPure = true;
 
-            return this.getTokensForTeam(defenderTeam, isPure);
+            return this.getTokensForTeam(defenderTeam, isPure).filter(function(token)
+            {
+                return !token.isDestroyed();
+            });
         };
 
         this.getDefendersInRange = function(attacker)
@@ -200,24 +203,28 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
             if (token.parent)
             {
                 var parentPosition = this.getPositionFor(token.parent);
-                var angle = parentPosition.heading() * Math.PI / 180.0;
-                var length = 72;
-                var x, y;
 
-                if (token.pilot().value.endsWith("fore"))
+                if (parentPosition)
                 {
-                    x = parentPosition.x() + length * Math.cos(angle);
-                    y = parentPosition.y() + length * Math.sin(angle);
-                }
-                else
-                {
-                    x = parentPosition.x() - length * Math.cos(angle);
-                    y = parentPosition.y() - length * Math.sin(angle);
-                }
+                    var angle = parentPosition.heading() * Math.PI / 180.0;
+                    var length = 72;
+                    var x, y;
 
-                if (PlayFormat.isPointInPlayArea(playFormatKey, x, y))
-                {
-                    answer = new Position(x, y, parentPosition.heading());
+                    if (token.pilot().value.endsWith("fore"))
+                    {
+                        x = parentPosition.x() + length * Math.cos(angle);
+                        y = parentPosition.y() + length * Math.sin(angle);
+                    }
+                    else
+                    {
+                        x = parentPosition.x() - length * Math.cos(angle);
+                        y = parentPosition.y() - length * Math.sin(angle);
+                    }
+
+                    if (PlayFormat.isPointInPlayArea(playFormatKey, x, y))
+                    {
+                        answer = new Position(x, y, parentPosition.heading());
+                    }
                 }
             }
             else
@@ -290,7 +297,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
                 {
                     var position = this.getPositionFor(token);
 
-                    if (position !== undefined)
+                    if (position0 !== undefined && position !== undefined)
                     {
                         var myRange = RangeRuler.getRange(token0, position0, token, position);
                         answer = (myRange === range);
@@ -549,7 +556,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
             {
                 var token = positionToToken[position];
 
-                if (isPure && token instanceof DualToken)
+                if (isPure && token.tokenFore && token.tokenAft)
                 {
                     answer.push(token.tokenFore());
                     answer.push(token.tokenAft());
