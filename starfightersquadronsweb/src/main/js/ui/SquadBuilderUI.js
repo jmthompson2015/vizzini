@@ -1,6 +1,6 @@
-define([ "DualToken", "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "UpgradeCard", "ui/PilotChooser",
-        "ui/SquadUI", "ui/UpgradeChooser" ], function(DualToken, Pilot, ShipTeam, SimpleAgent, Team, TokenFactory,
-        UpgradeCard, PilotChooser, SquadUI, UpgradeChooser)
+define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "UpgradeCard", "ui/PilotChooser", "ui/SquadUI",
+        "ui/UpgradeChooser" ], function(Pilot, ShipTeam, SimpleAgent, Team, TokenFactory, UpgradeCard, PilotChooser,
+        SquadUI, UpgradeChooser)
 {
     "use strict";
     var SquadBuilderUI = React.createClass(
@@ -70,7 +70,7 @@ define([ "DualToken", "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory"
             }, pilotChooser);
             var token = this.state.token;
             var cell1, cell2;
-            if (token instanceof DualToken)
+            if (token.tokenFore && token.tokenAft)
             {
                 var upgradesUI1 = this.createUpgradesUI(token.tokenFore());
                 cell1 = React.DOM.td(

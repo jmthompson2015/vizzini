@@ -1,5 +1,5 @@
-define([ "DualToken", "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(DualToken, UpgradeCard,
-        ShipSilhouetteUI, UpgradeTypeUI)
+define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(UpgradeCard, ShipSilhouetteUI,
+        UpgradeTypeUI)
 {
     "use strict";
     var SquadColumns = [
@@ -82,7 +82,7 @@ define([ "DualToken", "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ]
             var rows = [];
             squad.forEach(function(token, i)
             {
-                if (token instanceof DualToken)
+                if (token.tokenFore && token.tokenAft)
                 {
                     rows.push(this.createRows(token.tokenFore(), "fore" + i));
                     rows.push(this.createRows(token.tokenAft(), "aft" + i));
@@ -205,7 +205,7 @@ define([ "DualToken", "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ]
             {
                 var tokens = [];
 
-                if (token0 instanceof DualToken)
+                if (token0.tokenFore && token0.tokenAft)
                 {
                     tokens.push(token0.tokenFore());
                     tokens.push(token0.tokenAft());

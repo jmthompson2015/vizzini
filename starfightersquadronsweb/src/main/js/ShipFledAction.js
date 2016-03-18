@@ -1,4 +1,4 @@
-define([ "DualToken", "Environment" ], function(DualToken, Environment)
+define([ "Environment" ], function(Environment)
 {
     "use strict";
     function ShipFledAction(environment, token, fromPosition)
@@ -24,7 +24,7 @@ define([ "DualToken", "Environment" ], function(DualToken, Environment)
 
             var tokens = [];
 
-            if (token instanceof DualToken)
+            if (token.tokenFore && token.tokenAft)
             {
                 tokens.push(token.tokenFore());
                 tokens.push(token.tokenAft());
