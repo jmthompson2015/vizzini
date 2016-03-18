@@ -460,7 +460,7 @@ define([ "DamageCard", "DualToken", "ManeuverComputer", "Phase", "PlayFormat", "
 
                 if (oldValue !== phase)
                 {
-                    LOGGER.info("Phase: " + Phase.properties[phase].displayName);
+                    LOGGER.info("Phase: " + Phase.properties[phase].name);
                     this.trigger(Environment.PHASE_EVENT, phase);
                 }
             }

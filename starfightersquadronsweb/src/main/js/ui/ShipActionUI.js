@@ -15,7 +15,7 @@ define([ "ShipAction" ], function(ShipAction)
             var shipActionKey0 = this.props.shipActionKey;
             var shipActionKey = (shipActionKey0.shipAction !== undefined ? shipActionKey0.shipAction : shipActionKey0);
             var shipAction = ShipAction.properties[shipActionKey];
-            var actionName0 = shipAction.displayName;
+            var actionName0 = shipAction.name;
             var actionName1 = actionName0;
 
             var actionName = actionName0.replace(" (left)", "Left");

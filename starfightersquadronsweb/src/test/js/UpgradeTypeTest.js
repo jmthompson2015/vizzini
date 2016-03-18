@@ -16,7 +16,7 @@ define([ "UpgradeType" ], function(UpgradeType)
     {
         var type = UpgradeType.ASTROMECH;
         var properties = UpgradeType.properties[type];
-        assert.equal(properties.displayName, "Astromech");
+        assert.equal(properties.name, "Astromech");
         assert.equal(properties.value, "astromech");
     });
 

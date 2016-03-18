@@ -18,7 +18,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         var restriction = UpgradeRestriction.A_WING_ONLY;
         var props = UpgradeRestriction.properties[restriction];
 
-        assert.equal(props.displayName, "A-Wing only.");
+        assert.equal(props.name, "A-Wing only.");
         assert.ok(!props.passes(Pilot.ACADEMY_PILOT));
         assert.ok(props.passes(Pilot.ARVEL_CRYNYD));
     });
@@ -28,7 +28,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         var restriction = UpgradeRestriction.IMPERIAL_ONLY;
         var props = UpgradeRestriction.properties[restriction];
 
-        assert.equal(props.displayName, "Imperial only.");
+        assert.equal(props.name, "Imperial only.");
         assert.ok(props.passes(Pilot.ACADEMY_PILOT));
         assert.ok(!props.passes(Pilot.ARVEL_CRYNYD));
     });
@@ -38,7 +38,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         var restriction = UpgradeRestriction.LARGE_SHIP_ONLY;
         var props = UpgradeRestriction.properties[restriction];
 
-        assert.equal(props.displayName, "Large ship only.");
+        assert.equal(props.name, "Large ship only.");
         assert.ok(!props.passes(Pilot.ACADEMY_PILOT));
         assert.ok(props.passes(Pilot.BOBA_FETT_IMPERIAL));
     });
@@ -48,7 +48,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         var restriction = UpgradeRestriction.PILOT_SKILL_ABOVE_3;
         var props = UpgradeRestriction.properties[restriction];
 
-        assert.equal(props.displayName, "Pilot Skill above \"3\".");
+        assert.equal(props.name, "Pilot Skill above \"3\".");
         assert.ok(!props.passes(Pilot.ACADEMY_PILOT));
         assert.ok(props.passes(Pilot.BOBA_FETT_IMPERIAL));
     });
@@ -141,7 +141,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         var result = UpgradeRestriction.values();
         assert.ok(result);
         assert.equal(result.length, 33);
-        var i =0;
+        var i = 0;
         assert.equal(result[i++], UpgradeRestriction.A_WING_ONLY);
         assert.equal(result[i++], UpgradeRestriction.AGGRESSOR_ONLY);
         assert.equal(result[i++], UpgradeRestriction.B_WING_ONLY);

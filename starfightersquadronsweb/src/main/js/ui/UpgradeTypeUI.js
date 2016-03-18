@@ -12,7 +12,7 @@ define([ "UpgradeType" ], function(UpgradeType)
             InputValidator.validateNotNull("upgradeTypeKey", this.props.upgradeTypeKey);
 
             var upgradeTypeKey = this.props.upgradeTypeKey;
-            var typeName0 = UpgradeType.properties[upgradeTypeKey].displayName;
+            var typeName0 = UpgradeType.properties[upgradeTypeKey].name;
             var typeName = typeName0.replace(" ", "");
             var fileString = imageBase + "upgrade/" + typeName + "24.png";
             var myKey = (this.props.key !== undefined ? this.props.key : 0);

@@ -7,7 +7,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
 
         return (
         {
-            displayName: "Pilot Skill above \"" + pilotSkill + "\".",
+            name: "Pilot Skill above \"" + pilotSkill + "\".",
             passes: function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
@@ -25,7 +25,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
 
         return (
         {
-            displayName: props.name + " only.",
+            name: props.name + " only.",
             passes: function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
@@ -67,7 +67,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
 
         return (
         {
-            displayName: name + " only.",
+            name: name + " only.",
             passes: function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
@@ -85,7 +85,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
 
         return (
         {
-            displayName: props.name + " only.",
+            name: props.name + " only.",
             passes: function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
@@ -151,7 +151,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "gr75Only": new ShipRestriction(Ship.GR_75_MEDIUM_TRANSPORT),
             "hugeShipOnly":
             {
-                displayName: "Huge ship only.",
+                name: "Huge ship only.",
                 passes: function(pilotKey)
                 {
                     var pilot = Pilot.properties[pilotKey];
@@ -165,7 +165,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "largeShipOnly": new ShipSizeRestriction(ShipBase.LARGE),
             "limited":
             {
-                displayName: "Limited.",
+                name: "Limited.",
                 passes: function(pilotKey)
                 {
                     // FIXME: implement Limited.passes()
@@ -186,7 +186,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "tieInterceptorOnly": new ShipRestriction(Ship.TIE_INTERCEPTOR),
             "tieOnly":
             {
-                displayName: "TIE only.",
+                name: "TIE only.",
                 passes: function(pilotKey)
                 {
                     var pilot = Pilot.properties[pilotKey];
@@ -198,7 +198,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "vt49DecimatorOnly": new ShipRestriction(Ship.VT_49_DECIMATOR),
             "xWingOnly":
             {
-                displayName: "X-Wing only.",
+                name: "X-Wing only.",
                 passes: function(pilotKey)
                 {
                     var pilot = Pilot.properties[pilotKey];

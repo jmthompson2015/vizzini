@@ -122,7 +122,7 @@ define([ "FiringArc", "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "ui/
                     {
                         myRestrictions = upgrade.restrictions.reduce(function(previousValue, restriction)
                         {
-                            return previousValue + " " + UpgradeRestriction.properties[restriction].displayName;
+                            return previousValue + " " + UpgradeRestriction.properties[restriction].name;
                         }, "");
                     }
                     var myHeader = (upgrade.header ? UpgradeHeader.properties[upgrade.header].name : " ");

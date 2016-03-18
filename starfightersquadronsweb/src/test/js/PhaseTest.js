@@ -7,7 +7,7 @@ define([ "Phase" ], function(Phase)
     {
         var phase = Phase.PLANNING_START;
         var properties = Phase.properties[phase];
-        assert.equal(properties.displayName, "Planning (start)");
+        assert.equal(properties.name, "Planning (start)");
         assert.equal(properties.value, "planningStart");
     });
 
@@ -15,7 +15,7 @@ define([ "Phase" ], function(Phase)
     {
         var phase = Phase.ACTIVATION_EXECUTE_MANEUVER;
         var properties = Phase.properties[phase];
-        assert.equal(properties.displayName, "Activation (execute maneuver)");
+        assert.equal(properties.name, "Activation (execute maneuver)");
         assert.equal(properties.value, "activationExecuteManeuver");
     });
 

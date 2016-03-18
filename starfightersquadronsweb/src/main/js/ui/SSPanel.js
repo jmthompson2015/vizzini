@@ -40,7 +40,7 @@ define([ "Environment", "Phase", "ui/PlayState" ], function(Environment, Phase, 
                 if (phase)
                 {
                     answer += " Phase: ";
-                    answer += Phase.properties[phase].displayName;
+                    answer += Phase.properties[phase].name;
                 }
 
                 if (activeToken)

@@ -7,21 +7,21 @@ define([ "ShipAction" ], function(ShipAction)
     {
         var shipAction = ShipAction.BARREL_ROLL;
         var properties = ShipAction.properties[shipAction];
-        assert.equal(properties.displayName, "Barrel Roll");
+        assert.equal(properties.name, "Barrel Roll");
     });
 
     QUnit.test("ShipAction properties Evade", function(assert)
     {
         var shipAction = ShipAction.EVADE;
         var properties = ShipAction.properties[shipAction];
-        assert.equal(properties.displayName, "Evade");
+        assert.equal(properties.name, "Evade");
     });
 
     QUnit.test("ShipAction properties Focus", function(assert)
     {
         var shipAction = ShipAction.FOCUS;
         var properties = ShipAction.properties[shipAction];
-        assert.equal(properties.displayName, "Focus");
+        assert.equal(properties.name, "Focus");
     });
 
     QUnit.test("keys and values", function(assert)

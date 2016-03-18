@@ -14,35 +14,35 @@ define([ "ManeuverComputer", "Position" ], function(ManeuverComputer, Position)
             {
                 minDistance: 0, // Minimum distance. (mm)
                 maxDistance: 100, // Maximum distance. (mm)
-                displayName: "1",
+                name: "1",
                 value: "one",
             },
             "two":
             {
                 minDistance: 101, // Minimum distance. (mm)
                 maxDistance: 200, // Maximum distance. (mm)
-                displayName: "2",
+                name: "2",
                 value: "two",
             },
             "three":
             {
                 minDistance: 201, // Minimum distance. (mm)
                 maxDistance: 300, // Maximum distance. (mm)
-                displayName: "3",
+                name: "3",
                 value: "three",
             },
             "four":
             {
                 minDistance: 301, // Minimum distance. (mm)
                 maxDistance: 400, // Maximum distance. (mm)
-                displayName: "4",
+                name: "4",
                 value: "four",
             },
             "five":
             {
                 minDistance: 401, // Minimum distance. (mm)
                 maxDistance: 500, // Maximum distance. (mm)
-                displayName: "5",
+                name: "5",
                 value: "five",
             },
         },

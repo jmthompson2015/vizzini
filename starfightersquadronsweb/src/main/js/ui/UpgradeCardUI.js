@@ -116,11 +116,11 @@ define([ "RangeRuler", "UpgradeCard", "UpgradeHeader", "ui/UpgradeTypeUI" ], fun
             }
         });
 
-        var answer = RangeRuler.properties[minRange].displayName;
+        var answer = RangeRuler.properties[minRange].name;
 
         if (minRange !== maxRange)
         {
-            answer += "-" + RangeRuler.properties[maxRange].displayName;
+            answer += "-" + RangeRuler.properties[maxRange].name;
         }
 
         return answer;

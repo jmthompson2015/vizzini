@@ -24,87 +24,87 @@ define(function()
         {
             "astromech":
             {
-                displayName: "Astromech",
+                name: "Astromech",
                 value: "astromech",
             },
             "bomb":
             {
-                displayName: "Bomb",
+                name: "Bomb",
                 value: "bomb",
             },
             "cannon":
             {
-                displayName: "Cannon",
+                name: "Cannon",
                 value: "cannon",
             },
             "cargo":
             {
-                displayName: "Cargo",
+                name: "Cargo",
                 value: "cargo",
             },
             "crew":
             {
-                displayName: "Crew",
+                name: "Crew",
                 value: "crew",
             },
             "elite":
             {
-                displayName: "Elite",
+                name: "Elite",
                 value: "elite",
             },
             "hardpoint":
             {
-                displayName: "Hardpoint",
+                name: "Hardpoint",
                 value: "hardpoint",
             },
             "illicit":
             {
-                displayName: "Illicit",
+                name: "Illicit",
                 value: "illicit",
             },
             "missile":
             {
-                displayName: "Missile",
+                name: "Missile",
                 value: "missile",
             },
             "modification":
             {
-                displayName: "Modification",
+                name: "Modification",
                 value: "modification",
             },
             "salvagedAstromech":
             {
-                displayName: "Salvaged Astromech",
+                name: "Salvaged Astromech",
                 value: "salvagedAstromech",
             },
             "system":
             {
-                displayName: "System",
+                name: "System",
                 value: "system",
             },
             "team":
             {
-                displayName: "Team",
+                name: "Team",
                 value: "team",
             },
             "tech":
             {
-                displayName: "Tech",
+                name: "Tech",
                 value: "tech",
             },
             "title":
             {
-                displayName: "Title",
+                name: "Title",
                 value: "title",
             },
             "torpedo":
             {
-                displayName: "Torpedo",
+                name: "Torpedo",
                 value: "torpedo",
             },
             "turret":
             {
-                displayName: "Turret",
+                name: "Turret",
                 value: "turret",
             },
         },

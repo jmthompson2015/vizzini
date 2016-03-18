@@ -20,62 +20,62 @@ define(function()
         {
             "barrelRoll":
             {
-                displayName: "Barrel Roll",
+                name: "Barrel Roll",
                 value: "barrelRoll",
             },
             "boost":
             {
-                displayName: "Boost",
+                name: "Boost",
                 value: "boost",
             },
             "cloak":
             {
-                displayName: "Cloak",
+                name: "Cloak",
                 value: "cloak",
             },
             "coordinate":
             {
-                displayName: "Coordinate",
+                name: "Coordinate",
                 value: "coordinate",
             },
             "decloak":
             {
-                displayName: "Decloak",
+                name: "Decloak",
                 value: "decloak",
             },
             "evade":
             {
-                displayName: "Evade",
+                name: "Evade",
                 value: "evade",
             },
             "focus":
             {
-                displayName: "Focus",
+                name: "Focus",
                 value: "focus",
             },
             "jam":
             {
-                displayName: "Jam",
+                name: "Jam",
                 value: "jam",
             },
             "recover":
             {
-                displayName: "Recover",
+                name: "Recover",
                 value: "recover",
             },
             "reinforce":
             {
-                displayName: "Reinforce",
+                name: "Reinforce",
                 value: "reinforce",
             },
             "slam":
             {
-                displayName: "SLAM",
+                name: "SLAM",
                 value: "slam",
             },
             "targetLock":
             {
-                displayName: "Target Lock",
+                name: "Target Lock",
                 value: "targetLock",
             },
         },

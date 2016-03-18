@@ -58,7 +58,7 @@ define([ "RangeRuler" ], function(RangeRuler)
                 {
                     var rangeToDefenders = rangeToDefendersArray[j];
                     var range = rangeToDefenders.range;
-                    var rangeName = RangeRuler.properties[range].displayName;
+                    var rangeName = RangeRuler.properties[range].name;
 
                     rows.push(React.DOM.tr(
                     {

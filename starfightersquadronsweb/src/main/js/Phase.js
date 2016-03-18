@@ -26,97 +26,97 @@ define(function()
         {
             "planningStart":
             {
-                displayName: "Planning (start)",
+                name: "Planning (start)",
                 value: "planningStart",
             },
             "planningEnd":
             {
-                displayName: "Planning (end)",
+                name: "Planning (end)",
                 value: "planningEnd",
             },
             "activationStart":
             {
-                displayName: "Activation (start)",
+                name: "Activation (start)",
                 value: "activationStart",
             },
             "activationRevealDial":
             {
-                displayName: "Activation (reveal dial)",
+                name: "Activation (reveal dial)",
                 value: "activationRevealDial",
             },
             "activationExecuteManeuver":
             {
-                displayName: "Activation (execute maneuver)",
+                name: "Activation (execute maneuver)",
                 value: "activationExecuteManeuver",
             },
             "activationAllocateEnergy":
             {
-                displayName: "Activation (allocate energy)",
+                name: "Activation (allocate energy)",
                 value: "activationAllocateEnergy",
             },
             "activationUseEnergy":
             {
-                displayName: "Activation (use energy)",
+                name: "Activation (use energy)",
                 value: "activationUseEnergy",
             },
             "activationPerformAction":
             {
-                displayName: "Activation (perform action)",
+                name: "Activation (perform action)",
                 value: "activationPerformAction",
             },
             "activationEnd":
             {
-                displayName: "Activation (end)",
+                name: "Activation (end)",
                 value: "activationEnd",
             },
             "combatStart":
             {
-                displayName: "Combat (start)",
+                name: "Combat (start)",
                 value: "combatStart",
             },
             "combatDeclareTarget":
             {
-                displayName: "Combat (declare target)",
+                name: "Combat (declare target)",
                 value: "combatDeclareTarget",
             },
             "combatRollAttackDice":
             {
-                displayName: "Combat (roll attack dice)",
+                name: "Combat (roll attack dice)",
                 value: "combatRollAttackDice",
             },
             "combatModifyAttackDice":
             {
-                displayName: "Combat (modify attack dice)",
+                name: "Combat (modify attack dice)",
                 value: "combatModifyAttackDice",
             },
             "combatRollDefenseDice":
             {
-                displayName: "Combat (roll defense dice)",
+                name: "Combat (roll defense dice)",
                 value: "combatRollDefenseDice",
             },
             "combatModifyDefenseDice":
             {
-                displayName: "Combat (modify defense dice)",
+                name: "Combat (modify defense dice)",
                 value: "combatModifyDefenseDice",
             },
             "combatDealDamage":
             {
-                displayName: "Combat (deal damage)",
+                name: "Combat (deal damage)",
                 value: "combatDealDamage",
             },
             "combatEnd":
             {
-                displayName: "Combat (end)",
+                name: "Combat (end)",
                 value: "combatEnd",
             },
             "endStart":
             {
-                displayName: "End (start)",
+                name: "End (start)",
                 value: "endStart",
             },
             "endEnd":
             {
-                displayName: "End (end)",
+                name: "End (end)",
                 value: "endEnd",
             },
         },
