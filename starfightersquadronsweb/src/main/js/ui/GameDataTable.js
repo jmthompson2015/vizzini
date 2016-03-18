@@ -28,26 +28,26 @@ define([ "Bearing", "DamageCard", "DamageCardTrait", "DamageCardV2", "Difficulty
         {
             var rows = [];
 
-            rows.push(this.createRow("Bearings", Bearing.values().length, rows.length));
-            rows.push(this.createRow("Damage Cards", DamageCard.values().length, rows.length));
-            rows.push(this.createRow("Damage Card Traits", DamageCardTrait.values().length, rows.length));
-            rows.push(this.createRow("Damage Cards V2", DamageCardV2.values().length, rows.length));
-            rows.push(this.createRow("Difficulties", Difficulty.values().length, rows.length));
-            rows.push(this.createRow("Factions", Team.values().length, rows.length));
-            rows.push(this.createRow("Faction to Ships", ShipTeam.values().length, rows.length));
-            rows.push(this.createRow("Firing Arcs", FiringArc.values().length, rows.length));
-            rows.push(this.createRow("Maneuvers", Maneuver.values().length, rows.length));
-            rows.push(this.createRow("Phases", Phase.values().length, rows.length));
-            rows.push(this.createRow("Pilots", Pilot.values().length, rows.length));
-            rows.push(this.createRow("Play Formats", PlayFormat.values().length, rows.length));
-            rows.push(this.createRow("Ranges", RangeRuler.values().length, rows.length));
-            rows.push(this.createRow("Ship Actions", ShipAction.values().length, rows.length));
-            rows.push(this.createRow("Ship Bases", ShipBase.values().length, rows.length));
-            rows.push(this.createRow("Ships", Ship.values().length, rows.length));
-            rows.push(this.createRow("Upgrade Headers", UpgradeHeader.values().length, rows.length));
-            rows.push(this.createRow("Upgrade Restrictions", UpgradeRestriction.values().length, rows.length));
-            rows.push(this.createRow("Upgrade Types", UpgradeType.values().length, rows.length));
-            rows.push(this.createRow("Upgrades", UpgradeCard.values().length, rows.length));
+            rows.push(this.createRow("Bearing", Bearing.values().length, rows.length));
+            rows.push(this.createRow("DamageCard", DamageCard.values().length, rows.length));
+            rows.push(this.createRow("DamageCardTrait", DamageCardTrait.values().length, rows.length));
+            rows.push(this.createRow("DamageCardV2", DamageCardV2.values().length, rows.length));
+            rows.push(this.createRow("Difficulty", Difficulty.values().length, rows.length));
+            rows.push(this.createRow("Faction", Team.values().length, rows.length));
+            rows.push(this.createRow("Faction to Ship", ShipTeam.values().length, rows.length));
+            rows.push(this.createRow("FiringArc", FiringArc.values().length, rows.length));
+            rows.push(this.createRow("Maneuver", Maneuver.values().length, rows.length));
+            rows.push(this.createRow("Phase", Phase.values().length, rows.length));
+            rows.push(this.createRow("Pilot", Pilot.values().length, rows.length));
+            rows.push(this.createRow("PlayFormat", PlayFormat.values().length, rows.length));
+            rows.push(this.createRow("Range", RangeRuler.values().length, rows.length));
+            rows.push(this.createRow("ShipAction", ShipAction.values().length, rows.length));
+            rows.push(this.createRow("ShipBase", ShipBase.values().length, rows.length));
+            rows.push(this.createRow("Ship", Ship.values().length, rows.length));
+            rows.push(this.createRow("UpgradeHeader", UpgradeHeader.values().length, rows.length));
+            rows.push(this.createRow("UpgradeRestriction", UpgradeRestriction.values().length, rows.length));
+            rows.push(this.createRow("UpgradeType", UpgradeType.values().length, rows.length));
+            rows.push(this.createRow("UpgradeCard", UpgradeCard.values().length, rows.length));
 
             return this.Table(
             {
