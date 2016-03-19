@@ -56,8 +56,8 @@ define([ "Phase" ], function(Phase)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 19);
+        assert.equal(result.length, 24);
         assert.equal(result[0], Phase.PLANNING_START);
-        assert.equal(result[18], Phase.END_END);
+        assert.equal(result[23], Phase.END_END);
     });
 });
