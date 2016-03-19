@@ -66,6 +66,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
                 var bearingKey = this.maneuver().bearingKey;
                 isBarrelRoll = (bearingKey === Bearing.BARREL_ROLL_LEFT || bearingKey === Bearing.BARREL_ROLL_RIGHT);
 
+                environment.phase(Phase.ACTIVATION_SET_TEMPLATE);
                 var toPosition = determineToPosition();
                 LOGGER.trace("toPosition = " + toPosition);
 
