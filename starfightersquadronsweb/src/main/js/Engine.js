@@ -1,5 +1,5 @@
-define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard" ],
-        function(CombatAction, Environment, ManeuverAction, Phase, Pilot, RangeRuler, Team, UpgradeCard)
+define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard" ],
+        function(ActivationAction, CombatAction, Environment, Phase, Pilot, RangeRuler, Team, UpgradeCard)
         {
             "use strict";
             function Engine(environment, adjudicator)
@@ -170,52 +170,9 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
                         return;
                     }
 
-                    var token = activationQueue[0];
-                    environment.activeToken(token);
-
-                    if (token.isCloaked())
-                    {
-                        var agent = token.agent();
-                        agent.getDecloakAction(environment, adjudicator, token, that.processActivationQueue2);
-
-                        // Wait for agent to respond.
-                    }
-                    else
-                    {
-                        // Proceed.
-                        that.processActivationQueue3();
-                    }
-
-                    LOGGER.trace("Engine.processActivationQueue() end");
-                };
-
-                this.processActivationQueue2 = function(decloakAction)
-                {
-                    LOGGER.trace("Engine.processActivationQueue2() start");
-
-                    if (decloakAction)
-                    {
-                        decloakAction.doIt();
-                        environment.activeToken().cloak().decrease();
-                        setTimeout(that.processActivationQueue3, 1000);
-                    }
-                    else
-                    {
-                        // Proceed.
-                        that.processActivationQueue3();
-                    }
-
-                    LOGGER.trace("Engine.processActivationQueue2() end");
-                };
-
-                this.processActivationQueue3 = function()
-                {
-                    LOGGER.trace("Engine.processActivationQueue3() start");
-
                     var token = activationQueue.shift();
-                    var agent = token.agent();
+                    environment.activeToken(token);
                     var factionKey = token.pilot().shipTeam.teamKey;
-
                     var myToken = token;
 
                     if (token.parent && token.pilot().value.endsWith("fore"))
@@ -234,32 +191,11 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
                         maneuverKey = secondPlanningAction.getManeuver(myToken);
                     }
 
-                    if (maneuverKey)
-                    {
-                        var fromPosition = environment.getPositionFor(myToken);
+                    var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey,
+                            this.processActivationQueue.bind(this));
+                    activationAction.doIt();
 
-                        if (fromPosition)
-                        {
-                            var maneuverAction = new ManeuverAction(environment, myToken, maneuverKey);
-                            maneuverAction.doIt();
-                        }
-                    }
-
-                    LOGGER.debug("adjudicator.canSelectShipAction(token) ? " + adjudicator.canSelectShipAction(token));
-
-                    if (adjudicator.canSelectShipAction(token))
-                    {
-                        agent.getShipAction(environment, adjudicator, token, that.setShipActionAction);
-
-                        // Wait for agent to respond.
-                    }
-                    else
-                    {
-                        // Proceed.
-                        setTimeout(that.processActivationQueue, 1000);
-                    }
-
-                    LOGGER.trace("Engine.processActivationQueue3() end");
+                    LOGGER.trace("Engine.processActivationQueue() end");
                 };
 
                 this.processCombatQueue = function()
@@ -383,19 +319,6 @@ define([ "CombatAction", "Environment", "ManeuverAction", "Phase", "Pilot", "Ran
                         LOGGER.trace("Engine.performPlanningPhase() end");
                         environment.phase(Phase.PLANNING_END);
                     }
-                };
-
-                this.setShipActionAction = function(shipActionAction)
-                {
-                    var delay = 0;
-
-                    if (shipActionAction !== undefined)
-                    {
-                        shipActionAction.doIt();
-                        delay = 1000;
-                    }
-
-                    setTimeout(that.processActivationQueue, delay);
                 };
 
                 this.setWeaponAndDefender = function(weapon, defender)

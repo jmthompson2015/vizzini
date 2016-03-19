@@ -1,5 +1,5 @@
-define([ "Adjudicator", "Engine", "EnvironmentFactory", "PlanningAction", "Position" ], function(Adjudicator, Engine,
-        EnvironmentFactory, PlanningAction, Position)
+define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAction", "Position" ], function(
+        Adjudicator, Engine, EnvironmentFactory, Maneuver, PlanningAction, Position)
 {
     "use strict";
     QUnit.module("Engine");
@@ -12,7 +12,10 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "PlanningAction", "Posit
         var firstAgent = environment.firstAgent();
         var secondAgent = environment.secondAgent();
         var firstTokenToManeuver = {};
+        firstTokenToManeuver[environment.tokens()[0].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+        firstTokenToManeuver[environment.tokens()[1].toString()] = Maneuver.STRAIGHT_2_STANDARD;
         var secondTokenToManeuver = {};
+        secondTokenToManeuver[environment.tokens()[2].toString()] = Maneuver.STRAIGHT_3_STANDARD;
         var firstPlanningAction = new PlanningAction(environment, firstAgent, firstTokenToManeuver);
         var secondPlanningAction = new PlanningAction(environment, secondAgent, secondTokenToManeuver);
         engine.performCombatPhase = function()
@@ -41,7 +44,13 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "PlanningAction", "Posit
         var firstAgent = environment.firstAgent();
         var secondAgent = environment.secondAgent();
         var firstTokenToManeuver = {};
+        firstTokenToManeuver[environment.tokens()[0].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+        firstTokenToManeuver[environment.tokens()[1].toString()] = Maneuver.STRAIGHT_2_STANDARD;
+        firstTokenToManeuver[environment.tokens()[2].toString()] = Maneuver.STRAIGHT_3_STANDARD;
         var secondTokenToManeuver = {};
+        secondTokenToManeuver[environment.tokens()[3].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+        secondTokenToManeuver[environment.tokens()[4].toString()] = Maneuver.STRAIGHT_2_STANDARD;
+        secondTokenToManeuver[environment.tokens()[5].toString()] = Maneuver.STRAIGHT_3_STANDARD;
         var firstPlanningAction = new PlanningAction(environment, firstAgent, firstTokenToManeuver);
         var secondPlanningAction = new PlanningAction(environment, secondAgent, secondTokenToManeuver);
         engine.performCombatPhase = function()
