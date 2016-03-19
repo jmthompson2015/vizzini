@@ -1,37 +1,52 @@
 define(function()
 {
     "use strict";
-    function PlanningAction(environment, agent, tokenToManeuver)
+    function PlanningAction(environment, adjudicator, agent, callback)
     {
         InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("adjudicator", adjudicator);
         InputValidator.validateNotNull("agent", agent);
-        InputValidator.validateNotNull("tokenToManeuver", tokenToManeuver);
+        InputValidator.validateNotNull("callback", callback);
 
-        this.getEnvironment = function()
+        this.environment = function()
         {
             return environment;
         };
 
-        this.getAgent = function()
+        this.adjudicator = function()
+        {
+            return adjudicator;
+        };
+
+        this.agent = function()
         {
             return agent;
         };
 
-        this.getTokenToManeuver = function()
+        this.callback = function()
         {
-            return tokenToManeuver;
-        };
-
-        this.getManeuver = function(token)
-        {
-            return tokenToManeuver[token];
-        };
-
-        this.getTeam = function()
-        {
-            return agent.teamKey();
+            return callback;
         };
     }
+
+    PlanningAction.prototype.doIt = function()
+    {
+        var environment = this.environment();
+        var adjudicator = this.adjudicator();
+        var agent = this.agent();
+
+        agent.getPlanningAction(environment, adjudicator, this.setTokenToManeuver.bind(this));
+
+        // Wait for agent to respond.
+    };
+
+    PlanningAction.prototype.setTokenToManeuver = function(tokenToManeuver)
+    {
+        var agent = this.agent();
+        var callback = this.callback();
+
+        callback(agent, tokenToManeuver);
+    };
 
     return PlanningAction;
 });
