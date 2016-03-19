@@ -317,7 +317,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                     modifyDefenseCallback(answer);
                 }
 
-                function finishPlanningAction(planningAction)
+                function finishPlanningAction(tokenToManeuver)
                 {
                     LOGGER.trace("HumanAgent.finishPlanningAction() start");
 
@@ -327,7 +327,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                     window.dispatchEvent(new Event('resize'));
                     LOGGER.trace("HumanAgent.finishPlanningAction() end");
 
-                    planningCallback(planningAction);
+                    planningCallback(tokenToManeuver);
                 }
 
                 function finishShipAction(shipAction)

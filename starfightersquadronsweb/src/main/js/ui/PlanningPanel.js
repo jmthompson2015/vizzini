@@ -18,9 +18,7 @@ define([ "PlanningAction", "ui/ManeuverChooser" ], function(PlanningAction, Mane
             var tokenToManeuver = this.state.tokenToManeuver;
             var callback = this.props.callback;
 
-            var answer = new PlanningAction(environment, agent, tokenToManeuver);
-
-            callback(answer);
+            callback(tokenToManeuver);
         },
 
         render: function()

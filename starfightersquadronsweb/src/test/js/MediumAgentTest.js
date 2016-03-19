@@ -82,9 +82,9 @@ define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "MediumAgent", "Positi
 
                     // Verify.
                     assert.ok(result);
-                    assert.ok(result.getManeuver(token0));
-                    assert.ok(result.getManeuver(token1));
-                    assert.ok(!result.getManeuver(token2));
+                    assert.ok(result[token0]);
+                    assert.ok(result[token1]);
+                    assert.ok(!result[token2]);
                 }
 
                 // Run.
@@ -122,9 +122,9 @@ define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "MediumAgent", "Positi
 
                     // Verify.
                     assert.ok(result);
-                    assert.ok(!result.getManeuver(token0));
-                    assert.ok(!result.getManeuver(token1));
-                    assert.ok(result.getManeuver(token2), maneuver2);
+                    assert.ok(!result[token0]);
+                    assert.ok(!result[token1]);
+                    assert.ok(result[token2]);
                 }
 
                 // Run.
@@ -148,8 +148,8 @@ define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "MediumAgent", "Positi
                 {
                     // Verify.
                     assert.ok(planningAction);
-                    assert.ok(planningAction.getManeuver(token));
-                    assert.equal(planningAction.getManeuver(token), Maneuver.TURN_RIGHT_2_STANDARD);
+                    assert.ok(planningAction[token]);
+                    assert.equal(planningAction[token], Maneuver.TURN_RIGHT_2_STANDARD);
                 }
 
                 // Run.

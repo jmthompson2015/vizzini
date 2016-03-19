@@ -16,8 +16,6 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAct
         firstTokenToManeuver[environment.tokens()[1].toString()] = Maneuver.STRAIGHT_2_STANDARD;
         var secondTokenToManeuver = {};
         secondTokenToManeuver[environment.tokens()[2].toString()] = Maneuver.STRAIGHT_3_STANDARD;
-        var firstPlanningAction = new PlanningAction(environment, firstAgent, firstTokenToManeuver);
-        var secondPlanningAction = new PlanningAction(environment, secondAgent, secondTokenToManeuver);
         engine.performCombatPhase = function()
         {
             LOGGER.info("performCombatPhase() dummy");
@@ -25,8 +23,8 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAct
 
         // Run.
         var done = assert.async();
-        engine.setPlanningAction(firstPlanningAction);
-        engine.setPlanningAction(secondPlanningAction);
+        engine.setTokenToManeuver(firstAgent, firstTokenToManeuver);
+        engine.setTokenToManeuver(secondAgent, secondTokenToManeuver);
 
         // Verify.
         setTimeout(function()
@@ -51,8 +49,6 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAct
         secondTokenToManeuver[environment.tokens()[3].toString()] = Maneuver.STRAIGHT_1_STANDARD;
         secondTokenToManeuver[environment.tokens()[4].toString()] = Maneuver.STRAIGHT_2_STANDARD;
         secondTokenToManeuver[environment.tokens()[5].toString()] = Maneuver.STRAIGHT_3_STANDARD;
-        var firstPlanningAction = new PlanningAction(environment, firstAgent, firstTokenToManeuver);
-        var secondPlanningAction = new PlanningAction(environment, secondAgent, secondTokenToManeuver);
         engine.performCombatPhase = function()
         {
             LOGGER.info("performCombatPhase() dummy");
@@ -60,8 +56,8 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAct
 
         // Run.
         var done = assert.async();
-        engine.setPlanningAction(firstPlanningAction);
-        engine.setPlanningAction(secondPlanningAction);
+        engine.setTokenToManeuver(firstAgent, firstTokenToManeuver);
+        engine.setTokenToManeuver(secondAgent, secondTokenToManeuver);
 
         // Verify.
         setTimeout(function()
@@ -160,8 +156,8 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAct
         setTimeout(function()
         {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(engine.firstPlanningAction());
-            assert.ok(engine.secondPlanningAction());
+            assert.ok(engine.firstTokenToManeuver());
+            assert.ok(engine.secondTokenToManeuver());
             done();
         });
     });

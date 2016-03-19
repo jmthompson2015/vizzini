@@ -215,9 +215,7 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                 tokenToManeuver[token] = myManeuver;
             });
 
-            var answer = new PlanningAction(environment, this, tokenToManeuver);
-
-            callback(answer);
+            callback(tokenToManeuver);
         },
 
         getShipAction: function(environment, adjudicator, token, callback)

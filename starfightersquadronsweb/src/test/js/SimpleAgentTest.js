@@ -215,9 +215,9 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
 
             // Verify.
             assert.ok(result);
-            assert.ok(result.getManeuver(token0));
-            assert.ok(result.getManeuver(token1));
-            assert.ok(!result.getManeuver(token2));
+            assert.ok(result[token0]);
+            assert.ok(result[token1]);
+            assert.ok(!result[token2]);
         }
 
         // Run.
@@ -255,9 +255,9 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
 
             // Verify.
             assert.ok(result);
-            assert.ok(!result.getManeuver(token0));
-            assert.ok(!result.getManeuver(token1));
-            assert.ok(result.getManeuver(token2), maneuver2);
+            assert.ok(!result[token0]);
+            assert.ok(!result[token1]);
+            assert.ok(result[token2], maneuver2);
         }
 
         // Run.
@@ -281,8 +281,8 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
         {
             // Verify.
             assert.ok(planningAction);
-            assert.ok(planningAction.getManeuver(token));
-            var maneuver = planningAction.getManeuver(token);
+            assert.ok(planningAction[token]);
+            var maneuver = planningAction[token];
             assert.ok(maneuver === Maneuver.STRAIGHT_1_EASY || maneuver === Maneuver.TURN_RIGHT_2_STANDARD);
         }
 

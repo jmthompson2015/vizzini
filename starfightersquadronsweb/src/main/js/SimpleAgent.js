@@ -399,9 +399,7 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
             tokenToManeuver[token] = maneuver;
         }, this);
 
-        var answer = new PlanningAction(environment, this, tokenToManeuver);
-
-        callback(answer);
+        callback(tokenToManeuver);
     };
 
     SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback)

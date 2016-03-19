@@ -1,5 +1,7 @@
-define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard" ],
-        function(ActivationAction, CombatAction, Environment, Phase, Pilot, RangeRuler, Team, UpgradeCard)
+define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "PlanningAction", "RangeRuler", "Team",
+        "UpgradeCard" ],
+        function(ActivationAction, CombatAction, Environment, Phase, Pilot, PlanningAction, RangeRuler, Team,
+                UpgradeCard)
         {
             "use strict";
             function Engine(environment, adjudicator)
@@ -18,8 +20,7 @@ define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "R
                 };
 
                 var that = this;
-                var firstPlanningAction;
-                var secondPlanningAction;
+                var firstTokenToManeuver, secondTokenToManeuver;
                 var activationQueue = [];
                 var combatQueue = [];
                 var endQueue = [];
@@ -77,9 +78,9 @@ define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "R
                     }
                 });
 
-                this.firstPlanningAction = function()
+                this.firstTokenToManeuver = function()
                 {
-                    return firstPlanningAction;
+                    return firstTokenToManeuver;
                 };
 
                 this.performActivationPhase = function()
@@ -146,11 +147,14 @@ define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "R
                     environment.incrementRound();
 
                     var firstAgent = environment.firstAgent();
-                    var secondAgent = environment.secondAgent();
+                    var firstPlanningAction = new PlanningAction(environment, adjudicator, firstAgent,
+                            that.setTokenToManeuver);
+                    firstPlanningAction.doIt();
 
-                    // TODO: can planning be done in parallel?
-                    firstAgent.getPlanningAction(environment, adjudicator, that.setPlanningAction);
-                    secondAgent.getPlanningAction(environment, adjudicator, that.setPlanningAction);
+                    var secondAgent = environment.secondAgent();
+                    var secondPlanningAction = new PlanningAction(environment, adjudicator, secondAgent,
+                            that.setTokenToManeuver);
+                    secondPlanningAction.doIt();
 
                     // Wait for agents to respond.
                 };
@@ -161,8 +165,8 @@ define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "R
 
                     if (activationQueue.length === 0)
                     {
-                        firstPlanningAction = undefined;
-                        secondPlanningAction = undefined;
+                        firstTokenToManeuver = undefined;
+                        secondTokenToManeuver = undefined;
 
                         environment.activeToken(undefined);
                         LOGGER.trace("Engine.processActivationQueue() done");
@@ -184,11 +188,11 @@ define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "R
 
                     if (Team.isFriendly(factionKey, environment.firstTeam()))
                     {
-                        maneuverKey = firstPlanningAction.getManeuver(myToken);
+                        maneuverKey = firstTokenToManeuver[myToken];
                     }
                     else
                     {
-                        maneuverKey = secondPlanningAction.getManeuver(myToken);
+                        maneuverKey = secondTokenToManeuver[myToken];
                     }
 
                     var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey,
@@ -290,31 +294,29 @@ define([ "ActivationAction", "CombatAction", "Environment", "Phase", "Pilot", "R
                     LOGGER.trace("Engine.processEndQueue() end");
                 };
 
-                this.secondPlanningAction = function()
+                this.secondTokenToManeuver = function()
                 {
-                    return secondPlanningAction;
+                    return secondTokenToManeuver;
                 };
 
-                this.setPlanningAction = function(planningAction)
+                this.setTokenToManeuver = function(agent, tokenToManeuver)
                 {
-                    var team = planningAction.getTeam();
-
-                    if (team === environment.firstTeam())
+                    if (agent === environment.firstAgent())
                     {
-                        firstPlanningAction = planningAction;
-                        LOGGER.trace("firstPlanningAction = " + firstPlanningAction);
+                        firstTokenToManeuver = tokenToManeuver;
+                        LOGGER.trace("firstTokenToManeuver = " + firstTokenToManeuver);
                     }
-                    else if (team === environment.secondTeam())
+                    else if (agent === environment.secondAgent())
                     {
-                        secondPlanningAction = planningAction;
-                        LOGGER.trace("secondPlanningAction = " + secondPlanningAction);
+                        secondTokenToManeuver = tokenToManeuver;
+                        LOGGER.trace("secondTokenToManeuver = " + secondTokenToManeuver);
                     }
                     else
                     {
-                        LOGGER.error("planningAction team = " + team);
+                        LOGGER.error("planningAction agent = " + agent);
                     }
 
-                    if (firstPlanningAction && secondPlanningAction)
+                    if (firstTokenToManeuver && secondTokenToManeuver)
                     {
                         LOGGER.trace("Engine.performPlanningPhase() end");
                         environment.phase(Phase.PLANNING_END);
