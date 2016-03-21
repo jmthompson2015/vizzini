@@ -92,9 +92,14 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
                 }
                 else
                 {
+                    environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
                     environment.removeToken(fromPosition);
                     environment.placeToken(toPosition, token);
-                    token.maneuverEffect(maneuverKey);
+
+                    if (token.isIonized && token.isIonized())
+                    {
+                        token.ion().clear();
+                    }
 
                     if (token.pilotKey() === Pilot.IG_88C && isBoost)
                     {
@@ -111,8 +116,6 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
                     {
                         token.focus().increase();
                     }
-
-                    environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
                 }
             }
 

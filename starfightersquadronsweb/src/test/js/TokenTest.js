@@ -1,7 +1,8 @@
-define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFactory", "Maneuver", "ManeuverAction",
-        "Pilot", "Position", "RangeRuler", "Ship", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard",
-        "UpgradeType", "ui/HumanAgent" ], function(Bearing, DamageCard, Difficulty, Environment, EnvironmentFactory,
-        Maneuver, ManeuverAction, Pilot, Position, RangeRuler, Ship, SimpleAgent, TargetLock, Team, Token, UpgradeCard,
+define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty", "DualToken", "Environment",
+        "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position", "RangeRuler", "Ship", "SimpleAgent",
+        "TargetLock", "Team", "Token", "UpgradeCard", "UpgradeType", "ui/HumanAgent" ], function(ActivationAction,
+        Adjudicator, Bearing, DamageCard, Difficulty, DualToken, Environment, EnvironmentFactory, Maneuver,
+        ManeuverAction, Pilot, Position, RangeRuler, Ship, SimpleAgent, TargetLock, Team, Token, UpgradeCard,
         UpgradeType, HumanAgent)
 {
     "use strict";
@@ -499,6 +500,15 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         assert.equal(token.ion().count(), 0);
     });
 
+    QUnit.test("isHuge()", function(assert)
+    {
+        var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+        assert.ok(!(new Token(Pilot.ACADEMY_PILOT, agent).isHuge())); // small
+        assert.ok(!(new Token(Pilot.CAPTAIN_OICUNN, agent).isHuge())); // large
+        assert.ok(new Token(Pilot.GR_75_MEDIUM_TRANSPORT, agent).isHuge()); // huge1
+        assert.ok(new DualToken(Pilot.CR90_CORVETTE, agent).isHuge()); // huge2
+    });
+
     QUnit.test("maneuverKeys()", function(assert)
     {
         // Setup.
@@ -846,19 +856,24 @@ define([ "Bearing", "DamageCard", "Difficulty", "Environment", "EnvironmentFacto
         // Setup.
         Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var adjudicator = new Adjudicator();
         var token = environment.tokens()[2]; // X-Wing
         token.upgradeKeys().push(UpgradeCard.KYLE_KATARN);
         token.stress().increase();
         assert.equal(token.focus().count(), 0);
         assert.equal(token.stress().count(), 1);
         var maneuverKey = Maneuver.STRAIGHT_1_EASY;
-        var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
+        function callback()
+        {
+            LOGGER.info("callback");
+        }
+        var action = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
 
         // Run.
-        maneuverAction.doIt();
+        action.doIt();
 
         // Verify.
-        assert.equal(token.focus().count(), 1);
+        assert.equal(token.focus().count(), 2); // Kyle Katarn upgrade + ship action Focus
         assert.equal(token.stress().count(), 0);
     });
 

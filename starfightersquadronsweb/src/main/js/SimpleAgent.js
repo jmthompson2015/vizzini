@@ -254,7 +254,7 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
 
             tokens.forEach(function(myToken)
             {
-                var isHuge = ShipBase.isHuge(myToken.ship().shipBaseKey) || (myToken.parent !== undefined);
+                var isHuge = myToken.isHuge();
 
                 if (!isHuge && myToken.stress().count() < 2)
                 {

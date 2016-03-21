@@ -238,15 +238,15 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Jam.prototype.doIt = function()
     {
-        var stress = this.defender().stress();
+        var defender = this.defender();
 
-        if (stress.count() < 2)
+        if (defender.stress().count() < 2)
         {
-            stress.increase();
+            defender.receiveStress();
         }
-        if (stress.count() < 2)
+        if (defender.stress().count() < 2)
         {
-            stress.increase();
+            defender.receiveStress();
         }
     };
 

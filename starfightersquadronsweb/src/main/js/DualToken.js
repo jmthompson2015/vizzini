@@ -184,6 +184,11 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
                 }
             }
 
+            DualToken.prototype.isHuge = function()
+            {
+                return true;
+            };
+
             DualToken.prototype.isStressed = function()
             {
                 return false;
@@ -192,31 +197,6 @@ define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
             DualToken.prototype.isUpgradedWith = function(upgradeKey)
             {
                 return false;
-            };
-
-            DualToken.prototype.maneuverEffect = function(maneuverKey)
-            {
-                LOGGER.trace("Token.maneuverEffect() start");
-                InputValidator.validateNotNull("maneuverKey", maneuverKey);
-
-                var maneuver = Maneuver.properties[maneuverKey];
-
-                if (maneuver.energy)
-                {
-                    // Gain energy up to the energy limit.
-                    var energyLimit = this.tokenAft().energyLimit();
-                    LOGGER.trace(this.pilotName() + " energyLimit = " + energyLimit);
-
-                    for (var i = 0; i < maneuver.energy; i++)
-                    {
-                        if (this.tokenAft().energy().count() < energyLimit)
-                        {
-                            this.tokenAft().energy().increase();
-                        }
-                    }
-                }
-
-                LOGGER.trace("Token.maneuverEffect() end");
             };
 
             DualToken.prototype.maneuverKeys = function()

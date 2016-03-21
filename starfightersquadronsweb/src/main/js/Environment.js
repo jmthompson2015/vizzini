@@ -317,8 +317,8 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
                     function(token0, token1)
                     {
                         var answer;
-                        var isHuge0 = ShipBase.isHuge(token0.ship().shipBaseKey) || (token0.parent !== undefined);
-                        var isHuge1 = ShipBase.isHuge(token1.ship().shipBaseKey) || (token1.parent !== undefined);
+                        var isHuge0 = token0.isHuge();
+                        var isHuge1 = token1.isHuge();
 
                         if (isHuge0 === isHuge1)
                         {
@@ -642,7 +642,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
                 {
                     var token = tokens[i];
 
-                    if (ShipBase.isHuge(token.ship().shipBaseKey))
+                    if (token.isHuge())
                     {
                         answer = PlayFormat.EPIC;
                         break;

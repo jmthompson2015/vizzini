@@ -1,4 +1,4 @@
-define([ "ManeuverAction" ], function(ManeuverAction)
+define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase" ], function(Difficulty, Maneuver, ManeuverAction, Phase)
 {
     "use strict";
     function ActivationAction(environment, adjudicator, token, maneuverKey, callback)
@@ -34,6 +34,34 @@ define([ "ManeuverAction" ], function(ManeuverAction)
         };
     }
 
+    ActivationAction.prototype.allocateEnergy = function()
+    {
+    // TODO: implement allocateEnergy()
+    };
+
+    ActivationAction.prototype.checkPilotStress = function(maneuverKey)
+    {
+        if (maneuverKey)
+        {
+            var maneuver = Maneuver.properties[maneuverKey];
+
+            if (maneuver)
+            {
+                var difficultyKey = maneuver.difficultyKey;
+                LOGGER.trace("difficultyKey = " + difficultyKey);
+
+                if (difficultyKey === Difficulty.EASY)
+                {
+                    this.token().removeStress();
+                }
+                else if (difficultyKey === Difficulty.HARD)
+                {
+                    this.token().receiveStress();
+                }
+            }
+        }
+    };
+
     ActivationAction.prototype.doIt = function()
     {
         LOGGER.trace("ActivationAction.doIt() start");
@@ -56,28 +84,6 @@ define([ "ManeuverAction" ], function(ManeuverAction)
         }
 
         LOGGER.trace("ActivationAction.doIt() end");
-    };
-
-    ActivationAction.prototype.setDecloakAction = function(decloakAction)
-    {
-        LOGGER.trace("ActivationAction.setDecloakAction() start");
-        LOGGER.debug("decloakAction = " + decloakAction);
-
-        var token = this.token();
-
-        if (decloakAction)
-        {
-            decloakAction.doIt();
-            token.cloak().decrease();
-            setTimeout(this.executeManeuver.bind(this), 1000);
-        }
-        else
-        {
-            // Proceed.
-            this.executeManeuver();
-        }
-
-        LOGGER.trace("ActivationAction.setDecloakAction() end");
     };
 
     ActivationAction.prototype.executeManeuver = function()
@@ -108,6 +114,23 @@ define([ "ManeuverAction" ], function(ManeuverAction)
                 var maneuverAction = new ManeuverAction(environment, parentToken, maneuverKey);
                 maneuverAction.doIt();
             }
+
+            environment.phase(Phase.ACTIVATION_CHECK_PILOT_STRESS);
+            this.checkPilotStress(maneuverKey);
+        }
+
+        environment.phase(Phase.ACTIVATION_CLEAN_UP);
+
+        if (token.isHuge() || (token.parent && token.parent.isHuge()))
+        {
+            environment.phase(Phase.ACTIVATION_GAIN_ENERGY);
+            this.gainEnergy(maneuverKey);
+
+            environment.phase(Phase.ACTIVATION_ALLOCATE_ENERGY);
+            this.allocateEnergy();
+
+            environment.phase(Phase.ACTIVATION_USE_ENERGY);
+            this.useEnergy();
         }
 
         LOGGER.debug("adjudicator.canSelectShipAction(token) ? " + adjudicator.canSelectShipAction(token));
@@ -127,21 +150,75 @@ define([ "ManeuverAction" ], function(ManeuverAction)
         LOGGER.trace("ActivationAction.executeManeuver() end");
     };
 
+    ActivationAction.prototype.gainEnergy = function(maneuverKey)
+    {
+        if (maneuverKey)
+        {
+            var maneuver = Maneuver.properties[maneuverKey];
+
+            if (maneuver && maneuver.energy)
+            {
+                var token = this.token();
+
+                // Gain energy up to the energy limit.
+                var energyLimit = token.energyLimit();
+                LOGGER.trace(token.pilotName() + " energyLimit = " + energyLimit);
+
+                for (var i = 0; i < maneuver.energy; i++)
+                {
+                    if (token.energy().count() < energyLimit)
+                    {
+                        token.energy().increase();
+                    }
+                }
+            }
+        }
+    };
+
+    ActivationAction.prototype.setDecloakAction = function(decloakAction)
+    {
+        LOGGER.trace("ActivationAction.setDecloakAction() start");
+        LOGGER.debug("decloakAction = " + decloakAction);
+
+        var token = this.token();
+
+        if (decloakAction)
+        {
+            decloakAction.doIt();
+            token.cloak().decrease();
+            setTimeout(this.executeManeuver.bind(this), 1000);
+        }
+        else
+        {
+            // Proceed.
+            this.executeManeuver();
+        }
+
+        LOGGER.trace("ActivationAction.setDecloakAction() end");
+    };
+
     ActivationAction.prototype.setShipActionAction = function(shipActionAction)
     {
         LOGGER.debug("shipActionAction = " + shipActionAction);
 
+        var environment = this.environment();
         var callback = this.callback();
 
         var delay = 0;
 
         if (shipActionAction !== undefined)
         {
+            environment.phase(Phase.ACTIVATION_PERFORM_ACTION);
             shipActionAction.doIt();
             delay = 1000;
         }
 
         setTimeout(callback, delay);
+    };
+
+    ActivationAction.prototype.useEnergy = function()
+    {
+    // TODO: implement useEnergy()
     };
 
     return ActivationAction;

@@ -1,7 +1,7 @@
 define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot",
-        "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "Weapon" ], function(ActivationState, Bearing,
-        DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, UpgradeCard, UpgradeType,
-        Weapon)
+        "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Weapon" ], function(ActivationState,
+        Bearing, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase,
+        UpgradeCard, UpgradeType, Weapon)
 {
     "use strict";
     function Token(pilotKeyIn, agent, upgradeKeysIn)
@@ -365,50 +365,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         this.ion = function()
         {
             return ionCount;
-        };
-
-        this.maneuverEffect = function(maneuverKey)
-        {
-            LOGGER.trace("Token.maneuverEffect() start");
-            InputValidator.validateNotNull("maneuverKey", maneuverKey);
-
-            var maneuver = Maneuver.properties[maneuverKey];
-
-            if (this.isIonized())
-            {
-                this.ion().clear();
-            }
-            else
-            {
-                var difficultyKey = maneuver.difficultyKey;
-                LOGGER.trace("difficultyKey = " + difficultyKey);
-
-                if (difficultyKey === Difficulty.EASY)
-                {
-                    this.removeStress();
-                }
-                else if (difficultyKey === Difficulty.HARD)
-                {
-                    this.receiveStress();
-                }
-            }
-
-            if (maneuver.energy)
-            {
-                // Gain energy up to the energy limit.
-                var energyLimit = this.energyLimit();
-                LOGGER.trace(this.pilotName() + " energyLimit = " + energyLimit);
-
-                for (var i = 0; i < maneuver.energy; i++)
-                {
-                    if (this.energy().count() < energyLimit)
-                    {
-                        this.energy().increase();
-                    }
-                }
-            }
-
-            LOGGER.trace("Token.maneuverEffect() end");
         };
 
         this.maneuverKeys = function()
@@ -1010,6 +966,11 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
     Token.prototype.isDestroyed = function()
     {
         return (this.damageCount() + this.criticalDamageCount()) >= this.hullValue();
+    };
+
+    Token.prototype.isHuge = function()
+    {
+        return ShipBase.isHuge(this.ship().shipBaseKey) || (this.parent !== undefined);
     };
 
     Token.prototype.isIonized = function()
