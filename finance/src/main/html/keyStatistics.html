@@ -31,24 +31,30 @@
 	</section>
 	<section class="chartContainer">
 		<span class="chartTitle">Price % of 52 Week Range</span>
-		<canvas id="chart0" class="chart" width="300" height="200"></canvas>
+		<div id="chart0Container"></div>
 	</section>
 	<section class="chartContainer">
 		<span class="chartTitle">Free Cash Flow ($B)</span>
-		<canvas id="chart1" class="chart" width="300" height="200"></canvas>
+		<div id="chart1Container"></div>
 	</section>
 	<section class="chartContainer">
 		<span class="chartTitle">Forward P/E</span>
-		<canvas id="chart2" class="chart" width="300" height="200"></canvas>
+		<div id="chart2Container"></div>
 	</section>
 	<section class="chartContainer">
 		<span class="chartTitle">Forward Annual Dividend Yield (%)</span>
-		<canvas id="chart3" class="chart" width="300" height="200"></canvas>
+		<div id="chart3Container"></div>
 	</section>
 	<section class="chartContainer">
 		<span class="chartTitle">Trailing Total Returns (%)</span>
-		<canvas id="chart4" class="chart" width="400" height="200"></canvas>
-		<div id="chart4Legend"></div>
+		<table>
+			<tr>
+				<td>
+					<div id="chart4Container"></div>
+				</td>
+				<td><div id="chart4Legend"></div></td>
+			</tr>
+		</table>
 	</section>
 	<section class="tableContainer">
 		<div id="table0"></div>
@@ -84,11 +90,11 @@
                 keyStats.bind("dataLoaded", chart2.receiveData);
                 keyStats.bind("dataLoaded", chart3.receiveData);
                 keyStats.bind("dataLoaded", table0.receiveKeyStatisticsData);
-                
+
                 var performance = new Performance(symbol);
                 performance.bind("performanceLoaded", chart4.receiveData);
                 performance.bind("performanceLoaded", table0.receivePerformanceData);
-                
+
                 keyStats.fetchData();
                 performance.fetchData();
             });

@@ -3,32 +3,6 @@ function DividendYieldChart(chartCanvasId, symbols)
     InputValidator.validateNotEmpty("chartCanvasId", chartCanvasId);
     InputValidator.validateNotEmpty("symbols", symbols);
 
-    this.receiveData = function(keyStats)
-    {
-        InputValidator.validateNotNull("keyStats", keyStats);
-
-        LOGGER.trace("keyStats = " + keyStats.getSymbol() + " "
-                + keyStats.getPrice().label + " " + keyStats.getPrice().value
-                + " " + keyStats.getPrice().number);
-        var symbol = keyStats.getSymbol();
-        LOGGER.trace("symbol = " + symbol);
-        var index = data.labels.indexOf(symbol);
-        LOGGER.trace("index = " + index);
-
-        if (index >= 0)
-        {
-            var dividendYield = (keyStats.getDividendYield() ? keyStats
-                    .getDividendYield().number : undefined);
-            LOGGER.trace(symbol + " dividendYield = " + dividendYield);
-
-            if (dividendYield && !isNaN(dividendYield))
-            {
-                myBarChart.datasets[0].bars[index].value = dividendYield;
-                myBarChart.update();
-            }
-        }
-    }
-
     var defaultData = [];
 
     for (var i = 0; i < symbols.length; i++)
@@ -36,7 +10,6 @@ function DividendYieldChart(chartCanvasId, symbols)
         defaultData.push(0);
     }
 
-    var ctx = document.getElementById(chartCanvasId).getContext("2d");
     var data =
     {
         labels: symbols,
@@ -60,5 +33,41 @@ function DividendYieldChart(chartCanvasId, symbols)
         scaleShowVerticalLines: false,
     };
 
-    var myBarChart = new Chart(ctx).Bar(data, options);
+    var myBarChart;
+
+    this.receiveData = function(keyStats)
+    {
+        InputValidator.validateNotNull("keyStats", keyStats);
+
+        LOGGER.trace("keyStats = " + keyStats.getSymbol() + " " + keyStats.getPrice().label + " " +
+                keyStats.getPrice().value + " " + keyStats.getPrice().number);
+        var symbol = keyStats.getSymbol();
+        LOGGER.trace("symbol = " + symbol);
+        var index = data.labels.indexOf(symbol);
+        LOGGER.trace("index = " + index);
+
+        if (index >= 0)
+        {
+            var dividendYield = (keyStats.getDividendYield() ? keyStats.getDividendYield().number : undefined);
+            LOGGER.trace(symbol + " dividendYield = " + dividendYield);
+
+            if (dividendYield && !isNaN(dividendYield))
+            {
+                data.datasets[0].data[index] = dividendYield;
+
+                // Destroy old chart.
+                myBarChart && myBarChart.destroy();
+
+                // Hack because destroy() doesn't work.
+                var container = document.getElementById(chartCanvasId + "Container");
+                container.innerHTML = "&nbsp;";
+                container.innerHTML = "<canvas id=\"" + chartCanvasId +
+                        "\" class=\"chart\" width=\"300\" height=\"200\"></canvas>";
+
+                // Create new chart.
+                var ctx = document.getElementById(chartCanvasId).getContext("2d");
+                myBarChart = new Chart(ctx).Bar(data, options);
+            }
+        }
+    }
 }

@@ -3,36 +3,6 @@ function TotalReturnChart(chartCanvasId, symbols)
     InputValidator.validateNotEmpty("chartCanvasId", chartCanvasId);
     InputValidator.validateNotEmpty("symbols", symbols);
 
-    this.receiveData = function(performance)
-    {
-        InputValidator.validateNotNull("performance", performance);
-
-        var symbol = performance.getSymbol();
-        LOGGER.trace("symbol = " + symbol);
-        var index = data.labels.indexOf(symbol);
-        LOGGER.trace("index = " + index);
-
-        if (index >= 0)
-        {
-            var oneYear = performance.getOneYearTotalReturn();
-            var threeYear = performance.getThreeYearTotalReturn();
-            var fiveYear = performance.getFiveYearTotalReturn();
-            var tenYear = performance.getTenYearTotalReturn();
-
-            oneYear = (oneYear && !isNaN(oneYear) ? oneYear : null);
-            threeYear = (threeYear && !isNaN(threeYear) ? threeYear : null);
-            fiveYear = (fiveYear && !isNaN(fiveYear) ? fiveYear : null);
-            tenYear = (tenYear && !isNaN(tenYear) ? tenYear : null);
-
-            myBarChart.datasets[0].bars[index].value = oneYear;
-            myBarChart.datasets[1].bars[index].value = threeYear;
-            myBarChart.datasets[2].bars[index].value = fiveYear;
-            myBarChart.datasets[3].bars[index].value = tenYear;
-
-            myBarChart.update();
-        }
-    }
-
     var defaultData = [];
 
     for (var i = 0; i < symbols.length; i++)
@@ -40,7 +10,6 @@ function TotalReturnChart(chartCanvasId, symbols)
         defaultData.push(0);
     }
 
-    var ctx = document.getElementById(chartCanvasId).getContext("2d");
     var data =
     {
         labels: symbols,
@@ -85,11 +54,50 @@ function TotalReturnChart(chartCanvasId, symbols)
         legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\">"
                 + "<% for (var i=0; i<datasets.length; i++){%>"
                 + "<li><span style=\"-moz-border-radius:7px 7px 7px 7px; border-radius:7px 7px 7px 7px; margin-right:10px;width:15px;height:15px;display:inline-block;background-color:<%=datasets[i].fillColor%>\"></span>"
-                + "<%if(datasets[i].label){%><%=datasets[i].label%>"
-                + "<%}%></li><%}%></ul>"
+                + "<%if(datasets[i].label){%><%=datasets[i].label%>" + "<%}%></li><%}%></ul>"
     };
 
-    var myBarChart = new Chart(ctx).Bar(data, options);
-    document.getElementById("chart4Legend").innerHTML = myBarChart
-            .generateLegend();
+    var myBarChart;
+
+    this.receiveData = function(performance)
+    {
+        InputValidator.validateNotNull("performance", performance);
+
+        var symbol = performance.getSymbol();
+        LOGGER.trace("symbol = " + symbol);
+        var index = data.labels.indexOf(symbol);
+        LOGGER.trace("index = " + index);
+
+        if (index >= 0)
+        {
+            var oneYear = performance.getOneYearTotalReturn();
+            var threeYear = performance.getThreeYearTotalReturn();
+            var fiveYear = performance.getFiveYearTotalReturn();
+            var tenYear = performance.getTenYearTotalReturn();
+
+            oneYear = (oneYear && !isNaN(oneYear) ? oneYear : null);
+            threeYear = (threeYear && !isNaN(threeYear) ? threeYear : null);
+            fiveYear = (fiveYear && !isNaN(fiveYear) ? fiveYear : null);
+            tenYear = (tenYear && !isNaN(tenYear) ? tenYear : null);
+
+            data.datasets[0].data[index] = oneYear;
+            data.datasets[1].data[index] = threeYear;
+            data.datasets[2].data[index] = fiveYear;
+            data.datasets[3].data[index] = tenYear;
+
+            // Destroy old chart.
+            myBarChart && myBarChart.destroy();
+
+            // Hack because destroy() doesn't work.
+            var container = document.getElementById(chartCanvasId + "Container");
+            container.innerHTML = "&nbsp;";
+            container.innerHTML = "<canvas id=\"" + chartCanvasId +
+                    "\" class=\"chart\" width=\"300\" height=\"200\"></canvas>";
+
+            // Create new chart.
+            var ctx = document.getElementById(chartCanvasId).getContext("2d");
+            myBarChart = new Chart(ctx).Bar(data, options);
+            document.getElementById("chart4Legend").innerHTML = myBarChart.generateLegend();
+        }
+    }
 }
