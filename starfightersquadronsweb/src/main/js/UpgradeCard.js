@@ -1310,6 +1310,7 @@ define(
                         type: UpgradeType.CARGO,
                         restrictions: [ UpgradeRestriction.LIMITED ],
                         header: UpgradeHeader.ENERGY,
+                        energyLimit: 5,
                         description: "Spend 5 energy from this card and discard this card to cause each other ship at Range 1 to suffer 1 damage and receive 1 ion token.",
                         squadPointCost: 4,
                         value: "ionizationReactor",
