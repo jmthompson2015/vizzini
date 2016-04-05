@@ -197,6 +197,7 @@ define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", 
             }
 
             // Players commit characters to quest.
+            environment.phase(Phase.QUEST_COMMIT_CHARACTERS);
             var agent = questQueue.shift();
             environment.activeAgent(agent);
             agent.questAction(environment, adjudicator, this.setQuesters.bind(this));
@@ -213,6 +214,7 @@ define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", 
             }
 
             // Enemies engage players.
+            environment.phase(Phase.ENCOUNTER_ENGAGEMENT_CHECKS);
             var agent = encounterQueue.shift();
             environment.activeAgent(agent);
             agent.encounterAction(environment, adjudicator, this.enemyEngages.bind(this));

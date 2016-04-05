@@ -43,6 +43,7 @@ define(function()
     {
         // Reveal 1 card per player from the encounter deck.
         var environment = this.environment();
+        environment.phase(Phase.QUEST_REVEAL_ENCOUNTER_CARDS);
         var stagingArea = environment.stagingArea();
         var scenarioDeck = environment.scenarioDeck();
         var agents = environment.agents();
@@ -61,6 +62,7 @@ define(function()
     {
         // Resolve questing.
         var environment = this.environment();
+        environment.phase(Phase.QUEST_RESOLVE);
         var questers = this.questers();
         var questSum = 0;
 
