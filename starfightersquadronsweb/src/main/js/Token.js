@@ -297,6 +297,11 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             return energyCount;
         };
 
+        this.energyForUpgrade = function(upgradeKey)
+        {
+            return upgradeToEnergy[upgradeKey];
+        };
+
         this.equals = function(other)
         {
             return id == other.id() && pilotKey == other.pilotKey();
