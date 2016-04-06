@@ -50,6 +50,32 @@ define([ "AllyCard", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "
         });
     });
 
+    QUnit.test("performPlanningPhase()", function(assert)
+    {
+        // Setup.
+        var environment = createEnvironment();
+        environment.phase(Phase.PLANNING_START);
+        var agent1 = environment.agents()[0];
+        var agent2 = environment.agents()[1];
+        environment.heroes(agent1).forEach(function(hero, i)
+        {
+            hero.resourceState().resources().increase(i + 1);
+        });
+        var adjudicator = new Adjudicator();
+        var engine = new Engine(environment, adjudicator);
+        engine.performQuestPhase = function()
+        {
+            LOGGER.info("performQuestPhase() dummy");
+        };
+
+        // Run.
+        engine.performPlanningPhase();
+
+        // Verify.
+        assert.equal(engine.environment().phase(), Phase.PLANNING_END);
+        // assert.equal(engine.environment().stagingArea().length, 2);
+    });
+
     QUnit.test("performQuestPhase()", function(assert)
     {
         // Setup.

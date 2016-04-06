@@ -1,6 +1,6 @@
-define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/Environment", "game/QuestAction",
-        "game/RefreshAction", "game/ResourceAction" ], function(Phase, CombatAttackAction, CombatDefendAction,
-        Environment, QuestAction, RefreshAction, ResourceAction)
+define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/Environment", "game/PlanningAction",
+        "game/QuestAction", "game/RefreshAction", "game/ResourceAction" ], function(Phase, CombatAttackAction,
+        CombatDefendAction, Environment, PlanningAction, QuestAction, RefreshAction, ResourceAction)
 {
     "use strict";
     function Engine(environment, adjudicator)
@@ -195,7 +195,20 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
         this.processPlanningQueue = function()
         {
-            environment.phase(Phase.PLANNING_END);
+            LOGGER.trace("Engine.processPlanningQueue() start");
+
+            if (planningQueue.length === 0)
+            {
+                environment.activeAgent(null);
+                LOGGER.trace("Engine.processPlanningQueue() done");
+                environment.phase(Phase.PLANNING_END);
+                return;
+            }
+
+            // Players may play ally and attachment cards.
+            var agent = planningQueue.shift();
+            environment.activeAgent(agent);
+            agent.planningAction(environment, adjudicator, this.playCards.bind(this));
         };
 
         this.processQuestQueue = function()
@@ -285,6 +298,26 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
             }
 
             this.processEncounterQueue();
+        };
+
+        this.playCards = function(cards)
+        {
+            InputValidator.validateNotNull("cards", cards);
+
+            LOGGER.trace("Engine.playCards() start");
+            LOGGER.debug("cards = " + cards);
+
+            if (cards.length > 0)
+            {
+                var agent = environment.activeAgent();
+                var planningAction = new PlanningAction(environment, adjudicator, agent,cards, this.processPlanningQueue
+                        .bind(this));
+                planningAction.doIt();
+            }
+            else
+            {
+                this.processPlanningQueue();
+            }
         };
 
         this.setAttackers = function(enemyIdToAttackers)
