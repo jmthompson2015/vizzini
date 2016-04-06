@@ -1,12 +1,11 @@
-define(function()
+define([ "Phase" ], function(Phase)
 {
     "use strict";
-    function QuestAction(environment, adjudicator, questers, callback)
+    function QuestAction(environment, adjudicator, questers)
     {
         InputValidator.validateNotNull("environment", environment);
         InputValidator.validateNotNull("adjudicator", adjudicator);
         InputValidator.validateNotNull("questers", questers);
-        InputValidator.validateNotNull("callback", callback);
 
         this.environment = function()
         {
@@ -21,11 +20,6 @@ define(function()
         this.questers = function()
         {
             return questers;
-        };
-
-        this.callback = function()
-        {
-            return callback;
         };
     }
 
@@ -51,7 +45,6 @@ define(function()
         agents.forEach(function(agent)
         {
             var token = scenarioDeck.draw();
-            // LOGGER.trace(agent + " encounter card = " + token);
             stagingArea.push(token);
         });
 
@@ -68,7 +61,6 @@ define(function()
 
         questers.forEach(function(token)
         {
-            // LOGGER.trace(token + " willpower = " + token.card().willpower);
             questSum += token.card().willpower;
             token.exhaustState().isExhausted(true);
         });
@@ -91,11 +83,7 @@ define(function()
                 if (diff < diff2)
                 {
                     // activeLocation is not explored.
-                    for (i = 0; i < diff; i++)
-                    {
-                        activeLocation.questState().progress().increase();
-                    }
-
+                    activeLocation.questState().progress().increase(diff);
                     diff = 0;
                 }
                 else
@@ -115,10 +103,7 @@ define(function()
                 if (diff < diff3)
                 {
                     // activeQuest is not finished.
-                    for (i = 0; i < diff; i++)
-                    {
-                        activeQuest.questState().progress().increase();
-                    }
+                    activeQuest.questState().progress().increase(diff);
                 }
                 else
                 {
