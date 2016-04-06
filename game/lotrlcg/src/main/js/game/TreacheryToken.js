@@ -1,4 +1,4 @@
-define([ "TreacheryCard" ], function(TreacheryCard)
+define([ "TreacheryCard", "game/TokenId" ], function(TreacheryCard, TokenId)
 {
     "use strict";
     function TreacheryToken(cardKey)
@@ -8,6 +8,13 @@ define([ "TreacheryCard" ], function(TreacheryCard)
         this.cardKey = function()
         {
             return cardKey;
+        };
+
+        var id = TokenId.nextId();
+
+        this.id = function()
+        {
+            return id;
         };
 
         var card = TreacheryCard.properties[cardKey];

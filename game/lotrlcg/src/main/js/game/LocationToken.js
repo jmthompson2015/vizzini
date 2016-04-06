@@ -1,4 +1,4 @@
-define([ "LocationCard", "game/QuestState" ], function(LocationCard, QuestState)
+define([ "LocationCard", "game/QuestState", "game/TokenId" ], function(LocationCard, QuestState, TokenId)
 {
     "use strict";
     function LocationToken(cardKey)
@@ -8,6 +8,13 @@ define([ "LocationCard", "game/QuestState" ], function(LocationCard, QuestState)
         this.cardKey = function()
         {
             return cardKey;
+        };
+
+        var id = TokenId.nextId();
+
+        this.id = function()
+        {
+            return id;
         };
 
         var card = LocationCard.properties[cardKey];

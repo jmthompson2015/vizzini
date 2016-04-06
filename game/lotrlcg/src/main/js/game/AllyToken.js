@@ -1,5 +1,6 @@
 define([ "AllyCard", "game/AttackerState", "game/DefenderState", "game/ExhaustState", "game/QuesterState",
-        "game/WoundState" ], function(AllyCard, AttackerState, DefenderState, ExhaustState, QuesterState, WoundState)
+        "game/TokenId", "game/WoundState" ], function(AllyCard, AttackerState, DefenderState, ExhaustState,
+        QuesterState, TokenId, WoundState)
 {
     "use strict";
     function AllyToken(cardKey)
@@ -9,6 +10,13 @@ define([ "AllyCard", "game/AttackerState", "game/DefenderState", "game/ExhaustSt
         this.cardKey = function()
         {
             return cardKey;
+        };
+
+        var id = TokenId.nextId();
+
+        this.id = function()
+        {
+            return id;
         };
 
         var card = AllyCard.properties[cardKey];

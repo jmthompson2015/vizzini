@@ -1,4 +1,5 @@
-define([ "EnemyCard", "game/AttachmentState", "game/WoundState" ], function(EnemyCard, AttachmentState, WoundState)
+define([ "EnemyCard", "game/AttachmentState", "game/TokenId", "game/WoundState" ], function(EnemyCard, AttachmentState,
+        TokenId, WoundState)
 {
     "use strict";
     function EnemyToken(cardKey)
@@ -8,6 +9,13 @@ define([ "EnemyCard", "game/AttachmentState", "game/WoundState" ], function(Enem
         this.cardKey = function()
         {
             return cardKey;
+        };
+
+        var id = TokenId.nextId();
+
+        this.id = function()
+        {
+            return id;
         };
 
         var card = EnemyCard.properties[cardKey];

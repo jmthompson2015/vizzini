@@ -1,6 +1,6 @@
 define([ "HeroCard", "game/AttachmentState", "game/AttackerState", "game/DefenderState", "game/ExhaustState",
-        "game/QuesterState", "game/ResourceState", "game/WoundState" ], function(HeroCard, AttachmentState,
-        AttackerState, DefenderState, ExhaustState, QuesterState, ResourceState, WoundState)
+        "game/QuesterState", "game/ResourceState", "game/TokenId", "game/WoundState" ], function(HeroCard,
+        AttachmentState, AttackerState, DefenderState, ExhaustState, QuesterState, ResourceState, TokenId, WoundState)
 {
     "use strict";
     function HeroToken(cardKey)
@@ -10,6 +10,13 @@ define([ "HeroCard", "game/AttachmentState", "game/AttackerState", "game/Defende
         this.cardKey = function()
         {
             return cardKey;
+        };
+
+        var id = TokenId.nextId();
+
+        this.id = function()
+        {
+            return id;
         };
 
         var card = HeroCard.properties[cardKey];

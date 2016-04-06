@@ -1,4 +1,4 @@
-define([ "EventCard" ], function(EventCard)
+define([ "EventCard", "game/TokenId" ], function(EventCard, TokenId)
 {
     "use strict";
     function EventToken(cardKey)
@@ -8,6 +8,13 @@ define([ "EventCard" ], function(EventCard)
         this.cardKey = function()
         {
             return cardKey;
+        };
+
+        var id = TokenId.nextId();
+
+        this.id = function()
+        {
+            return id;
         };
 
         var card = EventCard.properties[cardKey];
