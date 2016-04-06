@@ -91,7 +91,7 @@ define(function()
             var characters = environment.characters(this).filter(function(character)
             {
                 return !character.exhaustState().isExhausted();
-            });;
+            });
             characters.sort(function(token0, token1)
             {
                 var defense0 = token0.card().defense;

@@ -1,8 +1,7 @@
-define([ "AllyCard", "CardType", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "game/AllyToken",
-        "game/EnemyToken", "game/Engine", "game/Environment", "game/LocationToken", "game/PlayerDeckBuilder",
-        "game/ScenarioDeckBuilder", "game/SimpleAgent" ], function(AllyCard, CardType, EnemyCard, LocationCard, Phase,
-        Adjudicator, AllyToken, EnemyToken, Engine, Environment, LocationToken, PlayerDeckBuilder, ScenarioDeckBuilder,
-        SimpleAgent)
+define([ "AllyCard", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "game/AllyToken", "game/EnemyToken",
+        "game/Engine", "game/Environment", "game/LocationToken", "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder",
+        "game/SimpleAgent" ], function(AllyCard, EnemyCard, LocationCard, Phase, Adjudicator, AllyToken, EnemyToken,
+        Engine, Environment, LocationToken, PlayerDeckBuilder, ScenarioDeckBuilder, SimpleAgent)
 {
     "use strict";
     QUnit.module("Engine");
