@@ -23,11 +23,6 @@ define([ "AllyCard", "CardSet", "CardType", "HeroCard", "Sphere", "game/ui/Spher
         className: "textCell",
     },
     {
-        key: "threatCost",
-        label: "Threat Cost",
-        className: "numberCell",
-    },
-    {
         key: "cost",
         label: "Cost",
         className: "numberCell",
@@ -45,6 +40,21 @@ define([ "AllyCard", "CardSet", "CardType", "HeroCard", "Sphere", "game/ui/Spher
     {
         key: "defense",
         label: "Defense",
+        className: "numberCell",
+    },
+    {
+        key: "hitPoints",
+        label: "Hit Points",
+        className: "numberCell",
+    },
+    {
+        key: "sumStats",
+        label: "Sum Stats",
+        className: "numberCell",
+    },
+    {
+        key: "Sum / Cost",
+        label: "Sum / Cost",
         className: "numberCell",
     }, ];
 
@@ -100,6 +110,9 @@ define([ "AllyCard", "CardSet", "CardType", "HeroCard", "Sphere", "game/ui/Spher
             var sphere = Sphere.properties[card.sphere].name;
             var cardType = CardType.properties[card.cardType].name;
             var cardSet = CardSet.properties[card.set].name;
+            var sumStats = card.willpower + card.attack + card.defense + card.hitPoints;
+            var cost = (card.cardType === CardType.HERO ? card.threatCost : card.cost);
+            var ratio = (cost === 0 ? " " : Math.vizziniFormat(sumStats / cost, 2));
 
             var cells = [];
             var j = 0;
@@ -119,11 +132,13 @@ define([ "AllyCard", "CardSet", "CardType", "HeroCard", "Sphere", "game/ui/Spher
             cells.push(this.createCell(cells.length, CardColumns[j++], card.name));
             cells.push(this.createCell(cells.length, CardColumns[j++], cardType));
             cells.push(this.createCell(cells.length, CardColumns[j++], cardSet));
-            cells.push(this.createCell(cells.length, CardColumns[j++], card.threatCost));
-            cells.push(this.createCell(cells.length, CardColumns[j++], card.cost));
+            cells.push(this.createCell(cells.length, CardColumns[j++], cost));
             cells.push(this.createCell(cells.length, CardColumns[j++], card.willpower));
             cells.push(this.createCell(cells.length, CardColumns[j++], card.attack));
             cells.push(this.createCell(cells.length, CardColumns[j++], card.defense));
+            cells.push(this.createCell(cells.length, CardColumns[j++], card.hitPoints));
+            cells.push(this.createCell(cells.length, CardColumns[j++], sumStats));
+            cells.push(this.createCell(cells.length, CardColumns[j++], ratio));
 
             return this.Tr(
             {
