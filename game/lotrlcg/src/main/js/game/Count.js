@@ -16,14 +16,18 @@ define(function()
             return count;
         };
 
-        this.decrease = function()
+        this.decrease = function(newValue)
         {
-            setCount(count - 1);
+            var value = (newValue === undefined ? 1 : newValue);
+
+            setCount(count - value);
         };
 
-        this.increase = function()
+        this.increase = function(newValue)
         {
-            setCount(count + 1);
+            var value = (newValue === undefined ? 1 : newValue);
+
+            setCount(count + value);
         };
 
         function setCount(newValue)
