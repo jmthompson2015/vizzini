@@ -1,7 +1,8 @@
-define([ "CardType", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "game/EnemyToken", "game/Engine",
-        "game/Environment", "game/LocationToken", "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder",
-        "game/SimpleAgent" ], function(CardType, EnemyCard, LocationCard, Phase, Adjudicator, EnemyToken, Engine,
-        Environment, LocationToken, PlayerDeckBuilder, ScenarioDeckBuilder, SimpleAgent)
+define([ "AllyCard", "CardType", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "game/AllyToken",
+        "game/EnemyToken", "game/Engine", "game/Environment", "game/LocationToken", "game/PlayerDeckBuilder",
+        "game/ScenarioDeckBuilder", "game/SimpleAgent" ], function(AllyCard, CardType, EnemyCard, LocationCard, Phase,
+        Adjudicator, AllyToken, EnemyToken, Engine, Environment, LocationToken, PlayerDeckBuilder, ScenarioDeckBuilder,
+        SimpleAgent)
 {
     "use strict";
     QUnit.module("Engine");
@@ -119,6 +120,31 @@ define([ "CardType", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "
         var engagementArea = environment.agentData(agent1).engagementArea();
         assert.equal(engagementArea.length, 1);
         assert.equal(engagementArea[0].cardKey(), EnemyCard.FOREST_SPIDER);
+    });
+
+    QUnit.test("performCombatPhase()", function(assert)
+    {
+        // Setup.
+        var environment = createEnvironment();
+        environment.phase(Phase.COMBAT_START);
+        var agent1 = environment.agents()[0];
+        var agent2 = environment.agents()[1];
+        environment.agentData(agent1).playArea().push(new AllyToken(AllyCard.FARAMIR));
+        environment.agentData(agent1).playArea().push(new AllyToken(AllyCard.SON_OF_ARNOR));
+        environment.agentData(agent1).engagementArea().push(new EnemyToken(EnemyCard.FOREST_SPIDER));
+        environment.agentData(agent1).engagementArea().push(new EnemyToken(EnemyCard.DOL_GULDUR_BEASTMASTER));
+        var adjudicator = new Adjudicator();
+        var engine = new Engine(environment, adjudicator);
+        engine.performRefreshPhase = function()
+        {
+            LOGGER.info("performRefreshPhase() dummy");
+        };
+
+        // Run.
+        engine.performCombatPhase();
+
+        // Verify.
+        assert.equal(engine.environment().phase(), Phase.COMBAT_END);
     });
 
     QUnit.test("performRefreshPhase()", function(assert)

@@ -1,5 +1,6 @@
-define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", "game/ResourceAction" ], function(
-        Phase, Environment, QuestAction, RefreshAction, ResourceAction)
+define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/Environment", "game/QuestAction",
+        "game/RefreshAction", "game/ResourceAction" ], function(Phase, CombatAttackAction, CombatDefendAction,
+        Environment, QuestAction, RefreshAction, ResourceAction)
 {
     "use strict";
     function Engine(environment, adjudicator)
@@ -80,6 +81,9 @@ define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", 
                 case Phase.COMBAT_START:
                     that.performCombatPhase();
                     break;
+                case Phase.COMBAT_DEFEND_END:
+                    that.performCombatAttackPhase();
+                    break;
                 case Phase.COMBAT_END:
                     setTimeout(function()
                     {
@@ -159,8 +163,23 @@ define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", 
         this.performCombatPhase = function()
         {
             LOGGER.trace("Engine.performCombatPhase() start");
+            this.performCombatDefendPhase();
+        };
+
+        this.performCombatDefendPhase = function()
+        {
+            LOGGER.trace("Engine.performCombatDefendPhase() start");
+            environment.phase(Phase.COMBAT_DEFEND_START);
             combatQueue = environment.agents().slice();
-            this.processCombatQueue();
+            this.processCombatDefendQueue();
+        };
+
+        this.performCombatAttackPhase = function()
+        {
+            LOGGER.trace("Engine.performCombatAttackPhase() start");
+            environment.phase(Phase.COMBAT_ATTACK_START);
+            combatQueue = environment.agents().slice();
+            this.processCombatAttackQueue();
         };
 
         this.performRefreshPhase = function()
@@ -186,8 +205,7 @@ define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", 
             if (questQueue.length === 0)
             {
                 LOGGER.debug("questers.length = " + questers.length);
-                var questAction = new QuestAction(environment, adjudicator, questers, this.performTravelPhase
-                        .bind(this));
+                var questAction = new QuestAction(environment, adjudicator, questers);
                 questAction.doIt();
 
                 environment.activeAgent(null);
@@ -220,9 +238,39 @@ define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", 
             agent.encounterAction(environment, adjudicator, this.enemyEngages.bind(this));
         };
 
-        this.processCombatQueue = function()
+        this.processCombatDefendQueue = function()
         {
-            environment.phase(Phase.COMBAT_END);
+            LOGGER.trace("Engine.processCombatDefendQueue() start");
+
+            if (combatQueue.length === 0)
+            {
+                environment.activeAgent(null);
+                LOGGER.trace("Engine.processCombatDefendQueue() done");
+                environment.phase(Phase.COMBAT_DEFEND_END);
+                return;
+            }
+
+            var agent = combatQueue.shift();
+            environment.activeAgent(agent);
+            agent.combatDefendAction(environment, adjudicator, this.setDefenders.bind(this));
+        };
+
+        this.processCombatAttackQueue = function()
+        {
+            LOGGER.trace("Engine.processCombatAttackQueue() start");
+
+            if (combatQueue.length === 0)
+            {
+                environment.activeAgent(null);
+                LOGGER.trace("Engine.processCombatAttackQueue() done");
+                environment.phase(Phase.COMBAT_ATTACK_END);
+                environment.phase(Phase.COMBAT_END);
+                return;
+            }
+
+            var agent = combatQueue.shift();
+            environment.activeAgent(agent);
+            agent.combatAttackAction(environment, adjudicator, this.setAttackers.bind(this));
         };
 
         this.enemyEngages = function(newEnemy)
@@ -237,6 +285,30 @@ define([ "Phase", "game/Environment", "game/QuestAction", "game/RefreshAction", 
             }
 
             this.processEncounterQueue();
+        };
+
+        this.setAttackers = function(enemyIdToAttackers)
+        {
+            InputValidator.validateNotNull("enemyIdToAttackers", enemyIdToAttackers);
+
+            LOGGER.trace("Engine.setAttackers() start");
+
+            var agent = environment.activeAgent();
+            var combatAttackAction = new CombatAttackAction(environment, adjudicator, agent, enemyIdToAttackers,
+                    this.processCombatAttackQueue.bind(this));
+            combatAttackAction.doIt();
+        };
+
+        this.setDefenders = function(enemyIdToDefender)
+        {
+            InputValidator.validateNotNull("enemyIdToDefender", enemyIdToDefender);
+
+            LOGGER.trace("Engine.setDefenders() start");
+
+            var agent = environment.activeAgent();
+            var combatDefendAction = new CombatDefendAction(environment, adjudicator, agent, enemyIdToDefender,
+                    this.processCombatDefendQueue.bind(this));
+            combatDefendAction.doIt();
         };
 
         this.setLocation = function(newLocation)
