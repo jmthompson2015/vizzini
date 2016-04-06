@@ -49,7 +49,11 @@ define([ "CardType", "Sphere" ],
                                                                     token.card().cost <= sum;
                                                         });
                                         LOGGER.debug("cards = " + cards);
-                                        answer.push(cards.vizziniRandomElement());
+
+                                        if (cards.length > 0)
+                                        {
+                                            answer.push(cards.vizziniRandomElement());
+                                        }
                                     }
                                 }, this);
 
