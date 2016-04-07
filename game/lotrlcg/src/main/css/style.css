@@ -1,4 +1,8 @@
 body {
+    background-image:
+        url(https://rawgit.com/jmthompson2015/vizzini/master/game/lotrlcg/src/main/resources/images/MiddleEarthMap.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
     font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
 }
 
@@ -10,8 +14,32 @@ table {
     vertical-align: middle;
 }
 
-#CENTER, .center {
+#BACKGROUND_BLUE, .agentUI, .backgroundBlue {
+    background-color: DarkBlue;
+}
+
+#BACKGROUND_GRAY, .agentUILabel, .tokenAreaUILabel, .tokenUILabel, .backgroundGray {
+    background-color: Gray;
+}
+
+#BACKGROUND_GREEN, .locationQuestPanel, .backgroundGreen {
+    background-color: Green;
+}
+
+#BACKGROUND_RED, .stagingAreaUIPanel, .backgroundRed {
+    background-color: Maroon;
+}
+
+#CENTER, .agentUI, .handUICell, .locationQuestPanel, .playAreaUICell, .stagingAreaUIPanel, .tokenAreaUI, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+}
+
+#PADDING_10, .tokenUIImagePreview, .padding10 {
+    padding: 10px;
+}
+
+#WIDTH_TOKEN, .tokenUIImage, .widthToken {
+    width: 125px;
 }
