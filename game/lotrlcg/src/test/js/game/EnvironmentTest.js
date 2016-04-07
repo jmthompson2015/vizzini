@@ -1,5 +1,5 @@
-define([ "game/Environment", "Phase", "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder", "game/SimpleAgent" ],
-        function(Environment, Phase, PlayerDeckBuilder, ScenarioDeckBuilder, SimpleAgent)
+define([ "Phase", "game/Environment", "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder", "game/SimpleAgent" ],
+        function(Phase, Environment, PlayerDeckBuilder, ScenarioDeckBuilder, SimpleAgent)
         {
             "use strict";
             QUnit.module("Environment");
