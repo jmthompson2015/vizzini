@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestTokenUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<style>
+.tokenUI {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.tokenUILabel {
+    background-color: DarkGray;
+}
+
+.tokenUICell {
+    border: 1px solid black;
+}
+
+#panel0, #panel1, #panel2, #panel3 {
+    vertical-align: top;
+}
+</style>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="panel0"></td>
+			<td id="panel1"></td>
+			<td id="panel2"></td>
+			<td id="panel3"></td>
+		</tr>
+	</table>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        require([ "LocationCard", "game/LocationToken", "game/ui/TokenUI" ], function(LocationCard, LocationToken,
+                TokenUI)
+        {
+            var activeLocation = new LocationToken(LocationCard.OLD_FOREST_ROAD);
+
+            var element0 = React.createElement(TokenUI,
+            {
+                label: "Active Location",
+                token: activeLocation,
+            });
+            var element1 = React.createElement(TokenUI,
+            {
+                token: activeLocation,
+            });
+            var element2 = React.createElement(TokenUI,
+            {
+                label: "Active Location",
+            });
+            var element3 = React.createElement(TokenUI, {});
+
+            React.render(element0, document.getElementById("panel0"));
+            React.render(element1, document.getElementById("panel1"));
+            React.render(element2, document.getElementById("panel2"));
+            React.render(element3, document.getElementById("panel3"));
+        });
+    </script>
+</body>
+</html>

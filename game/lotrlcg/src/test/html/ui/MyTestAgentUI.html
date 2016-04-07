@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestAgentUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<style>
+.agentUI {
+    background-color: LightGray,
+}
+
+.agentUILabel {
+    background-color: DarkGray,
+}
+
+.engagementAreaUI {
+    background-color: Red,
+}
+
+.playAreaUI {
+    background-color: Green,
+}
+
+.handUI {
+    background-color: Blue,
+}
+
+#CENTER, .engagementAreaUI, .handUI, .playAreaUI, .center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+</style>
+
+</head>
+<body>
+	<div id="panel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "EnemyCard", "LocationCard", "game/EnemyToken", "game/Environment", "game/LocationToken",
+                "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder", "game/SimpleAgent", "game/ui/AgentUI" ],
+                function(EnemyCard, LocationCard, EnemyToken, Environment, LocationToken, PlayerDeckBuilder,
+                        ScenarioDeckBuilder, SimpleAgent, AgentUI)
+                {
+                    var environment = createEnvironment();
+                    environment.activeLocation(new LocationToken(LocationCard.OLD_FOREST_ROAD));
+                    environment.stagingArea().push(new EnemyToken(EnemyCard.FOREST_SPIDER));
+                    environment.stagingArea().push(new EnemyToken(EnemyCard.DOL_GULDUR_BEASTMASTER));
+                    var element = React.createElement(AgentUI,
+                    {
+                        environment: environment,
+                        agent: environment.agents()[0],
+                    });
+                    React.render(element, document.getElementById("panel"));
+
+                    function createEnvironment()
+                    {
+                        var agent1 = new SimpleAgent("Aaron");
+                        var agent2 = new SimpleAgent("Bruce");
+                        var agents = [ agent1, agent2 ];
+                        var playerDeck1 = PlayerDeckBuilder.BeornsPath1DeckBuilder.buildDeck();
+                        var playerDeck2 = PlayerDeckBuilder.BeornsPath2DeckBuilder.buildDeck();
+                        var playerDecks = [ playerDeck1, playerDeck2 ];
+                        var scenarioDeck = ScenarioDeckBuilder.CoreSetPassageThroughMirkwoodDeckBuilder.buildDeck();
+                        var environment = new Environment(agents, playerDecks, scenarioDeck);
+                        environment.setup();
+
+                        return environment;
+                    }
+                });
+    </script>
+</body>
+</html>

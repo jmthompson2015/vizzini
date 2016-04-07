@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestTokenAreaUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<style>
+.tokenAreaUI {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.tokenAreaUILabel {
+    background-color: DarkGray;
+}
+
+.tokenAreaUICell {
+    border: 1px solid black;
+}
+
+#panel0, #panel1 {
+    vertical-align: top;
+}
+</style>
+
+</head>
+<body>
+	<div id="panel0"></div>
+	<p/>
+	<div id="panel1"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "EnemyCard", "game/EnemyToken", "game/Environment", "game/PlayerDeckBuilder",
+                "game/ScenarioDeckBuilder", "game/SimpleAgent", "game/ui/TokenAreaUI" ], function(EnemyCard,
+                EnemyToken, Environment, PlayerDeckBuilder, ScenarioDeckBuilder, SimpleAgent, TokenAreaUI)
+        {
+            var environment = createEnvironment();
+            environment.stagingArea().push(new EnemyToken(EnemyCard.FOREST_SPIDER));
+            environment.stagingArea().push(new EnemyToken(EnemyCard.DOL_GULDUR_BEASTMASTER));
+
+            var element0 = React.createElement(TokenAreaUI,
+            {
+                label: "Staging Area",
+                area: environment.stagingArea(),
+            });
+            var element1 = React.createElement(TokenAreaUI,
+            {
+                area: environment.stagingArea(),
+            });
+
+            React.render(element0, document.getElementById("panel0"));
+            React.render(element1, document.getElementById("panel1"));
+
+            function createEnvironment()
+            {
+                var agent1 = new SimpleAgent("1");
+                var agent2 = new SimpleAgent("2");
+                var agents = [ agent1, agent2 ];
+                var playerDeck1 = PlayerDeckBuilder.BeornsPath1DeckBuilder.buildDeck();
+                var playerDeck2 = PlayerDeckBuilder.BeornsPath2DeckBuilder.buildDeck();
+                var playerDecks = [ playerDeck1, playerDeck2 ];
+                var scenarioDeck = ScenarioDeckBuilder.CoreSetPassageThroughMirkwoodDeckBuilder.buildDeck();
+                var environment = new Environment(agents, playerDecks, scenarioDeck);
+                environment.setup();
+
+                return environment;
+            }
+        });
+    </script>
+</body>
+</html>
