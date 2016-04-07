@@ -8,7 +8,8 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
         BEORN: "beorn",
         BERAVOR: "beravor",
         BIFUR: "bifur",
-        BILBO_BAGGINS: "bilboBaggins",
+        BILBO_BAGGINS_BAGGINS: "bilboBagginsBaggins",
+        BILBO_BAGGINS_LORE: "bilboBagginsLore",
         CIRDAN_THE_SHIPWRIGHT: "cirdanTheShipwright",
         DENETHOR: "denethor",
         DWALIN: "dwalin",
@@ -32,7 +33,7 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
         {
             "aragornFellowship":
             {
-                name: "Aragorn (Fellowship)",
+                name: "Aragorn",
                 threatCost: 0,
                 willpower: 2,
                 attack: 3,
@@ -45,7 +46,7 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
             },
             "aragornLeadership":
             {
-                name: "Aragorn (Leadership)",
+                name: "Aragorn",
                 threatCost: 12,
                 willpower: 2,
                 attack: 3,
@@ -95,7 +96,7 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
                 set: CardSet.KHAZAD_DUM,
                 value: "bifur",
             },
-            "bilboBaggins":
+            "bilboBagginsBaggins":
             {
                 name: "Bilbo Baggins",
                 threatCost: 0,
@@ -106,7 +107,20 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
                 traits: [ Trait.HOBBIT ],
                 sphere: Sphere.BAGGINS,
                 set: CardSet.OVER_HILL_AND_UNDER_HILL,
-                value: "bilboBaggins",
+                value: "bilboBagginsBaggins",
+            },
+            "bilboBagginsLore":
+            {
+                name: "Bilbo Baggins",
+                threatCost: 9,
+                willpower: 1,
+                attack: 1,
+                defense: 2,
+                hitPoints: 2,
+                traits: [ Trait.HOBBIT ],
+                sphere: Sphere.LORE,
+                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                value: "bilboBagginsLore",
             },
             "cirdanTheShipwright":
             {

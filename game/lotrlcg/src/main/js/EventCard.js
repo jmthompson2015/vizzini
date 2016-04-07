@@ -5,15 +5,19 @@ define([ "CardSet", "CardType", "Sphere" ], function(CardSet, CardType, Sphere)
     {
         A_LIGHT_IN_THE_DARK: "aLightInTheDark",
         A_TEST_OF_WILL: "aTestOfWill",
+        CAMPFIRE_TALES: "campfireTales",
         DWARVEN_TOMB: "dwarvenTomb",
         FEINT: "feint",
         FOR_GONDOR: "forGondor",
         HASTY_STROKE: "hastyStroke",
+        MUSTERING_THE_ROHIRRIM: "musteringTheRohirrim",
         QUICK_STRIKE: "quickStrike",
         RADAGASTS_CUNNING: "radagastsCunning",
         SNEAK_ATTACK: "sneakAttack",
         STAND_AND_FIGHT: "standAndFight",
+        STRIDERS_PATH: "stridersPath",
         SWIFT_STRIKE: "swiftStrike",
+        THE_EAGLES_ARE_COMING: "theEaglesAreComing",
         THE_GALADHRIMS_GREETING: "theGaladhrimsGreeting",
         VALIANT_SACRIFICE: "valiantSacrifice",
 
@@ -34,6 +38,14 @@ define([ "CardSet", "CardType", "Sphere" ], function(CardSet, CardType, Sphere)
                 sphere: Sphere.SPIRIT,
                 set: CardSet.CORE,
                 value: "aTestOfWill",
+            },
+            "campfireTales":
+            {
+                name: "Campfire Tales",
+                cost: 1,
+                sphere: Sphere.LEADERSHIP,
+                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                value: "campfireTales",
             },
             "dwarvenTomb":
             {
@@ -67,6 +79,14 @@ define([ "CardSet", "CardType", "Sphere" ], function(CardSet, CardType, Sphere)
                 set: CardSet.CORE,
                 value: "hastyStroke",
             },
+            "musteringTheRohirrim":
+            {
+                name: "Mustering the Rohirrim",
+                cost: 1,
+                sphere: Sphere.SPIRIT,
+                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                value: "musteringTheRohirrim",
+            },
             "quickStrike":
             {
                 name: "Quick Strike",
@@ -99,6 +119,14 @@ define([ "CardSet", "CardType", "Sphere" ], function(CardSet, CardType, Sphere)
                 set: CardSet.CORE,
                 value: "standAndFight",
             },
+            "stridersPath":
+            {
+                name: "Strider's Path",
+                cost: 1,
+                sphere: Sphere.LORE,
+                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                value: "stridersPath",
+            },
             "swiftStrike":
             {
                 name: "Swift Strike",
@@ -106,6 +134,14 @@ define([ "CardSet", "CardType", "Sphere" ], function(CardSet, CardType, Sphere)
                 sphere: Sphere.TACTICS,
                 set: CardSet.CORE,
                 value: "swiftStrike",
+            },
+            "theEaglesAreComing":
+            {
+                name: "The Eagles Are Coming!",
+                cost: 0,
+                sphere: Sphere.TACTICS,
+                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                value: "theEaglesAreComing",
             },
             "theGaladhrimsGreeting":
             {

@@ -48,8 +48,8 @@ define([ "Trait" ], function(Trait)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 37);
+        assert.equal(result.length, 40);
         assert.equal(result[0], Trait.ARCHER);
-        assert.equal(result[36], Trait.WEAPON);
+        assert.equal(result[39], Trait.WEAPON);
     });
 });

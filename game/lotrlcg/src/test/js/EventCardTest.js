@@ -48,20 +48,8 @@ define([ "EventCard" ], function(EventCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 13);
-        var i = 0;
-        assert.equal(result[i++], EventCard.A_LIGHT_IN_THE_DARK);
-        assert.equal(result[i++], EventCard.A_TEST_OF_WILL);
-        assert.equal(result[i++], EventCard.DWARVEN_TOMB);
-        assert.equal(result[i++], EventCard.FEINT);
-        assert.equal(result[i++], EventCard.FOR_GONDOR);
-        assert.equal(result[i++], EventCard.HASTY_STROKE);
-        assert.equal(result[i++], EventCard.QUICK_STRIKE);
-        assert.equal(result[i++], EventCard.RADAGASTS_CUNNING);
-        assert.equal(result[i++], EventCard.SNEAK_ATTACK);
-        assert.equal(result[i++], EventCard.STAND_AND_FIGHT);
-        assert.equal(result[i++], EventCard.SWIFT_STRIKE);
-        assert.equal(result[i++], EventCard.THE_GALADHRIMS_GREETING);
-        assert.equal(result[i++], EventCard.VALIANT_SACRIFICE);
+        assert.equal(result.length, 17);
+        assert.equal(result[0], EventCard.A_LIGHT_IN_THE_DARK);
+        assert.equal(result[16], EventCard.VALIANT_SACRIFICE);
     });
 });

@@ -7,7 +7,7 @@ define([ "HeroCard" ], function(HeroCard)
     {
         var sphere = HeroCard.ARAGORN_LEADERSHIP;
         var properties = HeroCard.properties[sphere];
-        assert.equal(properties.name, "Aragorn (Leadership)");
+        assert.equal(properties.name, "Aragorn");
         assert.equal(properties.value, "aragornLeadership");
     });
 
@@ -48,8 +48,8 @@ define([ "HeroCard" ], function(HeroCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 24);
+        assert.equal(result.length, 25);
         assert.equal(result[0], HeroCard.ARAGORN_FELLOWSHIP);
-        assert.equal(result[23], HeroCard.TREEBEARD);
+        assert.equal(result[24], HeroCard.TREEBEARD);
     });
 });

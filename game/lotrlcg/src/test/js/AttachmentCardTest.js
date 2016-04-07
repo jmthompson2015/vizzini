@@ -48,8 +48,8 @@ define([ "AttachmentCard" ], function(AttachmentCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 28);
+        assert.equal(result.length, 30);
         assert.equal(result[0], AttachmentCard.AROD);
-        assert.equal(result[27], AttachmentCard.UNEXPECTED_COURAGE);
+        assert.equal(result[29], AttachmentCard.UNEXPECTED_COURAGE);
     });
 });

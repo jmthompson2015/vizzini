@@ -12,10 +12,12 @@ define(function()
         DOL_GULDUR: "dolGuldur",
         DUNEDAIN: "dunedain",
         DWARF: "dwarf",
+        EAGLE: "eagle",
         ENT: "ent",
         FOREST: "forest",
         GOBLIN: "goblin",
         GONDOR: "gondor",
+        HOBBIT: "hobbit",
         INSECT: "insect",
         ISTARI: "istari",
         ITEM: "item",
@@ -30,6 +32,7 @@ define(function()
         RING: "ring",
         ROHAN: "rohan",
         SCOUT: "scout",
+        SIGNAL: "signal",
         SILVAN: "silvan",
         SKILL: "skill",
         SONG: "song",
@@ -88,6 +91,11 @@ define(function()
                 name: "Dwarf",
                 value: "dwarf",
             },
+            "eagle":
+            {
+                name: "Eagle",
+                value: "eagle",
+            },
             "ent":
             {
                 name: "Ent",
@@ -107,6 +115,11 @@ define(function()
             {
                 name: "Gondor",
                 value: "gondor",
+            },
+            "hobbit":
+            {
+                name: "Hobbit",
+                value: "hobbit",
             },
             "insect":
             {
@@ -177,6 +190,11 @@ define(function()
             {
                 name: "Scout",
                 value: "scout",
+            },
+            "signal":
+            {
+                name: "Signal",
+                value: "signal",
             },
             "silvan":
             {
