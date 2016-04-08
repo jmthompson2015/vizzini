@@ -10,6 +10,7 @@ define([ "AttachmentCard", "game/MarkerState", "game/TokenId" ], function(Attach
             return cardKey;
         };
 
+        var that = this;
         var id = TokenId.nextId();
 
         this.id = function()
@@ -26,6 +27,10 @@ define([ "AttachmentCard", "game/MarkerState", "game/TokenId" ], function(Attach
         };
 
         var exhaustState = new MarkerState();
+        exhaustState.bind("mark", function()
+        {
+            that.trigger("change");
+        });
 
         this.exhaustState = function()
         {

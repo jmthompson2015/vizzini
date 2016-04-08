@@ -26,14 +26,31 @@ table {
     background-color: Green;
 }
 
+#BACKGROUND_MEDIUM, .tokensPanel, .backgroundMedium {
+    background-color: lightGray;
+}
+
 #BACKGROUND_RED, .stagingAreaUIPanel, .backgroundRed {
     background-color: Maroon;
 }
 
-#CENTER, .agentUI, .handUICell, .locationQuestPanel, .playAreaUICell, .stagingAreaUIPanel, .tokenAreaUI, .center {
+#CENTER, .agentUI, .handUICell, .locationQuestPanel, .playAreaUICell, .stagingAreaUIPanel, .tokenAreaUI, .tokensTable,
+    .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+}
+
+#COLOR_WHITE, .lightImageText, .colorWhite {
+    color: white;
+}
+
+#FONT_BOLD, .lightImageText, .fontBold {
+    font-weight: bold;
+}
+
+#FONT_MEDIUM, .lightImageText, .fontMedium {
+    font-size: medium;
 }
 
 #PADDING_10, .tokenUIImagePreview, .padding10 {
@@ -42,4 +59,8 @@ table {
 
 #WIDTH_100, .tokenUIImage, .width100 {
     width: 100px;
+}
+
+#WIDTH_FULL, .tokensPanel, .widthFull {
+    width: 100%;
 }

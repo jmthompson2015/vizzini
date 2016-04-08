@@ -11,6 +11,7 @@ define([ "HeroCard", "game/AttachState", "game/CountState", "game/MarkerState", 
                     return cardKey;
                 };
 
+                var that = this;
                 var id = TokenId.nextId();
 
                 this.id = function()
@@ -27,15 +28,43 @@ define([ "HeroCard", "game/AttachState", "game/CountState", "game/MarkerState", 
                 };
 
                 var resourceState = new CountState();
+                resourceState.bind("count", function()
+                {
+                    that.trigger("change");
+                });
                 var woundState = new CountState();
+                woundState.bind("count", function()
+                {
+                    that.trigger("change");
+                });
 
                 var exhaustState = new MarkerState();
+                exhaustState.bind("mark", function()
+                {
+                    that.trigger("change");
+                });
                 var questState = new MarkerState();
+                questState.bind("mark", function()
+                {
+                    that.trigger("change");
+                });
 
                 var attackerState = new TargetState();
+                attackerState.bind("target", function()
+                {
+                    that.trigger("change");
+                });
                 var defenderState = new TargetState();
+                defenderState.bind("target", function()
+                {
+                    that.trigger("change");
+                });
 
                 var attachState = new AttachState();
+                attachState.bind("attach", function()
+                {
+                    that.trigger("change");
+                });
 
                 this.attachState = function()
                 {
