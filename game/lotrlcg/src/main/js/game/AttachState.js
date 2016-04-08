@@ -20,7 +20,7 @@ define(function()
         {
             attachments = [];
             this.trigger(AttachState.EVENT, this);
-        }
+        };
 
         this.remove = function(element)
         {

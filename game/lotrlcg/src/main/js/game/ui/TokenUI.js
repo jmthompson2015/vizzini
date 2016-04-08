@@ -134,6 +134,7 @@ define([ "game/ui/LabeledImage" ], function(LabeledImage)
 
             var token = this.props.token;
             var cells = [];
+            var element;
 
             if (token.attackerState && token.attackerState().target())
             {
@@ -161,7 +162,7 @@ define([ "game/ui/LabeledImage" ], function(LabeledImage)
 
             if (token.progressState && token.progressState().count() > 0)
             {
-                var element = React.createElement(LabeledImage,
+                element = React.createElement(LabeledImage,
                 {
                     image: imageBase + "token/Progress32.png",
                     label: token.progressState().count(),
@@ -180,7 +181,7 @@ define([ "game/ui/LabeledImage" ], function(LabeledImage)
 
             if (token.resourceState && token.resourceState().count() > 0)
             {
-                var element = React.createElement(LabeledImage,
+                element = React.createElement(LabeledImage,
                 {
                     image: imageBase + "token/Resource32.png",
                     label: token.resourceState().count(),
@@ -191,7 +192,7 @@ define([ "game/ui/LabeledImage" ], function(LabeledImage)
 
             if (token.woundState && token.woundState().count() > 0)
             {
-                var element = React.createElement(LabeledImage,
+                element = React.createElement(LabeledImage,
                 {
                     image: imageBase + "token/Wound32.png",
                     label: token.woundState().count(),
