@@ -15,7 +15,7 @@ define([ "Sphere" ], function(Sphere)
             var sphereKey = this.props.sphereKey;
             var sphere = Sphere.properties[sphereKey];
             var size = (this.props.isSmall !== undefined ? 24 : 32);
-            var fileString = imageBase + sphere.name + "Icon" + size + ".png";
+            var fileString = imageBase + "sphere/" + sphere.name + size + ".png";
             var myKey = (this.props.key !== undefined ? this.props.key : 0);
 
             var image = React.DOM.img(
