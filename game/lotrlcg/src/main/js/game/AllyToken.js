@@ -1,72 +1,80 @@
-define([ "AllyCard", "game/AttackerState", "game/DefenderState", "game/ExhaustState", "game/QuesterState",
-        "game/TokenId", "game/WoundState" ], function(AllyCard, AttackerState, DefenderState, ExhaustState,
-        QuesterState, TokenId, WoundState)
-{
-    "use strict";
-    function AllyToken(cardKey)
-    {
-        InputValidator.validateNotNull("cardKey", cardKey);
-
-        this.cardKey = function()
+define([ "AllyCard", "game/AttachState", "game/CountState", "game/MarkerState", "game/TargetState", "game/TokenId" ],
+        function(AllyCard, AttachState, CountState, MarkerState, TargetState, TokenId)
         {
-            return cardKey;
-        };
+            "use strict";
+            function AllyToken(cardKey)
+            {
+                InputValidator.validateNotNull("cardKey", cardKey);
 
-        var id = TokenId.nextId();
+                this.cardKey = function()
+                {
+                    return cardKey;
+                };
 
-        this.id = function()
-        {
-            return id;
-        };
+                var id = TokenId.nextId();
 
-        var card = AllyCard.properties[cardKey];
-        InputValidator.validateNotNull("card", card);
+                this.id = function()
+                {
+                    return id;
+                };
 
-        this.card = function()
-        {
-            return card;
-        };
+                var card = AllyCard.properties[cardKey];
+                InputValidator.validateNotNull("card", card);
 
-        var attackerState = new AttackerState();
-        var defenderState = new DefenderState();
-        var exhaustState = new ExhaustState();
-        var questerState = new QuesterState();
-        var woundState = new WoundState();
+                this.card = function()
+                {
+                    return card;
+                };
 
-        this.attackerState = function()
-        {
-            return attackerState;
-        };
+                var woundState = new CountState();
 
-        this.defenderState = function()
-        {
-            return defenderState;
-        };
+                var exhaustState = new MarkerState();
+                var questState = new MarkerState();
 
-        this.exhaustState = function()
-        {
-            return exhaustState;
-        };
+                var attackerState = new TargetState();
+                var defenderState = new TargetState();
 
-        this.questerState = function()
-        {
-            return questerState;
-        };
+                var attachState = new AttachState();
 
-        this.woundState = function()
-        {
-            return woundState;
-        };
-    }
+                this.attachState = function()
+                {
+                    return attachState;
+                };
 
-    AllyToken.EVENT = "ally";
+                this.attackerState = function()
+                {
+                    return attackerState;
+                };
 
-    AllyToken.prototype.toString = function()
-    {
-        return "Ally " + this.card().name;
-    };
+                this.defenderState = function()
+                {
+                    return defenderState;
+                };
 
-    MicroEvent.mixin(AllyToken);
+                this.exhaustState = function()
+                {
+                    return exhaustState;
+                };
 
-    return AllyToken;
-});
+                this.questState = function()
+                {
+                    return questState;
+                };
+
+                this.woundState = function()
+                {
+                    return woundState;
+                };
+            }
+
+            AllyToken.EVENT = "ally";
+
+            AllyToken.prototype.toString = function()
+            {
+                return "Ally " + this.card().name;
+            };
+
+            MicroEvent.mixin(AllyToken);
+
+            return AllyToken;
+        });

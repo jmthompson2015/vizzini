@@ -41,7 +41,7 @@ define([ "AllyCard", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "
             var heroes = environment.heroes(agent);
             heroes.forEach(function(token)
             {
-                assert.equal(token.resourceState().resources().count(), 1);
+                assert.equal(token.resourceState().count(), 1);
             });
 
             var hand = environment.agentData(agent).hand();
@@ -59,7 +59,7 @@ define([ "AllyCard", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "
         var agent2 = environment.agents()[1];
         environment.heroes(agent1).forEach(function(hero, i)
         {
-            hero.resourceState().resources().increase(i + 1);
+            hero.resourceState().increase(i + 1);
         });
         var adjudicator = new Adjudicator();
         var engine = new Engine(environment, adjudicator);
@@ -189,7 +189,7 @@ define([ "AllyCard", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "
             var heroes = environment.heroes(agent);
             heroes.forEach(function(token)
             {
-                token.exhaustState().isExhausted(true);
+                token.exhaustState().isMarked(true);
             });
         });
 
@@ -203,7 +203,7 @@ define([ "AllyCard", "EnemyCard", "LocationCard", "Phase", "game/Adjudicator", "
             var playArea = environment.agentData(agent).playArea();
             playArea.forEach(function(token)
             {
-                assert.ok(!token.exhaustState().isExhausted());
+                assert.ok(!token.exhaustState().isMarked());
             });
         });
 

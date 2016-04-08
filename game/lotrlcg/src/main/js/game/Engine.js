@@ -310,8 +310,8 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
             if (cards.length > 0)
             {
                 var agent = environment.activeAgent();
-                var planningAction = new PlanningAction(environment, adjudicator, agent,cards, this.processPlanningQueue
-                        .bind(this));
+                var planningAction = new PlanningAction(environment, adjudicator, agent, cards,
+                        this.processPlanningQueue.bind(this));
                 planningAction.doIt();
             }
             else
@@ -361,8 +361,8 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
             LOGGER.trace("Engine.setQuesters() start");
             newQuesters.forEach(function(token)
             {
-                token.questerState().isQuesting(true);
-                token.exhaustState().isExhausted(true);
+                token.questState().isMarked(true);
+                token.exhaustState().isMarked(true);
             });
 
             questers.vizziniAddAll(newQuesters);

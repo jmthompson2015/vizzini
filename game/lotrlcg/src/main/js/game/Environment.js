@@ -1,4 +1,4 @@
-define([ "CardType", "Phase", "game/Count" ], function(CardType, Phase, Count)
+define([ "CardType", "Phase", "game/CountState" ], function(CardType, Phase, CountState)
 {
     "use strict";
     function Environment(agents, playerDecks, scenarioDeck)
@@ -26,9 +26,9 @@ define([ "CardType", "Phase", "game/Count" ], function(CardType, Phase, Count)
         var phase;
         var stagingArea = [];
 
-        var round = new Count();
+        var round = new CountState();
 
-        round.bind(Count.EVENT, function()
+        round.bind(CountState.EVENT, function()
         {
             LOGGER.info("Round: " + round.count());
             that.trigger(Environment.ROUND_EVENT, round);

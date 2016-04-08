@@ -23,8 +23,8 @@ define(function()
             var playArea = environment.agentData(agent).playArea();
             playArea.forEach(function(token)
             {
-                token.questerState().isQuesting(false);
-                token.exhaustState().isExhausted(false);
+                token.questState().isMarked(false);
+                token.exhaustState().isMarked(false);
             });
 
             environment.addToThreatLevel(agent, 1);

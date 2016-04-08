@@ -30,7 +30,7 @@ define([ "CardType", "Sphere" ],
                                     {
                                         if (hero.card().sphere === sphere)
                                         {
-                                            sum += hero.resourceState().resources().count();
+                                            sum += hero.resourceState().count();
                                         }
                                     });
 
@@ -136,7 +136,7 @@ define([ "CardType", "Sphere" ],
 
                     var characters = environment.characters(this).filter(function(character)
                     {
-                        return !character.exhaustState().isExhausted();
+                        return !character.exhaustState().isMarked();
                     });
                     characters.sort(function(token0, token1)
                     {
@@ -177,16 +177,14 @@ define([ "CardType", "Sphere" ],
                 {
                     enemies.sort(function(token0, token1)
                     {
-                        var defense0 = token0.card().defense + token0.card().hitPoints -
-                                token0.woundState().wounds().count();
-                        var defense1 = token1.card().defense + token1.card().hitPoints -
-                                token1.woundState().wounds().count();
+                        var defense0 = token0.card().defense + token0.card().hitPoints - token0.woundState().count();
+                        var defense1 = token1.card().defense + token1.card().hitPoints - token1.woundState().count();
                         return defense1 - defense0;
                     });
 
                     var characters = environment.characters(this).filter(function(character)
                     {
-                        return !character.exhaustState().isExhausted();
+                        return !character.exhaustState().isMarked();
                     });
                     characters.sort(function(token0, token1)
                     {

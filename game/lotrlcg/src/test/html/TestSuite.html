@@ -13,7 +13,7 @@
 <!-- 
 <link rel="stylesheet" href="../../main/css/style.css">
  -->
- 
+
 <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 <script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../main/js/Phase"></script>
 
@@ -31,8 +31,9 @@
     var suffix = "Test";
     var testModules = [ "AllyCard", "AttachmentCard", "CardSet", "CardSetType", "CardType", "EncounterSet",
             "EnemyCard", "EventCard", "GameMode", "HeroCard", "ImageNameCreator", "LocationCard", "Phase", "QuestCard",
-            "Sphere", "Trait", "TreacheryCard", "game/Count", "game/Engine", "game/Environment",
-            "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder" ];
+            "Sphere", "Trait", "TreacheryCard", "game/AttachState", "game/CountState", "game/Engine",
+            "game/Environment", "game/MarkerState", "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder",
+            "game/TargetState" ];
     testModules = testModules.map(function(testModule)
     {
         return prefix + testModule + suffix;

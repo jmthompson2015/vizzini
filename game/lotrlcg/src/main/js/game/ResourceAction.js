@@ -23,7 +23,7 @@ define(function()
             var heroes = environment.heroes(agent);
             heroes.forEach(function(token)
             {
-                token.resourceState().resources().increase();
+                token.resourceState().increase();
             });
 
             var playerDeck = environment.agentData(agent).playerDeck();

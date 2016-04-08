@@ -1,84 +1,86 @@
-define([ "HeroCard", "game/AttachmentState", "game/AttackerState", "game/DefenderState", "game/ExhaustState",
-        "game/QuesterState", "game/ResourceState", "game/TokenId", "game/WoundState" ], function(HeroCard,
-        AttachmentState, AttackerState, DefenderState, ExhaustState, QuesterState, ResourceState, TokenId, WoundState)
-{
-    "use strict";
-    function HeroToken(cardKey)
-    {
-        InputValidator.validateNotNull("cardKey", cardKey);
-
-        this.cardKey = function()
+define([ "HeroCard", "game/AttachState", "game/CountState", "game/MarkerState", "game/TargetState", "game/TokenId" ],
+        function(HeroCard, AttachState, CountState, MarkerState, TargetState, TokenId)
         {
-            return cardKey;
-        };
+            "use strict";
+            function HeroToken(cardKey)
+            {
+                InputValidator.validateNotNull("cardKey", cardKey);
 
-        var id = TokenId.nextId();
+                this.cardKey = function()
+                {
+                    return cardKey;
+                };
 
-        this.id = function()
-        {
-            return id;
-        };
+                var id = TokenId.nextId();
 
-        var card = HeroCard.properties[cardKey];
-        InputValidator.validateNotNull("card", card);
+                this.id = function()
+                {
+                    return id;
+                };
 
-        this.card = function()
-        {
-            return card;
-        };
+                var card = HeroCard.properties[cardKey];
+                InputValidator.validateNotNull("card", card);
 
-        var attachmentState = new AttachmentState();
-        var attackerState = new AttackerState();
-        var defenderState = new DefenderState();
-        var exhaustState = new ExhaustState();
-        var questerState = new QuesterState();
-        var resourceState = new ResourceState(card.sphere);
-        var woundState = new WoundState();
+                this.card = function()
+                {
+                    return card;
+                };
 
-        this.attachmentState = function()
-        {
-            return attachmentState;
-        };
+                var resourceState = new CountState();
+                var woundState = new CountState();
 
-        this.attackerState = function()
-        {
-            return attackerState;
-        };
+                var exhaustState = new MarkerState();
+                var questState = new MarkerState();
 
-        this.defenderState = function()
-        {
-            return defenderState;
-        };
+                var attackerState = new TargetState();
+                var defenderState = new TargetState();
 
-        this.exhaustState = function()
-        {
-            return exhaustState;
-        };
+                var attachState = new AttachState();
 
-        this.questerState = function()
-        {
-            return questerState;
-        };
+                this.attachState = function()
+                {
+                    return attachState;
+                };
 
-        this.resourceState = function()
-        {
-            return resourceState;
-        };
+                this.attackerState = function()
+                {
+                    return attackerState;
+                };
 
-        this.woundState = function()
-        {
-            return woundState;
-        };
-    }
+                this.defenderState = function()
+                {
+                    return defenderState;
+                };
 
-    HeroToken.EVENT = "hero";
+                this.exhaustState = function()
+                {
+                    return exhaustState;
+                };
 
-    HeroToken.prototype.toString = function()
-    {
-        return "Hero " + this.card().name;
-    };
+                this.questState = function()
+                {
+                    return questState;
+                };
 
-    MicroEvent.mixin(HeroToken);
+                this.resourceState = function()
+                {
+                    return resourceState;
+                };
 
-    return HeroToken;
-});
+                this.woundState = function()
+                {
+                    return woundState;
+                };
+            }
+
+            HeroToken.EVENT = "hero";
+
+            HeroToken.prototype.toString = function()
+            {
+                return "Hero " + this.card().name;
+            };
+
+            MicroEvent.mixin(HeroToken);
+
+            return HeroToken;
+        });

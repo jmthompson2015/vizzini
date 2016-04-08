@@ -62,7 +62,7 @@ define([ "Phase" ], function(Phase)
         questers.forEach(function(token)
         {
             questSum += token.card().willpower;
-            token.exhaustState().isExhausted(true);
+            token.exhaustState().isMarked(true);
         });
 
         var stagingAreaThreat = environment.stagingAreaThreat();
@@ -78,12 +78,12 @@ define([ "Phase" ], function(Phase)
 
             if (activeLocation)
             {
-                var diff2 = activeLocation.card().questPoints - activeLocation.questState().progress().count();
+                var diff2 = activeLocation.card().questPoints - activeLocation.progressState().count();
 
                 if (diff < diff2)
                 {
                     // activeLocation is not explored.
-                    activeLocation.questState().progress().increase(diff);
+                    activeLocation.progressState().increase(diff);
                     diff = 0;
                 }
                 else
@@ -98,12 +98,12 @@ define([ "Phase" ], function(Phase)
             {
                 // Put overflow progress on the quest card.
                 var activeQuest = environment.activeQuest();
-                var diff3 = activeQuest.card().questPoints - activeQuest.questState().progress().count();
+                var diff3 = activeQuest.card().questPoints - activeQuest.progressState().count();
 
                 if (diff < diff3)
                 {
                     // activeQuest is not finished.
-                    activeQuest.questState().progress().increase(diff);
+                    activeQuest.progressState().increase(diff);
                 }
                 else
                 {

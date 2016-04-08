@@ -1,5 +1,5 @@
-define([ "EnemyCard", "game/AttachmentState", "game/TokenId", "game/WoundState" ], function(EnemyCard, AttachmentState,
-        TokenId, WoundState)
+define([ "EnemyCard", "game/AttachState", "game/CountState", "game/TokenId" ], function(EnemyCard, AttachState,
+        CountState, TokenId)
 {
     "use strict";
     function EnemyToken(cardKey)
@@ -26,12 +26,13 @@ define([ "EnemyCard", "game/AttachmentState", "game/TokenId", "game/WoundState" 
             return card;
         };
 
-        var attachmentState = new AttachmentState();
-        var woundState = new WoundState();
+        var woundState = new CountState();
 
-        this.attachmentState = function()
+        var attachState = new AttachState();
+
+        this.attachState = function()
         {
-            return attachmentState;
+            return attachState;
         };
 
         this.woundState = function()

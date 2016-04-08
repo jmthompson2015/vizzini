@@ -1,4 +1,4 @@
-define([ "QuestCard", "game/QuestState", "game/TokenId" ], function(QuestCard, QuestState, TokenId)
+define([ "QuestCard", "game/CountState", "game/TokenId" ], function(QuestCard, CountState, TokenId)
 {
     "use strict";
     function QuestToken(cardKey)
@@ -25,11 +25,11 @@ define([ "QuestCard", "game/QuestState", "game/TokenId" ], function(QuestCard, Q
             return card;
         };
 
-        var questState = new QuestState();
+        var progressState = new CountState();
 
-        this.questState = function()
+        this.progressState = function()
         {
-            return questState;
+            return progressState;
         };
     }
 

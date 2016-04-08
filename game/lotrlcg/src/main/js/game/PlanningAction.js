@@ -54,16 +54,16 @@ define(function()
             });
             heroes.forEach(function(hero)
             {
-                var resources = hero.resourceState().resources().count();
+                var resources = hero.resourceState().count();
 
                 if (cost <= resources)
                 {
-                    hero.resourceState().resources().decrease(cost);
+                    hero.resourceState().decrease(cost);
                     cost = 0;
                 }
                 else
                 {
-                    hero.resourceState().resources().decrease(resources);
+                    hero.resourceState().decrease(resources);
                     cost -= resources;
                 }
             });

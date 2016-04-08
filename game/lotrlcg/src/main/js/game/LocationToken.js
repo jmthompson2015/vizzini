@@ -1,4 +1,4 @@
-define([ "LocationCard", "game/QuestState", "game/TokenId" ], function(LocationCard, QuestState, TokenId)
+define([ "LocationCard", "game/CountState", "game/TokenId" ], function(LocationCard, CountState, TokenId)
 {
     "use strict";
     function LocationToken(cardKey)
@@ -25,11 +25,11 @@ define([ "LocationCard", "game/QuestState", "game/TokenId" ], function(LocationC
             return card;
         };
 
-        var questState = new QuestState();
+        var progressState = new CountState();
 
-        this.questState = function()
+        this.progressState = function()
         {
-            return questState;
+            return progressState;
         };
     }
 

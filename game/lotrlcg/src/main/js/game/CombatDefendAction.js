@@ -52,7 +52,7 @@ define(function()
 
             if (defender)
             {
-                defender.exhaustState().isExhausted(true);
+                defender.exhaustState().isMarked(true);
             }
 
             // 3. Resolve shadow effect, if any.
@@ -65,7 +65,7 @@ define(function()
             {
                 if (defender)
                 {
-                    defender.woundState().wounds().increase(damage);
+                    defender.woundState().increase(damage);
                 }
                 else
                 {

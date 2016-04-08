@@ -1,4 +1,4 @@
-define([ "AttachmentCard", "game/ExhaustState", "game/TokenId" ], function(AttachmentCard, ExhaustState, TokenId)
+define([ "AttachmentCard", "game/MarkerState", "game/TokenId" ], function(AttachmentCard, MarkerState, TokenId)
 {
     "use strict";
     function AttachmentToken(cardKey)
@@ -25,7 +25,7 @@ define([ "AttachmentCard", "game/ExhaustState", "game/TokenId" ], function(Attac
             return card;
         };
 
-        var exhaustState = new ExhaustState();
+        var exhaustState = new MarkerState();
 
         this.exhaustState = function()
         {

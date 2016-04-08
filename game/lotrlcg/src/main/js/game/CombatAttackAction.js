@@ -54,7 +54,7 @@ define(function()
             {
                 attackers.forEach(function(attacker)
                 {
-                    attacker.exhaustState().isExhausted(true);
+                    attacker.exhaustState().isMarked(true);
                 });
 
                 // 3. Determine combat damage.
@@ -68,7 +68,7 @@ define(function()
 
                 if (damage > 0)
                 {
-                    enemy.woundState().wounds().increase(damage);
+                    enemy.woundState().increase(damage);
                 }
             }
         });
