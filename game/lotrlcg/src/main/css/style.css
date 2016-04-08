@@ -40,6 +40,6 @@ table {
     padding: 10px;
 }
 
-#WIDTH_TOKEN, .tokenUIImage, .widthToken {
-    width: 125px;
+#WIDTH_100, .tokenUIImage, .width100 {
+    width: 100px;
 }
