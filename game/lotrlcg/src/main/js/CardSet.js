@@ -87,6 +87,7 @@ define([ "CardSetType" ], function(CardSetType)
             "som1TheHuntForGollum":
             {
                 name: "Shadows of Mirkwood: 1 The Hunt for Gollum",
+                shortName:"thfg",
                 type: CardSetType.ADVENTURE_PACK,
                 value: "som1TheHuntForGollum",
             },

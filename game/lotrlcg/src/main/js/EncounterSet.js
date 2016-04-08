@@ -6,6 +6,7 @@ define([ "CardSet" ], function(CardSet)
         DOL_GULDUR_ORCS: "dolGuldurOrcs",
         PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",
         SPIDERS_OF_MIRKWOOD: "spidersOfMirkwood",
+        WILDERLANDS: "wilderlands",
 
         properties:
         {
@@ -26,6 +27,12 @@ define([ "CardSet" ], function(CardSet)
                 name: "Spiders of Mirkwood",
                 cardSet: CardSet.CORE,
                 value: "spidersOfMirkwood",
+            },
+            "wilderlands":
+            {
+                name: "Wilderlands",
+                cardSet: CardSet.CORE,
+                value: "wilderlands",
             },
         },
 
