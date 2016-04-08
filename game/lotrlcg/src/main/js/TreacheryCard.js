@@ -1,4 +1,5 @@
-define([ "CardType", "EncounterSet", "GameMode" ], function(CardType, EncounterSet, GameMode)
+define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator" ], function(CardType, EncounterSet, GameMode,
+        ImageNameCreator)
 {
     "use strict";
     var TreacheryCard =
@@ -50,6 +51,11 @@ define([ "CardType", "EncounterSet", "GameMode" ], function(CardType, EncounterS
     {
         var card = TreacheryCard.properties[cardKey];
         card.cardType = CardType.TREACHERY;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)

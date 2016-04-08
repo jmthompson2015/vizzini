@@ -1,4 +1,5 @@
-define([ "CardType", "EncounterSet", "GameMode", "Trait" ], function(CardType, EncounterSet, GameMode, Trait)
+define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], function(CardType, EncounterSet,
+        GameMode, ImageNameCreator, Trait)
 {
     "use strict";
     var EnemyCard =
@@ -103,7 +104,7 @@ define([ "CardType", "EncounterSet", "GameMode", "Trait" ], function(CardType, E
                 defense: 0,
                 hitPoints: 2,
                 traits: [ Trait.GOBLIN, Trait.ORC ],
-                // set: CardSet.CORE,
+                encounterSet: EncounterSet.WILDERLANDS,
                 value: "goblinSniper",
             },
             "hummerhorns":
@@ -157,6 +158,11 @@ define([ "CardType", "EncounterSet", "GameMode", "Trait" ], function(CardType, E
     {
         var card = EnemyCard.properties[cardKey];
         card.cardType = CardType.ENEMY;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)

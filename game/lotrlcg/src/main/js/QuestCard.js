@@ -1,4 +1,4 @@
-define([ "CardType", "EncounterSet" ], function(CardType, EncounterSet)
+define([ "CardType", "EncounterSet", "ImageNameCreator" ], function(CardType, EncounterSet, ImageNameCreator)
 {
     "use strict";
     var QuestCard =
@@ -58,6 +58,11 @@ define([ "CardType", "EncounterSet" ], function(CardType, EncounterSet)
     {
         var card = QuestCard.properties[cardKey];
         card.cardType = CardType.LOCATION;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)

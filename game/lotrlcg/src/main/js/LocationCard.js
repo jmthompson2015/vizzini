@@ -1,4 +1,5 @@
-define([ "CardType", "EncounterSet", "GameMode", "Trait" ], function(CardType, EncounterSet, GameMode, Trait)
+define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], function(CardType, EncounterSet,
+        GameMode, ImageNameCreator, Trait)
 {
     "use strict";
     var LocationCard =
@@ -84,6 +85,11 @@ define([ "CardType", "EncounterSet", "GameMode", "Trait" ], function(CardType, E
     {
         var card = LocationCard.properties[cardKey];
         card.cardType = CardType.LOCATION;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)

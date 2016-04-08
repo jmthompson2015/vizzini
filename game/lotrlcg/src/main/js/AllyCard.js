@@ -1,4 +1,5 @@
-define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType, Sphere, Trait)
+define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardType, ImageNameCreator,
+        Sphere, Trait)
 {
     "use strict";
     var AllyCard =
@@ -564,6 +565,11 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
     {
         var card = AllyCard.properties[cardKey];
         card.cardType = CardType.ALLY;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)

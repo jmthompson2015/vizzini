@@ -1,4 +1,5 @@
-define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType, Sphere, Trait)
+define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardType, ImageNameCreator,
+        Sphere, Trait)
 {
     "use strict";
     var AttachmentCard =
@@ -325,6 +326,11 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
     {
         var card = AttachmentCard.properties[cardKey];
         card.cardType = CardType.ATTACHMENT;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)

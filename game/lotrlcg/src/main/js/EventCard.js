@@ -1,4 +1,4 @@
-define([ "CardSet", "CardType", "Sphere" ], function(CardSet, CardType, Sphere)
+define([ "CardSet", "CardType","ImageNameCreator", "Sphere" ], function(CardSet, CardType,ImageNameCreator, Sphere)
 {
     "use strict";
     var EventCard =
@@ -171,6 +171,11 @@ define([ "CardSet", "CardType", "Sphere" ], function(CardSet, CardType, Sphere)
     {
         var card = EventCard.properties[cardKey];
         card.cardType = CardType.EVENT;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)

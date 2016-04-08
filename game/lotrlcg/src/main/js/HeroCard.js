@@ -1,4 +1,5 @@
-define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType, Sphere, Trait)
+define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardType, ImageNameCreator,
+        Sphere, Trait)
 {
     "use strict";
     var HeroCard =
@@ -133,6 +134,7 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
                 traits: [ Trait.NOLDOR, Trait.NOBLE ],
                 sphere: Sphere.SPIRIT,
                 set: CardSet.THE_GREY_HAVENS,
+                image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_1.jpg",
                 value: "cirdanTheShipwright",
             },
             "denethor":
@@ -211,6 +213,7 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
                 traits: [ Trait.NOLDOR ],
                 sphere: Sphere.LORE,
                 set: CardSet.THE_GREY_HAVENS,
+                image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_2.jpg",
                 value: "galdorOfTheHavens",
             },
             "gimli":
@@ -369,6 +372,11 @@ define([ "CardSet", "CardType", "Sphere", "Trait" ], function(CardSet, CardType,
         var card = HeroCard.properties[cardKey];
         card.isUnique = true;
         card.cardType = CardType.HERO;
+
+        if (!card.image)
+        {
+            card.image = ImageNameCreator.create(card);
+        }
     });
 
     if (Object.freeze)
