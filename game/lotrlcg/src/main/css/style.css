@@ -26,12 +26,16 @@ table {
     background-color: Green;
 }
 
-#BACKGROUND_MEDIUM, .tokensPanel, .backgroundMedium {
+#BACKGROUND_MEDIUM, .statusBarUI, .tokensPanel, .backgroundMedium {
     background-color: lightGray;
 }
 
 #BACKGROUND_RED, .stagingAreaUIPanel, .backgroundRed {
     background-color: Maroon;
+}
+
+#BORDER_BLACK, .statusBarUICell, .borderBlack {
+    border: 1px solid black;
 }
 
 #CENTER, .agentUI, .handUICell, .locationQuestPanel, .playAreaUICell, .stagingAreaUIPanel, .tokenAreaUI, .tokensTable,
@@ -55,6 +59,11 @@ table {
 
 #PADDING_10, .tokenUIImagePreview, .padding10 {
     padding: 10px;
+}
+
+#PADDING_HORIZONTAL_5, .statusBarUICell, .paddingHorizontal5 {
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 #WIDTH_100, .tokenUIImage, .width100 {
