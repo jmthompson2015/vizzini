@@ -164,7 +164,7 @@ define([ "game/ui/LabeledImage" ], function(LabeledImage)
             {
                 element = React.createElement(LabeledImage,
                 {
-                    image: imageBase + "token/Progress32.png",
+                    image: "token/Progress32.png",
                     label: token.progressState().count(),
                     labelClass: "lightImageText",
                 });
@@ -183,7 +183,7 @@ define([ "game/ui/LabeledImage" ], function(LabeledImage)
             {
                 element = React.createElement(LabeledImage,
                 {
-                    image: imageBase + "token/Resource32.png",
+                    image: "token/Resource32.png",
                     label: token.resourceState().count(),
                     labelClass: "lightImageText",
                 });
@@ -194,7 +194,7 @@ define([ "game/ui/LabeledImage" ], function(LabeledImage)
             {
                 element = React.createElement(LabeledImage,
                 {
-                    image: imageBase + "token/Wound32.png",
+                    image: "token/Wound32.png",
                     label: token.woundState().count(),
                     labelClass: "lightImageText",
                 });

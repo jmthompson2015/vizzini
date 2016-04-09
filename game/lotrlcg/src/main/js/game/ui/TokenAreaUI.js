@@ -31,7 +31,7 @@ define([ "game/ui/TokenUI" ], function(TokenUI)
             {
                 var element = React.createElement(TokenUI,
                 {
-                    token: token,
+                    initialToken: token,
                 });
                 cells.push(React.DOM.td(
                 {

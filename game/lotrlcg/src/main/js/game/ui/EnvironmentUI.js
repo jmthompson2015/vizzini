@@ -11,12 +11,12 @@ define([ "game/ui/AgentUI", "game/ui/TokenAreaUI", "game/ui/TokenUI" ], function
             var activeLocationUI = React.createElement(TokenUI,
             {
                 label: "Active Location",
-                token: environment.activeLocation(),
+                initialToken: environment.activeLocation(),
             });
             var activeQuestUI = React.createElement(TokenUI,
             {
                 label: "Active Quest",
-                token: environment.activeQuest(),
+                initialToken: environment.activeQuest(),
             });
             var stagingAreaUI = React.createElement(TokenAreaUI,
             {

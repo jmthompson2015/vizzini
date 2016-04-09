@@ -34,6 +34,7 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
                 switch (phase)
                 {
                 case Phase.RESOURCE_START:
+                    environment.round().increase();
                     that.performResourcePhase();
                     break;
                 case Phase.RESOURCE_END:
