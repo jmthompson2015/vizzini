@@ -15,8 +15,8 @@ define([ "CardType", "EncounterSet", "ImageNameCreator" ], function(CardType, En
                 name: "A Chosen Path: Beorn's Path",
                 sequence: 3,
                 questPoints: 10,
-                encounterSet: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-                encounterSets: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
+                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+                encounterSetKeys: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
                 value: "aChosenPathBeornsPath",
             },
             "aChosenPathDontLeaveThePath":
@@ -24,8 +24,8 @@ define([ "CardType", "EncounterSet", "ImageNameCreator" ], function(CardType, En
                 name: "A Chosen Path: Don't Leave the Path!",
                 sequence: 3,
                 questPoints: 0,
-                encounterSet: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-                encounterSets: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
+                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+                encounterSetKeys: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
                 value: "aChosenPathDontLeaveThePath",
             },
             "aForkInTheRoad":
@@ -33,8 +33,8 @@ define([ "CardType", "EncounterSet", "ImageNameCreator" ], function(CardType, En
                 name: "A Fork in the Road",
                 sequence: 2,
                 questPoints: 2,
-                encounterSet: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-                encounterSets: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
+                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+                encounterSetKeys: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
                 value: "aForkInTheRoad",
             },
             "fliesAndSpiders":
@@ -42,8 +42,8 @@ define([ "CardType", "EncounterSet", "ImageNameCreator" ], function(CardType, En
                 name: "Flies and Spiders",
                 sequence: 1,
                 questPoints: 8,
-                encounterSet: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
-                encounterSets: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
+                encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
+                encounterSetKeys: [ EncounterSet.SPIDERS_OF_MIRKWOOD, EncounterSet.DOL_GULDUR_ORCS ],
                 value: "fliesAndSpiders",
             },
         },
@@ -57,7 +57,8 @@ define([ "CardType", "EncounterSet", "ImageNameCreator" ], function(CardType, En
     QuestCard.values().forEach(function(cardKey)
     {
         var card = QuestCard.properties[cardKey];
-        card.cardType = CardType.LOCATION;
+        card.cardType = CardType.QUEST;
+        card.encounterSet = EncounterSet.properties[card.encounterSetKey];
 
         if (!card.image)
         {

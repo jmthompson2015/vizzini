@@ -1,4 +1,4 @@
-define([ "CardSet", "EncounterSet" ], function(CardSet, EncounterSet)
+define([ "CardSet" ], function(CardSet)
 {
     "use strict";
     var ImageNameCreator =
@@ -21,9 +21,8 @@ define([ "CardSet", "EncounterSet" ], function(CardSet, EncounterSet)
             if (!cardSet)
             {
                 var encounterSet = card.encounterSet;
-                if (!EncounterSet.properties[encounterSet]) { throw "Can't find encounter set for card: " + card.name; }
-                var myCardSet = EncounterSet.properties[encounterSet].cardSet;
-                cardSet = CardSet.properties[myCardSet];
+                if (!encounterSet) { throw "Can't find encounter set for card: " + card.name; }
+                cardSet = CardSet.properties[encounterSet.cardSet];
             }
 
             var set;
@@ -43,7 +42,7 @@ define([ "CardSet", "EncounterSet" ], function(CardSet, EncounterSet)
         convert: function(string)
         {
             var answer = string.toLowerCase();
-            
+
             answer = this.convertSpace(answer);
             answer = this.removeDiacritic(answer);
             answer = this.removePunctuation(answer);

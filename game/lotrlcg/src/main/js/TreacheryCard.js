@@ -14,29 +14,29 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator" ], function(
             "caughtInAWeb":
             {
                 name: "Caught in a Web",
-                encounterSet: EncounterSet.SPIDERS_OF_MIRKWOOD,
-                gameMode: GameMode.STANDARD,
+                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
+                gameModeKey: GameMode.STANDARD,
                 value: "caughtInAWeb",
             },
             "drivenByShadow":
             {
                 name: "Driven by Shadow",
-                encounterSet: EncounterSet.DOL_GULDUR_ORCS,
-                gameMode: GameMode.EASY,
+                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
+                gameModeKey: GameMode.EASY,
                 value: "drivenByShadow",
             },
             "eyesOfTheForest":
             {
                 name: "Eyes of the Forest",
-                encounterSet: EncounterSet.SPIDERS_OF_MIRKWOOD,
-                gameMode: GameMode.STANDARD,
+                encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
+                gameModeKey: GameMode.STANDARD,
                 value: "eyesOfTheForest",
             },
             "theNecromancersReach":
             {
                 name: "The Necromancer's Reach",
-                encounterSet: EncounterSet.DOL_GULDUR_ORCS,
-                gameMode: GameMode.STANDARD,
+                encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
+                gameModeKey: GameMode.STANDARD,
                 value: "theNecromancersReach",
             },
         },
@@ -51,6 +51,8 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator" ], function(
     {
         var card = TreacheryCard.properties[cardKey];
         card.cardType = CardType.TREACHERY;
+        card.encounterSet = EncounterSet.properties[card.encounterSetKey];
+        card.gameMode = GameMode.properties[card.gameModeKey];
 
         if (!card.image)
         {

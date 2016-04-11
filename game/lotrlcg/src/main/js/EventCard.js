@@ -1,4 +1,4 @@
-define([ "CardSet", "CardType","ImageNameCreator", "Sphere" ], function(CardSet, CardType,ImageNameCreator, Sphere)
+define([ "CardSet", "CardType", "ImageNameCreator", "Sphere" ], function(CardSet, CardType, ImageNameCreator, Sphere)
 {
     "use strict";
     var EventCard =
@@ -27,136 +27,136 @@ define([ "CardSet", "CardType","ImageNameCreator", "Sphere" ], function(CardSet,
             {
                 name: "A Light in the Dark",
                 cost: 2,
-                sphere: Sphere.SPIRIT,
-                set: CardSet.CORE,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.CORE,
                 value: "aLightInTheDark",
             },
             "aTestOfWill":
             {
                 name: "A Test of Will",
                 cost: 1,
-                sphere: Sphere.SPIRIT,
-                set: CardSet.CORE,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.CORE,
                 value: "aTestOfWill",
             },
             "campfireTales":
             {
                 name: "Campfire Tales",
                 cost: 1,
-                sphere: Sphere.LEADERSHIP,
-                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "campfireTales",
             },
             "dwarvenTomb":
             {
                 name: "Dwarven Tomb",
                 cost: 1,
-                sphere: Sphere.SPIRIT,
-                set: CardSet.CORE,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.CORE,
                 value: "dwarvenTomb",
             },
             "feint":
             {
                 name: "Feint",
                 cost: 1,
-                sphere: Sphere.TACTICS,
-                set: CardSet.CORE,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.CORE,
                 value: "feint",
             },
             "forGondor":
             {
                 name: "For Gondor!",
                 cost: 2,
-                sphere: Sphere.LEADERSHIP,
-                set: CardSet.CORE,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.CORE,
                 value: "forGondor",
             },
             "hastyStroke":
             {
                 name: "Hasty Stroke",
                 cost: 1,
-                sphere: Sphere.SPIRIT,
-                set: CardSet.CORE,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.CORE,
                 value: "hastyStroke",
             },
             "musteringTheRohirrim":
             {
                 name: "Mustering the Rohirrim",
                 cost: 1,
-                sphere: Sphere.SPIRIT,
-                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "musteringTheRohirrim",
             },
             "quickStrike":
             {
                 name: "Quick Strike",
                 cost: 1,
-                sphere: Sphere.TACTICS,
-                set: CardSet.CORE,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.CORE,
                 value: "quickStrike",
             },
             "radagastsCunning":
             {
                 name: "Radagast's Cunning",
                 cost: 1,
-                sphere: Sphere.LORE,
-                set: CardSet.CORE,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.CORE,
                 value: "radagastsCunning",
             },
             "sneakAttack":
             {
                 name: "Sneak Attack",
                 cost: 1,
-                sphere: Sphere.LEADERSHIP,
-                set: CardSet.CORE,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.CORE,
                 value: "sneakAttack",
             },
             "standAndFight":
             {
                 name: "Stand and Fight",
                 // cost: 1,
-                sphere: Sphere.SPIRIT,
-                set: CardSet.CORE,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.CORE,
                 value: "standAndFight",
             },
             "stridersPath":
             {
                 name: "Strider's Path",
                 cost: 1,
-                sphere: Sphere.LORE,
-                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "stridersPath",
             },
             "swiftStrike":
             {
                 name: "Swift Strike",
                 cost: 2,
-                sphere: Sphere.TACTICS,
-                set: CardSet.CORE,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.CORE,
                 value: "swiftStrike",
             },
             "theEaglesAreComing":
             {
                 name: "The Eagles Are Coming!",
                 cost: 0,
-                sphere: Sphere.TACTICS,
-                set: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "theEaglesAreComing",
             },
             "theGaladhrimsGreeting":
             {
                 name: "The Galadhrim's Greeting",
                 cost: 3,
-                sphere: Sphere.SPIRIT,
-                set: CardSet.CORE,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.CORE,
                 value: "theGaladhrimsGreeting",
             },
             "valiantSacrifice":
             {
                 name: "Valiant Sacrifice",
                 cost: 1,
-                sphere: Sphere.LEADERSHIP,
-                set: CardSet.CORE,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.CORE,
                 value: "valiantSacrifice",
             },
         },
@@ -170,7 +170,9 @@ define([ "CardSet", "CardType","ImageNameCreator", "Sphere" ], function(CardSet,
     EventCard.values().forEach(function(cardKey)
     {
         var card = EventCard.properties[cardKey];
+        card.cardSet = CardSet.properties[card.setKey];
         card.cardType = CardType.EVENT;
+        card.sphere = Sphere.properties[card.sphereKey];
 
         if (!card.image)
         {
