@@ -20,8 +20,8 @@ table {
     vertical-align: bottom;
 }
 
-#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .optionPaneInput, .squadBuilderPanel, .squadChooserPanel,
-    .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
+#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .energyLabel, .optionPaneInput, .squadBuilderPanel,
+    .squadChooserPanel, .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
     text-align: left;
 }
 
@@ -183,6 +183,10 @@ table {
 
 #WIDTH_16, .maneuverCell, .width16 {
     width: 16px;
+}
+
+#WIDTH_40, .energyInput, .width40 {
+    width: 40px;
 }
 
 #WIDTH_FULL, #mainTable, .nameTable, .pilotCardUITokensPanel, .pilotCardUITokensTable, .pilotCardUIUpgradeCell,

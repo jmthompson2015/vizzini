@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestAgentUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<style>
+.agentUI {
+    background-color: LightGray,
+}
+
+.agentUILabel {
+    background-color: DarkGray,
+}
+
+.engagementAreaUI {
+    background-color: Red,
+}
+
+.playAreaUI {
+    background-color: Green,
+}
+
+.handUI {
+    background-color: Blue,
+}
+
+#CENTER, .engagementAreaUI, .handUI, .playAreaUI, .center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+</style>
+
+</head>
+<body>
+	<div id="panel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "AllyCard", "CardSet", "EnemyCard", "HeroCard", "LocationCard", "game/Agent", "game/CardInstance",
+                "game/ui/AgentUI" ], function(AllyCard, CardSet, EnemyCard, HeroCard, LocationCard, Agent,
+                CardInstance, AgentUI)
+        {
+            var agent = createAgent0();
+            var element = React.createElement(AgentUI,
+            {
+                agent: agent,
+            });
+            ReactDOM.render(element, document.getElementById("panel"));
+
+            function createAgent0()
+            {
+                var id = 0;
+                var name = "Aaron";
+                var heroes = [];
+                heroes.push(CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP));
+                heroes.push(CardInstance.hero(HeroCard.THEODRED));
+                heroes.push(CardInstance.hero(HeroCard.DENETHOR));
+                var playerCards = [];
+                AllyCard.values().forEach(function(cardKey)
+                {
+                    var card = AllyCard.properties[cardKey];
+                    if (card.set === CardSet.CORE)
+                    {
+                        playerCards.push(CardInstance.ally(cardKey));
+                    }
+                });
+                var agent = Agent(id, name, heroes, playerCards);
+
+                agent.engagementArea.push(CardInstance.enemy(EnemyCard.FOREST_SPIDER));
+
+                // Deal 6 cards.
+                for (var i = 0; i < 6; i++)
+                {
+                    var card = playerCards.shift();
+                    agent.hand.push(card);
+                }
+
+                return agent;
+            }
+        });
+    </script>
+</body>
+</html>
