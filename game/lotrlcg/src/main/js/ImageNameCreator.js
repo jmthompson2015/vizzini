@@ -16,7 +16,7 @@ define([ "CardSet" ], function(CardSet)
                 name = this.convert(card.name);
             }
 
-            var cardSet = CardSet.properties[card.set];
+            var cardSet = card.cardSet;
 
             if (!cardSet)
             {

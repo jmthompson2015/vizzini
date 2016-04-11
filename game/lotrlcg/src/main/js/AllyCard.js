@@ -564,7 +564,7 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
     AllyCard.values().forEach(function(cardKey)
     {
         var card = AllyCard.properties[cardKey];
-        card.cardSet = CardSet.properties[card.setKey];
+        card.cardSet = CardSet.properties[card.cardSetKey];
         card.cardType = CardType.ALLY;
         card.sphere = Sphere.properties[card.sphereKey];
 

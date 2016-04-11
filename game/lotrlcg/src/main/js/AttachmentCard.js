@@ -325,7 +325,7 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
     AttachmentCard.values().forEach(function(cardKey)
     {
         var card = AttachmentCard.properties[cardKey];
-        card.cardSet = CardSet.properties[card.setKey];
+        card.cardSet = CardSet.properties[card.cardSetKey];
         card.cardType = CardType.ATTACHMENT;
         card.sphere = Sphere.properties[card.sphereKey];
 

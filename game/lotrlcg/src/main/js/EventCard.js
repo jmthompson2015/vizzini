@@ -170,7 +170,7 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere" ], function(CardSet
     EventCard.values().forEach(function(cardKey)
     {
         var card = EventCard.properties[cardKey];
-        card.cardSet = CardSet.properties[card.setKey];
+        card.cardSet = CardSet.properties[card.cardSetKey];
         card.cardType = CardType.EVENT;
         card.sphere = Sphere.properties[card.sphereKey];
 

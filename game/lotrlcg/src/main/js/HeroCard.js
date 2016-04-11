@@ -396,7 +396,7 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
     {
         var card = HeroCard.properties[cardKey];
         card.isUnique = true;
-        card.cardSet = CardSet.properties[card.setKey];
+        card.cardSet = CardSet.properties[card.cardSetKey];
         card.cardType = CardType.HERO;
         card.sphere = Sphere.properties[card.sphereKey];
 
