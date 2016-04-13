@@ -5,6 +5,7 @@ define(function()
     {
         ADVENTURE_PACK: "adventurePack",
         CORE: "core",
+        CYCLE:"cycle",
         DELUXE: "deluxe",
         SAGA: "saga",
 
@@ -19,6 +20,11 @@ define(function()
             {
                 name: "Core",
                 value: "core",
+            },
+            "cycle":
+            {
+                name: "Cycle",
+                value: "cycle",
             },
             "deluxe":
             {

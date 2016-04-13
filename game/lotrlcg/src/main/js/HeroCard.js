@@ -1,5 +1,5 @@
-define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardType, ImageNameCreator,
-        Sphere, Trait)
+define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardSubset,
+        CardType, ImageNameCreator, Sphere, Trait)
 {
     "use strict";
     var HeroCard =
@@ -11,19 +11,26 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
         BIFUR: "bifur",
         BILBO_BAGGINS_BAGGINS: "bilboBagginsBaggins",
         BILBO_BAGGINS_LORE: "bilboBagginsLore",
+        BOROMIR: "boromir",
+        BRAND_SON_OF_BAIN: "brandSonOfBain",
         CIRDAN_THE_SHIPWRIGHT: "cirdanTheShipwright",
+        DAIN_IRONFOOT: "dainIronfoot",
         DENETHOR: "denethor",
         DWALIN: "dwalin",
         DUNHERE: "dunhere",
         ELEANOR: "eleanor",
+        ELROND: "elrond",
         EOWYN: "eowyn",
+        FRODO_BAGGINS: "frodoBaggins",
         GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
         GIMLI: "gimli",
         GLOIN: "gloin",
         GLORFINDEL: "glorfindel",
+        HAMA: "hama",
         LEGOLAS: "legolas",
         NORI: "nori",
         ORI: "ori",
+        PRINCE_IMRAHIL: "princeImrahil",
         THALIN: "thalin",
         THEODEN: "theoden",
         THEODRED: "theodred",
@@ -126,9 +133,40 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 hitPoints: 2,
                 traitKeys: [ Trait.HOBBIT ],
                 sphereKey: Sphere.LORE,
-                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 cardSetNumber: 1,
                 value: "bilboBagginsLore",
+            },
+            "boromir":
+            {
+                name: "Boromir",
+                threatCost: 11,
+                willpower: 1,
+                attack: 3,
+                defense: 2,
+                hitPoints: 5,
+                traitKeys: [ Trait.GONDOR, Trait.NOBLE, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
+                cardSetNumber: 95,
+                value: "boromir",
+            },
+            "brandSonOfBain":
+            {
+                name: "Brand Son of Bain",
+                threatCost: 10,
+                willpower: 2,
+                attack: 3,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.DALE ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
+                cardSetNumber: 72,
+                value: "brandSonOfBain",
             },
             "cirdanTheShipwright":
             {
@@ -144,6 +182,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetNumber: 1,
                 image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_1.jpg",
                 value: "cirdanTheShipwright",
+            },
+            "dainIronfoot":
+            {
+                name: "Dain Ironfoot",
+                threatCost: 11,
+                willpower: 1,
+                attack: 2,
+                defense: 3,
+                hitPoints: 5,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+                cardSetNumber: 116,
+                value: "dainIronfoot",
             },
             "denethor":
             {
@@ -201,6 +254,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetNumber: 8,
                 value: "eleanor",
             },
+            "elrond":
+            {
+                name: "Elrond",
+                threatCost: 13,
+                willpower: 3,
+                attack: 2,
+                defense: 3,
+                hitPoints: 4,
+                traitKeys: [ Trait.NOLDOR, Trait.NOBLE ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.D6_SHADOW_AND_FLAME,
+                cardSetNumber: 128,
+                value: "elrond",
+            },
             "eowyn":
             {
                 name: "Éowyn",
@@ -214,6 +282,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.CORE,
                 cardSetNumber: 7,
                 value: "eowyn",
+            },
+            "frodoBaggins":
+            {
+                name: "Frodo Baggins",
+                threatCost: 7,
+                willpower: 2,
+                attack: 1,
+                defense: 2,
+                hitPoints: 2,
+                traitKeys: [ Trait.HOBBIT ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
+                cardSetNumber: 25,
+                value: "frodoBaggins",
             },
             "galdorOfTheHavens":
             {
@@ -272,6 +355,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetNumber: 11,
                 value: "glorfindel",
             },
+            "hama":
+            {
+                name: "Háma",
+                threatCost: 9,
+                willpower: 1,
+                attack: 3,
+                defense: 1,
+                hitPoints: 4,
+                traitKeys: [ Trait.ROHAN, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
+                cardSetNumber: 76,
+                value: "hama",
+            },
             "legolas":
             {
                 name: "Legolas",
@@ -313,6 +411,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 cardSetNumber: 4,
                 value: "ori",
+            },
+            "princeImrahil":
+            {
+                name: "Prince Imrahil",
+                threatCost: 11,
+                willpower: 2,
+                attack: 3,
+                defense: 2,
+                hitPoints: 4,
+                traitKeys: [ Trait.GONDOR, Trait.NOBLE ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
+                cardSetNumber: 50,
+                value: "princeImrahil",
             },
             "thalin":
             {
@@ -397,7 +510,12 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
         var card = HeroCard.properties[cardKey];
         card.isUnique = true;
         card.cardSet = CardSet.properties[card.cardSetKey];
-        card.cardType = CardType.HERO;
+        if (card.cardSubsetKey)
+        {
+            card.cardSubset = CardSubset.properties[card.cardSubsetKey];
+        }
+        card.cardTypeKey = CardType.HERO;
+        card.cardType = CardType.properties[card.cardTypeKey];
         card.sphere = Sphere.properties[card.sphereKey];
 
         if (!card.image)

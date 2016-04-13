@@ -3,6 +3,8 @@ define(function()
     "use strict";
     var Phase =
     {
+        SETUP: "setup",
+
         RESOURCE_START: "resourceStart",
         RESOURCE_END: "resourceEnd",
 
@@ -43,6 +45,11 @@ define(function()
 
         properties:
         {
+            "setup":
+            {
+                name: "Setup",
+                value: "setup",
+            },
             "resourceStart":
             {
                 name: "Resource (start)",

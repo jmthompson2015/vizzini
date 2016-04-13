@@ -41,6 +41,18 @@ define([ "LocationCard" ], function(LocationCard)
         });
     });
 
+    QUnit.test("traits", function(assert)
+    {
+        LocationCard.values().forEach(function(cardKey)
+        {
+            var card = LocationCard.properties[cardKey];
+            card.traitKeys.forEach(function(traitKey)
+            {
+                assert.ok(traitKey, "Missing traitKey for cardKey = " + cardKey);
+            });
+        });
+    });
+
     QUnit.test("LocationCard.values()", function(assert)
     {
         // Run.

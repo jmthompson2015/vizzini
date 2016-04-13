@@ -56,8 +56,9 @@ define([ "Phase" ], function(Phase)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 31);
+        assert.equal(result.length, 32);
         var i = 0;
+        assert.equal(result[i++], Phase.SETUP);
         assert.equal(result[i++], Phase.RESOURCE_START);
         assert.equal(result[i++], Phase.RESOURCE_END);
         assert.equal(result[i++], Phase.PLANNING_START);

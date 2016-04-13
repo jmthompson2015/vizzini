@@ -50,7 +50,8 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator" ], function(
     TreacheryCard.values().forEach(function(cardKey)
     {
         var card = TreacheryCard.properties[cardKey];
-        card.cardType = CardType.TREACHERY;
+        card.cardTypeKey = CardType.TREACHERY;
+        card.cardType = CardType.properties[card.cardTypeKey];
         card.encounterSet = EncounterSet.properties[card.encounterSetKey];
         card.gameMode = GameMode.properties[card.gameModeKey];
 

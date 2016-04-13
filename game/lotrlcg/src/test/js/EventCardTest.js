@@ -48,8 +48,8 @@ define([ "EventCard" ], function(EventCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 17);
-        assert.equal(result[0], EventCard.A_LIGHT_IN_THE_DARK);
-        assert.equal(result[16], EventCard.VALIANT_SACRIFICE);
+        assert.equal(result.length, 38);
+        assert.equal(result[0], EventCard.A_ELDERETH_GILTHONIEL);
+        assert.equal(result[37], EventCard.WORD_OF_COMMAND);
     });
 });

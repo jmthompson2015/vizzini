@@ -160,7 +160,7 @@ define([ "CardType", "Phase", "game/CountState" ], function(CardType, Phase, Cou
 
         return playArea.filter(function(token)
         {
-            return token.card().cardType === CardType.ALLY;
+            return token.card().cardTypeKey === CardType.ALLY;
         });
     };
 
@@ -172,8 +172,8 @@ define([ "CardType", "Phase", "game/CountState" ], function(CardType, Phase, Cou
 
         return playArea.filter(function(token)
         {
-            var cardType = token.card().cardType;
-            return cardType === CardType.ALLY || cardType === CardType.HERO;
+            var cardTypeKey = token.card().cardTypeKey;
+            return cardTypeKey === CardType.ALLY || cardTypeKey === CardType.HERO;
         });
     };
 
@@ -183,7 +183,7 @@ define([ "CardType", "Phase", "game/CountState" ], function(CardType, Phase, Cou
 
         return stagingArea.filter(function(token)
         {
-            return token.card().cardType === CardType.ENEMY;
+            return token.card().cardTypeKey === CardType.ENEMY;
         });
     };
 
@@ -195,7 +195,7 @@ define([ "CardType", "Phase", "game/CountState" ], function(CardType, Phase, Cou
 
         return playArea.filter(function(token)
         {
-            return token.card().cardType === CardType.HERO;
+            return token.card().cardTypeKey === CardType.HERO;
         });
     };
 
@@ -205,7 +205,7 @@ define([ "CardType", "Phase", "game/CountState" ], function(CardType, Phase, Cou
 
         return stagingArea.filter(function(token)
         {
-            return token.card().cardType === CardType.LOCATION;
+            return token.card().cardTypeKey === CardType.LOCATION;
         });
     };
 

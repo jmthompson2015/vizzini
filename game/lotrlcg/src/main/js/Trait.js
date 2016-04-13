@@ -4,11 +4,14 @@ define(function()
     var Trait =
     {
         ARCHER: "archer",
+        ARMOR: "armor",
         ARTIFACT: "artifact",
         BEORNING: "beorning",
+        BOON: "boon",
         CONDITION: "condition",
         CRAFTSMAN: "craftsman",
         CREATURE: "creature",
+        DALE: "dale",
         DOL_GULDUR: "dolGuldur",
         DUNEDAIN: "dunedain",
         DWARF: "dwarf",
@@ -17,10 +20,12 @@ define(function()
         FOREST: "forest",
         GOBLIN: "goblin",
         GONDOR: "gondor",
+        HEALER: "healer",
         HOBBIT: "hobbit",
         INSECT: "insect",
         ISTARI: "istari",
         ITEM: "item",
+        MATHOM: "mathom",
         MEARAS: "mearas",
         MINSTREL: "minstrel",
         MOUNT: "mount",
@@ -51,6 +56,11 @@ define(function()
                 name: "Archer",
                 value: "archer",
             },
+            "armor":
+            {
+                name: "Armor",
+                value: "armor",
+            },
             "artifact":
             {
                 name: "Artifact",
@@ -60,6 +70,11 @@ define(function()
             {
                 name: "Beorning",
                 value: "beorning",
+            },
+            "boon":
+            {
+                name: "Boon",
+                value: "boon",
             },
             "condition":
             {
@@ -75,6 +90,11 @@ define(function()
             {
                 name: "Creature",
                 value: "creature",
+            },
+            "dale":
+            {
+                name: "Dale",
+                value: "dale",
             },
             "dolGuldur":
             {
@@ -116,6 +136,11 @@ define(function()
                 name: "Gondor",
                 value: "gondor",
             },
+            "healer":
+            {
+                name: "Healer",
+                value: "healer",
+            },
             "hobbit":
             {
                 name: "Hobbit",
@@ -135,6 +160,11 @@ define(function()
             {
                 name: "Item",
                 value: "item",
+            },
+            "mathom":
+            {
+                name: "Mathom",
+                value: "mathom",
             },
             "mearas":
             {

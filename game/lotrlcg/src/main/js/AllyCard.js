@@ -1,45 +1,67 @@
-define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardType, ImageNameCreator,
-        Sphere, Trait)
+define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardSubset,
+        CardType, ImageNameCreator, Sphere, Trait)
 {
     "use strict";
     var AllyCard =
     {
         BEORN: "beorn",
+        BEORNING_BEEKEEPER: "beorningBeekeeper",
         BOFUR: "bofur",
         BROK_IRONFIST: "brokIronfist",
         DAUGHTER_OF_THE_NIMRODEL: "daughterOfTheNimrodel",
+        DESCENDANT_OF_THORONDOR: "descendantOfThorondor",
         DORI: "dori",
+        DUNEDAIN_WATCHER: "dunedainWatcher",
+        EAGLES_OF_THE_MISTY_MOUNTAINS: "eaglesOfTheMistyMountains",
+        ELFHELM: "elfhelm",
+        EOMUND: "eomund",
+        EREBOR_BATTLE_MASTER: "ereborBattleMaster",
         EREBOR_HAMMERSMITH: "ereborHammersmith",
         EREBOR_RECORD_KEEPER: "ereborRecordKeeper",
+        ERESTOR: "erestor",
+        ESCORT_FROM_EDORAS: "escortFromEdoras",
         FARAMIR: "faramir",
         FILI: "fili",
         GANDALF: "gandalf",
+        GILDOR_INGLORION: "gildorInglorion",
         GIMLI: "gimli",
         GLEOWINE: "gleowine",
         GONDORIAN_SPEARMAN: "gondorianSpearman",
         GUARD_OF_THE_CITADEL: "guardOfTheCitadel",
+        HALDIR_OF_LORIEN: "haldirOfLorien",
         HAMA: "hama",
         HENAMARTH_RIVERSONG: "henamarthRiversong",
         HORSEBACK_ARCHER: "horsebackArcher",
+        KEEN_EYED_TOOK: "keenEyedTook",
         KILI: "kili",
+        LANDROVAL: "landroval",
         LEGOLAS: "legolas",
         LINDON_NAVIGATOR: "lindonNavigator",
+        LONGBEARD_MAP_MAKER: "longbeardMapMaker",
         LONGBEARD_ORC_SLAYER: "longbeardOrcSlayer",
         LORIEN_GUIDE: "lorienGuide",
+        MASTER_OF_THE_FORGE: "masterOfTheForge",
         MINER_OF_THE_IRON_HILLS: "minerOfTheIronHills",
+        MIRKWOOD_RUNNER: "mirkwoodRunner",
         MITHLOND_SEA_WATCHER: "mithlondSeaWatcher",
         NORTHERN_TRACKER: "northernTracker",
         QUICKBEAM: "quickbeam",
+        RADAGAST: "radagast",
         RIVENDELL_MINSTREL: "rivendellMinstrel",
         SAILOR_OF_LUNE: "sailorOfLune",
+        SILVAN_TRACKER: "silvanTracker",
         SILVERLOAD_ARCHER: "silverloadArcher",
         SNOWBOURN_SCOUT: "snowbournScout",
         SON_OF_ARNOR: "sonOfArnor",
+        THE_RIDDERMARKS_FINEST: "theRiddermarksFinest",
+        VASSAL_OF_THE_WINDLORD: "vassalOfTheWindlord",
         VETERAN_AXEHAND: "veteranAxehand",
         VETERAN_OF_NANDUHIRION: "veteranOfNanduhirion",
         WANDERING_TOOK: "wanderingTook",
+        WARDEN_OF_HEALING: "wardenOfHealing",
         WARDEN_OF_THE_HAVENS: "wardenOfTheHavens",
         WESTFOLD_HORSE_BREAKER: "westfoldHorseBreaker",
+        WEST_ROAD_TRAVELLER: "westRoadTraveller",
         WINGED_GUARDIAN: "wingedGuardian",
         ZIGIL_MINER: "zigilMiner",
 
@@ -58,6 +80,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.CORE,
                 value: "beorn",
+            },
+            "beorningBeekeeper":
+            {
+                name: "Beorning Beekeeper",
+                cost: 4,
+                willpower: 1,
+                attack: 2,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.BEORNING ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
+                value: "beorningBeekeeper",
             },
             "bofur":
             {
@@ -100,6 +136,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.CORE,
                 value: "daughterOfTheNimrodel",
             },
+            "descendantOfThorondor":
+            {
+                name: "Descendant of Thorondor",
+                cost: 4,
+                willpower: 1,
+                attack: 2,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.CREATURE, Trait.EAGLE ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
+                value: "descendantOfThorondor",
+            },
             "dori":
             {
                 name: "Dori",
@@ -113,6 +163,78 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 value: "dori",
+            },
+            "dunedainWatcher":
+            {
+                name: "Dúnedain Watcher",
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.DUNEDAIN ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+                value: "dunedainWatcher",
+            },
+            "eaglesOfTheMistyMountains":
+            {
+                name: "Eagles of the Misty Mountains",
+                cost: 4,
+                willpower: 2,
+                attack: 2,
+                defense: 2,
+                hitPoints: 4,
+                traitKeys: [ Trait.CREATURE, Trait.EAGLE ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
+                value: "eaglesOfTheMistyMountains",
+            },
+            "elfhelm":
+            {
+                name: "Elfhelm",
+                isUnique: true,
+                cost: 4,
+                willpower: 1,
+                attack: 2,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.ROHAN, Trait.WARRIOR ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+                value: "elfhelm",
+            },
+            "eomund":
+            {
+                name: "Éomund",
+                isUnique: true,
+                cost: 3,
+                willpower: 2,
+                attack: 1,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.ROHAN ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
+                value: "eomund",
+            },
+            "ereborBattleMaster":
+            {
+                name: "Erebor Battle Master",
+                cost: 3,
+                willpower: 0,
+                attack: 1,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.DWARF, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
+                value: "ereborBattleMaster",
             },
             "ereborHammersmith":
             {
@@ -139,6 +261,35 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.KHAZAD_DUM,
                 value: "ereborRecordKeeper",
+            },
+            "erestor":
+            {
+                name: "Erestor",
+                isUnique: true,
+                cost: 4,
+                willpower: 2,
+                attack: 0,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.NOLDOR ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
+                value: "erestor",
+            },
+            "escortFromEdoras":
+            {
+                name: "Escort from Edoras",
+                cost: 2,
+                willpower: 2,
+                attack: 0,
+                defense: 0,
+                hitPoints: 1,
+                traitKeys: [ Trait.ROHAN ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
+                value: "escortFromEdoras",
             },
             "faramir":
             {
@@ -181,6 +332,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 sphereKey: Sphere.NEUTRAL,
                 cardSetKey: CardSet.CORE,
                 value: "gandalf",
+            },
+            "gildorInglorion":
+            {
+                name: "gildorInglorion",
+                isUnique: true,
+                cost: 5,
+                willpower: 3,
+                attack: 2,
+                defense: 3,
+                hitPoints: 3,
+                traitKeys: [ Trait.NOLDOR ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
+                value: "gildorInglorion",
             },
             "gimli":
             {
@@ -236,6 +402,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.CORE,
                 value: "guardOfTheCitadel",
             },
+            "haldirOfLorien":
+            {
+                name: "Haldir of Lórien",
+                isUnique: true,
+                cost: 4,
+                willpower: 2,
+                attack: 2,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.SILVAN ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
+                value: "haldirOfLorien",
+            },
             "hama":
             {
                 name: "Hama",
@@ -277,6 +458,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.CORE,
                 value: "horsebackArcher",
             },
+            "keenEyedTook":
+            {
+                name: "Keen-Eyed Took",
+                cost: 2,
+                willpower: 1,
+                attack: 0,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.HOBBIT ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
+                value: "keenEyedTook",
+            },
             "kili":
             {
                 name: "Kili",
@@ -290,6 +485,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 value: "kili",
+            },
+            "landroval":
+            {
+                name: "Landroval",
+                isUnique: true,
+                cost: 5,
+                willpower: 1,
+                attack: 3,
+                defense: 1,
+                hitPoints: 4,
+                traitKeys: [ Trait.CREATURE, Trait.EAGLE ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
+                value: "landroval",
             },
             "legolas":
             {
@@ -318,6 +528,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 value: "lindonNavigator",
             },
+            "longbeardMapMaker":
+            {
+                name: "Longbeard Map Maker",
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
+                value: "longbeardMapMaker",
+            },
             "longbeardOrcSlayer":
             {
                 name: "Longbeard Orc Slayer",
@@ -344,6 +568,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.CORE,
                 value: "lorienGuide",
             },
+            "masterOfTheForge":
+            {
+                name: "Master of the Forge",
+                cost: 2,
+                willpower: 0,
+                attack: 0,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.NOLDOR, Trait.CRAFTSMAN ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D6_SHADOW_AND_FLAME,
+                value: "masterOfTheForge",
+            },
             "minerOfTheIronHills":
             {
                 name: "Miner of the Iron Hills",
@@ -356,6 +594,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.CORE,
                 value: "minerOfTheIronHills",
+            },
+            "mirkwoodRunner":
+            {
+                name: "Mirkwood Runner",
+                cost: 3,
+                willpower: 1,
+                attack: 2,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.SILVAN, Trait.SCOUT ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
+                value: "mirkwoodRunner",
             },
             "mithlondSeaWatcher":
             {
@@ -397,6 +649,21 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                 value: "quickbeam",
             },
+            "radagast":
+            {
+                name: "Radagast",
+                isUnique: true,
+                cost: 5,
+                willpower: 2,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.ISTARI ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
+                value: "radagast",
+            },
             "rivendellMinstrel":
             {
                 name: "Rivendell Minstrel",
@@ -407,7 +674,8 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 hitPoints: 1,
                 traitKeys: [ Trait.NOLDOR ],
                 sphereKey: Sphere.LORE,
-                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "rivendellMinstrel",
             },
             "sailorOfLune":
@@ -422,6 +690,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 value: "sailorOfLune",
+            },
+            "silvanTracker":
+            {
+                name: "Silvan Tracker",
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.SILVAN ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+                value: "silvanTracker",
             },
             "silverloadArcher":
             {
@@ -462,6 +744,34 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.CORE,
                 value: "sonOfArnor",
             },
+            "theRiddermarksFinest":
+            {
+                name: "The Riddermark's Finest",
+                cost: 2,
+                willpower: 1,
+                attack: 1,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.CREATURE, Trait.ROHAN ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
+                value: "theRiddermarksFinest",
+            },
+            "vassalOfTheWindlord":
+            {
+                name: "Vassal of the Windlord",
+                cost: 1,
+                willpower: 0,
+                attack: 3,
+                defense: 0,
+                hitPoints: 1,
+                traitKeys: [ Trait.CREATURE, Trait.EAGLE ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+                value: "vassalOfTheWindlord",
+            },
             "veteranAxehand":
             {
                 name: "Veteran Axehand",
@@ -501,6 +811,20 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 cardSetKey: CardSet.CORE,
                 value: "wanderingTook",
             },
+            "wardenOfHealing":
+            {
+                name: "Warden of Healing",
+                cost: 2,
+                willpower: 1,
+                attack: 0,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.GONDOR, Trait.HEALER ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
+                value: "wardenOfHealing",
+            },
             "wardenOfTheHavens":
             {
                 name: "Warden of the Havens",
@@ -524,8 +848,23 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 hitPoints: 1,
                 traitKeys: [ Trait.ROHAN ],
                 sphereKey: Sphere.LORE,
-                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "westfoldHorseBreaker",
+            },
+            "westRoadTraveller":
+            {
+                name: "West Road Traveller",
+                cost: 2,
+                willpower: 2,
+                attack: 0,
+                defense: 0,
+                hitPoints: 1,
+                traitKeys: [ Trait.ROHAN ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
+                value: "westRoadTraveller",
             },
             "wingedGuardian":
             {
@@ -537,7 +876,8 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
                 hitPoints: 1,
                 traitKeys: [ Trait.CREATURE, Trait.EAGLE ],
                 sphereKey: Sphere.LORE,
-                cardSetKey: CardSet.SOM1_THE_HUNT_FOR_GOLLUM,
+                cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "wingedGuardian",
             },
             "zigilMiner":
@@ -565,7 +905,12 @@ define([ "CardSet", "CardType", "ImageNameCreator", "Sphere", "Trait" ], functio
     {
         var card = AllyCard.properties[cardKey];
         card.cardSet = CardSet.properties[card.cardSetKey];
-        card.cardType = CardType.ALLY;
+        if (card.cardSubsetKey)
+        {
+            card.cardSubset = CardSubset.properties[card.cardSubsetKey];
+        }
+        card.cardTypeKey = CardType.ALLY;
+        card.cardType = CardType.properties[card.cardTypeKey];
         card.sphere = Sphere.properties[card.sphereKey];
 
         if (!card.image)

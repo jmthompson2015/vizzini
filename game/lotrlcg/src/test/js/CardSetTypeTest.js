@@ -48,10 +48,11 @@ define([ "CardSetType" ], function(CardSetType)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 4);
+        assert.equal(result.length, 5);
         var i = 0;
         assert.equal(result[i++], CardSetType.ADVENTURE_PACK);
         assert.equal(result[i++], CardSetType.CORE);
+        assert.equal(result[i++], CardSetType.CYCLE);
         assert.equal(result[i++], CardSetType.DELUXE);
         assert.equal(result[i++], CardSetType.SAGA);
     });

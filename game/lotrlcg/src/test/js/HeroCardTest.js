@@ -1,4 +1,4 @@
-define([ "HeroCard" ], function(HeroCard)
+define([ "HeroCard", "Trait" ], function(HeroCard, Trait)
 {
     "use strict";
     QUnit.module("HeroCard");
@@ -41,6 +41,18 @@ define([ "HeroCard" ], function(HeroCard)
         });
     });
 
+    QUnit.test("traits", function(assert)
+    {
+        HeroCard.values().forEach(function(cardKey)
+        {
+            var card = HeroCard.properties[cardKey];
+            card.traitKeys.forEach(function(traitKey)
+            {
+                assert.ok(traitKey, "Missing traitKey for cardKey = " + cardKey);
+            });
+        });
+    });
+
     QUnit.test("HeroCard.values()", function(assert)
     {
         // Run.
@@ -48,8 +60,8 @@ define([ "HeroCard" ], function(HeroCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 25);
+        assert.equal(result.length, 32);
         assert.equal(result[0], HeroCard.ARAGORN_FELLOWSHIP);
-        assert.equal(result[24], HeroCard.TREEBEARD);
+        assert.equal(result[31], HeroCard.TREEBEARD);
     });
 });

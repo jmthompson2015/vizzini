@@ -107,11 +107,13 @@ define([ "AllyCard", "CardSet", "CardType", "HeroCard", "Sphere", "game/ui/Spher
 
         createRow: function(card, key)
         {
-            var sphere = Sphere.properties[card.sphere].name;
-            var cardType = CardType.properties[card.cardType].name;
-            var cardSet = CardSet.properties[card.set].name;
+            var sphere = card.sphere.name;
+            var cardType = card.cardType.name;
+            var cardSet = card.cardSet;
+            var cardSubset = card.cardSubset;
+            var cardSetName = cardSet.name + (cardSubset ? ": " + cardSubset.number + " " + cardSubset.name : "");
             var sumStats = card.willpower + card.attack + card.defense + card.hitPoints;
-            var cost = (card.cardType === CardType.HERO ? card.threatCost : card.cost);
+            var cost = (card.cardTypeKey === CardType.HERO ? card.threatCost : card.cost);
             var ratio = (cost === 0 ? " " : Math.vizziniFormat(sumStats / cost, 2));
 
             var cells = [];
@@ -125,13 +127,13 @@ define([ "AllyCard", "CardSet", "CardType", "HeroCard", "Sphere", "game/ui/Spher
                 value: sphere, // this allows sorting
             }, React.createElement(SphereUI,
             {
-                sphereKey: card.sphere,
+                sphereKey: card.sphereKey,
                 isSmall: true,
             })));
 
             cells.push(this.createCell(cells.length, CardColumns[j++], card.name));
             cells.push(this.createCell(cells.length, CardColumns[j++], cardType));
-            cells.push(this.createCell(cells.length, CardColumns[j++], cardSet));
+            cells.push(this.createCell(cells.length, CardColumns[j++], cardSetName));
             cells.push(this.createCell(cells.length, CardColumns[j++], cost));
             cells.push(this.createCell(cells.length, CardColumns[j++], card.willpower));
             cells.push(this.createCell(cells.length, CardColumns[j++], card.attack));

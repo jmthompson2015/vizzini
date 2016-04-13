@@ -17,6 +17,7 @@ define([ "CardSet" ], function(CardSet)
             }
 
             var cardSet = card.cardSet;
+            var cardSubset = card.cardSubset;
 
             if (!cardSet)
             {
@@ -27,7 +28,11 @@ define([ "CardSet" ], function(CardSet)
 
             var set;
 
-            if (cardSet.shortName)
+            if (cardSubset && cardSubset.shortName)
+            {
+                set = cardSubset.shortName;
+            }
+            else if (cardSet.shortName)
             {
                 set = cardSet.shortName;
             }

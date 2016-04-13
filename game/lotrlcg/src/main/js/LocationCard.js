@@ -84,7 +84,8 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
     LocationCard.values().forEach(function(cardKey)
     {
         var card = LocationCard.properties[cardKey];
-        card.cardType = CardType.LOCATION;
+        card.cardTypeKey = CardType.LOCATION;
+        card.cardType = CardType.properties[card.cardTypeKey];
         card.encounterSet = EncounterSet.properties[card.encounterSetKey];
         card.gameMode = GameMode.properties[card.gameModeKey];
 

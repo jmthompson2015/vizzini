@@ -158,7 +158,8 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
     EnemyCard.values().forEach(function(cardKey)
     {
         var card = EnemyCard.properties[cardKey];
-        card.cardType = CardType.ENEMY;
+        card.cardTypeKey = CardType.ENEMY;
+        card.cardType = CardType.properties[card.cardTypeKey];
         card.encounterSet = EncounterSet.properties[card.encounterSetKey];
         card.gameMode = GameMode.properties[card.gameModeKey];
 

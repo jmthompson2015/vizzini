@@ -41,6 +41,18 @@ define([ "EnemyCard" ], function(EnemyCard)
         });
     });
 
+    QUnit.test("traits", function(assert)
+    {
+        EnemyCard.values().forEach(function(cardKey)
+        {
+            var card = EnemyCard.properties[cardKey];
+            card.traitKeys.forEach(function(traitKey)
+            {
+                assert.ok(traitKey, "Missing traitKey for cardKey = " + cardKey);
+            });
+        });
+    });
+
     QUnit.test("EnemyCard.values()", function(assert)
     {
         // Run.

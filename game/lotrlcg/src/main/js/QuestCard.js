@@ -57,7 +57,8 @@ define([ "CardType", "EncounterSet", "ImageNameCreator" ], function(CardType, En
     QuestCard.values().forEach(function(cardKey)
     {
         var card = QuestCard.properties[cardKey];
-        card.cardType = CardType.QUEST;
+        card.cardTypeKey = CardType.QUEST;
+        card.cardType = CardType.properties[card.cardTypeKey];
         card.encounterSet = EncounterSet.properties[card.encounterSetKey];
 
         if (!card.image)

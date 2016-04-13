@@ -41,6 +41,18 @@ define([ "AllyCard" ], function(AllyCard)
         });
     });
 
+    QUnit.test("traits", function(assert)
+    {
+        AllyCard.values().forEach(function(cardKey)
+        {
+            var card = AllyCard.properties[cardKey];
+            card.traitKeys.forEach(function(traitKey)
+            {
+                assert.ok(traitKey, "Missing traitKey for cardKey = " + cardKey);
+            });
+        });
+    });
+
     QUnit.test("AllyCard.values()", function(assert)
     {
         // Run.
@@ -48,8 +60,8 @@ define([ "AllyCard" ], function(AllyCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 38);
+        assert.equal(result.length, 60);
         assert.equal(result[0], AllyCard.BEORN);
-        assert.equal(result[37], AllyCard.ZIGIL_MINER);
+        assert.equal(result[59], AllyCard.ZIGIL_MINER);
     });
 });

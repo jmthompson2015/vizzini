@@ -41,6 +41,18 @@ define([ "AttachmentCard" ], function(AttachmentCard)
         });
     });
 
+    QUnit.test("traits", function(assert)
+    {
+        AttachmentCard.values().forEach(function(cardKey)
+        {
+            var card = AttachmentCard.properties[cardKey];
+            card.traitKeys.forEach(function(traitKey)
+            {
+                assert.ok(traitKey, "Missing traitKey for cardKey = " + cardKey);
+            });
+        });
+    });
+
     QUnit.test("AttachmentCard.values()", function(assert)
     {
         // Run.
@@ -48,8 +60,8 @@ define([ "AttachmentCard" ], function(AttachmentCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 30);
-        assert.equal(result[0], AttachmentCard.AROD);
-        assert.equal(result[29], AttachmentCard.UNEXPECTED_COURAGE);
+        assert.equal(result.length, 50);
+        assert.equal(result[0], AttachmentCard.A_BURNING_BRAND);
+        assert.equal(result[49], AttachmentCard.VILYA);
     });
 });
