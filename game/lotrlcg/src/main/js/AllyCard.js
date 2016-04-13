@@ -50,7 +50,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         RIVENDELL_MINSTREL: "rivendellMinstrel",
         SAILOR_OF_LUNE: "sailorOfLune",
         SILVAN_TRACKER: "silvanTracker",
-        SILVERLOAD_ARCHER: "silverloadArcher",
+        SILVERLODE_ARCHER: "silverlodeArcher",
         SNOWBOURN_SCOUT: "snowbournScout",
         SON_OF_ARNOR: "sonOfArnor",
         THE_RIDDERMARKS_FINEST: "theRiddermarksFinest",
@@ -705,9 +705,9 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 value: "silvanTracker",
             },
-            "silverloadArcher":
+            "silverlodeArcher":
             {
-                name: "Silverload Archer",
+                name: "Silverlode Archer",
                 cost: 3,
                 willpower: 1,
                 attack: 2,
@@ -716,7 +716,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ARCHER, Trait.SILVAN ],
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.CORE,
-                value: "silverloadArcher",
+                value: "silverlodeArcher",
             },
             "snowbournScout":
             {
