@@ -5,7 +5,7 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
     var EnemyCard =
     {
         BLACK_FOREST_BATS: "blackForestBats",
-        CHIEFTAIN_UFTHAK: "chieftainUfthak",
+        CHIEFTAN_UFTHAK: "chieftanUfthak",
         DOL_GULDUR_BEASTMASTER: "dolGuldurBeastmaster",
         DOL_GULDUR_ORCS: "dolGuldurOrcs",
         EAST_BIGHT_PATROL: "eastBightPatrol",
@@ -30,9 +30,9 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
                 gameModeKey: GameMode.EASY,
                 value: "blackForestBats",
             },
-            "chieftainUfthak":
+            "chieftanUfthak":
             {
-                name: "Chieftain Ufthak",
+                name: "Chieftan Ufthak",
                 engagementCost: 35,
                 threat: 2,
                 attack: 3,
@@ -41,7 +41,7 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
                 traitKeys: [ Trait.DOL_GULDUR, Trait.ORC ],
                 encounterSetKey: EncounterSet.DOL_GULDUR_ORCS,
                 gameModeKey: GameMode.STANDARD,
-                value: "chieftainUfthak",
+                value: "chieftanUfthak",
             },
             "dolGuldurBeastmaster":
             {
