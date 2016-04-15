@@ -18,11 +18,11 @@ table {
     background-color: DarkBlue;
 }
 
-#BACKGROUND_GRAY, .agentUILabel, .tokenAreaUILabel, .tokenUILabel, .backgroundGray {
+#BACKGROUND_GRAY, .agentUILabel, .cardAreaUILabel, .cardInstanceUILabel, .backgroundGray {
     background-color: Gray;
 }
 
-#BACKGROUND_GREEN, .locationQuestPanel, .backgroundGreen {
+#BACKGROUND_GREEN, .locationPanel, .questPanel, .backgroundGreen {
     background-color: Green;
 }
 
@@ -30,7 +30,7 @@ table {
     background-color: lightGray;
 }
 
-#BACKGROUND_RED, .stagingAreaUIPanel, .backgroundRed {
+#BACKGROUND_RED, .stagingAreaPanel, .backgroundRed {
     background-color: Maroon;
 }
 
@@ -38,8 +38,8 @@ table {
     border: 1px solid black;
 }
 
-#CENTER, .agentUI, .handUICell, .locationQuestPanel, .playAreaUICell, .stagingAreaUIPanel, .tokenAreaUI, .tokensTable,
-    .center {
+#CENTER, .agentPanel, .cardAreaUI, .environmentUITopTable, .handUICell, .locationPanel, .playAreaUICell, .questPanel,
+    .stagingAreaPanel, .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -57,7 +57,7 @@ table {
     font-size: medium;
 }
 
-#PADDING_10, .tokenUIImagePreview, .padding10 {
+#PADDING_10, .cardInstanceUIImagePreview, .padding10 {
     padding: 10px;
 }
 
@@ -66,10 +66,10 @@ table {
     padding-right: 5px;
 }
 
-#WIDTH_100, .tokenUIImage, .width100 {
+#WIDTH_100, .cardInstanceUIImage, .width100 {
     width: 100px;
 }
 
-#WIDTH_FULL, .tokensPanel, .widthFull {
+#WIDTH_FULL,.agentUILabelRow, .statusBarUI, .tokensPanel, .widthFull {
     width: 100%;
 }
