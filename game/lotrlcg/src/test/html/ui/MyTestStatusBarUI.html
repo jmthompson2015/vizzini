@@ -5,11 +5,10 @@
 
 <link rel="stylesheet" href="../../../main/css/style.css">
 
-<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
-<!-- 
-<script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
- -->
-<script src="../../../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
 <script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
 
 <script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
@@ -43,41 +42,19 @@
         var LOGGER = new Logger();
 
         var resourceBase = "../../../main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Phase", "game/Environment", "game/PlayerDeckBuilder", "game/ScenarioDeckBuilder",
-                "game/SimpleAgent", "game/ui/StatusBarUI" ], function(Phase, Environment, PlayerDeckBuilder,
-                ScenarioDeckBuilder, SimpleAgent, StatusBarUI)
+        require([ "Phase", "game/ui/StatusBarUI" ], function(Phase, StatusBarUI)
         {
-            var environment = createEnvironment();
-            // environment.activeLocation(new LocationToken(LocationCard.OLD_FOREST_ROAD));
-            // environment.stagingArea().push(new EnemyToken(EnemyCard.FOREST_SPIDER));
-            // environment.stagingArea().push(new EnemyToken(EnemyCard.DOL_GULDUR_BEASTMASTER));
-            environment.round().increase();
-            environment.phase(Phase.RESOURCE_START);
-            environment.activeAgent(environment.firstPlayer());
             var element = React.createElement(StatusBarUI,
             {
-                initialEnvironment: environment,
+                scenarioName: "Passage Through Mirkwood",
+                round: 1,
+                phaseKey: Phase.RESOURCE_START,
+                firstAgentName: "Aaron",
+                activeAgentName: "Bruce",
             });
-            React.render(element, document.getElementById("panel"));
-
-            function createEnvironment()
-            {
-                var agent1 = new SimpleAgent("1");
-                var agent2 = new SimpleAgent("2");
-                var agents = [ agent1, agent2 ];
-                var playerDeck1 = PlayerDeckBuilder.BeornsPath1DeckBuilder.buildDeck();
-                var playerDeck2 = PlayerDeckBuilder.BeornsPath2DeckBuilder.buildDeck();
-                var playerDecks = [ playerDeck1, playerDeck2 ];
-                var scenarioDeck = ScenarioDeckBuilder.CoreSetPassageThroughMirkwoodDeckBuilder.buildDeck();
-                var environment = new Environment(agents, playerDecks, scenarioDeck);
-                environment.setup();
-
-                return environment;
-            }
+            ReactDOM.render(element, document.getElementById("panel"));
         });
     </script>
 </body>

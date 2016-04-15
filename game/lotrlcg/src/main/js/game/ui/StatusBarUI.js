@@ -1,45 +1,44 @@
-define([ "Phase", "game/Environment" ], function(Phase, Environment)
+/*
+ * @param scenarioName Scenario name. (required)
+ * @param round Round. (required)
+ * @param phaseKey Phase. (required)
+ * @param firstAgentName First agent name. (required)
+ * 
+ * @param activeAgentName Active agent name. (optional)
+ */
+define([ "Phase" ], function(Phase)
 {
     "use strict";
     var StatusBarUI = React.createClass(
     {
-        getInitialState: function()
-        {
-            InputValidator.validateNotNull("initialEnvironment", this.props.initialEnvironment);
-
-            return (
-            {
-                environment: this.props.initialEnvironment,
-            });
-        },
-
-        componentDidMount: function()
-        {
-            this.state.environment.bind(Environment.ROUND_EVENT, this.environmentChanged);
-            this.state.environment.bind(Environment.PHASE_EVENT, this.environmentChanged);
-            this.state.environment.bind(Environment.ACTIVE_AGENT_EVENT, this.environmentChanged);
-        },
-
-        componentWillUnmount: function()
-        {
-            this.state.environment.unbind(Environment.ROUND_EVENT, this.environmentChanged);
-            this.state.environment.unbind(Environment.PHASE_EVENT, this.environmentChanged);
-            this.state.environment.unbind(Environment.ACTIVE_AGENT_EVENT, this.environmentChanged);
-        },
-
         render: function()
         {
-            var environment = this.state.environment;
+            InputValidator.validateNotNull("scenarioName", this.props.scenarioName);
+            InputValidator.validateNotNull("round", this.props.round);
+            InputValidator.validateNotNull("phaseKey", this.props.phaseKey);
+            InputValidator.validateNotNull("firstAgentName", this.props.firstAgentName);
 
-            var phaseName = (environment.phase() ? Phase.properties[environment.phase()].name : " ");
-            var playerName = (environment.activeAgent() ? environment.activeAgent() : " ");
+            var scenarioName = this.props.scenarioName;
+            var round = this.props.round;
+            var phaseKey = this.props.phaseKey;
+            var firstAgentName = (this.props.firstAgentName ? this.props.firstAgentName : " ");
+            var activeAgentName = (this.props.activeAgentName ? this.props.activeAgentName : " ");
 
-            var roundUI = React.DOM.span({}, "Round: " + environment.round().count());
+            var phaseName = (phaseKey ? Phase.properties[phaseKey].name : " ");
+
+            var scenarioUI = React.DOM.span({}, "Scenario: " + scenarioName);
+            var roundUI = React.DOM.span({}, "Round: " + round);
             var phaseUI = React.DOM.span({}, "Phase: " + phaseName);
-            var activeAgentUI = React.DOM.span({}, "Player: " + playerName);
+            var firstAgentUI = React.DOM.span({}, "First Player: " + firstAgentName);
+            var activeAgentUI = React.DOM.span({}, "Active Player: " + activeAgentName);
 
             var cells = [];
 
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "statusBarUICell",
+            }, scenarioUI));
             cells.push(React.DOM.td(
             {
                 key: cells.length,
@@ -54,6 +53,11 @@ define([ "Phase", "game/Environment" ], function(Phase, Environment)
             {
                 key: cells.length,
                 className: "statusBarUICell",
+            }, firstAgentUI));
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "statusBarUICell",
             }, activeAgentUI));
 
             var row = React.DOM.tr({}, cells);
@@ -61,16 +65,7 @@ define([ "Phase", "game/Environment" ], function(Phase, Environment)
             return React.DOM.table(
             {
                 className: "statusBarUI",
-            }, row);
-        },
-
-        environmentChanged: function()
-        {
-            LOGGER.trace(this.state.environment + " environment change event");
-            this.setState(
-            {
-                environment: this.state.environment,
-            });
+            }, React.DOM.tbody({}, row));
         },
     });
 

@@ -1,17 +1,12 @@
-define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/Environment", "game/PlanningAction",
-        "game/QuestAction", "game/RefreshAction", "game/ResourceAction" ], function(Phase, CombatAttackAction,
-        CombatDefendAction, Environment, PlanningAction, QuestAction, RefreshAction, ResourceAction)
+define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask", "game/PlanningTask",
+        "game/QuestTask", "game/RefreshTask", "game/ResourceTask", "game/Selector" ], function(Phase, Action,
+        CombatAttackTask, CombatDefendTask, PlanningTask, QuestTask, RefreshTask, ResourceTask, Selector)
 {
     "use strict";
-    function Engine(environment, adjudicator)
+    function Engine(store, adjudicator)
     {
-        InputValidator.validateNotNull("environment", environment);
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("adjudicator", adjudicator);
-
-        this.environment = function()
-        {
-            return environment;
-        };
 
         this.adjudicator = function()
         {
@@ -19,90 +14,6 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
         };
 
         var that = this;
-
-        environment.bind(Environment.PHASE_EVENT, function(phase)
-        {
-            if (adjudicator.isGameOver(environment))
-            {
-                LOGGER.debug("adjudicator.isGameOver() ? " + adjudicator.isGameOver(environment));
-                processGameOver();
-            }
-            else
-            {
-                var delay = 1000;
-
-                switch (phase)
-                {
-                case Phase.RESOURCE_START:
-                    environment.round().increase();
-                    that.performResourcePhase();
-                    break;
-                case Phase.RESOURCE_END:
-                    setTimeout(function()
-                    {
-                        environment.phase(Phase.PLANNING_START);
-                    }, delay);
-                    break;
-                case Phase.PLANNING_START:
-                    that.performPlanningPhase();
-                    break;
-                case Phase.PLANNING_END:
-                    setTimeout(function()
-                    {
-                        environment.phase(Phase.QUEST_START);
-                    }, delay);
-                    break;
-                case Phase.QUEST_START:
-                    that.performQuestPhase();
-                    break;
-                case Phase.QUEST_END:
-                    setTimeout(function()
-                    {
-                        environment.phase(Phase.TRAVEL_START);
-                    }, delay);
-                    break;
-                case Phase.TRAVEL_START:
-                    that.performTravelPhase();
-                    break;
-                case Phase.TRAVEL_END:
-                    setTimeout(function()
-                    {
-                        environment.phase(Phase.ENCOUNTER_START);
-                    }, delay);
-                    break;
-                case Phase.ENCOUNTER_START:
-                    that.performEncounterPhase();
-                    break;
-                case Phase.ENCOUNTER_END:
-                    setTimeout(function()
-                    {
-                        environment.phase(Phase.COMBAT_START);
-                    }, delay);
-                    break;
-                case Phase.COMBAT_START:
-                    that.performCombatPhase();
-                    break;
-                case Phase.COMBAT_DEFEND_END:
-                    that.performCombatAttackPhase();
-                    break;
-                case Phase.COMBAT_END:
-                    setTimeout(function()
-                    {
-                        environment.phase(Phase.REFRESH_START);
-                    }, delay);
-                    break;
-                case Phase.REFRESH_START:
-                    that.performRefreshPhase();
-                    break;
-                case Phase.REFRESH_END:
-                    setTimeout(function()
-                    {
-                        environment.phase(Phase.RESOURCE_START);
-                    }, delay);
-                    break;
-                }
-            }
-        });
 
         var planningQueue = [];
         var questQueue = [];
@@ -112,86 +23,135 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
         this.performResourcePhase = function()
         {
-            LOGGER.trace("Engine.performResourcePhase() start");
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performResourcePhase() start");
 
-            var resourceAction = new ResourceAction(environment);
-            resourceAction.doIt();
-            environment.phase(Phase.RESOURCE_END);
+                store.dispatch(Action.setPhase(Phase.RESOURCE_START));
+                var task = new ResourceTask(store);
+                task.doIt();
+                store.dispatch(Action.setPhase(Phase.RESOURCE_END));
 
-            LOGGER.trace("Engine.performResourcePhase() end");
+                LOGGER.trace("Engine.performResourcePhase() end");
+
+                this.performPlanningPhase();
+            }
         };
 
         this.performPlanningPhase = function()
         {
-            LOGGER.trace("Engine.performPlanningPhase() start");
-            planningQueue = environment.agents().slice();
-            this.processPlanningQueue();
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performPlanningPhase() start");
+                store.dispatch(Action.setPhase(Phase.PLANNING_START));
+                planningQueue = agents();
+                this.processPlanningQueue();
+            }
         };
 
         this.performQuestPhase = function()
         {
-            LOGGER.trace("Engine.performQuestPhase() start");
-            questers = [];
-            questQueue = environment.agents().slice();
-            this.processQuestQueue();
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performQuestPhase() start");
+                store.dispatch(Action.setPhase(Phase.QUEST_START));
+                questers = [];
+                questQueue = agents();
+                this.processQuestQueue();
+            }
         };
 
         this.performTravelPhase = function()
         {
-            LOGGER.trace("Engine.performTravelPhase() start");
-
-            if (!environment.activeLocation())
+            if (!isGameOver())
             {
-                var firstPlayer = environment.firstPlayer();
-                environment.activeAgent(firstPlayer);
-                firstPlayer.travelAction(environment, adjudicator, this.setLocation.bind(this));
-            }
-            else
-            {
-                environment.phase(Phase.TRAVEL_END);
-            }
+                LOGGER.trace("Engine.performTravelPhase() start");
+                store.dispatch(Action.setPhase(Phase.TRAVEL_START));
 
-            LOGGER.trace("Engine.performTravelPhase() end");
+                var state = store.getState();
+
+                if (state.activeLocationId === undefined)
+                {
+                    // var firstPlayer = environment.firstPlayer();
+                    // environment.activeAgent(firstPlayer);
+                    // firstPlayer.travelAction(environment, adjudicator, this.setLocation.bind(this));
+                    var firstPlayer = state.agents[state.firstAgentId];
+                    store.dispatch(Action.setActiveAgent(firstPlayer));
+                    firstPlayer.behavior.travelAction(store, adjudicator, this.setLocation.bind(this));
+                }
+                else
+                {
+                    // environment.phase(Phase.TRAVEL_END);
+                    store.dispatch(Action.setPhase(Phase.TRAVEL_END));
+                    this.performEncounterPhase();
+                }
+
+                LOGGER.trace("Engine.performTravelPhase() end");
+            }
         };
 
         this.performEncounterPhase = function()
         {
-            LOGGER.trace("Engine.performEncounterPhase() start");
-            encounterQueue = environment.agents().slice();
-            this.processEncounterQueue();
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performEncounterPhase() start");
+                store.dispatch(Action.setPhase(Phase.ENCOUNTER_START));
+                encounterQueue = agents();
+                this.processEncounterQueue();
+            }
         };
 
         this.performCombatPhase = function()
         {
-            LOGGER.trace("Engine.performCombatPhase() start");
-            this.performCombatDefendPhase();
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performCombatPhase() start");
+                this.performCombatDefendPhase();
+            }
         };
 
         this.performCombatDefendPhase = function()
         {
-            LOGGER.trace("Engine.performCombatDefendPhase() start");
-            environment.phase(Phase.COMBAT_DEFEND_START);
-            combatQueue = environment.agents().slice();
-            this.processCombatDefendQueue();
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performCombatDefendPhase() start");
+                // environment.phase(Phase.COMBAT_DEFEND_START);
+                store.dispatch(Action.setPhase(Phase.COMBAT_DEFEND_START));
+                // combatQueue = environment.agents().slice();
+                combatQueue = agents();
+                LOGGER.info("combatQueue.length = " + combatQueue.length);
+                this.processCombatDefendQueue();
+            }
         };
 
         this.performCombatAttackPhase = function()
         {
-            LOGGER.trace("Engine.performCombatAttackPhase() start");
-            environment.phase(Phase.COMBAT_ATTACK_START);
-            combatQueue = environment.agents().slice();
-            this.processCombatAttackQueue();
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performCombatAttackPhase() start");
+                // environment.phase(Phase.COMBAT_ATTACK_START);
+                store.dispatch(Action.setPhase(Phase.COMBAT_ATTACK_START));
+                // combatQueue = environment.agents().slice();
+                combatQueue = agents();
+                this.processCombatAttackQueue();
+            }
         };
 
         this.performRefreshPhase = function()
         {
-            LOGGER.trace("Engine.performRefreshPhase() start");
+            if (!isGameOver())
+            {
+                LOGGER.trace("Engine.performRefreshPhase() start");
 
-            var refreshAction = new RefreshAction(environment);
-            refreshAction.doIt();
-            environment.phase(Phase.REFRESH_END);
+                store.dispatch(Action.setPhase(Phase.REFRESH_START));
+                var task = new RefreshTask(store);
+                task.doIt();
+                // environment.phase(Phase.REFRESH_END);
+                store.dispatch(Action.setPhase(Phase.REFRESH_END));
 
-            LOGGER.trace("Engine.performRefreshPhase() end");
+                LOGGER.trace("Engine.performRefreshPhase() end");
+                this.performResourcePhase();
+            }
         };
 
         this.processPlanningQueue = function()
@@ -200,16 +160,18 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             if (planningQueue.length === 0)
             {
-                environment.activeAgent(null);
+                store.dispatch(Action.setActiveAgent(null));
+                store.dispatch(Action.setPhase(Phase.PLANNING_END));
                 LOGGER.trace("Engine.processPlanningQueue() done");
-                environment.phase(Phase.PLANNING_END);
-                return;
+                this.performQuestPhase();
             }
-
-            // Players may play ally and attachment cards.
-            var agent = planningQueue.shift();
-            environment.activeAgent(agent);
-            agent.planningAction(environment, adjudicator, this.playCards.bind(this));
+            else
+            {
+                // Players may play ally and attachment cards.
+                var agent = planningQueue.shift();
+                store.dispatch(Action.setActiveAgent(agent));
+                agent.behavior.planningAction(store, agent, adjudicator, this.playCards.bind(this));
+            }
         };
 
         this.processQuestQueue = function()
@@ -219,37 +181,43 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
             if (questQueue.length === 0)
             {
                 LOGGER.debug("questers.length = " + questers.length);
-                var questAction = new QuestAction(environment, adjudicator, questers);
-                questAction.doIt();
+                // var questAction = new QuestAction(environment, adjudicator, questers);
+                // questAction.doIt();
+                var task = new QuestTask(store, adjudicator, questers);
+                task.doIt();
 
-                environment.activeAgent(null);
+                store.dispatch(Action.setActiveAgent(null));
+                store.dispatch(Action.setPhase(Phase.QUEST_END));
                 LOGGER.trace("Engine.processQuestQueue() done");
-                environment.phase(Phase.QUEST_END);
-                return;
+                this.performTravelPhase();
             }
-
-            // Players commit characters to quest.
-            environment.phase(Phase.QUEST_COMMIT_CHARACTERS);
-            var agent = questQueue.shift();
-            environment.activeAgent(agent);
-            agent.questAction(environment, adjudicator, this.setQuesters.bind(this));
+            else
+            {
+                // Players commit characters to quest.
+                store.dispatch(Action.setPhase(Phase.QUEST_COMMIT_CHARACTERS));
+                var agent = questQueue.shift();
+                store.dispatch(Action.setActiveAgent(agent));
+                agent.behavior.questAction(store, agent, adjudicator, this.setQuesters.bind(this));
+            }
         };
 
         this.processEncounterQueue = function()
         {
             if (encounterQueue.length === 0)
             {
-                environment.activeAgent(null);
+                store.dispatch(Action.setActiveAgent(null));
+                store.dispatch(Action.setPhase(Phase.ENCOUNTER_END));
                 LOGGER.trace("Engine.processEncounterQueue() done");
-                environment.phase(Phase.ENCOUNTER_END);
-                return;
+                this.performCombatDefendPhase();
             }
-
-            // Enemies engage players.
-            environment.phase(Phase.ENCOUNTER_ENGAGEMENT_CHECKS);
-            var agent = encounterQueue.shift();
-            environment.activeAgent(agent);
-            agent.encounterAction(environment, adjudicator, this.enemyEngages.bind(this));
+            else
+            {
+                // Enemies engage players.
+                store.dispatch(Action.setPhase(Phase.ENCOUNTER_ENGAGEMENT_CHECKS));
+                var agent = encounterQueue.shift();
+                store.dispatch(Action.setActiveAgent(agent));
+                agent.behavior.encounterAction(store, agent, adjudicator, this.enemyEngages.bind(this));
+            }
         };
 
         this.processCombatDefendQueue = function()
@@ -258,15 +226,17 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             if (combatQueue.length === 0)
             {
-                environment.activeAgent(null);
+                store.dispatch(Action.setActiveAgent(null));
+                store.dispatch(Action.setPhase(Phase.COMBAT_DEFEND_END));
                 LOGGER.trace("Engine.processCombatDefendQueue() done");
-                environment.phase(Phase.COMBAT_DEFEND_END);
-                return;
+                this.performCombatAttackPhase();
             }
-
-            var agent = combatQueue.shift();
-            environment.activeAgent(agent);
-            agent.combatDefendAction(environment, adjudicator, this.setDefenders.bind(this));
+            else
+            {
+                var agent = combatQueue.shift();
+                store.dispatch(Action.setActiveAgent(agent));
+                agent.behavior.combatDefendAction(store, agent, adjudicator, this.setDefenders.bind(this));
+            }
         };
 
         this.processCombatAttackQueue = function()
@@ -275,16 +245,21 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             if (combatQueue.length === 0)
             {
-                environment.activeAgent(null);
+                // environment.activeAgent(null);
+                store.dispatch(Action.setActiveAgent(null));
+                store.dispatch(Action.setPhase(Phase.COMBAT_ATTACK_END));
+                store.dispatch(Action.setPhase(Phase.COMBAT_END));
                 LOGGER.trace("Engine.processCombatAttackQueue() done");
-                environment.phase(Phase.COMBAT_ATTACK_END);
-                environment.phase(Phase.COMBAT_END);
-                return;
+                // environment.phase(Phase.COMBAT_ATTACK_END);
+                // environment.phase(Phase.COMBAT_END);
+                this.performRefreshPhase();
             }
-
-            var agent = combatQueue.shift();
-            environment.activeAgent(agent);
-            agent.combatAttackAction(environment, adjudicator, this.setAttackers.bind(this));
+            else
+            {
+                var agent = combatQueue.shift();
+                store.dispatch(Action.setActiveAgent(agent));
+                agent.behavior.combatAttackAction(store, agent, adjudicator, this.setAttackers.bind(this));
+            }
         };
 
         this.enemyEngages = function(newEnemy)
@@ -293,9 +268,12 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             if (newEnemy)
             {
-                environment.stagingArea().vizziniRemove(newEnemy);
-                var agent = environment.activeAgent();
-                environment.agentData(agent).engagementArea().push(newEnemy);
+                // environment.stagingArea().vizziniRemove(newEnemy);
+                // var agent = environment.activeAgent();
+                var state = store.getState();
+                var agent = state.agents[state.activeAgentId];
+                // environment.agentData(agent).engagementArea().push(newEnemy);
+                store.dispatch(Action.engageEnemy(agent, newEnemy));
             }
 
             this.processEncounterQueue();
@@ -310,10 +288,10 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             if (cards.length > 0)
             {
-                var agent = environment.activeAgent();
-                var planningAction = new PlanningAction(environment, adjudicator, agent, cards,
-                        this.processPlanningQueue.bind(this));
-                planningAction.doIt();
+                var state = store.getState();
+                var agent = state.agents[state.activeAgentId];
+                var task = new PlanningTask(store, adjudicator, agent, cards, this.processPlanningQueue.bind(this));
+                task.doIt();
             }
             else
             {
@@ -327,10 +305,12 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             LOGGER.trace("Engine.setAttackers() start");
 
-            var agent = environment.activeAgent();
-            var combatAttackAction = new CombatAttackAction(environment, adjudicator, agent, enemyIdToAttackers,
+            // var agent = environment.activeAgent();
+            var state = store.getState();
+            var agent = state.agents[state.activeAgentId];
+            var task = new CombatAttackTask(store, adjudicator, agent, enemyIdToAttackers,
                     this.processCombatAttackQueue.bind(this));
-            combatAttackAction.doIt();
+            task.doIt();
         };
 
         this.setDefenders = function(enemyIdToDefender)
@@ -339,10 +319,12 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             LOGGER.trace("Engine.setDefenders() start");
 
-            var agent = environment.activeAgent();
-            var combatDefendAction = new CombatDefendAction(environment, adjudicator, agent, enemyIdToDefender,
-                    this.processCombatDefendQueue.bind(this));
-            combatDefendAction.doIt();
+            // var agent = environment.activeAgent();
+            var state = store.getState();
+            var agent = state.agents[state.activeAgentId];
+            var task = new CombatDefendTask(store, adjudicator, agent, enemyIdToDefender, this.processCombatDefendQueue
+                    .bind(this));
+            task.doIt();
         };
 
         this.setLocation = function(newLocation)
@@ -351,38 +333,63 @@ define([ "Phase", "game/CombatAttackAction", "game/CombatDefendAction", "game/En
 
             if (newLocation)
             {
-                environment.activeLocation(newLocation);
+                // environment.activeLocation(newLocation);
+                store.dispatch(Action.setActiveLocation(newLocation));
             }
 
-            environment.phase(Phase.TRAVEL_END);
+            // environment.phase(Phase.TRAVEL_END);
+            store.dispatch(Action.setPhase(Phase.TRAVEL_END));
+            LOGGER.trace("Engine.setLocation() end");
+
+            this.performEncounterPhase();
         };
 
         this.setQuesters = function(newQuesters)
         {
             LOGGER.trace("Engine.setQuesters() start");
-            newQuesters.forEach(function(token)
+            newQuesters.forEach(function(cardInstance)
             {
-                token.questState().isMarked(true);
-                token.exhaustState().isMarked(true);
+                cardInstance.isQuesting = true;
+                cardInstance.isExhausted = true;
             });
 
             questers.vizziniAddAll(newQuesters);
             this.processQuestQueue();
         };
 
+        function agents()
+        {
+            var state = store.getState();
+
+            // FIXME: reorder using firstAgentId
+
+            return Selector.resolveAgentIds(state, state.agentIds);
+        }
+
+        function isGameOver()
+        {
+            var answer = adjudicator.isGameOver(store);
+
+            if (answer)
+            {
+                LOGGER.debug("adjudicator.isGameOver() ? " + adjudicator.isGameOver(store));
+                processGameOver();
+            }
+
+            return answer;
+        }
+
         function processGameOver()
         {
-            var winner = adjudicator.determineWinner(environment);
+            var winner = adjudicator.determineWinner(store);
+            LOGGER.debug("winner = " + winner);
 
-            that.trigger(Engine.WINNER_EVENT, winner);
+            // that.trigger(Engine.WINNER_EVENT, winner);
+            // store.dispatch(Action.setWinner(winner));
 
             return winner;
         }
     }
-
-    Engine.WINNER_EVENT = "winner";
-
-    MicroEvent.mixin(Engine);
 
     return Engine;
 });

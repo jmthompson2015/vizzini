@@ -1,34 +1,29 @@
 var LOGGER = new Logger();
-LOGGER.setTraceEnabled(false);
-LOGGER.setDebugEnabled(false);
+//LOGGER.setTraceEnabled(false);
+//LOGGER.setDebugEnabled(false);
 
 var resourceBase = "../resources/";
 var imageBase = resourceBase + "images/";
 
-require([ "game/Game", "game/ui/EnvironmentUI", "game/ui/StatusBarUI" ], function(Game, EnvironmentUI, StatusBarUI)
+require([ "game/Game", "game/Reducer", "game/ui/Connector", "game/ui/EnvironmentUI" ], function(Game, Reducer,
+        Connector, EnvironmentUI)
 {
     "use strict";
-
     function startNewGame()
     {
         LOGGER.info("startNewGame() start");
 
-        var element = document.getElementById("inputArea");
-        element.innerHTML = "";
+        var store = Redux.createStore(Reducer.root);
 
-        var game = new Game();
+        var game = new Game(store);
 
-        var statusBarUI = React.createElement(StatusBarUI,
+        var connector = ReactRedux.connect(Connector.EnvironmentUI.mapStateToProps)(EnvironmentUI);
+
+        var environmentUI = React.createElement(ReactRedux.Provider,
         {
-            initialEnvironment: game.environment(),
-        });
-        React.render(statusBarUI, document.getElementById("statusBar"));
-
-        var environmentUI = React.createElement(EnvironmentUI,
-        {
-            environment: game.environment(),
-        });
-        React.render(environmentUI, document.getElementById("environment"));
+            store: store,
+        }, React.createElement(connector));
+        ReactDOM.render(environmentUI, document.getElementById("environment"));
 
         game.start();
 

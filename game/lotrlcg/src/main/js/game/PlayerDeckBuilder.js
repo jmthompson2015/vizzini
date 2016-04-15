@@ -1,25 +1,8 @@
-define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/AllyToken", "game/AttachmentToken",
-        "game/EventToken", "game/HeroToken", "game/PlayerDeck" ], function(AllyCard, AttachmentCard, EventCard,
-        HeroCard, AllyToken, AttachmentToken, EventToken, HeroToken, PlayerDeck)
+define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/CardInstance", "game/PlayerDeck" ], function(
+        AllyCard, AttachmentCard, EventCard, HeroCard, CardInstance, PlayerDeck)
 {
     "use strict";
     var DeckBuilders = [];
-
-    var CoreSetLeadershipDeckBuilder = new PlayerDeckBuilder("Leadership Core Set", 2011, "Leadership", function()
-    {
-        var heroTokens = [];
-        addHero(heroTokens, HeroCard.ARAGORN_LEADERSHIP);
-        addHero(heroTokens, HeroCard.THEODRED);
-        addHero(heroTokens, HeroCard.DENETHOR);
-
-        var playerTokens = [];
-        addAlly(playerTokens, AllyCard.DAUGHTER_OF_THE_NIMRODEL, 1);
-        addAttachment(playerTokens, AttachmentCard.HORN_OF_GONDOR, 1);
-        addEvent(playerTokens, EventCard.SNEAK_ATTACK, 1);
-
-        return new PlayerDeck(heroTokens, playerTokens);
-    });
-    DeckBuilders.push(CoreSetLeadershipDeckBuilder);
 
     var BeornsPath1DeckBuilder = new PlayerDeckBuilder("Beorn's Path #1", 2013, "Leadership/Lore", function()
     {
@@ -126,7 +109,7 @@ define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/AllyToken"
 
         for (var i = 0; i < count; i++)
         {
-            array.push(new AllyToken(cardKey));
+            array.push(CardInstance.ally(cardKey));
         }
     }
 
@@ -136,7 +119,7 @@ define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/AllyToken"
 
         for (var i = 0; i < count; i++)
         {
-            array.push(new AttachmentToken(cardKey));
+            array.push(CardInstance.attachment(cardKey));
         }
     }
 
@@ -146,7 +129,7 @@ define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/AllyToken"
 
         for (var i = 0; i < count; i++)
         {
-            array.push(new EventToken(cardKey));
+            array.push(CardInstance.event(cardKey));
         }
     }
 
@@ -154,14 +137,13 @@ define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/AllyToken"
     {
         InputValidator.validateNotNull("cardKey", cardKey);
 
-        array.push(new HeroToken(cardKey));
+        array.push(CardInstance.hero(cardKey));
     }
 
     return (
     {
         BeornsPath1DeckBuilder: BeornsPath1DeckBuilder,
         BeornsPath2DeckBuilder: BeornsPath2DeckBuilder,
-        CoreSetLeadershipDeckBuilder: CoreSetLeadershipDeckBuilder,
         DeckBuilders: DeckBuilders,
         PlayerDeckBuilder: PlayerDeckBuilder,
     });

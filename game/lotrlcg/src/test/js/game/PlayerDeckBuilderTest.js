@@ -16,12 +16,12 @@ define([ "game/PlayerDeckBuilder" ], function(PlayerDeckBuilder)
 
         // Verify.
         assert.ok(result);
-        var heroTokens = result.heroTokens();
-        assert.ok(heroTokens);
-        assert.equal(heroTokens.length, 3);
-        var playerTokens = result.playerTokens();
-        assert.ok(playerTokens);
-        assert.equal(playerTokens.length, 40);
+        var heroInstances = result.heroInstances();
+        assert.ok(heroInstances);
+        assert.equal(heroInstances.length, 3);
+        var playerInstances = result.playerInstances();
+        assert.ok(playerInstances);
+        assert.equal(playerInstances.length, 40);
     });
 
     QUnit.test("buildDeck() Beorn's Path #2", function(assert)
@@ -37,11 +37,11 @@ define([ "game/PlayerDeckBuilder" ], function(PlayerDeckBuilder)
 
         // Verify.
         assert.ok(result);
-        var heroTokens = result.heroTokens();
-        assert.ok(heroTokens);
-        assert.equal(heroTokens.length, 3);
-        var playerTokens = result.playerTokens();
-        assert.ok(playerTokens);
-        assert.equal(playerTokens.length, 40);
+        var heroInstances = result.heroInstances();
+        assert.ok(heroInstances);
+        assert.equal(heroInstances.length, 3);
+        var playerInstances = result.playerInstances();
+        assert.ok(playerInstances);
+        assert.equal(playerInstances.length, 40);
     });
 });

@@ -1,41 +1,20 @@
 define(function()
 {
     "use strict";
-    function ScenarioDeck(questTokens, encounterTokens)
+    function ScenarioDeck(questInstances, encounterInstances)
     {
-        InputValidator.validateNotNull("questTokens", questTokens);
-        InputValidator.validateNotNull("encounterTokens", encounterTokens);
+        InputValidator.validateNotNull("questInstances", questInstances);
+        InputValidator.validateNotNull("encounterInstances", encounterInstances);
 
-        this.questTokens = function()
+        this.questInstances = function()
         {
-            return questTokens;
+            return questInstances;
         };
 
-        this.encounterTokens = function()
+        this.encounterInstances = function()
         {
-            return encounterTokens;
+            return encounterInstances;
         };
-
-        var drawPile = [];
-        var discardPile = [];
-
-        this.draw = function()
-        {
-            return drawPile.shift();
-        };
-
-        this.discard = function(encounterToken)
-        {
-            discardPile.push(encounterToken);
-        };
-
-        this.shuffle = function()
-        {
-            drawPile.vizziniShuffle();
-        };
-
-        // Setup.
-        drawPile.vizziniAddAll(encounterTokens);
     }
 
     return ScenarioDeck;

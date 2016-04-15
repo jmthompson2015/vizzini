@@ -1,41 +1,20 @@
 define(function()
 {
     "use strict";
-    function PlayerDeck(heroTokens, playerTokens)
+    function PlayerDeck(heroInstances, playerInstances)
     {
-        InputValidator.validateNotNull("heroTokens", heroTokens);
-        InputValidator.validateNotNull("playerTokens", playerTokens);
+        InputValidator.validateNotNull("heroInstances", heroInstances);
+        InputValidator.validateNotNull("playerInstances", playerInstances);
 
-        this.heroTokens = function()
+        this.heroInstances = function()
         {
-            return heroTokens;
+            return heroInstances;
         };
 
-        this.playerTokens = function()
+        this.playerInstances = function()
         {
-            return playerTokens;
+            return playerInstances;
         };
-
-        var drawPile = [];
-        var discardPile = [];
-
-        this.draw = function()
-        {
-            return drawPile.shift();
-        };
-
-        this.discard = function(playerToken)
-        {
-            discardPile.push(playerToken);
-        };
-
-        this.shuffle = function()
-        {
-            drawPile.vizziniShuffle();
-        };
-
-        // Setup.
-        drawPile.vizziniAddAll(playerTokens);
     }
 
     return PlayerDeck;
