@@ -9,7 +9,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         var cardInstances = [];
         cardInstances.push(cardInstance);
         var state0 = store.getState();
@@ -90,7 +90,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(Object.getOwnPropertyNames(state0.cardInstances).length, 1);
@@ -110,7 +110,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(Object.getOwnPropertyNames(state0.cardInstances).length, 1);
@@ -130,7 +130,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(Object.getOwnPropertyNames(state0.cardInstances).length, 1);
@@ -188,7 +188,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(Object.getOwnPropertyNames(state0.cardInstances).length, 1);
@@ -208,7 +208,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(Object.getOwnPropertyNames(state0.cardInstances).length, 1);
@@ -228,7 +228,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(Object.getOwnPropertyNames(state0.cardInstances).length, 1);
@@ -375,7 +375,6 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
         var state0 = store.getState();
         var agent = state0.agents[state0.agentIds[0]];
         assert.ok(agent);
-        // agent.engagementAreaIds = [];
         var enemyInstance = Selector.enemies(state0, state0.stagingAreaIds)[0];
         assert.equal(state0.stagingAreaIds.length, 3);
         assert.equal(agent.engagementAreaIds.length, 1);
@@ -390,7 +389,6 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
         assert.equal(agent.id, 0);
         var agent2 = result.agents[agent.id];
         assert.ok(agent2);
-        LOGGER.info("agent2 = " + agent2.id + " " + agent2.name);
         assert.equal(agent2.engagementAreaIds.length, 2);
     });
 
@@ -470,14 +468,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
         assert.equal(state0.stagingAreaIds.length, 3);
         assert.equal(state0.activeLocationId, 1);
         var cardInstance = Selector.locations(state0, state0.stagingAreaIds)[0];
-        LOGGER.info("stagingArea = " + state0.stagingAreaIds.map(function(id)
-        {
-            var cardInstance0 = state0.cardInstances[id];
-            return cardInstance0.id + " " + cardInstance0.card.name;
-        }));
         var activeLocation = state0.cardInstances[state0.activeLocationId];
-        LOGGER.info("activeLocation = " + activeLocation.id + " " + activeLocation.card.name);
-        LOGGER.info("cardInstance = " + cardInstance.id + " " + cardInstance.card.name);
 
         // Run.
         store.dispatch(Action.setActiveLocation(cardInstance));
@@ -485,13 +476,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
 
         // Verify.
         assert.ok(result);
-        LOGGER.info("stagingArea = " + result.stagingAreaIds.map(function(id)
-        {
-            var cardInstance0 = result.cardInstances[id];
-            return cardInstance0.id + " " + cardInstance0.card.name;
-        }));
         var activeLocation = result.cardInstances[result.activeLocationId];
-        LOGGER.info("activeLocation = " + activeLocation.id + " " + activeLocation.card.name);
         assert.equal(result.stagingAreaIds.length, 2);
         assert.equal(result.activeLocationId, 9);
     });
@@ -500,7 +485,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(cardInstance.isExhausted, false);
@@ -535,7 +520,7 @@ define([ "AllyCard", "HeroCard", "LocationCard", "Phase", "game/Action", "game/C
     {
         // Setup.
         var store = TestData.mockStore();
-        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+        var cardInstance = CardInstance.hero(HeroCard.ARAGORN_CORE);
         store.dispatch(Action.addCardInstances([ cardInstance ]));
         var state0 = store.getState();
         assert.equal(cardInstance.isQuesting, false);

@@ -48,8 +48,8 @@ define([ "EventCard" ], function(EventCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 38);
+        assert.equal(result.length, 43);
         assert.equal(result[0], EventCard.A_ELDERETH_GILTHONIEL);
-        assert.equal(result[37], EventCard.WORD_OF_COMMAND);
+        assert.equal(result[42], EventCard.WORD_OF_COMMAND);
     });
 });

@@ -10,6 +10,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         ASTONISHING_SPEED: "astonishingSpeed",
         CAMPFIRE_TALES: "campfireTales",
         DAWN_TAKE_YOU_ALL: "dawnTakeYouAll",
+        DESPERATE_ALLIANCE: "desperateAlliance",
         DWARVEN_TOMB: "dwarvenTomb",
         FEINT: "feint",
         FOR_GONDOR: "forGondor",
@@ -25,6 +26,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         PEACE_AND_THOUGHT: "peaceAndThought",
         QUICK_STRIKE: "quickStrike",
         RADAGASTS_CUNNING: "radagastsCunning",
+        RAVENS_OF_THE_MOUNTAIN: "ravensOfTheMountain",
         REAR_GUARD: "rearGuard",
         RIDE_TO_RUIN: "rideToRuin",
         RISK_SOME_LIGHT: "riskSomeLight",
@@ -33,10 +35,13 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         SHADOW_OF_THE_PAST: "shadowOfThePast",
         SNEAK_ATTACK: "sneakAttack",
         STAND_AND_FIGHT: "standAndFight",
+        STRAIGHT_SHOT: "straightShot",
         STRIDERS_PATH: "stridersPath",
         SWIFT_STRIKE: "swiftStrike",
         THE_EAGLES_ARE_COMING: "theEaglesAreComing",
         THE_GALADHRIMS_GREETING: "theGaladhrimsGreeting",
+        THE_LUCKY_NUMBER: "theLuckyNumber",
+        TO_ME_O_MY_KINSFOLK: "toMeOMyKinsfolk",
         TO_THE_EYRIE: "toTheEyrie",
         VALIANT_SACRIFICE: "valiantSacrifice",
         WE_ARE_NOT_IDLE: "weAreNotIdle",
@@ -96,6 +101,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
                 value: "dawnTakeYouAll",
+            },
+            "desperateAlliance":
+            {
+                name: "Desperate Alliance",
+                cost: 0,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "desperateAlliance",
             },
             "dwarvenTomb":
             {
@@ -226,6 +239,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.CORE,
                 value: "radagastsCunning",
             },
+            "ravensOfTheMountain":
+            {
+                name: "Ravens of the Mountain",
+                cost: 1,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "ravensOfTheMountain",
+            },
             "rearGuard":
             {
                 name: "Rear Guard",
@@ -296,6 +317,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.CORE,
                 value: "standAndFight",
             },
+            "straightShot":
+            {
+                name: "Straight Shot",
+                cost: 0,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "straightShot",
+            },
             "stridersPath":
             {
                 name: "Strider's Path",
@@ -329,6 +358,22 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.CORE,
                 value: "theGaladhrimsGreeting",
+            },
+            "theLuckyNumber":
+            {
+                name: "The Lucky Number",
+                cost: 1,
+                sphereKey: Sphere.BAGGINS,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "theLuckyNumber",
+            },
+            "toMeOMyKinsfolk":
+            {
+                name: "To Me! O My Kinsfolk!",
+                cost: 1,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "toMeOMyKinsfolk",
             },
             "toTheEyrie":
             {

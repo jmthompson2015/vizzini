@@ -7,6 +7,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         A_BURNING_BRAND: "aBurningBrand",
         ANCIENT_MATHOM: "ancientMathom",
         AROD: "arod",
+        BLACK_ARROW: "blackArrow",
         BLADE_OF_GONDOLIN: "bladeOfGondolin",
         BOOTS_FROM_EREBOR: "bootsFromErebor",
         BORN_ALOFT: "bornAloft",
@@ -23,13 +24,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         DWARVEN_AXE: "dwarvenAxe",
         ENT_DRAUGHT: "entDraught",
         EVER_MY_HEART_RISES: "everMyHeartRises",
+        EXPERT_TREASURE_HUNTER: "expertTreasureHunter",
         EXPLORERS_ALMANAC: "explorersAlmanac",
         FAST_HITCH: "fastHitch",
         FOREST_SNARE: "forestSnare",
         GRAPPLING_HOOK: "grapplingHook",
+        GREAT_YEW_BOW: "greatYewBow",
         HARDY_LEADERSHIP: "hardyLeadership",
         HERUGRIM: "herugrim",
         HORN_OF_GONDOR: "hornOfGondor",
+        KING_UNDER_THE_MOUNTAIN: "kingUnderTheMountain",
         LOVE_OF_TALES: "loveOfTales",
         MARINERS_COMPASS: "marinersCompass",
         MIRUVOR: "miruvor",
@@ -50,6 +54,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         STEWARD_OF_GONDOR: "stewardOfGondor",
         SUPPORT_OF_THE_EAGLES: "supportOfTheEagles",
         THE_FAVOR_OF_THE_LADY: "theFavorOfTheLady",
+        THRORS_KEY: "throrsKey",
         THRORS_MAP: "throrsMap",
         TO_THE_SEA_TO_THE_SEA: "toTheSeaToTheSea",
         UNEXPECTED_COURAGE: "unexpectedCourage",
@@ -86,6 +91,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                 value: "arod",
+            },
+            "blackArrow":
+            {
+                isUnique: true,
+                name: "Black Arrow",
+                cost: 0,
+                traitKeys: [ Trait.ARTIFACT, Trait.ITEM ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "blackArrow",
             },
             "bladeOfGondolin":
             {
@@ -239,6 +254,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
                 value: "everMyHeartRises",
             },
+            "expertTreasureHunter":
+            {
+                name: "Expert Treasure-Hunter",
+                cost: 0,
+                traitKeys: [ Trait.SKILL ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "expertTreasureHunter",
+            },
             "explorersAlmanac":
             {
                 name: "Explorer's Almanac",
@@ -276,6 +300,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 value: "grapplingHook",
             },
+            "greatYewBow":
+            {
+                name: "Great Yew Bow",
+                cost: 2,
+                traitKeys: [ Trait.ITEM, Trait.WEAPON ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "greatYewBow",
+            },
             "hardyLeadership":
             {
                 name: "Hardy Leadership",
@@ -305,6 +338,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.CORE,
                 value: "hornOfGondor",
+            },
+            "kingUnderTheMountain":
+            {
+                name: "King Under the Mountain",
+                isUnique: true,
+                cost: 2,
+                traitKeys: [ Trait.TITLE ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "kingUnderTheMountain",
             },
             "loveOfTales":
             {
@@ -498,6 +541,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.CORE,
                 value: "theFavorOfTheLady",
+            },
+            "throrsKey":
+            {
+                name: "Thrór's Key",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.ARTIFACT, Trait.ITEM ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "throrsKey",
             },
             "throrsMap":
             {

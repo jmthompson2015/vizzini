@@ -6,12 +6,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
     {
         BEORN: "beorn",
         BEORNING_BEEKEEPER: "beorningBeekeeper",
+        BIFUR: "bifur",
         BOFUR: "bofur",
         BROK_IRONFIST: "brokIronfist",
         DAUGHTER_OF_THE_NIMRODEL: "daughterOfTheNimrodel",
         DESCENDANT_OF_THORONDOR: "descendantOfThorondor",
         DORI: "dori",
         DUNEDAIN_WATCHER: "dunedainWatcher",
+        DWALIN: "dwalin",
         EAGLES_OF_THE_MISTY_MOUNTAINS: "eaglesOfTheMistyMountains",
         ELFHELM: "elfhelm",
         EOMUND: "eomund",
@@ -26,6 +28,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         GILDOR_INGLORION: "gildorInglorion",
         GIMLI: "gimli",
         GLEOWINE: "gleowine",
+        GLOIN: "gloin",
         GONDORIAN_SPEARMAN: "gondorianSpearman",
         GUARD_OF_THE_CITADEL: "guardOfTheCitadel",
         HALDIR_OF_LORIEN: "haldirOfLorien",
@@ -94,6 +97,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                 value: "beorningBeekeeper",
+            },
+            "bifur":
+            {
+                name: "Bifur",
+                isUnique: true,
+                cost: 3,
+                willpower: 1,
+                attack: 2,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "bifur",
             },
             "bofur":
             {
@@ -177,6 +194,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 value: "dunedainWatcher",
+            },
+            "dwalin":
+            {
+                name: "Dwalin",
+                isUnique: true,
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "dwalin",
             },
             "eaglesOfTheMistyMountains":
             {
@@ -375,6 +406,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.CORE,
                 value: "gleowine",
+            },
+            "gloin":
+            {
+                name: "Glóin",
+                isUnique: true,
+                cost: 3,
+                willpower: 2,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                value: "gloin",
             },
             "gondorianSpearman":
             {

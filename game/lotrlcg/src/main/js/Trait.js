@@ -8,6 +8,7 @@ define(function()
         ARTIFACT: "artifact",
         BEORNING: "beorning",
         BOON: "boon",
+        BURGLAR: "burglar",
         CONDITION: "condition",
         CRAFTSMAN: "craftsman",
         CREATURE: "creature",
@@ -17,6 +18,7 @@ define(function()
         DWARF: "dwarf",
         EAGLE: "eagle",
         ENT: "ent",
+        ESGAROTH: "esgaroth",
         FOREST: "forest",
         GOBLIN: "goblin",
         GONDOR: "gondor",
@@ -76,6 +78,11 @@ define(function()
                 name: "Boon",
                 value: "boon",
             },
+            "burglar":
+            {
+                name: "Burglar",
+                value: "burglar",
+            },
             "condition":
             {
                 name: "Condition",
@@ -120,6 +127,11 @@ define(function()
             {
                 name: "Ent",
                 value: "ent",
+            },
+            "esgaroth":
+            {
+                name: "Esgaroth",
+                value: "esgaroth",
             },
             "forest":
             {

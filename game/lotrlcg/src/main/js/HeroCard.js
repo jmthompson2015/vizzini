@@ -4,13 +4,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
     "use strict";
     var HeroCard =
     {
-        ARAGORN_FELLOWSHIP: "aragornFellowship",
-        ARAGORN_LEADERSHIP: "aragornLeadership",
+        ARAGORN_CORE: "aragornCore",
+        ARAGORN_TTOS: "aragornTToS",
+        BALIN: "balin",
+        BARD_THE_BOWMAN: "bardTheBowman",
         BEORN: "beorn",
         BERAVOR: "beravor",
         BIFUR: "bifur",
-        BILBO_BAGGINS_BAGGINS: "bilboBagginsBaggins",
-        BILBO_BAGGINS_LORE: "bilboBagginsLore",
+        BILBO_BAGGINS_OHAUH: "bilboBagginsOHaUH",
+        BILBO_BAGGINS_OTD: "bilboBagginsOtD",
+        BILBO_BAGGINS_THFG: "bilboBagginsTHfG",
+        BOMBUR: "bombur",
         BOROMIR: "boromir",
         BRAND_SON_OF_BAIN: "brandSonOfBain",
         CIRDAN_THE_SHIPWRIGHT: "cirdanTheShipwright",
@@ -29,6 +33,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         HAMA: "hama",
         LEGOLAS: "legolas",
         NORI: "nori",
+        OIN: "oin",
         ORI: "ori",
         PRINCE_IMRAHIL: "princeImrahil",
         THALIN: "thalin",
@@ -39,21 +44,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
 
         properties:
         {
-            "aragornFellowship":
-            {
-                name: "Aragorn",
-                threatCost: 0,
-                willpower: 2,
-                attack: 3,
-                defense: 2,
-                hitPoints: 5,
-                traitKeys: [ Trait.DUNEDAIN, Trait.NOBLE, Trait.RANGER ],
-                sphereKey: Sphere.FELLOWSHIP,
-                cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
-                cardSetNumber: 1,
-                value: "aragornFellowship",
-            },
-            "aragornLeadership":
+            "aragornCore":
             {
                 name: "Aragorn",
                 threatCost: 12,
@@ -65,7 +56,49 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.CORE,
                 cardSetNumber: 1,
-                value: "aragornLeadership",
+                value: "aragornCore",
+            },
+            "aragornTToS":
+            {
+                name: "Aragorn",
+                threatCost: 0,
+                willpower: 2,
+                attack: 3,
+                defense: 2,
+                hitPoints: 5,
+                traitKeys: [ Trait.DUNEDAIN, Trait.NOBLE, Trait.RANGER ],
+                sphereKey: Sphere.FELLOWSHIP,
+                cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 1,
+                value: "aragornTToS",
+            },
+            "balin":
+            {
+                name: "Balin",
+                threatCost: 9,
+                willpower: 2,
+                attack: 1,
+                defense: 2,
+                hitPoints: 4,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                cardSetNumber: 2,
+                value: "balin",
+            },
+            "bardTheBowman":
+            {
+                name: "Bard the Bowman",
+                threatCost: 11,
+                willpower: 2,
+                attack: 3,
+                defense: 2,
+                hitPoints: 4,
+                traitKeys: [ Trait.ESGAROTH, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                cardSetNumber: 3,
+                value: "bardTheBowman",
             },
             "beorn":
             {
@@ -109,7 +142,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 2,
                 value: "bifur",
             },
-            "bilboBagginsBaggins":
+            "bilboBagginsOHaUH":
             {
                 name: "Bilbo Baggins",
                 threatCost: 0,
@@ -121,9 +154,23 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.BAGGINS,
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 cardSetNumber: 1,
-                value: "bilboBagginsBaggins",
+                value: "bilboBagginsOHaUH",
             },
-            "bilboBagginsLore":
+            "bilboBagginsOtD":
+            {
+                name: "Bilbo Baggins",
+                threatCost: 0,
+                willpower: 1,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.HOBBIT, Trait.BURGLAR ],
+                sphereKey: Sphere.BAGGINS,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                cardSetNumber: 1,
+                value: "bilboBagginsOtD",
+            },
+            "bilboBagginsTHfG":
             {
                 name: "Bilbo Baggins",
                 threatCost: 9,
@@ -136,7 +183,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 cardSetNumber: 1,
-                value: "bilboBagginsLore",
+                value: "bilboBagginsTHfG",
+            },
+            "bombur":
+            {
+                name: "Bombur",
+                threatCost: 8,
+                willpower: 0,
+                attack: 1,
+                defense: 2,
+                hitPoints: 5,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                cardSetNumber: 5,
+                value: "bombur",
             },
             "boromir":
             {
@@ -397,6 +458,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 cardSetNumber: 3,
                 value: "nori",
+            },
+            "oin":
+            {
+                name: "Óin",
+                threatCost: 8,
+                willpower: 2,
+                attack: 1,
+                defense: 1,
+                hitPoints: 4,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ON_THE_DOORSTEP,
+                cardSetNumber: 4,
+                value: "oin",
             },
             "ori":
             {

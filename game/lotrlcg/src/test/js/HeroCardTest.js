@@ -3,12 +3,12 @@ define([ "HeroCard", "Trait" ], function(HeroCard, Trait)
     "use strict";
     QUnit.module("HeroCard");
 
-    QUnit.test("HeroCard properties Aragorn (Leadership)", function(assert)
+    QUnit.test("HeroCard properties Aragorn (Core)", function(assert)
     {
-        var sphere = HeroCard.ARAGORN_LEADERSHIP;
+        var sphere = HeroCard.ARAGORN_CORE;
         var properties = HeroCard.properties[sphere];
         assert.equal(properties.name, "Aragorn");
-        assert.equal(properties.value, "aragornLeadership");
+        assert.equal(properties.value, "aragornCore");
     });
 
     QUnit.test("keys and values", function(assert)
@@ -60,8 +60,8 @@ define([ "HeroCard", "Trait" ], function(HeroCard, Trait)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 32);
-        assert.equal(result[0], HeroCard.ARAGORN_FELLOWSHIP);
-        assert.equal(result[31], HeroCard.TREEBEARD);
+        assert.equal(result.length, 37);
+        assert.equal(result[0], HeroCard.ARAGORN_CORE);
+        assert.equal(result[36], HeroCard.TREEBEARD);
     });
 });

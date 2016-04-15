@@ -60,8 +60,8 @@ define([ "AttachmentCard" ], function(AttachmentCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 50);
+        assert.equal(result.length, 55);
         assert.equal(result[0], AttachmentCard.A_BURNING_BRAND);
-        assert.equal(result[49], AttachmentCard.VILYA);
+        assert.equal(result[54], AttachmentCard.VILYA);
     });
 });

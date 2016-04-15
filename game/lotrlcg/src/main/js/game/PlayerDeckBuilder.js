@@ -7,7 +7,7 @@ define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/CardInstan
     var BeornsPath1DeckBuilder = new PlayerDeckBuilder("Beorn's Path #1", 2013, "Leadership/Lore", function()
     {
         var heroTokens = [];
-        addHero(heroTokens, HeroCard.ARAGORN_LEADERSHIP);
+        addHero(heroTokens, HeroCard.ARAGORN_CORE);
         addHero(heroTokens, HeroCard.THEODRED);
         addHero(heroTokens, HeroCard.DENETHOR);
 

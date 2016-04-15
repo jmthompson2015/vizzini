@@ -11,7 +11,7 @@ define([ "AllyCard", "CardSet", "EnemyCard", "HeroCard", "LocationCard", "QuestC
             var id = 0;
             var name = "Aaron";
             var threatLevel = 28;
-            var hero0 = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+            var hero0 = CardInstance.hero(HeroCard.ARAGORN_CORE);
             var hero1 = CardInstance.hero(HeroCard.THEODRED);
             var hero2 = CardInstance.hero(HeroCard.DENETHOR);
             cardInstances[hero0.id] = hero0;
@@ -145,9 +145,7 @@ define([ "AllyCard", "CardSet", "EnemyCard", "HeroCard", "LocationCard", "QuestC
             var agents = state.agents;
             var agentIds = state.agentIds;
             var agent0 = TestData.createAgent0(cardInstances);
-            LOGGER.info("agent0 = " + agent0.id + " " + agent0.name);
             var agent1 = TestData.createAgent1(cardInstances);
-            LOGGER.info("agent1 = " + agent1.id + " " + agent1.name);
             agents[agent0.id] = agent0;
             agents[agent1.id] = agent1;
             agentIds.push(agent0.id);
@@ -162,13 +160,6 @@ define([ "AllyCard", "CardSet", "EnemyCard", "HeroCard", "LocationCard", "QuestC
         {
             var state = Store.InitialState();
 
-            // var store =
-            // {
-            // getState: function()
-            // {
-            // return state;
-            // },
-            // }
             var store = Redux.createStore(Reducer.root);
 
             return store;
