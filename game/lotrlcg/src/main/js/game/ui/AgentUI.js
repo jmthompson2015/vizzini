@@ -1,75 +1,86 @@
 /*
- * @param environment Environment. (required)
  * @param agent Agent. (required)
+ * @param engagementArea Engagement area. (required)
+ * @param playArea Play area. (required)
+ * @param hand Hand. (required)
  */
-define([ "game/ui/TokenAreaUI" ], function(TokenAreaUI)
+define([ "game/ui/CardAreaUI" ], function(CardAreaUI)
 {
     "use strict";
     var AgentUI = React.createClass(
     {
         render: function()
         {
-            InputValidator.validateNotNull("environment", this.props.environment);
             InputValidator.validateNotNull("agent", this.props.agent);
+            InputValidator.validateNotNull("engagementArea", this.props.engagementArea);
+            InputValidator.validateNotNull("playArea", this.props.playArea);
+            InputValidator.validateNotNull("hand", this.props.hand);
 
-            var environment = this.props.environment;
             var agent = this.props.agent;
-            var agentData = environment.agentData(agent);
+            var engagementArea = this.props.engagementArea;
+            var playArea = this.props.playArea;
+            var hand = this.props.hand;
 
             var rows = [];
+            var cell;
             var cells = [];
             cells.push(React.DOM.td(
             {
                 className: "agentUILabel",
-            }, agent.name()));
-            rows.push(React.DOM.tr({}, cells));
-
-            if (agentData.engagementArea().length > 0)
+            }, agent.name));
+            cells.push(React.DOM.td(
             {
-                cells = [];
-                var engagementAreaUI = React.createElement(TokenAreaUI,
+                className: "agentUILabel",
+            }, "Threat Level: " + agent.threatLevel));
+            cell = React.DOM.table(
+            {
+                className: "agentUILabelRow",
+            }, React.DOM.tr({}, cells));
+            rows.push(React.DOM.tr({}, cell));
+
+            if (engagementArea.length > 0)
+            {
+                var engagementAreaUI = React.createElement(CardAreaUI,
                 {
                     className: "engagementAreaUI",
                     label: "Engagement Area",
-                    area: agentData.engagementArea(),
+                    area: engagementArea,
                 });
-                cells.push(React.DOM.td(
+                cell = React.DOM.td(
                 {
                     className: "center",
-                }, engagementAreaUI));
-                rows.push(React.DOM.tr({}, cells));
+                }, engagementAreaUI);
+                rows.push(React.DOM.tr({}, cell));
             }
 
-            if (agentData.playArea().length > 0)
+            if (playArea.length > 0)
             {
-                cells = [];
-                var playAreaUI = React.createElement(TokenAreaUI,
+                var playAreaUI = React.createElement(CardAreaUI,
                 {
                     className: "playAreaUI",
                     label: "Play Area",
-                    area: agentData.playArea(),
+                    area: playArea,
                 });
-                cells.push(React.DOM.td(
+                cell = React.DOM.td(
                 {
                     className: "playAreaUICell",
-                }, playAreaUI));
-                rows.push(React.DOM.tr({}, cells));
+                }, playAreaUI);
+                rows.push(React.DOM.tr({}, cell));
             }
 
-            if (agentData.hand().length > 0)
+            if (hand.length > 0)
             {
-                cells = [];
-                var handUI = React.createElement(TokenAreaUI,
+                var handUI = React.createElement(CardAreaUI,
                 {
                     className: "handUI",
                     label: "Hand",
-                    area: agentData.hand(),
+                    area: hand,
                 });
-                cells.push(React.DOM.td(
+                cell = React.DOM.td(
                 {
                     className: "handUICell",
-                }, handUI));
-                rows.push(React.DOM.tr({}, cells));
+                }, handUI);
+                rows.push(React.DOM.tr({}, cell));
             }
 
             return React.DOM.table(

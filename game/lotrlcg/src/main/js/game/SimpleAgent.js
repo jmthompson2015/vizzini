@@ -1,53 +1,47 @@
-define([ "CardType", "Sphere" ],
-        function(CardType, Sphere)
+define(
+        [ "CardType", "Sphere", "game/Selector" ],
+        function(CardType, Sphere, Selector)
         {
             "use strict";
-            function SimpleAgent(name)
-            {
-                InputValidator.validateNotEmpty("name", name);
+            var SimpleAgent = {};
+            var delay = 500; // ms
 
-                this.name = function()
-                {
-                    return name;
-                };
-            }
-
-            SimpleAgent.prototype.planningAction = function(environment, adjudicator, callback)
+            SimpleAgent.planningAction = function(store, agent, adjudicator, callback)
             {
                 LOGGER.trace("SimpleAgent.planningAction() start");
 
                 var answer = [];
-                var spheres = Sphere.values();
+                var state = store.getState();
+                var sphereKeys = Sphere.values();
 
-                spheres
+                sphereKeys
                         .forEach(
-                                function(sphere)
+                                function(sphereKey)
                                 {
-                                    // LOGGER.debug("sphere = " + sphere);
+                                    // LOGGER.debug("sphereKey = " + sphereKey);
                                     var sum = 0;
-                                    var heroes = environment.heroes(this);
+                                    var heroes = Selector.heroes(state, agent.playAreaIds);
                                     heroes.forEach(function(hero)
                                     {
-                                        if (hero.card().sphere === sphere)
+                                        if (hero.card.sphereKey === sphereKey)
                                         {
-                                            sum += hero.resourceState().count();
+                                            sum += hero.resourceCount;
                                         }
                                     });
 
                                     if (sum > 0)
                                     {
                                         LOGGER.debug("heroes = " + heroes);
-                                        LOGGER.debug("sphere = " + sphere + " sum = " + sum);
+                                        LOGGER.debug("sphereKey = " + sphereKey + " sum = " + sum);
 
-                                        var cards = environment.agentData(this).hand()
-                                                .filter(
-                                                        function(token)
-                                                        {
-                                                            return token.card().sphere === sphere &&
-                                                                    (token.card().cardType === CardType.ALLY || token
-                                                                            .card().cardType === CardType.ATTACHMENT) &&
-                                                                    token.card().cost <= sum;
-                                                        });
+                                        var hand = Selector.cardInstances(state, agent.handIds);
+                                        var cards = hand
+                                                .filter(function(cardInstance)
+                                                {
+                                                    return cardInstance.card.sphereKey === sphereKey &&
+                                                            (cardInstance.card.cardTypeKey === CardType.ALLY || cardInstance.card.cardTypeKey === CardType.ATTACHMENT) &&
+                                                            cardInstance.card.cost <= sum;
+                                                });
                                         LOGGER.debug("cards = " + cards);
 
                                         if (cards.length > 0)
@@ -60,56 +54,72 @@ define([ "CardType", "Sphere" ],
                 LOGGER.debug("answer = " + answer);
                 LOGGER.trace("SimpleAgent.planningAction() end");
 
-                callback(answer);
+                setTimeout(function()
+                {
+                    callback(answer);
+                }, delay);
+                // callback(answer)
             };
 
-            SimpleAgent.prototype.questAction = function(environment, adjudicator, callback)
+            SimpleAgent.questAction = function(store, agent, adjudicator, callback)
             {
-                var characters = environment.characters(this).filter(function(token)
+                var state = store.getState();
+
+                var characters = Selector.characters(state, agent.playAreaIds).filter(function(token)
                 {
-                    return token.card().willpower > 0;
+                    return token.card.willpower > 0;
                 });
 
-                callback(characters);
+                // callback(characters);
+                setTimeout(function()
+                {
+                    callback(characters);
+                }, delay);
             };
 
-            SimpleAgent.prototype.travelAction = function(environment, adjudicator, callback)
+            SimpleAgent.travelAction = function(store, adjudicator, callback)
             {
                 var answer;
-                var locations = environment.locations();
+                var state = store.getState();
+                var locations = Selector.locations(state, state.stagingAreaIds);
 
                 if (locations.length > 0)
                 {
                     answer = locations.vizziniRandomElement();
                 }
 
-                callback(answer);
+                // callback(answer);
+                setTimeout(function()
+                {
+                    callback(answer);
+                }, delay);
             };
 
-            SimpleAgent.prototype.encounterAction = function(environment, adjudicator, callback)
+            SimpleAgent.encounterAction = function(store, agent, adjudicator, callback)
             {
                 var answer;
-                var enemies = environment.enemies();
+                var state = store.getState();
+                var enemies = Selector.enemies(state, state.stagingAreaIds);
 
                 if (enemies.length > 0)
                 {
                     enemies.sort(function(enemy0, enemy1)
                     {
-                        var engagementCost0 = enemy0.card().engagementCost;
-                        var engagementCost1 = enemy1.card().engagementCost;
+                        var engagementCost0 = enemy0.card.engagementCost;
+                        var engagementCost1 = enemy1.card.engagementCost;
 
                         return engagementCost1 - engagementCost0;
                     });
 
-                    var threatLevel = environment.threatLevel(this);
+                    var threatLevel = agent.threatLevel;
                     LOGGER.debug("threatLevel = " + threatLevel);
 
                     for (var i = 0; i < enemies.length; i++)
                     {
                         var enemy = enemies[i];
-                        LOGGER.debug("enemy.card().engagementCost = " + enemy.card().engagementCost);
+                        LOGGER.debug("enemy.card.engagementCost = " + enemy.card.engagementCost);
 
-                        if (enemy.card().engagementCost <= threatLevel)
+                        if (enemy.card.engagementCost <= threatLevel)
                         {
                             answer = enemy;
                             break;
@@ -117,36 +127,42 @@ define([ "CardType", "Sphere" ],
                     }
                 }
 
-                callback(answer);
+                // callback(answer);
+                setTimeout(function()
+                {
+                    callback(answer);
+                }, delay);
             };
 
-            SimpleAgent.prototype.combatDefendAction = function(environment, adjudicator, callback)
+            SimpleAgent.combatDefendAction = function(store, agent, adjudicator, callback)
             {
                 var answer = {};
-                var attackers = environment.agentData(this).engagementArea().slice();
+                var state = store.getState();
+                var attackerIds = agent.engagementAreaIds.slice();
+                var attackers = Selector.resolveCardInstanceIds(state, attackerIds);
 
                 if (attackers.length > 0)
                 {
                     attackers.sort(function(token0, token1)
                     {
-                        var attack0 = token0.card().attack;
-                        var attack1 = token1.card().attack;
+                        var attack0 = token0.card.attack;
+                        var attack1 = token1.card.attack;
                         return attack1 - attack0;
                     });
 
-                    var characters = environment.characters(this).filter(function(character)
+                    var characters = Selector.characters(state, agent.playAreaIds).filter(function(character)
                     {
-                        return !character.exhaustState().isMarked();
+                        return !character.isExhausted;
                     });
                     characters.sort(function(token0, token1)
                     {
-                        var defense0 = token0.card().defense;
-                        var defense1 = token1.card().defense;
+                        var defense0 = token0.card.defense;
+                        var defense1 = token1.card.defense;
                         var answer = defense1 - defense0;
                         if (answer === 0)
                         {
-                            var attack0 = token0.card().attack;
-                            var attack1 = token1.card().attack;
+                            var attack0 = token0.card.attack;
+                            var attack1 = token1.card.attack;
                             answer = attack0 - attack1;
                         }
                         return answer;
@@ -160,36 +176,42 @@ define([ "CardType", "Sphere" ],
 
                         if (defender)
                         {
-                            answer[attacker.id()] = defender;
+                            answer[attacker.id] = defender;
                         }
                     }
                 }
 
-                callback(answer);
+                // callback(answer);
+                setTimeout(function()
+                {
+                    callback(answer);
+                }, delay);
             };
 
-            SimpleAgent.prototype.combatAttackAction = function(environment, adjudicator, callback)
+            SimpleAgent.combatAttackAction = function(store, agent, adjudicator, callback)
             {
                 var answer = {};
-                var enemies = environment.agentData(this).engagementArea().slice();
+                // var enemies = store.agentData(this).engagementArea().slice();
+                var state = store.getState();
+                var enemies = Selector.resolveCardInstanceIds(state, agent.engagementAreaIds);
 
                 if (enemies.length > 0)
                 {
                     enemies.sort(function(token0, token1)
                     {
-                        var defense0 = token0.card().defense + token0.card().hitPoints - token0.woundState().count();
-                        var defense1 = token1.card().defense + token1.card().hitPoints - token1.woundState().count();
+                        var defense0 = token0.card.defense + token0.card.hitPoints - token0.woundCount;
+                        var defense1 = token1.card.defense + token1.card.hitPoints - token1.woundCount;
                         return defense1 - defense0;
                     });
 
-                    var characters = environment.characters(this).filter(function(character)
+                    var characters = Selector.characters(state, agent.playAreaIds).filter(function(character)
                     {
-                        return !character.exhaustState().isMarked();
+                        return !character.isExhausted;
                     });
                     characters.sort(function(token0, token1)
                     {
-                        var attack0 = token0.card().attack;
-                        var attack1 = token1.card().attack;
+                        var attack0 = token0.card.attack;
+                        var attack1 = token1.card.attack;
                         return attack1 - attack0;
                     });
                     LOGGER.debug("characters = " + characters);
@@ -198,7 +220,7 @@ define([ "CardType", "Sphere" ],
                     {
                         var enemy = enemies[i];
                         var attackers = [];
-                        answer[enemy.id()] = attackers;
+                        answer[enemy.id] = attackers;
                         var attacker = (characters.length > i ? characters[i] : undefined);
 
                         if (attacker)
@@ -208,13 +230,17 @@ define([ "CardType", "Sphere" ],
                     }
                 }
 
-                callback(answer);
+                // callback(answer);
+                setTimeout(function()
+                {
+                    callback(answer);
+                }, delay);
             };
 
-            SimpleAgent.prototype.toString = function()
-            {
-                return "SimpleAgent " + this.name();
-            };
+            // SimpleAgent.toString = function()
+            // {
+            // return "SimpleAgent " + this.name();
+            // };
 
             return SimpleAgent;
         });

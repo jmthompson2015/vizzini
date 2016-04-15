@@ -63,7 +63,7 @@ define([ "EnemyCard" ], function(EnemyCard)
         assert.equal(result.length, 10);
         var i = 0;
         assert.equal(result[i++], EnemyCard.BLACK_FOREST_BATS);
-        assert.equal(result[i++], EnemyCard.CHIEFTAIN_UFTHAK);
+        assert.equal(result[i++], EnemyCard.CHIEFTAN_UFTHAK);
         assert.equal(result[i++], EnemyCard.DOL_GULDUR_BEASTMASTER);
         assert.equal(result[i++], EnemyCard.DOL_GULDUR_ORCS);
         assert.equal(result[i++], EnemyCard.EAST_BIGHT_PATROL);

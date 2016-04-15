@@ -3,7 +3,7 @@ define([ "game/ScenarioDeckBuilder" ], function(ScenarioDeckBuilder)
     "use strict";
     QUnit.module("ScenarioDeckBuilder");
 
-    QUnit.test("buildDeck() Beorn's Path #1", function(assert)
+    QUnit.test("buildDeck() Passage Through Mirkwood", function(assert)
     {
         // Setup.
         var deckBuilder = ScenarioDeckBuilder.CoreSetPassageThroughMirkwoodDeckBuilder;
@@ -16,11 +16,11 @@ define([ "game/ScenarioDeckBuilder" ], function(ScenarioDeckBuilder)
 
         // Verify.
         assert.ok(result);
-        var questTokens = result.questTokens();
-        assert.ok(questTokens);
-        assert.equal(questTokens.length, 4);
-        var encounterTokens = result.encounterTokens();
-        assert.ok(encounterTokens);
-        assert.equal(encounterTokens.length, 36);
+        var questInstances = result.questInstances();
+        assert.ok(questInstances);
+        assert.equal(questInstances.length, 4);
+        var encounterInstances = result.encounterInstances();
+        assert.ok(encounterInstances);
+        assert.equal(encounterInstances.length, 36);
     });
 });
