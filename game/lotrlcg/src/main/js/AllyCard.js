@@ -7,7 +7,8 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         BEORN: "beorn",
         BEORNING_BEEKEEPER: "beorningBeekeeper",
         BIFUR: "bifur",
-        BOFUR: "bofur",
+        BOFUR_OHAUH: "bofurOHaUH",
+        BOFUR_TRG: "bofurTRG",
         BROK_IRONFIST: "brokIronfist",
         DAUGHTER_OF_THE_NIMRODEL: "daughterOfTheNimrodel",
         DESCENDANT_OF_THORONDOR: "descendantOfThorondor",
@@ -35,11 +36,13 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         HAMA: "hama",
         HENAMARTH_RIVERSONG: "henamarthRiversong",
         HORSEBACK_ARCHER: "horsebackArcher",
+        IMLADRIS_STARGAZER: "imladrisStargazer",
         KEEN_EYED_TOOK: "keenEyedTook",
         KILI: "kili",
         LANDROVAL: "landroval",
         LEGOLAS: "legolas",
         LINDON_NAVIGATOR: "lindonNavigator",
+        LONGBEARD_ELDER: "longbeardElder",
         LONGBEARD_MAP_MAKER: "longbeardMapMaker",
         LONGBEARD_ORC_SLAYER: "longbeardOrcSlayer",
         LORIEN_GUIDE: "lorienGuide",
@@ -50,6 +53,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         NORTHERN_TRACKER: "northernTracker",
         QUICKBEAM: "quickbeam",
         RADAGAST: "radagast",
+        RAVENHILL_SCOUT: "ravenhillScout",
         RIVENDELL_MINSTREL: "rivendellMinstrel",
         SAILOR_OF_LUNE: "sailorOfLune",
         SILVAN_TRACKER: "silvanTracker",
@@ -57,6 +61,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SNOWBOURN_SCOUT: "snowbournScout",
         SON_OF_ARNOR: "sonOfArnor",
         THE_RIDDERMARKS_FINEST: "theRiddermarksFinest",
+        TROLLSHAW_SCOUT: "trollshawScout",
         VASSAL_OF_THE_WINDLORD: "vassalOfTheWindlord",
         VETERAN_AXEHAND: "veteranAxehand",
         VETERAN_OF_NANDUHIRION: "veteranOfNanduhirion",
@@ -112,7 +117,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.ON_THE_DOORSTEP,
                 value: "bifur",
             },
-            "bofur":
+            "bofurOHaUH":
             {
                 name: "Bofur",
                 isUnique: true,
@@ -124,7 +129,22 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.DWARF ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
-                value: "bofur",
+                value: "bofurOHaUH",
+            },
+            "bofurTRG":
+            {
+                name: "Bofur",
+                isUnique: true,
+                cost: 3,
+                willpower: 2,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "bofurTRG",
             },
             "brokIronfist":
             {
@@ -503,6 +523,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "horsebackArcher",
             },
+            "imladrisStargazer":
+            {
+                name: "Imladris Stargazer",
+                cost: 2,
+                willpower: 0,
+                attack: 0,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.NOLDOR ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "imladrisStargazer",
+            },
             "keenEyedTook":
             {
                 name: "Keen-Eyed Took",
@@ -572,6 +606,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 value: "lindonNavigator",
+            },
+            "longbeardElder":
+            {
+                name: "Longbeard Elder",
+                cost: 3,
+                willpower: 2,
+                attack: 1,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.DWARF ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "longbeardElder",
             },
             "longbeardMapMaker":
             {
@@ -709,6 +757,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
                 value: "radagast",
             },
+            "ravenhillScout":
+            {
+                name: "Ravenhill Scout",
+                cost: 3,
+                willpower: 0,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.DALE, Trait.SCOUT ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "ravenhillScout",
+            },
             "rivendellMinstrel":
             {
                 name: "Rivendell Minstrel",
@@ -802,6 +864,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
                 value: "theRiddermarksFinest",
+            },
+            "trollshawScout":
+            {
+                name: "Trollshaw Scout",
+                cost: 2,
+                willpower: 0,
+                attack: 2,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.NOLDOR, Trait.SCOUT ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "trollshawScout",
             },
             "vassalOfTheWindlord":
             {

@@ -23,13 +23,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         DWALIN: "dwalin",
         DUNHERE: "dunhere",
         ELEANOR: "eleanor",
+        ELROHIR: "elrohir",
         ELROND: "elrond",
         EOWYN: "eowyn",
         FRODO_BAGGINS: "frodoBaggins",
         GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
         GIMLI: "gimli",
         GLOIN: "gloin",
-        GLORFINDEL: "glorfindel",
+        GLORFINDEL_CORE: "glorfindelCore",
+        GLORFINEL_FOS: "glorfindelFoS",
         HAMA: "hama",
         LEGOLAS: "legolas",
         NORI: "nori",
@@ -241,7 +243,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 cardSetNumber: 1,
-                image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_1.jpg",
+                // image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_1.jpg",
                 value: "cirdanTheShipwright",
             },
             "dainIronfoot":
@@ -315,6 +317,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 8,
                 value: "eleanor",
             },
+            "elrohir":
+            {
+                name: "Elrohir",
+                threatCost: 10,
+                willpower: 2,
+                attack: 2,
+                defense: 1,
+                hitPoints: 4,
+                traitKeys: [ Trait.NOLDOR, Trait.NOBLE, Trait.RANGER ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                cardSetNumber: 1,
+                value: "elrohir",
+            },
             "elrond":
             {
                 name: "Elrond",
@@ -371,7 +388,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 cardSetNumber: 2,
-                image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_2.jpg",
+                // image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_2.jpg",
                 value: "galdorOfTheHavens",
             },
             "gimli":
@@ -402,7 +419,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 3,
                 value: "gloin",
             },
-            "glorfindel":
+            "glorfindelCore":
             {
                 name: "Glorfindel",
                 threatCost: 12,
@@ -414,7 +431,22 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.CORE,
                 cardSetNumber: 11,
-                value: "glorfindel",
+                value: "glorfindelCore",
+            },
+            "glorfindelFoS":
+            {
+                name: "Glorfindel",
+                threatCost: 5,
+                willpower: 3,
+                attack: 3,
+                defense: 1,
+                hitPoints: 5,
+                traitKeys: [ Trait.NOLDOR, Trait.NOBLE, Trait.WARRIOR ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                cardSetNumber: 101,
+                value: "glorfindelFoS",
             },
             "hama":
             {

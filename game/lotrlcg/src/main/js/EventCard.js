@@ -9,6 +9,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         A_TEST_OF_WILL: "aTestOfWill",
         ASTONISHING_SPEED: "astonishingSpeed",
         CAMPFIRE_TALES: "campfireTales",
+        DAERONS_RUNES: "daeronsRunes",
         DAWN_TAKE_YOU_ALL: "dawnTakeYouAll",
         DESPERATE_ALLIANCE: "desperateAlliance",
         DWARVEN_TOMB: "dwarvenTomb",
@@ -18,9 +19,11 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         GILDORS_COUNSEL: "gildorsCounsel",
         HANDS_UPON_THE_BOW: "handsUponTheBow",
         HASTY_STROKE: "hastyStroke",
+        HEAVY_STROKE: "heavyStroke",
         INFIGHTING: "infighting",
         MENELDORS_FLIGHT: "meneldorsFlight",
         MUSTERING_THE_ROHIRRIM: "musteringTheRohirrim",
+        NEEDFUL_TO_KNOW: "needfulToKnow",
         OUT_OF_SIGHT: "outOfSight",
         PARTING_GIFTS: "partingGifts",
         PEACE_AND_THOUGHT: "peaceAndThought",
@@ -28,6 +31,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         RADAGASTS_CUNNING: "radagastsCunning",
         RAVENS_OF_THE_MOUNTAIN: "ravensOfTheMountain",
         REAR_GUARD: "rearGuard",
+        RENEWED_FRIENDSHIP: "renewedFriendship",
         RIDE_TO_RUIN: "rideToRuin",
         RISK_SOME_LIGHT: "riskSomeLight",
         RUMOUR_FROM_THE_EARTH: "rumourFromTheEarth",
@@ -38,11 +42,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         STRAIGHT_SHOT: "straightShot",
         STRIDERS_PATH: "stridersPath",
         SWIFT_STRIKE: "swiftStrike",
+        TAKING_INITIATIVE: "takingInitiative",
         THE_EAGLES_ARE_COMING: "theEaglesAreComing",
         THE_GALADHRIMS_GREETING: "theGaladhrimsGreeting",
         THE_LUCKY_NUMBER: "theLuckyNumber",
+        TIMELY_AID: "timelyAid",
         TO_ME_O_MY_KINSFOLK: "toMeOMyKinsfolk",
         TO_THE_EYRIE: "toTheEyrie",
+        UNSEEN_STRIKE: "unseenStrike",
         VALIANT_SACRIFICE: "valiantSacrifice",
         WE_ARE_NOT_IDLE: "weAreNotIdle",
         WE_DO_NOT_SLEEP: "weDoNotSleep",
@@ -92,6 +99,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "campfireTales",
+            },
+            "daeronsRunes":
+            {
+                name: "Daeron's Runes",
+                cost: 0,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "daeronsRunes",
             },
             "dawnTakeYouAll":
             {
@@ -169,6 +185,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.CORE,
                 value: "hastyStroke",
             },
+            "heavyStroke":
+            {
+                name: "Heavy Stroke",
+                cost: 1,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "heavyStroke",
+            },
             "infighting":
             {
                 name: "Infighting",
@@ -195,6 +220,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "musteringTheRohirrim",
+            },
+            "needfulToKnow":
+            {
+                name: "Needful to Know",
+                cost: 2,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "needfulToKnow",
             },
             "outOfSight":
             {
@@ -255,6 +289,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
                 value: "rearGuard",
+            },
+            "renewedFriendship":
+            {
+                name: "Renewed Friendship",
+                cost: 0,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "renewedFriendship",
             },
             "rideToRuin":
             {
@@ -342,6 +385,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.CORE,
                 value: "swiftStrike",
             },
+            "takingInitiative":
+            {
+                name: "Taking Initiative",
+                cost: 0,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "takingInitiative",
+            },
             "theEaglesAreComing":
             {
                 name: "The Eagles Are Coming!",
@@ -367,6 +419,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.ON_THE_DOORSTEP,
                 value: "theLuckyNumber",
             },
+            "timelyAid":
+            {
+                name: "Timely Aid",
+                cost: 4,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "timelyAid",
+            },
             "toMeOMyKinsfolk":
             {
                 name: "To Me! O My Kinsfolk!",
@@ -383,6 +444,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
                 value: "toTheEyrie",
+            },
+            "unseenStrike":
+            {
+                name: "Unseen Strike",
+                cost: 0,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "unseenStrike",
             },
             "valiantSacrifice":
             {

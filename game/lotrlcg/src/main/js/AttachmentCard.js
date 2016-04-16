@@ -7,6 +7,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         A_BURNING_BRAND: "aBurningBrand",
         ANCIENT_MATHOM: "ancientMathom",
         AROD: "arod",
+        ASFALOTH: "asfaloth",
         BLACK_ARROW: "blackArrow",
         BLADE_OF_GONDOLIN: "bladeOfGondolin",
         BOOTS_FROM_EREBOR: "bootsFromErebor",
@@ -28,18 +29,23 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         EXPLORERS_ALMANAC: "explorersAlmanac",
         FAST_HITCH: "fastHitch",
         FOREST_SNARE: "forestSnare",
+        GOOD_MEAL: "goodMeal",
         GRAPPLING_HOOK: "grapplingHook",
         GREAT_YEW_BOW: "greatYewBow",
         HARDY_LEADERSHIP: "hardyLeadership",
+        HEALING_HERBS: "healingHerbs",
         HERUGRIM: "herugrim",
         HORN_OF_GONDOR: "hornOfGondor",
+        KEEPING_COUNT: "keepingCount",
         KING_UNDER_THE_MOUNTAIN: "kingUnderTheMountain",
+        LIGHT_OF_VALINOR: "lightOfValinor",
         LOVE_OF_TALES: "loveOfTales",
         MARINERS_COMPASS: "marinersCompass",
         MIRUVOR: "miruvor",
         NARVIS_BELT: "narvisBelt",
         NARYA: "narya",
         NOR_AM_I_A_STRANGER: "norAmIAStranger",
+        PATH_OF_NEED: "pathOfNeed",
         POWER_IN_THE_EARTH: "powerInTheEarth",
         PROTECTOR_OF_LORIEN: "protectorOfLorien",
         RING_MAIL: "ringMail",
@@ -91,6 +97,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                 value: "arod",
+            },
+            "asfaloth":
+            {
+                name: "Asfaloth",
+                isUnique: true,
+                cost: 2,
+                traitKeys: [ Trait.MOUNT ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "asfaloth",
             },
             "blackArrow":
             {
@@ -291,6 +308,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "forestSnare",
             },
+            "goodMeal":
+            {
+                name: "Good Meal",
+                cost: 0,
+                traitKeys: [],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "goodMeal",
+            },
             "grapplingHook":
             {
                 name: "Grappling Hook",
@@ -320,6 +347,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D6_SHADOW_AND_FLAME,
                 value: "hardyLeadership",
             },
+            "healingHerbs":
+            {
+                name: "Healing Herbs",
+                cost: 0,
+                traitKeys: [],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "healingHerbs",
+            },
             "herugrim":
             {
                 name: "Herugrim",
@@ -339,6 +376,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "hornOfGondor",
             },
+            "keepingCount":
+            {
+                name: "Keeping Count",
+                cost: 0,
+                traitKeys: [],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
+                value: "keepingCount",
+            },
             "kingUnderTheMountain":
             {
                 name: "King Under the Mountain",
@@ -348,6 +395,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.ON_THE_DOORSTEP,
                 value: "kingUnderTheMountain",
+            },
+            "lightOfValinor":
+            {
+                name: "Light of Valinor",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.CONDITION ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "lightOfValinor",
             },
             "loveOfTales":
             {
@@ -406,6 +464,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                 value: "norAmIAStranger",
+            },
+            "pathOfNeed":
+            {
+                name: "Path of Need",
+                cost: 4,
+                traitKeys: [ Trait.CONDITION ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
+                value: "pathOfNeed",
             },
             "powerInTheEarth":
             {
