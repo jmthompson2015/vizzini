@@ -21,6 +21,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "d1TheRedhornGate":
             {
                 name: "The Redhorn Gate",
+                shortName: "TRG",
                 cardSetKey: CardSet.DWARROWDELF,
                 number: 1,
                 value: "d1TheRedhornGate",
@@ -28,6 +29,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "d2RoadToRivendell":
             {
                 name: "Road To Rivendell",
+                shortName: "RtR",
                 cardSetKey: CardSet.DWARROWDELF,
                 number: 2,
                 value: "d2RoadToRivendell",
@@ -35,6 +37,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "d3TheWatcherInTheWater":
             {
                 name: "The Watcher in the Water",
+                shortName: "TWitW",
                 cardSetKey: CardSet.DWARROWDELF,
                 number: 3,
                 value: "d3TheWatcherInTheWater",
@@ -42,6 +45,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "d4TheLongDark":
             {
                 name: "The Long Dark",
+                shortName: "TLD",
                 cardSetKey: CardSet.DWARROWDELF,
                 number: 4,
                 value: "d4TheLongDark",
@@ -49,6 +53,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "d5FoundationsOfStone":
             {
                 name: "Foundations of Stone",
+                shortName: "FoS",
                 cardSetKey: CardSet.DWARROWDELF,
                 number: 5,
                 value: "d5FoundationsOfStone",
@@ -56,6 +61,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "d6ShadowAndFlame":
             {
                 name: "Shadow and Flame",
+                shortName: "SaF",
                 cardSetKey: CardSet.DWARROWDELF,
                 number: 6,
                 value: "d6ShadowAndFlame",
@@ -71,6 +77,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "som2ConflictAtTheCarrock":
             {
                 name: "Conflict at the Carrock",
+                shortName: "CatC",
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 number: 2,
                 value: "som2ConflictAtTheCarrock",
@@ -78,6 +85,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "som3AJourneyToRhosgobel":
             {
                 name: "A Journey to Rhosgobel",
+                shortName: "AJtR",
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 number: 3,
                 value: "som3AJourneyToRhosgobel",
@@ -85,6 +93,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "som4TheHillsOfEmynMuil":
             {
                 name: "The Hills of Emyn Muil",
+                shortName: "THoEM",
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 number: 4,
                 value: "som4TheHillsOfEmynMuil",
@@ -92,6 +101,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "som5TheDeadMarshes":
             {
                 name: "The Dead Marshes",
+                shortName: "TDM",
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 number: 5,
                 value: "som5TheDeadMarshes",
@@ -99,6 +109,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "som6ReturnToMirkwood":
             {
                 name: "Return to Mirkwood",
+                shortName: "RtM",
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 number: 6,
                 value: "som6ReturnToMirkwood",

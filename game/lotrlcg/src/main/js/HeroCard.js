@@ -212,7 +212,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.GONDOR, Trait.NOBLE, Trait.WARRIOR ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
-                cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
+                cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 cardSetNumber: 95,
                 value: "boromir",
             },
@@ -243,7 +243,6 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 cardSetNumber: 1,
-                // image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_1.jpg",
                 value: "cirdanTheShipwright",
             },
             "dainIronfoot":
@@ -257,7 +256,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.DWARF ],
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
-                cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
+                cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
                 cardSetNumber: 116,
                 value: "dainIronfoot",
             },
@@ -388,7 +387,6 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 cardSetNumber: 2,
-                // image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC47_2.jpg",
                 value: "galdorOfTheHavens",
             },
             "gimli":

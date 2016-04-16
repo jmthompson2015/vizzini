@@ -49,7 +49,7 @@ define([ "EventCard" ], function(EventCard)
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 50);
-        assert.equal(result[0], EventCard.A_ELDERETH_GILTHONIEL);
+        assert.equal(result[0], EventCard.A_ELBERETH_GILTHONIEL);
         assert.equal(result[49], EventCard.WORD_OF_COMMAND);
     });
 });

@@ -51,6 +51,8 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
                 traitKeys: [ Trait.FOREST, Trait.MOUNTAIN ],
                 encounterSetKey: EncounterSet.SPIDERS_OF_MIRKWOOD,
                 gameModeKey: GameMode.EASY,
+                // This image is missing from cardgamedb.com
+                image: "http://talesfromthecards.files.wordpress.com/2013/03/mountains-of-mirkwood.jpg?w=200&h=279",
                 value: "mountainsOfMirkwood",
             },
             "necromancersPass":

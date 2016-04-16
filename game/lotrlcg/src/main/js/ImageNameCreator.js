@@ -5,15 +5,17 @@ define([ "CardSet" ], function(CardSet)
     {
         create: function(card)
         {
-            var name;
+            InputValidator.validateNotNull("card", card);
+
+            var cardName;
 
             if (card.shortName)
             {
-                name = card.shortName;
+                cardName = card.shortName;
             }
             else
             {
-                name = this.convert(card.name);
+                cardName = this.convert(card.name);
             }
 
             var cardSet = card.cardSet;
@@ -26,22 +28,39 @@ define([ "CardSet" ], function(CardSet)
                 cardSet = CardSet.properties[encounterSet.cardSet];
             }
 
-            var set;
+            if (card.cardKey === "boromir")
+            {
+                LOGGER.info("card.cardSetKey = " + card.cardSetKey);
+                LOGGER.info("card.cardSubsetKey = " + card.cardSubsetKey);
+            }
+
+            var cardSetName;
 
             if (cardSubset && cardSubset.shortName)
             {
-                set = cardSubset.shortName;
+                cardSetName = cardSubset.shortName.toLowerCase();
             }
             else if (cardSet.shortName)
             {
-                set = cardSet.shortName;
+                cardSetName = cardSet.shortName;
             }
             else
             {
-                set = this.convert(cardSet.name);
+                cardSetName = this.convert(cardSet.name);
             }
 
-            return "http://www.cardgamedb.com/forums/uploads/lotr/ffg_" + name + "-" + set + ".jpg";
+            var description;
+
+            if (cardSetName.startsWith("MEC"))
+            {
+                description = cardSetName + "_" + card.cardSetNumber;
+            }
+            else
+            {
+                description = cardName + "-" + cardSetName.toLowerCase();
+            }
+
+            return "http://www.cardgamedb.com/forums/uploads/lotr/ffg_" + description + ".jpg";
         },
 
         convert: function(string)

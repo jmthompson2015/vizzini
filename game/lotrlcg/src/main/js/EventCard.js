@@ -4,7 +4,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
     "use strict";
     var EventCard =
     {
-        A_ELDERETH_GILTHONIEL: "aElderethGilthoniel",
+        A_ELBERETH_GILTHONIEL: "aElberethGilthoniel",
         A_LIGHT_IN_THE_DARK: "aLightInTheDark",
         A_TEST_OF_WILL: "aTestOfWill",
         ASTONISHING_SPEED: "astonishingSpeed",
@@ -57,14 +57,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
 
         properties:
         {
-            "aElderethGilthoniel":
+            "aElberethGilthoniel":
             {
-                name: "A Eldereth! Gilthoniel!",
+                name: "A Elbereth! Gilthoniel!",
                 cost: 4,
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D6_SHADOW_AND_FLAME,
-                value: "aElderethGilthoniel",
+                // This is spelled wrong at cardgamedb.com
+                image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_o-elbereth-gilthonial-saf.jpg",
+                value: "aElberethGilthoniel",
             },
             "aLightInTheDark":
             {

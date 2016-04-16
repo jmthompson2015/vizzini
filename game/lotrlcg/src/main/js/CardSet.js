@@ -29,18 +29,21 @@ define([ "CardSetType" ], function(CardSetType)
             "khazadDum":
             {
                 name: "Khazad-Dûm",
+                shortName: "KD",
                 typeKey: CardSetType.DELUXE,
                 value: "khazadDum",
             },
             "onTheDoorstep":
             {
                 name: "On the Doorstep",
+                shortName: "OtD",
                 typeKey: CardSetType.SAGA,
                 value: "onTheDoorstep",
             },
             "overHillAndUnderHill":
             {
                 name: "Over Hill and Under Hill",
+                shortName: "OHaUH",
                 typeKey: CardSetType.SAGA,
                 value: "overHillAndUnderHill",
             },
@@ -54,12 +57,14 @@ define([ "CardSetType" ], function(CardSetType)
             "theGreyHavens":
             {
                 name: "The Grey Havens",
+                shortName: "MEC47",
                 typeKey: CardSetType.DELUXE,
                 value: "theGreyHavens",
             },
             "theTreasonOfSaruman":
             {
                 name: "The Treason of Saruman",
+                shortName: "MEC45",
                 typeKey: CardSetType.SAGA,
                 value: "theTreasonOfSaruman",
             },

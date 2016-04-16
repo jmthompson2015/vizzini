@@ -25,7 +25,8 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         ESCORT_FROM_EDORAS: "escortFromEdoras",
         FARAMIR: "faramir",
         FILI: "fili",
-        GANDALF: "gandalf",
+        GANDALF_CORE: "gandalfCore",
+        GANDALF_OHAUH: "gandalfOHaUH",
         GILDOR_INGLORION: "gildorInglorion",
         GIMLI: "gimli",
         GLEOWINE: "gleowine",
@@ -370,7 +371,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 value: "fili",
             },
-            "gandalf":
+            "gandalfCore":
             {
                 name: "Gandalf",
                 isUnique: true,
@@ -382,11 +383,25 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ISTARI ],
                 sphereKey: Sphere.NEUTRAL,
                 cardSetKey: CardSet.CORE,
-                value: "gandalf",
+                value: "gandalfCore",
+            },
+            "gandalfOHaUH":
+            {
+                name: "Gandalf",
+                isUnique: true,
+                cost: 5,
+                willpower: 4,
+                attack: 4,
+                defense: 4,
+                hitPoints: 4,
+                traitKeys: [ Trait.ISTARI ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
+                value: "gandalfOHaUH",
             },
             "gildorInglorion":
             {
-                name: "gildorInglorion",
+                name: "Gildor Inglorion",
                 isUnique: true,
                 cost: 5,
                 willpower: 3,
@@ -411,6 +426,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.DWARF, Trait.WARRIOR ],
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 4,
                 value: "gimli",
             },
             "gleowine":
@@ -494,6 +510,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ROHAN, Trait.WARRIOR ],
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 7,
                 value: "hama",
             },
             "henamarthRiversong":
@@ -592,6 +609,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.SILVAN, Trait.WARRIOR ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 5,
                 value: "legolas",
             },
             "lindonNavigator":
@@ -605,6 +623,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.NOLDOR, Trait.SCOUT ],
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 9,
                 value: "lindonNavigator",
             },
             "longbeardElder":
@@ -713,6 +732,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.NOLDOR, Trait.WARRIOR ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 3,
                 value: "mithlondSeaWatcher",
             },
             "northernTracker":
@@ -740,6 +760,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ENT ],
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 6,
                 value: "quickbeam",
             },
             "radagast":
@@ -796,6 +817,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.NOLDOR, Trait.SCOUT ],
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 12,
                 value: "sailorOfLune",
             },
             "silvanTracker":
@@ -957,6 +979,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.NOLDOR, Trait.WARRIOR ],
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 6,
                 value: "wardenOfTheHavens",
             },
             "westfoldHorseBreaker":

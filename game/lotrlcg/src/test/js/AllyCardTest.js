@@ -60,8 +60,8 @@ define([ "AllyCard" ], function(AllyCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 68);
+        assert.equal(result.length, 69);
         assert.equal(result[0], AllyCard.BEORN);
-        assert.equal(result[67], AllyCard.ZIGIL_MINER);
+        assert.equal(result[68], AllyCard.ZIGIL_MINER);
     });
 });

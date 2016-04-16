@@ -21,7 +21,7 @@ define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/CardInstan
         addAlly(playerTokens, AllyCard.SON_OF_ARNOR, 2);
         addAlly(playerTokens, AllyCard.DAUGHTER_OF_THE_NIMRODEL, 3);
         addAlly(playerTokens, AllyCard.FARAMIR, 2);
-        addAlly(playerTokens, AllyCard.GANDALF, 3);
+        addAlly(playerTokens, AllyCard.GANDALF_CORE, 3);
 
         addAttachment(playerTokens, AttachmentCard.STEWARD_OF_GONDOR, 2);
         addAttachment(playerTokens, AttachmentCard.PROTECTOR_OF_LORIEN, 2);
@@ -51,7 +51,7 @@ define([ "AllyCard", "AttachmentCard", "EventCard", "HeroCard", "game/CardInstan
         addAlly(playerTokens, AllyCard.HORSEBACK_ARCHER, 2);
         addAlly(playerTokens, AllyCard.LORIEN_GUIDE, 1);
         addAlly(playerTokens, AllyCard.NORTHERN_TRACKER, 2);
-        addAlly(playerTokens, AllyCard.GANDALF, 1);
+        addAlly(playerTokens, AllyCard.GANDALF_CORE, 1);
         addAlly(playerTokens, AllyCard.BEORN, 1);
 
         addAttachment(playerTokens, AttachmentCard.HORN_OF_GONDOR, 1);

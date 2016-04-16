@@ -96,6 +96,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.MOUNT ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 8,
                 value: "arod",
             },
             "asfaloth":
@@ -259,6 +260,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ITEM, Trait.ENT ],
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 9,
                 value: "entDraught",
             },
             "everMyHeartRises":
@@ -287,6 +289,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ITEM ],
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 11,
                 value: "explorersAlmanac",
             },
             "fastHitch":
@@ -325,6 +328,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ITEM ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 5,
                 value: "grapplingHook",
             },
             "greatYewBow":
@@ -365,6 +369,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ITEM, Trait.WEAPON ],
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 10,
                 value: "herugrim",
             },
             "hornOfGondor":
@@ -424,6 +429,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ITEM ],
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 8,
                 value: "marinersCompass",
             },
             "miruvor":
@@ -453,6 +459,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.RING, Trait.ARTIFACT ],
                 sphereKey: Sphere.NEUTRAL,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 15,
                 value: "narya",
             },
             "norAmIAStranger":
@@ -520,6 +527,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.MOUNT, Trait.MEARAS ],
                 sphereKey: Sphere.NEUTRAL,
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
+                cardSetNumber: 14,
                 value: "shadowfax",
             },
             "songOfBattle":
@@ -637,6 +645,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.SONG ],
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_GREY_HAVENS,
+                cardSetNumber: 14,
                 value: "toTheSeaToTheSea",
             },
             "unexpectedCourage":
