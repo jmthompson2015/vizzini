@@ -60,17 +60,8 @@ define([ "EnemyCard" ], function(EnemyCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 10);
-        var i = 0;
-        assert.equal(result[i++], EnemyCard.BLACK_FOREST_BATS);
-        assert.equal(result[i++], EnemyCard.CHIEFTAN_UFTHAK);
-        assert.equal(result[i++], EnemyCard.DOL_GULDUR_BEASTMASTER);
-        assert.equal(result[i++], EnemyCard.DOL_GULDUR_ORCS);
-        assert.equal(result[i++], EnemyCard.EAST_BIGHT_PATROL);
-        assert.equal(result[i++], EnemyCard.FOREST_SPIDER);
-        assert.equal(result[i++], EnemyCard.GOBLIN_SNIPER);
-        assert.equal(result[i++], EnemyCard.HUMMERHORNS);
-        assert.equal(result[i++], EnemyCard.KING_SPIDER);
-        assert.equal(result[i++], EnemyCard.UNGOLIANTS_SPAWN);
+        assert.equal(result.length, 14);
+        assert.equal(result[0], EnemyCard.BLACK_FOREST_BATS);
+        assert.equal(result[13], EnemyCard.UNGOLIANTS_SPAWN);
     });
 });

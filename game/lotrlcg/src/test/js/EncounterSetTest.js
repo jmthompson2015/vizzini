@@ -48,11 +48,14 @@ define([ "EncounterSet" ], function(EncounterSet)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 4);
+        assert.equal(result.length, 7);
         var i = 0;
         assert.equal(result[i++], EncounterSet.DOL_GULDUR_ORCS);
+        assert.equal(result[i++], EncounterSet.JOURNEY_DOWN_THE_ANDUIN);
         assert.equal(result[i++], EncounterSet.PASSAGE_THROUGH_MIRKWOOD);
+        assert.equal(result[i++], EncounterSet.SAURONS_REACH);
         assert.equal(result[i++], EncounterSet.SPIDERS_OF_MIRKWOOD);
+        assert.equal(result[i++], EncounterSet.THE_HUNT_FOR_GOLLUM);
         assert.equal(result[i++], EncounterSet.WILDERLANDS);
     });
 });

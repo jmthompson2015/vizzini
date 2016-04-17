@@ -48,7 +48,7 @@ define([ "CardType" ], function(CardType)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 8);
+        assert.equal(result.length, 9);
         var i = 0;
         assert.equal(result[i++], CardType.ATTACHMENT);
         assert.equal(result[i++], CardType.ALLY);
@@ -56,6 +56,7 @@ define([ "CardType" ], function(CardType)
         assert.equal(result[i++], CardType.EVENT);
         assert.equal(result[i++], CardType.HERO);
         assert.equal(result[i++], CardType.LOCATION);
+        assert.equal(result[i++], CardType.OBJECTIVE);
         assert.equal(result[i++], CardType.QUEST);
         assert.equal(result[i++], CardType.TREACHERY);
     });

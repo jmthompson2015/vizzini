@@ -41,6 +41,21 @@ define([ "TreacheryCard" ], function(TreacheryCard)
         });
     });
 
+    QUnit.test("traits", function(assert)
+    {
+        TreacheryCard.values().forEach(function(cardKey)
+        {
+            var card = TreacheryCard.properties[cardKey];
+            if (card.traitKeys)
+            {
+                card.traitKeys.forEach(function(traitKey)
+                {
+                    assert.ok(traitKey, "Missing traitKey for cardKey = " + cardKey);
+                });
+            }
+        });
+    });
+
     QUnit.test("TreacheryCard.values()", function(assert)
     {
         // Run.
@@ -48,11 +63,8 @@ define([ "TreacheryCard" ], function(TreacheryCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 4);
-        var i = 0;
-        assert.equal(result[i++], TreacheryCard.CAUGHT_IN_A_WEB);
-        assert.equal(result[i++], TreacheryCard.DRIVEN_BY_SHADOW);
-        assert.equal(result[i++], TreacheryCard.EYES_OF_THE_FOREST);
-        assert.equal(result[i++], TreacheryCard.THE_NECROMANCERS_REACH);
+        assert.equal(result.length, 11);
+        assert.equal(result[0], TreacheryCard.CAUGHT_IN_A_WEB);
+        assert.equal(result[10], TreacheryCard.TREACHEROUS_FOG);
     });
 });

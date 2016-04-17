@@ -1,14 +1,15 @@
-define([ "QuestCard" ], function(QuestCard)
+define([ "QuestCard", "Scenario" ], function(QuestCard, Scenario)
 {
     "use strict";
     QUnit.module("QuestCard");
 
-    QUnit.test("QuestCard properties A Chosen Path: Beorn's Path", function(assert)
+    QUnit.test("QuestCard properties Flies and Spiders", function(assert)
     {
-        var cardKey = QuestCard.A_CHOSEN_PATH_BEORNS_PATH;
+        var cardKey = QuestCard.PTM1A_FLIES_AND_SPIDERS;
         var properties = QuestCard.properties[cardKey];
-        assert.equal(properties.name, "A Chosen Path: Beorn's Path");
-        assert.equal(properties.value, "aChosenPathBeornsPath");
+        assert.equal(properties.name, "Flies and Spiders");
+        assert.equal(properties.sequence, "1A");
+        assert.equal(properties.value, "ptm1aFliesAndSpiders");
     });
 
     QUnit.test("keys and values", function(assert)
@@ -48,11 +49,30 @@ define([ "QuestCard" ], function(QuestCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 4);
+        assert.equal(result.length, 13);
         var i = 0;
-        assert.equal(result[i++], QuestCard.A_CHOSEN_PATH_BEORNS_PATH);
-        assert.equal(result[i++], QuestCard.A_CHOSEN_PATH_DONT_LEAVE_THE_PATH);
-        assert.equal(result[i++], QuestCard.A_FORK_IN_THE_ROAD);
-        assert.equal(result[i++], QuestCard.FLIES_AND_SPIDERS);
+        assert.equal(result[i++], QuestCard.PTM1A_FLIES_AND_SPIDERS);
+        assert.equal(result[i++], QuestCard.PTM1B_FLIES_AND_SPIDERS);
+        assert.equal(result[i++], QuestCard.PTM2A_A_FORK_IN_THE_ROAD);
+        assert.equal(result[i++], QuestCard.PTM2B_A_FORK_IN_THE_ROAD);
+        assert.equal(result[i++], QuestCard.PTM3A_A_CHOSEN_PATH);
+        assert.equal(result[i++], QuestCard.PTM3B1_BEORNS_PATH);
+        assert.equal(result[i++], QuestCard.PTM3B2_DONT_LEAVE_THE_PATH);
+        assert.equal(result[i++], QuestCard.THFG1A_THE_HUNT_BEGINS);
+        assert.equal(result[i++], QuestCard.THFG1B_THE_HUNT_BEGINS);
+        assert.equal(result[i++], QuestCard.THFG2A_A_NEW_TERROR_ABROAD);
+        assert.equal(result[i++], QuestCard.THFG2B_A_NEW_TERROR_ABROAD);
+        assert.equal(result[i++], QuestCard.THFG3A_ON_THE_TRAIL);
+        assert.equal(result[i++], QuestCard.THFG3B_ON_THE_TRAIL);
+    });
+
+    QUnit.test("QuestCard.valuesByScenario()", function(assert)
+    {
+        // Run.
+        var result = QuestCard.valuesByScenario(Scenario.PASSAGE_THROUGH_MIRKWOOD);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 7);
     });
 });

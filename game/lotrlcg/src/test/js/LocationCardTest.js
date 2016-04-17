@@ -60,13 +60,8 @@ define([ "LocationCard" ], function(LocationCard)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 6);
-        var i = 0;
-        assert.equal(result[i++], LocationCard.ENCHANTED_STREAM);
-        assert.equal(result[i++], LocationCard.FOREST_GATE);
-        assert.equal(result[i++], LocationCard.GREAT_FOREST_WEB);
-        assert.equal(result[i++], LocationCard.MOUNTAINS_OF_MIRKWOOD);
-        assert.equal(result[i++], LocationCard.NECROMANCERS_PASS);
-        assert.equal(result[i++], LocationCard.OLD_FOREST_ROAD);
+        assert.equal(result.length, 13);
+        assert.equal(result[0], LocationCard.BANKS_OF_THE_ANDUIN);
+        assert.equal(result[12], LocationCard.THE_WEST_BANK);
     });
 });
