@@ -1,4 +1,4 @@
-define(function()
+define([ "CardType" ], function(CardType)
 {
     var CardGalleryUI = React.createClass(
     {
@@ -16,17 +16,20 @@ define(function()
             {
                 var card = properties[cardKey];
                 LOGGER.info("card = " + card.name);
+                var width = card.cardTypeKey === CardType.QUEST ? 290 : 208;
+                var columns = card.cardTypeKey === CardType.QUEST ? 3 : 5;
                 var image = React.DOM.img(
                 {
                     src: card.image,
                     title: cardKey,
+                    width: width,
                 });
                 cells.push(React.DOM.td(
                 {
                     key: cells.length,
                 }, image));
 
-                if (cells.length >= 5)
+                if (cells.length >= columns)
                 {
                     rows.push(React.DOM.tr({}, cells));
                     cells = [];

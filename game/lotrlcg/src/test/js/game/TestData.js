@@ -109,13 +109,13 @@ define([ "AllyCard", "CardSet", "EnemyCard", "HeroCard", "LocationCard", "QuestC
             state.activeLocationId = activeLocation.id;
 
             var questDeckIds = state.questDeckIds;
-            var questDeck0 = CardInstance.quest(QuestCard.FLIES_AND_SPIDERS);
+            var questDeck0 = CardInstance.quest(QuestCard.PTM1A_FLIES_AND_SPIDERS);
             cardInstances[questDeck0.id] = questDeck0;
             questDeckIds.push(questDeck0.id);
-            var questDeck1 = CardInstance.quest(QuestCard.A_FORK_IN_THE_ROAD);
+            var questDeck1 = CardInstance.quest(QuestCard.PTM2A_A_FORK_IN_THE_ROAD);
             cardInstances[questDeck1.id] = questDeck1;
             questDeckIds.push(questDeck1.id);
-            var questDeck2 = CardInstance.quest(QuestCard.A_CHOSEN_PATH_BEORNS_PATH);
+            var questDeck2 = CardInstance.quest(QuestCard.PTM3A_A_CHOSEN_PATH);
             cardInstances[questDeck2.id] = questDeck2;
             questDeckIds.push(questDeck2.id);
             state.activeQuestId = questDeckIds.shift();
