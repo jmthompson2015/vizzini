@@ -1,5 +1,6 @@
 define([ "CardType" ], function(CardType)
 {
+    "use strict";
     var CardGalleryUI = React.createClass(
     {
         render: function()

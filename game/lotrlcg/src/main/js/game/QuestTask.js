@@ -1,4 +1,4 @@
-define([ "Phase", "game/Action", "game/Selector" ], function(Phase, Action, Selector)
+define([ "Phase", "game/Action" ], function(Phase, Action)
 {
     "use strict";
     function QuestTask(store, adjudicator, questers)

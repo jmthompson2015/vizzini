@@ -1,4 +1,4 @@
-define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(CardType, Action, Selector, Store)
+define([ "game/Action", "game/Store" ], function(Action, Store)
 {
     "use strict";
     var Reducer = {};
@@ -10,6 +10,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
         LOGGER.debug("rootReducer() type = " + action.type);
 
         var newAgent;
+        var newPlayAreaIds, newEngagementAreaIds, newHandIds;
 
         switch (action.type)
         {
@@ -19,21 +20,21 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 threatLevel: state.threatLevel + action.value,
             });
         case Action.ADD_TO_PLAY_AREA:
-            var newPlayAreaIds = state.playAreaIds.slice();
+            newPlayAreaIds = state.playAreaIds.slice();
             newPlayAreaIds.push(action.cardInstanceId);
             return Object.assign({}, state,
             {
                 playAreaIds: newPlayAreaIds,
             });
         case Action.DISCARD_ENGAGED_CARD:
-            var newEngagementAreaIds = state.engagementAreaIds.slice();
+            newEngagementAreaIds = state.engagementAreaIds.slice();
             newEngagementAreaIds.vizziniRemove(action.cardInstanceId);
             return Object.assign({}, state,
             {
                 engagementAreaIds: newEngagementAreaIds,
             });
         case Action.DISCARD_PLAYER_CARD:
-            var newPlayAreaIds = state.playAreaIds.slice();
+            newPlayAreaIds = state.playAreaIds.slice();
             var newPlayerDiscardIds = state.playerDiscardIds.slice();
             newPlayAreaIds.vizziniRemove(action.cardInstanceId);
             newPlayerDiscardIds.push(action.cardInstanceId);
@@ -44,7 +45,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
             });
         case Action.DRAW_PLAYER_CARD:
             var newPlayerCardIds = state.playerCardIds.slice();
-            var newHandIds = state.handIds.slice();
+            newHandIds = state.handIds.slice();
             newHandIds.push(newPlayerCardIds.shift());
             return Object.assign({}, state,
             {
@@ -52,14 +53,14 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 handIds: newHandIds,
             });
         case Action.ENGAGE_ENEMY:
-            var newEngagementAreaIds = state.engagementAreaIds.slice();
+            newEngagementAreaIds = state.engagementAreaIds.slice();
             newEngagementAreaIds.push(action.enemyId);
             return Object.assign({}, state,
             {
                 engagementAreaIds: newEngagementAreaIds,
             });
         case Action.REMOVE_FROM_HAND:
-            var newHandIds = state.handIds.slice();
+            newHandIds = state.handIds.slice();
             newHandIds.vizziniRemove(action.cardInstanceId);
             return Object.assign({}, state,
             {
@@ -68,7 +69,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
         default:
             LOGGER.warn("Reducer.agent: Unhandled action type: " + action.type);
             return state;
-        };
+        }
     };
 
     Reducer.agents = function(state, action)
@@ -95,7 +96,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
         default:
             LOGGER.warn("Reducer.agents: Unhandled action type: " + action.type);
             return state;
-        };
+        }
     };
 
     Reducer.cardInstance = function(state, action)
@@ -105,21 +106,22 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
         LOGGER.debug("rootReducer() type = " + action.type);
 
         var newCardInstance;
+        var sum;
 
         switch (action.type)
         {
         case Action.ADD_PROGRESS:
-            var sum = state.progressCount + action.value;
+            sum = state.progressCount + action.value;
             newCardInstance = Object.assign({}, state);
             newCardInstance.progressCount = Math.max(0, sum);
             return newCardInstance;
         case Action.ADD_RESOURCES:
-            var sum = state.resourceCount + action.value;
+            sum = state.resourceCount + action.value;
             newCardInstance = Object.assign({}, state);
             newCardInstance.resourceCount = Math.max(0, sum);
             return newCardInstance;
         case Action.ADD_WOUNDS:
-            var sum = state.woundCount + action.value;
+            sum = state.woundCount + action.value;
             newCardInstance = Object.assign({}, state);
             newCardInstance.woundCount = Math.max(0, sum);
             return newCardInstance;
@@ -134,7 +136,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
         default:
             LOGGER.warn("Reducer.cardInstance: Unhandled action type: " + action.type);
             return state;
-        };
+        }
     };
 
     Reducer.cardInstances = function(state, action)
@@ -166,7 +168,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
         default:
             LOGGER.warn("Reducer.cardInstances: Unhandled action type: " + action.type);
             return state;
-        };
+        }
     };
 
     Reducer.root = function(state, action)
@@ -176,6 +178,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
         if (typeof state === 'undefined') { return Store.InitialState(); }
 
         var newCardInstances;
+        var newAgents, newStagingAreaIds, index, newFirstAgentId, newEncounterDiscardIds, newAgentIds;
 
         switch (action.type)
         {
@@ -199,8 +202,8 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 cardInstances: Reducer.cardInstances(state.cardInstances, action),
             });
         case Action.DISCARD_ENGAGED_CARD:
-            var newAgents = Reducer.agents(state.agents, action);
-            var newEncounterDiscardIds = state.encounterDiscardIds.slice();
+            newAgents = Reducer.agents(state.agents, action);
+            newEncounterDiscardIds = state.encounterDiscardIds.slice();
             newEncounterDiscardIds.push(action.cardInstanceId);
             return Object.assign({}, state,
             {
@@ -209,7 +212,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
             });
         case Action.DRAW_ENCOUNTER_CARD:
             var newEncounterDeckIds = state.encounterDeckIds.slice();
-            var newStagingAreaIds = state.stagingAreaIds.slice();
+            newStagingAreaIds = state.stagingAreaIds.slice();
             newStagingAreaIds.push(newEncounterDeckIds.shift());
             return Object.assign({}, state,
             {
@@ -231,17 +234,17 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 activeQuestId: newQuestId,
             });
         case Action.ELIMINATE_PLAYER:
-            var newFirstAgentId = state.firstAgentId;
+            newFirstAgentId = state.firstAgentId;
             if (newFirstAgentId === action.agentId)
             {
-                var index = state.agentIds.indexOf(action.agentId) + 1;
+                index = state.agentIds.indexOf(action.agentId) + 1;
                 if (index >= state.agentIds.length)
                 {
                     index = 0;
                 }
                 newFirstAgentId = state.agentIds[index];
             }
-            var newAgentIds = state.agentIds.slice();
+            newAgentIds = state.agentIds.slice();
             newAgentIds.vizziniRemove(action.agentId);
             return Object.assign({}, state,
             {
@@ -249,8 +252,8 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 firstAgentId: newFirstAgentId,
             });
         case Action.ENGAGE_ENEMY:
-            var newAgents = Reducer.agents(state.agents, action);
-            var newStagingAreaIds = state.stagingAreaIds.slice();
+            newAgents = Reducer.agents(state.agents, action);
+            newStagingAreaIds = state.stagingAreaIds.slice();
             newStagingAreaIds.vizziniRemove(action.enemyId);
             return Object.assign({}, state,
             {
@@ -258,12 +261,12 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 stagingAreaIds: newStagingAreaIds,
             });
         case Action.INCREMENT_FIRST_PLAYER:
-            var index = state.agentIds.indexOf(state.firstAgentId) + 1;
+            index = state.agentIds.indexOf(state.firstAgentId) + 1;
             if (index >= state.agentIds.length)
             {
                 index = 0;
             }
-            var newFirstAgentId = state.agentIds[index];
+            newFirstAgentId = state.agentIds[index];
             return Object.assign({}, state,
             {
                 firstAgentId: newFirstAgentId,
@@ -279,12 +282,12 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 activeAgentId: action.agentId,
             });
         case Action.SET_ACTIVE_LOCATION:
-            var newEncounterDiscardIds = state.encounterDiscardIds.slice();
+            newEncounterDiscardIds = state.encounterDiscardIds.slice();
             if (state.activeLocationId !== undefined)
             {
                 newEncounterDiscardIds.push(state.activeLocationId);
             }
-            var newStagingAreaIds = state.stagingAreaIds.slice();
+            newStagingAreaIds = state.stagingAreaIds.slice();
             newStagingAreaIds.vizziniRemove(action.locationInstanceId);
             return Object.assign({}, state,
             {
@@ -298,7 +301,7 @@ define([ "CardType", "game/Action", "game/Selector", "game/Store" ], function(Ca
                 activeQuestId: action.questInstanceId,
             });
         case Action.SET_AGENTS:
-            var newAgentIds = action.agents.map(function(agent)
+            newAgentIds = action.agents.map(function(agent)
             {
                 return agent.id;
             });

@@ -1,5 +1,5 @@
-define([ "AllyCard", "CardSet", "CardType", "HeroCard", "Sphere", "game/ui/SphereUI" ], function(AllyCard, CardSet,
-        CardType, HeroCard, Sphere, SphereUI)
+define([ "AllyCard", "CardType", "HeroCard", "Sphere", "game/ui/SphereUI" ], function(AllyCard, CardType, HeroCard,
+        Sphere, SphereUI)
 {
     "use strict";
     var CardColumns = [

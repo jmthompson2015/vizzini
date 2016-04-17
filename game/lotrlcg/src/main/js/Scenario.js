@@ -1,5 +1,6 @@
 define([ "EncounterSet" ], function(EncounterSet)
 {
+    "use strict";
     var Scenario =
     {
         PASSAGE_THROUGH_MIRKWOOD: "passageThroughMirkwood",

@@ -1,6 +1,6 @@
-define([ "EnemyCard", "LocationCard", "ObjectiveCard", "QuestCard", "Scenario", "TreacheryCard", "game/CardInstance",
-        "game/ScenarioDeck" ], function(EnemyCard, LocationCard, ObjectiveCard, QuestCard, Scenario, TreacheryCard,
-        CardInstance, ScenarioDeck)
+define([ "EnemyCard", "LocationCard", "ObjectiveCard", "QuestCard", "TreacheryCard", "game/CardInstance",
+        "game/ScenarioDeck" ], function(EnemyCard, LocationCard, ObjectiveCard, QuestCard, TreacheryCard, CardInstance,
+        ScenarioDeck)
 {
     "use strict";
     var DeckBuilders = [];
