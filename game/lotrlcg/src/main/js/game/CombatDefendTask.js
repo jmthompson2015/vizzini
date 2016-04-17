@@ -42,8 +42,7 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
         var agent = this.agent();
         var store = this.store();
         var state = store.getState();
-        // var attackers = environment.agentData(agent).engagementArea().slice();
-        var attackers = Selector.resolveCardInstanceIds(state, agent.engagementAreaIds);
+        var attackers = Selector.cardInstances(state, agent.engagementAreaIds);
         var enemyIdToDefender = this.enemyIdToDefender();
 
         attackers.forEach(function(attacker)
@@ -54,7 +53,6 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
 
             if (defender)
             {
-                // defender.exhaustState().isMarked(true);
                 store.dispatch(Action.setExhausted(defender, true));
             }
 
@@ -68,7 +66,6 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
             {
                 if (defender)
                 {
-                    // defender.woundState().increase(damage);
                     store.dispatch(Action.addWounds(defender, damage));
 
                     if (defender.woundCount >= defender.card.hitPoints)
@@ -79,7 +76,6 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
                 }
                 else
                 {
-                    // environment.addToThreatLevel(agent, damage);
                     store.dispatch(Action.addThreatLevel(agent, damage));
 
                     if (agent.threatLevel >= 50)

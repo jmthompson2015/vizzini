@@ -17,11 +17,11 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
 
         var store = this.store();
         var state = store.getState();
-        var agents = Selector.resolveAgentIds(state, state.agentIds);
+        var agents = Selector.agents(state, state.agentIds);
 
         agents.forEach(function(agent)
         {
-            var playArea = Selector.resolveCardInstanceIds(state, agent.playAreaIds);
+            var playArea = Selector.cardInstances(state, agent.playAreaIds);
             playArea.forEach(function(token)
             {
                 store.dispatch(Action.setQuesting(token, false));

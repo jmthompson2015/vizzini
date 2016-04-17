@@ -18,7 +18,6 @@ define(
                         .forEach(
                                 function(sphereKey)
                                 {
-                                    // LOGGER.debug("sphereKey = " + sphereKey);
                                     var sum = 0;
                                     var heroes = Selector.heroes(state, agent.playAreaIds);
                                     heroes.forEach(function(hero)
@@ -58,7 +57,6 @@ define(
                 {
                     callback(answer);
                 }, delay);
-                // callback(answer)
             };
 
             SimpleAgent.questAction = function(store, agent, adjudicator, callback)
@@ -70,7 +68,6 @@ define(
                     return token.card.willpower > 0;
                 });
 
-                // callback(characters);
                 setTimeout(function()
                 {
                     callback(characters);
@@ -88,7 +85,6 @@ define(
                     answer = locations.vizziniRandomElement();
                 }
 
-                // callback(answer);
                 setTimeout(function()
                 {
                     callback(answer);
@@ -127,7 +123,6 @@ define(
                     }
                 }
 
-                // callback(answer);
                 setTimeout(function()
                 {
                     callback(answer);
@@ -139,7 +134,7 @@ define(
                 var answer = {};
                 var state = store.getState();
                 var attackerIds = agent.engagementAreaIds.slice();
-                var attackers = Selector.resolveCardInstanceIds(state, attackerIds);
+                var attackers = Selector.cardInstances(state, attackerIds);
 
                 if (attackers.length > 0)
                 {
@@ -181,7 +176,6 @@ define(
                     }
                 }
 
-                // callback(answer);
                 setTimeout(function()
                 {
                     callback(answer);
@@ -191,9 +185,8 @@ define(
             SimpleAgent.combatAttackAction = function(store, agent, adjudicator, callback)
             {
                 var answer = {};
-                // var enemies = store.agentData(this).engagementArea().slice();
                 var state = store.getState();
-                var enemies = Selector.resolveCardInstanceIds(state, agent.engagementAreaIds);
+                var enemies = Selector.cardInstances(state, agent.engagementAreaIds);
 
                 if (enemies.length > 0)
                 {
@@ -230,17 +223,11 @@ define(
                     }
                 }
 
-                // callback(answer);
                 setTimeout(function()
                 {
                     callback(answer);
                 }, delay);
             };
-
-            // SimpleAgent.toString = function()
-            // {
-            // return "SimpleAgent " + this.name();
-            // };
 
             return SimpleAgent;
         });

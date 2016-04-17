@@ -21,7 +21,7 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
 
         // Add one resource to each hero's pool.
         var state = store.getState();
-        var agents = Selector.resolveAgentIds(state, state.agentIds);
+        var agents = Selector.agents(state, state.agentIds);
         agents.forEach(function(agent)
         {
             var cardInstances = Selector.heroes(state, agent.playAreaIds);

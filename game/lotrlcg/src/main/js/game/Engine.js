@@ -72,16 +72,12 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
 
                 if (state.activeLocationId === undefined)
                 {
-                    // var firstPlayer = environment.firstPlayer();
-                    // environment.activeAgent(firstPlayer);
-                    // firstPlayer.travelAction(environment, adjudicator, this.setLocation.bind(this));
                     var firstPlayer = state.agents[state.firstAgentId];
                     store.dispatch(Action.setActiveAgent(firstPlayer));
                     firstPlayer.behavior.travelAction(store, adjudicator, this.setLocation.bind(this));
                 }
                 else
                 {
-                    // environment.phase(Phase.TRAVEL_END);
                     store.dispatch(Action.setPhase(Phase.TRAVEL_END));
                     this.performEncounterPhase();
                 }
@@ -115,9 +111,7 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
             if (!isGameOver())
             {
                 LOGGER.trace("Engine.performCombatDefendPhase() start");
-                // environment.phase(Phase.COMBAT_DEFEND_START);
                 store.dispatch(Action.setPhase(Phase.COMBAT_DEFEND_START));
-                // combatQueue = environment.agents().slice();
                 combatQueue = agents();
                 LOGGER.info("combatQueue.length = " + combatQueue.length);
                 this.processCombatDefendQueue();
@@ -129,9 +123,7 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
             if (!isGameOver())
             {
                 LOGGER.trace("Engine.performCombatAttackPhase() start");
-                // environment.phase(Phase.COMBAT_ATTACK_START);
                 store.dispatch(Action.setPhase(Phase.COMBAT_ATTACK_START));
-                // combatQueue = environment.agents().slice();
                 combatQueue = agents();
                 this.processCombatAttackQueue();
             }
@@ -146,7 +138,6 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
                 store.dispatch(Action.setPhase(Phase.REFRESH_START));
                 var task = new RefreshTask(store);
                 task.doIt();
-                // environment.phase(Phase.REFRESH_END);
                 store.dispatch(Action.setPhase(Phase.REFRESH_END));
 
                 LOGGER.trace("Engine.performRefreshPhase() end");
@@ -181,8 +172,6 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
             if (questQueue.length === 0)
             {
                 LOGGER.debug("questers.length = " + questers.length);
-                // var questAction = new QuestAction(environment, adjudicator, questers);
-                // questAction.doIt();
                 var task = new QuestTask(store, adjudicator, questers);
                 task.doIt();
 
@@ -245,13 +234,10 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
 
             if (combatQueue.length === 0)
             {
-                // environment.activeAgent(null);
                 store.dispatch(Action.setActiveAgent(null));
                 store.dispatch(Action.setPhase(Phase.COMBAT_ATTACK_END));
                 store.dispatch(Action.setPhase(Phase.COMBAT_END));
                 LOGGER.trace("Engine.processCombatAttackQueue() done");
-                // environment.phase(Phase.COMBAT_ATTACK_END);
-                // environment.phase(Phase.COMBAT_END);
                 this.performRefreshPhase();
             }
             else
@@ -268,11 +254,8 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
 
             if (newEnemy)
             {
-                // environment.stagingArea().vizziniRemove(newEnemy);
-                // var agent = environment.activeAgent();
                 var state = store.getState();
                 var agent = state.agents[state.activeAgentId];
-                // environment.agentData(agent).engagementArea().push(newEnemy);
                 store.dispatch(Action.engageEnemy(agent, newEnemy));
             }
 
@@ -305,7 +288,6 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
 
             LOGGER.trace("Engine.setAttackers() start");
 
-            // var agent = environment.activeAgent();
             var state = store.getState();
             var agent = state.agents[state.activeAgentId];
             var task = new CombatAttackTask(store, adjudicator, agent, enemyIdToAttackers,
@@ -319,7 +301,6 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
 
             LOGGER.trace("Engine.setDefenders() start");
 
-            // var agent = environment.activeAgent();
             var state = store.getState();
             var agent = state.agents[state.activeAgentId];
             var task = new CombatDefendTask(store, adjudicator, agent, enemyIdToDefender, this.processCombatDefendQueue
@@ -333,11 +314,9 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
 
             if (newLocation)
             {
-                // environment.activeLocation(newLocation);
                 store.dispatch(Action.setActiveLocation(newLocation));
             }
 
-            // environment.phase(Phase.TRAVEL_END);
             store.dispatch(Action.setPhase(Phase.TRAVEL_END));
             LOGGER.trace("Engine.setLocation() end");
 
@@ -363,7 +342,7 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
 
             // FIXME: reorder using firstAgentId
 
-            return Selector.resolveAgentIds(state, state.agentIds);
+            return Selector.agents(state, state.agentIds);
         }
 
         function isGameOver()
@@ -383,9 +362,6 @@ define([ "Phase", "game/Action", "game/CombatAttackTask", "game/CombatDefendTask
         {
             var winner = adjudicator.determineWinner(store);
             LOGGER.debug("winner = " + winner);
-
-            // that.trigger(Engine.WINNER_EVENT, winner);
-            // store.dispatch(Action.setWinner(winner));
 
             return winner;
         }

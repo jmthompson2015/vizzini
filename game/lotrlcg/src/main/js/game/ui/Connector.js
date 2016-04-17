@@ -8,9 +8,9 @@ define([ "game/Selector" ], function(Selector)
         mapStateToProps: function(state, ownProps)
         {
             var agent = ownProps.agent;
-            var engagementArea = Selector.resolveCardInstanceIds(state, agent.engagementAreaIds);
-            var playArea = Selector.resolveCardInstanceIds(state, agent.playAreaIds);
-            var hand = Selector.resolveCardInstanceIds(state, agent.handIds);
+            var engagementArea = Selector.cardInstances(state, agent.engagementAreaIds);
+            var playArea = Selector.cardInstances(state, agent.playAreaIds);
+            var hand = Selector.cardInstances(state, agent.handIds);
 
             return (
             {
@@ -26,7 +26,7 @@ define([ "game/Selector" ], function(Selector)
     {
         mapStateToProps: function(state, ownProps)
         {
-            var area = Selector.resolveCardInstanceIds(state, ownProps.cardInstanceIds);
+            var area = Selector.cardInstances(state, ownProps.cardInstanceIds);
 
             return (
             {
@@ -54,7 +54,7 @@ define([ "game/Selector" ], function(Selector)
     {
         mapStateToProps: function(state, ownProps)
         {
-            var agents = Selector.resolveAgentIds(state, state.agentIds);
+            var agents = Selector.agents(state, state.agentIds);
 
             return (
             {

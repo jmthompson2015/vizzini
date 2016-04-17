@@ -42,8 +42,7 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
         var agent = this.agent();
         var store = this.store();
         var state = store.getState();
-//        var enemies = environment.agentData(agent).engagementArea().slice();
-        var enemies = Selector.resolveCardInstanceIds(state, agent.engagementAreaIds);
+        var enemies = Selector.cardInstances(state, agent.engagementAreaIds);
         var enemyIdToAttackers = this.enemyIdToAttackers();
 
         enemies.forEach(function(enemy)
@@ -56,7 +55,6 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
             {
                 attackers.forEach(function(attacker)
                 {
-//                    attacker.exhaustState().isMarked(true);
                     store.dispatch(Action.setExhausted(attacker, true));
                 });
 
@@ -71,7 +69,6 @@ define([ "game/Action", "game/Selector" ], function(Action, Selector)
 
                 if (damage > 0)
                 {
-//                    enemy.woundState().increase(damage);
                     store.dispatch(Action.addWounds(enemy, damage));
 
                     if (enemy.woundCount >= enemy.card.hitPoints)
