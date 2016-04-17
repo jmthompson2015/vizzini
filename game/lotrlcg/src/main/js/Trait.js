@@ -9,10 +9,12 @@ define(function()
         BEORNING: "beorning",
         BOON: "boon",
         BURGLAR: "burglar",
+        CLUE: "clue",
         CONDITION: "condition",
         CRAFTSMAN: "craftsman",
         CREATURE: "creature",
         DALE: "dale",
+        DISASTER: "disaster",
         DOL_GULDUR: "dolGuldur",
         DUNEDAIN: "dunedain",
         DWARF: "dwarf",
@@ -22,14 +24,17 @@ define(function()
         FOREST: "forest",
         GOBLIN: "goblin",
         GONDOR: "gondor",
+        GOSSIP: "gossip",
         HEALER: "healer",
         HOBBIT: "hobbit",
         INSECT: "insect",
         ISTARI: "istari",
         ITEM: "item",
+        MARSHLAND: "marshland",
         MATHOM: "mathom",
         MEARAS: "mearas",
         MINSTREL: "minstrel",
+        MORDOR: "mordor",
         MOUNT: "mount",
         MOUNTAIN: "mountain",
         NOBLE: "noble",
@@ -37,6 +42,7 @@ define(function()
         ORC: "orc",
         RANGER: "ranger",
         RING: "ring",
+        RIVERLAND: "riverland",
         ROHAN: "rohan",
         SCOUT: "scout",
         SIGNAL: "signal",
@@ -83,6 +89,11 @@ define(function()
                 name: "Burglar",
                 value: "burglar",
             },
+            "clue":
+            {
+                name: "Clue",
+                value: "clue",
+            },
             "condition":
             {
                 name: "Condition",
@@ -102,6 +113,11 @@ define(function()
             {
                 name: "Dale",
                 value: "dale",
+            },
+            "disaster":
+            {
+                name: "Disaster",
+                value: "disaster",
             },
             "dolGuldur":
             {
@@ -148,6 +164,11 @@ define(function()
                 name: "Gondor",
                 value: "gondor",
             },
+            "gossip":
+            {
+                name: "Gossip",
+                value: "gossip",
+            },
             "healer":
             {
                 name: "Healer",
@@ -173,6 +194,11 @@ define(function()
                 name: "Item",
                 value: "item",
             },
+            "marshland":
+            {
+                name: "Marshland",
+                value: "marshland",
+            },
             "mathom":
             {
                 name: "Mathom",
@@ -187,6 +213,11 @@ define(function()
             {
                 name: "Minstrel",
                 value: "minstrel",
+            },
+            "mordor":
+            {
+                name: "Mordor",
+                value: "mordor",
             },
             "mount":
             {
@@ -222,6 +253,11 @@ define(function()
             {
                 name: "Ring",
                 value: "ring",
+            },
+            "riverland":
+            {
+                name: "Riverland",
+                value: "riverland",
             },
             "rohan":
             {

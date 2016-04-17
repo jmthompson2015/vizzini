@@ -9,6 +9,7 @@ define(function()
         EVENT: "event",
         HERO: "hero",
         LOCATION: "location",
+        OBJECTIVE: "objective",
         QUEST: "quest",
         TREACHERY: "treachery",
 
@@ -43,6 +44,11 @@ define(function()
             {
                 name: "Location",
                 value: "location",
+            },
+            "objective":
+            {
+                name: "Objective",
+                value: "objective",
             },
             "quest":
             {

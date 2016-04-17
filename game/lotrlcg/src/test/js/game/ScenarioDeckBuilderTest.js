@@ -18,7 +18,7 @@ define([ "game/ScenarioDeckBuilder" ], function(ScenarioDeckBuilder)
         assert.ok(result);
         var questInstances = result.questInstances();
         assert.ok(questInstances);
-        assert.equal(questInstances.length, 7);
+        assert.equal(questInstances.length, 6);
         var encounterInstances = result.encounterInstances();
         assert.ok(encounterInstances);
         assert.equal(encounterInstances.length, 36);

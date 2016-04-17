@@ -5,8 +5,8 @@ define([ "HeroCard", "Trait" ], function(HeroCard, Trait)
 
     QUnit.test("HeroCard properties Aragorn (Core)", function(assert)
     {
-        var sphere = HeroCard.ARAGORN_CORE;
-        var properties = HeroCard.properties[sphere];
+        var cardKey = HeroCard.ARAGORN_CORE;
+        var properties = HeroCard.properties[cardKey];
         assert.equal(properties.name, "Aragorn");
         assert.equal(properties.value, "aragornCore");
     });

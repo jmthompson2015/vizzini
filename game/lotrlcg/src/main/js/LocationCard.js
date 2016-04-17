@@ -4,15 +4,32 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
     "use strict";
     var LocationCard =
     {
+        BANKS_OF_THE_ANDUIN: "banksOfTheAnduin",
         ENCHANTED_STREAM: "enchantedStream",
         FOREST_GATE: "forestGate",
+        GLADDEN_FIELDS: "gladdenFields",
         GREAT_FOREST_WEB: "greatForestWeb",
         MOUNTAINS_OF_MIRKWOOD: "mountainsOfMirkwood",
         NECROMANCERS_PASS: "necromancersPass",
         OLD_FOREST_ROAD: "oldForestRoad",
+        RIVER_NINGLOR: "riverNinglor",
+        THE_EAST_BANK: "theEastBank",
+        THE_EAVES_OF_MIRKWOOD: "theEavesOfMirkwood",
+        THE_OLD_FORD: "theOldFord",
+        THE_WEST_BANK: "theWestBank",
 
         properties:
         {
+            "banksOfTheAnduin":
+            {
+                name: "Banks of the Anduin",
+                threat: 1,
+                questPoints: 3,
+                traitKeys: [ Trait.RIVERLAND ],
+                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
+                gameModeKey: GameMode.EASY,
+                value: "banksOfTheAnduin",
+            },
             "enchantedStream":
             {
                 name: "Enchanted Stream",
@@ -32,6 +49,16 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
                 encounterSetKey: EncounterSet.PASSAGE_THROUGH_MIRKWOOD,
                 gameModeKey: GameMode.EASY,
                 value: "forestGate",
+            },
+            "gladdenFields":
+            {
+                name: "Gladden Fields",
+                threat: 3,
+                questPoints: 3,
+                traitKeys: [ Trait.MARSHLAND ],
+                encounterSetKey: EncounterSet.JOURNEY_DOWN_THE_ANDUIN,
+                gameModeKey: GameMode.EASY,
+                value: "gladdenFields",
             },
             "greatForestWeb":
             {
@@ -75,11 +102,75 @@ define([ "CardType", "EncounterSet", "GameMode", "ImageNameCreator", "Trait" ], 
                 gameModeKey: GameMode.EASY,
                 value: "oldForestRoad",
             },
+            "riverNinglor":
+            {
+                name: "River Ninglor",
+                threat: 2,
+                questPoints: 4,
+                traitKeys: [ Trait.RIVERLAND ],
+                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+                gameModeKey: GameMode.EASY,
+                value: "riverNinglor",
+            },
+            "theEastBank":
+            {
+                name: "The East Bank",
+                threat: 3,
+                questPoints: 3,
+                traitKeys: [ Trait.RIVERLAND ],
+                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+                gameModeKey: GameMode.EASY,
+                value: "theEastBank",
+            },
+            "theEavesOfMirkwood":
+            {
+                name: "The Eaves of Mirkwood",
+                threat: 2,
+                questPoints: 2,
+                traitKeys: [ Trait.FOREST ],
+                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+                gameModeKey: GameMode.EASY,
+                value: "theEavesOfMirkwood",
+            },
+            "theOldFord":
+            {
+                name: "The Old Ford",
+                threat: undefined,
+                questPoints: 2,
+                traitKeys: [ Trait.RIVERLAND ],
+                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+                gameModeKey: GameMode.STANDARD,
+                value: "theOldFord",
+            },
+            "theWestBank":
+            {
+                name: "The West Bank",
+                threat: 3,
+                questPoints: 3,
+                traitKeys: [ Trait.RIVERLAND ],
+                encounterSetKey: EncounterSet.THE_HUNT_FOR_GOLLUM,
+                gameModeKey: GameMode.EASY,
+                value: "theWestBank",
+            },
         },
 
         values: function()
         {
             return Object.getOwnPropertyNames(LocationCard.properties);
+        },
+
+        valuesByEncounterSet: function(encounterSetKey)
+        {
+            InputValidator.validateNotNull("encounterSetKey", encounterSetKey);
+
+            var values = LocationCard.values();
+
+            return values.filter(function(cardKey)
+            {
+                var card = LocationCard.properties[cardKey];
+
+                return card.scenarioKey === scenarioKey;
+            });
         },
     };
 

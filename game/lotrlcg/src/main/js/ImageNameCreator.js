@@ -1,4 +1,4 @@
-define([ "CardSet" ], function(CardSet)
+define([ "CardSet", "CardSubset", "CardType" ], function(CardSet, CardSubset, CardType)
 {
     "use strict";
     var ImageNameCreator =
@@ -7,60 +7,91 @@ define([ "CardSet" ], function(CardSet)
         {
             InputValidator.validateNotNull("card", card);
 
-            var cardName;
-
-            if (card.shortName)
+            if (card.cardTypeKey === CardType.QUEST)
             {
-                cardName = card.shortName;
+                return this.createQuest(card);
             }
             else
             {
-                cardName = this.convert(card.name);
+                var cardName;
+
+                if (card.shortName)
+                {
+                    cardName = card.shortName;
+                }
+                else
+                {
+                    cardName = this.convert(card.name);
+                }
+
+                var cardSet = card.cardSet;
+                var cardSubset = card.cardSubset;
+
+                if (!cardSet)
+                {
+                    var encounterSet = card.encounterSet;
+                    if (!encounterSet) { throw "Can't find encounter set for card: " + card.name; }
+                    cardSet = CardSet.properties[encounterSet.cardSetKey];
+                    cardSubset = CardSubset.properties[encounterSet.cardSubsetKey];
+                }
+
+                var cardSetName;
+
+                if (cardSubset && cardSubset.shortName)
+                {
+                    cardSetName = cardSubset.shortName.toLowerCase();
+                }
+                else if (cardSet.shortName)
+                {
+                    cardSetName = cardSet.shortName;
+                }
+                else
+                {
+                    cardSetName = this.convert(cardSet.name);
+                }
+
+                var description;
+
+                if (cardSetName.startsWith("MEC"))
+                {
+                    description = cardSetName + "_" + card.cardSetNumber;
+                }
+                else
+                {
+                    description = cardName + "-" + cardSetName.toLowerCase();
+                }
+
+                return "http://www.cardgamedb.com/forums/uploads/lotr/ffg_" + description + ".jpg";
             }
+        },
 
-            var cardSet = card.cardSet;
-            var cardSubset = card.cardSubset;
+        createQuest: function(card)
+        {
+            InputValidator.validateNotNull("card", card);
 
-            if (!cardSet)
+            var cardSetKey = card.encounterSet.cardSubsetKey;
+            
+            if (!cardSetKey)
             {
-                var encounterSet = card.encounterSet;
-                if (!encounterSet) { throw "Can't find encounter set for card: " + card.name; }
-                cardSet = CardSet.properties[encounterSet.cardSet];
-            }
-
-            if (card.cardKey === "boromir")
-            {
-                LOGGER.info("card.cardSetKey = " + card.cardSetKey);
-                LOGGER.info("card.cardSubsetKey = " + card.cardSubsetKey);
+                cardSetKey = card.encounterSet.cardSetKey;
             }
 
             var cardSetName;
 
-            if (cardSubset && cardSubset.shortName)
+            if (cardSetKey === CardSet.CORE)
             {
-                cardSetName = cardSubset.shortName.toLowerCase();
-            }
-            else if (cardSet.shortName)
-            {
-                cardSetName = cardSet.shortName;
+                cardSetName = "Core-Set";
             }
             else
             {
-                cardSetName = this.convert(cardSet.name);
+                cardSetName = card.encounterSet.name;
+                cardSetName = cardSetName.replace(/ /g, "-");
             }
 
-            var description;
+            var cardName = card.name.replace(/ /g, "-") + "-" + card.sequence;
 
-            if (cardSetName.startsWith("MEC"))
-            {
-                description = cardSetName + "_" + card.cardSetNumber;
-            }
-            else
-            {
-                description = cardName + "-" + cardSetName.toLowerCase();
-            }
-
-            return "http://www.cardgamedb.com/forums/uploads/lotr/ffg_" + description + ".jpg";
+            return "http://s3.amazonaws.com/hallofbeorn-resources/Images/Cards/" + cardSetName + "/" + cardName +
+                    ".png";
         },
 
         convert: function(string)
