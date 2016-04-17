@@ -1,6 +1,6 @@
-define([ "AllyCard", "AttachmentCard", "EnemyCard", "EventCard", "HeroCard", "LocationCard", "QuestCard",
-        "TreacheryCard" ], function(AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, QuestCard,
-        TreacheryCard)
+define([ "AllyCard", "AttachmentCard", "EnemyCard", "EventCard", "HeroCard", "LocationCard", "ObjectiveCard",
+        "QuestCard", "TreacheryCard" ], function(AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard,
+        LocationCard, ObjectiveCard, QuestCard, TreacheryCard)
 {
     "use strict";
     var CardInstance = {};
@@ -121,6 +121,21 @@ define([ "AllyCard", "AttachmentCard", "EnemyCard", "EventCard", "HeroCard", "Lo
             cardKey: cardKey,
             card: card,
             progressCount: 0,
+        });
+    };
+
+    CardInstance.objective = function(cardKey)
+    {
+        InputValidator.validateNotNull("cardKey", cardKey);
+
+        var card = ObjectiveCard.properties[cardKey];
+        InputValidator.validateNotNull("card", card);
+
+        return (
+        {
+            id: CardInstance.nextId(),
+            cardKey: cardKey,
+            card: card,
         });
     };
 
