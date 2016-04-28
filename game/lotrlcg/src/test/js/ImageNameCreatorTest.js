@@ -7,6 +7,8 @@ define(
 
             QUnit.test("create() allies", function(assert)
             {
+                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.CITADEL_CUSTODIAN]),
+                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_citadel-custodian-hon.jpg");
                 assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GILDOR_INGLORION]),
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_gildor-inglorion-thoem.jpg");
                 assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GIMLI]),
@@ -33,7 +35,7 @@ define(
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_bifur-kd.jpg");
                 assert.equal(ImageNameCreator.create(HeroCard.properties[HeroCard.BILBO_BAGGINS_THFG]),
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_bilbo-baggins-thfg.jpg");
-                assert.equal(ImageNameCreator.create(HeroCard.properties[HeroCard.BOROMIR]),
+                assert.equal(ImageNameCreator.create(HeroCard.properties[HeroCard.BOROMIR_SOM]),
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_boromir-tdm.jpg");
                 assert.equal(ImageNameCreator.create(HeroCard.properties[HeroCard.BRAND_SON_OF_BAIN]),
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_brand-son-of-bain-thoem.jpg");

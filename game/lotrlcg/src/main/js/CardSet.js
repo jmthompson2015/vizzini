@@ -3,8 +3,10 @@ define([ "CardSetType" ], function(CardSetType)
     "use strict";
     var CardSet =
     {
+        AGAINST_THE_SHADOW: "againstTheShadow",
         CORE: "core",
         DWARROWDELF: "dwarrowdelf",
+        HEIRS_OF_NUMENOR: "heirsOfNumenor",
         KHAZAD_DUM: "khazadDum",
         ON_THE_DOORSTEP: "onTheDoorstep",
         OVER_HILL_AND_UNDER_HILL: "overHillAndUnderHill",
@@ -14,6 +16,12 @@ define([ "CardSetType" ], function(CardSetType)
 
         properties:
         {
+            "againstTheShadow":
+            {
+                name: "Against the Shadow",
+                typeKey: CardSetType.CYCLE,
+                value: "againstTheShadow",
+            },
             "core":
             {
                 name: "Core",
@@ -25,6 +33,13 @@ define([ "CardSetType" ], function(CardSetType)
                 name: "Dwarrowdelf",
                 typeKey: CardSetType.CYCLE,
                 value: "dwarrowdelf",
+            },
+            "heirsOfNumenor":
+            {
+                name: "Heirs of Númenor",
+                shortName: "HoN",
+                typeKey: CardSetType.DELUXE,
+                value: "heirsOfNumenor",
             },
             "khazadDum":
             {

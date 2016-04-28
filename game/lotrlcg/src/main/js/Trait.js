@@ -40,7 +40,9 @@ define(function()
         NOBLE: "noble",
         NOLDOR: "noldor",
         ORC: "orc",
+        OUTLANDS: "outlands",
         RANGER: "ranger",
+        RECORD: "record",
         RING: "ring",
         RIVERLAND: "riverland",
         ROHAN: "rohan",
@@ -244,10 +246,20 @@ define(function()
                 name: "Orc",
                 value: "orc",
             },
+            "outlands":
+            {
+                name: "Outlands",
+                value: "outlands",
+            },
             "ranger":
             {
                 name: "Ranger",
                 value: "ranger",
+            },
+            "record":
+            {
+                name: "Record",
+                value: "record",
             },
             "ring":
             {

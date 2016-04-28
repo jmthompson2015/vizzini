@@ -10,6 +10,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         ASFALOTH: "asfaloth",
         BLACK_ARROW: "blackArrow",
         BLADE_OF_GONDOLIN: "bladeOfGondolin",
+        BLOOD_OF_NUMENOR: "bloodOfNumenor",
         BOOTS_FROM_EREBOR: "bootsFromErebor",
         BORN_ALOFT: "bornAloft",
         CELEBRIANS_STONE: "celebriansStone",
@@ -46,8 +47,10 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         NARYA: "narya",
         NOR_AM_I_A_STRANGER: "norAmIAStranger",
         PATH_OF_NEED: "pathOfNeed",
+        POISONED_STAKES: "poisonedStakes",
         POWER_IN_THE_EARTH: "powerInTheEarth",
         PROTECTOR_OF_LORIEN: "protectorOfLorien",
+        RANGER_SPIKES: "rangerSpikes",
         RING_MAIL: "ringMail",
         SELF_PRESERVATION: "selfPreservation",
         SHADOWFAX: "shadowfax",
@@ -57,12 +60,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SONG_OF_TRAVEL: "songOfTravel",
         SONG_OF_WISDOM: "songOfWisdom",
         SPARE_HOOD_AND_CLOAK: "spareHoodAndCloak",
+        SPEAR_OF_THE_CITADEL: "spearOfTheCitadel",
         STEWARD_OF_GONDOR: "stewardOfGondor",
         SUPPORT_OF_THE_EAGLES: "supportOfTheEagles",
         THE_FAVOR_OF_THE_LADY: "theFavorOfTheLady",
         THRORS_KEY: "throrsKey",
         THRORS_MAP: "throrsMap",
         TO_THE_SEA_TO_THE_SEA: "toTheSeaToTheSea",
+        TOME_OF_ATANATAR: "tomeOfAtanatar",
         UNEXPECTED_COURAGE: "unexpectedCourage",
         VILYA: "vilya",
 
@@ -128,6 +133,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.CORE,
                 value: "bladeOfGondolin",
+            },
+            "bloodOfNumenor":
+            {
+                name: "Blood of Númenor",
+                cost: 0,
+                traitKeys: [ Trait.CONDITION ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "bloodOfNumenor",
             },
             "bootsFromErebor":
             {
@@ -482,6 +496,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
                 value: "pathOfNeed",
             },
+            "poisonedStakes":
+            {
+                name: "Poisoned Stakes",
+                cost: 2,
+                traitKeys: [ Trait.TRAP ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "poisonedStakes",
+            },
             "powerInTheEarth":
             {
                 name: "Power in the Earth",
@@ -499,6 +523,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.CORE,
                 value: "protectorOfLorien",
+            },
+            "rangerSpikes":
+            {
+                name: "Ranger Spikes",
+                cost: 2,
+                traitKeys: [ Trait.TRAP ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "rangerSpikes",
             },
             "ringMail":
             {
@@ -589,6 +622,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 value: "spareHoodAndCloak",
             },
+            "spearOfTheCitadel":
+            {
+                name: "Spear of the Citadel",
+                cost: 2,
+                traitKeys: [ Trait.ITEM, Trait.WEAPON ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "spearOfTheCitadel",
+            },
             "stewardOfGondor":
             {
                 name: "Steward of Gondor",
@@ -647,6 +689,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 cardSetNumber: 14,
                 value: "toTheSeaToTheSea",
+            },
+            "tomeOfAtanatar":
+            {
+                name: "Tome of Atanatar",
+                isUnique: true,
+                cost: 4,
+                traitKeys: [ Trait.RECORD ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "tomeOfAtanatar",
             },
             "unexpectedCourage":
             {

@@ -7,8 +7,11 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         A_ELBERETH_GILTHONIEL: "aElberethGilthoniel",
         A_LIGHT_IN_THE_DARK: "aLightInTheDark",
         A_TEST_OF_WILL: "aTestOfWill",
+        A_WATCHFUL_PEACE: "aWatchfulPeace",
         ASTONISHING_SPEED: "astonishingSpeed",
+        BEHIND_STRONG_WALLS: "behindStrongWalls",
         CAMPFIRE_TALES: "campfireTales",
+        CHILDREN_OF_THE_SEA: "childrenOfTheSea",
         DAERONS_RUNES: "daeronsRunes",
         DAWN_TAKE_YOU_ALL: "dawnTakeYouAll",
         DESPERATE_ALLIANCE: "desperateAlliance",
@@ -21,8 +24,10 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         HASTY_STROKE: "hastyStroke",
         HEAVY_STROKE: "heavyStroke",
         INFIGHTING: "infighting",
+        LIGHT_THE_BEACONS: "lightTheBeacons",
         MENELDORS_FLIGHT: "meneldorsFlight",
         MUSTERING_THE_ROHIRRIM: "musteringTheRohirrim",
+        MUTUAL_ACCORD: "mutualAccord",
         NEEDFUL_TO_KNOW: "needfulToKnow",
         OUT_OF_SIGHT: "outOfSight",
         PARTING_GIFTS: "partingGifts",
@@ -45,6 +50,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         TAKING_INITIATIVE: "takingInitiative",
         THE_EAGLES_ARE_COMING: "theEaglesAreComing",
         THE_GALADHRIMS_GREETING: "theGaladhrimsGreeting",
+        THE_HAMMER_STROKE: "theHammerStroke",
         THE_LUCKY_NUMBER: "theLuckyNumber",
         TIMELY_AID: "timelyAid",
         TO_ME_O_MY_KINSFOLK: "toMeOMyKinsfolk",
@@ -53,6 +59,8 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         VALIANT_SACRIFICE: "valiantSacrifice",
         WE_ARE_NOT_IDLE: "weAreNotIdle",
         WE_DO_NOT_SLEEP: "weDoNotSleep",
+        WEALTH_OF_GONDOR: "wealthOfGondor",
+        WELL_EQUIPPED: "wellEquipped",
         WORD_OF_COMMAND: "wordOfCommand",
 
         properties:
@@ -84,6 +92,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.CORE,
                 value: "aTestOfWill",
             },
+            "aWatchfulPeace":
+            {
+                name: "A Watchful Peace",
+                cost: 1,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "aWatchfulPeace",
+            },
             "astonishingSpeed":
             {
                 name: "Astonishing Speed",
@@ -93,6 +109,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
                 value: "astonishingSpeed",
             },
+            "behindStrongWalls":
+            {
+                name: "Behind Strong Walls",
+                cost: 1,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "behindStrongWalls",
+            },
             "campfireTales":
             {
                 name: "Campfire Tales",
@@ -101,6 +125,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "campfireTales",
+            },
+            "childrenOfTheSea":
+            {
+                name: "Children of the Sea",
+                cost: 0,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "childrenOfTheSea",
             },
             "daeronsRunes":
             {
@@ -205,6 +238,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
                 value: "infighting",
             },
+            "lightTheBeacons":
+            {
+                name: "Light the Beacons",
+                cost: 5,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "lightTheBeacons",
+            },
             "meneldorsFlight":
             {
                 name: "Meneldor's Flight",
@@ -222,6 +263,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "musteringTheRohirrim",
+            },
+            "mutualAccord":
+            {
+                name: "Mutual Accord",
+                cost: 0,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "mutualAccord",
             },
             "needfulToKnow":
             {
@@ -413,6 +462,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.CORE,
                 value: "theGaladhrimsGreeting",
             },
+            "theHammerStroke":
+            {
+                name: "The Hammer-Stroke",
+                cost: 2,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "theHammerStroke",
+            },
             "theLuckyNumber":
             {
                 name: "The Lucky Number",
@@ -481,6 +539,23 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 value: "weDoNotSleep",
+            },
+            "wealthOfGondor":
+            {
+                name: "Wealth of Gondor",
+                cost: 0,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "wealthOfGondor",
+            },
+            "wellEquipped":
+            {
+                name: "Well-Equipped",
+                cost: 0,
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "wellEquipped",
             },
             "wordOfCommand":
             {

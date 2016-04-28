@@ -4,24 +4,31 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
     "use strict";
     var AllyCard =
     {
+        ANBORN: "anborn",
         BEORN: "beorn",
         BEORNING_BEEKEEPER: "beorningBeekeeper",
         BIFUR: "bifur",
         BOFUR_OHAUH: "bofurOHaUH",
         BOFUR_TRG: "bofurTRG",
         BROK_IRONFIST: "brokIronfist",
+        CITADEL_CUSTODIAN: "citadelCustodian",
+        DAMROD: "damrod",
         DAUGHTER_OF_THE_NIMRODEL: "daughterOfTheNimrodel",
+        DEFENDER_OF_RAMMAS: "defenderOfRammas",
         DESCENDANT_OF_THORONDOR: "descendantOfThorondor",
         DORI: "dori",
         DUNEDAIN_WATCHER: "dunedainWatcher",
         DWALIN: "dwalin",
         EAGLES_OF_THE_MISTY_MOUNTAINS: "eaglesOfTheMistyMountains",
         ELFHELM: "elfhelm",
+        EMERY: "emery",
+        ENVOY_OF_PELARGIR: "envoyOfPelargir",
         EOMUND: "eomund",
         EREBOR_BATTLE_MASTER: "ereborBattleMaster",
         EREBOR_HAMMERSMITH: "ereborHammersmith",
         EREBOR_RECORD_KEEPER: "ereborRecordKeeper",
         ERESTOR: "erestor",
+        ERRAND_RIDER: "errandRider",
         ESCORT_FROM_EDORAS: "escortFromEdoras",
         FARAMIR: "faramir",
         FILI: "fili",
@@ -33,11 +40,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         GLOIN: "gloin",
         GONDORIAN_SPEARMAN: "gondorianSpearman",
         GUARD_OF_THE_CITADEL: "guardOfTheCitadel",
+        GUTHLAF: "guthlaf",
         HALDIR_OF_LORIEN: "haldirOfLorien",
         HAMA: "hama",
         HENAMARTH_RIVERSONG: "henamarthRiversong",
         HORSEBACK_ARCHER: "horsebackArcher",
+        HUNTER_OF_LAMEDON: "hunterOfLamedon",
         IMLADRIS_STARGAZER: "imladrisStargazer",
+        ITHILIEN_TRACKER: "ithilienTracker",
         KEEN_EYED_TOOK: "keenEyedTook",
         KILI: "kili",
         LANDROVAL: "landroval",
@@ -47,6 +57,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         LONGBEARD_MAP_MAKER: "longbeardMapMaker",
         LONGBEARD_ORC_SLAYER: "longbeardOrcSlayer",
         LORIEN_GUIDE: "lorienGuide",
+        MASTER_OF_LORE: "masterOfLore",
         MASTER_OF_THE_FORGE: "masterOfTheForge",
         MINER_OF_THE_IRON_HILLS: "minerOfTheIronHills",
         MIRKWOOD_RUNNER: "mirkwoodRunner",
@@ -61,6 +72,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SILVERLODE_ARCHER: "silverlodeArcher",
         SNOWBOURN_SCOUT: "snowbournScout",
         SON_OF_ARNOR: "sonOfArnor",
+        SQUIRE_OF_THE_CITADEL: "squireOfTheCitadel",
         THE_RIDDERMARKS_FINEST: "theRiddermarksFinest",
         TROLLSHAW_SCOUT: "trollshawScout",
         VASSAL_OF_THE_WINDLORD: "vassalOfTheWindlord",
@@ -76,6 +88,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
 
         properties:
         {
+            "anborn":
+            {
+                name: "Anborn",
+                isUnique: true,
+                cost: 4,
+                willpower: 1,
+                attack: 3,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.GONDOR, Trait.RANGER ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "anborn",
+            },
             "beorn":
             {
                 name: "Beorn",
@@ -161,6 +188,33 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "brokIronfist",
             },
+            "citadelCustodian":
+            {
+                name: "Citadel Custodian",
+                cost: 5,
+                willpower: 1,
+                attack: 0,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.GONDOR ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "citadelCustodian",
+            },
+            "damrod":
+            {
+                name: "Damrod",
+                isUnique: true,
+                cost: 4,
+                willpower: 1,
+                attack: 2,
+                defense: 2,
+                hitPoints: 2,
+                traitKeys: [ Trait.GONDOR, Trait.RANGER ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "damrod",
+            },
             "daughterOfTheNimrodel":
             {
                 name: "Daughter of the Nimrodel",
@@ -173,6 +227,19 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.CORE,
                 value: "daughterOfTheNimrodel",
+            },
+            "defenderOfRammas":
+            {
+                name: "Defender of Rammas",
+                cost: 2,
+                willpower: 0,
+                attack: 1,
+                defense: 4,
+                hitPoints: 1,
+                traitKeys: [ Trait.GONDOR, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "defenderOfRammas",
             },
             "descendantOfThorondor":
             {
@@ -259,6 +326,34 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 value: "elfhelm",
             },
+            "emery":
+            {
+                name: "Emery",
+                isUnique: true,
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 2,
+                hitPoints: 2,
+                traitKeys: [ Trait.GONDOR ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "emery",
+            },
+            "envoyOfPelargir":
+            {
+                name: "Envoy of Pelargir",
+                cost: 2,
+                willpower: 1,
+                attack: 1,
+                defense: 0,
+                hitPoints: 1,
+                traitKeys: [ Trait.GONDOR ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "envoyOfPelargir",
+            },
             "eomund":
             {
                 name: "Éomund",
@@ -328,6 +423,19 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
                 value: "erestor",
+            },
+            "errandRider":
+            {
+                name: "Errand-Rider",
+                cost: 1,
+                willpower: 0,
+                attack: 0,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.GONDOR ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "errandRider",
             },
             "escortFromEdoras":
             {
@@ -483,6 +591,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "guardOfTheCitadel",
             },
+            "guthlaf":
+            {
+                name: "Guthlaf",
+                isUnique: true,
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 2,
+                hitPoints: 2,
+                traitKeys: [ Trait.ROHAN ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "guthlaf",
+            },
             "haldirOfLorien":
             {
                 name: "Haldir of Lórien",
@@ -540,6 +663,19 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "horsebackArcher",
             },
+            "hunterOfLamedon":
+            {
+                name: "Hunter of Lamedon",
+                cost: 2,
+                willpower: 1,
+                attack: 1,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.GONDOR, Trait.OUTLANDS ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "hunterOfLamedon",
+            },
             "imladrisStargazer":
             {
                 name: "Imladris Stargazer",
@@ -553,6 +689,19 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
                 value: "imladrisStargazer",
+            },
+            "ithilienTracker":
+            {
+                name: "Ithilien Tracker",
+                cost: 2,
+                willpower: 0,
+                attack: 1,
+                defense: 0,
+                hitPoints: 3,
+                traitKeys: [ Trait.GONDOR, Trait.RANGER ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "ithilienTracker",
             },
             "keenEyedTook":
             {
@@ -679,6 +828,19 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.CORE,
                 value: "lorienGuide",
+            },
+            "masterOfLore":
+            {
+                name: "Master of Lore",
+                cost: 3,
+                willpower: 1,
+                attack: 0,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.GONDOR ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                value: "masterOfLore",
             },
             "masterOfTheForge":
             {
@@ -872,6 +1034,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.CORE,
                 value: "sonOfArnor",
+            },
+            "squireOfTheCitadel":
+            {
+                name: "Squire of the Citadel",
+                cost: 1,
+                willpower: 0,
+                attack: 0,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.GONDOR ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                value: "squireOfTheCitadel",
             },
             "theRiddermarksFinest":
             {

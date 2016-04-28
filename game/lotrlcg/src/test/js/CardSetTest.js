@@ -49,10 +49,12 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 8);
+        assert.equal(result.length, 10);
         var i = 0;
+        assert.equal(result[i++], CardSet.AGAINST_THE_SHADOW);
         assert.equal(result[i++], CardSet.CORE);
         assert.equal(result[i++], CardSet.DWARROWDELF);
+        assert.equal(result[i++], CardSet.HEIRS_OF_NUMENOR);
         assert.equal(result[i++], CardSet.KHAZAD_DUM);
         assert.equal(result[i++], CardSet.ON_THE_DOORSTEP);
         assert.equal(result[i++], CardSet.OVER_HILL_AND_UNDER_HILL);

@@ -3,6 +3,12 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
     "use strict";
     var CardSubset =
     {
+        ATS1_THE_STEWARDS_FEAR: "ats1TheStewardsFear",
+        ATS2_THE_DRUADAN_FOREST: "ats2TheDruadanForest",
+        ATS3_ENCOUNTER_AT_AMON_DIN: "ats3EncounterAtAmonDin",
+        ATS4_ASSAULT_ON_OSGILIATH: "ats4AssaultOnOsgiliath",
+        ATS5_THE_BLOOD_OF_GONDOR: "ats5TheBloodOfGondor",
+        ATS6_THE_MORGUL_VALE: "ats6TheMorgulVale",
         D1_THE_REDHORN_GATE: "d1TheRedhornGate",
         D2_ROAD_TO_RIVENDELL: "d2RoadToRivendell",
         D3_THE_WATCHER_IN_THE_WATER: "d3TheWatcherInTheWater",
@@ -18,6 +24,54 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
 
         properties:
         {
+            "ats1TheStewardsFear":
+            {
+                name: "The Steward's Fear",
+                shortName: "TSF",
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                number: 1,
+                value: "ats1TheStewardsFear",
+            },
+            "ats2TheDruadanForest":
+            {
+                name: "The Drúadan Forest",
+                shortName: "TDF",
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                number: 2,
+                value: "ats2TheDruadanForest",
+            },
+            "ats3EncounterAtAmonDin":
+            {
+                name: "Encounter at Amon Dîn",
+                shortName: "EaAD",
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                number: 3,
+                value: "ats3EncounterAtAmonDin",
+            },
+            "ats4AssaultOnOsgiliath":
+            {
+                name: "Assault on Osgiliath",
+                shortName: "AoO",
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                number: 4,
+                value: "ats4AssaultOnOsgiliath",
+            },
+            "ats5TheBloodOfGondor":
+            {
+                name: "The Blood of Gondor",
+                shortName: "TBoG",
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                number: 5,
+                value: "ats5TheBloodOfGondor",
+            },
+            "ats6TheMorgulVale":
+            {
+                name: "The Morgul Vale",
+                shortName: "TMV",
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                number: 6,
+                value: "ats6TheMorgulVale",
+            },
             "d1TheRedhornGate":
             {
                 name: "The Redhorn Gate",

@@ -10,13 +10,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         BARD_THE_BOWMAN: "bardTheBowman",
         BEORN: "beorn",
         BERAVOR: "beravor",
+        BEREGOND: "beregond",
         BIFUR: "bifur",
         BILBO_BAGGINS_OHAUH: "bilboBagginsOHaUH",
         BILBO_BAGGINS_OTD: "bilboBagginsOtD",
         BILBO_BAGGINS_THFG: "bilboBagginsTHfG",
         BOMBUR: "bombur",
-        BOROMIR: "boromir",
+        BOROMIR_HON: "boromirHoN",
+        BOROMIR_SOM: "boromirSoM",
         BRAND_SON_OF_BAIN: "brandSonOfBain",
+        CALDARA: "caldara",
         CIRDAN_THE_SHIPWRIGHT: "cirdanTheShipwright",
         DAIN_IRONFOOT: "dainIronfoot",
         DENETHOR: "denethor",
@@ -130,6 +133,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 12,
                 value: "beravor",
             },
+            "beregond":
+            {
+                name: "Beregond",
+                threatCost: 10,
+                willpower: 0,
+                attack: 1,
+                defense: 4,
+                hitPoints: 4,
+                traitKeys: [ Trait.GONDOR, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                cardSetNumber: 1,
+                value: "beregond",
+            },
             "bifur":
             {
                 name: "Bifur",
@@ -201,7 +218,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 5,
                 value: "bombur",
             },
-            "boromir":
+            "boromirHoN":
+            {
+                name: "Boromir",
+                threatCost: 11,
+                willpower: 1,
+                attack: 3,
+                defense: 2,
+                hitPoints: 5,
+                traitKeys: [ Trait.GONDOR, Trait.WARRIOR, Trait.NOBLE ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.HEIRS_OF_NUMENOR,
+                cardSetNumber: 2,
+                value: "boromirHoN",
+            },
+            "boromirSoM":
             {
                 name: "Boromir",
                 threatCost: 11,
@@ -214,7 +245,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 cardSetNumber: 95,
-                value: "boromir",
+                value: "boromirSoM",
             },
             "brandSonOfBain":
             {
@@ -230,6 +261,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
                 cardSetNumber: 72,
                 value: "brandSonOfBain",
+            },
+            "caldara":
+            {
+                name: "Caldara",
+                threatCost: 8,
+                willpower: 2,
+                attack: 1,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.GONDOR ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.AGAINST_THE_SHADOW,
+                cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
+                cardSetNumber: 107,
+                value: "caldara",
             },
             "cirdanTheShipwright":
             {
