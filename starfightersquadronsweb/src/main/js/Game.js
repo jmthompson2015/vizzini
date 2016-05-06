@@ -34,10 +34,11 @@ define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator
     {
         var environment = this.environment();
         environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
+        var engine = this.engine();
 
         setTimeout(function()
         {
-            environment.phase(Phase.PLANNING_START);
+            engine.performPlanningPhase();
         }, 0);
     };
 
