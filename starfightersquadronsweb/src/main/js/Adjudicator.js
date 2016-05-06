@@ -98,6 +98,8 @@ define([ "Maneuver", "ManeuverComputer", "Pilot", "RectanglePath" ], function(Ma
 
         this.determineWinner = function(environment)
         {
+            InputValidator.validateNotNull("environment", environment);
+
             var answer;
 
             var firstAgent = environment.firstAgent();
@@ -119,6 +121,8 @@ define([ "Maneuver", "ManeuverComputer", "Pilot", "RectanglePath" ], function(Ma
 
         this.isGameOver = function(environment)
         {
+            InputValidator.validateNotNull("environment", environment);
+
             var answer = false;
 
             var firstAgent = environment.firstAgent();
