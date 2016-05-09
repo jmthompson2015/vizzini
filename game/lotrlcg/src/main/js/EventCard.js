@@ -18,6 +18,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         DEEP_KNOWLEDGE: "deepKnowledge",
         DESPERATE_ALLIANCE: "desperateAlliance",
         DWARVEN_TOMB: "dwarvenTomb",
+        EXPERT_TRACKERS: "expertTrackers",
         FEINT: "feint",
         FOLLOW_ME: "followMe",
         FOR_GONDOR: "forGondor",
@@ -40,6 +41,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         POWER_OF_ORTHANC: "powerOfOrthanc",
         QUICK_STRIKE: "quickStrike",
         RADAGASTS_CUNNING: "radagastsCunning",
+        RANGER_SUMMONS: "rangerSummons",
         RAVENS_OF_THE_MOUNTAIN: "ravensOfTheMountain",
         REAR_GUARD: "rearGuard",
         RENEWED_FRIENDSHIP: "renewedFriendship",
@@ -62,6 +64,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         THE_WIZARDS_VOICE: "theWizardsVoice",
         TIGHTEN_OUR_BELTS: "tightenOurBelts",
         TIMELY_AID: "timelyAid",
+        TIRELESS_HUNTERS: "tirelessHunters",
         TO_ME_O_MY_KINSFOLK: "toMeOMyKinsfolk",
         TO_THE_EYRIE: "toTheEyrie",
         UNSEEN_STRIKE: "unseenStrike",
@@ -195,6 +198,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.CORE,
                 value: "dwarvenTomb",
+            },
+            "expertTrackers":
+            {
+                name: "Expert Trackers",
+                cost: 0,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 9,
+                value: "expertTrackers",
             },
             "feint":
             {
@@ -386,6 +398,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.CORE,
                 value: "radagastsCunning",
+            },
+            "rangerSummons":
+            {
+                name: "Ranger Summons",
+                cost: 1,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 7,
+                value: "rangerSummons",
             },
             "ravensOfTheMountain":
             {
@@ -579,6 +600,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
                 value: "timelyAid",
+            },
+            "tirelessHunters":
+            {
+                name: "Tireless Hunters",
+                cost: 1,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 8,
+                value: "tirelessHunters",
             },
             "toMeOMyKinsfolk":
             {

@@ -5,6 +5,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
     var HeroCard =
     {
         ARAGORN_CORE: "aragornCore",
+        ARAGORN_TLR: "aragornTLR",
         ARAGORN_TTOS: "aragornTToS",
         BALIN: "balin",
         BARD_THE_BOWMAN: "bardTheBowman",
@@ -38,6 +39,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         GLORFINDEL_CORE: "glorfindelCore",
         GLORFINEL_FOS: "glorfindelFoS",
         GRIMA: "grima",
+        HALBARAD: "halbarad",
         HAMA: "hama",
         LEGOLAS: "legolas",
         MABLUNG: "mablung",
@@ -66,6 +68,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 cardSetNumber: 1,
                 value: "aragornCore",
+            },
+            "aragornTLR":
+            {
+                name: "Aragorn",
+                threatCost: 12,
+                willpower: 2,
+                attack: 3,
+                defense: 2,
+                hitPoints: 5,
+                traitKeys: [ Trait.DUNEDAIN, Trait.RANGER, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 1,
+                value: "aragornTLR",
             },
             "aragornTToS":
             {
@@ -538,6 +554,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
                 cardSetNumber: 2,
                 value: "grima",
+            },
+            "halbarad":
+            {
+                name: "Halbarad",
+                threatCost: 10,
+                willpower: 2,
+                attack: 2,
+                defense: 2,
+                hitPoints: 4,
+                traitKeys: [ Trait.DUNEDAIN, Trait.RANGER ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 2,
+                value: "halbarad",
             },
             "hama":
             {

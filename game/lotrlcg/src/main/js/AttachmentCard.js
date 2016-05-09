@@ -8,6 +8,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         ANCIENT_MATHOM: "ancientMathom",
         AROD: "arod",
         ASFALOTH: "asfaloth",
+        ATHELAS: "athelas",
         BLACK_ARROW: "blackArrow",
         BLADE_OF_GONDOLIN: "bladeOfGondolin",
         BLOOD_OF_NUMENOR: "bloodOfNumenor",
@@ -39,6 +40,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         HARDY_LEADERSHIP: "hardyLeadership",
         HEALING_HERBS: "healingHerbs",
         HEIR_OF_MARDIL: "heirOfMardil",
+        HEIR_OF_VALANDIL: "heirOfValandil",
         HERUGRIM: "herugrim",
         HORN_OF_GONDOR: "hornOfGondor",
         KEEPING_COUNT: "keepingCount",
@@ -60,6 +62,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         RANGER_SPIKES: "rangerSpikes",
         RING_MAIL: "ringMail",
         ROHAN_WARHORSE: "rohanWarhorse",
+        SECRET_VIGIL: "secretVigil",
         SELF_PRESERVATION: "selfPreservation",
         SHADOWFAX: "shadowfax",
         SILVER_LAMP: "silverLamp",
@@ -70,6 +73,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SONG_OF_WISDOM: "songOfWisdom",
         SPARE_HOOD_AND_CLOAK: "spareHoodAndCloak",
         SPEAR_OF_THE_CITADEL: "spearOfTheCitadel",
+        STAR_BROOCH: "starBrooch",
         STEWARD_OF_GONDOR: "stewardOfGondor",
         SUPPORT_OF_THE_EAGLES: "supportOfTheEagles",
         THE_FAVOR_OF_THE_LADY: "theFavorOfTheLady",
@@ -124,6 +128,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
                 value: "asfaloth",
+            },
+            "athelas":
+            {
+                name: "Athelas",
+                cost: 1,
+                traitKeys: [ Trait.ITEM ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 11,
+                value: "athelas",
             },
             "blackArrow":
             {
@@ -431,6 +445,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 113,
                 value: "heirOfMardil",
             },
+            "heirOfValandil":
+            {
+                name: "Heir of Valandil",
+                isUnique: true,
+                cost: 2,
+                traitKeys: [ Trait.TITLE ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 10,
+                value: "heirOfValandil",
+            },
             "herugrim":
             {
                 name: "Herugrim",
@@ -642,6 +667,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
                 value: "rohanWarhorse",
             },
+            "secretVigil":
+            {
+                name: "Secret Vigil",
+                cost: 1,
+                traitKeys: [ Trait.CONDITION ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 12,
+                value: "secretVigil",
+            },
             "selfPreservation":
             {
                 name: "Self Preservation",
@@ -738,6 +773,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.HEIRS_OF_NUMENOR,
                 value: "spearOfTheCitadel",
+            },
+            "starBrooch":
+            {
+                name: "Star Brooch",
+                cost: 1,
+                traitKeys: [ Trait.ITEM ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 13,
+                value: "starBrooch",
             },
             "stewardOfGondor":
             {

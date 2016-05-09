@@ -12,6 +12,7 @@ define([ "CardSetType" ], function(CardSetType)
         OVER_HILL_AND_UNDER_HILL: "overHillAndUnderHill",
         SHADOWS_OF_MIRKWOOD: "shadowsOfMirkwood",
         THE_GREY_HAVENS: "theGreyHavens",
+        THE_LOST_REALM: "theLostRealm",
         THE_RING_MAKER: "theRingMaker",
         THE_TREASON_OF_SARUMAN: "theTreasonOfSaruman",
         THE_VOICE_OF_ISENGARD: "theVoiceOfIsengard",
@@ -77,6 +78,13 @@ define([ "CardSetType" ], function(CardSetType)
                 shortName: "MEC47",
                 typeKey: CardSetType.DELUXE,
                 value: "theGreyHavens",
+            },
+            "theLostRealm":
+            {
+                name: "The Lost Realm",
+                shortName: "MEC38",
+                typeKey: CardSetType.DELUXE,
+                value: "theLostRealm",
             },
             "theRingMaker":
             {

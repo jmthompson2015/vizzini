@@ -18,6 +18,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         DEFENDER_OF_RAMMAS: "defenderOfRammas",
         DESCENDANT_OF_THORONDOR: "descendantOfThorondor",
         DORI: "dori",
+        DUNEDAIN_HUNTER: "dunedainHunter",
         DUNEDAIN_WATCHER: "dunedainWatcher",
         DWALIN: "dwalin",
         EAGLES_OF_THE_MISTY_MOUNTAINS: "eaglesOfTheMistyMountains",
@@ -76,6 +77,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         RAVENHILL_SCOUT: "ravenhillScout",
         RIVENDELL_MINSTREL: "rivendellMinstrel",
         SAILOR_OF_LUNE: "sailorOfLune",
+        SARN_FORD_SENTRY: "sarnFordSentry",
         SARUMAN: "saruman",
         SILVAN_TRACKER: "silvanTracker",
         SILVERLODE_ARCHER: "silverlodeArcher",
@@ -89,8 +91,10 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         VETERAN_OF_NANDUHIRION: "veteranOfNanduhirion",
         WANDERING_ENT: "wanderingEnt",
         WANDERING_TOOK: "wanderingTook",
+        WARDEN_OF_ANNUMINAS: "wardenOfAnnuminas",
         WARDEN_OF_HEALING: "wardenOfHealing",
         WARDEN_OF_THE_HAVENS: "wardenOfTheHavens",
+        WEATHER_HILLS_WATCHMAN: "weatherHillsWatchman",
         WESTFOLD_HORSE_BREAKER: "westfoldHorseBreaker",
         WESTFOLD_HORSE_BREEDER: "westfoldHorseBreeder",
         WESTFOLD_OUTRIDER: "westfoldOutrider",
@@ -295,6 +299,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                 value: "dori",
+            },
+            "dunedainHunter":
+            {
+                name: "Dúnedain Hunter",
+                cost: 0,
+                willpower: 1,
+                attack: 3,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.DUNEDAIN, Trait.RANGER ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 4,
+                value: "dunedainHunter",
             },
             "dunedainWatcher":
             {
@@ -1113,6 +1131,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 12,
                 value: "sailorOfLune",
             },
+            "sarnFordSentry":
+            {
+                name: "Sarn Ford Sentry",
+                cost: 3,
+                willpower: 2,
+                attack: 1,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.DUNEDAIN, Trait.SCOUT ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 5,
+                value: "sarnFordSentry",
+            },
             "saruman":
             {
                 name: "Saruman",
@@ -1290,6 +1322,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "wanderingTook",
             },
+            "wardenOfAnnuminas":
+            {
+                name: "Warden of Annúminas",
+                cost: 4,
+                willpower: 0,
+                attack: 2,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.DUNEDAIN, Trait.RANGER ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 6,
+                value: "wardenOfAnnuminas",
+            },
             "wardenOfHealing":
             {
                 name: "Warden of Healing",
@@ -1317,6 +1363,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 cardSetNumber: 6,
                 value: "wardenOfTheHavens",
+            },
+            "weatherHillsWatchman":
+            {
+                name: "Weather Hills Watchman",
+                cost: 2,
+                willpower: 1,
+                attack: 1,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.DUNEDAIN ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_LOST_REALM,
+                cardSetNumber: 3,
+                value: "weatherHillsWatchman",
             },
             "westfoldHorseBreaker":
             {

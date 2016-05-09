@@ -60,8 +60,8 @@ define([ "HeroCard", "Trait" ], function(HeroCard, Trait)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 46);
+        assert.equal(result.length, 48);
         assert.equal(result[0], HeroCard.ARAGORN_CORE);
-        assert.equal(result[45], HeroCard.TREEBEARD);
+        assert.equal(result[47], HeroCard.TREEBEARD);
     });
 });

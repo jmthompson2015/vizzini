@@ -21,6 +21,8 @@ define(
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC29_87.jpg");
                 assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.ORTHANC_GUARD]),
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_orthanc-guard-voi.jpg");
+                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.DUNEDAIN_HUNTER]),
+                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC38_4.jpg");
             });
 
             QUnit.test("create() enemies", function(assert)
