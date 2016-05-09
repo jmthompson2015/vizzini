@@ -39,7 +39,12 @@ define([ "CardSet", "CardSubset", "CardType" ], function(CardSet, CardSubset, Ca
 
                 if (cardSubset && cardSubset.shortName)
                 {
-                    cardSetName = cardSubset.shortName.toLowerCase();
+                    cardSetName = cardSubset.shortName;
+
+                    if (!cardSetName.startsWith("MEC"))
+                    {
+                        cardSetName = cardSetName.toLowerCase();
+                    }
                 }
                 else if (cardSet.shortName)
                 {
@@ -70,7 +75,7 @@ define([ "CardSet", "CardSubset", "CardType" ], function(CardSet, CardSubset, Ca
             InputValidator.validateNotNull("card", card);
 
             var cardSetKey = card.encounterSet.cardSubsetKey;
-            
+
             if (!cardSetKey)
             {
                 cardSetKey = card.encounterSet.cardSetKey;

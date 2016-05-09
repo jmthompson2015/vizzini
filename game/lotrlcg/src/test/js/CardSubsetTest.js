@@ -51,7 +51,7 @@ define([ "CardSet", "CardSetType", "CardSubset" ], function(CardSet, CardSetType
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 18);
+        assert.equal(result.length, 24);
         var i = 0;
         assert.equal(result[i++], CardSubset.ATS1_THE_STEWARDS_FEAR);
         assert.equal(result[i++], CardSubset.ATS2_THE_DRUADAN_FOREST);
@@ -71,5 +71,11 @@ define([ "CardSet", "CardSetType", "CardSubset" ], function(CardSet, CardSetType
         assert.equal(result[i++], CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL);
         assert.equal(result[i++], CardSubset.SOM5_THE_DEAD_MARSHES);
         assert.equal(result[i++], CardSubset.SOM6_RETURN_TO_MIRKWOOD);
+        assert.equal(result[i++], CardSubset.TRM1_THE_DUNLAND_TRAP);
+        assert.equal(result[i++], CardSubset.TRM2_THE_THREE_TRIALS);
+        assert.equal(result[i++], CardSubset.TRM3_TROUBLE_IN_THARBAD);
+        assert.equal(result[i++], CardSubset.TRM4_THE_NIN_IN_EILPH);
+        assert.equal(result[i++], CardSubset.TRM5_CELEBRIMBORS_SECRET);
+        assert.equal(result[i++], CardSubset.TRM6_THE_ANTLERED_CROWN);
     });
 });

@@ -13,10 +13,13 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         BLOOD_OF_NUMENOR: "bloodOfNumenor",
         BOOTS_FROM_EREBOR: "bootsFromErebor",
         BORN_ALOFT: "bornAloft",
+        BOW_OF_THE_GALADHRIM: "bowOfTheGaladhrim",
         CELEBRIANS_STONE: "celebriansStone",
         CITADEL_PLATE: "citadelPlate",
+        CLOAK_OF_LORIEN: "cloakOfLorien",
         CRAM: "cram",
         DARK_KNOWLEDGE: "darkKnowledge",
+        DEFENDER_OF_THE_WEST: "defenderOfTheWest",
         DUNEDAIN_CACHE: "dunedainCache",
         DUNEDAIN_MARK: "dunedainMark",
         DUNEDAIN_QUEST: "dunedainQuest",
@@ -35,16 +38,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         GREAT_YEW_BOW: "greatYewBow",
         HARDY_LEADERSHIP: "hardyLeadership",
         HEALING_HERBS: "healingHerbs",
+        HEIR_OF_MARDIL: "heirOfMardil",
         HERUGRIM: "herugrim",
         HORN_OF_GONDOR: "hornOfGondor",
         KEEPING_COUNT: "keepingCount",
+        KEYS_OF_ORTHANC: "keysOfOrthanc",
         KING_UNDER_THE_MOUNTAIN: "kingUnderTheMountain",
         LIGHT_OF_VALINOR: "lightOfValinor",
         LOVE_OF_TALES: "loveOfTales",
         MARINERS_COMPASS: "marinersCompass",
+        MIRROR_OF_GALADRIEL: "mirrorOfGaladriel",
         MIRUVOR: "miruvor",
         NARVIS_BELT: "narvisBelt",
         NARYA: "narya",
+        NENYA: "nenya",
         NOR_AM_I_A_STRANGER: "norAmIAStranger",
         PATH_OF_NEED: "pathOfNeed",
         POISONED_STAKES: "poisonedStakes",
@@ -52,8 +59,10 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         PROTECTOR_OF_LORIEN: "protectorOfLorien",
         RANGER_SPIKES: "rangerSpikes",
         RING_MAIL: "ringMail",
+        ROHAN_WARHORSE: "rohanWarhorse",
         SELF_PRESERVATION: "selfPreservation",
         SHADOWFAX: "shadowfax",
+        SILVER_LAMP: "silverLamp",
         SONG_OF_BATTLE: "songOfBattle",
         SONG_OF_KINGS: "songOfKings",
         SONG_OF_MOCKING: "songOfMocking",
@@ -70,6 +79,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         TOME_OF_ATANATAR: "tomeOfAtanatar",
         UNEXPECTED_COURAGE: "unexpectedCourage",
         VILYA: "vilya",
+        WINGFOOT: "wingfoot",
 
         properties:
         {
@@ -162,6 +172,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                 value: "bornAloft",
             },
+            "bowOfTheGaladhrim":
+            {
+                name: "Bow of the Galadhrim",
+                cost: 1,
+                traitKeys: [ Trait.ITEM, Trait.WEAPON ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 88,
+                value: "bowOfTheGaladhrim",
+            },
             "celebriansStone":
             {
                 name: "Celebrían's Stone",
@@ -181,6 +202,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "citadelPlate",
             },
+            "cloakOfLorien":
+            {
+                name: "Cloak of Lórien",
+                cost: 1,
+                traitKeys: [ Trait.ITEM ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
+                cardSetNumber: 120,
+                value: "cloakOfLorien",
+            },
             "cram":
             {
                 name: "Cram",
@@ -198,6 +230,18 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.CORE,
                 value: "darkKnowledge",
+            },
+            "defenderOfTheWest":
+            {
+                name: "Defender of the West",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.TITLE ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 93,
+                value: "defenderOfTheWest",
             },
             "dunedainCache":
             {
@@ -375,6 +419,18 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
                 value: "healingHerbs",
             },
+            "heirOfMardil":
+            {
+                name: "Heir of Mardil",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.TITLE ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
+                cardSetNumber: 113,
+                value: "heirOfMardil",
+            },
             "herugrim":
             {
                 name: "Herugrim",
@@ -404,6 +460,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
                 value: "keepingCount",
+            },
+            "keysOfOrthanc":
+            {
+                name: "Keys of Orthanc",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.ITEM ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                value: "keysOfOrthanc",
             },
             "kingUnderTheMountain":
             {
@@ -446,6 +512,18 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 8,
                 value: "marinersCompass",
             },
+            "mirrorOfGaladriel":
+            {
+                name: "Mirror of Galadriel",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.ARTIFACT, Trait.ITEM ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
+                cardSetNumber: 118,
+                value: "mirrorOfGaladriel",
+            },
             "miruvor":
             {
                 name: "Miruvor",
@@ -475,6 +553,18 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_GREY_HAVENS,
                 cardSetNumber: 15,
                 value: "narya",
+            },
+            "nenya":
+            {
+                name: "Nenya",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.ARTIFACT, Trait.RING ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
+                cardSetNumber: 121,
+                value: "nenya",
             },
             "norAmIAStranger":
             {
@@ -543,6 +633,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
                 value: "ringMail",
             },
+            "rohanWarhorse":
+            {
+                name: "Rohan Warhorse",
+                cost: 1,
+                traitKeys: [ Trait.MOUNT ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                value: "rohanWarhorse",
+            },
             "selfPreservation":
             {
                 name: "Self Preservation",
@@ -562,6 +661,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                 cardSetNumber: 14,
                 value: "shadowfax",
+            },
+            "silverLamp":
+            {
+                name: "Silver Lamp",
+                cost: 2,
+                traitKeys: [ Trait.ITEM ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                value: "silverLamp",
             },
             "songOfBattle":
             {
@@ -719,6 +827,18 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D6_SHADOW_AND_FLAME,
                 value: "vilya",
+            },
+            "wingfoot":
+            {
+                name: "Wingfoot",
+                isUnique: true,
+                cost: 1,
+                traitKeys: [ Trait.TITLE ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 92,
+                value: "wingfoot",
             },
         },
 

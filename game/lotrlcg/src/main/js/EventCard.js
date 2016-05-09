@@ -11,12 +11,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         ASTONISHING_SPEED: "astonishingSpeed",
         BEHIND_STRONG_WALLS: "behindStrongWalls",
         CAMPFIRE_TALES: "campfireTales",
+        CHARGE_OF_THE_ROHIRRIM: "chargeOfTheRohirrim",
         CHILDREN_OF_THE_SEA: "childrenOfTheSea",
         DAERONS_RUNES: "daeronsRunes",
         DAWN_TAKE_YOU_ALL: "dawnTakeYouAll",
+        DEEP_KNOWLEDGE: "deepKnowledge",
         DESPERATE_ALLIANCE: "desperateAlliance",
         DWARVEN_TOMB: "dwarvenTomb",
         FEINT: "feint",
+        FOLLOW_ME: "followMe",
         FOR_GONDOR: "forGondor",
         FRESH_TRACKS: "freshTracks",
         GILDORS_COUNSEL: "gildorsCounsel",
@@ -24,6 +27,8 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         HASTY_STROKE: "hastyStroke",
         HEAVY_STROKE: "heavyStroke",
         INFIGHTING: "infighting",
+        ISLAND_AMID_PERILS: "islandAmidPerils",
+        LEGACY_OF_NUMENOR: "legacyOfNumenor",
         LIGHT_THE_BEACONS: "lightTheBeacons",
         MENELDORS_FLIGHT: "meneldorsFlight",
         MUSTERING_THE_ROHIRRIM: "musteringTheRohirrim",
@@ -32,6 +37,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         OUT_OF_SIGHT: "outOfSight",
         PARTING_GIFTS: "partingGifts",
         PEACE_AND_THOUGHT: "peaceAndThought",
+        POWER_OF_ORTHANC: "powerOfOrthanc",
         QUICK_STRIKE: "quickStrike",
         RADAGASTS_CUNNING: "radagastsCunning",
         RAVENS_OF_THE_MOUNTAIN: "ravensOfTheMountain",
@@ -52,6 +58,9 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         THE_GALADHRIMS_GREETING: "theGaladhrimsGreeting",
         THE_HAMMER_STROKE: "theHammerStroke",
         THE_LUCKY_NUMBER: "theLuckyNumber",
+        THE_SEEING_STONE: "theSeeingStone",
+        THE_WIZARDS_VOICE: "theWizardsVoice",
+        TIGHTEN_OUR_BELTS: "tightenOurBelts",
         TIMELY_AID: "timelyAid",
         TO_ME_O_MY_KINSFOLK: "toMeOMyKinsfolk",
         TO_THE_EYRIE: "toTheEyrie",
@@ -126,6 +135,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.SOM1_THE_HUNT_FOR_GOLLUM,
                 value: "campfireTales",
             },
+            "chargeOfTheRohirrim":
+            {
+                name: "Charge of the Rohirrim",
+                cost: 2,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
+                cardSetNumber: 116,
+                value: "chargeOfTheRohirrim",
+            },
             "childrenOfTheSea":
             {
                 name: "Children of the Sea",
@@ -153,6 +172,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.SOM6_RETURN_TO_MIRKWOOD,
                 value: "dawnTakeYouAll",
             },
+            "deepKnowledge":
+            {
+                name: "Deep Knowledge",
+                cost: 0,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                value: "deepKnowledge",
+            },
             "desperateAlliance":
             {
                 name: "Desperate Alliance",
@@ -176,6 +203,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.CORE,
                 value: "feint",
+            },
+            "followMe":
+            {
+                name: "Follow Me!",
+                cost: 1,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 85,
+                value: "followMe",
             },
             "forGondor":
             {
@@ -229,6 +266,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.D5_FOUNDATIONS_OF_STONE,
                 value: "heavyStroke",
             },
+            "islandAmidPerils":
+            {
+                name: "Island Amid Perils",
+                cost: 0,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 90,
+                value: "islandAmidPerils",
+            },
             "infighting":
             {
                 name: "Infighting",
@@ -237,6 +284,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
                 value: "infighting",
+            },
+            "legacyOfNumenor":
+            {
+                name: "Legacy of Numenor",
+                cost: 0,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                value: "legacyOfNumenor",
             },
             "lightTheBeacons":
             {
@@ -307,6 +362,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D6_SHADOW_AND_FLAME,
                 value: "peaceAndThought",
+            },
+            "powerOfOrthanc":
+            {
+                name: "Power of Orthanc",
+                cost: 0,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                value: "powerOfOrthanc",
             },
             "quickStrike":
             {
@@ -478,6 +541,35 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 sphereKey: Sphere.BAGGINS,
                 cardSetKey: CardSet.ON_THE_DOORSTEP,
                 value: "theLuckyNumber",
+            },
+            "theSeeingStone":
+            {
+                name: "The Seeing-Stone",
+                cost: 0,
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                value: "theSeeingStone",
+            },
+            "theWizardsVoice":
+            {
+                name: "The Wizard's Voice",
+                cost: 0,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                cardSetNumber: 13,
+                // This is spelled wrong at cardgamedb.com
+                image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_the-wizardss-voice-voi.jpg",
+                value: "theWizardsVoice",
+            },
+            "tightenOurBelts":
+            {
+                name: "Tighten Our Belts",
+                cost: 0,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 86,
+                value: "tightenOurBelts",
             },
             "timelyAid":
             {

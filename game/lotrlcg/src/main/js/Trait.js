@@ -28,6 +28,7 @@ define(function()
         HEALER: "healer",
         HOBBIT: "hobbit",
         INSECT: "insect",
+        ISENGARD: "isengard",
         ISTARI: "istari",
         ITEM: "item",
         MARSHLAND: "marshland",
@@ -58,6 +59,7 @@ define(function()
         TRAP: "trap",
         WARRIOR: "warrior",
         WEAPON: "weapon",
+        WOODMAN: "woodman",
 
         properties:
         {
@@ -185,6 +187,11 @@ define(function()
             {
                 name: "Insect",
                 value: "insect",
+            },
+            "isengard":
+            {
+                name: "Isengard",
+                value: "isengard",
             },
             "istari":
             {
@@ -335,6 +342,11 @@ define(function()
             {
                 name: "Weapon",
                 value: "weapon",
+            },
+            "woodman":
+            {
+                name: "Woodman",
+                value: "woodman",
             },
         },
 

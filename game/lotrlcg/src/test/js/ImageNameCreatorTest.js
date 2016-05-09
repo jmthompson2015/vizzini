@@ -13,6 +13,14 @@ define(
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_gildor-inglorion-thoem.jpg");
                 assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GIMLI]),
                         "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC45_4.jpg");
+                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.CELDUIN_TRAVELER]),
+                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC29_89.jpg");
+                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GALADRIELS_HANDMAIDEN]),
+                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC30_117.jpg");
+                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GALADHON_ARCHER]),
+                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC29_87.jpg");
+                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.ORTHANC_GUARD]),
+                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_orthanc-guard-voi.jpg");
             });
 
             QUnit.test("create() enemies", function(assert)

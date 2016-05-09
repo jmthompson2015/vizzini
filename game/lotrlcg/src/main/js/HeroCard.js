@@ -28,15 +28,19 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         ELEANOR: "eleanor",
         ELROHIR: "elrohir",
         ELROND: "elrond",
+        EOMER: "eomer",
         EOWYN: "eowyn",
         FRODO_BAGGINS: "frodoBaggins",
+        GALADRIEL: "galadriel",
         GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
         GIMLI: "gimli",
         GLOIN: "gloin",
         GLORFINDEL_CORE: "glorfindelCore",
         GLORFINEL_FOS: "glorfindelFoS",
+        GRIMA: "grima",
         HAMA: "hama",
         LEGOLAS: "legolas",
+        MABLUNG: "mablung",
         NORI: "nori",
         OIN: "oin",
         ORI: "ori",
@@ -392,6 +396,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 128,
                 value: "elrond",
             },
+            "eomer":
+            {
+                name: "Éomer",
+                threatCost: 10,
+                willpower: 1,
+                attack: 3,
+                defense: 2,
+                hitPoints: 4,
+                traitKeys: [ Trait.ROHAN, Trait.NOBLE, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                cardSetNumber: 1,
+                value: "eomer",
+            },
             "eowyn":
             {
                 name: "Éowyn",
@@ -420,6 +438,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                 cardSetNumber: 25,
                 value: "frodoBaggins",
+            },
+            "galadriel":
+            {
+                name: "Galadriel",
+                threatCost: 9,
+                willpower: 4,
+                attack: 0,
+                defense: 0,
+                hitPoints: 4,
+                traitKeys: [ Trait.NOLDOR, Trait.NOBLE ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
+                cardSetNumber: 112,
+                value: "galadriel",
             },
             "galdorOfTheHavens":
             {
@@ -492,6 +525,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 101,
                 value: "glorfindelFoS",
             },
+            "grima":
+            {
+                name: "Gríma",
+                threatCost: 9,
+                willpower: 2,
+                attack: 1,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.ROHAN, Trait.ISENGARD ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
+                cardSetNumber: 2,
+                value: "grima",
+            },
             "hama":
             {
                 name: "Háma",
@@ -520,6 +567,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 cardSetNumber: 5,
                 value: "legolas",
+            },
+            "mablung":
+            {
+                name: "Mablung",
+                threatCost: 10,
+                willpower: 2,
+                attack: 2,
+                defense: 2,
+                hitPoints: 4,
+                traitKeys: [ Trait.GONDOR, Trait.RANGER ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 84,
+                value: "mablung",
             },
             "nori":
             {

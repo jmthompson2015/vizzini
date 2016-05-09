@@ -12,7 +12,9 @@ define([ "CardSetType" ], function(CardSetType)
         OVER_HILL_AND_UNDER_HILL: "overHillAndUnderHill",
         SHADOWS_OF_MIRKWOOD: "shadowsOfMirkwood",
         THE_GREY_HAVENS: "theGreyHavens",
+        THE_RING_MAKER: "theRingMaker",
         THE_TREASON_OF_SARUMAN: "theTreasonOfSaruman",
+        THE_VOICE_OF_ISENGARD: "theVoiceOfIsengard",
 
         properties:
         {
@@ -76,12 +78,25 @@ define([ "CardSetType" ], function(CardSetType)
                 typeKey: CardSetType.DELUXE,
                 value: "theGreyHavens",
             },
+            "theRingMaker":
+            {
+                name: "The Ring-Maker",
+                typeKey: CardSetType.CYCLE,
+                value: "theRingMaker",
+            },
             "theTreasonOfSaruman":
             {
                 name: "The Treason of Saruman",
                 shortName: "MEC45",
                 typeKey: CardSetType.SAGA,
                 value: "theTreasonOfSaruman",
+            },
+            "theVoiceOfIsengard":
+            {
+                name: "The Voice of Isengard",
+                shortName: "VoI",
+                typeKey: CardSetType.DELUXE,
+                value: "theVoiceOfIsengard",
             },
         },
 

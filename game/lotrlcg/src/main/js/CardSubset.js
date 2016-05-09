@@ -21,6 +21,12 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
         SOM4_THE_HILLS_OF_EMYN_MUIL: "som4TheHillsOfEmynMuil",
         SOM5_THE_DEAD_MARSHES: "som5TheDeadMarshes",
         SOM6_RETURN_TO_MIRKWOOD: "som6ReturnToMirkwood",
+        TRM1_THE_DUNLAND_TRAP: "trm1TheDunlandTrap",
+        TRM2_THE_THREE_TRIALS: "trm2TheThreeTrials",
+        TRM3_TROUBLE_IN_THARBAD: "trm3TroubleInTharbad",
+        TRM4_THE_NIN_IN_EILPH: "trm4TheNinInEilph",
+        TRM5_CELEBRIMBORS_SECRET: "trm5CelebrimborsSecret",
+        TRM6_THE_ANTLERED_CROWN: "trm6TheAntleredCrown",
 
         properties:
         {
@@ -167,6 +173,50 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 number: 6,
                 value: "som6ReturnToMirkwood",
+            },
+            "trm1TheDunlandTrap":
+            {
+                name: "The Dunland Trap",
+                cardSetKey: CardSet.THE_RING_MAKER,
+                number: 1,
+                value: "trm1TheDunlandTrap",
+            },
+            "trm2TheThreeTrials":
+            {
+                name: "The Three Trials",
+                cardSetKey: CardSet.THE_RING_MAKER,
+                number: 2,
+                value: "trm2TheThreeTrials",
+            },
+            "trm3TroubleInTharbad":
+            {
+                name: "Trouble in Tharbad",
+                cardSetKey: CardSet.THE_RING_MAKER,
+                number: 3,
+                value: "trm3TroubleInTharbad",
+            },
+            "trm4TheNinInEilph":
+            {
+                name: "The Nin-in-Eilph",
+                shortName: "MEC29",
+                cardSetKey: CardSet.THE_RING_MAKER,
+                number: 4,
+                value: "trm4TheNinInEilph",
+            },
+            "trm5CelebrimborsSecret":
+            {
+                name: "Celebrimbor's Secret",
+                shortName: "MEC30",
+                cardSetKey: CardSet.THE_RING_MAKER,
+                number: 5,
+                value: "trm5CelebrimborsSecret",
+            },
+            "trm6TheAntleredCrown":
+            {
+                name: "The Antlered Crown",
+                cardSetKey: CardSet.THE_RING_MAKER,
+                number: 6,
+                value: "trm6TheAntleredCrown",
             },
         },
 
