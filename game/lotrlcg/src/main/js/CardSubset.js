@@ -3,6 +3,12 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
     "use strict";
     var CardSubset =
     {
+        AA1_THE_WASTES_OF_ERIADOR: "aa1TheWastesOfEriador",
+        AA2_ESCAPE_FROM_MOUNT_GRAM: "aa2EscapeFromMountGram",
+        AA3_ACROSS_THE_ETTENMOORS: "aa3AcrossTheEttenmoors",
+        AA4_THE_TREACHERY_OF_RHUDAUR: "aa4TheTreacheryOfRhudaur",
+        AA5_THE_BATTLE_OF_CARN_DUM: "aa5TheBattleOfCarnDum",
+        AA6_THE_DREAD_REALM: "aa6TheDreadRealm",
         ATS1_THE_STEWARDS_FEAR: "ats1TheStewardsFear",
         ATS2_THE_DRUADAN_FOREST: "ats2TheDruadanForest",
         ATS3_ENCOUNTER_AT_AMON_DIN: "ats3EncounterAtAmonDin",
@@ -30,6 +36,54 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
 
         properties:
         {
+            "aa1TheWastesOfEriador":
+            {
+                name: "The Wastes of Eriador",
+                shortName: "MEC39",
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                number: 1,
+                value: "aa1TheWastesOfEriador",
+            },
+            "aa2EscapeFromMountGram":
+            {
+                name: "Escape from Mount Gram",
+                shortName: "MEC40",
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                number: 2,
+                value: "aa2EscapeFromMountGram",
+            },
+            "aa3AcrossTheEttenmoors":
+            {
+                name: "Across the Ettenmoors",
+                shortName: "MEC41",
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                number: 3,
+                value: "aa3AcrossTheEttenmoors",
+            },
+            "aa4TheTreacheryOfRhudaur":
+            {
+                name: "The Treachery of Rhudaur",
+                shortName: "MEC42",
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                number: 4,
+                value: "aa4TheTreacheryOfRhudaur",
+            },
+            "aa5TheBattleOfCarnDum":
+            {
+                name: "The Battle of Carn Dûm",
+                shortName: "MEC43",
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                number: 5,
+                value: "aa5TheBattleOfCarnDum",
+            },
+            "aa6TheDreadRealm":
+            {
+                name: "The Dread Realm",
+                shortName: "MEC44",
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                number: 6,
+                value: "aa6TheDreadRealm",
+            },
             "ats1TheStewardsFear":
             {
                 name: "The Steward's Fear",
@@ -177,6 +231,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "trm1TheDunlandTrap":
             {
                 name: "The Dunland Trap",
+//                shortName: "MEC26",
                 cardSetKey: CardSet.THE_RING_MAKER,
                 number: 1,
                 value: "trm1TheDunlandTrap",
@@ -184,6 +239,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "trm2TheThreeTrials":
             {
                 name: "The Three Trials",
+//                shortName: "MEC27",
                 cardSetKey: CardSet.THE_RING_MAKER,
                 number: 2,
                 value: "trm2TheThreeTrials",
@@ -191,6 +247,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "trm3TroubleInTharbad":
             {
                 name: "Trouble in Tharbad",
+//                shortName: "MEC28",
                 cardSetKey: CardSet.THE_RING_MAKER,
                 number: 3,
                 value: "trm3TroubleInTharbad",
@@ -214,6 +271,7 @@ define([ "CardSet", "CardSetType" ], function(CardSet, CardSetType)
             "trm6TheAntleredCrown":
             {
                 name: "The Antlered Crown",
+                shortName: "MEC31",
                 cardSetKey: CardSet.THE_RING_MAKER,
                 number: 6,
                 value: "trm6TheAntleredCrown",

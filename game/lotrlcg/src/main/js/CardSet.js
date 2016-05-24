@@ -4,6 +4,7 @@ define([ "CardSetType" ], function(CardSetType)
     var CardSet =
     {
         AGAINST_THE_SHADOW: "againstTheShadow",
+        ANGMAR_AWAKENED: "angmarAwakened",
         CORE: "core",
         DWARROWDELF: "dwarrowdelf",
         HEIRS_OF_NUMENOR: "heirsOfNumenor",
@@ -24,6 +25,12 @@ define([ "CardSetType" ], function(CardSetType)
                 name: "Against the Shadow",
                 typeKey: CardSetType.CYCLE,
                 value: "againstTheShadow",
+            },
+            "angmarAwakened":
+            {
+                name: "Angmar Awakened",
+                typeKey: CardSetType.CYCLE,
+                value: "angmarAwakened",
             },
             "core":
             {

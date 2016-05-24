@@ -51,8 +51,15 @@ define([ "CardSet", "CardSetType", "CardSubset" ], function(CardSet, CardSetType
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 24);
+        var length = 30;
+        assert.equal(result.length, length);
         var i = 0;
+        assert.equal(result[i++], CardSubset.AA1_THE_WASTES_OF_ERIADOR);
+        assert.equal(result[i++], CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM);
+        assert.equal(result[i++], CardSubset.AA3_ACROSS_THE_ETTENMOORS);
+        assert.equal(result[i++], CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR);
+        assert.equal(result[i++], CardSubset.AA5_THE_BATTLE_OF_CARN_DUM);
+        assert.equal(result[i++], CardSubset.AA6_THE_DREAD_REALM);
         assert.equal(result[i++], CardSubset.ATS1_THE_STEWARDS_FEAR);
         assert.equal(result[i++], CardSubset.ATS2_THE_DRUADAN_FOREST);
         assert.equal(result[i++], CardSubset.ATS3_ENCOUNTER_AT_AMON_DIN);

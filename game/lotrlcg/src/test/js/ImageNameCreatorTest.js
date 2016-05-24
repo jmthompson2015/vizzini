@@ -1,28 +1,55 @@
 define(
-        [ "AllyCard", "EnemyCard", "EventCard", "HeroCard", "LocationCard", "QuestCard", "ImageNameCreator" ],
-        function(AllyCard, EnemyCard, EventCard, HeroCard, LocationCard, QuestCard, ImageNameCreator)
+        [ "AllyCard", "AttachmentCard", "EnemyCard", "EventCard", "HeroCard", "LocationCard", "QuestCard",
+                "ImageNameCreator" ],
+        function(AllyCard, AttachmentCard, EnemyCard, EventCard, HeroCard, LocationCard, QuestCard, ImageNameCreator)
         {
             "use strict";
             QUnit.module("ImageNameCreator");
 
-            QUnit.test("create() allies", function(assert)
+            QUnit
+                    .test(
+                            "create() allies",
+                            function(assert)
+                            {
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.CITADEL_CUSTODIAN]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_citadel-custodian-hon.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GILDOR_INGLORION]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_gildor-inglorion-thoem.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GIMLI]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC45_4.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.CELDUIN_TRAVELER]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC29_89.jpg");
+                                assert.equal(ImageNameCreator
+                                        .create(AllyCard.properties[AllyCard.GALADRIELS_HANDMAIDEN]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC30_117.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GALADHON_ARCHER]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC29_87.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.ORTHANC_GUARD]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_orthanc-guard-voi.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.DUNEDAIN_HUNTER]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC38_4.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.BEECHBONE]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC43_118.jpg");
+                                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.CURIOUS_BRANDYBUCK]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC39_6.jpg");
+                                assert
+                                        .equal(ImageNameCreator
+                                                .create(AllyCard.properties[AllyCard.BLUE_MOUNTAIN_TRADER]),
+                                                "http://www.cardgamedb.com/forums/uploads/lotr/ffg_blue-mountain-trader_the-dunland-trap_6.jpg");
+                                assert
+                                        .equal(ImageNameCreator
+                                                .create(AllyCard.properties[AllyCard.GALADHRIM_MINSTREL]),
+                                                "http://www.cardgamedb.com/forums/uploads/lotr/ffg_galadhrim-minstrel-trouble-in-tharbad-63.jpg");
+                                assert
+                                        .equal(ImageNameCreator
+                                                .create(AllyCard.properties[AllyCard.GREYFLOOD_WANDERER]),
+                                                "http://www.cardgamedb.com/forums/uploads/lotr/ffg_greyflood-wanderer-the-three-trials-30.jpg");
+                            });
+
+            QUnit.test("create() attachments", function(assert)
             {
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.CITADEL_CUSTODIAN]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_citadel-custodian-hon.jpg");
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GILDOR_INGLORION]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_gildor-inglorion-thoem.jpg");
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GIMLI]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC45_4.jpg");
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.CELDUIN_TRAVELER]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC29_89.jpg");
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GALADRIELS_HANDMAIDEN]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC30_117.jpg");
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.GALADHON_ARCHER]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC29_87.jpg");
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.ORTHANC_GUARD]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_orthanc-guard-voi.jpg");
-                assert.equal(ImageNameCreator.create(AllyCard.properties[AllyCard.DUNEDAIN_HUNTER]),
-                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC38_4.jpg");
+                assert.equal(ImageNameCreator.create(AttachmentCard.properties[AttachmentCard.SONG_OF_EARENDIL]),
+                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_song-of-earendil-rtr.jpg");
             });
 
             QUnit.test("create() enemies", function(assert)

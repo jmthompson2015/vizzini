@@ -56,10 +56,29 @@ define([ "CardSet", "CardSubset", "CardType" ], function(CardSet, CardSubset, Ca
                 }
 
                 var description;
+                LOGGER.info("cardSubset = " + cardSubset);
 
                 if (cardSetName.startsWith("MEC"))
                 {
                     description = cardSetName + "_" + card.cardSetNumber;
+                }
+                else if (cardSubset && cardSubset.value === CardSubset.TRM1_THE_DUNLAND_TRAP)
+                {
+                    var cardSubsetName = this.convert(cardSubset.name);
+                    LOGGER.info("cardSubsetName = " + cardSubsetName);
+                    description = cardName + "_" + cardSubsetName + "_" + card.cardSetNumber;
+                }
+                else if (cardSubset && cardSubset.value === CardSubset.TRM2_THE_THREE_TRIALS)
+                {
+                    var cardSubsetName = this.convert(cardSubset.name);
+                    LOGGER.info("cardSubsetName = " + cardSubsetName);
+                    description = cardName + "-" + cardSubsetName + "-" + card.cardSetNumber;
+                }
+                else if (cardSubset && cardSubset.value === CardSubset.TRM3_TROUBLE_IN_THARBAD)
+                {
+                    var cardSubsetName = this.convert(cardSubset.name);
+                    LOGGER.info("cardSubsetName = " + cardSubsetName);
+                    description = cardName + "-" + cardSubsetName + "-" + card.cardSetNumber;
                 }
                 else
                 {
@@ -119,11 +138,11 @@ define([ "CardSet", "CardSubset", "CardType" ], function(CardSet, CardSubset, Ca
         {
             var answer = string;
 
-            answer = answer.replace(/[áâ]/g, "a");
-            answer = answer.replace(/[éê]/g, "e");
-            answer = answer.replace(/[íî]/g, "i");
-            answer = answer.replace(/[óô]/g, "o");
-            answer = answer.replace(/[úû]/g, "u");
+            answer = answer.replace(/[áâä]/g, "a");
+            answer = answer.replace(/[éêë]/g, "e");
+            answer = answer.replace(/[íîï]/g, "i");
+            answer = answer.replace(/[óôö]/g, "o");
+            answer = answer.replace(/[úûü]/g, "u");
 
             return answer;
         },
