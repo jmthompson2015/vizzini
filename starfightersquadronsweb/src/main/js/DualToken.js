@@ -1,5 +1,5 @@
-define([ "ActivationState", "Maneuver", "Pilot", "Token" ],
-        function(ActivationState, Maneuver, Pilot, Token)
+define([ "ActivationState", "Pilot", "Token" ],
+        function(ActivationState, Pilot, Token)
         {
             "use strict";
             function DualToken(pilotKey, agent, upgradeKeysFore, upgradeKeysAft)

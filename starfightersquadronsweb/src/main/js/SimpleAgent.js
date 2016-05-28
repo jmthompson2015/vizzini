@@ -1,7 +1,6 @@
-define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlanningAction",
-        "PlayFormat", "RangeRuler", "Ship", "ShipAction", "ShipActionAction", "ShipBase" ], function(Maneuver,
-        ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat, RangeRuler,
-        Ship, ShipAction, ShipActionAction, ShipBase)
+define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "PlayFormat",
+        "RangeRuler", "Ship", "ShipAction", "ShipActionAction" ], function(Maneuver, ManeuverComputer,
+        ModifyAttackDiceAction, ModifyDefenseDiceAction, PlayFormat, RangeRuler, Ship, ShipAction, ShipActionAction)
 {
     "use strict";
     function SimpleAgent(name, teamKey)

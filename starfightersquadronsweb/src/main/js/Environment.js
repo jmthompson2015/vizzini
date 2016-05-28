@@ -17,24 +17,26 @@
  * but not touching.
  * </dl>
  */
-define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler", "RectanglePath",
-        "ShipBase", "Team", "Token", ], function(DamageCard, ManeuverComputer, Phase, PlayFormat, Position, RangeRuler,
-        RectanglePath, ShipBase, Team, Token)
+define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team",
+        "Token", "process/Action" ], function(DamageCard, ManeuverComputer, Phase, PlayFormat, Position, RangeRuler,
+        RectanglePath, Team, Token, Action)
 {
     "use strict";
-    function Environment(teamKey1, teamKey2)
+    function Environment(store, teamKey1, teamKey2)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("teamKey1", teamKey1);
         InputValidator.validateNotNull("teamKey2", teamKey2);
 
+        this.store = function()
+        {
+            return store;
+        };
+
         var that = this;
 
-        var playFormatKey;
-        var activeToken;
         var firstAgent;
-        var phase;
         var secondAgent;
-        var round = 0;
 
         var positionToToken = {};
         var tokenToPosition = {};
@@ -46,14 +48,14 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
         {
             if (newActiveToken)
             {
-                var oldValue = activeToken;
-                activeToken = newActiveToken;
+                var oldValue = this.getTokenById(store.getState().activeTokenId);
 
-                LOGGER.info("Active Token: " + activeToken);
-                this.trigger(Environment.ACTIVE_TOKEN_EVENT, activeToken);
+                LOGGER.info("Active Token: " + newActiveToken);
+                store.dispatch(Action.setActiveToken(newActiveToken.id()));
+                this.trigger(Environment.ACTIVE_TOKEN_EVENT, newActiveToken);
             }
 
-            return activeToken;
+            return this.getTokenById(store.getState().activeTokenId);
         };
 
         this.createWeaponToRangeToDefenders = function(attacker)
@@ -221,7 +223,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
                         y = parentPosition.y() - length * Math.sin(angle);
                     }
 
-                    if (PlayFormat.isPointInPlayArea(playFormatKey, x, y))
+                    if (PlayFormat.isPointInPlayArea(store.getState().playFormatKey, x, y))
                     {
                         answer = new Position(x, y, parentPosition.heading());
                     }
@@ -277,6 +279,26 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
         this.getTokenAt = function(position)
         {
             return positionToToken[position];
+        };
+
+        this.getTokenById = function(tokenId)
+        {
+            var answer;
+
+            var tokens = that.tokens();
+
+            for (var i = 0; i < tokens.length; i++)
+            {
+                var token = tokens[i];
+
+                if (token.id() === tokenId)
+                {
+                    answer = token;
+                    break;
+                }
+            }
+
+            return answer;
         };
 
         this.getTokensAtRange = function(token0, range)
@@ -452,27 +474,27 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.incrementRound = function()
         {
-            round++;
+            store.dispatch(Action.addRound());
 
-            LOGGER.info("Round: " + round);
-            this.trigger(Environment.ROUND_EVENT, round);
+            LOGGER.info("Round: " + store.getState().round);
+            this.trigger(Environment.ROUND_EVENT, store.getState().round);
         };
 
         this.phase = function(newPhase)
         {
             if (newPhase)
             {
-                var oldValue = phase;
-                phase = newPhase;
+                var oldValue = store.getState().phaseKey;
 
-                if (oldValue !== phase)
+                if (oldValue !== newPhase)
                 {
-                    LOGGER.info("Phase: " + Phase.properties[phase].name);
-                    this.trigger(Environment.PHASE_EVENT, phase);
+                    LOGGER.info("Phase: " + Phase.properties[newPhase].name);
+                    store.dispatch(Action.setPhase(newPhase));
+                    this.trigger(Environment.PHASE_EVENT, newPhase);
                 }
             }
 
-            return phase;
+            return store.getState().phaseKey;
         };
 
         this.placeInitialTokens = function(agent1, squad1, agent2, squad2)
@@ -499,7 +521,8 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             var tokens = [];
             tokens.vizziniAddAll(squad1);
             tokens.vizziniAddAll(squad2);
-            playFormatKey = determinePlayFormat(tokens);
+            var playFormatKey = determinePlayFormat(tokens);
+            store.dispatch(Action.setPlayFormat(playFormatKey));
 
             placeTokens(firstSquad, true);
             placeTokens(secondSquad, false);
@@ -518,9 +541,12 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.playFormatKey = function()
         {
+            var playFormatKey = store.getState().playFormatKey;
+
             if (!playFormatKey)
             {
                 playFormatKey = determinePlayFormat(this.tokens());
+                store.dispatch(Action.setPlayFormat(playFormatKey));
             }
 
             return playFormatKey;
@@ -535,7 +561,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.round = function()
         {
-            return round;
+            return store.getState().round;
         };
 
         this.secondAgent = function()

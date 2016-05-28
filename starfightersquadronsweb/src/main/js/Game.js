@@ -1,4 +1,5 @@
-define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator, Engine, Environment, Phase)
+define([ "Adjudicator", "Engine", "Environment", "process/Reducer" ], function(Adjudicator, Engine, Environment,
+        Reducer)
 {
     "use strict";
     function Game(agent1, squad1, agent2, squad2)
@@ -8,7 +9,8 @@ define([ "Adjudicator", "Engine", "Environment", "Phase" ], function(Adjudicator
         InputValidator.validateNotNull("agent2", agent2);
         InputValidator.validateNotNull("squad2", squad2);
 
-        var environment = new Environment(agent1.teamKey(), agent2.teamKey());
+        var store = Redux.createStore(Reducer.root);
+        var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
         environment.placeInitialTokens(agent1, squad1, agent2, squad2);
 
         var adjudicator = new Adjudicator();

@@ -1,7 +1,6 @@
 define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
-        "PlanningAction", "PlayFormat", "RangeRuler", "ShipAction", "SimpleAgent" ], function(Difficulty, Maneuver,
-        ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlanningAction, PlayFormat, RangeRuler,
-        ShipAction, SimpleAgent)
+        "PlayFormat", "RangeRuler", "ShipAction", "SimpleAgent" ], function(Difficulty, Maneuver, ManeuverComputer,
+        ModifyAttackDiceAction, ModifyDefenseDiceAction, PlayFormat, RangeRuler, ShipAction, SimpleAgent)
 {
     "use strict";
     function MediumAgent(name, teamKey)
