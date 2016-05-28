@@ -14,6 +14,7 @@
 
 <script src="../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
 <script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
 <script src="../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../main/js/Team"></script>
 
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
@@ -37,12 +38,12 @@
     var suffix = "Test";
     var testModules = [ "ActivationAction", "ActivationState", "Adjudicator", "AgentInterface", "AttackDice",
             "Bearing", "CombatAction", "DamageCard", "DamageCardTrait", "DamageCardV2", "DamageDealer", "DefenseDice",
-            "Difficulty", "DualToken", "Engine", "Environment", "FiringArc", "Maneuver", "ManeuverAction",
-            "ManeuverComputer", "MediumAgent", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Path", "Phase",
-            "Pilot", "PlanningAction", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Ship", "ShipAction",
-            "ShipActionAction", "ShipBase", "ShipDestroyedAction", "ShipFledAction", "ShipTeam", "SimpleAgent",
-            "SquadBuilder", "TargetLock", "Team", "Token", "TokenFactory", "UpgradeCard", "UpgradeHeader",
-            "UpgradeRestriction", "UpgradeType", "WeaponInterface", "Weapon" ];
+            "Difficulty", "DualToken", "Engine", "Environment", "FiringArc", "InitialState", "Maneuver",
+            "ManeuverAction", "ManeuverComputer", "MediumAgent", "ModifyAttackDiceAction", "ModifyDefenseDiceAction",
+            "Path", "Phase", "Pilot", "PlanningAction", "PlayFormat", "Position", "RangeRuler", "RectanglePath",
+            "Ship", "ShipAction", "ShipActionAction", "ShipBase", "ShipDestroyedAction", "ShipFledAction", "ShipTeam",
+            "SimpleAgent", "SquadBuilder", "TargetLock", "Team", "Token", "TokenFactory", "UpgradeCard",
+            "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "WeaponInterface", "Weapon", "process/Reducer" ];
     testModules = testModules.map(function(testModule)
     {
         return prefix + testModule + suffix;
