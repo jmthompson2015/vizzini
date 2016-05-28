@@ -1,5 +1,6 @@
-define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/PlayState", "ui/SSPanel" ], function(
-        Engine, Environment, Phase, PilotsUI, PlayAreaUI, PlayState, SSPanel)
+define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/StatusBarUI", "ui/PilotsUI",
+        "ui/PlayAreaUI", "ui/PlayState" ], function(Engine, Environment, Phase, Connector, StatusBarUI, PilotsUI,
+        PlayAreaUI, PlayState)
 {
     "use strict";
     function EnvironmentUI(engine, environment)
@@ -17,20 +18,28 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
             return environment;
         };
 
-        var ssPanel = new SSPanel(environment);
+        var connector0 = ReactRedux.connect(Connector.StatusBarUI.mapStateToProps)(StatusBarUI);
+        var statusBarElement = React.createElement(ReactRedux.Provider,
+        {
+            store: environment.store(),
+        }, React.createElement(connector0,
+        {
+            environment: environment,
+        }));
+        var statusBarUI = ReactDOM.render(statusBarElement, document.getElementById("statusBar"));
         var playAreaUI = new PlayAreaUI(environment);
         var firstTokens = environment.getTokensForTeam(environment.firstTeam());
         var element = React.createElement(PilotsUI,
         {
             initialTokens: firstTokens
         });
-        var firstPilots = React.render(element, document.getElementById("firstPilots"));
+        var firstPilots = ReactDOM.render(element, document.getElementById("firstPilots"));
         var secondTokens = environment.getTokensForTeam(environment.secondTeam());
         element = React.createElement(PilotsUI,
         {
             initialTokens: secondTokens
         });
-        var secondPilots = React.render(element, document.getElementById("secondPilots"));
+        var secondPilots = ReactDOM.render(element, document.getElementById("secondPilots"));
         var scale = 1.0;
         var previousPlayState;
 
@@ -193,7 +202,6 @@ define([ "Engine", "Environment", "Phase", "ui/PilotsUI", "ui/PlayAreaUI", "ui/P
                 }
             }
 
-            ssPanel.paintComponent(playState);
             playAreaUI.paintComponent(context, playState);
 
             context.restore();
