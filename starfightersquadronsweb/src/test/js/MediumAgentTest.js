@@ -60,7 +60,7 @@ define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "MediumAgent", "Positi
             QUnit.test("getPlanningAction() Imperial", function(assert)
             {
                 // Setup.
-                var environment = EnvironmentFactory.createCoreSetEnvironment("MediumAgent");
+                var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent");
                 var adjudicator = new Adjudicator();
                 var agent = new MediumAgent("myAgent", Team.IMPERIAL);
 

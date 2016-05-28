@@ -1,7 +1,7 @@
 define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "EnvironmentFactory", "Maneuver",
-        "ModifyDefenseDiceAction", "Pilot", "Position", "SimpleAgent", "SquadBuilder", "Team", "Token" ], function(
-        Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, Maneuver, ModifyDefenseDiceAction,
-        Pilot, Position, SimpleAgent, SquadBuilder, Team, Token)
+        "ModifyDefenseDiceAction", "Pilot", "Position", "SimpleAgent", "SquadBuilder", "Team", "Token",
+        "process/Reducer" ], function(Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, Maneuver,
+        ModifyDefenseDiceAction, Pilot, Position, SimpleAgent, SquadBuilder, Team, Token, Reducer)
 {
     "use strict";
     QUnit.module("SimpleAgent");
@@ -125,7 +125,8 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
     QUnit.test("getDecloakAction()", function(assert)
     {
         // Setup.
-        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var store = Redux.createStore(Reducer.root);
+        var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
         var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(Pilot.SIGMA_SQUADRON_PILOT, agent);

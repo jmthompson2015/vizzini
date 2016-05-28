@@ -1,7 +1,7 @@
 define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position",
-        "RangeRuler", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard" ], function(Adjudicator,
-        CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent,
-        TargetLock, Team, Token, UpgradeCard)
+        "RangeRuler", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard", "process/Reducer" ], function(
+        Adjudicator, CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler,
+        SimpleAgent, TargetLock, Team, Token, UpgradeCard, Reducer)
 {
     "use strict";
     QUnit.module("CombatAction");
@@ -376,7 +376,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         // Setup.
         Token.resetNextId();
         var upgradeKey = UpgradeCard.TACTICIAN;
-        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var store = Redux.createStore(Reducer.root);
+        var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -452,7 +453,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     QUnit.test("CombatAction.doIt() Whisper", function(assert)
     {
         // Setup.
-        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var store = Redux.createStore(Reducer.root);
+        var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var attacker = new Token(Pilot.WHISPER, imperialAgent);
@@ -489,7 +491,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
 
     function createCombatAction(upgradeKey, y)
     {
-        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var store = Redux.createStore(Reducer.root);
+        var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -522,7 +525,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
 
     function createCombatAction2(upgradeKey)
     {
-        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var store = Redux.createStore(Reducer.root);
+        var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);

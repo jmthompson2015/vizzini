@@ -1,8 +1,9 @@
 define(
         [ "Environment", "EnvironmentFactory", "Phase", "Pilot", "Position", "RangeRuler", "Ship",
-                "ShipDestroyedAction", "ShipFledAction", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard" ],
+                "ShipDestroyedAction", "ShipFledAction", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard",
+                "process/Reducer" ],
         function(Environment, EnvironmentFactory, Phase, Pilot, Position, RangeRuler, Ship, ShipDestroyedAction,
-                ShipFledAction, SimpleAgent, TargetLock, Team, Token, UpgradeCard)
+                ShipFledAction, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Reducer)
         {
             "use strict";
             QUnit.module("Environment");
@@ -81,7 +82,8 @@ define(
                 attacker.addAttackerTargetLock(targetLock);
                 defender3.addDefenderTargetLock(targetLock);
 
-                var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+                var store = Redux.createStore(Reducer.root);
+                var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
                 environment.placeToken(new Position(458, 895, -90), attacker);
                 environment.placeToken(new Position(450, 845, 90), defender0);
                 environment.placeToken(new Position(450, 795, 90), defender1);

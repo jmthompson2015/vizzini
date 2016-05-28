@@ -1,6 +1,7 @@
 define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleAgent",
-        "TargetLock", "Team", "Token", "UpgradeCard", "Weapon" ], function(Environment, EnvironmentFactory, FiringArc,
-        Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Weapon)
+        "TargetLock", "Team", "Token", "UpgradeCard", "Weapon", "process/Reducer" ], function(Environment,
+        EnvironmentFactory, FiringArc, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard,
+        Weapon, Reducer)
 {
     "use strict";
     QUnit.module("Weapon");
@@ -81,7 +82,8 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         var weapon = new Weapon("myWeapon", 12, [ RangeRuler.ONE, RangeRuler.TWO ], FiringArc.FORWARD);
 
         // Run.
-        var result = weapon.isDefenderInFiringArc(attackerPosition, attacker.primaryWeapon().primaryFiringArc(), defender, defenderPosition);
+        var result = weapon.isDefenderInFiringArc(attackerPosition, attacker.primaryWeapon().primaryFiringArc(),
+                defender, defenderPosition);
 
         // Verify.
         assert.ok(!result);
@@ -114,13 +116,14 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         // Setup.
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET,
-                UpgradeCard.PROTON_TORPEDOES]);
+        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.MANGLER_CANNON,
+                UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES ]);
         var weapon0 = attacker.secondaryWeapons()[0]; // Mangler cannon.
         var weapon1 = attacker.secondaryWeapons()[1]; // Blaster turret.
         var weapon2 = attacker.secondaryWeapons()[2]; // Cluster missiles.
         var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-        var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+        var store = Redux.createStore(Reducer.root);
+        var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         environment.placeToken(new Position(458, 895, -90), attacker);
         environment.placeToken(new Position(450, 845, 90), defender);
 
