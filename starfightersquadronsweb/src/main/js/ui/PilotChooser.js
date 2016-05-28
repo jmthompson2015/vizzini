@@ -181,7 +181,7 @@ define([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "ui
                 {
                     initialToken: token
                 });
-                this.pilotCardUI = React.render(element, document.getElementById("pilotCardPanel"));
+                this.pilotCardUI = ReactDOM.render(element, document.getElementById("pilotCardPanel"));
             }
             else
             {

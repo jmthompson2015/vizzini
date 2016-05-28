@@ -56,7 +56,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                             choices: choices,
                             callback: finishWeaponAndDefender
                         });
-                        React.render(element, document.getElementById("inputArea"));
+                        ReactDOM.render(element, document.getElementById("inputArea"));
                         window.dispatchEvent(new Event('resize'));
 
                         // Wait for the user to respond.
@@ -87,7 +87,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                         okFunction: finishDealDamage,
                     });
 
-                    React.render(element, document.getElementById("inputArea"));
+                    ReactDOM.render(element, document.getElementById("inputArea"));
                     window.dispatchEvent(new Event('resize'));
                 };
 
@@ -111,7 +111,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                         shipActions: decloakActions,
                         callback: finishDecloakAction
                     });
-                    React.render(element, document.getElementById("inputArea"));
+                    ReactDOM.render(element, document.getElementById("inputArea"));
                     window.dispatchEvent(new Event('resize'));
 
                     // Wait for the user to respond.
@@ -150,7 +150,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                             modifications: modifications,
                             okFunction: finishModifyAttackDice,
                         });
-                        React.render(element, document.getElementById("inputArea"));
+                        ReactDOM.render(element, document.getElementById("inputArea"));
                         window.dispatchEvent(new Event('resize'));
 
                         // Wait for the user to respond.
@@ -193,7 +193,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                             modifications: modifications,
                             okFunction: finishModifyDefenseDice,
                         });
-                        React.render(element, document.getElementById("inputArea"));
+                        ReactDOM.render(element, document.getElementById("inputArea"));
                         window.dispatchEvent(new Event('resize'));
 
                         // Wait for the user to respond.
@@ -227,7 +227,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                         tokens: tokens,
                         callback: finishPlanningAction
                     });
-                    React.render(element, document.getElementById("inputArea"));
+                    ReactDOM.render(element, document.getElementById("inputArea"));
                     window.dispatchEvent(new Event('resize'));
 
                     // Wait for the user to respond.
@@ -252,7 +252,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                             shipActions: shipActions,
                             callback: finishShipAction
                         });
-                        React.render(element, document.getElementById("inputArea"));
+                        ReactDOM.render(element, document.getElementById("inputArea"));
                         window.dispatchEvent(new Event('resize'));
 
                         // Wait for the user to respond.
