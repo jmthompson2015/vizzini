@@ -1,5 +1,6 @@
 define([ "UpgradeCard" ], function(UpgradeCard)
 {
+    "use strict";
     var EnergyAllocationPanel = React.createClass(
     {
         render: function()
