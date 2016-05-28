@@ -7,8 +7,12 @@
 <link rel="stylesheet" href="../../../main/css/style.css">
 
 <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
-<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Team"></script>
+<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
 
 <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -25,8 +29,9 @@
         var LOGGER = new Logger();
 
         require([ "Environment", "Pilot", "Position", "RangeRuler", "SimpleAgent", "SquadBuilder", "Team", "Token",
-                "UpgradeCard", "ui/WeaponAndDefenderChooser" ], function(Environment, Pilot, Position, RangeRuler,
-                SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, WeaponAndDefenderChooser)
+                "UpgradeCard", "process/Reducer", "ui/WeaponAndDefenderChooser" ], function(Environment, Pilot,
+                Position, RangeRuler, SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, Reducer,
+                WeaponAndDefenderChooser)
         {
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
             var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -38,7 +43,8 @@
             var defender3 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
             var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
             var defender5 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-            var environment = new Environment(Team.IMPERIAL, Team.REBEL);
+            var store = Redux.createStore(Reducer.root);
+            var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
 
             environment.placeToken(new Position(458, 895, -90), attacker);
             environment.placeToken(new Position(450, 845, 90), defender0);
@@ -61,7 +67,7 @@
                 choices: choices,
                 callback: callback
             });
-            React.render(element, document.getElementById("inputArea"));
+            ReactDOM.render(element, document.getElementById("inputArea"));
         });
     </script>
 </body>

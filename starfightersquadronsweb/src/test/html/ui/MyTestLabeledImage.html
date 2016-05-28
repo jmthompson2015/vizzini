@@ -6,8 +6,12 @@
 <link rel="stylesheet" href="../../../main/css/style.css">
 
 <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
-<script src="../../../../../coreweb/lib/react/react-0.13.3.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Team"></script>
+<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
 
 <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -52,7 +56,7 @@
                 labelClass: "pilotSkillValue",
                 title: "Pilot Skill",
             });
-            React.render(element, document.getElementById("imperialSkillPanel"));
+            ReactDOM.render(element, document.getElementById("imperialSkillPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -61,7 +65,7 @@
                 labelClass: "pilotSkillValue",
                 title: "Pilot Skill",
             });
-            React.render(element, document.getElementById("rebelSkillPanel"));
+            ReactDOM.render(element, document.getElementById("rebelSkillPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -70,7 +74,7 @@
                 labelClass: "pilotSkillValue",
                 title: "Pilot Skill",
             });
-            React.render(element, document.getElementById("scumSkillPanel"));
+            ReactDOM.render(element, document.getElementById("scumSkillPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -79,7 +83,7 @@
                 labelClass: "labelImageText",
                 title: "Cloak",
             });
-            React.render(element, document.getElementById("cloakPanel1"));
+            ReactDOM.render(element, document.getElementById("cloakPanel1"));
 
             var count = 1;
             var element = React.createElement(LabeledImage,
@@ -89,7 +93,7 @@
                 labelClass: "labelImageText",
                 title: "Cloak",
             });
-            React.render(element, document.getElementById("cloakPanel2"));
+            ReactDOM.render(element, document.getElementById("cloakPanel2"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -98,7 +102,7 @@
                 labelClass: "labelImageText",
                 title: "Evade",
             });
-            React.render(element, document.getElementById("evadePanel"));
+            ReactDOM.render(element, document.getElementById("evadePanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -107,7 +111,7 @@
                 labelClass: "labelImageText",
                 title: "Focus",
             });
-            React.render(element, document.getElementById("focusPanel"));
+            ReactDOM.render(element, document.getElementById("focusPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -116,7 +120,7 @@
                 labelClass: "labelImageText",
                 title: "Shield",
             });
-            React.render(element, document.getElementById("shieldPanel"));
+            ReactDOM.render(element, document.getElementById("shieldPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -125,7 +129,7 @@
                 labelClass: "labelImageText",
                 title: "Stress",
             });
-            React.render(element, document.getElementById("stressPanel"));
+            ReactDOM.render(element, document.getElementById("stressPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -135,7 +139,7 @@
                 title: "Attacker Target Lock",
                 width: 38,
             });
-            React.render(element, document.getElementById("atlPanel"));
+            ReactDOM.render(element, document.getElementById("atlPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -145,7 +149,7 @@
                 title: "Defender Target Lock",
                 width: 38,
             });
-            React.render(element, document.getElementById("dtlPanel"));
+            ReactDOM.render(element, document.getElementById("dtlPanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -154,7 +158,7 @@
                 labelClass: "damageImageText",
                 title: "Damage",
             });
-            React.render(element, document.getElementById("damagePanel"));
+            ReactDOM.render(element, document.getElementById("damagePanel"));
 
             var element = React.createElement(LabeledImage,
             {
@@ -163,7 +167,7 @@
                 labelClass: "damageImageText",
                 title: "Critical Damage",
             });
-            React.render(element, document.getElementById("criticalDamagePanel"));
+            ReactDOM.render(element, document.getElementById("criticalDamagePanel"));
         });
     </script>
 </body>
