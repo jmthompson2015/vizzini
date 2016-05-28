@@ -52,9 +52,9 @@ table {
     background-color: #343434;
 }
 
-#BACKGROUND_LIGHT, #helpLink, #messageArea, .namePanel, .newGamePanel, .optionPane, .pilotCardUIDescription,
+#BACKGROUND_LIGHT, #messageArea, .namePanel, .newGamePanel, .optionPane, .pilotCardUIDescription,
     .pilotCardUIShipActions, .shipActionPanelCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName,
-    .squadChooser, .squadUI, #ssPanel, .upgradeCardUI, .backgroundLight {
+    .squadChooser, .squadUI, .statusBarUI, .upgradeCardUI, .backgroundLight {
     background-color: #F0F0F0;
 }
 
@@ -67,8 +67,8 @@ table {
     background-repeat: no-repeat;
 }
 
-#BORDER_BLACK, .namePanel, .newGamePanel, .pilotCardUIDescription, .squadUI tr td, .squadUI tr th, .upgradeCardUI,
-    .upgradeCardUIName, .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .borderBlack {
+#BORDER_BLACK, .namePanel, .newGamePanel, .pilotCardUIDescription, .squadUI tr td, .squadUI tr th, .statusBarUICell,
+    .upgradeCardUI, .upgradeCardUIName, .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .borderBlack {
     border: 1px solid black;
 }
 
@@ -190,7 +190,7 @@ table {
 }
 
 #WIDTH_FULL, #mainTable, .nameTable, .pilotCardUITokensPanel, .pilotCardUITokensTable, .pilotCardUIUpgradeCell,
-    .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .squadBuilderAdd, .tokensPanel, .widthFull {
+    .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .squadBuilderAdd, .statusBarUI, .tokensPanel, .widthFull {
     width: 100%;
 }
 
