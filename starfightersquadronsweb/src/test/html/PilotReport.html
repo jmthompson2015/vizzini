@@ -152,14 +152,14 @@
                 }, cells));
             });
 
-            React.render(React.DOM.span({}, pilotRows.length), document.getElementById("count"));
+            ReactDOM.render(React.DOM.span({}, pilotRows.length), document.getElementById("count"));
             var element = Table(
             {
                 id: "pilotTable",
                 columns: PilotColumns,
                 sortable: true,
             }, rows);
-            React.render(element, document.getElementById("panel"));
+            ReactDOM.render(element, document.getElementById("panel"));
 
             function createCell(key, column, value)
             {

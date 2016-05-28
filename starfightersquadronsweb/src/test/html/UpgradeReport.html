@@ -154,14 +154,14 @@
                 }, cells));
             });
 
-            React.render(React.DOM.span({}, upgradeRows.length), document.getElementById("count"));
+            ReactDOM.render(React.DOM.span({}, upgradeRows.length), document.getElementById("count"));
             var element = Table(
             {
                 id: "upgradeTable",
                 columns: UpgradeColumns,
                 sortable: true,
             }, rows);
-            React.render(element, document.getElementById("panel"));
+            ReactDOM.render(element, document.getElementById("panel"));
 
             function createCell(key, column, value)
             {
