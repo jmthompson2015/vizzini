@@ -3,6 +3,8 @@ define(function()
     "use strict";
     var Phase =
     {
+        SETUP: "setup",
+
         PLANNING_START: "planningStart",
         PLANNING_END: "planningEnd",
 
@@ -33,6 +35,11 @@ define(function()
 
         properties:
         {
+            "setup":
+            {
+                name: "Setup",
+                value: "setup",
+            },
             "planningStart":
             {
                 name: "Planning (start)",
