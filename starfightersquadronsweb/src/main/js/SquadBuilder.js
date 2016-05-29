@@ -223,8 +223,7 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
     }));
 
     // Thug Life
-    // - Syndicate Thug + Twin Laser Turret + Unhinged Astromech x2
-    // - Syndicate Thug + Ion Cannon Turret + R4 Astromech x2
+    // - Syndicate Thug + Twin Laser Turret + Unhinged Astromech x4
     SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life v2", 2015, "Y-Wings x4", function(agent)
     {
         var answer = [];
@@ -409,8 +408,7 @@ define([ "DualToken", "Pilot", "Team", "Token", "UpgradeCard" ], function(DualTo
     }));
 
     // Thug Life
-    // - Syndicate Thug + Twin Laser Turret + Unhinged Astromech x2
-    // - Syndicate Thug + Ion Cannon Turret + R4 Astromech x2
+    // - Syndicate Thug + BTL-A4 + Ion Cannon Turret + R4 Agromech x4
     SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life v1", 2014, "Y-Wings x4", function(agent)
     {
         var answer = [];
