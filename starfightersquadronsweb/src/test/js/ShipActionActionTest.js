@@ -10,7 +10,8 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
         Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
-        environment.removeToken(token);
+        var tokenPosition = environment.getPositionFor(token);
+        environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
         var action = new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD);
 
@@ -50,7 +51,8 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
         Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
-        environment.removeToken(token);
+        var tokenPosition = environment.getPositionFor(token);
+        environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
         var action = new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD);
 
@@ -252,7 +254,8 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
         Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
-        environment.removeToken(token);
+        var tokenPosition = environment.getPositionFor(token);
+        environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
         token.cloak().increase();
         var action = new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD);

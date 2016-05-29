@@ -81,7 +81,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
         var agent = token.agent();
         var position = environment.getPositionFor(token);
         LOGGER.debug("before position = " + position);
-        environment.removeToken(token);
+        environment.removeToken(position);
         position = new Position(21, position.y(), position.heading());
         environment.placeToken(position, token);
 

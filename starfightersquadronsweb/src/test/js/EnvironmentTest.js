@@ -214,8 +214,9 @@ define(
                 Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
-                var attackerPosition = new Position(458, 50, -90);
-                environment.removeToken(attacker);
+                var attackerPosition = environment.getPositionFor(attacker);
+                environment.removeToken(attackerPosition);
+                attackerPosition = new Position(458, 50, -90);
                 environment.placeToken(attackerPosition, attacker);
 
                 // Run.
@@ -233,8 +234,9 @@ define(
                 Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
-                var attackerPosition = new Position(458, 50, -90);
-                environment.removeToken(attacker);
+                var attackerPosition = environment.getPositionFor(attacker);
+                environment.removeToken(attackerPosition);
+                attackerPosition = new Position(458, 50, -90);
                 environment.placeToken(attackerPosition, attacker);
 
                 // Run.
@@ -251,8 +253,9 @@ define(
                 Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[0]; // TIE Fighter
-                var attackerPosition = new Position(458, 50, -90);
-                environment.removeToken(attacker);
+                var attackerPosition = environment.getPositionFor(attacker);
+                environment.removeToken(attackerPosition);
+                attackerPosition = new Position(458, 50, -90);
                 environment.placeToken(attackerPosition, attacker);
 
                 // Run.
@@ -479,8 +482,9 @@ define(
                 Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
-                var attackerPosition = new Position(458, 50, -90);
-                environment.removeToken(attacker);
+                var attackerPosition = environment.getPositionFor(attacker);
+                environment.removeToken(attackerPosition);
+                attackerPosition = new Position(458, 50, -90);
                 environment.placeToken(attackerPosition, attacker);
 
                 // Run.
@@ -870,8 +874,9 @@ define(
                 Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
-                var attackerPosition = new Position(458, 50, -90);
-                environment.removeToken(attacker);
+                var attackerPosition = environment.getPositionFor(attacker);
+                environment.removeToken(attackerPosition);
+                 attackerPosition = new Position(458, 50, -90);
                 environment.placeToken(attackerPosition, attacker);
 
                 // Run.

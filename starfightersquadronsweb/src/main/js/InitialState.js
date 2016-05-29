@@ -10,6 +10,9 @@ define([ "Phase" ], function(Phase)
 
         this.firstAgent = undefined;
         this.secondAgent = undefined;
+
+        this.positionToToken = {};
+        this.tokenIdToPosition = {};
     }
 
     if (Object.freeze)

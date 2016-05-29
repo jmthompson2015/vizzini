@@ -35,9 +35,6 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         var that = this;
 
-        var positionToToken = {};
-        var tokenToPosition = {};
-
         var damageDeck = DamageCard.createDeck();
         var damageDiscardPile = [];
 
@@ -228,7 +225,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             }
             else
             {
-                answer = tokenToPosition[token];
+                answer = store.getState().tokenIdToPosition[token.id()];
             }
 
             return answer;
@@ -275,7 +272,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.getTokenAt = function(position)
         {
-            return positionToToken[position];
+            return store.getState().positionToToken[position];
         };
 
         this.getTokenById = function(tokenId)
@@ -527,8 +524,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.placeToken = function(position, token)
         {
-            positionToToken[position] = token;
-            tokenToPosition[token] = position;
+            store.dispatch(Action.placeToken(position, token));
         };
 
         this.playFormat = function()
@@ -551,9 +547,9 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.removeToken = function(position)
         {
-            var token = positionToToken[position];
-            delete positionToToken[position];
-            delete tokenToPosition[token];
+            InputValidator.validateNotNull("position", position);
+
+            store.dispatch(Action.removeTokenAt(position));
         };
 
         this.round = function()
@@ -574,6 +570,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
         this.tokens = function(isPure)
         {
             var answer = [];
+            var positionToToken = store.getState().positionToToken;
 
             for ( var position in positionToToken)
             {
@@ -596,6 +593,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
         this.toString = function()
         {
             var answer = "";
+            var positionToToken = store.getState().positionToToken;
 
             for ( var position in positionToToken)
             {

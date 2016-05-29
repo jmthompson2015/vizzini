@@ -39,7 +39,8 @@ define([ "ActivationAction", "Adjudicator", "EnvironmentFactory", "Maneuver", "P
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var token = environment.tokens()[2]; // X-Wing
-        environment.removeToken(token);
+        var tokenPosition = environment.getPositionFor(token);
+        environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
         token.cloak().increase();
         var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
