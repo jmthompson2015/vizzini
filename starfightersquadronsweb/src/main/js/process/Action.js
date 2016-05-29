@@ -4,10 +4,14 @@ define(function()
     var Action = {};
 
     Action.ADD_ROUND = "addRound";
+    Action.DISCARD_DAMAGE = "discardDamage";
+    Action.DRAW_DAMAGE = "drawDamage";
     Action.PLACE_TOKEN = "placeToken";
     Action.REMOVE_TOKEN = "removeToken";
     Action.REMOVE_TOKEN_AT = "removeTokenAt";
+    Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
+    Action.SET_DAMAGE_DECK = "setDamageDeck";
     Action.SET_FIRST_AGENT = "setFirstAgent";
     Action.SET_PHASE = "setPhase";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
@@ -21,6 +25,28 @@ define(function()
         {
             type: Action.ADD_ROUND,
             value: myValue,
+        });
+    };
+
+    Action.discardDamage = function(damage)
+    {
+        InputValidator.validateNotNull("damage", damage);
+
+        return (
+        {
+            type: Action.DISCARD_DAMAGE,
+            damage: damage,
+        });
+    };
+
+    Action.drawDamage = function(damage)
+    {
+        InputValidator.validateNotNull("damage", damage);
+
+        return (
+        {
+            type: Action.DRAW_DAMAGE,
+            damage: damage,
         });
     };
 
@@ -59,12 +85,31 @@ define(function()
         });
     };
 
+    Action.replenishDamageDeck = function()
+    {
+        return (
+        {
+            type: Action.REPLENISH_DAMAGE_DECK,
+        });
+    };
+
     Action.setActiveToken = function(tokenId)
     {
         return (
         {
             type: Action.SET_ACTIVE_TOKEN,
             tokenId: tokenId,
+        });
+    };
+
+    Action.setDamageDeck = function(damageDeck)
+    {
+        InputValidator.validateNotNull("damageDeck", damageDeck);
+
+        return (
+        {
+            type: Action.SET_DAMAGE_DECK,
+            damageDeck: damageDeck,
         });
     };
 

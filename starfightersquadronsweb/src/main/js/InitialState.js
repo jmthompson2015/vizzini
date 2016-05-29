@@ -13,6 +13,9 @@ define([ "Phase" ], function(Phase)
 
         this.positionToToken = {};
         this.tokenIdToPosition = {};
+
+        this.damageDeck = [];
+        this.damageDiscardPile = [];
     }
 
     if (Object.freeze)

@@ -3,6 +3,45 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
     "use strict";
     var Reducer = {};
 
+    Reducer.damageDeck = function(state, action)
+    {
+        LOGGER.debug("positionToToken() type = " + action.type);
+
+        var newDamageDeck;
+
+        switch (action.type)
+        {
+        case Action.DRAW_DAMAGE:
+            newDamageDeck = state.slice();
+            newDamageDeck.vizziniRemove(action.damage);
+            return newDamageDeck;
+        case Action.SET_DAMAGE_DECK:
+            newDamageDeck = action.damageDeck.slice();
+            return newDamageDeck;
+        default:
+            LOGGER.warn("Reducer.damageDeck: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
+    Reducer.damageDiscardPile = function(state, action)
+    {
+        LOGGER.debug("positionToToken() type = " + action.type);
+
+        var newDamageDiscardPile;
+
+        switch (action.type)
+        {
+        case Action.DISCARD_DAMAGE:
+            newDamageDiscardPile = state.slice();
+            newDamageDiscardPile.push(action.damage);
+            return newDamageDiscardPile;
+        default:
+            LOGGER.warn("Reducer.damageDiscardPile: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.positionToToken = function(state, action)
     {
         LOGGER.debug("positionToToken() type = " + action.type);
@@ -61,6 +100,17 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 round: newRound,
             });
+        case Action.DISCARD_DAMAGE:
+            return Object.assign({}, state,
+            {
+                damageDiscardPile: Reducer.damageDiscardPile(state.damageDiscardPile, action),
+            });
+        case Action.DRAW_DAMAGE:
+        case Action.SET_DAMAGE_DECK:
+            return Object.assign({}, state,
+            {
+                damageDeck: Reducer.damageDeck(state.damageDeck, action),
+            });
         case Action.PLACE_TOKEN:
             var newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
             var newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
@@ -88,6 +138,14 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 positionToToken: newPositionToToken,
                 tokenIdToPosition: newTokenIdToPosition,
+            });
+        case Action.REPLENISH_DAMAGE_DECK:
+            var newDamageDeck = state.damageDiscardPile.slice();
+            newDamageDeck.vizziniShuffle();
+            return Object.assign({}, state,
+            {
+                damageDeck: newDamageDeck,
+                damageDiscardPile: [],
             });
         case Action.SET_ACTIVE_TOKEN:
             return Object.assign({}, state,

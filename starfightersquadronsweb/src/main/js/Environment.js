@@ -35,8 +35,8 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         var that = this;
 
-        var damageDeck = DamageCard.createDeck();
-        var damageDiscardPile = [];
+        // Initialize the damage deck.
+        store.dispatch(Action.setDamageDeck(DamageCard.createDeck()));
 
         this.activeToken = function(newActiveToken)
         {
@@ -46,7 +46,6 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
                 LOGGER.info("Active Token: " + newActiveToken);
                 store.dispatch(Action.setActiveToken(newActiveToken.id()));
-                this.trigger(Environment.ACTIVE_TOKEN_EVENT, newActiveToken);
             }
 
             return this.getTokenById(store.getState().activeTokenId);
@@ -90,32 +89,32 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.discardAllDamage = function(damages)
         {
-            Array.prototype.push.apply(damageDiscardPile, damages);
+            damages.forEach(function(damage)
+            {
+                this.discardDamage(damage);
+            }, this);
         };
 
         this.discardDamage = function(damage)
         {
-            damageDiscardPile.push(damage);
+            store.dispatch(Action.discardDamage(damage));
         };
 
         this.drawDamage = function()
         {
             var answer;
 
-            if (damageDeck.length === 0)
+            if (store.getState().damageDeck.length === 0)
             {
                 // Replenish the damage deck from the discard pile.
-                LOGGER
-                        .debug("Damage deck empty. Shuffling " + damageDiscardPile.length +
-                                " discards into damage deck.");
-                Array.prototype.push.apply(damageDeck, damageDiscardPile);
-                damageDiscardPile = [];
-                damageDeck.vizziniShuffle();
+                LOGGER.debug("Damage deck empty. Shuffling " + store.getState().damageDiscardPile.length +
+                        " discards into damage deck.");
+                store.dispatch(Action.replenishDamageDeck());
             }
 
-            LOGGER.trace("damageDeck.length = " + damageDeck.length);
-            answer = damageDeck[0];
-            damageDeck.splice(0, 1);
+            LOGGER.trace("damageDeck.length = " + store.getState().damageDeck.length);
+            answer = store.getState().damageDeck[0];
+            store.dispatch(Action.drawDamage(answer));
 
             return answer;
         };
@@ -471,7 +470,6 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             store.dispatch(Action.addRound());
 
             LOGGER.info("Round: " + store.getState().round);
-            this.trigger(Environment.ROUND_EVENT, store.getState().round);
         };
 
         this.phase = function(newPhase)
@@ -738,9 +736,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
         }
     }
 
-    Environment.ACTIVE_TOKEN_EVENT = "activeToken";
     Environment.PHASE_EVENT = "phase";
-    Environment.ROUND_EVENT = "round";
     Environment.SHIP_DESTROYED_EVENT = "shipDestroyed";
     Environment.SHIP_FLED_EVENT = "shipFled";
     Environment.UPDATE_TRIGGER_EVENT = "updateTrigger";

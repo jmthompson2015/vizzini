@@ -1,6 +1,6 @@
-define([ "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "Team", "Token", "UpgradeCard", "process/Action",
-        "process/Reducer" ], function(Phase, Pilot, PlayFormat, Position, SimpleAgent, Team, Token, UpgradeCard,
-        Action, Reducer)
+define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "Team", "Token", "UpgradeCard",
+        "process/Action", "process/Reducer" ], function(DamageCard, Phase, Pilot, PlayFormat, Position, SimpleAgent,
+        Team, Token, UpgradeCard, Action, Reducer)
 {
     "use strict";
     QUnit.module("Reducer");
@@ -22,6 +22,43 @@ define([ "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "Team", "Tok
 
         // Verify.
         assert.equal(store.getState().round, 3);
+    });
+
+    QUnit.test("discardDamage()", function(assert)
+    {
+        // Setup.
+        var damageDeck = DamageCard.createDeck();
+        var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setDamageDeck(damageDeck));
+        var damage = damageDeck[0];
+        store.dispatch(Action.drawDamage(damage));
+        assert.equal(store.getState().damageDeck.length, 32);
+        assert.equal(store.getState().damageDiscardPile.length, 0);
+
+        // Run.
+        store.dispatch(Action.discardDamage(damage));
+
+        // Verify.
+        assert.equal(store.getState().damageDeck.length, 32);
+        assert.equal(store.getState().damageDiscardPile.length, 1);
+    });
+
+    QUnit.test("drawDamage()", function(assert)
+    {
+        // Setup.
+        var damageDeck = DamageCard.createDeck();
+        var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setDamageDeck(damageDeck));
+        var damage = damageDeck[0];
+        assert.equal(store.getState().damageDeck.length, 33);
+        assert.equal(store.getState().damageDiscardPile.length, 0);
+
+        // Run.
+        store.dispatch(Action.drawDamage(damage));
+
+        // Verify.
+        assert.equal(store.getState().damageDeck.length, 32);
+        assert.equal(store.getState().damageDiscardPile.length, 0);
     });
 
     QUnit.test("placeToken()", function(assert)
@@ -86,6 +123,29 @@ define([ "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "Team", "Tok
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
     });
 
+    QUnit.test("replenishDamageDeck()", function(assert)
+    {
+        // Setup.
+        var damageDeck = DamageCard.createDeck();
+        var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setDamageDeck(damageDeck));
+        for (var i = 0; i < 33; i++)
+        {
+            var damage = store.getState().damageDeck[0];
+            store.dispatch(Action.drawDamage(damage));
+            store.dispatch(Action.discardDamage(damage));
+        }
+        assert.equal(store.getState().damageDeck.length, 0);
+        assert.equal(store.getState().damageDiscardPile.length, 33);
+
+        // Run.
+        store.dispatch(Action.replenishDamageDeck());
+
+        // Verify.
+        assert.equal(store.getState().damageDeck.length, 33);
+        assert.equal(store.getState().damageDiscardPile.length, 0);
+    });
+
     QUnit.test("setActiveToken()", function(assert)
     {
         // Setup.
@@ -103,6 +163,21 @@ define([ "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "Team", "Tok
 
         // Verify.
         assert.equal(store.getState().activeTokenId, 2);
+    });
+
+    QUnit.test("setDamageDeck()", function(assert)
+    {
+        // Setup.
+        var damageDeck = DamageCard.createDeck();
+        var store = Redux.createStore(Reducer.root);
+        assert.equal(store.getState().damageDeck.length, 0);
+
+        // Run.
+        store.dispatch(Action.setDamageDeck(damageDeck));
+
+        // Verify.
+        assert.equal(store.getState().damageDeck.length, 33);
+        assert.equal(store.getState().damageDeck[0], damageDeck[0]);
     });
 
     QUnit.test("setFirstAgent()", function(assert)
