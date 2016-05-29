@@ -7,6 +7,9 @@ define([ "Phase" ], function(Phase)
         this.round = 0;
         this.phaseKey = Phase.SETUP;
         this.activeTokenId = undefined;
+
+        this.firstAgent = undefined;
+        this.secondAgent = undefined;
     }
 
     if (Object.freeze)

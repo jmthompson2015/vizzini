@@ -35,9 +35,6 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         var that = this;
 
-        var firstAgent;
-        var secondAgent;
-
         var positionToToken = {};
         var tokenToPosition = {};
 
@@ -128,7 +125,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.firstAgent = function()
         {
-            return firstAgent;
+            return store.getState().firstAgent;
         };
 
         this.firstTeam = function()
@@ -504,8 +501,8 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             InputValidator.validateNotNull("agent2", agent2);
             InputValidator.validateNotNull("squad2", squad2);
 
-            firstAgent = agent1;
-            secondAgent = agent2;
+            store.dispatch(Action.setFirstAgent(agent1));
+            store.dispatch(Action.setSecondAgent(agent2));
 
             Token.resetNextId();
             var firstSquad = squad1.map(function(token)
@@ -566,7 +563,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.secondAgent = function()
         {
-            return secondAgent;
+            return store.getState().secondAgent;
         };
 
         this.secondTeam = function()

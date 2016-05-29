@@ -5,8 +5,10 @@ define(function()
 
     Action.ADD_ROUND = "addRound";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
+    Action.SET_FIRST_AGENT = "setFirstAgent";
     Action.SET_PHASE = "setPhase";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
+    Action.SET_SECOND_AGENT = "setSecondAgent";
 
     Action.setActiveToken = function(tokenId)
     {
@@ -25,6 +27,17 @@ define(function()
         {
             type: Action.ADD_ROUND,
             value: myValue,
+        });
+    };
+
+    Action.setFirstAgent = function(agent)
+    {
+        InputValidator.validateNotNull("agent", agent);
+
+        return (
+        {
+            type: Action.SET_FIRST_AGENT,
+            agent: agent,
         });
     };
 
@@ -47,6 +60,17 @@ define(function()
         {
             type: Action.SET_PLAY_FORMAT,
             playFormatKey: playFormatKey,
+        });
+    };
+
+    Action.setSecondAgent = function(agent)
+    {
+        InputValidator.validateNotNull("agent", agent);
+
+        return (
+        {
+            type: Action.SET_SECOND_AGENT,
+            agent: agent,
         });
     };
 

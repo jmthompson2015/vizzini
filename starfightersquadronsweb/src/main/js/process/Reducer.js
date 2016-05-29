@@ -22,6 +22,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 activeTokenId: action.tokenId,
             });
+        case Action.SET_FIRST_AGENT:
+            return Object.assign({}, state,
+            {
+                firstAgent: action.agent,
+            });
         case Action.SET_PHASE:
             return Object.assign({}, state,
             {
@@ -31,6 +36,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 playFormatKey: action.playFormatKey,
+            });
+        case Action.SET_SECOND_AGENT:
+            return Object.assign({}, state,
+            {
+                secondAgent: action.agent,
             });
         default:
             LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
