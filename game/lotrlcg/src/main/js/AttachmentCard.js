@@ -31,7 +31,9 @@ define(
                 DUNEDAIN_WARNING: "dunedainWarning",
                 DWARROWDELF_AXE: "dwarrowdelfAxe",
                 DWARVEN_AXE: "dwarvenAxe",
+                ELF_FRIEND: "elfFriend",
                 ELVEN_MAIL: "elvenMail",
+                ELVEN_SPEAR: "elvenSpear",
                 ENT_DRAUGHT: "entDraught",
                 EVER_MY_HEART_RISES: "everMyHeartRises",
                 EXPERT_TREASURE_HUNTER: "expertTreasureHunter",
@@ -57,6 +59,7 @@ define(
                 KEYS_OF_ORTHANC: "keysOfOrthanc",
                 KING_UNDER_THE_MOUNTAIN: "kingUnderTheMountain",
                 LEAF_BROOCH: "leafBrooch",
+                LEGACY_OF_DURIN: "legacyOfDurin",
                 LEMBAS: "lembas",
                 LIGHT_OF_VALINOR: "lightOfValinor",
                 LORD_OF_MORTHOND: "lordOfMorthond",
@@ -77,16 +80,20 @@ define(
                 POWER_IN_THE_EARTH: "powerInTheEarth",
                 PROTECTOR_OF_LORIEN: "protectorOfLorien",
                 RANGER_BOW: "rangerBow",
+                RANGER_PROVISIONS: "rangerProvisions",
                 RANGER_SPIKES: "rangerSpikes",
                 RAVEN_WINGED_HELM: "ravenWingedHelm",
+                RESOURCEFUL: "resourceful",
                 RING_OF_BARAHIR: "ringOfBarahir",
                 RING_MAIL: "ringMail",
                 RIVENDELL_BLADE: "rivendellBlade",
+                RIVENDELL_BOW: "rivendellBow",
                 ROHAN_WARHORSE: "rohanWarhorse",
                 SCROLL_OF_ISILDUR: "scrollOfIsildur",
                 SECRET_VIGIL: "secretVigil",
                 SELF_PRESERVATION: "selfPreservation",
                 SHADOWFAX: "shadowfax",
+                SILVER_HARP: "silverHarp",
                 SILVER_LAMP: "silverLamp",
                 SONG_OF_BATTLE: "songOfBattle",
                 SONG_OF_EARENDIL: "songOfEarendil",
@@ -98,10 +105,12 @@ define(
                 SPEAR_OF_THE_CITADEL: "spearOfTheCitadel",
                 SPEAR_OF_THE_MARK: "spearOfTheMark",
                 STAR_BROOCH: "starBrooch",
+                STEED_OF_IMLADRIS: "steedOfImladris",
                 STEED_OF_THE_MARK: "steedOfTheMark",
                 STEWARD_OF_GONDOR: "stewardOfGondor",
                 SUPPORT_OF_THE_EAGLES: "supportOfTheEagles",
                 SWORD_OF_MORTHOND: "swordOfMorthond",
+                SWORD_THAT_WAS_BROKEN: "swordThatWasBroken",
                 THE_DAYS_RISING: "theDaysRising",
                 THE_FALL_OF_GIL_GALAD: "theFallOfGilGalad",
                 THE_FAVOR_OF_THE_LADY: "theFavorOfTheLady",
@@ -379,6 +388,17 @@ define(
                         cardSetKey: CardSet.CORE,
                         value: "dwarvenAxe",
                     },
+                    "elfFriend":
+                    {
+                        name: "Elf-Friend",
+                        cost: 1,
+                        traitKeys: [ Trait.TITLE ],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                        cardSetNumber: 93,
+                        value: "elfFriend",
+                    },
                     "elvenMail":
                     {
                         name: "Elven Mail",
@@ -389,6 +409,17 @@ define(
                         cardSubsetKey: CardSubset.TRM2_THE_THREE_TRIALS,
                         cardSetNumber: 29,
                         value: "elvenMail",
+                    },
+                    "elvenSpear":
+                    {
+                        name: "Elven Spear",
+                        cost: 0,
+                        traitKeys: [ Trait.ITEM, Trait.WEAPON ],
+                        sphereKey: Sphere.TACTICS,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                        cardSetNumber: 87,
+                        value: "elvenSpear",
                     },
                     "entDraught":
                     {
@@ -645,6 +676,17 @@ define(
                         cardSetNumber: 34,
                         value: "leafBrooch",
                     },
+                    "legacyOfDurin":
+                    {
+                        name: "Legacy of Durin",
+                        isUnique: true,
+                        cost: 1,
+                        traitKeys: [ Trait.CONDITION ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.DWARROWDELF,
+                        cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                        value: "legacyOfDurin",
+                    },
                     "lembas":
                     {
                         name: "Lembas",
@@ -851,6 +893,17 @@ define(
                         cardSubsetKey: CardSubset.ATS4_ASSAULT_ON_OSGILIATH,
                         value: "rangerBow",
                     },
+                    "rangerProvisions":
+                    {
+                        name: "Ranger Provisions",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                        cardSetNumber: 55,
+                        value: "rangerProvisions",
+                    },
                     "rangerSpikes":
                     {
                         name: "Ranger Spikes",
@@ -870,6 +923,16 @@ define(
                         cardSubsetKey: CardSubset.AA1_THE_WASTES_OF_ERIADOR,
                         cardSetNumber: 5,
                         value: "ravenWingedHelm",
+                    },
+                    "resourceful":
+                    {
+                        name: "Resourceful",
+                        cost: 4,
+                        traitKeys: [],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.DWARROWDELF,
+                        cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                        value: "resourceful",
                     },
                     "ringOfBarahir":
                     {
@@ -900,6 +963,16 @@ define(
                         cardSetKey: CardSet.DWARROWDELF,
                         cardSubsetKey: CardSubset.D2_ROAD_TO_RIVENDELL,
                         value: "rivendellBlade",
+                    },
+                    "rivendellBow":
+                    {
+                        name: "Rivendell Bow",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM, Trait.WEAPON ],
+                        sphereKey: Sphere.TACTICS,
+                        cardSetKey: CardSet.DWARROWDELF,
+                        cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                        value: "rivendellBow",
                     },
                     "rohanWarhorse":
                     {
@@ -950,6 +1023,17 @@ define(
                         cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                         cardSetNumber: 14,
                         value: "shadowfax",
+                    },
+                    "silverHarp":
+                    {
+                        name: "Silver Harp",
+                        cost: 2,
+                        traitKeys: [ Trait.ITEM, Trait.INSTRUMENT ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                        cardSetNumber: 90,
+                        value: "silverHarp",
                     },
                     "silverLamp":
                     {
@@ -1058,6 +1142,17 @@ define(
                         cardSetNumber: 13,
                         value: "starBrooch",
                     },
+                    "steedOfImladris":
+                    {
+                        name: "Steed of Imladris",
+                        cost: 1,
+                        traitKeys: [ Trait.MOUNT ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                        cardSetNumber: 59,
+                        value: "steedOfImladris",
+                    },
                     "steedOfTheMark":
                     {
                         name: "Steed of the Mark",
@@ -1097,6 +1192,17 @@ define(
                         cardSetKey: CardSet.AGAINST_THE_SHADOW,
                         cardSubsetKey: CardSubset.ATS4_ASSAULT_ON_OSGILIATH,
                         value: "swordOfMorthond",
+                    },
+                    "swordThatWasBroken":
+                    {
+                        name: "Sword that was Broken",
+                        isUnique: true,
+                        cost: 3,
+                        traitKeys: [ Trait.ARTIFACT ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.DWARROWDELF,
+                        cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                        value: "swordThatWasBroken",
                     },
                     "theDaysRising":
                     {

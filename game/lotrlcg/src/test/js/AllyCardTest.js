@@ -60,7 +60,7 @@ define([ "AllyCard" ], function(AllyCard)
 
         // Verify.
         assert.ok(result);
-        var length = 136;
+        var length = 145;
         assert.equal(result.length, length);
         assert.equal(result[0], AllyCard.ANBORN);
         assert.equal(result[length - 1], AllyCard.ZIGIL_MINER);

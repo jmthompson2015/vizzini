@@ -1,5 +1,5 @@
-define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], function(CardSet, CardSubset, CardType,
-        ImageNameCreator, Sphere)
+define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Trait" ], function(CardSet, CardSubset,
+        CardType, ImageNameCreator, Sphere, Trait)
 {
     "use strict";
     var EventCard =
@@ -13,6 +13,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         AGAINST_THE_SHADOW: "againstTheShadow",
         ASTONISHING_SPEED: "astonishingSpeed",
         BEHIND_STRONG_WALLS: "behindStrongWalls",
+        BOOMED_AND_TRUMPETED: "boomedAndTrumpeted",
         CAMPFIRE_TALES: "campfireTales",
         CHARGE_OF_THE_ROHIRRIM: "chargeOfTheRohirrim",
         CHILDREN_OF_THE_SEA: "childrenOfTheSea",
@@ -21,11 +22,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         DAERONS_RUNES: "daeronsRunes",
         DAWN_TAKE_YOU_ALL: "dawnTakeYouAll",
         DEEP_KNOWLEDGE: "deepKnowledge",
+        DESCENDANTS_OF_KINGS: "descendantsOfKings",
         DESPERATE_ALLIANCE: "desperateAlliance",
+        DISTANT_STARS: "distantStars",
         DONT_BE_HASTY: "dontBeHasty",
         DOOM_HANGS_STILL: "doomHangsStill",
+        DUNEDAIN_MESSAGE: "dunedainMessage",
         DWARVEN_TOMB: "dwarvenTomb",
+        ELRONDS_COUNSEL: "elrondsCounsel",
         EXPERT_TRACKERS: "expertTrackers",
+        FAIR_AND_PERILOUS: "fairAndPerilous",
         FEIGNED_VOICES: "feignedVoices",
         FEINT: "feint",
         FOLLOW_ME: "followMe",
@@ -37,6 +43,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         GAINING_STRENGTH: "gainingStrength",
         GILDORS_COUNSEL: "gildorsCounsel",
         GONDORIAN_DISCIPLINE: "gondorianDiscipline",
+        GRAVE_CAIRN: "graveCairn",
         HAIL_OF_STONES: "hailOfStones",
         HANDS_UPON_THE_BOW: "handsUponTheBow",
         HASTY_STROKE: "hastyStroke",
@@ -44,9 +51,13 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         HIDDEN_CACHE: "hiddenCache",
         HOBBIT_SENSE: "hobbitSense",
         HOLD_YOUR_GROUND: "holdYourGround",
+        HOPE_REKINDLED: "hopeRekindled",
+        HORNS_CRY: "hornsCry",
         INFIGHTING: "infighting",
         ISLAND_AMID_PERILS: "islandAmidPerils",
+        KEEN_AS_LANCES: "keenAsLances",
         LAY_OF_NIMRODEL: "layOfNimrodel",
+        LEAVE_NO_TRACE: "leaveNoTrace",
         LEGACY_OF_NUMENOR: "legacyOfNumenor",
         LIGHT_THE_BEACONS: "lightTheBeacons",
         LORDS_OF_THE_ELDAR: "lordsOfTheEldar",
@@ -59,6 +70,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         MUTUAL_ACCORD: "mutualAccord",
         NEEDFUL_TO_KNOW: "needfulToKnow",
         NOISELESS_MOVEMENT: "noiselessMovement",
+        NONE_RETURN: "noneReturn",
         OUT_OF_SIGHT: "outOfSight",
         OUT_OF_THE_WILD: "outOfTheWild",
         PARTING_GIFTS: "partingGifts",
@@ -75,11 +87,13 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         RENEWED_FRIENDSHIP: "renewedFriendship",
         RIDE_THEM_DOWN: "rideThemDown",
         RIDE_TO_RUIN: "rideToRuin",
+        REINFORCEMENTS: "reinforcements",
         RISK_SOME_LIGHT: "riskSomeLight",
         RUMOUR_FROM_THE_EARTH: "rumourFromTheEarth",
         SECOND_BREAKFAST: "secondBreakfast",
         SHADOW_OF_THE_PAST: "shadowOfThePast",
         SHADOWS_GIVE_WAY: "shadowsGiveWay",
+        SHORT_CUT: "shortCut",
         SMALL_TARGET: "smallTarget",
         SNEAK_ATTACK: "sneakAttack",
         STAND_AND_FIGHT: "standAndFight",
@@ -89,6 +103,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
         SWIFT_AND_SILENT: "swiftAndSilent",
         SWIFT_STRIKE: "swiftStrike",
         TAKING_INITIATIVE: "takingInitiative",
+        THE_DOOR_IS_CLOSED: "theDoorIsClosed",
         THE_EAGLES_ARE_COMING: "theEaglesAreComing",
         THE_END_COMES: "theEndComes",
         THE_GALADHRIMS_GREETING: "theGaladhrimsGreeting",
@@ -194,6 +209,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.HEIRS_OF_NUMENOR,
                 value: "behindStrongWalls",
             },
+            "boomedAndTrumpeted":
+            {
+                name: "Boomed and Trumpeted",
+                cost: 1,
+                traitKeys: [ Trait.ENT ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 32,
+                value: "boomedAndTrumpeted",
+            },
             "campfireTales":
             {
                 name: "Campfire Tales",
@@ -268,6 +294,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
                 value: "deepKnowledge",
             },
+            "descendantsOfKings":
+            {
+                name: "Descendants of Kings",
+                cost: 1,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 30,
+                value: "descendantsOfKings",
+            },
             "desperateAlliance":
             {
                 name: "Desperate Alliance",
@@ -275,6 +311,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.ON_THE_DOORSTEP,
                 value: "desperateAlliance",
+            },
+            "distantStars":
+            {
+                name: "Distant Stars",
+                cost: 0,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 36,
+                value: "distantStars",
             },
             "dontBeHasty":
             {
@@ -296,6 +342,17 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetNumber: 117,
                 value: "doomHangsStill",
             },
+            "dunedainMessage":
+            {
+                name: "Dúnedain Message",
+                cost: 1,
+                traitKeys: [ Trait.SIGNAL ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                cardSetNumber: 56,
+                value: "dunedainMessage",
+            },
             "dwarvenTomb":
             {
                 name: "Dwarven Tomb",
@@ -303,6 +360,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.CORE,
                 value: "dwarvenTomb",
+            },
+            "elrondsCounsel":
+            {
+                name: "Elrond's Counsel",
+                cost: 0,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                value: "elrondsCounsel",
             },
             "expertTrackers":
             {
@@ -312,6 +378,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.THE_LOST_REALM,
                 cardSetNumber: 9,
                 value: "expertTrackers",
+            },
+            "fairAndPerilous":
+            {
+                name: "Fair and Perilous",
+                cost: 1,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                cardSetNumber: 60,
+                value: "fairAndPerilous",
             },
             "feignedVoices":
             {
@@ -413,6 +489,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.ATS3_ENCOUNTER_AT_AMON_DIN,
                 value: "gondorianDiscipline",
             },
+            "graveCairn":
+            {
+                name: "Grave Cairn",
+                cost: 1,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                value: "graveCairn",
+            },
             "hailOfStones":
             {
                 name: "Hail of Stones",
@@ -476,6 +561,27 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetNumber: 119,
                 value: "holdYourGround",
             },
+            "hopeRekindled":
+            {
+                name: "Hope Rekindled",
+                cost: 0,
+                traitKeys: [ Trait.SONG ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                cardSetNumber: 63,
+                value: "hopeRekindled",
+            },
+            "hornsCry":
+            {
+                name: "Horn's Cry",
+                cost: 2,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                cardSetNumber: 88,
+                value: "hornsCry",
+            },
             "islandAmidPerils":
             {
                 name: "Island Amid Perils",
@@ -495,6 +601,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
                 value: "infighting",
             },
+            "keenAsLances":
+            {
+                name: "Keen as Lances",
+                cost: 5,
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 37,
+                value: "keenAsLances",
+            },
             "layOfNimrodel":
             {
                 name: "Lay of Nimrodel",
@@ -503,6 +619,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.AGAINST_THE_SHADOW,
                 cardSubsetKey: CardSubset.ATS6_THE_MORGUL_VALE,
                 value: "layOfNimrodel",
+            },
+            "leaveNoTrace":
+            {
+                name: "Leave No Trace",
+                cost: 1,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 35,
+                value: "leaveNoTrace",
             },
             "legacyOfNumenor":
             {
@@ -611,6 +737,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.TRM2_THE_THREE_TRIALS,
                 cardSetNumber: 33,
                 value: "noiselessMovement",
+            },
+            "noneReturn":
+            {
+                name: "None Return",
+                cost: 1,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                cardSetNumber: 62,
+                value: "noneReturn",
             },
             "outOfSight":
             {
@@ -728,6 +864,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.SOM4_THE_HILLS_OF_EMYN_MUIL,
                 value: "rearGuard",
             },
+            "reinforcements":
+            {
+                name: "Reinforcements",
+                cost: 3,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                cardSetNumber: 85,
+                value: "reinforcements",
+            },
             "renewedFriendship":
             {
                 name: "Renewed Friendship",
@@ -801,6 +947,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSubsetKey: CardSubset.TRM6_THE_ANTLERED_CROWN,
                 cardSetNumber: 143,
                 value: "shadowsGiveWay",
+            },
+            "shortCut":
+            {
+                name: "Short Cut",
+                cost: 1,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                value: "shortCut",
             },
             "smallTarget":
             {
@@ -879,6 +1034,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere" ], fu
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
                 value: "takingInitiative",
+            },
+            "theDoorIsClosed":
+            {
+                name: "The Door is Closed!",
+                cost: 1,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                cardSetNumber: 92,
+                value: "theDoorIsClosed",
             },
             "theEaglesAreComing":
             {

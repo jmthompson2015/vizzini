@@ -60,7 +60,7 @@ define([ "AttachmentCard" ], function(AttachmentCard)
 
         // Verify.
         assert.ok(result);
-        var length = 110;
+        var length = 119;
         assert.equal(result.length, length);
         assert.equal(result[0], AttachmentCard.A_BURNING_BRAND);
         assert.equal(result[length - 1], AttachmentCard.WINGFOOT);

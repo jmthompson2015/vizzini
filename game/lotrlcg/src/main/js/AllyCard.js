@@ -6,6 +6,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
     {
         ANBORN: "anborn",
         ANFALAS_HERDSMAN: "anfalasHerdsman",
+        ARWEN_UNDOMIEL: "arwenUndomiel",
         BEECHBONE: "beechbone",
         BEORN: "beorn",
         BEORNING_BEEKEEPER: "beorningBeekeeper",
@@ -24,6 +25,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         DEFENDER_OF_RAMMAS: "defenderOfRammas",
         DEFENDER_OF_THE_NAITH: "defenderOfTheNaith",
         DENETHOR: "denethor",
+        DERNDINGLE_WARRIOR: "derndingleWarrior",
         DESCENDANT_OF_THORONDOR: "descendantOfThorondor",
         DORI: "dori",
         DUNEDAIN_HUNTER: "dunedainHunter",
@@ -33,6 +35,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         EAGLES_OF_THE_MISTY_MOUNTAINS: "eaglesOfTheMistyMountains",
         EAST_ROAD_RANGER: "eastRoadRanger",
         ELFHELM: "elfhelm",
+        ELVEN_JEWELER: "elvenJeweler",
         EMERY: "emery",
         ENVOY_OF_PELARGIR: "envoyOfPelargir",
         EOMUND: "eomund",
@@ -49,7 +52,9 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         FORLONG: "forlong",
         GALADHON_ARCHER: "galadhonArcher",
         GALADHRIM_MINSTREL: "galadhrimMinstrel",
+        GALADHRIM_WEAVER: "galadhrimWeaver",
         GALADRIELS_HANDMAIDEN: "galadrielsHandmaiden",
+        GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
         GANDALF_CORE: "gandalfCore",
         GANDALF_OHAUH: "gandalfOHaUH",
         GILDOR_INGLORION: "gildorInglorion",
@@ -88,6 +93,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         LONGBEARD_ELDER: "longbeardElder",
         LONGBEARD_MAP_MAKER: "longbeardMapMaker",
         LONGBEARD_ORC_SLAYER: "longbeardOrcSlayer",
+        LONGBEARD_SENTRY: "longbeardSentry",
         LORIEN_GUIDE: "lorienGuide",
         MASTER_OF_LORE: "masterOfLore",
         MASTER_OF_THE_FORGE: "masterOfTheForge",
@@ -125,6 +131,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         VASSAL_OF_THE_WINDLORD: "vassalOfTheWindlord",
         VETERAN_AXEHAND: "veteranAxehand",
         VETERAN_OF_NANDUHIRION: "veteranOfNanduhirion",
+        VETERAN_OF_OSGILIATH: "veteranOfOsgiliath",
         WANDERING_ENT: "wanderingEnt",
         WANDERING_TOOK: "wanderingTook",
         WARDEN_OF_ANNUMINAS: "wardenOfAnnuminas",
@@ -132,7 +139,9 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         WARDEN_OF_HELMS_DEEP: "wardenOfHelmsDeep",
         WARDEN_OF_THE_HAVENS: "wardenOfTheHavens",
         WARRIOR_OF_LOSSARNACH: "warriorOfLossarnach",
+        WATCHER_OF_THE_BRUINEN: "watcherOfTheBruinen",
         WEATHER_HILLS_WATCHMAN: "weatherHillsWatchman",
+        WELLINGHALL_PRESERVER: "wellinghallPreserver",
         WESTFOLD_HORSE_BREAKER: "westfoldHorseBreaker",
         WESTFOLD_HORSE_BREEDER: "westfoldHorseBreeder",
         WESTFOLD_OUTRIDER: "westfoldOutrider",
@@ -171,6 +180,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.AGAINST_THE_SHADOW,
                 cardSubsetKey: CardSubset.ATS1_THE_STEWARDS_FEAR,
                 value: "anfalasHerdsman",
+            },
+            "arwenUndomiel":
+            {
+                name: "Arwen Undómiel",
+                isUnique: true,
+                cost: 2,
+                willpower: 2,
+                attack: 0,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.NOLDOR, Trait.NOBLE ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                value: "arwenUndomiel",
             },
             "beechbone":
             {
@@ -432,6 +456,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.ATS3_ENCOUNTER_AT_AMON_DIN,
                 value: "denethor",
             },
+            "derndingleWarrior":
+            {
+                name: "Derndingle Warrior",
+                cost: 2,
+                willpower: 1,
+                attack: 1,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.ENT, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 31,
+                value: "derndingleWarrior",
+            },
             "descendantOfThorondor":
             {
                 name: "Descendant of Thorondor",
@@ -559,6 +598,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 value: "elfhelm",
+            },
+            "elvenJeweler":
+            {
+                name: "Elven Jeweler",
+                cost: 2,
+                willpower: 1,
+                attack: 1,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.NOLDOR, Trait.CRAFTSMAN ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 33,
+                value: "elvenJeweler",
             },
             "emery":
             {
@@ -800,6 +854,37 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.TRM3_TROUBLE_IN_THARBAD,
                 cardSetNumber: 63,
                 value: "galadhrimMinstrel",
+            },
+            "galadhrimWeaver":
+            {
+                name: "Galadhrim Weaver",
+                cost: 1,
+                willpower: 1,
+                attack: 0,
+                defense: 0,
+                hitPoints: 1,
+                traitKeys: [ Trait.SILVAN, Trait.CRAFTSMAN ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                cardSetNumber: 89,
+                value: "galadhrimWeaver",
+            },
+            "galdorOfTheHavens":
+            {
+                name: "Galdor of the Havens",
+                isUnique: true,
+                cost: 4,
+                willpower: 2,
+                attack: 2,
+                defense: 1,
+                hitPoints: 4,
+                traitKeys: [ Trait.NOLDOR ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
+                cardSetNumber: 91,
+                value: "galdorOfTheHavens",
             },
             "gandalfCore":
             {
@@ -1347,6 +1432,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "longbeardOrcSlayer",
             },
+            "longbeardSentry":
+            {
+                name: "Longbeard Sentry",
+                cost: 3,
+                willpower: 0,
+                attack: 1,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.DWARF, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                cardSetNumber: 57,
+                value: "longbeardSentry",
+            },
             "lorienGuide":
             {
                 name: "Lórien Guide",
@@ -1867,6 +1967,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.KHAZAD_DUM,
                 value: "veteranOfNanduhirion",
             },
+            "veteranOfOsgiliath":
+            {
+                name: "Veteran of Osgiliath",
+                cost: 3,
+                willpower: 1,
+                attack: 2,
+                defense: 1,
+                hitPoints: 2,
+                traitKeys: [ Trait.GONDOR, Trait.WARRIOR ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
+                cardSetNumber: 29,
+                value: "veteranOfOsgiliath",
+            },
             "wanderingEnt":
             {
                 name: "Wandering Ent",
@@ -1966,6 +2081,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.ATS1_THE_STEWARDS_FEAR,
                 value: "warriorOfLossarnach",
             },
+            "watcherOfTheBruinen":
+            {
+                name: "Watcher of the Bruinen",
+                cost: 2,
+                willpower: 0,
+                attack: 1,
+                defense: 2,
+                hitPoints: 2,
+                traitKeys: [ Trait.NOLDOR, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.DWARROWDELF,
+                cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
+                value: "watcherOfTheBruinen",
+            },
             "weatherHillsWatchman":
             {
                 name: "Weather Hills Watchman",
@@ -1979,6 +2108,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.THE_LOST_REALM,
                 cardSetNumber: 3,
                 value: "weatherHillsWatchman",
+            },
+            "wellinghallPreserver":
+            {
+                name: "Wellinghall Preserver",
+                cost: 3,
+                willpower: 3,
+                attack: 2,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.ENT ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA3_ACROSS_THE_ETTENMOORS,
+                cardSetNumber: 61,
+                value: "wellinghallPreserver",
             },
             "westfoldHorseBreaker":
             {

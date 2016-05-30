@@ -28,6 +28,7 @@ define(function()
         HEALER: "healer",
         HOBBIT: "hobbit",
         INSECT: "insect",
+        INSTRUMENT: "instrument",
         ISENGARD: "isengard",
         ISTARI: "istari",
         ITEM: "item",
@@ -187,6 +188,11 @@ define(function()
             {
                 name: "Insect",
                 value: "insect",
+            },
+            "instrument":
+            {
+                name: "Instrument",
+                value: "instrument",
             },
             "isengard":
             {
