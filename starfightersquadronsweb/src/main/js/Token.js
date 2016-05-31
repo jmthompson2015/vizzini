@@ -70,8 +70,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             that.trigger("change");
         });
-        var criticalDamages = [];
-        var damages = [];
         var energyCount = new Count(store, id, "energy", pilot.shipState.energyValue());
         energyCount.bind("change", function()
         {
@@ -132,39 +130,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                     secondaryWeapons.push(createSecondaryWeapon(upgrade));
                 }
             });
-        }
-
-        this.energyLimit = function()
-        {
-            var answer = pilot.shipState.energyValue();
-
-            if (answer !== null)
-            {
-                answer = criticalDamages.reduce(function(sum, damageKey)
-                {
-                    return sum + DamageCard.properties[damageKey].shipState.energyValue();
-                }, answer);
-
-                upgradeKeys.forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.energyValue();
-                    }
-                });
-
-                answer = Math.max(answer, 0);
-            }
-
-            return answer;
-        };
-
-        // Initialize the energy.
-        while (energyCount.count() < this.energyLimit())
-        {
-            energyCount.increase();
         }
 
         var upgradeToEnergy = {};
@@ -254,22 +219,26 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.criticalDamageCount = function()
         {
-            return criticalDamages.length;
+            return this.criticalDamages().length;
         };
 
         this.criticalDamages = function()
         {
-            return criticalDamages;
+            var answer = store.getState().tokenIdToCriticalDamages[id];
+
+            return (answer ? answer : []);
         };
 
         this.damageCount = function()
         {
-            return damages.length;
+            return this.damages().length;
         };
 
         this.damages = function()
         {
-            return damages;
+            var answer = store.getState().tokenIdToDamages[id];
+
+            return (answer ? answer : []);
         };
 
         this.defenderTargetLocks = function()
@@ -307,6 +276,39 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             return upgradeToEnergy[upgradeKey];
         };
+
+        this.energyLimit = function()
+        {
+            var answer = pilot.shipState.energyValue();
+
+            if (answer !== null)
+            {
+                answer = this.criticalDamages().reduce(function(sum, damageKey)
+                {
+                    return sum + DamageCard.properties[damageKey].shipState.energyValue();
+                }, answer);
+
+                upgradeKeys.forEach(function(upgradeKey)
+                {
+                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
+
+                    if (shipState)
+                    {
+                        answer += shipState.energyValue();
+                    }
+                });
+
+                answer = Math.max(answer, 0);
+            }
+
+            return answer;
+        };
+
+        // Initialize the energy.
+        while (energyCount.count() < this.energyLimit())
+        {
+            energyCount.increase();
+        }
 
         this.equals = function(other)
         {
@@ -347,7 +349,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
             if (answer !== null)
             {
-                answer = criticalDamages.reduce(function(sum, damageKey)
+                answer = this.criticalDamages().reduce(function(sum, damageKey)
                 {
                     return sum + DamageCard.properties[damageKey].shipState.hullValue();
                 }, answer);
@@ -534,7 +536,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                     answer = getShipState().pilotSkillValue();
                 }
 
-                answer = criticalDamages.reduce(function(sum, damageKey)
+                answer = this.criticalDamages().reduce(function(sum, damageKey)
                 {
                     return sum + DamageCard.properties[damageKey].shipState.pilotSkillValue();
                 }, answer);
@@ -585,7 +587,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
             if (answer !== null)
             {
-                answer = criticalDamages.reduce(function(sum, damageKey)
+                answer = this.criticalDamages().reduce(function(sum, damageKey)
                 {
                     return sum + DamageCard.properties[damageKey].shipState.primaryWeaponValue();
                 }, answer);
@@ -878,16 +880,14 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         }
         else
         {
-            var criticalDamages = this.criticalDamages();
-            criticalDamages.push(damageKey);
+            this.store().dispatch(Action.addTokenCriticalDamage(this.id(), damageKey));
             this.trigger("change");
         }
     };
 
     Token.prototype.addDamage = function(damageKey)
     {
-        var damages = this.damages();
-        damages.push(damageKey);
+        this.store().dispatch(Action.addTokenDamage(this.id(), damageKey));
         this.trigger("change");
     };
 
@@ -1001,8 +1001,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
     Token.prototype.removeCriticalDamage = function(damageKey)
     {
-        var criticalDamages = this.criticalDamages();
-        criticalDamages.vizziniRemove(damageKey);
+        this.store().dispatch(Action.removeTokenCriticalDamage(this.id(), damageKey));
         this.trigger("change");
     };
 

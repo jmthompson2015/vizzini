@@ -12,8 +12,11 @@ define([ "Phase" ], function(Phase)
         this.secondAgent = undefined;
 
         this.positionToToken = {};
-        this.tokenIdToPosition = {};
+        
         this.tokenIdToCounts = {};
+        this.tokenIdToCriticalDamages = {};
+        this.tokenIdToDamages = {};
+        this.tokenIdToPosition = {};
 
         this.damageDeck = [];
         this.damageDiscardPile = [];

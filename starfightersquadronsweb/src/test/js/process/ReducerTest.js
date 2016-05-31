@@ -54,6 +54,60 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().round, 3);
     });
 
+    QUnit.test("addTokenCriticalDamage()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var damageKey0 = DamageCard.BLINDED_PILOT;
+        var damageKey1 = DamageCard.CONSOLE_FIRE;
+        assert.ok(!store.getState().tokenIdToCriticalDamages[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addTokenCriticalDamage(tokenId, damageKey0));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCriticalDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId].length, 1);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId][0], damageKey0);
+
+        // Run.
+        store.dispatch(Action.addTokenCriticalDamage(tokenId, damageKey1));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCriticalDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId].length, 2);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId][0], damageKey0);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId][1], damageKey1);
+    });
+
+    QUnit.test("addTokenDamage()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var damageKey0 = DamageCard.BLINDED_PILOT;
+        var damageKey1 = DamageCard.CONSOLE_FIRE;
+        assert.ok(!store.getState().tokenIdToDamages[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addTokenDamage(tokenId, damageKey0));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToDamages[tokenId].length, 1);
+        assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
+
+        // Run.
+        store.dispatch(Action.addTokenDamage(tokenId, damageKey1));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToDamages[tokenId].length, 2);
+        assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
+        assert.equal(store.getState().tokenIdToDamages[tokenId][1], damageKey1);
+    });
+
     QUnit.test("discardDamage()", function(assert)
     {
         // Setup.
@@ -151,6 +205,66 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         // Verify.
         assert.equal(Object.keys(store.getState().positionToToken).length, 1);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
+    });
+
+    QUnit.test("removeTokenCriticalDamage()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var damageKey0 = DamageCard.BLINDED_PILOT;
+        var damageKey1 = DamageCard.CONSOLE_FIRE;
+        store.dispatch(Action.addTokenCriticalDamage(tokenId, damageKey0));
+        store.dispatch(Action.addTokenCriticalDamage(tokenId, damageKey1));
+        assert.ok(store.getState().tokenIdToCriticalDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId].length, 2);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId][0], damageKey0);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId][1], damageKey1);
+
+        // Run.
+        store.dispatch(Action.removeTokenCriticalDamage(tokenId, damageKey1));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCriticalDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId].length, 1);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId][0], damageKey0);
+
+        // Run.
+        store.dispatch(Action.removeTokenCriticalDamage(tokenId, damageKey0));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCriticalDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToCriticalDamages[tokenId].length, 0);
+    });
+
+    QUnit.test("removeTokenDamage()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var damageKey0 = DamageCard.BLINDED_PILOT;
+        var damageKey1 = DamageCard.CONSOLE_FIRE;
+        store.dispatch(Action.addTokenDamage(tokenId, damageKey0));
+        store.dispatch(Action.addTokenDamage(tokenId, damageKey1));
+        assert.ok(store.getState().tokenIdToDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToDamages[tokenId].length, 2);
+        assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
+        assert.equal(store.getState().tokenIdToDamages[tokenId][1], damageKey1);
+
+        // Run.
+        store.dispatch(Action.removeTokenDamage(tokenId, damageKey1));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToDamages[tokenId].length, 1);
+        assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
+
+        // Run.
+        store.dispatch(Action.removeTokenDamage(tokenId, damageKey0));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToDamages[tokenId]);
+        assert.equal(store.getState().tokenIdToDamages[tokenId].length, 0);
     });
 
     QUnit.test("replenishDamageDeck()", function(assert)

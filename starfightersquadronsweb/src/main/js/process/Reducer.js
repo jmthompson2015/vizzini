@@ -26,6 +26,30 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
+    Reducer.damages = function(state, action)
+    {
+        LOGGER.debug("damages() type = " + action.type);
+
+        var newDamages;
+
+        switch (action.type)
+        {
+        case Action.ADD_TOKEN_CRITICAL_DAMAGE:
+        case Action.ADD_TOKEN_DAMAGE:
+            newDamages = (state ? state.slice() : []);
+            newDamages.push(action.damageKey);
+            return newDamages;
+        case Action.REMOVE_TOKEN_CRITICAL_DAMAGE:
+        case Action.REMOVE_TOKEN_DAMAGE:
+            newDamages = (state ? state.slice() : []);
+            newDamages.vizziniRemove(action.damageKey);
+            return newDamages;
+        default:
+            LOGGER.warn("Reducer.damages: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.damageDeck = function(state, action)
     {
         LOGGER.debug("positionToToken() type = " + action.type);
@@ -107,6 +131,44 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
+    Reducer.tokenIdToCriticalDamages = function(state, action)
+    {
+        LOGGER.debug("tokenIdToCriticalDamages() type = " + action.type);
+
+        var newTokenIdToCriticalDamages;
+
+        switch (action.type)
+        {
+        case Action.ADD_TOKEN_CRITICAL_DAMAGE:
+        case Action.REMOVE_TOKEN_CRITICAL_DAMAGE:
+            newTokenIdToCriticalDamages = Object.assign({}, state);
+            newTokenIdToCriticalDamages[action.tokenId] = Reducer.damages(state[action.tokenId], action);
+            return newTokenIdToCriticalDamages;
+        default:
+            LOGGER.warn("Reducer.tokenIdToDamages: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
+    Reducer.tokenIdToDamages = function(state, action)
+    {
+        LOGGER.debug("tokenIdToDamages() type = " + action.type);
+
+        var newTokenIdToDamages;
+
+        switch (action.type)
+        {
+        case Action.ADD_TOKEN_DAMAGE:
+        case Action.REMOVE_TOKEN_DAMAGE:
+            newTokenIdToDamages = Object.assign({}, state);
+            newTokenIdToDamages[action.tokenId] = Reducer.damages(state[action.tokenId], action);
+            return newTokenIdToDamages;
+        default:
+            LOGGER.warn("Reducer.tokenIdToDamages: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.tokenIdToPosition = function(state, action)
     {
         LOGGER.debug("tokenIdToPosition() type = " + action.type);
@@ -149,6 +211,20 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 round: newRound,
+            });
+        case Action.ADD_TOKEN_CRITICAL_DAMAGE:
+        case Action.REMOVE_TOKEN_CRITICAL_DAMAGE:
+            var newTokenIdToCriticalDamages = Reducer.tokenIdToCriticalDamages(state.tokenIdToCriticalDamages, action);
+            return Object.assign({}, state,
+            {
+                tokenIdToCriticalDamages: newTokenIdToCriticalDamages,
+            });
+        case Action.ADD_TOKEN_DAMAGE:
+        case Action.REMOVE_TOKEN_DAMAGE:
+            var newTokenIdToDamages = Reducer.tokenIdToDamages(state.tokenIdToDamages, action);
+            return Object.assign({}, state,
+            {
+                tokenIdToDamages: newTokenIdToDamages,
             });
         case Action.DISCARD_DAMAGE:
             return Object.assign({}, state,

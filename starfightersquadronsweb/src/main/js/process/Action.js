@@ -5,11 +5,15 @@ define(function()
 
     Action.ADD_COUNT = "addCount";
     Action.ADD_ROUND = "addRound";
+    Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
+    Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
     Action.PLACE_TOKEN = "placeToken";
     Action.REMOVE_TOKEN = "removeToken";
     Action.REMOVE_TOKEN_AT = "removeTokenAt";
+    Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
+    Action.REMOVE_TOKEN_DAMAGE = "removeTokenDamage";
     Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
     Action.SET_COUNT = "setCount";
@@ -42,6 +46,32 @@ define(function()
         {
             type: Action.ADD_ROUND,
             value: myValue,
+        });
+    };
+
+    Action.addTokenCriticalDamage = function(tokenId, damageKey)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("damageKey", damageKey);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_CRITICAL_DAMAGE,
+            tokenId: tokenId,
+            damageKey: damageKey,
+        });
+    };
+
+    Action.addTokenDamage = function(tokenId, damageKey)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("damageKey", damageKey);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_DAMAGE,
+            tokenId: tokenId,
+            damageKey: damageKey,
         });
     };
 
@@ -99,6 +129,32 @@ define(function()
         {
             type: Action.REMOVE_TOKEN_AT,
             position: position,
+        });
+    };
+
+    Action.removeTokenCriticalDamage = function(tokenId, damageKey)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("damageKey", damageKey);
+
+        return (
+        {
+            type: Action.REMOVE_TOKEN_CRITICAL_DAMAGE,
+            tokenId: tokenId,
+            damageKey: damageKey,
+        });
+    };
+
+    Action.removeTokenDamage = function(tokenId, damageKey)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("damageKey", damageKey);
+
+        return (
+        {
+            type: Action.REMOVE_TOKEN_DAMAGE,
+            tokenId: tokenId,
+            damageKey: damageKey,
         });
     };
 
