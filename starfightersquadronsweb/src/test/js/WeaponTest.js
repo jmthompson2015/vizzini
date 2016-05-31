@@ -114,15 +114,15 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
     QUnit.test("isUsable()", function(assert)
     {
         // Setup.
+        var store = Redux.createStore(Reducer.root);
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.MANGLER_CANNON,
+        var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.MANGLER_CANNON,
                 UpgradeCard.BLASTER_TURRET, UpgradeCard.PROTON_TORPEDOES ]);
         var weapon0 = attacker.secondaryWeapons()[0]; // Mangler cannon.
         var weapon1 = attacker.secondaryWeapons()[1]; // Blaster turret.
         var weapon2 = attacker.secondaryWeapons()[2]; // Cluster missiles.
-        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-        var store = Redux.createStore(Reducer.root);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         environment.placeToken(new Position(458, 895, -90), attacker);
         environment.placeToken(new Position(450, 845, 90), defender);

@@ -121,7 +121,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
                 Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.tokens()[2].agent(); // X-Wing
-                var token = new Token(Pilot.IG_88C, agent);
+                var token = new Token(environment.store(), Pilot.IG_88C, agent);
                 var position = new Position(450, 450, 0);
                 environment.placeToken(position, token);
                 assert.equal(token.evade().count(), 0);

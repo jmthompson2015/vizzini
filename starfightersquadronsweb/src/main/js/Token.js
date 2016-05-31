@@ -1,13 +1,19 @@
 define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot",
-        "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Weapon" ], function(ActivationState,
-        Bearing, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase,
-        UpgradeCard, UpgradeType, Weapon)
+        "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Weapon", "process/Action" ], function(
+        ActivationState, Bearing, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction,
+        ShipBase, UpgradeCard, UpgradeType, Weapon, Action)
 {
     "use strict";
-    function Token(pilotKeyIn, agent, upgradeKeysIn)
+    function Token(store, pilotKeyIn, agent, upgradeKeysIn)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("pilotKeyIn", pilotKeyIn);
         InputValidator.validateNotNull("agent", agent);
+
+        this.store = function()
+        {
+            return store;
+        };
 
         var pilotKey, pilot;
 
@@ -59,49 +65,49 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         var that = this;
         var id = Token.nextId();
 
-        var cloakCount = new Count();
+        var cloakCount = new Count(store, id, "cloak");
         cloakCount.bind("change", function()
         {
             that.trigger("change");
         });
         var criticalDamages = [];
         var damages = [];
-        var energyCount = new Count(pilot.shipState.energyValue());
+        var energyCount = new Count(store, id, "energy", pilot.shipState.energyValue());
         energyCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var evadeCount = new Count();
+        var evadeCount = new Count(store, id, "evade");
         evadeCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var focusCount = new Count();
+        var focusCount = new Count(store, id, "focus");
         focusCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var ionCount = new Count();
+        var ionCount = new Count(store, id, "ion");
         ionCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var reinforceCount = new Count();
+        var reinforceCount = new Count(store, id, "reinforce");
         reinforceCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var shieldCount = new Count(pilot.shipState.shieldValue());
+        var shieldCount = new Count(store, id, "shield", pilot.shipState.shieldValue());
         shieldCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var stressCount = new Count();
+        var stressCount = new Count(store, id, "stress");
         stressCount.bind("change", function()
         {
             that.trigger("change");
         });
-        var weaponsDisabledCount = new Count();
+        var weaponsDisabledCount = new Count(store, id, "weaponsDisabled");
         weaponsDisabledCount.bind("change", function()
         {
             that.trigger("change");
@@ -169,7 +175,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
             if (upgrade.energyLimit !== undefined)
             {
-                var energy = new Count(upgrade.energyLimit);
+                var energy = new Count(store, id, "energy", upgrade.energyLimit);
                 upgradeToEnergy[upgradeKey] = energy;
             }
         });
@@ -441,7 +447,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.newInstance = function(agent)
         {
-            var answer = new Token(pilotKey, agent);
+            var answer = new Token(store, pilotKey, agent);
 
             upgradeKeys.forEach(function(upgradeKey)
             {
@@ -1131,43 +1137,41 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         };
     }
 
-    function Count(initialCount)
+    function Count(store, tokenId, property, initialCount)
     {
+        InputValidator.validateNotNull("store", store);
+        InputValidator.validateNotNull("tokenId", tokenId);
+        InputValidator.validateNotNull("property", property);
+
         var that = this;
-        var count = (initialCount ? initialCount : 0);
+        var value = (initialCount ? initialCount : 0);
+        store.dispatch(Action.setCount(tokenId, property, value));
 
         this.clear = function()
         {
-            setCount(0);
+            store.dispatch(Action.setCount(tokenId, property, 0));
+            that.trigger("change");
         };
 
         this.count = function()
         {
-            return count;
+            return store.getState().tokenIdToCounts[tokenId][property];
         };
 
         this.decrease = function()
         {
-            setCount(count - 1);
+            store.dispatch(Action.addCount(tokenId, property, -1));
+            that.trigger("change");
         };
 
         this.increase = function()
         {
-            setCount(count + 1);
+            store.dispatch(Action.addCount(tokenId, property, 1));
+            that.trigger("change");
         };
-
-        function setCount(newValue)
-        {
-            if (0 <= newValue)
-            {
-                count = newValue;
-                that.trigger("change");
-            }
-        }
-
-        MicroEvent.mixin(Count);
     }
 
+    MicroEvent.mixin(Count);
     MicroEvent.mixin(Token);
 
     return Token;

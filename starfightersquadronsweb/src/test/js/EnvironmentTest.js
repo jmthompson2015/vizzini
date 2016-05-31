@@ -65,24 +65,24 @@ define(
             QUnit.test("createWeaponToRangeToDefenders() one", function(assert)
             {
                 // Setup.
+                var store = Redux.createStore(Reducer.root);
                 var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
                 var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-                var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.OUTRIDER,
+                var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.OUTRIDER,
                         UpgradeCard.CALCULATION, UpgradeCard.MANGLER_CANNON, UpgradeCard.BLASTER_TURRET,
                         UpgradeCard.PROTON_TORPEDOES ]);
-                var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-                var defender1 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-                var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-                var defender3 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-                var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-                var defender5 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+                var defender0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+                var defender1 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+                var defender2 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+                var defender3 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+                var defender4 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+                var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
 
                 attacker.focus().increase();
                 var targetLock = new TargetLock(attacker, defender3);
                 attacker.addAttackerTargetLock(targetLock);
                 defender3.addDefenderTargetLock(targetLock);
 
-                var store = Redux.createStore(Reducer.root);
                 var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
                 environment.placeToken(new Position(458, 895, -90), attacker);
                 environment.placeToken(new Position(450, 845, 90), defender0);
@@ -328,7 +328,7 @@ define(
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
-                var token = new Token(Pilot.ACADEMY_PILOT, agent);
+                var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
                 environment.placeToken(position, token);
 
                 // Run.
@@ -494,7 +494,7 @@ define(
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
-                var token = new Token(Pilot.ACADEMY_PILOT, agent);
+                var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
                 environment.placeToken(position, token);
 
                 assert.strictEqual(environment.getTokenAt(position), token);
@@ -833,7 +833,7 @@ define(
                 Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
-                var token3 = new Token(Pilot.EPSILON_ACE, foAgent);
+                var token3 = new Token(environment.store(), Pilot.EPSILON_ACE, foAgent);
                 environment.placeToken(new Position(200, 200, 0), token3);
 
                 // Run.
@@ -968,7 +968,7 @@ define(
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
-                var token = new Token(Pilot.ACADEMY_PILOT, agent);
+                var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
 
                 // Run.
                 environment.placeToken(position, token);
@@ -985,7 +985,7 @@ define(
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
-                var token = new Token(Pilot.ACADEMY_PILOT, agent);
+                var token = new Token(environment.store(), Pilot.ACADEMY_PILOT, agent);
                 environment.placeToken(position, token);
                 assert.strictEqual(environment.getPositionFor(token), position);
                 assert.strictEqual(environment.getTokenAt(position), token);

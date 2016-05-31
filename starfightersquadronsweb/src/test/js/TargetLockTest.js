@@ -1,5 +1,5 @@
-define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token" ], function(EnvironmentFactory,
-        Pilot, SimpleAgent, TargetLock, Team, Token)
+define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "Token", "process/Reducer" ], function(
+        EnvironmentFactory, Pilot, SimpleAgent, TargetLock, Team, Token, Reducer)
 {
     "use strict";
     QUnit.module("TargetLock");
@@ -38,10 +38,11 @@ define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "To
     QUnit.test("TargetLock ids past Z", function(assert)
     {
         // Setup.
+        var store = Redux.createStore(Reducer.root);
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var attacker = new Token(Pilot.DARTH_VADER, imperialAgent);
+        var attacker = new Token(store, Pilot.DARTH_VADER, imperialAgent);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var defender = new Token(Pilot.DASH_RENDAR, rebelAgent);
+        var defender = new Token(store, Pilot.DASH_RENDAR, rebelAgent);
         TargetLock.resetNextId();
 
         // Run / Verify.

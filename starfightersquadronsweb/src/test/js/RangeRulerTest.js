@@ -1,5 +1,5 @@
-define([ "Pilot", "Position", "RangeRuler", "SimpleAgent", "Team", "Token" ], function(Pilot, Position, RangeRuler,
-        SimpleAgent, Team, Token)
+define([ "Pilot", "Position", "RangeRuler", "SimpleAgent", "Team", "Token", "process/Reducer" ], function(Pilot,
+        Position, RangeRuler, SimpleAgent, Team, Token, Reducer)
 {
     "use strict";
     QUnit.module("RangeRuler");
@@ -21,11 +21,12 @@ define([ "Pilot", "Position", "RangeRuler", "SimpleAgent", "Team", "Token" ], fu
     QUnit.test("getRange() One", function(assert)
     {
         // Setup.
+        var store = Redux.createStore(Reducer.root);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+        var attacker = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 80, -90);
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
 
         // Run.
@@ -39,11 +40,12 @@ define([ "Pilot", "Position", "RangeRuler", "SimpleAgent", "Team", "Token" ], fu
     QUnit.test("getRange() Two", function(assert)
     {
         // Setup.
+        var store = Redux.createStore(Reducer.root);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+        var attacker = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 180, -90);
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
 
         // Run.
@@ -57,11 +59,12 @@ define([ "Pilot", "Position", "RangeRuler", "SimpleAgent", "Team", "Token" ], fu
     QUnit.test("getRange() Three", function(assert)
     {
         // Setup.
+        var store = Redux.createStore(Reducer.root);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
+        var attacker = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
         var attackerPosition = new Position(300, 280, -90);
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(300, 30, 45);
 
         // Run.

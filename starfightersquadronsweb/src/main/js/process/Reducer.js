@@ -3,6 +3,29 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
     "use strict";
     var Reducer = {};
 
+    Reducer.counts = function(state, action)
+    {
+        LOGGER.debug("counts() type = " + action.type);
+
+        var newCounts;
+
+        switch (action.type)
+        {
+        case Action.ADD_COUNT:
+            var oldValue = (state[action.property] ? state[action.property] : 0);
+            newCounts = Object.assign({}, state);
+            newCounts[action.property] = Math.max(oldValue + action.value, 0);
+            return newCounts;
+        case Action.SET_COUNT:
+            newCounts = Object.assign({}, state);
+            newCounts[action.property] = action.value;
+            return newCounts;
+        default:
+            LOGGER.warn("Reducer.counts: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.damageDeck = function(state, action)
     {
         LOGGER.debug("positionToToken() type = " + action.type);
@@ -64,6 +87,26 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
+    Reducer.tokenIdToCounts = function(state, action)
+    {
+        LOGGER.debug("tokenIdToCounts() type = " + action.type);
+
+        var newTokenIdToCounts;
+
+        switch (action.type)
+        {
+        case Action.ADD_COUNT:
+        case Action.SET_COUNT:
+            var oldTokenIdToCounts = (state[action.tokenId] ? state[action.tokenId] : {});
+            newTokenIdToCounts = Object.assign({}, state);
+            newTokenIdToCounts[action.tokenId] = Reducer.counts(oldTokenIdToCounts, action);
+            return newTokenIdToCounts;
+        default:
+            LOGGER.warn("Reducer.tokenIdToCounts: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.tokenIdToPosition = function(state, action)
     {
         LOGGER.debug("tokenIdToPosition() type = " + action.type);
@@ -94,6 +137,13 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
 
         switch (action.type)
         {
+        case Action.ADD_COUNT:
+        case Action.SET_COUNT:
+            var newTokenIdToCounts = Reducer.tokenIdToCounts(state.tokenIdToCounts, action);
+            return Object.assign({}, state,
+            {
+                tokenIdToCounts: newTokenIdToCounts,
+            });
         case Action.ADD_ROUND:
             var newRound = state.round + action.value;
             return Object.assign({}, state,

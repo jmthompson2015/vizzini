@@ -3,8 +3,9 @@ define([ "DualToken", "Pilot", "Token" ], function(DualToken, Pilot, Token)
     "use strict";
     var TokenFactory =
     {
-        create: function(pilotKey, agent, upgradeKeysFore, upgradeKeysAft)
+        create: function(store, pilotKey, agent, upgradeKeysFore, upgradeKeysAft)
         {
+            InputValidator.validateNotNull("store", store);
             InputValidator.validateNotNull("pilotKey", pilotKey);
             InputValidator.validateNotNull("agent", agent);
 
@@ -14,11 +15,11 @@ define([ "DualToken", "Pilot", "Token" ], function(DualToken, Pilot, Token)
 
             if (pilot.fore || pilot.aft)
             {
-                answer = new DualToken(pilotKey, agent, upgradeKeysFore, upgradeKeysAft);
+                answer = new DualToken(store, pilotKey, agent, upgradeKeysFore, upgradeKeysAft);
             }
             else
             {
-                answer = new Token(pilotKey, agent, upgradeKeysFore);
+                answer = new Token(store, pilotKey, agent, upgradeKeysFore);
             }
 
             return answer;

@@ -129,7 +129,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
         var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var token = new Token(Pilot.SIGMA_SQUADRON_PILOT, agent);
+        var token = new Token(store, Pilot.SIGMA_SQUADRON_PILOT, agent);
         environment.placeToken(new Position(200, 200, 0), token);
         token.cloak().increase();
 

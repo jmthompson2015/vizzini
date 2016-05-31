@@ -1,14 +1,15 @@
-define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent" ], function(Pilot, Ship, SimpleAgent,
-        SquadBuilder, Team, HumanAgent)
+define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "process/Reducer", "ui/HumanAgent" ], function(Pilot,
+        Ship, SimpleAgent, SquadBuilder, Team, Reducer, HumanAgent)
 {
     "use strict";
     QUnit.module("SquadBuilder");
 
     QUnit.test("CoreSetFirstOrderSquadBuilder buildSquad()", function(assert)
     {
+        var store = Redux.createStore(Reducer.root);
         var squadBuilder = SquadBuilder.CoreSetFirstOrderSquadBuilder;
         var agent = new SimpleAgent("FirstOrder Agent", Team.IMPERIAL);
-        var result = squadBuilder.buildSquad(agent);
+        var result = squadBuilder.buildSquad(store, agent);
         assert.equal(result.length, 2);
 
         assert.equal(result[0].pilotKey(), Pilot.EPSILON_LEADER);
@@ -43,9 +44,10 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
 
     QUnit.test("CoreSetImperialSquadBuilder buildSquad()", function(assert)
     {
+        var store = Redux.createStore(Reducer.root);
         var squadBuilder = SquadBuilder.CoreSetImperialSquadBuilder;
         var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var result = squadBuilder.buildSquad(agent);
+        var result = squadBuilder.buildSquad(store, agent);
         assert.equal(result.length, 2);
 
         assert.equal(result[0].pilotKey(), Pilot.MAULER_MITHEL);
@@ -80,9 +82,10 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
 
     QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
     {
+        var store = Redux.createStore(Reducer.root);
         var squadBuilder = SquadBuilder.CoreSetRebelSquadBuilder;
         var agent = new HumanAgent("Rebel Agent", Team.REBEL);
-        var result = squadBuilder.buildSquad(agent);
+        var result = squadBuilder.buildSquad(store, agent);
         assert.equal(result.length, 1);
 
         assert.equal(result[0].pilotKey(), Pilot.LUKE_SKYWALKER);
@@ -112,9 +115,10 @@ define([ "Pilot", "Ship", "SimpleAgent", "SquadBuilder", "Team", "ui/HumanAgent"
 
     QUnit.test("CoreSetResistanceSquadBuilder buildSquad()", function(assert)
     {
+        var store = Redux.createStore(Reducer.root);
         var squadBuilder = SquadBuilder.CoreSetResistanceSquadBuilder;
         var agent = new HumanAgent("Resistance Agent", Team.REBEL);
-        var result = squadBuilder.buildSquad(agent);
+        var result = squadBuilder.buildSquad(store, agent);
         assert.equal(result.length, 1);
 
         assert.equal(result[0].pilotKey(), Pilot.POE_DAMERON);

@@ -5,6 +5,36 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
     "use strict";
     QUnit.module("Reducer");
 
+    QUnit.test("addCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = "focus";
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addCount(tokenId, property));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addCount(tokenId, property, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+
+        // Run.
+        store.dispatch(Action.addCount(tokenId, property, -4));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 0);
+    });
+
     QUnit.test("addRound()", function(assert)
     {
         // Setup.
@@ -67,7 +97,7 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         var store = Redux.createStore(Reducer.root);
         var position = new Position(100, 200, 45);
         var agent = new SimpleAgent("Charlie", Team.REBEL);
-        var token = new Token(Pilot.LUKE_SKYWALKER, agent);
+        var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
         assert.equal(Object.keys(store.getState().positionToToken).length, 0);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 0);
 
@@ -85,10 +115,10 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         var store = Redux.createStore(Reducer.root);
         var agent = new SimpleAgent("Charlie", Team.REBEL);
         var position0 = new Position(10, 20, 0);
-        var token0 = new Token(Pilot.LUKE_SKYWALKER, agent);
+        var token0 = new Token(store, Pilot.LUKE_SKYWALKER, agent);
         store.dispatch(Action.placeToken(position0, token0));
         var position1 = new Position(100, 200, 45);
-        var token1 = new Token(Pilot.HAN_SOLO, agent);
+        var token1 = new Token(store, Pilot.HAN_SOLO, agent);
         store.dispatch(Action.placeToken(position1, token1));
         assert.equal(Object.keys(store.getState().positionToToken).length, 2);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
@@ -107,10 +137,10 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         var store = Redux.createStore(Reducer.root);
         var agent = new SimpleAgent("Charlie", Team.REBEL);
         var position0 = new Position(10, 20, 0);
-        var token0 = new Token(Pilot.LUKE_SKYWALKER, agent);
+        var token0 = new Token(store, Pilot.LUKE_SKYWALKER, agent);
         store.dispatch(Action.placeToken(position0, token0));
         var position1 = new Position(100, 200, 45);
-        var token1 = new Token(Pilot.HAN_SOLO, agent);
+        var token1 = new Token(store, Pilot.HAN_SOLO, agent);
         store.dispatch(Action.placeToken(position1, token1));
         assert.equal(Object.keys(store.getState().positionToToken).length, 2);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
@@ -163,6 +193,24 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
 
         // Verify.
         assert.equal(store.getState().activeTokenId, 2);
+    });
+
+    QUnit.test("setCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = "focus";
+        store.dispatch(Action.addCount(tokenId, property));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setCount(tokenId, property, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
     });
 
     QUnit.test("setDamageDeck()", function(assert)

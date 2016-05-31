@@ -13,6 +13,7 @@ define([ "Phase" ], function(Phase)
 
         this.positionToToken = {};
         this.tokenIdToPosition = {};
+        this.tokenIdToCounts = {};
 
         this.damageDeck = [];
         this.damageDiscardPile = [];

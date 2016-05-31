@@ -381,12 +381,12 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
+        var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
         var attackerPosition = new Position(458, 895, -90);
         var weapon = attacker.primaryWeapon();
 
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(attackerPosition.x(), attackerPosition.y() - 250, 90);
 
         environment.placeToken(attackerPosition, attacker);
@@ -457,11 +457,11 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
         var adjudicator = new Adjudicator();
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var attacker = new Token(Pilot.WHISPER, imperialAgent);
+        var attacker = new Token(store, Pilot.WHISPER, imperialAgent);
         var attackerPosition = new Position(458, 895, -90);
         var weapon = attacker.primaryWeapon();
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var defender = new Token(Pilot.DASH_RENDAR, rebelAgent);
+        var defender = new Token(store, Pilot.DASH_RENDAR, rebelAgent);
         var defenderPosition = new Position(450, 845, 90);
         environment.placeToken(attackerPosition, attacker);
         environment.placeToken(defenderPosition, defender);
@@ -496,12 +496,12 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
+        var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
         var attackerPosition = new Position(458, 895, -90);
         var weapon = attacker.secondaryWeapons()[0];
 
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
         var myY = (y !== undefined ? y : 845);
         var defenderPosition = new Position(450, myY, 90);
 
@@ -530,12 +530,12 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
         var adjudicator = new Adjudicator();
 
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-        var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
+        var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [ upgradeKey ]);
         var attackerPosition = new Position(458, 895, -90);
         var weapon = attacker.primaryWeapon();
 
         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-        var defender = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
         var defenderPosition = new Position(450, 845, 90);
 
         environment.placeToken(attackerPosition, attacker);

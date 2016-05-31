@@ -3,6 +3,7 @@ define(function()
     "use strict";
     var Action = {};
 
+    Action.ADD_COUNT = "addCount";
     Action.ADD_ROUND = "addRound";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
@@ -11,11 +12,27 @@ define(function()
     Action.REMOVE_TOKEN_AT = "removeTokenAt";
     Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
+    Action.SET_COUNT = "setCount";
     Action.SET_DAMAGE_DECK = "setDamageDeck";
     Action.SET_FIRST_AGENT = "setFirstAgent";
     Action.SET_PHASE = "setPhase";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
+
+    Action.addCount = function(tokenId, property, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("property", property);
+        var myValue = (value !== undefined ? value : 1);
+
+        return (
+        {
+            type: Action.ADD_COUNT,
+            tokenId: tokenId,
+            property: property,
+            value: myValue,
+        });
+    };
 
     Action.addRound = function(value)
     {
@@ -99,6 +116,21 @@ define(function()
         {
             type: Action.SET_ACTIVE_TOKEN,
             tokenId: tokenId,
+        });
+    };
+
+    Action.setCount = function(tokenId, property, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("property", property);
+        var myValue = (value !== undefined ? value : 0);
+
+        return (
+        {
+            type: Action.SET_COUNT,
+            tokenId: tokenId,
+            property: property,
+            value: myValue,
         });
     };
 
