@@ -24,7 +24,6 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
     QUnit.test("isDefenderInRange() range one", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
@@ -46,7 +45,6 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
     QUnit.test("isDefenderInFiringArc() range one", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
@@ -69,7 +67,6 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
     QUnit.test("isDefenderInFiringArc() rotated", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);
@@ -92,7 +89,6 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
     QUnit.test("isDefenderTargetable() range one", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var attackerPosition = new Position(458, 895, -90);
         var attacker = environment.getTokenAt(attackerPosition);

@@ -63,7 +63,8 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         };
 
         var that = this;
-        var id = Token.nextId();
+        var id = store.getState().nextTokenId;
+        store.dispatch(Action.incrementNextTokenId());
 
         var cloakCount = new Count(store, id, "cloak");
         cloakCount.bind("change", function()
@@ -447,8 +448,11 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             return answer;
         };
 
-        this.newInstance = function(agent)
+        this.newInstance = function(store, agent)
         {
+            InputValidator.validateNotNull("store", store);
+            InputValidator.validateNotNull("agent", agent);
+
             var answer = new Token(store, pilotKey, agent);
 
             upgradeKeys.forEach(function(upgradeKey)
@@ -859,18 +863,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             return pilot.shipState;
         }
     }
-
-    Token.nextIdValue = 1;
-
-    Token.nextId = function()
-    {
-        return Token.nextIdValue++;
-    };
-
-    Token.resetNextId = function()
-    {
-        Token.nextIdValue = 1;
-    };
 
     Token.prototype.addCriticalDamage = function(damageKey)
     {

@@ -7,7 +7,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("ManeuverAction properties", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var maneuverKey = Maneuver.STRAIGHT_1_EASY;
                 var fromPosition = new Position(458, 895, -90); // X-Wing
@@ -29,7 +28,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("doIt() Straight1Easy", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var maneuverKey = Maneuver.STRAIGHT_1_EASY;
                 var fromPosition = new Position(458, 895, -90); // X-Wing
@@ -56,7 +54,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("doIt() Straight3Standard", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var maneuverKey = Maneuver.STRAIGHT_3_STANDARD;
                 var fromPosition = new Position(458, 895, -90); // X-Wing
@@ -83,7 +80,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("doIt() Straight3Standard collision", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 var fromPosition0 = new Position(305, 20, 90);
@@ -118,7 +114,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("doIt() IG-88C", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.tokens()[2].agent(); // X-Wing
                 var token = new Token(environment.store(), Pilot.IG_88C, agent);
@@ -139,7 +134,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("doIt() Outlaw Tech", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var token = environment.tokens()[2]; // X-Wing
                 token.upgradeKeys().push(UpgradeCard.OUTLAW_TECH);
@@ -157,7 +151,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("doIt() R2-D2", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var token = environment.tokens()[2]; // X-Wing
                 token.upgradeKeys().push(UpgradeCard.R2_D2);
@@ -177,7 +170,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
             QUnit.test("doIt() R2-D2 at max", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var token = environment.tokens()[2]; // X-Wing
                 token.upgradeKeys().push(UpgradeCard.R2_D2);

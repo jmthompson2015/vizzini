@@ -7,7 +7,6 @@ define([ "EnvironmentFactory", "Position", "ShipDestroyedAction", "TargetLock", 
     QUnit.test("doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var fromPosition = new Position(305, 20, 90); // TIE Fighter.
         var token = environment.getTokenAt(fromPosition);

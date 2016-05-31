@@ -9,7 +9,6 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     QUnit.test("CombatAction.doIt() out of range", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var maneuver = Maneuver.STRAIGHT_1_EASY;
@@ -35,7 +34,6 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     QUnit.skip("CombatAction.doIt() range one", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var maneuver = Maneuver.STRAIGHT_1_EASY;
@@ -374,7 +372,6 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
     QUnit.test("CombatAction.doIt() Tactician", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var upgradeKey = UpgradeCard.TACTICIAN;
         var store = Redux.createStore(Reducer.root);
         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);

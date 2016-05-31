@@ -11,8 +11,9 @@ define([ "Phase" ], function(Phase)
         this.firstAgent = undefined;
         this.secondAgent = undefined;
 
+        this.nextTokenId = 1;
         this.positionToToken = {};
-        
+
         this.tokenIdToCounts = {};
         this.tokenIdToCriticalDamages = {};
         this.tokenIdToDamages = {};

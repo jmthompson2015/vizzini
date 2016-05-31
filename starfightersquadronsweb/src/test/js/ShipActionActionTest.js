@@ -7,7 +7,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("BarrelRoll.doIt() left", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var tokenPosition = environment.getPositionFor(token);
@@ -32,7 +31,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("BarrelRoll.toString() left", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD);
@@ -48,7 +46,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("BarrelRoll.doIt() right", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var tokenPosition = environment.getPositionFor(token);
@@ -73,7 +70,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("BarrelRoll.toString() right", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD);
@@ -89,7 +85,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Boost.doIt() left", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD);
@@ -111,7 +106,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Boost.toString() left", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD);
@@ -127,7 +121,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Boost.doIt() straight", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD);
@@ -149,7 +142,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Boost.toString() straight", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD);
@@ -165,7 +157,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Boost.doIt() right", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD);
@@ -187,7 +178,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Boost.toString() right", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD);
@@ -203,7 +193,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Cloak.doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Cloak(token);
@@ -219,7 +208,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Cloak.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Cloak(token);
@@ -235,7 +223,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Coordinate.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createHugeShipEnvironment();
         var token = environment.tokens()[0]; // Gozanti-class
         var action = new ShipActionAction.Coordinate(token);
@@ -251,7 +238,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Decloak.doIt() left", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var tokenPosition = environment.getPositionFor(token);
@@ -279,7 +265,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Decloak.toString() left", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD);
@@ -295,7 +280,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Decloak.doIt() straight", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         token.cloak().increase();
@@ -320,7 +304,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Decloak.toString() straight", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD);
@@ -336,7 +319,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Evade.doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Evade(token);
@@ -352,7 +334,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Evade.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Evade(token);
@@ -368,7 +349,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Focus.doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Focus(token);
@@ -384,7 +364,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Focus.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Focus(token);
@@ -400,7 +379,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Jam.doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var defender = environment.tokens()[0]; // TIE Fighter
         var action = new ShipActionAction.Jam(defender);
@@ -416,7 +394,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Jam.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Jam(token);
@@ -432,7 +409,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Recover.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createHugeShipEnvironment();
         var token = environment.tokens()[0]; // Gozanti-class
         var action = new ShipActionAction.Recover(token);
@@ -448,7 +424,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Reinforce.doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Reinforce(token);
@@ -464,7 +439,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Reinforce.toString() Gozanti-class", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createHugeShipEnvironment();
         var token = environment.tokens()[0]; // Gozanti-class
         var action = new ShipActionAction.Reinforce(token);
@@ -480,7 +454,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Reinforce.toString() CR90", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createHugeShipEnvironment();
 
         // Run / Verify.
@@ -494,7 +467,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Slam.doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Slam(environment, token, Maneuver.STRAIGHT_2_STANDARD);
@@ -516,7 +488,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("Slam.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var token = environment.tokens()[2]; // X-Wing
         var action = new ShipActionAction.Slam(environment, token, Maneuver.STRAIGHT_2_STANDARD);
@@ -532,7 +503,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("TargetLock.doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var defender = environment.tokens()[0]; // TIE Fighter
         var attacker = environment.tokens()[2]; // X-Wing
@@ -551,7 +521,6 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     QUnit.test("TargetLock.toString()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var defender = environment.tokens()[0]; // TIE Fighter
         var attacker = environment.tokens()[2]; // X-Wing

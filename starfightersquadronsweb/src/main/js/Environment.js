@@ -499,14 +499,13 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             store.dispatch(Action.setFirstAgent(agent1));
             store.dispatch(Action.setSecondAgent(agent2));
 
-            Token.resetNextId();
             var firstSquad = squad1.map(function(token)
             {
-                return token.newInstance(agent1);
+                return token.newInstance(store, agent1);
             });
             var secondSquad = squad2.map(function(token)
             {
-                return token.newInstance(agent2);
+                return token.newInstance(store, agent2);
             });
 
             // Determine the play format.

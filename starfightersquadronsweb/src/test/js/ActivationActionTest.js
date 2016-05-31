@@ -7,7 +7,6 @@ define([ "ActivationAction", "Adjudicator", "EnvironmentFactory", "Maneuver", "P
     QUnit.test("doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var token = environment.tokens()[2]; // X-Wing
@@ -35,7 +34,6 @@ define([ "ActivationAction", "Adjudicator", "EnvironmentFactory", "Maneuver", "P
     QUnit.test("doIt() cloaked", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var token = environment.tokens()[2]; // X-Wing

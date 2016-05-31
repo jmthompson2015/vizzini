@@ -145,6 +145,25 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().damageDiscardPile.length, 0);
     });
 
+    QUnit.test("incrementNextTokenId()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        assert.equal(store.getState().nextTokenId, 1);
+
+        // Run.
+        store.dispatch(Action.incrementNextTokenId());
+
+        // Verify.
+        assert.equal(store.getState().nextTokenId, 2);
+
+        // Run.
+        store.dispatch(Action.incrementNextTokenId());
+
+        // Verify.
+        assert.equal(store.getState().nextTokenId, 3);
+    });
+
     QUnit.test("placeToken()", function(assert)
     {
         // Setup.
@@ -288,6 +307,21 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         // Verify.
         assert.equal(store.getState().damageDeck.length, 33);
         assert.equal(store.getState().damageDiscardPile.length, 0);
+    });
+
+    QUnit.test("resetNextTokenId()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.incrementNextTokenId());
+        store.dispatch(Action.incrementNextTokenId());
+        assert.equal(store.getState().nextTokenId, 3);
+
+        // Run.
+        store.dispatch(Action.resetNextTokenId());
+
+        // Verify.
+        assert.equal(store.getState().nextTokenId, 1);
     });
 
     QUnit.test("setActiveToken()", function(assert)

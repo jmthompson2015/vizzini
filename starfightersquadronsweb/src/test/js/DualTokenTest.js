@@ -8,7 +8,6 @@ define(
 
             QUnit.test("DualToken properties CR90 Corvette", function(assert)
             {
-                Token.resetNextId();
                 var store = Redux.createStore(Reducer.root);
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
                 var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
@@ -37,7 +36,6 @@ define(
             QUnit.test("isDestroyed()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var store = Redux.createStore(Reducer.root);
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
                 var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
@@ -65,7 +63,6 @@ define(
             QUnit.test("tokenAft()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var store = Redux.createStore(Reducer.root);
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
                 var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
@@ -82,7 +79,6 @@ define(
             QUnit.test("tokenAft() crippled", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var store = Redux.createStore(Reducer.root);
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
                 var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
@@ -107,7 +103,6 @@ define(
             QUnit.test("tokenFore()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var store = Redux.createStore(Reducer.root);
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
                 var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
@@ -124,7 +119,6 @@ define(
             QUnit.test("tokenFore() crippled", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var store = Redux.createStore(Reducer.root);
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
                 var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,
@@ -149,7 +143,6 @@ define(
             QUnit.test("tokenFore().ship()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var store = Redux.createStore(Reducer.root);
                 var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
                 var token = new DualToken(store, Pilot.CR90_CORVETTE, rebelAgent, [ UpgradeCard.QUAD_LASER_CANNONS,

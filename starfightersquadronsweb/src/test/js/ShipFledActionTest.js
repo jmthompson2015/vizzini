@@ -7,7 +7,6 @@ define([ "EnvironmentFactory", "Position", "ShipFledAction", "TargetLock", "Toke
     QUnit.test("doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var fromPosition = new Position(305, 20, 90);
         LOGGER.trace("fromPosition = " + fromPosition.toString());

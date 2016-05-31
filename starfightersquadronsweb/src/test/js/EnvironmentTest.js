@@ -11,7 +11,6 @@ define(
             QUnit.test("activeToken()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var token0 = environment.tokens()[0]; // TIE Fighter.
                 assert.ok(!environment.activeToken());
@@ -248,7 +247,6 @@ define(
             QUnit.test("getDefenders()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attackerPosition = new Position(458, 895, -90);
                 var attacker = environment.getTokenAt(attackerPosition); // X-Wing
@@ -265,7 +263,6 @@ define(
             QUnit.test("getDefendersInRange()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
                 var attackerPosition = environment.getPositionFor(attacker);
@@ -285,7 +282,6 @@ define(
             QUnit.test("getFriendlyTokensAtRange() zero", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
                 var attackerPosition = environment.getPositionFor(attacker);
@@ -304,7 +300,6 @@ define(
             QUnit.test("getFriendlyTokensAtRange() one", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[0]; // TIE Fighter
                 var attackerPosition = environment.getPositionFor(attacker);
@@ -324,7 +319,6 @@ define(
             QUnit.test("getPositionFor()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
@@ -342,7 +336,6 @@ define(
             QUnit.test("getPositionFor() Huge2", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createHugeShipEnvironment();
                 var token = environment.tokens()[3]; // CR90
                 // LOGGER.info("token = " + token);
@@ -378,7 +371,6 @@ define(
             QUnit.test("getPositionFor() Huge2 330 deg", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createHugeShipEnvironment();
                 var token = environment.tokens()[3]; // CR90
                 environment.removeToken(new Position(458, 803, 270));
@@ -415,7 +407,6 @@ define(
             QUnit.test("getTargetableDefenders() none", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attackerPosition = new Position(458, 895, -90);
                 var attacker = environment.getTokenAt(attackerPosition);
@@ -432,7 +423,6 @@ define(
             QUnit.test("getTargetableDefenders() one", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attackerPosition = new Position(458, 895, -90);
                 var attacker = environment.getTokenAt(attackerPosition);
@@ -452,7 +442,6 @@ define(
             QUnit.test("getTargetableDefendersAtRange() none", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attackerPosition = new Position(458, 895, -90);
                 var attacker = environment.getTokenAt(attackerPosition);
@@ -470,7 +459,6 @@ define(
             QUnit.test("getTargetableDefendersAtRange() one", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attackerPosition = new Position(458, 895, -90);
                 var attacker = environment.getTokenAt(attackerPosition);
@@ -490,7 +478,6 @@ define(
 
             QUnit.test("getTokenAt()", function(assert)
             {
-                Token.resetNextId();
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
@@ -502,7 +489,6 @@ define(
 
             QUnit.test("getTokenAt() 1", function(assert)
             {
-                Token.resetNextId();
                 var position = new Position(305, 20, 90);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
@@ -512,7 +498,6 @@ define(
 
             QUnit.test("getTokenAt() 2", function(assert)
             {
-                Token.resetNextId();
                 var position = new Position(610, 20, 90);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
@@ -522,7 +507,6 @@ define(
 
             QUnit.test("getTokenAt() 3", function(assert)
             {
-                Token.resetNextId();
                 var position = new Position(458, 895, -90);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
@@ -533,7 +517,6 @@ define(
             QUnit.test("getTokensAtRange()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
                 var attackerPosition = environment.getPositionFor(attacker);
@@ -554,7 +537,6 @@ define(
             QUnit.test("getTokensForActivation()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 // Run.
@@ -585,7 +567,6 @@ define(
             QUnit.test("getTokensForActivation() Huge", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createHugeShipEnvironment();
 
                 // Run.
@@ -639,7 +620,6 @@ define(
             QUnit.test("getTokensForActivation() Huge pure", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createHugeShipEnvironment();
 
                 // Run.
@@ -703,7 +683,6 @@ define(
             QUnit.test("getTokensForCombat()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 // Run.
@@ -734,7 +713,6 @@ define(
             QUnit.test("getTokensForCombat() Huge", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createHugeShipEnvironment();
 
                 // Run.
@@ -798,7 +776,6 @@ define(
             QUnit.test("getTokensForTeam() First Order", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createTFACoreSetEnvironment();
 
                 // Run.
@@ -814,7 +791,6 @@ define(
             QUnit.test("getTokensForTeam() Imperial", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 // Run.
@@ -830,7 +806,6 @@ define(
             QUnit.test("getTokensForTeam() Imperial mixed teams", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
                 var token3 = new Token(environment.store(), Pilot.EPSILON_ACE, foAgent);
@@ -850,7 +825,6 @@ define(
             QUnit.test("getTokensForTeam() Imperial pure", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var isPure = true;
 
@@ -867,7 +841,6 @@ define(
             QUnit.test("getTokensForTeam() Rebel", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 // Run.
@@ -882,7 +855,6 @@ define(
             QUnit.test("getTokensForTeam() Resistance", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createTFACoreSetEnvironment();
 
                 // Run.
@@ -897,7 +869,6 @@ define(
             QUnit.test("getTokensTouching()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var fromPosition0 = new Position(305, 20, 90);
                 var token0 = environment.getTokenAt(fromPosition0); // TIE Fighter 1
@@ -925,7 +896,6 @@ define(
             QUnit.test("getUnfriendlyTokensAtRange() one", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var attacker = environment.tokens()[2]; // X-Wing
                 var attackerPosition = environment.getPositionFor(attacker);
@@ -946,7 +916,6 @@ define(
             QUnit.test("incrementRound()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 assert.equal(environment.round(), 0);
                 environment.bind(Environment.ROUND_EVENT, function(round)
@@ -964,7 +933,6 @@ define(
             QUnit.test("placeToken()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
@@ -981,7 +949,6 @@ define(
             QUnit.test("removeToken()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var position = new Position(1, 2, 3);
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var agent = environment.firstAgent();
@@ -1001,7 +968,6 @@ define(
             QUnit.test("phase()", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 // Run.
@@ -1014,7 +980,6 @@ define(
             QUnit.test("ship destroyed event", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var token0 = environment.tokens()[0]; // TIE Fighter.
                 var fromPosition = environment.getPositionFor(token0);
@@ -1036,7 +1001,6 @@ define(
             QUnit.test("ship fled event", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var token0 = environment.tokens()[0]; // TIE Fighter.
                 var fromPosition = environment.getPositionFor(token0);
@@ -1057,7 +1021,6 @@ define(
 
             QUnit.test("tokens()", function(assert)
             {
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 var tokens = environment.tokens();
@@ -1069,7 +1032,6 @@ define(
 
             QUnit.test("tokens() Pure", function(assert)
             {
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 var isPure = true;
@@ -1086,7 +1048,6 @@ define(
                             function(assert)
                             {
                                 // Setup.
-                                Token.resetNextId();
                                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                                 // Run / Verify.
@@ -1099,7 +1060,6 @@ define(
             QUnit.test("update trigger event", function(assert)
             {
                 // Setup.
-                Token.resetNextId();
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
 
                 environment.bind(Environment.UPDATE_TRIGGER_EVENT, function()

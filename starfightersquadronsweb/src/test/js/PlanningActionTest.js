@@ -7,7 +7,6 @@ define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "PlanningAction", "Pos
     QUnit.test("doIt()", function(assert)
     {
         // Setup.
-        Token.resetNextId();
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var adjudicator = new Adjudicator();
         var firstAgent = environment.firstAgent();

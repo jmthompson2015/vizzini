@@ -9,12 +9,14 @@ define(function()
     Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
+    Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
     Action.PLACE_TOKEN = "placeToken";
     Action.REMOVE_TOKEN = "removeToken";
     Action.REMOVE_TOKEN_AT = "removeTokenAt";
     Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
     Action.REMOVE_TOKEN_DAMAGE = "removeTokenDamage";
     Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
+    Action.RESET_NEXT_TOKEN_ID = "resetNextTokenId";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
     Action.SET_COUNT = "setCount";
     Action.SET_DAMAGE_DECK = "setDamageDeck";
@@ -97,6 +99,14 @@ define(function()
         });
     };
 
+    Action.incrementNextTokenId = function()
+    {
+        return (
+        {
+            type: Action.INCREMENT_NEXT_TOKEN_ID,
+        });
+    };
+
     Action.placeToken = function(position, token)
     {
         InputValidator.validateNotNull("position", position);
@@ -163,6 +173,14 @@ define(function()
         return (
         {
             type: Action.REPLENISH_DAMAGE_DECK,
+        });
+    };
+
+    Action.resetNextTokenId = function()
+    {
+        return (
+        {
+            type: Action.RESET_NEXT_TOKEN_ID,
         });
     };
 

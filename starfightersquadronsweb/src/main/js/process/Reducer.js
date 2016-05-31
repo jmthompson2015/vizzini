@@ -207,10 +207,9 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
                 tokenIdToCounts: newTokenIdToCounts,
             });
         case Action.ADD_ROUND:
-            var newRound = state.round + action.value;
             return Object.assign({}, state,
             {
-                round: newRound,
+                round: state.round + action.value,
             });
         case Action.ADD_TOKEN_CRITICAL_DAMAGE:
         case Action.REMOVE_TOKEN_CRITICAL_DAMAGE:
@@ -236,6 +235,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 damageDeck: Reducer.damageDeck(state.damageDeck, action),
+            });
+        case Action.INCREMENT_NEXT_TOKEN_ID:
+            return Object.assign({}, state,
+            {
+                nextTokenId: state.nextTokenId + 1,
             });
         case Action.PLACE_TOKEN:
             var newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
@@ -272,6 +276,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 damageDeck: newDamageDeck,
                 damageDiscardPile: [],
+            });
+        case Action.RESET_NEXT_TOKEN_ID:
+            return Object.assign({}, state,
+            {
+                nextTokenId: 1,
             });
         case Action.SET_ACTIVE_TOKEN:
             return Object.assign({}, state,

@@ -1,4 +1,4 @@
-define([ "ActivationState", "Pilot", "Token" ], function(ActivationState, Pilot, Token)
+define([ "ActivationState", "Pilot", "Token", "process/Action" ], function(ActivationState, Pilot, Token, Action)
 {
     "use strict";
     function DualToken(store, pilotKey, agent, upgradeKeysFore, upgradeKeysAft)
@@ -23,7 +23,8 @@ define([ "ActivationState", "Pilot", "Token" ], function(ActivationState, Pilot,
         };
 
         var that = this;
-        var id = Token.nextId();
+        var id = store.getState().nextTokenId;
+        store.dispatch(Action.incrementNextTokenId());
         var pilot = Pilot.properties[pilotKey];
         var shipTeam = pilot.shipTeam;
         var ship = shipTeam.ship;
@@ -60,7 +61,7 @@ define([ "ActivationState", "Pilot", "Token" ], function(ActivationState, Pilot,
             return !(myCrippledTokenFore === undefined || myCrippledTokenAft === undefined);
         };
 
-        this.newInstance = function(agent)
+        this.newInstance = function(store, agent)
         {
             var answer = new DualToken(store, pilotKey, agent, tokenFore.upgradeKeys().slice(), tokenAft.upgradeKeys()
                     .slice());
