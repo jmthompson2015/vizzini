@@ -1,12 +1,22 @@
-define(function()
+define([ "process/Action" ], function(Action)
 {
     "use strict";
-    function TargetLock(attacker, defender)
+    function TargetLock(store, attacker, defender)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("defender", defender);
 
-        var id = TargetLock.nextId();
+        var isDoubling = (store.getState().nextTargetLockId > 25);
+        var offset = store.getState().nextTargetLockId - (isDoubling ? 26 : 0);
+        var letter = String.fromCharCode(65 + offset);
+        var id = (isDoubling ? letter + letter : letter);
+        store.dispatch(Action.incrementNextTargetLockId());
+
+        this.store = function()
+        {
+            return store;
+        };
 
         this.id = function()
         {
@@ -23,30 +33,6 @@ define(function()
             return defender;
         };
     }
-
-    TargetLock.nextIdValue = 0;
-    TargetLock.isDoubling = false;
-
-    TargetLock.nextId = function()
-    {
-        var letter = String.fromCharCode(65 + TargetLock.nextIdValue);
-        var answer = (TargetLock.isDoubling ? letter + letter : letter);
-
-        TargetLock.nextIdValue++;
-
-        if (TargetLock.nextIdValue >= 26)
-        {
-            TargetLock.isDoubling = !TargetLock.isDoubling;
-            TargetLock.nextIdValue = 0;
-        }
-
-        return answer;
-    };
-
-    TargetLock.resetNextId = function()
-    {
-        TargetLock.nextIdValue = 0;
-    };
 
     return TargetLock;
 });

@@ -1,4 +1,4 @@
-define([ "InitialState", "process/Action" ], function(InitialState, Action)
+define([ "InitialState", "process/Action", "process/Selector" ], function(InitialState, Action, Selector)
 {
     "use strict";
     var Reducer = {};
@@ -111,6 +111,28 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
+    Reducer.targetLocks = function(state, action)
+    {
+        LOGGER.debug("targetLocks() type = " + action.type);
+
+        var newTargetLocks;
+
+        switch (action.type)
+        {
+        case Action.ADD_TARGET_LOCK:
+            newTargetLocks = state.slice();
+            newTargetLocks.push(action.targetLock);
+            return newTargetLocks;
+        case Action.REMOVE_TARGET_LOCK:
+            newTargetLocks = state.slice();
+            newTargetLocks.vizziniRemove(action.targetLock);
+            return newTargetLocks;
+        default:
+            LOGGER.warn("Reducer.targetLocks: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.tokenIdToCounts = function(state, action)
     {
         LOGGER.debug("tokenIdToCounts() type = " + action.type);
@@ -211,6 +233,12 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 round: state.round + action.value,
             });
+        case Action.ADD_TARGET_LOCK:
+        case Action.REMOVE_TARGET_LOCK:
+            return Object.assign({}, state,
+            {
+                targetLocks: Reducer.targetLocks(state.targetLocks, action),
+            });
         case Action.ADD_TOKEN_CRITICAL_DAMAGE:
         case Action.REMOVE_TOKEN_CRITICAL_DAMAGE:
             var newTokenIdToCriticalDamages = Reducer.tokenIdToCriticalDamages(state.tokenIdToCriticalDamages, action);
@@ -235,6 +263,16 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 damageDeck: Reducer.damageDeck(state.damageDeck, action),
+            });
+        case Action.INCREMENT_NEXT_TARGET_LOCK_ID:
+            var newNextTargetLockId = state.nextTargetLockId + 1;
+            if (newNextTargetLockId > 51)
+            {
+                newNextTargetLockId = 0;
+            }
+            return Object.assign({}, state,
+            {
+                nextTargetLockId: newNextTargetLockId,
             });
         case Action.INCREMENT_NEXT_TOKEN_ID:
             return Object.assign({}, state,

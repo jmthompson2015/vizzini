@@ -41,7 +41,6 @@ define([ "UpgradeCard" ], function(UpgradeCard)
                 attackDice.spendTargetLock();
                 var targetLock = attacker.findTargetLockByDefender(defender);
                 attacker.removeAttackerTargetLock(targetLock);
-                defender.removeDefenderTargetLock(targetLock);
             }
             else if (modification === ModifyAttackDiceAction.Modification.SPEND_FOCUS)
             {

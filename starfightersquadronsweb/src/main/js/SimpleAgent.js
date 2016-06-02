@@ -143,12 +143,14 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
 
             if (defenders && defenders.length > 0)
             {
+                var store = environment.store();
+
                 defenders.forEach(function(defender)
                 {
                     // Only put choices without a current target lock.
                     if (!token.findTargetLockByDefender(defender))
                     {
-                        answer.push(new ShipActionAction.SAATargetLock(token, defender));
+                        answer.push(new ShipActionAction.SAATargetLock(store, token, defender));
                     }
                 });
             }

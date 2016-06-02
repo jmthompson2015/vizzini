@@ -391,9 +391,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
 
         attacker.focus().increase();
 
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
 
         var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                 defenderPosition);
@@ -507,9 +506,8 @@ define([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Ma
 
         attacker.focus().increase();
 
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
 
         return new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                 defenderPosition);

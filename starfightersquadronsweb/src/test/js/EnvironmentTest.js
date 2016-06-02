@@ -78,9 +78,8 @@ define(
                 var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
 
                 attacker.focus().increase();
-                var targetLock = new TargetLock(attacker, defender3);
+                var targetLock = new TargetLock(store, attacker, defender3);
                 attacker.addAttackerTargetLock(targetLock);
-                defender3.addDefenderTargetLock(targetLock);
 
                 var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
                 environment.placeToken(new Position(458, 895, -90), attacker);

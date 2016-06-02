@@ -1,7 +1,7 @@
 define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot",
-        "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Weapon", "process/Action" ], function(
-        ActivationState, Bearing, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction,
-        ShipBase, UpgradeCard, UpgradeType, Weapon, Action)
+        "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Weapon", "process/Action",
+        "process/Selector" ], function(ActivationState, Bearing, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase,
+        Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Weapon, Action, Selector)
 {
     "use strict";
     function Token(store, pilotKeyIn, agent, upgradeKeysIn)
@@ -113,8 +113,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         });
         var primaryWeapon = (pilot.shipState.primaryWeaponValue() !== null ? createPrimaryWeapon() : undefined);
         var secondaryWeapons = [];
-        var attackerTargetLocks = [];
-        var defenderTargetLocks = [];
 
         // Initialize the upgrades.
         var upgradeKeys = [];
@@ -158,23 +156,16 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             InputValidator.validateNotNull("targetLock", targetLock);
 
+            var attackerTargetLocks = Selector.attackerTargetLocks(store.getState().targetLocks, this);
+
             if (attackerTargetLocks.length > 0)
             {
                 // Remove previous target lock.
                 var previous = attackerTargetLocks[0];
-                previous.defender().removeDefenderTargetLock(previous);
                 this.removeAttackerTargetLock(previous);
             }
 
-            attackerTargetLocks.push(targetLock);
-            this.trigger("change");
-        };
-
-        this.addDefenderTargetLock = function(targetLock)
-        {
-            InputValidator.validateNotNull("targetLock", targetLock);
-
-            defenderTargetLocks.push(targetLock);
+            store.dispatch(Action.addTargetLock(targetLock));
             this.trigger("change");
         };
 
@@ -205,7 +196,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.attackerTargetLocks = function()
         {
-            return attackerTargetLocks.slice();
+            return Selector.attackerTargetLocks(store.getState().targetLocks, this);
         };
 
         this.cloak = function()
@@ -244,7 +235,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.defenderTargetLocks = function()
         {
-            return defenderTargetLocks.slice();
+            return Selector.defenderTargetLocks(store.getState().targetLocks, this);
         };
 
         this.discardUpgrade = function(upgradeKey)
@@ -323,20 +314,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.findTargetLockByDefender = function(defender)
         {
-            var answer;
-
-            for (var i = 0; i < attackerTargetLocks.length; i++)
-            {
-                var targetLock = attackerTargetLocks[i];
-
-                if (targetLock.defender() === defender)
-                {
-                    answer = targetLock;
-                    break;
-                }
-            }
-
-            return answer;
+            return Selector.targetLock(store.getState().targetLocks, this, defender);
         };
 
         this.focus = function()
@@ -643,7 +621,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             {
                 var attacker = targetLock.attacker();
                 attacker.removeAttackerTargetLock(targetLock);
-                this.removeDefenderTargetLock(targetLock);
             }, this);
 
             // Remove target locks in which this is the attacker.
@@ -652,7 +629,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             {
                 var defender = targetLock.defender();
                 this.removeAttackerTargetLock(targetLock);
-                defender.removeDefenderTargetLock(targetLock);
             }, this);
         };
 
@@ -660,15 +636,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             InputValidator.validateNotNull("targetLock", targetLock);
 
-            attackerTargetLocks.vizziniRemove(targetLock);
-            this.trigger("change");
-        };
-
-        this.removeDefenderTargetLock = function(targetLock)
-        {
-            InputValidator.validateNotNull("targetLock", targetLock);
-
-            defenderTargetLocks.vizziniRemove(targetLock);
+            store.dispatch(Action.removeTargetLock(targetLock));
             this.trigger("change");
         };
 

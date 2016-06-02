@@ -5,12 +5,15 @@ define(function()
 
     Action.ADD_COUNT = "addCount";
     Action.ADD_ROUND = "addRound";
+    Action.ADD_TARGET_LOCK = "addTargetLock";
     Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
     Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
+    Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
     Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
     Action.PLACE_TOKEN = "placeToken";
+    Action.REMOVE_TARGET_LOCK = "removeTargetLock";
     Action.REMOVE_TOKEN = "removeToken";
     Action.REMOVE_TOKEN_AT = "removeTokenAt";
     Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
@@ -48,6 +51,17 @@ define(function()
         {
             type: Action.ADD_ROUND,
             value: myValue,
+        });
+    };
+
+    Action.addTargetLock = function(targetLock)
+    {
+        InputValidator.validateNotNull("targetLock", targetLock);
+
+        return (
+        {
+            type: Action.ADD_TARGET_LOCK,
+            targetLock: targetLock,
         });
     };
 
@@ -99,6 +113,14 @@ define(function()
         });
     };
 
+    Action.incrementNextTargetLockId = function()
+    {
+        return (
+        {
+            type: Action.INCREMENT_NEXT_TARGET_LOCK_ID,
+        });
+    };
+
     Action.incrementNextTokenId = function()
     {
         return (
@@ -117,6 +139,17 @@ define(function()
             type: Action.PLACE_TOKEN,
             position: position,
             token: token,
+        });
+    };
+
+    Action.removeTargetLock = function(targetLock)
+    {
+        InputValidator.validateNotNull("targetLock", targetLock);
+
+        return (
+        {
+            type: Action.REMOVE_TARGET_LOCK,
+            targetLock: targetLock,
         });
     };
 

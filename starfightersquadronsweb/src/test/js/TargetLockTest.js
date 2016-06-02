@@ -8,15 +8,15 @@ define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "To
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
 
         var token0 = environment.tokens()[0]; // TIE Fighter
         var token1 = environment.tokens()[1]; // TIE Fighter
         var token2 = environment.tokens()[2]; // X-Wing
 
-        TargetLock.resetNextId();
-        var targetLock02 = new TargetLock(token0, token2);
-        var targetLock12 = new TargetLock(token1, token2);
-        var targetLock20 = new TargetLock(token2, token0);
+        var targetLock02 = new TargetLock(store, token0, token2);
+        var targetLock12 = new TargetLock(store, token1, token2);
+        var targetLock20 = new TargetLock(store, token2, token0);
 
         // Run / Verify.
         assert.ok(targetLock02);
@@ -43,29 +43,28 @@ define([ "EnvironmentFactory", "Pilot", "SimpleAgent", "TargetLock", "Team", "To
         var attacker = new Token(store, Pilot.DARTH_VADER, imperialAgent);
         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
         var defender = new Token(store, Pilot.DASH_RENDAR, rebelAgent);
-        TargetLock.resetNextId();
 
         // Run / Verify.
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         assert.equal(targetLock.id(), "A");
         var i;
 
         for (i = 0; i < 25; i++)
         {
-            targetLock = new TargetLock(attacker, defender);
+            targetLock = new TargetLock(store, attacker, defender);
         }
 
         assert.equal(targetLock.id(), "Z");
-        targetLock = new TargetLock(attacker, defender);
+        targetLock = new TargetLock(store, attacker, defender);
         assert.equal(targetLock.id(), "AA");
 
         for (i = 0; i < 25; i++)
         {
-            targetLock = new TargetLock(attacker, defender);
+            targetLock = new TargetLock(store, attacker, defender);
         }
 
         assert.equal(targetLock.id(), "ZZ");
-        targetLock = new TargetLock(attacker, defender);
+        targetLock = new TargetLock(store, attacker, defender);
         assert.equal(targetLock.id(), "A");
     });
 });

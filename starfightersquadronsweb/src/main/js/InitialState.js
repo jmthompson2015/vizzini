@@ -11,6 +11,7 @@ define([ "Phase" ], function(Phase)
         this.firstAgent = undefined;
         this.secondAgent = undefined;
 
+        this.nextTargetLockId = 0;
         this.nextTokenId = 1;
         this.positionToToken = {};
 
@@ -21,6 +22,7 @@ define([ "Phase" ], function(Phase)
 
         this.damageDeck = [];
         this.damageDiscardPile = [];
+        this.targetLocks = [];
     }
 
     if (Object.freeze)

@@ -106,15 +106,15 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var attacker = environment.tokens()[0]; // TIE Fighter.
         var defender = environment.tokens()[2]; // X-Wing.
         assert.equal(attacker.attackerTargetLocks().length, 0);
         assert.equal(defender.defenderTargetLocks().length, 0);
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
 
         // Run.
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
 
         // Verify.
         assert.equal(attacker.attackerTargetLocks().length, 1);
@@ -125,19 +125,18 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var attacker = environment.tokens()[2]; // X-Wing.
         var defender0 = environment.tokens()[0]; // TIE Fighter.
-        var targetLock0 = new TargetLock(attacker, defender0);
+        var targetLock0 = new TargetLock(store, attacker, defender0);
         attacker.addAttackerTargetLock(targetLock0);
-        defender0.addDefenderTargetLock(targetLock0);
         assert.equal(attacker.attackerTargetLocks().length, 1);
         assert.equal(defender0.defenderTargetLocks().length, 1);
         var defender1 = environment.tokens()[1]; // TIE Fighter.
-        var targetLock1 = new TargetLock(attacker, defender1);
+        var targetLock1 = new TargetLock(store, attacker, defender1);
 
         // Run.
         attacker.addAttackerTargetLock(targetLock1);
-        defender1.addDefenderTargetLock(targetLock1);
 
         // Verify.
         assert.equal(attacker.attackerTargetLocks().length, 1);
@@ -318,11 +317,11 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[2];
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
 
         // Run.
         var result = attacker.findTargetLockByDefender(defender);
@@ -1034,21 +1033,19 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token0 = environment.tokens()[0];
         var token1 = environment.tokens()[1];
         var token2 = environment.tokens()[2];
 
-        var targetLock02 = new TargetLock(token0, token2);
+        var targetLock02 = new TargetLock(store, token0, token2);
         token0.addAttackerTargetLock(targetLock02);
-        token2.addDefenderTargetLock(targetLock02);
 
-        var targetLock12 = new TargetLock(token1, token2);
+        var targetLock12 = new TargetLock(store, token1, token2);
         token1.addAttackerTargetLock(targetLock12);
-        token2.addDefenderTargetLock(targetLock12);
 
-        var targetLock20 = new TargetLock(token2, token0);
+        var targetLock20 = new TargetLock(store, token2, token0);
         token2.addAttackerTargetLock(targetLock20);
-        token0.addDefenderTargetLock(targetLock20);
 
         assert.equal(token0.attackerTargetLocks().length, 1);
         assert.equal(token1.attackerTargetLocks().length, 1);
@@ -1075,17 +1072,16 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var attacker = environment.tokens()[0];
         var defender = environment.tokens()[2];
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
         assert.equal(attacker.attackerTargetLocks().length, 1);
         assert.equal(defender.defenderTargetLocks().length, 1);
 
         // Run.
         attacker.removeAttackerTargetLock(targetLock);
-        defender.removeDefenderTargetLock(targetLock);
 
         // Verify.
         assert.equal(attacker.attackerTargetLocks().length, 0);

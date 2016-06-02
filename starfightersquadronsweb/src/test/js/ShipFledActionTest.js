@@ -8,13 +8,13 @@ define([ "EnvironmentFactory", "Position", "ShipFledAction", "TargetLock", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var fromPosition = new Position(305, 20, 90);
         LOGGER.trace("fromPosition = " + fromPosition.toString());
         var token = environment.getTokenAt(fromPosition);
         var defender = environment.tokens()[2]; // X-Wing.
-        var targetLock = new TargetLock(token, defender);
+        var targetLock = new TargetLock(store, token, defender);
         token.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
         assert.equal(token.attackerTargetLocks().length, 1);
         assert.equal(token.defenderTargetLocks().length, 0);
         assert.equal(defender.attackerTargetLocks().length, 0);

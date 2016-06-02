@@ -31,13 +31,13 @@ define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLo
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var attacker = environment.tokens()[0]; // TIE Fighter.
         var attackDice = new AttackDice(3);
         var defender = environment.tokens()[2]; // X-Wing.
         var modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
         var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
         var blankCount0 = attackDice.blankCount();
         var focusCount0 = attackDice.focusCount();

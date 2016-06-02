@@ -79,7 +79,6 @@ define(
                             if (targetLock)
                             {
                                 attacker.removeAttackerTargetLock(targetLock);
-                                defender.removeDefenderTargetLock(targetLock);
                             }
                         }
 
@@ -358,9 +357,9 @@ define(
                             }
 
                             attacker.focus().increase();
-                            var targetLock = new TargetLock(attacker, defender);
+                            var store = environment.store();
+                            var targetLock = new TargetLock(store, attacker, defender);
                             attacker.addAttackerTargetLock(targetLock);
-                            defender.addDefenderTargetLock(targetLock);
                         }
                     }
 

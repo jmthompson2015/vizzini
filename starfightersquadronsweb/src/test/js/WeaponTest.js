@@ -135,9 +135,8 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         assert.ok(weapon1.isUsable(attacker, defender));
         assert.ok(!weapon2.isUsable(attacker, defender));
 
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
 
         // Run / Verify.
         assert.ok(weapon0.isUsable(attacker, defender));

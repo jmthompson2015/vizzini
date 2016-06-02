@@ -504,9 +504,10 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var defender = environment.tokens()[0]; // TIE Fighter
         var attacker = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.SAATargetLock(attacker, defender);
+        var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
 
         // Run.
         assert.equal(attacker.attackerTargetLocks().length, 0);
@@ -522,9 +523,10 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var defender = environment.tokens()[0]; // TIE Fighter
         var attacker = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.SAATargetLock(attacker, defender);
+        var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
 
         // Run.
         var result = action.toString();

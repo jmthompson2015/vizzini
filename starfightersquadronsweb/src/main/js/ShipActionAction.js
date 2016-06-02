@@ -319,14 +319,20 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
         return answer;
     };
 
-    function SAATargetLock(attacker, defender)
+    function SAATargetLock(store, attacker, defender)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("attacker", attacker);
         InputValidator.validateNotNull("defender", defender);
 
         this.shipActionKey = function()
         {
             return ShipAction.TARGET_LOCK;
+        };
+
+        this.store = function()
+        {
+            return store;
         };
 
         this.attacker = function()
@@ -342,11 +348,11 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     SAATargetLock.prototype.doIt = function()
     {
+        var store = this.store();
         var attacker = this.attacker();
         var defender = this.defender();
-        var targetLock = new TargetLock(attacker, defender);
+        var targetLock = new TargetLock(store, attacker, defender);
         attacker.addAttackerTargetLock(targetLock);
-        defender.addDefenderTargetLock(targetLock);
     };
 
     SAATargetLock.prototype.toString = function()

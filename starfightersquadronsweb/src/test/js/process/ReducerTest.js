@@ -1,6 +1,6 @@
-define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "Team", "Token", "UpgradeCard",
-        "process/Action", "process/Reducer" ], function(DamageCard, Phase, Pilot, PlayFormat, Position, SimpleAgent,
-        Team, Token, UpgradeCard, Action, Reducer)
+define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "TargetLock", "Team", "Token",
+        "UpgradeCard", "process/Action", "process/Reducer" ], function(DamageCard, Phase, Pilot, PlayFormat, Position,
+        SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer)
 {
     "use strict";
     QUnit.module("Reducer");
@@ -52,6 +52,28 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
 
         // Verify.
         assert.equal(store.getState().round, 3);
+    });
+
+    QUnit.test("addTargetLock()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var position = new Position(100, 200, 45);
+        var agent0 = new SimpleAgent("Alpha", Team.REBEL);
+        var attacker = new Token(store, Pilot.LUKE_SKYWALKER, agent0);
+        var agent1 = new SimpleAgent("Bravo", Team.IMPERIAL);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, agent1);
+        assert.equal(store.getState().targetLocks.length, 0);
+        var targetLock = new TargetLock(store, attacker, defender);
+
+        // Run.
+        store.dispatch(Action.addTargetLock(targetLock));
+
+        // Verify.
+        assert.equal(store.getState().targetLocks.length, 1);
+        assert.equal(store.getState().targetLocks[0].id(), "A");
+        assert.equal(store.getState().targetLocks[0].attacker(), attacker);
+        assert.equal(store.getState().targetLocks[0].defender(), defender);
     });
 
     QUnit.test("addTokenCriticalDamage()", function(assert)
@@ -145,6 +167,38 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().damageDiscardPile.length, 0);
     });
 
+    QUnit.test("incrementNextTargetLockId()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        assert.equal(store.getState().nextTargetLockId, 0);
+
+        // Run.
+        store.dispatch(Action.incrementNextTargetLockId());
+
+        // Verify.
+        assert.equal(store.getState().nextTargetLockId, 1);
+
+        // Run.
+        store.dispatch(Action.incrementNextTargetLockId());
+
+        // Verify.
+        assert.equal(store.getState().nextTargetLockId, 2);
+
+        for (var i = 3; i < 52; i++)
+        {
+            store.dispatch(Action.incrementNextTargetLockId());
+        }
+
+        assert.equal(store.getState().nextTargetLockId, 51);
+
+        // Run.
+        store.dispatch(Action.incrementNextTargetLockId());
+
+        // Verify.
+        assert.equal(store.getState().nextTargetLockId, 0);
+    });
+
     QUnit.test("incrementNextTokenId()", function(assert)
     {
         // Setup.
@@ -180,6 +234,29 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         // Verify.
         assert.equal(Object.keys(store.getState().positionToToken).length, 1);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
+    });
+
+    QUnit.test("removeTargetLock()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var position = new Position(100, 200, 45);
+        var agent0 = new SimpleAgent("Alpha", Team.REBEL);
+        var attacker = new Token(store, Pilot.LUKE_SKYWALKER, agent0);
+        var agent1 = new SimpleAgent("Bravo", Team.IMPERIAL);
+        var defender = new Token(store, Pilot.ACADEMY_PILOT, agent1);
+        var targetLock = new TargetLock(store, attacker, defender);
+        store.dispatch(Action.addTargetLock(targetLock));
+        assert.equal(store.getState().targetLocks.length, 1);
+        assert.equal(store.getState().targetLocks[0].id(), "A");
+        assert.equal(store.getState().targetLocks[0].attacker(), attacker);
+        assert.equal(store.getState().targetLocks[0].defender(), defender);
+
+        // Run.
+        store.dispatch(Action.removeTargetLock(targetLock));
+
+        // Verify.
+        assert.equal(store.getState().targetLocks.length, 0);
     });
 
     QUnit.test("removeToken()", function(assert)
