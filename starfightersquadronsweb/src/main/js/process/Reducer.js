@@ -1,4 +1,4 @@
-define([ "InitialState", "process/Action", "process/Selector" ], function(InitialState, Action, Selector)
+define([ "InitialState", "process/Action" ], function(InitialState, Action)
 {
     "use strict";
     var Reducer = {};
@@ -219,6 +219,8 @@ define([ "InitialState", "process/Action", "process/Selector" ], function(Initia
 
         if (typeof state === 'undefined') { return new InitialState(); }
 
+        var newPositionToToken, newTokenIdToPosition, action2;
+
         switch (action.type)
         {
         case Action.ADD_COUNT:
@@ -280,8 +282,8 @@ define([ "InitialState", "process/Action", "process/Selector" ], function(Initia
                 nextTokenId: state.nextTokenId + 1,
             });
         case Action.PLACE_TOKEN:
-            var newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
-            var newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+            newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
+            newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
             return Object.assign({}, state,
             {
                 positionToToken: newPositionToToken,
@@ -289,9 +291,9 @@ define([ "InitialState", "process/Action", "process/Selector" ], function(Initia
             });
         case Action.REMOVE_TOKEN:
             var position = state.tokenIdToPosition[action.token.id()];
-            var action2 = Action.removeTokenAt(position);
-            var newPositionToToken = Reducer.positionToToken(state.positionToToken, action2);
-            var newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+            action2 = Action.removeTokenAt(position);
+            newPositionToToken = Reducer.positionToToken(state.positionToToken, action2);
+            newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
             return Object.assign({}, state,
             {
                 positionToToken: newPositionToToken,
@@ -299,9 +301,9 @@ define([ "InitialState", "process/Action", "process/Selector" ], function(Initia
             });
         case Action.REMOVE_TOKEN_AT:
             var token = state.positionToToken[action.position];
-            var action2 = Action.removeToken(token);
-            var newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
-            var newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action2);
+            action2 = Action.removeToken(token);
+            newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
+            newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action2);
             return Object.assign({}, state,
             {
                 positionToToken: newPositionToToken,
