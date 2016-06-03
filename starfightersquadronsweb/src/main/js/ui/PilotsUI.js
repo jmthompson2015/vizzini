@@ -1,27 +1,19 @@
-define([ "ui/PilotCardUI" ], function(PilotCardUI)
+define([ "process/ui/Connector", "ui/PilotCardUI" ], function(Connector, PilotCardUI)
 {
     "use strict";
     var PilotsUI = React.createClass(
     {
-        getInitialState: function()
-        {
-            return (
-            {
-                tokens: this.props.initialTokens
-            });
-        },
-
         render: function()
         {
-            var tokens = this.state.tokens;
+            var tokens = this.props.tokens;
+            var connector = ReactRedux.connect(Connector.PilotCardUI.mapStateToProps)(PilotCardUI);
 
             var tokenHtml = tokens.map(function(token)
             {
-                return React.createElement(PilotCardUI,
+                return React.createElement(connector,
                 {
-                    key: token.id(),
                     isCompact: true,
-                    initialToken: token
+                    token: token
                 });
             });
 

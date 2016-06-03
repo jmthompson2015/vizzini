@@ -18,6 +18,7 @@ define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/S
             return environment;
         };
 
+        // Status bar.
         var connector0 = ReactRedux.connect(Connector.StatusBarUI.mapStateToProps)(StatusBarUI);
         var statusBarElement = React.createElement(ReactRedux.Provider,
         {
@@ -27,19 +28,33 @@ define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/S
             environment: environment,
         }));
         var statusBarUI = ReactDOM.render(statusBarElement, document.getElementById("statusBar"));
+
+        // First pilots.
+        var connector1 = ReactRedux.connect(Connector.PilotsUI.mapStateToProps)(PilotsUI);
+        var firstPilotsElement = React.createElement(ReactRedux.Provider,
+        {
+            store: environment.store(),
+        }, React.createElement(connector1,
+        {
+            environment: environment,
+            team: environment.firstTeam(),
+        }));
+        var firstPilots = ReactDOM.render(firstPilotsElement, document.getElementById("firstPilots"));
+
+        // Play area.
         var playAreaUI = new PlayAreaUI(environment);
-        var firstTokens = environment.getTokensForTeam(environment.firstTeam());
-        var element = React.createElement(PilotsUI,
+
+        // Second pilots.
+        var secondPilotsElement = React.createElement(ReactRedux.Provider,
         {
-            initialTokens: firstTokens
-        });
-        var firstPilots = ReactDOM.render(element, document.getElementById("firstPilots"));
-        var secondTokens = environment.getTokensForTeam(environment.secondTeam());
-        element = React.createElement(PilotsUI,
+            store: environment.store(),
+        }, React.createElement(connector1,
         {
-            initialTokens: secondTokens
-        });
-        var secondPilots = ReactDOM.render(element, document.getElementById("secondPilots"));
+            environment: environment,
+            team: environment.secondTeam(),
+        }));
+        var secondPilots = ReactDOM.render(secondPilotsElement, document.getElementById("secondPilots"));
+
         var scale = 1.0;
         var previousPlayState;
 
