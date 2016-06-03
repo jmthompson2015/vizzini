@@ -213,6 +213,47 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
+    Reducer.tokenIdToUpgrades = function(state, action)
+    {
+        LOGGER.debug("tokenIdToUpgrades() type = " + action.type);
+
+        var newTokenIdToUpgrades;
+
+        switch (action.type)
+        {
+        case Action.ADD_TOKEN_UPGRADE:
+        case Action.REMOVE_TOKEN_UPGRADE:
+            newTokenIdToUpgrades = Object.assign({}, state);
+            newTokenIdToUpgrades[action.tokenId] = Reducer.upgrades(state[action.tokenId], action);
+            return newTokenIdToUpgrades;
+        default:
+            LOGGER.warn("Reducer.tokenIdToUpgrades: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
+    Reducer.upgrades = function(state, action)
+    {
+        LOGGER.debug("upgrades() type = " + action.type);
+
+        var newUpgrades;
+
+        switch (action.type)
+        {
+        case Action.ADD_TOKEN_UPGRADE:
+            newUpgrades = (state ? state.slice() : []);
+            newUpgrades.push(action.upgradeKey);
+            return newUpgrades;
+        case Action.REMOVE_TOKEN_UPGRADE:
+            newUpgrades = (state ? state.slice() : []);
+            newUpgrades.vizziniRemove(action.upgradeKey);
+            return newUpgrades;
+        default:
+            LOGGER.warn("Reducer.upgrades: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.root = function(state, action)
     {
         LOGGER.debug("root() type = " + action.type);
@@ -254,6 +295,13 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 tokenIdToDamages: newTokenIdToDamages,
+            });
+        case Action.ADD_TOKEN_UPGRADE:
+        case Action.REMOVE_TOKEN_UPGRADE:
+            var newTokenIdToUpgrades = Reducer.tokenIdToUpgrades(state.tokenIdToUpgrades, action);
+            return Object.assign({}, state,
+            {
+                tokenIdToUpgrades: newTokenIdToUpgrades,
             });
         case Action.DISCARD_DAMAGE:
             return Object.assign({}, state,

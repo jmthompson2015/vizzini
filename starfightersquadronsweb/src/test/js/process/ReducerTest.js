@@ -130,6 +130,33 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().tokenIdToDamages[tokenId][1], damageKey1);
     });
 
+    QUnit.test("addTokenUpgrade()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
+        var upgradeKey1 = UpgradeCard.CALCULATION;
+        assert.ok(!store.getState().tokenIdToUpgrades[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addTokenUpgrade(tokenId, upgradeKey0));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgrades[tokenId]);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId].length, 1);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId][0], upgradeKey0);
+
+        // Run.
+        store.dispatch(Action.addTokenUpgrade(tokenId, upgradeKey1));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgrades[tokenId]);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId].length, 2);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId][0], upgradeKey0);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId][1], upgradeKey1);
+    });
+
     QUnit.test("discardDamage()", function(assert)
     {
         // Setup.
@@ -361,6 +388,36 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         // Verify.
         assert.ok(store.getState().tokenIdToDamages[tokenId]);
         assert.equal(store.getState().tokenIdToDamages[tokenId].length, 0);
+    });
+
+    QUnit.test("removeTokenUpgrade()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
+        var upgradeKey1 = UpgradeCard.CALCULATION;
+        store.dispatch(Action.addTokenUpgrade(tokenId, upgradeKey0));
+        store.dispatch(Action.addTokenUpgrade(tokenId, upgradeKey1));
+        assert.ok(store.getState().tokenIdToUpgrades[tokenId]);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId].length, 2);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId][0], upgradeKey0);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId][1], upgradeKey1);
+
+        // Run.
+        store.dispatch(Action.removeTokenUpgrade(tokenId, upgradeKey1));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgrades[tokenId]);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId].length, 1);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId][0], upgradeKey0);
+
+        // Run.
+        store.dispatch(Action.removeTokenUpgrade(tokenId, upgradeKey0));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgrades[tokenId]);
+        assert.equal(store.getState().tokenIdToUpgrades[tokenId].length, 0);
     });
 
     QUnit.test("replenishDamageDeck()", function(assert)

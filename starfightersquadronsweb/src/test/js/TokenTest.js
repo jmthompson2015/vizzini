@@ -882,9 +882,10 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var adjudicator = new Adjudicator();
         var token = environment.tokens()[2]; // X-Wing
-        token.upgradeKeys().push(UpgradeCard.KYLE_KATARN);
+        store.dispatch(Action.addTokenUpgrade(token.id(), UpgradeCard.KYLE_KATARN));
         token.stress().increase();
         assert.equal(token.focus().count(), 0);
         assert.equal(token.stress().count(), 1);

@@ -8,6 +8,7 @@ define(function()
     Action.ADD_TARGET_LOCK = "addTargetLock";
     Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
     Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
+    Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
     Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
@@ -18,6 +19,7 @@ define(function()
     Action.REMOVE_TOKEN_AT = "removeTokenAt";
     Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
     Action.REMOVE_TOKEN_DAMAGE = "removeTokenDamage";
+    Action.REMOVE_TOKEN_UPGRADE = "removeTokenUpgrade";
     Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
     Action.RESET_NEXT_TOKEN_ID = "resetNextTokenId";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
@@ -88,6 +90,19 @@ define(function()
             type: Action.ADD_TOKEN_DAMAGE,
             tokenId: tokenId,
             damageKey: damageKey,
+        });
+    };
+
+    Action.addTokenUpgrade = function(tokenId, upgradeKey)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_UPGRADE,
+            tokenId: tokenId,
+            upgradeKey: upgradeKey,
         });
     };
 
@@ -198,6 +213,19 @@ define(function()
             type: Action.REMOVE_TOKEN_DAMAGE,
             tokenId: tokenId,
             damageKey: damageKey,
+        });
+    };
+
+    Action.removeTokenUpgrade = function(tokenId, upgradeKey)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        return (
+        {
+            type: Action.REMOVE_TOKEN_UPGRADE,
+            tokenId: tokenId,
+            upgradeKey: upgradeKey,
         });
     };
 

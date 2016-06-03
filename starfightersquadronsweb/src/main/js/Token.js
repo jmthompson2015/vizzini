@@ -115,13 +115,11 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         var secondaryWeapons = [];
 
         // Initialize the upgrades.
-        var upgradeKeys = [];
-
         if (upgradeKeysIn)
         {
             upgradeKeysIn.forEach(function(upgradeKey)
             {
-                upgradeKeys.push(upgradeKey);
+                store.dispatch(Action.addTokenUpgrade(id, upgradeKey));
                 var upgrade = UpgradeCard.properties[upgradeKey];
 
                 if (upgrade.weaponValue)
@@ -133,16 +131,19 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         var upgradeToEnergy = {};
 
-        upgradeKeys.forEach(function(upgradeKey)
+        if (upgradeKeysIn)
         {
-            var upgrade = UpgradeCard.properties[upgradeKey];
-
-            if (upgrade.energyLimit !== undefined)
+            upgradeKeysIn.forEach(function(upgradeKey)
             {
-                var energy = new Count(store, id, "energy", upgrade.energyLimit);
-                upgradeToEnergy[upgradeKey] = energy;
-            }
-        });
+                var upgrade = UpgradeCard.properties[upgradeKey];
+
+                if (upgrade.energyLimit !== undefined)
+                {
+                    var energy = new Count(store, id, "energy", upgrade.energyLimit);
+                    upgradeToEnergy[upgradeKey] = energy;
+                }
+            });
+        }
 
         var activationState = new ActivationState();
         var combatState = new CombatState();
@@ -175,7 +176,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
             if (answer !== null)
             {
-                upgradeKeys.forEach(function(upgradeKey)
+                this.upgradeKeys().forEach(function(upgradeKey)
                 {
                     var shipState = UpgradeCard.properties[upgradeKey].shipState;
 
@@ -242,7 +243,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             InputValidator.validateNotNull("upgradeKey", upgradeKey);
 
-            upgradeKeys.vizziniRemove(upgradeKey);
+            store.dispatch(Action.removeTokenUpgrade(id, upgradeKey));
             var upgrade = UpgradeCard.properties[upgradeKey];
 
             if (upgrade.weaponValue !== undefined)
@@ -280,7 +281,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                     return sum + DamageCard.properties[damageKey].shipState.energyValue();
                 }, answer);
 
-                upgradeKeys.forEach(function(upgradeKey)
+                this.upgradeKeys().forEach(function(upgradeKey)
                 {
                     var shipState = UpgradeCard.properties[upgradeKey].shipState;
 
@@ -294,6 +295,13 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
             }
 
             return answer;
+        };
+
+        this.upgradeKeys = function()
+        {
+            var answer = store.getState().tokenIdToUpgrades[id];
+
+            return (answer ? answer : []);
         };
 
         // Initialize the energy.
@@ -333,7 +341,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                     return sum + DamageCard.properties[damageKey].shipState.hullValue();
                 }, answer);
 
-                upgradeKeys.forEach(function(upgradeKey)
+                this.upgradeKeys().forEach(function(upgradeKey)
                 {
                     var shipState = UpgradeCard.properties[upgradeKey].shipState;
 
@@ -433,9 +441,9 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
             var answer = new Token(store, pilotKey, agent);
 
-            upgradeKeys.forEach(function(upgradeKey)
+            this.upgradeKeys().forEach(function(upgradeKey)
             {
-                answer.upgradeKeys().push(upgradeKey);
+                store.dispatch(Action.addTokenUpgrade(answer.id(), upgradeKey));
                 var upgrade = UpgradeCard.properties[upgradeKey];
 
                 if (upgrade.weaponValue)
@@ -523,7 +531,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                     return sum + DamageCard.properties[damageKey].shipState.pilotSkillValue();
                 }, answer);
 
-                upgradeKeys.forEach(function(upgradeKey)
+                this.upgradeKeys().forEach(function(upgradeKey)
                 {
                     var shipState = UpgradeCard.properties[upgradeKey].shipState;
 
@@ -574,7 +582,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
                     return sum + DamageCard.properties[damageKey].shipState.primaryWeaponValue();
                 }, answer);
 
-                upgradeKeys.forEach(function(upgradeKey)
+                this.upgradeKeys().forEach(function(upgradeKey)
                 {
                     var shipState = UpgradeCard.properties[upgradeKey].shipState;
 
@@ -669,7 +677,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
             if (answer !== null)
             {
-                upgradeKeys.forEach(function(upgradeKey)
+                this.upgradeKeys().forEach(function(upgradeKey)
                 {
                     var shipState = UpgradeCard.properties[upgradeKey].shipState;
 
@@ -696,11 +704,6 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         this.teamName = function()
         {
             return pilot.shipTeam.team.name;
-        };
-
-        this.upgradeKeys = function()
-        {
-            return upgradeKeys;
         };
 
         this.upgradeTypeKeys = function()
