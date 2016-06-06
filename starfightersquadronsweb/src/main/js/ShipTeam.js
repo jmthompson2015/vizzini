@@ -12,6 +12,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
         IMPERIAL_LAMBDA_CLASS_SHUTTLE: "imperialLambdaClassShuttle",
         IMPERIAL_RAIDER_CLASS_CORVETTE: "imperialRaiderClassCorvette",
         IMPERIAL_TIE_ADVANCED: "imperialTieAdvanced",
+        IMPERIAL_TIE_ADVANCED_PROTOTYPE: "imperialTieAdvancedPrototype",
         IMPERIAL_TIE_BOMBER: "imperialTieBomber",
         IMPERIAL_TIE_DEFENDER: "imperialTieDefender",
         IMPERIAL_TIE_FIGHTER: "imperialTieFighter",
@@ -25,6 +26,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
         // Rebel.
         REBEL_A_WING: "rebelAWing",
         REBEL_A_WING_ACE: "rebelAWingAce",
+        REBEL_ATTACK_SHUTTLE: "rebelAttackShuttle",
         REBEL_B_WING: "rebelBWing",
         REBEL_B_WING_ACE: "rebelBWingAce",
         REBEL_CR90_CORVETTE: "rebelCr90Corvette",
@@ -32,6 +34,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
         REBEL_GR_75_MEDIUM_TRANSPORT: "rebelGr75MediumTransport",
         REBEL_HWK_290: "rebelHwk290",
         REBEL_K_WING: "rebelKWing",
+        REBEL_VCX_100: "rebelVcx100",
         REBEL_X_WING: "rebelXWing",
         REBEL_Y_WING: "rebelYWing",
         REBEL_YT_1300: "rebelYt1300",
@@ -44,7 +47,9 @@ define([ "Ship", "Team" ], function(Ship, Team)
         // Scum & Villainy.
         SCUM_AGGRESSOR: "scumAggressor",
         SCUM_FIRESPRAY_31: "scumFirespray31",
+        SCUM_G_1A_STARFIGHTER: "scumG1AStarfighter",
         SCUM_HWK_290: "scumHwk290",
+        SCUM_JUMPMASTER_5000: "scumJumpMaster5000",
         SCUM_KIHRAXZ_FIGHTER: "scumKihraxzFighter",
         SCUM_M3_A_INTERCEPTOR: "scumM3AInterceptor",
         SCUM_STAR_VIPER: "scumStarViper",
@@ -104,6 +109,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 teamKey: Team.IMPERIAL,
                 image: "TIE_Advanced.png",
                 value: "imperialTieAdvanced",
+            },
+            "imperialTieAdvancedPrototype":
+            {
+                name: "TIE Advanced Prototype",
+                shipKey: Ship.TIE_ADVANCED_PROTOTYPE,
+                teamKey: Team.IMPERIAL,
+                image: "Imperial_TIE_Advanced_Prototype.png",
+                value: "imperialTieAdvancedPrototype",
             },
             "imperialTieBomber":
             {
@@ -195,6 +208,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 image: "Rebel_Aces_A-Wing.png",
                 value: "rebelAWingAce",
             },
+            "rebelAttackShuttle":
+            {
+                name: "Attack Shuttle",
+                shipKey: Ship.ATTACK_SHUTTLE,
+                teamKey: Team.REBEL,
+                image: "Rebel_Attack_Shuttle.png",
+                value: "rebelAttackShuttle",
+            },
             "rebelBWing":
             {
                 name: "B-Wing",
@@ -250,6 +271,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 teamKey: Team.REBEL,
                 image: "Rebel_K-Wing.png",
                 value: "rebelKWing",
+            },
+            "rebelVcx100":
+            {
+                name: "rebelVcx100",
+                shipKey: Ship.VCX_100,
+                teamKey: Team.REBEL,
+                image: "Rebel_VCX-100.png",
+                value: "rebelVcx100",
             },
             "rebelXWing":
             {
@@ -319,6 +348,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 image: "Scum_Firespray-31.png",
                 value: "scumFirespray31",
             },
+            "scumG1AStarfighter":
+            {
+                name: "G-1A Starfighter",
+                shipKey: Ship.G_1A_STARFIGHTER,
+                teamKey: Team.SCUM,
+                image: "Scum_G-1A_Starfighter.png",
+                value: "scumG1AStarfighter",
+            },
             "scumHwk290":
             {
                 name: "HWK-290 (Scum)",
@@ -326,6 +363,14 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 teamKey: Team.SCUM,
                 image: "Scum_HWK-290.png",
                 value: "scumHwk290",
+            },
+            "scumJumpMaster5000":
+            {
+                name: "JumpMaster 5000",
+                shipKey: Ship.JUMPMASTER_5000,
+                teamKey: Team.SCUM,
+                image: "Scum_JumpMaster_5000.png",
+                value: "scumJumpMaster5000",
             },
             "scumKihraxzFighter":
             {

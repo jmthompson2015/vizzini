@@ -92,10 +92,10 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 209);
+                var length = 238;
+                assert.equal(result.length, length);
                 assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
-                assert.equal(result[207], UpgradeCard.WIRED);
-                assert.equal(result[208], UpgradeCard.YSANNE_ISARD);
+                assert.equal(result[length - 1], UpgradeCard.ZUCKUSS);
             });
 
             QUnit.test("valuesByPilotAndType() Astromech", function(assert)
@@ -119,7 +119,8 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 14);
+                var length = 15;
+                assert.equal(result.length, length);
                 var i = 0;
                 assert.equal(result[i++], UpgradeCard.ADVANCED_SLAM);
                 assert.equal(result[i++], UpgradeCard.ANTI_PURSUIT_LASERS);
@@ -127,6 +128,7 @@ define(
                 assert.equal(result[i++], UpgradeCard.COUNTERMEASURES);
                 assert.equal(result[i++], UpgradeCard.ENGINE_UPGRADE);
                 assert.equal(result[i++], UpgradeCard.EXPERIMENTAL_INTERFACE);
+                assert.equal(result[i++], UpgradeCard.GUIDANCE_CHIPS);
                 assert.equal(result[i++], UpgradeCard.HULL_UPGRADE);
                 assert.equal(result[i++], UpgradeCard.ION_PROJECTOR);
                 assert.equal(result[i++], UpgradeCard.MUNITIONS_FAILSAFE);
@@ -157,8 +159,10 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 28);
+                var length = 30;
+                assert.equal(result.length, length);
                 var i = 0;
+                assert.equal(result[i++], UpgradeCard.ADAPTABILITY);
                 assert.equal(result[i++], UpgradeCard.ADRENALINE_RUSH);
                 assert.equal(result[i++], UpgradeCard.CALCULATION);
                 assert.equal(result[i++], UpgradeCard.COOL_HAND);
@@ -180,6 +184,7 @@ define(
                 assert.equal(result[i++], UpgradeCard.OUTMANEUVER);
                 assert.equal(result[i++], UpgradeCard.PREDATOR);
                 assert.equal(result[i++], UpgradeCard.PUSH_THE_LIMIT);
+                assert.equal(result[i++], UpgradeCard.RAGE);
                 assert.equal(result[i++], UpgradeCard.RUTHLESSNESS);
                 assert.equal(result[i++], UpgradeCard.SQUAD_LEADER);
                 assert.equal(result[i++], UpgradeCard.STAY_ON_TARGET);
@@ -210,9 +215,9 @@ define(
 
                 // Verify.
                 assert.ok(result);
-                assert.equal(result.length, 29);
-                assert.equal(result[0], UpgradeCard.ADRENALINE_RUSH);
-                assert.equal(result[27], UpgradeCard.WINGMAN);
-                assert.equal(result[28], UpgradeCard.WIRED);
+                var length = 32;
+                assert.equal(result.length, length);
+                assert.equal(result[0], UpgradeCard.ADAPTABILITY);
+                assert.equal(result[length - 1], UpgradeCard.WIRED);
             });
         });

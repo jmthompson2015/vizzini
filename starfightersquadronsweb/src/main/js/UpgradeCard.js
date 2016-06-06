@@ -7,6 +7,7 @@ define(
             {
                 A_WING_TEST_PILOT: "aWingTestPilot",
                 ACCURACY_CORRECTOR: "accuracyCorrector",
+                ADAPTABILITY: "adaptability",
                 ADMIRAL_OZZEL: "admiralOzzel",
                 ADRENALINE_RUSH: "adrenalineRush",
                 ADVANCED_CLOAKING_DEVICE: "advancedCloakingDevice",
@@ -20,6 +21,7 @@ define(
                 ANTI_PURSUIT_LASERS: "antiPursuitLasers",
                 ASSAILER: "assailer",
                 ASSAULT_MISSILES: "assaultMissiles",
+                ATTANNI_MINDLINK: "attanniMindlink",
                 AUTOBLASTER: "autoblaster",
                 AUTOBLASTER_TURRET: "autoblasterTurret",
                 AUTOMATED_PROTOCOLS: "automatedProtocols",
@@ -28,6 +30,7 @@ define(
                 B_WING_E2: "bWingE2",
                 BB_8: "bb8",
                 BLASTER_TURRET: "blasterTurret",
+                BOBA_FETT: "bobaFett",
                 BODYGUARD: "bodyguard",
                 BOMB_LOADOUT: "bombLoadout",
                 BOMBARDIER: "bombardier",
@@ -41,6 +44,8 @@ define(
                 CARLIST_RIEEKAN: "carlistRieekan",
                 CHARDAAN_REFIT: "chardaanRefit",
                 CHEWBACCA: "chewbacca",
+                CHOPPER: "chopper",
+                CLOAKING_DEVICE: "cloakingDevice",
                 CLUSTER_BOMBS: "clusterBombs",
                 CLUSTER_MINES: "clusterMines",
                 CLUSTER_MISSILES: "clusterMissiles",
@@ -60,12 +65,15 @@ define(
                 DEAD_MANS_SWITCH: "deadMansSwitch",
                 DEADEYE: "deadeye",
                 DECOY: "decoy",
+                DENGAR: "dengar",
                 DETERMINATION: "determination",
                 DOCKING_CLAMPS: "dockingClamps",
                 DODONNAS_PRIDE: "dodonnasPride",
+                DORSAL_TURRET: "dorsalTurret",
                 DRAW_THEIR_FIRE: "drawTheirFire",
                 DUAL_LASER_TURRET: "dualLaserTurret",
                 DUTYFREE: "dutyfree",
+                ELECTRONIC_BAFFLE: "electronicBaffle",
                 ELUSIVENESS: "elusiveness",
                 EM_EMITTER: "emEmitter",
                 EMPEROR_PALPATINE: "emperorPalpatine",
@@ -78,22 +86,28 @@ define(
                 EXPERT_HANDLING: "expertHandling",
                 EXPOSE: "expose",
                 EXTRA_MUNITIONS: "extraMunitions",
+                EZRA_BRIDGER: "ezraBridger",
                 FEEDBACK_ARRAY: "feedbackArray",
                 FIRE_CONTROL_SYSTEM: "fireControlSystem",
                 FLECHETTE_CANNON: "flechetteCannon",
                 FLECHETTE_TORPEDOES: "flechetteTorpedoes",
                 FLEET_OFFICER: "fleetOfficer",
                 FLIGHT_INSTRUCTOR: "flightInstructor",
+                FOUR_LOM: "fourLom",
                 FREQUENCY_JAMMER: "frequencyJammer",
                 GENIUS: "genius",
+                GHOST: "ghost",
                 GLITTERSTIM: "glitterstim",
+                GONK: "gonk",
                 GRAND_MOFF_TARKIN: "grandMoffTarkin",
                 GREEDO: "greedo",
+                GUIDANCE_CHIPS: "guidanceChips",
                 GUNNER: "gunner",
                 GUNNERY_TEAM: "gunneryTeam",
                 HAN_SOLO: "hanSolo",
                 HEAVY_LASER_CANNON: "heavyLaserCannon",
                 HEAVY_SCYK_INTERCEPTOR: "heavyScykInterceptor",
+                HERA_SYNDULLA: "heraSyndulla",
                 HOMING_MISSILES: "homingMissiles",
                 HOT_SHOT_BLASTER: "hotShotBlaster",
                 HOUNDS_TOOTH: "houndsTooth",
@@ -118,6 +132,7 @@ define(
                 JAN_ORS: "janOrs",
                 JUKE: "juke",
                 K4_SECURITY_DROID: "k4SecurityDroid",
+                KANAN_JARRUS: "kananJarrus",
                 KYLE_KATARN: "kyleKatarn",
                 LANDO_CALRISSIAN: "landoCalrissian",
                 LEEBO: "leebo",
@@ -131,6 +146,7 @@ define(
                 MARKSMANSHIP: "marksmanship",
                 MERCENARY_COPILOT: "mercenaryCopilot",
                 MILLENNIUM_FALCON: "millenniumFalcon",
+                MIST_HUNTER: "mistHunter",
                 MOFF_JERJERROD: "moffJerjerrod",
                 MOLDY_CROW: "moldyCrow",
                 MUNITIONS_FAILSAFE: "munitionsFailsafe",
@@ -143,12 +159,15 @@ define(
                 OUTLAW_TECH: "outlawTech",
                 OUTMANEUVER: "outmaneuver",
                 OUTRIDER: "outrider",
+                OVERCLOCKED_R4: "overclockedR4",
+                PHANTOM: "phantom",
                 PLASMA_TORPEDOES: "plasmaTorpedoes",
                 PREDATOR: "predator",
                 PROTON_BOMBS: "protonBombs",
                 PROTON_ROCKETS: "protonRockets",
                 PROTON_TORPEDOES: "protonTorpedoes",
                 PROXIMITY_MINES: "proximityMines",
+                PUNISHING_ONE: "punishingOne",
                 PUSH_THE_LIMIT: "pushTheLimit",
                 QUAD_LASER_CANNONS: "quadLaserCannons",
                 QUANTUM_STORM: "quantumStorm",
@@ -164,17 +183,21 @@ define(
                 R5_ASTROMECH: "r5Astromech",
                 R5_D8: "r5D8",
                 R5_K6: "r5K6",
+                R5_P8: "r5P8",
                 R5_P9: "r5P9",
                 R5_X3: "r5x3",
                 R7_ASTROMECH: "r7Astromech",
                 R7_T1: "r7T1",
+                RAGE: "rage",
                 RAYMUS_ANTILLES: "raymusAntilles",
                 REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
                 REBEL_CAPTIVE: "rebelCaptive",
                 RECON_SPECIALIST: "reconSpecialist",
+                REINFORCED_DEFLECTORS: "reinforcedDeflectors",
                 REQUIEM: "requiem",
                 ROYAL_GUARD_TIE: "royalGuardTie",
                 RUTHLESSNESS: "ruthlessness",
+                SABINE_WREN: "sabineWren",
                 SABOTEUR: "saboteur",
                 SALVAGED_ASTROMECH: "salvagedAstromech",
                 SEISMIC_CHARGES: "seismicCharges",
@@ -199,9 +222,12 @@ define(
                 TARGETING_ASTROMECH: "targetingAstromech",
                 TARGETING_COMPUTER: "targetingComputer",
                 TARGETING_COORDINATOR: "targetingCoordinator",
+                THERMAL_DETONATORS: "thermalDetonators",
                 TIBANNA_GAS_SUPPLIES: "tibannaGasSupplies",
+                TIE_V1: "tieV1",
                 TIE_X1: "tieX1",
                 TORYN_FARR: "torynFarr",
+                TRACTOR_BEAM: "tractorBeam",
                 TWIN_ION_ENGINE_MK_II: "twinIonEngineMkII",
                 TWIN_LASER_TURRET: "twinLaserTurret",
                 UNHINGED_ASTROMECH: "unhingedAstromech",
@@ -213,7 +239,10 @@ define(
                 WED_15_REPAIR_DROID: "wed15RepairDroid",
                 WINGMAN: "wingman",
                 WIRED: "wired",
+                XX_23_S_THREAD_TRACERS: "xx23SThreadTracers",
                 YSANNE_ISARD: "ysanneIsard",
+                ZEB_ORRELIOS: "zebOrrelios",
+                ZUCKUSS: "zuckuss",
 
                 properties:
                 {
@@ -236,6 +265,14 @@ define(
                         description: "When attacking, you may cancel all of your dice results. Then, you may add 2 Hit results to your roll. Your dice cannot be modified again during this attack.",
                         squadPointCost: 3,
                         value: "accuracyCorrector",
+                    },
+                    "adaptability":
+                    {
+                        name: "Adaptability",
+                        type: UpgradeType.ELITE,
+                        description: "Increase your pilot skill value by 1. / Decrease your pilot skill value by 1.",
+                        squadPointCost: 0,
+                        value: "adaptability",
                     },
                     "admiralOzzel":
                     {
@@ -382,6 +419,15 @@ define(
                         isImplemented: true,
                         value: "assaultMissiles",
                     },
+                    "attanniMindlink":
+                    {
+                        name: "Attanni Mindlink",
+                        type: UpgradeType.ELITE,
+                        restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+                        description: "Each time you are assigned a focus or stress token, each other friendly ship with Attanni Mindlink must also be assigned the same type of token if it does not already have one.",
+                        squadPointCost: 1,
+                        value: "attanniMindlink",
+                    },
                     "autoblaster":
                     {
                         name: "Autoblaster",
@@ -461,6 +507,16 @@ define(
                         squadPointCost: 4,
                         isImplemented: true,
                         value: "blasterTurret",
+                    },
+                    "bobaFett":
+                    {
+                        name: "Boba Fett",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+                        description: "After performing an attack, if the defender was dealt a faceup Damage card, you may discard this card to choose and discard 1 of the defender's Upgrade cards.",
+                        squadPointCost: 1,
+                        value: "bobaFett",
                     },
                     "bodyguard":
                     {
@@ -603,6 +659,27 @@ define(
                         description: "When you are dealt a Damage card, you may immediately discard that card and recover 1 shield. Then, discard this Upgrade card.",
                         squadPointCost: 4,
                         value: "chewbacca",
+                    },
+                    "chopper":
+                    {
+                        name: "\"Chopper\"",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        description: "You may perform actions even while you are stressed. After you perform an action while you are stressed, suffer 1 damage.",
+                        squadPointCost: 0,
+                        value: "chopper",
+                    },
+                    "cloakingDevice":
+                    {
+                        name: "Cloaking Device",
+                        type: UpgradeType.ILLICIT,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.SMALL_SHIP_ONLY ],
+                        header: UpgradeHeader.ACTION,
+                        description: "Perform a free cloak action. At the end of each round, if you are cloaked, roll 1 attack die. On a focus result, discard this card, then decloak or discard your cloak token.",
+                        squadPointCost: 2,
+                        value: "cloakingDevice",
                     },
                     "clusterBombs":
                     {
@@ -796,6 +873,16 @@ define(
                         squadPointCost: 2,
                         value: "decoy",
                     },
+                    "dengar":
+                    {
+                        name: "Dengar",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+                        description: "When attacking, you may reroll 1 attack die. If the defender is a unique pilot, you may instead reroll up to 2 attack dice.",
+                        squadPointCost: 3,
+                        value: "dengar",
+                    },
                     "determination":
                     {
                         name: "Determination",
@@ -824,6 +911,19 @@ define(
                         description: "When you perform a coordinate action, you may choose 2 friendly ships (instead of 1). Those ships may each perform 1 free action.",
                         squadPointCost: 4,
                         value: "dodonnasPride",
+                    },
+                    "dorsalTurret":
+                    {
+                        name: "Dorsal Turret",
+                        type: UpgradeType.TURRET,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 2,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO ],
+                        firingArcKey: FiringArc.FORWARD,
+                        isWeaponTurret: true,
+                        description: "Attack 1 ship (even a ship outside your firing arc). If the target of this attack is at Range 1, roll 1 additional attack die.",
+                        squadPointCost: 3,
+                        value: "dorsalTurret",
                     },
                     "drawTheirFire":
                     {
@@ -859,6 +959,14 @@ define(
                         shipState: new ShipState(null, null, null, null, null, 0),
                         squadPointCost: 2,
                         value: "dutyfree",
+                    },
+                    "electronicBaffle":
+                    {
+                        name: "Electronic Baffle",
+                        type: UpgradeType.SYSTEM,
+                        description: "When you receive a stress token or an ion token, you may suffer 1 damage to discard that token.",
+                        squadPointCost: 1,
+                        value: "electronicBaffle",
                     },
                     "elusiveness":
                     {
@@ -970,6 +1078,16 @@ define(
                         squadPointCost: 2,
                         value: "extraMunitions",
                     },
+                    "ezraBridger":
+                    {
+                        name: "Ezra Bridger",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        description: "When attacking, if you are stressed, you may change 1 of your focus results to a crit result.",
+                        squadPointCost: 3,
+                        value: "ezraBridger",
+                    },
                     "feedbackArray":
                     {
                         name: "Feedback Array",
@@ -1038,6 +1156,16 @@ define(
                         squadPointCost: 4,
                         value: "flightInstructor",
                     },
+                    "fourLom":
+                    {
+                        name: "4-LOM",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+                        description: "When attacking, during the \"Modify Attack Dice\" step, you may receive 1 ion token to choose 1 of the defender's focus or evade tokens. That token cannot be spent during this attack.",
+                        squadPointCost: 1,
+                        value: "fourLom",
+                    },
                     "frequencyJammer":
                     {
                         name: "Frequency Jammer",
@@ -1056,6 +1184,16 @@ define(
                         squadPointCost: 0,
                         value: "genius",
                     },
+                    "ghost":
+                    {
+                        name: "Ghost",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.VCX_100_ONLY ],
+                        description: "Equip the Phantom title card to a friendly Attack Shuttle and dock it to this ship. After you execute a maneuver, you may deploy it from your rear guides.",
+                        squadPointCost: 0,
+                        value: "ghost",
+                    },
                     "glitterstim":
                     {
                         name: "Glitterstim",
@@ -1064,6 +1202,17 @@ define(
                         description: "At the start of the Combat phase, you may discard this card and receive 1 stress token. If you do, until the end of the round, when attacking or defending, you may change all of your Focus results to Hit or Evade results.",
                         squadPointCost: 2,
                         value: "glitterstim",
+                    },
+                    "gonk":
+                    {
+                        name: "\"Gonk\"",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+                        header: UpgradeHeader.ACTION,
+                        description: "Place 1 shield token on this card. OR Remove 1 shield token from this card to recover 1 shield (up to your shield value).",
+                        squadPointCost: 2,
+                        value: "gonk",
                     },
                     "grandMoffTarkin":
                     {
@@ -1084,6 +1233,14 @@ define(
                         description: "The first time you attack each round and the first time you defend each round, the first Damage card dealt is dealt faceup.",
                         squadPointCost: 0,
                         value: "greedo",
+                    },
+                    "guidanceChips":
+                    {
+                        name: "Guidance Chips",
+                        type: UpgradeType.MODIFICATION,
+                        description: "Once per round, when attacking with a Torpedo or Missile secondary weapon, you may change 1 die result to a hit result (or a crit result if your primary weapon value is \"3\" or higher).",
+                        squadPointCost: 0,
+                        value: "guidanceChips",
                     },
                     "gunner":
                     {
@@ -1136,6 +1293,16 @@ define(
                         description: "Your upgrade bar gains the Cannon, Torpedo, or Missile upgrade icon.",
                         squadPointCost: 2,
                         value: "heavyScykInterceptor",
+                    },
+                    "heraSyndulla":
+                    {
+                        name: "Hera Syndulla",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        description: "You can reveal and execute red maneuvers even while you are stressed.",
+                        squadPointCost: 1,
+                        value: "heraSyndulla",
                     },
                     "homingMissiles":
                     {
@@ -1406,6 +1573,16 @@ define(
                         squadPointCost: 3,
                         value: "k4SecurityDroid",
                     },
+                    "kananJarrus":
+                    {
+                        name: "Kanan Jarrus",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        description: "Once per round, after a friendly ship at Range 1-2 executes a white maneuver, you may remove 1 stress token from that ship.",
+                        squadPointCost: 3,
+                        value: "kananJarrus",
+                    },
                     "kyleKatarn":
                     {
                         name: "Kyle Katarn",
@@ -1540,6 +1717,16 @@ define(
                         isImplemented: true,
                         value: "millenniumFalcon",
                     },
+                    "mistHunter":
+                    {
+                        name: "Mist Hunter",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.G_1A_STARFIGHTER_ONLY ],
+                        description: "Your action bar gains the Barrel Roll action icon. You must equip 1 \"Tractor Beam\" upgrade card (paying its squad point cost as normal).",
+                        squadPointCost: 0,
+                        value: "mistHunter",
+                    },
                     "moffJerjerrod":
                     {
                         name: "Moff Jerjerrod",
@@ -1656,6 +1843,24 @@ define(
                         squadPointCost: 5,
                         value: "outrider",
                     },
+                    "overclockedR4":
+                    {
+                        name: "Overclocked R4",
+                        type: UpgradeType.SALVAGED_ASTROMECH,
+                        description: "During the Combat Phase, when you spend a focus token, you may receive 1 stress token to assign 1 focus token to your ship.",
+                        squadPointCost: 1,
+                        value: "overclockedR4",
+                    },
+                    "phantom":
+                    {
+                        name: "Phantom",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.VCX_100_ONLY ],
+                        description: "While you are docked, the Ghost can perform primary weapon attacks from its special firing arc and, at the end of the Combat phase, it may perform an additional attack with an equipped Turret. If it performs this attack, it cannot attack again this round.",
+                        squadPointCost: undefined,
+                        value: "phantom",
+                    },
                     "plasmaTorpedoes":
                     {
                         name: "Plasma Torpedoes",
@@ -1729,6 +1934,16 @@ define(
                         description: "Discard this card to drop 1 proximity mine token. When a ship's base or maneuver template overlaps this token, this token detonates.",
                         squadPointCost: 3,
                         value: "proximityMines",
+                    },
+                    "punishingOne":
+                    {
+                        name: "Punishing One",
+                        type: UpgradeType.TITLE,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.JUMPMASTER_5000_ONLY ],
+                        description: "Increase your primary weapon value by 1.",
+                        squadPointCost: 12,
+                        value: "punishingOne",
                     },
                     "pushTheLimit":
                     {
@@ -1876,6 +2091,15 @@ define(
                         squadPointCost: 2,
                         value: "r5K6",
                     },
+                    "r5P8":
+                    {
+                        name: "R5-P8",
+                        type: UpgradeType.SALVAGED_ASTROMECH,
+                        isUnique: true,
+                        description: "Once per round, after defending, you may roll 1 attack die. On a hit result, the attacker suffers 1 damage. On a critical hit result, you and the attacker each suffer 1 damage.",
+                        squadPointCost: 3,
+                        value: "r5P8",
+                    },
                     "r5P9":
                     {
                         name: "R5-P9",
@@ -1913,6 +2137,15 @@ define(
                         description: "Choose an enemy ship at Range 1-2. If you are inside that ship's firing arc, you may acquire a Target Lock on that ship. Then you may perform a free boost action.",
                         squadPointCost: 3,
                         value: "r7T1",
+                    },
+                    "rage":
+                    {
+                        name: "Rage",
+                        type: UpgradeType.ELITE,
+                        header: UpgradeHeader.ACTION,
+                        description: "Assign 1 focus token to your ship and receive 2 stress tokens. Until the end of the round, when attacking, you may reroll up to 3 attack dice.",
+                        squadPointCost: 1,
+                        value: "rage",
                     },
                     "raymusAntilles":
                     {
@@ -1955,6 +2188,15 @@ define(
                         isImplemented: true,
                         value: "reconSpecialist",
                     },
+                    "reinforcedDeflectors":
+                    {
+                        name: "Reinforced Deflectors",
+                        type: UpgradeType.SYSTEM,
+                        restrictions: [ UpgradeRestriction.LARGE_SHIP_ONLY ],
+                        description: "After you suffer 3 or more damage from an attack, recover 1 shield (up to your shield value).",
+                        squadPointCost: 3,
+                        value: "reinforcedDeflectors",
+                    },
                     "requiem":
                     {
                         name: "Requiem",
@@ -1986,6 +2228,16 @@ define(
                         description: "After you perform an attack that hits, you must choose 1 other ship at Range 1 of the defender (other than yourself). That ship suffers 1 damage.",
                         squadPointCost: 3,
                         value: "ruthlessness",
+                    },
+                    "sabineWren":
+                    {
+                        name: "Sabine Wren",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        description: "Your upgrade bar gains the bomb upgrade icon. Once per round, before a friendly bomb token is removed, choose 1 enemy ship at Range 1 of that token. That ship suffers 1 damage.",
+                        squadPointCost: 2,
+                        value: "sabineWren",
                     },
                     "saboteur":
                     {
@@ -2221,6 +2473,14 @@ define(
                         squadPointCost: 4,
                         value: "targetingCoordinator",
                     },
+                    "thermalDetonators":
+                    {
+                        name: "Thermal Detonators",
+                        type: UpgradeType.BOMB,
+                        description: "When you reveal your maneuver dial, you may discard this card to drop 1 thermal detonator token. This token detonates at the end of the Activation phase.",
+                        squadPointCost: 3,
+                        value: "thermalDetonators",
+                    },
                     "tibannaGasSupplies":
                     {
                         name: "Tibanna Gas Supplies",
@@ -2230,6 +2490,15 @@ define(
                         description: "You may discard this card to gain 3 energy.",
                         squadPointCost: 4,
                         value: "tibannaGasSupplies",
+                    },
+                    "tieV1":
+                    {
+                        name: "TIE/v1",
+                        type: UpgradeType.TITLE,
+                        restrictions: [ UpgradeRestriction.TIE_ADVANCED_PROTOTYPE_ONLY ],
+                        description: "After you acquire a target lock, you may perform a free evade action.",
+                        squadPointCost: 1,
+                        value: "tieV1",
                     },
                     "tieX1":
                     {
@@ -2250,6 +2519,18 @@ define(
                         description: "Spend any amount of energy to choose that many enemy ships at Range 1-2. Remove all Focus, Evade, and blue Target Lock tokens from those ships.",
                         squadPointCost: 6,
                         value: "torynFarr",
+                    },
+                    "tractorBeam":
+                    {
+                        name: "Tractor Beam",
+                        type: UpgradeType.CANNON,
+                        header: UpgradeHeader.ATTACK,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
+                        firingArcKey: FiringArc.FORWARD,
+                        description: "Attack 1 ship. If this attack hits, the defender receives 1 tractor beam token. Then cancel all dice results.",
+                        squadPointCost: 1,
+                        value: "tractorBeam",
                     },
                     "twinIonEngineMkII":
                     {
@@ -2367,6 +2648,19 @@ define(
                         squadPointCost: 1,
                         value: "wired",
                     },
+                    "xx23SThreadTracers":
+                    {
+                        name: "XX-23 S-Thread Tracers",
+                        type: UpgradeType.MISSILE,
+                        header: UpgradeHeader.ATTACK_FOCUS,
+                        weaponValue: 3,
+                        ranges: [ RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE ],
+                        firingArcKey: FiringArc.FORWARD,
+                        description: "Discard this card to perform this attack. If this attack hits, each friendly ship at Range 1-2 of you may acquire a target lock on the defender. Then cancel all dice results.",
+                        discardThisCard: true,
+                        squadPointCost: 1,
+                        value: "xx23SThreadTracers",
+                    },
                     "ysanneIsard":
                     {
                         name: "Ysanne Isard",
@@ -2377,6 +2671,26 @@ define(
                         squadPointCost: 4,
                         isImplemented: true,
                         value: "ysanneIsard",
+                    },
+                    "zebOrrelios":
+                    {
+                        name: "\"Zeb\" Orrelios",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.REBEL_ONLY ],
+                        description: "Enemy ships inside your firing arc that you are touching are not considered to be touching you when either you or they activate during the Combat phase.",
+                        squadPointCost: 1,
+                        value: "zebOrrelios",
+                    },
+                    "zuckuss":
+                    {
+                        name: "Zuckuss",
+                        type: UpgradeType.CREW,
+                        isUnique: true,
+                        restrictions: [ UpgradeRestriction.SCUM_ONLY ],
+                        description: "When attacking, you may receive any number of stress tokens to choose an equal number of defense dice. The defender must reroll those dice.",
+                        squadPointCost: 1,
+                        value: "zuckuss",
                     },
                 },
 

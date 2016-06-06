@@ -140,18 +140,21 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
     {
         var result = UpgradeRestriction.values();
         assert.ok(result);
-        assert.equal(result.length, 33);
+        var length = 37;
+        assert.equal(result.length, length);
         var i = 0;
         assert.equal(result[i++], UpgradeRestriction.A_WING_ONLY);
         assert.equal(result[i++], UpgradeRestriction.AGGRESSOR_ONLY);
         assert.equal(result[i++], UpgradeRestriction.B_WING_ONLY);
         assert.equal(result[i++], UpgradeRestriction.CR90_ONLY);
         assert.equal(result[i++], UpgradeRestriction.FIRESPRAY_31_ONLY);
+        assert.equal(result[i++], UpgradeRestriction.G_1A_STARFIGHTER_ONLY);
         assert.equal(result[i++], UpgradeRestriction.GOZANTI_CLASS_CRUISER_ONLY);
         assert.equal(result[i++], UpgradeRestriction.GR_75_ONLY);
         assert.equal(result[i++], UpgradeRestriction.HUGE_SHIP_ONLY);
         assert.equal(result[i++], UpgradeRestriction.HWK_290_ONLY);
         assert.equal(result[i++], UpgradeRestriction.IMPERIAL_ONLY);
+        assert.equal(result[i++], UpgradeRestriction.JUMPMASTER_5000_ONLY);
         assert.equal(result[i++], UpgradeRestriction.LAMBDA_CLASS_SHUTTLE_ONLY);
         assert.equal(result[i++], UpgradeRestriction.LARGE_SHIP_ONLY);
         assert.equal(result[i++], UpgradeRestriction.LIMITED);
@@ -166,9 +169,11 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         assert.equal(result[i++], UpgradeRestriction.SMALL_SHIP_ONLY);
         assert.equal(result[i++], UpgradeRestriction.STAR_VIPER_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_ADVANCED_ONLY);
+        assert.equal(result[i++], UpgradeRestriction.TIE_ADVANCED_PROTOTYPE_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_INTERCEPTOR_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_PHANTOM_ONLY);
+        assert.equal(result[i++], UpgradeRestriction.VCX_100_ONLY);
         assert.equal(result[i++], UpgradeRestriction.VT_49_DECIMATOR_ONLY);
         assert.equal(result[i++], UpgradeRestriction.X_WING_ONLY);
         assert.equal(result[i++], UpgradeRestriction.YT_1300_ONLY);

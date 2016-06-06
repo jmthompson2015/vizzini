@@ -49,6 +49,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
 
         // Segnor's loop.
         SEGNORS_LOOP_LEFT_2_HARD: "segnorsLoopLeft2Hard",
+        SEGNORS_LOOP_LEFT_2_STANDARD: "segnorsLoopLeft2Standard",
         SEGNORS_LOOP_RIGHT_2_HARD: "segnorsLoopRight2Hard",
         SEGNORS_LOOP_LEFT_3_HARD: "segnorsLoopLeft3Hard",
         SEGNORS_LOOP_RIGHT_3_HARD: "segnorsLoopRight3Hard",
@@ -84,6 +85,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
         TALLON_ROLL_RIGHT_3_HARD: "tallonRollRight3Hard",
 
         // Turn.
+        TURN_LEFT_1_EASY: "turnLeft1Easy",
         TURN_LEFT_1_HARD: "turnLeft1Hard",
         TURN_LEFT_1_STANDARD: "turnLeft1Standard",
         TURN_LEFT_2_EASY: "turnLeft2Easy",
@@ -92,6 +94,7 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
         TURN_LEFT_3_EASY: "turnLeft3Easy",
         TURN_LEFT_3_HARD: "turnLeft3Hard",
         TURN_LEFT_3_STANDARD: "turnLeft3Standard",
+        TURN_RIGHT_1_EASY: "turnRight1Easy",
         TURN_RIGHT_1_HARD: "turnRight1Hard",
         TURN_RIGHT_1_STANDARD: "turnRight1Standard",
         TURN_RIGHT_2_EASY: "turnRight2Easy",
@@ -357,6 +360,14 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 radius: 127.0,
                 value: "segnorsLoopLeft2Hard",
             },
+            "segnorsLoopLeft2Standard":
+            {
+                bearingKey: Bearing.SEGNORS_LOOP_LEFT,
+                speed: 2,
+                difficultyKey: Difficulty.STANDARD,
+                radius: 127.0,
+                value: "segnorsLoopLeft2Standard",
+            },
             "segnorsLoopRight2Hard":
             {
                 bearingKey: Bearing.SEGNORS_LOOP_RIGHT,
@@ -544,6 +555,14 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 radius: 88.9,
                 value: "tallonRollRight3Hard",
             },
+            "turnLeft1Easy":
+            {
+                bearingKey: Bearing.TURN_LEFT,
+                speed: 1,
+                difficultyKey: Difficulty.EASY,
+                radius: 34.3,
+                value: "turnLeft1Easy",
+            },
             "turnLeft1Hard":
             {
                 bearingKey: Bearing.TURN_LEFT,
@@ -607,6 +626,14 @@ define([ "Bearing", "Difficulty" ], function(Bearing, Difficulty)
                 difficultyKey: Difficulty.STANDARD,
                 radius: 88.9,
                 value: "turnLeft3Standard",
+            },
+            "turnRight1Easy":
+            {
+                bearingKey: Bearing.TURN_RIGHT,
+                speed: 1,
+                difficultyKey: Difficulty.EASY,
+                radius: 34.3,
+                value: "turnRight1Easy",
             },
             "turnRight1Hard":
             {
