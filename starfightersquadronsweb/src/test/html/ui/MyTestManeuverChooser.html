@@ -35,41 +35,42 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "ui/ManeuverChooser" ], function(Pilot,
-                SimpleAgent, SquadBuilder, Team, Token, ManeuverChooser)
-        {
-            {
-                var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-                var token = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-                var element = React.createElement(ManeuverChooser,
+        require([ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "process/Reducer", "ui/ManeuverChooser" ],
+                function(Pilot, SimpleAgent, SquadBuilder, Team, Token, Reducer, ManeuverChooser)
                 {
-                    token: token,
-                });
-                ReactDOM.render(element, document.getElementById("inputArea0"));
-            }
+                    var store = Redux.createStore(Reducer.root);
+                    {
+                        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                        var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+                        var element = React.createElement(ManeuverChooser,
+                        {
+                            token: token,
+                        });
+                        ReactDOM.render(element, document.getElementById("inputArea0"));
+                    }
 
-            {
-                var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-                var token = new Token(Pilot.ROOKIE_PILOT, rebelAgent);
-                var element = React.createElement(ManeuverChooser,
-                {
-                    token: token,
-                    isPilotNameShown: false,
-                });
-                ReactDOM.render(element, document.getElementById("inputArea1"));
-            }
+                    {
+                        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+                        var token = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
+                        var element = React.createElement(ManeuverChooser,
+                        {
+                            token: token,
+                            isPilotNameShown: false,
+                        });
+                        ReactDOM.render(element, document.getElementById("inputArea1"));
+                    }
 
-            {
-                var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-                var token = new Token(Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
-                var element = React.createElement(ManeuverChooser,
-                {
-                    token: token,
-                    isPilotNameShown: false,
+                    {
+                        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+                        var token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
+                        var element = React.createElement(ManeuverChooser,
+                        {
+                            token: token,
+                            isPilotNameShown: false,
+                        });
+                        ReactDOM.render(element, document.getElementById("inputArea2"));
+                    }
                 });
-                ReactDOM.render(element, document.getElementById("inputArea2"));
-            }
-        });
     </script>
 </body>
 </html>
