@@ -86,9 +86,10 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 31);
+        var length = 36;
+        assert.equal(result.length, length);
         assert.equal(result[0], "aWing");
-        assert.equal(result[30], "z95Headhunter");
+        assert.equal(result[length - 1], "z95Headhunter");
 
         var properties = Object.getOwnPropertyNames(Ship);
         var count = properties.length - 1 - // properties

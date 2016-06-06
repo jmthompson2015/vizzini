@@ -100,10 +100,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 166);
+        var length = 186;
+        assert.equal(result.length, length);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
-        assert.equal(result[160], Pilot.WINGED_GUNDARK);
-        assert.equal(result[165], Pilot.ZETA_SQUADRON_PILOT);
+        assert.equal(result[length - 1], Pilot.ZUCKUSS);
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 - // properties
@@ -198,10 +198,9 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 71);
-        assert.equal(result[0], Pilot.EPSILON_ACE);
-        assert.equal(result[9], Pilot.ACADEMY_PILOT);
-        assert.equal(result[70], Pilot.ZERTIK_STROM);
+        var length = 75;
+        assert.equal(result.length, length);
+        assert.equal(result[length - 1], Pilot.ZERTIK_STROM);
     });
 
     QUnit.test("valuesByTeam() First Order strict", function(assert)
@@ -226,9 +225,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 71);
+        var length = 75;
+        assert.equal(result.length, length);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
-        assert.equal(result[70], Pilot.ZETA_SQUADRON_PILOT);
+        assert.equal(result[length - 1], Pilot.ZETA_SQUADRON_PILOT);
     });
 
     QUnit.test("valuesByTeam() Imperial strict", function(assert)
@@ -241,9 +241,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 62);
+        var length = 66;
+        assert.equal(result.length, length);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
-        assert.equal(result[61], Pilot.ZERTIK_STROM);
+        assert.equal(result[length - 1], Pilot.ZERTIK_STROM);
     });
 
     QUnit.test("valuesByTeam() Rebel", function(assert)
@@ -253,9 +254,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 58);
+        var length = 66;
+        assert.equal(result.length, length);
         assert.equal(result[0], Pilot.AIREN_CRACKEN);
-        assert.equal(result[57], Pilot.RED_SQUADRON_VETERAN);
+        assert.equal(result[length - 1], Pilot.RED_SQUADRON_VETERAN);
     });
 
     QUnit.test("valuesByTeam() Rebel strict", function(assert)
@@ -268,9 +270,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 52);
+        var length = 60;
+        assert.equal(result.length, length);
         assert.equal(result[0], Pilot.AIREN_CRACKEN);
-        assert.equal(result[51], Pilot.WILD_SPACE_FRINGER);
+        assert.equal(result[length - 1], Pilot.ZEB_ORRELIOS);
     });
 
     QUnit.test("valuesByTeam() Resistance", function(assert)
@@ -280,10 +283,10 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 58);
+        var length = 66;
+        assert.equal(result.length, length);
         assert.equal(result[0], Pilot.BLUE_ACE);
-        assert.equal(result[6], Pilot.AIREN_CRACKEN);
-        assert.equal(result[57], Pilot.WILD_SPACE_FRINGER);
+        assert.equal(result[length - 1], Pilot.ZEB_ORRELIOS);
     });
 
     QUnit.test("valuesByTeam() Resistance strict", function(assert)
@@ -308,9 +311,9 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 37);
+        var length = 45;
+        assert.equal(result.length, length);
         assert.equal(result[0], Pilot.BINAYRE_PIRATE);
-        assert.equal(result[35], Pilot.TORKIL_MUX);
-        assert.equal(result[36], Pilot.TRANDOSHAN_SLAVER);
+        assert.equal(result[length - 1], Pilot.ZUCKUSS);
     });
 });

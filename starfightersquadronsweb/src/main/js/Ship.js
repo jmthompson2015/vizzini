@@ -7,13 +7,16 @@ define(
             {
                 A_WING: "aWing",
                 AGGRESSOR: "aggressor",
+                ATTACK_SHUTTLE: "attackShuttle",
                 B_WING: "bWing",
                 CR90_CORVETTE: "cr90Corvette",
                 E_WING: "eWing",
                 FIRESPRAY_31: "firespray31",
                 GOZANTI_CLASS_CRUISER: "gozantiClassCruiser",
+                G_1A_STARFIGHTER: "g1AStarfighter",
                 GR_75_MEDIUM_TRANSPORT: "gr75MediumTransport",
                 HWK_290: "hwk290",
+                JUMPMASTER_5000: "jumpMaster5000",
                 K_WING: "kWing",
                 KIHRAXZ_FIGHTER: "kihraxzFighter",
                 LAMBDA_CLASS_SHUTTLE: "lambdaClassShuttle",
@@ -22,6 +25,7 @@ define(
                 STAR_VIPER: "starViper",
                 T_70_X_WING: "t70XWing",
                 TIE_ADVANCED: "tieAdvanced",
+                TIE_ADVANCED_PROTOTYPE: "tieAdvancedPrototype",
                 TIE_BOMBER: "tieBomber",
                 TIE_DEFENDER: "tieDefender",
                 TIE_FIGHTER: "tieFighter",
@@ -29,6 +33,7 @@ define(
                 TIE_INTERCEPTOR: "tieInterceptor",
                 TIE_PHANTOM: "tiePhantom",
                 TIE_PUNISHER: "tiePunisher",
+                VCX_100: "vcx100",
                 VT_49_DECIMATOR: "vt49Decimator",
                 X_WING: "xWing",
                 Y_WING: "yWing",
@@ -69,6 +74,22 @@ define(
                                 Maneuver.SEGNORS_LOOP_RIGHT_3_HARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
                         shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST, ShipAction.EVADE ],
                         value: "aggressor",
+                    },
+                    "attackShuttle":
+                    {
+                        name: "Attack Shuttle",
+                        description: "An Attack Shuttle.",
+                        shipBaseKey: ShipBase.SMALL,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        maneuverKeys: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
+                                Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_HARD, Maneuver.TURN_LEFT_2_STANDARD,
+                                Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
+                                Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_STANDARD,
+                                Maneuver.TURN_LEFT_3_HARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_STANDARD,
+                                Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_HARD,
+                                Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
+                        shipActionKeys: [ ShipAction.FOCUS, ShipAction.BARREL_ROLL, ShipAction.EVADE ],
+                        value: "attackShuttle",
                     },
                     "bWing":
                     {
@@ -169,6 +190,22 @@ define(
                         shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE ],
                         value: "firespray31",
                     },
+                    "g1AStarfighter":
+                    {
+                        name: "G-1A Starfighter",
+                        description: "A G-1A Starfighter.",
+                        shipBaseKey: ShipBase.SMALL,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        maneuverKeys: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
+                                Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_HARD, Maneuver.TURN_LEFT_2_STANDARD,
+                                Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
+                                Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_STANDARD,
+                                Maneuver.BANK_LEFT_3_HARD, Maneuver.STRAIGHT_3_EASY, Maneuver.BANK_RIGHT_3_HARD,
+                                Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
+                                Maneuver.KOIOGRAN_TURN_4_HARD ],
+                        shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE ],
+                        value: "g1AStarfighter",
+                    },
                     "gozantiClassCruiser":
                     {
                         fore:
@@ -233,6 +270,23 @@ define(
                                 Maneuver.STRAIGHT_4_HARD ],
                         shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK ],
                         value: "hwk290",
+                    },
+                    "jumpMaster5000":
+                    {
+                        name: "JumpMaster 5000",
+                        description: "A JumpMaster 5000.",
+                        shipBaseKey: ShipBase.LARGE,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        maneuverKeys: [ Maneuver.TURN_LEFT_1_EASY, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY,
+                                Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD,
+                                Maneuver.TURN_LEFT_2_EASY, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
+                                Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_STANDARD,
+                                Maneuver.SEGNORS_LOOP_LEFT_2_STANDARD, Maneuver.SEGNORS_LOOP_RIGHT_2_HARD,
+                                Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_STANDARD,
+                                Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD,
+                                Maneuver.KOIOGRAN_TURN_4_HARD ],
+                        shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.SLAM ],
+                        value: "jumpMaster5000",
                     },
                     "kWing":
                     {
@@ -394,6 +448,23 @@ define(
                                 ShipAction.EVADE ],
                         value: "tieAdvanced",
                     },
+                    "tieAdvancedPrototype":
+                    {
+                        name: "TIE Adv. Prototype",
+                        description: "A TIE Advanced Prototype.",
+                        shipBaseKey: ShipBase.SMALL,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        maneuverKeys: [ Maneuver.TURN_LEFT_1_EASY, Maneuver.BANK_LEFT_1_EASY,
+                                Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_EASY, Maneuver.TURN_LEFT_2_STANDARD,
+                                Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY,
+                                Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_STANDARD,
+                                Maneuver.TURN_LEFT_3_STANDARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
+                                Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD,
+                                Maneuver.STRAIGHT_4_EASY, Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD ],
+                        shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL,
+                                ShipAction.BOOST ],
+                        value: "tieAdvancedPrototype",
+                    },
                     "tieBomber":
                     {
                         name: "TIE Bomber",
@@ -505,6 +576,22 @@ define(
                                 Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD ],
                         shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST ],
                         value: "tiePunisher",
+                    },
+                    "vcx100":
+                    {
+                        name: "VCX-100",
+                        description: "A VCX-100.",
+                        shipBaseKey: ShipBase.LARGE,
+                        primaryFiringArcKey: FiringArc.FORWARD,
+                        maneuverKeys: [ Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_STANDARD,
+                                Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_RIGHT_1_HARD,
+                                Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
+                                Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_STANDARD, Maneuver.TURN_LEFT_3_HARD,
+                                Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_STANDARD,
+                                Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_HARD,
+                                Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD ],
+                        shipActionKeys: [ ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE ],
+                        value: "vcx100",
                     },
                     "vt49Decimator":
                     {

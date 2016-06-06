@@ -12,6 +12,7 @@ define(
                 AVENGER_SQUADRON_PILOT: "avengerSquadronPilot",
                 BACKSTABBER: "backstabber",
                 BANDIT_SQUADRON_PILOT: "banditSquadronPilot",
+                BARON_OF_THE_EMPIRE: "baronOfTheEmpire",
                 BIGGS_DARKLIGHTER: "biggsDarklighter",
                 BINAYRE_PIRATE: "binayrePirate",
                 BLACK_EIGHT_SQ_PILOT: "blackEightSqPilot",
@@ -37,10 +38,12 @@ define(
                 CARTEL_SPACER: "cartelSpacer",
                 CHASER: "chaser",
                 CHEWBACCA: "chewbacca",
+                CHOPPER: "chopper",
                 COLONEL_JENDON: "colonelJendon",
                 COLONEL_VESSERY: "colonelVessery",
                 COMMANDER_ALOZEN: "commanderAlozen",
                 COMMANDER_KENKIRK: "commanderKenkirk",
+                CONTRACTED_SCOUT: "contractedScout",
                 CORRAN_HORN: "corranHorn",
                 CR90_CORVETTE: "cr90Corvette",
                 CUTLASS_SQUADRON_PILOT: "cutlassSquadronPilot",
@@ -51,6 +54,7 @@ define(
                 DASH_RENDAR: "dashRendar",
                 DEATHRAIN: "deathrain",
                 DELTA_SQUADRON_PILOT: "deltaSquadronPilot",
+                DENGAR: "dengar",
                 DREA_RENTHAL: "dreaRenthal",
                 DUTCH_VANDER: "dutchVander",
                 EADEN_VRILL: "eadenVrill",
@@ -62,8 +66,11 @@ define(
                 EPSILON_SQUADRON_PILOT: "epsilonSquadronPilot",
                 ESEGE_TUKETU: "esegeTuketu",
                 ETAHN_ABAHT: "etahnAbaht",
+                EZRA_BRIDGER: "ezraBridger",
                 FELS_WRATH: "felsWrath",
+                FOUR_LOM: "fourLom",
                 GAMMA_SQUADRON_PILOT: "gammaSquadronPilot",
+                GAND_FINDSMAN: "gandFindsman",
                 GARVEN_DREIS: "garvenDreis",
                 GEMMER_SOJAN: "gemmerSojan",
                 GOLD_SQUADRON_PILOT: "goldSquadronPilot",
@@ -75,6 +82,8 @@ define(
                 GUARDIAN_SQUADRON_PILOT: "guardianSquadronPilot",
                 GURI: "guri",
                 HAN_SOLO: "hanSolo",
+                HERA_SYNDULLA_ATTACK_SHUTTLE: "heraSyndullaAttackShuttle",
+                HERA_SYNDULLA_VCX_100: "heraSyndullaVcx100",
                 HIRED_GUN: "hiredGun",
                 HOBBIE_KLIVIAN: "hobbieKlivian",
                 HORTON_SALM: "hortonSalm",
@@ -89,6 +98,7 @@ define(
                 JEK_PORKINS: "jekPorkins",
                 JUNO_ECLIPSE: "junoEclipse",
                 KAATO_LEEACHOS: "kaatoLeeachos",
+                KANAN_JARRUS: "kananJarrus",
                 KATH_SCARLET_IMPERIAL: "kathScarletImperial",
                 KATH_SCARLET_SCUM: "kathScarletScum",
                 KAVIL: "kavil",
@@ -104,9 +114,11 @@ define(
                 LIEUTENANT_BLOUNT: "lieutenantBlount",
                 LIEUTENANT_COLZET: "lieutenantColzet",
                 LIEUTENANT_LORRIR: "lieutenantLorrir",
+                LOTHAL_REBEL: "lothalRebel",
                 LUKE_SKYWALKER: "lukeSkywalker",
                 MAAREK_STELE: "maarekStele",
                 MAJOR_RHYMER: "majorRhymer",
+                MANAROO: "manaroo",
                 MANDALORIAN_MERCENARY: "mandalorianMercenary",
                 MAULER_MITHEL: "maulerMithel",
                 MIRANDA_DONI: "mirandaDoni",
@@ -138,11 +150,14 @@ define(
                 ROARK_GARNET: "roarkGarnet",
                 ROOKIE_PILOT: "rookiePilot",
                 ROYAL_GUARD_PILOT: "royalGuardPilot",
+                RUTHLESS_FREELANCER: "ruthlessFreelancer",
                 SABER_SQUADRON_PILOT: "saberSquadronPilot",
+                SABINE_WREN: "sabineWren",
                 SCIMITAR_SQUADRON_PILOT: "scimitarSquadronPilot",
                 SCOURGE: "scourge",
                 SERISSU: "serissu",
                 SHADOW_SQUADRON_PILOT: "shadowSquadronPilot",
+                SIENAR_TEST_PILOT: "sienarTestPilot",
                 SIGMA_SQUADRON_PILOT: "sigmaSquadronPilot",
                 SOONTIR_FEL: "soontirFel",
                 SPICE_RUNNER: "spiceRunner",
@@ -152,13 +167,16 @@ define(
                 TALONBANE_COBRA: "talonbaneCobra",
                 TANSARII_POINT_VETERAN: "tansariiPointVeteran",
                 TARN_MISON: "tarnMison",
+                TEL_TREVURA: "telTrevura",
                 TEMPEST_SQUADRON_PILOT: "tempestSquadronPilot",
                 TEN_NUMB: "tenNumb",
                 TETRAN_COWALL: "tetranCowall",
+                THE_INQUISITOR: "theInquisitor",
                 TORKIL_MUX: "torkilMux",
                 TRANDOSHAN_SLAVER: "trandoshanSlaver",
                 TURR_PHENNIR: "turrPhennir",
                 TYCHO_CELCHU: "tychoCelchu",
+                VALEN_RUDOR: "valenRudor",
                 WAMPA: "wampa",
                 WARDEN_SQUADRON_PILOT: "wardenSquadronPilot",
                 WEDGE_ANTILLES: "wedgeAntilles",
@@ -167,10 +185,12 @@ define(
                 WILD_SPACE_FRINGER: "wildSpaceFringer",
                 WINGED_GUNDARK: "wingedGundark",
                 YOUNGSTER: "youngster",
+                ZEB_ORRELIOS: "zebOrrelios",
                 ZERTIK_STROM: "zertikStrom",
                 ZETA_ACE: "zetaAce",
                 ZETA_LEADER: "zetaLeader",
                 ZETA_SQUADRON_PILOT: "zetaSquadronPilot",
+                ZUCKUSS: "zuckuss",
                 properties:
                 {
                     "academyPilot":
@@ -253,6 +273,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.MISSILE ],
                         isImplemented: true,
                         value: "banditSquadronPilot",
+                    },
+                    "baronOfTheEmpire":
+                    {
+                        name: "Baron of the Empire",
+                        description: "The aristocratic title of baron was presented to ace starfighter pilots for outstanding service to the Empire.",
+                        isFlavorText: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED_PROTOTYPE,
+                        shipState: new ShipState(4, 2, 3, 2, 2),
+                        squadPointCost: 19,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        value: "baronOfTheEmpire",
                     },
                     "biggsDarklighter":
                     {
@@ -550,6 +581,18 @@ define(
                         isImplemented: true,
                         value: "chewbacca",
                     },
+                    "chopper":
+                    {
+                        name: "\"Chopper\"",
+                        description: "At the start of the Combat phase, each enemy ship you are touching receives 1 stress token.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.REBEL_VCX_100,
+                        shipState: new ShipState(4, 4, 0, 10, 6),
+                        squadPointCost: 37,
+                        upgradeTypeKeys: [ UpgradeType.SYSTEM, UpgradeType.TURRET, UpgradeType.TORPEDO,
+                                UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW ],
+                        value: "chopper",
+                    },
                     "colonelJendon":
                     {
                         name: "Colonel Jendon",
@@ -594,6 +637,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW,
                                 UpgradeType.CREW, UpgradeType.BOMB ],
                         value: "commanderKenkirk",
+                    },
+                    "contractedScout":
+                    {
+                        name: "Contracted Scout",
+                        description: "Built for long-distance reconnaissance and plotting new hyperspace routes, the lightly armed JumpMaster 5000 was often extensively retrofitted with custom upgrades.",
+                        shipTeamKey: ShipTeam.SCUM_JUMPMASTER_5000,
+                        shipState: new ShipState(3, 2, 2, 5, 4),
+                        squadPointCost: 25,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.CREW, UpgradeType.SALVAGED_ASTROMECH, UpgradeType.ILLICIT ],
+                        value: "contractedScout",
                     },
                     "corranHorn":
                     {
@@ -751,6 +805,18 @@ define(
                         isImplemented: true,
                         value: "deltaSquadronPilot",
                     },
+                    "dengar":
+                    {
+                        name: "Dengar",
+                        description: "Once per round after defending, if the attacker is inside your firing arc, you may perform an attack against that ship.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.SCUM_JUMPMASTER_5000,
+                        shipState: new ShipState(9, 2, 2, 5, 4),
+                        squadPointCost: 33,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.CREW, UpgradeType.SALVAGED_ASTROMECH, UpgradeType.ILLICIT ],
+                        value: "dengar",
+                    },
                     "dreaRenthal":
                     {
                         name: "Drea Renthal",
@@ -881,6 +947,17 @@ define(
                                 UpgradeType.ASTROMECH ],
                         value: "etahnAbaht",
                     },
+                    "ezraBridger":
+                    {
+                        name: "Ezra Bridger",
+                        description: "When defending, if you are stressed, you may change up to 2 of your focus results to evade results.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.REBEL_ATTACK_SHUTTLE,
+                        shipState: new ShipState(4, 3, 2, 2, 2),
+                        squadPointCost: 20,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TURRET, UpgradeType.CREW ],
+                        value: "ezraBridger",
+                    },
                     "felsWrath":
                     {
                         name: "\"Fel's Wrath\"",
@@ -891,6 +968,17 @@ define(
                         squadPointCost: 23,
                         upgradeTypeKeys: [],
                         value: "felsWrath",
+                    },
+                    "fourLom":
+                    {
+                        name: "4-LOM",
+                        description: "At the start of the End phase, you may assign 1 of your stress tokens to another ship at Range 1.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.SCUM_G_1A_STARFIGHTER,
+                        shipState: new ShipState(6, 3, 1, 4, 4),
+                        squadPointCost: 27,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.CREW, UpgradeType.SYSTEM, UpgradeType.ILLICIT ],
+                        value: "fourLom",
                     },
                     "gammaSquadronPilot":
                     {
@@ -904,6 +992,17 @@ define(
                                 UpgradeType.MISSILE, UpgradeType.BOMB ],
                         isImplemented: true,
                         value: "gammaSquadronPilot",
+                    },
+                    "gandFindsman":
+                    {
+                        name: "Gand Findsman",
+                        description: "The legendary Findsmen of Gand worshipped the enshrouding mists of their home planet. Utilizing signs, augurs, and mystical rituals to track their quarry.",
+                        isFlavorText: true,
+                        shipTeamKey: ShipTeam.SCUM_G_1A_STARFIGHTER,
+                        shipState: new ShipState(5, 3, 1, 4, 4),
+                        squadPointCost: 25,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.CREW, UpgradeType.SYSTEM, UpgradeType.ILLICIT ],
+                        value: "gandFindsman",
                     },
                     "garvenDreis":
                     {
@@ -1034,6 +1133,29 @@ define(
                         squadPointCost: 46,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW ],
                         value: "hanSolo",
+                    },
+                    "heraSyndullaAttackShuttle":
+                    {
+                        name: "Hera Syndulla (Attack Shuttle)",
+                        description: "When you reveal a green or red maneuver, you may rotate your dial to another maneuver of the same difficulty.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.REBEL_ATTACK_SHUTTLE,
+                        shipState: new ShipState(7, 3, 2, 2, 2),
+                        squadPointCost: 22,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TURRET, UpgradeType.CREW ],
+                        value: "heraSyndullaAttackShuttle",
+                    },
+                    "heraSyndullaVcx100":
+                    {
+                        name: "Hera Syndulla (VCX-100)",
+                        description: "When you reveal a red or green maneuver, you may rotate your dial to another maneuver of the same difficulty.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.REBEL_VCX_100,
+                        shipState: new ShipState(7, 4, 0, 10, 6),
+                        squadPointCost: 40,
+                        upgradeTypeKeys: [ UpgradeType.SYSTEM, UpgradeType.TURRET, UpgradeType.TORPEDO,
+                                UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW ],
+                        value: "heraSyndullaVcx100",
                     },
                     "hiredGun":
                     {
@@ -1198,6 +1320,18 @@ define(
                         squadPointCost: 15,
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.ILLICIT ],
                         value: "kaatoLeeachos",
+                    },
+                    "kananJarrus":
+                    {
+                        name: "Kanan Jarrus",
+                        description: "When an enemy ship at Range 1-2 is attacking, you may spend a focus token. If you do, the attacker rolls 1 fewer attack die.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.REBEL_VCX_100,
+                        shipState: new ShipState(5, 4, 0, 10, 6),
+                        squadPointCost: 38,
+                        upgradeTypeKeys: [ UpgradeType.SYSTEM, UpgradeType.TURRET, UpgradeType.TORPEDO,
+                                UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW ],
+                        value: "kananJarrus",
                     },
                     "kathScarletImperial":
                     {
@@ -1370,6 +1504,18 @@ define(
                         upgradeTypeKeys: [],
                         value: "lieutenantLorrir",
                     },
+                    "lothalRebel":
+                    {
+                        name: "Lothal Rebel",
+                        description: "Another successful Corellian Engineering Corporation freighter design, the VCX-100 was larger than the ubiquitous YT-series, boasting more living space and customizability.",
+                        isFlavorText: true,
+                        shipTeamKey: ShipTeam.REBEL_VCX_100,
+                        shipState: new ShipState(3, 4, 0, 10, 6),
+                        squadPointCost: 35,
+                        upgradeTypeKeys: [ UpgradeType.SYSTEM, UpgradeType.TURRET, UpgradeType.TORPEDO,
+                                UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW ],
+                        value: "lothalRebel",
+                    },
                     "lukeSkywalker":
                     {
                         name: "Luke Skywalker",
@@ -1404,6 +1550,18 @@ define(
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB ],
                         value: "majorRhymer",
+                    },
+                    "manaroo":
+                    {
+                        name: "Manaroo",
+                        description: "At the start of the Combat phase, you may assign all focus, evade, and target lock tokens assigned to you to another friendly ship.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.SCUM_JUMPMASTER_5000,
+                        shipState: new ShipState(4, 2, 2, 5, 4),
+                        squadPointCost: 27,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.CREW, UpgradeType.SALVAGED_ASTROMECH, UpgradeType.ILLICIT ],
+                        value: "manaroo",
                     },
                     "mandalorianMercenary":
                     {
@@ -1807,6 +1965,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.ELITE ],
                         value: "royalGuardPilot",
                     },
+                    "ruthlessFreelancer":
+                    {
+                        name: "Ruthless Freelancer",
+                        description: "Byblos Drive Yards earned a reputation for producing starships of questionable quality, but their willingness to perform modifications of questionable legality kept business brisk.",
+                        isFlavorText: true,
+                        shipTeamKey: ShipTeam.SCUM_G_1A_STARFIGHTER,
+                        shipState: new ShipState(3, 3, 1, 4, 4),
+                        squadPointCost: 23,
+                        upgradeTypeKeys: [ UpgradeType.CREW, UpgradeType.SYSTEM, UpgradeType.ILLICIT ],
+                        value: "ruthlessFreelancer",
+                    },
                     "saberSquadronPilot":
                     {
                         name: "Saber Squadron Pilot",
@@ -1818,6 +1987,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.ELITE ],
                         isImplemented: true,
                         value: "saberSquadronPilot",
+                    },
+                    "sabineWren":
+                    {
+                        name: "Sabine Wren",
+                        description: "Immediately before you reveal your maneuver, you may perform a free boost or barrel roll action.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.REBEL_ATTACK_SHUTTLE,
+                        shipState: new ShipState(5, 3, 2, 2, 2),
+                        squadPointCost: 21,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TURRET, UpgradeType.CREW ],
+                        value: "sabineWren",
                     },
                     "scimitarSquadronPilot":
                     {
@@ -1865,6 +2045,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.SYSTEM, UpgradeType.CREW ],
                         isImplemented: true,
                         value: "shadowSquadronPilot",
+                    },
+                    "sienarTestPilot":
+                    {
+                        name: "Sienar Test Pilot",
+                        description: "Sienar Fleet System's TIE Advanced v1 was a groundbreaking starfighter design featuring upgraded engines, a missile launcher, and folding s-foils.",
+                        isFlavorText: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED_PROTOTYPE,
+                        shipState: new ShipState(2, 2, 3, 2, 2),
+                        squadPointCost: 16,
+                        upgradeTypeKeys: [ UpgradeType.MISSILE ],
+                        value: "sienarTestPilot",
                     },
                     "sigmaSquadronPilot":
                     {
@@ -1974,6 +2165,18 @@ define(
                         upgradeTypeKeys: [ UpgradeType.TORPEDO, UpgradeType.ASTROMECH ],
                         value: "tarnMison",
                     },
+                    "telTrevura":
+                    {
+                        name: "Tel Trevura",
+                        description: "The first time you would be destroyed, instead cancel any remaining damage, discard all Damage cards, and deal 4 facedown Damage cards to this ship.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.SCUM_JUMPMASTER_5000,
+                        shipState: new ShipState(7, 2, 2, 5, 4),
+                        squadPointCost: 30,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
+                                UpgradeType.CREW, UpgradeType.SALVAGED_ASTROMECH, UpgradeType.ILLICIT ],
+                        value: "telTrevura",
+                    },
                     "tempestSquadronPilot":
                     {
                         name: "Tempest Squadron Pilot",
@@ -2008,6 +2211,17 @@ define(
                         squadPointCost: 24,
                         upgradeTypeKeys: [ UpgradeType.ELITE ],
                         value: "tetranCowall",
+                    },
+                    "theInquisitor":
+                    {
+                        name: "The Inquisitor",
+                        description: "When attacking with your primary weapon at Range 2-3, treat the range of the attack as Range 1.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED_PROTOTYPE,
+                        shipState: new ShipState(8, 2, 3, 2, 2),
+                        squadPointCost: 25,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        value: "theInquisitor",
                     },
                     "torkilMux":
                     {
@@ -2055,6 +2269,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
                         isImplemented: true,
                         value: "tychoCelchu",
+                    },
+                    "valenRudor":
+                    {
+                        name: "Valen Rudor",
+                        description: "After defending, you may perform a free action.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.IMPERIAL_TIE_ADVANCED_PROTOTYPE,
+                        shipState: new ShipState(6, 2, 3, 2, 2),
+                        squadPointCost: 22,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.MISSILE ],
+                        value: "valenRudor",
                     },
                     "wampa":
                     {
@@ -2148,6 +2373,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.ELITE ],
                         value: "youngster",
                     },
+                    "zebOrrelios":
+                    {
+                        name: "\"Zeb\" Orrelios",
+                        description: "When defending, you may cancel critical hit results before hit results.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.REBEL_ATTACK_SHUTTLE,
+                        shipState: new ShipState(3, 3, 2, 2, 2),
+                        squadPointCost: 18,
+                        upgradeTypeKeys: [ UpgradeType.TURRET, UpgradeType.CREW ],
+                        value: "zebOrrelios",
+                    },
                     "zertikStrom":
                     {
                         name: "Zertik Strom",
@@ -2192,6 +2428,17 @@ define(
                         upgradeTypeKeys: [ UpgradeType.TECH ],
                         isImplemented: true,
                         value: "zetaSquadronPilot",
+                    },
+                    "zuckuss":
+                    {
+                        name: "Zuckuss",
+                        description: "When attacking, you may roll 1 additional attack die. If you do, then the defender rolls 1 additional defense die.",
+                        isUnique: true,
+                        shipTeamKey: ShipTeam.SCUM_G_1A_STARFIGHTER,
+                        shipState: new ShipState(7, 3, 1, 4, 4),
+                        squadPointCost: 28,
+                        upgradeTypeKeys: [ UpgradeType.ELITE, UpgradeType.CREW, UpgradeType.SYSTEM, UpgradeType.ILLICIT ],
+                        value: "zuckuss",
                     },
                 },
 

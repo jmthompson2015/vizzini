@@ -27,18 +27,18 @@ public final class AddFiringArcLines2
 	 */
 	public static final void main(final String[] args)
 	{
-		String[] ships = { "FirstOrder_TIE_fo_Fighter", "Imperial_TIE_Punisher", // imperial
-				"Rebel_K-Wing", // rebel
-				"Scum_YV-666", // scum
-				"Resistance_T-70_X-Wing" };
-		String[] teams = { "Imperial", "Imperial", // imperial
-				"Rebel", // rebel
-				"Scum", // scum
-				"Rebel" };
-		String[] primaryFiringArcs = { "forward", "forward", // imperial
-				"forward", // rebel
-				"forwardAndFullAft", // scum
-				"forward" };
+		String[] ships = { "Imperial_TIE_Advanced_Prototype", // imperial
+				"Rebel_Attack_Shuttle", "Rebel_VCX-100", // rebel
+				"Scum_G-1A_Starfighter", "Scum_JumpMaster_5000" // scum
+		};
+		String[] teams = { "Imperial", // imperial
+				"Rebel", "Rebel", // rebel
+				"Scum", "Scum" // scum
+		};
+		String[] primaryFiringArcs = { "forward", // imperial
+				"forward", "forwardAndAft", // rebel
+				"forward", "forward" // scum
+		};
 
 		for (int i = 0; i < ships.length; i++)
 		{
@@ -165,8 +165,7 @@ public final class AddFiringArcLines2
 				g2d.setStroke(FIRING_ARC_STROKE);
 				g2d.drawLine(0, 0, center, center);
 				g2d.drawLine(0, size - 1, center, center - 1);
-			}
-			else if (primaryFiringArc == "forwardAndFullAft")
+			} else if (primaryFiringArc == "forwardAndFullAft")
 			{
 				g2d.setStroke(FIRING_ARC_STROKE);
 				g2d.drawLine(center, 0, center, center);

@@ -87,9 +87,10 @@ define([ "Bearing", "Difficulty", "Maneuver" ], function(Bearing, Difficulty, Ma
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.length, 73);
+        var length = 74;
+        assert.equal(result.length, length);
         assert.equal(result[0], "bankLeft1Easy");
-        assert.equal(result[72], "turnRight3Standard");
+        assert.equal(result[length - 1], "turnRight3Standard");
 
         var properties = Object.getOwnPropertyNames(Maneuver);
         var count = properties.length - 1 - // properties
