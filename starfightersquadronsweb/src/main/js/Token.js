@@ -157,7 +157,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
         {
             InputValidator.validateNotNull("targetLock", targetLock);
 
-            var attackerTargetLocks = Selector.attackerTargetLocks(store.getState().targetLocks, this);
+            var attackerTargetLocks = this.attackerTargetLocks();
 
             if (attackerTargetLocks.length > 0)
             {
@@ -197,7 +197,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.attackerTargetLocks = function()
         {
-            return Selector.attackerTargetLocks(store.getState().targetLocks, this);
+            return Selector.attackerTargetLocks(store.getState(), this);
         };
 
         this.cloak = function()
@@ -217,9 +217,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.criticalDamages = function()
         {
-            var answer = store.getState().tokenIdToCriticalDamages[id];
-
-            return (answer ? answer : []);
+            return Selector.criticalDamages(store.getState(), id);
         };
 
         this.damageCount = function()
@@ -229,14 +227,12 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.damages = function()
         {
-            var answer = store.getState().tokenIdToDamages[id];
-
-            return (answer ? answer : []);
+            return Selector.damages(store.getState(), id);
         };
 
         this.defenderTargetLocks = function()
         {
-            return Selector.defenderTargetLocks(store.getState().targetLocks, this);
+            return Selector.defenderTargetLocks(store.getState(), this);
         };
 
         this.discardUpgrade = function(upgradeKey)
@@ -299,9 +295,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.upgradeKeys = function()
         {
-            var answer = store.getState().tokenIdToUpgrades[id];
-
-            return (answer ? answer : []);
+            return Selector.upgrades(store.getState(), id);
         };
 
         // Initialize the energy.
@@ -1117,7 +1111,7 @@ define([ "ActivationState", "Bearing", "DamageCard", "DamageCardV2", "Difficulty
 
         this.count = function()
         {
-            return store.getState().tokenIdToCounts[tokenId][property];
+            return Selector.count(store.getState(), tokenId, property);
         };
 
         this.decrease = function()

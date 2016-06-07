@@ -18,8 +18,8 @@
  * </dl>
  */
 define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team",
-        "Token", "process/Action" ], function(DamageCard, ManeuverComputer, Phase, PlayFormat, Position, RangeRuler,
-        RectanglePath, Team, Token, Action)
+        "Token", "process/Action", "process/Selector" ], function(DamageCard, ManeuverComputer, Phase, PlayFormat,
+        Position, RangeRuler, RectanglePath, Team, Token, Action, Selector)
 {
     "use strict";
     function Environment(store, teamKey1, teamKey2)
@@ -224,7 +224,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             }
             else
             {
-                answer = store.getState().tokenIdToPosition[token.id()];
+                answer = Selector.position(store.getState(), token.id());
             }
 
             return answer;

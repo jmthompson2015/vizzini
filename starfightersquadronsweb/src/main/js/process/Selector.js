@@ -3,26 +3,71 @@ define(function()
     "use strict";
     var Selector = {};
 
-    Selector.attackerTargetLocks = function(targetLocks, attacker)
+    Selector.attackerTargetLocks = function(state, attacker)
     {
-        InputValidator.validateNotNull("targetLocks", targetLocks);
+        InputValidator.validateNotNull("state", state);
         InputValidator.validateNotNull("attacker", attacker);
 
-        return targetLocks.filter(function(targetLock)
+        return state.targetLocks.filter(function(targetLock)
         {
             return targetLock.attacker().id() === attacker.id();
         });
     };
 
-    Selector.defenderTargetLocks = function(targetLocks, defender)
+    Selector.count = function(state, tokenId, property)
     {
-        InputValidator.validateNotNull("targetLocks", targetLocks);
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("property", property);
+
+        var answer;
+        var counts = state.tokenIdToCounts[tokenId];
+
+        if (counts)
+        {
+            answer = counts[property];
+        }
+
+        return answer;
+    };
+
+    Selector.criticalDamages = function(state, tokenId)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+
+        var answer = state.tokenIdToCriticalDamages[tokenId];
+
+        return (answer ? answer.slice() : []);
+    };
+
+    Selector.damages = function(state, tokenId)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+
+        var answer = state.tokenIdToDamages[tokenId];
+
+        return (answer ? answer.slice() : []);
+    };
+
+    Selector.defenderTargetLocks = function(state, defender)
+    {
+        InputValidator.validateNotNull("state", state);
         InputValidator.validateNotNull("defender", defender);
 
-        return targetLocks.filter(function(targetLock)
+        return state.targetLocks.filter(function(targetLock)
         {
             return targetLock.defender().id() === defender.id();
         });
+    };
+
+    Selector.position = function(state, tokenId)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+
+        return state.tokenIdToPosition[tokenId];
     };
 
     Selector.targetLock = function(targetLocks, attacker, defender)
@@ -69,6 +114,16 @@ define(function()
         }
 
         return answer;
+    };
+
+    Selector.upgrades = function(state, tokenId)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+
+        var answer = state.tokenIdToUpgrades[tokenId];
+
+        return (answer ? answer.slice() : []);
     };
 
     if (Object.freeze)
