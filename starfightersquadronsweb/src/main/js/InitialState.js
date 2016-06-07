@@ -13,7 +13,7 @@ define([ "Phase" ], function(Phase)
 
         this.nextTargetLockId = 0;
         this.nextTokenId = 1;
-        this.positionToToken = {};
+        this.positionToTokenId = {};
 
         this.tokenIdToCounts = {};
         this.tokenIdToCriticalDamages = {};
@@ -24,6 +24,8 @@ define([ "Phase" ], function(Phase)
         this.damageDeck = [];
         this.damageDiscardPile = [];
         this.targetLocks = [];
+
+        this.tokens = {};
     }
 
     if (Object.freeze)

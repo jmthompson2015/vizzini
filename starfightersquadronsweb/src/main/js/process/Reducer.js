@@ -89,22 +89,22 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
-    Reducer.positionToToken = function(state, action)
+    Reducer.positionToTokenId = function(state, action)
     {
-        LOGGER.debug("positionToToken() type = " + action.type);
+        LOGGER.debug("positionToTokenId() type = " + action.type);
 
-        var newPositionToToken;
+        var newPositionToTokenId;
 
         switch (action.type)
         {
         case Action.PLACE_TOKEN:
-            newPositionToToken = Object.assign({}, state);
-            newPositionToToken[action.position] = action.token;
-            return newPositionToToken;
+            newPositionToTokenId = Object.assign({}, state);
+            newPositionToTokenId[action.position] = action.token.id();
+            return newPositionToTokenId;
         case Action.REMOVE_TOKEN_AT:
-            newPositionToToken = Object.assign({}, state);
-            delete newPositionToToken[action.position];
-            return newPositionToToken;
+            newPositionToTokenId = Object.assign({}, state);
+            delete newPositionToTokenId[action.position];
+            return newPositionToTokenId;
         default:
             LOGGER.warn("Reducer.positionToTokenId: Unhandled action type: " + action.type);
             return state;
@@ -232,6 +232,28 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
+    Reducer.tokens = function(state, action)
+    {
+        LOGGER.debug("tokens() type = " + action.type);
+
+        var newTokens;
+
+        switch (action.type)
+        {
+        case Action.PLACE_TOKEN:
+            newTokens = Object.assign({}, state);
+            newTokens[action.token.id()] = action.token;
+            return newTokens;
+        case Action.REMOVE_TOKEN:
+            newTokens = Object.assign({}, state);
+            delete newTokens[action.token.id()];
+            return newTokens;
+        default:
+            LOGGER.warn("Reducer.tokens: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.upgrades = function(state, action)
     {
         LOGGER.debug("upgrades() type = " + action.type);
@@ -260,7 +282,7 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
 
         if (typeof state === 'undefined') { return new InitialState(); }
 
-        var newPositionToToken, newTokenIdToPosition, action2;
+        var newPositionToTokenId, newTokenIdToPosition, newTokens, action2;
 
         switch (action.type)
         {
@@ -330,32 +352,39 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
                 nextTokenId: state.nextTokenId + 1,
             });
         case Action.PLACE_TOKEN:
-            newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
+            newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
             newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+            newTokens = Reducer.tokens(state.tokens, action);
             return Object.assign({}, state,
             {
-                positionToToken: newPositionToToken,
+                positionToTokenId: newPositionToTokenId,
                 tokenIdToPosition: newTokenIdToPosition,
+                tokens: newTokens,
             });
         case Action.REMOVE_TOKEN:
             var position = state.tokenIdToPosition[action.token.id()];
             action2 = Action.removeTokenAt(position);
-            newPositionToToken = Reducer.positionToToken(state.positionToToken, action2);
+            newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action2);
             newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+            newTokens = Reducer.tokens(state.tokens, action);
             return Object.assign({}, state,
             {
-                positionToToken: newPositionToToken,
+                positionToTokenId: newPositionToTokenId,
                 tokenIdToPosition: newTokenIdToPosition,
+                tokens: newTokens,
             });
         case Action.REMOVE_TOKEN_AT:
-            var token = state.positionToToken[action.position];
+            var tokenId = state.positionToTokenId[action.position];
+            var token = state.tokens[tokenId];
             action2 = Action.removeToken(token);
-            newPositionToToken = Reducer.positionToToken(state.positionToToken, action);
+            newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
             newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action2);
+            newTokens = Reducer.tokens(state.tokens, action2);
             return Object.assign({}, state,
             {
-                positionToToken: newPositionToToken,
+                positionToTokenId: newPositionToTokenId,
                 tokenIdToPosition: newTokenIdToPosition,
+                tokens: newTokens,
             });
         case Action.REPLENISH_DAMAGE_DECK:
             var newDamageDeck = state.damageDiscardPile.slice();

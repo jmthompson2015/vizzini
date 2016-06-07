@@ -271,7 +271,7 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
         this.getTokenAt = function(position)
         {
-            return store.getState().positionToToken[position];
+            return Selector.tokenAt(store.getState(), position);
         };
 
         this.getTokenById = function(tokenId)
@@ -567,11 +567,12 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
         this.tokens = function(isPure)
         {
             var answer = [];
-            var positionToToken = store.getState().positionToToken;
+            var tokens = store.getState().tokens;
 
-            for ( var position in positionToToken)
+            for ( var tokenId in tokens)
             {
-                var token = positionToToken[position];
+                var myTokenId = Number.parseInt(tokenId);
+                var token = Selector.token(store.getState(), myTokenId);
 
                 if (isPure && token.tokenFore && token.tokenAft)
                 {
@@ -590,11 +591,14 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
         this.toString = function()
         {
             var answer = "";
-            var positionToToken = store.getState().positionToToken;
+            var tokens = store.getState().tokens;
 
-            for ( var position in positionToToken)
+            for ( var tokenId in tokens)
             {
-                answer += position.toString() + " " + positionToToken[position].toString() + "\n";
+                var myTokenId = Number.parseInt(tokenId);
+                var token = Selector.token(store.getState(), myTokenId);
+                var position = Selector.position(store.getState(), myTokenId);
+                answer += position.toString() + " " + token.toString() + "\n";
             }
 
             return answer;

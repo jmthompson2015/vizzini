@@ -252,15 +252,17 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         var position = new Position(100, 200, 45);
         var agent = new SimpleAgent("Charlie", Team.REBEL);
         var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
-        assert.equal(Object.keys(store.getState().positionToToken).length, 0);
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 0);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 0);
+        assert.equal(Object.keys(store.getState().tokens).length, 0);
 
         // Run.
         store.dispatch(Action.placeToken(position, token));
 
         // Verify.
-        assert.equal(Object.keys(store.getState().positionToToken).length, 1);
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
+        assert.equal(Object.keys(store.getState().tokens).length, 1);
     });
 
     QUnit.test("removeTargetLock()", function(assert)
@@ -297,15 +299,17 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         var position1 = new Position(100, 200, 45);
         var token1 = new Token(store, Pilot.HAN_SOLO, agent);
         store.dispatch(Action.placeToken(position1, token1));
-        assert.equal(Object.keys(store.getState().positionToToken).length, 2);
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 2);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
+        assert.equal(Object.keys(store.getState().tokens).length, 2);
 
         // Run.
         store.dispatch(Action.removeToken(/* position0, */token0));
 
         // Verify.
-        assert.equal(Object.keys(store.getState().positionToToken).length, 1);
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
+        assert.equal(Object.keys(store.getState().tokens).length, 1);
     });
 
     QUnit.test("removeTokenAt()", function(assert)
@@ -319,15 +323,17 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         var position1 = new Position(100, 200, 45);
         var token1 = new Token(store, Pilot.HAN_SOLO, agent);
         store.dispatch(Action.placeToken(position1, token1));
-        assert.equal(Object.keys(store.getState().positionToToken).length, 2);
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 2);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 2);
+        assert.equal(Object.keys(store.getState().tokens).length, 2);
 
         // Run.
         store.dispatch(Action.removeTokenAt(position0));
 
         // Verify.
-        assert.equal(Object.keys(store.getState().positionToToken).length, 1);
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
+        assert.equal(Object.keys(store.getState().tokens).length, 1);
     });
 
     QUnit.test("removeTokenCriticalDamage()", function(assert)

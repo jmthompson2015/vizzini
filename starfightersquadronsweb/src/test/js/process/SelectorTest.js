@@ -1,6 +1,6 @@
-define([ "DamageCard", "EnvironmentFactory", "Pilot", "TargetLock", "UpgradeCard", "process/Action", "process/Reducer",
-        "process/Selector" ], function(DamageCard, EnvironmentFactory, Pilot, TargetLock, UpgradeCard, Action, Reducer,
-        Selector)
+define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", "UpgradeCard", "process/Action",
+        "process/Reducer", "process/Selector" ], function(DamageCard, EnvironmentFactory, Pilot, Position, TargetLock,
+        UpgradeCard, Action, Reducer, Selector)
 {
     "use strict";
     QUnit.module("Selector");
@@ -172,27 +172,57 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "TargetLock", "UpgradeCard
         assert.equal(result.defender(), defender);
     });
 
-    QUnit.test("tokenById()", function(assert)
+    QUnit.test("token()", function(assert)
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
 
         // Run.
-        var result = Selector.tokenById(environment.store().getState(), 1);
+        var result = Selector.token(environment.store().getState(), 1);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.pilotKey(), Pilot.MAULER_MITHEL);
 
         // Run.
-        var result = Selector.tokenById(environment.store().getState(), 2);
+        var result = Selector.token(environment.store().getState(), 2);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.pilotKey(), Pilot.DARK_CURSE);
 
         // Run.
-        var result = Selector.tokenById(environment.store().getState(), 3);
+        var result = Selector.token(environment.store().getState(), 3);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.pilotKey(), Pilot.LUKE_SKYWALKER);
+    });
+
+    QUnit.test("tokenAt()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var position0 = new Position(305, 20, 90);
+        var position1 = new Position(610, 20, 90);
+        var position2 = new Position(458, 895, 270);
+
+        // Run.
+        var result = Selector.tokenAt(environment.store().getState(), position0);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.pilotKey(), Pilot.MAULER_MITHEL);
+
+        // Run.
+        var result = Selector.tokenAt(environment.store().getState(), position1);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.pilotKey(), Pilot.DARK_CURSE);
+
+        // Run.
+        var result = Selector.tokenAt(environment.store().getState(), position2);
 
         // Verify.
         assert.ok(result);

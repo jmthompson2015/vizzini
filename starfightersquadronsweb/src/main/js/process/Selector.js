@@ -92,25 +92,25 @@ define(function()
         return answer;
     };
 
-    Selector.tokenById = function(state, tokenId0)
+    Selector.token = function(state, tokenId)
     {
         InputValidator.validateNotNull("state", state);
-        InputValidator.validateIsNumber("tokenId0", tokenId0);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+
+        return state.tokens[tokenId];
+    };
+
+    Selector.tokenAt = function(state, position)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("position", position);
 
         var answer;
+        var tokenId = state.positionToTokenId[position];
 
-        var tokenIds = Object.keys(state.tokenIdToPosition);
-
-        for (var i = 0; i < tokenIds.length; i++)
+        if (tokenId !== undefined)
         {
-            var tokenId = tokenIds[i];
-
-            if (tokenId == tokenId0)
-            {
-                var position = state.tokenIdToPosition[tokenId];
-                answer = state.positionToToken[position];
-                break;
-            }
+            answer = Selector.token(state, tokenId);
         }
 
         return answer;
