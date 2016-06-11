@@ -893,15 +893,15 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
         function callback()
         {
             LOGGER.info("callback");
+
+            // Verify.
+            assert.equal(token.focus().count(), 2); // Kyle Katarn upgrade + ship action Focus
+            assert.equal(token.stress().count(), 0);
         }
         var action = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
 
         // Run.
-        action.doIt();
-
-        // Verify.
-        assert.equal(token.focus().count(), 2); // Kyle Katarn upgrade + ship action Focus
-        assert.equal(token.stress().count(), 0);
+        setTimeout(action.doIt(), 600);
     });
 
     QUnit.test("weaponsDisabled()", function(assert)
