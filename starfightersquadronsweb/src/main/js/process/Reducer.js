@@ -97,6 +97,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
 
         switch (action.type)
         {
+        case Action.MOVE_TOKEN:
+            newPositionToTokenId = Object.assign({}, state);
+            delete newPositionToTokenId[action.fromPosition];
+            newPositionToTokenId[action.toPosition] = action.tokenId;
+            return newPositionToTokenId;
         case Action.PLACE_TOKEN:
             newPositionToTokenId = Object.assign({}, state);
             newPositionToTokenId[action.position] = action.token.id();
@@ -199,6 +204,10 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
 
         switch (action.type)
         {
+        case Action.MOVE_TOKEN:
+            newTokenIdToPosition = Object.assign({}, state);
+            newTokenIdToPosition[action.tokenId] = action.toPosition;
+            return newTokenIdToPosition;
         case Action.PLACE_TOKEN:
             newTokenIdToPosition = Object.assign({}, state);
             newTokenIdToPosition[action.token.id()] = action.position;
@@ -351,6 +360,15 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 nextTokenId: state.nextTokenId + 1,
             });
+        case Action.MOVE_TOKEN:
+            action.tokenId = state.positionToTokenId[action.fromPosition];
+            newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
+            newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+            return Object.assign({}, state,
+            {
+                positionToTokenId: newPositionToTokenId,
+                tokenIdToPosition: newTokenIdToPosition,
+            });
         case Action.PLACE_TOKEN:
             newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
             newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
@@ -413,6 +431,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 phaseKey: action.phaseKey,
+            });
+        case Action.SET_PLAY_AREA_SCALE:
+            return Object.assign({}, state,
+            {
+                playAreaScale: action.scale,
             });
         case Action.SET_PLAY_FORMAT:
             return Object.assign({}, state,

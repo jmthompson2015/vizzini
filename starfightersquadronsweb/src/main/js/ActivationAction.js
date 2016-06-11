@@ -119,6 +119,17 @@ define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase" ], function(Difficu
             this.checkPilotStress(maneuverKey);
         }
 
+        setTimeout(this.finishExecuteManeuver.bind(this), 500);
+    };
+
+    ActivationAction.prototype.finishExecuteManeuver = function()
+    {
+        var environment = this.environment();
+        var adjudicator = this.adjudicator();
+        var token = this.token();
+        var callback = this.callback();
+        var agent = token.agent();
+
         environment.phase(Phase.ACTIVATION_CLEAN_UP);
 
         if (token.isHuge() || (token.parent && token.parent.isHuge()))

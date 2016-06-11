@@ -6,6 +6,7 @@ define([ "Phase" ], function(Phase)
         this.playFormatKey = undefined;
         this.round = 0;
         this.phaseKey = Phase.SETUP;
+        this.playAreaScale = 1.0;
         this.activeTokenId = undefined;
 
         this.firstAgent = undefined;

@@ -13,6 +13,7 @@ define(function()
     Action.DRAW_DAMAGE = "drawDamage";
     Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
     Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
+    Action.MOVE_TOKEN = "moveToken";
     Action.PLACE_TOKEN = "placeToken";
     Action.REMOVE_TARGET_LOCK = "removeTargetLock";
     Action.REMOVE_TOKEN = "removeToken";
@@ -27,6 +28,7 @@ define(function()
     Action.SET_DAMAGE_DECK = "setDamageDeck";
     Action.SET_FIRST_AGENT = "setFirstAgent";
     Action.SET_PHASE = "setPhase";
+    Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
 
@@ -141,6 +143,19 @@ define(function()
         return (
         {
             type: Action.INCREMENT_NEXT_TOKEN_ID,
+        });
+    };
+
+    Action.moveToken = function(fromPosition, toPosition)
+    {
+        InputValidator.validateNotNull("fromPosition", fromPosition);
+        InputValidator.validateNotNull("toPosition", toPosition);
+
+        return (
+        {
+            type: Action.MOVE_TOKEN,
+            fromPosition: fromPosition,
+            toPosition: toPosition,
         });
     };
 
@@ -299,6 +314,17 @@ define(function()
         {
             type: Action.SET_PHASE,
             phaseKey: phaseKey,
+        });
+    };
+
+    Action.setPlayAreaScale = function(scale)
+    {
+        InputValidator.validateNotNull("scale", scale);
+
+        return (
+        {
+            type: Action.SET_PLAY_AREA_SCALE,
+            scale: scale,
         });
     };
 

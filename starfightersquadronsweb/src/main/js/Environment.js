@@ -51,6 +51,25 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             return this.getTokenById(store.getState().activeTokenId);
         };
 
+        this.createTokenPositions = function()
+        {
+            var answer = [];
+
+            var tokens = this.tokens();
+
+            tokens.forEach(function(token)
+            {
+                var position = this.getPositionFor(token);
+                answer.push(
+                {
+                    token: token,
+                    position: position
+                });
+            }, this);
+
+            return answer;
+        };
+
         this.createWeaponToRangeToDefenders = function(attacker)
         {
             var answer = [];

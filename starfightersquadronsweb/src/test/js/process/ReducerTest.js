@@ -245,6 +245,34 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().nextTokenId, 3);
     });
 
+    QUnit.test("moveToken()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var fromPosition = new Position(100, 200, 45);
+        var toPosition = new Position(120, 220, 45);
+        var agent = new SimpleAgent("Charlie", Team.REBEL);
+        var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
+        store.dispatch(Action.placeToken(fromPosition, token));
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
+        assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
+        assert.equal(Object.keys(store.getState().tokens).length, 1);
+        
+        assert.equal(store.getState().tokens[token.id()], token);
+        assert.equal(store.getState().tokenIdToPosition[token.id()], fromPosition);
+
+        // Run.
+        store.dispatch(Action.moveToken(fromPosition, toPosition));
+
+        // Verify.
+        assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
+        assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
+        assert.equal(Object.keys(store.getState().tokens).length, 1);
+        
+        assert.equal(store.getState().tokens[token.id()], token);
+        assert.equal(store.getState().tokenIdToPosition[token.id()], toPosition);
+    });
+
     QUnit.test("placeToken()", function(assert)
     {
         // Setup.
@@ -547,6 +575,19 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
 
         // Verify.
         assert.equal(store.getState().phaseKey, Phase.COMBAT_MODIFY_ATTACK_DICE);
+    });
+
+    QUnit.test("setPlayAreaScale()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        assert.equal(store.getState().playAreaScale, 1.0);
+
+        // Run.
+        store.dispatch(Action.setPlayAreaScale(0.75));
+
+        // Verify.
+        assert.equal(store.getState().playAreaScale, 0.75);
     });
 
     QUnit.test("setPlayFormat()", function(assert)
