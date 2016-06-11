@@ -5,6 +5,28 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
     "use strict";
     QUnit.module("Selector");
 
+    QUnit.test("activeToken()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token = environment.tokens()[0];
+
+        // Run.
+        var result = Selector.activeToken(store.getState());
+
+        // Verify.
+        assert.ok(!result);
+
+        // Run.
+        store.dispatch(Action.setActiveToken(token.id()));
+        var result = Selector.activeToken(store.getState());
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, token);
+    });
+
     QUnit.test("attackerTargetLocks()", function(assert)
     {
         // Setup.

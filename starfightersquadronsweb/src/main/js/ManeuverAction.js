@@ -1,6 +1,6 @@
 define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilot", "PlayFormat", "Position",
-        "RectanglePath", "ShipFledAction", "UpgradeCard" ], function(Bearing, Difficulty, Maneuver, ManeuverComputer,
-        Phase, Pilot, PlayFormat, Position, RectanglePath, ShipFledAction, UpgradeCard)
+        "RectanglePath", "ShipFledAction", "UpgradeCard", "process/Action" ], function(Bearing, Difficulty, Maneuver,
+        ManeuverComputer, Phase, Pilot, PlayFormat, Position, RectanglePath, ShipFledAction, UpgradeCard, Action)
 {
     "use strict";
     function ManeuverAction(environment, token, maneuverKey, isBoost)
@@ -93,8 +93,8 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
                 else
                 {
                     environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
-                    environment.removeToken(fromPosition);
-                    environment.placeToken(toPosition, token);
+                    var store = environment.store();
+                    store.dispatch(Action.moveToken(fromPosition, toPosition));
 
                     if (token.isIonized && token.isIonized())
                     {

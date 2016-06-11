@@ -163,7 +163,11 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
 
                     var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey,
                             this.processActivationQueue.bind(this));
-                    activationAction.doIt();
+
+                    setTimeout(function()
+                    {
+                        activationAction.doIt();
+                    }, 500);
 
                     LOGGER.trace("Engine.processActivationQueue() end");
                 };
@@ -318,7 +322,11 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
                             var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition,
                                     weapon, defender, defenderPosition, that.processCombatQueue);
                             LOGGER.trace("combatAction = " + combatAction);
-                            combatAction.doIt();
+
+                            setTimeout(function()
+                            {
+                                combatAction.doIt();
+                            }, 500);
                         }
                     }
                     else

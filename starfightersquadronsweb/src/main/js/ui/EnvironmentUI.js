@@ -1,6 +1,6 @@
-define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/StatusBarUI", "ui/PilotsUI",
-        "ui/PlayAreaUI", "ui/PlayState" ], function(Engine, Environment, Phase, Connector, StatusBarUI, PilotsUI,
-        PlayAreaUI, PlayState)
+define([ "Engine", "Environment", "Phase", "process/Action", "process/ui/Connector", "process/ui/PlayAreaUI",
+        "process/ui/StatusBarUI", "ui/PilotsUI", "ui/PlayState" ], function(Engine, Environment, Phase, Action,
+        Connector, PlayAreaUI, StatusBarUI, PilotsUI, PlayState)
 {
     "use strict";
     function EnvironmentUI(engine, environment)
@@ -42,7 +42,15 @@ define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/S
         var firstPilots = ReactDOM.render(firstPilotsElement, document.getElementById("firstPilots"));
 
         // Play area.
-        var playAreaUI = new PlayAreaUI(environment);
+        var connector2 = ReactRedux.connect(Connector.PlayAreaUI.mapStateToProps)(PlayAreaUI);
+        var playAreaElement = React.createElement(ReactRedux.Provider,
+        {
+            store: environment.store(),
+        }, React.createElement(connector2,
+        {
+            environment: environment,
+        }));
+        var playAreaUI = ReactDOM.render(playAreaElement, document.getElementById("playArea"));
 
         // Second pilots.
         var secondPilotsElement = React.createElement(ReactRedux.Provider,
@@ -55,7 +63,6 @@ define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/S
         }));
         var secondPilots = ReactDOM.render(secondPilotsElement, document.getElementById("secondPilots"));
 
-        var scale = 1.0;
         var previousPlayState;
 
         environment.bind(Environment.PHASE_EVENT, function(phase)
@@ -135,7 +142,8 @@ define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/S
 
         this.setScale = function(value)
         {
-            scale = value;
+            var store = environment.store();
+            store.dispatch(Action.setPlayAreaScale(value));
 
             if (previousPlayState && previousPlayState.maneuverAction())
             {
@@ -159,6 +167,8 @@ define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/S
             var canvas = document.getElementById("playAreaCanvas");
             var context = canvas.getContext("2d");
             context.save();
+            var store = environment.store();
+            var scale = store.getState().playAreaScale;
             context.scale(scale, scale);
 
             var message;
@@ -216,8 +226,6 @@ define([ "Engine", "Environment", "Phase", "process/ui/Connector", "process/ui/S
                     }
                 }
             }
-
-            playAreaUI.paintComponent(context, playState);
 
             context.restore();
 

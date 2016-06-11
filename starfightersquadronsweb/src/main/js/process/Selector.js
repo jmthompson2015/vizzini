@@ -3,6 +3,20 @@ define(function()
     "use strict";
     var Selector = {};
 
+    Selector.activeToken = function(state)
+    {
+        InputValidator.validateNotNull("state", state);
+
+        var answer;
+
+        if (state.activeTokenId !== undefined && state.activeTokenId !== null)
+        {
+            answer = Selector.token(state, state.activeTokenId);
+        }
+
+        return answer;
+    };
+
     Selector.attackerTargetLocks = function(state, attacker)
     {
         InputValidator.validateNotNull("state", state);
