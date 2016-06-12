@@ -127,6 +127,7 @@ define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase" ], function(Difficu
         var environment = this.environment();
         var adjudicator = this.adjudicator();
         var token = this.token();
+        var maneuverKey = this.maneuverKey();
         var callback = this.callback();
         var agent = token.agent();
 
