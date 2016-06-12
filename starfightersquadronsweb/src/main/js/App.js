@@ -7,7 +7,8 @@ var audioBase = resourceBase + "audio/";
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
-require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, EnvironmentUI, NewGamePanel)
+require([ "Game", "process/Action", "process/ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Action,
+        EnvironmentUI, NewGamePanel)
 {
     "use strict";
 
@@ -18,6 +19,7 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
     });
 
     ReactDOM.render(newGamePanel, document.getElementById("inputArea"));
+    var game;
     var environmentUI;
 
     function startNewGame(agent1, squad1, agent2, squad2)
@@ -32,13 +34,20 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         var element = document.getElementById("inputArea");
         element.innerHTML = "";
 
-        var game = new Game(agent1, squad1, agent2, squad2);
-        environmentUI = new EnvironmentUI(game.engine(), game.environment());
+        game = new Game(agent1, squad1, agent2, squad2);
+        var store = game.environment().store();
+        environmentUI = React.createElement(ReactRedux.Provider,
+        {
+            store: store,
+        }, React.createElement(EnvironmentUI,
+        {
+            engine: game.engine(),
+            environment: game.environment(),
+        }));
+        ReactDOM.render(environmentUI, document.getElementById("environmentUI"));
 
         game.start();
 
-        HtmlUtilities.removeClass(document.getElementById("statusBar"), "hidden");
-        HtmlUtilities.removeClass(document.getElementById("messageArea"), "hidden");
         updateSizes(environmentUI);
 
         LOGGER.info("startNewGame() end");
@@ -58,14 +67,15 @@ require([ "Game", "ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Enviro
         var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
         myPlayAreaCanvas.width = newWidth;
 
-        if (environmentUI)
+        if (game)
         {
-            var playFormat = environmentUI.environment().playFormat();
+            var playFormat = game.environment().playFormat();
             var aspectRatio = playFormat.width / playFormat.height;
 
             myPlayAreaCanvas.height = newWidth / aspectRatio;
 
-            environmentUI.setScale(newWidth / playFormat.width);
+            var store = game.environment().store();
+            store.dispatch(Action.setPlayAreaScale(newWidth / playFormat.width));
         }
     }
 

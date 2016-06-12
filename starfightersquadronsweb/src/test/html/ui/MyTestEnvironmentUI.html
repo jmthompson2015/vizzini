@@ -24,151 +24,42 @@
 
 </head>
 <body>
-	<audio id="tieFighterLaserAudio" src="../../../main/resources/audio/TIEFighterLaser.wav" preload="auto"></audio>
-	<audio id="xWingLaserAudio" src="resources/audio/XWingLaser.wav" preload="auto"></audio>
+	<div id="panel"></div>
 
-	<table>
-		<tr>
-			<td colspan="3" id="statusBar"></td>
-		</tr>
-		<tr>
-			<td rowspan="3" id="firstPilots"></td>
-			<td id="playArea">
-				<canvas id="playAreaCanvas"></canvas>
-			</td>
-			<td rowspan="3" id="secondPilots"></td>
-		</tr>
-		<tr>
-			<td id="messageArea"></td>
-		</tr>
-		<tr>
-			<td id="inputArea"></td>
-		</tr>
-	</table>
 	<script>
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
 
         var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
         var audioBase = resourceBase + "audio/";
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        function updateSizes(environmentUI)
-        {
-            // InputValidator.validateNotNull("environmentUI", environmentUI);
-
-            var firstPilots = document.getElementById("firstPilots");
-            var secondPilots = document.getElementById("secondPilots");
-            var newWidth = window.innerWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
-
-            var statusBar = document.getElementById("statusBar");
-            var messageArea = document.getElementById("messageArea");
-            var inputArea = document.getElementById("inputArea");
-            var newHeight = window.innerHeight - statusBar.offsetHeight - messageArea.offsetHeight -
-                    inputArea.offsetHeight;
-
-            var size = Math.min(newWidth, newHeight)
-
-            var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
-            myPlayAreaCanvas.width = size;
-            myPlayAreaCanvas.height = size;
-
-            var scale = size / 915;
-
-            if (environmentUI)
-            {
-                environmentUI.setScale(scale);
-            }
-        }
-
         require([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Maneuver", "ManeuverAction",
-                "Phase", "Team", "ui/EnvironmentUI" ], function(Adjudicator, CombatAction, Environment,
-                EnvironmentFactory, Maneuver, ManeuverAction, Phase, Team, EnvironmentUI)
+                "Phase", "Team", "process/Action", "process/ui/EnvironmentUI" ], function(Adjudicator, CombatAction,
+                Environment, EnvironmentFactory, Maneuver, ManeuverAction, Phase, Team, Action, EnvironmentUI)
         {
             var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            store.dispatch(Action.setUserMessage("This is an important message!"));
             var adjudicator = new Adjudicator();
             var mockEngine = {};
-            mockEngine.addWinnerListener = function(listener)
-            {};
-            mockEngine.bind = function()
-            {};
             var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
             var rebelTokens = environment.getTokensForTeam(Team.REBEL);
             var imperialToken0 = imperialTokens[0];
             var imperialToken1 = imperialTokens[1];
             var rebelToken = rebelTokens[0];
 
-            var environmentUI = new EnvironmentUI(mockEngine, environment);
-
-            window.addEventListener("resize", function()
+            var environmentUI = React.createElement(ReactRedux.Provider,
             {
-                updateSizes(environmentUI)
-            }, false);
-            window.addEventListener("orientationchange", function()
+                store: store,
+            }, React.createElement(EnvironmentUI,
             {
-                updateSizes(environmentUI)
-            }, false);
-
-            environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
-
-            window.dispatchEvent(new Event('resize'));
-
-            // Move imperial token 0.
-            {
-                environment.activeToken(imperialToken0);
-                var maneuverAction = new ManeuverAction(environment, imperialToken0, Maneuver.STRAIGHT_1_STANDARD);
-                maneuverAction.doIt();
-            }
-
-            // Move imperial token 1.
-            {
-                environment.activeToken(imperialToken1);
-                var maneuverAction = new ManeuverAction(environment, imperialToken1, Maneuver.STRAIGHT_5_STANDARD);
-                maneuverAction.doIt();
-            }
-
-            // Move rebel token.
-            {
-                environment.activeToken(rebelToken);
-                var maneuverAction = new ManeuverAction(environment, rebelToken, Maneuver.STRAIGHT_5_STANDARD);
-                maneuverAction.doIt();
-            }
-
-            // Move rebel token.
-            {
-                environment.activeToken(rebelToken);
-                var maneuverAction = new ManeuverAction(environment, rebelToken, Maneuver.STRAIGHT_3_STANDARD);
-                maneuverAction.doIt();
-            }
-
-            environment.phase(Phase.ACTIVATION_END);
-
-            environment.phase(Phase.COMBAT_START);
-
-            // Rebel token fire upon imperial token 1.
-            {
-                environment.activeToken(rebelToken);
-                var rebelPosition = environment.getPositionFor(rebelToken);
-                var weapon = rebelToken.primaryWeapon();
-                var imperialPosition = environment.getPositionFor(imperialToken1);
-                var combatAction = new CombatAction(environment, adjudicator, rebelToken, rebelPosition, weapon,
-                        imperialToken1, imperialPosition);
-                combatAction.doIt();
-            }
-
-            // Imperial token 1 fire upon rebel token.
-            {
-                environment.activeToken(imperialToken1);
-                var imperialPosition = environment.getPositionFor(imperialToken1);
-                var weapon = imperialToken1.primaryWeapon();
-                var rebelPosition = environment.getPositionFor(rebelToken);
-                var combatAction = new CombatAction(environment, adjudicator, imperialToken1, imperialPosition, weapon,
-                        rebelToken, rebelPosition);
-                combatAction.doIt();
-            }
-
-            environment.phase(Phase.COMBAT_END);
+                engine: mockEngine,
+                environment: environment,
+            }));
+            ReactDOM.render(environmentUI, document.getElementById("panel"));
         });
     </script>
 </body>

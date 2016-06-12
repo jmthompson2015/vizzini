@@ -35,7 +35,6 @@ define([ "Adjudicator", "Engine", "Environment", "process/Reducer" ], function(A
     Game.prototype.start = function()
     {
         var environment = this.environment();
-        environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
         var engine = this.engine();
 
         setTimeout(function()

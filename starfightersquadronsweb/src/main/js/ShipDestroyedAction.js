@@ -1,4 +1,4 @@
-define([ "Environment" ], function(Environment)
+define([ "process/Action" ], function(Action)
 {
     "use strict";
     function ShipDestroyedAction(environment, token, fromPosition)
@@ -39,7 +39,8 @@ define([ "Environment" ], function(Environment)
             }
 
             environment.removeToken(fromPosition);
-            environment.trigger(Environment.SHIP_DESTROYED_EVENT, this);
+            var store = environment.store();
+            store.dispatch(Action.setUserMessage("Ship destroyed: " + token));
 
             LOGGER.trace("ShipDestroyedAction.doIt() end");
         };

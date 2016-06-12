@@ -8,6 +8,7 @@ define([ "Phase" ], function(Phase)
         this.phaseKey = Phase.SETUP;
         this.playAreaScale = 1.0;
         this.activeTokenId = undefined;
+        this.userMessage = "";
 
         this.firstAgent = undefined;
         this.secondAgent = undefined;

@@ -257,7 +257,7 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
         assert.equal(Object.keys(store.getState().tokens).length, 1);
-        
+
         assert.equal(store.getState().tokens[token.id()], token);
         assert.equal(store.getState().tokenIdToPosition[token.id()], fromPosition);
 
@@ -268,7 +268,7 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(Object.keys(store.getState().positionToTokenId).length, 1);
         assert.equal(Object.keys(store.getState().tokenIdToPosition).length, 1);
         assert.equal(Object.keys(store.getState().tokens).length, 1);
-        
+
         assert.equal(store.getState().tokens[token.id()], token);
         assert.equal(store.getState().tokenIdToPosition[token.id()], toPosition);
     });
@@ -621,5 +621,19 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
 
         // Verify.
         assert.equal(store.getState().secondAgent, agent);
+    });
+
+    QUnit.test("setUserMessage()", function(assert)
+    {
+        // Setup.
+        var userMessage = "This is an important message!";
+        var store = Redux.createStore(Reducer.root);
+        assert.ok(!store.getState().userMessage);
+
+        // Run.
+        store.dispatch(Action.setUserMessage(userMessage));
+
+        // Verify.
+        assert.equal(store.getState().userMessage, userMessage);
     });
 });

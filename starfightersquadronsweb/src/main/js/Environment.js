@@ -501,7 +501,6 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
                 {
                     LOGGER.info("Phase: " + Phase.properties[newPhase].name);
                     store.dispatch(Action.setPhase(newPhase));
-                    this.trigger(Environment.PHASE_EVENT, newPhase);
                 }
             }
 
@@ -725,14 +724,6 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
             return touches.vizziniContains(defender);
         }
 
-        function makePhaseHandler(token)
-        {
-            return function(phase)
-            {
-                token.phaseEffect(that, phase);
-            };
-        }
-
         function placeTokens(tokens, isTop)
         {
             var size = tokens.length;
@@ -753,17 +744,9 @@ define([ "DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "R
 
                 var position = new Position(x, y, heading);
                 that.placeToken(position, token);
-                that.bind(Environment.PHASE_EVENT, makePhaseHandler(token));
             }
         }
     }
-
-    Environment.PHASE_EVENT = "phase";
-    Environment.SHIP_DESTROYED_EVENT = "shipDestroyed";
-    Environment.SHIP_FLED_EVENT = "shipFled";
-    Environment.UPDATE_TRIGGER_EVENT = "updateTrigger";
-
-    MicroEvent.mixin(Environment);
 
     return Environment;
 });

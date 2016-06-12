@@ -14,10 +14,6 @@ define(
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 var token0 = environment.tokens()[0]; // TIE Fighter.
                 assert.ok(!environment.activeToken());
-                environment.bind(Environment.ACTIVE_TOKEN_EVENT, function(activeToken)
-                {
-                    assert.equal(activeToken, token0);
-                });
 
                 // Run.
                 environment.activeToken(token0);
@@ -917,10 +913,6 @@ define(
                 // Setup.
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
                 assert.equal(environment.round(), 0);
-                environment.bind(Environment.ROUND_EVENT, function(round)
-                {
-                    assert.equal(round, 1);
-                });
 
                 // Run.
                 environment.incrementRound();
@@ -976,48 +968,6 @@ define(
                 assert.equal(environment.phase(), Phase.ACTIVATION_REVEAL_DIAL);
             });
 
-            QUnit.test("ship destroyed event", function(assert)
-            {
-                // Setup.
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-                var token0 = environment.tokens()[0]; // TIE Fighter.
-                var fromPosition = environment.getPositionFor(token0);
-                var action = new ShipDestroyedAction(environment, token0, fromPosition);
-
-                environment.bind(Environment.SHIP_DESTROYED_EVENT, function(myAction)
-                {
-                    // Verify.
-                    assert.ok(myAction);
-                    assert.equal(myAction.environment(), environment);
-                    assert.equal(myAction.token(), token0);
-                    assert.equal(myAction.fromPosition(), fromPosition);
-                });
-
-                // Run.
-                environment.trigger(Environment.SHIP_DESTROYED_EVENT, action);
-            });
-
-            QUnit.test("ship fled event", function(assert)
-            {
-                // Setup.
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-                var token0 = environment.tokens()[0]; // TIE Fighter.
-                var fromPosition = environment.getPositionFor(token0);
-                var action = new ShipFledAction(environment, token0, fromPosition);
-
-                environment.bind(Environment.SHIP_FLED_EVENT, function(myAction)
-                {
-                    // Verify.
-                    assert.ok(myAction);
-                    assert.equal(myAction.environment(), environment);
-                    assert.equal(myAction.token(), token0);
-                    assert.equal(myAction.fromPosition(), fromPosition);
-                });
-
-                // Run.
-                environment.trigger(Environment.SHIP_FLED_EVENT, action);
-            });
-
             QUnit.test("tokens()", function(assert)
             {
                 var environment = EnvironmentFactory.createCoreSetEnvironment();
@@ -1055,19 +1005,4 @@ define(
                                                 environment.toString(),
                                                 "(305, 20, 90) 1 \"Mauler Mithel\" (TIE Fighter)\n(610, 20, 90) 2 \"Dark Curse\" (TIE Fighter)\n(458, 895, 270) 3 Luke Skywalker (X-Wing)\n");
                             });
-
-            QUnit.test("update trigger event", function(assert)
-            {
-                // Setup.
-                var environment = EnvironmentFactory.createCoreSetEnvironment();
-
-                environment.bind(Environment.UPDATE_TRIGGER_EVENT, function()
-                {
-                    // Verify.
-                    assert.ok(true);
-                });
-
-                // Run.
-                environment.trigger(Environment.UPDATE_TRIGGER_EVENT);
-            });
         });

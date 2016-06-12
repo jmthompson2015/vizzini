@@ -1,4 +1,4 @@
-define([ "Environment" ], function(Environment)
+define([ "process/Action" ], function(Action)
 {
     "use strict";
     function ShipFledAction(environment, token, fromPosition)
@@ -43,7 +43,8 @@ define([ "Environment" ], function(Environment)
                 environment.discardAllDamage(token.criticalDamages());
 
                 environment.removeToken(fromPosition);
-                environment.trigger(Environment.SHIP_FLED_EVENT, this);
+                var store = environment.store();
+                store.dispatch(Action.setUserMessage("Ship fled the battlefield: " + token));
             });
 
             LOGGER.trace("ShipFledAction.doIt() end");

@@ -447,6 +447,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 secondAgent: action.agent,
             });
+        case Action.SET_USER_MESSAGE:
+            return Object.assign({}, state,
+            {
+                userMessage: action.userMessage,
+            });
         default:
             LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
             return state;

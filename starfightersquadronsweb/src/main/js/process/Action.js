@@ -31,6 +31,7 @@ define(function()
     Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
+    Action.SET_USER_MESSAGE = "setUserMessage";
 
     Action.addCount = function(tokenId, property, value)
     {
@@ -347,6 +348,17 @@ define(function()
         {
             type: Action.SET_SECOND_AGENT,
             agent: agent,
+        });
+    };
+
+    Action.setUserMessage = function(userMessage)
+    {
+        InputValidator.validateNotNull("userMessage", userMessage);
+
+        return (
+        {
+            type: Action.SET_USER_MESSAGE,
+            userMessage: userMessage,
         });
     };
 

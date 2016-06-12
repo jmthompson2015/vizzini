@@ -31,23 +31,16 @@
 </head>
 <body>
 	<table id="mainTable">
-		<tr>
-			<td colspan="3" id="statusBar" class="hidden"></td>
-		</tr>
-		<tr>
-			<td rowspan="3" id="firstPilots"></td>
-			<td id="playArea">
-				<canvas id="playAreaCanvas"></canvas>
-			</td>
-			<td rowspan="3" id="secondPilots"></td>
-		</tr>
-		<tr>
-			<td id="messageArea" class="hidden"></td>
-		</tr>
-		<tr>
-			<td id="inputArea"></td>
-		</tr>
+		<tbody>
+			<tr>
+				<td id="environmentUI"></td>
+			</tr>
+			<tr>
+				<td id="inputArea"></td>
+			</tr>
+		</tbody>
 	</table>
+
 	<audio id="explosionAudio" src="../resources/audio/Explosion.wav" preload="auto"></audio>
 	<audio id="millenniumFalconLaserAudio" src="../resources/audio/MillenniumFalconLaser.wav" preload="auto"></audio>
 	<audio id="slave1LaserAudio" src="../resources/audio/Slave1Laser.wav" preload="auto"></audio>

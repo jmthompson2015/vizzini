@@ -4,6 +4,19 @@ define([ "Phase", "PlayFormat", "Ship", "Team", "process/Selector" ],
             "use strict";
             var Connector = {};
 
+            Connector.MessageAreaUI =
+            {
+                mapStateToProps: function(state, ownProps)
+                {
+                    var userMessage = state.userMessage;
+
+                    return (
+                    {
+                        userMessage: userMessage,
+                    });
+                },
+            };
+
             Connector.PilotCardUI =
             {
                 mapStateToProps: function(state, ownProps)
