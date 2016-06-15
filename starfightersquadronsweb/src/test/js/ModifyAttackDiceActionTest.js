@@ -1,5 +1,5 @@
-define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLock" ], function(AttackDice,
-        EnvironmentFactory, ModifyAttackDiceAction, TargetLock)
+define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLock", "process/Action" ], function(
+        AttackDice, EnvironmentFactory, ModifyAttackDiceAction, TargetLock, Action)
 {
     "use strict";
     QUnit.module("ModifyAttackDiceAction");
@@ -8,13 +8,14 @@ define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLo
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var attacker = environment.tokens()[0];
-        attacker.focus().increase();
+        store.dispatch(Action.addFocusCount(attacker.id()));
         var attackDice = new AttackDice(3);
         var defender = environment.tokens()[2];
         var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
         var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
-        assert.equal(attacker.focus().count(), 1);
+        assert.equal(attacker.focusCount(), 1);
         var focusCount0 = attackDice.focusCount();
         var hitCount0 = attackDice.hitCount();
 
@@ -22,7 +23,7 @@ define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLo
         action.doIt();
 
         // Verify.
-        assert.equal(attacker.focus().count(), 0);
+        assert.equal(attacker.focusCount(), 0);
         assert.equal(attackDice.focusCount(), 0);
         assert.equal(attackDice.hitCount(), hitCount0 + focusCount0);
     });

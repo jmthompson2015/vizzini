@@ -1,7 +1,8 @@
 define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "EnvironmentFactory", "Maneuver",
         "ModifyDefenseDiceAction", "Pilot", "Position", "SimpleAgent", "SquadBuilder", "Team", "Token",
-        "process/Reducer" ], function(Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, Maneuver,
-        ModifyDefenseDiceAction, Pilot, Position, SimpleAgent, SquadBuilder, Team, Token, Reducer)
+        "process/Action", "process/Reducer" ], function(Adjudicator, AttackDice, DefenseDice, Environment,
+        EnvironmentFactory, Maneuver, ModifyDefenseDiceAction, Pilot, Position, SimpleAgent, SquadBuilder, Team, Token,
+        Action, Reducer)
 {
     "use strict";
     QUnit.module("SimpleAgent");
@@ -131,7 +132,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
         var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(store, Pilot.SIGMA_SQUADRON_PILOT, agent);
         environment.placeToken(new Position(200, 200, 0), token);
-        token.cloak().increase();
+        store.dispatch(Action.addCloakCount(token.id()));
 
         var result;
         function callback(maneuverAction)
@@ -159,13 +160,14 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var adjudicator = new Adjudicator();
         var agent = new SimpleAgent("myAgent", Team.IMPERIAL);
         var attacker = environment.tokens()[0];
         var attackDice = new AttackDice(3);
         var defender = environment.tokens()[2];
         var defenseDice = new DefenseDice(3);
-        defender.evade().increase();
+        store.dispatch(Action.addEvadeCount(defender.id()));
 
         var result;
         var caller = {};

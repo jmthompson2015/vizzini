@@ -1,5 +1,5 @@
-define([ "ActivationAction", "Adjudicator", "EnvironmentFactory", "Maneuver", "Position", "Token" ], function(
-        ActivationAction, Adjudicator, EnvironmentFactory, Maneuver, Position, Token)
+define([ "ActivationAction", "Adjudicator", "EnvironmentFactory", "Maneuver", "Position", "process/Action" ], function(
+        ActivationAction, Adjudicator, EnvironmentFactory, Maneuver, Position, Action)
 {
     "use strict";
     QUnit.module("ActivationAction");
@@ -35,12 +35,13 @@ define([ "ActivationAction", "Adjudicator", "EnvironmentFactory", "Maneuver", "P
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var adjudicator = new Adjudicator();
         var token = environment.tokens()[2]; // X-Wing
         var tokenPosition = environment.getPositionFor(token);
         environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
-        token.cloak().increase();
+        store.dispatch(Action.addCloakCount(token.id()));
         var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
         function callback()
         {

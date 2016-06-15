@@ -1,5 +1,5 @@
-define([ "Adjudicator", "EnvironmentFactory", "Maneuver", "PlanningAction", "Position", "Token" ], function(
-        Adjudicator, EnvironmentFactory, Maneuver, PlanningAction, Position, Token)
+define([ "Adjudicator", "EnvironmentFactory", "PlanningAction" ], function(Adjudicator, EnvironmentFactory,
+        PlanningAction)
 {
     "use strict";
     QUnit.module("PlanningAction");

@@ -1,4 +1,4 @@
-define([ "Adjudicator", "EnvironmentFactory" ], function(Adjudicator, EnvironmentFactory)
+define([ "Adjudicator", "EnvironmentFactory", "process/Action" ], function(Adjudicator, EnvironmentFactory, Action)
 {
     "use strict";
     QUnit.module("Adjudicator");
@@ -18,9 +18,10 @@ define([ "Adjudicator", "EnvironmentFactory" ], function(Adjudicator, Environmen
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
-        attacker.cloak().increase();
+        store.dispatch(Action.addCloakCount(attacker.id()));
 
         // Run / Verify.
         assert.ok(!adjudicator.canAttack(attacker));
@@ -30,9 +31,10 @@ define([ "Adjudicator", "EnvironmentFactory" ], function(Adjudicator, Environmen
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
-        attacker.weaponsDisabled().increase();
+        store.dispatch(Action.addWeaponsDisabledCount(attacker.id()));
 
         // Run / Verify.
         assert.ok(!adjudicator.canAttack(attacker));

@@ -116,11 +116,12 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var agent = environment.tokens()[2].agent(); // X-Wing
         var token = new Token(environment.store(), Pilot.IG_88C, agent);
         var position = new Position(450, 450, 0);
         environment.placeToken(position, token);
-        assert.equal(token.evade().count(), 0);
+        assert.equal(token.evadeCount(), 0);
         var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
         var isBoost = true;
         var maneuverAction = new ManeuverAction(environment, token, maneuverKey, isBoost);
@@ -129,7 +130,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         maneuverAction.doIt();
 
         // Verify.
-        assert.equal(token.evade().count(), 1);
+        assert.equal(token.evadeCount(), 1);
     });
 
     QUnit.test("doIt() Outlaw Tech", function(assert)
@@ -139,7 +140,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
         store.dispatch(Action.addTokenUpgrade(token.id(), UpgradeCard.OUTLAW_TECH));
-        assert.equal(token.focus().count(), 0);
+        assert.equal(token.focusCount(), 0);
         var maneuverKey = Maneuver.STRAIGHT_4_HARD;
         var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
 
@@ -147,7 +148,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         maneuverAction.doIt();
 
         // Verify.
-        assert.equal(token.focus().count(), 1);
+        assert.equal(token.focusCount(), 1);
     });
 
     QUnit.test("doIt() R2-D2", function(assert)
@@ -158,8 +159,8 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         var token = environment.tokens()[2]; // X-Wing
         store.dispatch(Action.addTokenUpgrade(token.id(), UpgradeCard.R2_D2));
         var maxShield = token.shieldValue();
-        token.shield().decrease();
-        assert.equal(token.shield().count(), maxShield - 1);
+        store.dispatch(Action.addShieldCount(token.id(), -1));
+        assert.equal(token.shieldCount(), maxShield - 1);
         var maneuverKey = Maneuver.STRAIGHT_1_EASY;
         var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
 
@@ -167,7 +168,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         maneuverAction.doIt();
 
         // Verify.
-        assert.equal(token.shield().count(), maxShield);
+        assert.equal(token.shieldCount(), maxShield);
     });
 
     QUnit.test("doIt() R2-D2 at max", function(assert)
@@ -178,7 +179,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         var token = environment.tokens()[2]; // X-Wing
         store.dispatch(Action.addTokenUpgrade(token.id(), UpgradeCard.R2_D2));
         var maxShield = token.shieldValue();
-        assert.equal(token.shield().count(), maxShield);
+        assert.equal(token.shieldCount(), maxShield);
         var maneuverKey = Maneuver.STRAIGHT_1_EASY;
         var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
 
@@ -186,6 +187,6 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         maneuverAction.doIt();
 
         // Verify.
-        assert.equal(token.shield().count(), maxShield);
+        assert.equal(token.shieldCount(), maxShield);
     });
 });

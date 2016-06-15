@@ -1,9 +1,8 @@
 define(
-        [ "Environment", "EnvironmentFactory", "Phase", "Pilot", "Position", "RangeRuler", "Ship",
-                "ShipDestroyedAction", "ShipFledAction", "SimpleAgent", "TargetLock", "Team", "Token", "UpgradeCard",
-                "process/Reducer" ],
-        function(Environment, EnvironmentFactory, Phase, Pilot, Position, RangeRuler, Ship, ShipDestroyedAction,
-                ShipFledAction, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Reducer)
+        [ "Environment", "EnvironmentFactory", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "SimpleAgent",
+                "TargetLock", "Team", "Token", "UpgradeCard", "process/Action", "process/Reducer" ],
+        function(Environment, EnvironmentFactory, Phase, Pilot, Position, RangeRuler, Ship, SimpleAgent, TargetLock,
+                Team, Token, UpgradeCard, Action, Reducer)
         {
             "use strict";
             QUnit.module("Environment");
@@ -73,7 +72,7 @@ define(
                 var defender4 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
                 var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
 
-                attacker.focus().increase();
+                store.dispatch(Action.addFocusCount(attacker.id()));
                 var targetLock = new TargetLock(store, attacker, defender3);
                 attacker.addAttackerTargetLock(targetLock);
 

@@ -1,5 +1,5 @@
-define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAction", "Position" ], function(
-        Adjudicator, Engine, EnvironmentFactory, Maneuver, PlanningAction, Position)
+define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "Position", "process/Action" ], function(
+        Adjudicator, Engine, EnvironmentFactory, Maneuver, Position, Action)
 {
     "use strict";
     QUnit.module("Engine");
@@ -101,18 +101,19 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAct
         // Setup.
         var engine = createEngine();
         var environment = engine.environment();
+        var store = environment.store();
         var token0 = environment.tokens()[0];
-        token0.evade().increase();
-        token0.focus().increase();
-        token0.weaponsDisabled().increase();
+        store.dispatch(Action.addEvadeCount(token0.id()));
+        store.dispatch(Action.addFocusCount(token0.id()));
+        store.dispatch(Action.addWeaponsDisabledCount(token0.id()));
         var token1 = environment.tokens()[1];
-        token1.evade().increase();
-        token1.focus().increase();
-        token1.weaponsDisabled().increase();
+        store.dispatch(Action.addEvadeCount(token1.id()));
+        store.dispatch(Action.addFocusCount(token1.id()));
+        store.dispatch(Action.addWeaponsDisabledCount(token1.id()));
         var token2 = environment.tokens()[2];
-        token2.evade().increase();
-        token2.focus().increase();
-        token2.weaponsDisabled().increase();
+        store.dispatch(Action.addEvadeCount(token2.id()));
+        store.dispatch(Action.addFocusCount(token2.id()));
+        store.dispatch(Action.addWeaponsDisabledCount(token2.id()));
         engine.performPlanningPhase = function()
         {
             LOGGER.info("performPlanningPhase() dummy");
@@ -126,15 +127,15 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "PlanningAct
         setTimeout(function()
         {
             assert.ok(true, "test resumed from async operation");
-            assert.equal(token0.evade().count(), 0, token0.name());
-            assert.equal(token0.focus().count(), 0);
-            assert.equal(token0.weaponsDisabled().count(), 0);
-            assert.equal(token1.evade().count(), 0, token1.name());
-            assert.equal(token1.focus().count(), 0);
-            assert.equal(token1.weaponsDisabled().count(), 0);
-            assert.equal(token2.evade().count(), 0, token2.name());
-            assert.equal(token2.focus().count(), 0);
-            assert.equal(token2.weaponsDisabled().count(), 0);
+            assert.equal(token0.evadeCount(), 0, token0.name());
+            assert.equal(token0.focusCount(), 0);
+            assert.equal(token0.weaponsDisabledCount(), 0);
+            assert.equal(token1.evadeCount(), 0, token1.name());
+            assert.equal(token1.focusCount(), 0);
+            assert.equal(token1.weaponsDisabledCount(), 0);
+            assert.equal(token2.evadeCount(), 0, token2.name());
+            assert.equal(token2.focusCount(), 0);
+            assert.equal(token2.weaponsDisabledCount(), 0);
             done();
         });
     });

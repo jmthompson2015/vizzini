@@ -1,5 +1,5 @@
-define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction" ], function(DefenseDice, EnvironmentFactory,
-        ModifyDefenseDiceAction)
+define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction", "process/Action" ], function(DefenseDice,
+        EnvironmentFactory, ModifyDefenseDiceAction, Action)
 {
     "use strict";
     QUnit.module("ModifyDefenseDiceAction");
@@ -8,13 +8,14 @@ define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction" ], funct
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var defender = environment.tokens()[0];
-        defender.evade().increase();
+        store.dispatch(Action.addEvadeCount(defender.id()));
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-        assert.equal(defender.evade().count(), 1);
-        assert.equal(defender.focus().count(), 0);
+        assert.equal(defender.evadeCount(), 1);
+        assert.equal(defender.focusCount(), 0);
         var evadeCount0 = defenseDice.evadeCount();
         var focusCount0 = defenseDice.focusCount();
 
@@ -22,8 +23,8 @@ define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction" ], funct
         action.doIt();
 
         // Verify.
-        assert.equal(defender.evade().count(), 0);
-        assert.equal(defender.focus().count(), 0);
+        assert.equal(defender.evadeCount(), 0);
+        assert.equal(defender.focusCount(), 0);
         assert.equal(defenseDice.evadeCount(), evadeCount0 + 1);
         assert.equal(defenseDice.focusCount(), focusCount0);
     });
@@ -32,13 +33,14 @@ define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction" ], funct
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var defender = environment.tokens()[0];
-        defender.focus().increase();
+        store.dispatch(Action.addFocusCount(defender.id()));
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-        assert.equal(defender.evade().count(), 0);
-        assert.equal(defender.focus().count(), 1);
+        assert.equal(defender.evadeCount(), 0);
+        assert.equal(defender.focusCount(), 1);
         var evadeCount0 = defenseDice.evadeCount();
         var focusCount0 = defenseDice.focusCount();
 
@@ -46,8 +48,8 @@ define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction" ], funct
         action.doIt();
 
         // Verify.
-        assert.equal(defender.evade().count(), 0);
-        assert.equal(defender.focus().count(), 0);
+        assert.equal(defender.evadeCount(), 0);
+        assert.equal(defender.focusCount(), 0);
         assert.equal(defenseDice.evadeCount(), evadeCount0 + focusCount0);
         assert.equal(defenseDice.focusCount(), 0);
     });

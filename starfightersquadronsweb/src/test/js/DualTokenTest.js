@@ -1,7 +1,5 @@
-define(
-        [ "DamageCard", "DualToken", "Pilot", "Ship", "Team", "Token", "UpgradeCard", "process/Reducer",
-                "ui/HumanAgent" ], function(DamageCard, DualToken, Pilot, Ship, Team, Token, UpgradeCard, Reducer,
-                HumanAgent)
+define([ "DamageCard", "DualToken", "Pilot", "Ship", "Team", "UpgradeCard", "process/Reducer", "ui/HumanAgent" ],
+        function(DamageCard, DualToken, Pilot, Ship, Team, UpgradeCard, Reducer, HumanAgent)
         {
             "use strict";
             QUnit.module("DualToken");

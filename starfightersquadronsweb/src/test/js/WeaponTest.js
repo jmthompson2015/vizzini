@@ -1,7 +1,7 @@
 define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", "RangeRuler", "SimpleAgent",
-        "TargetLock", "Team", "Token", "UpgradeCard", "Weapon", "process/Reducer" ], function(Environment,
-        EnvironmentFactory, FiringArc, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard,
-        Weapon, Reducer)
+        "TargetLock", "Team", "Token", "UpgradeCard", "Weapon", "process/Action", "process/Reducer" ], function(
+        Environment, EnvironmentFactory, FiringArc, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token,
+        UpgradeCard, Weapon, Action, Reducer)
 {
     "use strict";
     QUnit.module("Weapon");
@@ -128,7 +128,7 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         assert.ok(!weapon1.isUsable(attacker, defender));
         assert.ok(!weapon2.isUsable(attacker, defender));
 
-        attacker.focus().increase();
+        store.dispatch(Action.addFocusCount(attacker.id()));
 
         // Run / Verify.
         assert.ok(weapon0.isUsable(attacker, defender));

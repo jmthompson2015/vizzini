@@ -1,5 +1,5 @@
-define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Token" ], function(EnvironmentFactory,
-        Maneuver, Position, ShipActionAction, Token)
+define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "process/Action" ], function(
+        EnvironmentFactory, Maneuver, Position, ShipActionAction, Action)
 {
     "use strict";
     QUnit.module("ShipActionAction");
@@ -194,23 +194,25 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Cloak(token);
+        var action = new ShipActionAction.Cloak(store, token);
 
         // Run.
-        assert.equal(token.cloak().count(), 0);
+        assert.equal(token.cloakCount(), 0);
         action.doIt();
 
         // Verify.
-        assert.equal(token.cloak().count(), 1);
+        assert.equal(token.cloakCount(), 1);
     });
 
     QUnit.test("Cloak.toString()", function(assert)
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Cloak(token);
+        var action = new ShipActionAction.Cloak(store, token);
 
         // Run.
         var result = action.toString();
@@ -239,15 +241,16 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
         var tokenPosition = environment.getPositionFor(token);
         environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
-        token.cloak().increase();
+        store.dispatch(Action.addCloakCount(token.id()));
         var action = new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD);
 
         // Run.
-        assert.equal(token.cloak().count(), 1);
+        assert.equal(token.cloakCount(), 1);
         var position = environment.getPositionFor(token);
         assert.equal(position.x(), 458);
         assert.equal(position.y(), 890);
@@ -255,7 +258,7 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
         action.doIt();
 
         // Verify.
-        assert.equal(token.cloak().count(), 0);
+        assert.equal(token.cloakCount(), 0);
         position = environment.getPositionFor(token);
         assert.equal(position.x(), 458 - 120);
         assert.equal(position.y(), 890);
@@ -281,12 +284,13 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        token.cloak().increase();
+        store.dispatch(Action.addCloakCount(token.id()));
         var action = new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD);
 
         // Run.
-        assert.equal(token.cloak().count(), 1);
+        assert.equal(token.cloakCount(), 1);
         var position = environment.getPositionFor(token);
         assert.equal(position.x(), 458);
         assert.equal(position.y(), 895);
@@ -294,7 +298,7 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
         action.doIt();
 
         // Verify.
-        assert.equal(token.cloak().count(), 0);
+        assert.equal(token.cloakCount(), 0);
         position = environment.getPositionFor(token);
         assert.equal(position.x(), 458);
         assert.equal(position.y(), 895 - 120);
@@ -320,23 +324,25 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Evade(token);
+        var action = new ShipActionAction.Evade(store, token);
 
         // Run.
-        assert.equal(token.evade().count(), 0);
+        assert.equal(token.evadeCount(), 0);
         action.doIt();
 
         // Verify.
-        assert.equal(token.evade().count(), 1);
+        assert.equal(token.evadeCount(), 1);
     });
 
     QUnit.test("Evade.toString()", function(assert)
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Evade(token);
+        var action = new ShipActionAction.Evade(store, token);
 
         // Run.
         var result = action.toString();
@@ -350,23 +356,25 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Focus(token);
+        var action = new ShipActionAction.Focus(store, token);
 
         // Run.
-        assert.equal(token.focus().count(), 0);
+        assert.equal(token.focusCount(), 0);
         action.doIt();
 
         // Verify.
-        assert.equal(token.focus().count(), 1);
+        assert.equal(token.focusCount(), 1);
     });
 
     QUnit.test("Focus.toString()", function(assert)
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Focus(token);
+        var action = new ShipActionAction.Focus(store, token);
 
         // Run.
         var result = action.toString();
@@ -380,23 +388,25 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var defender = environment.tokens()[0]; // TIE Fighter
-        var action = new ShipActionAction.Jam(defender);
+        var action = new ShipActionAction.Jam(store, defender);
 
         // Run.
-        assert.equal(defender.stress().count(), 0);
+        assert.equal(defender.stressCount(), 0);
         action.doIt();
 
         // Verify.
-        assert.equal(defender.stress().count(), 2);
+        assert.equal(defender.stressCount(), 2);
     });
 
     QUnit.test("Jam.toString()", function(assert)
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Jam(token);
+        var action = new ShipActionAction.Jam(store, token);
 
         // Run.
         var result = action.toString();
@@ -425,23 +435,25 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        var action = new ShipActionAction.Reinforce(token);
+        var action = new ShipActionAction.Reinforce(store, token);
 
         // Run.
-        assert.equal(token.reinforce().count(), 0);
+        assert.equal(token.reinforceCount(), 0);
         action.doIt();
 
         // Verify.
-        assert.equal(token.reinforce().count(), 1);
+        assert.equal(token.reinforceCount(), 1);
     });
 
     QUnit.test("Reinforce.toString() Gozanti-class", function(assert)
     {
         // Setup.
         var environment = EnvironmentFactory.createHugeShipEnvironment();
+        var store = environment.store();
         var token = environment.tokens()[0]; // Gozanti-class
-        var action = new ShipActionAction.Reinforce(token);
+        var action = new ShipActionAction.Reinforce(store, token);
 
         // Run.
         var result = action.toString();
@@ -455,12 +467,13 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "Toke
     {
         // Setup.
         var environment = EnvironmentFactory.createHugeShipEnvironment();
+        var store = environment.store();
 
         // Run / Verify.
-        assert.equal(new ShipActionAction.Reinforce(environment.tokens()[3]).toString(), "Reinforce");
-        assert.equal(new ShipActionAction.Reinforce(environment.tokens()[3].tokenFore()).toString(),
+        assert.equal(new ShipActionAction.Reinforce(store, environment.tokens()[3]).toString(), "Reinforce");
+        assert.equal(new ShipActionAction.Reinforce(store, environment.tokens()[3].tokenFore()).toString(),
                 "Reinforce: 7 CR90 Corvette (fore)");
-        assert.equal(new ShipActionAction.Reinforce(environment.tokens()[3].tokenAft()).toString(),
+        assert.equal(new ShipActionAction.Reinforce(store, environment.tokens()[3].tokenAft()).toString(),
                 "Reinforce: 8 CR90 Corvette (aft)");
     });
 

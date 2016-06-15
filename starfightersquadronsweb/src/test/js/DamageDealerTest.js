@@ -1,6 +1,6 @@
-define([ "DamageCard", "DamageCardTrait", "DamageDealer", "EnvironmentFactory", "Pilot", "Token", "UpgradeCard",
-        "process/Reducer" ], function(DamageCard, DamageCardTrait, DamageDealer, EnvironmentFactory, Pilot, Token,
-        UpgradeCard, Reducer)
+define([ "DamageCard", "DamageCardTrait", "DamageDealer", "EnvironmentFactory", "Pilot", "Position", "Token",
+        "UpgradeCard", "process/Action" ], function(DamageCard, DamageCardTrait, DamageDealer, EnvironmentFactory,
+        Pilot, Position, Token, UpgradeCard, Action)
 {
     "use strict";
     QUnit.module("DamageDealer");
@@ -66,12 +66,12 @@ define([ "DamageCard", "DamageCardTrait", "DamageDealer", "EnvironmentFactory", 
     QUnit.test("dealDamage() Determination", function(assert)
     {
         // Setup.
-        var store = Redux.createStore(Reducer.root);
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var hitCount = 2;
         var criticalHitCount = 1;
-        var rebelAgent = environment.tokens()[2].agent();
-        var defender = new Token(store, Pilot.LUKE_SKYWALKER, rebelAgent, [ UpgradeCard.DETERMINATION ]);
+        var defender = environment.tokens()[2];
+        store.dispatch(Action.addTokenUpgrade(defender.id(), UpgradeCard.DETERMINATION));
         var evadeCount = 0;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
         assert.equal(defender.damageCount(), 0);
@@ -101,15 +101,14 @@ define([ "DamageCard", "DamageCardTrait", "DamageDealer", "EnvironmentFactory", 
     QUnit.test("dealDamage() Chewbacca", function(assert)
     {
         // Setup.
-        var store = Redux.createStore(Reducer.root);
         var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
         var hitCount = 2;
         var criticalHitCount = 3;
         var rebelAgent = environment.tokens()[2].agent();
         var defender = new Token(store, Pilot.CHEWBACCA, rebelAgent);
-        defender.shield().decrease();
-        defender.shield().decrease();
-        defender.shield().decrease(); // two shields remaining
+        store.dispatch(Action.placeToken(new Position(10, 20, 30), defender));
+        store.dispatch(Action.addShieldCount(defender.id(), -3)); // two shields remaining
         var evadeCount = 1;
         var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
         assert.equal(defender.damageCount(), 0);
