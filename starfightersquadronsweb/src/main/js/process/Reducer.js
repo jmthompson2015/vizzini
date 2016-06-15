@@ -222,6 +222,26 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         }
     };
 
+    Reducer.tokenIdToUpgradeEnergy = function(state, action)
+    {
+        LOGGER.debug("tokenIdToUpgradeEnergy() type = " + action.type);
+
+        var newTokenIdToUpgradeEnergy;
+
+        switch (action.type)
+        {
+        case Action.ADD_TOKEN_UPGRADE_ENERGY:
+        case Action.SET_TOKEN_UPGRADE_ENERGY:
+            var oldTokenIdToUpgradeEnergy = (state[action.tokenId] ? state[action.tokenId] : {});
+            newTokenIdToUpgradeEnergy = Object.assign({}, state);
+            newTokenIdToUpgradeEnergy[action.tokenId] = Reducer.upgradeEnergy(oldTokenIdToUpgradeEnergy, action);
+            return newTokenIdToUpgradeEnergy;
+        default:
+            LOGGER.warn("Reducer.tokenIdToUpgradeEnergy: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
     Reducer.tokenIdToUpgrades = function(state, action)
     {
         LOGGER.debug("tokenIdToUpgrades() type = " + action.type);
@@ -259,6 +279,29 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return newTokens;
         default:
             LOGGER.warn("Reducer.tokens: Unhandled action type: " + action.type);
+            return state;
+        }
+    };
+
+    Reducer.upgradeEnergy = function(state, action)
+    {
+        LOGGER.debug("upgradeEnergy() type = " + action.type);
+
+        var newUpgradeEnergy;
+
+        switch (action.type)
+        {
+        case Action.ADD_TOKEN_UPGRADE_ENERGY:
+            var oldValue = (state[action.property] ? state[action.property] : 0);
+            newUpgradeEnergy = Object.assign({}, state);
+            newUpgradeEnergy[action.upgradeKey] = Math.max(oldValue + action.value, 0);
+            return newUpgradeEnergy;
+        case Action.SET_TOKEN_UPGRADE_ENERGY:
+            newUpgradeEnergy = Object.assign({}, state);
+            newUpgradeEnergy[action.upgradeKey] = action.value;
+            return newUpgradeEnergy;
+        default:
+            LOGGER.warn("Reducer.upgradeEnergy: Unhandled action type: " + action.type);
             return state;
         }
     };
@@ -333,6 +376,13 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 tokenIdToUpgrades: newTokenIdToUpgrades,
+            });
+        case Action.ADD_TOKEN_UPGRADE_ENERGY:
+        case Action.SET_TOKEN_UPGRADE_ENERGY:
+            var newTokenIdToUpgradeEnergy = Reducer.tokenIdToUpgradeEnergy(state.tokenIdToUpgradeEnergy, action);
+            return Object.assign({}, state,
+            {
+                tokenIdToUpgradeEnergy: newTokenIdToUpgradeEnergy,
             });
         case Action.DISCARD_DAMAGE:
             return Object.assign({}, state,

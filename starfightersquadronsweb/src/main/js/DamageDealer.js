@@ -1,4 +1,5 @@
-define([ "DamageCard", "DamageCardTrait", "UpgradeCard" ], function(DamageCard, DamageCardTrait, UpgradeCard)
+define([ "DamageCard", "DamageCardTrait", "UpgradeCard", "process/Action" ], function(DamageCard, DamageCardTrait,
+        UpgradeCard, Action)
 {
     "use strict";
     function DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount)
@@ -41,6 +42,7 @@ define([ "DamageCard", "DamageCardTrait", "UpgradeCard" ], function(DamageCard, 
         LOGGER.debug("criticalHits = " + criticalHits);
         LOGGER.debug("evades = " + evades);
         var count;
+        var store = environment.store();
 
         if (hits > 0)
         {
@@ -59,7 +61,7 @@ define([ "DamageCard", "DamageCardTrait", "UpgradeCard" ], function(DamageCard, 
         LOGGER.debug("final hits = " + hits);
         LOGGER.debug("final criticalHits = " + criticalHits);
         LOGGER.debug("final evades = " + evades);
-        LOGGER.debug("before hits, shield = " + defender.shield().count());
+        LOGGER.debug("before hits, shield = " + defender.shieldCount());
 
         this.criticalHits = function()
         {
@@ -70,31 +72,25 @@ define([ "DamageCard", "DamageCardTrait", "UpgradeCard" ], function(DamageCard, 
         {
             var count, i;
 
-            if (defender.shield().count() > 0)
+            if (defender.shieldCount() > 0)
             {
-                count = Math.min(hits, defender.shield().count());
+                count = Math.min(hits, defender.shieldCount());
                 hits -= count;
 
-                for (i = 0; i < count; i++)
-                {
-                    defender.shield().decrease();
-                }
+                store.dispatch(Action.addShieldCount(defender.id(), -count));
             }
 
-            LOGGER.debug("before critical hits, shield         = " + defender.shield().count());
+            LOGGER.debug("before critical hits, shield         = " + defender.shieldCount());
 
-            if (defender.shield().count() > 0)
+            if (defender.shieldCount() > 0)
             {
-                count = Math.min(criticalHits, defender.shield().count());
+                count = Math.min(criticalHits, defender.shieldCount());
                 criticalHits -= count;
 
-                for (i = 0; i < count; i++)
-                {
-                    defender.shield().decrease();
-                }
+                store.dispatch(Action.addShieldCount(defender.id(), -count));
             }
 
-            LOGGER.debug("after both hits, shield              = " + defender.shield().count());
+            LOGGER.debug("after both hits, shield              = " + defender.shieldCount());
             LOGGER.debug("before hits, damage                  = " + defender.damageCount());
 
             for (i = 0; i < hits; i++)

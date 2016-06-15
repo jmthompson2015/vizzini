@@ -22,6 +22,7 @@ define([ "Phase" ], function(Phase)
         this.tokenIdToDamages = {};
         this.tokenIdToPosition = {};
         this.tokenIdToUpgrades = {};
+        this.tokenIdToUpgradeEnergy = {};
 
         this.damageDeck = [];
         this.damageDiscardPile = [];

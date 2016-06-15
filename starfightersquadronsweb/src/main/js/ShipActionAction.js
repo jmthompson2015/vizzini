@@ -1,5 +1,5 @@
-define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Maneuver, ManeuverAction, ShipAction,
-        TargetLock)
+define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock", "process/Action" ], function(Maneuver,
+        ManeuverAction, ShipAction, TargetLock, Action)
 {
     "use strict";
     function BarrelRoll(environment, token, maneuverKey)
@@ -80,13 +80,19 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
         return "Boost " + parts[parts.length - 1];
     };
 
-    function Cloak(token)
+    function Cloak(store, token)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("token", token);
 
         this.shipActionKey = function()
         {
             return ShipAction.CLOAK;
+        };
+
+        this.store = function()
+        {
+            return store;
         };
 
         this.token = function()
@@ -97,7 +103,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Cloak.prototype.doIt = function()
     {
-        this.token().cloak().increase();
+        this.store().dispatch(Action.addCloakCount(this.token().id()));
     };
 
     Cloak.prototype.toString = function()
@@ -161,7 +167,8 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
     {
         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
         maneuverAction.doIt();
-        this.token().cloak().decrease();
+        var store = this.environment().store();
+        store.dispatch(Action.addCloakCount(this.token().id(), -1));
     };
 
     Decloak.prototype.toString = function()
@@ -171,13 +178,19 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
         return "Decloak: " + maneuver.bearing.name + " " + maneuver.speed;
     };
 
-    function Evade(token)
+    function Evade(store, token)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("token", token);
 
         this.shipActionKey = function()
         {
             return ShipAction.EVADE;
+        };
+
+        this.store = function()
+        {
+            return store;
         };
 
         this.token = function()
@@ -188,7 +201,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Evade.prototype.doIt = function()
     {
-        this.token().evade().increase();
+        this.store().dispatch(Action.addEvadeCount(this.token().id()));
     };
 
     Evade.prototype.toString = function()
@@ -196,13 +209,19 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
         return "Evade";
     };
 
-    function Focus(token)
+    function Focus(store, token)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("token", token);
 
         this.shipActionKey = function()
         {
             return ShipAction.FOCUS;
+        };
+
+        this.store = function()
+        {
+            return store;
         };
 
         this.token = function()
@@ -213,7 +232,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Focus.prototype.doIt = function()
     {
-        this.token().focus().increase();
+        this.store().dispatch(Action.addFocusCount(this.token().id()));
     };
 
     Focus.prototype.toString = function()
@@ -221,13 +240,19 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
         return "Focus";
     };
 
-    function Jam(defender)
+    function Jam(store, defender)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("defender", defender);
 
         this.shipActionKey = function()
         {
             return ShipAction.JAM;
+        };
+
+        this.store = function()
+        {
+            return store;
         };
 
         this.defender = function()
@@ -238,13 +263,14 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Jam.prototype.doIt = function()
     {
+        var store = this.store();
         var defender = this.defender();
 
-        if (defender.stress().count() < 2)
+        if (defender.stressCount() < 2)
         {
             defender.receiveStress();
         }
-        if (defender.stress().count() < 2)
+        if (defender.stressCount() < 2)
         {
             defender.receiveStress();
         }
@@ -287,13 +313,19 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
         return answer;
     };
 
-    function Reinforce(token)
+    function Reinforce(store, token)
     {
+        InputValidator.validateNotNull("store", store);
         InputValidator.validateNotNull("token", token);
 
         this.shipActionKey = function()
         {
             return ShipAction.REINFORCE;
+        };
+
+        this.store = function()
+        {
+            return store;
         };
 
         this.token = function()
@@ -304,7 +336,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
 
     Reinforce.prototype.doIt = function()
     {
-        this.token().reinforce().increase();
+        this.store().dispatch(Action.addReinforceCount(this.token().id()));
     };
 
     Reinforce.prototype.toString = function()
@@ -391,7 +423,8 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock" ], function(Ma
     {
         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
         maneuverAction.doIt();
-        this.token().weaponsDisabled().increase();
+        var store = this.environment().store();
+        store.dispatch(Action.addWeaponsDisabledCount(this.token().id()));
     };
 
     Slam.prototype.toString = function()

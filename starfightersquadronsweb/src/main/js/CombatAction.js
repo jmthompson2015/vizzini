@@ -1,8 +1,8 @@
 define(
         [ "AttackDice", "DamageDealer", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipDestroyedAction",
-                "TargetLock", "UpgradeCard" ],
+                "TargetLock", "UpgradeCard", "process/Action" ],
         function(AttackDice, DamageDealer, DefenseDice, Phase, Pilot, RangeRuler, ShipDestroyedAction, TargetLock,
-                UpgradeCard)
+                UpgradeCard, Action)
         {
             "use strict";
             function CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
@@ -62,6 +62,7 @@ define(
 
                 this.doIt = function()
                 {
+                    var store = environment.store();
                     executionCount++;
                     var upgrade = weapon.upgrade();
 
@@ -69,7 +70,7 @@ define(
                     {
                         if (upgrade.spendFocus)
                         {
-                            attacker.focus().decrease();
+                            store.dispatch(Action.addFocusCount(attacker.id(), -1));
                         }
 
                         if (upgrade.spendTargetLock)
@@ -122,7 +123,7 @@ define(
                             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
                         }
 
-                        if (attacker.pilotKey() === Pilot.POE_DAMERON && attacker.focus().count() > 0)
+                        if (attacker.pilotKey() === Pilot.POE_DAMERON && attacker.focusCount() > 0)
                         {
                             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
                         }
@@ -170,7 +171,7 @@ define(
                         defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
                     }
 
-                    if (defender.pilotKey() === Pilot.POE_DAMERON && defender.focus().count() > 0)
+                    if (defender.pilotKey() === Pilot.POE_DAMERON && defender.focusCount() > 0)
                     {
                         defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
                     }
@@ -198,7 +199,8 @@ define(
                         }
                     }
 
-                    if (defender.reinforce().count() > 0)
+                    var store = environment.store();
+                    if (defender.reinforceCount() > 0)
                     {
                         // Add one evade result.
                         defenseDice.spendEvadeToken();
@@ -277,6 +279,7 @@ define(
                     var isDefenderHit = (damageDealer.hits() + damageDealer.criticalHits() > 0);
                     attacker.combatState().isDefenderHit(isDefenderHit);
                     LOGGER.debug("isDefenderHit ? " + isDefenderHit);
+                    var store = environment.store();
 
                     if (isDefenderHit)
                     {
@@ -296,13 +299,12 @@ define(
                                 weapon.upgradeKey() === UpgradeCard.ION_CANNON_TURRET)
                         {
                             defender.addDamage(environment.drawDamage());
-                            defender.ion().increase();
+                            store.dispatch(Action.addIonCount(token.id()));
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.ION_PULSE_MISSILES)
                         {
                             defender.addDamage(environment.drawDamage());
-                            defender.ion().increase();
-                            defender.ion().increase();
+                            store.dispatch(Action.addIonCount(token.id(), 2));
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET)
                         {
@@ -315,7 +317,7 @@ define(
 
                         if (attacker.pilotKey() === Pilot.WHISPER)
                         {
-                            attacker.focus().increase();
+                            store.dispatch(Action.addFocusCount(attacker.id()));
                         }
 
                         if (weapon.upgradeKey() === UpgradeCard.ASSAULT_MISSILES)
@@ -333,12 +335,12 @@ define(
                         {
                             environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
                             {
-                                token.ion().increase();
+                                store.dispatch(Action.addIonCount(token.id()));
                             });
                         }
                         else if (weapon.upgradeKey() === UpgradeCard.PLASMA_TORPEDOES)
                         {
-                            defender.shield().decrease();
+                            store.dispatch(Action.addShieldCount(defender.id(), -1));
                         }
 
                         if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
@@ -356,8 +358,7 @@ define(
                                 attacker.receiveStress();
                             }
 
-                            attacker.focus().increase();
-                            var store = environment.store();
+                            store.dispatch(Action.addFocusCount(attacker.id()));
                             var targetLock = new TargetLock(store, attacker, defender);
                             attacker.addAttackerTargetLock(targetLock);
                         }

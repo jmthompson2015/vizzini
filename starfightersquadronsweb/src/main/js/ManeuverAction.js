@@ -98,12 +98,12 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
 
                     if (token.isIonized && token.isIonized())
                     {
-                        token.ion().clear();
+                        store.dispatch(Action.setIonCount(token.id()));
                     }
 
                     if (token.pilotKey() === Pilot.IG_88C && isBoost)
                     {
-                        token.evade().increase();
+                        store.dispatch(Action.addEvadeCount(token.id()));
                     }
 
                     if (token.isUpgradedWith(UpgradeCard.R2_D2) && this.maneuver().difficultyKey === Difficulty.EASY)
@@ -114,7 +114,7 @@ define([ "Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilo
                     if (token.isUpgradedWith(UpgradeCard.OUTLAW_TECH) &&
                             this.maneuver().difficultyKey === Difficulty.HARD)
                     {
-                        token.focus().increase();
+                        store.dispatch(Action.addFocusCount(token.id()));
                     }
                 }
             }

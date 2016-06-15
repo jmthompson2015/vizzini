@@ -1,4 +1,4 @@
-define([ "UpgradeCard" ], function(UpgradeCard)
+define([ "UpgradeCard", "process/Action" ], function(UpgradeCard, Action)
 {
     "use strict";
     function ModifyDefenseDiceAction(environment, defender, defenseDice, modification)
@@ -30,20 +30,22 @@ define([ "UpgradeCard" ], function(UpgradeCard)
 
         this.doIt = function()
         {
+            var store = environment.store();
+
             if (modification === ModifyDefenseDiceAction.Modification.SPEND_FOCUS)
             {
                 defenseDice.spendFocusToken();
-                defender.focus().decrease();
+                store.dispatch(Action.addFocusCount(defender.id(), -1));
 
                 if (defender.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
                 {
-                    defender.focus().increase();
+                    store.dispatch(Action.addFocusCount(defender.id()));
                 }
             }
             else if (modification === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
             {
                 defenseDice.spendEvadeToken();
-                defender.evade().decrease();
+                store.dispatch(Action.addEvadeCount(defender.id(), -1));
             }
             else
             {

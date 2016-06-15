@@ -1,4 +1,4 @@
-define(function()
+define([ "Count" ], function(Count)
 {
     "use strict";
     var Action = {};
@@ -9,6 +9,7 @@ define(function()
     Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
     Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
     Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
+    Action.ADD_TOKEN_UPGRADE_ENERGY = "addTokenUpgradeEnergy";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
     Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
@@ -31,7 +32,13 @@ define(function()
     Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
+    Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
     Action.SET_USER_MESSAGE = "setUserMessage";
+
+    Action.addCloakCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.CLOAK, value);
+    };
 
     Action.addCount = function(tokenId, property, value)
     {
@@ -48,6 +55,31 @@ define(function()
         });
     };
 
+    Action.addEnergyCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.ENERGY, value);
+    };
+
+    Action.addEvadeCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.EVADE, value);
+    };
+
+    Action.addFocusCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.FOCUS, value);
+    };
+
+    Action.addIonCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.ION, value);
+    };
+
+    Action.addReinforceCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.REINFORCE, value);
+    };
+
     Action.addRound = function(value)
     {
         var myValue = (value !== undefined ? value : 1);
@@ -57,6 +89,16 @@ define(function()
             type: Action.ADD_ROUND,
             value: myValue,
         });
+    };
+
+    Action.addShieldCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.SHIELD, value);
+    };
+
+    Action.addStressCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.STRESS, value);
     };
 
     Action.addTargetLock = function(targetLock)
@@ -107,6 +149,26 @@ define(function()
             tokenId: tokenId,
             upgradeKey: upgradeKey,
         });
+    };
+
+    Action.addTokenUpgradeEnergy = function(tokenId, upgradeKey, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+        var myValue = (value !== undefined ? value : 1);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_UPGRADE_ENERGY,
+            tokenId: tokenId,
+            upgradeKey: upgradeKey,
+            value: myValue,
+        });
+    };
+
+    Action.addWeaponsDisabledCount = function(tokenId, value)
+    {
+        return Action.addCount(tokenId, Count.WEAPONS_DISABLED, value);
     };
 
     Action.discardDamage = function(damage)
@@ -270,11 +332,16 @@ define(function()
         });
     };
 
+    Action.setCloakCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.CLOAK, value);
+    };
+
     Action.setCount = function(tokenId, property, value)
     {
         InputValidator.validateIsNumber("tokenId", tokenId);
         InputValidator.validateNotNull("property", property);
-        var myValue = (value !== undefined ? value : 0);
+        var myValue = (value ? value : 0);
 
         return (
         {
@@ -296,6 +363,16 @@ define(function()
         });
     };
 
+    Action.setEnergyCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.ENERGY, value);
+    };
+
+    Action.setEvadeCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.EVADE, value);
+    };
+
     Action.setFirstAgent = function(agent)
     {
         InputValidator.validateNotNull("agent", agent);
@@ -305,6 +382,16 @@ define(function()
             type: Action.SET_FIRST_AGENT,
             agent: agent,
         });
+    };
+
+    Action.setFocusCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.FOCUS, value);
+    };
+
+    Action.setIonCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.ION, value);
     };
 
     Action.setPhase = function(phaseKey)
@@ -351,6 +438,36 @@ define(function()
         });
     };
 
+    Action.setReinforceCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.REINFORCE, value);
+    };
+
+    Action.setShieldCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.SHIELD, value);
+    };
+
+    Action.setStressCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.STRESS, value);
+    };
+
+    Action.setTokenUpgradeEnergy = function(tokenId, upgradeKey, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+        var myValue = (value !== undefined ? value : 0);
+
+        return (
+        {
+            type: Action.SET_TOKEN_UPGRADE_ENERGY,
+            tokenId: tokenId,
+            upgradeKey: upgradeKey,
+            value: myValue,
+        });
+    };
+
     Action.setUserMessage = function(userMessage)
     {
         InputValidator.validateNotNull("userMessage", userMessage);
@@ -360,6 +477,11 @@ define(function()
             type: Action.SET_USER_MESSAGE,
             userMessage: userMessage,
         });
+    };
+
+    Action.setWeaponsDisabledCount = function(tokenId, value)
+    {
+        return Action.setCount(tokenId, Count.WEAPONS_DISABLED, value);
     };
 
     if (Object.freeze)

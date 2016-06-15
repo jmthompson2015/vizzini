@@ -90,10 +90,10 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
                 {
                     var ysanneIsard = tokens[0];
 
-                    if (ysanneIsard.shield().count() === 0 &&
+                    if (ysanneIsard.shieldCount() === 0 &&
                             (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
                     {
-                        ysanneIsard.evade().increase();
+                        store.dispatch(Action.addEvadeCount(ysanneIsard.id()));
                     }
                 }
 
@@ -194,6 +194,8 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
         {
             LOGGER.trace("Engine.processCombatQueue() start");
 
+            var store = environment.store();
+
             if (combatQueue.length === 0)
             {
                 // Search for a ship upgraded with R5-P9.
@@ -206,15 +208,14 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
                 {
                     var r5p9 = tokens[0];
 
-                    if (r5p9.focus().count() > 0 && r5p9.shield().count() < r5p9.shieldValue())
+                    if (r5p9.focusCount() > 0 && r5p9.shieldCount() < r5p9.shieldValue())
                     {
-                        r5p9.focus().decrease();
+                        store.dispatch(Action.addFocusCount(token.id(), -1));
                         r5p9.recoverShield();
                     }
                 }
 
                 environment.activeToken(undefined);
-                var store = environment.store();
                 store.dispatch(Action.setUserMessage(""));
                 LOGGER.trace("Engine.processCombatQueue() done");
                 environment.phase(Phase.COMBAT_END);
@@ -256,10 +257,11 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
         {
             LOGGER.trace("Engine.processEndQueue() start");
 
+            var store = environment.store();
+
             if (endQueue.length === 0)
             {
                 environment.activeToken(undefined);
-                var store = environment.store();
                 store.dispatch(Action.setUserMessage(""));
                 LOGGER.trace("Engine.processEndQueue() done");
                 environment.phase(Phase.END_END);
@@ -277,15 +279,15 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
                 environment.activeToken(token);
 
                 // Perform end steps.
-                token.evade().clear();
+                store.dispatch(Action.setEvadeCount(token.id()));
 
                 if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
                 {
-                    token.focus().clear();
+                    store.dispatch(Action.setFocusCount(token.id()));
                 }
 
-                token.reinforce().clear();
-                token.weaponsDisabled().clear();
+                store.dispatch(Action.setReinforceCount(token.id()));
+                store.dispatch(Action.setWeaponsDisabledCount(token.id()));
             }
 
             this.processEndQueue();

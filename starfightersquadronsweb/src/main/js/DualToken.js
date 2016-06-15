@@ -252,7 +252,5 @@ define([ "ActivationState", "Pilot", "Token", "process/Action" ], function(Activ
         return this.name();
     };
 
-    MicroEvent.mixin(DualToken);
-
     return DualToken;
 });

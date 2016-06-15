@@ -1,4 +1,4 @@
-define(function()
+define([ "Count" ], function(Count)
 {
     "use strict";
     var Selector = {};
@@ -26,6 +26,11 @@ define(function()
         {
             return targetLock.attacker().id() === attacker.id();
         });
+    };
+
+    Selector.cloakCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.CLOAK);
     };
 
     Selector.count = function(state, tokenId, property)
@@ -76,12 +81,47 @@ define(function()
         });
     };
 
+    Selector.energyCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.ENERGY);
+    };
+
+    Selector.evadeCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.EVADE);
+    };
+
+    Selector.focusCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.FOCUS);
+    };
+
+    Selector.ionCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.ION);
+    };
+
     Selector.position = function(state, tokenId)
     {
         InputValidator.validateNotNull("state", state);
         InputValidator.validateIsNumber("tokenId", tokenId);
 
         return state.tokenIdToPosition[tokenId];
+    };
+
+    Selector.reinforceCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.REINFORCE);
+    };
+
+    Selector.shieldCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.SHIELD);
+    };
+
+    Selector.stressCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.STRESS);
     };
 
     Selector.targetLock = function(targetLocks, attacker, defender)
@@ -138,6 +178,11 @@ define(function()
         var answer = state.tokenIdToUpgrades[tokenId];
 
         return (answer ? answer.slice() : []);
+    };
+
+    Selector.weaponsDisabledCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.WEAPONS_DISABLED);
     };
 
     if (Object.freeze)

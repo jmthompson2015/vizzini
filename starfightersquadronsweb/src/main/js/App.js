@@ -62,10 +62,23 @@ require([ "Game", "process/Action", "process/ui/EnvironmentUI", "ui/NewGamePanel
         var windowWidth = Math.min(window.innerWidth - 8, mainTable.clientWidth);
         var firstPilots = document.getElementById("firstPilots");
         var secondPilots = document.getElementById("secondPilots");
-        var newWidth = windowWidth - firstPilots.offsetWidth - secondPilots.offsetWidth;
+        var newWidth = windowWidth;
+        
+        if (firstPilots)
+        {
+            newWidth -= firstPilots.offsetWidth;
+        }
+        
+        if (secondPilots)
+        {
+            newWidth -= secondPilots.offsetWidth;
+        }
 
         var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
-        myPlayAreaCanvas.width = newWidth;
+        if (myPlayAreaCanvas)
+        {
+            myPlayAreaCanvas.width = newWidth;
+        }
 
         if (game)
         {

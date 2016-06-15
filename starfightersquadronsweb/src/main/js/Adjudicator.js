@@ -9,7 +9,7 @@ define([ "Maneuver", "ManeuverComputer", "Pilot", "RectanglePath" ], function(Ma
             InputValidator.validateNotNull("attacker", attacker);
 
             // A cloaked ship cannot attack. Cannot attack if weapons are disabled.
-            return !attacker.isCloaked() && attacker.weaponsDisabled().count() === 0;
+            return !attacker.isCloaked() && attacker.weaponsDisabledCount() === 0;
         };
 
         this.canBarrelRoll = function(environment, attacker, maneuverKey)

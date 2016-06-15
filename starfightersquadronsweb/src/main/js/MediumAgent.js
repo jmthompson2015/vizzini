@@ -31,6 +31,7 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
             // Maximize the hits and critical hits.
             var answer;
             var modification;
+            var store = environment.store();
 
             if (attackDice.hitCount() + attackDice.criticalHitCount() === attackDice.size())
             {
@@ -41,7 +42,7 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
                 modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
                 answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
             }
-            else if (attacker.focus().count() > 0 && attackDice.focusCount() > 0)
+            else if (attacker.focusCount() > 0 && attackDice.focusCount() > 0)
             {
                 modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
                 answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
@@ -56,22 +57,23 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
             var answer;
             var totalHits = attackDice.hitCount() + attackDice.criticalHitCount();
             var modification;
+            var store = environment.store();
 
             if (defenseDice.evadeCount() >= totalHits)
             {
                 // Enough evades. Pass.
             }
-            else if (defender.evade().count() > 0 && defenseDice.evadeCount() + 1 >= totalHits)
+            else if (defender.evadeCount() > 0 && defenseDice.evadeCount() + 1 >= totalHits)
             {
                 modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
             }
-            else if (defender.focus().count() > 0 && defenseDice.focusCount() > 0)
+            else if (defender.focusCount() > 0 && defenseDice.focusCount() > 0)
             {
                 modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
             }
-            else if (defender.evade().count() > 0)
+            else if (defender.evadeCount() > 0)
             {
                 modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
                 answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
@@ -90,6 +92,7 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
             var tokens = environment.getTokensForTeam(team);
             var defenders = environment.getDefenders(team);
             var tokenToManeuver = {};
+            var store = environment.store();
 
             tokens.forEach(function(token)
             {
@@ -221,6 +224,7 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
         {
             var answer;
 
+            var store = environment.store();
             var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment, adjudicator,
                     token);
             var targetLocks = shipActions.filter(function(shipAction)
@@ -232,17 +236,16 @@ define([ "Difficulty", "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction",
             {
                 answer = targetLocks.vizziniRandomElement();
             }
-            else if (token.focus().count() === 0 && shipActions.vizziniContains(ShipAction.FOCUS))
+            else if (token.focusCount() === 0 && shipActions.vizziniContains(ShipAction.FOCUS))
             {
                 answer = ShipAction.FOCUS;
             }
-            else if (token.evade().count() === 0 && shipActions.vizziniContains(ShipAction.EVADE))
+            else if (token.evadeCount() === 0 && shipActions.vizziniContains(ShipAction.EVADE))
             {
                 answer = ShipAction.EVADE;
             }
             else
             {
-                // answer = SimpleAgent.prototype.getShipAction.call(this, environment, adjudicator, token, callback);
                 answer = shipActions.vizziniRandomElement();
             }
 

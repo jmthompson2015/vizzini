@@ -134,7 +134,7 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
 
         if (shipActions.vizziniContains(ShipAction.FOCUS))
         {
-            answer.push(new ShipActionAction.Focus(token));
+            answer.push(new ShipActionAction.Focus(environment.store(), token));
         }
 
         if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
@@ -205,12 +205,12 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
 
         if (shipActions.vizziniContains(ShipAction.EVADE))
         {
-            answer.push(new ShipActionAction.Evade(token));
+            answer.push(new ShipActionAction.Evade(environment.store(), token));
         }
 
         if (shipActions.vizziniContains(ShipAction.CLOAK))
         {
-            answer.push(new ShipActionAction.Cloak(token));
+            answer.push(new ShipActionAction.Cloak(environment.store(), token));
         }
 
         if (shipActions.vizziniContains(ShipAction.REINFORCE))
@@ -219,16 +219,16 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
             {
                 if (!token.parent.tokenFore().isDestroyed())
                 {
-                    answer.push(new ShipActionAction.Reinforce(token.parent.tokenFore()));
+                    answer.push(new ShipActionAction.Reinforce(environment.store(), token.parent.tokenFore()));
                 }
                 if (!token.parent.tokenAft().isDestroyed())
                 {
-                    answer.push(new ShipActionAction.Reinforce(token.parent.tokenAft()));
+                    answer.push(new ShipActionAction.Reinforce(environment.store(), token.parent.tokenAft()));
                 }
             }
             else
             {
-                answer.push(new ShipActionAction.Reinforce(token));
+                answer.push(new ShipActionAction.Reinforce(environment.store(), token));
             }
         }
 
@@ -257,9 +257,9 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
             {
                 var isHuge = myToken.isHuge();
 
-                if (!isHuge && myToken.stress().count() < 2)
+                if (!isHuge && myToken.stressCount() < 2)
                 {
-                    answer.push(new ShipActionAction.Jam(myToken));
+                    answer.push(new ShipActionAction.Jam(environment.store(), myToken));
                 }
             });
         }
@@ -312,6 +312,7 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
         InputValidator.validateNotNull("callback", callback);
 
         var modifications = [ null ];
+        var store = environment.store();
 
         var targetLock = attacker.findTargetLockByDefender(defender);
 
@@ -320,7 +321,7 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
             modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
         }
 
-        if (attacker.focus().count() > 0)
+        if (attacker.focusCount() > 0)
         {
             modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
         }
@@ -348,13 +349,14 @@ define([ "Maneuver", "ManeuverComputer", "ModifyAttackDiceAction", "ModifyDefens
         InputValidator.validateNotNull("callback", callback);
 
         var modifications = [ null ];
+        var store = environment.store();
 
-        if (defender.evade().count() > 0)
+        if (defender.evadeCount() > 0)
         {
             modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
         }
 
-        if (defender.focus().count() > 0)
+        if (defender.focusCount() > 0)
         {
             modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
         }

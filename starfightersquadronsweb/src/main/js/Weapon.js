@@ -71,6 +71,9 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
 
     Weapon.prototype.isUsable = function(attacker, defender)
     {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("defender", defender);
+
         var answer;
         var upgrade = this.upgrade();
 
@@ -84,7 +87,7 @@ define([ "FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeH
                     answer = true;
                     break;
                 case UpgradeHeader.ATTACK_FOCUS:
-                    answer = (attacker.focus().count() > 0);
+                    answer = (attacker.focusCount() > 0);
                     break;
                 case UpgradeHeader.ATTACK_TARGET_LOCK:
                     answer = (attacker.findTargetLockByDefender(defender) !== undefined);

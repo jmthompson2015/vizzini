@@ -1,4 +1,5 @@
-define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase" ], function(Difficulty, Maneuver, ManeuverAction, Phase)
+define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase", "process/Action" ], function(Difficulty, Maneuver,
+        ManeuverAction, Phase, Action)
 {
     "use strict";
     function ActivationAction(environment, adjudicator, token, maneuverKey, callback)
@@ -175,12 +176,13 @@ define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase" ], function(Difficu
                 // Gain energy up to the energy limit.
                 var energyLimit = token.energyLimit();
                 LOGGER.trace(token.pilotName() + " energyLimit = " + energyLimit);
+                var store = token.store();
 
                 for (var i = 0; i < maneuver.energy; i++)
                 {
-                    if (token.energy().count() < energyLimit)
+                    if (token.energyCount() < energyLimit)
                     {
-                        token.energy().increase();
+                        store.dispatch(Action.addEnergyCount(token.id()));
                     }
                 }
             }
@@ -197,7 +199,8 @@ define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase" ], function(Difficu
         if (decloakAction)
         {
             decloakAction.doIt();
-            token.cloak().decrease();
+            var store = this.environment().store();
+            store.dispatch(Action.addCloakCount(this.token().id(), -1));
             setTimeout(this.executeManeuver.bind(this), 1000);
         }
         else
