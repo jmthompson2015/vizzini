@@ -127,6 +127,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                     modifyAttackCallback = callback;
 
                     var modifications = [ null ];
+                    var store = environment.store();
                     var targetLock = attacker.findTargetLockByDefender(defender);
 
                     if (targetLock)
@@ -134,7 +135,7 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                         modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
                     }
 
-                    if (attacker.focus().count() > 0)
+                    if (attacker.focusCount() > 0)
                     {
                         modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
                     }
@@ -165,18 +166,19 @@ define([ "ManeuverAction", "ModifyAttackDiceAction", "ModifyDefenseDiceAction", 
                         defenderIn, defenseDiceIn, callback)
                 {
                     environment = environmentIn;
+                    var store = environment.store();
                     defender = defenderIn;
                     defenseDice = defenseDiceIn;
                     modifyDefenseCallback = callback;
 
                     var modifications = [ null ];
 
-                    if (defender.evade().count() > 0)
+                    if (defender.evadeCount() > 0)
                     {
                         modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
                     }
 
-                    if (defender.focus().count() > 0)
+                    if (defender.focusCount() > 0)
                     {
                         modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
                     }

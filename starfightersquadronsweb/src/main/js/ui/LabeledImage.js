@@ -29,7 +29,7 @@ define(function()
                 var containerStyle = this.createContainerStyle();
                 var title = this.props.title;
 
-                if (label === 1)
+                if (!this.props.showOne && label === 1)
                 {
                     answer = React.DOM.div(
                     {

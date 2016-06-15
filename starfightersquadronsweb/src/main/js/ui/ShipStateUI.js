@@ -36,6 +36,7 @@ define([ "Team", "ui/LabeledImage" ], function(Team, LabeledImage)
                     image: src,
                     label: label,
                     labelClass: this.props.labelClass,
+                    showOne: this.props.showOne,
                     style: cellStyle,
                     width: size,
                 });

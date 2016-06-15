@@ -17,28 +17,6 @@ define([ "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipSilhou
             });
         },
 
-        componentDidMount: function()
-        {
-            this.state.token.bind("change", this.tokenChanged);
-
-            if (this.state.token.tokenFore && this.state.token.tokenAft)
-            {
-                this.state.token.tokenFore().bind("change", this.tokenChanged);
-                this.state.token.tokenAft().bind("change", this.tokenChanged);
-            }
-        },
-
-        componentWillUnmount: function()
-        {
-            this.state.token.unbind("change", this.tokenChanged);
-
-            if (this.state.token.tokenFore && this.state.token.tokenAft)
-            {
-                this.state.token.tokenFore().unbind("change", this.tokenChanged);
-                this.state.token.tokenAft().unbind("change", this.tokenChanged);
-            }
-        },
-
         render: function()
         {
             InputValidator.validateNotNull("initialToken", this.props.initialToken);
@@ -414,6 +392,7 @@ define([ "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipSilhou
                 factionKey: this.props.team,
                 label: this.props.pilotSkillValue,
                 labelClass: "pilotSkillValue",
+                showOne: true,
             });
             cells.push(React.DOM.td(
             {
@@ -830,15 +809,15 @@ define([ "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipSilhou
 
             var myToken = this.props.token;
 
-            var cloakCount = myToken.cloak().count();
-            var energyCount = myToken.energy().count();
-            var evadeCount = myToken.evade().count();
-            var focusCount = myToken.focus().count();
-            var ionCount = myToken.ion().count();
-            var reinforceCount = myToken.reinforce().count();
-            var shieldCount = myToken.shield().count();
-            var stressCount = myToken.stress().count();
-            var weaponsDisabledCount = myToken.weaponsDisabled().count();
+            var cloakCount = myToken.cloakCount();
+            var energyCount = myToken.energyCount();
+            var evadeCount = myToken.evadeCount();
+            var focusCount = myToken.focusCount();
+            var ionCount = myToken.ionCount();
+            var reinforceCount = myToken.reinforceCount();
+            var shieldCount = myToken.shieldCount();
+            var stressCount = myToken.stressCount();
+            var weaponsDisabledCount = myToken.weaponsDisabledCount();
             var attackerTargetLocks = myToken.attackerTargetLocks();
             var defenderTargetLocks = myToken.defenderTargetLocks();
             var damageCount = myToken.damageCount();

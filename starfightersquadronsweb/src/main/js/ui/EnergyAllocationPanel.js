@@ -15,11 +15,11 @@ define([ "UpgradeCard" ], function(UpgradeCard)
 
             if (token.tokenFore && token.tokenAft)
             {
-                energy = token.tokenFore().energy().count() + token.tokenAft().energy().count();
+                energy = token.tokenFore().energyCount() + token.tokenAft().energyCount();
             }
             else
             {
-                energy = token.energy().count();
+                energy = token.energyCount();
             }
 
             var rows = [];

@@ -191,8 +191,11 @@ define([ "Difficulty", "ManeuverComputer" ], function(Difficulty, ManeuverComput
                 // Draw from ship base.
                 fromPolygon.paintComponent(context, FOREGROUND_COLOR);
 
-                // Draw to ship base.
-                toPolygon.paintComponent(context, FOREGROUND_COLOR);
+                if (toPolygon)
+                {
+                    // Draw to ship base.
+                    toPolygon.paintComponent(context, FOREGROUND_COLOR);
+                }
 
                 // Draw maneuver path.
                 var difficulty = maneuver.difficultyKey;
