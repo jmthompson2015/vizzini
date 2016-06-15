@@ -1,9 +1,32 @@
-define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "TargetLock", "Team", "Token",
-        "UpgradeCard", "process/Action", "process/Reducer" ], function(DamageCard, Phase, Pilot, PlayFormat, Position,
-        SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer)
+define([ "Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent", "TargetLock", "Team",
+        "Token", "UpgradeCard", "process/Action", "process/Reducer" ], function(Count, DamageCard, Phase, Pilot,
+        PlayFormat, Position, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer)
 {
     "use strict";
     QUnit.module("Reducer");
+
+    QUnit.test("addCloakCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.CLOAK;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addCloakCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addCloakCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+    });
 
     QUnit.test("addCount()", function(assert)
     {
@@ -35,6 +58,121 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().tokenIdToCounts[tokenId][property], 0);
     });
 
+    QUnit.test("addEnergyCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.ENERGY;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addEnergyCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addEnergyCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+    });
+
+    QUnit.test("addEvadeCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.EVADE;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addEvadeCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addEvadeCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+    });
+
+    QUnit.test("addFocusCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.FOCUS;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addFocusCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addFocusCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+    });
+
+    QUnit.test("addIonCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.ION;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addIonCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addIonCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+    });
+
+    QUnit.test("addReinforceCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.REINFORCE;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addReinforceCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addReinforceCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+    });
+
     QUnit.test("addRound()", function(assert)
     {
         // Setup.
@@ -52,6 +190,52 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
 
         // Verify.
         assert.equal(store.getState().round, 3);
+    });
+
+    QUnit.test("addShieldCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.SHIELD;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addShieldCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addShieldCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
+    });
+
+    QUnit.test("addStressCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.STRESS;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addStressCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addStressCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
     });
 
     QUnit.test("addTargetLock()", function(assert)
@@ -155,6 +339,58 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().tokenIdToUpgrades[tokenId].length, 2);
         assert.equal(store.getState().tokenIdToUpgrades[tokenId][0], upgradeKey0);
         assert.equal(store.getState().tokenIdToUpgrades[tokenId][1], upgradeKey1);
+    });
+
+    QUnit.test("addTokenUpgradeEnergy()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
+        var upgradeKey1 = UpgradeCard.CALCULATION;
+        assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addTokenUpgradeEnergy(tokenId, upgradeKey0));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
+        assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0]);
+        assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1]);
+        assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
+
+        // Run.
+        store.dispatch(Action.addTokenUpgradeEnergy(tokenId, upgradeKey1, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
+        assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0]);
+        assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1]);
+        assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
+        assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 2);
+    });
+
+    QUnit.test("addWeaponsDisabledCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.WEAPONS_DISABLED;
+        assert.ok(!store.getState().tokenIdToCounts[tokenId]);
+
+        // Run.
+        store.dispatch(Action.addWeaponsDisabledCount(tokenId));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.addWeaponsDisabledCount(tokenId, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 3);
     });
 
     QUnit.test("discardDamage()", function(assert)
@@ -511,6 +747,24 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().activeTokenId, 2);
     });
 
+    QUnit.test("setCloakCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.CLOAK;
+        store.dispatch(Action.addCloakCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setCloakCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
+    });
+
     QUnit.test("setCount()", function(assert)
     {
         // Setup.
@@ -544,6 +798,42 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().damageDeck[0], damageDeck[0]);
     });
 
+    QUnit.test("setEnergyCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.ENERGY;
+        store.dispatch(Action.addEnergyCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setEnergyCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
+    });
+
+    QUnit.test("setEvadeCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.EVADE;
+        store.dispatch(Action.addEvadeCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setEvadeCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
+    });
+
     QUnit.test("setFirstAgent()", function(assert)
     {
         // Setup.
@@ -556,6 +846,42 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
 
         // Verify.
         assert.equal(store.getState().firstAgent, agent);
+    });
+
+    QUnit.test("setFocusCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.FOCUS;
+        store.dispatch(Action.addFocusCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setFocusCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
+    });
+
+    QUnit.test("setIonCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.ION;
+        store.dispatch(Action.addIonCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setIonCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
     });
 
     QUnit.test("setPhase()", function(assert)
@@ -609,6 +935,24 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().playFormatKey, PlayFormat.EPIC);
     });
 
+    QUnit.test("setReinforceCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.REINFORCE;
+        store.dispatch(Action.addReinforceCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setReinforceCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
+    });
+
     QUnit.test("setSecondAgent()", function(assert)
     {
         // Setup.
@@ -623,6 +967,68 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
         assert.equal(store.getState().secondAgent, agent);
     });
 
+    QUnit.test("setShieldCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.SHIELD;
+        store.dispatch(Action.addShieldCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setShieldCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
+    });
+
+    QUnit.test("setStressCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.STRESS;
+        store.dispatch(Action.addStressCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setStressCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
+    });
+
+    QUnit.test("setTokenUpgradeEnergy()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
+        var upgradeKey1 = UpgradeCard.CALCULATION;
+        assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId]);
+
+        // Run.
+        store.dispatch(Action.setTokenUpgradeEnergy(tokenId, upgradeKey0, 1));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
+        assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
+        assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 0);
+
+        // Run.
+        store.dispatch(Action.setTokenUpgradeEnergy(tokenId, upgradeKey1, 2));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
+        assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
+        assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 2);
+    });
+
     QUnit.test("setUserMessage()", function(assert)
     {
         // Setup.
@@ -635,5 +1041,23 @@ define([ "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "SimpleAgent"
 
         // Verify.
         assert.equal(store.getState().userMessage, userMessage);
+    });
+
+    QUnit.test("setWeaponsDisabledCount()", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var tokenId = 1;
+        var property = Count.WEAPONS_DISABLED;
+        store.dispatch(Action.addWeaponsDisabledCount(tokenId));
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 1);
+
+        // Run.
+        store.dispatch(Action.setWeaponsDisabledCount(tokenId, 12));
+
+        // Verify.
+        assert.ok(store.getState().tokenIdToCounts[tokenId]);
+        assert.equal(store.getState().tokenIdToCounts[tokenId][property], 12);
     });
 });

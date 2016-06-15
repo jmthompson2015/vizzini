@@ -1,6 +1,6 @@
 define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", "UpgradeCard", "process/Action",
-        "process/Reducer", "process/Selector" ], function(DamageCard, EnvironmentFactory, Pilot, Position, TargetLock,
-        UpgradeCard, Action, Reducer, Selector)
+        "process/Selector" ], function(DamageCard, EnvironmentFactory, Pilot, Position, TargetLock, UpgradeCard,
+        Action, Selector)
 {
     "use strict";
     QUnit.module("Selector");
@@ -20,7 +20,7 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
 
         // Run.
         store.dispatch(Action.setActiveToken(token.id()));
-        var result = Selector.activeToken(store.getState());
+        result = Selector.activeToken(store.getState());
 
         // Verify.
         assert.ok(result);
@@ -44,6 +44,24 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
         assert.equal(result[0].id(), "A");
         assert.equal(result[0].attacker(), attacker);
         assert.equal(result[0].defender(), defender);
+    });
+
+    QUnit.test("cloakCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setCloakCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.cloakCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addCloakCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.cloakCount(), 1);
     });
 
     QUnit.test("count()", function(assert)
@@ -139,6 +157,78 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
         assert.equal(result[0].defender(), defender);
     });
 
+    QUnit.test("energyCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setEnergyCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.energyCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addEnergyCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.energyCount(), 1);
+    });
+
+    QUnit.test("evadeCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setEvadeCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.evadeCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addEvadeCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.evadeCount(), 1);
+    });
+
+    QUnit.test("focusCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setFocusCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.focusCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addFocusCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.focusCount(), 1);
+    });
+
+    QUnit.test("ionCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setIonCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.ionCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addIonCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.ionCount(), 1);
+    });
+
     QUnit.test("position()", function(assert)
     {
         // Setup.
@@ -176,6 +266,60 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
         assert.equal(result.heading(), 270);
     });
 
+    QUnit.test("reinforceCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setReinforceCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.reinforceCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addReinforceCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.reinforceCount(), 1);
+    });
+
+    QUnit.test("shieldCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setShieldCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.shieldCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addShieldCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.shieldCount(), 1);
+    });
+
+    QUnit.test("stressCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setStressCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.stressCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addStressCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.stressCount(store.getState(), token0.id()), 1);
+    });
+
     QUnit.test("targetLock()", function(assert)
     {
         // Setup.
@@ -207,14 +351,14 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
         assert.equal(result.pilotKey(), Pilot.MAULER_MITHEL);
 
         // Run.
-        var result = Selector.token(environment.store().getState(), 2);
+        result = Selector.token(environment.store().getState(), 2);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.pilotKey(), Pilot.DARK_CURSE);
 
         // Run.
-        var result = Selector.token(environment.store().getState(), 3);
+        result = Selector.token(environment.store().getState(), 3);
 
         // Verify.
         assert.ok(result);
@@ -237,14 +381,14 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
         assert.equal(result.pilotKey(), Pilot.MAULER_MITHEL);
 
         // Run.
-        var result = Selector.tokenAt(environment.store().getState(), position1);
+        result = Selector.tokenAt(environment.store().getState(), position1);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.pilotKey(), Pilot.DARK_CURSE);
 
         // Run.
-        var result = Selector.tokenAt(environment.store().getState(), position2);
+        result = Selector.tokenAt(environment.store().getState(), position2);
 
         // Verify.
         assert.ok(result);
@@ -274,6 +418,24 @@ define([ "DamageCard", "EnvironmentFactory", "Pilot", "Position", "TargetLock", 
         // Verify.
         assert.ok(result);
         assert.equal(result.length, 3);
+    });
+
+    QUnit.test("weaponsDisabledCount()", function(assert)
+    {
+        // Setup.
+        var environment = EnvironmentFactory.createCoreSetEnvironment();
+        var store = environment.store();
+        var token0 = environment.tokens()[0];
+        store.dispatch(Action.setWeaponsDisabledCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.weaponsDisabledCount(), 0);
+
+        // Setup.
+        store.dispatch(Action.addWeaponsDisabledCount(token0.id()));
+
+        // Run / Verify.
+        assert.equal(token0.weaponsDisabledCount(), 1);
     });
 
     function createTargetLockEnvironment(assert)
