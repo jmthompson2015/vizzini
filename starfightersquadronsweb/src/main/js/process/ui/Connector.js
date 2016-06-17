@@ -22,7 +22,7 @@ define([ "Phase", "PlayFormat", "Ship", "Team", "process/Selector" ],
                 mapStateToProps: function(state, ownProps)
                 {
                     InputValidator.validateNotNull("token", ownProps.token);
-                    InputValidator.validateNotNull("isCompact", ownProps.isCompact);
+                    // isCompact is optional.
 
                     var token = ownProps.token;
                     var isCompact = ownProps.isCompact;
