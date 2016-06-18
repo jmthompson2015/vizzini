@@ -1,6 +1,6 @@
-define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "UpgradeCard", "ui/PilotChooser", "ui/SquadUI",
-        "ui/UpgradeChooser" ], function(Pilot, ShipTeam, SimpleAgent, Team, TokenFactory, UpgradeCard, PilotChooser,
-        SquadUI, UpgradeChooser)
+define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "UpgradeCard", "process/Action",
+        "ui/PilotChooser", "ui/SquadUI", "ui/UpgradeChooser" ], function(Pilot, ShipTeam, SimpleAgent, Team,
+        TokenFactory, UpgradeCard, Action, PilotChooser, SquadUI, UpgradeChooser)
 {
     "use strict";
     var SquadBuilderUI = React.createClass(
@@ -155,9 +155,9 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "UpgradeCar
             {
                 if (upgrade)
                 {
-                    tokenUpgrades.push(upgrade);
+                    this.context.store.dispatch(Action.addTokenUpgrade(token, upgrade));
                 }
-            });
+            }, this);
 
             var squad = this.state.squad;
             squad.push(token);
@@ -180,7 +180,7 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "UpgradeCar
             var agentName = Team.properties[teamKey].name + " Agent";
             var agent = new SimpleAgent(agentName, teamKey);
 
-            return TokenFactory.create(pilotKey, agent);
+            return TokenFactory.create(this.context.store, pilotKey, agent);
         },
 
         createUpgradesUI: function(token)
@@ -295,6 +295,16 @@ define([ "Pilot", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "UpgradeCar
             });
         },
     });
+
+    SquadBuilderUI.contextTypes =
+    {
+        store: React.PropTypes.object.isRequired
+    };
+
+    SquadBuilderUI.propTypes =
+    {
+        team: React.PropTypes.object.isRequired
+    };
 
     return SquadBuilderUI;
 });

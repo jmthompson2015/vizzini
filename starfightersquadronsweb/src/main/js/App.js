@@ -7,16 +7,20 @@ var audioBase = resourceBase + "audio/";
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
-require([ "Game", "process/Action", "process/ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game, Action,
-        EnvironmentUI, NewGamePanel)
+require([ "Game", "process/Action", "process/Reducer", "process/ui/EnvironmentUI", "ui/NewGamePanel" ], function(Game,
+        Action, Reducer, EnvironmentUI, NewGamePanel)
 {
     "use strict";
 
     // Create initial agents and tokens.
-    var newGamePanel = React.createElement(NewGamePanel,
+    var store0 = Redux.createStore(Reducer.root);
+    var newGamePanel = React.createElement(ReactRedux.Provider,
+    {
+        store: store0,
+    }, React.createElement(NewGamePanel,
     {
         callback: startNewGame,
-    });
+    }));
 
     ReactDOM.render(newGamePanel, document.getElementById("inputArea"));
     var game;
@@ -63,12 +67,12 @@ require([ "Game", "process/Action", "process/ui/EnvironmentUI", "ui/NewGamePanel
         var firstPilots = document.getElementById("firstPilots");
         var secondPilots = document.getElementById("secondPilots");
         var newWidth = windowWidth;
-        
+
         if (firstPilots)
         {
             newWidth -= firstPilots.offsetWidth;
         }
-        
+
         if (secondPilots)
         {
             newWidth -= secondPilots.offsetWidth;

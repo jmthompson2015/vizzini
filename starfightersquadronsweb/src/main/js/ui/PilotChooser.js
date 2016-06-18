@@ -233,9 +233,20 @@ define([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "Team", "TokenFactory", "ui
             var agentName = Team.properties[teamKey].name + " Agent";
             var agent = new SimpleAgent(agentName, teamKey);
 
-            return TokenFactory.create(pilotKey, agent);
+            return TokenFactory.create(this.context.store, pilotKey, agent);
         },
     });
+
+    PilotChooser.contextTypes =
+    {
+        store: React.PropTypes.object.isRequired,
+    };
+
+    PilotChooser.propTypes =
+    {
+        onChangeFunction: React.PropTypes.object.isRequired,
+        team: React.PropTypes.object.isRequired,
+    };
 
     return PilotChooser;
 });

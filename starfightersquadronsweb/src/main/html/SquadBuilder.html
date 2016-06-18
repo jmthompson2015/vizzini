@@ -56,14 +56,18 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require([ "Team", "ui/SquadBuilderUI" ], function(Team, SquadBuilderUI)
+        require([ "Team", "process/Reducer", "ui/SquadBuilderUI" ], function(Team, Reducer, SquadBuilderUI)
         {
+            var store = Redux.createStore(Reducer.root);
             var team = Team.IMPERIAL;
             ReactDOM.render(createTeamSelect(), document.getElementById("factionSelect"));
-            var element = React.createElement(SquadBuilderUI,
+            var element = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(SquadBuilderUI,
             {
                 team: team,
-            });
+            }));
             ReactDOM.render(element, document.getElementById("squadBuilderPanel"));
 
             function handleTeamChange(event)
@@ -71,10 +75,13 @@
                 team = event.currentTarget.value;
                 LOGGER.debug("handleTeamChange() team = " + team);
                 ReactDOM.render(createTeamSelect(), document.getElementById("factionSelect"));
-                var element = React.createElement(SquadBuilderUI,
+                var element = React.createElement(ReactRedux.Provider,
+                        {
+                    store: store,
+                }, React.createElement(SquadBuilderUI,
                 {
                     team: team
-                });
+                }));
                 ReactDOM.render(element, document.getElementById("squadBuilderPanel"));
             }
 
