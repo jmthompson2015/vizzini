@@ -47,11 +47,11 @@ define([ "UpgradeCard", "process/Action" ], function(UpgradeCard, Action)
             else if (modification === ModifyAttackDiceAction.Modification.SPEND_FOCUS)
             {
                 attackDice.spendFocusToken();
-                store.dispatch(Action.addFocusCount(attacker.id(), -1));
+                store.dispatch(Action.addFocusCount(attacker, -1));
 
                 if (attacker.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
                 {
-                    store.dispatch(Action.addFocusCount(attacker.id()));
+                    store.dispatch(Action.addFocusCount(attacker));
                 }
             }
             else

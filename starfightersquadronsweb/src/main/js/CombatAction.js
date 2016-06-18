@@ -70,7 +70,7 @@ define(
                     {
                         if (upgrade.spendFocus)
                         {
-                            store.dispatch(Action.addFocusCount(attacker.id(), -1));
+                            store.dispatch(Action.addFocusCount(attacker, -1));
                         }
 
                         if (upgrade.spendTargetLock)
@@ -317,7 +317,7 @@ define(
 
                         if (attacker.pilotKey() === Pilot.WHISPER)
                         {
-                            store.dispatch(Action.addFocusCount(attacker.id()));
+                            store.dispatch(Action.addFocusCount(attacker));
                         }
 
                         if (weapon.upgradeKey() === UpgradeCard.ASSAULT_MISSILES)
@@ -358,7 +358,7 @@ define(
                                 attacker.receiveStress();
                             }
 
-                            store.dispatch(Action.addFocusCount(attacker.id()));
+                            store.dispatch(Action.addFocusCount(attacker));
                             var targetLock = new TargetLock(store, attacker, defender);
                             attacker.addAttackerTargetLock(targetLock);
                         }

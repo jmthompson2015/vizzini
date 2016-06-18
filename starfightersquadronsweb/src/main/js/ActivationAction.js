@@ -200,7 +200,7 @@ define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase", "process/Action" ]
         {
             decloakAction.doIt();
             var store = this.environment().store();
-            store.dispatch(Action.addCloakCount(this.token().id(), -1));
+            store.dispatch(Action.addCloakCount(this.token(), -1));
             setTimeout(this.executeManeuver.bind(this), 1000);
         }
         else

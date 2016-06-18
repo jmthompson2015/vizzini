@@ -1,7 +1,7 @@
 define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pilot",
-        "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Weapon", "process/Action",
+        "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action",
         "process/Selector" ], function(ActivationState, Bearing, Count, DamageCard, DamageCardV2, Difficulty, Maneuver,
-        Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Weapon, Action, Selector)
+        Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
 {
     "use strict";
     function Token(store, pilotKeyIn, agent, upgradeKeysIn)
@@ -62,63 +62,6 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             return ship;
         };
 
-        var that = this;
-        var id = store.getState().nextTokenId;
-        store.dispatch(Action.incrementNextTokenId());
-
-        Count.values().forEach(function(count)
-        {
-            var value;
-            switch (count)
-            {
-            case Count.ENERGY:
-                var energyValue = pilot.shipState.energyValue();
-                value = (energyValue ? energyValue : 0);
-                store.dispatch(Action.setEnergyCount(id, value));
-                break;
-            case Count.SHIELD:
-                value = pilot.shipState.shieldValue();
-                store.dispatch(Action.setShieldCount(id, value));
-                break;
-            default:
-                store.dispatch(Action.setCount(id, count));
-            }
-        });
-
-        var primaryWeapon = (pilot.shipState.primaryWeaponValue() !== null ? createPrimaryWeapon() : undefined);
-        var secondaryWeapons = [];
-
-        // Initialize the upgrades.
-        if (upgradeKeysIn)
-        {
-            upgradeKeysIn.forEach(function(upgradeKey)
-            {
-                store.dispatch(Action.addTokenUpgrade(id, upgradeKey));
-                var upgrade = UpgradeCard.properties[upgradeKey];
-
-                if (upgrade.weaponValue)
-                {
-                    secondaryWeapons.push(createSecondaryWeapon(upgrade));
-                }
-            });
-        }
-
-        if (upgradeKeysIn)
-        {
-            upgradeKeysIn.forEach(function(upgradeKey)
-            {
-                var upgrade = UpgradeCard.properties[upgradeKey];
-
-                if (upgrade.energyLimit !== undefined)
-                {
-                    store.dispatch(Action.setTokenUpgradeEnergy(id, upgradeKey, upgrade.energyLimit));
-                }
-            });
-        }
-
-        var activationState = new ActivationState();
-        var combatState = new CombatState();
-
         this.activationState = function()
         {
             return activationState;
@@ -142,27 +85,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         this.agilityValue = function()
         {
-            var answer = getShipState().agilityValue();
-
-            if (answer !== null)
-            {
-                this.upgradeKeys().forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.agilityValue();
-                    }
-                });
-
-                if (this.isCloaked())
-                {
-                    answer += 2;
-                }
-            }
-
-            return answer;
+            return Selector.agilityValue(store.getState(), id);
         };
 
         this.attackerTargetLocks = function()
@@ -209,7 +132,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         {
             InputValidator.validateNotNull("upgradeKey", upgradeKey);
 
-            store.dispatch(Action.removeTokenUpgrade(id, upgradeKey));
+            store.dispatch(Action.removeTokenUpgrade(this, upgradeKey));
             var upgrade = UpgradeCard.properties[upgradeKey];
 
             if (upgrade.weaponValue !== undefined)
@@ -258,13 +181,10 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             return answer;
         };
 
-        this.upgradeKeys = function()
+        this.energyValue = function()
         {
-            return Selector.upgrades(store.getState(), id);
+            return Selector.energyValue(store.getState(), id);
         };
-
-        // Initialize the energy.
-        store.dispatch(Action.setEnergyCount(id, this.energyLimit()));
 
         this.equals = function(other)
         {
@@ -288,29 +208,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         this.hullValue = function()
         {
-            var answer = getShipState().hullValue();
-
-            if (answer !== null)
-            {
-                answer = this.criticalDamages().reduce(function(sum, damageKey)
-                {
-                    return sum + DamageCard.properties[damageKey].shipState.hullValue();
-                }, answer);
-
-                this.upgradeKeys().forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.hullValue();
-                    }
-                });
-
-                answer = Math.max(answer, 0);
-            }
-
-            return answer;
+            return Selector.hullValue(store.getState(), id);
         };
 
         this.id = function()
@@ -399,7 +297,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
             this.upgradeKeys().forEach(function(upgradeKey)
             {
-                store.dispatch(Action.addTokenUpgrade(answer.id(), upgradeKey));
+                store.dispatch(Action.addTokenUpgrade(answer, upgradeKey));
                 var upgrade = UpgradeCard.properties[upgradeKey];
 
                 if (upgrade.weaponValue)
@@ -423,44 +321,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         this.pilotSkillValue = function()
         {
-            var answer;
-
-            if (pilotKey === Pilot.EPSILON_ACE && this.damageCount() === 0 && this.criticalDamageCount() === 0)
-            {
-                answer = 12;
-            }
-            else
-            {
-                if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_COCKPIT))
-                {
-                    answer = 0;
-                }
-                else if (this.isCriticallyDamagedWith(DamageCard.INJURED_PILOT))
-                {
-                    answer = 0;
-                }
-                else
-                {
-                    answer = getShipState().pilotSkillValue();
-                }
-
-                answer = this.criticalDamages().reduce(function(sum, damageKey)
-                {
-                    return sum + DamageCard.properties[damageKey].shipState.pilotSkillValue();
-                }, answer);
-
-                this.upgradeKeys().forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.pilotSkillValue();
-                    }
-                });
-            }
-
-            return Math.max(answer, 0);
+            return Selector.pilotSkillValue(store.getState(), id);
         };
 
         this.pilotName = function()
@@ -491,38 +352,16 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         this.primaryWeaponValue = function()
         {
-            var answer = getShipState().primaryWeaponValue();
-
-            if (answer !== null)
-            {
-                answer = this.criticalDamages().reduce(function(sum, damageKey)
-                {
-                    return sum + DamageCard.properties[damageKey].shipState.primaryWeaponValue();
-                }, answer);
-
-                this.upgradeKeys().forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.primaryWeaponValue();
-                    }
-                });
-
-                answer = Math.max(answer, 0);
-            }
-
-            return answer;
+            return Selector.primaryWeaponValue(store.getState(), id);
         };
 
         this.receiveStress = function()
         {
-            store.dispatch(Action.addStressCount(id));
+            store.dispatch(Action.addStressCount(this));
 
             if (pilotKey === Pilot.SOONTIR_FEL)
             {
-                store.dispatch(Action.addFocusCount(id));
+                store.dispatch(Action.addFocusCount(this));
             }
         };
 
@@ -530,7 +369,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         {
             if (this.shieldCount() < this.shieldValue())
             {
-                store.dispatch(Action.addShieldCount(id));
+                store.dispatch(Action.addShieldCount(this));
             }
         };
 
@@ -569,11 +408,11 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         {
             if (this.stressCount() > 0)
             {
-                store.dispatch(Action.addStressCount(id, -1));
+                store.dispatch(Action.addStressCount(this, -1));
 
                 if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
                 {
-                    store.dispatch(Action.addFocusCount(id));
+                    store.dispatch(Action.addFocusCount(this));
                 }
             }
         };
@@ -590,22 +429,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         this.shieldValue = function()
         {
-            var answer = getShipState().shieldValue();
-
-            if (answer !== null)
-            {
-                this.upgradeKeys().forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.shieldValue();
-                    }
-                });
-            }
-
-            return answer;
+            return Selector.shieldValue(store.getState(), id);
         };
 
         this.shipName = function()
@@ -621,6 +445,11 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         this.teamName = function()
         {
             return pilot.shipTeam.team.name;
+        };
+
+        this.upgradeKeys = function()
+        {
+            return Selector.upgrades(store.getState(), id);
         };
 
         this.upgradeTypeKeys = function()
@@ -750,6 +579,73 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         {
             return pilot.shipState;
         }
+
+        // /////////////////////////////////////////////////////////////////////
+        // Initialize.
+        var that = this;
+        var id = store.getState().nextTokenId;
+        store.dispatch(Action.incrementNextTokenId());
+
+        Value.values().forEach(function(property)
+        {
+            store.dispatch(Action.setValue(this, property, pilot.shipState.value(property)));
+        }, this);
+
+        Count.values().forEach(function(property)
+        {
+            var value;
+            switch (property)
+            {
+            case Count.ENERGY:
+                var energyValue = pilot.shipState.energyValue();
+                value = (energyValue ? energyValue : 0);
+                store.dispatch(Action.setEnergyCount(that, value));
+                break;
+            case Count.SHIELD:
+                value = pilot.shipState.shieldValue();
+                store.dispatch(Action.setShieldCount(that, value));
+                break;
+            default:
+                store.dispatch(Action.setCount(that, property));
+            }
+        });
+
+        var primaryWeapon = (pilot.shipState.primaryWeaponValue() !== null ? createPrimaryWeapon() : undefined);
+        var secondaryWeapons = [];
+
+        // Initialize the upgrades.
+        if (upgradeKeysIn)
+        {
+            upgradeKeysIn.forEach(function(upgradeKey)
+            {
+                store.dispatch(Action.addTokenUpgrade(that, upgradeKey));
+                var upgrade = UpgradeCard.properties[upgradeKey];
+
+                if (upgrade.weaponValue)
+                {
+                    secondaryWeapons.push(createSecondaryWeapon(upgrade));
+                }
+            });
+        }
+
+        if (upgradeKeysIn)
+        {
+            upgradeKeysIn.forEach(function(upgradeKey)
+            {
+                var upgrade = UpgradeCard.properties[upgradeKey];
+
+                if (upgrade.energyLimit !== undefined)
+                {
+                    store.dispatch(Action.setTokenUpgradeEnergy(id, upgradeKey, upgrade.energyLimit));
+                }
+            });
+        }
+
+        var activationState = new ActivationState();
+        var combatState = new CombatState();
+
+        // Initialize the energy.
+        store.dispatch(Action.setEnergyCount(this, this.energyLimit()));
     }
 
     Token.prototype.addCriticalDamage = function(damageKey)
@@ -760,7 +656,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         }
         else
         {
-            this.store().dispatch(Action.addTokenCriticalDamage(this.id(), damageKey));
+            this.store().dispatch(Action.addTokenCriticalDamage(this, damageKey));
         }
     };
 
@@ -879,7 +775,7 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
     Token.prototype.removeCriticalDamage = function(damageKey)
     {
-        this.store().dispatch(Action.removeTokenCriticalDamage(this.id(), damageKey));
+        this.store().dispatch(Action.removeTokenCriticalDamage(this, damageKey));
     };
 
     Token.prototype.shipActions = function()

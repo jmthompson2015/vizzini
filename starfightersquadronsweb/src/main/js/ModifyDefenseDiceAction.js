@@ -35,17 +35,17 @@ define([ "UpgradeCard", "process/Action" ], function(UpgradeCard, Action)
             if (modification === ModifyDefenseDiceAction.Modification.SPEND_FOCUS)
             {
                 defenseDice.spendFocusToken();
-                store.dispatch(Action.addFocusCount(defender.id(), -1));
+                store.dispatch(Action.addFocusCount(defender, -1));
 
                 if (defender.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
                 {
-                    store.dispatch(Action.addFocusCount(defender.id()));
+                    store.dispatch(Action.addFocusCount(defender));
                 }
             }
             else if (modification === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
             {
                 defenseDice.spendEvadeToken();
-                store.dispatch(Action.addEvadeCount(defender.id(), -1));
+                store.dispatch(Action.addEvadeCount(defender, -1));
             }
             else
             {

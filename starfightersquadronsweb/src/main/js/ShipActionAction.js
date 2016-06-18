@@ -103,7 +103,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock", "process/Acti
 
     Cloak.prototype.doIt = function()
     {
-        this.store().dispatch(Action.addCloakCount(this.token().id()));
+        this.store().dispatch(Action.addCloakCount(this.token()));
     };
 
     Cloak.prototype.toString = function()
@@ -168,7 +168,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock", "process/Acti
         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
         maneuverAction.doIt();
         var store = this.environment().store();
-        store.dispatch(Action.addCloakCount(this.token().id(), -1));
+        store.dispatch(Action.addCloakCount(this.token(), -1));
     };
 
     Decloak.prototype.toString = function()
@@ -201,7 +201,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock", "process/Acti
 
     Evade.prototype.doIt = function()
     {
-        this.store().dispatch(Action.addEvadeCount(this.token().id()));
+        this.store().dispatch(Action.addEvadeCount(this.token()));
     };
 
     Evade.prototype.toString = function()
@@ -232,7 +232,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock", "process/Acti
 
     Focus.prototype.doIt = function()
     {
-        this.store().dispatch(Action.addFocusCount(this.token().id()));
+        this.store().dispatch(Action.addFocusCount(this.token()));
     };
 
     Focus.prototype.toString = function()
@@ -336,7 +336,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock", "process/Acti
 
     Reinforce.prototype.doIt = function()
     {
-        this.store().dispatch(Action.addReinforceCount(this.token().id()));
+        this.store().dispatch(Action.addReinforceCount(this.token()));
     };
 
     Reinforce.prototype.toString = function()
@@ -424,7 +424,7 @@ define([ "Maneuver", "ManeuverAction", "ShipAction", "TargetLock", "process/Acti
         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
         maneuverAction.doIt();
         var store = this.environment().store();
-        store.dispatch(Action.addWeaponsDisabledCount(this.token().id()));
+        store.dispatch(Action.addWeaponsDisabledCount(this.token()));
     };
 
     Slam.prototype.toString = function()

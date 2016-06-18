@@ -210,7 +210,7 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
 
                     if (r5p9.focusCount() > 0 && r5p9.shieldCount() < r5p9.shieldValue())
                     {
-                        store.dispatch(Action.addFocusCount(token.id(), -1));
+                        store.dispatch(Action.addFocusCount(token, -1));
                         r5p9.recoverShield();
                     }
                 }
@@ -279,15 +279,15 @@ define([ "ActivationAction", "CombatAction", "Phase", "Pilot", "PlanningAction",
                 environment.activeToken(token);
 
                 // Perform end steps.
-                store.dispatch(Action.setEvadeCount(token.id()));
+                store.dispatch(Action.setEvadeCount(token));
 
                 if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
                 {
-                    store.dispatch(Action.setFocusCount(token.id()));
+                    store.dispatch(Action.setFocusCount(token));
                 }
 
-                store.dispatch(Action.setReinforceCount(token.id()));
-                store.dispatch(Action.setWeaponsDisabledCount(token.id()));
+                store.dispatch(Action.setReinforceCount(token));
+                store.dispatch(Action.setWeaponsDisabledCount(token));
             }
 
             this.processEndQueue();

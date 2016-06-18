@@ -34,50 +34,51 @@ define([ "Count" ], function(Count)
     Action.SET_SECOND_AGENT = "setSecondAgent";
     Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
     Action.SET_USER_MESSAGE = "setUserMessage";
+    Action.SET_VALUE = "setValue";
 
-    Action.addCloakCount = function(tokenId, value)
+    Action.addCloakCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.CLOAK, value);
+        return Action.addCount(token, Count.CLOAK, value);
     };
 
-    Action.addCount = function(tokenId, property, value)
+    Action.addCount = function(token, property, value)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("property", property);
         var myValue = (value !== undefined ? value : 1);
 
         return (
         {
             type: Action.ADD_COUNT,
-            tokenId: tokenId,
+            token: token,
             property: property,
             value: myValue,
         });
     };
 
-    Action.addEnergyCount = function(tokenId, value)
+    Action.addEnergyCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.ENERGY, value);
+        return Action.addCount(token, Count.ENERGY, value);
     };
 
-    Action.addEvadeCount = function(tokenId, value)
+    Action.addEvadeCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.EVADE, value);
+        return Action.addCount(token, Count.EVADE, value);
     };
 
-    Action.addFocusCount = function(tokenId, value)
+    Action.addFocusCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.FOCUS, value);
+        return Action.addCount(token, Count.FOCUS, value);
     };
 
-    Action.addIonCount = function(tokenId, value)
+    Action.addIonCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.ION, value);
+        return Action.addCount(token, Count.ION, value);
     };
 
-    Action.addReinforceCount = function(tokenId, value)
+    Action.addReinforceCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.REINFORCE, value);
+        return Action.addCount(token, Count.REINFORCE, value);
     };
 
     Action.addRound = function(value)
@@ -91,14 +92,14 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.addShieldCount = function(tokenId, value)
+    Action.addShieldCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.SHIELD, value);
+        return Action.addCount(token, Count.SHIELD, value);
     };
 
-    Action.addStressCount = function(tokenId, value)
+    Action.addStressCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.STRESS, value);
+        return Action.addCount(token, Count.STRESS, value);
     };
 
     Action.addTargetLock = function(targetLock)
@@ -112,15 +113,15 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.addTokenCriticalDamage = function(tokenId, damageKey)
+    Action.addTokenCriticalDamage = function(token, damageKey)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("damageKey", damageKey);
 
         return (
         {
             type: Action.ADD_TOKEN_CRITICAL_DAMAGE,
-            tokenId: tokenId,
+            token: token,
             damageKey: damageKey,
         });
     };
@@ -138,15 +139,15 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.addTokenUpgrade = function(tokenId, upgradeKey)
+    Action.addTokenUpgrade = function(token, upgradeKey)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("upgradeKey", upgradeKey);
 
         return (
         {
             type: Action.ADD_TOKEN_UPGRADE,
-            tokenId: tokenId,
+            token: token,
             upgradeKey: upgradeKey,
         });
     };
@@ -166,9 +167,9 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.addWeaponsDisabledCount = function(tokenId, value)
+    Action.addWeaponsDisabledCount = function(token, value)
     {
-        return Action.addCount(tokenId, Count.WEAPONS_DISABLED, value);
+        return Action.addCount(token, Count.WEAPONS_DISABLED, value);
     };
 
     Action.discardDamage = function(damage)
@@ -268,15 +269,15 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.removeTokenCriticalDamage = function(tokenId, damageKey)
+    Action.removeTokenCriticalDamage = function(token, damageKey)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("damageKey", damageKey);
 
         return (
         {
             type: Action.REMOVE_TOKEN_CRITICAL_DAMAGE,
-            tokenId: tokenId,
+            token: token,
             damageKey: damageKey,
         });
     };
@@ -294,15 +295,15 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.removeTokenUpgrade = function(tokenId, upgradeKey)
+    Action.removeTokenUpgrade = function(token, upgradeKey)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("upgradeKey", upgradeKey);
 
         return (
         {
             type: Action.REMOVE_TOKEN_UPGRADE,
-            tokenId: tokenId,
+            token: token,
             upgradeKey: upgradeKey,
         });
     };
@@ -332,21 +333,21 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.setCloakCount = function(tokenId, value)
+    Action.setCloakCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.CLOAK, value);
+        return Action.setCount(token, Count.CLOAK, value);
     };
 
-    Action.setCount = function(tokenId, property, value)
+    Action.setCount = function(token, property, value)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("property", property);
         var myValue = (value ? value : 0);
 
         return (
         {
             type: Action.SET_COUNT,
-            tokenId: tokenId,
+            token: token,
             property: property,
             value: myValue,
         });
@@ -363,14 +364,14 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.setEnergyCount = function(tokenId, value)
+    Action.setEnergyCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.ENERGY, value);
+        return Action.setCount(token, Count.ENERGY, value);
     };
 
-    Action.setEvadeCount = function(tokenId, value)
+    Action.setEvadeCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.EVADE, value);
+        return Action.setCount(token, Count.EVADE, value);
     };
 
     Action.setFirstAgent = function(agent)
@@ -384,14 +385,14 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.setFocusCount = function(tokenId, value)
+    Action.setFocusCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.FOCUS, value);
+        return Action.setCount(token, Count.FOCUS, value);
     };
 
-    Action.setIonCount = function(tokenId, value)
+    Action.setIonCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.ION, value);
+        return Action.setCount(token, Count.ION, value);
     };
 
     Action.setPhase = function(phaseKey)
@@ -438,19 +439,19 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.setReinforceCount = function(tokenId, value)
+    Action.setReinforceCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.REINFORCE, value);
+        return Action.setCount(token, Count.REINFORCE, value);
     };
 
-    Action.setShieldCount = function(tokenId, value)
+    Action.setShieldCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.SHIELD, value);
+        return Action.setCount(token, Count.SHIELD, value);
     };
 
-    Action.setStressCount = function(tokenId, value)
+    Action.setStressCount = function(token, value)
     {
-        return Action.setCount(tokenId, Count.STRESS, value);
+        return Action.setCount(token, Count.STRESS, value);
     };
 
     Action.setTokenUpgradeEnergy = function(tokenId, upgradeKey, value)
@@ -479,9 +480,24 @@ define([ "Count" ], function(Count)
         });
     };
 
-    Action.setWeaponsDisabledCount = function(tokenId, value)
+    Action.setValue = function(token, property, value)
     {
-        return Action.setCount(tokenId, Count.WEAPONS_DISABLED, value);
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("property", property);
+        var myValue = (value ? value : 0);
+
+        return (
+        {
+            type: Action.SET_VALUE,
+            token: token,
+            property: property,
+            value: myValue,
+        });
+    };
+
+    Action.setWeaponsDisabledCount = function(token, value)
+    {
+        return Action.setCount(token, Count.WEAPONS_DISABLED, value);
     };
 
     if (Object.freeze)

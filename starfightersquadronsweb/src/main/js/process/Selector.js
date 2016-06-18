@@ -1,4 +1,4 @@
-define([ "Count" ], function(Count)
+define([ "Count", "Value" ], function(Count, Value)
 {
     "use strict";
     var Selector = {};
@@ -15,6 +15,11 @@ define([ "Count" ], function(Count)
         }
 
         return answer;
+    };
+
+    Selector.agilityValue = function(state, tokenId)
+    {
+        return Selector.value(state, tokenId, Value.AGILITY);
     };
 
     Selector.attackerTargetLocks = function(state, attacker)
@@ -86,6 +91,11 @@ define([ "Count" ], function(Count)
         return Selector.count(state, tokenId, Count.ENERGY);
     };
 
+    Selector.energyValue = function(state, tokenId)
+    {
+        return Selector.value(state, tokenId, Value.ENERGY);
+    };
+
     Selector.evadeCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.EVADE);
@@ -96,9 +106,19 @@ define([ "Count" ], function(Count)
         return Selector.count(state, tokenId, Count.FOCUS);
     };
 
+    Selector.hullValue = function(state, tokenId)
+    {
+        return Selector.value(state, tokenId, Value.HULL);
+    };
+
     Selector.ionCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.ION);
+    };
+
+    Selector.pilotSkillValue = function(state, tokenId)
+    {
+        return Selector.value(state, tokenId, Value.PILOT_SKILL);
     };
 
     Selector.position = function(state, tokenId)
@@ -109,6 +129,11 @@ define([ "Count" ], function(Count)
         return state.tokenIdToPosition[tokenId];
     };
 
+    Selector.primaryWeaponValue = function(state, tokenId)
+    {
+        return Selector.value(state, tokenId, Value.PRIMARY_WEAPON);
+    };
+
     Selector.reinforceCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.REINFORCE);
@@ -117,6 +142,11 @@ define([ "Count" ], function(Count)
     Selector.shieldCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.SHIELD);
+    };
+
+    Selector.shieldValue = function(state, tokenId)
+    {
+        return Selector.value(state, tokenId, Value.SHIELD);
     };
 
     Selector.stressCount = function(state, tokenId)
@@ -178,6 +208,23 @@ define([ "Count" ], function(Count)
         var answer = state.tokenIdToUpgrades[tokenId];
 
         return (answer ? answer.slice() : []);
+    };
+
+    Selector.value = function(state, tokenId, property)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("property", property);
+
+        var answer;
+        var values = state.tokenIdToValues[tokenId];
+
+        if (values)
+        {
+            answer = values[property];
+        }
+
+        return answer;
     };
 
     Selector.weaponsDisabledCount = function(state, tokenId)
