@@ -239,13 +239,6 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             var shipState = pilot.shipState;
             var ship = that.ship();
 
-            if (!ship.primaryFiringArcKey)
-            {
-                LOGGER.info("pilot.value = " + pilot.value);
-                LOGGER.info("ship.value = " + ship.value);
-                LOGGER.info("ship.primaryFiringArcKey = " + ship.primaryFiringArcKey);
-            }
-
             return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), ship.primaryWeaponRanges,
                     ship.primaryFiringArcKey, ship.auxiliaryFiringArcKey, ship.isPrimaryWeaponTurret);
         }
@@ -254,11 +247,6 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         {
             return new Weapon(upgrade.name, upgrade.weaponValue, upgrade.ranges, upgrade.firingArcKey, undefined,
                     upgrade.isWeaponTurret, upgrade.value);
-        }
-
-        function getShipState()
-        {
-            return pilot.shipState;
         }
 
         // /////////////////////////////////////////////////////////////////////
@@ -324,9 +312,6 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         var activationState = new ActivationState();
         var combatState = new CombatState();
-
-        // Initialize the energy.
-        store.dispatch(Action.setEnergyCount(this, this.energyValue()));
     }
 
     Token.prototype.addAttackerTargetLock = function(targetLock)
