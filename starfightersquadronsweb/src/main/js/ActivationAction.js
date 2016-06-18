@@ -174,7 +174,7 @@ define([ "Difficulty", "Maneuver", "ManeuverAction", "Phase", "process/Action" ]
                 var token = this.token();
 
                 // Gain energy up to the energy limit.
-                var energyLimit = token.energyLimit();
+                var energyLimit = token.energyValue();
                 LOGGER.trace(token.pilotName() + " energyLimit = " + energyLimit);
                 var store = token.store();
 

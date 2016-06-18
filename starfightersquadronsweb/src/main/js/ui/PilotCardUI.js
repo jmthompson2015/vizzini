@@ -497,7 +497,7 @@ define([ "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipSilhou
 
             var factionKey = myToken.pilot().shipTeam.teamKey;
             var primaryWeaponValue = myToken.primaryWeaponValue();
-            var energyLimit = myToken.energyLimit();
+            var energyLimit = myToken.energyValue();
             var agilityValue = myToken.agilityValue();
             var hullValue = myToken.hullValue();
             var shieldValue = myToken.shieldValue();
@@ -626,7 +626,7 @@ define([ "ui/FactionUI", "ui/LabeledImage", "ui/ShipActionPanel", "ui/ShipSilhou
 
             var factionKey = myToken.pilot().shipTeam.teamKey;
             var primaryWeaponValue = myToken.primaryWeaponValue();
-            var energyLimit = myToken.energyLimit();
+            var energyLimit = myToken.energyValue();
             var agilityValue = myToken.agilityValue();
             var hullValue = myToken.hullValue();
             var shieldValue = myToken.shieldValue();

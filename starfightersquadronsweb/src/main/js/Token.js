@@ -460,7 +460,14 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
     Token.prototype.energyValue = function()
     {
-        return Selector.energyValue(this.store().getState(), this.id());
+        var answer = null;
+
+        if (this.isHuge())
+        {
+            answer = Selector.energyValue(this.store().getState(), this.id());
+        }
+
+        return answer;
     };
 
     Token.prototype.equals = function(other)
