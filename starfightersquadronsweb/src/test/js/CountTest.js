@@ -5,16 +5,16 @@ define([ "Count" ], function(Count)
 
     QUnit.test("Count properties Cloak", function(assert)
     {
-        var phase = Count.CLOAK;
-        var properties = Count.properties[phase];
+        var property = Count.CLOAK;
+        var properties = Count.properties[property];
         assert.equal(properties.name, "Cloak");
         assert.equal(properties.value, "cloak");
     });
 
-    QUnit.test("Count properties Activation (execute maneuver)", function(assert)
+    QUnit.test("Count properties Energy", function(assert)
     {
-        var phase = Count.ENERGY;
-        var properties = Count.properties[phase];
+        var property = Count.ENERGY;
+        var properties = Count.properties[property];
         assert.equal(properties.name, "Energy");
         assert.equal(properties.value, "energy");
     });
