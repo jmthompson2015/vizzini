@@ -41,7 +41,7 @@ define([ "ActivationAction", "Adjudicator", "EnvironmentFactory", "Maneuver", "P
         var tokenPosition = environment.getPositionFor(token);
         environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
-        store.dispatch(Action.addCloakCount(token.id()));
+        store.dispatch(Action.addCloakCount(token));
         var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
         function callback()
         {

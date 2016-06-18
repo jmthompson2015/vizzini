@@ -72,7 +72,7 @@ define(
                 var defender4 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
                 var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
 
-                store.dispatch(Action.addFocusCount(attacker.id()));
+                store.dispatch(Action.addFocusCount(attacker));
                 var targetLock = new TargetLock(store, attacker, defender3);
                 attacker.addAttackerTargetLock(targetLock);
 

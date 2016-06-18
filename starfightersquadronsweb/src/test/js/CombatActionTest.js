@@ -392,7 +392,7 @@ define(
                 environment.placeToken(attackerPosition, attacker);
                 environment.placeToken(defenderPosition, defender);
 
-                store.dispatch(Action.addFocusCount(attacker.id()));
+                store.dispatch(Action.addFocusCount(attacker));
 
                 var targetLock = new TargetLock(store, attacker, defender);
                 attacker.addAttackerTargetLock(targetLock);
@@ -507,7 +507,7 @@ define(
                 environment.placeToken(attackerPosition, attacker);
                 environment.placeToken(defenderPosition, defender);
 
-                store.dispatch(Action.addFocusCount(attacker.id()));
+                store.dispatch(Action.addFocusCount(attacker));
 
                 var targetLock = new TargetLock(store, attacker, defender);
                 attacker.addAttackerTargetLock(targetLock);

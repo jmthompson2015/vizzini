@@ -21,7 +21,7 @@ define([ "Adjudicator", "EnvironmentFactory", "process/Action" ], function(Adjud
         var store = environment.store();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
-        store.dispatch(Action.addCloakCount(attacker.id()));
+        store.dispatch(Action.addCloakCount(attacker));
 
         // Run / Verify.
         assert.ok(!adjudicator.canAttack(attacker));
@@ -34,7 +34,7 @@ define([ "Adjudicator", "EnvironmentFactory", "process/Action" ], function(Adjud
         var store = environment.store();
         var adjudicator = new Adjudicator();
         var attacker = environment.tokens()[0];
-        store.dispatch(Action.addWeaponsDisabledCount(attacker.id()));
+        store.dispatch(Action.addWeaponsDisabledCount(attacker));
 
         // Run / Verify.
         assert.ok(!adjudicator.canAttack(attacker));

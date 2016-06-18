@@ -246,7 +246,7 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "proc
         var tokenPosition = environment.getPositionFor(token);
         environment.removeToken(tokenPosition);
         environment.placeToken(new Position(458, 890, 270), token);
-        store.dispatch(Action.addCloakCount(token.id()));
+        store.dispatch(Action.addCloakCount(token));
         var action = new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD);
 
         // Run.
@@ -286,7 +286,7 @@ define([ "EnvironmentFactory", "Maneuver", "Position", "ShipActionAction", "proc
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        store.dispatch(Action.addCloakCount(token.id()));
+        store.dispatch(Action.addCloakCount(token));
         var action = new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD);
 
         // Run.

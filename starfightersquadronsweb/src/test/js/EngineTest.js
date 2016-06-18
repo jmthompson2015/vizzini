@@ -103,17 +103,17 @@ define([ "Adjudicator", "Engine", "EnvironmentFactory", "Maneuver", "Position", 
         var environment = engine.environment();
         var store = environment.store();
         var token0 = environment.tokens()[0];
-        store.dispatch(Action.addEvadeCount(token0.id()));
-        store.dispatch(Action.addFocusCount(token0.id()));
-        store.dispatch(Action.addWeaponsDisabledCount(token0.id()));
+        store.dispatch(Action.addEvadeCount(token0));
+        store.dispatch(Action.addFocusCount(token0));
+        store.dispatch(Action.addWeaponsDisabledCount(token0));
         var token1 = environment.tokens()[1];
-        store.dispatch(Action.addEvadeCount(token1.id()));
-        store.dispatch(Action.addFocusCount(token1.id()));
-        store.dispatch(Action.addWeaponsDisabledCount(token1.id()));
+        store.dispatch(Action.addEvadeCount(token1));
+        store.dispatch(Action.addFocusCount(token1));
+        store.dispatch(Action.addWeaponsDisabledCount(token1));
         var token2 = environment.tokens()[2];
-        store.dispatch(Action.addEvadeCount(token2.id()));
-        store.dispatch(Action.addFocusCount(token2.id()));
-        store.dispatch(Action.addWeaponsDisabledCount(token2.id()));
+        store.dispatch(Action.addEvadeCount(token2));
+        store.dispatch(Action.addFocusCount(token2));
+        store.dispatch(Action.addWeaponsDisabledCount(token2));
         engine.performPlanningPhase = function()
         {
             LOGGER.info("performPlanningPhase() dummy");

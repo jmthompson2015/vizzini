@@ -128,7 +128,7 @@ define([ "Environment", "EnvironmentFactory", "FiringArc", "Pilot", "Position", 
         assert.ok(!weapon1.isUsable(attacker, defender));
         assert.ok(!weapon2.isUsable(attacker, defender));
 
-        store.dispatch(Action.addFocusCount(attacker.id()));
+        store.dispatch(Action.addFocusCount(attacker));
 
         // Run / Verify.
         assert.ok(weapon0.isUsable(attacker, defender));

@@ -139,7 +139,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        store.dispatch(Action.addTokenUpgrade(token.id(), UpgradeCard.OUTLAW_TECH));
+        store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.OUTLAW_TECH));
         assert.equal(token.focusCount(), 0);
         var maneuverKey = Maneuver.STRAIGHT_4_HARD;
         var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
@@ -157,9 +157,9 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        store.dispatch(Action.addTokenUpgrade(token.id(), UpgradeCard.R2_D2));
+        store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.R2_D2));
         var maxShield = token.shieldValue();
-        store.dispatch(Action.addShieldCount(token.id(), -1));
+        store.dispatch(Action.addShieldCount(token, -1));
         assert.equal(token.shieldCount(), maxShield - 1);
         var maneuverKey = Maneuver.STRAIGHT_1_EASY;
         var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
@@ -177,7 +177,7 @@ define([ "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position"
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var store = environment.store();
         var token = environment.tokens()[2]; // X-Wing
-        store.dispatch(Action.addTokenUpgrade(token.id(), UpgradeCard.R2_D2));
+        store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.R2_D2));
         var maxShield = token.shieldValue();
         assert.equal(token.shieldCount(), maxShield);
         var maneuverKey = Maneuver.STRAIGHT_1_EASY;

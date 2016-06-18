@@ -10,7 +10,7 @@ define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction", "proces
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var store = environment.store();
         var defender = environment.tokens()[0];
-        store.dispatch(Action.addEvadeCount(defender.id()));
+        store.dispatch(Action.addEvadeCount(defender));
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
@@ -35,7 +35,7 @@ define([ "DefenseDice", "EnvironmentFactory", "ModifyDefenseDiceAction", "proces
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var store = environment.store();
         var defender = environment.tokens()[0];
-        store.dispatch(Action.addFocusCount(defender.id()));
+        store.dispatch(Action.addFocusCount(defender));
         var defenseDice = new DefenseDice(3);
         var modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);

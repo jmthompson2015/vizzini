@@ -132,7 +132,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
         var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
         var token = new Token(store, Pilot.SIGMA_SQUADRON_PILOT, agent);
         environment.placeToken(new Position(200, 200, 0), token);
-        store.dispatch(Action.addCloakCount(token.id()));
+        store.dispatch(Action.addCloakCount(token));
 
         var result;
         function callback(maneuverAction)
@@ -167,7 +167,7 @@ define([ "Adjudicator", "AttackDice", "DefenseDice", "Environment", "Environment
         var attackDice = new AttackDice(3);
         var defender = environment.tokens()[2];
         var defenseDice = new DefenseDice(3);
-        store.dispatch(Action.addEvadeCount(defender.id()));
+        store.dispatch(Action.addEvadeCount(defender));
 
         var result;
         var caller = {};

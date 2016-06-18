@@ -10,7 +10,7 @@ define([ "AttackDice", "EnvironmentFactory", "ModifyAttackDiceAction", "TargetLo
         var environment = EnvironmentFactory.createCoreSetEnvironment();
         var store = environment.store();
         var attacker = environment.tokens()[0];
-        store.dispatch(Action.addFocusCount(attacker.id()));
+        store.dispatch(Action.addFocusCount(attacker));
         var attackDice = new AttackDice(3);
         var defender = environment.tokens()[2];
         var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
