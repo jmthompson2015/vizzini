@@ -67,65 +67,9 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             return activationState;
         };
 
-        this.addAttackerTargetLock = function(targetLock)
-        {
-            InputValidator.validateNotNull("targetLock", targetLock);
-
-            var attackerTargetLocks = this.attackerTargetLocks();
-
-            if (attackerTargetLocks.length > 0)
-            {
-                // Remove previous target lock.
-                var previous = attackerTargetLocks[0];
-                this.removeAttackerTargetLock(previous);
-            }
-
-            store.dispatch(Action.addTargetLock(targetLock));
-        };
-
-        this.agilityValue = function()
-        {
-            return Selector.agilityValue(store.getState(), id);
-        };
-
-        this.attackerTargetLocks = function()
-        {
-            return Selector.attackerTargetLocks(store.getState(), this);
-        };
-
-        this.cloakCount = function()
-        {
-            return Selector.cloakCount(store.getState(), id);
-        };
-
         this.combatState = function()
         {
             return combatState;
-        };
-
-        this.criticalDamageCount = function()
-        {
-            return this.criticalDamages().length;
-        };
-
-        this.criticalDamages = function()
-        {
-            return Selector.criticalDamages(store.getState(), id);
-        };
-
-        this.damageCount = function()
-        {
-            return this.damages().length;
-        };
-
-        this.damages = function()
-        {
-            return Selector.damages(store.getState(), id);
-        };
-
-        this.defenderTargetLocks = function()
-        {
-            return Selector.defenderTargetLocks(store.getState(), this);
         };
 
         this.discardUpgrade = function(upgradeKey)
@@ -149,76 +93,9 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             }
         };
 
-        this.energyCount = function()
-        {
-            return Selector.energyCount(store.getState(), id);
-        };
-
-        this.energyLimit = function()
-        {
-            var answer = pilot.shipState.energyValue();
-
-            if (answer !== null)
-            {
-                answer = this.criticalDamages().reduce(function(sum, damageKey)
-                {
-                    return sum + DamageCard.properties[damageKey].shipState.energyValue();
-                }, answer);
-
-                this.upgradeKeys().forEach(function(upgradeKey)
-                {
-                    var shipState = UpgradeCard.properties[upgradeKey].shipState;
-
-                    if (shipState)
-                    {
-                        answer += shipState.energyValue();
-                    }
-                });
-
-                answer = Math.max(answer, 0);
-            }
-
-            return answer;
-        };
-
-        this.energyValue = function()
-        {
-            return Selector.energyValue(store.getState(), id);
-        };
-
-        this.equals = function(other)
-        {
-            return id == other.id() && pilotKey == other.pilotKey();
-        };
-
-        this.evadeCount = function()
-        {
-            return Selector.evadeCount(store.getState(), id);
-        };
-
-        this.findTargetLockByDefender = function(defender)
-        {
-            return Selector.targetLock(store.getState().targetLocks, this, defender);
-        };
-
-        this.focusCount = function()
-        {
-            return Selector.focusCount(store.getState(), id);
-        };
-
-        this.hullValue = function()
-        {
-            return Selector.hullValue(store.getState(), id);
-        };
-
         this.id = function()
         {
             return id;
-        };
-
-        this.ionCount = function()
-        {
-            return Selector.ionCount(store.getState(), id);
         };
 
         this.maneuverKeys = function()
@@ -274,20 +151,6 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             return answer;
         };
 
-        this.name = function()
-        {
-            var pilotName = pilot.name;
-            var shipName = pilot.shipTeam.ship.name;
-            var answer = id + " " + pilotName;
-
-            if (!pilotName.startsWith(shipName))
-            {
-                answer += " (" + shipName + ")";
-            }
-
-            return answer;
-        };
-
         this.newInstance = function(store, agent)
         {
             InputValidator.validateNotNull("store", store);
@@ -319,196 +182,14 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             return pilotKey;
         };
 
-        this.pilotSkillValue = function()
-        {
-            return Selector.pilotSkillValue(store.getState(), id);
-        };
-
-        this.pilotName = function()
-        {
-            var properties = pilot;
-            var isUnique = properties.isUnique;
-            var answer = id + " ";
-
-            if (isUnique)
-            {
-                answer += "\u25CF ";
-            }
-
-            answer += properties.name;
-
-            return answer;
-        };
-
-        this.primaryFiringArcKey = function()
-        {
-            return pilot.shipTeam.ship.primaryFiringArcKey;
-        };
-
         this.primaryWeapon = function()
         {
             return primaryWeapon;
         };
 
-        this.primaryWeaponValue = function()
-        {
-            return Selector.primaryWeaponValue(store.getState(), id);
-        };
-
-        this.receiveStress = function()
-        {
-            store.dispatch(Action.addStressCount(this));
-
-            if (pilotKey === Pilot.SOONTIR_FEL)
-            {
-                store.dispatch(Action.addFocusCount(this));
-            }
-        };
-
-        this.recoverShield = function()
-        {
-            if (this.shieldCount() < this.shieldValue())
-            {
-                store.dispatch(Action.addShieldCount(this));
-            }
-        };
-
-        this.reinforceCount = function()
-        {
-            return Selector.reinforceCount(store.getState(), id);
-        };
-
-        this.removeAllTargetLocks = function()
-        {
-            // Remove target locks which have this as the defender.
-            var targetLocks = this.defenderTargetLocks();
-            targetLocks.forEach(function(targetLock)
-            {
-                var attacker = targetLock.attacker();
-                attacker.removeAttackerTargetLock(targetLock);
-            }, this);
-
-            // Remove target locks in which this is the attacker.
-            targetLocks = this.attackerTargetLocks();
-            targetLocks.forEach(function(targetLock)
-            {
-                var defender = targetLock.defender();
-                this.removeAttackerTargetLock(targetLock);
-            }, this);
-        };
-
-        this.removeAttackerTargetLock = function(targetLock)
-        {
-            InputValidator.validateNotNull("targetLock", targetLock);
-
-            store.dispatch(Action.removeTargetLock(targetLock));
-        };
-
-        this.removeStress = function()
-        {
-            if (this.stressCount() > 0)
-            {
-                store.dispatch(Action.addStressCount(this, -1));
-
-                if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
-                {
-                    store.dispatch(Action.addFocusCount(this));
-                }
-            }
-        };
-
         this.secondaryWeapons = function()
         {
             return secondaryWeapons;
-        };
-
-        this.shieldCount = function()
-        {
-            return Selector.shieldCount(store.getState(), id);
-        };
-
-        this.shieldValue = function()
-        {
-            return Selector.shieldValue(store.getState(), id);
-        };
-
-        this.shipName = function()
-        {
-            return pilot.shipTeam.ship.name;
-        };
-
-        this.stressCount = function()
-        {
-            return Selector.stressCount(store.getState(), id);
-        };
-
-        this.teamName = function()
-        {
-            return pilot.shipTeam.team.name;
-        };
-
-        this.upgradeKeys = function()
-        {
-            return Selector.upgrades(store.getState(), id);
-        };
-
-        this.upgradeTypeKeys = function()
-        {
-            var answer = pilot.upgradeTypeKeys.slice();
-
-            if (UpgradeCard.valuesByPilotAndType(pilotKey, UpgradeType.TITLE).length > 0)
-            {
-                answer.unshift(UpgradeType.TITLE);
-            }
-
-            if (UpgradeCard.valuesByPilotAndType(pilotKey, UpgradeType.MODIFICATION).length > 0)
-            {
-                answer.push(UpgradeType.MODIFICATION);
-
-                if (this.isUpgradedWith(UpgradeCard.ROYAL_GUARD_TIE))
-                {
-                    answer.push(UpgradeType.MODIFICATION);
-                }
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.A_WING_TEST_PILOT))
-            {
-                answer.push(UpgradeType.ELITE);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.ANDRASTA))
-            {
-                answer.push(UpgradeType.BOMB);
-                answer.push(UpgradeType.BOMB);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.B_WING_E2))
-            {
-                answer.push(UpgradeType.CREW);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.BOMB_LOADOUT))
-            {
-                answer.push(UpgradeType.BOMB);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.SLAVE_I))
-            {
-                answer.push(UpgradeType.TORPEDO);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.VIRAGO))
-            {
-                answer.push(UpgradeType.SYSTEM);
-                answer.push(UpgradeType.ILLICIT);
-            }
-
-            return answer;
-        };
-
-        this.weaponsDisabledCount = function()
-        {
-            return Selector.weaponsDisabledCount(store.getState(), id);
         };
 
         function changeBearingManeuversToDifficulty(maneuverKeys, bearingKey, difficultyKey)
@@ -645,8 +326,24 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         var combatState = new CombatState();
 
         // Initialize the energy.
-        store.dispatch(Action.setEnergyCount(this, this.energyLimit()));
+        store.dispatch(Action.setEnergyCount(this, this.energyValue()));
     }
+
+    Token.prototype.addAttackerTargetLock = function(targetLock)
+    {
+        InputValidator.validateNotNull("targetLock", targetLock);
+
+        var attackerTargetLocks = this.attackerTargetLocks();
+
+        if (attackerTargetLocks.length > 0)
+        {
+            // Remove previous target lock.
+            var previous = attackerTargetLocks[0];
+            this.removeAttackerTargetLock(previous);
+        }
+
+        this.store().dispatch(Action.addTargetLock(targetLock));
+    };
 
     Token.prototype.addCriticalDamage = function(damageKey)
     {
@@ -663,6 +360,21 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
     Token.prototype.addDamage = function(damageKey)
     {
         this.store().dispatch(Action.addTokenDamage(this.id(), damageKey));
+    };
+
+    Token.prototype.agilityValue = function()
+    {
+        return Selector.agilityValue(this.store().getState(), this.id());
+    };
+
+    Token.prototype.attackerTargetLocks = function()
+    {
+        return Selector.attackerTargetLocks(this.store().getState(), this);
+    };
+
+    Token.prototype.cloakCount = function()
+    {
+        return Selector.cloakCount(this.store().getState(), this.id());
     };
 
     Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, range)
@@ -731,10 +443,75 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         return answer;
     };
 
+    Token.prototype.criticalDamageCount = function()
+    {
+        return this.criticalDamages().length;
+    };
+
+    Token.prototype.criticalDamages = function()
+    {
+        return Selector.criticalDamages(this.store().getState(), this.id());
+    };
+
+    Token.prototype.damageCount = function()
+    {
+        return this.damages().length;
+    };
+
+    Token.prototype.damages = function()
+    {
+        return Selector.damages(this.store().getState(), this.id());
+    };
+
+    Token.prototype.defenderTargetLocks = function()
+    {
+        return Selector.defenderTargetLocks(this.store().getState(), this);
+    };
+
+    Token.prototype.energyCount = function()
+    {
+        return Selector.energyCount(this.store().getState(), this.id());
+    };
+
+    Token.prototype.energyValue = function()
+    {
+        return Selector.energyValue(this.store().getState(), this.id());
+    };
+
+    Token.prototype.equals = function(other)
+    {
+        return this.id() == other.id() && this.pilotKey() == other.pilotKey();
+    };
+
+    Token.prototype.evadeCount = function()
+    {
+        return Selector.evadeCount(this.store().getState(), this.id());
+    };
+
+    Token.prototype.findTargetLockByDefender = function(defender)
+    {
+        return Selector.targetLock(this.store().getState().targetLocks, this, defender);
+    };
+
     Token.prototype.flipDamageCardFacedown = function(damageKey)
     {
         this.removeCriticalDamage(damageKey);
         this.addDamage(damageKey);
+    };
+
+    Token.prototype.focusCount = function()
+    {
+        return Selector.focusCount(this.store().getState(), this.id());
+    };
+
+    Token.prototype.hullValue = function()
+    {
+        return Selector.hullValue(this.store().getState(), this.id());
+    };
+
+    Token.prototype.ionCount = function()
+    {
+        return Selector.ionCount(this.store().getState(), this.id());
     };
 
     Token.prototype.isCloaked = function()
@@ -773,9 +550,124 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         return this.upgradeKeys().vizziniContains(upgradeKey);
     };
 
+    Token.prototype.name = function()
+    {
+        var pilotName = this.pilot().name;
+        var shipName = this.pilot().shipTeam.ship.name;
+        var answer = this.id() + " " + pilotName;
+
+        if (!pilotName.startsWith(shipName))
+        {
+            answer += " (" + shipName + ")";
+        }
+
+        return answer;
+    };
+
+    Token.prototype.pilotName = function()
+    {
+        var answer = this.id() + " ";
+
+        if (this.pilot().isUnique)
+        {
+            answer += "\u25CF ";
+        }
+
+        answer += this.pilot().name;
+
+        return answer;
+    };
+
+    Token.prototype.pilotSkillValue = function()
+    {
+        return Selector.pilotSkillValue(this.store().getState(), this.id());
+    };
+
+    Token.prototype.primaryFiringArcKey = function()
+    {
+        return this.pilot().shipTeam.ship.primaryFiringArcKey;
+    };
+
+    Token.prototype.primaryWeaponValue = function()
+    {
+        return Selector.primaryWeaponValue(this.store().getState(), this.id());
+    };
+
+    Token.prototype.receiveStress = function()
+    {
+        this.store().dispatch(Action.addStressCount(this));
+
+        if (this.pilotKey() === Pilot.SOONTIR_FEL)
+        {
+            this.store().dispatch(Action.addFocusCount(this));
+        }
+    };
+
+    Token.prototype.recoverShield = function()
+    {
+        if (this.shieldCount() < this.shieldValue())
+        {
+            this.store().dispatch(Action.addShieldCount(this));
+        }
+    };
+
+    Token.prototype.reinforceCount = function()
+    {
+        return Selector.reinforceCount(this.store().getState(), this.id());
+    };
+
+    Token.prototype.removeAllTargetLocks = function()
+    {
+        // Remove target locks which have this as the defender.
+        var targetLocks = this.defenderTargetLocks();
+        targetLocks.forEach(function(targetLock)
+        {
+            var attacker = targetLock.attacker();
+            attacker.removeAttackerTargetLock(targetLock);
+        }, this);
+
+        // Remove target locks which have this as the attacker.
+        targetLocks = this.attackerTargetLocks();
+        targetLocks.forEach(function(targetLock)
+        {
+            var defender = targetLock.defender();
+            this.removeAttackerTargetLock(targetLock);
+        }, this);
+    };
+
+    Token.prototype.removeAttackerTargetLock = function(targetLock)
+    {
+        InputValidator.validateNotNull("targetLock", targetLock);
+
+        this.store().dispatch(Action.removeTargetLock(targetLock));
+    };
+
     Token.prototype.removeCriticalDamage = function(damageKey)
     {
         this.store().dispatch(Action.removeTokenCriticalDamage(this, damageKey));
+    };
+
+    Token.prototype.removeStress = function()
+    {
+        if (this.stressCount() > 0)
+        {
+            this.store().dispatch(Action.addStressCount(this, -1));
+
+            if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
+            {
+                this.store().dispatch(Action.addFocusCount(this));
+            }
+        }
+    };
+
+    Token.prototype.shieldCount = function()
+    {
+        return Selector.shieldCount(this.store().getState(), this.id());
+    };
+
+    Token.prototype.shieldValue = function()
+    {
+        return Selector.shieldValue(this.store().getState(), this.id());
     };
 
     Token.prototype.shipActions = function()
@@ -836,9 +728,88 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
         return answer;
     };
 
+    Token.prototype.shipName = function()
+    {
+        return this.pilot().shipTeam.ship.name;
+    };
+
+    Token.prototype.stressCount = function()
+    {
+        return Selector.stressCount(this.store().getState(), this.id());
+    };
+
+    Token.prototype.teamName = function()
+    {
+        return this.pilot().shipTeam.team.name;
+    };
+
     Token.prototype.toString = function()
     {
         return this.name();
+    };
+
+    Token.prototype.upgradeKeys = function()
+    {
+        return Selector.upgrades(this.store().getState(), this.id());
+    };
+
+    Token.prototype.upgradeTypeKeys = function()
+    {
+        var answer = this.pilot().upgradeTypeKeys.slice();
+
+        if (UpgradeCard.valuesByPilotAndType(this.pilotKey(), UpgradeType.TITLE).length > 0)
+        {
+            answer.unshift(UpgradeType.TITLE);
+        }
+
+        if (UpgradeCard.valuesByPilotAndType(this.pilotKey(), UpgradeType.MODIFICATION).length > 0)
+        {
+            answer.push(UpgradeType.MODIFICATION);
+
+            if (this.isUpgradedWith(UpgradeCard.ROYAL_GUARD_TIE))
+            {
+                answer.push(UpgradeType.MODIFICATION);
+            }
+        }
+
+        if (this.isUpgradedWith(UpgradeCard.A_WING_TEST_PILOT))
+        {
+            answer.push(UpgradeType.ELITE);
+        }
+
+        if (this.isUpgradedWith(UpgradeCard.ANDRASTA))
+        {
+            answer.push(UpgradeType.BOMB);
+            answer.push(UpgradeType.BOMB);
+        }
+
+        if (this.isUpgradedWith(UpgradeCard.B_WING_E2))
+        {
+            answer.push(UpgradeType.CREW);
+        }
+
+        if (this.isUpgradedWith(UpgradeCard.BOMB_LOADOUT))
+        {
+            answer.push(UpgradeType.BOMB);
+        }
+
+        if (this.isUpgradedWith(UpgradeCard.SLAVE_I))
+        {
+            answer.push(UpgradeType.TORPEDO);
+        }
+
+        if (this.isUpgradedWith(UpgradeCard.VIRAGO))
+        {
+            answer.push(UpgradeType.SYSTEM);
+            answer.push(UpgradeType.ILLICIT);
+        }
+
+        return answer;
+    };
+
+    Token.prototype.weaponsDisabledCount = function()
+    {
+        return Selector.weaponsDisabledCount(this.store().getState(), this.id());
     };
 
     function CombatState()
