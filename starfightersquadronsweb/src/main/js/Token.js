@@ -192,6 +192,33 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
             return secondaryWeapons;
         };
 
+        this.shipState = function(property)
+        {
+            InputValidator.validateNotNull("property", property);
+
+            var propertyName = property + "Value";
+            var ship = that.ship();
+
+            var answer = pilot[propertyName];
+
+            if (answer === undefined)
+            {
+                answer = ship[propertyName];
+            }
+
+            if (answer === undefined && ship.fore)
+            {
+                answer = ship.fore[propertyName];
+            }
+
+            if (answer === undefined && ship.aft)
+            {
+                answer = ship.aft[propertyName];
+            }
+
+            return (answer !== undefined ? answer : null);
+        };
+
         function changeBearingManeuversToDifficulty(maneuverKeys, bearingKey, difficultyKey)
         {
             return maneuverKeys.map(function(maneuverKey)
@@ -236,11 +263,11 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         function createPrimaryWeapon()
         {
-            var shipState = pilot.shipState;
+            var primaryWeaponValue = that.shipState(Value.PRIMARY_WEAPON);
             var ship = that.ship();
 
-            return new Weapon("Primary Weapon", shipState.primaryWeaponValue(), ship.primaryWeaponRanges,
-                    ship.primaryFiringArcKey, ship.auxiliaryFiringArcKey, ship.isPrimaryWeaponTurret);
+            return new Weapon("Primary Weapon", primaryWeaponValue, ship.primaryWeaponRanges, ship.primaryFiringArcKey,
+                    ship.auxiliaryFiringArcKey, ship.isPrimaryWeaponTurret);
         }
 
         function createSecondaryWeapon(upgrade)
@@ -257,29 +284,29 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
         Value.values().forEach(function(property)
         {
-            store.dispatch(Action.setValue(this, property, pilot.shipState.value(property)));
+            store.dispatch(Action.setValue(this, property, this.shipState(property)));
         }, this);
 
         Count.values().forEach(function(property)
         {
             var value;
+
             switch (property)
             {
             case Count.ENERGY:
-                var energyValue = pilot.shipState.energyValue();
-                value = (energyValue ? energyValue : 0);
+                value = this.shipState(Value.ENERGY);
                 store.dispatch(Action.setEnergyCount(that, value));
                 break;
             case Count.SHIELD:
-                value = pilot.shipState.shieldValue();
+                value = this.shipState(Value.SHIELD);
                 store.dispatch(Action.setShieldCount(that, value));
                 break;
             default:
                 store.dispatch(Action.setCount(that, property));
             }
-        });
+        }, this);
 
-        var primaryWeapon = (pilot.shipState.primaryWeaponValue() !== null ? createPrimaryWeapon() : undefined);
+        var primaryWeapon = (this.shipState(Value.PRIMARY_WEAPON) !== null ? createPrimaryWeapon() : undefined);
         var secondaryWeapons = [];
 
         // Initialize the upgrades.
@@ -460,14 +487,9 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
     Token.prototype.energyValue = function()
     {
-        var answer = null;
+        var value = Selector.energyValue(this.store().getState(), this.id());
 
-        if (this.isHuge())
-        {
-            answer = Selector.energyValue(this.store().getState(), this.id());
-        }
-
-        return answer;
+        return (value !== undefined ? value : null);
     };
 
     Token.prototype.equals = function(other)
@@ -582,7 +604,9 @@ define([ "ActivationState", "Bearing", "Count", "DamageCard", "DamageCardV2", "D
 
     Token.prototype.primaryWeaponValue = function()
     {
-        return Selector.primaryWeaponValue(this.store().getState(), this.id());
+        var value = Selector.primaryWeaponValue(this.store().getState(), this.id());
+
+        return (value !== undefined ? value : null);
     };
 
     Token.prototype.receiveStress = function()

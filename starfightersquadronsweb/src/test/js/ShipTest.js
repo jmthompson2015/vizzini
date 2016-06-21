@@ -9,6 +9,10 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         var properties = Ship.properties[ship];
         assert.equal(properties.name, "Firespray-31");
         assert.equal(properties.description, "A Firespray-31.");
+        assert.equal(properties.primaryWeaponValue, 3);
+        assert.equal(properties.agilityValue, 2);
+        assert.equal(properties.hullValue, 6);
+        assert.equal(properties.shieldValue, 4);
         assert.equal(properties.value, ship);
         assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD);
         assert.equal(properties.auxiliaryFiringArcKey, FiringArc.AFT);
@@ -25,6 +29,10 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         var properties = Ship.properties[ship];
         assert.equal(properties.name, "TIE Fighter");
         assert.equal(properties.description, "A TIE fighter.");
+        assert.equal(properties.primaryWeaponValue, 2);
+        assert.equal(properties.agilityValue, 3);
+        assert.equal(properties.hullValue, 3);
+        assert.equal(properties.shieldValue, 0);
         assert.equal(properties.value, ship);
         assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD);
         assert.equal(properties.shipBaseKey, ShipBase.SMALL);
@@ -40,6 +48,10 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
         var properties = Ship.properties[ship];
         assert.equal(properties.name, "X-Wing");
         assert.equal(properties.description, "An X-Wing.");
+        assert.equal(properties.primaryWeaponValue, 3);
+        assert.equal(properties.agilityValue, 2);
+        assert.equal(properties.hullValue, 3);
+        assert.equal(properties.shieldValue, 2);
         assert.equal(properties.value, ship);
         assert.equal(properties.primaryFiringArcKey, FiringArc.FORWARD);
         assert.equal(properties.shipBaseKey, ShipBase.SMALL);

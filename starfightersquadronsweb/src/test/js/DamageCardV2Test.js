@@ -18,10 +18,8 @@ define(
                                         .equal(
                                                 properties.description,
                                                 "You cannot perform attacks. After your next opportunity to attack (even if there was no target for an attack), flip this card facedown.");
-                                assert.ok(properties.shipState);
                                 assert.ok(!properties.hasAction);
                                 assert.ok(!properties.actionDescription);
-                                assert.ok(!properties.actionShipState);
                                 assert.equal(properties.value, damage);
                             });
 
@@ -38,7 +36,6 @@ define(
                                         .equal(
                                                 properties.description,
                                                 "At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage. Action: Flip this card facedown.");
-                                assert.ok(properties.shipState);
                                 assert.ok(properties.hasAction);
                                 assert.equal(properties.value, damage);
                             });
@@ -55,7 +52,7 @@ define(
                 ownPropertyNames.forEach(function(key)
                 {
                     var key2 = DamageCardV2[key];
-                    
+
                     if (key !== "properties" && typeof key2 === "string")
                     {
                         assert.ok(DamageCardV2.properties[key2], "Missing value for key = " + key);

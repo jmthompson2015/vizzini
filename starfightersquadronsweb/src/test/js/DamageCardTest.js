@@ -11,7 +11,6 @@ define([ "DamageCard", "DamageCardTrait" ], function(DamageCard, DamageCardTrait
         assert.equal(properties.trait, DamageCardTrait.PILOT);
         assert.equal(properties.description,
                 "The next time you attack, do not roll any attack dice. Then flip this card facedown.");
-        assert.ok(properties.shipState);
         assert.ok(!properties.hasAction);
         assert.ok(!properties.actionDescription);
         assert.ok(!properties.actionShipState);
@@ -26,10 +25,8 @@ define([ "DamageCard", "DamageCardTrait" ], function(DamageCard, DamageCardTrait
         assert.equal(properties.trait, DamageCardTrait.SHIP);
         assert.equal(properties.description,
                 "At the start of each Combat phase, roll 1 attack die. On a hit result, suffer 1 damage.");
-        assert.ok(properties.shipState);
         assert.ok(properties.hasAction);
         assert.equal(properties.actionDescription, "Flip this card facedown.");
-        assert.ok(properties.actionShipState);
         assert.equal(properties.value, damage);
     });
 

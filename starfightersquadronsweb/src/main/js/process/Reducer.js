@@ -611,42 +611,49 @@ define(
                 var tokenId = token.id();
                 var newValue = Selector.value(state, tokenId, property);
 
-                if (property === Value.PILOT_SKILL)
+                if (newValue !== null)
                 {
-                    if (token && token.pilotKey() === Pilot.EPSILON_ACE)
+                    if (property === Value.PILOT_SKILL)
                     {
-                        var damageCount = Selector.damages(state, tokenId).length;
-                        var criticalDamageCount = Selector.criticalDamages(state, tokenId).length;
-
-                        if (damageCount === 0 && criticalDamageCount === 0)
+                        if (token && token.pilotKey() === Pilot.EPSILON_ACE)
                         {
-                            newValue = 12;
+                            var damageCount = Selector.damages(state, tokenId).length;
+                            var criticalDamageCount = Selector.criticalDamages(state, tokenId).length;
+
+                            if (damageCount === 0 && criticalDamageCount === 0)
+                            {
+                                newValue = 12;
+                            }
                         }
                     }
-                }
 
-                if (damage && damage.shipState)
-                {
-                    newValue += damage.shipState.value(property);
+                    var propertyName = property + "Value";
 
-                    if (property === Value.PILOT_SKILL &&
-                            [ DamageCard.DAMAGED_COCKPIT, DamageCard.INJURED_PILOT ].vizziniContains(damage.value))
+                    if (damage)
                     {
-                        newValue = 0;
+                        if (property === Value.PILOT_SKILL &&
+                                [ DamageCard.DAMAGED_COCKPIT, DamageCard.INJURED_PILOT ].vizziniContains(damage.value))
+                        {
+                            newValue = 0;
+                        }
+                        else if (damage[propertyName])
+                        {
+                            newValue += damage[propertyName];
+                        }
                     }
-                }
 
-                if (upgrade && upgrade.shipState)
-                {
-                    newValue += upgrade.shipState.value(property);
-                }
+                    if (upgrade && upgrade[propertyName])
+                    {
+                        newValue += upgrade[propertyName];
+                    }
 
-                if (isCloaked && property === Value.AGILITY)
-                {
-                    newValue += 2;
-                }
+                    if (isCloaked && property === Value.AGILITY)
+                    {
+                        newValue += 2;
+                    }
 
-                newValue = Math.max(newValue, 0);
+                    newValue = Math.max(newValue, 0);
+                }
 
                 var action = Action.setValue(token, property, newValue);
 

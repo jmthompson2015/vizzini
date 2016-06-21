@@ -11,7 +11,19 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             passes: function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
-                var myPilotSkill = pilot.shipState.pilotSkillValue();
+                var myPilotSkill = pilot.pilotSkillValue;
+                if (myPilotSkill === undefined && pilot.fore)
+                {
+                    myPilotSkill = pilot.fore.pilotSkillValue;
+                }
+                if (myPilotSkill === undefined)
+                {
+                    myPilotSkill = pilot.shipTeam.ship.pilotSkillValue;
+                }
+                if (myPilotSkill === undefined && pilot.shipTeam.ship.fore)
+                {
+                    myPilotSkill = pilot.shipTeam.ship.fore.pilotSkillValue;
+                }
                 return myPilotSkill > pilotSkill;
             }
         });

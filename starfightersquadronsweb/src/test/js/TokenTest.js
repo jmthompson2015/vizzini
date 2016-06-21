@@ -1,9 +1,9 @@
 define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty", "DualToken", "Environment",
         "EnvironmentFactory", "Maneuver", "ManeuverAction", "Pilot", "Position", "RangeRuler", "Ship", "SimpleAgent",
-        "TargetLock", "Team", "Token", "UpgradeCard", "UpgradeType", "process/Action", "process/Reducer",
+        "TargetLock", "Team", "Token", "UpgradeCard", "UpgradeType", "Value", "process/Action", "process/Reducer",
         "ui/HumanAgent" ], function(ActivationAction, Adjudicator, Bearing, DamageCard, Difficulty, DualToken,
         Environment, EnvironmentFactory, Maneuver, ManeuverAction, Pilot, Position, RangeRuler, Ship, SimpleAgent,
-        TargetLock, Team, Token, UpgradeCard, UpgradeType, Action, Reducer, HumanAgent)
+        TargetLock, Team, Token, UpgradeCard, UpgradeType, Value, Action, Reducer, HumanAgent)
 {
     "use strict";
     QUnit.module("Token");
@@ -1124,6 +1124,37 @@ define([ "ActivationAction", "Adjudicator", "Bearing", "DamageCard", "Difficulty
         // Verify.
         assert.equal(attacker.attackerTargetLocks().length, 0);
         assert.equal(defender.defenderTargetLocks().length, 0);
+    });
+
+    QUnit.test("shipState() Gozanti-class Cruiser", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var agent = new SimpleAgent("name", Team.IMPERIAL);
+        var token = new Token(store, Pilot.GOZANTI_CLASS_CRUISER, agent);
+
+        // Run / Verify.
+        assert.equal(token.shipState(Value.PILOT_SKILL), 2);
+        assert.equal(token.shipState(Value.PRIMARY_WEAPON), undefined);
+        assert.equal(token.shipState(Value.ENERGY), 4);
+        assert.equal(token.shipState(Value.AGILITY), 0);
+        assert.equal(token.shipState(Value.HULL), 9);
+        assert.equal(token.shipState(Value.SHIELD), 5);
+    });
+
+    QUnit.test("shipState() X-Wing", function(assert)
+    {
+        // Setup.
+        var store = Redux.createStore(Reducer.root);
+        var agent = new SimpleAgent("name", Team.REBEL);
+        var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
+
+        // Run / Verify.
+        assert.equal(token.shipState(Value.PILOT_SKILL), 8);
+        assert.equal(token.shipState(Value.PRIMARY_WEAPON), 3);
+        assert.equal(token.shipState(Value.AGILITY), 2);
+        assert.equal(token.shipState(Value.HULL), 3);
+        assert.equal(token.shipState(Value.SHIELD), 2);
     });
 
     QUnit.test("toString()", function(assert)

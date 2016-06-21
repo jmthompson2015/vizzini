@@ -48,7 +48,11 @@ define([ "Phase", "PlayFormat", "Ship", "Team", "process/Selector" ],
                     var tokens = environment.getTokensForTeam(team);
                     tokens.sort(function(token0, token1)
                     {
-                        var answer = token1.pilotSkillValue() - token0.pilotSkillValue();
+                        var pilotSkill0 = (token0.tokenFore ? token0.tokenFore().pilotSkillValue() : token0
+                                .pilotSkillValue());
+                        var pilotSkill1 = (token1.tokenFore ? token1.tokenFore().pilotSkillValue() : token1
+                                .pilotSkillValue());
+                        var answer = pilotSkill1 - pilotSkill0;
 
                         if (answer === 0)
                         {

@@ -484,7 +484,7 @@ define([ "Count" ], function(Count)
     {
         InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("property", property);
-        var myValue = (value ? value : 0);
+        var myValue = (value !== undefined ? value : 0);
 
         return (
         {

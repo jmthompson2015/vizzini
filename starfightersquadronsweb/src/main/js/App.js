@@ -87,9 +87,12 @@ require([ "Game", "process/Action", "process/Reducer", "process/ui/EnvironmentUI
         if (game)
         {
             var playFormat = game.environment().playFormat();
-            var aspectRatio = playFormat.width / playFormat.height;
 
-            myPlayAreaCanvas.height = newWidth / aspectRatio;
+            if (myPlayAreaCanvas)
+            {
+                var aspectRatio = playFormat.width / playFormat.height;
+                myPlayAreaCanvas.height = newWidth / aspectRatio;
+            }
 
             var store = game.environment().store();
             store.dispatch(Action.setPlayAreaScale(newWidth / playFormat.width));

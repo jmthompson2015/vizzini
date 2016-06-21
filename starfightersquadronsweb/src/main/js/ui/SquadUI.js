@@ -1,5 +1,5 @@
-define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(UpgradeCard, ShipSilhouetteUI,
-        UpgradeTypeUI)
+define([ "UpgradeCard", "Value", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(UpgradeCard, Value,
+        ShipSilhouetteUI, UpgradeTypeUI)
 {
     "use strict";
     var SquadColumns = [
@@ -170,12 +170,11 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
                 showName: true,
             })));
 
-            var shipState = pilotProps.shipState;
-            cells.push(createCell(cells.length, SquadColumns[j++], shipState.pilotSkillValue()));
-            cells.push(createCell(cells.length, SquadColumns[j++], shipState.primaryWeaponValue()));
-            cells.push(createCell(cells.length, SquadColumns[j++], shipState.agilityValue()));
-            cells.push(createCell(cells.length, SquadColumns[j++], shipState.hullValue()));
-            cells.push(createCell(cells.length, SquadColumns[j++], shipState.shieldValue()));
+            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.PILOT_SKILL)));
+            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.PRIMARY_WEAPON)));
+            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.AGILITY)));
+            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.HULL)));
+            cells.push(createCell(cells.length, SquadColumns[j++], token.shipState(Value.SHIELD)));
 
             cells.push(createCell(cells.length, SquadColumns[j++], pilotProps.squadPointCost));
 
@@ -218,31 +217,30 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
                 tokens.forEach(function(token)
                 {
                     var pilotProps = token.pilot();
-                    var shipState = pilotProps.shipState;
-                    var values = [ shipState.pilotSkillValue(), shipState.primaryWeaponValue(),
-                            shipState.agilityValue(), shipState.hullValue(), shipState.shieldValue(),
+                    var values = [ token.shipState(Value.PILOT_SKILL), token.shipState(Value.PRIMARY_WEAPON),
+                            token.shipState(Value.AGILITY), token.shipState(Value.HULL), token.shipState(Value.SHIELD),
                             pilotProps.squadPointCost ];
+
                     for (var i = start; i < SquadColumns.length; i++)
                     {
                         sums[SquadColumns[i].key] += values[i - start];
                     }
 
-                    var upgrades = token.upgradeKeys();
-                    upgrades.forEach(function(upgrade)
+                    var upgradeKeys = token.upgradeKeys();
+                    upgradeKeys.forEach(function(upgradeKey)
                     {
-                        var upgradeProps = UpgradeCard.properties[upgrade];
-                        var shipState = upgradeProps.shipState;
+                        var upgrade = UpgradeCard.properties[upgradeKey];
+                        var values = [ upgrade.pilotSkillValue, upgrade.primaryWeaponValue, upgrade.agilityValue,
+                                upgrade.hullValue, upgrade.shieldValue ];
 
-                        if (shipState)
+                        for (var i = start; i < SquadColumns.length - 2; i++)
                         {
-                            var values = [ shipState.pilotSkillValue(), shipState.primaryWeaponValue(),
-                                    shipState.agilityValue(), shipState.hullValue(), shipState.shieldValue() ];
-                            for (var i = start; i < SquadColumns.length - 2; i++)
+                            if (values[i - start] !== undefined)
                             {
                                 sums[SquadColumns[i].key] += values[i - start];
                             }
                         }
-                        sums[SquadColumns[SquadColumns.length - 2].key] += upgradeProps.squadPointCost;
+                        sums[SquadColumns[SquadColumns.length - 2].key] += upgrade.squadPointCost;
                     });
                 });
 
@@ -266,24 +264,24 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
             return React.DOM.tr({}, cells);
         },
 
-        createUpgradeRow: function(upgrade, i)
+        createUpgradeRow: function(upgradeKey, i)
         {
             var cells = [];
             var createCell = this.createCell;
             var j = 0;
 
-            var upgradeProps = UpgradeCard.properties[upgrade];
-            if (!upgradeProps)
+            var upgrade = UpgradeCard.properties[upgradeKey];
+            if (!upgrade)
             {
-                LOGGER.error("Missing upgradeProps for " + upgrade);
+                LOGGER.error("Missing upgrade for " + upgradeKey);
             }
-            if (!upgradeProps.type)
+            if (!upgrade.type)
             {
-                LOGGER.error("Missing upgradeProps.type for " + upgrade);
+                LOGGER.error("Missing upgrade.type for " + upgradeKey);
             }
             var image = React.createElement(UpgradeTypeUI,
             {
-                upgradeTypeKey: upgradeProps.type,
+                upgradeTypeKey: upgrade.type,
             });
             cells.push(this.Td(
             {
@@ -292,19 +290,18 @@ define([ "UpgradeCard", "ui/ShipSilhouetteUI", "ui/UpgradeTypeUI" ], function(Up
                 column: SquadColumns[j++].key,
             }, React.DOM.span({}, image, " ", React.DOM.span(
             {
-                title: upgradeProps.description,
-            }, upgradeProps.name))));
+                title: upgrade.description,
+            }, upgrade.name))));
 
             cells.push(createCell(cells.length, SquadColumns[j++], ""));
 
-            var shipState = upgradeProps.shipState;
-            cells.push(createCell(cells.length, SquadColumns[j++], (shipState ? shipState.pilotSkillValue() : "")));
-            cells.push(createCell(cells.length, SquadColumns[j++], (shipState ? shipState.primaryWeaponValue() : "")));
-            cells.push(createCell(cells.length, SquadColumns[j++], (shipState ? shipState.agilityValue() : "")));
-            cells.push(createCell(cells.length, SquadColumns[j++], (shipState ? shipState.hullValue() : "")));
-            cells.push(createCell(cells.length, SquadColumns[j++], (shipState ? shipState.shieldValue() : "")));
+            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.PILOT_SKILL + "Value"]));
+            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.PRIMARY_WEAPON + "Value"]));
+            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.AGILITY + "Value"]));
+            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.HULL + "Value"]));
+            cells.push(createCell(cells.length, SquadColumns[j++], upgrade[Value.SHIELD + "Value"]));
 
-            cells.push(createCell(cells.length, SquadColumns[j++], upgradeProps.squadPointCost));
+            cells.push(createCell(cells.length, SquadColumns[j++], upgrade.squadPointCost));
             cells.push(createCell(cells.length, SquadColumns[j++], ""));
 
             return this.Tr(
