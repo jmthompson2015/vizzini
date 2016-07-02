@@ -60,11 +60,7 @@ define([ "HeroCard", "Trait" ], function(HeroCard, Trait)
 
         // Verify.
         assert.ok(result);
-<<<<<<< HEAD
         var length = 71;
-=======
-        var length = 69;
->>>>>>> branch 'master' of https://github.com/jmthompson2015/vizzini.git
         assert.equal(result.length, length);
         assert.equal(result[0], HeroCard.AMARTHIUL);
         assert.equal(result[length - 1], HeroCard.TREEBEARD);
