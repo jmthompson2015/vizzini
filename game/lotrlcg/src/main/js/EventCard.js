@@ -34,17 +34,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         FAIR_AND_PERILOUS: "fairAndPerilous",
         FEIGNED_VOICES: "feignedVoices",
         FEINT: "feint",
+        FLAME_OF_ANOR: "flameOfAnor",
         FOLLOW_ME: "followMe",
         FOR_GONDOR: "forGondor",
         FOREST_PATROL: "forestPatrol",
         FORTH_EORLINGAS: "forthEorlingas",
         FREE_TO_CHOOSE: "freeToChoose",
         FRESH_TRACKS: "freshTracks",
+        FRODOS_INTUITION: "frodosIntuition",
         GAINING_STRENGTH: "gainingStrength",
         GILDORS_COUNSEL: "gildorsCounsel",
         GONDORIAN_DISCIPLINE: "gondorianDiscipline",
         GRAVE_CAIRN: "graveCairn",
         HAIL_OF_STONES: "hailOfStones",
+        HALFLING_DETERMINATION: "halflingDetermination",
         HANDS_UPON_THE_BOW: "handsUponTheBow",
         HASTY_STROKE: "hastyStroke",
         HEAVY_STROKE: "heavyStroke",
@@ -95,6 +98,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SHADOWS_GIVE_WAY: "shadowsGiveWay",
         SHORT_CUT: "shortCut",
         SMALL_TARGET: "smallTarget",
+        SMOKE_RINGS: "smokeRings",
         SNEAK_ATTACK: "sneakAttack",
         STAND_AND_FIGHT: "standAndFight",
         STRAIGHT_SHOT: "straightShot",
@@ -102,6 +106,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         STRIDERS_PATH: "stridersPath",
         SWIFT_AND_SILENT: "swiftAndSilent",
         SWIFT_STRIKE: "swiftStrike",
+        TAKE_NO_NOTICE: "takeNoNotice",
         TAKING_INITIATIVE: "takingInitiative",
         THE_DOOR_IS_CLOSED: "theDoorIsClosed",
         THE_EAGLES_ARE_COMING: "theEaglesAreComing",
@@ -407,6 +412,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "feint",
             },
+            "flameOfAnor":
+            {
+                name: "Flame of Anor",
+                cost: 1,
+                traitKeys: [ Trait.SPELL ],
+                sphereKey: Sphere.NEUTRAL,
+                cardSetKey: CardSet.THE_ROAD_DARKENS,
+                value: "flameOfAnor",
+            },
             "followMe":
             {
                 name: "Follow Me!",
@@ -462,6 +476,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D4_THE_LONG_DARK,
                 value: "freshTracks",
             },
+            "frodosIntuition":
+            {
+                name: "Frodo's Intuition",
+                cost: 2,
+                sphereKey: Sphere.FELLOWSHIP,
+                cardSetKey: CardSet.THE_BLACK_RIDERS,
+                value: "frodosIntuition",
+            },
             "gainingStrength":
             {
                 name: "Gaining Strength",
@@ -506,6 +528,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D2_ROAD_TO_RIVENDELL,
                 value: "hailOfStones",
+            },
+            "halflingDetermination":
+            {
+                name: "Halfling Determination",
+                cost: 1,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_BLACK_RIDERS,
+                value: "halflingDetermination",
             },
             "handsUponTheBow":
             {
@@ -966,6 +996,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.ATS3_ENCOUNTER_AT_AMON_DIN,
                 value: "smallTarget",
             },
+            "smokeRings":
+            {
+                name: "Smoke Rings",
+                cost: 2,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_BLACK_RIDERS,
+                value: "smokeRings",
+            },
             "sneakAttack":
             {
                 name: "Sneak Attack",
@@ -1025,6 +1063,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.CORE,
                 value: "swiftStrike",
+            },
+            "takeNoNotice":
+            {
+                name: "Take No Notice",
+                cost: 3,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_BLACK_RIDERS,
+                value: "takeNoNotice",
             },
             "takingInitiative":
             {

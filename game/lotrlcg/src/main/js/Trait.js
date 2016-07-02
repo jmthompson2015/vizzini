@@ -8,6 +8,7 @@ define(function()
         ARTIFACT: "artifact",
         BEORNING: "beorning",
         BOON: "boon",
+        BREE: "bree",
         BURGLAR: "burglar",
         CLUE: "clue",
         CONDITION: "condition",
@@ -21,6 +22,7 @@ define(function()
         EAGLE: "eagle",
         ENT: "ent",
         ESGAROTH: "esgaroth",
+        FELLOWSHIP: "fellowship",
         FOREST: "forest",
         GOBLIN: "goblin",
         GONDOR: "gondor",
@@ -43,9 +45,12 @@ define(function()
         NOLDOR: "noldor",
         ORC: "orc",
         OUTLANDS: "outlands",
+        PIPE: "pipe",
+        PONY: "pony",
         RANGER: "ranger",
         RECORD: "record",
         RING: "ring",
+        RING_BEARER: "ringBearer",
         RIVERLAND: "riverland",
         ROHAN: "rohan",
         SCOUT: "scout",
@@ -54,6 +59,7 @@ define(function()
         SKILL: "skill",
         SONG: "song",
         SPIDER: "spider",
+        STAFF: "staff",
         STEWARD: "steward",
         STRONGHOLD: "stronghold",
         TITLE: "title",
@@ -88,6 +94,11 @@ define(function()
             {
                 name: "Boon",
                 value: "boon",
+            },
+            "bree":
+            {
+                name: "Bree",
+                value: "bree",
             },
             "burglar":
             {
@@ -153,6 +164,11 @@ define(function()
             {
                 name: "Esgaroth",
                 value: "esgaroth",
+            },
+            "fellowship":
+            {
+                name: "Fellowship",
+                value: "fellowship",
             },
             "forest":
             {
@@ -264,6 +280,16 @@ define(function()
                 name: "Outlands",
                 value: "outlands",
             },
+            "pipe":
+            {
+                name: "Pipe",
+                value: "pipe",
+            },
+            "pony":
+            {
+                name: "Pony",
+                value: "pony",
+            },
             "ranger":
             {
                 name: "Ranger",
@@ -278,6 +304,16 @@ define(function()
             {
                 name: "Ring",
                 value: "ring",
+            },
+            "ringBearer":
+            {
+                name: "Ring-bearer",
+                value: "ringBearer",
+            },
+            "ringBearer":
+            {
+                name: "Ring Bearer",
+                value: "ringBearer",
             },
             "riverland":
             {
@@ -318,6 +354,11 @@ define(function()
             {
                 name: "Spider",
                 value: "spider",
+            },
+            "staff":
+            {
+                name: "Staff",
+                value: "staff",
             },
             "steward":
             {

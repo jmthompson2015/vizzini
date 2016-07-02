@@ -12,9 +12,11 @@ define([ "CardSetType" ], function(CardSetType)
         ON_THE_DOORSTEP: "onTheDoorstep",
         OVER_HILL_AND_UNDER_HILL: "overHillAndUnderHill",
         SHADOWS_OF_MIRKWOOD: "shadowsOfMirkwood",
+        THE_BLACK_RIDERS: "theBlackRiders",
         THE_GREY_HAVENS: "theGreyHavens",
         THE_LOST_REALM: "theLostRealm",
         THE_RING_MAKER: "theRingMaker",
+        THE_ROAD_DARKENS: "theRoadDarkens",
         THE_TREASON_OF_SARUMAN: "theTreasonOfSaruman",
         THE_VOICE_OF_ISENGARD: "theVoiceOfIsengard",
 
@@ -79,6 +81,12 @@ define([ "CardSetType" ], function(CardSetType)
                 typeKey: CardSetType.CYCLE,
                 value: "shadowsOfMirkwood",
             },
+            "theBlackRiders":
+            {
+                name: "The Black Riders",
+                typeKey: CardSetType.SAGA,
+                value: "theBlackRiders",
+            },
             "theGreyHavens":
             {
                 name: "The Grey Havens",
@@ -98,6 +106,12 @@ define([ "CardSetType" ], function(CardSetType)
                 name: "The Ring-Maker",
                 typeKey: CardSetType.CYCLE,
                 value: "theRingMaker",
+            },
+            "theRoadDarkens":
+            {
+                name: "The Road Darkens",
+                typeKey: CardSetType.SAGA,
+                value: "theRoadDarkens",
             },
             "theTreasonOfSaruman":
             {

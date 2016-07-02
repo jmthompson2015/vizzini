@@ -22,6 +22,7 @@ define(
                 CITADEL_PLATE: "citadelPlate",
                 CLOAK_OF_LORIEN: "cloakOfLorien",
                 CRAM: "cram",
+                DAGGER_OF_WESTERNESSE: "daggerOfWesternesse",
                 DARK_KNOWLEDGE: "darkKnowledge",
                 DEFENDER_OF_THE_WEST: "defenderOfTheWest",
                 DUNEDAIN_CACHE: "dunedainCache",
@@ -32,6 +33,7 @@ define(
                 DWARROWDELF_AXE: "dwarrowdelfAxe",
                 DWARVEN_AXE: "dwarvenAxe",
                 ELF_FRIEND: "elfFriend",
+                ELF_STONE: "elfStone",
                 ELVEN_MAIL: "elvenMail",
                 ELVEN_SPEAR: "elvenSpear",
                 ENT_DRAUGHT: "entDraught",
@@ -40,8 +42,10 @@ define(
                 EXPLORERS_ALMANAC: "explorersAlmanac",
                 FAST_HITCH: "fastHitch",
                 FAVOR_OF_THE_VALAR: "favorOfTheValar",
+                FELLOWSHIP_OF_THE_RING: "fellowshipOfTheRing",
                 FIREFOOT: "firefoot",
                 FOREST_SNARE: "forestSnare",
+                GANDALFS_STAFF: "gandalfsStaff",
                 GONDORIAN_FIRE: "gondorianFire",
                 GONDORIAN_SHIELD: "gondorianShield",
                 GOOD_MEAL: "goodMeal",
@@ -52,6 +56,8 @@ define(
                 HEIR_OF_MARDIL: "heirOfMardil",
                 HEIR_OF_VALANDIL: "heirOfValandil",
                 HERUGRIM: "herugrim",
+                HOBBIT_CLOAK: "hobbitCloak",
+                HOBBIT_PIPE: "hobbitPipe",
                 HOBBIT_PONY: "hobbitPony",
                 HORN_OF_GONDOR: "hornOfGondor",
                 ITHILIEN_PIT: "ithilienPit",
@@ -124,6 +130,7 @@ define(
                 VISIONARY_LEADERSHIP: "visionaryLeadership",
                 WARDEN_OF_ARNOR: "wardenOfArnor",
                 WINGFOOT: "wingfoot",
+                WIZARD_PIPE: "wizardPipe",
 
                 properties:
                 {
@@ -299,6 +306,15 @@ define(
                         cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                         value: "cram",
                     },
+                    "daggerOfWesternesse":
+                    {
+                        name: "Dagger of Westernesse",
+                        cost: 1,
+                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM, Trait.WEAPON ],
+                        sphereKey: Sphere.TACTICS,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "daggerOfWesternesse",
+                    },
                     "darkKnowledge":
                     {
                         name: "Dark Knowledge",
@@ -399,6 +415,26 @@ define(
                         cardSetNumber: 93,
                         value: "elfFriend",
                     },
+                    "elfStone":
+                    {
+                        name: "Elf-Stone",
+                        isUnique: true,
+                        cost: 1,
+                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "elfStone",
+                    },
+                    "elfStone":
+                    {
+                        name: "Elf-Stone",
+                        isUnique: true,
+                        cost: 1,
+                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "elfStone",
+                    },
                     "elvenMail":
                     {
                         name: "Elven Mail",
@@ -481,6 +517,16 @@ define(
                         cardSetNumber: 124,
                         value: "favorOfTheValar",
                     },
+                    "fellowshipOfTheRing":
+                    {
+                        name: "Fellowship of the Ring",
+                        isUnique: true,
+                        cost: 2,
+                        traitKeys: [ Trait.FELLOWSHIP ],
+                        sphereKey: Sphere.FELLOWSHIP,
+                        cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        value: "fellowshipOfTheRing",
+                    },
                     "firefoot":
                     {
                         name: "Firefoot",
@@ -500,6 +546,16 @@ define(
                         sphereKey: Sphere.LORE,
                         cardSetKey: CardSet.CORE,
                         value: "forestSnare",
+                    },
+                    "gandalfsStaff":
+                    {
+                        name: "Gandalf's Staff",
+                        isUnique: true,
+                        cost: 2,
+                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM, Trait.STAFF ],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        value: "gandalfsStaff",
                     },
                     "gondorianFire":
                     {
@@ -604,6 +660,42 @@ define(
                         cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                         cardSetNumber: 10,
                         value: "herugrim",
+                    },
+                    "hobbitCloak":
+                    {
+                        name: "Hobbit Cloak",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "hobbitCloak",
+                    },
+                    "hobbitPipe":
+                    {
+                        name: "Hobbit Pipe",
+                        cost: 0,
+                        traitKeys: [ Trait.ITEM, Trait.PIPE ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "hobbitPipe",
+                    },
+                    "hobbitCloak":
+                    {
+                        name: "Hobbit Cloak",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "hobbitCloak",
+                    },
+                    "hobbitPipe":
+                    {
+                        name: "Hobbit Pipe",
+                        cost: 0,
+                        traitKeys: [ Trait.ITEM, Trait.PIPE ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "hobbitPipe",
                     },
                     "hobbitPony":
                     {
@@ -1341,6 +1433,15 @@ define(
                         cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
                         cardSetNumber: 92,
                         value: "wingfoot",
+                    },
+                    "wizardPipe":
+                    {
+                        name: "Wizard Pipe",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM, Trait.PIPE ],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        value: "wizardPipe",
                     },
                 },
 

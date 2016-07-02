@@ -40,9 +40,13 @@ define(
                 ERESTOR: "erestor",
                 ERKENBRAND: "erkenbrand",
                 FARAMIR: "faramir",
-                FRODO_BAGGINS: "frodoBaggins",
+                FATTY_BOLGER: "fattyBolger",
+                FRODO_BAGGINS_CATC: "frodoBagginsCatC",
+                FRODO_BAGGINS_TBR: "frodoBagginsTBR",
+                FRODO_BAGGINS_TRD: "frodoBagginsTRD",
                 GALADRIEL: "galadriel",
                 GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
+                GANDALF: "gandalf",
                 GIMLI: "gimli",
                 GLOIN: "gloin",
                 GLORFINDEL_CORE: "glorfindelCore",
@@ -55,14 +59,17 @@ define(
                 IDRAEN: "idraen",
                 LEGOLAS: "legolas",
                 MABLUNG: "mablung",
-                MERRY: "merry",
+                MERRY_TWOE: "merryTWoE",
+                MERRY_TBR: "merryTBR",
                 MIRLONDE: "mirlonde",
                 NORI: "nori",
                 OIN: "oin",
                 ORI: "ori",
-                PIPPIN: "pippin",
+                PIPPIN_EAAD: "pippinEaAD",
+                PIPPIN_TBR: "pippinTBR",
                 PRINCE_IMRAHIL: "princeImrahil",
                 ROSSIEL: "rossiel",
+                SAM_GAMGEE: "samGamgee",
                 THALIN: "thalin",
                 THEODEN_TMV: "theodenTMV",
                 THEODEN_TTOS: "theodenTToS",
@@ -579,7 +586,21 @@ define(
                         cardSetNumber: 81,
                         value: "faramir",
                     },
-                    "frodoBaggins":
+                    "fattyBolger":
+                    {
+                        name: "Fatty Bolger",
+                        threatCost: 7,
+                        willpower: 1,
+                        attack: 1,
+                        defense: 2,
+                        hitPoints: 3,
+                        traitKeys: [ Trait.HOBBIT ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        cardSetNumber: 5,
+                        value: "fattyBolger",
+                    },
+                    "frodoBagginsCatC":
                     {
                         name: "Frodo Baggins",
                         threatCost: 7,
@@ -592,7 +613,35 @@ define(
                         cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                         cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                         cardSetNumber: 25,
-                        value: "frodoBaggins",
+                        value: "frodoBagginsCatC",
+                    },
+                    "frodoBagginsTBR":
+                    {
+                        name: "Frodo Baggins",
+                        threatCost: 0,
+                        willpower: 2,
+                        attack: 1,
+                        defense: 2,
+                        hitPoints: 2,
+                        traitKeys: [ Trait.HOBBIT, Trait.RING_BEARER ],
+                        sphereKey: Sphere.FELLOWSHIP,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        cardSetNumber: 1,
+                        value: "frodoBagginsTBR",
+                    },
+                    "frodoBagginsTRD":
+                    {
+                        name: "Frodo Baggins",
+                        threatCost: 0,
+                        willpower: 2,
+                        attack: 1,
+                        defense: 2,
+                        hitPoints: 2,
+                        traitKeys: [ Trait.HOBBIT, Trait.RING_BEARER ],
+                        sphereKey: Sphere.FELLOWSHIP,
+                        cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        cardSetNumber: 1,
+                        value: "frodoBagginsTRD",
                     },
                     "galadriel":
                     {
@@ -622,6 +671,20 @@ define(
                         cardSetKey: CardSet.THE_GREY_HAVENS,
                         cardSetNumber: 2,
                         value: "galdorOfTheHavens",
+                    },
+                    "gandalf":
+                    {
+                        name: "Gandalf",
+                        threatCost: 14,
+                        willpower: 3,
+                        attack: 3,
+                        defense: 3,
+                        hitPoints: 5,
+                        traitKeys: [ Trait.ISTARI ],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        cardSetNumber: 2,
+                        value: "gandalf",
                     },
                     "gimli":
                     {
@@ -797,7 +860,7 @@ define(
                         cardSetNumber: 84,
                         value: "mablung",
                     },
-                    "merry":
+                    "merryTWoE":
                     {
                         name: "Merry",
                         threatCost: 6,
@@ -810,7 +873,21 @@ define(
                         cardSetKey: CardSet.ANGMAR_AWAKENED,
                         cardSubsetKey: CardSubset.AA1_THE_WASTES_OF_ERIADOR,
                         cardSetNumber: 1,
-                        value: "merry",
+                        value: "merryTWoE",
+                    },
+                    "merryTBR":
+                    {
+                        name: "Merry",
+                        threatCost: 6,
+                        willpower: 2,
+                        attack: 0,
+                        defense: 1,
+                        hitPoints: 2,
+                        traitKeys: [ Trait.HOBBIT ],
+                        sphereKey: Sphere.TACTICS,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        cardSetNumber: 3,
+                        value: "merryTBR",
                     },
                     "mirlonde":
                     {
@@ -869,7 +946,7 @@ define(
                         cardSetNumber: 4,
                         value: "ori",
                     },
-                    "pippin":
+                    "pippinEaAD":
                     {
                         name: "Pippin",
                         threatCost: 6,
@@ -882,7 +959,21 @@ define(
                         cardSetKey: CardSet.AGAINST_THE_SHADOW,
                         cardSubsetKey: CardSubset.ATS3_ENCOUNTER_AT_AMON_DIN,
                         cardSetNumber: 56,
-                        value: "pippin",
+                        value: "pippinEaAD",
+                    },
+                    "pippinTBR":
+                    {
+                        name: "Pippin",
+                        threatCost: 6,
+                        willpower: 2,
+                        attack: 1,
+                        defense: 1,
+                        hitPoints: 2,
+                        traitKeys: [ Trait.HOBBIT ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        cardSetNumber: 4,
+                        value: "pippinTBR",
                     },
                     "princeImrahil":
                     {
@@ -913,6 +1004,20 @@ define(
                         cardSubsetKey: CardSubset.AA2_ESCAPE_FROM_MOUNT_GRAM,
                         cardSetNumber: 28,
                         value: "rossiel",
+                    },
+                    "samGamgee":
+                    {
+                        name: "Sam Gamgee",
+                        threatCost: 8,
+                        willpower: 3,
+                        attack: 1,
+                        defense: 1,
+                        hitPoints: 3,
+                        traitKeys: [ Trait.HOBBIT ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        cardSetNumber: 2,
+                        value: "samGamgee",
                     },
                     "thalin":
                     {
