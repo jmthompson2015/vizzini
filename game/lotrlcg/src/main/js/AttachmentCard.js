@@ -44,6 +44,7 @@ define(
                 FAVOR_OF_THE_VALAR: "favorOfTheValar",
                 FIREFOOT: "firefoot",
                 FOREST_SNARE: "forestSnare",
+                GANDALFS_STAFF: "gandalfsStaff",
                 GONDORIAN_FIRE: "gondorianFire",
                 GONDORIAN_SHIELD: "gondorianShield",
                 GOOD_MEAL: "goodMeal",
@@ -128,6 +129,7 @@ define(
                 VISIONARY_LEADERSHIP: "visionaryLeadership",
                 WARDEN_OF_ARNOR: "wardenOfArnor",
                 WINGFOOT: "wingfoot",
+                WIZARD_PIPE: "wizardPipe",
 
                 properties:
                 {
@@ -523,6 +525,16 @@ define(
                         sphereKey: Sphere.LORE,
                         cardSetKey: CardSet.CORE,
                         value: "forestSnare",
+                    },
+                    "gandalfsStaff":
+                    {
+                        name: "Gandalf's Staff",
+                        isUnique: true,
+                        cost: 2,
+                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM, Trait.STAFF ],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        value: "gandalfsStaff",
                     },
                     "gondorianFire":
                     {
@@ -1382,6 +1394,15 @@ define(
                         cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
                         cardSetNumber: 92,
                         value: "wingfoot",
+                    },
+                    "wizardPipe":
+                    {
+                        name: "Wizard Pipe",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM, Trait.PIPE ],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        value: "wizardPipe",
                     },
                 },
 

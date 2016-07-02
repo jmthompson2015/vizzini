@@ -58,6 +58,7 @@ define(function()
         SKILL: "skill",
         SONG: "song",
         SPIDER: "spider",
+        STAFF: "staff",
         STEWARD: "steward",
         STRONGHOLD: "stronghold",
         TITLE: "title",
@@ -342,6 +343,11 @@ define(function()
             {
                 name: "Spider",
                 value: "spider",
+            },
+            "staff":
+            {
+                name: "Staff",
+                value: "staff",
             },
             "steward":
             {

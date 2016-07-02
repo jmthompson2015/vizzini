@@ -48,7 +48,7 @@ define([ "Trait" ], function(Trait)
 
         // Verify.
         assert.ok(result);
-        var length = 58;
+        var length = 63;
         assert.equal(result.length, length);
         assert.equal(result[0], Trait.ARCHER);
         assert.equal(result[length - 1], Trait.WOODMAN);
