@@ -12,12 +12,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         BEORN: "beorn",
         BEORNING_BEEKEEPER: "beorningBeekeeper",
         BIFUR: "bifur",
+        BILBO_BAGGINS: "bilboBaggins",
         BILL_THE_PONY: "billThePony",
         BLUE_MOUNTAIN_TRADER: "blueMountainTrader",
         BOFUR_OHAUH: "bofurOHaUH",
         BOFUR_TRG: "bofurTRG",
         BOMBUR: "bombur",
         BOOMING_ENT: "boomingEnt",
+        BOROMIR: "boromir",
         BROK_IRONFIST: "brokIronfist",
         CELDUIN_TRAVELER: "celduinTraveler",
         CITADEL_CUSTODIAN: "citadelCustodian",
@@ -37,6 +39,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         EAGLES_OF_THE_MISTY_MOUNTAINS: "eaglesOfTheMistyMountains",
         EAST_ROAD_RANGER: "eastRoadRanger",
         ELFHELM: "elfhelm",
+        ELROND: "elrond",
         ELVEN_JEWELER: "elvenJeweler",
         EMERY: "emery",
         ENVOY_OF_PELARGIR: "envoyOfPelargir",
@@ -56,6 +59,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         GALADHON_ARCHER: "galadhonArcher",
         GALADHRIM_MINSTREL: "galadhrimMinstrel",
         GALADHRIM_WEAVER: "galadhrimWeaver",
+        GALADRIEL: "galadriel",
         GALADRIELS_HANDMAIDEN: "galadrielsHandmaiden",
         GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
         GANDALF_CORE: "gandalfCore",
@@ -271,6 +275,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.ON_THE_DOORSTEP,
                 value: "bifur",
             },
+            "bilboBaggins":
+            {
+                name: "Bilbo Baggins",
+                isUnique: true,
+                cost: 2,
+                willpower: 2,
+                attack: 0,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.HOBBIT ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_ROAD_DARKENS,
+                value: "bilboBaggins",
+            },
             "billThePony":
             {
                 name: "Bill the Pony",
@@ -358,6 +376,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.TRM6_THE_ANTLERED_CROWN,
                 cardSetNumber: 141,
                 value: "boomingEnt",
+            },
+            "boromir":
+            {
+                name: "Boromir",
+                isUnique: true,
+                cost: 4,
+                willpower: 1,
+                attack: 3,
+                defense: 1,
+                hitPoints: 4,
+                traitKeys: [ Trait.GONDOR, Trait.WARRIOR ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_ROAD_DARKENS,
+                value: "boromir",
             },
             "brokIronfist":
             {
@@ -630,6 +662,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM5_THE_DEAD_MARSHES,
                 value: "elfhelm",
             },
+            "elrond":
+            {
+                name: "Elrond",
+                isUnique: true,
+                cost: 3,
+                willpower: 3,
+                attack: 2,
+                defense: 3,
+                hitPoints: 3,
+                traitKeys: [ Trait.NOLDOR, Trait.HEALER ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_ROAD_DARKENS,
+                value: "elrond",
+            },
             "elvenJeweler":
             {
                 name: "Elven Jeweler",
@@ -855,21 +901,6 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.ATS2_THE_DRUADAN_FOREST,
                 value: "forlong",
             },
-            "galadrielsHandmaiden":
-            {
-                name: "Galadriel's Handmaiden",
-                cost: 2,
-                willpower: 2,
-                attack: 0,
-                defense: 1,
-                hitPoints: 1,
-                traitKeys: [ Trait.SILVAN ],
-                sphereKey: Sphere.SPIRIT,
-                cardSetKey: CardSet.THE_RING_MAKER,
-                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
-                cardSetNumber: 117,
-                value: "galadrielsHandmaiden",
-            },
             "galadhonArcher":
             {
                 name: "Galadhon Archer",
@@ -914,6 +945,35 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
                 cardSetNumber: 89,
                 value: "galadhrimWeaver",
+            },
+            "galadriel":
+            {
+                name: "Galadriel",
+                isUnique: true,
+                cost: 3,
+                willpower: 3,
+                attack: 0,
+                defense: 0,
+                hitPoints: 3,
+                traitKeys: [ Trait.NOLDOR, Trait.NOBLE ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_ROAD_DARKENS,
+                value: "galadriel",
+            },
+            "galadrielsHandmaiden":
+            {
+                name: "Galadriel's Handmaiden",
+                cost: 2,
+                willpower: 2,
+                attack: 0,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.SILVAN ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM5_CELEBRIMBORS_SECRET,
+                cardSetNumber: 117,
+                value: "galadrielsHandmaiden",
             },
             "galdorOfTheHavens":
             {
