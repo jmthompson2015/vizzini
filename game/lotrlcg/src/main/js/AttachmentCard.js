@@ -22,6 +22,7 @@ define(
                 CITADEL_PLATE: "citadelPlate",
                 CLOAK_OF_LORIEN: "cloakOfLorien",
                 CRAM: "cram",
+                DAGGER_OF_WESTERNESSE: "daggerOfWesternesse",
                 DARK_KNOWLEDGE: "darkKnowledge",
                 DEFENDER_OF_THE_WEST: "defenderOfTheWest",
                 DUNEDAIN_CACHE: "dunedainCache",
@@ -32,6 +33,7 @@ define(
                 DWARROWDELF_AXE: "dwarrowdelfAxe",
                 DWARVEN_AXE: "dwarvenAxe",
                 ELF_FRIEND: "elfFriend",
+                ELF_STONE: "elfStone",
                 ELVEN_MAIL: "elvenMail",
                 ELVEN_SPEAR: "elvenSpear",
                 ENT_DRAUGHT: "entDraught",
@@ -52,6 +54,8 @@ define(
                 HEIR_OF_MARDIL: "heirOfMardil",
                 HEIR_OF_VALANDIL: "heirOfValandil",
                 HERUGRIM: "herugrim",
+                HOBBIT_CLOAK: "hobbitCloak",
+                HOBBIT_PIPE: "hobbitPipe",
                 HOBBIT_PONY: "hobbitPony",
                 HORN_OF_GONDOR: "hornOfGondor",
                 ITHILIEN_PIT: "ithilienPit",
@@ -299,6 +303,15 @@ define(
                         cardSetKey: CardSet.OVER_HILL_AND_UNDER_HILL,
                         value: "cram",
                     },
+                    "daggerOfWesternesse":
+                    {
+                        name: "Dagger of Westernesse",
+                        cost: 1,
+                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM, Trait.WEAPON ],
+                        sphereKey: Sphere.TACTICS,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "daggerOfWesternesse",
+                    },
                     "darkKnowledge":
                     {
                         name: "Dark Knowledge",
@@ -398,6 +411,16 @@ define(
                         cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
                         cardSetNumber: 93,
                         value: "elfFriend",
+                    },
+                    "elfStone":
+                    {
+                        name: "Elf-Stone",
+                        isUnique: true,
+                        cost: 1,
+                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "elfStone",
                     },
                     "elvenMail":
                     {
@@ -604,6 +627,24 @@ define(
                         cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                         cardSetNumber: 10,
                         value: "herugrim",
+                    },
+                    "hobbitCloak":
+                    {
+                        name: "Hobbit Cloak",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "hobbitCloak",
+                    },
+                    "hobbitPipe":
+                    {
+                        name: "Hobbit Pipe",
+                        cost: 0,
+                        traitKeys: [ Trait.ITEM, Trait.PIPE ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.THE_BLACK_RIDERS,
+                        value: "hobbitPipe",
                     },
                     "hobbitPony":
                     {

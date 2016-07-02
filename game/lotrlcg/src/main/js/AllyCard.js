@@ -7,10 +7,12 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         ANBORN: "anborn",
         ANFALAS_HERDSMAN: "anfalasHerdsman",
         ARWEN_UNDOMIEL: "arwenUndomiel",
+        BARLIMAN_BUTTERBUR: "barlimanButterbur",
         BEECHBONE: "beechbone",
         BEORN: "beorn",
         BEORNING_BEEKEEPER: "beorningBeekeeper",
         BIFUR: "bifur",
+        BILL_THE_PONY: "billThePony",
         BLUE_MOUNTAIN_TRADER: "blueMountainTrader",
         BOFUR_OHAUH: "bofurOHaUH",
         BOFUR_TRG: "bofurTRG",
@@ -48,6 +50,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         ESCORT_FROM_EDORAS: "escortFromEdoras",
         ETHIR_SWORDSMAN: "ethirSwordsman",
         FARAMIR: "faramir",
+        FARMER_MAGGOT: "farmerMaggot",
         FILI: "fili",
         FORLONG: "forlong",
         GALADHON_ARCHER: "galadhonArcher",
@@ -196,6 +199,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
                 value: "arwenUndomiel",
             },
+            "barlimanButterbur":
+            {
+                name: "Barliman Butterbur",
+                isUnique: true,
+                cost: 2,
+                willpower: 1,
+                attack: 0,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.BREE ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_BLACK_RIDERS,
+                value: "barlimanButterbur",
+            },
             "beechbone":
             {
                 name: "Beechbone",
@@ -253,6 +270,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.ON_THE_DOORSTEP,
                 value: "bifur",
+            },
+            "billThePony":
+            {
+                name: "Bill the Pony",
+                isUnique: true,
+                cost: 2,
+                willpower: 1,
+                attack: 1,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.CREATURE, Trait.PONY ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_BLACK_RIDERS,
+                value: "billThePony",
             },
             "blueMountainTrader":
             {
@@ -780,6 +811,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.CORE,
                 value: "faramir",
+            },
+            "farmerMaggot":
+            {
+                name: "Farmer Maggot",
+                isUnique: true,
+                cost: 3,
+                willpower: 1,
+                attack: 2,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.HOBBIT ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_BLACK_RIDERS,
+                value: "farmerMaggot",
             },
             "fili":
             {

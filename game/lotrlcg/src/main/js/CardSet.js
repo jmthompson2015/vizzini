@@ -12,6 +12,7 @@ define([ "CardSetType" ], function(CardSetType)
         ON_THE_DOORSTEP: "onTheDoorstep",
         OVER_HILL_AND_UNDER_HILL: "overHillAndUnderHill",
         SHADOWS_OF_MIRKWOOD: "shadowsOfMirkwood",
+        THE_BLACK_RIDERS:"theBlackRiders",
         THE_GREY_HAVENS: "theGreyHavens",
         THE_LOST_REALM: "theLostRealm",
         THE_RING_MAKER: "theRingMaker",
@@ -78,6 +79,12 @@ define([ "CardSetType" ], function(CardSetType)
                 shortName: "SoM",
                 typeKey: CardSetType.CYCLE,
                 value: "shadowsOfMirkwood",
+            },
+            "theBlackRiders":
+            {
+                name: "The Black Riders",
+                typeKey: CardSetType.SAGA,
+                value: "theBlackRiders",
             },
             "theGreyHavens":
             {
