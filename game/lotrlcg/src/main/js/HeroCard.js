@@ -43,10 +43,8 @@ define(
                 FATTY_BOLGER: "fattyBolger",
                 FRODO_BAGGINS_CATC: "frodoBagginsCatC",
                 FRODO_BAGGINS_TBR: "frodoBagginsTBR",
-                FRODO_BAGGINS_TRD: "frodoBagginsTRD",
                 GALADRIEL: "galadriel",
                 GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
-                GANDALF: "gandalf",
                 GIMLI: "gimli",
                 GLOIN: "gloin",
                 GLORFINDEL_CORE: "glorfindelCore",
@@ -629,20 +627,6 @@ define(
                         cardSetNumber: 1,
                         value: "frodoBagginsTBR",
                     },
-                    "frodoBagginsTRD":
-                    {
-                        name: "Frodo Baggins",
-                        threatCost: 0,
-                        willpower: 2,
-                        attack: 1,
-                        defense: 2,
-                        hitPoints: 2,
-                        traitKeys: [ Trait.HOBBIT, Trait.RING_BEARER ],
-                        sphereKey: Sphere.FELLOWSHIP,
-                        cardSetKey: CardSet.THE_ROAD_DARKENS,
-                        cardSetNumber: 1,
-                        value: "frodoBagginsTRD",
-                    },
                     "galadriel":
                     {
                         name: "Galadriel",
@@ -671,20 +655,6 @@ define(
                         cardSetKey: CardSet.THE_GREY_HAVENS,
                         cardSetNumber: 2,
                         value: "galdorOfTheHavens",
-                    },
-                    "gandalf":
-                    {
-                        name: "Gandalf",
-                        threatCost: 14,
-                        willpower: 3,
-                        attack: 3,
-                        defense: 3,
-                        hitPoints: 5,
-                        traitKeys: [ Trait.ISTARI ],
-                        sphereKey: Sphere.NEUTRAL,
-                        cardSetKey: CardSet.THE_ROAD_DARKENS,
-                        cardSetNumber: 2,
-                        value: "gandalf",
                     },
                     "gimli":
                     {

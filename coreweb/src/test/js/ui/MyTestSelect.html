@@ -28,15 +28,32 @@
             values: values,
             labelFunction: labelFunction,
             initialSelectedValue: initialSelectedValue,
-            onChange: myOnChange
+            onChange: myOnChange,
+            clientProps: {
+                myProp: "something",
+            }
         });
         var selectElement = React.render(select, document
                 .getElementById("testPanel"));
 
         function myOnChange(event)
         {
+            LOGGER.info("event = " + event);
+            LOGGER.info("event = " + Object.getOwnPropertyNames(event));
+            LOGGER.info("event.currentTarget = " + event.currentTarget);
+            LOGGER.info("event.currentTarget = " + Object.getOwnPropertyNames(event.currentTarget));
+            LOGGER.info("event.currentTarget.constructor = " + event.currentTarget.constructor);
+            LOGGER.info("event.currentTarget.constructor = " + Object.getOwnPropertyNames(event.currentTarget.constructor));
+            LOGGER.info("event.currentTarget.constructor.prototype = " + event.currentTarget.constructor.prototype);
+            LOGGER.info("event.currentTarget.constructor.prototype = " + Object.getOwnPropertyNames(event.currentTarget.constructor.prototype));
+            LOGGER.info("event.currentTarget.clientProps = " + event.currentTarget.clientProps);
+            LOGGER.info("event.currentTarget.myProp = " + event.currentTarget.myProp);
+            
             var selectedValue = event.currentTarget.value;
             LOGGER.info("myOnChange() selectedValue = " + selectedValue);
+            LOGGER.info("myOnChange() selectedValue = " + Object.getOwnPropertyNames(selectedValue));
+            var myProp = event.currentTarget.myProp;
+            LOGGER.info("myOnChange() myProp = " + myProp);
         }
     </script>
 </body>

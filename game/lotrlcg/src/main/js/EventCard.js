@@ -34,7 +34,6 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         FAIR_AND_PERILOUS: "fairAndPerilous",
         FEIGNED_VOICES: "feignedVoices",
         FEINT: "feint",
-        FLAME_OF_ANOR: "flameOfAnor",
         FOLLOW_ME: "followMe",
         FOR_GONDOR: "forGondor",
         FOREST_PATROL: "forestPatrol",
@@ -411,15 +410,6 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.CORE,
                 value: "feint",
-            },
-            "flameOfAnor":
-            {
-                name: "Flame of Anor",
-                cost: 1,
-                traitKeys: [ Trait.SPELL ],
-                sphereKey: Sphere.NEUTRAL,
-                cardSetKey: CardSet.THE_ROAD_DARKENS,
-                value: "flameOfAnor",
             },
             "followMe":
             {

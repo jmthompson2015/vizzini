@@ -42,10 +42,8 @@ define(
                 EXPLORERS_ALMANAC: "explorersAlmanac",
                 FAST_HITCH: "fastHitch",
                 FAVOR_OF_THE_VALAR: "favorOfTheValar",
-                FELLOWSHIP_OF_THE_RING: "fellowshipOfTheRing",
                 FIREFOOT: "firefoot",
                 FOREST_SNARE: "forestSnare",
-                GANDALFS_STAFF: "gandalfsStaff",
                 GONDORIAN_FIRE: "gondorianFire",
                 GONDORIAN_SHIELD: "gondorianShield",
                 GOOD_MEAL: "goodMeal",
@@ -130,7 +128,6 @@ define(
                 VISIONARY_LEADERSHIP: "visionaryLeadership",
                 WARDEN_OF_ARNOR: "wardenOfArnor",
                 WINGFOOT: "wingfoot",
-                WIZARD_PIPE: "wizardPipe",
 
                 properties:
                 {
@@ -425,16 +422,6 @@ define(
                         cardSetKey: CardSet.THE_BLACK_RIDERS,
                         value: "elfStone",
                     },
-                    "elfStone":
-                    {
-                        name: "Elf-Stone",
-                        isUnique: true,
-                        cost: 1,
-                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM ],
-                        sphereKey: Sphere.LORE,
-                        cardSetKey: CardSet.THE_BLACK_RIDERS,
-                        value: "elfStone",
-                    },
                     "elvenMail":
                     {
                         name: "Elven Mail",
@@ -517,16 +504,6 @@ define(
                         cardSetNumber: 124,
                         value: "favorOfTheValar",
                     },
-                    "fellowshipOfTheRing":
-                    {
-                        name: "Fellowship of the Ring",
-                        isUnique: true,
-                        cost: 2,
-                        traitKeys: [ Trait.FELLOWSHIP ],
-                        sphereKey: Sphere.FELLOWSHIP,
-                        cardSetKey: CardSet.THE_ROAD_DARKENS,
-                        value: "fellowshipOfTheRing",
-                    },
                     "firefoot":
                     {
                         name: "Firefoot",
@@ -546,16 +523,6 @@ define(
                         sphereKey: Sphere.LORE,
                         cardSetKey: CardSet.CORE,
                         value: "forestSnare",
-                    },
-                    "gandalfsStaff":
-                    {
-                        name: "Gandalf's Staff",
-                        isUnique: true,
-                        cost: 2,
-                        traitKeys: [ Trait.ARTIFACT, Trait.ITEM, Trait.STAFF ],
-                        sphereKey: Sphere.NEUTRAL,
-                        cardSetKey: CardSet.THE_ROAD_DARKENS,
-                        value: "gandalfsStaff",
                     },
                     "gondorianFire":
                     {
@@ -660,24 +627,6 @@ define(
                         cardSetKey: CardSet.THE_TREASON_OF_SARUMAN,
                         cardSetNumber: 10,
                         value: "herugrim",
-                    },
-                    "hobbitCloak":
-                    {
-                        name: "Hobbit Cloak",
-                        cost: 1,
-                        traitKeys: [ Trait.ITEM ],
-                        sphereKey: Sphere.LEADERSHIP,
-                        cardSetKey: CardSet.THE_BLACK_RIDERS,
-                        value: "hobbitCloak",
-                    },
-                    "hobbitPipe":
-                    {
-                        name: "Hobbit Pipe",
-                        cost: 0,
-                        traitKeys: [ Trait.ITEM, Trait.PIPE ],
-                        sphereKey: Sphere.SPIRIT,
-                        cardSetKey: CardSet.THE_BLACK_RIDERS,
-                        value: "hobbitPipe",
                     },
                     "hobbitCloak":
                     {
@@ -1433,15 +1382,6 @@ define(
                         cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
                         cardSetNumber: 92,
                         value: "wingfoot",
-                    },
-                    "wizardPipe":
-                    {
-                        name: "Wizard Pipe",
-                        cost: 1,
-                        traitKeys: [ Trait.ITEM, Trait.PIPE ],
-                        sphereKey: Sphere.NEUTRAL,
-                        cardSetKey: CardSet.THE_ROAD_DARKENS,
-                        value: "wizardPipe",
                     },
                 },
 

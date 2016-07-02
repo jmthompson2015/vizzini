@@ -22,7 +22,6 @@ define(function()
         EAGLE: "eagle",
         ENT: "ent",
         ESGAROTH: "esgaroth",
-        FELLOWSHIP: "fellowship",
         FOREST: "forest",
         GOBLIN: "goblin",
         GONDOR: "gondor",
@@ -59,7 +58,6 @@ define(function()
         SKILL: "skill",
         SONG: "song",
         SPIDER: "spider",
-        STAFF: "staff",
         STEWARD: "steward",
         STRONGHOLD: "stronghold",
         TITLE: "title",
@@ -164,11 +162,6 @@ define(function()
             {
                 name: "Esgaroth",
                 value: "esgaroth",
-            },
-            "fellowship":
-            {
-                name: "Fellowship",
-                value: "fellowship",
             },
             "forest":
             {
@@ -307,11 +300,6 @@ define(function()
             },
             "ringBearer":
             {
-                name: "Ring-bearer",
-                value: "ringBearer",
-            },
-            "ringBearer":
-            {
                 name: "Ring Bearer",
                 value: "ringBearer",
             },
@@ -354,11 +342,6 @@ define(function()
             {
                 name: "Spider",
                 value: "spider",
-            },
-            "staff":
-            {
-                name: "Staff",
-                value: "staff",
             },
             "steward":
             {

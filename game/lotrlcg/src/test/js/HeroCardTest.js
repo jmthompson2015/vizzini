@@ -60,7 +60,7 @@ define([ "HeroCard", "Trait" ], function(HeroCard, Trait)
 
         // Verify.
         assert.ok(result);
-        var length = 71;
+        var length = 64;
         assert.equal(result.length, length);
         assert.equal(result[0], HeroCard.AMARTHIUL);
         assert.equal(result[length - 1], HeroCard.TREEBEARD);
