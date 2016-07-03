@@ -4,7 +4,8 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
     "use strict";
     var AllyCard =
     {
-        ANBORN: "anborn",
+        ANBORN_TBOG: "anbornTBoG",
+        ANBORN_TLOS: "anbornTLoS",
         ANFALAS_HERDSMAN: "anfalasHerdsman",
         ARWEN_UNDOMIEL: "arwenUndomiel",
         BARLIMAN_BUTTERBUR: "barlimanButterbur",
@@ -62,6 +63,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         GALADRIEL: "galadriel",
         GALADRIELS_HANDMAIDEN: "galadrielsHandmaiden",
         GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
+        GAMLING: "gamling",
         GANDALF_CORE: "gandalfCore",
         GANDALF_OHAUH: "gandalfOHaUH",
         GILDOR_INGLORION: "gildorInglorion",
@@ -102,6 +104,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         LONGBEARD_ORC_SLAYER: "longbeardOrcSlayer",
         LONGBEARD_SENTRY: "longbeardSentry",
         LORIEN_GUIDE: "lorienGuide",
+        MABLUNG: "mablung",
         MASTER_OF_LORE: "masterOfLore",
         MASTER_OF_THE_FORGE: "masterOfTheForge",
         MINAS_TIRITH_LAMPWRIGHT: "minasTirithLampwright",
@@ -129,6 +132,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SILVAN_REFUGEE: "silvanRefugee",
         SILVAN_TRACKER: "silvanTracker",
         SILVERLODE_ARCHER: "silverlodeArcher",
+        SKINBARK: "skinbark",
         SNOWBOURN_SCOUT: "snowbournScout",
         SON_OF_ARNOR: "sonOfArnor",
         SQUIRE_OF_THE_CITADEL: "squireOfTheCitadel",
@@ -159,7 +163,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
 
         properties:
         {
-            "anborn":
+            "anbornTBoG":
             {
                 name: "Anborn",
                 isUnique: true,
@@ -172,7 +176,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.AGAINST_THE_SHADOW,
                 cardSubsetKey: CardSubset.ATS5_THE_BLOOD_OF_GONDOR,
-                value: "anborn",
+                value: "anbornTBoG",
+            },
+            "anbornTLoS":
+            {
+                name: "Anborn",
+                isUnique: true,
+                cost: 4,
+                willpower: 1,
+                attack: 3,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.GONDOR, Trait.RANGER ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                value: "anbornTLoS",
             },
             "anfalasHerdsman":
             {
@@ -991,6 +1009,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 91,
                 value: "galdorOfTheHavens",
             },
+            "gamling":
+            {
+                name: "Gamling",
+                isUnique: true,
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 2,
+                hitPoints: 2,
+                traitKeys: [ Trait.ROHAN, Trait.WARRIOR ],
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                value: "gamling",
+            },
             "gandalfCore":
             {
                 name: "Gandalf",
@@ -1565,6 +1597,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "lorienGuide",
             },
+            "mablung":
+            {
+                name: "Mablung",
+                isUnique: true,
+                cost: 2,
+                willpower: 2,
+                attack: 1,
+                defense: 0,
+                hitPoints: 2,
+                traitKeys: [ Trait.GONDOR, Trait.RANGER ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                value: "mablung",
+            },
             "masterOfLore":
             {
                 name: "Master of Lore",
@@ -1947,6 +1993,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.CORE,
                 value: "silverlodeArcher",
+            },
+            "skinbark":
+            {
+                name: "Skinbark",
+                isUnique: true,
+                cost: 3,
+                willpower: 0,
+                attack: 4,
+                defense: 2,
+                hitPoints: 3,
+                traitKeys: [ Trait.ENT ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                value: "skinbark",
             },
             "snowbournScout":
             {

@@ -14,6 +14,7 @@ define([ "CardSetType" ], function(CardSetType)
         SHADOWS_OF_MIRKWOOD: "shadowsOfMirkwood",
         THE_BLACK_RIDERS: "theBlackRiders",
         THE_GREY_HAVENS: "theGreyHavens",
+        THE_LAND_OF_SHADOW: "theLandOfShadow",
         THE_LOST_REALM: "theLostRealm",
         THE_RING_MAKER: "theRingMaker",
         THE_ROAD_DARKENS: "theRoadDarkens",
@@ -93,6 +94,12 @@ define([ "CardSetType" ], function(CardSetType)
                 shortName: "MEC47",
                 typeKey: CardSetType.DELUXE,
                 value: "theGreyHavens",
+            },
+            "theLandOfShadow":
+            {
+                name: "The Land of Shadow",
+                typeKey: CardSetType.SAGA,
+                value: "theLandOfShadow",
             },
             "theLostRealm":
             {

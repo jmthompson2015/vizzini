@@ -6,6 +6,7 @@ define(
             var AttachmentCard =
             {
                 A_BURNING_BRAND: "aBurningBrand",
+                AMBUSH: "ambush",
                 ANCIENT_MATHOM: "ancientMathom",
                 AROD: "arod",
                 ASFALOTH: "asfaloth",
@@ -106,9 +107,11 @@ define(
                 SONG_OF_MOCKING: "songOfMocking",
                 SONG_OF_TRAVEL: "songOfTravel",
                 SONG_OF_WISDOM: "songOfWisdom",
+                SNOWMANE: "snowmane",
                 SPARE_HOOD_AND_CLOAK: "spareHoodAndCloak",
                 SPEAR_OF_THE_CITADEL: "spearOfTheCitadel",
                 SPEAR_OF_THE_MARK: "spearOfTheMark",
+                STAFF_OF_LEBETHRON: "staffOfLebethron",
                 STAR_BROOCH: "starBrooch",
                 STEED_OF_IMLADRIS: "steedOfImladris",
                 STEED_OF_THE_MARK: "steedOfTheMark",
@@ -142,6 +145,15 @@ define(
                         cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                         cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                         value: "aBurningBrand",
+                    },
+                    "ambush":
+                    {
+                        name: "Ambush",
+                        cost: 2,
+                        traitKeys: [ Trait.CONDITION, Trait.TRAP ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        value: "ambush",
                     },
                     "ancientMathom":
                     {
@@ -1157,6 +1169,16 @@ define(
                         cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                         value: "songOfWisdom",
                     },
+                    "snowmane":
+                    {
+                        name: "Snowmane",
+                        isUnique: true,
+                        cost: 1,
+                        traitKeys: [ Trait.MOUNT ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        value: "snowmane",
+                    },
                     "spareHoodAndCloak":
                     {
                         name: "Spare Hood and Cloak",
@@ -1184,6 +1206,15 @@ define(
                         cardSetKey: CardSet.AGAINST_THE_SHADOW,
                         cardSubsetKey: CardSubset.ATS6_THE_MORGUL_VALE,
                         value: "spearOfTheMark",
+                    },
+                    "staffOfLebethron":
+                    {
+                        name: "Staff of Lebethron",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        value: "staffOfLebethron",
                     },
                     "starBrooch":
                     {

@@ -48,7 +48,7 @@ define([ "EventCard" ], function(EventCard)
 
         // Verify.
         assert.ok(result);
-        var length = 128;
+        var length = 131;
         assert.equal(result.length, length);
         assert.equal(result[0], EventCard.A_ELBERETH_GILTHONIEL);
         assert.equal(result[length - 1], EventCard.WORD_OF_COMMAND);

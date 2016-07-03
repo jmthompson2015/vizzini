@@ -56,6 +56,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         HOLD_YOUR_GROUND: "holdYourGround",
         HOPE_REKINDLED: "hopeRekindled",
         HORNS_CRY: "hornsCry",
+        IN_THE_SHADOWS: "inTheShadows",
         INFIGHTING: "infighting",
         ISLAND_AMID_PERILS: "islandAmidPerils",
         KEEN_AS_LANCES: "keenAsLances",
@@ -100,6 +101,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SMALL_TARGET: "smallTarget",
         SMOKE_RINGS: "smokeRings",
         SNEAK_ATTACK: "sneakAttack",
+        SPEAK_YOUR_PROMISE: "speakYourPromise",
         STAND_AND_FIGHT: "standAndFight",
         STRAIGHT_SHOT: "straightShot",
         STRENGTH_OF_ARMS: "strengthOfArms",
@@ -108,6 +110,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SWIFT_STRIKE: "swiftStrike",
         TAKE_NO_NOTICE: "takeNoNotice",
         TAKING_INITIATIVE: "takingInitiative",
+        TASTE_IT_AGAIN: "tasteItAgain",
         THE_DOOR_IS_CLOSED: "theDoorIsClosed",
         THE_EAGLES_ARE_COMING: "theEaglesAreComing",
         THE_END_COMES: "theEndComes",
@@ -612,15 +615,13 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetNumber: 88,
                 value: "hornsCry",
             },
-            "islandAmidPerils":
+            "inTheShadows":
             {
-                name: "Island Amid Perils",
-                cost: 0,
-                sphereKey: Sphere.SPIRIT,
-                cardSetKey: CardSet.THE_RING_MAKER,
-                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
-                cardSetNumber: 90,
-                value: "islandAmidPerils",
+                name: "In the Shadows",
+                cost: 3,
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                value: "inTheShadows",
             },
             "infighting":
             {
@@ -630,6 +631,16 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.SHADOWS_OF_MIRKWOOD,
                 cardSubsetKey: CardSubset.SOM3_A_JOURNEY_TO_RHOSGOBEL,
                 value: "infighting",
+            },
+            "islandAmidPerils":
+            {
+                name: "Island Amid Perils",
+                cost: 0,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.THE_RING_MAKER,
+                cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
+                cardSetNumber: 90,
+                value: "islandAmidPerils",
             },
             "keenAsLances":
             {
@@ -1012,6 +1023,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.CORE,
                 value: "sneakAttack",
             },
+            "speakYourPromise":
+            {
+                name: "Speak Your Promise!",
+                cost: 1,
+                sphereKey: Sphere.FELLOWSHIP,
+                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                value: "speakYourPromise",
+            },
             "standAndFight":
             {
                 name: "Stand and Fight",
@@ -1080,6 +1099,14 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
                 value: "takingInitiative",
+            },
+            "tasteItAgain":
+            {
+                name: "Taste It Again!",
+                cost: 1,
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                value: "tasteItAgain",
             },
             "theDoorIsClosed":
             {

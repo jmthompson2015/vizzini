@@ -27,6 +27,7 @@ define(
                 CELEBORN: "celeborn",
                 CIRDAN_THE_SHIPWRIGHT: "cirdanTheShipwright",
                 DAIN_IRONFOOT: "dainIronfoot",
+                DAMROD: "damrod",
                 DENETHOR: "denethor",
                 DORI: "dori",
                 DUNHERE: "dunhere",
@@ -39,10 +40,12 @@ define(
                 EOWYN: "eowyn",
                 ERESTOR: "erestor",
                 ERKENBRAND: "erkenbrand",
-                FARAMIR: "faramir",
+                FARAMIR_AOO: "faramirAoO",
+                FARAMIR_TLOS: "faramirTLoS",
                 FATTY_BOLGER: "fattyBolger",
                 FRODO_BAGGINS_CATC: "frodoBagginsCatC",
                 FRODO_BAGGINS_TBR: "frodoBagginsTBR",
+                FRODO_BAGGINS_TLOS: "frodoBagginsTLoS",
                 FRODO_BAGGINS_TRD: "frodoBagginsTRD",
                 GALADRIEL: "galadriel",
                 GALDOR_OF_THE_HAVENS: "galdorOfTheHavens",
@@ -397,6 +400,20 @@ define(
                         cardSetNumber: 116,
                         value: "dainIronfoot",
                     },
+                    "damrod":
+                    {
+                        name: "Damrod",
+                        threatCost: 9,
+                        willpower: 2,
+                        attack: 2,
+                        defense: 1,
+                        hitPoints: 4,
+                        traitKeys: [ Trait.GONDOR, Trait.RANGER ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        cardSetNumber: 3,
+                        value: "damrod",
+                    },
                     "denethor":
                     {
                         name: "Denethor",
@@ -571,7 +588,7 @@ define(
                         cardSetNumber: 137,
                         value: "erkenbrand",
                     },
-                    "faramir":
+                    "faramirAoO":
                     {
                         name: "Faramir",
                         threatCost: 11,
@@ -584,7 +601,21 @@ define(
                         cardSetKey: CardSet.AGAINST_THE_SHADOW,
                         cardSubsetKey: CardSubset.ATS4_ASSAULT_ON_OSGILIATH,
                         cardSetNumber: 81,
-                        value: "faramir",
+                        value: "faramirAoO",
+                    },
+                    "faramirTLoS":
+                    {
+                        name: "Faramir",
+                        threatCost: 11,
+                        willpower: 2,
+                        attack: 2,
+                        defense: 2,
+                        hitPoints: 5,
+                        traitKeys: [ Trait.GONDOR, Trait.NOBLE, Trait.RANGER ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        cardSetNumber: 2,
+                        value: "faramirTLoS",
                     },
                     "fattyBolger":
                     {
@@ -628,6 +659,20 @@ define(
                         cardSetKey: CardSet.THE_BLACK_RIDERS,
                         cardSetNumber: 1,
                         value: "frodoBagginsTBR",
+                    },
+                    "frodoBagginsTLoS":
+                    {
+                        name: "Frodo Baggins",
+                        threatCost: 0,
+                        willpower: 2,
+                        attack: 1,
+                        defense: 2,
+                        hitPoints: 2,
+                        traitKeys: [ Trait.HOBBIT, Trait.RING_BEARER ],
+                        sphereKey: Sphere.FELLOWSHIP,
+                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        cardSetNumber: 1,
+                        value: "frodoBagginsTLoS",
                     },
                     "frodoBagginsTRD":
                     {
