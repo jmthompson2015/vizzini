@@ -422,6 +422,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.SPELL ],
                 sphereKey: Sphere.NEUTRAL,
                 cardSetKey: CardSet.THE_ROAD_DARKENS,
+                cardSetNumber: "007",
                 value: "flameOfAnor",
             },
             "followMe":
@@ -621,6 +622,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cost: 3,
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                cardSetNumber: 12,
                 value: "inTheShadows",
             },
             "infighting":
@@ -1029,6 +1031,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cost: 1,
                 sphereKey: Sphere.FELLOWSHIP,
                 cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                cardSetNumber: 13,
                 value: "speakYourPromise",
             },
             "standAndFight":
@@ -1106,6 +1109,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cost: 1,
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                cardSetNumber: 11,
                 value: "tasteItAgain",
             },
             "theDoorIsClosed":

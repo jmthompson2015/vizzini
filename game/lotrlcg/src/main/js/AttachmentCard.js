@@ -153,6 +153,7 @@ define(
                         traitKeys: [ Trait.CONDITION, Trait.TRAP ],
                         sphereKey: Sphere.LORE,
                         cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        cardSetNumber: 9,
                         value: "ambush",
                     },
                     "ancientMathom":
@@ -546,6 +547,7 @@ define(
                         traitKeys: [ Trait.ARTIFACT, Trait.ITEM, Trait.STAFF ],
                         sphereKey: Sphere.NEUTRAL,
                         cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        cardSetNumber: "008",
                         value: "gandalfsStaff",
                     },
                     "gondorianFire":
@@ -1109,6 +1111,17 @@ define(
                         cardSetKey: CardSet.THE_VOICE_OF_ISENGARD,
                         value: "silverLamp",
                     },
+                    "snowmane":
+                    {
+                        name: "Snowmane",
+                        isUnique: true,
+                        cost: 1,
+                        traitKeys: [ Trait.MOUNT ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        cardSetNumber: 10,
+                        value: "snowmane",
+                    },
                     "songOfBattle":
                     {
                         name: "Song of Battle",
@@ -1169,16 +1182,6 @@ define(
                         cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                         value: "songOfWisdom",
                     },
-                    "snowmane":
-                    {
-                        name: "Snowmane",
-                        isUnique: true,
-                        cost: 1,
-                        traitKeys: [ Trait.MOUNT ],
-                        sphereKey: Sphere.SPIRIT,
-                        cardSetKey: CardSet.THE_LAND_OF_SHADOW,
-                        value: "snowmane",
-                    },
                     "spareHoodAndCloak":
                     {
                         name: "Spare Hood and Cloak",
@@ -1214,6 +1217,7 @@ define(
                         traitKeys: [ Trait.ITEM ],
                         sphereKey: Sphere.LEADERSHIP,
                         cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                        cardSetNumber: 8,
                         value: "staffOfLebethron",
                     },
                     "starBrooch":
@@ -1433,6 +1437,7 @@ define(
                         traitKeys: [ Trait.ITEM, Trait.PIPE ],
                         sphereKey: Sphere.NEUTRAL,
                         cardSetKey: CardSet.THE_ROAD_DARKENS,
+                        cardSetNumber: "009",
                         value: "wizardPipe",
                     },
                 },

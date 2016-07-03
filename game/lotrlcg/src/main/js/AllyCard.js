@@ -190,6 +190,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.GONDOR, Trait.RANGER ],
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                cardSetNumber: 4,
                 value: "anbornTLoS",
             },
             "anfalasHerdsman":
@@ -305,6 +306,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.HOBBIT ],
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_ROAD_DARKENS,
+                cardSetNumber: "006",
                 value: "bilboBaggins",
             },
             "billThePony":
@@ -407,6 +409,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.GONDOR, Trait.WARRIOR ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_ROAD_DARKENS,
+                cardSetNumber: "004",
                 value: "boromir",
             },
             "brokIronfist":
@@ -692,6 +695,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.NOLDOR, Trait.HEALER ],
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_ROAD_DARKENS,
+                cardSetNumber: "005",
                 value: "elrond",
             },
             "elvenJeweler":
@@ -976,6 +980,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.NOLDOR, Trait.NOBLE ],
                 sphereKey: Sphere.LEADERSHIP,
                 cardSetKey: CardSet.THE_ROAD_DARKENS,
+                cardSetNumber: "003",
                 value: "galadriel",
             },
             "galadrielsHandmaiden":
@@ -1021,6 +1026,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ROHAN, Trait.WARRIOR ],
                 sphereKey: Sphere.SPIRIT,
                 cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                cardSetNumber: 7,
                 value: "gamling",
             },
             "gandalfCore":
@@ -1609,6 +1615,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.GONDOR, Trait.RANGER ],
                 sphereKey: Sphere.LORE,
                 cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                cardSetNumber: 5,
                 value: "mablung",
             },
             "masterOfLore":
@@ -2006,6 +2013,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 traitKeys: [ Trait.ENT ],
                 sphereKey: Sphere.TACTICS,
                 cardSetKey: CardSet.THE_LAND_OF_SHADOW,
+                cardSetNumber: 6,
                 value: "skinbark",
             },
             "snowbournScout":

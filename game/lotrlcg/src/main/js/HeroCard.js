@@ -685,7 +685,7 @@ define(
                         traitKeys: [ Trait.HOBBIT, Trait.RING_BEARER ],
                         sphereKey: Sphere.FELLOWSHIP,
                         cardSetKey: CardSet.THE_ROAD_DARKENS,
-                        cardSetNumber: 1,
+                        cardSetNumber: "001",
                         value: "frodoBagginsTRD",
                     },
                     "galadriel":
@@ -728,7 +728,7 @@ define(
                         traitKeys: [ Trait.ISTARI ],
                         sphereKey: Sphere.NEUTRAL,
                         cardSetKey: CardSet.THE_ROAD_DARKENS,
-                        cardSetNumber: 2,
+                        cardSetNumber: "002",
                         value: "gandalf",
                     },
                     "gimli":

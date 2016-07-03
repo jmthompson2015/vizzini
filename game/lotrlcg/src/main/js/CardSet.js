@@ -85,6 +85,7 @@ define([ "CardSetType" ], function(CardSetType)
             "theBlackRiders":
             {
                 name: "The Black Riders",
+                shortName: "TBR",
                 typeKey: CardSetType.SAGA,
                 value: "theBlackRiders",
             },
@@ -98,6 +99,7 @@ define([ "CardSetType" ], function(CardSetType)
             "theLandOfShadow":
             {
                 name: "The Land of Shadow",
+                shortName: "MEC46",
                 typeKey: CardSetType.SAGA,
                 value: "theLandOfShadow",
             },
@@ -117,6 +119,7 @@ define([ "CardSetType" ], function(CardSetType)
             "theRoadDarkens":
             {
                 name: "The Road Darkens",
+                shortName: "MEC34",
                 typeKey: CardSetType.SAGA,
                 value: "theRoadDarkens",
             },

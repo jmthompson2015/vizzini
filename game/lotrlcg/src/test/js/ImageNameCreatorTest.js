@@ -44,6 +44,18 @@ define(
                                         .equal(ImageNameCreator
                                                 .create(AllyCard.properties[AllyCard.GREYFLOOD_WANDERER]),
                                                 "http://www.cardgamedb.com/forums/uploads/lotr/ffg_greyflood-wanderer-the-three-trials-30.jpg");
+                                assert
+                                .equal(ImageNameCreator
+                                        .create(AllyCard.properties[AllyCard.BARLIMAN_BUTTERBUR]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_barliman-butterbur-tbr.jpg");
+                                assert
+                                .equal(ImageNameCreator
+                                        .create(AllyCard.properties[AllyCard.BILBO_BAGGINS]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC34_006.jpg");
+                                assert
+                                .equal(ImageNameCreator
+                                        .create(AllyCard.properties[AllyCard.ANBORN_TLOS]),
+                                        "http://www.cardgamedb.com/forums/uploads/lotr/ffg_MEC46_4.jpg");
                             });
 
             QUnit.test("create() attachments", function(assert)
