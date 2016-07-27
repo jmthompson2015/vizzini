@@ -30,6 +30,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         DUNEDAIN_MESSAGE: "dunedainMessage",
         DWARVEN_TOMB: "dwarvenTomb",
         ELRONDS_COUNSEL: "elrondsCounsel",
+        ELVEN_LIGHT: "elvenLight",
         EXPERT_TRACKERS: "expertTrackers",
         FAIR_AND_PERILOUS: "fairAndPerilous",
         FEIGNED_VOICES: "feignedVoices",
@@ -56,6 +57,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         HOLD_YOUR_GROUND: "holdYourGround",
         HOPE_REKINDLED: "hopeRekindled",
         HORNS_CRY: "hornsCry",
+        HOUR_OF_WRATH: "hourOfWrath",
         IN_THE_SHADOWS: "inTheShadows",
         INFIGHTING: "infighting",
         ISLAND_AMID_PERILS: "islandAmidPerils",
@@ -110,6 +112,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         SWIFT_STRIKE: "swiftStrike",
         TAKE_NO_NOTICE: "takeNoNotice",
         TAKING_INITIATIVE: "takingInitiative",
+        TALE_OF_TINUVIEL: "taleOfTinuviel",
         TASTE_IT_AGAIN: "tasteItAgain",
         THE_DOOR_IS_CLOSED: "theDoorIsClosed",
         THE_EAGLES_ARE_COMING: "theEaglesAreComing",
@@ -378,6 +381,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
                 value: "elrondsCounsel",
             },
+            "elvenLight":
+            {
+                name: "Elven-light",
+                cost: 1,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                value: "elvenLight",
+            },
             "expertTrackers":
             {
                 name: "Expert Trackers",
@@ -615,6 +627,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.AA4_THE_TREACHERY_OF_RHUDAUR,
                 cardSetNumber: 88,
                 value: "hornsCry",
+            },
+            "hourOfWrath":
+            {
+                name: "Hour of Wrath",
+                cost: 4,
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                value: "hourOfWrath",
             },
             "inTheShadows":
             {
@@ -1102,6 +1123,15 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSetKey: CardSet.DWARROWDELF,
                 cardSubsetKey: CardSubset.D1_THE_REDHORN_GATE,
                 value: "takingInitiative",
+            },
+            "taleOfTinuviel":
+            {
+                name: "Tale of Tinúviel",
+                cost: 1,
+                sphereKey: Sphere.SPIRIT,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                value: "taleOfTinuviel",
             },
             "tasteItAgain":
             {

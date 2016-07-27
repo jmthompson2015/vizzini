@@ -118,6 +118,8 @@ define(
                 STEWARD_OF_GONDOR: "stewardOfGondor",
                 SUPPORT_OF_THE_EAGLES: "supportOfTheEagles",
                 SWORD_OF_MORTHOND: "swordOfMorthond",
+                SWORD_OF_NUMENOR: "swordOfNumenor",
+                SWORD_THAIN: "swordThain",
                 SWORD_THAT_WAS_BROKEN: "swordThatWasBroken",
                 THE_DAYS_RISING: "theDaysRising",
                 THE_FALL_OF_GIL_GALAD: "theFallOfGilGalad",
@@ -131,6 +133,7 @@ define(
                 VILYA: "vilya",
                 VISIONARY_LEADERSHIP: "visionaryLeadership",
                 WARDEN_OF_ARNOR: "wardenOfArnor",
+                WEATHER_STAINED_CLOAK: "weatherStainedCloak",
                 WINGFOOT: "wingfoot",
                 WIZARD_PIPE: "wizardPipe",
 
@@ -1281,6 +1284,27 @@ define(
                         cardSubsetKey: CardSubset.ATS4_ASSAULT_ON_OSGILIATH,
                         value: "swordOfMorthond",
                     },
+                    "swordOfNumenor":
+                    {
+                        name: "Sword of Númenor",
+                        cost: 1,
+                        traitKeys: [ Trait.ITEM, Trait.WEAPON ],
+                        sphereKey: Sphere.LEADERSHIP,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                        value: "swordOfNumenor",
+                    },
+                    "swordThain":
+                    {
+                        name: "Sword-thain",
+                        isUnique: true,
+                        cost: 4,
+                        traitKeys: [ Trait.TITLE ],
+                        sphereKey: Sphere.NEUTRAL,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                        value: "swordThain",
+                    },
                     "swordThatWasBroken":
                     {
                         name: "Sword that was Broken",
@@ -1417,6 +1441,16 @@ define(
                         cardSetNumber: 31,
                         image: "http://www.cardgamedb.com/forums/uploads/lotr/ffg_warden-of-anor-the-three-trials-31.jpg",
                         value: "wardenOfArnor",
+                    },
+                    "weatherStainedCloak":
+                    {
+                        name: "Weather-stained Cloak",
+                        cost: 0,
+                        traitKeys: [ Trait.ITEM ],
+                        sphereKey: Sphere.LORE,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                        value: "weatherStainedCloak",
                     },
                     "wingfoot":
                     {

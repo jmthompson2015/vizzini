@@ -45,6 +45,7 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         EMERY: "emery",
         ENVOY_OF_PELARGIR: "envoyOfPelargir",
         EOMUND: "eomund",
+        EOTHAIN: "eothain",
         EREBOR_BATTLE_MASTER: "ereborBattleMaster",
         EREBOR_HAMMERSMITH: "ereborHammersmith",
         EREBOR_RECORD_KEEPER: "ereborRecordKeeper",
@@ -57,7 +58,9 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
         FARMER_MAGGOT: "farmerMaggot",
         FILI: "fili",
         FORLONG: "forlong",
+        FORNOST_BOWMAN: "fornostBowman",
         GALADHON_ARCHER: "galadhonArcher",
+        GALADHRIM_HEALER: "galadhrimHealer",
         GALADHRIM_MINSTREL: "galadhrimMinstrel",
         GALADHRIM_WEAVER: "galadhrimWeaver",
         GALADRIEL: "galadriel",
@@ -756,6 +759,21 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.SOM2_CONFLICT_AT_THE_CARROCK,
                 value: "eomund",
             },
+            "eothain":
+            {
+                name: "Éothain",
+                isUnique: true,
+                cost: 4,
+                willpower: 2,
+                attack: 2,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.ROHAN, Trait.WARRIOR ],
+                sphereKey: Sphere.LEADERSHIP,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                value: "eothain",
+            },
             "ereborBattleMaster":
             {
                 name: "Erebor Battle Master",
@@ -923,6 +941,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.ATS2_THE_DRUADAN_FOREST,
                 value: "forlong",
             },
+            "fornostBowman":
+            {
+                name: "Fornost Bowman",
+                cost: 3,
+                willpower: 1,
+                attack: 1,
+                defense: 1,
+                hitPoints: 3,
+                traitKeys: [ Trait.DUNEDAIN, Trait.RANGER ],
+                sphereKey: Sphere.TACTICS,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                value: "fornostBowman",
+            },
             "galadhonArcher":
             {
                 name: "Galadhon Archer",
@@ -937,6 +969,20 @@ define([ "CardSet", "CardSubset", "CardType", "ImageNameCreator", "Sphere", "Tra
                 cardSubsetKey: CardSubset.TRM4_THE_NIN_IN_EILPH,
                 cardSetNumber: 87,
                 value: "galadhonArcher",
+            },
+            "galadhrimHealer":
+            {
+                name: "Galadhrim Healer",
+                cost: 2,
+                willpower: 1,
+                attack: 0,
+                defense: 1,
+                hitPoints: 1,
+                traitKeys: [ Trait.SILVAN, Trait.HEALER ],
+                sphereKey: Sphere.LORE,
+                cardSetKey: CardSet.ANGMAR_AWAKENED,
+                cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                value: "galadhrimHealer",
             },
             "galadhrimMinstrel":
             {

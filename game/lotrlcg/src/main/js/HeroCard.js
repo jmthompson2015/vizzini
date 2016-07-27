@@ -10,6 +10,7 @@ define(
                 ARAGORN_TLR: "aragornTLR",
                 ARAGORN_TTOS: "aragornTToS",
                 ARAGORN_TWITW: "aragornTWitW",
+                ARWEN_UNDOMIEL: "arwenUndomiel",
                 BALIN: "balin",
                 BARD_THE_BOWMAN: "bardTheBowman",
                 BEORN: "beorn",
@@ -155,6 +156,21 @@ define(
                         cardSubsetKey: CardSubset.D3_THE_WATCHER_IN_THE_WATER,
                         cardSetNumber: 53,
                         value: "aragornTWitW",
+                    },
+                    "arwenUndomiel":
+                    {
+                        name: "Arwen Undómiel",
+                        threatCost: 9,
+                        willpower: 3,
+                        attack: 1,
+                        defense: 2,
+                        hitPoints: 3,
+                        traitKeys: [ Trait.NOLDOR, Trait.NOBLE ],
+                        sphereKey: Sphere.SPIRIT,
+                        cardSetKey: CardSet.ANGMAR_AWAKENED,
+                        cardSubsetKey: CardSubset.AA6_THE_DREAD_REALM,
+                        cardSetNumber: 140,
+                        value: "arwenUndomiel",
                     },
                     "balin":
                     {
