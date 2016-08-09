@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>TARDIS Simulator</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css">
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+</script>
+<![endif]-->
+
+<script src="../../../../../coreweb/lib/react/react-15.0.1.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/InitialState"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+
+</head>
+<body>
+	<h1>TARDIS Simulator</h1>
+	<table>
+		<tr>
+			<td id="time-rotor-container"><img id="time-rotor" class="time-rotor-state1"
+				src="../resources/images/time-rotor.jpg" alt="missing image" /></td>
+			<td style="vertical-align: top;" rowspan="2">
+				<figure id="scanner">
+					<img id="scanner-cover-top" src="../resources/images/scanner-cover-top.png" alt="missing image top" />
+					<img id="scanner-cover-bottom" src="../resources/images/scanner-cover-bottom.png" alt="missing image bottom" />
+				</figure>
+			</td>
+		</tr>
+		<tr>
+			<td id="console-container" style="vertical-align: bottom;"></td>
+		</tr>
+		<tr>
+			<td>
+				<div id="controls-container"></div>
+			</td>
+		</tr>
+	</table>
+
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/Connector",
+                "process/ui/Console", "process/ui/Controls" ], function(ConsolePanel, Scene, Action, Reducer,
+                Connector, Console, Controls)
+        {
+            var store = Redux.createStore(Reducer.root);
+            var sceneKey = Scene.values().vizziniRandomElement();
+            store.dispatch(Action.setScene(sceneKey));
+            store.dispatch(Action.setConsolePanel(ConsolePanel.PANEL_5));
+
+            var connector0 = ReactRedux.connect(Connector.Controls.mapStateToProps)(Controls);
+            var element0 = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector0));
+            ReactDOM.render(element0, document.getElementById("controls-container"));
+
+            var connector1 = ReactRedux.connect(Connector.Console.mapStateToProps)(Console);
+            var element1 = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector1));
+            ReactDOM.render(element1, document.getElementById("console-container"));
+        });
+    </script>
+</body>
+</html>
