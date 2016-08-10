@@ -1,11 +1,18 @@
-define([ "process/Observer" ], function(Observer)
+define([ "Scene", "process/Action", "process/Observer" ], function(Scene, Action, Observer)
 {
     function DematerialisationObserver(store)
     {
         InputValidator.validateNotNull("store", store);
 
+        this.dematerialisationEnded = function(event)
+        {
+            LOGGER.info("dematerialisationEnded()");
+        };
+
         this.materialisationEnded = function(event)
         {
+            LOGGER.info("materialisationEnded()");
+
             timeRotor().removeEventListener("transitionend", this.reverseDirection, false);
             HtmlUtilities.removeClass(timeRotor(), "time-rotor-state1");
             HtmlUtilities.removeClass(timeRotor(), "time-rotor-state2");
@@ -30,6 +37,7 @@ define([ "process/Observer" ], function(Observer)
 
             timeRotor().addEventListener("transitionend", this.reverseDirection, false);
             HtmlUtilities.addClass(timeRotor(), "time-rotor-state2");
+            dematerialiseAudio().addEventListener("ended", this.dematerialisationEnded.bind(this), false);
             dematerialiseAudio().play();
         };
 
@@ -38,6 +46,9 @@ define([ "process/Observer" ], function(Observer)
             dematerialiseAudio().pause();
             materialiseAudio().addEventListener("ended", this.materialisationEnded.bind(this), false);
             materialiseAudio().play();
+
+            var sceneKey = Scene.values().vizziniRandomElement();
+            store.dispatch(Action.setScene(sceneKey));
         };
 
         this.reverseDirection = function(event)
