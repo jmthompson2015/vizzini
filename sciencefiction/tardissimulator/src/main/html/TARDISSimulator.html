@@ -16,6 +16,7 @@
 <script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/InitialState"></script>
 
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
 
@@ -43,6 +44,11 @@
 		</tr>
 	</table>
 
+	<audio id="dematerialiseAudio" src="../resources/audio/dematerialise.wav" preload="auto" volume="0.9"></audio>
+	<audio id="materialiseAudio" src="../resources/audio/materialise.wav" preload="auto" volume="0.9"></audio>
+	<audio id="powerAudio" src="../resources/audio/power.wav" preload="auto" volume="0.7" loop="loop"></audio>
+	<audio id="scannerAudio" src="../resources/audio/scanner.wav" preload="auto"></audio>
+
 	<script>
         "use strict";
         var LOGGER = new Logger();
@@ -50,10 +56,16 @@
         LOGGER.setDebugEnabled(false);
 
         require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/Connector",
-                "process/ui/Console", "process/ui/Controls" ], function(ConsolePanel, Scene, Action, Reducer,
-                Connector, Console, Controls)
+                "process/ui/Console", "process/ui/Controls", "process/ui/DematerialisationObserver",
+                "process/ui/PowerObserver", "process/ui/ScannerObserver", "process/ui/SceneObserver" ], function(
+                ConsolePanel, Scene, Action, Reducer, Connector, Console, Controls, DematerialisationObserver,
+                PowerObserver, ScannerObserver, SceneObserver)
         {
             var store = Redux.createStore(Reducer.root);
+            new PowerObserver(store);
+            new ScannerObserver(store);
+            new DematerialisationObserver(store);
+            new SceneObserver(store);
             var sceneKey = Scene.values().vizziniRandomElement();
             store.dispatch(Action.setScene(sceneKey));
             store.dispatch(Action.setConsolePanel(ConsolePanel.PANEL_5));
