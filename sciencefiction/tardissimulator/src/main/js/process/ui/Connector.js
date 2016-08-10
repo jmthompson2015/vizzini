@@ -1,4 +1,4 @@
-define([ "ConsolePanel" ], function(ConsolePanel)
+define([ "ConsolePanel", "Scene" ], function(ConsolePanel, Scene)
 {
     "use strict";
     var Connector = {};
@@ -27,6 +27,33 @@ define([ "ConsolePanel" ], function(ConsolePanel)
                 isDematerialised: state.isDematerialised,
                 isPowered: state.isPowered,
                 isScanning: state.isScanning,
+            });
+        },
+    };
+
+    Connector.Scanner =
+    {
+        mapStateToProps: function(state, ownProps)
+        {
+            var image;
+            var title;
+
+            if (state.isDematerialised)
+            {
+                image = "../resources/scenes/time-vortex.gif";
+                title = "Time Vortex";
+            }
+            else
+            {
+                var scene = Scene.properties[state.sceneKey];
+                image = scene.image;
+                title = scene.name;
+            }
+
+            return (
+            {
+                image: image,
+                title: title,
             });
         },
     };
