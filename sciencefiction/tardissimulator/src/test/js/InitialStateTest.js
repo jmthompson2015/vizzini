@@ -10,7 +10,7 @@ define([ "InitialState" ], function(InitialState)
 
         // Verify.
         assert.equal(result.consolePanelKey, "panel5");
-        assert.ok(!result.isDematerialised);
+        assert.equal(result.dematStatusKey, "materialised");
         assert.ok(!result.isPowered);
         assert.ok(!result.isScanning);
         assert.equal(result.sceneKey, "scene1");

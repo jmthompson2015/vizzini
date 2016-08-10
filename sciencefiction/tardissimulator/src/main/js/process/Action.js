@@ -4,7 +4,7 @@ define(function()
     var Action = {};
 
     Action.SET_CONSOLE_PANEL = "setConsolePanel";
-    Action.SET_DEMATERIALISED = "setDematerialised";
+    Action.SET_DEMAT_STATUS = "setDematStatus";
     Action.SET_POWERED = "setPowered";
     Action.SET_SCANNING = "setScanning";
     Action.SET_SCENE = "setScene";
@@ -18,12 +18,12 @@ define(function()
         });
     };
 
-    Action.setDematerialised = function(isDematerialised)
+    Action.setDematStatus = function(dematStatusKey)
     {
         return (
         {
-            type: Action.SET_DEMATERIALISED,
-            isDematerialised: isDematerialised,
+            type: Action.SET_DEMAT_STATUS,
+            dematStatusKey: dematStatusKey,
         });
     };
 

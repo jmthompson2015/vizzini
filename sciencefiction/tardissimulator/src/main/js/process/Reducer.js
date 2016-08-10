@@ -1,4 +1,4 @@
-define([ "InitialState", "Scene", "process/Action" ], function(InitialState, Scene, Action)
+define([ "InitialState", "process/Action" ], function(InitialState, Action)
 {
     "use strict";
     var Reducer = {};
@@ -16,10 +16,10 @@ define([ "InitialState", "Scene", "process/Action" ], function(InitialState, Sce
             {
                 consolePanelKey: action.consolePanelKey,
             });
-        case Action.SET_DEMATERIALISED:
+        case Action.SET_DEMAT_STATUS:
             return Object.assign({}, state,
             {
-                isDematerialised: action.isDematerialised,
+                dematStatusKey: action.dematStatusKey,
             });
         case Action.SET_POWERED:
             return Object.assign({}, state,

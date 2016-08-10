@@ -1,13 +1,13 @@
-define(function()
+define([ "ConsolePanel", "DematStatus", "Scene" ], function(ConsolePanel, DematStatus, Scene)
 {
     "use strict";
     function InitialState()
     {
-        this.consolePanelKey = "panel5";
-        this.isDematerialised = false;
+        this.consolePanelKey = ConsolePanel.PANEL_5;
+        this.dematStatusKey = DematStatus.MATERIALISED;
         this.isPowered = false;
         this.isScanning = false;
-        this.sceneKey = "scene1";
+        this.sceneKey = Scene.SCENE_1;
     }
 
     if (Object.freeze)

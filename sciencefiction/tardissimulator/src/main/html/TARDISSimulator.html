@@ -51,15 +51,15 @@
         LOGGER.setDebugEnabled(false);
 
         require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/Connector",
-                "process/ui/Console", "process/ui/Controls", "process/ui/DematerialisationObserver",
+                "process/ui/Console", "process/ui/Controls", "process/ui/DematStatusObserver",
                 "process/ui/PowerObserver", "process/ui/Scanner", "process/ui/ScannerObserver" ], function(
-                ConsolePanel, Scene, Action, Reducer, Connector, Console, Controls, DematerialisationObserver,
+                ConsolePanel, Scene, Action, Reducer, Connector, Console, Controls, DematStatusObserver,
                 PowerObserver, Scanner, ScannerObserver)
         {
             var store = Redux.createStore(Reducer.root);
             new PowerObserver(store);
             new ScannerObserver(store);
-            new DematerialisationObserver(store);
+            new DematStatusObserver(store);
 
             var connector0 = ReactRedux.connect(Connector.Controls.mapStateToProps)(Controls);
             var element0 = React.createElement(ReactRedux.Provider,

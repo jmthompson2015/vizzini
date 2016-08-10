@@ -1,4 +1,4 @@
-define([ "ConsolePanel", "process/Action" ], function(ConsolePanel, Action)
+define([ "ConsolePanel", "DematStatus", "process/Action" ], function(ConsolePanel, DematStatus, Action)
 {
     "use strict";
     var Controls = React.createClass(
@@ -82,6 +82,13 @@ define([ "ConsolePanel", "process/Action" ], function(ConsolePanel, Action)
             this.context.store.dispatch(Action.setConsolePanel(values[index]));
         },
 
+        onDematChange: function(event)
+        {
+            var checked = event.target.checked;
+            var newDematStatus = (checked ? DematStatus.DEMATERIALISING : DematStatus.MATERIALISING);
+            this.context.store.dispatch(Action.setDematStatus(newDematStatus));
+        },
+
         onPowerChange: function(event)
         {
             var isPowered = event.target.checked;
@@ -92,12 +99,6 @@ define([ "ConsolePanel", "process/Action" ], function(ConsolePanel, Action)
         {
             var isScanning = event.target.checked;
             this.context.store.dispatch(Action.setScanning(isScanning));
-        },
-
-        onDematChange: function(event)
-        {
-            var isDematerialised = event.target.checked;
-            this.context.store.dispatch(Action.setDematerialised(isDematerialised));
         },
 
         previousPanel: function(event)
