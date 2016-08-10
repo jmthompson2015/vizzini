@@ -1,10 +1,18 @@
 define([ "process/Observer" ], function(Observer)
 {
+    "use strict";
     function PowerObserver(store)
     {
         this.onChange = function(isPowered)
         {
-            (isPowered ? this.playPowerAudio() : this.pausePowerAudio());
+            if (isPowered)
+            {
+                this.playPowerAudio();
+            }
+            else
+            {
+                this.pausePowerAudio();
+            }
         };
 
         this.pausePowerAudio = function()

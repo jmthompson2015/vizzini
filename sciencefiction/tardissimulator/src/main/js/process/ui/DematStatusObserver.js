@@ -1,5 +1,6 @@
 define([ "DematStatus", "Scene", "process/Action", "process/Observer" ], function(DematStatus, Scene, Action, Observer)
 {
+    "use strict";
     function DematStatusObserver(store)
     {
         InputValidator.validateNotNull("store", store);

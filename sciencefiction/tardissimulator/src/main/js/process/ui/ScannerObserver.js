@@ -1,5 +1,6 @@
 define([ "process/Observer" ], function(Observer)
 {
+    "use strict";
     function ScannerObserver(store)
     {
         this.onChange = function(isScanning)
