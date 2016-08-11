@@ -9,10 +9,10 @@
 </script>
 <![endif]-->
 
-<script src="../../../../../coreweb/lib/react/react-15.0.1.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/react/react-with-addons-15.3.0.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.0.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.min.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.5.2.min.js"></script>
 <script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/InitialState"></script>
 
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -53,8 +53,8 @@
         require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/Connector",
                 "process/ui/Console", "process/ui/Controls", "process/ui/DematStatusObserver",
                 "process/ui/PowerObserver", "process/ui/Scanner", "process/ui/ScannerObserver" ], function(
-                ConsolePanel, Scene, Action, Reducer, Connector, Console, Controls, DematStatusObserver,
-                PowerObserver, Scanner, ScannerObserver)
+                ConsolePanel, Scene, Action, Reducer, Connector, Console, Controls, DematStatusObserver, PowerObserver,
+                Scanner, ScannerObserver)
         {
             var store = Redux.createStore(Reducer.root);
             new PowerObserver(store);
