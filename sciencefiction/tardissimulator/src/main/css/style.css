@@ -27,6 +27,17 @@ table {
     border-radius: 4%;
 }
 
+#scanner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    opacity: 1;
+    transition: opacity 18s ease-in-out;
+}
+
 #scanner-cover-top {
     position: absolute;
     top: 0;

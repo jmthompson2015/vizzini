@@ -9,26 +9,35 @@ define(function()
             cells.push(React.DOM.img(
             {
                 key: cells.length,
+                id: "scanner-image",
+                src: this.props.image,
+                title: this.props.title,
+                alt: this.props.title,
+            }));
+            cells.push(React.DOM.img(
+            {
+                key: cells.length,
                 id: "scanner-cover-top",
                 src: "../resources/images/scanner-cover-top.png",
-                alt: "missing image top",
+                alt: "Scanner cover top",
             }));
             cells.push(React.DOM.img(
             {
                 key: cells.length,
                 id: "scanner-cover-bottom",
                 src: "../resources/images/scanner-cover-bottom.png",
-                alt: "missing image bottom",
+                alt: "Scanner cover bottom",
             }));
 
-            return React.DOM.figure(
+            return React.DOM.div(
             {
                 id: "scanner",
                 style:
                 {
-                    backgroundImage: "url(" + this.props.image + ")",
+                    backgroundImage: "url(../resources/scenes/time-vortex.gif)",
                 },
-                title: this.props.title,
+                title: "Time Vortex",
+                alt: "Time Vortex",
             }, cells);
         },
     });

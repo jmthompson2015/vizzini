@@ -41,18 +41,18 @@ define([ "DematStatus", "Scene", "process/Action", "process/Observer" ], functio
 
             timeRotor().addEventListener("transitionend", this.reverseDirection);
             HtmlUtilities.addClass(timeRotor(), "time-rotor-state2");
-            dematerialiseAudio().addEventListener("ended", this.dematerialisationEnded.bind(this));
             dematerialiseAudio().play();
+            scannerImage().style.opacity = 0;
         };
 
         this.playMaterialiseAudio = function()
         {
             dematerialiseAudio().pause();
-            materialiseAudio().addEventListener("ended", this.materialisationEnded.bind(this));
             materialiseAudio().play();
 
             var sceneKey = Scene.values().vizziniRandomElement();
             store.dispatch(Action.setScene(sceneKey));
+            scannerImage().style.opacity = 1;
         };
 
         this.reverseDirection = function(event)
@@ -87,11 +87,18 @@ define([ "DematStatus", "Scene", "process/Action", "process/Observer" ], functio
             return document.getElementById("materialiseAudio");
         }
 
+        function scannerImage()
+        {
+            return document.getElementById("scanner-image");
+        }
+
         function timeRotor()
         {
             return document.getElementById("time-rotor");
         }
 
+        dematerialiseAudio().addEventListener("ended", this.dematerialisationEnded.bind(this));
+        materialiseAudio().addEventListener("ended", this.materialisationEnded.bind(this));
         var unsubscribe = Observer.observeStore(store, this.select, this.onChange.bind(this), false);
     }
 

@@ -38,25 +38,12 @@ define([ "ConsolePanel", "DematStatus", "Scene" ], function(ConsolePanel, DematS
     {
         mapStateToProps: function(state, ownProps)
         {
-            var image;
-            var title;
-
-            if ([ DematStatus.DEMATERIALISED, DematStatus.MATERIALISING ].includes(state.dematStatusKey))
-            {
-                image = "../resources/scenes/time-vortex.gif";
-                title = "Time Vortex";
-            }
-            else
-            {
-                var scene = Scene.properties[state.sceneKey];
-                image = scene.image;
-                title = scene.name;
-            }
+            var scene = Scene.properties[state.sceneKey];
 
             return (
             {
-                image: image,
-                title: title,
+                image: scene.image,
+                title: scene.name,
             });
         },
     };
