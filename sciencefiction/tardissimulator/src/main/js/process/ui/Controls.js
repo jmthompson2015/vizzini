@@ -6,18 +6,27 @@ define([ "ConsolePanel", "DematStatus", "process/Action" ], function(ConsolePane
         render: function()
         {
             var isPowered = this.props.isPowered;
+            var isDematerialised = [ DematStatus.DEMATERIALISING, DematStatus.DEMATERIALISED ]
+                    .includes(this.props.dematStatus.value);
 
             var previousPanel = React.DOM.button(
             {
-                key: 0,
                 onClick: this.previousPanel,
             }, "Previous");
+            var nextPanel = React.DOM.button(
+            {
+                onClick: this.nextPanel,
+            }, "Next");
+
+            var dematStatus = React.DOM.span({}, this.props.dematStatus.name);
+
             var powerUI = React.DOM.input(
             {
                 type: "checkbox",
                 defaultChecked: isPowered,
                 onClick: this.onPowerChange,
             });
+            var powerLabel = React.DOM.label({}, powerUI, "Power ");
             var scannerUI = React.DOM.input(
             {
                 type: "checkbox",
@@ -25,6 +34,7 @@ define([ "ConsolePanel", "DematStatus", "process/Action" ], function(ConsolePane
                 onClick: this.onScannerChange,
                 disabled: (!isPowered),
             });
+            var scannerLabel = React.DOM.label({}, scannerUI, "Scanner ");
             var dematUI = React.DOM.input(
             {
                 type: "checkbox",
@@ -32,44 +42,39 @@ define([ "ConsolePanel", "DematStatus", "process/Action" ], function(ConsolePane
                 onClick: this.onDematChange,
                 disabled: (!isPowered),
             });
-            var nextPanel = React.DOM.button(
+            var dematLabel = React.DOM.label({}, dematUI, "Dematerialise");
+
+            // Row 1.
+            var rows = [];
+            var cell = React.DOM.td({}, previousPanel, this.props.consolePanel.name, nextPanel);
+            rows.push(React.DOM.tr(
             {
-                key: 4,
-                onClick: this.nextPanel,
-            }, "Next");
+                key: rows.length,
+            }, cell));
 
-            var cells = [];
-            cells.push(previousPanel);
-
-            var powerLabel = React.DOM.label(
+            // Row 2.
+            cell = React.DOM.td({}, dematStatus);
+            rows.push(React.DOM.tr(
             {
-                key: cells.length,
-            }, powerUI, "Power");
-            cells.push(powerLabel);
+                key: rows.length,
+            }, cell));
 
-            var scannerLabel = React.DOM.label(
+            // Row 3.
+            cell = React.DOM.td({}, powerLabel, scannerLabel, dematLabel);
+            rows.push(React.DOM.tr(
             {
-                key: cells.length,
-            }, scannerUI, "Scanner");
-            cells.push(scannerLabel);
+                key: rows.length,
+            }, cell));
 
-            var dematLabel = React.DOM.label(
-            {
-                key: cells.length,
-            }, dematUI, "Dematerialise");
-            cells.push(dematLabel);
-
-            cells.push(nextPanel);
-
-            return React.DOM.span(
+            return React.DOM.table(
             {
                 id: "controls",
-            }, cells);
+            }, React.DOM.tbody({}, rows));
         },
 
         nextPanel: function(event)
         {
-            var consolePanelKey = this.context.store.getState().consolePanelKey;
+            var consolePanelKey = this.props.consolePanel.value;
             var values = ConsolePanel.values();
             var index = values.indexOf(consolePanelKey);
             index++;
@@ -124,7 +129,8 @@ define([ "ConsolePanel", "DematStatus", "process/Action" ], function(ConsolePane
 
     Controls.propTypes =
     {
-        isDematerialised: React.PropTypes.bool.isRequired,
+        consolePanel: React.PropTypes.object.isRequired,
+        dematStatus: React.PropTypes.object.isRequired,
         isPowered: React.PropTypes.bool.isRequired,
         isScanning: React.PropTypes.bool.isRequired,
     };

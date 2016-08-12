@@ -22,12 +22,13 @@ define([ "ConsolePanel", "DematStatus", "Scene" ], function(ConsolePanel, DematS
     {
         mapStateToProps: function(state, ownProps)
         {
-            var isDematerialised = [ DematStatus.DEMATERIALISING, DematStatus.DEMATERIALISED ]
-                    .includes(state.dematStatusKey);
+            var consolePanel = ConsolePanel.properties[state.consolePanelKey];
+            var dematStatus = DematStatus.properties[state.dematStatusKey];
 
             return (
             {
-                isDematerialised: isDematerialised,
+                consolePanel: consolePanel,
+                dematStatus: dematStatus,
                 isPowered: state.isPowered,
                 isScanning: state.isScanning,
             });
