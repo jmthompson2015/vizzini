@@ -8,6 +8,7 @@ define([ "ConsolePanel", "DematStatus", "Scene" ], function(ConsolePanel, DematS
         this.isPowered = false;
         this.isScanning = false;
         this.sceneKey = Scene.SCENE_1;
+        this.timeRotorDZ = 0;
     }
 
     if (Object.freeze)

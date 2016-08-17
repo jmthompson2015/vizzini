@@ -17,6 +17,7 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
                 consolePanelKey: action.consolePanelKey,
             });
         case Action.SET_DEMAT_STATUS:
+            LOGGER.info("Reducer dematStatusKey = " + action.dematStatusKey);
             return Object.assign({}, state,
             {
                 dematStatusKey: action.dematStatusKey,
@@ -35,6 +36,12 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             return Object.assign({}, state,
             {
                 sceneKey: action.sceneKey,
+            });
+        case Action.SET_TIME_ROTOR_DZ:
+            LOGGER.info("Reducer timeRotorDZ = " + action.timeRotorDZ);
+            return Object.assign({}, state,
+            {
+                timeRotorDZ: action.timeRotorDZ,
             });
         default:
             LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);

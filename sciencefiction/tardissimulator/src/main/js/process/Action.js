@@ -8,6 +8,7 @@ define(function()
     Action.SET_POWERED = "setPowered";
     Action.SET_SCANNING = "setScanning";
     Action.SET_SCENE = "setScene";
+    Action.SET_TIME_ROTOR_DZ = "setTimeRotorDZ";
 
     Action.setConsolePanel = function(consolePanelKey)
     {
@@ -51,6 +52,15 @@ define(function()
         {
             type: Action.SET_SCENE,
             sceneKey: sceneKey,
+        });
+    };
+
+    Action.setTimeRotorDZ = function(timeRotorDZ)
+    {
+        return (
+        {
+            type: Action.SET_TIME_ROTOR_DZ,
+            timeRotorDZ: timeRotorDZ,
         });
     };
 
