@@ -12,6 +12,7 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         switch (action.type)
         {
         case Action.SET_CONSOLE_PANEL:
+            LOGGER.info("Reducer consolePanelKey = " + action.consolePanelKey);
             return Object.assign({}, state,
             {
                 consolePanelKey: action.consolePanelKey,
@@ -23,16 +24,19 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
                 dematStatusKey: action.dematStatusKey,
             });
         case Action.SET_POWERED:
+            LOGGER.info("Reducer isPowered ? " + action.isPowered);
             return Object.assign({}, state,
             {
                 isPowered: action.isPowered,
             });
         case Action.SET_SCANNING:
+            LOGGER.info("Reducer isScanning ? " + action.isScanning);
             return Object.assign({}, state,
             {
                 isScanning: action.isScanning,
             });
         case Action.SET_SCENE:
+            LOGGER.info("Reducer sceneKey = " + action.sceneKey);
             return Object.assign({}, state,
             {
                 sceneKey: action.sceneKey,

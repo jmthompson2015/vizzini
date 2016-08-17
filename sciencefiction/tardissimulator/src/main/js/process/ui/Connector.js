@@ -21,21 +21,6 @@ define([ "ConsolePanel", "DematStatus", "Scene" ], function(ConsolePanel, DematS
         },
     };
 
-    Connector.Console =
-    {
-        mapStateToProps: function(state, ownProps)
-        {
-            var consolePanel = ConsolePanel.properties[state.consolePanelKey];
-
-            return (
-            {
-                consolePanel: consolePanel,
-                width: 500,
-                height: 250,
-            });
-        },
-    };
-
     Connector.Controls =
     {
         mapStateToProps: function(state, ownProps)

@@ -26,20 +26,13 @@
 	<h1>TARDIS Simulator</h1>
 	<table>
 		<tr>
-			<td id="time-rotor-container"><img id="time-rotor" class="time-rotor-state1"
-				src="../resources/images/time-rotor.jpg" alt="missing image" /></td>
+			<td id="camera-container"></td>
 			<td id="scanner-container" style="vertical-align: top;" rowspan="2"></td>
-		</tr>
-		<tr>
-			<td id="console-container" style="vertical-align: bottom;"></td>
 		</tr>
 		<tr>
 			<td>
 				<div id="controls-container"></div>
 			</td>
-		</tr>
-		<tr>
-			<td id="camera-container"></td>
 		</tr>
 	</table>
 
@@ -55,9 +48,9 @@
         LOGGER.setDebugEnabled(false);
 
         require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/CameraUI",
-                "process/ui/Connector", "process/ui/Console", "process/ui/Controls", "process/ui/DematStatusObserver",
+                "process/ui/Connector", "process/ui/Controls", "process/ui/DematStatusObserver",
                 "process/ui/PowerObserver", "process/ui/Scanner", "process/ui/ScannerObserver" ], function(
-                ConsolePanel, Scene, Action, Reducer, CameraUI, Connector, Console, Controls, DematStatusObserver,
+                ConsolePanel, Scene, Action, Reducer, CameraUI, Connector, Controls, DematStatusObserver,
                 PowerObserver, Scanner, ScannerObserver)
         {
             var store = Redux.createStore(Reducer.root);
@@ -72,12 +65,12 @@
             }, React.createElement(connector0));
             ReactDOM.render(element0, document.getElementById("controls-container"));
 
-            var connector1 = ReactRedux.connect(Connector.Console.mapStateToProps)(Console);
+            var connector1 = ReactRedux.connect(Connector.CameraUI.mapStateToProps)(CameraUI);
             var element1 = React.createElement(ReactRedux.Provider,
             {
                 store: store,
             }, React.createElement(connector1));
-            ReactDOM.render(element1, document.getElementById("console-container"));
+            ReactDOM.render(element1, document.getElementById("camera-container"));
 
             var connector2 = ReactRedux.connect(Connector.Scanner.mapStateToProps)(Scanner);
             var element2 = React.createElement(ReactRedux.Provider,
@@ -85,13 +78,6 @@
                 store: store,
             }, React.createElement(connector2));
             ReactDOM.render(element2, document.getElementById("scanner-container"));
-
-            var connector3 = ReactRedux.connect(Connector.CameraUI.mapStateToProps)(CameraUI);
-            var element3 = React.createElement(ReactRedux.Provider,
-            {
-                store: store,
-            }, React.createElement(connector3));
-            ReactDOM.render(element3, document.getElementById("camera-container"));
 
             var sceneKey = Scene.values().vizziniRandomElement();
             store.dispatch(Action.setScene(sceneKey));

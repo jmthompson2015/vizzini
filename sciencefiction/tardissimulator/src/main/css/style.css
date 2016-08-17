@@ -79,22 +79,3 @@ table {
 .scanner-cover-bottom-open {
     transform: translateY(95%);
 }
-
-#time-rotor-container {
-    position: relative;
-    overflow: hidden;
-    background-position: center;
-    background-size: cover;
-}
-
-#time-rotor {
-    transition: 2s ease-in-out;
-}
-
-.time-rotor-state1 {
-    transform: translateY(0%);
-}
-
-.time-rotor-state2 {
-    transform: translateY(80%);
-}
