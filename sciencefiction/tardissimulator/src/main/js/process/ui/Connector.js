@@ -3,6 +3,24 @@ define([ "ConsolePanel", "DematStatus", "Scene" ], function(ConsolePanel, DematS
     "use strict";
     var Connector = {};
 
+    Connector.CameraUI =
+    {
+        mapStateToProps: function(state, ownProps)
+        {
+            var consolePanel = ConsolePanel.properties[state.consolePanelKey];
+            var timeRotorDZ = state.timeRotorDZ;
+
+            return (
+            {
+                canvasId: "cameraCanvas",
+                consolePanel: consolePanel,
+                width: 640,
+                height: 480,
+                timeRotorDZ: timeRotorDZ,
+            });
+        },
+    };
+
     Connector.Console =
     {
         mapStateToProps: function(state, ownProps)

@@ -14,6 +14,7 @@
 <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.min.js"></script>
 <script src="../../../../../coreweb/lib/redux/redux-3.5.2.min.js"></script>
 <script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/InitialState"></script>
+<script src="../../../../../coreweb/lib/three/three-0.79.0.min.js"></script>
 
 <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
@@ -37,6 +38,9 @@
 				<div id="controls-container"></div>
 			</td>
 		</tr>
+		<tr>
+			<td id="camera-container"></td>
+		</tr>
 	</table>
 
 	<audio id="dematerialiseAudio" src="../resources/audio/dematerialise.wav" preload="auto" volume="0.9"></audio>
@@ -50,11 +54,11 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/Connector",
-                "process/ui/Console", "process/ui/Controls", "process/ui/DematStatusObserver",
+        require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/CameraUI",
+                "process/ui/Connector", "process/ui/Console", "process/ui/Controls", "process/ui/DematStatusObserver",
                 "process/ui/PowerObserver", "process/ui/Scanner", "process/ui/ScannerObserver" ], function(
-                ConsolePanel, Scene, Action, Reducer, Connector, Console, Controls, DematStatusObserver, PowerObserver,
-                Scanner, ScannerObserver)
+                ConsolePanel, Scene, Action, Reducer, CameraUI, Connector, Console, Controls, DematStatusObserver,
+                PowerObserver, Scanner, ScannerObserver)
         {
             var store = Redux.createStore(Reducer.root);
             new PowerObserver(store);
@@ -81,6 +85,13 @@
                 store: store,
             }, React.createElement(connector2));
             ReactDOM.render(element2, document.getElementById("scanner-container"));
+
+            var connector3 = ReactRedux.connect(Connector.CameraUI.mapStateToProps)(CameraUI);
+            var element3 = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector3));
+            ReactDOM.render(element3, document.getElementById("camera-container"));
 
             var sceneKey = Scene.values().vizziniRandomElement();
             store.dispatch(Action.setScene(sceneKey));
