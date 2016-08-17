@@ -16,21 +16,18 @@ define(function()
             {
                 name: "Fabrication & Information Systems",
                 image: "../resources/images/panel1.jpg",
-                url: "http://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/tardissimulator/src/main/resources/images/panel1.jpg",
                 value: "panel1",
             },
             "panel2":
             {
                 name: "Navigation",
                 image: "../resources/images/panel2.jpg",
-                url: "http://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/tardissimulator/src/main/resources/images/panel2.jpg",
                 value: "panel2",
             },
             "panel3":
             {
                 name: "Mechanical & Master Control",
                 image: "../resources/images/panel3.jpg",
-                url: "http://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/tardissimulator/src/main/resources/images/panel3.jpg",
                 value: "panel3",
             // scanner switch
             },
@@ -38,7 +35,6 @@ define(function()
             {
                 name: "Communications & Exterior Monitor",
                 image: "../resources/images/panel4.jpg",
-                url: "http://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/tardissimulator/src/main/resources/images/panel4.jpg",
                 value: "panel4",
             // radiation read-outs
             },
@@ -46,7 +42,6 @@ define(function()
             {
                 name: "Helm & Dematerialisation Systems",
                 image: "../resources/images/panel5.jpg",
-                url: "http://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/tardissimulator/src/main/resources/images/panel5.jpg",
                 value: "panel5",
             // auxiliary power control
             // main power bus levers
@@ -55,7 +50,6 @@ define(function()
             {
                 name: "Diagnostic & Internal Ship Systems",
                 image: "../resources/images/panel6.jpg",
-                url: "http://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/tardissimulator/src/main/resources/images/panel6.jpg",
                 value: "panel6",
             // door switch
             // scanner control

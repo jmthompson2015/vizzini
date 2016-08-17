@@ -195,7 +195,7 @@ define(
                         }
                     }
 
-                    loader.load(ConsolePanel.properties[consolePanelKey].url, onLoad.bind(this));
+                    loader.load(ConsolePanel.properties[consolePanelKey].image, onLoad.bind(this));
                 };
 
                 this.createSkirt = function(rotationZ)
