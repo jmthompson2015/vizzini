@@ -108,7 +108,7 @@ define([ "ConsolePanel", "DematStatus", "process/Action" ], function(ConsolePane
 
         previousPanel: function(event)
         {
-            var consolePanelKey = this.context.store.getState().consolePanelKey;
+            var consolePanelKey = this.props.consolePanel.value;
             var values = ConsolePanel.values();
             var index = values.indexOf(consolePanelKey);
             index--;
