@@ -1,0 +1,61 @@
+<html>
+<head>
+<title>Time Rotor Test</title>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../main/js/InitialState"></script>
+<script src="../../../../../coreweb/lib/three/three-0.79.0.min.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<style>
+body {
+    margin: 0;
+}
+
+canvas {
+    width: 100%;
+    height: 100%
+}
+</style>
+</head>
+<body>
+	<script>
+        require([ "process/ui/TimeRotorUI" ], function(TimeRotorUI)
+        {
+            var scene = new THREE.Scene();
+            scene.add(new THREE.AmbientLight(0xFFFFFF, 0.7));
+            var pointLight = new THREE.PointLight(0xFFFFFF, 0.9, 0);
+            pointLight.position.set(25, 25, 50);
+            scene.add(pointLight);
+            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            var renderer = new THREE.WebGLRenderer(
+            {
+                alpha: true,
+                antialias: true,
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            var timeRotor = new TimeRotorUI();
+            var shape = timeRotor.root();
+            scene.add(shape);
+
+             camera.position.y = 25;
+             camera.position.z = 50;
+//            camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+            var render = function()
+            {
+                requestAnimationFrame(render);
+
+                var rate = 0.01;
+                // shape.rotation.x += rate;
+                shape.rotation.y += rate;
+                // shape.rotation.z += rate;
+
+                renderer.render(scene, camera);
+            };
+
+            render();
+        });
+    </script>
+</body>
+</html>
