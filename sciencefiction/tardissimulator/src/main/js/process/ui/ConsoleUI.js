@@ -176,10 +176,11 @@ define(
                     panel.rotation.x = Math.asin(heightPanel / height);
                     panel.rotation.z = rotationZ;
                     panel.rotation.order = "ZYX";
-                    root.add(panel);
 
                     function onLoad(texture)
                     {
+                        LOGGER.debug("ConsoleUI.createPanel().onLoad() consolePanelKey = " + consolePanelKey);
+
                         material.map = texture;
 
                         if (isDone())
@@ -190,6 +191,8 @@ define(
                     }
 
                     loader.load(ConsolePanel.properties[consolePanelKey].image, onLoad.bind(this));
+
+                    return panel;
                 };
 
                 this.createSkirt = function(rotationZ)
@@ -314,13 +317,13 @@ define(
                 ConsolePanel.values().forEach(function(consolePanelKey, i)
                 {
                     var rotationZ = i * d2r(60.0);
-                    this.createPanel(consolePanelKey, rotationZ, i);
 
-                    root.add(that.createInnerHex(rotationZ));
-                    root.add(that.createRib(i));
-                    root.add(that.createBaseInsert(rotationZ));
-                    root.add(that.createCollar(rotationZ));
-                    root.add(that.createSkirt(rotationZ));
+                    root.add(this.createPanel(consolePanelKey, rotationZ, i));
+                    root.add(this.createBaseInsert(rotationZ));
+                    root.add(this.createCollar(rotationZ));
+                    root.add(this.createInnerHex(rotationZ));
+                    root.add(this.createRib(i));
+                    root.add(this.createSkirt(rotationZ));
                 }, this);
 
                 // Backup call to callback in case texture load fails.
