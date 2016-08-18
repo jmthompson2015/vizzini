@@ -61,7 +61,7 @@ define([ "process/ui/ConsoleUI", "process/ui/TimeRotorUI" ], function(ConsoleUI,
 
         function finishConsoleUI(consoleUI)
         {
-            LOGGER.info("SceneUI.finishConsoleUI() consoleUI = " + consoleUI);
+            LOGGER.debug("SceneUI.finishConsoleUI() consoleUI = " + consoleUI);
 
             callback(that);
         }

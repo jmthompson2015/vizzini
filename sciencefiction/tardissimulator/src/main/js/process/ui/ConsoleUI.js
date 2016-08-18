@@ -35,7 +35,8 @@ define(
                 });
 
                 var loader = new THREE.TextureLoader();
-                var panels = [];
+                var panels = {};
+                var timeoutId;
 
                 this.createBaseInsert = function(rotation)
                 {
@@ -116,7 +117,7 @@ define(
                     return answer;
                 };
 
-                this.createPanel = function(consolePanelKey, index)
+                this.createPanel = function(consolePanelKey, rotationZ, index)
                 {
                     LOGGER.trace("createPanel(" + consolePanelKey + ", " + index + ")");
 
@@ -161,36 +162,28 @@ define(
                     var widthInner = 30.31 / 2.0;
                     var widthOuter = 79.672 / 2.0;
 
+                    var material = whiteMaterial.clone();
+                    var panel = new THREE.Mesh(geometry, material);
+                    panels[consolePanelKey] = panel;
+
+                    var radius = (widthOuter - widthInner) / 2.0 + widthInner;
+                    var x = radius * Math.sin(rotationZ);
+                    var y = -radius * Math.cos(rotationZ);
+                    var z = heightSkirt + heightPanel / 2.0;
+
+                    panel.position.set(x, y, z);
+                    panel.rotation.x = Math.asin(heightPanel / height);
+                    panel.rotation.z = rotationZ;
+                    panel.rotation.order = "ZYX";
+                    root.add(panel);
+
                     function onLoad(texture)
                     {
-                        var material = new THREE.MeshPhongMaterial(
-                        {
-                            map: texture,
-                        });
-
-                        var panel = new THREE.Mesh(geometry, material);
-                        panels[index] = panel;
-
-                        var radius = (widthOuter - widthInner) / 2.0 + widthInner;
-                        var rotation = index * d2r(60.0);
-                        var x = radius * Math.sin(rotation);
-                        var y = -radius * Math.cos(rotation);
-                        var z = heightSkirt + heightPanel / 2.0;
-
-                        panel.position.set(x, y, z);
-                        panel.rotation.x = Math.asin(heightPanel / height);
-                        panel.rotation.z = rotation;
-                        panel.rotation.order = "ZYX";
-                        root.add(panel);
-
-                        root.add(that.createInnerHex(rotation));
-                        root.add(that.createRib(index));
-                        root.add(that.createBaseInsert(rotation));
-                        root.add(that.createCollar(rotation));
-                        root.add(that.createSkirt(rotation));
+                        material.map = texture;
 
                         if (isDone())
                         {
+                            clearTimeout(timeoutId);
                             callback(that);
                         }
                     }
@@ -302,9 +295,12 @@ define(
                 function isDone()
                 {
                     var count = 0;
-                    panels.forEach(function(panel)
+
+                    Object.keys(panels).forEach(function(consolePanelKey)
                     {
-                        if (panel)
+                        var panel = panels[consolePanelKey];
+
+                        if (panel.material.map !== null)
                         {
                             count++;
                         }
@@ -316,8 +312,22 @@ define(
                 // Create panels.
                 ConsolePanel.values().forEach(function(consolePanelKey, i)
                 {
-                    this.createPanel(consolePanelKey, i);
+                    var rotationZ = i * d2r(60.0);
+                    this.createPanel(consolePanelKey, rotationZ, i);
+
+                    root.add(that.createInnerHex(rotationZ));
+                    root.add(that.createRib(i));
+                    root.add(that.createBaseInsert(rotationZ));
+                    root.add(that.createCollar(rotationZ));
+                    root.add(that.createSkirt(rotationZ));
                 }, this);
+
+                // Backup call to callback in case texture load fails.
+                timeoutId = setTimeout(function()
+                {
+                    LOGGER.error("Texture loads failed.");
+                    callback(that);
+                }, 5000);
             }
 
             if (Object.freeze)

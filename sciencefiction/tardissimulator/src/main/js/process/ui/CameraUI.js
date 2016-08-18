@@ -10,6 +10,7 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
             return (
             {
                 camera: this.createCamera(),
+                renderLoopStarted: false,
             });
         },
 
@@ -22,7 +23,7 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
                 renderer: this.createRenderer(),
             }, function()
             {
-                LOGGER.info("setState completed function 1");
+                LOGGER.debug("setState completed function 1");
                 this.createSceneUI();
             });
         },
@@ -49,8 +50,8 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
 
             var answer = new THREE.PerspectiveCamera(45, this.props.width / this.props.height, 0.1, 1000);
 
-            answer.position.y = -120;
-            answer.position.z = 30;
+            answer.position.y = -100;
+            answer.position.z = 40;
             answer.lookAt(new THREE.Vector3(0, 0, 0));
 
             return answer;
@@ -92,17 +93,21 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
 
         finishSceneUI: function(sceneUI)
         {
-            LOGGER.trace("CameraUI.finishSceneUI() sceneUI = " + sceneUI);
+            LOGGER.debug("CameraUI.finishSceneUI() sceneUI = " + sceneUI);
 
             this.setState(
             {
                 sceneUI: sceneUI,
             }, function()
             {
-                LOGGER.info("setState completed function 2");
+                LOGGER.debug("setState completed function 2");
 
-                if (this.state.renderer && this.state.sceneUI && this.state.camera)
+                if (!this.state.renderLoopStarted && this.state.renderer && this.state.sceneUI && this.state.camera)
                 {
+                    this.setState(
+                    {
+                        renderLoopStarted: true
+                    });
                     this.startRenderLoop();
                 }
             });
@@ -119,7 +124,7 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
 
         startRenderLoop: function()
         {
-            LOGGER.trace("CameraUI.startRenderLoop()");
+            LOGGER.debug("CameraUI.startRenderLoop()");
 
             this.THREErender();
         },
