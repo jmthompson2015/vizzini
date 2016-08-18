@@ -42,7 +42,7 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
                 sceneKey: action.sceneKey,
             });
         case Action.SET_TIME_ROTOR_DZ:
-            LOGGER.info("Reducer timeRotorDZ = " + action.timeRotorDZ);
+            // LOGGER.info("Reducer timeRotorDZ = " + action.timeRotorDZ);
             return Object.assign({}, state,
             {
                 timeRotorDZ: action.timeRotorDZ,
