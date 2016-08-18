@@ -35,6 +35,7 @@ define(
                 });
 
                 var loader = new THREE.TextureLoader();
+                loader.crossOrigin = '';
                 var panels = {};
                 var timeoutId;
 
