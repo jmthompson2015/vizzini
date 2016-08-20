@@ -35,7 +35,8 @@ define(
                 });
 
                 var loader = new THREE.TextureLoader();
-                loader.crossOrigin = '';
+                loader.setCrossOrigin("");
+                loader.setPath("../resources/images/");
                 var panels = {};
                 var timeoutId;
 
@@ -190,7 +191,7 @@ define(
                         }
                     }
 
-                    loader.load(ConsolePanel.properties[consolePanelKey].image, onLoad.bind(this),
+                    loader.load(ConsolePanel.properties[consolePanelKey].value + ".jpg", onLoad.bind(this),
                     // Function called when download progresses
                     function(xhr)
                     {
