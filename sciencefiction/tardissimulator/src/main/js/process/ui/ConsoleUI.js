@@ -178,10 +178,15 @@ define(
                     panel.rotation.z = rotationZ;
                     panel.rotation.order = "ZYX";
 
-                    function onLoad(texture)
+                    // Load the texture.
+                    var image = document.createElement("img");
+                    var texture = new THREE.Texture(image);
+
+                    image.onload = function()
                     {
                         LOGGER.debug("ConsoleUI.createPanel().onLoad() consolePanelKey = " + consolePanelKey);
 
+                        texture.needsUpdate = true;
                         material.map = texture;
 
                         if (isDone())
@@ -189,19 +194,9 @@ define(
                             clearTimeout(timeoutId);
                             callback(that);
                         }
-                    }
+                    };
 
-                    loader.load(ConsolePanel.properties[consolePanelKey].value + ".jpg", onLoad.bind(this),
-                    // Function called when download progresses
-                    function(xhr)
-                    {
-                        console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-                    },
-                    // Function called when download errors
-                    function(xhr)
-                    {
-                        console.log("Error", xhr.statusText);
-                    });
+                    image.src = ConsolePanel.properties[consolePanelKey].image;
 
                     return panel;
                 };
