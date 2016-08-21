@@ -34,9 +34,6 @@ define(
                     shading: THREE.FlatShading,
                 });
 
-                var loader = new THREE.TextureLoader();
-                loader.setCrossOrigin("");
-                loader.setPath("../resources/images/");
                 var panels = {};
                 var timeoutId;
 
@@ -178,26 +175,7 @@ define(
                     panel.rotation.z = rotationZ;
                     panel.rotation.order = "ZYX";
 
-                    // Load the texture.
-                    var image = document.createElement("img");
-                    image.crossOrigin = "anonymous";
-                    var texture = new THREE.Texture(image);
-
-                    image.onload = function()
-                    {
-                        LOGGER.debug("ConsoleUI.createPanel().onLoad() consolePanelKey = " + consolePanelKey);
-
-                        texture.needsUpdate = true;
-                        material.map = texture;
-
-                        if (isDone())
-                        {
-                            clearTimeout(timeoutId);
-                            callback(that);
-                        }
-                    };
-
-                    image.src = ConsolePanel.properties[consolePanelKey].image;
+                    this.loadTexture(consolePanelKey, material);
 
                     return panel;
                 };
@@ -296,6 +274,29 @@ define(
                         widthBottom: widthBottom,
                         height: height,
                     });
+                };
+
+                this.loadTexture = function(consolePanelKey, material)
+                {
+                    var image = document.createElement("img");
+                    image.crossOrigin = "anonymous";
+                    var texture = new THREE.Texture(image);
+
+                    image.onload = function()
+                    {
+                        LOGGER.debug("ConsoleUI.loadTexture().onLoad() consolePanelKey = " + consolePanelKey);
+
+                        texture.needsUpdate = true;
+                        material.map = texture;
+
+                        if (isDone())
+                        {
+                            clearTimeout(timeoutId);
+                            callback(that);
+                        }
+                    };
+
+                    image.src = ConsolePanel.properties[consolePanelKey].image;
                 };
 
                 function d2r(d)
