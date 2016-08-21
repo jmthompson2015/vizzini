@@ -180,6 +180,7 @@ define(
 
                     // Load the texture.
                     var image = document.createElement("img");
+                    image.crossOrigin = "anonymous";
                     var texture = new THREE.Texture(image);
 
                     image.onload = function()
