@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="../../main/css/style.css">
 <script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../main/js/InitialState"></script>
 <script src="../../../../../coreweb/lib/three/three-0.79.0.min.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 <style>
 body {
@@ -18,6 +19,11 @@ canvas {
 </head>
 <body>
 	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
         require([ "process/ui/TimeRotorUI" ], function(TimeRotorUI)
         {
             var scene = new THREE.Scene();
@@ -39,9 +45,9 @@ canvas {
             var shape = timeRotor.root();
             scene.add(shape);
 
-            camera.position.y = 30;
+            camera.position.y = 40;
             camera.position.z = 60;
-            camera.lookAt(new THREE.Vector3(0, 0, 0));
+            camera.lookAt(new THREE.Vector3(0, 15, 0));
 
             var render = function()
             {

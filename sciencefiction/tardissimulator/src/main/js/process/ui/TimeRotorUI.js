@@ -1,4 +1,4 @@
-define(function()
+define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
 {
     "use strict";
     function TimeRotorUI()
@@ -35,7 +35,8 @@ define(function()
         var tubePositionRadius = 1.0 * coverRatio1;
 
         var baseHeight = 0.46 * coverRatio2;
-        var tubeHeight = 3.4 * coverRatio2;
+        var tubeHeight = 3.25 * coverRatio2;
+        var capHeight = 0.15 * coverRatio2;
 
         this.createBase = function()
         {
@@ -51,6 +52,15 @@ define(function()
 
             var answer = new THREE.Mesh(geometry, material);
             var y = baseHeight / 2.0;
+            answer.position.set(0, y, 0);
+
+            return answer;
+        };
+
+        this.createCap = function()
+        {
+            var answer = new TimeRotorCapUI(tubePositionRadius, tubeRadius).mesh();
+            var y = baseHeight + tubeHeight + capHeight / 2.0;
             answer.position.set(0, y, 0);
 
             return answer;
@@ -76,30 +86,9 @@ define(function()
             return answer;
         };
 
-        this.createDome = function()
-        {
-            var geometry = new THREE.SphereGeometry(domeRadius, 8, 6, 0, Math.PI);
-
-            geometry.computeFaceNormals();
-            geometry.computeVertexNormals();
-
-            var material = new THREE.MeshStandardMaterial(
-            {
-                color: 0xFFFFFF,
-                metalness: 0.5,
-            });
-
-            var answer = new THREE.Mesh(geometry, material);
-            var y = tubeHeight / 2.0;
-            answer.position.set(0, y, 0);
-            answer.rotation.x = d2r(-90.0);
-
-            return answer;
-        };
-
         this.createSidePiece = function()
         {
-            var geometry = new THREE.BoxGeometry(1.2 * tubePositionRadius, tubeHeight, 0.25);
+            var geometry = new THREE.BoxGeometry(0.8 * tubePositionRadius, tubeHeight, 0.25);
 
             geometry.computeFaceNormals();
             geometry.computeVertexNormals();
@@ -108,7 +97,7 @@ define(function()
             {
                 color: 0xFF8888,
                 metalness: 0,
-                opacity: 0.75,
+                opacity: 0.5,
             });
 
             return new THREE.Mesh(geometry, material);
@@ -131,16 +120,6 @@ define(function()
             return new THREE.Mesh(geometry, material);
         };
 
-        this.createTubeAssembly = function()
-        {
-            var tube = this.createTube();
-            var dome = this.createDome();
-
-            tube.add(dome);
-
-            return tube;
-        };
-
         function d2r(d)
         {
             return d * Math.PI / 180.0;
@@ -148,12 +127,13 @@ define(function()
 
         root.add(this.createCover());
         root.add(this.createBase());
+        root.add(this.createCap());
 
         var i, x, y, z;
 
         for (i = 0; i < 3; i++)
         {
-            var tube = this.createTubeAssembly();
+            var tube = this.createTube();
             x = tubePositionRadius * Math.sin(d2r(i * 120.0));
             y = baseHeight + (tubeHeight / 2.0);
             z = tubePositionRadius * Math.cos(d2r(i * 120.0));
