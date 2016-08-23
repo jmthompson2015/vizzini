@@ -34,7 +34,8 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
         var domeRadius = (0.45 / 2.0) * coverRatio1;
         var tubePositionRadius = 1.0 * coverRatio1;
 
-        var baseHeight = 0.46 * coverRatio2;
+        var baseHeight = 0.44 * coverRatio2;
+        var baseHeight2 = 0.02 * coverRatio2;
         var tubeHeight = 3.25 * coverRatio2;
         var capHeight = 0.15 * coverRatio2;
 
@@ -50,17 +51,37 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
             geometry.computeFaceNormals();
             geometry.computeVertexNormals();
 
+            var base2 = this.createBase2();
+            base2.position.set(0, baseHeight/2.0 + baseHeight2 / 2.0, 0);
+
             var answer = new THREE.Mesh(geometry, material);
+            answer.add(base2);
+
             var y = baseHeight / 2.0;
             answer.position.set(0, y, 0);
 
             return answer;
         };
 
+        this.createBase2 = function()
+        {
+            var geometry = new THREE.CylinderGeometry(baseRadius, baseRadius, baseHeight2, 32);
+            var material = new THREE.MeshStandardMaterial(
+            {
+                color: 0xFFFFFF,
+                metalness: 0.2,
+            });
+
+            geometry.computeFaceNormals();
+            geometry.computeVertexNormals();
+
+            return new THREE.Mesh(geometry, material);
+        };
+
         this.createCap = function()
         {
             var answer = new TimeRotorCapUI(tubePositionRadius, tubeRadius).mesh();
-            var y = baseHeight + tubeHeight + capHeight / 2.0;
+            var y = baseHeight + baseHeight2 + tubeHeight + capHeight / 2.0;
             answer.position.set(0, y, 0);
 
             return answer;
@@ -135,7 +156,7 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
         {
             var tube = this.createTube();
             x = tubePositionRadius * Math.sin(d2r(i * 120.0));
-            y = baseHeight + (tubeHeight / 2.0);
+            y = baseHeight + baseHeight2 + (tubeHeight / 2.0);
             z = tubePositionRadius * Math.cos(d2r(i * 120.0));
             tube.position.set(x, y, z);
             root.add(tube);
@@ -147,7 +168,7 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
         {
             var sidePiece = this.createSidePiece();
             x = factor * tubePositionRadius * Math.sin(d2r((i * 120.0) + 60.0));
-            y = baseHeight + (tubeHeight / 2.0);
+            y = baseHeight + baseHeight2 + (tubeHeight / 2.0);
             z = factor * tubePositionRadius * Math.cos(d2r((i * 120.0) + 60.0));
             sidePiece.position.set(x, y, z);
             sidePiece.rotation.y = d2r(60.0 * (1 - i));
