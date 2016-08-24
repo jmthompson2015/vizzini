@@ -35,6 +35,14 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
             InputValidator.validateNotNull("canvasId", this.props.canvasId);
             var canvasId = this.props.canvasId;
 
+            if (this.state.sceneUI)
+            {
+                var timeRotorDZ = this.props.timeRotorDZ;
+                var isActive = (Math.abs(timeRotorDZ) > 0);
+                var timeRotor = this.state.sceneUI.timeRotor();
+                timeRotor.setActive(isActive);
+            }
+
             return React.DOM.canvas(
             {
                 id: canvasId,
@@ -142,7 +150,7 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
             var timeRotor = this.state.sceneUI.timeRotor();
             var timeRotorDZ = this.props.timeRotorDZ;
 
-            var z = timeRotor.position.z - (3.5 + 9);
+            var z = timeRotor.root().position.z - (3.5 + 9);
 
             if (-11.5 > z || z > 0)
             {
@@ -150,8 +158,8 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
                 this.context.store.dispatch(Action.setTimeRotorDZ(timeRotorDZ));
             }
 
-            timeRotor.position.z += timeRotorDZ;
-            timeRotor.rotation.y = (index * -60.0) * Math.PI / 180.0;
+            timeRotor.root().position.z += timeRotorDZ;
+            timeRotor.root().rotation.y = (index * -60.0) * Math.PI / 180.0;
 
             this.render3D();
         },

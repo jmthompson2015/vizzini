@@ -1,14 +1,11 @@
 define(function()
 {
     "use strict";
-    function TimeRotorCapUI(tubePositionRadius, tubeRadius)
+    function TimeRotorCapUI(tubePositionRadius, tubeRadius, capHeight)
     {
         InputValidator.validateNotNull("tubePositionRadius", tubePositionRadius);
         InputValidator.validateNotNull("tubeRadius", tubeRadius);
-
-        var coverHeight = 29.0;
-        var coverRatio2 = coverHeight / 4.6;
-        var capHeight = 0.15 * coverRatio2;
+        InputValidator.validateNotNull("capHeight", capHeight);
 
         this.createGeometry = function()
         {

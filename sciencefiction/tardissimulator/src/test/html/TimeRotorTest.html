@@ -18,6 +18,10 @@ canvas {
 </style>
 </head>
 <body>
+	<div style="padding-top: 20px; text-align: center;">
+		<label> <input id="active" type="checkbox" />Active
+		</label>
+	</div>
 	<script>
         "use strict";
         var LOGGER = new Logger();
@@ -62,6 +66,13 @@ canvas {
             };
 
             render();
+
+            function activeOnClick()
+            {
+                timeRotor.setActive(this.checked);
+            }
+
+            document.getElementById("active").onclick = activeOnClick;
         });
     </script>
 </body>

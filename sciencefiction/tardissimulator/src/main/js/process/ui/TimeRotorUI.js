@@ -1,4 +1,4 @@
-define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
+define([ "process/ui/TimeRotorCapUI", "process/ui/TimeRotorTubeUI" ], function(TimeRotorCapUI, TimeRotorTubeUI)
 {
     "use strict";
     function TimeRotorUI()
@@ -39,6 +39,8 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
         var tubeHeight = 3.25 * coverRatio2;
         var capHeight = 0.15 * coverRatio2;
 
+        var tubes = [];
+
         this.createBase = function()
         {
             var geometry = new THREE.CylinderGeometry(baseRadius, baseRadius, baseHeight, 32);
@@ -52,7 +54,7 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
             geometry.computeVertexNormals();
 
             var base2 = this.createBase2();
-            base2.position.set(0, baseHeight/2.0 + baseHeight2 / 2.0, 0);
+            base2.position.set(0, baseHeight / 2.0 + baseHeight2 / 2.0, 0);
 
             var answer = new THREE.Mesh(geometry, material);
             answer.add(base2);
@@ -80,7 +82,7 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
 
         this.createCap = function()
         {
-            var answer = new TimeRotorCapUI(tubePositionRadius, tubeRadius).mesh();
+            var answer = new TimeRotorCapUI(tubePositionRadius, tubeRadius, capHeight).mesh();
             var y = baseHeight + baseHeight2 + tubeHeight + capHeight / 2.0;
             answer.position.set(0, y, 0);
 
@@ -126,19 +128,15 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
 
         this.createTube = function()
         {
-            var geometry = new THREE.CylinderGeometry(tubeRadius, tubeRadius, tubeHeight, 16);
+            return new TimeRotorTubeUI(tubeRadius, tubeHeight);
+        };
 
-            geometry.computeFaceNormals();
-            geometry.computeVertexNormals();
-
-            var material = new THREE.MeshStandardMaterial(
+        this.setActive = function(isActive)
+        {
+            tubes.forEach(function(tube)
             {
-                color: 0xFF2211,
-                metalness: 0,
-                opacity: 0.75,
+                tube.setActive(isActive);
             });
-
-            return new THREE.Mesh(geometry, material);
         };
 
         function d2r(d)
@@ -158,8 +156,9 @@ define([ "process/ui/TimeRotorCapUI" ], function(TimeRotorCapUI)
             x = tubePositionRadius * Math.sin(d2r(i * 120.0));
             y = baseHeight + baseHeight2 + (tubeHeight / 2.0);
             z = tubePositionRadius * Math.cos(d2r(i * 120.0));
-            tube.position.set(x, y, z);
-            root.add(tube);
+            tube.root().position.set(x, y, z);
+            root.add(tube.root());
+            tubes.push(tube);
         }
 
         var factor = 0.85;

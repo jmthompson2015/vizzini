@@ -46,10 +46,11 @@ define([ "process/ui/ConsoleUI", "process/ui/TimeRotorUI" ], function(ConsoleUI,
 
         function createTimeRotor()
         {
-            var answer = new TimeRotorUI().root();
+            var answer = new TimeRotorUI();
+            var root = answer.root();
 
-            answer.position.z = 3.5 + 9;
-            answer.rotation.x = d2r(90.0);
+            root.position.z = 3.5 + 9;
+            root.rotation.x = d2r(90.0);
 
             return answer;
         }
@@ -82,7 +83,7 @@ define([ "process/ui/ConsoleUI", "process/ui/TimeRotorUI" ], function(ConsoleUI,
         root.add(console);
 
         var timeRotor = createTimeRotor();
-        root.add(timeRotor);
+        root.add(timeRotor.root());
     }
 
     if (Object.freeze)
