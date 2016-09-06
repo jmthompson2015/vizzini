@@ -1,4 +1,5 @@
-define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(ConsolePanel, Action, SceneUI)
+define([ "ConsolePanel", "DematStatus", "process/Action", "process/ui/SceneUI" ], function(ConsolePanel, DematStatus,
+        Action, SceneUI)
 {
     "use strict";
     var CameraUI = React.createClass(
@@ -152,7 +153,7 @@ define([ "ConsolePanel", "process/Action", "process/ui/SceneUI" ], function(Cons
 
             var z = timeRotor.root().position.z - (3.5 + 9);
 
-            if (-11.5 > z || z > 0)
+            if (this.state.dematStatusKey !== DematStatus.MATERIALISED && (-11.5 > z || z > 0))
             {
                 timeRotorDZ = -timeRotorDZ;
                 this.context.store.dispatch(Action.setTimeRotorDZ(timeRotorDZ));
