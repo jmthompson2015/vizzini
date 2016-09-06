@@ -10,6 +10,9 @@ define(function()
             {
                 camera: this.createCamera(),
                 renderLoopStarted: false,
+                rotateX: 0,
+                rotateY: 0,
+                rotateZ: 0,
             });
         },
 
@@ -39,11 +42,16 @@ define(function()
             });
 
             var rows = [];
-            var cell0 = React.DOM.td({}, canvas);
+            var cell0 = React.DOM.td(
+            {
+                colSpan: 2,
+            }, canvas);
             this.addRow(rows, cell0);
 
-            var cell1 = React.DOM.td({}, this.createButtonPanel());
-            this.addRow(rows, cell1);
+            var cells = [];
+            this.addCell(cells, this.createOrientationPanel());
+            this.addCell(cells, this.createRotationPanel());
+            this.addRow(rows, cells);
 
             return React.DOM.table(
             {
@@ -122,7 +130,66 @@ define(function()
             }, child);
         },
 
-        createButtonPanel: function()
+        createCamera: function()
+        {
+            LOGGER.trace("ObjectViewer.createCamera()");
+
+            var cameraFOV = (this.props.cameraFOV ? this.props.cameraFOV : 75);
+            var answer = new THREE.PerspectiveCamera(cameraFOV, this.props.width / this.props.height, 0.1, 1000);
+
+            var cameraPosition = (this.props.cameraPosition ? this.props.cameraPosition : new THREE.Vector3(0, 0, 10));
+            answer.position.copy(cameraPosition);
+            answer.lookAt(new THREE.Vector3(0, 0, 0));
+
+            return answer;
+        },
+
+        createOrientationPanel: function()
+        {
+            var arrowPlus = "\u21BA";
+            var arrowMinus = "\u21BB";
+
+            var right = this.createButton("Right", this.orientRight, arrowPlus);
+            var down = this.createButton("Down", this.orientDown, arrowPlus);
+            var anticlockwise = this.createButton("Anticlockwise", this.orientAnticlockwise, arrowPlus);
+
+            var left = this.createButton("Left", this.orientLeft, arrowMinus);
+            var up = this.createButton("Up", this.orientUp, arrowMinus);
+            var clockwise = this.createButton("Clockwise", this.orientClockwise, arrowMinus);
+
+            var zero = this.createButton("Zero", this.orientZero, "\u25FC");
+
+            var rows = [];
+            var cells = [];
+            this.addCell(cells, "");
+            this.addCell(cells, up);
+            this.addCell(cells, "");
+            this.addRow(rows, cells);
+
+            cells = [];
+            this.addCell(cells, left);
+            this.addCell(cells, zero);
+            this.addCell(cells, right);
+            this.addRow(rows, cells);
+
+            cells = [];
+            this.addCell(cells, anticlockwise);
+            this.addCell(cells, down);
+            this.addCell(cells, clockwise);
+            this.addRow(rows, cells);
+
+            return React.DOM.table(
+            {
+                style:
+                {
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    textAlign: "center",
+                },
+            }, React.DOM.tbody({}, rows));
+        },
+
+        createRotationPanel: function()
         {
             var arrowPlus = "\u21BA";
             var arrowMinus = "\u21BB";
@@ -167,20 +234,6 @@ define(function()
             }, React.DOM.tbody({}, rows));
         },
 
-        createCamera: function()
-        {
-            LOGGER.trace("ObjectViewer.createCamera()");
-
-            var cameraFOV = (this.props.cameraFOV ? this.props.cameraFOV : 75);
-            var answer = new THREE.PerspectiveCamera(cameraFOV, this.props.width / this.props.height, 0.1, 1000);
-
-            var cameraPosition = (this.props.cameraPosition ? this.props.cameraPosition : new THREE.Vector3(0, 0, 10));
-            answer.position.copy(cameraPosition);
-            answer.lookAt(new THREE.Vector3(0, 0, 0));
-
-            return answer;
-        },
-
         createRenderer: function()
         {
             LOGGER.trace("ObjectViewer.createRenderer()");
@@ -211,48 +264,119 @@ define(function()
             return (this.props.deltaAngle ? this.props.deltaAngle : 90);
         },
 
+        deltaRate: function()
+        {
+            return (this.props.deltaRate ? this.props.deltaRate : 0.005);
+        },
+
         render3D: function()
         {
             var renderer = this.state.renderer;
             var scene = this.state.scene;
             var camera = this.state.camera;
 
+            if (!(this.state.rotateX === 0 && this.state.rotateY === 0 && this.state.rotateZ === 0))
+            {
+                var axis = new THREE.Vector3(this.state.rotateX, this.state.rotateY, this.state.rotateZ);
+                var rotationRate = axis.length();
+                axis.normalize();
+                this.props.root.rotateOnAxis(axis, rotationRate);
+            }
+
             renderer.render(scene, camera);
         },
 
-        rotateAnticlockwise: function()
+        orientAnticlockwise: function()
         {
             this.props.root.rotation.z += this.d2r(this.deltaAngle());
         },
 
-        rotateClockwise: function()
+        orientClockwise: function()
         {
             this.props.root.rotation.z += this.d2r(-this.deltaAngle());
         },
 
-        rotateDown: function()
+        orientDown: function()
         {
             this.props.root.rotation.x += this.d2r(this.deltaAngle());
         },
 
-        rotateLeft: function()
+        orientLeft: function()
         {
             this.props.root.rotation.y += this.d2r(-this.deltaAngle());
         },
 
-        rotateRight: function()
+        orientRight: function()
         {
             this.props.root.rotation.y += this.d2r(this.deltaAngle());
         },
 
-        rotateUp: function()
+        orientUp: function()
         {
             this.props.root.rotation.x += this.d2r(-this.deltaAngle());
         },
 
-        rotateZero: function()
+        orientZero: function()
         {
             this.props.root.rotation.set(0, 0, 0);
+        },
+
+        rotateAnticlockwise: function()
+        {
+            this.setState(
+            {
+                rotateZ: this.state.rotateZ + this.deltaRate(),
+            });
+        },
+
+        rotateClockwise: function()
+        {
+            this.setState(
+            {
+                rotateZ: this.state.rotateZ - this.deltaRate(),
+            });
+        },
+
+        rotateDown: function()
+        {
+            this.setState(
+            {
+                rotateX: this.state.rotateX + this.deltaRate(),
+            });
+        },
+
+        rotateLeft: function()
+        {
+            this.setState(
+            {
+                rotateY: this.state.rotateY - this.deltaRate(),
+            });
+        },
+
+        rotateRight: function()
+        {
+            this.setState(
+            {
+                rotateY: this.state.rotateY + this.deltaRate(),
+            });
+        },
+
+        rotateUp: function()
+        {
+            this.setState(
+            {
+                rotateX: this.state.rotateX - this.deltaRate(),
+            });
+        },
+
+        rotateZero: function()
+        {
+            this.setState(
+            {
+                rotateX: 0,
+                rotateY: 0,
+                rotateZ: 0,
+            });
         },
 
         startRenderLoop: function()
@@ -286,6 +410,7 @@ define(function()
         pointLightIntensity: React.PropTypes.number,
         pointLightPosition: React.PropTypes.object,
         deltaAngle: React.PropTypes.number,
+        deltaRate: React.PropTypes.number,
     };
 
     if (Object.freeze)
