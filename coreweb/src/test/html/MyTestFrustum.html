@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestFrustum</title>
+
+<script src="../../../lib/react/react-with-addons-15.3.0.js"></script>
+<script src="../../../lib/react-dom/react-dom-15.3.0.min.js"></script>
+<script src="../../../lib/require/require-2.2.0.js" data-main="../../../src/main/js/ui/ObjectViewer"></script>
+<script src="../../../lib/three/three-0.79.0.min.js"></script>
+
+<script src="../../../src/main/js/util/Logger.js"></script>
+<script src="../../../src/main/js/util/InputValidator.js"></script>
+
+</head>
+<body>
+	<div id="mainContainer">mainContainer</div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        require([ "Frustum", "ObjectViewer" ], function(Frustum, ObjectViewer)
+        {
+            var topMax = 5;
+            var topVertices = [];
+            for (var i = 0; i < topMax; i++)
+            {
+                var angle = i * 2.0 * Math.PI / topMax;
+                var x = Math.cos(angle);
+                var y = Math.sin(angle);
+                topVertices.push(new THREE.Vector2(x, y));
+            }
+            var bottomMax = 5;
+            var bottomVertices = [];
+            for (var i = bottomMax - 1; i >= 0; i--)
+            {
+                var angle = i * 2.0 * Math.PI / bottomMax;
+                var x = Math.cos(angle);
+                var y = Math.sin(angle);
+                bottomVertices.push(new THREE.Vector2(x, y));
+            }
+            var depth = 1;
+            var frustum = new Frustum(topVertices, bottomVertices, depth);
+            var geometry = frustum.geometry();
+            var material = new THREE.MeshStandardMaterial(
+            {
+                color: 0xFF0000,
+                metalness: 0.3,
+                shading: THREE.FlatShading,
+            });
+
+            var root = new THREE.Mesh(geometry, material);
+
+            var width = 400;
+            var height = width;
+            var d = 3;
+
+            var element = React.createElement(ObjectViewer,
+            {
+                canvasId: "mainCanvas",
+                width: width,
+                height: height,
+                root: root,
+
+                cameraFOV: 60,
+                cameraPosition: new THREE.Vector3(0, 0, d),
+                pointLightPosition: new THREE.Vector3(d / 2, d, d),
+                deltaAngle: 30,
+            });
+            ReactDOM.render(element, document.getElementById("mainContainer"));
+        });
+    </script>
+</body>
+</html>
