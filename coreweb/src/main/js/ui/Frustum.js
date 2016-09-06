@@ -49,10 +49,11 @@ define(function()
 
         Array.prototype.push.apply(geometry.vertices, bottomVertices3);
         var start = topVertices.length;
+        var end = start + bottomVertices3.length - 1;
 
-        for (i = start + 1; i < start + bottomVertices3.length - 1; i++)
+        for (i = end - 1; i > start; i--)
         {
-            geometry.faces.push(new THREE.Face3(start, i, i + 1));
+            geometry.faces.push(new THREE.Face3(end, i, i - 1));
         }
 
         // Create sides by joining the top and bottom.
@@ -60,8 +61,8 @@ define(function()
 
         for (i = 0; i < s; i++)
         {
-            geometry.faces.push(new THREE.Face3(i, (i === 0 ? s : (2 * s - i)), (2 * s - (i + 1))));
-            geometry.faces.push(new THREE.Face3(i, (2 * s - (i + 1)), ((i + 1) === s ? 0 : (i + 1))));
+            geometry.faces.push(new THREE.Face3(i, (i === 0 ? s : (s + i)), (i === s - 1 ? s : (s + i + 1))));
+            geometry.faces.push(new THREE.Face3(i, (i === s - 1 ? s : (s + i + 1)), (i + 1 === s ? 0 : i + 1)));
         }
 
         geometry.computeFaceNormals();
@@ -74,7 +75,7 @@ define(function()
         InputValidator.validateNotNull("bottomTrapezoid", bottomTrapezoid);
         InputValidator.validateNotNull("depth", depth);
 
-        var topVertices = createVertices(topTrapezoid, true);
+        var topVertices = createVertices(topTrapezoid);
         var bottomVertices = createVertices(bottomTrapezoid);
         var frustum = new Frustum(topVertices, bottomVertices, depth);
 
@@ -83,7 +84,7 @@ define(function()
             return frustum.geometry();
         };
 
-        function createVertices(trapezoid, isTop)
+        function createVertices(trapezoid)
         {
             var x0 = trapezoid.xCenter - trapezoid.widthBottom / 2.0;
             var y0 = trapezoid.yCenter - trapezoid.height / 2.0;
@@ -97,26 +98,9 @@ define(function()
             var answer = [];
 
             answer.push(new THREE.Vector2(x0, y0));
-
-            if (isTop)
-            {
-                answer.push(new THREE.Vector2(x1, y1));
-            }
-            else
-            {
-                answer.push(new THREE.Vector2(x3, y3));
-            }
-
+            answer.push(new THREE.Vector2(x1, y1));
             answer.push(new THREE.Vector2(x2, y2));
-
-            if (isTop)
-            {
-                answer.push(new THREE.Vector2(x3, y3));
-            }
-            else
-            {
-                answer.push(new THREE.Vector2(x1, y1));
-            }
+            answer.push(new THREE.Vector2(x3, y3));
 
             return answer;
         }

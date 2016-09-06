@@ -22,22 +22,17 @@
 
         require([ "Frustum", "ObjectViewer" ], function(Frustum, ObjectViewer)
         {
-            var topMax = 5;
+            var max = 5;
             var topVertices = [];
-            for (var i = 0; i < topMax; i++)
+            var bottomVertices = [];
+            for (var i = 0; i < max; i++)
             {
-                var angle = i * 2.0 * Math.PI / topMax;
+                var angle = i * 2.0 * Math.PI / max;
                 var x = Math.cos(angle);
                 var y = Math.sin(angle);
                 topVertices.push(new THREE.Vector2(x, y));
-            }
-            var bottomMax = 5;
-            var bottomVertices = [];
-            for (var i = bottomMax - 1; i >= 0; i--)
-            {
-                var angle = i * 2.0 * Math.PI / bottomMax;
-                var x = Math.cos(angle);
-                var y = Math.sin(angle);
+                var x = 1.5 * Math.cos(angle);
+                var y = 1.5 * Math.sin(angle);
                 bottomVertices.push(new THREE.Vector2(x, y));
             }
             var depth = 1;
@@ -54,7 +49,7 @@
 
             var width = 400;
             var height = width;
-            var d = 3;
+            var d = 4;
 
             var element = React.createElement(ObjectViewer,
             {
