@@ -1,6 +1,6 @@
 define(
-        [ "ConsolePanel", "process/ui/IsoscelesTrapezoidFrustum" ],
-        function(ConsolePanel, IsoscelesTrapezoidFrustum)
+        [ "../../../../../../../coreweb/src/main/js/ui/Frustum", "ConsolePanel" ],
+        function(Frustum, ConsolePanel)
         {
             "use strict";
             function ConsoleUI(callback)
@@ -46,7 +46,7 @@ define(
                     var topTrapezoid = this.createTrapezoid(widthTop, widthBottom, height);
                     var bottomTrapezoid = this.createTrapezoid(widthTop, widthBottom, height);
                     var depth = 0.5;
-                    var geometry = new IsoscelesTrapezoidFrustum(topTrapezoid, bottomTrapezoid, depth).geometry();
+                    var geometry = new Frustum.IsoscelesTrapezoid(topTrapezoid, bottomTrapezoid, depth).geometry();
 
                     var innerRadius = (30.31 / 2.0) + (7.0 / 2.0);
 
@@ -72,7 +72,7 @@ define(
 
                     var topTrapezoid = this.createTrapezoid(widthTop - offset, widthBottom - offset, depth);
                     var bottomTrapezoid = this.createTrapezoid(widthTop + offset, widthBottom + offset, depth);
-                    var geometry = new IsoscelesTrapezoidFrustum(topTrapezoid, bottomTrapezoid, 0.5).geometry();
+                    var geometry = new Frustum.IsoscelesTrapezoid(topTrapezoid, bottomTrapezoid, 0.5).geometry();
 
                     var heightSkirt = 3.5;
                     var heightPanel = 9.0;
@@ -130,7 +130,7 @@ define(
                     var topTrapezoid = this.createTrapezoid(widthTop, widthBottom, height);
                     var bottomTrapezoid = this.createTrapezoid(widthTop, widthBottom, height);
                     var depth = 0.5;
-                    var geometry = new IsoscelesTrapezoidFrustum(topTrapezoid, bottomTrapezoid, depth).geometry();
+                    var geometry = new Frustum.IsoscelesTrapezoid(topTrapezoid, bottomTrapezoid, depth).geometry();
 
                     // Add UVs for texture.
                     geometry.computeBoundingBox();
@@ -189,7 +189,7 @@ define(
 
                     var topTrapezoid = this.createTrapezoid(width - offset, width + offset, height);
                     var bottomTrapezoid = this.createTrapezoid(width - offset, width + offset, height);
-                    var geometry = new IsoscelesTrapezoidFrustum(topTrapezoid, bottomTrapezoid, depth).geometry();
+                    var geometry = new Frustum.IsoscelesTrapezoid(topTrapezoid, bottomTrapezoid, depth).geometry();
 
                     geometry.computeFaceNormals();
                     geometry.computeVertexNormals();
