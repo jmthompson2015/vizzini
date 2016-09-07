@@ -1,12 +1,6 @@
 /*
  * Provides an HTML select with options derived from values and the label function.
  * Optionally provide client properties which can be retrieved from the event in your onChange function.
- * 
- * @param values Option values. (required)
- * @param labelFunction Function which returns the label for a value. Defaults to simply return the value. (optional)
- * @param initialSelectedValue Initially selected value. (optional)
- * @param onChange Function called when the selection changes. (optional)
- * @param clientProps Client properties. (optional)
  */
 var Select = React.createClass(
 {
@@ -14,7 +8,7 @@ var Select = React.createClass(
     {
         return (
         {
-            selectedValue: this.props.initialSelectedValue
+            selectedValue: this.props.initialSelectedValue,
         });
     },
 
@@ -22,7 +16,7 @@ var Select = React.createClass(
     {
         this.setState(
         {
-            selectedValue: event.target.value
+            selectedValue: event.target.value,
         });
 
         var onChange = this.props.onChange;
@@ -65,10 +59,25 @@ var Select = React.createClass(
             options.push(React.DOM.option(
             {
                 key: i,
-                value: value
+                value: value,
             }, label));
         }
 
         return React.DOM.select(selectProps, options);
     },
 });
+
+Select.propTypes =
+{
+    // Option values. (required)
+    values: React.PropTypes.array.isRequired,
+
+    // Client properties. (optional)
+    clientProps: React.PropTypes.object,
+    // Initially selected value. (optional)
+    initialSelectedValue: React.PropTypes.string,
+    // Function which returns the label for a value. Defaults to simply return the value. (optional)
+    labelFunction: React.PropTypes.func,
+    // Function called when the selection changes. (optional)
+    onChange: React.PropTypes.func,
+};
