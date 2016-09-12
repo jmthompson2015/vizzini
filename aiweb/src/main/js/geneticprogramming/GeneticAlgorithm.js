@@ -139,6 +139,7 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
 
         if (isDone)
         {
+            this.trigger("message", message);
             callback(this, bestGenome);
         }
         else
