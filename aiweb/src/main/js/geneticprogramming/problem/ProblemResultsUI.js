@@ -1,5 +1,6 @@
 define([ "PopulationUtilities", "StringifyVisitor" ], function(PopulationUtilities, StringifyVisitor)
 {
+    "use strict";
     var ProblemResultsUI = React.createClass(
     {
         componentWillMount: function()

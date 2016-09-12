@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     var ProblemControlsUI = React.createClass(
     {
         render: function()

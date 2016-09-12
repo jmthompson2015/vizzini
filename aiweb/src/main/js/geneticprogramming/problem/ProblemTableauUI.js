@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     var ProblemTableauUI = React.createClass(
     {
         render: function()
@@ -48,7 +49,7 @@ define(function()
             {
                 key: 1
             }, fitnessRows);
-            var fitnessCases = React.DOM.table(
+            var fitnessCasesTable = React.DOM.table(
             {
                 className: "fitnessCases"
             }, [ thead, tbody ]);
@@ -97,7 +98,7 @@ define(function()
             }, "Fitness Cases:"), React.DOM.td(
             {
                 key: 1
-            }, fitnessCases) ]));
+            }, fitnessCasesTable) ]));
 
             return React.DOM.table(
             {
