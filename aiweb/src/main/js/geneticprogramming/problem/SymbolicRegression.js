@@ -74,7 +74,7 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
                 var contexts = [];
                 var outputs = [];
 
-                for (var i = 0; i < 20; i++)
+                for (var i = 0; i <= 20; i++)
                 {
                     var x = (i / 10) - 1;
                     contexts[i] =
@@ -112,6 +112,11 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
             }
 
             return functions;
+        };
+
+        this.objective = function()
+        {
+            return "Find an equation to produce the given outputs from the given inputs.";
         };
 
         this.terminals = function()

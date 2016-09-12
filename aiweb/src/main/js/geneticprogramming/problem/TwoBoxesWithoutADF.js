@@ -210,6 +210,11 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
             return functions;
         };
 
+        this.objective = function()
+        {
+            return "Find an equation to produce the given outputs from the given inputs.";
+        };
+
         this.terminals = function()
         {
             if (!terminals)
