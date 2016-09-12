@@ -3,6 +3,20 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
     "use strict";
     var PopulationUtilities =
     {
+        averageFitness: function(population)
+        {
+            var sum = 0;
+            var count = 0;
+
+            population.forEach(function(treeNode)
+            {
+                sum += treeNode.fitness;
+                count++;
+            });
+
+            return (count > 0 ? sum / count : 0);
+        },
+
         isDuplicate: function(population, newTreeNode)
         {
             if (newTreeNode.string === undefined)
