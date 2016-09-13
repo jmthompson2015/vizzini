@@ -126,5 +126,10 @@ define(function()
         },
     });
 
+    ProblemTableauUI.propTypes =
+    {
+        problem: React.PropTypes.object.required,
+    };
+
     return ProblemTableauUI;
 });

@@ -65,7 +65,6 @@ define([ "PopulationUtilities", "StringifyVisitor" ], function(PopulationUtiliti
 
             var element = React.createElement(ProblemResultsUI.GenerationUI,
             {
-                isCodeDisplayed: this.props.isCodeDisplayed,
                 rows: this.state.rows
             });
             rows.push(React.DOM.tr(
@@ -94,7 +93,6 @@ define([ "PopulationUtilities", "StringifyVisitor" ], function(PopulationUtiliti
                 tbodyRows.push(React.createElement(ProblemResultsUI.RowUI,
                 {
                     key: i,
-                    isCodeDisplayed: this.props.isCodeDisplayed,
                     timestamp: row.timestamp,
                     generationCount: row.generationCount,
                     averageFitness: row.averageFitness,
@@ -185,6 +183,24 @@ define([ "PopulationUtilities", "StringifyVisitor" ], function(PopulationUtiliti
             return React.DOM.tr({}, cells);
         },
     });
+
+    ProblemResultsUI.propTypes =
+    {
+        ga: React.PropTypes.object.required,
+    };
+
+    ProblemResultsUI.GenerationUI.propTypes =
+    {
+        rows: React.PropTypes.array.required,
+    };
+
+    ProblemResultsUI.RowUI.propTypes =
+    {
+        averageFitness: React.PropTypes.number.required,
+        best: React.PropTypes.object.required,
+        timestamp: React.PropTypes.number.required,
+        generationCount: React.PropTypes.number.required,
+    };
 
     return ProblemResultsUI;
 });

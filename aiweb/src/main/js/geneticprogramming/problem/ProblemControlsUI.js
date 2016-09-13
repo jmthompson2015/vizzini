@@ -78,5 +78,12 @@ define(function()
         },
     });
 
+    ProblemControlsUI.propTypes =
+    {
+        generationCount: React.PropTypes.number.required,
+        popSize: React.PropTypes.number.required,
+        submitFunction: React.PropTypes.func.required,
+    };
+
     return ProblemControlsUI;
 });
