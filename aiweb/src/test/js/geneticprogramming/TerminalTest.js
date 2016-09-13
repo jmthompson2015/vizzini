@@ -13,7 +13,7 @@ define([ "Terminal" ], function(Terminal)
         // Verify.
         assert.ok(result);
         assert.equal(result.evaluate(), 12);
-        assert.equal(result.toString(), "Constant value=12");
+        assert.equal(result.toString(), "Constant 12");
     });
 
     QUnit.test("Variable()", function(assert)
@@ -30,6 +30,6 @@ define([ "Terminal" ], function(Terminal)
         // Verify.
         assert.ok(result);
         assert.equal(result.evaluate(context), 12);
-        assert.equal(result.toString(), "Variable variableName=x");
+        assert.equal(result.toString(), "Variable x");
     });
 });

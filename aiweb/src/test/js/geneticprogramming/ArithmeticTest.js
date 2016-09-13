@@ -88,7 +88,7 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "Add child0=Constant value=1,child1=Constant value=2");
+        assert.equal(result, "Add child0=Constant 1,child1=Constant 2");
     });
 
     QUnit.test("Divide()", function(assert)
@@ -153,7 +153,7 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "Divide child0=Constant value=1,child1=Constant value=2");
+        assert.equal(result, "Divide child0=Constant 1,child1=Constant 2");
     });
 
     QUnit.test("Multiply()", function(assert)
@@ -208,7 +208,7 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "Multiply child0=Constant value=1,child1=Constant value=2");
+        assert.equal(result, "Multiply child0=Constant 1,child1=Constant 2");
     });
 
     QUnit.test("Remainder()", function(assert)
@@ -262,7 +262,7 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "Remainder child0=Constant value=1,child1=Constant value=2");
+        assert.equal(result, "Remainder child0=Constant 1,child1=Constant 2");
     });
 
     QUnit.test("SquareRoot()", function(assert)
@@ -311,7 +311,7 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "SquareRoot child0=Constant value=2");
+        assert.equal(result, "SquareRoot child0=Constant 2");
     });
 
     QUnit.test("Subtract()", function(assert)
@@ -366,6 +366,6 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, "Subtract child0=Constant value=1,child1=Constant value=2");
+        assert.equal(result, "Subtract child0=Constant 1,child1=Constant 2");
     });
 });

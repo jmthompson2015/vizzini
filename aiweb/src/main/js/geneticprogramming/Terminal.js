@@ -35,7 +35,7 @@ define([ "TreeNode" ], function(TreeNode)
 
     Constant.prototype.toString = function()
     {
-        return "Constant value=" + this.value();
+        return "Constant " + this.value();
     };
 
     function Variable(variableName)
@@ -64,7 +64,7 @@ define([ "TreeNode" ], function(TreeNode)
 
     Variable.prototype.toString = function()
     {
-        return "Variable variableName=" + this.variableName();
+        return "Variable " + this.variableName();
     };
 
     return (
