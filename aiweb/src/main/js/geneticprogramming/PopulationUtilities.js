@@ -5,20 +5,19 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
     {
         averageFitness: function(population)
         {
-            var sum = 0;
-            var count = 0;
+            InputValidator.validateNotNull("population", population);
 
-            population.forEach(function(treeNode)
-            {
-                sum += treeNode.fitness;
-                count++;
-            });
+            var sum = PopulationUtilities.sumFitness(population);
+            var count = population.length;
 
             return (count > 0 ? sum / count : 0);
         },
 
         isDuplicate: function(population, newTreeNode)
         {
+            InputValidator.validateNotNull("population", population);
+            InputValidator.validateNotNull("newTreeNode", newTreeNode);
+
             if (newTreeNode.string === undefined)
             {
                 newTreeNode.string = (new StringifyVisitor(newTreeNode)).string();
@@ -35,6 +34,16 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
             });
 
             return (nodes.length > 0);
+        },
+
+        sumFitness: function(population)
+        {
+            InputValidator.validateNotNull("population", population);
+
+            return population.reduce(function(sum, genome)
+            {
+                return sum + genome.fitness;
+            }, 0.0);
         },
     };
 

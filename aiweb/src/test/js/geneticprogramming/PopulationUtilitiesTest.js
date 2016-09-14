@@ -3,46 +3,20 @@ define([ "Arithmetic", "PopulationUtilities", "Terminal" ], function(Arithmetic,
     "use strict";
     QUnit.module("PopulationUtilities");
 
-    var functions = [];
-    functions.push(Arithmetic.Add);
-    functions.push(Arithmetic.Divide);
-    functions.push(Arithmetic.Multiply);
-    functions.push(Arithmetic.Subtract);
-    var terminals = [];
-    terminals.push(new Terminal.Constant(1));
-    terminals.push(new Terminal.Variable("x"));
-    var maxDepth = 6;
-    var popSize = 500;
+    QUnit.test("averageFitness()", function(assert)
+    {
+        // Setup.
+        var genome0 = createTree0();
+        var genome1 = createTree1();
+        var population = [];
 
-    // QUnit.test("PopulationUtilities()", function(assert)
-    // {
-    // // Setup.
-    //
-    // // Run.
-    // var result = new PopulationUtilities(functions, terminals, maxDepth, popSize);
-    //
-    // // Verify.
-    // assert.ok(result);
-    // assert.ok(result.functions());
-    // assert.ok(result.terminals());
-    // assert.equal(result.maxDepth(), maxDepth);
-    // assert.equal(result.popSize(), popSize);
-    // });
-    //
-    // QUnit.test("generate()", function(assert)
-    // {
-    // // Setup.
-    // var maxDepth = 6;
-    // var popSize = 100;
-    // var generator = new PopulationUtilities(functions, terminals, maxDepth, popSize);
-    //
-    // // Run.
-    // var result = generator.generate();
-    //
-    // // Verify.
-    // assert.ok(result);
-    // assert.equal(result.length, popSize);
-    // });
+        // Run / Verify.
+        population.push(genome0);
+        assert.equal(PopulationUtilities.averageFitness(population), 1.0);
+
+        population.push(genome1);
+        assert.equal(PopulationUtilities.averageFitness(population), 1.5);
+    });
 
     QUnit.test("isDuplicate()", function(assert)
     {
@@ -68,6 +42,21 @@ define([ "Arithmetic", "PopulationUtilities", "Terminal" ], function(Arithmetic,
         assert.ok(PopulationUtilities.isDuplicate(population, genome2));
     });
 
+    QUnit.test("sumFitness()", function(assert)
+    {
+        // Setup.
+        var genome0 = createTree0();
+        var genome1 = createTree1();
+        var population = [];
+
+        // Run / Verify.
+        population.push(genome0);
+        assert.equal(PopulationUtilities.sumFitness(population), 1.0);
+
+        population.push(genome1);
+        assert.equal(PopulationUtilities.sumFitness(population), 3.0);
+    });
+
     function createTree0()
     {
         var node3 = new Terminal.Variable("x");
@@ -75,6 +64,8 @@ define([ "Arithmetic", "PopulationUtilities", "Terminal" ], function(Arithmetic,
         var node5 = new Terminal.Constant(2);
         var node2 = new Arithmetic.Add([ node3, node4 ]);
         var node1 = new Arithmetic.Subtract([ node2, node5 ]);
+
+        node1.fitness = 1.0;
 
         return node1;
     }
@@ -86,6 +77,8 @@ define([ "Arithmetic", "PopulationUtilities", "Terminal" ], function(Arithmetic,
         var node5 = new Terminal.Constant(3);
         var node2 = new Arithmetic.Subtract([ node3, node4 ]);
         var node1 = new Arithmetic.Add([ node2, node5 ]);
+
+        node1.fitness = 2.0;
 
         return node1;
     }
