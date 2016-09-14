@@ -27,13 +27,13 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         var evaluator = createEvaluator();
         var comparator = GenomeComparator;
         var selector = createSelector(popSize);
-        var operators = [ new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy)),
-                new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)) ];
+        var copyOperator = new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy));
+        var crossoverOperator = new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover));
         var fullGenerator = new GenomeFactory.Full(functions, terminals, maxDepth);
 
         // Run.
-        var result = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators,
-                fullGenerator);
+        var result = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, copyOperator,
+                crossoverOperator, fullGenerator);
 
         // Verify.
         assert.ok(result);
@@ -51,11 +51,11 @@ define([ "Arithmetic", "CopyOperator", "CountVisitor", "CrossoverOperator", "Eva
         var generationCount = 21;
         var comparator = GenomeComparator;
         var selector = createSelector(popSize);
-        var operators = [ new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy)),
-                new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)) ];
+        var copyOperator = new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy));
+        var crossoverOperator = new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover));
         var genomeFactory = new GenomeFactory.Full(functions, terminals, maxDepth);
-        var ga = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators,
-                genomeFactory);
+        var ga = new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, copyOperator,
+                crossoverOperator, genomeFactory);
         ga.bind("generation", function(geneticAlgorithm, generationCount)
         {
             var best = geneticAlgorithm.population()[0];

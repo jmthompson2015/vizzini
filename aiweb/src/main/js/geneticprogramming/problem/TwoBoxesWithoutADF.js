@@ -35,8 +35,8 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
             var operators = this.createOperators();
             var genomeFactory = this.createGenomeFactory();
 
-            return new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators,
-                    genomeFactory);
+            return new GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, operators[0],
+                    operators[1], genomeFactory);
         };
 
         this.createGenomeFactory = function()
@@ -47,8 +47,8 @@ define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "Geneti
         this.createOperators = function()
         {
             var operators = [];
-            operators.push(new Operator(0.10, 1, new CopyOperator.Copier(CopyOperator.copy)));
-            operators.push(new Operator(0.90, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)));
+            operators.push(new Operator(0.05, 1, new CopyOperator.Copier(CopyOperator.copy)));
+            operators.push(new Operator(0.95, 2, new CrossoverOperator.Crossoverer(CrossoverOperator.crossover)));
 
             return operators;
         };
