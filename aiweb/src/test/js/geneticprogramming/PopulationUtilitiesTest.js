@@ -42,6 +42,58 @@ define([ "Arithmetic", "PopulationUtilities", "Terminal" ], function(Arithmetic,
         assert.ok(PopulationUtilities.isDuplicate(population, genome2));
     });
 
+    QUnit.test("maybeAddGenome() duplicates", function(assert)
+    {
+        // Setup.
+        var genome0 = createTree0();
+        var genome1 = createTree1();
+        var genome2 = createTree0();
+        var population = [];
+        var duplicatesAllowed = true;
+
+        // Run / Verify.
+        assert.equal(population.length, 0);
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome0, duplicatesAllowed));
+        assert.equal(population.length, 1);
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome1, duplicatesAllowed));
+        assert.equal(population.length, 2);
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome2, duplicatesAllowed));
+        assert.equal(population.length, 3);
+
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome0, duplicatesAllowed));
+        assert.equal(population.length, 4);
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome1, duplicatesAllowed));
+        assert.equal(population.length, 5);
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome2, duplicatesAllowed));
+        assert.equal(population.length, 6);
+    });
+
+    QUnit.test("maybeAddGenome() no duplicates", function(assert)
+    {
+        // Setup.
+        var genome0 = createTree0();
+        var genome1 = createTree1();
+        var genome2 = createTree0();
+        var population = [];
+        var duplicatesAllowed = false;
+
+        // Run / Verify.
+        assert.equal(population.length, 0);
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome0, duplicatesAllowed));
+        assert.equal(population.length, 1);
+        assert.ok(PopulationUtilities.maybeAddGenome(population, genome1, duplicatesAllowed));
+        assert.equal(population.length, 2);
+        assert.ok(!PopulationUtilities.maybeAddGenome(population, genome2, duplicatesAllowed));
+        assert.equal(population.length, 2);
+
+        assert.ok(!PopulationUtilities.maybeAddGenome(population, genome0, duplicatesAllowed));
+        assert.equal(population.length, 2);
+        assert.ok(!PopulationUtilities.maybeAddGenome(population, genome1, duplicatesAllowed));
+        assert.equal(population.length, 2);
+        assert.ok(!PopulationUtilities.maybeAddGenome(population, genome2, duplicatesAllowed));
+        assert.equal(population.length, 2);
+    });
+
     QUnit.test("sumFitness()", function(assert)
     {
         // Setup.

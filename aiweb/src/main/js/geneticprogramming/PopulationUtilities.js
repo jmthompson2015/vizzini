@@ -36,6 +36,23 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
             return (nodes.length > 0);
         },
 
+        maybeAddGenome: function(newPop, genome, duplicatesAllowed)
+        {
+            InputValidator.validateNotNull("newPop", newPop);
+            InputValidator.validateNotNull("genome", genome);
+            InputValidator.validateNotNull("duplicatesAllowed", duplicatesAllowed);
+
+            var answer = false;
+
+            if (duplicatesAllowed || !PopulationUtilities.isDuplicate(newPop, genome))
+            {
+                newPop.push(genome);
+                answer = true;
+            }
+
+            return answer;
+        },
+
         sumFitness: function(population)
         {
             InputValidator.validateNotNull("population", population);
