@@ -1,8 +1,7 @@
 define([ "Arithmetic", "CopyOperator", "CrossoverOperator", "Evaluator", "GeneticAlgorithm", "GenomeComparator",
-        "GenomeFactory", "Logarithmic", "Operator", "PopulationGenerator", "SelectionOperator", "Terminal",
-        "Trigonometric" ], function(Arithmetic, CopyOperator, CrossoverOperator, Evaluator, GeneticAlgorithm,
-        GenomeComparator, GenomeFactory, Logarithmic, Operator, PopulationGenerator, SelectionOperator, Terminal,
-        Trigonometric)
+        "GenomeFactory", "Operator", "PopulationGenerator", "SelectionOperator", "Terminal" ], function(Arithmetic,
+        CopyOperator, CrossoverOperator, Evaluator, GeneticAlgorithm, GenomeComparator, GenomeFactory, Operator,
+        PopulationGenerator, SelectionOperator, Terminal)
 {
     "use strict";
     function TwoBoxesWithoutADF(popSize, generationCount)
