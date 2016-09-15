@@ -1,6 +1,20 @@
 define([ "GPFunction" ], function(GPFunction)
 {
     "use strict";
+    function AbsoluteValue(children)
+    {
+        Vizzini.extend(this, new GPFunction.Unary("abs", children));
+    }
+
+    AbsoluteValue.ARITY = GPFunction.Unary.ARITY;
+
+    AbsoluteValue.prototype.evaluate = function(context)
+    {
+        var value0 = this.childAt(0).evaluate(context);
+
+        return Math.abs(value0);
+    };
+
     function Add(children)
     {
         Vizzini.extend(this, new GPFunction.Binary("+", children));
@@ -92,6 +106,7 @@ define([ "GPFunction" ], function(GPFunction)
 
     return (
     {
+        AbsoluteValue: AbsoluteValue,
         Add: Add,
         Divide: Divide,
         Multiply: Multiply,

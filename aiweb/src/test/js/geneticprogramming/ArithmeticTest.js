@@ -3,6 +3,77 @@ define([ "Arithmetic", "Terminal" ], function(Arithmetic, Terminal)
     "use strict";
     QUnit.module("Arithmetic");
 
+    QUnit.test("AbsoluteValue()", function(assert)
+    {
+        // Setup.
+        var child1 = new Terminal.Constant(-1);
+
+        // Run.
+        var result = new Arithmetic.AbsoluteValue([ child1 ]);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.childAt(0), child1);
+    });
+
+    QUnit.test("AbsoluteValue.evaluate() negative", function(assert)
+    {
+        // Setup.
+        var child2 = new Terminal.Constant(-2);
+
+        // Run / Verify.
+        assert.equal(new Arithmetic.AbsoluteValue([ child2 ]).evaluate(), 2);
+    });
+
+    QUnit.test("AbsoluteValue.evaluate() positive", function(assert)
+    {
+        // Setup.
+        var child2 = new Terminal.Constant(2);
+
+        // Run / Verify.
+        assert.equal(new Arithmetic.AbsoluteValue([ child2 ]).evaluate(), 2);
+    });
+
+    QUnit.test("AbsoluteValue.evaluate() context negative", function(assert)
+    {
+        // Setup.
+        var childX = new Terminal.Variable("x");
+        var context =
+        {
+            x: -2,
+        };
+
+        // Run / Verify.
+        assert.equal(new Arithmetic.AbsoluteValue([ childX ]).evaluate(context), 2);
+    });
+
+    QUnit.test("AbsoluteValue.evaluate() context positive", function(assert)
+    {
+        // Setup.
+        var childX = new Terminal.Variable("x");
+        var context =
+        {
+            x: 2,
+        };
+
+        // Run / Verify.
+        assert.equal(new Arithmetic.AbsoluteValue([ childX ]).evaluate(context), 2);
+    });
+
+    QUnit.test("AbsoluteValue.toString()", function(assert)
+    {
+        // Setup.
+        var child2 = new Terminal.Constant(-2);
+        var gpFunction = new Arithmetic.AbsoluteValue([ child2 ]);
+
+        // Run.
+        var result = gpFunction.toString();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result, "AbsoluteValue child0=Constant -2");
+    });
+
     QUnit.test("Add()", function(assert)
     {
         // Setup.
