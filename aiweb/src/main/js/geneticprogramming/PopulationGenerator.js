@@ -31,6 +31,8 @@ define([ "GenomeFactory", "PopulationUtilities" ], function(GenomeFactory, Popul
 
     PopulationGenerator.prototype.generate = function()
     {
+        LOGGER.info("PopulationGenerator.generate() start");
+
         var answer = [];
         var minDepth = 2;
         var maxDepth = this.maxDepth();
@@ -43,33 +45,28 @@ define([ "GenomeFactory", "PopulationUtilities" ], function(GenomeFactory, Popul
             var portion = this.popSize() / steps;
             var start = (depth - minDepth) * this.popSize() / steps;
             var end = (depth - minDepth + 1) * this.popSize() / steps;
-            // var countFull = 0;
-            // var countGrow = 0;
+            var maxTries = 20;
+            var count = 0;
+            var duplicatesAllowed = false;
 
             while (answer.length < end)
             {
-                var tree;
+                var usingFull = (answer.length < 0.5 * portion + start);
+                var tree = (usingFull ? fullGenerator.generate() : growGenerator.generate());
 
-                if (answer.length < 0.5 * portion + start)
-                {
-                    tree = fullGenerator.generate();
-                    // countFull++;
-                }
-                else
-                {
-                    tree = growGenerator.generate();
-                    // countGrow++;
-                }
+                var isAdded = PopulationUtilities.maybeAddGenome(answer, tree, duplicatesAllowed);
+                count = (isAdded ? 0 : count + 1);
 
-                if (!PopulationUtilities.isDuplicate(answer, tree))
+                if (count >= maxTries)
                 {
-                    answer.push(tree);
+                    LOGGER.debug("Can't generate a unique genome; usingFull ? " + usingFull + " count = " + count);
+                    PopulationUtilities.maybeAddGenome(answer, tree, true);
+                    count = 0;
                 }
             }
-
-            // LOGGER.info(depth + " countFull = " + countFull + " countGrow = " + countGrow + " sum = " +
-            // (countFull + countGrow));
         }
+
+        LOGGER.info("PopulationGenerator.generate() end");
 
         return answer;
     };

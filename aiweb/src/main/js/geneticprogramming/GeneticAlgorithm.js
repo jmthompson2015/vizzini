@@ -1,4 +1,4 @@
-define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, PopulationUtilities)
+define([ "PopulationUtilities" ], function(PopulationUtilities)
 {
     "use strict";
     function GeneticAlgorithm(population, evaluator, generationCount, comparator, selector, copyOperator,
@@ -43,9 +43,9 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
             return selector;
         };
 
-        this.operators = function()
+        this.duplicatesAllowed = function()
         {
-            return operators;
+            return duplicatesAllowed;
         };
 
         this.createNextGeneration = function()
@@ -81,31 +81,33 @@ define([ "CopyOperator", "PopulationUtilities" ], function(CopyOperator, Populat
                 var genome1 = selector.select(population);
                 var genome = executor.execute(genome1);
 
-                if (duplicatesAllowed || !PopulationUtilities.isDuplicate(newPop, genome))
-                {
-                    newPop.push(genome);
-                }
+                PopulationUtilities.maybeAddGenome(newPop, genome, duplicatesAllowed);
             }
         };
 
         this.fillPopulationCrossover = function(newPop, popSize, maxTries, operator)
         {
             var executor = operator.executor();
+            var count = 0;
 
             while (newPop.length < popSize)
             {
                 var genome1 = selector.select(population);
                 var genome2 = selector.select(population);
+
                 var genomes = executor.execute(genome1, genome2);
 
-                if (duplicatesAllowed || !PopulationUtilities.isDuplicate(newPop, genomes[0]))
-                {
-                    newPop.push(genomes[0]);
-                }
+                var isAdded0 = PopulationUtilities.maybeAddGenome(newPop, genomes[0], duplicatesAllowed);
+                var isAdded1 = PopulationUtilities.maybeAddGenome(newPop, genomes[1], duplicatesAllowed);
 
-                if (duplicatesAllowed || !PopulationUtilities.isDuplicate(newPop, genomes[1]))
+                count = (isAdded0 || isAdded1 ? 0 : count + 1);
+
+                if (count >= maxTries)
                 {
-                    newPop.push(genomes[1]);
+                    LOGGER.info("generating a new random genome; count = " + count);
+                    var genome = genomeFactory.generate();
+                    PopulationUtilities.maybeAddGenome(newPop, genome, true);
+                    count = 0;
                 }
             }
         };
