@@ -1,10 +1,12 @@
 define([ "CountVisitor" ], function(CountVisitor)
 {
     "use strict";
-    function NumericEvaluator(fitnessCases, errorThreshold, idealGenomeLength)
+    function NumericEvaluator(fitnessCases, errorThreshold, idealGenomeLength, standardizedFitnessComputer)
     {
         InputValidator.validateNotEmpty("fitnessCases", fitnessCases);
         InputValidator.validateNotNull("errorThreshold", errorThreshold);
+        // idealGenomeLength optional
+        // standardizedFitnessComputer optional
 
         this.fitnessCases = function()
         {
@@ -21,16 +23,23 @@ define([ "CountVisitor" ], function(CountVisitor)
             return idealGenomeLength;
         };
 
-        var idealEvaluation = 1000;
-
-        this.idealEvaluation = function()
+        this.computeStandardizedFitness = function(rawFitness)
         {
-            return idealEvaluation;
+            var answer = rawFitness;
+
+            if (standardizedFitnessComputer !== undefined)
+            {
+                answer = standardizedFitnessComputer(rawFitness);
+            }
+
+            return answer;
         };
 
         this.computeSumError = function(genome)
         {
             InputValidator.validateNotNull("genome", genome);
+
+            genome.hits = 0;
 
             return fitnessCases.reduce(function(previousValue, fitnessCase, i)
             {
@@ -48,7 +57,14 @@ define([ "CountVisitor" ], function(CountVisitor)
                     }
                     else
                     {
-                        answer += Math.abs(output - result);
+                        var error = Math.abs(output - result);
+
+                        if (error < errorThreshold)
+                        {
+                            genome.hits++;
+                        }
+
+                        answer += error;
                     }
                 }
                 catch (e)
@@ -74,30 +90,22 @@ define([ "CountVisitor" ], function(CountVisitor)
 
         this.evaluateGenome = function(genome)
         {
-            var sumError = this.computeSumError(genome);
+            genome.rawFitness = this.computeSumError(genome);
 
-            if (sumError <= errorThreshold)
+            if (idealGenomeLength !== undefined)
             {
-                // Perfect evaluation.
-                genome.fitness = idealEvaluation;
+                // Add pressure for the genome length.
+                var visitor = new CountVisitor(genome);
+                genome.rawFitness += (0.05 * Math.abs(idealGenomeLength - visitor.count()));
+            }
 
-                if (idealGenomeLength !== undefined)
-                {
-                    // Add pressure for the shortest genome.
-                    var visitor = new CountVisitor(genome);
-                    genome.fitness += idealGenomeLength - visitor.count();
-                }
-            }
-            else
-            {
-                genome.fitness += 0.5 * idealEvaluation * errorThreshold / sumError;
-            }
+            genome.fitness = this.computeStandardizedFitness(genome.rawFitness);
+            genome.adjustedFitness = (1.0 / (1.0 + genome.fitness));
 
             if (isNaN(genome.fitness))
             {
                 LOGGER.error("genome = " + genome);
-                LOGGER.error("matches = " + matches);
-                throw "NumericEvaluator.evaluateMatches() fitness = " + genome.fitness;
+                throw "NumericEvaluator.evaluateGenome() fitness = " + genome.fitness;
             }
         };
     }

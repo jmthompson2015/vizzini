@@ -28,8 +28,8 @@ define([ "Logic", "Terminal", "process/MatchEvaluator" ], function(Logic, Termin
         }
 
         i = 0;
-        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 1000);
-        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 250);
+        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 0);
+        assert.equal(Math.vizziniRound(population[i++].fitness, 4), 2);
     });
 
     function createFitnessCases()

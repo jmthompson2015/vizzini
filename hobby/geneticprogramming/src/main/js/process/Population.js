@@ -96,6 +96,14 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
             genomes.sort(comparator);
         };
 
+        this.sumAdjustedFitness = function()
+        {
+            return genomes.reduce(function(sum, genome)
+            {
+                return sum + genome.adjustedFitness;
+            }, 0.0);
+        };
+
         this.sumFitness = function()
         {
             return genomes.reduce(function(sum, genome)

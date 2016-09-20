@@ -96,6 +96,22 @@ define([ "Arithmetic", "Terminal", "process/Population" ], function(Arithmetic, 
         assert.equal(population.length(), 2);
     });
 
+    QUnit.test("sumAdjustedFitness()", function(assert)
+    {
+        // Setup.
+        var genome0 = createTree0();
+        var genome1 = createTree1();
+        var population = new Population();
+        var duplicatesAllowed = false;
+
+        // Run / Verify.
+        population.maybeAddGenome(genome0, duplicatesAllowed);
+        assert.equal(population.sumAdjustedFitness(), 0.5);
+
+        population.maybeAddGenome(genome1, duplicatesAllowed);
+        assert.equal(Math.vizziniRound(population.sumAdjustedFitness(), 4), 0.8333);
+    });
+
     QUnit.test("sumFitness()", function(assert)
     {
         // Setup.
@@ -122,6 +138,7 @@ define([ "Arithmetic", "Terminal", "process/Population" ], function(Arithmetic, 
         var node1 = new Arithmetic.Subtract([ node2, node5 ]);
 
         node1.fitness = 1;
+        node1.adjustedFitness = (1.0 / (1.0 + node1.fitness));
 
         return node1;
     }
@@ -136,6 +153,7 @@ define([ "Arithmetic", "Terminal", "process/Population" ], function(Arithmetic, 
         var node1 = new Arithmetic.Add([ node2, node5 ]);
 
         node1.fitness = 2;
+        node1.adjustedFitness = (1.0 / (1.0 + node1.fitness));
 
         return node1;
     }
