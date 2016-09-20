@@ -72,10 +72,11 @@ define([ "Arithmetic", "Logarithmic", "Terminal", "Trigonometric", "process/Copy
         this.fitnessCases = function()
         {
             var fitnessCases = [];
+            var delta = 2.0 / 19.0;
 
             for (var i = 0; i < 20; i++)
             {
-                var x = (i / 10) - 1;
+                var x = (i * delta) - 1;
                 fitnessCases.push(
                 {
                     input:

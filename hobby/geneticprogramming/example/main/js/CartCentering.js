@@ -90,8 +90,8 @@ define(
 
                         while (fitnessCases.length < 20)
                         {
-                            var x = Math.vizziniRandomIntFromRange(minX, maxX);
-                            var v = Math.vizziniRandomIntFromRange(minV, maxV);
+                            var x = Math.vizziniRandomRealFromRange(minX, maxX);
+                            var v = Math.vizziniRandomRealFromRange(minV, maxV);
                             addFitnessCase(fitnessCases, x, v);
                         }
                     }
@@ -151,6 +151,11 @@ define(
 
             CartCentering.Evaluator = function(fitnessCases, xThreshold, vThreshold)
             {
+                this.fitnessCases = function()
+                {
+                    return fitnessCases;
+                };
+                
                 this.idealGenomeLength = function()
                 {
                     return idealGenomeLength;
