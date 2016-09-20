@@ -1,4 +1,5 @@
-define([ "StringifyVisitor", "process/GenomeEditor" ], function(StringifyVisitor, GenomeEditor)
+define([ "CountVisitor", "StringifyVisitor", "process/GenomeEditor" ], function(CountVisitor, StringifyVisitor,
+        GenomeEditor)
 {
     "use strict";
     var ProblemResultsUI = React.createClass(
@@ -156,13 +157,13 @@ define([ "StringifyVisitor", "process/GenomeEditor" ], function(StringifyVisitor
             {
                 key: cells.length,
                 className: "genome",
-                title: "length = " + best.length
+                title: "length = " + (new CountVisitor(best)).count(),
             }, genomeString));
             cells.push(React.DOM.td(
             {
                 key: cells.length,
                 className: "genome",
-                title: "length = " + editedGenome.length
+                title: "length = " + (new CountVisitor(editedGenome)).count(),
             }, editedString));
 
             return React.DOM.tr({}, cells);
