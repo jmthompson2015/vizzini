@@ -24,7 +24,7 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
         }
 
         return answer;
-    }
+    };
 
     GenomeEditor.editArityOne = function(genome)
     {
@@ -89,7 +89,7 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
         }
 
         return answer;
-    }
+    };
 
     GenomeEditor.editArityTwo = function(genome)
     {
@@ -188,7 +188,7 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
             }
         }
         return answer;
-    }
+    };
 
     GenomeEditor.areChildrenConstants = function(genome)
     {
@@ -196,7 +196,7 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
         {
             return previousValue && (child instanceof Terminal.Constant);
         }, true);
-    }
+    };
 
     GenomeEditor.isSameExpression = function(node0, node1)
     {
@@ -211,7 +211,7 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
         }
 
         return (node0.string === node1.string);
-    }
+    };
 
     if (Object.freeze)
     {

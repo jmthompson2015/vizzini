@@ -108,7 +108,7 @@ define(
                 var result = GenomeEditor.edit(genome0);
                 assert.equal((new StringifyVisitor(result)).string(), "x");
 
-                var result = GenomeEditor.edit(genome1);
+                result = GenomeEditor.edit(genome1);
                 assert.equal((new StringifyVisitor(result)).string(), "x");
             });
 
@@ -184,7 +184,7 @@ define(
                 var result = GenomeEditor.edit(genome0);
                 assert.equal((new StringifyVisitor(result)).string(), "0");
 
-                var result = GenomeEditor.edit(genome1);
+                result = GenomeEditor.edit(genome1);
                 assert.equal((new StringifyVisitor(result)).string(), "0");
             });
 
@@ -200,7 +200,7 @@ define(
                 var result = GenomeEditor.edit(genome0);
                 assert.equal((new StringifyVisitor(result)).string(), "x");
 
-                var result = GenomeEditor.edit(genome1);
+                result = GenomeEditor.edit(genome1);
                 assert.equal((new StringifyVisitor(result)).string(), "x");
             });
 

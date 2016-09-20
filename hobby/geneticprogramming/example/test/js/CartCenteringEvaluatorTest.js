@@ -51,7 +51,7 @@ define([ "Arithmetic", "Relational", "Terminal", "../../../example/main/js/CartC
         addFitnessCase(fitnessCases, maxX, maxV);
 
         return fitnessCases;
-    };
+    }
 
     function createTreeNode()
     {
