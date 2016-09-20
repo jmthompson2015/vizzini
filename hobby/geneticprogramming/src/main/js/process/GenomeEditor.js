@@ -46,6 +46,10 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
             {
                 answer = new Terminal.Constant(1);
             }
+            else if (child0 instanceof Logarithmic.Logarithm)
+            {
+                answer = child0.childAt(0);
+            }
         }
         else if (answer instanceof Logarithmic.Logarithm)
         {
@@ -54,13 +58,17 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
             {
                 answer = new Terminal.Constant(0);
             }
+            else if (child0 instanceof Logarithmic.Exponential)
+            {
+                answer = child0.childAt(0);
+            }
         }
         else if (answer instanceof Logic.Not)
         {
             // Not (Not a) = a
-            if (answer.childAt(0) instanceof Logic.Not)
+            if (child0 instanceof Logic.Not)
             {
-                answer = answer.childAt(0).childAt(0);
+                answer = child0.childAt(0);
             }
         }
         else if (answer instanceof Trigonometric.Cosine)

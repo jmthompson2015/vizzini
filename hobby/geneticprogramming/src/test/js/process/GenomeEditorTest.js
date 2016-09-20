@@ -242,6 +242,21 @@ define(
                 assert.equal((new StringifyVisitor(result)).string(), "1");
             });
 
+            QUnit.test("edit() Logarithm exp(log(x)", function(assert)
+            {
+                // Setup.
+                var node0 = new Terminal.Variable("x");
+                var node1 = new Logarithmic.Logarithm([ node0 ]);
+                var genome = new Logarithmic.Exponential([ node1 ]);
+
+                // Run.
+                var result = GenomeEditor.edit(genome);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal((new StringifyVisitor(result)).string(), "x");
+            });
+
             QUnit.test("edit() Logarithm log(1)", function(assert)
             {
                 // Setup.
@@ -254,6 +269,21 @@ define(
                 // Verify.
                 assert.ok(result);
                 assert.equal((new StringifyVisitor(result)).string(), "0");
+            });
+
+            QUnit.test("edit() Logarithm log(exp(x)", function(assert)
+            {
+                // Setup.
+                var node0 = new Terminal.Variable("x");
+                var node1 = new Logarithmic.Exponential([ node0 ]);
+                var genome = new Logarithmic.Logarithm([ node1 ]);
+
+                // Run.
+                var result = GenomeEditor.edit(genome);
+
+                // Verify.
+                assert.ok(result);
+                assert.equal((new StringifyVisitor(result)).string(), "x");
             });
 
             QUnit.test("edit() Logic and same expressions", function(assert)
