@@ -1,9 +1,11 @@
 define([ "CountVisitor" ], function(CountVisitor)
 {
     "use strict";
-    function MatchEvaluator(fitnessCases, idealGenomeLength)
+    function MatchEvaluator(fitnessCases, idealGenomeLength, standardizedFitnessComputer)
     {
         InputValidator.validateNotEmpty("fitnessCases", fitnessCases);
+        // idealGenomeLength optional
+        // standardizedFitnessComputer optional
 
         this.fitnessCases = function()
         {
@@ -15,18 +17,21 @@ define([ "CountVisitor" ], function(CountVisitor)
             return idealGenomeLength;
         };
 
-        var idealEvaluation = 1000;
-
-        this.idealEvaluation = function()
+        this.computeStandardizedFitness = function(rawFitness)
         {
-            return idealEvaluation;
+            var answer = rawFitness;
+
+            if (standardizedFitnessComputer !== undefined)
+            {
+                answer = standardizedFitnessComputer(rawFitness);
+            }
+
+            return answer;
         };
 
         this.computeMatches = function(genome)
         {
             InputValidator.validateNotNull("genome", genome);
-
-            LOGGER.debug("Evaluator.computeMatches() fitnessCases.length = " + fitnessCases.length);
 
             return fitnessCases.reduce(function(previousValue, fitnessCase, i)
             {
@@ -35,7 +40,6 @@ define([ "CountVisitor" ], function(CountVisitor)
                 try
                 {
                     var result = genome.evaluate(input);
-                    LOGGER.debug("Evaluator.computeMatches() input = " + input + " result = " + result);
 
                     return previousValue + (result === output ? 1 : 0);
                 }
@@ -60,32 +64,23 @@ define([ "CountVisitor" ], function(CountVisitor)
 
         this.evaluateGenome = function(genome)
         {
-            LOGGER.debug("Evaluator.evaluateMatches() genome = " + genome);
-            var matches = this.computeMatches(genome);
-            LOGGER.debug("Evaluator.evaluateMatches() matches = " + matches);
+            genome.hits = this.computeMatches(genome);
+            genome.rawFitness = genome.hits;
 
-            if (matches === fitnessCases.length)
+            if (idealGenomeLength !== undefined)
             {
-                // Perfect evaluation.
-                genome.fitness = idealEvaluation;
+                // Add pressure for the genome length.
+                var visitor = new CountVisitor(genome);
+                genome.rawFitness -= (0.05 * Math.abs(idealGenomeLength - visitor.count()));
+            }
 
-                if (idealGenomeLength !== undefined)
-                {
-                    // Add pressure for the shortest genome.
-                    var visitor = new CountVisitor(genome);
-                    genome.fitness += idealGenomeLength - visitor.count();
-                }
-            }
-            else
-            {
-                genome.fitness += 0.5 * idealEvaluation * matches / fitnessCases.length;
-            }
+            genome.fitness = this.computeStandardizedFitness(fitnessCases.length - genome.rawFitness);
+            genome.adjustedFitness = (1.0 / (1.0 + genome.fitness));
 
             if (isNaN(genome.fitness))
             {
                 LOGGER.error("genome = " + genome);
-                LOGGER.error("matches = " + matches);
-                throw "MatchEvaluator.evaluateMatches() fitness = " + genome.fitness;
+                throw "MatchEvaluator.evaluateGenome() fitness = " + genome.fitness;
             }
         };
     }
