@@ -156,33 +156,32 @@ define(
                     return idealGenomeLength;
                 };
 
-                this.idealEvaluation = function()
-                {
-                    return 1000;
-                };
-
                 this.evaluate = function(population)
                 {
                     InputValidator.validateNotEmpty("population", population);
 
                     var simulator = new CartCentering.Simulator(xThreshold, vThreshold);
                     var isVerbose = false;
-                    var idealEvaluation = this.idealEvaluation();
 
                     population.forEach(function(genome)
                     {
-                        var fitness = 0.0;
+                        genome.rawFitness = 0.0;
+                        genome.hits = 0;
 
                         fitnessCases.forEach(function(fitnessCase)
                         {
                             var x0 = fitnessCase.input.x;
                             var v0 = fitnessCase.input.v;
-                            fitness += simulator.run(x0, v0, genome, isVerbose);
+                            genome.rawFitness += simulator.run(x0, v0, genome, isVerbose);
+
+                            if (genome.rawFitness < 10.0)
+                            {
+                                genome.hits++;
+                            }
                         });
 
-                        // Penalize long answers?
-
-                        genome.fitness = (fitness === 0 ? idealEvaluation : idealEvaluation / fitness);
+                        genome.fitness = genome.rawFitness;
+                        genome.adjustedFitness = (1.0 / (1.0 + genome.fitness));
                     });
                 };
             };
@@ -205,6 +204,7 @@ define(
                     while (!isDone && (context.time + TAU < 10.0))
                     {
                         var value = genome.evaluate(context);
+                        // Wrapper.
                         var a = (value > 0 ? 1 : -1);
                         context.time += TAU;
                         context.x += TAU * context.v; // old v
