@@ -16,7 +16,7 @@ table {
     text-align: left;
 }
 
-#ALIGN_RIGHT, .averageFitness, .fitness, .alignRight {
+#ALIGN_RIGHT, .averageFitness, .fitness, .hits, .rawFitness, .alignRight {
     text-align: right;
 }
 

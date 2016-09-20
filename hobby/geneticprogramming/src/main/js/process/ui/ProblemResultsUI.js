@@ -1,4 +1,4 @@
-define([ "StringifyVisitor" ], function(StringifyVisitor)
+define([ "StringifyVisitor", "process/GenomeEditor" ], function(StringifyVisitor, GenomeEditor)
 {
     "use strict";
     var ProblemResultsUI = React.createClass(
@@ -69,11 +69,23 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
             headerCells.push(React.DOM.th(
             {
                 key: headerCells.length,
-            }, "Best Fitness"));
+            }, "Best Raw Fitness"));
+            headerCells.push(React.DOM.th(
+            {
+                key: headerCells.length,
+            }, "Best Standardized Fitness"));
+            headerCells.push(React.DOM.th(
+            {
+                key: headerCells.length,
+            }, "Best Hits"));
             headerCells.push(React.DOM.th(
             {
                 key: headerCells.length,
             }, "Best Genome"));
+            headerCells.push(React.DOM.th(
+            {
+                key: headerCells.length,
+            }, "Edited Best Genome"));
 
             var thead = React.DOM.thead(
             {
@@ -100,9 +112,14 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
         {
             var averageFitness = Math.vizziniRound(this.props.averageFitness, 2);
             var best = this.props.best;
+            var rawFitness = Math.vizziniRound(best.rawFitness, 4);
             var fitness = Math.vizziniRound(best.fitness, 4);
+            var hits = best.hits;
             var visitor1 = new StringifyVisitor(best);
             var genomeString = visitor1.string();
+            var editedGenome = GenomeEditor.edit(best);
+            var visitor2 = new StringifyVisitor(editedGenome);
+            var editedString = visitor2.string();
 
             var cells = [];
 
@@ -123,14 +140,30 @@ define([ "StringifyVisitor" ], function(StringifyVisitor)
             cells.push(React.DOM.td(
             {
                 key: cells.length,
+                className: "rawFitness"
+            }, rawFitness));
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
                 className: "fitness"
             }, fitness));
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "hits"
+            }, hits));
             cells.push(React.DOM.td(
             {
                 key: cells.length,
                 className: "genome",
                 title: "length = " + best.length
             }, genomeString));
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "genome",
+                title: "length = " + editedGenome.length
+            }, editedString));
 
             return React.DOM.tr({}, cells);
         },
