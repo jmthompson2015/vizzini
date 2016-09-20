@@ -155,9 +155,9 @@ define([ "process/Action", "process/Population" ], function(Action, Population)
         bestGenome.averageFitness = population.averageFitness();
         this.store().dispatch(Action.addBestGenome(bestGenome));
 
-        if (bestEval >= evaluator.idealEvaluation())
+        if (bestGenome.hits === evaluator.fitnessCases().length)
         {
-            message = "Ideal evaluation. Stopping.";
+            message = "Ideal hits. Stopping.";
             LOGGER.debug(message);
             isDone = true;
         }

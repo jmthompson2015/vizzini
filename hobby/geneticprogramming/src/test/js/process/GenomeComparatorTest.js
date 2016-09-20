@@ -21,8 +21,8 @@ define([ "Arithmetic", "CountVisitor", "Terminal", "process/GenomeComparator" ],
 
         // Run / Verify.
         assert.equal(comparator(genome0, genome0), 0);
-        assert.ok(comparator(genome0, genome1) > 0);
-        assert.equal(comparator(genome0, genome1), 33.3);
+        assert.ok(comparator(genome0, genome1) < 0);
+        assert.equal(comparator(genome0, genome1), -33.3);
         assert.equal(comparator(genome0, genome2), 2);
     });
 
@@ -45,12 +45,12 @@ define([ "Arithmetic", "CountVisitor", "Terminal", "process/GenomeComparator" ],
 
         // Verify.
         var i = 0;
-        assert.equal(population[i].fitness, 45.6);
-        assert.equal((new CountVisitor(population[i++])).count(), 5);
         assert.equal(population[i].fitness, 12.3);
         assert.equal((new CountVisitor(population[i++])).count(), 5);
         assert.equal(population[i].fitness, 12.3);
         assert.equal((new CountVisitor(population[i++])).count(), 7);
+        assert.equal(population[i].fitness, 45.6);
+        assert.equal((new CountVisitor(population[i++])).count(), 5);
     });
 
     function createTree0()

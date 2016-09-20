@@ -19,8 +19,8 @@ define([ "Terminal", "process/Population", "process/SelectionOperator" ], functi
 
         // Verify.
         assert.ok(result);
-        assert.ok((popSize - selectionCount) < result.fitness);
-        assert.ok(result.fitness <= popSize);
+        assert.ok(result.fitness < selectionCount);
+        assert.ok(result.fitness >= 0);
     });
 
     QUnit.test("randomSelect()", function(assert)
@@ -34,8 +34,8 @@ define([ "Terminal", "process/Population", "process/SelectionOperator" ], functi
 
         // Verify.
         assert.ok(result);
-        assert.ok((popSize - selectionCount) < result.fitness);
-        assert.ok(result.fitness <= popSize);
+        assert.ok(result.fitness < selectionCount);
+        assert.ok(result.fitness >= 0);
     });
 
     QUnit.test("simpleTournamentSelect()", function(assert)
@@ -49,8 +49,8 @@ define([ "Terminal", "process/Population", "process/SelectionOperator" ], functi
 
         // Verify.
         assert.ok(result);
-        assert.ok((popSize - selectionCount) < result.fitness);
-        assert.ok(result.fitness <= popSize);
+        assert.ok(result.fitness < selectionCount);
+        assert.ok(result.fitness >= 0);
     });
 
     function createPopulation(genomeLength, popSize)
@@ -61,7 +61,8 @@ define([ "Terminal", "process/Population", "process/SelectionOperator" ], functi
         for (var i = 0; i < popSize; i++)
         {
             var genome = new Terminal.Constant(i);
-            genome.fitness = popSize - i;
+            genome.fitness = i;
+            genome.adjustedFitness = (1.0 / (1.0 + genome.fitness));
             population.maybeAddGenome(genome, duplicatesAllowed);
         }
 

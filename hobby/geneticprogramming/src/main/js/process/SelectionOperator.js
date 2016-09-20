@@ -58,18 +58,18 @@ define(function()
             var genome0 = head.vizziniRandomElement();
             var genome1 = head.vizziniRandomElement();
 
-            return (genome0.fitness > genome1.fitness ? genome0 : genome1);
+            return (genome0.fitness < genome1.fitness ? genome0 : genome1);
         },
 
         determineNormalizedFitness: function(population)
         {
             InputValidator.validateNotNull("population", population);
 
-            var sum = population.sumFitness();
+            var sum = population.sumAdjustedFitness();
 
             population.forEach(function(genome)
             {
-                genome.normalizedFitness = genome.fitness / sum;
+                genome.normalizedFitness = genome.adjustedFitness / sum;
             });
         },
     };

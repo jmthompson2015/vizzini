@@ -76,10 +76,8 @@ define([ "Arithmetic", "Terminal", "process/CopyOperator", "process/CrossoverOpe
     {
         var fitnessCases = createFitnessCases();
         var errorThreshold = 0.01;
-        var idealGenomeLength = 13;
-        var evaluator = new NumericEvaluator(fitnessCases, errorThreshold, idealGenomeLength);
-
-        return evaluator;
+        
+        return new NumericEvaluator(fitnessCases, errorThreshold);
     }
 
     function createFitnessCases()

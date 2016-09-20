@@ -9,8 +9,8 @@ define([ "CountVisitor" ], function(CountVisitor)
         var fitness0 = genome0.fitness;
         var fitness1 = genome1.fitness;
 
-        // Highest fitness.
-        var answer = fitness1 - fitness0;
+        // Lowest fitness.
+        var answer = fitness0 - fitness1;
 
         if (answer === 0.0)
         {
