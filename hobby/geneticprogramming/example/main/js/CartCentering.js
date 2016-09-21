@@ -155,7 +155,7 @@ define(
                 {
                     return fitnessCases;
                 };
-                
+
                 this.idealGenomeLength = function()
                 {
                     return idealGenomeLength;
@@ -228,10 +228,5 @@ define(
                 };
             };
 
-            return (
-            {
-                CartCentering: CartCentering,
-                Evaluator: CartCentering.Evaluator,
-                Simulator: CartCentering.Simulator,
-            });
+            return CartCentering;
         });
