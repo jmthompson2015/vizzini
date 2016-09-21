@@ -25,7 +25,7 @@ define([ "Arithmetic", "Terminal", "process/CopyOperator", "process/CrossoverOpe
             var errorThreshold = 0.01;
             var idealGenomeLength = 11;
 
-            return new NumericEvaluator(fitnessCases, errorThreshold, idealGenomeLength);
+            return new NumericEvaluator(fitnessCases, errorThreshold);
         };
 
         this.createGeneticAlgorithm = function()

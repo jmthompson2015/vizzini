@@ -24,7 +24,7 @@ define([ "Logic", "Terminal", "process/CopyOperator", "process/CrossoverOperator
             var fitnessCases = this.fitnessCases();
             var idealGenomeLength = 8;
 
-            return new MatchEvaluator(fitnessCases, idealGenomeLength);
+            return new MatchEvaluator(fitnessCases);
         };
 
         this.createGeneticAlgorithm = function()

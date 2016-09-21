@@ -25,7 +25,7 @@ define([ "Arithmetic", "Logarithmic", "Terminal", "Trigonometric", "process/Copy
             var errorThreshold = 0.01;
             var idealGenomeLength = 13;
 
-            return new NumericEvaluator(fitnessCases, errorThreshold, idealGenomeLength);
+            return new NumericEvaluator(fitnessCases, errorThreshold);
         };
 
         this.createGeneticAlgorithm = function()
