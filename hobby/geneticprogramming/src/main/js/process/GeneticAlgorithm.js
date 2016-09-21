@@ -1,4 +1,4 @@
-define([ "process/Action", "process/Population" ], function(Action, Population)
+define([ "process/Action", "process/GenomeEditor", "process/Population" ], function(Action, GenomeEditor, Population)
 {
     "use strict";
     function GeneticAlgorithm(store, population, evaluator, generationCount, comparator, selector, copyOperator,
@@ -82,10 +82,15 @@ define([ "process/Action", "process/Population" ], function(Action, Population)
         {
             var executor = operator.executor();
 
+            // Always copy an edited version of the best genome.
+            var genome = executor.execute(population.get(0));
+            genome = GenomeEditor.edit(genome);
+            newPop.maybeAddGenome(genome, true);
+
             while (newPop.length() < popSize)
             {
                 var genome1 = selector.select(population);
-                var genome = executor.execute(genome1);
+                genome = executor.execute(genome1);
 
                 newPop.maybeAddGenome(genome, duplicatesAllowed);
             }
