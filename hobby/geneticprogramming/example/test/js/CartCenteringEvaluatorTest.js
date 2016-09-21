@@ -20,7 +20,7 @@ define([ "Arithmetic", "Relational", "Terminal", "../../../example/main/js/CartC
         // Verify.
         var result = population[0];
         assert.ok(result);
-        assert.equal(Math.vizziniRound(result.fitness, 2), 104.17);
+        assert.equal(Math.vizziniRound(result.fitness, 2), 9.6);
     });
 
     function addFitnessCase(fitnessCases, x, v)
