@@ -19,6 +19,9 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
         case 2:
             answer = GenomeEditor.editArityTwo(genome);
             break;
+        case 3:
+            answer = GenomeEditor.editArityThree(genome);
+            break;
         default:
             throw "GenomeEditor.edit() Unhandled arity " + genome.arity();
         }
@@ -187,6 +190,25 @@ define([ "Arithmetic", "Logarithmic", "Logic", "StringifyVisitor", "Terminal", "
                 answer = child0;
             }
         }
+
+        return answer;
+    };
+
+    GenomeEditor.editArityThree = function(genome)
+    {
+        var child0 = GenomeEditor.edit(genome.childAt(0));
+        var child1 = GenomeEditor.edit(genome.childAt(1));
+        var child2 = GenomeEditor.edit(genome.childAt(2));
+        var answer = genome.copy();
+        answer.children()[0] = child0;
+        answer.children()[1] = child1;
+        answer.children()[2] = child2;
+
+        if (GenomeEditor.areChildrenConstants(answer))
+        {
+            answer = new Terminal.Constant(answer.evaluate({}));
+        }
+
         return answer;
     };
 
