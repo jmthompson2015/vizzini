@@ -28,7 +28,9 @@
 
     var prefix = "../../../example/test/js/";
     var suffix = "Test";
-    var testModules = [ "CartCenteringEvaluator", "CartCenteringSimulator" ];
+    var testModules = [ "CartCenteringEvaluator", "CartCenteringSimulator", "artificialant/AAEvaluator",
+            "artificialant/AASimulator", "artificialant/AATerminal", "artificialant/Content",
+            "artificialant/Direction", "artificialant/IfFoodAhead", "artificialant/SantaFeTrail" ];
     testModules = testModules.map(function(testModule)
     {
         return prefix + testModule + suffix;
