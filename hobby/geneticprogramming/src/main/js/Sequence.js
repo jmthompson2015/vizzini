@@ -3,7 +3,7 @@ define([ "GPFunction" ], function(GPFunction)
     "use strict";
     function Sequence2(children)
     {
-        Vizzini.extend(this, new GPFunction.Binary("+", children));
+        Vizzini.extend(this, new GPFunction.Binary("seq2", children));
     }
 
     Sequence2.ARITY = GPFunction.Binary.ARITY;
@@ -16,10 +16,9 @@ define([ "GPFunction" ], function(GPFunction)
         return value1;
     };
 
-    "use strict";
     function Sequence3(children)
     {
-        Vizzini.extend(this, new GPFunction.Ternary("+", children));
+        Vizzini.extend(this, new GPFunction.Ternary("seq3", children));
     }
 
     Sequence3.ARITY = GPFunction.Ternary.ARITY;
