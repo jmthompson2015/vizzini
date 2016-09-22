@@ -156,11 +156,6 @@ define(
                     return fitnessCases;
                 };
 
-                this.idealGenomeLength = function()
-                {
-                    return idealGenomeLength;
-                };
-
                 this.evaluate = function(population)
                 {
                     InputValidator.validateNotEmpty("population", population);
