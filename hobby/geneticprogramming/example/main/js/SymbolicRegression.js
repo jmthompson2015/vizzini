@@ -71,20 +71,24 @@ define([ "Arithmetic", "Logarithmic", "Terminal", "Trigonometric", "process/Copy
 
         this.fitnessCases = function()
         {
-            var fitnessCases = [];
-            var delta = 2.0 / 19.0;
-
-            for (var i = 0; i < 20; i++)
+            if (!fitnessCases)
             {
-                var x = (i * delta) - 1;
-                fitnessCases.push(
+                fitnessCases = [];
+
+                var delta = 2.0 / 19.0;
+
+                for (var i = 0; i < 20; i++)
                 {
-                    input:
+                    var x = (i * delta) - 1;
+                    fitnessCases.push(
                     {
-                        x: x,
-                    },
-                    output: Math.pow(x, 4) + Math.pow(x, 3) + Math.pow(x, 2) + x,
-                });
+                        input:
+                        {
+                            x: x,
+                        },
+                        output: Math.pow(x, 4) + Math.pow(x, 3) + Math.pow(x, 2) + x,
+                    });
+                }
             }
 
             return fitnessCases;
