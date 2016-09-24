@@ -1,5 +1,5 @@
-define([ "Arithmetic", "CountVisitor", "Terminal", "process/GenomeComparator" ], function(Arithmetic, CountVisitor,
-        Terminal, GenomeComparator)
+define([ "Arithmetic", "CountVisitor", "GenomeComparator", "Terminal" ], function(Arithmetic, CountVisitor,
+        GenomeComparator, Terminal)
 {
     "use strict";
     QUnit.module("GenomeComparator");
