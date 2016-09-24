@@ -172,21 +172,21 @@ define([ "CountVisitor", "StringifyVisitor", "process/GenomeEditor" ], function(
 
     ProblemResultsUI.propTypes =
     {
-        bestGenomes: React.PropTypes.array.required,
-        message: React.PropTypes.string.required,
+        bestGenomes: React.PropTypes.array.isRequired,
+        message: React.PropTypes.string.isRequired,
     };
 
     ProblemResultsUI.GenerationUI.propTypes =
     {
-        rows: React.PropTypes.array.required,
+        rows: React.PropTypes.array.isRequired,
     };
 
     ProblemResultsUI.RowUI.propTypes =
     {
-        averageFitness: React.PropTypes.number.required,
-        best: React.PropTypes.object.required,
-        timestamp: React.PropTypes.number.required,
-        generationCount: React.PropTypes.number.required,
+        averageFitness: React.PropTypes.number.isRequired,
+        best: React.PropTypes.object.isRequired,
+        timestamp: React.PropTypes.number.isRequired,
+        generationCount: React.PropTypes.number.isRequired,
     };
 
     return ProblemResultsUI;

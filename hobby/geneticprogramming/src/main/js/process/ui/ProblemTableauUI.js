@@ -127,10 +127,10 @@ define(function()
 
     ProblemTableauUI.propTypes =
     {
-        objective: React.PropTypes.string.required,
-        functions: React.PropTypes.array.required,
-        terminals: React.PropTypes.array.required,
-        fitnessCases: React.PropTypes.object.required,
+        objective: React.PropTypes.string.isRequired,
+        functions: React.PropTypes.array.isRequired,
+        terminals: React.PropTypes.array.isRequired,
+        fitnessCases: React.PropTypes.object.isRequired,
     };
 
     return ProblemTableauUI;

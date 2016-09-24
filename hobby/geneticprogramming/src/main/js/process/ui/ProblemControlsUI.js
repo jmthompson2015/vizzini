@@ -90,9 +90,9 @@ define([ "process/Action" ], function(Action)
 
     ProblemControlsUI.propTypes =
     {
-        generationCount: React.PropTypes.number.required,
-        popSize: React.PropTypes.number.required,
-        submitFunction: React.PropTypes.func.required,
+        generationCount: React.PropTypes.number.isRequired,
+        popSize: React.PropTypes.number.isRequired,
+        submitFunction: React.PropTypes.func.isRequired,
     };
 
     return ProblemControlsUI;
