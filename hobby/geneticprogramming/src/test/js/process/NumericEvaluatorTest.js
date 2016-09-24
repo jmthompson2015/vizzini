@@ -1,5 +1,5 @@
-define([ "Arithmetic", "Terminal", "process/GenomeComparator", "process/NumericEvaluator" ], function(Arithmetic,
-        Terminal, GenomeComparator, NumericEvaluator)
+define([ "Arithmetic", "GenomeComparator", "Terminal", "process/NumericEvaluator" ], function(Arithmetic,
+        GenomeComparator, Terminal, NumericEvaluator)
 {
     "use strict";
     QUnit.module("NumericEvaluator");

@@ -1,7 +1,7 @@
-define([ "Logic", "Terminal", "process/CopyOperator", "process/CrossoverOperator", "process/GeneticAlgorithm",
-        "process/GenomeComparator", "process/GenomeFactory", "process/MatchEvaluator", "process/Operator",
-        "process/PopulationGenerator", "process/SelectionOperator" ], function(Logic, Terminal, CopyOperator,
-        CrossoverOperator, GeneticAlgorithm, GenomeComparator, GenomeFactory, MatchEvaluator, Operator,
+define([ "GenomeComparator", "Logic", "Terminal", "process/CopyOperator", "process/CrossoverOperator",
+        "process/GeneticAlgorithm", "process/GenomeFactory", "process/MatchEvaluator", "process/Operator",
+        "process/PopulationGenerator", "process/SelectionOperator" ], function(GenomeComparator, Logic, Terminal,
+        CopyOperator, CrossoverOperator, GeneticAlgorithm, GenomeFactory, MatchEvaluator, Operator,
         PopulationGenerator, SelectionOperator)
 {
     "use strict";

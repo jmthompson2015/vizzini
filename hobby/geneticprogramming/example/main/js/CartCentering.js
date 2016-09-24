@@ -1,8 +1,8 @@
 define(
-        [ "Arithmetic", "Relational", "Terminal", "process/CopyOperator", "process/CrossoverOperator",
-                "process/GeneticAlgorithm", "process/GenomeComparator", "process/GenomeFactory", "process/Operator",
+        [ "Arithmetic", "GenomeComparator", "Relational", "Terminal", "process/CopyOperator",
+                "process/CrossoverOperator", "process/GeneticAlgorithm", "process/GenomeFactory", "process/Operator",
                 "process/PopulationGenerator", "process/SelectionOperator" ],
-        function(Arithmetic, Relational, Terminal, CopyOperator, CrossoverOperator, GeneticAlgorithm, GenomeComparator,
+        function(Arithmetic, GenomeComparator, Relational, Terminal, CopyOperator, CrossoverOperator, GeneticAlgorithm,
                 GenomeFactory, Operator, PopulationGenerator, SelectionOperator)
         {
             "use strict";

@@ -1,8 +1,8 @@
-define([ "Arithmetic", "Terminal", "process/CopyOperator", "process/CrossoverOperator", "process/GeneticAlgorithm",
-        "process/GenomeComparator", "process/GenomeFactory", "process/NumericEvaluator", "process/Operator",
-        "process/PopulationGenerator", "process/Reducer", "process/SelectionOperator" ], function(Arithmetic, Terminal,
-        CopyOperator, CrossoverOperator, GeneticAlgorithm, GenomeComparator, GenomeFactory, NumericEvaluator, Operator,
-        PopulationGenerator, Reducer, SelectionOperator)
+define([ "Arithmetic", "GenomeComparator", "Terminal", "process/CopyOperator", "process/CrossoverOperator",
+        "process/GeneticAlgorithm", "process/GenomeFactory", "process/NumericEvaluator", "process/Operator",
+        "process/PopulationGenerator", "process/Reducer", "process/SelectionOperator" ], function(Arithmetic,
+        GenomeComparator, Terminal, CopyOperator, CrossoverOperator, GeneticAlgorithm, GenomeFactory, NumericEvaluator,
+        Operator, PopulationGenerator, Reducer, SelectionOperator)
 {
     "use strict";
     QUnit.module("GeneticAlgorithm");
@@ -76,7 +76,7 @@ define([ "Arithmetic", "Terminal", "process/CopyOperator", "process/CrossoverOpe
     {
         var fitnessCases = createFitnessCases();
         var errorThreshold = 0.01;
-        
+
         return new NumericEvaluator(fitnessCases, errorThreshold);
     }
 

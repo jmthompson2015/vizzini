@@ -1,12 +1,12 @@
 define(
-        [ "Sequence", "process/CopyOperator", "process/CrossoverOperator", "process/GeneticAlgorithm",
-                "process/GenomeComparator", "process/GenomeFactory", "process/NumericEvaluator", "process/Operator",
+        [ "GenomeComparator", "Sequence", "process/CopyOperator", "process/CrossoverOperator",
+                "process/GeneticAlgorithm", "process/GenomeFactory", "process/NumericEvaluator", "process/Operator",
                 "process/PopulationGenerator", "process/SelectionOperator",
                 "../../../../example/main/js/artificialant/AAEvaluator",
                 "../../../../example/main/js/artificialant/AATerminal",
                 "../../../../example/main/js/artificialant/Direction",
                 "../../../../example/main/js/artificialant/IfFoodAhead" ],
-        function(Sequence, CopyOperator, CrossoverOperator, GeneticAlgorithm, GenomeComparator, GenomeFactory,
+        function(GenomeComparator, Sequence, CopyOperator, CrossoverOperator, GeneticAlgorithm, GenomeFactory,
                 NumericEvaluator, Operator, PopulationGenerator, SelectionOperator, AAEvaluator, AATerminal, Direction,
                 IfFoodAhead)
         {
