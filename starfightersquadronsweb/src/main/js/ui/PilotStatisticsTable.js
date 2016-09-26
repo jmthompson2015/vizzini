@@ -151,6 +151,7 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
             var cells = [];
 
             var shipTeam = pilot.shipTeam;
+            var ship = shipTeam.ship;
             var j = 0;
 
             cells.push(this.Td(
@@ -203,23 +204,22 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
                 value: isImplemented, // this allows sorting
             }, implementedImage));
 
-            var shipState = pilot.shipState;
-            var pilotSkill = shipState.pilotSkillValue();
+            var pilotSkill = pilot.pilotSkillValue;
             cells.push(this.createCell(cells.length, PilotColumns[j++], (pilotSkill ? pilotSkill : " ")));
 
-            var primaryWeapon = shipState.primaryWeaponValue();
+            var primaryWeapon = ship.primaryWeaponValue;
             cells.push(this.createCell(cells.length, PilotColumns[j++], primaryWeapon));
 
-            var energy = shipState.energyValue();
+            var energy = ship.energyValue;
             cells.push(this.createCell(cells.length, PilotColumns[j++], energy));
 
-            var agility = shipState.agilityValue();
+            var agility = ship.agilityValue;
             cells.push(this.createCell(cells.length, PilotColumns[j++], agility));
 
-            var hull = shipState.hullValue();
+            var hull = ship.hullValue;
             cells.push(this.createCell(cells.length, PilotColumns[j++], hull));
 
-            var shield = shipState.shieldValue();
+            var shield = ship.shieldValue;
             cells.push(this.createCell(cells.length, PilotColumns[j++], shield));
 
             var squadPointCost = pilot.squadPointCost;
