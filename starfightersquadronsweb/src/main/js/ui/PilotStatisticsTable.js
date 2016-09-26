@@ -182,10 +182,14 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
 
             if (pilot.isFlavorText)
             {
-                cells.push(React.DOM.td(
+                cells.push(this.Td(
                 {
                     key: cells.length,
-                    className: PilotColumns[j].className + " flavorText",
+                    className: PilotColumns[j].className,
+                    style:
+                    {
+                        fontStyle: "italic",
+                    },
                     column: PilotColumns[j++].key,
                 }, pilot.description));
             }
