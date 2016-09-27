@@ -1,22 +1,26 @@
-// require("Logger");
-// require("InputValidator");
-// require("ArrayAugments");
-// require("InputPanel");
-
-/*
- * Provides a radio button input panel component.
- * 
- * @param values Option values. (required)
- * @param name Button name.
- * @param idFunction Function which returns the id for a value. Defaults to simply return the value. (optional)
- * @param labelFunction Function which returns the label for a value. Defaults to simply return the value. (optional)
- * @param initialValue Initially selected value. (optional)
- * @param onChange Function called when the selection changes. (optional)
- * @param panelClass Panel class. (optional)
- * @param clientProps Client properties. (optional)
- */
 var RadioInputPanel = React.createClass(
 {
+    propTypes:
+    {
+        // Button name.
+        name: React.PropTypes.string.isRequired,
+        // Function called when the selection changes.
+        onChange: React.PropTypes.func.isRequired,
+        // Option values.
+        values: React.PropTypes.array.isRequired,
+
+        // Client properties.
+        clientProps: React.PropTypes.object,
+        // Function which returns the id for a value. Defaults to simply return the value.
+        idFunction: React.PropTypes.func,
+        // Initial value.
+        initialValue: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object ]),
+        // Function which returns the label for a value. Defaults to simply return the value.
+        labelFunction: React.PropTypes.func,
+        // Panel CSS class.
+        panelClass: React.PropTypes.string,
+    },
+
     getInitialState: function()
     {
         var selected;

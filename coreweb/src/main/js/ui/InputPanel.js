@@ -1,21 +1,29 @@
-// require("InputValidator");
-// require("ArrayAugments");
-
-/*
- * Provides an input list component.
- * 
- * @param type Input type. (e.g. "checkbox", "radio", "text") (required)
- * @param values Option values. (required)
- * @param onChange Function called when the selection changes. (required)
- * @param name Button name. (required for radio)
- * @param idFunction Function which returns the id for a value. Defaults to simply return the value. (optional)
- * @param labelFunction Function which returns the label for a value. Defaults to simply return the value. (optional)
- * @param initialValues Initial values. (optional)
- * @param panelClass Panel class. (optional)
- * @param clientProps Client properties. (optional)
- */
 var InputPanel = React.createClass(
 {
+    propTypes:
+    {
+        // Function called when the selection changes.
+        onChange: React.PropTypes.func.isRequired,
+        // Input type. (e.g. "checkbox", "radio", "text")
+        type: React.PropTypes.string.isRequired,
+        // Option values.
+        values: React.PropTypes.array.isRequired,
+
+        // Client properties.
+        clientProps: React.PropTypes.object,
+        // Function which returns the id for a value. Defaults to simply return the value.
+        idFunction: React.PropTypes.func,
+        // Initial values.
+        initialValues: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.array,
+                React.PropTypes.object ]),
+        // Function which returns the label for a value. Defaults to simply return the value.
+        labelFunction: React.PropTypes.func,
+        // Button name. (required for radio)
+        name: React.PropTypes.string,
+        // Panel CSS class.
+        panelClass: React.PropTypes.string,
+    },
+
     render: function()
     {
         this.validateProps();
@@ -133,13 +141,6 @@ var InputPanel = React.createClass(
 
     validateProps: function()
     {
-        InputValidator.validateNotNull("type", this.props.type);
-
-        var values = this.props.values;
-        InputValidator.validateNotEmpty("values", values);
-
-        InputValidator.validateNotNull("onChange", this.props.onChange);
-
         if (this.props.type === "radio")
         {
             InputValidator.validateNotNull("name", this.props.name);

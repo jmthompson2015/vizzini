@@ -1,21 +1,27 @@
-// require("Logger");
-// require("InputValidator");
-// require("ArrayAugments");
-// require("InputPanel");
-
-/*
- * Provides a text input panel component.
- * 
- * @param values Option values. (required)
- * @param idFunction Function which returns the id for a value. Defaults to simply return the value. (optional)
- * @param labelFunction Function which returns the label for a value. Defaults to simply return the value. (optional)
- * @param initialValues Initial map of id to value. (optional)
- * @param onChange Function called when the selection changes. (optional)
- * @param panelClass Panel class. (optional)
- * @param clientProps Client properties. (optional)
- */
 var TextInputPanel = React.createClass(
 {
+    propTypes:
+    {
+        // Function called when the selection changes.
+        onChange: React.PropTypes.func.isRequired,
+        // Option values.
+        values: React.PropTypes.array.isRequired,
+
+        // Client properties.
+        clientProps: React.PropTypes.object,
+        // Function which returns the id for a value. Defaults to simply return the value.
+        idFunction: React.PropTypes.func,
+        // Initial values.
+        initialValues: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.array,
+                React.PropTypes.object ]),
+        // Function which returns the label for a value. Defaults to simply return the value.
+        labelFunction: React.PropTypes.func,
+        // Button name. (required for radio)
+        name: React.PropTypes.string,
+        // Panel CSS class.
+        panelClass: React.PropTypes.string,
+    },
+
     getInitialState: function()
     {
         var values = {};

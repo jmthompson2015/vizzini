@@ -3,7 +3,8 @@
 <head>
 <title>MyTestCheckboxInputPanel</title>
 
-<script src="../../../../lib/react/react-0.13.3.js"></script>
+<script src="../../../../lib/react/react-with-addons-15.3.0.js"></script>
+<script src="../../../../lib/react-dom/react-dom-15.0.1.js"></script>
 
 <script src="../../../main/js/util/Logger.js"></script>
 <script src="../../../main/js/util/InputValidator.js"></script>
@@ -14,13 +15,13 @@
 
 <style>
 #testPanel {
-	background-color: lightBlue;
-	border-collapse: collapse;
-	border: 3px solid black;
-	font-size: small;
-	height: 115px;
-	overflow-y: auto;
-	width: 80px;
+    background-color: lightBlue;
+    border-collapse: collapse;
+    border: 3px solid black;
+    font-size: small;
+    height: 115px;
+    overflow-y: auto;
+    width: 80px;
 }
 </style>
 </head>
@@ -60,7 +61,7 @@
             onChange: myOnChange,
             panelClass: "panelClass",
         });
-        var panel = React.render(element, document.getElementById("testPanel"));
+        var panel = ReactDOM.render(element, document.getElementById("testPanel"));
 
         function myOnChange(selected)
         {

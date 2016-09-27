@@ -3,7 +3,8 @@
 <head>
 <title>MyTestInputPanel</title>
 
-<script src="../../../../lib/react/react-0.13.3.js"></script>
+<script src="../../../../lib/react/react-with-addons-15.3.0.js"></script>
+<script src="../../../../lib/react-dom/react-dom-15.0.1.js"></script>
 
 <script src="../../../main/js/util/Logger.js"></script>
 <script src="../../../main/js/util/InputValidator.js"></script>
@@ -66,7 +67,7 @@
             panelClass: "panelClass",
             clientProps: clientProps0,
         });
-        var panel0 = React.render(element0, document.getElementById("testPanel0"));
+        var panel0 = ReactDOM.render(element0, document.getElementById("testPanel0"));
 
         function myOnChange0(event)
         {
@@ -108,7 +109,7 @@
             onChange: myOnChange1,
             panelClass: "panelClass",
         });
-        var panel1 = React.render(element1, document.getElementById("testPanel1"));
+        var panel1 = ReactDOM.render(element1, document.getElementById("testPanel1"));
 
         function myOnChange1(event)
         {
@@ -165,7 +166,7 @@
             onChange: myOnChange2,
             panelClass: "panelClass",
         });
-        var panel2 = React.render(element2, document.getElementById("testPanel2"));
+        var panel2 = ReactDOM.render(element2, document.getElementById("testPanel2"));
 
         function myOnChange2(event)
         {

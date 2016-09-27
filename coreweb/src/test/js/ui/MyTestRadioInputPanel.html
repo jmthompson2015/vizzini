@@ -3,7 +3,8 @@
 <head>
 <title>MyTestRadioInputPanel</title>
 
-<script src="../../../../lib/react/react-0.13.3.js"></script>
+<script src="../../../../lib/react/react-with-addons-15.3.0.js"></script>
+<script src="../../../../lib/react-dom/react-dom-15.0.1.js"></script>
 
 <script src="../../../main/js/util/Logger.js"></script>
 <script src="../../../main/js/util/InputValidator.js"></script>
@@ -14,11 +15,11 @@
 
 <style>
 #testPanel {
-	background-color: lightBlue;
-	border-collapse: collapse;
-	border: 3px solid black;
-	display: inline-block;
-	font-size: small;
+    background-color: lightBlue;
+    border-collapse: collapse;
+    border: 3px solid black;
+    display: inline-block;
+    font-size: small;
 }
 </style>
 </head>
@@ -43,7 +44,6 @@
         };
         var element = React.createElement(RadioInputPanel,
         {
-            type: "radio",
             values: values,
             name: "selectLetter",
             labelFunction: labelFunction,
@@ -52,7 +52,7 @@
             panelClass: "panelClass",
             clientProps: clientProps,
         });
-        var panel = React.render(element, document.getElementById("testPanel"));
+        var panel = ReactDOM.render(element, document.getElementById("testPanel"));
 
         function myOnChange(selected)
         {
