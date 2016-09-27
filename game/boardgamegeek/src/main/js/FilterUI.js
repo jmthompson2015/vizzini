@@ -60,7 +60,7 @@ var FiltersUI = React.createClass(
         var filterTable = React.DOM.table(
         {
             className: "filterTable",
-        }, rows);
+        }, React.DOM.tbody({}, rows));
 
         var gameDatabase = this.props.gameDatabase;
         var designerTable = this.createEntityTable(
@@ -119,7 +119,7 @@ var FiltersUI = React.createClass(
         return React.DOM.table(
         {
             className: "filtersUI",
-        }, rows2);
+        }, React.DOM.tbody({}, rows2));
     },
 
     createCell: function(key, column, value)
@@ -128,7 +128,6 @@ var FiltersUI = React.createClass(
         {
             key: key,
             className: column.className,
-            column: column.key,
         }, value);
     },
 
@@ -166,12 +165,12 @@ var FiltersUI = React.createClass(
             {
                 return gameDatabase.findEntityById(id);
             });
-            var checkboxPanel = React.createElement(CheckboxPanel,
+            var checkboxPanel = React.createElement(CheckboxInputPanel,
             {
                 values: entities,
                 idFunction: idFunction,
                 labelFunction: labelFunction,
-                initialSelectedValues: selectedValues,
+                initialValues: selectedValues,
                 onChange: this.handleChange,
                 panelClass: "entitiesTable",
                 clientProps: clientProps,
@@ -216,7 +215,6 @@ var FiltersUI = React.createClass(
         {
             key: cells.length,
             className: "filterLabel",
-            column: column.key,
         }, "\u2264 " + column.label + " \u2264"));
 
         cells.push(this.createCell(cells.length, column, React.DOM.input(
