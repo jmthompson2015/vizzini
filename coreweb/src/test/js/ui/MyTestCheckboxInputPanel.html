@@ -63,7 +63,7 @@
         });
         var panel = ReactDOM.render(element, document.getElementById("testPanel"));
 
-        function myOnChange(selected)
+        function myOnChange(event, selected)
         {
             LOGGER.info("selected = " + selected.map(function(value)
             {

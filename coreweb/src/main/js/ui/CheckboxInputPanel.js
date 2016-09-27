@@ -56,6 +56,7 @@ var CheckboxInputPanel = React.createClass(
     findById: function(values, id)
     {
         var answer;
+        var idFunction = this.props.idFunction;
 
         for (var i = 0; i < values.length; i++)
         {
@@ -96,7 +97,7 @@ var CheckboxInputPanel = React.createClass(
 
         if (onChange)
         {
-            onChange(selected);
+            onChange(event, selected);
         }
 
         LOGGER.trace("CheckboxInputPanel.handleChange() end");
