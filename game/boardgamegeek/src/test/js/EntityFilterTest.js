@@ -1,4 +1,4 @@
-define([ "EntityFilter", "GameDatabase" ], function(EntityFilter, GameDatabase)
+define([ "EntityFilter", "process/GameDatabase" ], function(EntityFilter, GameDatabase)
 {
     "use strict";
     QUnit.module("EntityFilter");

@@ -1,8 +1,8 @@
-define([ "GameDatabase", "RangeFilter" ], function(GameDatabase, RangeFilter)
+define([ "RangeFilter", "process/GameDatabase" ], function(RangeFilter, GameDatabase)
 {
     "use strict";
     QUnit.module("RangeFilter");
-    
+
     QUnit.test("RangeFilter passes()", function(assert)
     {
         // Setup.
