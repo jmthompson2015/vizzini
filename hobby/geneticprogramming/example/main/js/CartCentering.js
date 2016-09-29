@@ -39,7 +39,7 @@ define(
                     var genomeFactory = this.createGenomeFactory();
 
                     return new GeneticAlgorithm(store, population, evaluator, generationCount, comparator, selector,
-                            operators[0], operators[1], genomeFactory);
+                            operators, genomeFactory);
                 };
 
                 this.createGenomeFactory = function()

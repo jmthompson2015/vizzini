@@ -1,22 +1,34 @@
-define([ "process/Action", "process/GenomeEditor", "process/Population" ], function(Action, GenomeEditor, Population)
+define([ "process/Action", "process/CopyOperator", "process/GenomeEditor", "process/Population" ], function(Action,
+        CopyOperator, GenomeEditor, Population)
 {
     "use strict";
-    function GeneticAlgorithm(store, population, evaluator, generationCount, comparator, selector, copyOperator,
-            crossoverOperator, genomeFactory, duplicatesAllowedIn)
+    function GeneticAlgorithm(store, populationIn, evaluator, generationCount, comparator, selector, operators,
+            genomeFactory, duplicatesAllowedIn)
     {
         InputValidator.validateNotNull("store", store);
-        InputValidator.validateNotNull("population", population);
+        InputValidator.validateNotNull("population", populationIn);
         InputValidator.validateNotNull("evaluator", evaluator);
         InputValidator.validateNotNull("generationCount", generationCount);
         InputValidator.validateNotNull("comparator", comparator);
         InputValidator.validateNotNull("selector", selector);
-        InputValidator.validateNotNull("copyOperator", copyOperator);
-        InputValidator.validateNotNull("crossoverOperator", crossoverOperator);
+        InputValidator.validateNotEmpty("operators", operators);
         InputValidator.validateNotNull("genomeFactory", genomeFactory);
+        // duplicatesAllowedIn optional.
 
-        if (copyOperator.ratio() + crossoverOperator.ratio() !== 1.0) { throw "Sum of operator ratios must be 1.0: " +
-                (copyOperator.ratio() + crossoverOperator.ratio()); }
+        {
+            var sum = operators.reduce(function(previousValue, operator)
+            {
+                LOGGER.info("operator.ratio() = " + operator.ratio() + " sum = " + (previousValue + operator.ratio()));
+                return previousValue + operator.ratio();
+            }, 0.0);
 
+            LOGGER.info("Operators ratio sum = " + sum);
+
+            if (sum !== 1.00) { throw "Operator ratios do not sum to 1.00: " + sum; }
+        }
+
+        // FIXME: duplicate the input population
+        var population = populationIn;
         var duplicatesAllowed = (duplicatesAllowedIn ? duplicatesAllowedIn : false);
 
         this.store = function()
@@ -44,11 +56,6 @@ define([ "process/Action", "process/GenomeEditor", "process/Population" ], funct
             return comparator;
         };
 
-        this.selector = function()
-        {
-            return selector;
-        };
-
         this.duplicatesAllowed = function()
         {
             return duplicatesAllowed;
@@ -63,19 +70,34 @@ define([ "process/Action", "process/GenomeEditor", "process/Population" ], funct
             var popSize = population.length();
             var maxTries = 100;
 
-            // Copy.
-            var operator = copyOperator;
-            var count = Math.max(0, Math.floor(operator.ratio() * popSize));
-            this.fillPopulationCopy(newPop, newPop.length() + count, maxTries, operator);
-
-            // Crossover.
-            operator = crossoverOperator;
-            count = Math.max(0, Math.floor(operator.ratio() * popSize));
-            this.fillPopulationCrossover(newPop, newPop.length() + count, maxTries, operator);
+            operators.forEach(function(operator)
+            {
+                var count = Math.max(0, Math.floor(operator.ratio() * popSize));
+                this.fillPopulation(newPop, newPop.length() + count, maxTries, operator);
+            }, this);
 
             population = newPop.slice();
             LOGGER.debug("population.length() = " + population.length());
             LOGGER.trace("GeneticAlgorithm.createNextGeneration() end");
+        };
+
+        this.fillPopulation = function(newPop, popSize, maxTries, operator)
+        {
+            var executor = operator.executor();
+            var isCopier = (executor instanceof CopyOperator.Copier);
+
+            if (isCopier)
+            {
+                // Copy.
+                var count = Math.max(0, Math.floor(operator.ratio() * popSize));
+                this.fillPopulationCopy(newPop, newPop.length() + count, maxTries, operator);
+            }
+            else
+            {
+                // Crossover.
+                count = Math.max(0, Math.floor(operator.ratio() * popSize));
+                this.fillPopulationCrossover(newPop, newPop.length() + count, maxTries, operator);
+            }
         };
 
         this.fillPopulationCopy = function(newPop, popSize, maxTries, operator)

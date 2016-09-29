@@ -37,8 +37,8 @@ define([ "Arithmetic", "GenomeComparator", "Terminal", "process/CopyOperator", "
             var operators = this.createOperators();
             var genomeFactory = this.createGenomeFactory();
 
-            return new GeneticAlgorithm(store, population, evaluator, generationCount, comparator, selector,
-                    operators[0], operators[1], genomeFactory);
+            return new GeneticAlgorithm(store, population, evaluator, generationCount, comparator, selector, operators,
+                    genomeFactory);
         };
 
         this.createGenomeFactory = function()
