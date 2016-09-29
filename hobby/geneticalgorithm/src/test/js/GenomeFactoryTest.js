@@ -15,7 +15,7 @@ define([ "GenomeFactory" ], function(GenomeFactory)
 
         // Verify.
         assert.ok(result);
-        LOGGER.info("result = " + result);
+        LOGGER.debug("result = " + result);
         assert.equal(result.length, genomeLength);
     });
 });
