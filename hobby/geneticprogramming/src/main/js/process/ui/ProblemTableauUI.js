@@ -130,7 +130,7 @@ define(function()
         objective: React.PropTypes.string.isRequired,
         functions: React.PropTypes.array.isRequired,
         terminals: React.PropTypes.array.isRequired,
-        fitnessCases: React.PropTypes.object.isRequired,
+        fitnessCases: React.PropTypes.array.isRequired,
     };
 
     return ProblemTableauUI;

@@ -185,7 +185,7 @@ define([ "CountVisitor", "StringifyVisitor", "process/GenomeEditor" ], function(
     {
         averageFitness: React.PropTypes.number.isRequired,
         best: React.PropTypes.object.isRequired,
-        timestamp: React.PropTypes.number.isRequired,
+        timestamp: React.PropTypes.string.isRequired,
         generationCount: React.PropTypes.number.isRequired,
     };
 
