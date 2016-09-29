@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Latin Square Problem</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
+<script src="../../../../../coreweb/lib/react/react-with-addons-15.3.0.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.0.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.min.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.5.2.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../src/main/js/GenomeFactory"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+</head>
+<body>
+	<h1>Latin Square Problem</h1>
+	<div id="tableauPanel"></div>
+	<div id="controlPanel"></div>
+	<div id="displayPanel"></div>
+	<div id="resultsPanel"></div>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        require(
+                [ "../../../example/main/js/LatinSquare", "process/Action", "process/Reducer", "process/ui/Connector",
+                        "process/ui/ProblemControlsUI", "process/ui/ProblemResultsUI", "process/ui/ProblemTableauUI" ],
+                function(Problem, Action, Reducer, Connector, ProblemControlsUI, ProblemResultsUI, ProblemTableauUI)
+                {
+                    var store = Redux.createStore(Problem.LSReducer.root);
+                    store.dispatch(Problem.LSAction.setN(3));
+                    store.dispatch(Action.setPopSize(500));
+                    store.dispatch(Action.setGenerationCount(51));
+                    store.dispatch(Action.setBackCount(30));
+                    var problem = new Problem(store, store.getState().n, store.getState().popSize,
+                            store.getState().generationCount, store.getState().backCount);
+                    store.dispatch(Action.setProblem(problem));
+
+                    var connector0 = ReactRedux.connect(Connector.ProblemTableauUI.mapStateToProps)(ProblemTableauUI);
+                    var element0 = React.createElement(ReactRedux.Provider,
+                    {
+                        store: store,
+                    }, React.createElement(connector0));
+                    ReactDOM.render(element0, document.getElementById("tableauPanel"));
+
+                    var connector1 = ReactRedux.connect(Connector.ProblemControlsUI.mapStateToProps)(ProblemControlsUI);
+                    var element1 = React.createElement(ReactRedux.Provider,
+                    {
+                        store: store,
+                    }, React.createElement(connector1,
+                    {
+                        additionalNumberControl:
+                        {
+                            id: "n",
+                            label: "n:",
+                            defaultValue: store.getState().n,
+                            onChange: function(event)
+                            {
+                                var n = Number(event.target.value);
+                                LOGGER.trace("ProblemControlsUI n = " + n);
+                                store.dispatch(Problem.LSAction.setN(n));
+                            },
+                        },
+                        submitFunction: submitActionPerformed,
+                    }));
+                    ReactDOM.render(element1, document.getElementById("controlPanel"));
+
+                    function submitActionPerformed()
+                    {
+                        LOGGER.info("submitActionPerformed() start");
+                        document.getElementById("resultsPanel").innerHTML = "";
+
+                        var problem = new Problem(store, store.getState().n, store.getState().popSize,
+                                store.getState().generationCount, store.getState().backCount);
+                        var ga = problem.createGeneticAlgorithm();
+
+                        store.dispatch(Action.clearBestGenomes());
+                        store.dispatch(Action.setMessage(""));
+                        store.dispatch(Action.setProblem(problem));
+                        store.dispatch(Action.setGeneticAlgorithm(ga));
+
+                        var connector2 = ReactRedux.connect(Connector.ProblemResultsUI.mapStateToProps)(
+                                ProblemResultsUI);
+                        var element2 = React.createElement(ReactRedux.Provider,
+                        {
+                            store: store,
+                        }, React.createElement(connector2));
+                        ReactDOM.render(element2, document.getElementById("resultsPanel"));
+
+                        var connector3 = ReactRedux.connect(Problem.LSConnector.DisplayUI.mapStateToProps)(
+                                Problem.DisplayUI);
+                        var element3 = React.createElement(ReactRedux.Provider,
+                        {
+                            store: store,
+                        }, React.createElement(connector3));
+                        ReactDOM.render(element3, document.getElementById("displayPanel"));
+
+                        setTimeout(function()
+                        {
+                            ga.determineBest(function()
+                            {
+                                LOGGER.info("Done.");
+                            });
+                        }, 300);
+
+                        LOGGER.info("submitActionPerformed() end");
+                    }
+                });
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@ define([ "process/Operator" ], function(Operator)
     "use strict";
     QUnit.module("Operator");
 
-    QUnit.test("copy()", function(assert)
+    QUnit.test("Operator()", function(assert)
     {
         // Setup.
         var ratio = 0.20;
