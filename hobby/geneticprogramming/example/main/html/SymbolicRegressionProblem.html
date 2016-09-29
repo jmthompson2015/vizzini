@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Symbolic Regression Problem</title>
 
-<link rel="stylesheet" href="../../../src/main/css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <script src="../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
 <script src="../../../../../coreweb/lib/react/react-with-addons-15.3.0.min.js"></script>
@@ -38,7 +38,7 @@
                 function(Problem, Action, Reducer, Connector, ProblemControlsUI, ProblemResultsUI, ProblemTableauUI)
                 {
                     var store = Redux.createStore(Reducer.root);
-                    store.dispatch(Action.setPopSize(500));
+                    store.dispatch(Action.setPopSize(1000));
                     store.dispatch(Action.setGenerationCount(51));
                     var problem = new Problem(store, store.getState().popSize, store.getState().generationCount);
                     store.dispatch(Action.setProblem(problem));
