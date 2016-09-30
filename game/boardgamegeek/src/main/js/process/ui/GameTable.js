@@ -2,6 +2,11 @@ define([ "GameColumns" ], function(GameColumns)
 {
     var GameTable = React.createClass(
     {
+        propTypes:
+        {
+            gameDatabase: React.PropTypes.object.isRequired,
+        },
+
         // Factories.
         Table: React.createFactory(Reactable.Table),
         Tr: React.createFactory(Reactable.Tr),
