@@ -4,8 +4,12 @@
 
 define(function()
 {
-    function GameDetailFetcher(gameDatabase, gameIds)
+    function GameDetailFetcher(gameDatabase, gameIds, callback)
     {
+        InputValidator.validateNotNull("gameDatabase", gameDatabase);
+        InputValidator.validateNotEmpty("gameIds", gameIds);
+        InputValidator.validateNotNull("callback", callback);
+
         var that = this;
 
         this.fetchData = function()
@@ -29,7 +33,7 @@ define(function()
             // LOGGER.debug("xmlDocument = " + (new
             // XMLSerializer()).serializeToString(xmlDocument));
             var gameDetails = parseGameDetails(xmlDocument);
-            that.trigger("dataLoaded", gameDetails);
+            callback(gameDetails);
 
             LOGGER.trace("GameDetailFetcher.receiveData() end");
         }
@@ -183,8 +187,6 @@ define(function()
                     bestWithPlayers, minPlayTime, maxPlayTime, categories, mechanics);
         }
     }
-
-    MicroEvent.mixin(GameDetailFetcher);
 
     return GameDetailFetcher;
 });

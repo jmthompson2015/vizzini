@@ -1,7 +1,11 @@
 define(function()
 {
-    function GameSummaryFetcher(gameDatabase, page)
+    function GameSummaryFetcher(gameDatabase, page, callback)
     {
+        InputValidator.validateNotNull("gameDatabase", gameDatabase);
+        InputValidator.validateInRange("page", page, 1, 10);
+        InputValidator.validateNotNull("callback", callback);
+
         var that = this;
 
         this.fetchData = function()
@@ -25,7 +29,7 @@ define(function()
             // LOGGER.trace("xmlDocument = " + (new
             // XMLSerializer()).serializeToString(xmlDocument));
             var gameSummaries = parseGameSummaries(xmlDocument);
-            that.trigger("dataLoaded", gameSummaries);
+            callback(gameSummaries);
 
             LOGGER.trace("GameSummaryFetcher.receiveData() end");
         }
@@ -103,8 +107,6 @@ define(function()
                     numVoters);
         }
     }
-
-    MicroEvent.mixin(GameSummaryFetcher);
 
     return GameSummaryFetcher;
 });

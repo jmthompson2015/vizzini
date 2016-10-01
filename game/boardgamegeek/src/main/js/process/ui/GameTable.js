@@ -5,6 +5,7 @@ define([ "GameColumns" ], function(GameColumns)
         propTypes:
         {
             gameDatabase: React.PropTypes.object.isRequired,
+            gameSummaries: React.PropTypes.array.isRequired,
         },
 
         // Factories.
@@ -14,8 +15,7 @@ define([ "GameColumns" ], function(GameColumns)
 
         render: function()
         {
-            var gameDatabase = this.props.gameDatabase;
-            var gameSummaries = gameDatabase.getGameSummaries();
+            var gameSummaries = this.props.gameSummaries;
             var rows = [];
 
             gameSummaries.forEach(function(gameSummary, i)

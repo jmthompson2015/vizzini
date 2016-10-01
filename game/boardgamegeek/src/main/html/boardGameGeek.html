@@ -5,11 +5,12 @@
 <link rel="stylesheet" href="../css/style.css">
 
 <script src="../../../../../coreweb/lib/jquery/jquery-1.11.3.min.js"></script>
-<script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
-<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+<script src="../../../../../coreweb/lib/react/react-15.3.2.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.min.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
 <script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../js/GameColumns"></script>
+<script src="../../../../../coreweb/lib/require/require-2.3.2.min.js" data-main="../js/GameColumns"></script>
 
 <script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
 <script src="../../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
@@ -38,39 +39,28 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        require([ "process/GameDatabase", "process/ui/FilterUI", "process/ui/GameTable" ], function(GameDatabase,
-                FilterUI, GameTable)
-        {
-            var numPages = 5;
-            var gameDatabase = new GameDatabase(numPages);
-            gameDatabase.bind("dataLoaded", renderFilter);
-            gameDatabase.bind("dataLoaded", renderTable);
-
-            var filterUI = ReactDOM.render(React.createElement(FilterUI,
-            {
-                gameDatabase: gameDatabase,
-            }), document.getElementById("filters"));
-
-            filterUI.bind("applyFilters", gameDatabase.setFilters);
-
-            gameDatabase.load();
-
-            function renderFilter()
-            {
-                ReactDOM.render(React.createElement(FilterUI,
+        require([ "process/GameDatabase", "process/ui/Connector", "process/ui/FilterUI", "process/ui/GameTable" ],
+                function(GameDatabase, Connector, FilterUI, GameTable)
                 {
-                    gameDatabase: gameDatabase,
-                }), document.getElementById("filters"));
-            }
+                    var numPages = 5;
+                    var gameDatabase = new GameDatabase(numPages);
+                    gameDatabase.loadFromLocalStorage();
 
-            function renderTable()
-            {
-                ReactDOM.render(React.createElement(GameTable,
-                {
-                    gameDatabase: gameDatabase,
-                }), document.getElementById("gameTable"));
-            }
-        });
+                    var connector0 = ReactRedux.connect(Connector.FilterUI.mapStateToProps)(FilterUI);
+                    var element0 = React.createElement(ReactRedux.Provider,
+                    {
+                        store: gameDatabase.store(),
+                    }, React.createElement(connector0));
+
+                    ReactDOM.render(element0, document.getElementById("filters"));
+
+                    var connector1 = ReactRedux.connect(Connector.GameTable.mapStateToProps)(GameTable);
+                    var element1 = React.createElement(ReactRedux.Provider,
+                    {
+                        store: gameDatabase.store(),
+                    }, React.createElement(connector1));
+                    ReactDOM.render(element1, document.getElementById("gameTable"));
+                });
     </script>
 </body>
 </html>
