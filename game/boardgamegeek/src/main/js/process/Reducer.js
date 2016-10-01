@@ -43,11 +43,11 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 gameDetailMap: {},
             });
-        case Action.SET_ENTITIES_TIMESTAMP:
-            LOGGER.info("Reducer entitiesTimestamp = " + action.entitiesTimestamp);
+        case Action.SET_ENTITY_TIMESTAMP:
+            LOGGER.info("Reducer entityTimestamp = " + action.entityTimestamp);
             return Object.assign({}, state,
             {
-                entitiesTimestamp: action.entitiesTimestamp,
+                entityTimestamp: action.entityTimestamp,
             });
         case Action.SET_FILTERS:
             LOGGER.info("Reducer filters = " + action.filters);
@@ -61,17 +61,17 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
             {
                 gameDatabase: action.gameDatabase,
             });
-        case Action.SET_GAME_DETAILS_TIMESTAMP:
-            LOGGER.info("Reducer gameDetailsTimestamp = " + action.gameDetailsTimestamp);
+        case Action.SET_GAME_DETAIL_TIMESTAMP:
+            LOGGER.info("Reducer gameDetailTimestamp = " + action.gameDetailTimestamp);
             return Object.assign({}, state,
             {
-                gameDetailsTimestamp: action.gameDetailsTimestamp,
+                gameDetailTimestamp: action.gameDetailTimestamp,
             });
-        case Action.SET_GAME_SUMMARIES_TIMESTAMP:
-            LOGGER.info("Reducer gameSummariesTimestamp = " + action.gameSummariesTimestamp);
+        case Action.SET_GAME_SUMMARY_TIMESTAMP:
+            LOGGER.info("Reducer gameSummaryTimestamp = " + action.gameSummaryTimestamp);
             return Object.assign({}, state,
             {
-                gameSummariesTimestamp: action.gameSummariesTimestamp,
+                gameSummaryTimestamp: action.gameSummaryTimestamp,
             });
         default:
             LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);

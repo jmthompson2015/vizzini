@@ -8,9 +8,9 @@ define(function()
         mapStateToProps: function(state, ownProps)
         {
             var gameDatabase = state.gameDatabase;
-            var designers = gameDatabase.getDesigners();
-            var categories = gameDatabase.getCategories();
-            var mechanics = gameDatabase.getMechanics();
+            var designers = gameDatabase.designers();
+            var categories = gameDatabase.categories();
+            var mechanics = gameDatabase.mechanics();
 
             return (
             {
@@ -27,7 +27,7 @@ define(function()
         mapStateToProps: function(state, ownProps)
         {
             var gameDatabase = state.gameDatabase;
-            var gameSummaries = gameDatabase.getGameSummaries();
+            var gameSummaries = gameDatabase.filteredGameSummaries();
 
             return (
             {

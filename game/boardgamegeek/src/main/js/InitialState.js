@@ -6,11 +6,11 @@ define(function()
         this.filters = [];
         this.gameDatabase = undefined;
 
-        this.entitiesTimestamp = 0;
+        this.entityTimestamp = 0;
         this.entityMap = {};
-        this.gameDetailsTimestamp = 0;
+        this.gameDetailTimestamp = 0;
         this.gameDetailMap = {};
-        this.gameSummariesTimestamp = 0;
+        this.gameSummaryTimestamp = 0;
         this.gameSummaryMap = {};
     }
 

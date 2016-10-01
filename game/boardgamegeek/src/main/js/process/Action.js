@@ -7,11 +7,11 @@ define(function()
     Action.MERGE_GAME_DETAIL_MAP = "mergeGameDetailMap";
     Action.MERGE_GAME_SUMMARY_MAP = "mergeGameSummaryMap";
     Action.RESET_GAME_DETAIL_MAP = "resetGameDetailMap";
-    Action.SET_ENTITIES_TIMESTAMP = "setEntitiesTimestamp";
+    Action.SET_ENTITY_TIMESTAMP = "setEntitiesTimestamp";
     Action.SET_FILTERS = "setFilters";
     Action.SET_GAME_DATABASE = "setGameDatabase";
-    Action.SET_GAME_DETAILS_TIMESTAMP = "setGameDetailsTimestamp";
-    Action.SET_GAME_SUMMARIES_TIMESTAMP = "setGameSummariesTimestamp";
+    Action.SET_GAME_DETAIL_TIMESTAMP = "setGameDetailsTimestamp";
+    Action.SET_GAME_SUMMARY_TIMESTAMP = "setGameSummariesTimestamp";
 
     Action.mergeEntityMap = function(entityMap)
     {
@@ -48,12 +48,12 @@ define(function()
         });
     };
 
-    Action.setEntitiesTimestamp = function(entitiesTimestamp)
+    Action.setEntityTimestamp = function(entityTimestamp)
     {
         return (
         {
-            type: Action.SET_ENTITIES_TIMESTAMP,
-            entitiesTimestamp: entitiesTimestamp,
+            type: Action.SET_ENTITY_TIMESTAMP,
+            entityTimestamp: entityTimestamp,
         });
     };
 
@@ -75,21 +75,21 @@ define(function()
         });
     };
 
-    Action.setGameDetailsTimestamp = function(gameDetailsTimestamp)
+    Action.setGameDetailTimestamp = function(gameDetailTimestamp)
     {
         return (
         {
-            type: Action.SET_GAME_DETAILS_TIMESTAMP,
-            gameDetailsTimestamp: gameDetailsTimestamp,
+            type: Action.SET_GAME_DETAIL_TIMESTAMP,
+            gameDetailTimestamp: gameDetailTimestamp,
         });
     };
 
-    Action.setGameSummariesTimestamp = function(gameSummariesTimestamp)
+    Action.setGameSummaryTimestamp = function(gameSummaryTimestamp)
     {
         return (
         {
-            type: Action.SET_GAME_SUMMARIES_TIMESTAMP,
-            gameSummariesTimestamp: gameSummariesTimestamp,
+            type: Action.SET_GAME_SUMMARY_TIMESTAMP,
+            gameSummaryTimestamp: gameSummaryTimestamp,
         });
     };
 

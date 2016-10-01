@@ -2,73 +2,43 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         Action, GameDetailFetcher, GameSummaryFetcher, Reducer)
 {
     "use strict";
-    function GameDatabase(numPages)
+    function GameDatabase(pageCount)
     {
-        InputValidator.validateInRange("numPages", numPages, 1, 10);
+        InputValidator.validateInRange("pageCount", pageCount, 1, 10);
 
         var that = this;
-        var SUMMARIES_CACHE_TIME = 30 * 60 * 1000; // 30 minutes in milliseconds
-        var DETAILS_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-        var ENTITIES_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        var DETAIL_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        var ENTITY_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+        var SUMMARY_CACHE_TIME = 30 * 60 * 1000; // 30 minutes in milliseconds
 
         var store = Redux.createStore(Reducer.root);
         store.dispatch(Action.setGameDatabase(this));
+
+        this.pageCount = function()
+        {
+            return pageCount;
+        };
 
         this.store = function()
         {
             return store;
         };
 
-        this.entitiesTimestamp = function()
-        {
-            return store.getState().entitiesTimestamp;
-        };
-
-        this.filters = function()
-        {
-            return store.getState().filters;
-        };
-
-        this.getCategories = function()
+        this.categories = function()
         {
             return getEntities("boardgamecategory");
         };
 
-        this.getDesigners = function()
+        this.designers = function()
         {
             return getEntities("boardgamedesigner");
         };
 
-        this.getEntityMap = function()
-        {
-            return store.getState().entityMap;
-        };
-
-        this.getGameDetailMap = function()
-        {
-            return store.getState().gameDetailMap;
-        };
-
-        this.gameDetailsTimestamp = function()
-        {
-            return store.getState().gameDetailsTimestamp;
-        };
-
-        this.gameSummariesTimestamp = function()
-        {
-            return store.getState().gameSummariesTimestamp;
-        };
-
-        this.getGameSummaryMap = function()
-        {
-            return store.getState().gameSummaryMap;
-        };
-
-        this.getGameSummaries = function()
+        this.filteredGameSummaries = function()
         {
             var answer;
             var filters = this.filters();
-            var gameSummaryMap = this.getGameSummaryMap();
+            var gameSummaryMap = this.gameSummaryMap();
 
             if (filters && filters.length > 0)
             {
@@ -90,67 +60,62 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                 return a.boardGameRank - b.boardGameRank;
             });
 
-            LOGGER.trace("GameDatabase.getGameSummaries() answer.length = " + answer.length);
+            LOGGER.trace("GameDatabase.filteredGameSummaries() answer.length = " + answer.length);
 
             return answer;
         };
 
-        this.getMechanics = function()
-        {
-            return getEntities("boardgamemechanic");
-        };
-
         this.loadFromLocalStorage = function()
         {
-            if (localStorage.entitiesTimestamp)
+            if (localStorage.entityTimestamp)
             {
-                var newEntitiesTimestamp = parseInt(localStorage.entitiesTimestamp);
-                LOGGER.debug("localStorage newEntitiesTimestamp = " + newEntitiesTimestamp);
+                var newEntityTimestamp = parseInt(localStorage.entityTimestamp);
+                LOGGER.debug("localStorage newEntityTimestamp = " + newEntityTimestamp);
 
-                if (newEntitiesTimestamp && Date.now() < newEntitiesTimestamp + ENTITIES_CACHE_TIME)
+                if (newEntityTimestamp && Date.now() < newEntityTimestamp + ENTITY_CACHE_TIME)
                 {
                     // Load from localStorage.
                     var newEntityMap = JSON.parse(localStorage.entityMap);
                     LOGGER.debug("newEntityMap loaded from localStorage");
-                    store.dispatch(Action.setEntitiesTimestamp(newEntitiesTimestamp));
+                    store.dispatch(Action.setEntityTimestamp(newEntityTimestamp));
                     store.dispatch(Action.mergeEntityMap(newEntityMap));
                 }
             }
 
-            if (localStorage.gameDetailsTimestamp)
+            if (localStorage.gameDetailTimestamp)
             {
-                var newGameDetailsTimestamp = parseInt(localStorage.gameDetailsTimestamp);
-                LOGGER.debug("localStorage newGameDetailsTimestamp = " + newGameDetailsTimestamp);
+                var newGameDetailTimestamp = parseInt(localStorage.gameDetailTimestamp);
+                LOGGER.debug("localStorage newGameDetailTimestamp = " + newGameDetailTimestamp);
 
-                if (newGameDetailsTimestamp && Date.now() < newGameDetailsTimestamp + DETAILS_CACHE_TIME)
+                if (newGameDetailTimestamp && Date.now() < newGameDetailTimestamp + DETAIL_CACHE_TIME)
                 {
                     // Load from localStorage.
                     var newGameDetailMap = JSON.parse(localStorage.gameDetailMap);
                     LOGGER.debug("newGameDetailMap loaded from localStorage");
-                    store.dispatch(Action.setGameDetailsTimestamp(newGameDetailsTimestamp));
+                    store.dispatch(Action.setGameDetailTimestamp(newGameDetailTimestamp));
                     store.dispatch(Action.mergeGameDetailMap(newGameDetailMap));
                 }
             }
 
-            if (localStorage.gameSummariesTimestamp)
+            if (localStorage.gameSummaryTimestamp)
             {
-                var newGameSummariesTimestamp = parseInt(localStorage.gameSummariesTimestamp);
-                LOGGER.debug("localStorage newGameSummariesTimestamp = " + newGameSummariesTimestamp);
+                var newGameSummaryTimestamp = parseInt(localStorage.gameSummaryTimestamp);
+                LOGGER.debug("localStorage newGameSummaryTimestamp = " + newGameSummaryTimestamp);
 
-                if (newGameSummariesTimestamp && Date.now() < newGameSummariesTimestamp + SUMMARIES_CACHE_TIME)
+                if (newGameSummaryTimestamp && Date.now() < newGameSummaryTimestamp + SUMMARY_CACHE_TIME)
                 {
                     // Load from localStorage.
                     var newGameSummaryMap = JSON.parse(localStorage.gameSummaryMap);
                     LOGGER.debug("newGameSummaryMap loaded from localStorage");
-                    store.dispatch(Action.setGameSummariesTimestamp(newGameSummariesTimestamp));
+                    store.dispatch(Action.setGameSummaryTimestamp(newGameSummaryTimestamp));
                     store.dispatch(Action.mergeGameSummaryMap(newGameSummaryMap));
                 }
             }
 
-            if (!this.getGameSummaryMap() || GameDatabase.objectIsEmpty(this.getGameSummaryMap()))
+            if (!this.gameSummaryMap() || GameDatabase.objectIsEmpty(this.gameSummaryMap()))
             {
                 // Load from the internet.
-                for (var i = 1; i <= numPages; i++)
+                for (var i = 1; i <= pageCount; i++)
                 {
                     var summaryFetcher = new GameSummaryFetcher(this, i, this.receiveSummaryData.bind(this));
                     summaryFetcher.fetchData();
@@ -159,90 +124,15 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                 LOGGER.debug("gameSummaries loading from the internet");
             }
 
-            if (!this.getGameDetailMap())
+            if (!this.gameDetailMap())
             {
                 store.dispatch(Action.resetGameDetailMap());
             }
         };
 
-        this.newEntity = function(type, id, name)
+        this.mechanics = function()
         {
-            var entityMap = this.getEntityMap();
-            var answer = entityMap[id];
-
-            if (answer)
-            {
-                // Increment count.
-                answer.count++;
-            }
-            else
-            {
-                answer =
-                {
-                    type: type,
-                    id: parseInt(id),
-                    name: name,
-                    count: 1,
-                };
-
-                entityMap[answer.id] = answer;
-            }
-
-            return answer;
-        };
-
-        this.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers, bestWithPlayers,
-                minPlayTime, maxPlayTime, categories, mechanics)
-        {
-            var gameDetailMap = this.getGameDetailMap();
-            var answer = gameDetailMap[id];
-
-            if (!answer)
-            {
-                answer =
-                {
-                    id: parseInt(id),
-                    title: title,
-                    designers: designers,
-                    yearPublished: parseInt(yearPublished),
-                    minPlayers: parseInt(minPlayers),
-                    maxPlayers: parseInt(maxPlayers),
-                    bestWithPlayers: parseInt(bestWithPlayers),
-                    minPlayTime: parseInt(minPlayTime),
-                    maxPlayTime: parseInt(maxPlayTime),
-                    categories: categories,
-                    mechanics: mechanics,
-                };
-
-                gameDetailMap[answer.id] = answer;
-            }
-
-            return answer;
-        };
-
-        this.newGameSummary = function(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay, numVoters)
-        {
-            var gameSummaryMap = this.getGameSummaryMap();
-            var answer = gameSummaryMap[id];
-
-            if (!answer)
-            {
-                answer =
-                {
-                    id: parseInt(id),
-                    title: title,
-                    boardGameRank: parseInt(boardGameRank),
-                    geekRating: parseFloat(geekRatingDisplay),
-                    geekRatingDisplay: geekRatingDisplay,
-                    averageRating: parseFloat(averageRatingDisplay),
-                    averageRatingDisplay: averageRatingDisplay,
-                    numVoters: parseInt(numVoters),
-                };
-
-                gameSummaryMap[answer.id] = answer;
-            }
-
-            return answer;
+            return getEntities("boardgamemechanic");
         };
 
         this.receiveDetailData = function(newGameDetailMap)
@@ -265,7 +155,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             // Fetch a game detail for each game summary.
             var needGameDetailIds = [];
             var keys = Object.keys(newGameSummaryMap);
-            var i;
+            var i, len;
 
             for (i = 0, len = keys.length; i < len; i++)
             {
@@ -299,38 +189,37 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
 
         this.storeToLocalStorage = function()
         {
-            if (!GameDatabase.objectIsEmpty(this.getEntityMap()))
+            if (!GameDatabase.objectIsEmpty(this.entityMap()))
             {
-                if (!this.entitiesTimestamp())
+                if (!this.entityTimestamp())
                 {
-                    entitiesTimestamp = Date.now();
-                    store.dispatch(Action.setEntitiesTimestamp(Date.now()));
+                    store.dispatch(Action.setEntityTimestamp(Date.now()));
                 }
-                localStorage.entitiesTimestamp = this.entitiesTimestamp();
-                localStorage.entityMap = JSON.stringify(this.getEntityMap());
-                LOGGER.debug("entityMap stored to localStorage with timestamp " + this.entitiesTimestamp());
+                localStorage.entityTimestamp = this.entityTimestamp();
+                localStorage.entityMap = JSON.stringify(this.entityMap());
+                LOGGER.debug("entityMap stored to localStorage with timestamp " + this.entityTimestamp());
             }
 
-            if (!GameDatabase.objectIsEmpty(this.getGameDetailMap()))
+            if (!GameDatabase.objectIsEmpty(this.gameDetailMap()))
             {
-                if (!this.gameDetailsTimestamp())
+                if (!this.gameDetailTimestamp())
                 {
-                    store.dispatch(Action.setGameDetailsTimestamp(Date.now()));
+                    store.dispatch(Action.setGameDetailTimestamp(Date.now()));
                 }
-                localStorage.gameDetailsTimestamp = this.gameDetailsTimestamp();
-                localStorage.gameDetailMap = JSON.stringify(this.getGameDetailMap());
-                LOGGER.debug("gameDetailMap stored to localStorage with timestamp " + this.gameDetailsTimestamp());
+                localStorage.gameDetailTimestamp = this.gameDetailTimestamp();
+                localStorage.gameDetailMap = JSON.stringify(this.gameDetailMap());
+                LOGGER.debug("gameDetailMap stored to localStorage with timestamp " + this.gameDetailTimestamp());
             }
 
-            if (!GameDatabase.objectIsEmpty(this.getGameSummaryMap()))
+            if (!GameDatabase.objectIsEmpty(this.gameSummaryMap()))
             {
-                if (!this.gameSummariesTimestamp())
+                if (!this.gameSummaryTimestamp())
                 {
-                    store.dispatch(Action.setGameSummariesTimestamp(Date.now()));
+                    store.dispatch(Action.setGameSummaryTimestamp(Date.now()));
                 }
-                localStorage.gameSummariesTimestamp = this.gameSummariesTimestamp();
-                localStorage.gameSummaryMap = JSON.stringify(this.getGameSummaryMap());
-                LOGGER.debug("gameSummaryMap stored to localStorage with timestamp " + this.gameSummariesTimestamp());
+                localStorage.gameSummaryTimestamp = this.gameSummaryTimestamp();
+                localStorage.gameSummaryMap = JSON.stringify(this.gameSummaryMap());
+                LOGGER.debug("gameSummaryMap stored to localStorage with timestamp " + this.gameSummaryTimestamp());
             }
         };
 
@@ -338,7 +227,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         {
             var answer = [];
 
-            var entityMap = that.getEntityMap();
+            var entityMap = that.entityMap();
             var keys = Object.keys(entityMap);
             for (var i = 0, len = keys.length; i < len; i++)
             {
@@ -375,19 +264,135 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         }
     }
 
+    GameDatabase.prototype.entityMap = function()
+    {
+        return this.store().getState().entityMap;
+    };
+
+    GameDatabase.prototype.entityTimestamp = function()
+    {
+        return this.store().getState().entityTimestamp;
+    };
+
+    GameDatabase.prototype.filters = function()
+    {
+        return this.store().getState().filters;
+    };
+
     GameDatabase.prototype.findEntityById = function(id)
     {
-        return this.getEntityMap()[id];
+        return this.entityMap()[id];
     };
 
     GameDatabase.prototype.findGameDetailById = function(id)
     {
-        return this.getGameDetailMap()[id];
+        return this.gameDetailMap()[id];
     };
 
     GameDatabase.prototype.findGameSummaryById = function(id)
     {
-        return this.getGameSummaryMap()[id];
+        return this.gameSummaryMap()[id];
+    };
+
+    GameDatabase.prototype.gameDetailMap = function()
+    {
+        return this.store().getState().gameDetailMap;
+    };
+
+    GameDatabase.prototype.gameDetailTimestamp = function()
+    {
+        return this.store().getState().gameDetailTimestamp;
+    };
+
+    GameDatabase.prototype.gameSummaryMap = function()
+    {
+        return this.store().getState().gameSummaryMap;
+    };
+
+    GameDatabase.prototype.gameSummaryTimestamp = function()
+    {
+        return this.store().getState().gameSummaryTimestamp;
+    };
+
+    GameDatabase.prototype.newEntity = function(type, id, name)
+    {
+        var entityMap = this.entityMap();
+        var answer = entityMap[id];
+
+        if (answer)
+        {
+            // Increment count.
+            answer.count++;
+        }
+        else
+        {
+            answer =
+            {
+                type: type,
+                id: parseInt(id),
+                name: name,
+                count: 1,
+            };
+
+            entityMap[answer.id] = answer;
+        }
+
+        return answer;
+    };
+
+    GameDatabase.prototype.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers,
+            bestWithPlayers, minPlayTime, maxPlayTime, categories, mechanics)
+    {
+        var gameDetailMap = this.gameDetailMap();
+        var answer = gameDetailMap[id];
+
+        if (!answer)
+        {
+            answer =
+            {
+                id: parseInt(id),
+                title: title,
+                designers: designers,
+                yearPublished: parseInt(yearPublished),
+                minPlayers: parseInt(minPlayers),
+                maxPlayers: parseInt(maxPlayers),
+                bestWithPlayers: parseInt(bestWithPlayers),
+                minPlayTime: parseInt(minPlayTime),
+                maxPlayTime: parseInt(maxPlayTime),
+                categories: categories,
+                mechanics: mechanics,
+            };
+
+            gameDetailMap[answer.id] = answer;
+        }
+
+        return answer;
+    };
+
+    GameDatabase.prototype.newGameSummary = function(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay,
+            numVoters)
+    {
+        var gameSummaryMap = this.gameSummaryMap();
+        var answer = gameSummaryMap[id];
+
+        if (!answer)
+        {
+            answer =
+            {
+                id: parseInt(id),
+                title: title,
+                boardGameRank: parseInt(boardGameRank),
+                geekRating: parseFloat(geekRatingDisplay),
+                geekRatingDisplay: geekRatingDisplay,
+                averageRating: parseFloat(averageRatingDisplay),
+                averageRatingDisplay: averageRatingDisplay,
+                numVoters: parseInt(numVoters),
+            };
+
+            gameSummaryMap[answer.id] = answer;
+        }
+
+        return answer;
     };
 
     GameDatabase.passesFilters = function(filters, gameSummary, gameDetail)

@@ -42,8 +42,8 @@
         require([ "process/GameDatabase", "process/ui/Connector", "process/ui/FilterUI", "process/ui/GameTable" ],
                 function(GameDatabase, Connector, FilterUI, GameTable)
                 {
-                    var numPages = 5;
-                    var gameDatabase = new GameDatabase(numPages);
+                    var pageCount = 5;
+                    var gameDatabase = new GameDatabase(pageCount);
                     gameDatabase.loadFromLocalStorage();
 
                     var connector0 = ReactRedux.connect(Connector.FilterUI.mapStateToProps)(FilterUI);
