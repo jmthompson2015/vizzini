@@ -1,19 +1,32 @@
-define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(GameDetailFetcher, GameSummaryFetcher)
+define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetcher", "process/Reducer" ], function(
+        Action, GameDetailFetcher, GameSummaryFetcher, Reducer)
 {
     function GameDatabase(numPages)
     {
+        InputValidator.validateInRange("numPages", numPages, 1, 10);
+
         var that = this;
         var SUMMARIES_CACHE_TIME = 30 * 60 * 1000; // 30 minutes in milliseconds
         var DETAILS_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
         var ENTITIES_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
-        var filters = [];
-        var gameSummariesTimestamp;
-        var gameSummaryMap = {};
-        var gameDetailsTimestamp;
-        var gameDetailMap = {};
-        var entitiesTimestamp;
-        var entityMap = {};
+        var store = Redux.createStore(Reducer.root);
+        store.dispatch(Action.setGameDatabase(this));
+
+        this.store = function()
+        {
+            return store;
+        };
+
+        this.entitiesTimestamp = function()
+        {
+            return store.getState().entitiesTimestamp;
+        }
+
+        this.filters = function()
+        {
+            return store.getState().filters;
+        };
 
         this.getCategories = function()
         {
@@ -27,22 +40,34 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
 
         this.getEntityMap = function()
         {
-            return entityMap;
+            return store.getState().entityMap;
         }
 
         this.getGameDetailMap = function()
         {
-            return gameDetailMap;
+            return store.getState().gameDetailMap;
+        }
+
+        this.gameDetailsTimestamp = function()
+        {
+            return store.getState().gameDetailsTimestamp;
+        }
+
+        this.gameSummariesTimestamp = function()
+        {
+            return store.getState().gameSummariesTimestamp;
         }
 
         this.getGameSummaryMap = function()
         {
-            return gameSummaryMap;
+            return store.getState().gameSummaryMap;
         }
 
         this.getGameSummaries = function()
         {
             var answer;
+            var filters = this.filters();
+            var gameSummaryMap = this.getGameSummaryMap();
 
             if (filters && filters.length > 0)
             {
@@ -74,7 +99,7 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
             return getEntities("boardgamemechanic");
         }
 
-        this.load = function()
+        this.loadFromLocalStorage = function()
         {
             if (localStorage.entitiesTimestamp)
             {
@@ -86,8 +111,8 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
                     // Load from localStorage.
                     var newEntityMap = JSON.parse(localStorage.entityMap);
                     LOGGER.debug("newEntityMap loaded from localStorage");
-                    entitiesTimestamp = newEntitiesTimestamp;
-                    GameDatabase.objectMerge(entityMap, newEntityMap);
+                    store.dispatch(Action.setEntitiesTimestamp(newEntitiesTimestamp));
+                    store.dispatch(Action.mergeEntityMap(newEntityMap));
                 }
             }
 
@@ -101,8 +126,8 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
                     // Load from localStorage.
                     var newGameDetailMap = JSON.parse(localStorage.gameDetailMap);
                     LOGGER.debug("newGameDetailMap loaded from localStorage");
-                    gameDetailsTimestamp = newGameDetailsTimestamp;
-                    GameDatabase.objectMerge(gameDetailMap, newGameDetailMap);
+                    store.dispatch(Action.setGameDetailsTimestamp(newGameDetailsTimestamp));
+                    store.dispatch(Action.mergeGameDetailMap(newGameDetailMap));
                 }
             }
 
@@ -116,33 +141,32 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
                     // Load from localStorage.
                     var newGameSummaryMap = JSON.parse(localStorage.gameSummaryMap);
                     LOGGER.debug("newGameSummaryMap loaded from localStorage");
-                    gameSummariesTimestamp = newGameSummariesTimestamp;
-                    GameDatabase.objectMerge(gameSummaryMap, newGameSummaryMap);
-                    this.receiveSummaryData(newGameSummaryMap);
+                    store.dispatch(Action.setGameSummariesTimestamp(newGameSummariesTimestamp));
+                    store.dispatch(Action.mergeGameSummaryMap(newGameSummaryMap));
                 }
             }
 
-            if (!gameSummaryMap || GameDatabase.objectIsEmpty(gameSummaryMap))
+            if (!this.getGameSummaryMap() || GameDatabase.objectIsEmpty(this.getGameSummaryMap()))
             {
                 // Load from the internet.
                 for (var i = 1; i <= numPages; i++)
                 {
-                    var summaryFetcher = new GameSummaryFetcher(this, i);
-                    summaryFetcher.bind("dataLoaded", this.receiveSummaryData);
+                    var summaryFetcher = new GameSummaryFetcher(this, i, this.receiveSummaryData.bind(this));
                     summaryFetcher.fetchData();
                 }
 
                 LOGGER.debug("gameSummaries loading from the internet");
             }
 
-            if (!gameDetailMap)
+            if (!this.getGameDetailMap())
             {
-                gameDetailMap = {};
+                store.dispatch(Action.resetGameDetailMap());
             }
         }
 
         this.newEntity = function(type, id, name)
         {
+            var entityMap = this.getEntityMap();
             var answer = entityMap[id];
 
             if (answer)
@@ -169,6 +193,7 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
         this.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers, bestWithPlayers,
                 minPlayTime, maxPlayTime, categories, mechanics)
         {
+            var gameDetailMap = this.getGameDetailMap();
             var answer = gameDetailMap[id];
 
             if (!answer)
@@ -196,6 +221,7 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
 
         this.newGameSummary = function(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay, numVoters)
         {
+            var gameSummaryMap = this.getGameSummaryMap();
             var answer = gameSummaryMap[id];
 
             if (!answer)
@@ -222,8 +248,8 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
         {
             LOGGER.trace("GameDatabase.receiveDetailData() start");
 
-            that.store();
-            that.trigger("dataLoaded", that);
+            store.dispatch(Action.mergeGameDetailMap(newGameDetailMap));
+            that.storeToLocalStorage();
 
             LOGGER.trace("GameDatabase.receiveDetailData() end");
         }
@@ -232,8 +258,8 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
         {
             LOGGER.trace("GameDatabase.receiveSummaryData() start");
 
-            that.store();
-            that.trigger("dataLoaded", that);
+            store.dispatch(Action.mergeGameSummaryMap(newGameSummaryMap));
+            that.storeToLocalStorage();
 
             // Fetch a game detail for each game summary.
             var needGameDetailIds = [];
@@ -259,8 +285,8 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
                     var start = numPerCall * i;
                     var max = Math.min(numPerCall, needGameDetailIds.length);
                     var end = start + max;
-                    var detailFetcher = new GameDetailFetcher(that, needGameDetailIds.slice(start, end));
-                    detailFetcher.bind("dataLoaded", that.receiveDetailData);
+                    var detailFetcher = new GameDetailFetcher(that, needGameDetailIds.slice(start, end),
+                            that.receiveDetailData.bind(that));
                     detailFetcher.fetchData();
                 }
             }
@@ -268,50 +294,40 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
             LOGGER.trace("GameDatabase.receiveSummaryData() end");
         }
 
-        this.setFilters = function(newFilters)
+        this.storeToLocalStorage = function()
         {
-            LOGGER.trace("GameDatabase.setFilters() start");
-
-            filters = newFilters;
-            that.trigger("dataLoaded", that);
-
-            LOGGER.trace("GameDatabase.setFilters() end");
-        }
-
-        this.store = function()
-        {
-            // Store to local storage.
-            if (!GameDatabase.objectIsEmpty(entityMap))
+            if (!GameDatabase.objectIsEmpty(this.getEntityMap()))
             {
-                if (!entitiesTimestamp)
+                if (!this.entitiesTimestamp())
                 {
                     entitiesTimestamp = Date.now();
+                    store.dispatch(Action.setEntitiesTimestamp(Date.now()));
                 }
-                localStorage.entitiesTimestamp = entitiesTimestamp;
-                localStorage.entityMap = JSON.stringify(entityMap);
-                LOGGER.debug("entityMap stored to localStorage with timestamp " + entitiesTimestamp);
+                localStorage.entitiesTimestamp = this.entitiesTimestamp();
+                localStorage.entityMap = JSON.stringify(this.getEntityMap());
+                LOGGER.debug("entityMap stored to localStorage with timestamp " + this.entitiesTimestamp());
             }
 
-            if (!GameDatabase.objectIsEmpty(gameDetailMap))
+            if (!GameDatabase.objectIsEmpty(this.getGameDetailMap()))
             {
-                if (!gameDetailsTimestamp)
+                if (!this.gameDetailsTimestamp())
                 {
-                    gameDetailsTimestamp = Date.now();
+                    store.dispatch(Action.setGameDetailsTimestamp(Date.now()));
                 }
-                localStorage.gameDetailsTimestamp = gameDetailsTimestamp;
-                localStorage.gameDetailMap = JSON.stringify(gameDetailMap);
-                LOGGER.debug("gameDetailMap stored to localStorage with timestamp " + gameDetailsTimestamp);
+                localStorage.gameDetailsTimestamp = this.gameDetailsTimestamp();
+                localStorage.gameDetailMap = JSON.stringify(this.getGameDetailMap());
+                LOGGER.debug("gameDetailMap stored to localStorage with timestamp " + this.gameDetailsTimestamp());
             }
 
-            if (!GameDatabase.objectIsEmpty(gameSummaryMap))
+            if (!GameDatabase.objectIsEmpty(this.getGameSummaryMap()))
             {
-                if (!gameSummariesTimestamp)
+                if (!this.gameSummariesTimestamp())
                 {
-                    gameSummariesTimestamp = Date.now();
+                    store.dispatch(Action.setGameSummariesTimestamp(Date.now()));
                 }
-                localStorage.gameSummariesTimestamp = gameSummariesTimestamp;
-                localStorage.gameSummaryMap = JSON.stringify(gameSummaryMap);
-                LOGGER.debug("gameSummaryMap stored to localStorage with timestamp " + gameSummariesTimestamp);
+                localStorage.gameSummariesTimestamp = this.gameSummariesTimestamp();
+                localStorage.gameSummaryMap = JSON.stringify(this.getGameSummaryMap());
+                LOGGER.debug("gameSummaryMap stored to localStorage with timestamp " + this.gameSummariesTimestamp());
             }
         }
 
@@ -319,6 +335,7 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
         {
             var answer = [];
 
+            var entityMap = that.getEntityMap();
             var keys = Object.keys(entityMap);
             for (var i = 0, len = keys.length; i < len; i++)
             {
@@ -354,8 +371,6 @@ define([ "process/GameDetailFetcher", "process/GameSummaryFetcher" ], function(G
             return answer;
         }
     }
-
-    MicroEvent.mixin(GameDatabase);
 
     GameDatabase.prototype.findEntityById = function(id)
     {

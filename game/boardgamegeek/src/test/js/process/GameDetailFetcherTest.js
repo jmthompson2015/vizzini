@@ -6,12 +6,13 @@ define([ "process/GameDatabase", "process/GameDetailFetcher" ], function(GameDat
     QUnit.test("fetchData()", function(assert)
     {
         // Setup.
-        var gameDatabase = new GameDatabase();
+        var numPages = 5;
+        var gameDatabase = new GameDatabase(numPages);
         var gameIds = [];
         gameIds.push(12333); // Twilight Struggle
         gameIds.push(120677); // Terra Mystica
-        var fetcher = new GameDetailFetcher(gameDatabase, gameIds);
-        fetcher.bind("dataLoaded", myReceiveData);
+        var callback = myReceiveData;
+        var fetcher = new GameDetailFetcher(gameDatabase, gameIds, callback);
 
         // Run.
         fetcher.fetchData();
@@ -22,18 +23,18 @@ define([ "process/GameDatabase", "process/GameDetailFetcher" ], function(GameDat
 
     function myReceiveData(newGameDetailMap)
     {
-        LOGGER.info("myReceiveData() start");
-        LOGGER.info("newGameDetailMap = " + newGameDetailMap);
-        LOGGER.info("newGameDetailMap keys = " + Object.keys(newGameDetailMap));
+        LOGGER.debug("myReceiveData() start");
+        LOGGER.debug("newGameDetailMap = " + newGameDetailMap);
+        LOGGER.debug("newGameDetailMap keys = " + Object.keys(newGameDetailMap));
         var gameDetails = GameDatabase.objectValues(newGameDetailMap);
-        LOGGER.info("myReceiveData gameDetails.length = " + gameDetails.length);
+        LOGGER.debug("myReceiveData gameDetails.length = " + gameDetails.length);
 
         for (var i = 0; i < gameDetails.length; i++)
         {
             var gameDetail = gameDetails[i];
-            LOGGER.info("gameDetails[" + i + "] = " + JSON.stringify(gameDetail, null, "   "));
+            LOGGER.debug("gameDetails[" + i + "] = " + JSON.stringify(gameDetail, null, "   "));
         }
 
-        LOGGER.info("myReceiveData() end");
+        LOGGER.debug("myReceiveData() end");
     }
 });

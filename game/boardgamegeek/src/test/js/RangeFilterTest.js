@@ -6,7 +6,8 @@ define([ "RangeFilter", "process/GameDatabase" ], function(RangeFilter, GameData
     QUnit.test("RangeFilter passes()", function(assert)
     {
         // Setup.
-        var gameDatabase = new GameDatabase();
+        var numPages = 5;
+        var gameDatabase = new GameDatabase(numPages);
         var gameSummary = createGameSummary(gameDatabase);
         var gameDetail = createGameDetail(gameDatabase);
 

@@ -3,13 +3,13 @@ define(function()
     function EntityFilter(props)
     {
         InputValidator.validateNotNull("props", props);
-        LOGGER.debug("EntityFilter props = " + JSON.stringify(props,null,"   "));
+        LOGGER.debug("EntityFilter props = " + JSON.stringify(props, null, "   "));
 
         this.passes = function(gameSummary, gameDetail)
         {
             InputValidator.validateNotNull("gameSummary", gameSummary);
-            LOGGER.debug("EntityFilter gameSummary = " + JSON.stringify(gameSummary,null,"   "));
-            LOGGER.debug("EntityFilter gameDetail = " + JSON.stringify(gameDetail,null,"   "));
+            LOGGER.debug("EntityFilter gameSummary = " + JSON.stringify(gameSummary, null, "   "));
+            LOGGER.debug("EntityFilter gameDetail = " + JSON.stringify(gameDetail, null, "   "));
 
             var value = determineValue(gameSummary, gameDetail);
             LOGGER.debug("EntityFilter value = " + value);

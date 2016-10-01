@@ -1,16 +1,26 @@
-define([ "EntityFilter", "GameColumns", "RangeFilter" ], function(EntityFilter, GameColumns, RangeFilter)
+define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], function(EntityFilter, GameColumns,
+        RangeFilter, Action)
 {
     var FilterUI = React.createClass(
     {
+        contextTypes:
+        {
+            store: React.PropTypes.object.isRequired,
+        },
+
         propTypes:
         {
             gameDatabase: React.PropTypes.object.isRequired,
+            designers: React.PropTypes.array.isRequired,
+            categories: React.PropTypes.array.isRequired,
+            mechanics: React.PropTypes.array.isRequired,
         },
 
         filterColumns: [],
 
         componentWillMount: function()
         {
+            this.filterColumns = [];
             this.filterColumns.push(GameColumns[0]);
             this.filterColumns.push(GameColumns[3]);
             this.filterColumns.push(GameColumns[4]);
@@ -73,15 +83,15 @@ define([ "EntityFilter", "GameColumns", "RangeFilter" ], function(EntityFilter, 
             var designerTable = this.createEntityTable(
             {
                 "data-entitytype": "designer",
-            }, gameDatabase.getDesigners(), this.state.designers.ids, gameDatabase);
+            }, this.props.designers, this.state.designers.ids, gameDatabase);
             var categoryTable = this.createEntityTable(
             {
                 "data-entitytype": "category",
-            }, gameDatabase.getCategories(), this.state.categories.ids, gameDatabase);
+            }, this.props.categories, this.state.categories.ids, gameDatabase);
             var mechanicTable = this.createEntityTable(
             {
                 "data-entitytype": "mechanic",
-            }, gameDatabase.getMechanics(), this.state.mechanics.ids, gameDatabase);
+            }, this.props.mechanics, this.state.mechanics.ids, gameDatabase);
 
             var rows2 = [];
             var filterCell = React.DOM.td(
@@ -111,7 +121,7 @@ define([ "EntityFilter", "GameColumns", "RangeFilter" ], function(EntityFilter, 
             }, "Restore Defaults");
             var unfilterButton = React.DOM.button(
             {
-                disabled: !this.state.isFiltered,
+                // disabled: !this.state.isFiltered,
                 onClick: this.unfilterActionPerformed,
             }, "Remove Filter");
             var filterButton = React.DOM.button(
@@ -263,7 +273,7 @@ define([ "EntityFilter", "GameColumns", "RangeFilter" ], function(EntityFilter, 
             filters.push(new EntityFilter(this.state.categories));
             filters.push(new EntityFilter(this.state.mechanics));
 
-            this.trigger("applyFilters", filters);
+            this.context.store.dispatch(Action.setFilters(filters));
             this.setState(
             {
                 isFiltered: true,
@@ -401,7 +411,7 @@ define([ "EntityFilter", "GameColumns", "RangeFilter" ], function(EntityFilter, 
 
             var filters = [];
 
-            this.trigger("applyFilters", filters);
+            this.context.store.dispatch(Action.setFilters(filters));
             this.setState(
             {
                 isFiltered: false,
@@ -410,8 +420,6 @@ define([ "EntityFilter", "GameColumns", "RangeFilter" ], function(EntityFilter, 
             LOGGER.trace("FilterUI.unfilterActionPerformed() end");
         },
     });
-
-    MicroEvent.mixin(FilterUI);
 
     return FilterUI;
 });
