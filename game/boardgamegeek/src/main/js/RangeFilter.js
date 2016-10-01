@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     function RangeFilter(props)
     {
         InputValidator.validateNotNull("props", props);
@@ -11,7 +12,7 @@ define(function()
             var value = determineValue(gameSummary, gameDetail);
 
             return (!props.isMinEnabled || props.minValue <= value) && (!props.isMaxEnabled || value <= props.maxValue);
-        }
+        };
 
         function determineValue(gameSummary, gameDetail)
         {
@@ -43,7 +44,7 @@ define(function()
             isMaxEnabled: isMaxEnabled,
             maxValue: maxValue,
         });
-    }
+    };
 
     return RangeFilter;
 });

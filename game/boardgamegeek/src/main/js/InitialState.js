@@ -1,10 +1,10 @@
-define([ "EntityFilter", "RangeFilter" ], function(EntityFilter, RangeFilter)
+define(function()
 {
     "use strict";
     function InitialState()
     {
         this.filters = [];
-        this.gameDatabase;
+        this.gameDatabase = undefined;
 
         this.entitiesTimestamp = 0;
         this.entityMap = {};

@@ -1,6 +1,7 @@
 define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], function(EntityFilter, GameColumns,
         RangeFilter, Action)
 {
+    "use strict";
     var FilterUI = React.createClass(
     {
         contextTypes:
@@ -173,11 +174,11 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
                 var idFunction = function(value)
                 {
                     return String(value.id);
-                }
+                };
                 var labelFunction = function(value)
                 {
                     return value.name + " (" + value.count + ")";
-                }
+                };
                 var selectedValues = selectedIds.map(function(id)
                 {
                     return gameDatabase.findEntityById(id);

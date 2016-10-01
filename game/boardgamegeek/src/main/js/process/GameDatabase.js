@@ -1,6 +1,7 @@
 define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetcher", "process/Reducer" ], function(
         Action, GameDetailFetcher, GameSummaryFetcher, Reducer)
 {
+    "use strict";
     function GameDatabase(numPages)
     {
         InputValidator.validateInRange("numPages", numPages, 1, 10);
@@ -21,7 +22,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         this.entitiesTimestamp = function()
         {
             return store.getState().entitiesTimestamp;
-        }
+        };
 
         this.filters = function()
         {
@@ -31,37 +32,37 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         this.getCategories = function()
         {
             return getEntities("boardgamecategory");
-        }
+        };
 
         this.getDesigners = function()
         {
             return getEntities("boardgamedesigner");
-        }
+        };
 
         this.getEntityMap = function()
         {
             return store.getState().entityMap;
-        }
+        };
 
         this.getGameDetailMap = function()
         {
             return store.getState().gameDetailMap;
-        }
+        };
 
         this.gameDetailsTimestamp = function()
         {
             return store.getState().gameDetailsTimestamp;
-        }
+        };
 
         this.gameSummariesTimestamp = function()
         {
             return store.getState().gameSummariesTimestamp;
-        }
+        };
 
         this.getGameSummaryMap = function()
         {
             return store.getState().gameSummaryMap;
-        }
+        };
 
         this.getGameSummaries = function()
         {
@@ -92,12 +93,12 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             LOGGER.trace("GameDatabase.getGameSummaries() answer.length = " + answer.length);
 
             return answer;
-        }
+        };
 
         this.getMechanics = function()
         {
             return getEntities("boardgamemechanic");
-        }
+        };
 
         this.loadFromLocalStorage = function()
         {
@@ -162,7 +163,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             {
                 store.dispatch(Action.resetGameDetailMap());
             }
-        }
+        };
 
         this.newEntity = function(type, id, name)
         {
@@ -188,7 +189,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             }
 
             return answer;
-        }
+        };
 
         this.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers, bestWithPlayers,
                 minPlayTime, maxPlayTime, categories, mechanics)
@@ -217,7 +218,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             }
 
             return answer;
-        }
+        };
 
         this.newGameSummary = function(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay, numVoters)
         {
@@ -242,7 +243,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             }
 
             return answer;
-        }
+        };
 
         this.receiveDetailData = function(newGameDetailMap)
         {
@@ -252,7 +253,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             that.storeToLocalStorage();
 
             LOGGER.trace("GameDatabase.receiveDetailData() end");
-        }
+        };
 
         this.receiveSummaryData = function(newGameSummaryMap)
         {
@@ -264,7 +265,9 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             // Fetch a game detail for each game summary.
             var needGameDetailIds = [];
             var keys = Object.keys(newGameSummaryMap);
-            for (var i = 0, len = keys.length; i < len; i++)
+            var i;
+
+            for (i = 0, len = keys.length; i < len; i++)
             {
                 var gameSummary = newGameSummaryMap[keys[i]];
                 var gameDetail = that.findGameDetailById(gameSummary.id);
@@ -280,7 +283,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                 var numPerCall = 20;
                 var count = Math.ceil(needGameDetailIds.length / numPerCall);
 
-                for (var i = 0; i < count; i++)
+                for (i = 0; i < count; i++)
                 {
                     var start = numPerCall * i;
                     var max = Math.min(numPerCall, needGameDetailIds.length);
@@ -292,7 +295,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             }
 
             LOGGER.trace("GameDatabase.receiveSummaryData() end");
-        }
+        };
 
         this.storeToLocalStorage = function()
         {
@@ -329,7 +332,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                 localStorage.gameSummaryMap = JSON.stringify(this.getGameSummaryMap());
                 LOGGER.debug("gameSummaryMap stored to localStorage with timestamp " + this.gameSummariesTimestamp());
             }
-        }
+        };
 
         function getEntities(type)
         {
@@ -375,17 +378,17 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
     GameDatabase.prototype.findEntityById = function(id)
     {
         return this.getEntityMap()[id];
-    }
+    };
 
     GameDatabase.prototype.findGameDetailById = function(id)
     {
         return this.getGameDetailMap()[id];
-    }
+    };
 
     GameDatabase.prototype.findGameSummaryById = function(id)
     {
         return this.getGameSummaryMap()[id];
-    }
+    };
 
     GameDatabase.passesFilters = function(filters, gameSummary, gameDetail)
     {
@@ -397,7 +400,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         });
 
         return passes;
-    }
+    };
 
     /*
      * @see <a href="http://stackoverflow.com/questions/4994201/is-object-empty">Is object empty?</a>
@@ -405,7 +408,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
     GameDatabase.objectIsEmpty = function(obj)
     {
         // null and undefined are "empty"
-        if (obj == null) { return true; }
+        if (obj === null) { return true; }
 
         // Assume if it has a length property with a non-zero value that that
         // property is correct.
@@ -417,7 +420,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         if (Object.getOwnPropertyNames(obj).length > 0) { return false; }
 
         return true;
-    }
+    };
 
     GameDatabase.objectMerge = function(a, b)
     {
@@ -428,7 +431,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             var key = keys[i];
             a[key] = b[key];
         }
-    }
+    };
 
     /*
      * @see <a
@@ -446,7 +449,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         }
 
         return answer;
-    }
+    };
 
     return GameDatabase;
 });

@@ -4,6 +4,7 @@
 
 define(function()
 {
+    "use strict";
     function GameDetailFetcher(gameDatabase, gameIds, callback)
     {
         InputValidator.validateNotNull("gameDatabase", gameDatabase);
@@ -23,7 +24,7 @@ define(function()
             });
 
             LOGGER.trace("GameDetailFetcher.fetchData() end");
-        }
+        };
 
         this.receiveData = function(xmlDocument)
         {
@@ -36,7 +37,7 @@ define(function()
             callback(gameDetails);
 
             LOGGER.trace("GameDetailFetcher.receiveData() end");
-        }
+        };
 
         function createUrl()
         {

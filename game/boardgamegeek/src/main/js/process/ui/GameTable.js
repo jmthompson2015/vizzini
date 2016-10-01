@@ -1,5 +1,6 @@
 define([ "GameColumns" ], function(GameColumns)
 {
+    "use strict";
     var GameTable = React.createClass(
     {
         propTypes:

@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     function EntityFilter(props)
     {
         InputValidator.validateNotNull("props", props);
@@ -27,7 +28,7 @@ define(function()
             }
 
             return passes;
-        }
+        };
 
         function determineValue(gameSummary, gameDetail)
         {
@@ -65,7 +66,7 @@ define(function()
             ids: ids,
             isAnd: isAnd,
         });
-    }
+    };
 
     return EntityFilter;
 });
