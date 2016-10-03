@@ -16,7 +16,7 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         case Action.MERGE_ENTITY_MAP:
             LOGGER.info("Reducer merge entity map");
             newEntityMap = Object.assign({}, state.entityMap);
-            objectMerge(newEntityMap, action.entityMap);
+            Object.vizziniMerge(newEntityMap, action.entityMap);
             return Object.assign({}, state,
             {
                 entityMap: newEntityMap,
@@ -24,7 +24,7 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         case Action.MERGE_GAME_DETAIL_MAP:
             LOGGER.info("Reducer merge game detail map");
             newGameDetailMap = Object.assign({}, state.gameDetailMap);
-            objectMerge(newGameDetailMap, action.gameDetailMap);
+            Object.vizziniMerge(newGameDetailMap, action.gameDetailMap);
             return Object.assign({}, state,
             {
                 gameDetailMap: newGameDetailMap,
@@ -32,7 +32,7 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         case Action.MERGE_GAME_SUMMARY_MAP:
             LOGGER.info("Reducer merge game summary map");
             newGameSummaryMap = Object.assign({}, state.gameSummaryMap);
-            objectMerge(newGameSummaryMap, action.gameSummaryMap);
+            Object.vizziniMerge(newGameSummaryMap, action.gameSummaryMap);
             return Object.assign({}, state,
             {
                 gameSummaryMap: newGameSummaryMap,
@@ -76,17 +76,6 @@ define([ "InitialState", "process/Action" ], function(InitialState, Action)
         default:
             LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
             return state;
-        }
-
-        function objectMerge(a, b)
-        {
-            var keys = Object.keys(b);
-
-            for (var i = 0, len = keys.length; i < len; i++)
-            {
-                var key = keys[i];
-                a[key] = b[key];
-            }
         }
     };
 
