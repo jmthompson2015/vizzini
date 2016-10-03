@@ -23,7 +23,7 @@ define([ "process/GameDatabase", "process/GameSummaryFetcher" ], function(GameDa
     {
         LOGGER.debug("myReceiveData() start");
         LOGGER.debug("newGameSummaryMap = " + newGameSummaryMap);
-        var gameSummaries = GameDatabase.objectValues(newGameSummaryMap);
+        var gameSummaries = Object.values(newGameSummaryMap);
         LOGGER.debug("myReceiveData gameSummaries.length = " + gameSummaries.length);
 
         for (var i = 0; i < gameSummaries.length; i++)

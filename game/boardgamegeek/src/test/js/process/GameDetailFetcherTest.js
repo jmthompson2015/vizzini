@@ -26,7 +26,7 @@ define([ "process/GameDatabase", "process/GameDetailFetcher" ], function(GameDat
         LOGGER.debug("myReceiveData() start");
         LOGGER.debug("newGameDetailMap = " + newGameDetailMap);
         LOGGER.debug("newGameDetailMap keys = " + Object.keys(newGameDetailMap));
-        var gameDetails = GameDatabase.objectValues(newGameDetailMap);
+        var gameDetails = Object.values(newGameDetailMap);
         LOGGER.debug("myReceiveData gameDetails.length = " + gameDetails.length);
 
         for (var i = 0; i < gameDetails.length; i++)

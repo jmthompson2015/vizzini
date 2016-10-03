@@ -42,7 +42,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
 
             if (filters && filters.length > 0)
             {
-                var gameSummaries = GameDatabase.objectValues(gameSummaryMap);
+                var gameSummaries = Object.values(gameSummaryMap);
                 answer = gameSummaries.filter(function(gameSummary)
                 {
                     var gameDetail = that.findGameDetailById(gameSummary.id);
@@ -52,7 +52,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
             }
             else
             {
-                answer = GameDatabase.objectValues(gameSummaryMap);
+                answer = Object.values(gameSummaryMap);
             }
 
             answer.sort(function(a, b)
@@ -112,7 +112,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                 }
             }
 
-            if (!this.gameSummaryMap() || GameDatabase.objectIsEmpty(this.gameSummaryMap()))
+            if (!this.gameSummaryMap() || Object.vizziniIsEmpty(this.gameSummaryMap()))
             {
                 // Load from the internet.
                 for (var i = 1; i <= pageCount; i++)
@@ -189,7 +189,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
 
         this.storeToLocalStorage = function()
         {
-            if (!GameDatabase.objectIsEmpty(this.entityMap()))
+            if (!Object.vizziniIsEmpty(this.entityMap()))
             {
                 if (!this.entityTimestamp())
                 {
@@ -200,7 +200,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                 LOGGER.debug("entityMap stored to localStorage with timestamp " + this.entityTimestamp());
             }
 
-            if (!GameDatabase.objectIsEmpty(this.gameDetailMap()))
+            if (!Object.vizziniIsEmpty(this.gameDetailMap()))
             {
                 if (!this.gameDetailTimestamp())
                 {
@@ -211,7 +211,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                 LOGGER.debug("gameDetailMap stored to localStorage with timestamp " + this.gameDetailTimestamp());
             }
 
-            if (!GameDatabase.objectIsEmpty(this.gameSummaryMap()))
+            if (!Object.vizziniIsEmpty(this.gameSummaryMap()))
             {
                 if (!this.gameSummaryTimestamp())
                 {
@@ -405,55 +405,6 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         });
 
         return passes;
-    };
-
-    /*
-     * @see <a href="http://stackoverflow.com/questions/4994201/is-object-empty">Is object empty?</a>
-     */
-    GameDatabase.objectIsEmpty = function(obj)
-    {
-        // null and undefined are "empty"
-        if (obj === null) { return true; }
-
-        // Assume if it has a length property with a non-zero value that that
-        // property is correct.
-        if (obj.length > 0) { return false; }
-        if (obj.length === 0) { return true; }
-
-        // Otherwise, does it have any properties of its own? Note that this doesn't
-        // handle toString and valueOf enumeration bugs in IE < 9
-        if (Object.getOwnPropertyNames(obj).length > 0) { return false; }
-
-        return true;
-    };
-
-    GameDatabase.objectMerge = function(a, b)
-    {
-        var keys = Object.keys(b);
-
-        for (var i = 0, len = keys.length; i < len; i++)
-        {
-            var key = keys[i];
-            a[key] = b[key];
-        }
-    };
-
-    /*
-     * @see <a
-     *      href="http://stackoverflow.com/questions/1718777/how-might-i-extract-the-property-values-of-a-javascript-object-into-an-array">How
-     *      might I extract the property values of a JavaScript object into an array?</a>
-     */
-    GameDatabase.objectValues = function(obj)
-    {
-        var answer = [];
-        var keys = Object.keys(obj);
-
-        for (var i = 0, len = keys.length; i < len; i++)
-        {
-            answer.push(obj[keys[i]]);
-        }
-
-        return answer;
     };
 
     return GameDatabase;
