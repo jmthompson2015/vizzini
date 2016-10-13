@@ -6,9 +6,10 @@ define(function()
         AGATHA: "agatha",
         ANTHONY: "anthony",
         BARRY: "barry",
-        DAGGER: "dagger",
+        CRIME_AND_BEYOND: "crimeAndBeyond",
+        // DAGGER: "dagger",
         EDGAR: "edgar",
-        NERO: "nero",
+        // NERO: "nero",
         SHAMUS: "shamus",
 
         properties:
@@ -31,24 +32,30 @@ define(function()
                 url: "http://stopyourekillingme.com/Awards/Barry_Awards.html",
                 value: "barry",
             },
-            "dagger":
+            "crimeAndBeyond":
             {
-                name: "Dagger",
-                url: "http://stopyourekillingme.com/Awards/Dagger_Awards.html",
-                value: "dagger",
+                name: "Crime & Beyond",
+                url: "http://crimeandbeyond.wikia.com/wiki/Crime_%26_Beyond_Wiki",
+                value: "crimeAndBeyond",
             },
+            // "dagger":
+            // {
+            //     name: "Dagger",
+            //     url: "http://stopyourekillingme.com/Awards/Dagger_Awards.html",
+            //     value: "dagger",
+            // },
             "edgar":
             {
                 name: "Edgar",
                 url: "http://stopyourekillingme.com/Awards/Edgar_Awards.html",
                 value: "edgar",
             },
-            "nero":
-            {
-                name: "Nero",
-                url: "http://stopyourekillingme.com/Awards/Nero_Awards.html",
-                value: "nero",
-            },
+            // "nero":
+            // {
+            //     name: "Nero",
+            //     url: "http://stopyourekillingme.com/Awards/Nero_Awards.html",
+            //     value: "nero",
+            // },
             "shamus":
             {
                 name: "Shamus",
@@ -151,41 +158,53 @@ define(function()
         },
     };
 
-    Award.properties[Award.DAGGER].categories = {
-        FIRST: "first",
-        GOLD: "gold",
-        HISTORICAL: "historical",
-        INTERNATIONAL: "international",
-        STEEL: "steel",
+    Award.properties[Award.CRIME_AND_BEYOND].categories = {
+        CASE: "case",
         properties:
         {
-            "first":
+            "case":
             {
-                name: "New Blood Dagger",
-                value: "first",
-            },
-            "gold":
-            {
-                name: "Gold Dagger",
-                value: "gold",
-            },
-            "historical":
-            {
-                name: "Historical Dagger",
-                value: "historical",
-            },
-            "international":
-            {
-                name: "International Dagger",
-                value: "international",
-            },
-            "steel":
-            {
-                name: "Ian Fleming Steel Dagger",
-                value: "steel",
+                name: "Case File",
+                value: "case",
             },
         },
     };
+
+    // Award.properties[Award.DAGGER].categories = {
+    //     FIRST: "first",
+    //     GOLD: "gold",
+    //     HISTORICAL: "historical",
+    //     INTERNATIONAL: "international",
+    //     STEEL: "steel",
+    //     properties:
+    //     {
+    //         "first":
+    //         {
+    //             name: "New Blood Dagger",
+    //             value: "first",
+    //         },
+    //         "gold":
+    //         {
+    //             name: "Gold Dagger",
+    //             value: "gold",
+    //         },
+    //         "historical":
+    //         {
+    //             name: "Historical Dagger",
+    //             value: "historical",
+    //         },
+    //         "international":
+    //         {
+    //             name: "International Dagger",
+    //             value: "international",
+    //         },
+    //         "steel":
+    //         {
+    //             name: "Ian Fleming Steel Dagger",
+    //             value: "steel",
+    //         },
+    //     },
+    // };
 
     Award.properties[Award.EDGAR].categories = {
         FIRST: "first",
@@ -211,17 +230,17 @@ define(function()
         },
     };
 
-    Award.properties[Award.NERO].categories = {
-        NERO: "nero",
-        properties:
-        {
-            "nero":
-            {
-                name: "Nero Award",
-                value: "nero",
-            },
-        },
-    };
+    // Award.properties[Award.NERO].categories = {
+    //     NERO: "nero",
+    //     properties:
+    //     {
+    //         "nero":
+    //         {
+    //             name: "Nero Award",
+    //             value: "nero",
+    //         },
+    //     },
+    // };
 
     Award.properties[Award.SHAMUS].categories = {
         FIRST: "first",
