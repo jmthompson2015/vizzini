@@ -93,8 +93,8 @@ define(["Library"], function(Library)
             var url1 = this.createAmazonSearchUrl(author);
             var searchString = author.vizziniReplaceAll(" ", "_");
             var url2 = "https://en.wikipedia.org/wiki/" + searchString;
-            var image1 = this.createImageLink(1, url1, "../resources/Amazon14.png", "Amazon");
-            var image2 = this.createImageLink(2, url2, "../resources/Wikipedia14.png", "Wikipedia");
+            var image1 = this.createImageLink(1, url1, "../resources/Amazon16.png", "Amazon");
+            var image2 = this.createImageLink(2, url2, "../resources/Wikipedia16.png", "Wikipedia");
 
             return this.Td(
             {
@@ -255,7 +255,7 @@ define(["Library"], function(Library)
 
             var url = this.createAmazonSearchUrl(nominee.book.toString());
             var title = nominee.book.title();
-            var image = this.createImageLink(1, url, "../resources/Amazon14.png", "Amazon");
+            var image = this.createImageLink(1, url, "../resources/Amazon16.png", "Amazon");
 
             return this.Td(
             {
