@@ -5,16 +5,20 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="../css/style.css">
 
-<script src="../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-<script src="../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../coreweb/lib/react/react-15.0.1.js"></script>
+<script src="../../../../coreweb/lib/react-dom/react-dom-15.0.1.js"></script>
 <script src="../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
 <script src="../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
 <script src="../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
 <script src="../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/Team"></script>
 
+<script src="../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+<script src="../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
+
 <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
 <script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 <script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
 <style>
@@ -40,6 +44,20 @@
 
 #pilotTable td {
     border: 1px solid lightGray;
+}
+
+.entitiesContainer {
+    background-color: White;
+    font-size: x-small;
+    overflow-y: auto;
+}
+
+.entityFilterContainer {
+    vertical-align: top;
+}
+
+.entitiesTable {
+    text-align: left;
 }
 
 .textCell {

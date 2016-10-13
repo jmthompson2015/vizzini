@@ -1,5 +1,5 @@
-define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], function(EntityFilter, GameColumns,
-        RangeFilter, Action)
+define(["EntityFilter", "GameColumns", "RangeFilter", "process/Action", "process/Filter"], function(EntityFilter,
+    GameColumns, RangeFilter, Action, Filter)
 {
     "use strict";
     var FilterUI = React.createClass(
@@ -18,6 +18,7 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
         },
 
         filterColumns: [],
+        filter: undefined,
 
         componentWillMount: function()
         {
@@ -34,16 +35,9 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
 
         getInitialState: function()
         {
-            var answer;
+            this.filter = new Filter(this.context.store);
 
-            if (localStorage.filters)
-            {
-                answer = JSON.parse(localStorage.filters);
-            }
-            else
-            {
-                answer = this.createDefaults();
-            }
+            var answer = this.filter.loadFromLocalStorage();
 
             if (answer.designers && answer.designers.length > 0)
             {
@@ -54,11 +48,6 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
                         return parseInt(id);
                     });
                 });
-            }
-
-            if (!answer.bestWithPlayers)
-            {
-                answer.bestWithPlayers = this.createDefaults().bestWithPlayers;
             }
 
             answer.isFiltered = false;
@@ -78,7 +67,8 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
             var filterTable = React.DOM.table(
             {
                 className: "filterTable",
-            }, React.DOM.tbody({}, rows));
+            }, React.DOM.tbody(
+            {}, rows));
 
             var gameDatabase = this.props.gameDatabase;
             var designerTable = this.createEntityTable(
@@ -132,12 +122,16 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
             rows2.push(React.DOM.tr(
             {
                 key: 1,
-            }, React.DOM.td({}, restoreButton), React.DOM.td({}, unfilterButton), React.DOM.td({}, filterButton)));
+            }, React.DOM.td(
+            {}, restoreButton), React.DOM.td(
+            {}, unfilterButton), React.DOM.td(
+            {}, filterButton)));
 
             return React.DOM.table(
             {
                 className: "filtersUI",
-            }, React.DOM.tbody({}, rows2));
+            }, React.DOM.tbody(
+            {}, rows2));
         },
 
         createCell: function(key, column, value)
@@ -147,24 +141,6 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
                 key: key,
                 className: column.className,
             }, value);
-        },
-
-        createDefaults: function()
-        {
-            return (
-            {
-                boardGameRank: RangeFilter.newFilterProps("boardGameRank", false, 1, false, 20),
-                designers: EntityFilter.newFilterProps("designers", [], true),
-                yearPublished: RangeFilter.newFilterProps("yearPublished", false, 2005, false, 2015),
-                geekRating: RangeFilter.newFilterProps("geekRating", false, 7.2, false, 10),
-                minPlayers: RangeFilter.newFilterProps("minPlayers", true, 2, true, 3),
-                maxPlayers: RangeFilter.newFilterProps("maxPlayers", true, 4, false, 6),
-                bestWithPlayers: RangeFilter.newFilterProps("bestWithPlayers", false, 3, false, 4),
-                minPlayTime: RangeFilter.newFilterProps("minPlayTime", true, 30, false, 120),
-                maxPlayTime: RangeFilter.newFilterProps("maxPlayTime", false, 30, true, 120),
-                categories: EntityFilter.newFilterProps("categories", [], true),
-                mechanics: EntityFilter.newFilterProps("mechanics", [], true),
-            });
         },
 
         createEntityTable: function(clientProps, entities, selectedIds, gameDatabase)
@@ -179,10 +155,14 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
                 {
                     return value.name + " (" + value.count + ")";
                 };
-                var selectedValues = selectedIds.map(function(id)
+                var selectedValues = [];
+                if (selectedIds)
                 {
-                    return gameDatabase.findEntityById(id);
-                });
+                    selectedValues = selectedIds.map(function(id)
+                    {
+                        return gameDatabase.findEntityById(id);
+                    });
+                }
                 var checkboxPanel = React.createElement(CheckboxInputPanel,
                 {
                     values: entities,
@@ -201,7 +181,8 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
             }
             else
             {
-                return React.DOM.span({}, " ");
+                return React.DOM.span(
+                {}, " ");
             }
         },
 
@@ -209,7 +190,10 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
         {
             var cells = [];
             var filter = this.state[column.key];
-            if (!filter) { throw "ERROR: missing filter for column = " + column.key; }
+            if (!filter)
+            {
+                throw "ERROR: missing filter for column = " + column.key;
+            }
 
             cells.push(this.createCell(cells.length, column, React.DOM.input(
             {
@@ -274,12 +258,17 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
             filters.push(new EntityFilter(this.state.categories));
             filters.push(new EntityFilter(this.state.mechanics));
 
-            this.context.store.dispatch(Action.setFilters(filters));
+            var filterObject = {};
+            filters.forEach(function(myFilter)
+            {
+                filterObject[myFilter.columnKey()] = myFilter;
+            });
+            this.context.store.dispatch(Action.setFilters(filterObject));
             this.setState(
             {
                 isFiltered: true,
             });
-            localStorage.filters = JSON.stringify(this.state);
+            this.filter.storeToLocalStorage(filterObject);
 
             LOGGER.trace("FilterUI.filterActionPerformed() end");
         },
@@ -401,7 +390,7 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
         {
             LOGGER.trace("FilterUI.restoreActionPerformed() start");
 
-            this.setState(this.createDefaults());
+            this.setState(Filter.createDefaults());
 
             LOGGER.trace("FilterUI.restoreActionPerformed() end");
         },
@@ -410,9 +399,9 @@ define([ "EntityFilter", "GameColumns", "RangeFilter", "process/Action" ], funct
         {
             LOGGER.trace("FilterUI.unfilterActionPerformed() start");
 
-            var filters = [];
+            var filterObject = {};
 
-            this.context.store.dispatch(Action.setFilters(filters));
+            this.context.store.dispatch(Action.setFilters(filterObject));
             this.setState(
             {
                 isFiltered: false,

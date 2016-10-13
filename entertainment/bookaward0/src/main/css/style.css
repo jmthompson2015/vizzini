@@ -1,0 +1,43 @@
+body {
+    background-image: url('../../../../../webapp/src/main/resources/yellowGradient.png');
+    background-repeat: repeat-y;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.dataTable tbody tr:nth-child(2n) td {
+    background: LightCyan;
+}
+
+.dataTable tbody tr:nth-child(2n+1) td {
+    background: White;
+}
+
+#BACKGROUND_DARK, .dataTable th, .backgroundDark {
+    background-color: maroon;
+    color: white;
+}
+
+#BORDER_DARK, .dataTable td, .borderDark {
+    border: 1px solid maroon;
+}
+
+#BORDER_LIGHT, .dataTable th, .borderLight {
+    border: 1px solid lightGray;
+}
+
+#BORDER_NONE, .linksTable td, .borderNone {
+    border: 0px solid lightGray;
+}
+
+#FONT_SMALL, .dataTable, .filterLabel, .filtersUI, .rowCount, .fontSmall {
+    font-size: small;
+}
+
+#PADDING_LR3, .dataTable td, .paddingLR3 {
+    padding-left: 3px;
+    padding-right: 3px;
+}

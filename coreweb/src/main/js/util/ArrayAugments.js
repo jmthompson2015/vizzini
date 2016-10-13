@@ -1,8 +1,11 @@
 /*
  * Provides utility methods for arrays.
- * 
+ *
  * @see http://modernweb.com/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/
  */
+
+/* jshint -W097 */
+"use strict";
 
 // add: use
 // array.push(element);
@@ -15,55 +18,72 @@
 Array.prototype.vizziniAddAll = function(array2)
 {
     Array.prototype.push.apply(this, array2);
-}
+};
 
 Array.prototype.vizziniContains = function(element)
 {
     var i = this.length;
     while (i--)
     {
-        if (this[i] === element) { return true; }
+        if (this[i] === element)
+        {
+            return true;
+        }
     }
     return false;
-}
+};
 
-Array.prototype.vizziniContainsUsingArrayEquals = function(element,
-        equalsFunction)
+Array.prototype.vizziniContainsUsingArrayEquals = function(element)
 {
     return this.vizziniContainsUsingEquals(element, function(a, b)
     {
         return a.vizziniEquals(b);
     });
-}
+};
 
 Array.prototype.vizziniContainsUsingEquals = function(element, equalsFunction)
 {
     var i = this.length;
     while (i--)
     {
-        if (equalsFunction(this[i], element)) { return true; }
+        if (equalsFunction(this[i], element))
+        {
+            return true;
+        }
     }
     return false;
-}
+};
 
 Array.prototype.vizziniEquals = function(b)
 {
-    if (this === b) { return true; }
-    if (b == null) { return false; }
-    if (this.length != b.length) { return false; }
+    if (this === b)
+    {
+        return true;
+    }
+    if (b === null)
+    {
+        return false;
+    }
+    if (this.length != b.length)
+    {
+        return false;
+    }
 
     for (var i = 0; i < this.length; i++)
     {
-        if (this[i] !== b[i]) { return false; }
+        if (this[i] !== b[i])
+        {
+            return false;
+        }
     }
 
     return true;
-}
+};
 
 Array.prototype.vizziniRandomElement = function()
 {
     return this[Math.floor(Math.random() * this.length)];
-}
+};
 
 // Note: This function modifies array.
 Array.prototype.vizziniRemove = function(element)
@@ -73,7 +93,7 @@ Array.prototype.vizziniRemove = function(element)
     {
         this.splice(index, 1);
     }
-}
+};
 
 // Note: This function modifies array.
 Array.prototype.vizziniShuffle = function()
@@ -82,4 +102,4 @@ Array.prototype.vizziniShuffle = function()
     {
         return Math.random() - 0.5;
     });
-}
+};

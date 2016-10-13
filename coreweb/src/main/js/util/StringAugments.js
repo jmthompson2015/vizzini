@@ -30,9 +30,9 @@ if (!String.pad)
 {
     /*
      * @param n Number. (required)
-     * 
+     *
      * @param width Desired padded width. (required)
-     * 
+     *
      * @param z Pad character. (optional; default '0')
      */
     String.pad = function(n, width, z)
@@ -42,3 +42,9 @@ if (!String.pad)
         return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
     };
 }
+
+String.prototype.vizziniReplaceAll = function(search, replacement)
+{
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};

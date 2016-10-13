@@ -1,9 +1,15 @@
 define(function()
 {
     "use strict";
+
     function RangeFilter(props)
     {
         InputValidator.validateNotNull("props", props);
+
+        this.columnKey = function()
+        {
+            return props.columnKey;
+        };
 
         this.passes = function(gameSummary, gameDetail)
         {
@@ -37,7 +43,6 @@ define(function()
 
         return (
         {
-            filterType: "range",
             columnKey: columnKey,
             isMinEnabled: isMinEnabled,
             minValue: minValue,

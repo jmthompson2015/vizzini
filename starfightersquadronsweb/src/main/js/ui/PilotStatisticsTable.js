@@ -1,4 +1,5 @@
-define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, FactionUI, ShipSilhouetteUI)
+define([ "Pilot", "Ship", "Team", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Ship, Team, FactionUI,
+        ShipSilhouetteUI)
 {
     "use strict";
     var PilotColumns = [
@@ -89,7 +90,212 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
         Td: React.createFactory(Reactable.Td),
         Tfoot: React.createFactory(Reactable.Tfoot),
 
+        filterColumns: [],
+
+        componentWillMount: function()
+        {
+            for (var i = 5; i < 11; i++)
+            {
+                this.filterColumns.push(PilotColumns[i]);
+            }
+        },
+
         render: function()
+        {
+            var rows = [];
+
+            this.filterColumns.forEach(function(column)
+            {
+                rows.push(this.createFilterRow(rows.length, column));
+            }, this);
+
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, this.createFilterUI()));
+
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, this.createPilotTable()));
+
+            return React.DOM.table(
+            {
+                id: "mainTable",
+            }, React.DOM.tbody({}, rows));
+        },
+
+        createCell: function(key, column, value)
+        {
+            return this.Td(
+            {
+                key: key,
+                className: column.className,
+                column: column.key,
+            }, (value !== undefined && value !== null ? value : " "));
+        },
+
+        createEntityTable: function(clientProps, entities, selectedValues)
+        {
+            if (entities && entities.length > 0)
+            {
+                var labelFunction = function(value)
+                {
+                    return value.name;
+                }
+                var checkboxPanel = React.createElement(CheckboxInputPanel,
+                {
+                    values: entities,
+                    labelFunction: labelFunction,
+                    initialValues: selectedValues,
+                    onChange: this.handleChange,
+                    panelClass: "entitiesTable",
+                    clientProps: clientProps,
+                });
+
+                return React.DOM.div(
+                {
+                    className: "entitiesContainer",
+                }, checkboxPanel);
+            }
+            else
+            {
+                return React.DOM.span({}, " ");
+            }
+        },
+
+        createFilterRow: function(key, column)
+        {
+            var cells = [];
+            LOGGER.info("key = " + key + " column = " + JSON.stringify(column));
+            var filter = this.state[column.key];
+            if (!filter) { throw "ERROR: missing filter for column = " + column.key; }
+
+            cells.push(this.createCell(cells.length, column, React.DOM.input(
+            {
+                key: cells.length,
+                id: column.key + "MinChecked",
+                type: "checkbox",
+                checked: filter.isMinEnabled,
+                onChange: this.handleChange,
+            })));
+            cells.push(this.createCell(cells.length, column, React.DOM.input(
+            {
+                key: cells.length,
+                id: column.key + "Min",
+                type: "number",
+                className: "filterField",
+                value: filter.minValue,
+                onChange: this.handleChange,
+            })));
+
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "filterLabel",
+                column: column.key,
+            }, "\u2264 " + column.label + " \u2264"));
+
+            cells.push(this.createCell(cells.length, column, React.DOM.input(
+            {
+                key: cells.length,
+                id: column.key + "MaxChecked",
+                type: "checkbox",
+                checked: filter.isMaxEnabled,
+                onChange: this.handleChange,
+            })));
+            cells.push(this.createCell(cells.length, column, React.DOM.input(
+            {
+                key: cells.length,
+                id: column.key + "Max",
+                type: "number",
+                className: "filterField",
+                value: filter.maxValue,
+                onChange: this.handleChange,
+            })));
+
+            return React.DOM.tr(
+            {
+                key: key
+            }, cells);
+        },
+
+        createFilterUI: function()
+        {
+            var factions = Team.values().map(function(teamKey)
+            {
+                return Team.properties[teamKey];
+            });
+            var ships = Ship.values().map(function(shipKey)
+            {
+                return Ship.properties[shipKey];
+            });
+
+            var rows = [];
+
+            var cells = [];
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "entityFilterContainer",
+            }, "Faction"));
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "entityFilterContainer",
+            }, "Ship"));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells));
+
+            var cells = [];
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "entityFilterContainer",
+            }, this.createEntityTable(
+            {
+                "data-entitytype": "faction",
+            }, factions, [])));
+            cells.push(React.DOM.td(
+            {
+                key: cells.length,
+                className: "entityFilterContainer",
+            }, this.createEntityTable(
+            {
+                "data-entitytype": "ship",
+            }, ships, [])));
+            rows.push(React.DOM.tr(
+            {
+                key: rows.length,
+            }, cells));
+
+            return React.DOM.table(
+            {
+                id: "mainTable",
+                className: "entitiesTable",
+            }, React.DOM.tbody({}, rows));
+        },
+
+        createImplementedImage: function(isImplemented, key)
+        {
+            InputValidator.validateNotNull("isImplemented", isImplemented);
+
+            var implementedName = (isImplemented ? "accept" : "delete");
+            var fileString = iconBase + implementedName + ".png";
+            var myKey = (key ? key : 0);
+
+            return React.DOM.img(
+            {
+                key: myKey,
+                className: "isImplementedImage",
+                src: fileString,
+                title: isImplemented,
+            });
+        },
+
+        createPilotTable: function()
         {
             var rows = [];
 
@@ -117,33 +323,6 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
                 columns: PilotColumns,
                 sortable: true,
             }, rows);
-        },
-
-        createCell: function(key, column, value)
-        {
-            return this.Td(
-            {
-                key: key,
-                className: column.className,
-                column: column.key,
-            }, (value !== undefined && value !== null ? value : " "));
-        },
-
-        createImplementedImage: function(isImplemented, key)
-        {
-            InputValidator.validateNotNull("isImplemented", isImplemented);
-
-            var implementedName = (isImplemented ? "accept" : "delete");
-            var fileString = iconBase + implementedName + ".png";
-            var myKey = (key ? key : 0);
-
-            return React.DOM.img(
-            {
-                key: myKey,
-                className: "isImplementedImage",
-                src: fileString,
-                title: isImplemented,
-            });
         },
 
         createRow: function(pilot, i)
@@ -256,6 +435,11 @@ define([ "Pilot", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Facti
             {
                 key: i
             }, cells);
+        },
+
+        handleChange: function(event)
+        {
+            LOGGER.info("PilotStatisticsTable.handleChange()");
         },
     });
 

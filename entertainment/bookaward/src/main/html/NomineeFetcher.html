@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Nominee Fetcher</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+
+	<script src="../../../../../coreweb/lib/jquery/jquery-1.11.3.min.js"></script>
+	<script src="../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
+	<!-- <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script> -->
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../src/main/js/Award"></script>
+
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
+
+</head>
+<body>
+	<h1>Nominee Fetcher</h1>
+	<div id="bookTablePanel"></div>
+	<script>
+		"use strict";
+
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(
+			["Award", "process/SYKMNomineeFetcher"],
+			function(Award, SYKMNomineeFetcher) {
+				var books = [];
+				var bookToNomination = {};
+				var count = 0;
+				Award.values().forEach(function(awardKey) {
+					// var awardKey = Award.ANTHONY;
+					var award = Award.properties[awardKey];
+					var fetcher = new SYKMNomineeFetcher(award, callback);
+					fetcher.fetchData();
+				});
+
+				function callback(newBooks, newBookToNomination) {
+					newBooks.forEach(function(book) {
+						if (!books.vizziniContainsUsingEquals(book, function(a, b) {
+								return a.title() === b.title() && a.author() === b.author();
+							})) {
+							books.push(book);
+						}
+					});
+					Object.keys(newBookToNomination).forEach(function(key) {
+						var nominations = bookToNomination[key];
+						if (nominations === undefined) {
+							nominations = [];
+							bookToNomination[key] = nominations;
+						}
+						nominations.vizziniAddAll(newBookToNomination[key]);
+					});
+					count++;
+
+					if (count === Award.values().length) {
+						// if (count === 1) {
+						LOGGER.info("books.length = " + books.length);
+
+						// Sort the books.
+						books.sort(function(a, b) {
+							var answer = 0;
+							var aTitle = a.title();
+							var bTitle = b.title();
+
+							if (aTitle < bTitle) {
+								answer = -1;
+							} else if (aTitle > bTitle) {
+								answer = 1;
+							}
+
+							return answer;
+						});
+
+						// Sort the nominations.
+						books.forEach(function(book) {
+							var nominations = bookToNomination[book];
+							if (nominations.length > 1) {
+								nominations.sort(function(a, b) {
+									var answer = 0;
+									var aString = a.toString();
+									var bString = b.toString();
+
+									if (aString < bString) {
+										answer = -1;
+									} else if (aString > bString) {
+										answer = 1;
+									}
+
+									return answer;
+								});
+							}
+						});
+
+						var content = Award.values().reduce(function(previousValue, awardKey) {
+							var awardString = "var " + awardKey + " = Award.properties." + awardKey + ";<br/>"
+							return previousValue + awardString;
+						}, "");
+						content += books.reduce(function(previousValue, book, i) {
+							var bookString = "this.books.push(new Book(";
+							bookString += "\"" + book.title() + "\", ";
+							bookString += "\"" + book.author() + "\"));<br/>";
+							bookString += "this.bookToNomination[this.books[" + i + "]] = [];<br/>";
+							return previousValue + bookString;
+						}, "");
+						content += books.reduce(function(previousValue, book, i) {
+							var nominations = bookToNomination[book];
+							var nominationsString = nominations.reduce(function(previousValue2, nomination) {
+								var nominationString = "this.bookToNomination[this.books[" + i + "]].push(new Nomination(";
+								nominationString += nomination.award().value + ", ";
+								nominationString += nomination.award().value + ".categories.properties." + nomination.category().value + ", ";
+								nominationString += nomination.year() + "));<br/>";
+								return previousValue2 + nominationString;
+							}, "");
+							return previousValue + nominationsString;
+						}, "");
+
+						document.getElementById("bookTablePanel").innerHTML = content;
+					}
+				}
+			});
+	</script>
+</body>
+
+</html>
+</body>
+
+</html>

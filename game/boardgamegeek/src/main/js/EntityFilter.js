@@ -1,10 +1,16 @@
 define(function()
 {
     "use strict";
+
     function EntityFilter(props)
     {
         InputValidator.validateNotNull("props", props);
         LOGGER.debug("EntityFilter props = " + JSON.stringify(props, null, "   "));
+
+        this.columnKey = function()
+        {
+            return props.columnKey;
+        };
 
         this.passes = function(gameSummary, gameDetail)
         {
@@ -23,7 +29,7 @@ define(function()
                 props.ids.forEach(function(id)
                 {
                     passes = (props.isAnd ? passes && value.vizziniContains(parseInt(id)) : passes ||
-                            value.vizziniContains(parseInt(id)));
+                        value.vizziniContains(parseInt(id)));
                 });
             }
 
@@ -61,7 +67,6 @@ define(function()
 
         return (
         {
-            filterType: "entity",
             columnKey: columnKey,
             ids: ids,
             isAnd: isAnd,
