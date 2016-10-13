@@ -32,15 +32,21 @@
 		LOGGER.setDebugEnabled(false);
 
 		require(
-			["Award", "process/SYKMNomineeFetcher"],
-			function(Award, SYKMNomineeFetcher) {
+			["Award", "process/CrimeAndBeyondFetcher", "process/SYKMNomineeFetcher"],
+			function(Award, CrimeAndBeyondFetcher, SYKMNomineeFetcher) {
 				var books = [];
 				var bookToNomination = {};
 				var count = 0;
 				Award.values().forEach(function(awardKey) {
-					// var awardKey = Award.ANTHONY;
-					var award = Award.properties[awardKey];
-					var fetcher = new SYKMNomineeFetcher(award, callback);
+					var fetcher;
+
+					if (awardKey === Award.CRIME_AND_BEYOND) {
+						fetcher = new CrimeAndBeyondFetcher(callback);
+					} else {
+						var award = Award.properties[awardKey];
+						fetcher = new SYKMNomineeFetcher(award, callback);
+					}
+
 					fetcher.fetchData();
 				});
 
