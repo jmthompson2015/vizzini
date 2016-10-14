@@ -21,8 +21,6 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
         };
 
         var that = this;
-        var currentYear = moment().year();
-        var yearsBack = 3;
 
         this.fetchData = function()
         {
