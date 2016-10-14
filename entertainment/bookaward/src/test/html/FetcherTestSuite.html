@@ -10,7 +10,6 @@
         QUnit.config.autostart = false;
     </script>
 
-    <script src="../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
     <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../main/js/Award"></script>
 
     <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -26,8 +25,7 @@
 
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["process/SYKMDaggerNomineeFetcher"];
-        // var testModules = ["process/SYKMNomineeFetcher"];
+        var testModules = ["process/SYKMNomineeFetcher"];
         testModules = testModules.map(function(testModule) {
             return prefix + testModule + suffix;
         });
