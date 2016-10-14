@@ -48,7 +48,7 @@ define(["Award"], function(Award)
 
         // Verify.
         assert.ok(result);
-        var length = 6;
+        var length = 7;
         assert.equal(result.length, length);
         assert.equal(result[0], "agatha");
         assert.equal(result[length - 1], "shamus");
