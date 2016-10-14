@@ -32,8 +32,8 @@
 		LOGGER.setDebugEnabled(false);
 
 		require(
-			["Award", "process/CrimeAndBeyondFetcher", "process/SYKMNomineeFetcher"],
-			function(Award, CrimeAndBeyondFetcher, SYKMNomineeFetcher) {
+			["Award", "process/CrimeAndBeyondFetcher", "process/SYKMDaggerNomineeFetcher", "process/SYKMNomineeFetcher"],
+			function(Award, CrimeAndBeyondFetcher, SYKMDaggerNomineeFetcher, SYKMNomineeFetcher) {
 				var books = [];
 				var bookToNomination = {};
 				var count = 0;
@@ -42,6 +42,8 @@
 
 					if (awardKey === Award.CRIME_AND_BEYOND) {
 						fetcher = new CrimeAndBeyondFetcher(callback);
+					} else if (awardKey === Award.DAGGER) {
+						fetcher = new SYKMDaggerNomineeFetcher(callback);
 					} else {
 						var award = Award.properties[awardKey];
 						fetcher = new SYKMNomineeFetcher(award, callback);
