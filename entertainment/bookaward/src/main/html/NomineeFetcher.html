@@ -126,7 +126,8 @@
 								var nominationString = "this.bookToNomination[this.books[" + i + "]].push(new Nomination(";
 								nominationString += nomination.award().value + ", ";
 								nominationString += nomination.award().value + ".categories.properties." + nomination.category().value + ", ";
-								nominationString += nomination.year() + "));<br/>";
+								nominationString += nomination.year() + ", ";
+								nominationString += nomination.isWinner() + "));<br/>";
 								return previousValue2 + nominationString;
 							}, "");
 							return previousValue + nominationsString;

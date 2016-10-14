@@ -32,12 +32,12 @@ table {
 }
 
 #BACKGROUND_DARK, .dataTable th, .backgroundDark {
-    background-color: maroon;
-    color: white;
+    background-color: Maroon;
+    color: White;
 }
 
 #BORDER_DARK, .dataTable td, .borderDark {
-    border: 1px solid maroon;
+    border: 1px solid Maroon;
 }
 
 #BORDER_LIGHT, .dataTable th, .borderLight {
@@ -71,6 +71,10 @@ table {
 
 #PADDING_LR4, .dataTable td, .paddingLR4 {
     padding-left: 4px;
+    padding-right: 4px;
+}
+
+#PADDING_RIGHT4, .winner, .paddingRight4 {
     padding-right: 4px;
 }
 

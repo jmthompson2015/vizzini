@@ -23,6 +23,7 @@ define(["Award", "process/SYKMDaggerNomineeFetcher"], function(Award, SYKMDagger
             var category = award.categories.properties[award.categories.GOLD];
             assert.equal(nominations[j].category(), category);
             assert.equal(nominations[j].year(), 2016);
+            assert.ok(nominations[j].isWinner());
             j = 1;
             assert.equal(nominations[j].award(), award);
             category = award.categories.properties[award.categories.FIRST];
@@ -40,6 +41,7 @@ define(["Award", "process/SYKMDaggerNomineeFetcher"], function(Award, SYKMDagger
             category = award.categories.properties[award.categories.HISTORICAL];
             assert.equal(nominations[j].category(), category);
             assert.equal(nominations[j].year(), 2016);
+            assert.ok(!nominations[j].isWinner());
         };
         var fetcher = new SYKMDaggerNomineeFetcher(callback);
         var xmlDocument = load(award.name);

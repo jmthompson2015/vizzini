@@ -154,6 +154,8 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
 
                     for (var j = 1; j < cells.snapshotLength; j += 2)
                     {
+                        var isWinner = (cells.snapshotItem(j - 1).textContent.trim() === "*");
+                        LOGGER.debug("isWinner ? " + isWinner);
                         var titleAuthor = cells.snapshotItem(j).textContent.trim();
                         titleAuthor = titleAuthor.vizziniReplaceAll("\n", " ");
                         LOGGER.debug("titleAuthor = " + titleAuthor);
@@ -171,7 +173,7 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
                         LOGGER.debug("author = _" + author + "_");
 
                         var book = new Book(title, author);
-                        var nomination = new Nomination(award, category, year);
+                        var nomination = new Nomination(award, category, year, isWinner);
                         add(books, bookToNomination, book, nomination);
                     }
                 }

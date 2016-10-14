@@ -36,6 +36,7 @@ define(["Award", "process/NomineeFetcher"], function(Award, NomineeFetcher)
             var category = award.categories.properties[award.categories.CONTEMPORARY];
             assert.equal(nomination.category(), category);
             assert.equal(nomination.year(), 2016);
+            assert.ok(!nomination.isWinner());
         };
         var fetcher = new NomineeFetcher(award, callback);
 

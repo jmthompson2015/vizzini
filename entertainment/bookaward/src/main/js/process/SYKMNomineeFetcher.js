@@ -138,7 +138,8 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             {
                 for (var j = 2; j < cells.snapshotLength; j += 2)
                 {
-                    // LOGGER.debug("cells.snapshotLength = " + cells.snapshotLength);
+                    var isWinner = (cells.snapshotItem(j - 1).textContent.trim() === "*");
+                    LOGGER.debug("isWinner ? " + isWinner);
                     var titleAuthor = cells.snapshotItem(j).textContent.trim();
                     titleAuthor = titleAuthor.vizziniReplaceAll("\n", " ");
                     LOGGER.debug("titleAuthor = " + titleAuthor);
@@ -159,7 +160,7 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
 
                     // answer.push(new Nomination(title, author, award, category, year));
                     var book = new Book(title, author);
-                    var nomination = new Nomination(award, category, year);
+                    var nomination = new Nomination(award, category, year, isWinner);
                     add(books, bookToNomination, book, nomination);
                 }
             }

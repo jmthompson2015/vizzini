@@ -23,6 +23,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
             var category = award.categories.properties[award.categories.CONTEMPORARY];
             assert.equal(nominations[j].category(), category);
             assert.equal(nominations[j].year(), 2015);
+            assert.ok(nominations[j].isWinner());
 
             i = books.length - 1;
             assert.equal(books[i].title(), "Just Killing Time");
@@ -35,6 +36,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
             category = award.categories.properties[award.categories.FIRST];
             assert.equal(nominations[j].category(), category);
             assert.equal(nominations[j].year(), 2015);
+            assert.ok(!nominations[j].isWinner());
         };
         var fetcher = new SYKMNomineeFetcher(award, callback);
         var xmlDocument = load(award.name);
@@ -46,7 +48,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.test("receiveData() Anthony", function(assert)
+    QUnit.skip("receiveData() Anthony", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.ANTHONY];
@@ -89,7 +91,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.test("receiveData() Barry", function(assert)
+    QUnit.skip("receiveData() Barry", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.BARRY];
@@ -132,7 +134,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.test("receiveData() Edgar", function(assert)
+    QUnit.skip("receiveData() Edgar", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.EDGAR];
@@ -218,7 +220,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.test("receiveData() Shamus", function(assert)
+    QUnit.skip("receiveData() Shamus", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.SHAMUS];
