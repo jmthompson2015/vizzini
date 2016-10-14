@@ -48,6 +48,14 @@ table {
     border: 0px solid transparent;
 }
 
+#DISPLAY_INLINE_BLOCK, .textImageLink, .displayInlineBlock {
+    display: inline-block;
+}
+
+#FLOAT_RIGHT, .imageBlock, .floatRight {
+    float: right;
+}
+
 #FONT_SMALL, .dataTable, .filterLabel, .filtersUI, .rowCount, .fontSmall {
     font-size: small;
 }
@@ -68,4 +76,8 @@ table {
 
 #VERTICAL_ALIGN_MIDDLE, .logo, .verticalAlignMiddle {
     vertical-align: middle;
+}
+
+#WIDTH_FULL, .textImageLink, .widthFull {
+    width: 100%;
 }
