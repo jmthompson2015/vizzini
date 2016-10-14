@@ -91,14 +91,16 @@ define(["Library"], function(Library)
             InputValidator.validateNotNull("author", author);
 
             var url1 = this.createAmazonSearchUrl(author);
+            var url2 = this.createGoodreadsSearchUrl(author);
             var searchString = author.vizziniReplaceAll(" ", "_");
-            var url2 = "https://en.wikipedia.org/wiki/" + searchString;
+            var url3 = "https://en.wikipedia.org/wiki/" + searchString;
             var image1 = this.createImageLink(1, url1, "../resources/Amazon16.png", "Amazon");
-            var image2 = this.createImageLink(2, url2, "../resources/Wikipedia16.png", "Wikipedia");
+            var image2 = this.createImageLink(2, url2, "../resources/Goodreads16.png", "Goodreads");
+            var image3 = this.createImageLink(3, url3, "../resources/Wikipedia16.png", "Wikipedia");
             var imageSpan = React.DOM.span(
             {
                 className: "imageBlock",
-            }, image1, image2);
+            }, image1, image2, image3);
 
             return this.Td(
             {
@@ -108,6 +110,15 @@ define(["Library"], function(Library)
                 value: author,
             }, React.DOM.span(
             {}, author, imageSpan));
+        },
+
+        createGoodreadsSearchUrl: function(subject)
+        {
+            InputValidator.validateNotNull("subject", subject);
+
+            var searchString = subject.vizziniReplaceAll(" ", "+");
+
+            return "https://www.goodreads.com/search?q=" + searchString;
         },
 
         createImageLink: function(key, href, src, title)
@@ -258,13 +269,15 @@ define(["Library"], function(Library)
             InputValidator.validateNotNull("column", column);
             InputValidator.validateNotNull("nominee", nominee);
 
-            var url = this.createAmazonSearchUrl(nominee.book.toString());
+            var url1 = this.createAmazonSearchUrl(nominee.book.toString());
+            var url2 = this.createGoodreadsSearchUrl(nominee.book.toString());
             var title = nominee.book.title();
-            var image = this.createImageLink(1, url, "../resources/Amazon16.png", "Amazon");
+            var image1 = this.createImageLink(1, url1, "../resources/Amazon16.png", "Amazon");
+            var image2 = this.createImageLink(2, url2, "../resources/Goodreads16.png", "Goodreads");
             var imageSpan = React.DOM.span(
             {
                 className: "imageBlock",
-            }, image);
+            }, image1, image2);
 
             return this.Td(
             {
