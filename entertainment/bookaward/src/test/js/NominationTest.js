@@ -12,14 +12,16 @@ define(["Award", "Nomination"], function(Award, Nomination)
         var category = award.categories.properties[categoryKey];
         assert.ok(category);
         var year = 2016;
+        var isWinner = false;
 
         // Run.
-        var result = new Nomination(award, category, year);
+        var result = new Nomination(award, category, year, isWinner);
 
         // Verify.
         assert.ok(result);
         assert.equal(result.award(), award);
         assert.equal(result.category(), category);
         assert.equal(result.year(), year);
+        assert.ok(!result.isWinner());
     });
 });
