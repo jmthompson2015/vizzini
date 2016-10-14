@@ -13,8 +13,9 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
         };
 
         var that = this;
-        var currentYear = moment().year();
-        var yearsBack = 3;
+        var books = [];
+        var bookToNomination = {};
+        var xmlDocument;
 
         this.fetchData = function()
         {
@@ -29,15 +30,16 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             LOGGER.trace("SYKMNomineeFetcher.fetchData() end");
         };
 
-        this.receiveData = function(xmlDocument)
+        this.receiveData = function(xmlDocumentIn)
         {
+            InputValidator.validateNotNull("xmlDocument", xmlDocumentIn);
+
             LOGGER.trace("SYKMNomineeFetcher.receiveData() start");
 
+            xmlDocument = xmlDocumentIn;
             LOGGER.trace("award = " + award.name);
             LOGGER.trace("xmlDocument = " + (new XMLSerializer()).serializeToString(xmlDocument));
-            var books = [];
-            var bookToNomination = {};
-            parse(books, bookToNomination, xmlDocument);
+            parse();
             LOGGER.info(award.name + " books.length = " + books.length);
             callback(books, bookToNomination);
 
@@ -56,7 +58,19 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             return answer;
         }
 
-        function parse(books, bookToNomination, xmlDocument)
+        function forEachRow(rows, callback)
+        {
+            var thisRow = rows.iterateNext();
+
+            while (thisRow)
+            {
+                callback(thisRow);
+
+                thisRow = rows.iterateNext();
+            }
+        }
+
+        function parse()
         {
             LOGGER.trace("SYKMNomineeFetcher.parse() start");
 
@@ -64,19 +78,12 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             var xpath = "//p[@class='AuthorSub']/parent::td";
             var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
             var rows = xmlDocument.evaluate(xpath, xmlDocument, null, resultType, null);
-            var thisRow = rows.iterateNext();
-
-            while (thisRow)
-            {
-                parseNominees(books, bookToNomination, xmlDocument, thisRow);
-
-                thisRow = rows.iterateNext();
-            }
+            forEachRow(rows, parseNominees);
 
             LOGGER.trace("SYKMNomineeFetcher.parse() end");
         }
 
-        function parseNominees(books, bookToNomination, xmlDocument, xmlFragment)
+        function parseNominees(xmlFragment)
         {
             LOGGER.trace("SYKMNomineeFetcher.parseNominees() start");
             LOGGER.trace("xmlFragment = " + (new XMLSerializer()).serializeToString(xmlFragment));
@@ -88,33 +95,41 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             LOGGER.debug("element.singleNodeValue = " + element.singleNodeValue);
             LOGGER.debug("element.singleNodeValue.textContent = " + element.singleNodeValue.textContent);
             var year = Number(element.singleNodeValue.textContent.substring(0, 4));
+            LOGGER.debug("year = " + year);
+            var callback;
 
-            if (year > currentYear - yearsBack)
+            if (award.value === Award.DAGGER)
             {
-                LOGGER.debug("year = " + year);
-
-                for (var j = 1; j < 5; j++)
+                callback = function(xmlFragment)
                 {
-                    // This gives the year set.
-                    var xpath = "table[" + j + "]";
-                    var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
-                    var rows = xmlDocument.evaluate(xpath, xmlFragment, null, resultType, null);
-                    var thisRow = rows.iterateNext();
+                    parseNomineeDagger(xmlFragment, year);
+                };
+            }
+            else
+            {
+                callback = function(xmlFragment)
+                {
+                    parseNominee(xmlFragment, year);
+                };
+            }
 
-                    while (thisRow)
-                    {
-                        parseNominee(books, bookToNomination, xmlDocument, thisRow, year);
+            var maxTables = (award.value === Award.DAGGER ? 9 : 5);
 
-                        thisRow = rows.iterateNext();
-                    }
-                }
+            for (var j = 1; j < maxTables; j++)
+            {
+                // This gives the year set.
+                var xpath = "table[" + j + "]";
+                var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
+                var rows = xmlDocument.evaluate(xpath, xmlFragment, null, resultType, null);
+                forEachRow(rows, callback);
             }
 
             LOGGER.trace("SYKMNomineeFetcher.parseNominees() end");
         }
 
-        function parseNominee(books, bookToNomination, xmlDocument, xmlFragment, year)
+        function parseNominee(xmlFragment, year)
         {
+            LOGGER.trace("SYKMNomineeFetcher.parseNominee() start");
             LOGGER.trace("xmlFragment = " + (new XMLSerializer()).serializeToString(xmlFragment));
 
             // This gives the data cells (td).
@@ -126,12 +141,7 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
                 LOGGER.debug(i + " snapshotItem = " + cells.snapshotItem(i).textContent);
             }
 
-            var categoryName = cells.snapshotItem(0).textContent.trim();
-            categoryName = categoryName.replace("  ", " ");
-            categoryName = categoryName.replace(":", "");
-            LOGGER.debug("categoryName = _" + categoryName + "_");
-            var properties = award.categories.properties;
-            var category = Award.findByName(properties, categoryName);
+            var category = parseCategory(cells.snapshotItem(0).textContent.trim());
             LOGGER.debug("category = " + category);
 
             if (category !== undefined)
@@ -140,40 +150,66 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
                 {
                     var isWinner = (cells.snapshotItem(j - 1).textContent.trim() === "*");
                     LOGGER.debug("isWinner ? " + isWinner);
-                    var titleAuthor = cells.snapshotItem(j).textContent.trim();
-                    titleAuthor = titleAuthor.vizziniReplaceAll("\n", " ");
-                    LOGGER.debug("titleAuthor = " + titleAuthor);
-                    var index = titleAuthor.indexOf(" by ");
-                    var title;
-                    var author;
-
-                    if (index >= 0)
-                    {
-                        title = titleAuthor.substring(0, index).trim();
-                        // Special case for 2016
-                        title = title.replace("Del and Louise", "Del & Louise");
-                        author = parseAuthor(titleAuthor.substring(index + 3).trim());
-                    }
-
-                    LOGGER.debug("title = _" + title + "_");
-                    LOGGER.debug("author = _" + author + "_");
-
-                    // answer.push(new Nomination(title, author, award, category, year));
-                    var book = new Book(title, author);
+                    var book = parseBook(cells.snapshotItem(j).textContent.trim());
                     var nomination = new Nomination(award, category, year, isWinner);
-                    add(books, bookToNomination, book, nomination);
+                    add(book, nomination);
                 }
             }
+
+            LOGGER.trace("SYKMNomineeFetcher.parseNominee() end");
         }
 
-        function add(books, bookToNomination, book, nomination)
+        function parseNomineeDagger(xmlFragment, year)
         {
-            if (!books.vizziniContains(book))
+            LOGGER.trace("SYKMNomineeFetcher.parseNominee() start");
+            LOGGER.trace("xmlFragment = " + (new XMLSerializer()).serializeToString(xmlFragment));
+
+            var xpath0 = "tbody/tr/th";
+            var resultType0 = XPathResult.FIRST_ORDERED_NODE_TYPE;
+            var element = xmlDocument.evaluate(xpath0, xmlFragment, null, resultType0, null);
+            LOGGER.debug("element.singleNodeValue = " + element.singleNodeValue);
+
+            if (element.singleNodeValue)
+            {
+                LOGGER.debug("element.singleNodeValue.textContent = " + element.singleNodeValue.textContent);
+                var category = parseCategory(element.singleNodeValue.textContent.trim());
+                LOGGER.debug("category = " + category);
+
+                if (category !== undefined)
+                {
+                    // This gives the data cells (td).
+                    var xpath = "tbody/tr/td";
+                    var resultType = XPathResult.ORDERED_NODE_SNAPSHOT_TYPE;
+                    var cells = xmlDocument.evaluate(xpath, xmlFragment, null, resultType, null);
+                    for (var i = 0; i < cells.snapshotLength; i++)
+                    {
+                        LOGGER.debug(i + " snapshotItem = " + cells.snapshotItem(i).textContent);
+                    }
+
+                    for (var j = 1; j < cells.snapshotLength; j += 2)
+                    {
+                        var isWinner = (cells.snapshotItem(j - 1).textContent.trim() === "*");
+                        LOGGER.debug("isWinner ? " + isWinner);
+                        var book = parseBook(cells.snapshotItem(j).textContent.trim());
+                        var nomination = new Nomination(award, category, year, isWinner);
+                        add(book, nomination);
+                    }
+                }
+            }
+
+            LOGGER.trace("SYKMNomineeFetcher.parseNominee() end");
+        }
+
+        function add(book, nomination)
+        {
+            if (!books.vizziniContainsUsingEquals(book, function(a, b)
+                {
+                    return a.title() === b.title() && a.author() === b.author();
+                }))
             {
                 books.push(book);
                 bookToNomination[book] = [];
             }
-
             var nominations = bookToNomination[book];
 
             if (!nominations.vizziniContains(nomination))
@@ -184,6 +220,8 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
 
         function parseAuthor(author)
         {
+            InputValidator.validateNotNull("author", author);
+
             var answer = author;
 
             var index = answer.indexOf("[");
@@ -194,6 +232,42 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             }
 
             return answer;
+        }
+
+        function parseBook(titleAuthor)
+        {
+            InputValidator.validateNotNull("titleAuthor", titleAuthor);
+
+            var myTitleAuthor = titleAuthor.vizziniReplaceAll("\n", " ");
+            LOGGER.debug("myTitleAuthor = " + myTitleAuthor);
+            var index = myTitleAuthor.indexOf(" by ");
+            var title;
+            var author;
+
+            if (index >= 0)
+            {
+                title = myTitleAuthor.substring(0, index).trim();
+                // Special case for 2016
+                title = title.replace("Del and Louise", "Del & Louise");
+                author = parseAuthor(myTitleAuthor.substring(index + 3).trim());
+            }
+
+            LOGGER.debug("title = _" + title + "_");
+            LOGGER.debug("author = _" + author + "_");
+
+            return new Book(title, author);
+        }
+
+        function parseCategory(categoryName)
+        {
+            InputValidator.validateNotNull("categoryName", categoryName);
+
+            var myCategoryName = categoryName.replace("  ", " ");
+            myCategoryName = myCategoryName.replace(":", "");
+            LOGGER.debug("myCategoryName = _" + myCategoryName + "_");
+            var properties = award.categories.properties;
+
+            return Award.findByName(properties, myCategoryName);
         }
     }
 
