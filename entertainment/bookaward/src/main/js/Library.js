@@ -6,6 +6,7 @@ define(function()
         AL: "al",
         DPL: "dpl",
         DCL: "dcl",
+        JCPL: "jcpl",
 
         properties:
         {
@@ -24,8 +25,8 @@ define(function()
                 name: "Denver Public Library",
                 shortName: "DPL",
                 image: "../resources/DenverPublicLibrary18.png",
-                url: "https://www.denverlibrary.org",
-                searchPrefix: "https://catalog.denverlibrary.org/search/searchresults.aspx?ctx=1.1033.0.0.6&type=Keyword&term=",
+                url: "http://www.denverlibrary.org",
+                searchPrefix: "http://catalog.denverlibrary.org/search/searchresults.aspx?ctx=1.1033.0.0.6&type=Keyword&term=",
                 searchSuffix: "&by=KW&sort=RELEVANCE&limit=TOM=*&query=&page=0",
                 value: "dpl",
             },
@@ -38,6 +39,16 @@ define(function()
                 searchPrefix: "http://catalog.douglascountylibraries.org/Union/Search?basicType=Keyword&lookfor=",
                 searchSuffix: "&submit.x=0&submit.y=0&submit=Go&shard%5B%5D=Main+Catalog&shard%5B%5D=eContent",
                 value: "dcl",
+            },
+            "jcpl":
+            {
+                name: "Jefferson County Public Library",
+                shortName: "JCPL",
+                image: "../resources/JeffersonCountyPublicLibrary18.png",
+                url: "http://jeffcolibrary.org",
+                searchPrefix: "http://encore.jefferson.lib.co.us/iii/encore/search/C__S",
+                searchSuffix: "__Orightresult__U",
+                value: "jcpl",
             },
         },
 
