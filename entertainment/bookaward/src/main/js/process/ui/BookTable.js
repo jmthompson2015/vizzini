@@ -145,6 +145,7 @@ define(["Library"], function(Library)
                 {
                     case Library.AL:
                     case Library.DPL:
+                    case Library.JCPL:
                         searchString = searchString.vizziniReplaceAll(" ", "%20");
                         break;
                     case Library.DCL:
