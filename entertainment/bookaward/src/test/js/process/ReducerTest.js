@@ -7,7 +7,7 @@ define(["Award", "Book", "InitialState", "Nomination", "process/Action", "proces
     {
         // Setup.
         var state = new InitialState();
-        assert.equal(state.books.length, 85);
+        assert.equal(state.books.length, 106);
         var book = createBook1();
         var action = Action.addBook(book);
 
@@ -16,14 +16,14 @@ define(["Award", "Book", "InitialState", "Nomination", "process/Action", "proces
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.books.length, 86);
+        assert.equal(result.books.length, 107);
     });
 
     QUnit.test("addNomination()", function(assert)
     {
         // Setup.
         var state = new InitialState();
-        assert.equal(state.books.length, 85);
+        assert.equal(state.books.length, 106);
         var book = createBook1();
         state = Reducer.root(state, Action.addBook(book));
         var nomination = createNomination1();
@@ -34,7 +34,7 @@ define(["Award", "Book", "InitialState", "Nomination", "process/Action", "proces
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.books.length, 86);
+        assert.equal(result.books.length, 107);
         var nominations = result.bookToNomination[book];
         assert.equal(nominations.length, 1);
         assert.equal(nominations[0], nomination);
