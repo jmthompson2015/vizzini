@@ -49,10 +49,10 @@ define(["Library"], function(Library)
 
         // Verify.
         assert.ok(result);
-        var length = 3;
+        var length = 4;
         assert.equal(result.length, length);
         assert.equal(result[0], "al");
-        assert.equal(result[length - 1], "dcl");
+        assert.equal(result[length - 1], "jcpl");
 
         var properties = Object.getOwnPropertyNames(Library);
         var count = properties.length - 1 - // properties
