@@ -48,7 +48,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.skip("receiveData() Anthony", function(assert)
+    QUnit.test("receiveData() Anthony", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.ANTHONY];
@@ -91,7 +91,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.skip("receiveData() Barry", function(assert)
+    QUnit.test("receiveData() Barry", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.BARRY];
@@ -134,7 +134,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.skip("receiveData() Edgar", function(assert)
+    QUnit.test("receiveData() Edgar", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.EDGAR];
@@ -220,7 +220,7 @@ define(["Award", "process/SYKMNomineeFetcher"], function(Award, SYKMNomineeFetch
         assert.ok(true);
     });
 
-    QUnit.skip("receiveData() Shamus", function(assert)
+    QUnit.test("receiveData() Shamus", function(assert)
     {
         // Setup.
         var award = Award.properties[Award.SHAMUS];
