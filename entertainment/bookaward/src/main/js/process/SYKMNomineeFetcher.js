@@ -197,4 +197,4 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
     }
 
     return SYKMNomineeFetcher;
-});;
+});
