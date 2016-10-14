@@ -7,7 +7,7 @@ define(function()
         ANTHONY: "anthony",
         BARRY: "barry",
         CRIME_AND_BEYOND: "crimeAndBeyond",
-        // DAGGER: "dagger",
+        DAGGER: "dagger",
         EDGAR: "edgar",
         // NERO: "nero",
         SHAMUS: "shamus",
@@ -38,12 +38,12 @@ define(function()
                 url: "http://crimeandbeyond.wikia.com/wiki/Crime_%26_Beyond_Wiki",
                 value: "crimeAndBeyond",
             },
-            // "dagger":
-            // {
-            //     name: "Dagger",
-            //     url: "http://stopyourekillingme.com/Awards/Dagger_Awards.html",
-            //     value: "dagger",
-            // },
+            "dagger":
+            {
+                name: "Dagger",
+                url: "http://stopyourekillingme.com/Awards/Dagger_Awards.html",
+                value: "dagger",
+            },
             "edgar":
             {
                 name: "Edgar",
@@ -170,41 +170,41 @@ define(function()
         },
     };
 
-    // Award.properties[Award.DAGGER].categories = {
-    //     FIRST: "first",
-    //     GOLD: "gold",
-    //     HISTORICAL: "historical",
-    //     INTERNATIONAL: "international",
-    //     STEEL: "steel",
-    //     properties:
-    //     {
-    //         "first":
-    //         {
-    //             name: "New Blood Dagger",
-    //             value: "first",
-    //         },
-    //         "gold":
-    //         {
-    //             name: "Gold Dagger",
-    //             value: "gold",
-    //         },
-    //         "historical":
-    //         {
-    //             name: "Historical Dagger",
-    //             value: "historical",
-    //         },
-    //         "international":
-    //         {
-    //             name: "International Dagger",
-    //             value: "international",
-    //         },
-    //         "steel":
-    //         {
-    //             name: "Ian Fleming Steel Dagger",
-    //             value: "steel",
-    //         },
-    //     },
-    // };
+    Award.properties[Award.DAGGER].categories = {
+        FIRST: "first",
+        GOLD: "gold",
+        HISTORICAL: "historical",
+        INTERNATIONAL: "international",
+        STEEL: "steel",
+        properties:
+        {
+            "first":
+            {
+                name: "New Blood Dagger",
+                value: "first",
+            },
+            "gold":
+            {
+                name: "Gold Dagger",
+                value: "gold",
+            },
+            "historical":
+            {
+                name: "Historical Dagger",
+                value: "historical",
+            },
+            "international":
+            {
+                name: "International Dagger",
+                value: "international",
+            },
+            "steel":
+            {
+                name: "Ian Fleming Steel Dagger",
+                value: "steel",
+            },
+        },
+    };
 
     Award.properties[Award.EDGAR].categories = {
         FIRST: "first",
