@@ -172,12 +172,6 @@ define(["Library"], function(Library)
                 var url = library.searchPrefix + searchString + library.searchSuffix;
                 var image = this.createImageLink(cells.length, url, library.image, library.name);
                 cells.push(image);
-
-                // if (cells.length < 2 * Library.values().length - 1)
-                // {
-                //     cells.push(" ");
-                // }
-
                 value += library.shortName + " ";
             }, this);
 
@@ -216,10 +210,18 @@ define(["Library"], function(Library)
 
             nominations.forEach(function(nomination)
             {
+                var prefix = (nomination.isWinner() ?
+                    React.DOM.img(
+                    {
+                        className: "winner",
+                        src: "../resources/BloodSplatter16.png",
+                        title: "Winner",
+                    }) :
+                    "");
                 var link = this.createLink(nomination.award().url, nomination.award().name);
 
                 var cell = React.DOM.td(
-                {}, nomination.year() + " ", link, " " + nomination.category().name);
+                {}, prefix, nomination.year(), " ", link, " ", nomination.category().name);
                 value += nomination.year() + " ";
                 value += nomination.award().name + " ";
                 value += nomination.category().name + " ";
