@@ -6,14 +6,15 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
     {
         InputValidator.validateNotNull("callback", callback);
 
+        var award = Award.properties[Award.CRIME_AND_BEYOND];
+
         this.award = function()
         {
-            return Award.properties[Award.CRIME_AND_BEYOND];
+            return award;
         };
 
         this.category = function()
         {
-            var award = this.award();
             var categoryKey = award.categories.CASE;
 
             return award.categories.properties[categoryKey];
@@ -35,7 +36,7 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             var books = [];
             var bookToNomination = {};
 
-            var nomination = new Nomination(this.award(), this.category(), 2016);
+            var nomination = new Nomination(award, this.category(), 2016);
 
             var titleAndAuthor = [
   ["Blood On Snow", "Jo Nesbø"],
@@ -53,14 +54,14 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
 ];
             addTitleAndAuthor(books, bookToNomination, titleAndAuthor, nomination);
 
-            nomination = new Nomination(this.award(), this.category(), 2017);
+            nomination = new Nomination(award, this.category(), 2017);
             titleAndAuthor = [
   ["The Last Painting of Sara de Vos", "Dominic Smith"],
   ["Fool Me Once", "Harlan Coben"],
 ];
             addTitleAndAuthor(books, bookToNomination, titleAndAuthor, nomination);
 
-            LOGGER.info(this.award().name + " books.length = " + books.length);
+            LOGGER.info(award.name + " books.length = " + books.length);
             callback(books, bookToNomination);
 
             LOGGER.trace("CrimeAndBeyondFetcher.receiveData() end");
