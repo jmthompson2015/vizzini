@@ -26,14 +26,14 @@
 		LOGGER.setDebugEnabled(false);
 
 		require(
-			["Award", "process/CrimeAndBeyondFetcher", "process/SYKMNomineeFetcher"],
-			function(Award, CrimeAndBeyondFetcher, SYKMNomineeFetcher) {
+			["Award", "BookComparator", "NominationComparator", "process/CrimeAndBeyondFetcher", "process/SYKMNomineeFetcher"],
+			function(Award, BookComparator, NominationComparator, CrimeAndBeyondFetcher, SYKMNomineeFetcher) {
 				var books = [];
 				var bookToNomination = {};
 				var count = 0;
+
 				Award.values().forEach(function(awardKey) {
 					var fetcher;
-
 					if (awardKey === Award.CRIME_AND_BEYOND) {
 						fetcher = new CrimeAndBeyondFetcher(callback);
 					} else {
@@ -46,9 +46,7 @@
 
 				function callback(newBooks, newBookToNomination) {
 					newBooks.forEach(function(book) {
-						if (!books.vizziniContainsUsingEquals(book, function(a, b) {
-								return a.title() === b.title() && a.author() === b.author();
-							})) {
+						if (!books.vizziniContainsUsingEquals(book, BookComparator.equals)) {
 							books.push(book);
 						}
 					});
@@ -67,37 +65,13 @@
 						LOGGER.info("books.length = " + books.length);
 
 						// Sort the books.
-						books.sort(function(a, b) {
-							var answer = 0;
-							var aTitle = a.title();
-							var bTitle = b.title();
-
-							if (aTitle < bTitle) {
-								answer = -1;
-							} else if (aTitle > bTitle) {
-								answer = 1;
-							}
-
-							return answer;
-						});
+						books.sort(BookComparator.compare);
 
 						// Sort the nominations.
 						books.forEach(function(book) {
 							var nominations = bookToNomination[book];
 							if (nominations.length > 1) {
-								nominations.sort(function(a, b) {
-									var answer = 0;
-									var aString = a.toString();
-									var bString = b.toString();
-
-									if (aString < bString) {
-										answer = -1;
-									} else if (aString > bString) {
-										answer = 1;
-									}
-
-									return answer;
-								});
+								nominations.sort(NominationComparator.compare);
 							}
 						});
 
