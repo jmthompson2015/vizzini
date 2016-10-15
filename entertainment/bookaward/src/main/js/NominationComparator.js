@@ -20,6 +20,24 @@ define(function()
                 answer = 1;
             }
 
+            if (answer === 0)
+            {
+                var aWinner = a.isWinner();
+                var bWinner = b.isWinner();
+
+                if (aWinner !== bWinner)
+                {
+                    if (aWinner && !bWinner)
+                    {
+                        answer = -1;
+                    }
+                    else if (!aWinner && bWinner)
+                    {
+                        answer = 1;
+                    }
+                }
+            }
+
             return answer;
         },
 
@@ -29,7 +47,7 @@ define(function()
             InputValidator.validateNotNull("b", b);
 
             return a.award() === b.award() && a.category() === b.category() &&
-                a.year() === b.year();
+                a.year() === b.year() && a.isWinner() === b.isWinner();
         },
     };
 
