@@ -10,12 +10,11 @@ define(function()
 
             state.books.forEach(function(book)
             {
-                // LOGGER.info("book = " + book);
-                // LOGGER.info("nominations = " + state.bookToNomination[book]);
                 nominees.push(
                 {
                     book: book,
                     nominations: state.bookToNomination[book],
+                    assessmentKey: state.bookToAssessment[book],
                 });
             });
 
