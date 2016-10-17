@@ -2,6 +2,7 @@
  * Provides an HTML select with options derived from values and the label function.
  * Optionally provide client properties which can be retrieved from the event in your onChange function.
  */
+"use strict";
 var Select = React.createClass(
 {
     getInitialState: function()
@@ -32,8 +33,7 @@ var Select = React.createClass(
         var values = this.props.values;
         InputValidator.validateNotEmpty("values", values);
 
-        var selectProps =
-        {
+        var selectProps = {
             value: this.state.selectedValue,
             onChange: this.handleChange,
         };
@@ -67,8 +67,7 @@ var Select = React.createClass(
     },
 });
 
-Select.propTypes =
-{
+Select.propTypes = {
     // Option values. (required)
     values: React.PropTypes.array.isRequired,
 
