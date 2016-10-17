@@ -259,7 +259,7 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
                     React.DOM.img(
                     {
                         className: "winner",
-                        src: "../resources/BloodSplatter16.png",
+                        src: "../resources/BloodSplatter14.png",
                         title: "Winner",
                     }) :
                     "");
