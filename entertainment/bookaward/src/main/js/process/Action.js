@@ -5,6 +5,7 @@ define(function()
 
     Action.ADD_BOOK = "addBook";
     Action.ADD_NOMINATION = "addNomination";
+    Action.SET_ASSESSMENT = "setAssessment";
 
     Action.addBook = function(book)
     {
@@ -27,6 +28,19 @@ define(function()
             type: Action.ADD_NOMINATION,
             book: book,
             nomination: nomination,
+        });
+    };
+
+    Action.setAssessment = function(book, assessment)
+    {
+        InputValidator.validateNotNull("book", book);
+        InputValidator.validateNotNull("assessment", assessment);
+
+        return (
+        {
+            type: Action.SET_ASSESSMENT,
+            book: book,
+            assessment: assessment,
         });
     };
 
