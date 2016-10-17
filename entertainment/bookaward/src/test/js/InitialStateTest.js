@@ -14,5 +14,8 @@ define(["InitialState"], function(InitialState)
         assert.ok(result.bookToNomination);
         assert.equal(result.bookToNomination[result.books[0]].length, 1);
         assert.equal(result.bookToNomination[result.books[result.books.length - 1]].length, 1);
+        assert.ok(result.bookToAssessment);
+        assert.ok(result.bookToAssessment[result.books[0]]);
+        assert.ok(result.bookToAssessment[result.books[result.books.length - 1]]);
     });
 });
