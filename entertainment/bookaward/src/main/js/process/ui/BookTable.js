@@ -1,8 +1,13 @@
-define(["Library"], function(Library)
+define(["Assessment", "Library", "process/Action"], function(Assessment, Library, Action)
 {
     "use strict";
 
     var BookColumns = [
+        {
+            key: "assessment",
+            label: "Assessment",
+            // className: "textCell",
+},
         {
             key: "title",
             label: "Title",
@@ -27,6 +32,11 @@ define(["Library"], function(Library)
 
     var BookTable = React.createClass(
     {
+        contextTypes:
+        {
+            store: React.PropTypes.object.isRequired,
+        },
+
         propTypes:
         {
             nominees: React.PropTypes.array.isRequired,
@@ -82,6 +92,41 @@ define(["Library"], function(Library)
             var searchString = subject.vizziniReplaceAll(" ", "+");
 
             return "https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + searchString;
+        },
+
+        createAssessmentCell: function(key, column, nominee)
+        {
+            InputValidator.validateNotNull("key", key);
+            InputValidator.validateNotNull("column", column);
+            InputValidator.validateNotNull("nominee", nominee);
+
+            var assessmentKey = nominee.assessmentKey;
+            var labelFunction = function(value)
+            {
+                return Assessment.properties[value].name;
+            };
+
+            var selector = React.createElement(Select,
+            {
+                key: nominee.book.toString() + "_" + assessmentKey,
+                values: Assessment.values(),
+                initialSelectedValue: assessmentKey,
+                labelFunction: labelFunction,
+                onChange: this.handleChange,
+                clientProps:
+                {
+                    "data-booktitle": nominee.book.title(),
+                    "data-bookauthor": nominee.book.author(),
+                }
+            });
+
+            return this.Td(
+            {
+                key: key,
+                className: column.className,
+                column: column.key,
+                value: Assessment.values().indexOf(assessmentKey),
+            }, selector);
         },
 
         createAuthorLinkCell: function(key, column, author)
@@ -254,6 +299,7 @@ define(["Library"], function(Library)
 
             var cells = [];
             var i = 0;
+            cells.push(this.createAssessmentCell(cells.length, BookColumns[i++], nominee));
             cells.push(this.createTitleLinkCell(cells.length, BookColumns[i++], nominee));
             cells.push(this.createAuthorLinkCell(cells.length, BookColumns[i++], nominee.book.author()));
             cells.push(this.createNominationsCell(cells.length, BookColumns[i++], nominee.nominations));
@@ -291,6 +337,38 @@ define(["Library"], function(Library)
             {
                 className: "textImageLink",
             }, title, imageSpan));
+        },
+
+        findBook: function(title, author)
+        {
+            var answer;
+
+            var books = this.context.store.getState().books;
+
+            for (var i = 0; i < books.length; i++)
+            {
+                var book = books[i];
+
+                if (book.title() === title && book.author() === author)
+                {
+                    answer = book;
+                    break;
+                }
+            }
+
+            return answer;
+        },
+
+        handleChange: function(event)
+        {
+            var selectedValue = event.currentTarget.value;
+            var booktitle = event.currentTarget.dataset.booktitle;
+            var bookauthor = event.currentTarget.dataset.bookauthor;
+            var book = this.findBook(booktitle, bookauthor);
+            LOGGER.debug("book = " + book);
+            this.context.store.dispatch(Action.setAssessment(book, selectedValue));
+            localStorage.bookToAssessment = JSON.stringify(this.context.store.getState().bookToAssessment);
+            LOGGER.debug("bookToAssessment stored to localStorage");
         },
     });
 
