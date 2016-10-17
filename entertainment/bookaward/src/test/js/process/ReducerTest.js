@@ -1,4 +1,4 @@
-define(["Award", "Book", "InitialState", "Nomination", "process/Action", "process/Reducer"], function(Award, Book, InitialState, Nomination, Action, Reducer)
+define(["Assessment", "Award", "Book", "InitialState", "Nomination", "process/Action", "process/Reducer"], function(Assessment, Award, Book, InitialState, Nomination, Action, Reducer)
 {
     "use strict";
     QUnit.module("Reducer");
@@ -23,10 +23,12 @@ define(["Award", "Book", "InitialState", "Nomination", "process/Action", "proces
     {
         // Setup.
         var state = new InitialState();
-        assert.equal(state.books.length, 106);
         var book = createBook1();
         state = Reducer.root(state, Action.addBook(book));
         var nomination = createNomination1();
+        assert.ok(state.bookToNomination[book]);
+        assert.ok(Array.isArray(state.bookToNomination[book]));
+        assert.equal(state.bookToNomination[book].length, 0);
         var action = Action.addNomination(book, nomination);
 
         // Run.
@@ -34,10 +36,28 @@ define(["Award", "Book", "InitialState", "Nomination", "process/Action", "proces
 
         // Verify.
         assert.ok(result);
-        assert.equal(result.books.length, 107);
-        var nominations = result.bookToNomination[book];
-        assert.equal(nominations.length, 1);
-        assert.equal(nominations[0], nomination);
+        assert.ok(result.bookToNomination[book]);
+        assert.ok(Array.isArray(result.bookToNomination[book]));
+        assert.equal(result.bookToNomination[book].length, 1);
+        assert.equal(result.bookToNomination[book][0], nomination);
+    });
+
+    QUnit.test("setAssessment()", function(assert)
+    {
+        // Setup.
+        var state = new InitialState();
+        var book = createBook1();
+        state = Reducer.root(state, Action.addBook(book));
+        var assessment = Assessment.POSSIBLE_PICK;
+        assert.equal(state.bookToAssessment[book], Assessment.NONE);
+        var action = Action.setAssessment(book, assessment);
+
+        // Run.
+        var result = Reducer.root(state, action);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.bookToAssessment[book], assessment);
     });
 
     function createBook1()
@@ -58,17 +78,4 @@ define(["Award", "Book", "InitialState", "Nomination", "process/Action", "proces
 
         return new Nomination(award, category, year);
     }
-
-    // function createNomination1()
-    // {
-    //     // var title = "A Dark and Stormy Night";
-    //     // var author = "Noah Boddy";
-    //     var awardKey = Award.AGATHA;
-    //     var award = Award.properties[awardKey];
-    //     var categoryKey = award.categories.CONTEMPORARY;
-    //     var category = award.categories.properties[categoryKey];
-    //     var year = 2016;
-    //
-    //     return new Nomination(award, category, year);
-    // }
 });
