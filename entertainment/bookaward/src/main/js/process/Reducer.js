@@ -1,4 +1,4 @@
-define(["InitialState", "process/Action"], function(InitialState, Action)
+define(["Assessment", "InitialState", "process/Action"], function(Assessment, InitialState, Action)
 {
     "use strict";
     var Reducer = {};
@@ -12,6 +12,8 @@ define(["InitialState", "process/Action"], function(InitialState, Action)
             return new InitialState();
         }
 
+        var newBookToAssessment, newBookToNomination;
+
         switch (action.type)
         {
             case Action.ADD_BOOK:
@@ -19,23 +21,26 @@ define(["InitialState", "process/Action"], function(InitialState, Action)
                 var newBooks = [];
                 newBooks.vizziniAddAll(state.books);
                 newBooks.push(action.book);
-                var newBookToNomination = Object.assign(
+                newBookToNomination = Object.assign(
                 {}, state.bookToNomination);
                 newBookToNomination[action.book] = [];
+                newBookToAssessment = Object.assign(
+                {}, state.bookToAssessment);
+                newBookToAssessment[action.book] = Assessment.NONE;
                 return Object.assign(
                 {}, state,
                 {
                     books: newBooks,
                     bookToNomination: newBookToNomination,
+                    bookToAssessment: newBookToAssessment,
                 });
             case Action.ADD_NOMINATION:
                 LOGGER.info("Reducer book = " + action.book);
                 LOGGER.info("Reducer nomination = " + action.nomination);
-                var newBookToNomination = Object.assign(
+                newBookToNomination = Object.assign(
                 {}, state.bookToNomination);
                 if (newBookToNomination[action.book] === undefined)
                 {
-                    // newBookToNomination[action.book] = [];
                     throw "Missing bookToNomination array for book: " + action.book;
                 }
                 newBookToNomination[action.book].push(action.nomination);
@@ -43,6 +48,21 @@ define(["InitialState", "process/Action"], function(InitialState, Action)
                 {}, state,
                 {
                     bookToNomination: newBookToNomination,
+                });
+            case Action.SET_ASSESSMENT:
+                LOGGER.info("Reducer book = " + action.book);
+                LOGGER.info("Reducer assessment = " + action.assessment);
+                newBookToAssessment = Object.assign(
+                {}, state.bookToAssessment);
+                if (newBookToAssessment[action.book] === undefined)
+                {
+                    throw "Missing bookToAssessment entry for book: " + action.book;
+                }
+                newBookToAssessment[action.book] = action.assessment;
+                return Object.assign(
+                {}, state,
+                {
+                    bookToAssessment: newBookToAssessment,
                 });
             default:
                 LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
