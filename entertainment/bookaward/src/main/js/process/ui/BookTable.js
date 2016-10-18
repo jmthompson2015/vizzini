@@ -1,4 +1,4 @@
-define(["Assessment", "Library", "process/Action"], function(Assessment, Library, Action)
+define(["Assessment", "Library", "process/Action", "process/ui/UrlGenerator"], function(Assessment, Library, Action, UrlGenerator)
 {
     "use strict";
 
@@ -6,28 +6,27 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
         {
             key: "assessment",
             label: "Assessment",
-            // className: "textCell",
-},
+        },
         {
             key: "title",
             label: "Title",
             className: "textCell",
-},
+        },
         {
             key: "author",
             label: "Author",
             className: "textCell",
-},
+        },
         {
             key: "nominations",
             label: "Nominations",
             className: "textCell",
-},
+        },
         {
             key: "library",
             label: "Library Search",
             className: "textCell",
-},
+        },
 ];
 
     var BookTable = React.createClass(
@@ -85,15 +84,6 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
             {}, rows2));
         },
 
-        createAmazonSearchUrl: function(subject)
-        {
-            InputValidator.validateNotNull("subject", subject);
-
-            var searchString = subject.vizziniReplaceAll(" ", "+");
-
-            return "https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + searchString;
-        },
-
         createAssessmentCell: function(key, column, nominee)
         {
             InputValidator.validateNotNull("key", key);
@@ -135,10 +125,9 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
             InputValidator.validateNotNull("column", column);
             InputValidator.validateNotNull("author", author);
 
-            var url1 = this.createAmazonSearchUrl(author);
-            var url2 = this.createGoodreadsSearchUrl(author);
-            var searchString = author.vizziniReplaceAll(" ", "_");
-            var url3 = "https://en.wikipedia.org/wiki/" + searchString;
+            var url1 = UrlGenerator.createAmazonSearchUrl(author);
+            var url2 = UrlGenerator.createGoodreadsSearchUrl(author);
+            var url3 = UrlGenerator.createWikipediaSearchUrl(author);
             var image1 = this.createImageLink(1, url1, "../resources/Amazon16.png", "Amazon");
             var image2 = this.createImageLink(2, url2, "../resources/Goodreads16.png", "Goodreads");
             var image3 = this.createImageLink(3, url3, "../resources/Wikipedia16.png", "Wikipedia");
@@ -155,15 +144,6 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
                 value: author,
             }, React.DOM.span(
             {}, author, imageSpan));
-        },
-
-        createGoodreadsSearchUrl: function(subject)
-        {
-            InputValidator.validateNotNull("subject", subject);
-
-            var searchString = subject.vizziniReplaceAll(" ", "+");
-
-            return "https://www.goodreads.com/search?q=" + searchString;
         },
 
         createImageLink: function(key, href, src, title)
@@ -199,22 +179,7 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
             Library.values().forEach(function(libraryKey)
             {
                 var library = Library.properties[libraryKey];
-                // var searchString = nominee.book.title() + " by " + nominee.book.author();
-                var searchString = nominee.book.toString();
-                switch (library.value)
-                {
-                    case Library.AL:
-                    case Library.DPL:
-                    case Library.JCPL:
-                        searchString = searchString.vizziniReplaceAll(" ", "%20");
-                        break;
-                    case Library.DCL:
-                        searchString = searchString.vizziniReplaceAll(" ", "+");
-                        break;
-                }
-
-                LOGGER.debug("searchString = _" + searchString + "_");
-                var url = library.searchPrefix + searchString + library.searchSuffix;
+                var url = UrlGenerator.createLibrarySearchUrl(library, nominee.book.toString());
                 var image = this.createImageLink(cells.length, url, library.image, library.name);
                 cells.push(image);
                 value += library.shortName + " ";
@@ -263,7 +228,7 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
                         title: "Winner",
                     }) :
                     "");
-                var link = this.createLink(nomination.award().url, nomination.award().name);
+                var link = this.createLink(UrlGenerator.createAwardUrl(nomination.award(), nomination.year()), nomination.award().name);
 
                 var cell = React.DOM.td(
                 {}, prefix, nomination.year(), " ", link, " ", nomination.category().name);
@@ -317,8 +282,8 @@ define(["Assessment", "Library", "process/Action"], function(Assessment, Library
             InputValidator.validateNotNull("column", column);
             InputValidator.validateNotNull("nominee", nominee);
 
-            var url1 = this.createAmazonSearchUrl(nominee.book.toString());
-            var url2 = this.createGoodreadsSearchUrl(nominee.book.toString());
+            var url1 = UrlGenerator.createAmazonSearchUrl(nominee.book.toString());
+            var url2 = UrlGenerator.createGoodreadsSearchUrl(nominee.book.toString());
             var title = nominee.book.title();
             var image1 = this.createImageLink(1, url1, "../resources/Amazon16.png", "Amazon");
             var image2 = this.createImageLink(2, url2, "../resources/Goodreads16.png", "Goodreads");
