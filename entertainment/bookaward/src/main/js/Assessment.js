@@ -6,6 +6,7 @@ define(function()
         NONE: "none",
         NOT_ENOUGH_COPIES: "notEnoughCopies",
         NOT_INTERESTED: "notInterested",
+        READ: "read",
 
         properties:
         {
@@ -28,6 +29,11 @@ define(function()
             {
                 name: "Not interested",
                 value: "notInterested",
+            },
+            "read":
+            {
+                name: "Read",
+                value: "read",
             },
         },
 
