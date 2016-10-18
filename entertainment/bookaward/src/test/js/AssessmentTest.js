@@ -48,10 +48,10 @@ define(["Assessment"], function(Assessment)
 
         // Verify.
         assert.ok(result);
-        var length = 4;
+        var length = 5;
         assert.equal(result.length, length);
         assert.equal(result[0], "possiblePick");
-        assert.equal(result[length - 1], "notInterested");
+        assert.equal(result[length - 1], "read");
 
         var properties = Object.getOwnPropertyNames(Assessment);
         var count = properties.length - 1 - // properties
