@@ -1,85 +1,85 @@
-define([ "Pilot", "Ship", "Team", "ui/FactionUI", "ui/ShipSilhouetteUI" ], function(Pilot, Ship, Team, FactionUI,
-        ShipSilhouetteUI)
+define(["Pilot", "Ship", "Team", "ui/FactionUI", "ui/ShipSilhouetteUI"], function(Pilot, Ship, Team, FactionUI,
+    ShipSilhouetteUI)
 {
     "use strict";
     var PilotColumns = [
-    {
-        key: "faction",
-        label: "Faction",
+        {
+            key: "faction",
+            label: "Faction",
     },
-    {
-        key: "pilot",
-        label: "Pilot",
-        className: "textCell",
+        {
+            key: "pilot",
+            label: "Pilot",
+            className: "textCell",
     },
-    {
-        key: "ship",
-        label: "Ship",
-        className: "textCell",
+        {
+            key: "ship",
+            label: "Ship",
+            className: "textCell",
     },
-    {
-        key: "description",
-        label: "Description",
-        className: "textCell",
+        {
+            key: "description",
+            label: "Description",
+            className: "textCell",
     },
-    {
-        key: "isImplemented",
-        label: "Implemented",
+        {
+            key: "isImplemented",
+            label: "Implemented",
     },
-    {
-        key: "pilotSkill",
-        label: "Pilot Skill",
-        className: "numberCell",
+        {
+            key: "pilotSkill",
+            label: "Pilot Skill",
+            className: "numberCell",
     },
-    {
-        key: "primaryWeapon",
-        label: "Primary Weapon",
-        className: "numberCell",
+        {
+            key: "primaryWeapon",
+            label: "Primary Weapon",
+            className: "numberCell",
     },
-    {
-        key: "energy",
-        label: "Energy",
-        className: "numberCell",
+        {
+            key: "energy",
+            label: "Energy",
+            className: "numberCell",
     },
-    {
-        key: "agility",
-        label: "Agility",
-        className: "numberCell",
+        {
+            key: "agility",
+            label: "Agility",
+            className: "numberCell",
     },
-    {
-        key: "hull",
-        label: "Hull",
-        className: "numberCell",
+        {
+            key: "hull",
+            label: "Hull",
+            className: "numberCell",
     },
-    {
-        key: "shield",
-        label: "Shield",
-        className: "numberCell",
+        {
+            key: "shield",
+            label: "Shield",
+            className: "numberCell",
     },
-    {
-        key: "squadPointCost",
-        label: "Squad Point Cost",
-        className: "numberCell",
+        {
+            key: "squadPointCost",
+            label: "Squad Point Cost",
+            className: "numberCell",
     },
-    {
-        key: "sumStats",
-        label: "Sum Stats",
-        className: "numberCell",
+        {
+            key: "sumStats",
+            label: "Sum Stats",
+            className: "numberCell",
     },
-    {
-        key: "ratioPrimaryWeaponAgility",
-        label: "Primary Weapon / Agility",
-        className: "numberCell",
+        {
+            key: "ratioPrimaryWeaponAgility",
+            label: "Primary Weapon / Agility",
+            className: "numberCell",
     },
-    {
-        key: "hullPlusShield",
-        label: "Hull + Shield",
-        className: "numberCell",
+        {
+            key: "hullPlusShield",
+            label: "Hull + Shield",
+            className: "numberCell",
     },
-    {
-        key: "ratioSumStatsSquadPointCost",
-        label: "Sum Stats / Squad Point Cost",
-        className: "numberCell",
+        {
+            key: "ratioSumStatsSquadPointCost",
+            label: "Sum Stats / Squad Point Cost",
+            className: "numberCell",
     }, ];
 
     var PilotStatisticsTable = React.createClass(
@@ -104,25 +104,17 @@ define([ "Pilot", "Ship", "Team", "ui/FactionUI", "ui/ShipSilhouetteUI" ], funct
         {
             var rows = [];
 
-            this.filterColumns.forEach(function(column)
-            {
-                rows.push(this.createFilterRow(rows.length, column));
-            }, this);
-
             rows.push(React.DOM.tr(
             {
                 key: rows.length,
-            }, this.createFilterUI()));
-
-            rows.push(React.DOM.tr(
-            {
-                key: rows.length,
-            }, this.createPilotTable()));
+            }, React.DOM.td(
+            {}, this.createPilotTable())));
 
             return React.DOM.table(
             {
                 id: "mainTable",
-            }, React.DOM.tbody({}, rows));
+            }, React.DOM.tbody(
+            {}, rows));
         },
 
         createCell: function(key, column, value)
@@ -142,7 +134,7 @@ define([ "Pilot", "Ship", "Team", "ui/FactionUI", "ui/ShipSilhouetteUI" ], funct
                 var labelFunction = function(value)
                 {
                     return value.name;
-                }
+                };
                 var checkboxPanel = React.createElement(CheckboxInputPanel,
                 {
                     values: entities,
@@ -160,122 +152,9 @@ define([ "Pilot", "Ship", "Team", "ui/FactionUI", "ui/ShipSilhouetteUI" ], funct
             }
             else
             {
-                return React.DOM.span({}, " ");
+                return React.DOM.span(
+                {}, " ");
             }
-        },
-
-        createFilterRow: function(key, column)
-        {
-            var cells = [];
-            LOGGER.info("key = " + key + " column = " + JSON.stringify(column));
-            var filter = this.state[column.key];
-            if (!filter) { throw "ERROR: missing filter for column = " + column.key; }
-
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "MinChecked",
-                type: "checkbox",
-                checked: filter.isMinEnabled,
-                onChange: this.handleChange,
-            })));
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "Min",
-                type: "number",
-                className: "filterField",
-                value: filter.minValue,
-                onChange: this.handleChange,
-            })));
-
-            cells.push(React.DOM.td(
-            {
-                key: cells.length,
-                className: "filterLabel",
-                column: column.key,
-            }, "\u2264 " + column.label + " \u2264"));
-
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "MaxChecked",
-                type: "checkbox",
-                checked: filter.isMaxEnabled,
-                onChange: this.handleChange,
-            })));
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "Max",
-                type: "number",
-                className: "filterField",
-                value: filter.maxValue,
-                onChange: this.handleChange,
-            })));
-
-            return React.DOM.tr(
-            {
-                key: key
-            }, cells);
-        },
-
-        createFilterUI: function()
-        {
-            var factions = Team.values().map(function(teamKey)
-            {
-                return Team.properties[teamKey];
-            });
-            var ships = Ship.values().map(function(shipKey)
-            {
-                return Ship.properties[shipKey];
-            });
-
-            var rows = [];
-
-            var cells = [];
-            cells.push(React.DOM.td(
-            {
-                key: cells.length,
-                className: "entityFilterContainer",
-            }, "Faction"));
-            cells.push(React.DOM.td(
-            {
-                key: cells.length,
-                className: "entityFilterContainer",
-            }, "Ship"));
-            rows.push(React.DOM.tr(
-            {
-                key: rows.length,
-            }, cells));
-
-            var cells = [];
-            cells.push(React.DOM.td(
-            {
-                key: cells.length,
-                className: "entityFilterContainer",
-            }, this.createEntityTable(
-            {
-                "data-entitytype": "faction",
-            }, factions, [])));
-            cells.push(React.DOM.td(
-            {
-                key: cells.length,
-                className: "entityFilterContainer",
-            }, this.createEntityTable(
-            {
-                "data-entitytype": "ship",
-            }, ships, [])));
-            rows.push(React.DOM.tr(
-            {
-                key: rows.length,
-            }, cells));
-
-            return React.DOM.table(
-            {
-                id: "mainTable",
-                className: "entitiesTable",
-            }, React.DOM.tbody({}, rows));
         },
 
         createImplementedImage: function(isImplemented, key)
@@ -331,6 +210,23 @@ define([ "Pilot", "Ship", "Team", "ui/FactionUI", "ui/ShipSilhouetteUI" ], funct
 
             var shipTeam = pilot.shipTeam;
             var ship = shipTeam.ship;
+
+            if (pilot.parent)
+            {
+                if (pilot.name.endsWith("(fore)"))
+                {
+                    ship = ship.fore;
+                }
+                else if (pilot.name.endsWith("(aft)"))
+                {
+                    ship = ship.aft;
+                }
+            }
+            else if (ship.fore)
+            {
+                ship = ship.fore;
+            }
+
             var j = 0;
 
             cells.push(this.Td(
