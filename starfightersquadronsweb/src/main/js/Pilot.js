@@ -1953,7 +1953,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             "royalGuardPilot":
             {
                 name: "Royal Guard Pilot",
-                description: "Only members of the Emperor's royal guard are premitted to fly their unique crimson fighters, which are often used to escort the Emperor's shuttle as well as its decoys.",
+                description: "Only members of the Emperor's royal guard are permitted to fly their unique crimson fighters, which are often used to escort the Emperor's shuttle as well as its decoys.",
                 isFlavorText: true,
                 shipTeamKey: ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
                 pilotSkillValue: 6,
