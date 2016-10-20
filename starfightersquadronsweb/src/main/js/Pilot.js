@@ -639,6 +639,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Contracted Scout",
                 description: "Built for long-distance reconnaissance and plotting new hyperspace routes, the lightly armed JumpMaster 5000 was often extensively retrofitted with custom upgrades.",
+                isFlavorText: true,
                 shipTeamKey: ShipTeam.SCUM_JUMPMASTER_5000,
                 pilotSkillValue: 3,
                 squadPointCost: 25,
