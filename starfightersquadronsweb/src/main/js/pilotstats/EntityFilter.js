@@ -26,11 +26,31 @@ define(function()
             return values.length === 0 || values.vizziniContains(value);
         };
 
+        this.toObject = function()
+        {
+            return (
+            {
+                type: "EntityFilter",
+                columnKey: columnKey,
+                values: values,
+            });
+        };
+
         this.toString = function()
         {
             return "EntityFilter (" + columnKey + " in [" + values + "])";
         };
     }
+
+    EntityFilter.fromObject = function(object)
+    {
+        InputValidator.validateNotNull("object", object);
+
+        var columnKey = object.columnKey;
+        var values = object.values;
+
+        return new EntityFilter(columnKey, values);
+    };
 
     return EntityFilter;
 });
