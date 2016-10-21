@@ -18,6 +18,7 @@ define(function()
         {
             return (
             {
+                filters: state.filters,
                 rowData: state.filteredPilotData,
             });
         },
