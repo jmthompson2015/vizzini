@@ -26,14 +26,10 @@ define(["pilotstats/Action", "pilotstats/DefaultFilters", "pilotstats/InitialSta
                 });
             case Action.SET_DEFAULT_FILTERS:
                 newFilters = DefaultFilters.create();
-                newFilteredPilotData = [];
-                newFilteredPilotData.vizziniAddAll(state.pilotData);
-                // Reducer.saveToLocalStorage(newFilters);
                 return Object.assign(
                 {}, state,
                 {
                     filters: newFilters,
-                    filteredPilotData: newFilteredPilotData,
                 });
             case Action.SET_FILTERS:
                 LOGGER.debug("Reducer filters = ");
@@ -45,7 +41,7 @@ define(["pilotstats/Action", "pilotstats/DefaultFilters", "pilotstats/InitialSta
                 {}, state.filters);
                 Object.vizziniMerge(newFilters, action.filters);
                 newFilteredPilotData = Reducer.filterPilotData(state.pilotData, newFilters);
-                // Reducer.saveToLocalStorage(newFilters);
+                Reducer.saveToLocalStorage(newFilters);
                 return Object.assign(
                 {}, state,
                 {
@@ -99,12 +95,20 @@ define(["pilotstats/Action", "pilotstats/DefaultFilters", "pilotstats/InitialSta
         return answer;
     };
 
-    // Reducer.saveToLocalStorage = function(filters)
-    // {
-    //     InputValidator.validateNotNull("filters", filters);
-    //
-    //     localStorage.filters = JSON.stringify(filters);
-    // };
+    Reducer.saveToLocalStorage = function(filters)
+    {
+        InputValidator.validateNotNull("filters", filters);
+
+        var filterObjects = [];
+
+        Object.getOwnPropertyNames(filters).forEach(function(columnKey)
+        {
+            var filter = filters[columnKey];
+            filterObjects.push(filter.toObject());
+        });
+
+        localStorage.filters = JSON.stringify(filterObjects);
+    };
 
     return Reducer;
 });
