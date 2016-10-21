@@ -1,8 +1,7 @@
-define([ "Ship", "Team" ], function(Ship, Team)
+define(["Ship", "Team"], function(Ship, Team)
 {
     "use strict";
-    var ShipTeam =
-    {
+    var ShipTeam = {
         // First Order.
         FIRST_ORDER_TIE_FO_FIGHTER: "firstOrderTieFoFighter",
 
@@ -66,6 +65,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_FO_FIGHTER,
                 teamKey: Team.FIRST_ORDER,
                 image: "FirstOrder_TIE_fo_Fighter.png",
+                wave: "8",
                 value: "firstOrderTieFoFighter",
             },
 
@@ -76,6 +76,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.FIRESPRAY_31,
                 teamKey: Team.IMPERIAL,
                 image: "Firespray-31.png",
+                wave: "2",
                 value: "imperialFirespray31",
             },
             "imperialGozantiClassCruiser":
@@ -84,6 +85,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.GOZANTI_CLASS_CRUISER,
                 teamKey: Team.IMPERIAL,
                 image: "Imperial_Gozanti-class_Cruiser.png",
+                wave: "Huge",
                 value: "imperialGozantiClassCruiser",
             },
             "imperialLambdaClassShuttle":
@@ -92,6 +94,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.LAMBDA_CLASS_SHUTTLE,
                 teamKey: Team.IMPERIAL,
                 image: "Lambda-class_Shuttle.png",
+                wave: "3",
                 value: "imperialLambdaClassShuttle",
             },
             "imperialRaiderClassCorvette":
@@ -100,6 +103,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.RAIDER_CLASS_CORVETTE,
                 teamKey: Team.IMPERIAL,
                 image: "Imperial_Raider-class_Corvette.png",
+                wave: "Huge",
                 value: "imperialRaiderClassCorvette",
             },
             "imperialTieAdvanced":
@@ -108,6 +112,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_ADVANCED,
                 teamKey: Team.IMPERIAL,
                 image: "TIE_Advanced.png",
+                wave: "1",
                 value: "imperialTieAdvanced",
             },
             "imperialTieAdvancedPrototype":
@@ -116,6 +121,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_ADVANCED_PROTOTYPE,
                 teamKey: Team.IMPERIAL,
                 image: "Imperial_TIE_Advanced_Prototype.png",
+                wave: "8",
                 value: "imperialTieAdvancedPrototype",
             },
             "imperialTieBomber":
@@ -124,6 +130,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_BOMBER,
                 teamKey: Team.IMPERIAL,
                 image: "TIE_Bomber.png",
+                wave: "3",
                 value: "imperialTieBomber",
             },
             "imperialTieDefender":
@@ -132,6 +139,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_DEFENDER,
                 teamKey: Team.IMPERIAL,
                 image: "TIE_Defender.png",
+                wave: "4",
                 value: "imperialTieDefender",
             },
             "imperialTieFighter":
@@ -140,6 +148,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_FIGHTER,
                 teamKey: Team.IMPERIAL,
                 image: "TIE_Fighter.png",
+                wave: "1",
                 value: "imperialTieFighter",
             },
             "imperialTieInterceptor":
@@ -148,6 +157,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_INTERCEPTOR,
                 teamKey: Team.IMPERIAL,
                 image: "TIE_Interceptor.png",
+                wave: "2",
                 value: "imperialTieInterceptor",
             },
             "imperialTieInterceptorRoyalGuard":
@@ -156,6 +166,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_INTERCEPTOR,
                 teamKey: Team.IMPERIAL,
                 image: "Royal_Guard_TIE.png",
+                wave: "Aces",
                 value: "imperialTieInterceptorRoyalGuard",
             },
             "imperialTieInterceptorSaberSquadron":
@@ -164,6 +175,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_INTERCEPTOR,
                 teamKey: Team.IMPERIAL,
                 image: "Saber_Squadron_TIE.png",
+                wave: "Aces",
                 value: "imperialTieInterceptorSaberSquadron",
             },
             "imperialTiePhantom":
@@ -172,6 +184,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_PHANTOM,
                 teamKey: Team.IMPERIAL,
                 image: "TIE_Phantom.png",
+                wave: "4",
                 value: "imperialTiePhantom",
             },
             "imperialTiePunisher":
@@ -180,6 +193,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.TIE_PUNISHER,
                 teamKey: Team.IMPERIAL,
                 image: "Imperial_TIE_Punisher.png",
+                wave: "7",
                 value: "imperialTiePunisher",
             },
             "imperialVt49Decimator":
@@ -188,6 +202,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.VT_49_DECIMATOR,
                 teamKey: Team.IMPERIAL,
                 image: "VT-49_Decimator.png",
+                wave: "5",
                 value: "imperialVt49Decimator",
             },
 
@@ -198,6 +213,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.A_WING,
                 teamKey: Team.REBEL,
                 image: "A-Wing.png",
+                wave: "2",
                 value: "rebelAWing",
             },
             "rebelAWingAce":
@@ -206,6 +222,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.A_WING,
                 teamKey: Team.REBEL,
                 image: "Rebel_Aces_A-Wing.png",
+                wave: "Aces",
                 value: "rebelAWingAce",
             },
             "rebelAttackShuttle":
@@ -214,6 +231,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.ATTACK_SHUTTLE,
                 teamKey: Team.REBEL,
                 image: "Rebel_Attack_Shuttle.png",
+                wave: "8",
                 value: "rebelAttackShuttle",
             },
             "rebelBWing":
@@ -222,6 +240,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.B_WING,
                 teamKey: Team.REBEL,
                 image: "B-Wing.png",
+                wave: "3",
                 value: "rebelBWing",
             },
             "rebelBWingAce":
@@ -230,6 +249,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.B_WING,
                 teamKey: Team.REBEL,
                 image: "Rebel_Aces_B-Wing.png",
+                wave: "Aces",
                 value: "rebelBWingAce",
             },
             "rebelCr90Corvette":
@@ -238,6 +258,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.CR90_CORVETTE,
                 teamKey: Team.REBEL,
                 image: "Rebel_CR90_Corvette.png",
+                wave: "Huge",
                 value: "rebelCr90Corvette",
             },
             "rebelEWing":
@@ -246,6 +267,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.E_WING,
                 teamKey: Team.REBEL,
                 image: "E-Wing.png",
+                wave: "4",
                 value: "rebelEWing",
             },
             "rebelGr75MediumTransport":
@@ -254,6 +276,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.GR_75_MEDIUM_TRANSPORT,
                 teamKey: Team.REBEL,
                 image: "Rebel_GR-75_Medium_Transport.png",
+                wave: "Huge",
                 value: "rebelGr75MediumTransport",
             },
             "rebelHwk290":
@@ -262,6 +285,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.HWK_290,
                 teamKey: Team.REBEL,
                 image: "HWK-290.png",
+                wave: "3",
                 value: "rebelHwk290",
             },
             "rebelKWing":
@@ -270,6 +294,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.K_WING,
                 teamKey: Team.REBEL,
                 image: "Rebel_K-Wing.png",
+                wave: "7",
                 value: "rebelKWing",
             },
             "rebelVcx100":
@@ -278,6 +303,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.VCX_100,
                 teamKey: Team.REBEL,
                 image: "Rebel_VCX-100.png",
+                wave: "8",
                 value: "rebelVcx100",
             },
             "rebelXWing":
@@ -286,6 +312,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.X_WING,
                 teamKey: Team.REBEL,
                 image: "X-Wing.png",
+                wave: "1",
                 value: "rebelXWing",
             },
             "rebelYWing":
@@ -294,6 +321,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.Y_WING,
                 teamKey: Team.REBEL,
                 image: "Y-Wing.png",
+                wave: "1",
                 value: "rebelYWing",
             },
             "rebelYt1300":
@@ -302,6 +330,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.YT_1300,
                 teamKey: Team.REBEL,
                 image: "YT-1300.png",
+                wave: "2",
                 value: "rebelYt1300",
             },
             "rebelYt2400":
@@ -310,6 +339,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.YT_2400,
                 teamKey: Team.REBEL,
                 image: "YT-2400.png",
+                wave: "5",
                 value: "rebelYt2400",
             },
             "rebelZ95Headhunter":
@@ -318,6 +348,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.Z_95_HEADHUNTER,
                 teamKey: Team.REBEL,
                 image: "Z-95_Headhunter.png",
+                wave: "4",
                 value: "rebelZ95Headhunter",
             },
 
@@ -328,6 +359,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.T_70_X_WING,
                 teamKey: Team.RESISTANCE,
                 image: "Resistance_T-70_X-Wing.png",
+                wave: "8",
                 value: "resistanceT70XWing",
             },
 
@@ -338,6 +370,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.AGGRESSOR,
                 teamKey: Team.SCUM,
                 image: "Scum_Aggressor.png",
+                wave: "6",
                 value: "scumAggressor",
             },
             "scumFirespray31":
@@ -346,6 +379,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.FIRESPRAY_31,
                 teamKey: Team.SCUM,
                 image: "Scum_Firespray-31.png",
+                wave: "6",
                 value: "scumFirespray31",
             },
             "scumG1AStarfighter":
@@ -354,6 +388,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.G_1A_STARFIGHTER,
                 teamKey: Team.SCUM,
                 image: "Scum_G-1A_Starfighter.png",
+                wave: "8",
                 value: "scumG1AStarfighter",
             },
             "scumHwk290":
@@ -362,6 +397,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.HWK_290,
                 teamKey: Team.SCUM,
                 image: "Scum_HWK-290.png",
+                wave: "6",
                 value: "scumHwk290",
             },
             "scumJumpMaster5000":
@@ -370,6 +406,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.JUMPMASTER_5000,
                 teamKey: Team.SCUM,
                 image: "Scum_JumpMaster_5000.png",
+                wave: "8",
                 value: "scumJumpMaster5000",
             },
             "scumKihraxzFighter":
@@ -378,6 +415,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.KIHRAXZ_FIGHTER,
                 teamKey: Team.SCUM,
                 image: "Scum_KihraxzFighter.png",
+                wave: "7",
                 value: "scumKihraxzFighter",
             },
             "scumM3AInterceptor":
@@ -386,6 +424,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.M3_A_INTERCEPTOR,
                 teamKey: Team.SCUM,
                 image: "Scum_M3-A_Interceptor.png",
+                wave: "6",
                 value: "scumM3AInterceptor",
             },
             "scumStarViper":
@@ -394,6 +433,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.STAR_VIPER,
                 teamKey: Team.SCUM,
                 image: "Scum_StarViper.png",
+                wave: "6",
                 value: "scumStarViper",
             },
             "scumYWing":
@@ -402,6 +442,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.Y_WING,
                 teamKey: Team.SCUM,
                 image: "Scum_Y-Wing.png",
+                wave: "6",
                 value: "scumYWing",
             },
             "scumYv666":
@@ -410,6 +451,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.YV_666,
                 teamKey: Team.SCUM,
                 image: "Scum_YV-666.png",
+                wave: "7",
                 value: "scumYv666",
             },
             "scumZ95Headhunter":
@@ -418,6 +460,7 @@ define([ "Ship", "Team" ], function(Ship, Team)
                 shipKey: Ship.Z_95_HEADHUNTER,
                 teamKey: Team.SCUM,
                 image: "Scum_Z-95_Headhunter.png",
+                wave: "6",
                 value: "scumZ95Headhunter",
             },
         },
