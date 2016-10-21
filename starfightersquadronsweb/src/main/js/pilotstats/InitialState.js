@@ -15,6 +15,10 @@ define(["Pilot", "pilotstats/DefaultFilters", "pilotstats/EntityFilter", "pilots
             this.filteredPilotData.push(pilotData);
         }, this);
 
+        // FIXME
+        // localStorage.removeItem("filters");
+        // FIXME
+
         this.filters = DefaultFilters.create();
         var oldFilters = InitialState.loadFromLocalStorage();
 
