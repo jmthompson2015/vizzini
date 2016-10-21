@@ -63,6 +63,7 @@ define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/Fil
 
         propTypes:
         {
+            filters: React.PropTypes.object.isRequired,
             rowData: React.PropTypes.array.isRequired,
         },
 
