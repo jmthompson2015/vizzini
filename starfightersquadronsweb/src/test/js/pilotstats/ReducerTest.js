@@ -63,7 +63,7 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
     {
         // Setup.
         var state = new InitialState();
-        assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
+        assert.equal(Object.getOwnPropertyNames(state.filters).length, 14);
         assert.equal(state.pilotData.length, 186);
         assert.equal(state.filteredPilotData.length, 186);
         var action = Action.removeFilters();
@@ -73,7 +73,7 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
 
         // Verify.
         assert.ok(result);
-        assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
+        assert.equal(Object.getOwnPropertyNames(state.filters).length, 14);
         assert.equal(result.pilotData.length, 186);
         assert.equal(result.filteredPilotData.length, 186);
     });
@@ -82,7 +82,7 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
     {
         // Setup.
         var state = new InitialState();
-        assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
+        assert.equal(Object.getOwnPropertyNames(state.filters).length, 14);
         assert.equal(state.pilotData.length, 186);
         assert.equal(state.filteredPilotData.length, 186);
         var action = Action.setDefaultFilters();
@@ -92,7 +92,7 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
 
         // Verify.
         assert.ok(result);
-        assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
+        assert.equal(Object.getOwnPropertyNames(state.filters).length, 14);
         assert.equal(result.pilotData.length, 186);
         assert.equal(result.filteredPilotData.length, 186);
 
@@ -104,7 +104,7 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
     {
         // Setup.
         var state = new InitialState();
-        assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
+        assert.equal(Object.getOwnPropertyNames(state.filters).length, 14);
         assert.equal(state.pilotData.length, 186);
         assert.equal(state.filteredPilotData.length, 186);
         var filters = createFilters();
@@ -117,7 +117,7 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
         assert.ok(result);
         assert.ok(result.filters.factionKey);
         assert.ok(result.filters.pilotSkill);
-        assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
+        assert.equal(Object.getOwnPropertyNames(state.filters).length, 14);
         assert.equal(result.pilotData.length, 186);
         assert.equal(result.filteredPilotData.length, 44);
 
