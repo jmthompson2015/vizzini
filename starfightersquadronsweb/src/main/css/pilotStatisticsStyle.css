@@ -52,6 +52,10 @@ table {
     text-align: left;
 }
 
+#ALIGN_MIDDLE, .factionUIImage, .imageBlock, .shipSilhouetteUIImage, .alignMiddle {
+    vertical-align: middle;
+}
+
 #ALIGN_RIGHT, .numberCell, .alignRight {
     text-align: right;
 }
@@ -62,6 +66,14 @@ table {
 
 #BACKGROUND_LIGHT, .entitiesTable, .backgroundLight {
     background: White;
+}
+
+#DISPLAY_INLINE_BLOCK, .textImageLink, .displayInlineBlock {
+    display: inline-block;
+}
+
+#FLOAT_RIGHT, .imageBlock, .floatRight {
+    float: right;
 }
 
 #FONT_BOLD, .entityLabel, fontBold {
@@ -94,4 +106,8 @@ table {
 
 #WIDTH_60, .filterField, .width60 {
     width: 60px;
+}
+
+#WIDTH_FULL, .textImageLink, .widthFull {
+    width: 100%;
 }

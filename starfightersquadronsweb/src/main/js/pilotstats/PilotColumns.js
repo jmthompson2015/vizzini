@@ -7,7 +7,7 @@ define(function()
             label: "Faction",
        },
         {
-            key: "pilot",
+            key: "pilotName",
             label: "Pilot",
             className: "textCell",
        },

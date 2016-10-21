@@ -10,13 +10,79 @@ define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/Fil
                 isSmall: true,
             });
         },
+        "pilotName": function(data)
+        {
+            var searchString = data.pilotName;
+            searchString = searchString.vizziniReplaceAll(" ", "_");
+            var href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
+            var image = React.DOM.img(
+            {
+                className: "imageBlock",
+                src: "../resources/icons/Wikipedia16.png"
+            });
+            var link = React.DOM.a(
+            {
+                href: href,
+                target: "_blank",
+            }, image);
+            return React.DOM.span(
+            {
+                className: "textImageLink",
+            }, data.pilotName, link);
+        },
         "shipKey": function(data)
         {
-            return React.createElement(ShipSilhouetteUI,
+            var searchString = data.shipName;
+            // switch (data.ship)
+            // {
+            //     case "Aggressor":
+            //         searchString = "IG-2000";
+            //         break;
+            //     case "Attack Shuttle":
+            //     case "VCX-100":
+            //         searchString = "Ghost";
+            //         break;
+            //     case "Firespray-31":
+            //         searchString = "Slave 1";
+            //         break;
+            //     case "G-1A Starfighter":
+            //         searchString = "Mist Hunter";
+            //         break;
+            //     case "JumpMaster 5000":
+            //         searchString = "Punishing One";
+            //         break;
+            //     case "M3-A Interceptor":
+            //         searchString = "M3-A Scyk Interceptor";
+            //         break;
+            //     case "TIE Adv. Prototype":
+            //         searchString = "Inquisitor's TIE";
+            //         break;
+            //     case "YT-1300":
+            //         searchString = "Millennium Falcon";
+            //         break;
+            // }
+            searchString += " Expansion Pack";
+            searchString = searchString.vizziniReplaceAll(" ", "_");
+            var href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
+            var image = React.DOM.img(
+            {
+                className: "imageBlock",
+                src: "../resources/icons/Wikipedia16.png"
+            });
+            var link = React.DOM.a(
+            {
+                href: href,
+                target: "_blank",
+            }, image);
+            var silhouette = React.createElement(ShipSilhouetteUI,
             {
                 shipKey: data.shipKey,
                 showName: true,
             });
+            return React.DOM.span(
+            {
+                className: "textImageLink",
+            }, silhouette, link);
         },
         "description": function(data)
         {

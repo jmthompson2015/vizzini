@@ -64,8 +64,8 @@ define(["Pilot"], function(Pilot)
         {
             faction: pilot.shipTeam.team.name,
             factionKey: pilot.shipTeam.teamKey,
-            pilot: pilot.name,
-            ship: ship.name,
+            pilotName: pilot.name,
+            shipName: ship.name,
             shipKey: pilot.shipTeam.shipKey,
             description: pilot.description,
             isFlavorText: pilot.isFlavorText,
