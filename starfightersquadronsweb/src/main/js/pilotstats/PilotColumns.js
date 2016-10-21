@@ -17,6 +17,11 @@ define(function()
             className: "textCell",
        },
         {
+            key: "wave",
+            label: "Wave",
+            className: "textCell",
+       },
+        {
             key: "description",
             label: "Description",
             className: "textCell",
