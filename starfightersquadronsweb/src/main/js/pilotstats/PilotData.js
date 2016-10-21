@@ -68,6 +68,7 @@ define(["Pilot"], function(Pilot)
             shipName: ship.name,
             shipKey: pilot.shipTeam.shipKey,
             shipWikiUrl: ship.wikiUrl,
+            wave: pilot.shipTeam.wave,
             description: pilot.description,
             isFlavorText: pilot.isFlavorText,
             isImplemented: isImplemented,
