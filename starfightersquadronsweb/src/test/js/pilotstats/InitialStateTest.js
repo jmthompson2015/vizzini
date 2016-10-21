@@ -10,7 +10,7 @@ define(["pilotstats/InitialState"], function(InitialState)
 
         // Verify.
         assert.ok(result.filters);
-        assert.equal(Object.getOwnPropertyNames(result.filters).length, 13);
+        assert.equal(Object.getOwnPropertyNames(result.filters).length, 14);
         assert.ok(result.pilotData);
         assert.equal(result.pilotData.length, 186);
         assert.ok(result.filteredPilotData);
