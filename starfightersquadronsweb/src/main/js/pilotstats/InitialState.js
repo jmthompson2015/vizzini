@@ -1,4 +1,4 @@
-define(["Pilot", "pilotstats/DefaultFilters", "pilotstats/PilotData"], function(Pilot, DefaultFilters, PilotData)
+define(["Pilot", "pilotstats/DefaultFilters", "pilotstats/EntityFilter", "pilotstats/PilotData", "pilotstats/RangeFilter"], function(Pilot, DefaultFilters, EntityFilter, PilotData, RangeFilter)
 {
     "use strict";
 
@@ -16,37 +16,55 @@ define(["Pilot", "pilotstats/DefaultFilters", "pilotstats/PilotData"], function(
         }, this);
 
         this.filters = DefaultFilters.create();
-        // var oldFilters = JSON.parse(localStorage.filters);
-        // LOGGER.info("oldFilters = ");
-        // Object.getOwnPropertyNames(oldFilters).forEach(function(columnKey)
-        // {
-        //     LOGGER.info(oldFilters[columnKey]);
-        // });
-        //
-        // InitialState.merge(this.filters, oldFilters);
-        // LOGGER.info("this.filters = ");
-        // Object.getOwnPropertyNames(this.filters).forEach(function(columnKey)
-        // {
-        //     LOGGER.info(this.filters[columnKey]);
-        // }, this);
+        var oldFilters = InitialState.loadFromLocalStorage();
+
+        if (oldFilters)
+        {
+            this.merge(oldFilters);
+        }
     }
 
-    // InitialState.merge = function(filters, oldFilters)
-    // {
-    //     InputValidator.validateNotNull("filters", filters);
-    //
-    //     if (oldFilters)
-    //     {
-    //         Object.getOwnPropertyNames(oldFilters).forEach(function(columnKey)
-    //         {
-    //             if (DefaultFilters.entityColumns.vizziniContains(columnKey) ||
-    //                 DefaultFilters.rangeColumns.vizziniContains(columnKey))
-    //             {
-    //                 filters[columnKey] = oldFilters[columnKey];
-    //             }
-    //         });
-    //     }
-    // };
+    InitialState.prototype.merge = function(oldFilters)
+    {
+        InputValidator.validateNotNull("oldFilters", oldFilters);
+
+        Object.getOwnPropertyNames(oldFilters).forEach(function(columnKey, i)
+        {
+            this.filters[columnKey] = oldFilters[columnKey];
+        }, this);
+    };
+
+    InitialState.loadFromLocalStorage = function()
+    {
+        var answer;
+        var filterObjects = JSON.parse(localStorage.filters || null);
+
+        if (filterObjects)
+        {
+            answer = {};
+
+            filterObjects.forEach(function(object, i)
+            {
+                var filter;
+
+                switch (object.type)
+                {
+                    case "EntityFilter":
+                        filter = EntityFilter.fromObject(object);
+                        break;
+                    case "RangeFilter":
+                        filter = RangeFilter.fromObject(object);
+                        break;
+                    default:
+                        throw "Unknown filter type: " + JSON.stringify(object);
+                }
+
+                answer[filter.columnKey()] = filter;
+            });
+        }
+
+        return answer;
+    };
 
     return InitialState;
 });
