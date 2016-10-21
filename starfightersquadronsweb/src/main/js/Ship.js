@@ -81,6 +81,7 @@ define(
                                 Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.SEGNORS_LOOP_LEFT_3_HARD,
                                 Maneuver.SEGNORS_LOOP_RIGHT_3_HARD, Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST, ShipAction.EVADE],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/IG-2000_Expansion_Pack",
                     value: "aggressor",
                 },
                 "attackShuttle":
@@ -101,6 +102,7 @@ define(
                                 Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_HARD,
                                 Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.BARREL_ROLL, ShipAction.EVADE],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Ghost_Expansion_Pack",
                     value: "attackShuttle",
                 },
                 "bWing":
@@ -226,6 +228,7 @@ define(
                                 Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_3_HARD,
                                 Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Slave_1_Expansion_Pack",
                     value: "firespray31",
                 },
                 "g1AStarfighter":
@@ -246,6 +249,7 @@ define(
                                 Maneuver.KOIOGRAN_TURN_3_HARD, Maneuver.STRAIGHT_4_STANDARD,
                                 Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Mist_Hunter_Expansion_Pack",
                     value: "g1AStarfighter",
                 },
                 "gozantiClassCruiser":
@@ -346,6 +350,7 @@ define(
                                 Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD,
                                 Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.SLAM],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Punishing_One_Expansion_Pack",
                     value: "jumpMaster5000",
                 },
                 "kWing":
@@ -424,6 +429,7 @@ define(
                                 Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL,
                                 ShipAction.EVADE],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/M3-A_Scyk_Interceptor_Expansion_Pack",
                     value: "m3AInterceptor",
                 },
                 "raiderClassCorvette":
@@ -569,6 +575,7 @@ define(
                                 Maneuver.STRAIGHT_4_EASY, Maneuver.KOIOGRAN_TURN_4_HARD, Maneuver.STRAIGHT_5_STANDARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL,
                                 ShipAction.BOOST],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Inquisitor%27s_TIE_Expansion_Pack",
                     value: "tieAdvancedPrototype",
                 },
                 "tieBomber":
@@ -729,6 +736,7 @@ define(
                                 Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_HARD,
                                 Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_5_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.EVADE],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Ghost_Expansion_Pack",
                     value: "vcx100",
                 },
                 "vt49Decimator":
@@ -812,6 +820,7 @@ define(
                                 Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_3_HARD,
                                 Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Millennium_Falcon_Expansion_Pack",
                     value: "yt1300",
                 },
                 "yt2400":
@@ -834,6 +843,7 @@ define(
                                 Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.STRAIGHT_4_STANDARD,
                                 Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/YT-2400_Freighter_Expansion_Pack",
                     value: "yt2400",
                 },
                 "yv666":
@@ -855,6 +865,7 @@ define(
                                 Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_STANDARD,
                                 Maneuver.STRAIGHT_4_STANDARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK],
+                    wikiUrl: "http://xwing-miniatures.wikia.com/wiki/Hound%27s_Tooth_Expansion_Pack",
                     value: "yv666",
                 },
                 "z95Headhunter":
