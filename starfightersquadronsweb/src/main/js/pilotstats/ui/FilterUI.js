@@ -19,6 +19,7 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
             {
                 factionValues: (this.props.filters.factionKey ? this.props.filters.factionKey.values() : []),
                 shipValues: (this.props.filters.shipKey ? this.props.filters.shipKey.values() : []),
+                waveValues: (this.props.filters.wave ? this.props.filters.wave.values() : []),
             });
         },
 
@@ -118,6 +119,10 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                             return Ship.properties[value].name;
                         };
                         clientProps["data-entitytype"] = "shipKey";
+                        break;
+                    case "wave":
+                        values = ["1", "2", "3", "4", "5", "6", "7", "8", "Aces", "Huge"];
+                        clientProps["data-entitytype"] = "wave";
                         break;
                     default:
                         throw "Unknown entity column: " + column.key;
@@ -251,6 +256,9 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                     case "shipKey":
                         values.vizziniAddAll(this.state.shipValues);
                         break;
+                    case "wave":
+                        values.vizziniAddAll(this.state.waveValues);
+                        break;
                     default:
                         throw "Unknown entity column: " + column.key;
                 }
@@ -296,6 +304,12 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                     this.setState(
                     {
                         shipValues: values,
+                    });
+                    break;
+                case "wave":
+                    this.setState(
+                    {
+                        waveValues: values,
                     });
                     break;
                 default:
