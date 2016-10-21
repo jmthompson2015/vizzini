@@ -60,18 +60,19 @@ define(["pilotstats/EntityFilter", "pilotstats/PilotColumns", "pilotstats/RangeF
         {
             this.entityColumns.push(PilotColumns[0]); // factionKey
             this.entityColumns.push(PilotColumns[2]); // shipKey
+            this.entityColumns.push(PilotColumns[3]); // wave
 
-            this.rangeColumns.push(PilotColumns[5]); // pilotSkill
-            this.rangeColumns.push(PilotColumns[6]); // primaryWeapon
-            this.rangeColumns.push(PilotColumns[7]); // energy
-            this.rangeColumns.push(PilotColumns[8]); // agility
-            this.rangeColumns.push(PilotColumns[9]); // hull
-            this.rangeColumns.push(PilotColumns[10]); // shield
-            this.rangeColumns.push(PilotColumns[11]); // squadPointCost
-            this.rangeColumns.push(PilotColumns[12]); // sumStats
-            this.rangeColumns.push(PilotColumns[13]); // ratioPrimaryWeaponAgility
-            this.rangeColumns.push(PilotColumns[14]); // hullPlusShield
-            this.rangeColumns.push(PilotColumns[15]); // ratioSumStatsSquadPointCost
+            this.rangeColumns.push(PilotColumns[6]); // pilotSkill
+            this.rangeColumns.push(PilotColumns[7]); // primaryWeapon
+            this.rangeColumns.push(PilotColumns[8]); // energy
+            this.rangeColumns.push(PilotColumns[9]); // agility
+            this.rangeColumns.push(PilotColumns[10]); // hull
+            this.rangeColumns.push(PilotColumns[11]); // shield
+            this.rangeColumns.push(PilotColumns[12]); // squadPointCost
+            this.rangeColumns.push(PilotColumns[13]); // sumStats
+            this.rangeColumns.push(PilotColumns[14]); // ratioPrimaryWeaponAgility
+            this.rangeColumns.push(PilotColumns[15]); // hullPlusShield
+            this.rangeColumns.push(PilotColumns[16]); // ratioSumStatsSquadPointCost
         },
     };
 
