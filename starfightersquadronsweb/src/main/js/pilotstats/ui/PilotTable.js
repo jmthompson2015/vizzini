@@ -1,6 +1,22 @@
 define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/FilterUI", "ui/FactionUI", "ui/ShipSilhouetteUI", "../../../../../../coreweb/src/main/js/ui/DataTable"], function(PilotColumns, Connector, FilterUI, FactionUI, ShipSilhouetteUI, DataTable)
 {
     "use strict";
+
+    function createImageLink(src, href)
+    {
+        var image = React.DOM.img(
+        {
+            className: "imageBlock",
+            src: src,
+        });
+
+        return React.DOM.a(
+        {
+            href: href,
+            target: "_blank",
+        }, image);
+    }
+
     var cellFunctions = {
         "factionKey": function(data)
         {
@@ -12,19 +28,10 @@ define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/Fil
         },
         "pilotName": function(data)
         {
-            var searchString = data.pilotName;
-            searchString = searchString.vizziniReplaceAll(" ", "_");
+            var src = "../resources/icons/Wikipedia16.png";
+            var searchString = data.pilotName.vizziniReplaceAll(" ", "_");
             var href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
-            var image = React.DOM.img(
-            {
-                className: "imageBlock",
-                src: "../resources/icons/Wikipedia16.png"
-            });
-            var link = React.DOM.a(
-            {
-                href: href,
-                target: "_blank",
-            }, image);
+            var link = createImageLink(src, href);
             return React.DOM.span(
             {
                 className: "textImageLink",
@@ -32,48 +39,15 @@ define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/Fil
         },
         "shipKey": function(data)
         {
-            var searchString = data.shipName;
-            // switch (data.ship)
-            // {
-            //     case "Aggressor":
-            //         searchString = "IG-2000";
-            //         break;
-            //     case "Attack Shuttle":
-            //     case "VCX-100":
-            //         searchString = "Ghost";
-            //         break;
-            //     case "Firespray-31":
-            //         searchString = "Slave 1";
-            //         break;
-            //     case "G-1A Starfighter":
-            //         searchString = "Mist Hunter";
-            //         break;
-            //     case "JumpMaster 5000":
-            //         searchString = "Punishing One";
-            //         break;
-            //     case "M3-A Interceptor":
-            //         searchString = "M3-A Scyk Interceptor";
-            //         break;
-            //     case "TIE Adv. Prototype":
-            //         searchString = "Inquisitor's TIE";
-            //         break;
-            //     case "YT-1300":
-            //         searchString = "Millennium Falcon";
-            //         break;
-            // }
-            searchString += " Expansion Pack";
-            searchString = searchString.vizziniReplaceAll(" ", "_");
-            var href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
-            var image = React.DOM.img(
+            var src = "../resources/icons/Wikipedia16.png";
+            var href = data.shipWikiUrl;
+            if (!href)
             {
-                className: "imageBlock",
-                src: "../resources/icons/Wikipedia16.png"
-            });
-            var link = React.DOM.a(
-            {
-                href: href,
-                target: "_blank",
-            }, image);
+                var searchString = data.shipName + "_Expansion_Pack";
+                searchString = searchString.vizziniReplaceAll(" ", "_");
+                href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
+            }
+            var link = createImageLink(src, href);
             var silhouette = React.createElement(ShipSilhouetteUI,
             {
                 shipKey: data.shipKey,
