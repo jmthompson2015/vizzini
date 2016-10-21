@@ -95,6 +95,9 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
         assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
         assert.equal(result.pilotData.length, 186);
         assert.equal(result.filteredPilotData.length, 186);
+
+        // Cleanup.
+        localStorage.removeItem("filters");
     });
 
     QUnit.test("setFilters()", function(assert)
@@ -117,6 +120,9 @@ define(["Team", "pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/Init
         assert.equal(Object.getOwnPropertyNames(state.filters).length, 13);
         assert.equal(result.pilotData.length, 186);
         assert.equal(result.filteredPilotData.length, 44);
+
+        // Cleanup.
+        localStorage.removeItem("filters");
     });
 
     function createEntityFilter()
