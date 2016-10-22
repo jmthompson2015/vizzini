@@ -60,7 +60,7 @@ table {
     text-align: right;
 }
 
-#ALIGN_TOP, .entityFilterContainer, .filtersUI, .filterTable, .alignTop {
+#ALIGN_TOP, .entityFilterContainer, .filtersUI, .alignTop {
     vertical-align: top;
 }
 
@@ -104,8 +104,8 @@ table {
     padding-left: 5px,
 }
 
-#WIDTH_60, .filterField, .width60 {
-    width: 60px;
+#WIDTH_30, .filterField, .width30 {
+    width: 30px;
 }
 
 #WIDTH_FULL, .textImageLink, .widthFull {
