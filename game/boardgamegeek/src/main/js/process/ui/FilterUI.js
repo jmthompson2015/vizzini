@@ -151,9 +151,14 @@ define(["DefaultFilters", "EntityFilter", "GameColumns", "RangeFilter", "process
                     var oldFilter = this.context.store.getState().filters[column.key];
                     var initialValues = [];
 
-                    if (oldFilter)
+                    if (oldFilter && oldFilter.values().length > 0)
                     {
-                        initialValues.vizziniAddAll(oldFilter.values());
+                        var entities = oldFilter.values().map(function(value)
+                        {
+                            return gameDatabase.findEntityById(value);
+                        });
+
+                        initialValues.vizziniAddAll(entities);
                     }
 
                     var label = React.DOM.span(
