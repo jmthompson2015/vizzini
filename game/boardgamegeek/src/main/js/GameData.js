@@ -6,7 +6,6 @@ define(function()
     GameData.createGameData = function(gameSummary, gameDetail)
     {
         InputValidator.validateNotNull("gameSummary", gameSummary);
-        // InputValidator.validateNotNull("gameDetail", gameDetail);
 
         var answer = {
             id: gameSummary.id,
