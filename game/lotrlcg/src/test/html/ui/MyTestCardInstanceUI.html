@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestCardInstanceUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<style>
+.cardInstanceUI {
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.cardInstanceUILabel {
+    background-color: DarkGray;
+}
+
+.cardInstanceUICell {
+    border: 1px solid black;
+}
+
+#panel0, #panel1, #panel2, #panel3 {
+    vertical-align: top;
+}
+</style>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="panel0"></td>
+			<td id="panel1"></td>
+			<td id="panel2"></td>
+			<td id="panel3"></td>
+			<td id="panel4"></td>
+		</tr>
+		<tr>
+			<td id="panel5"></td>
+			<td id="panel6"></td>
+			<td id="panel7"></td>
+			<td id="panel8"></td>
+		</tr>
+		<!-- 		<tr>
+			<td><button id="updateHero" type="button">Update</button></td>
+			<td><button id="updateAlly" type="button">Update</button></td>
+			<td><button id="updateAttachment" type="button">Update</button></td>
+			<td></td>
+		</tr>
+ -->
+		<tr>
+			<td id="panel9"></td>
+			<td id="panel10"></td>
+			<td id="panel11"></td>
+			<td id="panel12"></td>
+		</tr>
+	</table>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "AllyCard", "AttachmentCard", "EnemyCard", "EventCard", "HeroCard", "LocationCard", "QuestCard",
+                "TreacheryCard", "game/CardInstance", "game/ui/CardInstanceUI" ], function(AllyCard, AttachmentCard,
+                EnemyCard, EventCard, HeroCard, LocationCard, QuestCard, TreacheryCard, CardInstance, CardInstanceUI)
+        {
+            var locationInstance = CardInstance.location(LocationCard.OLD_FOREST_ROAD);
+            locationInstance.progressCount = 2;
+
+            var questInstance = CardInstance.quest(QuestCard.FLIES_AND_SPIDERS);
+            questInstance.progressCount = 4;
+
+            var heroInstance = CardInstance.hero(HeroCard.ARAGORN_LEADERSHIP);
+            heroInstance.isExhausted = true;
+            heroInstance.isQuesting = true;
+            heroInstance.resourceCount = 1;
+            heroInstance.woundCount = 2;
+            /*  
+             hero.attackerState().target(new EnemyToken(EnemyCard.FOREST_SPIDER));
+             hero.defenderState().target(new EnemyToken(EnemyCard.DOL_GULDUR_BEASTMASTER));
+             hero.attachState().add(new AttachmentToken(AttachmentCard.CELEBRIANS_STONE));
+             */
+            var allyInstance = CardInstance.ally(AllyCard.GANDALF);
+            allyInstance.isExhausted = true;
+            allyInstance.isQuesting = true;
+            allyInstance.woundCount = 2;
+            /* 
+             ally.attackerState().target(new EnemyToken(EnemyCard.FOREST_SPIDER));
+             ally.defenderState().target(new EnemyToken(EnemyCard.DOL_GULDUR_BEASTMASTER));
+             ally.attachState().add(new AttachmentToken(AttachmentCard.CELEBRIANS_STONE));
+             */
+            var attachmentInstance = CardInstance.attachment(AttachmentCard.STEWARD_OF_GONDOR);
+            attachmentInstance.isExhausted = true;
+
+            var eventInstance = CardInstance.event(EventCard.SNEAK_ATTACK);
+
+            var enemyInstance = CardInstance.enemy(EnemyCard.FOREST_SPIDER);
+            enemyInstance.woundCount = 1;
+
+            var treacheryInstance = CardInstance.treachery(TreacheryCard.CAUGHT_IN_A_WEB);
+
+            var element0 = React.createElement(CardInstanceUI,
+            {
+                label: "Active Location",
+                cardInstance: locationInstance,
+            });
+            var element1 = React.createElement(CardInstanceUI,
+            {
+                cardInstance: locationInstance,
+            });
+            var element2 = React.createElement(CardInstanceUI,
+            {
+                label: "Active Location",
+            });
+            var element3 = React.createElement(CardInstanceUI, {});
+            var element4 = React.createElement(CardInstanceUI,
+            {
+                label: "Active Quest",
+                cardInstance: questInstance,
+            });
+            var element5 = React.createElement(CardInstanceUI,
+            {
+                cardInstance: heroInstance,
+            });
+            var element6 = React.createElement(CardInstanceUI,
+            {
+                cardInstance: allyInstance,
+            });
+            var element7 = React.createElement(CardInstanceUI,
+            {
+                cardInstance: attachmentInstance,
+            });
+            var element8 = React.createElement(CardInstanceUI,
+            {
+                cardInstance: eventInstance,
+            });
+            var element9 = React.createElement(CardInstanceUI,
+            {
+                cardInstance: enemyInstance,
+            });
+            var element10 = React.createElement(CardInstanceUI,
+            {
+                cardInstance: treacheryInstance,
+            });
+
+            ReactDOM.render(element0, document.getElementById("panel0"));
+            ReactDOM.render(element1, document.getElementById("panel1"));
+            ReactDOM.render(element2, document.getElementById("panel2"));
+            ReactDOM.render(element3, document.getElementById("panel3"));
+            ReactDOM.render(element4, document.getElementById("panel4"));
+            ReactDOM.render(element5, document.getElementById("panel5"));
+            ReactDOM.render(element6, document.getElementById("panel6"));
+            ReactDOM.render(element7, document.getElementById("panel7"));
+            ReactDOM.render(element8, document.getElementById("panel8"));
+            ReactDOM.render(element9, document.getElementById("panel9"));
+            ReactDOM.render(element10, document.getElementById("panel10"));
+            /*
+             document.getElementById("updateHero").onclick = function()
+             {
+             hero.resourceState().increase();
+             hero.woundState().increase();
+             hero.exhaustState().isMarked(!hero.exhaustState().isMarked());
+             hero.questState().isMarked(!hero.questState().isMarked());
+             };
+
+             document.getElementById("updateAlly").onclick = function()
+             {
+             ally.woundState().increase();
+             ally.exhaustState().isMarked(!ally.exhaustState().isMarked());
+             ally.questState().isMarked(!ally.questState().isMarked());
+             };
+
+             document.getElementById("updateAttachment").onclick = function()
+             {
+             attachment.exhaustState().isMarked(!attachment.exhaustState().isMarked());
+             };
+             */
+        });
+    </script>
+</body>
+</html>

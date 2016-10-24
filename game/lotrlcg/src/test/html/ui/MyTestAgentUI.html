@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestAgentUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<style>
+.agentUI {
+    background-color: LightGray,
+}
+
+.agentUILabel {
+    background-color: DarkGray,
+}
+
+.engagementAreaUI {
+    background-color: Red,
+}
+
+.playAreaUI {
+    background-color: Green,
+}
+
+.handUI {
+    background-color: Blue,
+}
+
+#CENTER, .engagementAreaUI, .handUI, .playAreaUI, .center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+</style>
+
+</head>
+<body>
+	<div id="panel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "game/ui/AgentUI", "game/ui/Connector", "../../test/js/game/TestData" ], function(AgentUI, Connector,
+                TestData)
+        {
+            var store = TestData.mockStore();
+            var agent = TestData.createAgent0(store.getState().cardInstances);
+
+            var connector = ReactRedux.connect(Connector.AgentUI.mapStateToProps)(AgentUI);
+            var agentUI = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector,
+            {
+                agent: agent,
+            }));
+            ReactDOM.render(agentUI, document.getElementById("panel"));
+        });
+    </script>
+</body>
+</html>

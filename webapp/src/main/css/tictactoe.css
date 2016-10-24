@@ -1,0 +1,34 @@
+
+.cell-bottom {
+    border-bottom: 3px solid black;
+}
+
+.cell-center {
+    border: 3px solid black;
+}
+
+.cell-left {
+    border-left: 3px solid black;
+}
+
+.cell-o {
+    color: blue;
+}
+
+.cell-right {
+    border-right: 3px solid black;
+}
+
+.cell-top {
+    border-top: 3px solid black;
+}
+
+.cell-x {
+    color: red;
+}
+
+.environment-table {
+    background-color: White;
+    font-size: xx-large;
+    text-align: center;
+}

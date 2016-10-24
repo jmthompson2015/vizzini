@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Ship Gallery</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+<script src="../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/Team"></script>
+
+<script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<style>
+.galleryTable {
+    background-color: black;
+    border-collapse: collapse;
+}
+
+.galleryCell {
+    border: 3px solid lightGray;
+    padding: 5px;
+    text-align: center;
+}
+
+.galleryShipCell {
+    padding: 5px;
+}
+
+.shipName {
+    color: white;
+}
+</style>
+</head>
+<body>
+	<h1>Starfighter Squadrons Ship Gallery</h1>
+	<h2>Imperial</h2>
+	<div id="imperialShips"></div>
+	<h2>Rebel</h2>
+	<div id="rebelShips"></div>
+	<h2>Scum &amp; Villainy</h2>
+	<div id="scumShips"></div>
+	<h2>First Order</h2>
+	<div id="firstOrderShips"></div>
+	<h2>Resistance</h2>
+	<div id="resistanceShips"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Pilot", "Ship", "ShipTeam", "SimpleAgent", "SquadBuilder", "Team", "Token", "TokenFactory",
+                "process/Reducer", "ui/ManeuverChooser", "ui/ShipActionPanel", "ui/ShipSilhouetteUI" ], function(Pilot,
+                Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token, TokenFactory, Reducer, ManeuverChooser,
+                ShipActionPanel, ShipSilhouetteUI)
+        {
+            var imageBase2 = imageBase + "ship/";
+            var store = Redux.createStore(Reducer.root);
+            var ShipGallery = React.createClass(
+            {
+                render: function()
+                {
+                    var team = this.props.team;
+                    var isStrict = true;
+                    var shipTeamKeys = ShipTeam.valuesByTeam(team, isStrict);
+                    var agent = new SimpleAgent("Agent", team);
+
+                    var cells0 = [];
+                    var cells1 = [];
+                    var cells2 = [];
+                    var cells3 = [];
+                    var excludes = [ ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
+                            ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON, ShipTeam.REBEL_A_WING_ACE,
+                            ShipTeam.REBEL_B_WING_ACE ];
+
+                    shipTeamKeys.forEach(function(shipTeamKey, i)
+                    {
+                        if (!excludes.vizziniContains(shipTeamKey))
+                        {
+                            var shipTeam = ShipTeam.properties[shipTeamKey];
+                            var filename = imageBase2 + shipTeam.image;
+                            var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
+                            var token = TokenFactory.create(store, pilotKey, agent);
+
+                            var images = [];
+                            images.push(this.createShipImage(shipTeamKey, images.length));
+
+                            if (shipTeamKey === ShipTeam.IMPERIAL_TIE_INTERCEPTOR)
+                            {
+                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
+                                        images.length));
+                                images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON,
+                                        images.length));
+                            }
+                            else if (shipTeamKey === ShipTeam.REBEL_A_WING)
+                            {
+                                images.push(this.createShipImage(ShipTeam.REBEL_A_WING_ACE, images.length));
+                            }
+                            else if (shipTeamKey === ShipTeam.REBEL_B_WING)
+                            {
+                                images.push(this.createShipImage(ShipTeam.REBEL_B_WING_ACE, images.length));
+                            }
+
+                            var silhouette = React.createElement(ShipSilhouetteUI,
+                            {
+                                shipKey: shipTeam.shipKey,
+                                showName: true,
+                            });
+
+                            var shipActionPanel0, shipActionPanel1;
+
+                            if (shipTeamKey === ShipTeam.IMPERIAL_RAIDER_CLASS_CORVETTE ||
+                                    shipTeamKey === ShipTeam.REBEL_CR90_CORVETTE)
+                            {
+                                shipActionPanel0 = React.createElement(ShipActionPanel,
+                                {
+                                    shipActionKeys: shipTeam.ship.fore.shipActionKeys,
+                                });
+                                shipActionPanel1 = React.createElement(ShipActionPanel,
+                                {
+                                    shipActionKeys: shipTeam.ship.aft.shipActionKeys,
+                                });
+                            }
+                            else
+                            {
+                                shipActionPanel0 = React.createElement(ShipActionPanel,
+                                {
+                                    shipActionKeys: shipTeam.ship.shipActionKeys,
+                                });
+                            }
+
+                            var chooser = React.createElement(ManeuverChooser,
+                            {
+                                token: token,
+                                isPilotNameShown: false,
+                            });
+                            cells0.push(React.DOM.td(
+                            {
+                                key: "image" + i,
+                                className: "galleryCell"
+                            }, images));
+                            cells1.push(React.DOM.td(
+                            {
+                                key: "name" + i,
+                                className: "galleryCell"
+                            }, silhouette));
+                            if (shipActionPanel1 !== undefined)
+                            {
+                                cells2
+                                        .push(React.DOM.td(
+                                        {
+                                            key: "actions" + i,
+                                            className: "galleryCell colorWhite"
+                                        }, React.DOM.table(
+                                        {
+                                            className: "center",
+                                        }, React.DOM.tr({}, React.DOM.td({}, "Fore"), React.DOM
+                                                .td({}, shipActionPanel0)), React.DOM.tr({}, React.DOM.td({}, "Aft",
+                                                React.DOM.td({}, shipActionPanel1))))));
+                            }
+                            else
+                            {
+                                cells2.push(React.DOM.td(
+                                {
+                                    key: "actions" + i,
+                                    className: "galleryCell"
+                                }, shipActionPanel0));
+                            }
+                            cells3.push(React.DOM.td(
+                            {
+                                key: "maneuvers" + i,
+                                className: "galleryCell alignBottom"
+                            }, chooser));
+                        }
+                    }, this);
+
+                    var rows = [];
+                    rows.push(React.DOM.tr(
+                    {
+                        key: rows.length,
+                    }, cells0));
+                    rows.push(React.DOM.tr(
+                    {
+                        key: rows.length,
+                        className: "shipName"
+                    }, cells1));
+                    rows.push(React.DOM.tr(
+                    {
+                        key: rows.length,
+                    }, cells2));
+                    rows.push(React.DOM.tr(
+                    {
+                        key: rows.length,
+                    }, cells3));
+                    return React.DOM.table(
+                    {
+                        className: "galleryTable"
+                    }, rows);
+                },
+
+                createShipImage: function(shipTeamKey, key)
+                {
+                    var shipTeam = ShipTeam.properties[shipTeamKey];
+                    var filename = imageBase2 + shipTeam.image;
+
+                    return React.DOM.img(
+                    {
+                        key: key,
+                        className: "galleryShipCell",
+                        src: filename,
+                        title: shipTeam.name,
+                    });
+                }
+            });
+
+            var element0 = React.createElement(ShipGallery,
+            {
+                team: Team.IMPERIAL
+            });
+            ReactDOM.render(element0, document.getElementById("imperialShips"));
+            var element1 = React.createElement(ShipGallery,
+            {
+                team: Team.REBEL
+            });
+            ReactDOM.render(element1, document.getElementById("rebelShips"));
+            var element2 = React.createElement(ShipGallery,
+            {
+                team: Team.SCUM
+            });
+            ReactDOM.render(element2, document.getElementById("scumShips"));
+            var element3 = React.createElement(ShipGallery,
+            {
+                team: Team.FIRST_ORDER
+            });
+            ReactDOM.render(element3, document.getElementById("firstOrderShips"));
+            var element4 = React.createElement(ShipGallery,
+            {
+                team: Team.RESISTANCE
+            });
+            ReactDOM.render(element4, document.getElementById("resistanceShips"));
+        });
+    </script>
+</body>
+</html>

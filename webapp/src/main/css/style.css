@@ -1,0 +1,90 @@
+body {
+    background-image:
+        url('https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
+    background-repeat: no-repeat;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: medium;
+}
+
+.clear-memory-button {
+    text-align: center;
+}
+
+#environment {
+    text-align: center;
+    width: 100%;
+}
+
+.environment-table {
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.game-count-label {
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: small;
+}
+
+#maxCount {
+    width: 50px;
+}
+
+#memory {
+    text-align: center;
+    width: 100%;
+}
+
+.memory-table {
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.statistics-cell {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+.statistics-header-cell {
+    background-color: DarkSeaGreen;
+    border: 1px solid;
+    padding: 3px;
+}
+
+.statistics-table {
+    background-color: white;
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: small;
+    text-align: center;
+    vertical-align: center;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#status {
+    caption-side: bottom;
+    font-size: medium;
+    text-align: center;
+}
+
+#train {
+    text-align: center;
+    width: 100%;
+}
+
+.train-button {
+    text-align: center;
+}
+
+.train-table {
+    background-color: DarkSeaGreen;
+    /* These center the table. */
+    margin-left: auto;
+    margin-right: auto;
+}

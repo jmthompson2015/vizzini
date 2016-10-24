@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestEnvironmentUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Sphere"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<style>
+.environmentUI {
+    background-color: LightGray,
+}
+
+.activeQuestUI {
+    background-color: Red,
+}
+
+.activeLocationUI {
+    background-color: Green,
+}
+
+.stagingAreaUI {
+    background-color: Blue,
+}
+</style>
+
+</head>
+<body>
+	<div id="panel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "game/ui/Connector", "game/ui/EnvironmentUI", "../../test/js/game/TestData" ], function(Connector,
+                EnvironmentUI, TestData)
+        {
+            var store = TestData.createPopulatedStore();
+
+            var connector = ReactRedux.connect(Connector.EnvironmentUI.mapStateToProps)(EnvironmentUI);
+            var environmentUI = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector));
+            ReactDOM.render(environmentUI, document.getElementById("panel"));
+        });
+    </script>
+</body>
+</html>

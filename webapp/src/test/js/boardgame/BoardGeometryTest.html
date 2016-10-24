@@ -1,0 +1,916 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>BoardGeometryTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/NumberAugments.js"></script>
+
+<script src="../../../main/js/boardgame/BoardGeometry.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    var SHOULD_THROW = "Should have thrown an exception.";
+
+    var geometry0 = new BoardGeometry(3, 4, 5);
+    var geometry1 = new BoardGeometry(3, 4, 4);
+    var geometry2 = new BoardGeometry(3, 4, 3);
+    var geometry3 = new BoardGeometry(3, 3, 5);
+
+    QUnit.test("computeIndex()", function(assert)
+    {
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            var file = geometry0.toFile(i);
+            var rank = geometry0.toRank(i);
+            var level = geometry0.toLevel(i);
+            assert.equal(geometry0.computeIndex(file, rank, level), i);
+        }
+    });
+
+    QUnit.test("computeIndex() null", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        var file;
+        var rank;
+        var level;
+
+        try
+        {
+            geometry0.computeIndex(file, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "file is undefined.");
+        }
+
+        file = null;
+
+        try
+        {
+            geometry0.computeIndex(file, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "file is null.");
+        }
+
+        file = 0;
+
+        try
+        {
+            geometry0.computeIndex(file, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "rank is undefined.");
+        }
+
+        rank = null;
+
+        try
+        {
+            geometry0.computeIndex(file, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "rank is null.");
+        }
+
+        rank = 0;
+
+        try
+        {
+            geometry0.computeIndex(file, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "level is undefined.");
+        }
+
+        level = null;
+
+        try
+        {
+            geometry0.computeIndex(file, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "level is null.");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("computeIndex() out of range", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        var file = 0;
+        var rank = 0;
+        var level = 0;
+
+        try
+        {
+            geometry0.computeIndex(-1, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "file is out of range [0, 2]: -1");
+        }
+
+        try
+        {
+            geometry0.computeIndex(3, rank, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "file is out of range [0, 2]: 3");
+        }
+
+        try
+        {
+            geometry0.computeIndex(file, -1, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "rank is out of range [0, 3]: -1");
+        }
+
+        try
+        {
+            geometry0.computeIndex(file, 4, level);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "rank is out of range [0, 3]: 4");
+        }
+
+        try
+        {
+            geometry0.computeIndex(file, rank, -1);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "level is out of range [0, 4]: -1");
+        }
+
+        try
+        {
+            geometry0.computeIndex(file, rank, 5);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "level is out of range [0, 4]: 5");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("directions() 2D", function(assert)
+    {
+        // Setup.
+        var geometry = new BoardGeometry(3, 4, 1);
+
+        // Run.
+        var result = geometry.directions();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 8);
+        assert.equal(result[0][0], 1);
+        assert.equal(result[0][1], 0);
+        assert.equal(result[0][2], 0);
+        assert.equal(result[7][0], -1);
+        assert.equal(result[7][1], -1);
+        assert.equal(result[7][2], 0);
+    });
+
+    QUnit.test("directions() 3D", function(assert)
+    {
+        // Run.
+        var result = geometry0.directions();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 26);
+        assert.equal(result[0][0], 1);
+        assert.equal(result[0][1], 0);
+        assert.equal(result[0][2], 0);
+        assert.equal(result[25][0], -1);
+        assert.equal(result[25][1], -1);
+        assert.equal(result[25][2], -1);
+    });
+
+    QUnit.test("getMaxCells()", function(assert)
+    {
+        assert.equal(geometry0.getMaxCells(), 60);
+    });
+
+    QUnit.test("getMaxFile()", function(assert)
+    {
+        assert.equal(geometry0.getMaxFile(), 3);
+    });
+
+    QUnit.test("getMaxLevel()", function(assert)
+    {
+        assert.equal(geometry0.getMaxLevel(), 5);
+    });
+
+    QUnit.test("getMaxRank()", function(assert)
+    {
+        assert.equal(geometry0.getMaxRank(), 4);
+    });
+
+    QUnit.test("isOnBoard()", function(assert)
+    {
+        assert.ok(geometry0.isOnBoard(0, 0, 0));
+        assert.ok(geometry0.isOnBoard(0, 0, 4));
+        assert.ok(geometry0.isOnBoard(0, 3, 0));
+        assert.ok(geometry0.isOnBoard(0, 3, 4));
+        assert.ok(geometry0.isOnBoard(2, 0, 0));
+        assert.ok(geometry0.isOnBoard(2, 0, 4));
+        assert.ok(geometry0.isOnBoard(2, 3, 0));
+        assert.ok(geometry0.isOnBoard(2, 3, 4));
+
+        assert.ok(!geometry0.isOnBoard(-1, 0, 0));
+        assert.ok(!geometry0.isOnBoard(0, -1, 0));
+        assert.ok(!geometry0.isOnBoard(0, 0, -1));
+
+        assert.ok(!geometry0.isOnBoard(3, 0, 0));
+        assert.ok(!geometry0.isOnBoard(0, 4, 0));
+        assert.ok(!geometry0.isOnBoard(0, 0, 5));
+
+        assert.ok(!geometry0.isOnBoard(undefined, 0, 0));
+        assert.ok(!geometry0.isOnBoard(0, undefined, 0));
+        assert.ok(!geometry0.isOnBoard(0, 0, undefined));
+
+        assert.ok(!geometry0.isOnBoard(null, 0, 0));
+        assert.ok(!geometry0.isOnBoard(0, null, 0));
+        assert.ok(!geometry0.isOnBoard(0, 0, null));
+
+        assert.ok(!geometry0.isOnBoard("A", 0, 0));
+        assert.ok(!geometry0.isOnBoard(0, "A", 0));
+        assert.ok(!geometry0.isOnBoard(0, 0, "A"));
+    });
+
+    QUnit.test("rotateX090()", function(assert)
+    {
+        var rotation = Rotation.X090;
+
+        assert.equal(geometry1.rotate(0, rotation), 36);
+        assert.equal(geometry1.rotate(1, rotation), 37);
+        assert.equal(geometry1.rotate(3, rotation), 24);
+        assert.equal(geometry1.rotate(47, rotation), 11);
+
+        for (var i = 0; i < geometry1.getMaxCells(); i++)
+        {
+            var file = geometry1.toFile(i);
+            var rank = geometry1.toRank(i);
+            var level = geometry1.toLevel(i);
+            assert.equal(geometry1.rotate(i, rotation), geometry1.computeIndex(
+                    file, level, 3 - rank));
+        }
+    });
+
+    QUnit.test("rotateX180()", function(assert)
+    {
+        var rotation = Rotation.X180;
+
+        assert.equal(geometry0.rotate(0, rotation), 57);
+        assert.equal(geometry0.rotate(1, rotation), 58);
+        assert.equal(geometry0.rotate(3, rotation), 54);
+        assert.equal(geometry0.rotate(59, rotation), 2);
+
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            var file = geometry0.toFile(i);
+            var rank = geometry0.toRank(i);
+            var level = geometry0.toLevel(i);
+            assert.equal(geometry0.rotate(i, rotation), geometry0.computeIndex(
+                    file, 3 - rank, 4 - level));
+        }
+    });
+
+    QUnit.test("rotateX270()", function(assert)
+    {
+        var rotation = Rotation.X270;
+
+        assert.equal(geometry1.rotate(0, rotation), 9);
+        assert.equal(geometry1.rotate(1, rotation), 10);
+        assert.equal(geometry1.rotate(3, rotation), 21);
+        assert.equal(geometry1.rotate(47, rotation), 38);
+
+        for (var i = 0; i < geometry1.getMaxCells(); i++)
+        {
+            var file = geometry1.toFile(i);
+            var rank = geometry1.toRank(i);
+            var level = geometry1.toLevel(i);
+            assert.equal(geometry1.rotate(i, rotation), geometry1.computeIndex(
+                    file, 3 - level, rank));
+        }
+    });
+
+    QUnit.test("rotateY090()", function(assert)
+    {
+        var rotation = Rotation.Y090;
+
+        assert.equal(geometry2.rotate(0, rotation), 2);
+        assert.equal(geometry2.rotate(1, rotation), 14);
+        assert.equal(geometry2.rotate(3, rotation), 5);
+        assert.equal(geometry2.rotate(35, rotation), 33);
+
+        for (var i = 0; i < geometry2.getMaxCells(); i++)
+        {
+            var file = geometry2.toFile(i);
+            var rank = geometry2.toRank(i);
+            var level = geometry2.toLevel(i);
+            assert.equal(geometry2.rotate(i, rotation), geometry2.computeIndex(
+                    2 - level, rank, file));
+        }
+    });
+
+    QUnit.test("rotateY180()", function(assert)
+    {
+        var rotation = Rotation.Y180;
+
+        assert.equal(geometry0.rotate(0, rotation), 50);
+        assert.equal(geometry0.rotate(1, rotation), 49);
+        assert.equal(geometry0.rotate(3, rotation), 53);
+        assert.equal(geometry0.rotate(59, rotation), 9);
+
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            var file = geometry0.toFile(i);
+            var rank = geometry0.toRank(i);
+            var level = geometry0.toLevel(i);
+            assert.equal(geometry0.rotate(i, rotation), geometry0.computeIndex(
+                    2 - file, rank, 4 - level));
+        }
+    });
+
+    QUnit.test("rotateY270()", function(assert)
+    {
+        var rotation = Rotation.Y270;
+
+        assert.equal(geometry2.rotate(0, rotation), 24);
+        assert.equal(geometry2.rotate(1, rotation), 12);
+        assert.equal(geometry2.rotate(3, rotation), 27);
+        assert.equal(geometry2.rotate(35, rotation), 11);
+
+        for (var i = 0; i < geometry2.getMaxCells(); i++)
+        {
+            var file = geometry2.toFile(i);
+            var rank = geometry2.toRank(i);
+            var level = geometry2.toLevel(i);
+            assert.equal(geometry2.rotate(i, rotation), geometry2.computeIndex(
+                    level, rank, 2 - file));
+        }
+    });
+
+    QUnit.test("rotateZ090()", function(assert)
+    {
+        var rotation = Rotation.Z090;
+
+        assert.equal(geometry3.rotate(0, rotation), 2);
+        assert.equal(geometry3.rotate(1, rotation), 5);
+        assert.equal(geometry3.rotate(3, rotation), 1);
+        assert.equal(geometry3.rotate(44, rotation), 42);
+
+        for (var i = 0; i < geometry3.getMaxCells(); i++)
+        {
+            var file = geometry3.toFile(i);
+            var rank = geometry3.toRank(i);
+            var level = geometry3.toLevel(i);
+            assert.equal(geometry3.rotate(i, rotation), geometry3.computeIndex(
+                    2 - rank, file, level));
+        }
+    });
+
+    QUnit.test("rotateZ180()", function(assert)
+    {
+        var rotation = Rotation.Z180;
+
+        assert.equal(geometry0.rotate(0, rotation), 11);
+        assert.equal(geometry0.rotate(1, rotation), 10);
+        assert.equal(geometry0.rotate(3, rotation), 8);
+        assert.equal(geometry0.rotate(59, rotation), 48);
+
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            var file = geometry0.toFile(i);
+            var rank = geometry0.toRank(i);
+            var level = geometry0.toLevel(i);
+            assert.equal(geometry0.rotate(i, rotation), geometry0.computeIndex(
+                    2 - file, 3 - rank, level));
+        }
+    });
+
+    QUnit.test("rotateZ270()", function(assert)
+    {
+        var rotation = Rotation.Z270;
+
+        assert.equal(geometry3.rotate(0, rotation), 6);
+        assert.equal(geometry3.rotate(1, rotation), 3);
+        assert.equal(geometry3.rotate(3, rotation), 7);
+        assert.equal(geometry3.rotate(44, rotation), 38);
+
+        for (var i = 0; i < geometry3.getMaxCells(); i++)
+        {
+            var file = geometry3.toFile(i);
+            var rank = geometry3.toRank(i);
+            var level = geometry3.toLevel(i);
+            assert.equal(geometry3.rotate(i, rotation), geometry3.computeIndex(
+                    rank, 2 - file, level));
+        }
+    });
+
+    QUnit.test("rotate() null", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        var rotation;
+
+        try
+        {
+            geometry0.rotate(undefined, rotation);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is undefined.");
+        }
+
+        try
+        {
+            geometry0.rotate(null, rotation);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is null.");
+        }
+
+        assert.equal(geometry0.rotate(0, rotation), 0);
+        assert.equal(geometry0.rotate(1, rotation), 1);
+        assert.equal(geometry0.rotate(2, rotation), 2);
+        assert.equal(geometry0.rotate(3, rotation), 3);
+        assert.equal(geometry0.rotate(4, rotation), 4);
+        assert.equal(geometry0.rotate(5, rotation), 5);
+        assert.equal(geometry0.rotate(6, rotation), 6);
+        assert.equal(geometry0.rotate(7, rotation), 7);
+        assert.equal(geometry0.rotate(8, rotation), 8);
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("rotate() out of range", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        var rotation;
+
+        try
+        {
+            geometry0.rotate(-1, rotation);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: -1");
+        }
+
+        try
+        {
+            geometry0.rotate(60, rotation);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: 60");
+        }
+
+        try
+        {
+            geometry0.rotate("A", rotation);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is not an integer: A");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("toFile()", function(assert)
+    {
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            assert.equal(geometry0.toFile(i), i % 3);
+        }
+
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            geometry0.toFile(-1);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: -1");
+        }
+
+        try
+        {
+            geometry0.toFile(60);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: 60");
+        }
+
+        try
+        {
+            geometry0.toFile("A");
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is not an integer: A");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("toLevel()", function(assert)
+    {
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            assert.equal(geometry0.toLevel(i), Math.floor(i / 12));
+        }
+
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            geometry0.toLevel(-1);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: -1");
+        }
+
+        try
+        {
+            geometry0.toLevel(60);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: 60");
+        }
+
+        try
+        {
+            geometry0.toLevel("A");
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is not an integer: A");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("toRank()", function(assert)
+    {
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            assert.equal(geometry0.toRank(i), Math.floor(i / 3) % 4);
+        }
+
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            geometry0.toRank(-1);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: -1");
+        }
+
+        try
+        {
+            geometry0.toRank(60);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: 60");
+        }
+
+        try
+        {
+            geometry0.toRank("A");
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is not an integer: A");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("unrotateX090()", function(assert)
+    {
+        var rotation = Rotation.X090;
+
+        assert.equal(geometry1.unrotate(0, rotation), 9);
+        assert.equal(geometry1.unrotate(1, rotation), 10);
+        assert.equal(geometry1.unrotate(3, rotation), 21);
+        assert.equal(geometry1.unrotate(47, rotation), 38);
+
+        for (var i = 0; i < geometry1.getMaxCells(); i++)
+        {
+            var file = geometry1.toFile(i);
+            var rank = geometry1.toRank(i);
+            var level = geometry1.toLevel(i);
+            assert.equal(geometry1.unrotate(i, rotation), geometry1
+                    .computeIndex(file, 3 - level, rank));
+        }
+    });
+
+    QUnit.test("unrotateX180()", function(assert)
+    {
+        var rotation = Rotation.X180;
+
+        assert.equal(geometry0.rotate(0, rotation), 57);
+        assert.equal(geometry0.rotate(1, rotation), 58);
+        assert.equal(geometry0.rotate(3, rotation), 54);
+        assert.equal(geometry0.rotate(59, rotation), 2);
+
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            var file = geometry0.toFile(i);
+            var rank = geometry0.toRank(i);
+            var level = geometry0.toLevel(i);
+            assert.equal(geometry0.unrotate(i, rotation), geometry0
+                    .computeIndex(file, 3 - rank, 4 - level));
+        }
+    });
+
+    QUnit.test("unrotateX270()", function(assert)
+    {
+        var rotation = Rotation.X270;
+
+        assert.equal(geometry1.unrotate(0, rotation), 36);
+        assert.equal(geometry1.unrotate(1, rotation), 37);
+        assert.equal(geometry1.unrotate(3, rotation), 24);
+        assert.equal(geometry1.unrotate(47, rotation), 11);
+
+        for (var i = 0; i < geometry1.getMaxCells(); i++)
+        {
+            var file = geometry1.toFile(i);
+            var rank = geometry1.toRank(i);
+            var level = geometry1.toLevel(i);
+            assert.equal(geometry1.unrotate(i, rotation), geometry1
+                    .computeIndex(file, level, 3 - rank));
+        }
+    });
+
+    QUnit.test("unrotateY090()", function(assert)
+    {
+        var rotation = Rotation.Y090;
+
+        assert.equal(geometry2.unrotate(0, rotation), 24);
+        assert.equal(geometry2.unrotate(1, rotation), 12);
+        assert.equal(geometry2.unrotate(3, rotation), 27);
+        assert.equal(geometry2.unrotate(35, rotation), 11);
+
+        for (var i = 0; i < geometry2.getMaxCells(); i++)
+        {
+            var file = geometry2.toFile(i);
+            var rank = geometry2.toRank(i);
+            var level = geometry2.toLevel(i);
+            assert.equal(geometry2.unrotate(i, rotation), geometry2
+                    .computeIndex(level, rank, 2 - file));
+        }
+    });
+
+    QUnit.test("unrotateY180()", function(assert)
+    {
+        var rotation = Rotation.Y180;
+
+        assert.equal(geometry0.unrotate(0, rotation), 50);
+        assert.equal(geometry0.unrotate(1, rotation), 49);
+        assert.equal(geometry0.unrotate(3, rotation), 53);
+        assert.equal(geometry0.unrotate(59, rotation), 9);
+
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            var file = geometry0.toFile(i);
+            var rank = geometry0.toRank(i);
+            var level = geometry0.toLevel(i);
+            assert.equal(geometry0.unrotate(i, rotation), geometry0
+                    .computeIndex(2 - file, rank, 4 - level));
+        }
+    });
+
+    QUnit.test("unrotateY270()", function(assert)
+    {
+        var rotation = Rotation.Y270;
+
+        assert.equal(geometry2.unrotate(0, rotation), 2);
+        assert.equal(geometry2.unrotate(1, rotation), 14);
+        assert.equal(geometry2.unrotate(3, rotation), 5);
+        assert.equal(geometry2.unrotate(35, rotation), 33);
+
+        for (var i = 0; i < geometry2.getMaxCells(); i++)
+        {
+            var file = geometry2.toFile(i);
+            var rank = geometry2.toRank(i);
+            var level = geometry2.toLevel(i);
+            assert.equal(geometry2.unrotate(i, rotation), geometry2
+                    .computeIndex(2 - level, rank, file));
+        }
+    });
+
+    QUnit.test("unrotateZ090()", function(assert)
+    {
+        var rotation = Rotation.Z090;
+
+        assert.equal(geometry3.unrotate(0, rotation), 6);
+        assert.equal(geometry3.unrotate(1, rotation), 3);
+        assert.equal(geometry3.unrotate(3, rotation), 7);
+        assert.equal(geometry3.unrotate(44, rotation), 38);
+
+        for (var i = 0; i < geometry3.getMaxCells(); i++)
+        {
+            var file = geometry3.toFile(i);
+            var rank = geometry3.toRank(i);
+            var level = geometry3.toLevel(i);
+            assert.equal(geometry3.unrotate(i, rotation), geometry3
+                    .computeIndex(rank, 2 - file, level));
+        }
+    });
+
+    QUnit.test("unrotateZ180()", function(assert)
+    {
+        var rotation = Rotation.Z180;
+
+        assert.equal(geometry0.rotate(0, rotation), 11);
+        assert.equal(geometry0.rotate(1, rotation), 10);
+        assert.equal(geometry0.rotate(3, rotation), 8);
+        assert.equal(geometry0.rotate(59, rotation), 48);
+
+        for (var i = 0; i < geometry0.getMaxCells(); i++)
+        {
+            var file = geometry0.toFile(i);
+            var rank = geometry0.toRank(i);
+            var level = geometry0.toLevel(i);
+            assert.equal(geometry0.unrotate(i, rotation), geometry0
+                    .computeIndex(2 - file, 3 - rank, level));
+        }
+    });
+
+    QUnit.test("unrotateZ270()", function(assert)
+    {
+        var rotation = Rotation.Z270;
+
+        assert.equal(geometry3.unrotate(0, rotation), 2);
+        assert.equal(geometry3.unrotate(1, rotation), 5);
+        assert.equal(geometry3.unrotate(3, rotation), 1);
+        assert.equal(geometry3.unrotate(44, rotation), 42);
+
+        for (var i = 0; i < geometry3.getMaxCells(); i++)
+        {
+            var file = geometry3.toFile(i);
+            var rank = geometry3.toRank(i);
+            var level = geometry3.toLevel(i);
+            assert.equal(geometry3.unrotate(i, rotation), geometry3
+                    .computeIndex(2 - rank, file, level));
+        }
+    });
+
+    QUnit.test("unrotate() null", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        try
+        {
+            geometry0.unrotate(undefined, Rotation.X180);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is undefined.");
+        }
+
+        try
+        {
+            geometry0.unrotate(null, Rotation.X180);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is null.");
+        }
+
+        var rotation;
+
+        assert.equal(geometry0.unrotate(0, rotation), 0);
+        assert.equal(geometry0.unrotate(1, rotation), 1);
+        assert.equal(geometry0.unrotate(2, rotation), 2);
+        assert.equal(geometry0.unrotate(3, rotation), 3);
+        assert.equal(geometry0.unrotate(4, rotation), 4);
+        assert.equal(geometry0.unrotate(5, rotation), 5);
+        assert.equal(geometry0.unrotate(6, rotation), 6);
+        assert.equal(geometry0.unrotate(7, rotation), 7);
+        assert.equal(geometry0.unrotate(8, rotation), 8);
+
+        LOGGER.setErrorEnabled(previous);
+    });
+
+    QUnit.test("unrotate() out of range", function(assert)
+    {
+        var previous = LOGGER.isErrorEnabled();
+        LOGGER.setErrorEnabled(false);
+
+        var rotation;
+
+        try
+        {
+            geometry0.unrotate(-1, rotation);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: -1");
+        }
+
+        try
+        {
+            geometry0.unrotate(60, rotation);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is out of range [0, 59]: 60");
+        }
+
+        try
+        {
+            geometry0.unrotate("A", Rotation.X180);
+            throw SHOULD_THROW;
+        }
+        catch (e)
+        {
+            assert.equal(e, "index is not an integer: A");
+        }
+
+        LOGGER.setErrorEnabled(previous);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

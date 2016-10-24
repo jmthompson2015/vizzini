@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestDataTable</title>
+
+	<script src="../../../lib/react/react-15.3.2.js"></script>
+	<script src="../../../lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../lib/require/require-2.3.2.js" data-main="../../../src/main/js/ui/DataTable"></script>
+
+	<script src="../../../src/main/js/util/Logger.js"></script>
+	<script src="../../../src/main/js/util/InputValidator.js"></script>
+
+	<style>
+		table {
+			border-collapse: collapse;
+		}
+
+		.dataTable tr:nth-child(odd) {
+			background-color: rgb(240, 240, 240);
+		}
+
+		.dataTable tr:nth-child(even) {
+			background-color: rgb(255, 240, 240);
+		}
+
+		#BACKGROUND_DARK,
+		.dataTable th,
+		.backgroundDark {
+			background-color: Maroon;
+			color: White;
+		}
+
+		#BORDER_DARK,
+		.dataTable td,
+		.borderDark {
+			border: 1px solid Maroon;
+		}
+
+		#BORDER_LIGHT,
+		.dataTable th,
+		.borderLight {
+			border: 1px solid rgb(240, 240, 240);
+		}
+
+		.numberCell {
+			text-align: right;
+		}
+	</style>
+</head>
+<body>
+	<div id="mainContainer">mainContainer</div>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["DataTable"], function(DataTable)
+		{
+			var columns = [
+			{
+				key: "alpha",
+				label: "Alpha",
+				className: "numberCell",
+			},
+			{
+				key: "bravo",
+				label: "Bravo",
+				className: "textCell",
+			},
+			{
+				key: "charlie",
+				label: "Charlie",
+				className: "textCell",
+			},
+			{
+				key: "delta",
+				label: "Delta",
+				className: "textCell",
+			}, ];
+			var cellFunctions = {
+				"charlie": function(data)
+				{
+					return data.charlie;
+				},
+			};
+			var valueFunctions = {
+				"charlie": function(data)
+				{
+					return 5 - data.alpha;
+				},
+			};
+			var rowData = [
+			{
+				alpha: 1,
+				bravo: "one",
+				charlie: "1",
+				delta: "uno",
+			},
+			{
+				alpha: 2,
+				bravo: "two",
+				charlie: "2",
+				delta: "dos",
+			},
+			{
+				alpha: 3,
+				bravo: "three",
+				charlie: "3",
+				delta: "tres",
+			},
+			{
+				alpha: 4,
+				bravo: "four",
+				charlie: "4",
+				delta: "cuatro",
+			},
+			{
+				alpha: 5,
+				bravo: "five",
+				charlie: "5",
+				delta: "cinco",
+			}, ];
+			var element = React.createElement(DataTable,
+			{
+				columns: columns,
+				rowData: rowData,
+				cellFunctions: cellFunctions,
+				valueFunctions: valueFunctions,
+			});
+			ReactDOM.render(element, document.getElementById("mainContainer"));
+		});
+	</script>
+</body>
+
+</html>

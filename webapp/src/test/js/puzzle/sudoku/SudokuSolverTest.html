@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SudokuSolverTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<script src="../../../../main/js/puzzle/sudoku/GridFactory.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/Puzzle.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/PuzzleFormat.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/SudokuSolver.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/SudokuValidator.js"></script>
+<script src="../../../../main/js/puzzle/sudoku/Unit.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("getUnfilledSquares() easy", function(assert)
+    {
+        // Setup.
+        var puzzle = PuzzleFormat.parse(GridFactory.createEasy());
+
+        // Run.
+        var result = SudokuSolver.getUnfilledSquares(puzzle);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 47);
+
+        for (var i = 0; i < 81; i++)
+        {
+            var cellName = Unit.indexToCellName(i);
+            var value = puzzle.get(cellName);
+
+            if (result.vizziniContains(cellName))
+            {
+                assert.ok(value.length > 1);
+            }
+            else
+            {
+                assert.equal(value.length, 1);
+            }
+        }
+    });
+
+    QUnit.test("solve() easy", function(assert)
+    {
+        // Setup.
+        var puzzle = PuzzleFormat.parse(GridFactory.createEasy());
+
+        // Run.
+        SudokuSolver.solve(puzzle);
+
+        // Verify.
+        assert.ok(SudokuSolver.isDone(puzzle));
+        assert.equal(puzzle.get("A1"), "3", "A1");
+        assert.equal(puzzle.get("A9"), "4", "A9");
+        assert.equal(puzzle.get("I1"), "6", "I1");
+        assert.equal(puzzle.get("I9"), "7", "I9");
+    });
+
+    /*
+     QUnit.test("solve() diabolical", function(assert)
+     {
+     // Setup.
+     var puzzle = PuzzleFormat.parse(GridFactory.createDiabolical());
+
+     // Run.
+     SudokuSolver.solve(puzzle);
+
+     // Verify.
+     assert.ok(SudokuSolver.isDone(puzzle));
+     assert.equal(puzzle.get("A1"), "1", "A1");
+     assert.equal(puzzle.get("A9"), "9", "A9");
+     assert.equal(puzzle.get("I1"), "3", "I1");
+     assert.equal(puzzle.get("I9"), "2", "I9");
+     });
+     */
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

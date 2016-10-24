@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Doctor Who: Key to Time</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css">
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+</script>
+<![endif]-->
+
+<script src="../../../../../coreweb/lib/react/react-with-addons-15.3.0.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/Segment"></script>
+<script src="../../../../../coreweb/lib/three/three-0.79.0.min.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/ui/Select.js"></script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td>Color Scheme:</td>
+			<td id="colorScheme"></td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td id="segment1Container"></td>
+			<td id="mainContainer" rowSpan="3"></td>
+			<td id="segment4Container"></td>
+		</tr>
+		<tr>
+			<td id="segment2Container"></td>
+			<td id="segment5Container"></td>
+		</tr>
+		<tr>
+			<td id="segment3Container"></td>
+			<td id="segment6Container"></td>
+		</tr>
+	</table>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        require([ "../../../../../coreweb/src/main/js/ui/ObjectViewer", "ColorScheme", "Segment", "process/ui/CubeUI",
+                "process/ui/Segment1UI", "process/ui/Segment2UI", "process/ui/Segment3UI", "process/ui/Segment4UI",
+                "process/ui/Segment5UI", "process/ui/Segment6UI" ], function(ObjectViewer, ColorScheme, Segment,
+                CubeUI, Segment1UI, Segment2UI, Segment3UI, Segment4UI, Segment5UI, Segment6UI)
+        {
+            var colorSchemeKey = ColorScheme.WHITE;
+            var colorScheme = ColorScheme.properties[colorSchemeKey];
+
+            var width0 = 300;
+            var height0 = width0;
+
+            var cubeUI = new CubeUI(colorScheme);
+            var element0 = React.createElement(ObjectViewer,
+            {
+                canvasId: "mainCanvas",
+                width: width0,
+                height: height0,
+                root: cubeUI.root(),
+            });
+            ReactDOM.render(element0, document.getElementById("mainContainer"));
+
+            var segment1 = new THREE.Mesh(new Segment1UI().geometry(), colorScheme.material(Segment.ONE));
+            createObjectViewer(segment1, 1);
+
+            var segment2 = new THREE.Mesh(new Segment2UI().geometry(), colorScheme.material(Segment.TWO));
+            createObjectViewer(segment2, 2);
+
+            var segment3 = new THREE.Mesh(new Segment3UI().geometry(), colorScheme.material(Segment.THREE));
+            createObjectViewer(segment3, 3);
+
+            var segment4 = new THREE.Mesh(new Segment4UI().geometry(), colorScheme.material(Segment.FOUR));
+            createObjectViewer(segment4, 4);
+
+            var segment5 = new THREE.Mesh(new Segment5UI().geometry(), colorScheme.material(Segment.FIVE));
+            createObjectViewer(segment5, 5);
+
+            var segment6 = new THREE.Mesh(new Segment6UI().geometry(), colorScheme.material(Segment.SIX));
+            createObjectViewer(segment6, 6);
+
+            function createObjectViewer(segment, number)
+            {
+                var element = React.createElement(ObjectViewer,
+                {
+                    canvasId: "segment" + number + "Canvas",
+                    width: 200,
+                    height: 200,
+                    root: segment,
+                });
+                ReactDOM.render(element, document.getElementById("segment" + number + "Container"));
+            }
+
+            var elementCS = React.createElement(Select,
+            {
+                values: ColorScheme.values(),
+                initialSelectedValue: ColorScheme.WHITE,
+                labelFunction: function(value)
+                {
+                    return ColorScheme.properties[value].name;
+                },
+                onChange: function(event)
+                {
+                    var selectedValue = event.currentTarget.value;
+                    LOGGER.info("onChange() selectedValue = " + selectedValue);
+
+                    colorSchemeKey = selectedValue;
+                    colorScheme = ColorScheme.properties[colorSchemeKey];
+
+                    segment1.material = colorScheme.material(Segment.ONE);
+                    segment2.material = colorScheme.material(Segment.TWO);
+                    segment3.material = colorScheme.material(Segment.THREE);
+                    segment4.material = colorScheme.material(Segment.FOUR);
+                    segment5.material = colorScheme.material(Segment.FIVE);
+                    segment6.material = colorScheme.material(Segment.SIX);
+
+                    var children = cubeUI.root().children;
+                    var values = Segment.values();
+
+                    children.forEach(function(segment, i)
+                    {
+                        segment.material = colorScheme.material(values[i]);
+                    });
+                },
+            });
+            ReactDOM.render(elementCS, document.getElementById("colorScheme"));
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>TestSuite</title>
+
+    <link rel="stylesheet" href="../../../../../coreweb/lib/qunit/qunit-1.20.0.css">
+    <script src="../../../../../coreweb/lib/qunit/qunit-1.20.0.js"></script>
+    <script>
+        QUnit.config.autostart = false;
+    </script>
+
+    <script src="../../../../../coreweb/lib/jquery/jquery-1.11.3.min.js"></script>
+    <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+    <script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+    <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+    <script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+    <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../src/main/js/GameColumns"></script>
+
+    <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+    <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+    <script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+    <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+    <script>
+        "use strict";
+        var LOGGER = new Logger();
+        // LOGGER.setTraceEnabled(false);
+        // LOGGER.setDebugEnabled(false);
+
+        var prefix = "../../test/js/";
+        var suffix = "Test";
+        var testModules = ["EntityFilter", "GameColumns", "RangeFilter", "process/GameDetailFetcher", "process/GameSummaryFetcher"];
+        testModules = testModules.map(function(testModule)
+        {
+            return prefix + testModule + suffix;
+        });
+
+        require(testModules, function()
+        {
+            QUnit.start();
+        });
+    </script>
+</head>
+<body>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+</body>
+
+</html>

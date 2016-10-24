@@ -1,0 +1,85 @@
+[Log] 11:23:47:528 TRACE textDocument = ******************************************************************************* (Logger.js, line 148)
+ Revised: Dec 02, 2013           Ganymede / (Jupiter)                       503
+
+ SATELLITE PHYSICAL PROPERTIES:
+  Radius (km)             = 2634   +- 10     Density (g cm^-3)  =  1.94 +- 0.02
+  Mass (10^20 kg )        = 1482   +- 1      Geometric Albedo   =  0.4
+
+ SATELLITE ORBITAL DATA:
+  Semi-major axis, a (km) = 1070.0428 (10^3) Orbital period     = 7.154553 d
+  Eccentricity, e         = 0.0006           Rotational period  = Synchronous
+  Inclination, i  (deg)   = 0.186
+*******************************************************************************
+ 
+ 
+*******************************************************************************
+Ephemeris / WWW_USER Mon Feb  1 10:23:47 2016 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: Ganymede (503)                  {source: jup310}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2016-Jan-22 00:00:00.0000 CT 
+Stop  time      : A.D. 2016-Jan-23 00:00:00.0000 CT 
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)                                                  
+Output units    : KM-S                                                         
+Output format   : 03
+Reference frame : ICRF/J2000.0                                                 
+Output type     : GEOMETRIC cartesian states
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch                 
+*******************************************************************************
+JDCT ,   , X, Y, Z, VX, VY, VZ, LT, RG, RR,
+*******************************************************************************
+$$SOE
+2457409.500000000, A.D. 2016-Jan-22 00:00:00.0000, -7.810201844602801E+08,  2.174791859668944E+08,  1.659362473474739E+07, -1.398875642089171E+01, -1.527674892083302E+01, -1.291837436964505E-01,  2.704884129875040E+03,  8.109038619004292E+08,  9.373469447183325E+00,
+2457410.500000000, A.D. 2016-Jan-23 00:00:00.0000, -7.820001756176738E+08,  2.158274615743708E+08,  1.657291189870906E+07, -7.700863212890794E+00, -2.203095808984048E+01, -3.022167830971201E-01,  2.706560587726628E+03,  8.114064513204904E+08,  1.555548406266671E+00,
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    xy-plane: plane of the Earth's orbit at the reference epoch
+    x-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+Symbol meaning  
+
+    JDTDB    Epoch Julian Date, Barycentric Dynamical Time
+      X      x-component of position vector (km)                               
+      Y      y-component of position vector (km)                               
+      Z      z-component of position vector (km)                               
+      VX     x-component of velocity vector (km/sec)                           
+      VY     y-component of velocity vector (km/sec)                           
+      VZ     z-component of velocity vector (km/sec)                           
+      LT     One-way down-leg Newtonian light-time (sec)                       
+      RG     Range; distance from coordinate center (km)                       
+      RR     Range-rate; radial velocity wrt coord. center (km/sec)            
+
+Geometric states/elements have no aberration corrections applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+COMMAND = 503
+CENTER = 500@0
+START_TIME = 2016-01-22
+STOP_TIME = 2016-01-23
+STEP_SIZE = 1
+TABLE_TYPE = VECTORS
+CSV_FORMAT = YES

@@ -1,0 +1,75 @@
+body {
+    background-image:
+        url(https://rawgit.com/jmthompson2015/vizzini/master/game/lotrlcg/src/main/resources/images/wallpaper/MiddleEarthMap.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#BACKGROUND_BLUE, .agentUI, .backgroundBlue {
+    background-color: DarkBlue;
+}
+
+#BACKGROUND_GRAY, .agentUILabel, .cardAreaUILabel, .cardInstanceUILabel, .backgroundGray {
+    background-color: Gray;
+}
+
+#BACKGROUND_GREEN, .locationPanel, .questPanel, .backgroundGreen {
+    background-color: Green;
+}
+
+#BACKGROUND_MEDIUM, .statusBarUI, .tokensPanel, .backgroundMedium {
+    background-color: lightGray;
+}
+
+#BACKGROUND_RED, .stagingAreaPanel, .backgroundRed {
+    background-color: Maroon;
+}
+
+#BORDER_BLACK, .statusBarUICell, .borderBlack {
+    border: 1px solid black;
+}
+
+#CENTER, .agentPanel, .cardAreaUI, .environmentUITopTable, .handUICell, .locationPanel, .playAreaUICell, .questPanel,
+    .stagingAreaPanel, .tokensTable, .center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#COLOR_WHITE, .lightImageText, .colorWhite {
+    color: white;
+}
+
+#FONT_BOLD, .lightImageText, .fontBold {
+    font-weight: bold;
+}
+
+#FONT_MEDIUM, .lightImageText, .fontMedium {
+    font-size: medium;
+}
+
+#PADDING_10, .cardInstanceUIImagePreview, .padding10 {
+    padding: 10px;
+}
+
+#PADDING_HORIZONTAL_5, .statusBarUICell, .paddingHorizontal5 {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#WIDTH_100, .cardInstanceUIImage, .width100 {
+    width: 100px;
+}
+
+#WIDTH_FULL,.agentUILabelRow, .statusBarUI, .tokensPanel, .widthFull {
+    width: 100%;
+}

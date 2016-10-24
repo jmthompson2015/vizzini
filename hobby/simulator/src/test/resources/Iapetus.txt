@@ -1,0 +1,88 @@
+[Log] 15:56:53:385 TRACE textDocument = ******************************************************************************* (Logger.js, line 148)
+ Revised: Mar 02, 2015             Iapetus / (Saturn)                       608
+                          http://ssd.jpl.nasa.gov/?sat_phys_par
+                            http://ssd.jpl.nasa.gov/?sat_elem
+
+ SATELLITE PHYSICAL PROPERTIES:
+  Radius (km)            = 734.5    +- 4.0    Density (g/cm^3)=  1.088 +- 0.018 
+  Mass (10^22 g)         = 180.59             Geometric Albedo=  0.6
+  GM (km^3/s^2)          = 120.51   +- 0.03   V(1,0)          =   +1.5 (.7-2.5)
+
+ SATELLITE ORBITAL DATA (mean values with respect to local Laplace plane):
+  Semi-major axis, a (km)= 3560.84 (10^3)     Orbital period    = 79.33 d
+  Eccentricity, e        =     0.0283         Rotational period = Synchronous
+  Inclination, i  (deg)  =     7.489
+*******************************************************************************
+ 
+ 
+*******************************************************************************
+Ephemeris / WWW_USER Tue Feb  2 14:56:53 2016 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: Iapetus (608)                   {source: sat375l}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2016-Jan-22 00:00:00.0000 CT 
+Stop  time      : A.D. 2016-Jan-23 00:00:00.0000 CT 
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)                                                  
+Output units    : KM-S                                                         
+Output format   : 03
+Reference frame : ICRF/J2000.0                                                 
+Output type     : GEOMETRIC cartesian states
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch                 
+*******************************************************************************
+JDCT ,   , X, Y, Z, VX, VY, VZ, LT, RG, RR,
+*******************************************************************************
+$$SOE
+2457409.500000000, A.D. 2016-Jan-22 00:00:00.0000, -5.432726910485907E+08, -1.396714872417203E+09,  4.659479878731298E+07,  9.097739387418036E+00, -6.569610256595313E+00,  3.075766469252801E-01,  5.001380363510330E+03,  1.499376112569695E+09,  2.832945268552580E+00,
+2457410.500000000, A.D. 2016-Jan-23 00:00:00.0000, -5.424764631231564E+08, -1.397280437368376E+09,  4.661890219388181E+07,  9.332762559389034E+00, -6.519249572812678E+00,  2.498366831476488E-01,  5.002178882808439E+03,  1.499615502632836E+09,  2.706068972212669E+00,
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    xy-plane: plane of the Earth's orbit at the reference epoch
+    x-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+Symbol meaning  
+
+    JDTDB    Epoch Julian Date, Barycentric Dynamical Time
+      X      x-component of position vector (km)                               
+      Y      y-component of position vector (km)                               
+      Z      z-component of position vector (km)                               
+      VX     x-component of velocity vector (km/sec)                           
+      VY     y-component of velocity vector (km/sec)                           
+      VZ     z-component of velocity vector (km/sec)                           
+      LT     One-way down-leg Newtonian light-time (sec)                       
+      RG     Range; distance from coordinate center (km)                       
+      RR     Range-rate; radial velocity wrt coord. center (km/sec)            
+
+Geometric states/elements have no aberration corrections applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+COMMAND = 608
+CENTER = 500@0
+START_TIME = 2016-01-22
+STOP_TIME = 2016-01-23
+STEP_SIZE = 1
+TABLE_TYPE = VECTORS
+CSV_FORMAT = YES

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>TypeTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/NumberAugments.js"></script>
+
+<script src="../../main/js/Type.js"></script>
+
+<script>
+    QUnit.test("findById()", function(assert)
+    {
+        assert.ok(Type.findById);
+        var i = 0;
+        assert.equal(Type.findById(0), "armor");
+        assert.equal(Type.findById(19), "back");
+        assert.equal(Type.findById(2), "bag");
+        assert.equal(Type.findById(3), "consumable");
+        assert.equal(Type.findById(4), "container");
+        assert.equal(Type.findById(5), "craftingMaterial");
+        assert.equal(Type.findById(6), "gathering");
+        assert.equal(Type.findById(7), "gizmo");
+        assert.equal(Type.findById(11), "mini");
+        assert.equal(Type.findById(13), "tool");
+        assert.equal(Type.findById(15), "trinket");
+        assert.equal(Type.findById(16), "trophy");
+        assert.equal(Type.findById(17), "upgradeComponent");
+        assert.equal(Type.findById(18), "weapon");
+        
+        assert.ok(!Type.findById(undefined));
+        assert.ok(!Type.findById(null));
+        assert.ok(!Type.findById("A"));
+        assert.ok(!Type.findById(-1));
+    });
+
+    QUnit.test("values", function(assert)
+    {
+        assert.ok(Type.values);
+        assert.equal(Type.values.length, 14);
+        var i = 0;
+        assert.equal(Type.values[i++], "armor");
+        assert.equal(Type.values[i++], "back");
+        assert.equal(Type.values[i++], "bag");
+        assert.equal(Type.values[i++], "consumable");
+        assert.equal(Type.values[i++], "container");
+        assert.equal(Type.values[i++], "craftingMaterial");
+        assert.equal(Type.values[i++], "gathering");
+        assert.equal(Type.values[i++], "gizmo");
+        assert.equal(Type.values[i++], "mini");
+        assert.equal(Type.values[i++], "tool");
+        assert.equal(Type.values[i++], "trinket");
+        assert.equal(Type.values[i++], "trophy");
+        assert.equal(Type.values[i++], "upgradeComponent");
+        assert.equal(Type.values[i++], "weapon");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

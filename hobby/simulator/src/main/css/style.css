@@ -1,0 +1,75 @@
+body {
+    background-image:
+        url(https://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/SeamlessMetalTextureSmooth.jpg);
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#ALIGN_CENTER, .autopilotPanel, .manueverPanel, .simulationPanel, .spacecraftPanel, .viewLabel, .alignCenter {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#ALIGN_LEFT, .autopilotLabel, .spacecraftLabel, .alignLeft {
+    text-align: left;
+}
+
+#ALIGN_RIGHT, .autopilotValue, .spacecraftValue, .alignRight {
+    text-align: right;
+}
+
+#ALIGN_TOP, #autopilotPanel, #dorsalCameraUI, #observerCameraUI, #simulationPanel, #spacecraftPanel, .alignTop {
+    vertical-align: top;
+}
+
+#BACKGROUND_GAINSBORO, .manueverPanel tr td, .backgroundGainsboro {
+    background-color: #DCDCDC;
+}
+
+#BACKGROUND_LIGHT_GRAY, .viewLabel, .backgroundLightGray {
+    background-color: lightGray;
+}
+
+#BACKGROUND_RED, .toggleIsOn, .backgroundRed {
+    background-color: red;
+}
+
+#BACKGROUND_WHITE, .autopilotPanel, #messageArea, .simulationPanel, .spacecraftPanel, #timingDisplay, .toggleIsOff,
+    .backgroundWhite {
+    background-color: white;
+}
+
+#BORDER_GAINSBORO, .autopilotRow, .simulationPanel tr, .spacecraftPanel tr, .borderGainsboro {
+    border: 1px solid #DCDCDC;
+}
+
+#FONT_LARGE, .toggle, .fontLarge {
+    font-size: large;
+}
+
+#FONT_SMALL, .autopilotPanel, .manueverPanel, .simulationPanel, .spacecraftPanel, .fontSmall {
+    font-size: small;
+}
+
+#PADDING_2, .autopilotValue, .spacecraftLabel, .spacecraftValue, .padding3 {
+    padding: 2px;
+}
+
+#WIDTH_35, .numberInput, .width35 {
+    width: 35px;
+}
+
+/*
+.autopilotPanel tr td, .simulationPanel tr td, .spacecraftPanel tr td {
+    border: 1px solid black;
+}
+*/

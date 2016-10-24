@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MyTestManeuverChooser</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+
+</head>
+<body>
+	<div id="inputArea0"></div>
+	<br />
+	<div id="inputArea1"></div>
+	<br />
+	<div id="inputArea2"></div>
+	<script>
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Pilot", "SimpleAgent", "SquadBuilder", "Team", "Token", "process/Reducer", "ui/ManeuverChooser" ],
+                function(Pilot, SimpleAgent, SquadBuilder, Team, Token, Reducer, ManeuverChooser)
+                {
+                    var store = Redux.createStore(Reducer.root);
+                    {
+                        var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+                        var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+                        var element = React.createElement(ManeuverChooser,
+                        {
+                            token: token,
+                        });
+                        ReactDOM.render(element, document.getElementById("inputArea0"));
+                    }
+
+                    {
+                        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+                        var token = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
+                        var element = React.createElement(ManeuverChooser,
+                        {
+                            token: token,
+                            isPilotNameShown: false,
+                        });
+                        ReactDOM.render(element, document.getElementById("inputArea1"));
+                    }
+
+                    {
+                        var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+                        var token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
+                        var element = React.createElement(ManeuverChooser,
+                        {
+                            token: token,
+                            isPilotNameShown: false,
+                        });
+                        ReactDOM.render(element, document.getElementById("inputArea2"));
+                    }
+                });
+    </script>
+</body>
+</html>

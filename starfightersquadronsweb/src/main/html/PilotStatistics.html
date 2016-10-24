@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Pilot Statistics</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/pilotStatisticsStyle.css">
+
+    <script src="../../../../coreweb/lib/react/react-15.3.2.js"></script>
+    <script src="../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+    <script src="../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+    <script src="../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+    <script src="../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+    <script src="../../../../coreweb/lib/require/require-2.3.2.js" data-main="../js/Team"></script>
+
+    <script src="../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+    <script src="../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
+
+    <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+    <script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+    <script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+    <script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+    <script src="../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+    <script src="../../../../coreweb/src/main/js/util/StringAugments.js"></script>
+</head>
+<body>
+    <h1>Starfighter Squadrons Pilot Statistics</h1>
+    <div id="implementedStatistics"></div>
+    <section id="tableContainer"></section>
+    <script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "../resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require(["Pilot", "pilotstats/Action", "pilotstats/RangeFilter", "pilotstats/Reducer", "pilotstats/ui/Connector", "pilotstats/PilotColumns", "pilotstats/ui/PilotTable"], function(Pilot, Action, RangeFilter, Reducer, Connector,
+            PilotColumns, PilotTable)
+        {
+            var store = Redux.createStore(Reducer.root);
+            var implementedCount = Pilot.values().reduce(function(previousValue, pilotKey)
+            {
+                return previousValue + (Pilot.properties[pilotKey].isImplemented ? 1 : 0);
+            }, 0);
+            var upgradeCount = Pilot.values().length;
+            var ratio = Math.vizziniRound(100.0 * implementedCount / upgradeCount, 0);
+            document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " +
+                upgradeCount + " = " + ratio + "%";
+
+            var connector = ReactRedux.connect(Connector.PilotTable.mapStateToProps)(PilotTable);
+            var element = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector));
+
+            ReactDOM.render(element, document.getElementById("tableContainer"));
+        });
+    </script>
+</body>
+
+</html>

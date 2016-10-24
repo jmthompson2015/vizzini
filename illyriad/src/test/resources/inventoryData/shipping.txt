@@ -1,0 +1,43 @@
+// Inventory data for select resources.
+// Report written 2013.11.30 09:53 
+
+995 Hides Lockstone
+1001 Hides Lock Downs
+994 Hides Lock Haven
+963 Hides Lock Steppe
+1268 Hides Lockand Key
+1132 Hides Lockmoor
+986 Hides Locks Heath
+1018 Hides Locksley
+1284 Hides Lockstar
+
+17906 Mineral Lockstone
+16806 Mineral Lock Downs
+18006 Mineral Lock Haven
+16806 Mineral Lock Steppe
+16806 Mineral Lockand Key
+16806 Mineral Lockmoor
+15231 Mineral Locks Heath
+17638 Mineral Locksley
+17206 Mineral Lockstar
+
+23320 Herb Lockstone
+22420 Herb Lock Downs
+23220 Herb Lock Haven
+22420 Herb Lock Steppe
+24020 Herb Lockand Key
+22420 Herb Lockmoor
+22420 Herb Locks Heath
+22420 Herb Locksley
+22783 Herb Lockstar
+
+15053 Horse Lockstone
+15921 Horse Lock Downs
+15921 Horse Lock Haven
+15922 Horse Lock Steppe
+15877 Horse Lockand Key
+15054 Horse Lockmoor
+14545 Horse Locks Heath
+14552 Horse Locksley
+15910 Horse Lockstar
+

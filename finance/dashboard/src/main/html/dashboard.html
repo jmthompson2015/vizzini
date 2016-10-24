@@ -1,0 +1,195 @@
+<html>
+<head>
+<title>Finance Dashboard</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="../../../../../coreweb/lib/chart/Chart.min-2.0.2.js"></script>
+<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/InitialState"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+</head>
+<body>
+	<h1>Finance Dashboard</h1>
+	<section>
+		<div id="symbolsUI"></div>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Price % of 52 Week Range</span>
+		<div id="chart0Container"></div>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Free Cash Flow ($B)</span>
+		<div id="chart1Container"></div>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Forward P/E</span>
+		<div id="chart2Container"></div>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Forward Annual Dividend Yield (%)</span>
+		<div id="chart3Container"></div>
+	</section>
+	<section class="chartContainer">
+		<span class="chartTitle">Trailing Total Returns (%)</span>
+		<div id="chart4Container"></div>
+	</section>
+	<section class="tableContainer">
+		<div id="table0"></div>
+	</section>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        require([ "process/Action", "process/KeyStatistics", "process/Performance", "process/Reducer",
+                "process/ui/BarChart", "process/ui/Connector", "process/ui/DataTable", "process/ui/SymbolsUI" ],
+                function(Action, KeyStatistics, Performance, Reducer, BarChart, Connector, DataTable, SymbolsUI)
+                {
+                    var store = Redux.createStore(Reducer.root);
+
+                    var symbols = loadSymbols();
+                    store.dispatch(Action.setSymbols(symbols));
+
+                    var element = React.createElement(SymbolsUI,
+                    {
+                        initialSymbolString: symbols.toString(),
+                        callback: setSymbols,
+                    });
+                    ReactDOM.render(element, document.getElementById("symbolsUI"));
+
+                    var connector = ReactRedux.connect(Connector.BarChart.mapStateToProps)(BarChart);
+                    renderChart("red", "chart0", "fiftyTwoWeekPricePercent", "chart0Container");
+                    renderChart("green", "chart1", "freeCashFlow", "chart1Container");
+                    renderChart("blue", "chart2", "forwardPE", "chart2Container");
+                    renderChart("orange", "chart3", "forwardAnnualDividendYield", "chart3Container", 1);
+
+                    var backgroundColors = [ "Cyan", "DarkTurquoise", "LightSeaGreen", "DarkCyan" ];
+                    var propertyNames = [ "oneYearTotalReturn", "threeYearTotalReturn", "fiveYearTotalReturn",
+                            "tenYearTotalReturn" ];
+                    renderMultiChart(backgroundColors, "chart3", propertyNames, "chart4Container");
+
+                    var connector4 = ReactRedux.connect(Connector.DataTable.mapStateToProps)(DataTable);
+                    var element4 = React.createElement(ReactRedux.Provider,
+                    {
+                        store: store,
+                    }, React.createElement(connector4));
+                    ReactDOM.render(element4, document.getElementById("table0"));
+
+                    fetchData();
+
+                    function fetchData()
+                    {
+                        var state = store.getState();
+                        var symbols = state.symbols;
+
+                        symbols.forEach(function(symbol)
+                        {
+                            var keyStats = new KeyStatistics(store, symbol);
+                            var performance = new Performance(store, symbol);
+
+                            keyStats.fetchData();
+                            performance.fetchData();
+                        });
+                    }
+
+                    function loadSymbols()
+                    {
+                        LOGGER.debug("loadSymbols()");
+                        var answer = [];
+                        var fromStorage = localStorage["symbols"];
+                        LOGGER.debug("fromStorage = " + fromStorage);
+
+                        if (fromStorage)
+                        {
+                            var content = JSON.parse(fromStorage);
+                            LOGGER.debug("content = " + content);
+
+                            if (content)
+                            {
+                                content.forEach(function(symbol)
+                                {
+                                    if (symbol)
+                                    {
+                                        answer.push(symbol);
+                                    }
+                                });
+                            }
+                        }
+
+                        if (answer.length === 0)
+                        {
+                            answer = [ "AAPL", "AMZN", "INTC", "KO", "T", "TRV", "VSMGX" ];
+                        }
+
+                        LOGGER.debug("answer = " + answer);
+
+                        return answer;
+                    }
+
+                    function renderChart(backgroundColor, chartCanvasId, propertyName, containerId, stepSize)
+                    {
+                        var myStepSize = (stepSize ? stepSize : 10);
+                        var element = React.createElement(ReactRedux.Provider,
+                        {
+                            store: store,
+                        }, React.createElement(connector,
+                        {
+                            backgroundColor: backgroundColor,
+                            chartCanvasId: chartCanvasId,
+                            entityName: "keyStatistics",
+                            propertyName: propertyName,
+                            stepSize: myStepSize,
+                        }));
+                        ReactDOM.render(element, document.getElementById(containerId));
+                    }
+
+                    function renderMultiChart(backgroundColors, chartCanvasId, propertyNames, containerId)
+                    {
+                        var element = React.createElement(ReactRedux.Provider,
+                        {
+                            store: store,
+                        }, React.createElement(connector,
+                        {
+                            backgroundColors: backgroundColors,
+                            chartCanvasId: chartCanvasId,
+                            entityName: "performance",
+                            labels: [ "1-Year", "3-Year", "5-Year", "10-Year" ],
+                            propertyNames: propertyNames,
+                            useLegend: true,
+                        }));
+                        ReactDOM.render(element, document.getElementById(containerId));
+                    }
+
+                    function saveSymbols(symbolString)
+                    {
+                        LOGGER.debug("saveSymbols()");
+
+                        symbols = symbolString.split(",");
+                        LOGGER.debug("new symbols = " + symbols);
+                        localStorage["symbols"] = JSON.stringify(symbols);
+                        store.dispatch(Action.setSymbols(symbols));
+                    }
+
+                    function setSymbols(symbolString)
+                    {
+                        LOGGER.debug("setSymbols()");
+
+                        saveSymbols(symbolString);
+                        fetchData();
+                    }
+                });
+    </script>
+</body>
+</html>

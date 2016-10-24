@@ -1,0 +1,100 @@
+[Log] 11:23:47:012 TRACE textDocument = ******************************************************************************* (Logger.js, line 148)
+ Revised: Dec 02, 2013              Jupiter                                 599
+ 
+ PHYSICAL DATA (updated 2009-Jan-28):
+  Mass (10^24 kg)       =  1898.13+-.19   Density (g/cm^3)       =  1.326
+  Equat. radius (1 bar) = 71492+-4 km     Polar radius (km)      = 66854+-10
+  Volumetric mean radius= 69911+-6 km     Flattening             =  0.06487
+
+  Rotation period       = 9h 55m 29.685s  Rot. rate(10^-4 rad/s) =  1.75865
+  m = w^2a^3/GM         =  0.089195       Hydrostatic flat., fh  =  0.06509
+  Inferred rot. period  =  9.894+-0.02 hr ks = 3*J2/m            =  0.494
+  Mom. of inert. I/MRo^2=  0.254          I/MRo^2 (upper bound)  =  0.267 
+  Rocky core mass (Mc/M)=  0.0261         Y factor (He/H ratio)  =  0.18+-0.04
+
+  GM (km^3/s^2)         = 126,686,511     GM 1-sigma (km^3/s^2)  = +-100
+  Equ. grav, ge (m/s^2) = 24.79           Pol. grav, gp (m/s^2)  = 28.34
+
+  Geometric albedo      =  0.52           Visual magnitude V(1,0)= -9.40
+  Vis. mag. (opposition)= -2.70           Obliquity to orbit     =  3.12 deg
+  Sidereal orbit period = 11.862615 yr    Sidereal orbit period  = 4332.820 d
+  Mean daily motion     = 0.0831294 deg/d Mean orbit velocity    = 13.0697 km/s
+
+  Atmos. temp. (1 bar)  = 165+-5 K        Heat flow/mass (x10^7) = 15 erg/gm*s
+  Planetary Solar Const =  50.5 W/m^2     Dipole tilt/offset     = 9.6deg/0.1Rp 
+  Escape velocity (km/s)=  59.5           Mag.dip.mom(gauss-Rp^3)= 4.2 
+  A_roche(ice)/Rp       =  2.76           Hill's sphere rad. Rp  = 740
+*******************************************************************************
+ 
+ 
+*******************************************************************************
+Ephemeris / WWW_USER Mon Feb  1 10:23:46 2016 Pasadena, USA      / Horizons    
+*******************************************************************************
+Target body name: Jupiter (599)                   {source: jup310}
+Center body name: Solar System Barycenter (0)     {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2016-Jan-22 00:00:00.0000 CT 
+Stop  time      : A.D. 2016-Jan-23 00:00:00.0000 CT 
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : (undefined)                                                  
+Output units    : KM-S                                                         
+Output format   : 03
+Reference frame : ICRF/J2000.0                                                 
+Output type     : GEOMETRIC cartesian states
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch                 
+*******************************************************************************
+JDCT ,   , X, Y, Z, VX, VY, VZ, LT, RG, RR,
+*******************************************************************************
+$$SOE
+2457409.500000000, A.D. 2016-Jan-22 00:00:00.0000, -7.806918810584401E+08,  2.164591897759456E+08,  1.655940332772167E+07, -3.643003676886735E+00, -1.197544163731336E+01,  1.312630691799290E-01,  2.702916210881612E+03,  8.103138946282451E+08,  3.135113922866657E-01,
+2457410.500000000, A.D. 2016-Jan-23 00:00:00.0000, -7.810058505692562E+08,  2.154244057106743E+08,  1.657073354925045E+07, -3.626230531904051E+00, -1.197768366249600E+01,  1.309974300519734E-01,  2.703006349139316E+03,  8.103409173980818E+08,  3.134391886205704E-01,
+$$EOE
+*******************************************************************************
+Coordinate system description:
+
+  Ecliptic and Mean Equinox of Reference Epoch
+
+    Reference epoch: J2000.0
+    xy-plane: plane of the Earth's orbit at the reference epoch
+    x-axis  : out along ascending node of instantaneous plane of the Earth's
+              orbit and the Earth's mean equator at the reference epoch
+    z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+              of Earth's north pole at the reference epoch.
+
+Symbol meaning  
+
+    JDTDB    Epoch Julian Date, Barycentric Dynamical Time
+      X      x-component of position vector (km)                               
+      Y      y-component of position vector (km)                               
+      Z      z-component of position vector (km)                               
+      VX     x-component of velocity vector (km/sec)                           
+      VY     y-component of velocity vector (km/sec)                           
+      VZ     z-component of velocity vector (km/sec)                           
+      LT     One-way down-leg Newtonian light-time (sec)                       
+      RG     Range; distance from coordinate center (km)                       
+      RR     Range-rate; radial velocity wrt coord. center (km/sec)            
+
+Geometric states/elements have no aberration corrections applied.
+
+ Computations by ...
+     Solar System Dynamics Group, Horizons On-Line Ephemeris System
+     4800 Oak Grove Drive, Jet Propulsion Laboratory
+     Pasadena, CA  91109   USA
+     Information: http://ssd.jpl.nasa.gov/
+     Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+                  telnet ssd.jpl.nasa.gov 6775    (via command-line)
+     Author     : Jon.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+COMMAND = 599
+CENTER = 500@0
+START_TIME = 2016-01-22
+STOP_TIME = 2016-01-23
+STEP_SIZE = 1
+TABLE_TYPE = VECTORS
+CSV_FORMAT = YES

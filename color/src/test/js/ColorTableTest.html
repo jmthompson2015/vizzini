@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>ColorTableTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/Logger.js"></script>
+
+<script src="../../main/js/ColorTable.js"></script>
+<script src="../../main/js/CssNamedColor.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("createColorTable() null", function(assert)
+    {
+        // Run.
+        var result = ColorTable.createColorTable();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.indexOf("<tr>"), 0);
+        assert.equal(result.lastIndexOf("</tr>"), 20103);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+body {
+    background-image:
+        url('https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/resources/yellowGradient.png');
+    background-repeat: no-repeat;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+    font-size: small;
+}
+
+#filterTable {
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: small;
+    text-align: center;
+    vertical-align: center;
+}
+
+#filterTable td {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+img {
+    vertical-align: middle;
+    width: 32px;
+}
+
+.inputNumber {
+    width: 60px;
+}
+
+#itemTable td {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+#itemTable th {
+    background-color: DarkSeaGreen;
+    border: 1px solid;
+    padding: 3px;
+}
+
+#logo {
+    height: auto;
+    width: 100px;
+}
+
+#logoTable td {
+    padding-right: 40px;
+}
+
+#recipeTable td {
+    border: 1px solid darkgreen;
+    padding: 3px;
+}
+
+#recipeTable th {
+    background-color: DarkSeaGreen;
+    border: 1px solid;
+    padding: 3px;
+}
+
+table.sortable {
+    border: 1px solid;
+    border-collapse: collapse;
+    font-size: small;
+    text-align: center;
+    vertical-align: center;
+}
+
+table.sortable tbody tr:nth-child(2n) td {
+    background: LightCyan;
+}
+
+table.sortable tbody tr:nth-child(2n+1) td {
+    background: White;
+}
+
+#title {
+    font-size: x-large;
+    font-weight: bold;
+    width: 100%;
+}

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>TARDIS Simulator</title>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../css/style.css">
+<!--[if lt IE 9]>
+<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+</script>
+<![endif]-->
+
+<script src="../../../../../coreweb/lib/react/react-with-addons-15.3.0.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.0.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.min.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.5.2.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/InitialState"></script>
+<script src="../../../../../coreweb/lib/three/three-0.79.0.min.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+
+</head>
+<body>
+	<h1>TARDIS Simulator</h1>
+	<table>
+		<tr>
+			<td id="camera-container"></td>
+			<td id="scanner-container" style="vertical-align: top;" rowspan="2"></td>
+		</tr>
+		<tr>
+			<td>
+				<div id="controls-container"></div>
+			</td>
+		</tr>
+	</table>
+
+	<audio id="dematerialiseAudio" src="../resources/audio/dematerialise.wav" preload="auto" volume="0.9"></audio>
+	<audio id="materialiseAudio" src="../resources/audio/materialise.wav" preload="auto" volume="0.9"></audio>
+	<audio id="powerAudio" src="../resources/audio/power.wav" preload="auto" volume="0.7" loop="loop"></audio>
+	<audio id="scannerAudio" src="../resources/audio/scanner.wav" preload="auto"></audio>
+
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        // LOGGER.setDebugEnabled(false);
+
+        require([ "ConsolePanel", "Scene", "process/Action", "process/Reducer", "process/ui/CameraUI",
+                "process/ui/Connector", "process/ui/Controls", "process/ui/DematStatusObserver",
+                "process/ui/PowerObserver", "process/ui/Scanner", "process/ui/ScannerObserver" ], function(
+                ConsolePanel, Scene, Action, Reducer, CameraUI, Connector, Controls, DematStatusObserver,
+                PowerObserver, Scanner, ScannerObserver)
+        {
+            var store = Redux.createStore(Reducer.root);
+            new PowerObserver(store);
+            new ScannerObserver(store);
+            new DematStatusObserver(store);
+
+            var connector0 = ReactRedux.connect(Connector.Controls.mapStateToProps)(Controls);
+            var element0 = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector0));
+            ReactDOM.render(element0, document.getElementById("controls-container"));
+
+            var connector1 = ReactRedux.connect(Connector.CameraUI.mapStateToProps)(CameraUI);
+            var element1 = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector1));
+            ReactDOM.render(element1, document.getElementById("camera-container"));
+
+            var connector2 = ReactRedux.connect(Connector.Scanner.mapStateToProps)(Scanner);
+            var element2 = React.createElement(ReactRedux.Provider,
+            {
+                store: store,
+            }, React.createElement(connector2));
+            ReactDOM.render(element2, document.getElementById("scanner-container"));
+
+            var sceneKey = Scene.values().vizziniRandomElement();
+            store.dispatch(Action.setScene(sceneKey));
+            store.dispatch(Action.setConsolePanel(ConsolePanel.PANEL_5));
+        });
+    </script>
+</body>
+</html>

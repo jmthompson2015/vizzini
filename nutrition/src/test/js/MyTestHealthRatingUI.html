@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Health Rating UI Test</title>
+
+<link rel="stylesheet" href="../../main/css/style.css">
+
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+<script src="../../main/js/FoodProperty.js"></script>
+<script src="../../main/js/HealthRatingUI.js"></script>
+
+</head>
+<body>
+	<h1>Health Rating UI Test</h1>
+	<p />
+	<div id="healthRatingUI"></div>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var good = [ FoodProperty.FAT_POLYUNSAT, FoodProperty.FAT_MONOUNSAT,
+                FoodProperty.POTASSIUM, FoodProperty.CARBS_DIETARY_FIBER,
+                FoodProperty.PROTEIN ];
+        var bad = [ FoodProperty.FAT_SATURATED, FoodProperty.FAT_TRANS,
+                FoodProperty.CHOLESTEROL, FoodProperty.SODIUM,
+                FoodProperty.CARBS_SUGARS ];
+
+        var element = React.createElement(ExpandingContainer,
+        {
+            initialGood: good,
+            initialBad: bad,
+            onChange: healthRatingChanged
+        });
+        React.render(element, document.getElementById("healthRatingUI"));
+
+        function healthRatingChanged(goodIn, badIn)
+        {
+            LOGGER.info("healthRatingChanged() goodIn = " + goodIn);
+            LOGGER.info("healthRatingChanged() badIn  = " + badIn);
+        }
+    </script>
+</body>
+</html>

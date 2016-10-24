@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>Type Code Generator</title>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script src="../js/util/Logger.js"></script>
+<script src="../js/util/InputValidator.js"></script>
+
+<script src="../js/GW2Spidy.js"></script>
+<script src="../js/TypeCodeGenerator.js"></script>
+
+</head>
+<body>
+	<div id="code"></div>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        $(document).ready(function()
+        {
+            GW2Spidy.getTypes(TypeCodeGenerator.generate);
+        });
+    </script>
+</body>
+</html>

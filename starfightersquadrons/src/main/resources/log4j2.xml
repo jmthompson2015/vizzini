@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%date{HH:mm:ss,SSS} %level{length=5} %class{1.}.%method %message%n" />
+        </Console>
+        <File name="MyFile" fileName="logs/starfighter-squadrons.log">
+            <Append>false</Append>
+            <PatternLayout>
+                <Pattern>%date %level{length=5} %class{1.}.%method %message%n</Pattern>
+            </PatternLayout>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="org.vizzini.starfightersquadrons.CombatAction"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.DamageCard"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.DefaultWeapon"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.ManeuverAction"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.Pilot"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.SimpleAgent"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.UpgradeCard"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.SSEngine"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.SSEnvironment"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.SSToken"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.swingui.ManeuverUI"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.swingui.PlayAreaUI"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini.starfightersquadrons.swingui.ShipUI"
+            level="INFO">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Logger name="org.vizzini" level="TRACE">
+            <AppenderRef ref="MyFile" />
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>

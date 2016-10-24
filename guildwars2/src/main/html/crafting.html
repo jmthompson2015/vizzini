@@ -1,0 +1,425 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>GW2 Crafting</title>
+<link rel="stylesheet" href="../css/style.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+	src="https://rawgit.com/jmthompson2015/vizzini/master/color/src/main/js/util/sorttable.js"></script>
+
+<script src="../js/util/Logger.js"></script>
+<script src="../js/util/InputValidator.js"></script>
+<script src="../js/util/NumberAugments.js"></script>
+<script src="../js/util/TimePrinter.js"></script>
+
+<script src="../js/CraftingFormat.js"></script>
+<script src="../js/Discipline.js"></script>
+<script src="../js/FilterRange.js"></script>
+<script src="../js/GW2Spidy.js"></script>
+<script src="../js/ItemComputer.js"></script>
+<script src="../js/RecipeComputer.js"></script>
+<script src="../js/RecipeFilter.js"></script>
+<script src="../js/RecipePreferences.js"></script>
+<script src="../js/RecipeSorter.js"></script>
+
+</head>
+<body>
+	<table id="logoTable">
+		<tr>
+			<td><span id="title">Crafting</span></td>
+			<td><a href="http://www.guildwars2.com/en/"><img id="logo"
+					src="../resources/GW2_Logo_2c.jpg" /></a></td>
+		</tr>
+	</table>
+	<p />
+	<label for="discipline">Discipline: </label>
+	<select id="discipline"></select>
+	<p />
+	<table id="filterTable">
+		<tr>
+			<td><input id="lowRatingChecked" type="checkbox" /> <input
+				id="lowRating" type="number" class="inputNumber" /></td>
+			<td>&le; Rating &lt;</td>
+			<td><input id="highRatingChecked" type="checkbox" /> <input
+				id="highRating" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowCostChecked" type="checkbox" /> <input
+				id="lowCost" type="number" class="inputNumber" /></td>
+			<td>&le; Cost &lt;</td>
+			<td><input id="highCostChecked" type="checkbox" /> <input
+				id="highCost" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowBidChecked" type="checkbox" /> <input
+				id="lowBid" type="number" class="inputNumber" /></td>
+			<td>&le; Bid &lt;</td>
+			<td><input id="highBidChecked" type="checkbox" /> <input
+				id="highBid" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowAskChecked" type="checkbox" /> <input
+				id="lowAsk" type="number" class="inputNumber" /></td>
+			<td>&le; Ask &lt;</td>
+			<td><input id="highAskChecked" type="checkbox" /> <input
+				id="highAsk" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowSupplyChecked" type="checkbox" /> <input
+				id="lowSupply" type="number" class="inputNumber" /></td>
+			<td>&le; Supply &lt;</td>
+			<td><input id="highSupplyChecked" type="checkbox" /> <input
+				id="highSupply" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowDemandChecked" type="checkbox" /> <input
+				id="lowDemand" type="number" class="inputNumber" /></td>
+			<td>&le; Demand &lt;</td>
+			<td><input id="highDemandChecked" type="checkbox" /> <input
+				id="highDemand" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowBidCostRatioChecked" type="checkbox" /> <input
+				id="lowBidCostRatio" type="number" class="inputNumber" /></td>
+			<td>&le; (Bid / Cost) &lt;</td>
+			<td><input id="highBidCostRatioChecked" type="checkbox" /> <input
+				id="highBidCostRatio" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowAskCostRatioChecked" type="checkbox" /> <input
+				id="lowAskCostRatio" type="number" class="inputNumber" /></td>
+			<td>&le; (Ask / Cost) &lt;</td>
+			<td><input id="highAskCostRatioChecked" type="checkbox" /> <input
+				id="highAskCostRatio" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowAskBidRatioChecked" type="checkbox" /> <input
+				id="lowAskBidRatio" type="number" class="inputNumber" /></td>
+			<td>&le; (Ask / Bid) &lt;</td>
+			<td><input id="highAskBidRatioChecked" type="checkbox" /> <input
+				id="highAskBidRatio" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowDemandSupplyRatioChecked" type="checkbox" />
+				<input id="lowDemandSupplyRatio" type="number" class="inputNumber" /></td>
+			<td>&le; (Demand / Supply) &lt;</td>
+			<td><input id="highDemandSupplyRatioChecked" type="checkbox" />
+				<input id="highDemandSupplyRatio" type="number" class="inputNumber" /></td>
+		</tr>
+	</table>
+	<p />
+	<button onclick="restoreDefaultRecipePreferences();">Restore
+		Defaults</button>
+	<button onclick="submitActionPerformed();">Submit</button>
+	<img id="loadingSpinner" src="../resources/LoadingSpinner.gif"
+		style="display: none;" />
+	<p />
+	<span id="rowCount">Row Count: 0</span>
+	<table id="recipeTable" class="sortable">
+		<thead>
+			<tr>
+				<th>Recipe</th>
+				<th>Discipline</th>
+				<th class="sorttable_numeric">Rating</th>
+				<th>Product</th>
+				<th class="sorttable_numeric">Cost</th>
+				<th class="sorttable_numeric">Bid</th>
+				<th class="sorttable_numeric">Ask</th>
+				<th class="sorttable_numeric">Supply</th>
+				<th class="sorttable_numeric">Demand</th>
+				<th class="sorttable_numeric">Bid / Cost</th>
+				<th class="sorttable_numeric">Ask / Cost</th>
+				<th class="sorttable_numeric">Ask / Bid</th>
+				<th class="sorttable_numeric">Demand / Supply</th>
+			</tr>
+		</thead>
+		<tbody id="items">
+		</tbody>
+	</table>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+        var recipePrefs = new RecipePreferences();
+
+        $(document).ready(function()
+        {
+            fillDisciplines();
+            initializeFilter();
+        });
+
+        function fillFullRecipeList()
+        {
+            var disciplineId = getSelectedDisciplineId();
+
+            if (disciplineId)
+            {
+                var loadingSpinner = document.getElementById("loadingSpinner");
+                loadingSpinner.style.display = "inline";
+
+                var filter = new RecipeFilter(recipePrefs.getRatingRange(),
+                        recipePrefs.getCostRange(), recipePrefs.getBidRange(),
+                        recipePrefs.getAskRange(),
+                        recipePrefs.getSupplyRange(), recipePrefs
+                                .getDemandRange(), recipePrefs
+                                .getBidCostRatioRange(), recipePrefs
+                                .getAskCostRatioRange(), recipePrefs
+                                .getAskBidRatioRange(), recipePrefs
+                                .getDemandSupplyRatioRange());
+
+                GW2Spidy.getFullRecipeList(disciplineId, filter, function(
+                        results)
+                {
+                    var myResults = filter.filter(results);
+                    myResults = RecipeSorter.sort(myResults);
+                    var tableRows = CraftingFormat.formatRecipes(myResults);
+                    $("#items").html(tableRows);
+                    setRowCount(myResults.length);
+
+                    loadingSpinner.style.display = "none";
+                });
+            }
+        }
+
+        function fillDisciplines()
+        {
+            var options = CraftingFormat.formatDisciplines();
+            $("#discipline").html(options);
+        }
+
+        function getSelectedDisciplineId()
+        {
+            var select = document.getElementById("discipline");
+            return select.options[select.selectedIndex].value;
+        }
+
+        function initializeFilter()
+        {
+            document.getElementById("discipline").selectedIndex = recipePrefs
+                    .getDisciplineIndex();
+
+            {
+                var range = recipePrefs.getRatingRange();
+                document.getElementById("lowRatingChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowRating").value = range
+                        .getLowValue();
+                document.getElementById("highRatingChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highRating").value = range
+                        .getHighValue();
+            }
+            {
+                var range = recipePrefs.getCostRange();
+                document.getElementById("lowCostChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowCost").value = range.getLowValue();
+                document.getElementById("highCostChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highCost").value = range
+                        .getHighValue();
+            }
+            {
+                var range = recipePrefs.getBidRange();
+                document.getElementById("lowBidChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowBid").value = range.getLowValue();
+                document.getElementById("highBidChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highBid").value = range.getHighValue();
+            }
+            {
+                var range = recipePrefs.getAskRange();
+                document.getElementById("lowAskChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowAsk").value = range.getLowValue();
+                document.getElementById("highAskChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highAsk").value = range.getHighValue();
+            }
+            {
+                var range = recipePrefs.getSupplyRange();
+                document.getElementById("lowSupplyChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowSupply").value = range
+                        .getLowValue();
+                document.getElementById("highSupplyChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highSupply").value = range
+                        .getHighValue();
+            }
+            {
+                var range = recipePrefs.getDemandRange();
+                document.getElementById("lowDemandChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowDemand").value = range
+                        .getLowValue();
+                document.getElementById("highDemandChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highDemand").value = range
+                        .getHighValue();
+            }
+            {
+                var range = recipePrefs.getBidCostRatioRange();
+                document.getElementById("lowBidCostRatioChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowBidCostRatio").value = range
+                        .getLowValue();
+                document.getElementById("highBidCostRatioChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highBidCostRatio").value = range
+                        .getHighValue();
+            }
+            {
+                var range = recipePrefs.getAskCostRatioRange();
+                document.getElementById("lowAskCostRatioChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowAskCostRatio").value = range
+                        .getLowValue();
+                document.getElementById("highAskCostRatioChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highAskCostRatio").value = range
+                        .getHighValue();
+            }
+            {
+                var range = recipePrefs.getAskBidRatioRange();
+                document.getElementById("lowAskBidRatioChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowAskBidRatio").value = range
+                        .getLowValue();
+                document.getElementById("highAskBidRatioChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highAskBidRatio").value = range
+                        .getHighValue();
+            }
+            {
+                var range = recipePrefs.getDemandSupplyRatioRange();
+                document.getElementById("lowDemandSupplyRatioChecked").checked = range
+                        .isLowChecked();
+                document.getElementById("lowDemandSupplyRatio").value = range
+                        .getLowValue();
+                document.getElementById("highDemandSupplyRatioChecked").checked = range
+                        .isHighChecked();
+                document.getElementById("highDemandSupplyRatio").value = range
+                        .getHighValue();
+            }
+        }
+
+        function restoreDefaultRecipePreferences()
+        {
+            recipePrefs.clear();
+            initializeFilter();
+        }
+
+        function saveRecipePreferences()
+        {
+            recipePrefs.setDisciplineIndex(document
+                    .getElementById("discipline").selectedIndex);
+
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowRatingChecked").checked, document
+                        .getElementById("lowRating").value, document
+                        .getElementById("highRatingChecked").checked, document
+                        .getElementById("highRating").value);
+                recipePrefs.setRatingRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowCostChecked").checked, document
+                        .getElementById("lowCost").value, document
+                        .getElementById("highCostChecked").checked, document
+                        .getElementById("highCost").value);
+                recipePrefs.setCostRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowBidChecked").checked, document
+                        .getElementById("lowBid").value, document
+                        .getElementById("highBidChecked").checked, document
+                        .getElementById("highBid").value);
+                recipePrefs.setBidRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowAskChecked").checked, document
+                        .getElementById("lowAsk").value, document
+                        .getElementById("highAskChecked").checked, document
+                        .getElementById("highAsk").value);
+                recipePrefs.setAskRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowSupplyChecked").checked, document
+                        .getElementById("lowSupply").value, document
+                        .getElementById("highSupplyChecked").checked, document
+                        .getElementById("highSupply").value);
+                recipePrefs.setSupplyRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowDemandChecked").checked, document
+                        .getElementById("lowDemand").value, document
+                        .getElementById("highDemandChecked").checked, document
+                        .getElementById("highDemand").value);
+                recipePrefs.setDemandRange(range);
+            }
+            {
+                var range = new FilterRange(
+                        document.getElementById("lowBidCostRatioChecked").checked,
+                        document.getElementById("lowBidCostRatio").value,
+                        document.getElementById("highBidCostRatioChecked").checked,
+                        document.getElementById("highBidCostRatio").value);
+                recipePrefs.setBidCostRatioRange(range);
+            }
+            {
+                var range = new FilterRange(
+                        document.getElementById("lowAskCostRatioChecked").checked,
+                        document.getElementById("lowAskCostRatio").value,
+                        document.getElementById("highAskCostRatioChecked").checked,
+                        document.getElementById("highAskCostRatio").value);
+                recipePrefs.setAskCostRatioRange(range);
+            }
+            {
+                var range = new FilterRange(
+                        document.getElementById("lowAskBidRatioChecked").checked,
+                        document.getElementById("lowAskBidRatio").value,
+                        document.getElementById("highAskBidRatioChecked").checked,
+                        document.getElementById("highAskBidRatio").value);
+                recipePrefs.setAskBidRatioRange(range);
+            }
+            {
+                var range = new FilterRange(
+                        document.getElementById("lowDemandSupplyRatioChecked").checked,
+                        document.getElementById("lowDemandSupplyRatio").value,
+                        document.getElementById("highDemandSupplyRatioChecked").checked,
+                        document.getElementById("highDemandSupplyRatio").value);
+                recipePrefs.setDemandSupplyRatioRange(range);
+            }
+        }
+
+        function setRowCount(rowCount)
+        {
+            var message = "Row Count: " + rowCount;
+            $("#rowCount").html(message);
+        }
+
+        function submitActionPerformed()
+        {
+            $("#items").html("");
+            setRowCount(0);
+            saveRecipePreferences();
+            fillFullRecipeList();
+        }
+    </script>
+	<p />
+	<span>Data from <a href="http://www.gw2spidy.com">GW2Spidy</a>
+		using <a href="http://github.com/rubensayshi/gw2spidy/wiki/API-v0.9">API
+			v0.9</a>.
+	</span>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestLabeledImage</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+</head>
+<body>
+	<table style="background-color: #F0F0F0;">
+		<tr>
+			<td id="imperialSkillPanel"></td>
+			<td id="rebelSkillPanel"></td>
+			<td id="scumSkillPanel"></td>
+			<td id="cloakPanel1"></td>
+			<td id="cloakPanel2"></td>
+			<td id="evadePanel"></td>
+			<td id="focusPanel"></td>
+			<td id="shieldPanel"></td>
+			<td id="stressPanel"></td>
+			<td id="atlPanel"></td>
+			<td id="dtlPanel"></td>
+			<td id="damagePanel"></td>
+			<td id="criticalDamagePanel"></td>
+		</tr>
+	</table>
+	<div id="evadePanel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+
+        var resourceBase = "../../../main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "ui/LabeledImage" ], function(LabeledImage)
+        {
+            var element = React.createElement(LabeledImage,
+            {
+                image: "pilotCard/Imperial_Skill32.png",
+                label: 7,
+                labelClass: "pilotSkillValue",
+                title: "Pilot Skill",
+            });
+            ReactDOM.render(element, document.getElementById("imperialSkillPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "pilotCard/Rebel_Skill32.png",
+                label: 8,
+                labelClass: "pilotSkillValue",
+                title: "Pilot Skill",
+            });
+            ReactDOM.render(element, document.getElementById("rebelSkillPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "pilotCard/Scum_Skill32.png",
+                label: 9,
+                labelClass: "pilotSkillValue",
+                title: "Pilot Skill",
+            });
+            ReactDOM.render(element, document.getElementById("scumSkillPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/CloakToken32.png",
+                label: "1",
+                labelClass: "labelImageText",
+                title: "Cloak",
+            });
+            ReactDOM.render(element, document.getElementById("cloakPanel1"));
+
+            var count = 1;
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/CloakToken32.png",
+                label: count++,
+                labelClass: "labelImageText",
+                title: "Cloak",
+            });
+            ReactDOM.render(element, document.getElementById("cloakPanel2"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/EvadeToken32.png",
+                label: count++,
+                labelClass: "labelImageText",
+                title: "Evade",
+            });
+            ReactDOM.render(element, document.getElementById("evadePanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/FocusToken32.png",
+                label: count++,
+                labelClass: "labelImageText",
+                title: "Focus",
+            });
+            ReactDOM.render(element, document.getElementById("focusPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/ShieldToken32.png",
+                label: count++,
+                labelClass: "labelImageText",
+                title: "Shield",
+            });
+            ReactDOM.render(element, document.getElementById("shieldPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/StressToken32.png",
+                label: count++,
+                labelClass: "labelImageText",
+                title: "Stress",
+            });
+            ReactDOM.render(element, document.getElementById("stressPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/AttackerTargetLock32.png",
+                label: "A",
+                labelClass: "labelImageText",
+                title: "Attacker Target Lock",
+                width: 38,
+            });
+            ReactDOM.render(element, document.getElementById("atlPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "token/DefenderTargetLock32.png",
+                label: "B",
+                labelClass: "labelImageText",
+                title: "Defender Target Lock",
+                width: 38,
+            });
+            ReactDOM.render(element, document.getElementById("dtlPanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "pilotCard/Damage32.jpg",
+                label: count++,
+                labelClass: "damageImageText",
+                title: "Damage",
+            });
+            ReactDOM.render(element, document.getElementById("damagePanel"));
+
+            var element = React.createElement(LabeledImage,
+            {
+                image: "pilotCard/CriticalDamage32.jpg",
+                label: count++,
+                labelClass: "damageImageText",
+                title: "Critical Damage",
+            });
+            ReactDOM.render(element, document.getElementById("criticalDamagePanel"));
+        });
+    </script>
+</body>
+</html>

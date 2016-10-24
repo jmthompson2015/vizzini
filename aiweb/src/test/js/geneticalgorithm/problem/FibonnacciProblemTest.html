@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>FibonnacciProblemTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<script src="../../../../main/js/geneticalgorithm/CopyOperator.js"></script>
+<script src="../../../../main/js/geneticalgorithm/CrossoverOperator.js"></script>
+<script src="../../../../main/js/geneticalgorithm/GAUtilities.js"></script>
+<script src="../../../../main/js/geneticalgorithm/GeneticAlgorithm.js"></script>
+<script src="../../../../main/js/geneticalgorithm/GenomeComparator.js"></script>
+<script src="../../../../main/js/geneticalgorithm/GenomeFactory.js"></script>
+<script src="../../../../main/js/geneticalgorithm/MutationOperator.js"></script>
+<script src="../../../../main/js/geneticalgorithm/Operator.js"></script>
+<script src="../../../../main/js/geneticalgorithm/SelectionOperator.js"></script>
+
+<script src="../../../../main/js/geneticalgorithm/problem/FibonnacciProblem.js"></script>
+
+<script>
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+
+    QUnit.test("FibonnacciProblem", function(assert)
+    {
+        // Setup.
+        var popSize = 300;
+        var generationCount = 50;
+        var backCount = 30;
+        var problem = FibonnacciProblem;
+        var ga = problem.createGA(popSize, generationCount, backCount);
+
+        ga.bind("generation", function(generationCount)
+        {
+            var population = ga.getPopulation();
+            var averageFitness = GAUtilities.round2(GAUtilities
+                    .computeAverageFitness(population));
+            var best = population[0];
+            LOGGER.info("generation " + generationCount + " ave = "
+                    + averageFitness + " best "
+                    + GAUtilities.genomeToLongString(best));
+        });
+
+        ga.bind("message", function(message)
+        {
+            LOGGER.info("message: " + message);
+        });
+
+        // Run.
+        ga.determineBest(function(result)
+        {
+            LOGGER.info("result !== undefined ? " + (result !== undefined));
+            LOGGER.info("result !== null      ? " + (result !== null));
+            LOGGER.info("result = " + GAUtilities.genomeToLongString(result));
+        });
+
+        // Verify.
+        assert.ok(true);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

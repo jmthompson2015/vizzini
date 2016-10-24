@@ -1,0 +1,62 @@
+<html>
+<head>
+<title>System Requirements</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+<script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
+<script src="../../../../coreweb/lib/reactable/reactable-0.10.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+
+<script src="../js/Game.js"></script>
+
+<style>
+#table {
+    border-collapse: collapse;
+}
+
+#table tbody tr:nth-child(2n) td {
+    background: lightCyan;
+}
+
+#table tbody tr:nth-child(2n+1) td {
+    background: white;
+}
+
+#table td {
+    border: 1px solid lightGray;
+    padding: 3px;
+}
+
+#table th {
+    background-color: green;
+    border: 1px solid lightGray;
+    color: white;
+    padding: 3px;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+	<h1>System Requirements</h1>
+	<section class="tableContainer">
+		<div id="table"></div>
+	</section>
+	<script>
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+
+        var columns = Game.createColumnsArray();
+        var data = Game.createDataArray();
+        var element = React.createElement(Reactable.Table,
+        {
+            columns: columns,
+            data: data,
+            sortable: true,
+        });
+        var table = React.render(element, document.getElementById("table"));
+    </script>
+</body>
+</html>

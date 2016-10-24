@@ -1,0 +1,326 @@
+<html>
+<head>
+<meta charset="utf-8">
+<title>GW2 Commerce</title>
+<link rel="stylesheet" href="../css/style.css">
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script
+	src="https://rawgit.com/jmthompson2015/vizzini/master/color/src/main/js/util/sorttable.js"></script>
+
+<script src="../js/util/Logger.js"></script>
+<script src="../js/util/InputValidator.js"></script>
+<script src="../js/util/NumberAugments.js"></script>
+<script src="../js/util/TimePrinter.js"></script>
+
+<script src="../js/CommerceFormat.js"></script>
+<script src="../js/FilterRange.js"></script>
+<script src="../js/GW2Spidy.js"></script>
+<script src="../js/ItemComputer.js"></script>
+<script src="../js/ItemFilter.js"></script>
+<script src="../js/ItemPreferences.js"></script>
+<script src="../js/ItemSorter.js"></script>
+<script src="../js/Rarity.js"></script>
+<script src="../js/Type.js"></script>
+
+</head>
+<body>
+	<table id="logoTable">
+		<tr>
+			<td><span id="title">Commerce</span></td>
+			<td><a href="http://www.guildwars2.com/en/"><img id="logo"
+					src="../resources/GW2_Logo_2c.jpg" /></a></td>
+		</tr>
+	</table>
+	<p />
+	<label for="type">Type: </label>
+	<select id="type"></select>
+	<p />
+	<label for="rarity">Rarity: </label>
+	<select id="rarity"></select>
+	<p />
+	<table id="filterTable">
+		<tr>
+			<td><input id="lowBidChecked" type="checkbox" /> <input
+				id="lowBid" type="number" class="inputNumber" /></td>
+			<td>&le; Bid &lt;</td>
+			<td><input id="highBidChecked" type="checkbox" /> <input
+				id="highBid" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowAskChecked" type="checkbox" /> <input
+				id="lowAsk" type="number" class="inputNumber" /></td>
+			<td>&le; Ask &lt;</td>
+			<td><input id="highAskChecked" type="checkbox" /> <input
+				id="highAsk" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowSupplyChecked" type="checkbox" /> <input
+				id="lowSupply" type="number" class="inputNumber" /></td>
+			<td>&le; Supply &lt;</td>
+			<td><input id="highSupplyChecked" type="checkbox" /> <input
+				id="highSupply" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowDemandChecked" type="checkbox" /> <input
+				id="lowDemand" type="number" class="inputNumber" /></td>
+			<td>&le; Demand &lt;</td>
+			<td><input id="highDemandChecked" type="checkbox" /> <input
+				id="highDemand" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowAskBidRatioChecked" type="checkbox" /> <input
+				id="lowAskBidRatio" type="number" class="inputNumber" /></td>
+			<td>&le; (Ask / Bid) &lt;</td>
+			<td><input id="highAskBidRatioChecked" type="checkbox" /> <input
+				id="highAskBidRatio" type="number" class="inputNumber" /></td>
+		</tr>
+		<tr>
+			<td><input id="lowDemandSupplyRatioChecked" type="checkbox" />
+				<input id="lowDemandSupplyRatio" type="number" class="inputNumber" /></td>
+			<td>&le; (Demand / Supply) &lt;</td>
+			<td><input id="highDemandSupplyRatioChecked" type="checkbox" />
+				<input id="highDemandSupplyRatio" type="number" class="inputNumber" /></td>
+		</tr>
+	</table>
+	<p />
+	<button onclick="restoreDefaultItemPreferences();">Restore
+		Defaults</button>
+	<button onclick="submitActionPerformed();">Submit</button>
+	<img id="loadingSpinner" src="../resources/LoadingSpinner.gif"
+		style="display: none;" />
+	<p />
+	<span id="rowCount">Row Count: 0</span>
+	<table id="itemTable" class="sortable">
+		<thead>
+			<tr>
+				<th>Item</th>
+				<th>Type</th>
+				<th>Rarity</th>
+				<th class="sorttable_numeric">Bid</th>
+				<th class="sorttable_numeric">Ask</th>
+				<th class="sorttable_numeric">Supply</th>
+				<th class="sorttable_numeric">Demand</th>
+				<th class="sorttable_numeric">Ask / Bid</th>
+				<th class="sorttable_numeric">Demand / Supply</th>
+			</tr>
+		</thead>
+		<tbody id="items">
+		</tbody>
+	</table>
+	<script>
+        "use strict";
+
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+        var itemPrefs = new ItemPreferences();
+
+        $(document).ready(function()
+        {
+            fillTypes();
+            fillRarities();
+            initializeFilter();
+        });
+
+        function fillFullItemList()
+        {
+            var typeId = getSelectedTypeId();
+
+            if (typeId)
+            {
+                var loadingSpinner = document.getElementById("loadingSpinner");
+                loadingSpinner.style.display = "inline";
+
+                GW2Spidy.getFullItemList(typeId, function(results)
+                {
+                    var rarityId = getSelectedRarityId();
+                    var filter = new ItemFilter(rarityId, itemPrefs
+                            .getBidRange(), itemPrefs.getAskRange(), itemPrefs
+                            .getSupplyRange(), itemPrefs.getDemandRange(),
+                            itemPrefs.getAskBidRatioRange(), itemPrefs
+                                    .getDemandSupplyRatioRange());
+                    var myResults = filter.filter(results);
+                    myResults = ItemSorter.sort(myResults);
+                    var tableRows = CommerceFormat.formatItems(myResults);
+                    $("#items").html(tableRows);
+                    setRowCount(myResults.length);
+
+                    loadingSpinner.style.display = "none";
+                });
+            }
+        }
+
+        function fillRarities()
+        {
+            var options = CommerceFormat.formatRarities();
+            $("#rarity").html(options);
+        }
+
+        function fillTypes()
+        {
+            var options = CommerceFormat.formatTypes();
+            $("#type").html(options);
+        }
+
+        function getSelectedRarityId()
+        {
+            var select = document.getElementById("rarity");
+            return select.options[select.selectedIndex].value;
+        }
+
+        function getSelectedTypeId()
+        {
+            var select = document.getElementById("type");
+            return select.options[select.selectedIndex].value;
+        }
+
+        function initializeFilter()
+        {
+            document.getElementById("type").selectedIndex = itemPrefs
+                    .getTypeIndex();
+            document.getElementById("rarity").selectedIndex = itemPrefs
+                    .getRarityIndex();
+
+            var bidRange = itemPrefs.getBidRange();
+            document.getElementById("lowBidChecked").checked = bidRange
+                    .isLowChecked();
+            document.getElementById("lowBid").value = bidRange.getLowValue();
+            document.getElementById("highBidChecked").checked = bidRange
+                    .isHighChecked();
+            document.getElementById("highBid").value = bidRange.getHighValue();
+
+            var askRange = itemPrefs.getAskRange();
+            document.getElementById("lowAskChecked").checked = askRange
+                    .isLowChecked();
+            document.getElementById("lowAsk").value = askRange.getLowValue();
+            document.getElementById("highAskChecked").checked = askRange
+                    .isHighChecked();
+            document.getElementById("highAsk").value = askRange.getHighValue();
+
+            var supplyRange = itemPrefs.getSupplyRange();
+            document.getElementById("lowSupplyChecked").checked = supplyRange
+                    .isLowChecked();
+            document.getElementById("lowSupply").value = supplyRange
+                    .getLowValue();
+            document.getElementById("highSupplyChecked").checked = supplyRange
+                    .isHighChecked();
+            document.getElementById("highSupply").value = supplyRange
+                    .getHighValue();
+
+            var demandRange = itemPrefs.getDemandRange();
+            document.getElementById("lowDemandChecked").checked = demandRange
+                    .isLowChecked();
+            document.getElementById("lowDemand").value = demandRange
+                    .getLowValue();
+            document.getElementById("highDemandChecked").checked = demandRange
+                    .isHighChecked();
+            document.getElementById("highDemand").value = demandRange
+                    .getHighValue();
+
+            var askBidRatioRange = itemPrefs.getAskBidRatioRange();
+            document.getElementById("lowAskBidRatioChecked").checked = askBidRatioRange
+                    .isLowChecked();
+            document.getElementById("lowAskBidRatio").value = askBidRatioRange
+                    .getLowValue();
+            document.getElementById("highAskBidRatioChecked").checked = askBidRatioRange
+                    .isHighChecked();
+            document.getElementById("highAskBidRatio").value = askBidRatioRange
+                    .getHighValue();
+
+            var demandSupplyRatioRange = itemPrefs.getDemandSupplyRatioRange();
+            document.getElementById("lowDemandSupplyRatioChecked").checked = demandSupplyRatioRange
+                    .isLowChecked();
+            document.getElementById("lowDemandSupplyRatio").value = demandSupplyRatioRange
+                    .getLowValue();
+            document.getElementById("highDemandSupplyRatioChecked").checked = demandSupplyRatioRange
+                    .isHighChecked();
+            document.getElementById("highDemandSupplyRatio").value = demandSupplyRatioRange
+                    .getHighValue();
+        }
+
+        function restoreDefaultItemPreferences()
+        {
+            itemPrefs.clear();
+            initializeFilter();
+        }
+
+        function saveItemPreferences()
+        {
+            itemPrefs
+                    .setTypeIndex(document.getElementById("type").selectedIndex);
+            itemPrefs
+                    .setRarityIndex(document.getElementById("rarity").selectedIndex);
+
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowBidChecked").checked, document
+                        .getElementById("lowBid").value, document
+                        .getElementById("highBidChecked").checked, document
+                        .getElementById("highBid").value);
+                itemPrefs.setBidRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowAskChecked").checked, document
+                        .getElementById("lowAsk").value, document
+                        .getElementById("highAskChecked").checked, document
+                        .getElementById("highAsk").value);
+                itemPrefs.setAskRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowSupplyChecked").checked, document
+                        .getElementById("lowSupply").value, document
+                        .getElementById("highSupplyChecked").checked, document
+                        .getElementById("highSupply").value);
+                itemPrefs.setSupplyRange(range);
+            }
+            {
+                var range = new FilterRange(document
+                        .getElementById("lowDemandChecked").checked, document
+                        .getElementById("lowDemand").value, document
+                        .getElementById("highDemandChecked").checked, document
+                        .getElementById("highDemand").value);
+                itemPrefs.setDemandRange(range);
+            }
+            {
+                var range = new FilterRange(
+                        document.getElementById("lowAskBidRatioChecked").checked,
+                        document.getElementById("lowAskBidRatio").value,
+                        document.getElementById("highAskBidRatioChecked").checked,
+                        document.getElementById("highAskBidRatio").value);
+                itemPrefs.setAskBidRatioRange(range);
+            }
+            {
+                var range = new FilterRange(
+                        document.getElementById("lowDemandSupplyRatioChecked").checked,
+                        document.getElementById("lowDemandSupplyRatio").value,
+                        document.getElementById("highDemandSupplyRatioChecked").checked,
+                        document.getElementById("highDemandSupplyRatio").value);
+                itemPrefs.setDemandSupplyRatioRange(range);
+            }
+        }
+
+        function setRowCount(rowCount)
+        {
+            var message = "Row Count: " + rowCount;
+            $("#rowCount").html(message);
+        }
+
+        function submitActionPerformed()
+        {
+            $("#items").html("");
+            setRowCount(0);
+            saveItemPreferences();
+            fillFullItemList();
+        }
+    </script>
+	<p />
+	<span>Data from <a href="http://www.gw2spidy.com">GW2Spidy</a>
+		using <a href="http://github.com/rubensayshi/gw2spidy/wiki/API-v0.9">API
+			v0.9</a>.
+	</span>
+</body>
+</html>

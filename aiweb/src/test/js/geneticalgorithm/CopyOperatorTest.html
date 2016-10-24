@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CopyOperatorTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+
+<script src="../../../main/js/geneticalgorithm/CopyOperator.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+    var SHOULD_THROW = "Should have thrown an exception.";
+
+    QUnit.test("CopyOperator.copy()", function(assert)
+    {
+        // Setup.
+        var genome = [ 1, 2, 3, 4, 5 ];
+        LOGGER.debug("genome = " + genome);
+
+        // Run.
+        var result = CopyOperator.copy(genome);
+
+        // Verify.
+        assert.ok(result);
+        LOGGER.debug("result = " + result);
+        assert.ok(result != genome);
+        assert.ok(result !== genome);
+        assert.equal(result.length, genome.length);
+
+        for (var i = 0; i < genome.length; i++)
+        {
+            assert.ok(result[i] === genome[i]);
+        }
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

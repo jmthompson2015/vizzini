@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestObserverCameraUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
+<script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Body"></script>
+<script src="../../../../../../coreweb/lib/three/three.min-0.74.0.js"></script>
+<script src="../../../../../../coreweb/lib/three/RingGeometry2.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/ui/Select.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+</head>
+<body>
+	<div id="observerCamera"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "../../../main/resources/";
+        // var resourceBase = "/Volumes/StorageDrive/jmthompson/git/vizzini/hobby/simulator/src/main/resources/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Body", "Environment", "ui/ObserverCameraUI" ], function(Body, Environment, ObserverCameraUI)
+        {
+            var environment = new Environment.Reference();
+            var width = 300;
+            var height = 300;
+
+            var element = React.createElement(ObserverCameraUI,
+            {
+                environment: environment,
+                canvasId: "observerCanvas",
+                width: width,
+                height: height,
+            });
+            React.render(element, document.getElementById("observerCamera"));
+
+            var tick = function()
+            {
+                var lastUpdate = Date.now();
+                environment.tick();
+
+                var now = Date.now();
+                var delay = 1000 - (now - lastUpdate);
+                LOGGER.info("delay = " + delay + " ms diff = " + (now - lastUpdate));
+                setTimeout(tick, delay);
+            }
+
+            tick();
+        });
+    </script>
+</body>
+</html>

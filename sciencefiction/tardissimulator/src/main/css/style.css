@@ -1,0 +1,81 @@
+/*
+ * @see http://thenewcode.com/666/Animating-Sliding-Door-Images-To-Reveal-A-Background
+ */
+body {
+    background-image: url(../resources/images/tardis_roundels.jpg);
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+    margin: 0px;
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#controls {
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#controls td {
+    padding: 5px;
+}
+
+#scanner {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+    border-width: 15px;
+    border-style: solid;
+    border-color: #515151;
+    border-radius: 4%;
+}
+
+#scanner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+    object-fit: cover;
+    opacity: 1;
+    transition: opacity 18s ease-in-out;
+}
+
+#scanner-cover-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: 3.6s ease-in-out;
+}
+
+#scanner-cover-bottom {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transition: 3.6s ease-in-out;
+}
+
+.scanner-cover-top-close {
+    transform: translateY(0%);
+}
+
+.scanner-cover-bottom-close {
+    transform: translateY(0%);
+}
+
+.scanner-cover-top-open {
+    transform: translateY(-95%);
+}
+
+.scanner-cover-bottom-open {
+    transform: translateY(95%);
+}

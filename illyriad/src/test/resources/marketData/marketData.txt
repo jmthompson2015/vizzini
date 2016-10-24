@@ -1,0 +1,359 @@
+// Market values for useful and crafted resources.
+// bid ask resource
+// Report written 2013.12.14 22:01
+
+// Basic
+0.75 0.9 Wood
+0.9 0.6 Iron
+1.1 0.9 Clay
+1 0.55 Stone
+2 2.35 Food
+875 875 Livestock
+1947 2048 Saddle
+471.1 550 Book
+2926.1 3895 Siege Block
+
+// Mounts
+1700 3800 Elven Thoroughbred
+700 2600 Battlebred
+1200 2500 Dwarven Battle Mule
+14800 24250 War Wolf
+12000 22500 Draught Horse
+4600 7500 Riding Horse
+4500 9395 Heavy Warhorse
+6750 7250 Steady Warhorse
+5400 7050 Nimble Warhorse
+170 149 Horse
+
+// Spear
+3000 7500 Arctic Spear
+2001 2410 Battle Spear
+3000 4250 Boar Spear
+0 3750 Defender's Spear
+0 85000 Desert Pike
+0 12500 Desert Spear
+150000 350000 Dragon Spear
+0 4600 Duelling Spear
+2000 10000 Ebony Spear
+0 1425 Fang-Tipped Spear
+2200 3500 Forester's Spear
+2000 3950 Hill-Tribe Spear
+5000 120000 Iron-Banded Spear
+10000 0 Jungle Hunter's Spear
+1000 2500 Jungle Spear
+2000 3500 Light Spear
+3200 5000 Mountain Spear
+3200 7500 Obsidian-Tipped Spear
+6003 10400 Pike
+5025 10000 Plainsman's Spear
+2500 9999 Razor-Edged Spear
+170000 3200000 Silversteel Spear
+5000 5000 Trident
+0 6800 War Spear
+203 239 Spear
+
+// Sword
+1000 3950 Dwarven Battle Axe
+900 2500 Elven Sword
+1 3999 Orcish Sword
+925 1498 Traditional Sword
+1000 3600 Adventurer's Sword
+2500 5000 Battle Sword
+500 3750 Bone Handled Sword
+5000 24000 Chitin-Crafted Shortsword
+4000 9500 Ebony-Hilt Sword
+0 3000 Light Sword
+0 2550 Longsword
+1500 7000 Machete
+10000 20000 Mountain-Tribe's Sword
+0 12500 Razor-Edged Sword
+125000 285000 Reinforced Sword
+1000 12500 Sabre
+0 6666 Scimitar
+4500 9850 Seaxe
+2000 0 Short Sword
+204000 224800 Silversteel Sword
+10000 0 War Axe
+402 484 Sword
+0 90000000 Soul-Forged Blade
+
+// Bow
+10000000 0 Elven Spirit Bow
+2000 5500 Arctic Bow
+21000 0 Chitin-Cored Bow
+25000 0 Composite Bow
+0 25000 Desert Bow
+75000 299500 Ebony Bow
+2000 9995 High-Power Bow
+1450 4995 Hillsman's Bow
+1500 4500 Hunter's Bow
+2000 0 Jungle Bow
+0 415000 Leopard Gut Bow
+650 1500 Light Bow
+2020 7000 Long-Draw Bow
+0 7500 Marksman's Bow
+3900 8700 Mountain Bow
+4000 18000 Plains Bow
+1500 6666 Poacher's Bow
+2000 5500 Rapid-Draw Bow
+6500 7000 Three-Wood Bow
+2200 10000 War Bow
+0 12500 Woodsman's Bow
+232 270 Bow
+
+// Leather Armour
+0 25000 Animal-Scale Armour
+0 2500 Cloth-Backed Leather
+0 7500 Desert Armour
+115000 275000 Extra Heavy Armour
+5100 0 Extra Light Armour
+5000 8500 Forester's Armour
+0 2500 Fur-Lined Armour
+2000 3950 Hardened Leather
+5000 0 Heavy Leather
+4000 0 Highland Armour
+1000 5450 Jungle Armour
+1000 0 Light Leather
+0 7500 Midnight Armour
+3000 8375 Over-Padded Armour
+3000 5000 Plainsman's Armour
+6001 18495 Reinforced Leather
+4000 5000 Splintmail
+0 9999 Sun-Burnished Armour
+4000 9999 Upland Armour
+2000 8999 Vanguard's Armour
+861 929 Leather Armour
+
+// Chainmail Armour
+1000000 0 Master-Crafted Chainmail
+5000 10000 Cloth-Backed Chainmail
+4200 8500 Desert Chainmail
+0 6750 Double-Weave Chainmail
+2000 10000 Extra Light Chainmail
+2000 3000 Fur-Lined Chainmail
+1200 2500 Heavy Chain Armour
+4000 5000 Highland Chainmail
+4000 0 Hillsman's Chainmail
+2000 0 Jungle Chainmail
+2000 4800 Light Chain Armour
+2500 3900 Over-Padded Chainmail
+7500 0 Plainsman's Chainmail
+4011 7000 Reinforced Chainmail
+145000 370000 Silversteel Chainmail
+15000 0 Thick-Ring Chainmail
+5000 18000 Vanguard's Chainmail
+8000 0 Woodsman's Chainmail
+565 615 Chainmail Armour
+
+// Plate Armour
+10000000 0 Dwarven Champion's
+3000 6800 Chain-Edged Platemail
+4000 8500 Desert Platemail
+6500 0 Forester's Platemail
+0 4250 Heavy Platemail
+6500 12000 Highland Platemail
+3001 7000 Jungle Platemail
+2000 6200 Light Platemail
+12000 0 Obsidian Platemail
+6200 0 Plainsman's Platemail
+6500 7500 Reinforced Platemail
+200000 0 Silversteel Platemail
+0 50000 Spiked Platemail
+0 11995 Thickened Platemail
+2500 7400 Under-Padded Platemail
+3000 0 Upland Platemail
+0 12500 Vanguard's Platemail
+360 429 Plate Armour
+
+// Beverage
+1500500 1900000 Wine
+230 250 Beer
+
+// Anatomies
+8000 0 Alligator Heart
+10000 0 Alligator Skull
+110000 0 Alligator Entrail
+50000 0 Alligator Vertebra
+5555 0 Anaconda Heart
+14500 0 Anaconda Fang
+750 1900 Anaconda Skin
+3200 7999 Arctic Wolf Heart
+500005 0 Arctic Wolf Entrail
+0 2199 Arctic Wolf Fur
+0 1999 Arctic Wolf Tooth
+3800 10000 Baboon Heart
+500005 0 Baboon Entrail
+0 3000 Baboon Fur
+7000 0 Black Bear Heart
+50000 0 Black Bear Tooth
+8100 11500 Black Bear Fur
+1000555 0 Black Bear Vertebra
+5300 0 Black Panther Heart
+11000 0 Black Panther Vertebra
+1325 6000 Black Panther Fur
+2800 1999 Brown Bear Heart
+1900 3000 Brown Bear Fur
+500000 0 Brown Bear Vertebra
+10000 0 Cobra Heart
+6500 20000 Cobra Brain
+7500 0 Coral Snake Heart
+130000 0 Coral Snake Brain
+14000 0 Cyclops Heart
+1000000 0 Cyclops Entrail
+28000 480000 Elephant Heart
+500000 1200000 Elephant Hide
+500000 0 Elephant Rib
+500000 0 Elephant Vertebra
+5100 0 Fire Salamander Heart
+1500000 0 Fire Salamander Entrail
+500 3000 Fire Salamander Skin
+16000 0 Gharial Heart
+8000 26500 Gharial Tooth
+6200 0 Giant Beetle Heart
+6000 8500 Giant Beetle Carapace
+2200 2500 Giant Rat Heart
+2900 3999 Giant Rat Rib
+1300 1789 Giant Rat Fur
+5400 0 Giant Scorpion Heart
+1300 6000 Giant Scorpion Exoskeleton
+8000 0 Giant Scorpion Stinger
+4000 5000 Giant Scuttler Heart
+5325 10000 Giant Scuttler Exoskeleton
+5500 32000 Giant Snake Heart
+21000 0 Giant Snake Vertebra
+13000 0 Giant Snake Fang
+16500 0 Giant Spider Heart
+6500 25000 Giant Spider Fangs
+3100 19999 Golden Monkey Heart
+1000000 0 Golden Monkey Entrail
+1810 3000 Golden Monkey Fur
+5500 0 Ice Salamander Heart
+1000000 0 Ice Salamander Entrail
+500 3499 Ice Salamander Skin
+4000 24000 Jaguar Heart
+560 0 Jaguar Fur
+1000000 0 Jaguar Vertebra
+4000 15000 Leopard Heart
+0 1900 Leopard Entrail
+1000000 0 Leopard Vertebra
+5100 500000 Lion Heart
+5100 0 Lion Skull
+50000 0 Lion Tooth
+1000000 0 Lion Vertebra
+35000 0 Mammoth Heart
+16000 0 Mammoth Rib
+50000 81750 Mammoth Tusk
+10000 0 Mammoth Vertebra
+7200 0 Massive Scarab Heart
+11111 0 Massive Scarab Carapace
+4500 11500 Poisonous Crawler Heart
+3100 9000 Poisonous Crawler Exoskeleton
+1200 2500 Poisonous Crawler Mandible
+3600 7999 Polar Bear Heart
+250 3500 Polar Bear Fur
+4300 250000 Puma Heart
+500000 0 Puma Rib
+500000 0 Puma Vertebra
+1200 3300 Puma Fur
+17000 500000 Rhinoceros Heart
+500000 0 Rhinoceros Rib
+500000 0 Rhinoceros Hide
+4800 0 Salamander Heart
+15000 0 Salamander Entrail
+0 939 Salamander Fang
+500000 0 Saurian Heart
+1000000 0 Saurian Entrail
+32000 0 Saurian Rib
+72000 0 Saurian Vertebra
+5000 9000 Scaled Charger Heart
+10000 14250 Scaled Charger Scale
+5100 7500 Scaled Charger Vertebra
+3600 7000 Scritcher Heart
+1650 2950 Scritcher Carapace
+7300 0 Simien Wolf Heart
+5000 6999 Simien Wolf Fur
+4100 12999 Snow Leopard Heart
+750 1998 Snow Leopard Fur
+500000 0 Snow Leopard Vertebra
+6000 120000 Tiger Heart
+25000 0 Tiger Tooth
+6000 84000 Tiger Skull
+50000 0 White Tiger Heart
+500000 0 White Tiger Vertebra
+1000 1500 Wild Dog Heart
+666 1199 Wild Dog Bone
+10000 0 Wild Dog Entrail
+512 1000 Wild Dog Fur
+1600 1698 Wolf Heart
+1500000 0 Wolf Entrail
+800 1899 Wolf Tooth
+4591 6199 Wolf Fur
+3230 3500 Hides
+
+// Minerals
+20100 42000 Arterium
+5000 3999 Earthblood
+1100 5250 Deepsilver
+1400 2199 Pyrestone
+2200 6000 Trove
+2222 2550 Rainbowstone
+3500 4499 Claristrine
+120000 150000 Elven Tears
+6010 23999 Svelaugh Sand
+10500 22900 Aeghris
+18700 40000 Daera
+13500 35000 Flektrine
+16000 23899 Almhurin
+137000 250000 Silversoil
+5000 7250 Obsidian
+25000 62500 Goldstone
+35000000 0 Night Diamond
+1800 2499 Iceheart
+750000 1500000 Amar Shards
+51015 74999 Silversteel
+175 199 Mineral
+
+// Herbs
+400 475 Ancient Oak
+2000000 0 Baleberries
+700000 0 Berbane Leaves
+505 1000 Brascan Seeds
+16000 19000 Brownback Moss
+1855000 4000000 Desert Flame
+11100 40000 Dyallom Gall
+3600 8000 Ebony Wood
+3700 65000 Furzion Seedpod
+200 749 Giant Palm Leaves
+9800 17000 Ironstem Root
+2700 3250 Larken Wood
+2300 5300 Lemonwood Bough
+2000000 0 Mabri Fruit
+7400 20000 Miner's Bane
+2700 4989 Pale Cedar Wood
+2000000 0 Punfruit
+1500 1997 Queen's Hair Leaves
+760 2899 Rahan Palm Wood
+6000 30000 Rockweed Root
+50 700 Sharproot
+565 1900 Silverthorn
+36550 49999 Snowbell Flowers
+1300 3999 Spidertree Leaves
+13550 35000 Suntree Haft
+5800 0 Toadcap Fungus
+2600 20500 Vistrok Flower
+4800 35000 Warpwood Shoot
+500000 0 Ysanberries
+320 444 Grapes
+331 389 Herb
+
+// Exotic
+8000000 0 Corrupted Human Tentacle
+2200000 0 Corrupted Elf Tentacle
+15000000 0 Corrupted Dwarf Tentacle
+15000000 0 Corrupted Orc Tentacle
+
+// Elemental
+120050 130000 Air Salt
+187350 235000 Earth Salt
+91030 100000 Fire Salt
+84060 128000 Water Salt

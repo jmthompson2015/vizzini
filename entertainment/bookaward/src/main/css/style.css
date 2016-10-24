@@ -1,0 +1,87 @@
+body {
+    background-color: Silver;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.dataTable tr:nth-child(odd) {
+    background-color: rgb(240, 240, 240);
+}
+
+.dataTable tr:nth-child(even) {
+    background-color: rgb(255, 240, 240);
+}
+
+.linksTable tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.linksTable tr:nth-child(even) {
+    background-color: transparent;
+}
+
+.nominationsTable tr:nth-child(odd) {
+    background-color: transparent;
+}
+
+.nominationsTable tr:nth-child(even) {
+    background-color: transparent;
+}
+
+#BACKGROUND_DARK, .dataTable th, .backgroundDark {
+    background-color: Maroon;
+    color: White;
+}
+
+#BORDER_DARK, .dataTable td, .borderDark {
+    border: 1px solid Maroon;
+}
+
+#BORDER_LIGHT, .dataTable th, .borderLight {
+    border: 1px solid rgb(240, 240, 240);
+}
+
+#BORDER_NONE, .linksTable td, .nominationsTable td, .borderNone {
+    border: 0px solid transparent;
+}
+
+#DISPLAY_INLINE_BLOCK, .textImageLink, .displayInlineBlock {
+    display: inline-block;
+}
+
+#FLOAT_RIGHT, .imageBlock, .floatRight {
+    float: right;
+}
+
+#FONT_SMALL, .dataTable, .filterLabel, .filtersUI, .rowCount, .fontSmall {
+    font-size: small;
+}
+
+#PADDING_BT2, .dataTable td, .paddingBT2 {
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+#PADDING_LEFT4, .imageLink, .paddingLeft4 {
+    padding-left: 4px;
+}
+
+#PADDING_LR4, .dataTable td, .paddingLR4 {
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+#PADDING_RIGHT4, .winner, .paddingRight4 {
+    padding-right: 4px;
+}
+
+#VERTICAL_ALIGN_MIDDLE, .logo, .verticalAlignMiddle {
+    vertical-align: middle;
+}
+
+#WIDTH_FULL, .textImageLink, .widthFull {
+    width: 100%;
+}

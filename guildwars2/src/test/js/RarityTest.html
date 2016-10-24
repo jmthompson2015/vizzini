@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>RarityTest</title>
+
+<link rel="stylesheet"
+	href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../main/js/util/NumberAugments.js"></script>
+
+<script src="../../main/js/Rarity.js"></script>
+
+<script>
+    QUnit.test("findById()", function(assert)
+    {
+        assert.ok(Rarity.findById);
+        var i = 0;
+        assert.equal(Rarity.findById(i++), "junk");
+        assert.equal(Rarity.findById(i++), "common");
+        assert.equal(Rarity.findById(i++), "fine");
+        assert.equal(Rarity.findById(i++), "masterwork");
+        assert.equal(Rarity.findById(i++), "rare");
+        assert.equal(Rarity.findById(i++), "exotic");
+        assert.equal(Rarity.findById(i++), "ascended");
+        assert.equal(Rarity.findById(i++), "legendary");
+        
+        assert.ok(!Rarity.findById(undefined));
+        assert.ok(!Rarity.findById(null));
+        assert.ok(!Rarity.findById("A"));
+        assert.ok(!Rarity.findById(-1));
+    });
+
+    QUnit.test("values", function(assert)
+    {
+        assert.ok(Rarity.values);
+        assert.equal(Rarity.values.length, 8);
+        var i = 0;
+        assert.equal(Rarity.values[i++], "junk");
+        assert.equal(Rarity.values[i++], "common");
+        assert.equal(Rarity.values[i++], "fine");
+        assert.equal(Rarity.values[i++], "masterwork");
+        assert.equal(Rarity.values[i++], "rare");
+        assert.equal(Rarity.values[i++], "exotic");
+        assert.equal(Rarity.values[i++], "ascended");
+        assert.equal(Rarity.values[i++], "legendary");
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

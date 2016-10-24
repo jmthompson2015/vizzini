@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>PartTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
+
+<script src="../../main/js/Part.js"></script>
+
+<script>
+    "use strict";
+
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    QUnit
+            .test(
+                    "Part.cpu properties",
+                    function(assert)
+                    {
+                        // Setup.
+                        var part = Part.cpu.properties[Part.cpu.CORE_I3_4360];
+
+                        // Run / Verify.
+                        assert.ok(part);
+                        assert.equal(part.name, "Core i3-4360");
+                        assert.equal(part.type, "cpu");
+                        assert
+                                .equal(
+                                        part.url,
+                                        "http://www.amazon.com/dp/B00J2LIFDC/ref=as_li_ss_tl?ie=UTF8&tag=tonymacx86com-20");
+                        assert.equal(part.value, "core_i3_4360");
+                        assert.ok(!part.cost);
+                    });
+
+    QUnit.test("Part.cpu.values()", function(assert)
+    {
+        // Run.
+        var result = Part.cpu.values();
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 5);
+        assert.equal(result[0], Part.cpu.CORE_I3_4360);
+        assert.equal(result[1], Part.cpu.CORE_I3_4370);
+        assert.equal(result[2], Part.cpu.CORE_I5_4460);
+        assert.equal(result[3], Part.cpu.CORE_I5_4690K);
+        assert.equal(result[4], Part.cpu.CORE_I7_4790K);
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

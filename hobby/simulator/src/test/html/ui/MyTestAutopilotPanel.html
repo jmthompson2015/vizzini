@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestAutopilotPanel</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
+<script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Body"></script>
+<script src="../../../../../../coreweb/lib/three/three.min-0.74.0.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/ui/Select.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
+
+</head>
+<body>
+	<div id="panel"></div>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "../../../main/resources/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Environment", "Quaternion", "State", "Vector", "ui/AutopilotPanel" ], function(Environment,
+                Quaternion, State, Vector, AutopilotPanel)
+        {
+            var environment = new Environment.Reference();
+            var ship = environment.ship("ReferenceShip");
+            var computer = ship.device("AlignmentAutopilot");
+            var state = environment.state("ReferenceShip");
+
+            var element = React.createElement(AutopilotPanel,
+            {
+                computer: computer,
+                state: state,
+                environment: environment,
+            });
+            React.render(element, document.getElementById("panel"));
+
+            function myCallback(newTickCount)
+            {
+                LOGGER.info("myCallback() newTickCount = " + newTickCount);
+            }
+        });
+    </script>
+</body>
+</html>

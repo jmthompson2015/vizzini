@@ -1,0 +1,87 @@
+body {
+    background-image: url('../../../../webapp/src/main/resources/yellowGradient.png');
+    background-repeat: repeat-y;
+    font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+.dataTable tbody tr:nth-child(2n) td {
+    background: LightCyan;
+}
+
+.dataTable tbody tr:nth-child(2n+1) td {
+    background: White;
+}
+
+#ALIGN_CENTER, .chartTitle, .alignCenter {
+    text-align: center;
+}
+
+#ALIGN_RIGHT, .numberCell, .alignRight {
+    text-align: right;
+}
+
+#BACKGROUND_DARK, .dataTable th, .backgroundDark {
+    background-color: green;
+    color: white;
+}
+
+#BACKGROUND_LIGHT, .chart, .backgroundLight {
+    background-color: white;
+}
+
+#BORDER_DARK, .dataTable td, .borderDark {
+    border: 1px solid green;
+}
+
+#BORDER_LIGHT, .dataTable th, .borderLight {
+    border: 1px solid lightGray;
+}
+
+#DISPLAY_INLINE_TABLE, .chartContainer, .displayInlineTable {
+    display: inline-table;
+}
+
+#DISPLAY_TABLE_CAPTION, .chartTitle, .displayTableCaption {
+    display: table-caption;
+}
+
+#DISPLAY_TABLE_CELL, .chart, #chart4Legend, .displayTableCell {
+    display: table-cell;
+}
+
+#FLOAT_LEFT, #chart4, #chart4Legend, .floatLeft {
+    float: left;
+}
+
+#FONT_BOLD, .chartTitle, .fontBold {
+    font-weight: bold;
+}
+
+#FONT_LARGE, .chartTitle, .fontLarge {
+    font-size: large;
+}
+
+#FONT_SMALL, .bar-legend, .dataTable, .fontSmall {
+    font-size: small;
+}
+
+#LIST_STYLE_TYPE_NONE, .bar-legend, .listStyleTypeNone {
+    list-style-type: none;
+    vertical-align: middle;
+}
+
+#MARGIN, .chartContainer, .margin {
+    margin: 20px;
+}
+
+#VERTICAL_ALIGN_MIDDLE, .bar-legend li, .verticalAlignMiddle {
+    vertical-align: middle;
+}
+
+#WIDTH_WIDE, #symbolsUI, .widthWide {
+    width: 300px;
+}

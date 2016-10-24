@@ -1,0 +1,124 @@
+Events
+======
+
+Update Trigger
+--------------
+Source: SSEnvironment
+Listeners:
+ PilotsUI
+ PlayAreaUI
+
+Ship Fled
+---------
+Source: SSEnvironment
+Listeners:
+ PilotsUI
+ PlayAreaUI
+ SSEnvironmentUI
+
+Phase
+-----
+Source: SSEnvironment
+Listeners:
+ PlayAreaUI
+ SSPanel
+
+Round
+-----
+Source:   SSEnvironment
+Listener: SSPanel
+
+Active Token
+------------
+Source:   SSEnvironment
+Listener: SSPanel
+
+Winner
+------
+Source:   SSEngine
+Listener: SSPanel
+
+
+Ship Destroyed
+--------------
+Source: SSEnvironment
+Listeners:
+ PilotsUI
+ PlayAreaUI
+
+Attacker Target Lock
+--------------------
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Cloak
+-----
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Critical Damage
+---------------
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Damage
+------
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Defender Target Lock
+--------------------
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Evade
+-----
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Focus
+-----
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Ion
+---
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Shield
+------
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Stress
+------
+Source:   MutableTokenState
+Listener: SSToken
+Source:   SSToken
+Listener: PilotCardUI
+
+Values
+------
+Source:   AttackDice
+Listener: AttackDiceUI
+Source:   DefenseDice
+Listener: DefenseDiceUI

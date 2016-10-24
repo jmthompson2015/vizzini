@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>NumberAugmentsTest</title>
+
+<link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.15.0.css">
+<script src="http://code.jquery.com/qunit/qunit-1.15.0.js"></script>
+
+<script src="../../../main/js/util/NumberAugments.js"></script>
+
+<script>
+    QUnit.test("Number.vizziniIsInteger()", function(assert)
+    {
+        assert.ok(Number.vizziniIsInteger(0));
+        assert.ok(Number.vizziniIsInteger(1));
+        assert.ok(Number.vizziniIsInteger(1.0));
+        assert.ok(!Number.vizziniIsInteger(1.2));
+        assert.ok(!Number.vizziniIsInteger(Math.PI));
+    });
+</script>
+</head>
+<body>
+	<div id="qunit"></div>
+</body>
+</html>

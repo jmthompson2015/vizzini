@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestCameraUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+<script src="../../../../../../coreweb/lib/moment/moment.min-2.10.3.js"></script>
+<script src="../../../../../../coreweb/lib/react/react.min-0.14.7.js"></script>
+<script src="../../../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../../main/js/Body"></script>
+<script src="../../../../../../coreweb/lib/three/three.min-0.74.0.js"></script>
+
+<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td>Port</td>
+			<td>Forward</td>
+			<td>Starboard</td>
+			<td>Aft</td>
+		</tr>
+		<tr>
+			<td id="portCamera"></td>
+			<td id="forwardCamera"></td>
+			<td id="starboardCamera"></td>
+			<td id="aftCamera"></td>
+		</tr>
+	</table>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "../../../main/resources/";
+        // var resourceBase = "/Volumes/StorageDrive/jmthompson/git/vizzini/hobby/simulator/src/main/resources/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Body", "Environment", "Quaternion", "State", "StateFactory", "Vector", "ship/Sensor", "ship/Ship",
+                "ui/CameraUI" ], function(Body, Environment, Quaternion, State, StateFactory, Vector, Sensor, Ship,
+                CameraUI)
+        {
+            var environment = createEnvironment();
+            var parentKey = "ReferenceShip";
+            var ship = environment.ship(parentKey);
+            var portSensor = ship.device("PortCamera");
+            var forwardSensor = ship.device("ForwardCamera");
+            var starboardSensor = ship.device("StarboardCamera");
+            var aftSensor = ship.device("AftCamera");
+            var width = 300;
+            var height = 300;
+
+            var portElement = React.createElement(CameraUI,
+            {
+                canvasId: "portCanvas",
+                sensor: portSensor,
+                width: width,
+                height: height,
+            });
+            React.render(portElement, document.getElementById("portCamera"));
+
+            var forwardElement = React.createElement(CameraUI,
+            {
+                canvasId: "forwardCanvas",
+                sensor: forwardSensor,
+                width: width,
+                height: height,
+            });
+            React.render(forwardElement, document.getElementById("forwardCamera"));
+
+            var starboardElement = React.createElement(CameraUI,
+            {
+                canvasId: "starboardCanvas",
+                sensor: starboardSensor,
+                width: width,
+                height: height,
+            });
+            React.render(starboardElement, document.getElementById("starboardCamera"));
+
+            var aftElement = React.createElement(CameraUI,
+            {
+                canvasId: "aftCanvas",
+                sensor: aftSensor,
+                width: width,
+                height: height,
+            });
+            React.render(aftElement, document.getElementById("aftCamera"));
+
+            var tick = function()
+            {
+                var lastUpdate = Date.now();
+                environment.tick();
+
+                var now = Date.now();
+                var delay = 1000 - (now - lastUpdate);
+                LOGGER.info("delay = " + delay + " ms diff = " + (now - lastUpdate));
+                setTimeout(tick, delay);
+            }
+
+            tick();
+
+            function createEnvironment()
+            {
+                var bodyToState0 = StateFactory.Reference.createStates();
+                var bodyToState = {};
+                var distance = 4.5e+04;
+
+                var bodyKey = Body.SOL;
+                var position = new Vector(-5.0e+08, -5.0e+08, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.MERCURY;
+                var position = new Vector(0.0, distance, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.VENUS;
+                var position = new Vector(distance, 0.0, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.EARTH;
+                var position = new Vector(0.0, -distance, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.LUNA;
+                var position = new Vector(1.5e+04, -distance, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.MARS;
+                var position = new Vector(-distance, 0.0, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.PHOBOS;
+                var position = new Vector(-3.0e+02, -6.0e+01, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var bodyKey = Body.DEIMOS;
+                var position = new Vector(-3.0e+02, 6.0e+01, 0.0);
+                bodyToState[bodyKey] = createState(bodyKey, position, bodyToState0[bodyKey]);
+
+                var environment = new Environment.Environment(bodyToState);
+
+                var ship = new Ship.ReferenceShip("ReferenceShip", environment);
+                var position = Vector.ZERO;
+                var orientation = Quaternion.ZERO;
+                environment.addShip(ship, position, orientation);
+
+                return environment;
+            }
+
+            function createState(bodyKey, position, state0)
+            {
+                var body = Body.properties[bodyKey];
+                var date = moment();
+                var orientation = state0.orientation();
+                var velocity = Vector.ZERO;
+                var angularVelocity = Quaternion.newInstance(2.0, body.northPole);
+
+                return new State.State(date, position, orientation, velocity, angularVelocity);
+            }
+        });
+    </script>
+</body>
+</html>

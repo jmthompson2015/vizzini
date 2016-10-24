@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MyTestCombatUI</title>
+
+<link rel="stylesheet" href="../../../main/css/style.css">
+
+<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+
+<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+
+<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+
+</head>
+<body>
+	<table>
+		<tr>
+			<td>
+				<div id="inputArea0"></div>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-top: 20px;">
+				<div id="inputArea1"></div>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding-top: 20px;">
+				<div id="inputArea2"></div>
+			</td>
+		</tr>
+	</table>
+	<script>
+        "use strict";
+        var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
+
+        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+        var audioBase = resourceBase + "audio/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+
+        require([ "Adjudicator", "AttackDice", "CombatAction", "DamageDealer", "DefenseDice", "EnvironmentFactory",
+                "ModifyAttackDiceAction", "ModifyDefenseDiceAction", "Phase", "process/Action", "ui/CombatUI" ],
+                function(Adjudicator, AttackDice, CombatAction, DamageDealer, DefenseDice, EnvironmentFactory,
+                        ModifyAttackDiceAction, ModifyDefenseDiceAction, Phase, Action, CombatUI)
+                {
+                    var environment = EnvironmentFactory.createCoreSetEnvironment();
+                    var store = environment.store();
+                    var adjudicator = new Adjudicator();
+                    var attacker = environment.tokens()[0];
+                    var attackerPosition = environment.getPositionFor(attacker);
+                    LOGGER.debug("attacker = " + attacker);
+                    store.dispatch(Action.addFocusCount(attacker.id()));
+                    var weapon = attacker.primaryWeapon();
+                    var attackDice = new AttackDice(5);
+                    var defender = environment.tokens()[2];
+                    var defenderPosition = environment.getPositionFor(defender);
+                    LOGGER.debug("defender = " + defender);
+                    store.dispatch(Action.addFocusCount(defender.id()));
+                    store.dispatch(Action.addEvadeCount(defender.id()));
+                    attacker.combatState().combatAction(
+                            new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                                    defenderPosition));
+                    var modifications0 = [ null, ModifyAttackDiceAction.Modification.SPEND_FOCUS ];
+
+                    var element0 = React.createElement(CombatUI,
+                    {
+                        phase: Phase.COMBAT_ROLL_ATTACK_DICE,
+                        attacker: attacker,
+                        attackDice: attackDice,
+                        defender: defender,
+                        modifications: modifications0,
+                        okFunction: myOK0,
+                    });
+                    ReactDOM.render(element0, document.getElementById("inputArea0"));
+
+                    var defenseDice = new DefenseDice(4);
+                    var modifications1 = [ null, ModifyDefenseDiceAction.Modification.SPEND_EVADE,
+                            ModifyDefenseDiceAction.Modification.SPEND_FOCUS ];
+
+                    var element1 = React.createElement(CombatUI,
+                    {
+                        phase: Phase.COMBAT_ROLL_DEFENSE_DICE,
+                        attacker: attacker,
+                        attackDice: attackDice,
+                        defender: defender,
+                        defenseDice: defenseDice,
+                        modifications: modifications1,
+                        okFunction: myOK1,
+                    });
+                    ReactDOM.render(element1, document.getElementById("inputArea1"));
+
+                    var hitCount = attackDice.hitCount();
+                    var criticalHitCount = attackDice.criticalHitCount();
+                    var evadeCount = defenseDice.evadeCount();
+                    var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
+
+                    var element2 = React.createElement(CombatUI,
+                    {
+                        phase: Phase.COMBAT_MODIFY_DEFENSE_DICE,
+                        attacker: attacker,
+                        attackDice: attackDice,
+                        defender: defender,
+                        defenseDice: defenseDice,
+                        hitCount: damageDealer.hits(),
+                        criticalHitCount: damageDealer.criticalHits(),
+                        okFunction: myOK2,
+                    });
+                    ReactDOM.render(element2, document.getElementById("inputArea2"));
+
+                    function myOK0(modification)
+                    {
+                        LOGGER.info("myOK0() modification = " + modification);
+                    }
+
+                    function myOK1(modification)
+                    {
+                        LOGGER.info("myOK1() modification = " + modification);
+                    }
+
+                    function myOK2()
+                    {
+                        LOGGER.info("myOK2()");
+                    }
+                });
+    </script>
+</body>
+</html>
