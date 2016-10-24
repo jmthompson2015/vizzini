@@ -1,23 +1,80 @@
-define(function()
-{
-    "use strict";
-    function InitialState()
+define(["DefaultFilters", "EntityFilter", "RangeFilter"],
+    function(DefaultFilters, EntityFilter, RangeFilter)
     {
-        this.filters = [];
-        this.gameDatabase = undefined;
+        "use strict";
 
-        this.entityTimestamp = 0;
-        this.entityMap = {};
-        this.gameDetailTimestamp = 0;
-        this.gameDetailMap = {};
-        this.gameSummaryTimestamp = 0;
-        this.gameSummaryMap = {};
-    }
+        function InitialState()
+        {
+            this.gameDatabase = undefined;
+            this.gameData = [];
+            this.filteredGameData = [];
 
-    if (Object.freeze)
-    {
-        Object.freeze(InitialState);
-    }
+            this.entityTimestamp = 0;
+            this.entityMap = {};
+            this.gameDetailTimestamp = 0;
+            this.gameDetailMap = {};
+            this.gameSummaryTimestamp = 0;
+            this.gameSummaryMap = {};
 
-    return InitialState;
-});
+            // FIXME
+            localStorage.removeItem("filters");
+            // FIXME
+
+            this.filters = DefaultFilters.create();
+            var oldFilters = InitialState.loadFromLocalStorage();
+
+            if (oldFilters)
+            {
+                this.merge(oldFilters);
+            }
+        }
+
+        InitialState.prototype.merge = function(oldFilters)
+        {
+            InputValidator.validateNotNull("oldFilters", oldFilters);
+
+            Object.getOwnPropertyNames(oldFilters).forEach(function(columnKey, i)
+            {
+                this.filters[columnKey] = oldFilters[columnKey];
+            }, this);
+        };
+
+        InitialState.loadFromLocalStorage = function()
+        {
+            var answer;
+            var filterObjects = JSON.parse(localStorage.filters || null);
+
+            if (filterObjects)
+            {
+                answer = {};
+
+                filterObjects.forEach(function(object, i)
+                {
+                    var filter;
+
+                    switch (object.type)
+                    {
+                        case "EntityFilter":
+                            filter = EntityFilter.fromObject(object);
+                            break;
+                        case "RangeFilter":
+                            filter = RangeFilter.fromObject(object);
+                            break;
+                        default:
+                            throw "Unknown filter type: " + JSON.stringify(object);
+                    }
+
+                    answer[filter.columnKey()] = filter;
+                });
+            }
+
+            return answer;
+        };
+
+        if (Object.freeze)
+        {
+            Object.freeze(InitialState);
+        }
+
+        return InitialState;
+    });

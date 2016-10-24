@@ -1,67 +1,68 @@
 <html>
 <head>
-<title>BGG Game Finder</title>
+	<title>BGG Game Finder</title>
 
-<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../css/style.css">
 
-<script src="../../../../../coreweb/lib/jquery/jquery-1.11.3.min.js"></script>
-<script src="../../../../../coreweb/lib/react/react-15.3.2.min.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.min.js"></script>
-<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.min.js"></script>
-<script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
-<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.3.2.min.js" data-main="../js/GameColumns"></script>
+	<script src="../../../../../coreweb/lib/jquery/jquery-1.11.3.min.js"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../js/GameColumns"></script>
 
-<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
-<script src="../../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
 
-<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
-
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
 </head>
 <body>
 	<h1>
 		<a href="https://www.boardgamegeek.com"><img id="bgg_cornerlogo" src="../resources/bgg_cornerlogo.png" /></a> Game
 		Finder
 	</h1>
-	<section>
+	<!-- <section>
 		<div id="filters"></div>
-	</section>
+	</section> -->
 	<section>
 		<div id="gameTable"></div>
 	</section>
 	<script>
-        "use strict";
+		"use strict";
 
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
 
-        require([ "process/GameDatabase", "process/ui/Connector", "process/ui/FilterUI", "process/ui/GameTable" ],
-                function(GameDatabase, Connector, FilterUI, GameTable)
-                {
-                    var pageCount = 5;
-                    var gameDatabase = new GameDatabase(pageCount);
-                    gameDatabase.loadFromLocalStorage();
+		require(["process/GameDatabase", "process/ui/Connector", "process/ui/FilterUI", "process/ui/GameTable"],
+			function(GameDatabase, Connector, FilterUI, GameTable)
+			{
+				var pageCount = 5;
+				var gameDatabase = new GameDatabase(pageCount);
+				gameDatabase.loadFromLocalStorage();
 
-                    var connector0 = ReactRedux.connect(Connector.FilterUI.mapStateToProps)(FilterUI);
-                    var element0 = React.createElement(ReactRedux.Provider,
-                    {
-                        store: gameDatabase.store(),
-                    }, React.createElement(connector0));
+				// var connector0 = ReactRedux.connect(Connector.FilterUI.mapStateToProps)(FilterUI);
+				// var element0 = React.createElement(ReactRedux.Provider,
+				// {
+				// 	store: gameDatabase.store(),
+				// }, React.createElement(connector0));
+				//
+				// ReactDOM.render(element0, document.getElementById("filters"));
 
-                    ReactDOM.render(element0, document.getElementById("filters"));
-
-                    var connector1 = ReactRedux.connect(Connector.GameTable.mapStateToProps)(GameTable);
-                    var element1 = React.createElement(ReactRedux.Provider,
-                    {
-                        store: gameDatabase.store(),
-                    }, React.createElement(connector1));
-                    ReactDOM.render(element1, document.getElementById("gameTable"));
-                });
-    </script>
+				var connector1 = ReactRedux.connect(Connector.GameTable.mapStateToProps)(GameTable);
+				var element1 = React.createElement(ReactRedux.Provider,
+				{
+					store: gameDatabase.store(),
+				}, React.createElement(connector1));
+				ReactDOM.render(element1, document.getElementById("gameTable"));
+			});
+	</script>
 </body>
+
 </html>

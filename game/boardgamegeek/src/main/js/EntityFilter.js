@@ -2,75 +2,89 @@ define(function()
 {
     "use strict";
 
-    function EntityFilter(props)
+    function EntityFilter(columnKey, values)
     {
-        InputValidator.validateNotNull("props", props);
-        LOGGER.debug("EntityFilter props = " + JSON.stringify(props, null, "   "));
+        InputValidator.validateNotNull("columnKey", columnKey);
+        InputValidator.validateNotNull("values", values);
 
         this.columnKey = function()
         {
-            return props.columnKey;
+            return columnKey;
         };
 
-        this.passes = function(gameSummary, gameDetail)
+        this.values = function()
         {
-            InputValidator.validateNotNull("gameSummary", gameSummary);
-            LOGGER.debug("EntityFilter gameSummary = " + JSON.stringify(gameSummary, null, "   "));
-            LOGGER.debug("EntityFilter gameDetail = " + JSON.stringify(gameDetail, null, "   "));
-
-            var value = determineValue(gameSummary, gameDetail);
-            LOGGER.debug("EntityFilter value = " + value);
-            var passes = true;
-
-            if (props.ids.length > 0)
-            {
-                passes = props.isAnd;
-
-                props.ids.forEach(function(id)
-                {
-                    passes = (props.isAnd ? passes && value.vizziniContains(parseInt(id)) : passes ||
-                        value.vizziniContains(parseInt(id)));
-                });
-            }
-
-            return passes;
+            return values;
         };
 
-        function determineValue(gameSummary, gameDetail)
+        this.passes = function(data)
         {
-            var value = gameSummary[props.columnKey];
+            InputValidator.validateNotNull("data", data);
 
-            if (!value && gameDetail)
+            LOGGER.debug("columnKey = " + columnKey);
+            LOGGER.debug("values = " + values);
+
+            var answer = true;
+
+            if (values.length > 0)
             {
-                value = gameDetail[props.columnKey];
-            }
+                var value = data[columnKey];
 
-            var answer;
-
-            if (value)
-            {
-                answer = value.map(function(entity)
+                if (!value || value.length === 0)
                 {
-                    return entity.id;
-                });
+                    answer = false;
+                }
+                else
+                {
+                    LOGGER.debug("value = " + JSON.stringify(value) + " typeof " + (typeof value));
+                    var ids = value.map(function(v)
+                    {
+                        return v.id;
+                    });
+                    LOGGER.debug("ids = " + JSON.stringify(ids) + " typeof " + (typeof ids));
+                    LOGGER.debug("Array.isArray(value) ? " + Array.isArray(value));
+                    LOGGER.debug("values[0] = " + values[0] + " typeof " + (typeof values[0]));
+
+                    answer = false;
+                    values.forEach(function(v)
+                    {
+                        answer = answer || (Array.isArray(value) && ids.vizziniContainsUsingEquals(v, this.equals));
+                    }, this);
+                }
             }
 
             return answer;
-        }
+        };
+
+        this.equals = function(a, b)
+        {
+            return a == b;
+        };
+
+        this.toObject = function()
+        {
+            return (
+            {
+                type: "EntityFilter",
+                columnKey: columnKey,
+                values: values,
+            });
+        };
+
+        this.toString = function()
+        {
+            return "EntityFilter (" + columnKey + " in [" + values + "])";
+        };
     }
 
-    EntityFilter.newFilterProps = function(columnKey, ids, isAnd)
+    EntityFilter.fromObject = function(object)
     {
-        InputValidator.validateNotNull("columnKey", columnKey);
-        InputValidator.validateNotNull("ids", ids);
-        InputValidator.validateNotNull("isAnd", isAnd);
+        InputValidator.validateNotNull("object", object);
 
-        return (
-        {
-            columnKey: columnKey,
-            ids: ids,
-            isAnd: isAnd,
-        });
+        var columnKey = object.columnKey;
+        var values = object.values;
+
+        return new EntityFilter(columnKey, values);
     };
 
     return EntityFilter;

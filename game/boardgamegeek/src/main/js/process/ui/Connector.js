@@ -3,36 +3,25 @@ define(function()
     "use strict";
     var Connector = {};
 
-    Connector.FilterUI =
-    {
+    Connector.FilterUI = {
         mapStateToProps: function(state, ownProps)
         {
-            var gameDatabase = state.gameDatabase;
-            var designers = gameDatabase.designers();
-            var categories = gameDatabase.categories();
-            var mechanics = gameDatabase.mechanics();
-
             return (
             {
+                filters: state.filters,
                 gameDatabase: state.gameDatabase,
-                designers: designers,
-                categories: categories,
-                mechanics: mechanics,
             });
-        },
+        }
     };
 
-    Connector.GameTable =
-    {
+    Connector.GameTable = {
         mapStateToProps: function(state, ownProps)
         {
-            var gameDatabase = state.gameDatabase;
-            var gameSummaries = gameDatabase.filteredGameSummaries();
-
             return (
             {
+                filters: state.filters,
                 gameDatabase: state.gameDatabase,
-                gameSummaries: gameSummaries,
+                rowData: state.filteredGameData,
             });
         },
     };

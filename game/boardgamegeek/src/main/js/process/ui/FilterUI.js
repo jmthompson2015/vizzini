@@ -1,415 +1,391 @@
-define(["EntityFilter", "GameColumns", "RangeFilter", "process/Action", "process/Filter"], function(EntityFilter,
-    GameColumns, RangeFilter, Action, Filter)
-{
-    "use strict";
-    var FilterUI = React.createClass(
+define(["DefaultFilters", "EntityFilter", "GameColumns", "RangeFilter", "process/Action"],
+    function(DefaultFilters, EntityFilter, GameColumns, RangeFilter, Action)
     {
-        contextTypes:
+        "use strict";
+        var FilterUI = React.createClass(
         {
-            store: React.PropTypes.object.isRequired,
-        },
-
-        propTypes:
-        {
-            gameDatabase: React.PropTypes.object.isRequired,
-            designers: React.PropTypes.array.isRequired,
-            categories: React.PropTypes.array.isRequired,
-            mechanics: React.PropTypes.array.isRequired,
-        },
-
-        filterColumns: [],
-        filter: undefined,
-
-        componentWillMount: function()
-        {
-            this.filterColumns = [];
-            this.filterColumns.push(GameColumns[0]);
-            this.filterColumns.push(GameColumns[3]);
-            this.filterColumns.push(GameColumns[4]);
-            this.filterColumns.push(GameColumns[5]);
-            this.filterColumns.push(GameColumns[6]);
-            this.filterColumns.push(GameColumns[7]);
-            this.filterColumns.push(GameColumns[8]);
-            this.filterColumns.push(GameColumns[9]);
-        },
-
-        getInitialState: function()
-        {
-            this.filter = new Filter(this.context.store);
-
-            var answer = this.filter.loadFromLocalStorage();
-
-            if (answer.designers && answer.designers.length > 0)
+            contextTypes:
             {
-                answer.designers.forEach(function(entity)
+                store: React.PropTypes.object.isRequired,
+            },
+
+            propTypes:
+            {
+                filters: React.PropTypes.object.isRequired,
+                gameDatabase: React.PropTypes.object.isRequired,
+            },
+
+            getInitialState: function()
+            {
+                return (
                 {
-                    entity.ids = entity.ids.map(function(id)
-                    {
-                        return parseInt(id);
-                    });
+                    designerValues: (this.props.filters.designers ? this.props.filters.designers.values() : []),
+                    categoryValues: (this.props.filters.categories ? this.props.filters.categories.values() : []),
+                    mechanicValues: (this.props.filters.mechanics ? this.props.filters.mechanics.values() : []),
                 });
-            }
+            },
 
-            answer.isFiltered = false;
-
-            return answer;
-        },
-
-        render: function()
-        {
-            var rows = [];
-
-            this.filterColumns.forEach(function(column)
+            render: function()
             {
-                rows.push(this.createRow(rows.length, column));
-            }, this);
-
-            var filterTable = React.DOM.table(
-            {
-                className: "filterTable",
-            }, React.DOM.tbody(
-            {}, rows));
-
-            var gameDatabase = this.props.gameDatabase;
-            var designerTable = this.createEntityTable(
-            {
-                "data-entitytype": "designer",
-            }, this.props.designers, this.state.designers.ids, gameDatabase);
-            var categoryTable = this.createEntityTable(
-            {
-                "data-entitytype": "category",
-            }, this.props.categories, this.state.categories.ids, gameDatabase);
-            var mechanicTable = this.createEntityTable(
-            {
-                "data-entitytype": "mechanic",
-            }, this.props.mechanics, this.state.mechanics.ids, gameDatabase);
-
-            var rows2 = [];
-            var filterCell = React.DOM.td(
-            {
-                colSpan: 3,
-            }, filterTable);
-            var designerCell = React.DOM.td(
-            {
-                className: "entityFilterContainer",
-            }, "Designer", designerTable);
-            var categoryCell = React.DOM.td(
-            {
-                className: "entityFilterContainer",
-            }, "Category", categoryTable);
-            var mechanicCell = React.DOM.td(
-            {
-                className: "entityFilterContainer",
-            }, "Mechanic", mechanicTable);
-            rows2.push(React.DOM.tr(
-            {
-                key: 0,
-            }, filterCell, designerCell, categoryCell, mechanicCell));
-
-            var restoreButton = React.DOM.button(
-            {
-                onClick: this.restoreActionPerformed,
-            }, "Restore Defaults");
-            var unfilterButton = React.DOM.button(
-            {
-                // disabled: !this.state.isFiltered,
-                onClick: this.unfilterActionPerformed,
-            }, "Remove Filter");
-            var filterButton = React.DOM.button(
-            {
-                onClick: this.filterActionPerformed,
-            }, "Apply Filter");
-            rows2.push(React.DOM.tr(
-            {
-                key: 1,
-            }, React.DOM.td(
-            {}, restoreButton), React.DOM.td(
-            {}, unfilterButton), React.DOM.td(
-            {}, filterButton)));
-
-            return React.DOM.table(
-            {
-                className: "filtersUI",
-            }, React.DOM.tbody(
-            {}, rows2));
-        },
-
-        createCell: function(key, column, value)
-        {
-            return React.DOM.td(
-            {
-                key: key,
-                className: column.className,
-            }, value);
-        },
-
-        createEntityTable: function(clientProps, entities, selectedIds, gameDatabase)
-        {
-            if (entities && entities.length > 0)
-            {
-                var idFunction = function(value)
+                var cells = [];
+                cells.push(React.DOM.td(
                 {
-                    return String(value.id);
-                };
-                var labelFunction = function(value)
+                    key: cells.length,
+                    className: "filterTable",
+                }, this.createRangeTable()));
+                cells.push(React.DOM.td(
                 {
-                    return value.name + " (" + value.count + ")";
-                };
-                var selectedValues = [];
-                if (selectedIds)
+                    key: cells.length,
+                    className: "filtersUI",
+                }, this.createEntityTable()));
+
+                var rows = [];
+                rows.push(React.DOM.tr(
                 {
-                    selectedValues = selectedIds.map(function(id)
+                    key: rows.length,
+                }, cells));
+
+                rows.push(React.DOM.tr(
+                {
+                    key: rows.length,
+                }, React.DOM.td(
+                {
+                    colSpan: 4,
+                }, this.createButtonTable())));
+
+                return React.DOM.table(
+                {
+                    className: "filtersUI",
+                }, React.DOM.tbody(
+                {}, rows));
+            },
+
+            createButtonTable: function()
+            {
+                var filterCacheButton = React.DOM.button(
+                {
+                    onClick: this.filterCacheActionPerformed,
+                }, "Clear Filter Cache");
+                var dataCacheButton = React.DOM.button(
+                {
+                    onClick: this.dataCacheActionPerformed,
+                }, "Clear Data Cache");
+                var restoreButton = React.DOM.button(
+                {
+                    onClick: this.restoreActionPerformed,
+                }, "Restore Defaults");
+                var unfilterButton = React.DOM.button(
+                {
+                    onClick: this.unfilterActionPerformed,
+                }, "Remove Filter");
+                var filterButton = React.DOM.button(
+                {
+                    onClick: this.filterActionPerformed,
+                }, "Apply Filter");
+
+                var cells = [];
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, filterCacheButton));
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, dataCacheButton));
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, restoreButton));
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, unfilterButton));
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, filterButton));
+                var row = React.DOM.tr(
+                {}, cells);
+
+                return React.DOM.table(
+                {}, React.DOM.tbody(
+                {}, row));
+            },
+
+            createEntityTable: function()
+            {
+                var cells = [];
+
+                DefaultFilters.entityColumns.forEach(function(column)
+                {
+                    var gameDatabase = this.props.gameDatabase;
+                    var values;
+                    var clientProps = {};
+
+                    switch (column.key)
                     {
-                        return gameDatabase.findEntityById(id);
+                        case "designers":
+                            values = gameDatabase.designers();
+                            clientProps["data-entitytype"] = "designers";
+                            break;
+                        case "categories":
+                            values = gameDatabase.categories();
+                            clientProps["data-entitytype"] = "categories";
+                            break;
+                        case "mechanics":
+                            values = gameDatabase.mechanics();
+                            clientProps["data-entitytype"] = "mechanics";
+                            break;
+                        default:
+                            throw "Unknown entity column: " + column.key;
+                    }
+
+                    var idFunction = function(value)
+                    {
+                        return value.id;
+                    };
+                    var labelFunction = function(value)
+                    {
+                        return value.name + " (" + value.count + ")";
+                    };
+                    var oldFilter = this.context.store.getState().filters[column.key];
+                    var initialValues = [];
+
+                    if (oldFilter)
+                    {
+                        initialValues.vizziniAddAll(oldFilter.values());
+                    }
+
+                    var label = React.DOM.span(
+                    {
+                        className: "entityLabel",
+                    }, column.label);
+                    var checkboxPanel = React.createElement(CheckboxInputPanel,
+                    {
+                        values: values,
+                        idFunction: idFunction,
+                        labelFunction: labelFunction,
+                        initialValues: initialValues,
+                        onChange: this.handleEntityChange,
+                        panelClass: "entitiesTable",
+                        clientProps: clientProps,
                     });
-                }
-                var checkboxPanel = React.createElement(CheckboxInputPanel,
+
+                    cells.push(React.DOM.td(
+                    {
+                        key: cells.length,
+                        className: "entityFilterContainer",
+                    }, label, React.DOM.div(
+                    {
+                        className: "entitiesContainer",
+                    }, checkboxPanel)));
+                }, this);
+
+                var row = React.DOM.tr(
+                {}, cells);
+
+                return React.DOM.table(
                 {
-                    values: entities,
-                    idFunction: idFunction,
-                    labelFunction: labelFunction,
-                    initialValues: selectedValues,
-                    onChange: this.handleChange,
-                    panelClass: "entitiesTable",
-                    clientProps: clientProps,
+                    className: "filtersUI",
+                }, React.DOM.tbody(
+                {}, row));
+            },
+
+            createRangeTable: function()
+            {
+                var rows = [];
+
+                DefaultFilters.rangeColumns.forEach(function(column)
+                {
+                    var filter = this.props.filters[column.key];
+                    var cells = [];
+                    cells.push(React.DOM.td(
+                    {
+                        key: cells.length,
+                    }, React.DOM.input(
+                    {
+                        id: column.key + "MinChecked",
+                        type: "checkbox",
+                        defaultChecked: (filter ? filter.isMinEnabled() : false),
+                        onChange: this.handleRangeChange,
+                    })));
+                    cells.push(React.DOM.td(
+                    {
+                        key: cells.length,
+                    }, React.DOM.input(
+                    {
+                        id: column.key + "Min",
+                        type: "number",
+                        className: "filterField",
+                        defaultValue: (filter ? filter.minValue() : 0),
+                        onChange: this.handleRangeChange,
+                    })));
+                    cells.push(React.DOM.td(
+                    {
+                        key: cells.length,
+                    }, "\u2264 " + column.label + " \u2264"));
+                    cells.push(React.DOM.td(
+                    {
+                        key: cells.length,
+                    }, React.DOM.input(
+                    {
+                        id: column.key + "MaxChecked",
+                        type: "checkbox",
+                        defaultChecked: (filter ? filter.isMaxEnabled() : false),
+                        onChange: this.handleRangeChange,
+                    })));
+                    cells.push(React.DOM.td(
+                    {
+                        key: cells.length,
+                    }, React.DOM.input(
+                    {
+                        id: column.key + "Max",
+                        type: "number",
+                        className: "filterField",
+                        defaultValue: (filter ? filter.maxValue() : 10),
+                        onChange: this.handleRangeChange,
+                    })));
+
+                    rows.push(React.DOM.tr(
+                    {
+                        key: rows.length,
+                    }, cells));
+                }, this);
+
+                return React.DOM.table(
+                {
+                    className: "filterTable",
+                }, React.DOM.tbody(
+                {}, rows));
+            },
+
+            dataCacheActionPerformed: function(event)
+            {
+                LOGGER.trace("FilterUI.filterActionPerformed() start");
+                localStorage.removeItem("gameSummaryTimestamp");
+                localStorage.removeItem("gameSummaryMap");
+                localStorage.removeItem("gameDetailTimestamp");
+                localStorage.removeItem("gameDetailMap");
+                localStorage.removeItem("entityTimestamp");
+                localStorage.removeItem("entityMap");
+                LOGGER.trace("FilterUI.filterActionPerformed() end");
+            },
+
+            filterActionPerformed: function(event)
+            {
+                LOGGER.trace("FilterUI.filterActionPerformed() start");
+
+                var filters = {};
+
+                DefaultFilters.entityColumns.forEach(function(column)
+                {
+                    var values = [];
+
+                    switch (column.key)
+                    {
+                        case "designers":
+                            values.vizziniAddAll(this.state.designerValues);
+                            LOGGER.info("designerIds = " + values);
+                            break;
+                        case "categories":
+                            values.vizziniAddAll(this.state.categoryValues);
+                            break;
+                        case "mechanics":
+                            values.vizziniAddAll(this.state.mechanicValues);
+                            break;
+                        default:
+                            throw "Unknown entity column: " + column.key;
+                    }
+
+                    var filter = new EntityFilter(column.key, values);
+                    filters[column.key] = filter;
+                }, this);
+
+                DefaultFilters.rangeColumns.forEach(function(column)
+                {
+                    var isMinEnabled = document.getElementById(column.key + "MinChecked").checked;
+                    var minValue = document.getElementById(column.key + "Min").value;
+                    var isMaxEnabled = document.getElementById(column.key + "MaxChecked").checked;
+                    var maxValue = document.getElementById(column.key + "Max").value;
+
+                    var filter = new RangeFilter(column.key, isMinEnabled, minValue, isMaxEnabled, maxValue);
+                    filters[column.key] = filter;
                 });
 
-                return React.DOM.div(
-                {
-                    className: "entitiesContainer",
-                }, checkboxPanel);
-            }
-            else
+                this.context.store.dispatch(Action.setFilters(filters));
+
+                LOGGER.trace("FilterUI.filterActionPerformed() end");
+            },
+
+            filterCacheActionPerformed: function(event)
             {
-                return React.DOM.span(
-                {}, " ");
-            }
-        },
+                LOGGER.trace("FilterUI.filterActionPerformed() start");
+                localStorage.removeItem("filters");
+                LOGGER.trace("FilterUI.filterActionPerformed() end");
+            },
 
-        createRow: function(key, column)
-        {
-            var cells = [];
-            var filter = this.state[column.key];
-            if (!filter)
+            handleEntityChange: function(event, selected)
             {
-                throw "ERROR: missing filter for column = " + column.key;
-            }
+                LOGGER.trace("FilterUI.handleEntityChange() start");
 
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "MinChecked",
-                type: "checkbox",
-                checked: filter.isMinEnabled,
-                onChange: this.handleChange,
-            })));
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "Min",
-                type: "number",
-                className: "filterField",
-                value: filter.minValue,
-                onChange: this.handleChange,
-            })));
-
-            cells.push(React.DOM.td(
-            {
-                key: cells.length,
-                className: "filterLabel",
-            }, "\u2264 " + column.label + " \u2264"));
-
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "MaxChecked",
-                type: "checkbox",
-                checked: filter.isMaxEnabled,
-                onChange: this.handleChange,
-            })));
-            cells.push(this.createCell(cells.length, column, React.DOM.input(
-            {
-                key: cells.length,
-                id: column.key + "Max",
-                type: "number",
-                className: "filterField",
-                value: filter.maxValue,
-                onChange: this.handleChange,
-            })));
-
-            return React.DOM.tr(
-            {
-                key: key
-            }, cells);
-        },
-
-        filterActionPerformed: function(event)
-        {
-            LOGGER.trace("FilterUI.filterActionPerformed() start");
-
-            var filters = [];
-
-            this.filterColumns.forEach(function(column)
-            {
-                filters.push(new RangeFilter(this.state[column.key]));
-            }, this);
-
-            filters.push(new EntityFilter(this.state.designers));
-            filters.push(new EntityFilter(this.state.categories));
-            filters.push(new EntityFilter(this.state.mechanics));
-
-            var filterObject = {};
-            filters.forEach(function(myFilter)
-            {
-                filterObject[myFilter.columnKey()] = myFilter;
-            });
-            this.context.store.dispatch(Action.setFilters(filterObject));
-            this.setState(
-            {
-                isFiltered: true,
-            });
-            this.filter.storeToLocalStorage(filterObject);
-
-            LOGGER.trace("FilterUI.filterActionPerformed() end");
-        },
-
-        handleChange: function(event, selected)
-        {
-            LOGGER.trace("FilterUI.handleChange() start");
-
-            var entityType = event.target.dataset.entitytype;
-            LOGGER.debug("entityType = " + entityType);
-            var id = event.target.id;
-            LOGGER.debug("handleChange() id = " + id);
-
-            if (entityType)
-            {
+                var entityType = event.target.dataset.entitytype;
+                LOGGER.debug("entityType = " + entityType);
+                var values = [];
+                var id = event.target.id;
+                LOGGER.debug("id = " + id + " typeof " + (typeof id));
                 var checked = event.target.checked;
                 LOGGER.debug("checked ? " + checked);
 
-                if (entityType === "designer")
+                switch (entityType)
                 {
-                    var designers = this.state.designers;
-
-                    if (checked)
-                    {
-                        designers.ids.push(id);
-                    }
-                    else
-                    {
-                        designers.ids.vizziniRemove(id);
-                    }
-
-                    this.setState(
-                    {
-                        designers: designers,
-                    });
+                    case "designers":
+                        var designerValues = this.state.designerValues;
+                        if (checked) designerValues.push(id);
+                        else designerValues.vizziniRemove(id);
+                        this.setState(
+                        {
+                            designerValues: designerValues,
+                        });
+                        break;
+                    case "categories":
+                        var categoryValues = this.state.categoryValues;
+                        if (checked) categoryValues.push(id);
+                        else categoryValues.vizziniRemove(id);
+                        this.setState(
+                        {
+                            categoryValues: categoryValues,
+                        });
+                        break;
+                    case "mechanics":
+                        var mechanicValues = this.state.mechanicValues;
+                        if (checked) mechanicValues.push(id);
+                        else mechanicValues.vizziniRemove(id);
+                        this.setState(
+                        {
+                            mechanicValues: mechanicValues,
+                        });
+                        break;
+                    default:
+                        throw "Unknown entity column: " + column.key;
                 }
-                else if (entityType === "category")
-                {
-                    var categories = this.state.categories;
 
-                    if (checked)
-                    {
-                        categories.ids.push(id);
-                    }
-                    else
-                    {
-                        categories.ids.vizziniRemove(id);
-                    }
+                LOGGER.trace("FilterUI.handleEntityChange() end");
+            },
 
-                    this.setState(
-                    {
-                        categories: categories,
-                    });
-                }
-                else if (entityType === "mechanic")
-                {
-                    var mechanics = this.state.mechanics;
-
-                    if (checked)
-                    {
-                        mechanics.ids.push(id);
-                    }
-                    else
-                    {
-                        mechanics.ids.vizziniRemove(id);
-                    }
-
-                    this.setState(
-                    {
-                        mechanics: mechanics,
-                    });
-                }
-            }
-            else
+            restoreActionPerformed: function(event)
             {
-                var columnKey;
-                var filter;
+                LOGGER.trace("FilterUI.restoreActionPerformed() start");
+                this.context.store.dispatch(Action.setDefaultFilters());
+                LOGGER.trace("FilterUI.restoreActionPerformed() end");
+            },
 
-                if (id.endsWith("MinChecked"))
-                {
-                    columnKey = id.substring(0, id.length - "MinChecked".length);
-                    filter = this.state[columnKey];
-                    filter.isMinEnabled = event.target.checked;
-                }
-                else if (id.endsWith("Min"))
-                {
-                    columnKey = id.substring(0, id.length - "Min".length);
-                    filter = this.state[columnKey];
-                    filter.minValue = event.target.value;
-                }
-                else if (id.endsWith("MaxChecked"))
-                {
-                    columnKey = id.substring(0, id.length - "MaxChecked".length);
-                    filter = this.state[columnKey];
-                    filter.isMaxEnabled = event.target.checked;
-                }
-                else if (id.endsWith("Max"))
-                {
-                    columnKey = id.substring(0, id.length - "Max".length);
-                    filter = this.state[columnKey];
-                    filter.maxValue = event.target.value;
-                }
-
-                LOGGER.debug("new filter = " + JSON.stringify(filter));
-
-                if (columnKey && filter)
-                {
-                    this.setState(
-                    {
-                        columnKey: filter
-                    });
-                }
-            }
-
-            LOGGER.trace("FilterUI.handleChange() end");
-        },
-
-        restoreActionPerformed: function(event)
-        {
-            LOGGER.trace("FilterUI.restoreActionPerformed() start");
-
-            this.setState(Filter.createDefaults());
-
-            LOGGER.trace("FilterUI.restoreActionPerformed() end");
-        },
-
-        unfilterActionPerformed: function(event)
-        {
-            LOGGER.trace("FilterUI.unfilterActionPerformed() start");
-
-            var filterObject = {};
-
-            this.context.store.dispatch(Action.setFilters(filterObject));
-            this.setState(
+            unfilterActionPerformed: function(event)
             {
-                isFiltered: false,
-            });
+                LOGGER.trace("FilterUI.unfilterActionPerformed() start");
+                this.context.store.dispatch(Action.removeFilters());
+                LOGGER.trace("FilterUI.unfilterActionPerformed() end");
+            },
+        });
 
-            LOGGER.trace("FilterUI.unfilterActionPerformed() end");
-        },
+        return FilterUI;
     });
-
-    return FilterUI;
-});

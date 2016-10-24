@@ -1,149 +1,113 @@
-define([ "EntityFilter", "process/GameDatabase" ], function(EntityFilter, GameDatabase)
+define(["EntityFilter", "GameData"], function(EntityFilter, GameData)
 {
     "use strict";
     QUnit.module("EntityFilter");
 
-    QUnit.test("EntityFilter passes()", function(assert)
+    QUnit.test("EntityFilter()", function(assert)
     {
         // Setup.
-        var numPages = 5;
-        var gameDatabase = new GameDatabase(numPages);
-        var gameSummary = createGameSummary(gameDatabase);
-        var gameDetail = createGameDetail(gameDatabase);
+        var columnKey = "id";
+        var values = [1, 2];
 
-        // Run / Verify.
-        assert.ok(createFilter2(gameDatabase, true).passes(gameSummary, gameDetail));
-        assert.ok(!createFilter3(gameDatabase, true).passes(gameSummary, gameDetail));
-        assert.ok(createFilter2(gameDatabase, false).passes(gameSummary, gameDetail));
-        assert.ok(createFilter3(gameDatabase, false).passes(gameSummary, gameDetail));
-        assert.ok(createFilter4(gameDatabase).passes(gameSummary, gameDetail));
-        assert.ok(!createFilter5(gameDatabase).passes(gameSummary, gameDetail));
-        assert.ok(createFilter6(gameDatabase).passes(gameSummary, gameDetail));
-        assert.ok(!createFilter7(gameDatabase).passes(gameSummary, gameDetail));
+        // Run.
+        var result = new EntityFilter(columnKey, values);
+
+        // Verify.
+        assert.equal(result.columnKey(), columnKey);
+        assert.equal(result.values(), values);
     });
 
-    function createFilter2(gameDatabase, isAnd)
+    QUnit.test("EntityFilter.fromObject()", function(assert)
     {
+        // Setup.
+        var object = {
+            type: "EntityFilter",
+            columnKey: "id",
+            values: [1, 2],
+        };
+
+        // Run.
+        var result = EntityFilter.fromObject(object);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.columnKey(), "id");
+        assert.ok(result.values());
+        var values = result.values();
+        assert.equal(values.length, 2);
+        assert.equal(values[0], 1);
+        assert.equal(values[1], 2);
+    });
+
+    QUnit.test("passes() designers 1", function(assert)
+    {
+        // Setup.
         var columnKey = "designers";
-        var ids = [ "3876", "3877" ];
-        var props = EntityFilter.newFilterProps(columnKey, ids, isAnd);
+        var values0 = [1, 2];
+        var values1 = [3, 4];
+        var type = "boardgamedesigner";
+        var data = {
+            designers: [
+                {
+                    type: type,
+                    id: 1,
+                    name: "Alpha",
+                },
+            ],
+        };
 
-        return new EntityFilter(props);
-    }
+        // Run / Verify.
+        assert.ok((new EntityFilter(columnKey, values0)).passes(data));
+        assert.ok(!(new EntityFilter("bogus", values0)).passes(data));
+        assert.ok(!(new EntityFilter(columnKey, values1)).passes(data));
+    });
 
-    function createFilter3(gameDatabase, isAnd)
+    QUnit.test("passes() designers 2", function(assert)
     {
+        // Setup.
         var columnKey = "designers";
-        var ids = [ "3876", "9876" ];
-        var props = EntityFilter.newFilterProps(columnKey, ids, isAnd);
+        var values0 = [1, 2];
+        var values1 = [3, 4];
+        var type = "boardgamedesigner";
+        var data = {
+            designers: [
+                {
+                    type: type,
+                    id: 1,
+                    name: "Alpha",
+                },
+                {
+                    type: type,
+                    id: 5,
+                    name: "Echo",
+                }
+            ],
+        };
 
-        return new EntityFilter(props);
-    }
+        // Run / Verify.
+        assert.ok((new EntityFilter(columnKey, values0)).passes(data));
+        assert.ok(!(new EntityFilter("bogus", values0)).passes(data));
+        assert.ok(!(new EntityFilter(columnKey, values1)).passes(data));
+        assert.ok((new EntityFilter(columnKey, [])).passes(data));
+    });
 
-    function createFilter4(gameDatabase)
+    QUnit.test("toObject()", function(assert)
     {
-        var columnKey = "categories";
-        var ids = [ "1069" ];
-        var isAnd = true;
-        var props = EntityFilter.newFilterProps(columnKey, ids, isAnd);
+        // Setup.
+        var columnKey = "id";
+        var values = [1, 2];
+        var filter = new EntityFilter(columnKey, values);
 
-        return new EntityFilter(props);
-    }
+        // Run.
+        var result = filter.toObject();
 
-    function createFilter5(gameDatabase)
-    {
-        var columnKey = "categories";
-        var ids = [ "9876" ];
-        var isAnd = true;
-        var props = EntityFilter.newFilterProps(columnKey, ids, isAnd);
-
-        return new EntityFilter(props);
-    }
-
-    function createFilter6(gameDatabase)
-    {
-        var columnKey = "mechanics";
-        var ids = [ "2001" ];
-        var isAnd = true;
-        var props = EntityFilter.newFilterProps(columnKey, ids, isAnd);
-
-        return new EntityFilter(props);
-    }
-
-    function createFilter7(gameDatabase)
-    {
-        var columnKey = "mechanics";
-        var ids = [ "9876" ];
-        var isAnd = true;
-        var props = EntityFilter.newFilterProps(columnKey, ids, isAnd);
-
-        return new EntityFilter(props);
-    }
-
-    function createGameSummary(gameDatabase)
-    {
-        var id = "12333";
-        var title = "Twilight Struggle (2005)";
-        var boardGameRank = "1";
-        var geekRatingDisplay = "8.216";
-        var averageRatingDisplay = "8.33";
-        var numVoters = "20528";
-
-        return gameDatabase
-                .newGameSummary(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay, numVoters);
-    }
-
-    function createGameDetail(gameDatabase)
-    {
-        var id = "12333";
-        var title = "Twilight Struggle";
-        var designers = [ createEntity0(gameDatabase), createEntity1(gameDatabase) ];
-        var yearPublished = "2005";
-        var minPlayers = "2";
-        var maxPlayers = "2";
-        var bestWithPlayers = "2";
-        var minPlayTime = "180";
-        var maxPlayTime = "180";
-        var categories = [ createEntity2(gameDatabase) ];
-        var mechanics = [ createEntity3(gameDatabase) ];
-
-        return gameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers, bestWithPlayers,
-                minPlayTime, maxPlayTime, categories, mechanics);
-    }
-
-    function createEntity0(gameDatabase)
-    {
-        var type = "designer";
-        var id = "3876";
-        var name = "Ananda Gupta";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
-
-    function createEntity1(gameDatabase)
-    {
-        var type = "designer";
-        var id = "3877";
-        var name = "Jason Matthews";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
-
-    function createEntity2(gameDatabase)
-    {
-        var type = "category";
-        var id = "1069";
-        var name = "Modern Warfare";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
-
-    function createEntity3(gameDatabase)
-    {
-        var type = "mechanic";
-        var id = "2001";
-        var name = "Action Point Allowance System";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.type, "EntityFilter");
+        assert.equal(result.columnKey, "id");
+        assert.ok(result.values);
+        assert.equal(result.values.length, 2);
+        assert.equal(result.values[0], 1);
+        assert.equal(result.values[1], 2);
+    });
 });

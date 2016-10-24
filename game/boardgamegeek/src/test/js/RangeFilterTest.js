@@ -1,108 +1,96 @@
-define([ "RangeFilter", "process/GameDatabase" ], function(RangeFilter, GameDatabase)
+define(["RangeFilter"], function(RangeFilter)
 {
     "use strict";
     QUnit.module("RangeFilter");
 
-    QUnit.test("RangeFilter passes()", function(assert)
+    QUnit.test("RangeFilter()", function(assert)
     {
         // Setup.
-        var numPages = 5;
-        var gameDatabase = new GameDatabase(numPages);
-        var gameSummary = createGameSummary(gameDatabase);
-        var gameDetail = createGameDetail(gameDatabase);
+        var columnKey = "pilotSkill";
+        var isMinEnabled = false;
+        var minValue = 1;
+        var isMaxEnabled = false;
+        var maxValue = 10;
 
-        // Run / Verify.
-        assert.ok(createFilter0(gameDatabase).passes(gameSummary, gameDetail));
-        assert.ok(!createFilter1(gameDatabase).passes(gameSummary, gameDetail));
+        // Run.
+        var result = new RangeFilter(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
+
+        // Verify.
+        assert.equal(result.columnKey(), columnKey);
+        assert.equal(result.isMinEnabled(), isMinEnabled);
+        assert.equal(result.minValue(), minValue);
+        assert.equal(result.isMaxEnabled(), isMaxEnabled);
+        assert.equal(result.maxValue(), maxValue);
     });
 
-    function createFilter0(gameDatabase)
+    QUnit.test("RangeFilter.fromObject()", function(assert)
     {
-        var columnKey = "geekRating";
-        var isMinEnabled = true;
-        var minValue = 8.0;
+        // Setup.
+        var object = {
+            type: "RangeFilter",
+            columnKey: "pilotSkill",
+            isMinEnabled: false,
+            minValue: 1,
+            isMaxEnabled: true,
+            maxValue: 10,
+        };
+
+        // Run.
+        var result = RangeFilter.fromObject(object);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.columnKey(), "pilotSkill");
+        assert.equal(result.isMinEnabled(), false);
+        assert.equal(result.minValue(), 1);
+        assert.equal(result.isMaxEnabled(), true);
+        assert.equal(result.maxValue(), 10);
+    });
+
+    QUnit.test("passes()", function(assert)
+    {
+        // Setup.
+        var columnKey = "pilotSkill";
+        var isMinEnabled = false;
+        var minValue = 1;
+        var isMaxEnabled = false;
+        var maxValue = 10;
+        var data = {
+            pilotSkill: 5,
+        };
+
+        // Run / Verify.
+        assert.ok((new RangeFilter(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue)).passes(data));
+        assert.ok((new RangeFilter("bogus", isMinEnabled, minValue, isMaxEnabled, maxValue)).passes(data));
+        assert.ok((new RangeFilter(columnKey, true, minValue, isMaxEnabled, maxValue)).passes(data));
+        assert.ok((new RangeFilter(columnKey, isMinEnabled, 6, isMaxEnabled, maxValue)).passes(data));
+        assert.ok((new RangeFilter(columnKey, isMinEnabled, minValue, true, maxValue)).passes(data));
+        assert.ok((new RangeFilter(columnKey, isMinEnabled, minValue, isMaxEnabled, 4)).passes(data));
+
+        assert.ok(!(new RangeFilter(columnKey, true, 6, isMaxEnabled, maxValue)).passes(data));
+        assert.ok(!(new RangeFilter(columnKey, isMinEnabled, minValue, true, 4)).passes(data));
+    });
+
+    QUnit.test("toObject()", function(assert)
+    {
+        // Setup.
+        var columnKey = "factionKey";
+        var isMinEnabled = false;
+        var minValue = 1;
         var isMaxEnabled = true;
-        var maxValue = 8.3;
-        var props = RangeFilter.newFilterProps(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
+        var maxValue = 10;
+        var filter = new RangeFilter(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
 
-        return new RangeFilter(props);
-    }
+        // Run.
+        var result = filter.toObject();
 
-    function createFilter1(gameDatabase)
-    {
-        var columnKey = "geekRating";
-        var isMinEnabled = true;
-        var minValue = 7.5;
-        var isMaxEnabled = true;
-        var maxValue = 8.0;
-        var props = RangeFilter.newFilterProps(columnKey, isMinEnabled, minValue, isMaxEnabled, maxValue);
-
-        return new RangeFilter(props);
-    }
-
-    function createGameSummary(gameDatabase)
-    {
-        var id = "12333";
-        var title = "Twilight Struggle (2005)";
-        var boardGameRank = "1";
-        var geekRatingDisplay = "8.216";
-        var averageRatingDisplay = "8.33";
-        var numVoters = "20528";
-
-        return gameDatabase
-                .newGameSummary(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay, numVoters);
-    }
-
-    function createGameDetail(gameDatabase)
-    {
-        var id = "12333";
-        var title = "Twilight Struggle";
-        var designers = [ createEntity0(gameDatabase), createEntity1(gameDatabase) ];
-        var yearPublished = "2005";
-        var minPlayers = "2";
-        var maxPlayers = "2";
-        var minPlayTime = "180";
-        var maxPlayTime = "180";
-        var categories = [ createEntity2(gameDatabase) ];
-        var mechanics = [ createEntity3(gameDatabase) ];
-
-        return gameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers, minPlayTime,
-                maxPlayTime, categories, mechanics);
-    }
-
-    function createEntity0(gameDatabase)
-    {
-        var type = "designer";
-        var id = "3876";
-        var name = "Ananda Gupta";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
-
-    function createEntity1(gameDatabase)
-    {
-        var type = "designer";
-        var id = "3877";
-        var name = "Jason Matthews";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
-
-    function createEntity2(gameDatabase)
-    {
-        var type = "category";
-        var id = "1069";
-        var name = "Modern Warfare";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
-
-    function createEntity3(gameDatabase)
-    {
-        var type = "mechanic";
-        var id = "2001";
-        var name = "Action Point Allowance System";
-
-        return gameDatabase.newEntity(type, id, name);
-    }
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.type, "RangeFilter");
+        assert.equal(result.columnKey, columnKey);
+        assert.equal(result.isMinEnabled, isMinEnabled);
+        assert.equal(result.minValue, minValue);
+        assert.equal(result.isMaxEnabled, isMaxEnabled);
+        assert.equal(result.maxValue, maxValue);
+    });
 });
