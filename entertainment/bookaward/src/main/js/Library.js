@@ -35,9 +35,9 @@ define(function()
                 name: "Douglas County Libraries",
                 shortName: "DCL",
                 image: "../resources/DouglasCountyLibraries18.jpg",
-                url: "http://douglascountylibraries.org",
-                searchPrefix: "http://catalog.douglascountylibraries.org/Union/Search?basicType=Keyword&lookfor=",
-                searchSuffix: "&submit.x=0&submit.y=0&submit=Go&shard%5B%5D=Main+Catalog&shard%5B%5D=eContent",
+                url: "http://www.douglascountylibraries.org",
+                searchPrefix: "http://dcl.bibliocommons.com/search?utf8=✓&q=",
+                searchSuffix: "&t=smart&search_category=keyword",
                 value: "dcl",
             },
             "jcpl":
