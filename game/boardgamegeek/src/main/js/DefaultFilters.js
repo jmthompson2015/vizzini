@@ -23,8 +23,38 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
                     var minValue = 1;
                     var isMaxEnabled = false;
                     var maxValue = 10;
+                    var filter;
 
-                    var filter = new RangeFilter(column.key, isMinEnabled, minValue, isMaxEnabled, maxValue);
+                    switch (column.key)
+                    {
+                        case "boardGameRank":
+                            filter = new RangeFilter(column.key, isMinEnabled, 1, isMaxEnabled, 20);
+                            break;
+                        case "yearPublished":
+                            filter = new RangeFilter(column.key, isMinEnabled, 2006, isMaxEnabled, 2016);
+                            break;
+                        case "geekRating":
+                            filter = new RangeFilter(column.key, isMinEnabled, 7.2, isMaxEnabled, 10);
+                            break;
+                        case "minPlayers":
+                            filter = new RangeFilter(column.key, true, 2, true, 3);
+                            break;
+                        case "maxPlayers":
+                            filter = new RangeFilter(column.key, true, 4, isMaxEnabled, 6);
+                            break;
+                        case "bestWithPlayers":
+                            filter = new RangeFilter(column.key, isMinEnabled, 3, isMaxEnabled, 4);
+                            break;
+                        case "minPlayTime":
+                            filter = new RangeFilter(column.key, true, 30, isMaxEnabled, 120);
+                            break;
+                        case "maxPlayTime":
+                            filter = new RangeFilter(column.key, isMinEnabled, 30, true, 120);
+                            break;
+                        default:
+                            filter = new RangeFilter(column.key, isMinEnabled, minValue, isMaxEnabled, maxValue);
+                    }
+
                     filters[column.key] = filter;
                 });
 
@@ -33,20 +63,6 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
 
             initialize: function()
             {
-                /*
-                designers: EntityFilter.newFilterProps("designers", [], true),
-                categories: EntityFilter.newFilterProps("categories", [], true),
-                mechanics: EntityFilter.newFilterProps("mechanics", [], true),
-
-                boardGameRank: RangeFilter.newFilterProps("boardGameRank", false, 1, false, 20),
-                yearPublished: RangeFilter.newFilterProps("yearPublished", false, 2005, false, 2015),
-                geekRating: RangeFilter.newFilterProps("geekRating", false, 7.2, false, 10),
-                minPlayers: RangeFilter.newFilterProps("minPlayers", true, 2, true, 3),
-                maxPlayers: RangeFilter.newFilterProps("maxPlayers", true, 4, false, 6),
-                bestWithPlayers: RangeFilter.newFilterProps("bestWithPlayers", false, 3, false, 4),
-                minPlayTime: RangeFilter.newFilterProps("minPlayTime", true, 30, false, 120),
-                maxPlayTime: RangeFilter.newFilterProps("maxPlayTime", false, 30, true, 120),
-                */
                 this.entityColumns.push(GameColumns[2]); // designers
                 this.entityColumns.push(GameColumns[10]); // categories
                 this.entityColumns.push(GameColumns[11]); // mechanics

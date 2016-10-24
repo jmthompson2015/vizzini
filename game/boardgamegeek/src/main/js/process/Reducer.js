@@ -36,7 +36,8 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     newGameData = [];
                     newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, state.gameSummaryMap));
                     Reducer.sortGameData(newGameData);
-                    newFilteredGameData = Reducer.filterGameData(newGameData, state.filters);
+                    newFilteredGameData = [];
+                    newFilteredGameData.vizziniAddAll(newGameData);
 
                     return Object.assign(
                     {}, state,
@@ -54,7 +55,8 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     newGameData = [];
                     newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, action.gameSummaryMap));
                     Reducer.sortGameData(newGameData);
-                    newFilteredGameData = Reducer.filterGameData(newGameData, state.filters);
+                    newFilteredGameData = [];
+                    newFilteredGameData.vizziniAddAll(newGameData);
 
                     return Object.assign(
                     {}, state,
