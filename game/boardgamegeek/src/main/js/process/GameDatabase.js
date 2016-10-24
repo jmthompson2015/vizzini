@@ -1,7 +1,8 @@
-define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetcher", "process/Reducer" ], function(
-        Action, GameDetailFetcher, GameSummaryFetcher, Reducer)
+define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetcher", "process/Reducer"], function(
+    Action, GameDetailFetcher, GameSummaryFetcher, Reducer)
 {
     "use strict";
+
     function GameDatabase(pageCount)
     {
         InputValidator.validateInRange("pageCount", pageCount, 1, 10);
@@ -9,7 +10,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         var that = this;
         var DETAIL_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
         var ENTITY_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-        var SUMMARY_CACHE_TIME = 30 * 60 * 1000; // 30 minutes in milliseconds
+        var SUMMARY_CACHE_TIME = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
         var store = Redux.createStore(Reducer.root);
         store.dispatch(Action.setGameDatabase(this));
@@ -179,7 +180,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
                     var max = Math.min(numPerCall, needGameDetailIds.length);
                     var end = start + max;
                     var detailFetcher = new GameDetailFetcher(that, needGameDetailIds.slice(start, end),
-                            that.receiveDetailData.bind(that));
+                        that.receiveDetailData.bind(that));
                     detailFetcher.fetchData();
                 }
             }
@@ -326,8 +327,7 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
         }
         else
         {
-            answer =
-            {
+            answer = {
                 type: type,
                 id: parseInt(id),
                 name: name,
@@ -341,15 +341,14 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
     };
 
     GameDatabase.prototype.newGameDetail = function(id, title, designers, yearPublished, minPlayers, maxPlayers,
-            bestWithPlayers, minPlayTime, maxPlayTime, categories, mechanics)
+        bestWithPlayers, minPlayTime, maxPlayTime, categories, mechanics)
     {
         var gameDetailMap = this.gameDetailMap();
         var answer = gameDetailMap[id];
 
         if (!answer)
         {
-            answer =
-            {
+            answer = {
                 id: parseInt(id),
                 title: title,
                 designers: designers,
@@ -370,15 +369,14 @@ define([ "process/Action", "process/GameDetailFetcher", "process/GameSummaryFetc
     };
 
     GameDatabase.prototype.newGameSummary = function(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay,
-            numVoters)
+        numVoters)
     {
         var gameSummaryMap = this.gameSummaryMap();
         var answer = gameSummaryMap[id];
 
         if (!answer)
         {
-            answer =
-            {
+            answer = {
                 id: parseInt(id),
                 title: title,
                 boardGameRank: parseInt(boardGameRank),
