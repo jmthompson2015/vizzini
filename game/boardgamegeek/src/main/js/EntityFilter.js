@@ -21,9 +21,6 @@ define(function()
         {
             InputValidator.validateNotNull("data", data);
 
-            LOGGER.debug("columnKey = " + columnKey);
-            LOGGER.debug("values = " + values);
-
             var answer = true;
 
             if (values.length > 0)
@@ -36,16 +33,13 @@ define(function()
                 }
                 else
                 {
-                    LOGGER.debug("value = " + JSON.stringify(value) + " typeof " + (typeof value));
+                    answer = false;
+
                     var ids = value.map(function(v)
                     {
                         return v.id;
                     });
-                    LOGGER.debug("ids = " + JSON.stringify(ids) + " typeof " + (typeof ids));
-                    LOGGER.debug("Array.isArray(value) ? " + Array.isArray(value));
-                    LOGGER.debug("values[0] = " + values[0] + " typeof " + (typeof values[0]));
 
-                    answer = false;
                     values.forEach(function(v)
                     {
                         answer = answer || (Array.isArray(value) && ids.vizziniContainsUsingEquals(v, this.equals));
