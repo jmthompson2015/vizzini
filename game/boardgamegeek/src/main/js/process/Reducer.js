@@ -34,7 +34,6 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     Object.vizziniMerge(newGameDetailMap, action.gameDetailMap);
 
                     newGameData = [];
-                    newGameData.vizziniAddAll(state.gameData);
                     newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, state.gameSummaryMap));
                     Reducer.sortGameData(newGameData);
                     newFilteredGameData = Reducer.filterGameData(newGameData, state.filters);
@@ -53,7 +52,6 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     Object.vizziniMerge(newGameSummaryMap, action.gameSummaryMap);
 
                     newGameData = [];
-                    newGameData.vizziniAddAll(state.gameData);
                     newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, action.gameSummaryMap));
                     Reducer.sortGameData(newGameData);
                     newFilteredGameData = Reducer.filterGameData(newGameData, state.filters);
