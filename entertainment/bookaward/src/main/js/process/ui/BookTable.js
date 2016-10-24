@@ -1,5 +1,5 @@
-define(["Assessment", "Library", "process/Action", "process/ui/UrlGenerator"],
-    function(Assessment, Library, Action, UrlGenerator)
+define(["Assessment", "BookComparator", "Library", "process/Action", "process/ui/UrlGenerator"],
+    function(Assessment, BookComparator, Library, Action, UrlGenerator)
     {
         "use strict";
 
@@ -306,6 +306,7 @@ define(["Assessment", "Library", "process/Action", "process/ui/UrlGenerator"],
                 var url1 = UrlGenerator.createAmazonSearchUrl(nominee.book.toString());
                 var url2 = UrlGenerator.createGoodreadsSearchUrl(nominee.book.toString());
                 var title = nominee.book.title();
+                var value = BookComparator.prepareName(nominee.book.title());
                 var image1 = this.createImageLink(1, url1, "../resources/Amazon16.png", "Amazon");
                 var image2 = this.createImageLink(2, url2, "../resources/Goodreads16.png", "Goodreads");
                 var imageSpan = React.DOM.span(
@@ -318,7 +319,7 @@ define(["Assessment", "Library", "process/Action", "process/ui/UrlGenerator"],
                     key: key,
                     className: column.className,
                     column: column.key,
-                    value: nominee.book.title(),
+                    value: value,
                 }, React.DOM.span(
                 {
                     className: "textImageLink",

@@ -8,8 +8,8 @@ define(function()
             InputValidator.validateNotNull("b", b);
 
             var answer = 0;
-            var aString = a.toString();
-            var bString = b.toString();
+            var aString = BookComparator.prepareName(a.toString());
+            var bString = BookComparator.prepareName(b.toString());
 
             if (aString < bString)
             {
@@ -30,6 +30,18 @@ define(function()
 
             return a.title() === b.title() && a.author() === b.author();
         },
+    };
+
+    BookComparator.prepareName = function(string)
+    {
+        InputValidator.validateNotNull("string", string);
+
+        var answer = string;
+
+        answer = (answer.startsWith("A ") ? answer.replace("A ", "") : answer);
+        answer = (answer.startsWith("The ") ? answer.replace("The ", "") : answer);
+
+        return answer;
     };
 
     return BookComparator;
