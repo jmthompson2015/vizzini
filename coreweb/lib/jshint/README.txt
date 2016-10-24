@@ -1,3 +1,0 @@
-JSHint
-
-http://jshint.com
