@@ -2,6 +2,7 @@ define(function()
 {
     "use strict";
     var Assessment = {
+        BOOK_CLUB_PICK: "bookClubPick",
         POSSIBLE_PICK: "possiblePick",
         NONE: "none",
         NOT_ENOUGH_COPIES: "notEnoughCopies",
@@ -10,6 +11,11 @@ define(function()
 
         properties:
         {
+            "bookClubPick":
+            {
+                name: "Book club pick",
+                value: "bookClubPick",
+            },
             "possiblePick":
             {
                 name: "Possible pick",

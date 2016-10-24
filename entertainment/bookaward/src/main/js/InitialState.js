@@ -252,6 +252,11 @@ define(["Assessment", "Award", "Book", "Nomination"], function(Assessment, Award
         this.bookToNomination[this.books[105]].push(new Nomination(anthony, anthony.categories.properties.paperback, 2016, false));
 
         this.initializeBookToAssessment();
+
+        // FIXME
+        // localStorage.removeItem("bookToAssessment");
+        // FIXME
+
         this.loadBookToAssessment();
     }
 
@@ -259,7 +264,21 @@ define(["Assessment", "Award", "Book", "Nomination"], function(Assessment, Award
     {
         this.books.forEach(function(book)
         {
-            this.bookToAssessment[book] = Assessment.NONE;
+            var nominations = this.bookToNomination[book];
+
+            var clubNominations = nominations.filter(function(nomination)
+            {
+                return nomination.award().value === Award.CRIME_AND_BEYOND;
+            });
+
+            if (clubNominations.length > 0)
+            {
+                this.bookToAssessment[book] = Assessment.BOOK_CLUB_PICK;
+            }
+            else
+            {
+                this.bookToAssessment[book] = Assessment.NONE;
+            }
         }, this);
     };
 
