@@ -1,0 +1,125 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="../resources/style.css" />
+<script src="../resources/footer.js"></script>
+<title>Colors</title>
+<script src="colorCell.js" type="text/javascript"></script>
+</head>
+<body>
+	<table id="mainTable" class="top">
+		<tbody>
+			<tr>
+				<td style="font-size: small; padding: 0px;"><a
+					href="../index.html">Home</a></td>
+			</tr>
+			<tr class="accent">
+				<td class="header1">Colors</td>
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<tbody>
+							<tr>
+								<td colspan="2">This page displays colors for the <a
+									href="http://en.wikipedia.org/wiki/RGB_color_model">RGB
+										color model</a>, which is an <a
+									href="http://en.wikipedia.org/wiki/Additive_color">additive
+										color</a> model. <img align="middle" src="RBG_color_wheel.png"
+									width="350" />
+								</td>
+							</tr>
+							<tr>
+								<td class="padding-10 top">
+									<h2>Primary Colors</h2>
+									<table class="table-details">
+										<script>
+                                            tableHeader();
+                                            colorRow("Red", "1.0,0.0,0.0",
+                                                    "255,0,0", "#FF0000", "");
+                                            colorRow("Green", "0.0,1.0,0.0",
+                                                    "0,255,0", "#00FF00", "");
+                                            colorRow("Blue", "0.0,0.0,1.0",
+                                                    "0,0,255", "#0000FF", "");
+                                            colorRow("Maroon", "0.5,0.0,0.0",
+                                                    "127,0,0", "#7F0000",
+                                                    "&frac12 red");
+                                            colorRow("Dark Green",
+                                                    "0.0,0.5,0.0", "0,127,0",
+                                                    "#007F00", "&frac12 green");
+                                            colorRow("Navy", "0.0,0.0,0.5",
+                                                    "0,0,127", "#00007F",
+                                                    "&frac12 blue");
+                                        </script>
+									</table>
+								</td>
+								<td class="padding-10 top">
+									<h2>Secondary Colors</h2> Formed by the addition of primary
+									colors.
+									<table class="table-details">
+										<script>
+                                            tableHeader();
+                                            colorRow("Yellow", "1.0,1.0,0.0",
+                                                    "255,255,0", "#FFFF00",
+                                                    "red + green");
+                                            colorRow("Magenta", "1.0,0.0,1.0",
+                                                    "255,0,255", "#FF00FF",
+                                                    "red + blue");
+                                            colorRow("Cyan", "0.0,1.0,1.0",
+                                                    "0,255,255", "#00FFFF",
+                                                    "green + blue");
+                                            colorRow("Olive", "0.5,0.5,0.0",
+                                                    "127,127,0", "#7F7F00",
+                                                    "&frac12 (red + green)");
+                                            colorRow("Purple", "0.5,0.0,0.5",
+                                                    "127,0,127", "#7F007F",
+                                                    "&frac12 (red + blue)");
+                                            colorRow("Teal", "0.0,0.5,0.5",
+                                                    "0,127,127", "#007F7F",
+                                                    "&frac12 (green + blue)");
+                                        </script>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td class="padding-10 top">
+									<h2>Tertiary Colors</h2> Formed by the addition of a primary
+									and a secondary color.
+									<table class="table-details">
+										<script>
+                                            tableHeader();
+                                            colorRow("Orange", "1.0,0.5,0.0",
+                                                    "255,127,0", "#FF7F00",
+                                                    "&frac12 (red + yellow)");
+                                            colorRow("Rose", "1.0,0.0,0.5",
+                                                    "255,0,127", "#FF007F",
+                                                    "&frac12 (red + magenta)");
+                                            colorRow("Chartreuse",
+                                                    "0.5,1.0,0.0", "127,255,0",
+                                                    "#7FFF00",
+                                                    "&frac12 (green + yellow)");
+                                            colorRow("Spring Green",
+                                                    "0.0,1.0,0.5", "0,255,127",
+                                                    "#00FF7F",
+                                                    "&frac12 (green + cyan)");
+                                            colorRow("Violet", "0.5,0.0,1.0",
+                                                    "127,0,255", "#7F00FF",
+                                                    "&frac12 (blue + magenta)");
+                                            colorRow("Azure", "0.0,0.5,1.0",
+                                                    "0,127,255", "#007FFF",
+                                                    "&frac12 (blue + cyan)");
+                                        </script>
+									</table>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+			<!-- Footer -->
+			<script>
+                writeFooter();
+            </script>
+		</tbody>
+	</table>
+</body>
+</html>
