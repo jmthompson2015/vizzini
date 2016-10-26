@@ -1,88 +1,87 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>MyTestShipActionChooser</title>
+	<meta charset="utf-8">
+	<title>MyTestShipActionChooser</title>
 
-<link rel="stylesheet" href="../../../main/css/style.css">
+	<link rel="stylesheet" href="../../../main/css/style.css">
 
-<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
 
-<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
-<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
-<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
 
 </head>
 <body>
 	<div id="inputArea"></div>
-	<p />
-	Selected Ship Action:
+	<p /> Selected Ship Action:
 	<span id="output"></span>
 	<script>
-        "use strict";
-        var LOGGER = new Logger();
+		"use strict";
+		var LOGGER = new Logger();
 
-        var resourceBase = "../../../main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
+		var resourceBase = "../../../main/resources/";
+		var audioBase = resourceBase + "audio/";
+		var iconBase = resourceBase + "icons/";
+		var imageBase = resourceBase + "images/";
 
-        require([ "EnvironmentFactory", "Maneuver", "Pilot", "ShipAction", "ShipActionAction", "SimpleAgent",
-                "SquadBuilder", "Team", "Token", "ui/ShipActionChooser" ], function(EnvironmentFactory, Maneuver,
-                Pilot, ShipAction, ShipActionAction, SimpleAgent, SquadBuilder, Team, Token, ShipActionChooser)
-        {
-            var environment = EnvironmentFactory.createCoreSetEnvironment();
-            var token0 = environment.tokens()[0];
-            var token1 = environment.tokens()[1];
-            var token2 = environment.tokens()[2];
+		require(["process/EnvironmentFactory", "Maneuver", "Pilot", "ShipAction", "process/ShipActionAction", "SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "ui/ShipActionChooser"],
+			function(EnvironmentFactory, Maneuver, Pilot, ShipAction, ShipActionAction, SimpleAgent, SquadBuilder, Team, Token, ShipActionChooser)
+			{
+				var environment = EnvironmentFactory.createCoreSetEnvironment();
+				var token0 = environment.tokens()[0];
+				var token1 = environment.tokens()[1];
+				var token2 = environment.tokens()[2];
 
-            var shipActions = [];
-            shipActions
-                    .push(new ShipActionAction.BarrelRoll(environment, token2, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
-            shipActions
-                    .push(new ShipActionAction.BarrelRoll(environment, token2, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
-            shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.BANK_LEFT_1_STANDARD));
-            shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.STRAIGHT_1_STANDARD));
-            shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.BANK_RIGHT_1_STANDARD));
-            shipActions.push(new ShipActionAction.Cloak(token2));
-            shipActions.push(new ShipActionAction.Coordinate(token2));
-            shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
-            shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.STRAIGHT_2_STANDARD));
-            shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
-            shipActions.push(new ShipActionAction.Evade(token2));
-            shipActions.push(new ShipActionAction.Focus(token2));
-            shipActions.push(new ShipActionAction.Jam(token0));
-            shipActions.push(new ShipActionAction.Jam(token1));
-            shipActions.push(new ShipActionAction.Recover(token2));
-            shipActions.push(new ShipActionAction.Reinforce(token2));
-            shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_LEFT_2_STANDARD));
-            shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.STRAIGHT_2_STANDARD));
-            shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_RIGHT_2_STANDARD));
-            shipActions.push(new ShipActionAction.SAATargetLock(token2, token0));
-            shipActions.push(new ShipActionAction.SAATargetLock(token2, token1));
+				var shipActions = [];
+				shipActions
+					.push(new ShipActionAction.BarrelRoll(environment, token2, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
+				shipActions
+					.push(new ShipActionAction.BarrelRoll(environment, token2, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
+				shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.BANK_LEFT_1_STANDARD));
+				shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.STRAIGHT_1_STANDARD));
+				shipActions.push(new ShipActionAction.Boost(environment, token2, Maneuver.BANK_RIGHT_1_STANDARD));
+				shipActions.push(new ShipActionAction.Cloak(token2));
+				shipActions.push(new ShipActionAction.Coordinate(token2));
+				shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
+				shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.STRAIGHT_2_STANDARD));
+				shipActions.push(new ShipActionAction.Decloak(environment, token2, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
+				shipActions.push(new ShipActionAction.Evade(token2));
+				shipActions.push(new ShipActionAction.Focus(token2));
+				shipActions.push(new ShipActionAction.Jam(token0));
+				shipActions.push(new ShipActionAction.Jam(token1));
+				shipActions.push(new ShipActionAction.Recover(token2));
+				shipActions.push(new ShipActionAction.Reinforce(token2));
+				shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_LEFT_2_STANDARD));
+				shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.STRAIGHT_2_STANDARD));
+				shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_RIGHT_2_STANDARD));
+				shipActions.push(new ShipActionAction.SAATargetLock(token2, token0));
+				shipActions.push(new ShipActionAction.SAATargetLock(token2, token1));
 
-            var element = React.createElement(ShipActionChooser,
-            {
-                token: token2,
-                shipActions: shipActions,
-                callback: finishShipAction
-            });
-            ReactDOM.render(element, document.getElementById("inputArea"));
+				var element = React.createElement(ShipActionChooser,
+				{
+					token: token2,
+					shipActions: shipActions,
+					callback: finishShipAction
+				});
+				ReactDOM.render(element, document.getElementById("inputArea"));
 
-            function finishShipAction(shipAction)
-            {
-                document.getElementById("output").innerHTML = JSON.stringify(shipAction);
-            }
-        });
-    </script>
+				function finishShipAction(shipAction)
+				{
+					document.getElementById("output").innerHTML = JSON.stringify(shipAction);
+				}
+			});
+	</script>
 </body>
+
 </html>
