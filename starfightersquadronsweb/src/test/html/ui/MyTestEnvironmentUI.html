@@ -1,65 +1,65 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>MyTestEnvironmentUI</title>
+	<meta charset="utf-8">
+	<title>MyTestEnvironmentUI</title>
 
-<link rel="stylesheet" href="../../../main/css/style.css">
+	<link rel="stylesheet" href="../../../main/css/style.css">
 
-<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
 
-<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
-<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
 
 </head>
 <body>
 	<div id="panel"></div>
 
 	<script>
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
 
-        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
+		var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+		var audioBase = resourceBase + "audio/";
+		var iconBase = resourceBase + "icons/";
+		var imageBase = resourceBase + "images/";
 
-        require([ "Adjudicator", "CombatAction", "Environment", "EnvironmentFactory", "Maneuver", "ManeuverAction",
-                "Phase", "Team", "process/Action", "process/ui/EnvironmentUI" ], function(Adjudicator, CombatAction,
-                Environment, EnvironmentFactory, Maneuver, ManeuverAction, Phase, Team, Action, EnvironmentUI)
-        {
-            var environment = EnvironmentFactory.createCoreSetEnvironment();
-            var store = environment.store();
-            store.dispatch(Action.setUserMessage("This is an important message!"));
-            var adjudicator = new Adjudicator();
-            var mockEngine = {};
-            var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
-            var rebelTokens = environment.getTokensForTeam(Team.REBEL);
-            var imperialToken0 = imperialTokens[0];
-            var imperialToken1 = imperialTokens[1];
-            var rebelToken = rebelTokens[0];
+		require(["process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "Maneuver", "process/ManeuverAction", "Phase", "Team", "process/Action", "process/ui/EnvironmentUI"],
+			function(Adjudicator, CombatAction, Environment, EnvironmentFactory, Maneuver, ManeuverAction, Phase, Team, Action, EnvironmentUI)
+			{
+				var environment = EnvironmentFactory.createCoreSetEnvironment();
+				var store = environment.store();
+				store.dispatch(Action.setUserMessage("This is an important message!"));
+				var adjudicator = new Adjudicator();
+				var mockEngine = {};
+				var imperialTokens = environment.getTokensForTeam(Team.IMPERIAL);
+				var rebelTokens = environment.getTokensForTeam(Team.REBEL);
+				var imperialToken0 = imperialTokens[0];
+				var imperialToken1 = imperialTokens[1];
+				var rebelToken = rebelTokens[0];
 
-            var environmentUI = React.createElement(ReactRedux.Provider,
-            {
-                store: store,
-            }, React.createElement(EnvironmentUI,
-            {
-                engine: mockEngine,
-                environment: environment,
-            }));
-            ReactDOM.render(environmentUI, document.getElementById("panel"));
-        });
-    </script>
+				var environmentUI = React.createElement(ReactRedux.Provider,
+				{
+					store: store,
+				}, React.createElement(EnvironmentUI,
+				{
+					engine: mockEngine,
+					environment: environment,
+				}));
+				ReactDOM.render(environmentUI, document.getElementById("panel"));
+			});
+	</script>
 </body>
+
 </html>

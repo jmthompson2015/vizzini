@@ -34,7 +34,7 @@
 		var iconBase = resourceBase + "icons/";
 		var imageBase = resourceBase + "images/";
 
-		require(["Pilot", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/Reducer", "ui/ManeuverChooser"],
+		require(["Pilot", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/Reducer", "process/ui/ManeuverChooser"],
 			function(Pilot, SimpleAgent, SquadBuilder, Team, Token, Reducer, ManeuverChooser)
 			{
 				var store = Redux.createStore(Reducer.root);

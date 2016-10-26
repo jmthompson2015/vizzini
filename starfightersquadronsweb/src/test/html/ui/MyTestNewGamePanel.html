@@ -1,58 +1,59 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>MyTestNewGamePanel</title>
+	<meta charset="utf-8">
+	<title>MyTestNewGamePanel</title>
 
-<link rel="stylesheet" href="../../../main/css/style.css">
+	<link rel="stylesheet" href="../../../main/css/style.css">
 
-<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
 
-<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
-<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
-<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
-<script src="../../../../../coreweb/src/main/js/ui/Select.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/Select.js"></script>
 
 </head>
 <body>
 	<div id="inputArea"></div>
 
 	<script>
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
 
-        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
+		var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+		var audioBase = resourceBase + "audio/";
+		var iconBase = resourceBase + "icons/";
+		var imageBase = resourceBase + "images/";
 
-        require([ "ui/NewGamePanel" ], function(NewGamePanel)
-        {
-            var element = React.createElement(NewGamePanel,
-            {
-                callback: myOnChange,
-            });
-            ReactDOM.render(element, document.getElementById("inputArea"));
+		require(["process/ui/NewGamePanel"], function(NewGamePanel)
+		{
+			var element = React.createElement(NewGamePanel,
+			{
+				callback: myOnChange,
+			});
+			ReactDOM.render(element, document.getElementById("inputArea"));
 
-            function myOnChange(agent1, squad1, agent2, squad2)
-            {
-                LOGGER.info("myOnChange()");
-                LOGGER.info("agent1 = " + agent1);
-                LOGGER.info("squad1 = " + squad1);
-                LOGGER.info("agent2 = " + agent2);
-                LOGGER.info("squad2 = " + squad2);
-            }
-        });
-    </script>
+			function myOnChange(agent1, squad1, agent2, squad2)
+			{
+				LOGGER.info("myOnChange()");
+				LOGGER.info("agent1 = " + agent1);
+				LOGGER.info("squad1 = " + squad1);
+				LOGGER.info("agent2 = " + agent2);
+				LOGGER.info("squad2 = " + squad2);
+			}
+		});
+	</script>
 </body>
+
 </html>

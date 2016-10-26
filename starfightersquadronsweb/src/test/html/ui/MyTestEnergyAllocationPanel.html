@@ -1,49 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MyTestEnergyAllocationPanel</title>
+	<title>MyTestEnergyAllocationPanel</title>
 
-<link rel="stylesheet" href="../../../main/css/style.css">
+	<link rel="stylesheet" href="../../../main/css/style.css">
 
-<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
 
-<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
-<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
 </head>
 <body>
 	<div id="panel"></div>
 	<script>
-        "use strict";
-        var LOGGER = new Logger();
+		"use strict";
+		var LOGGER = new Logger();
 
-        var resourceBase = "../../../main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
+		var resourceBase = "../../../main/resources/";
+		var audioBase = resourceBase + "audio/";
+		var iconBase = resourceBase + "icons/";
+		var imageBase = resourceBase + "images/";
 
-        require([ "EnvironmentFactory", "ui/EnergyAllocationPanel" ], function(EnvironmentFactory,
-                EnergyAllocationPanel)
-        {
-            var environment = EnvironmentFactory.createHugeShipEnvironment();
-            // var token = environment.tokens()[2]; // Raider-class Corvette.
-            var token = environment.tokens()[3]; // CR90 Corvette.
+		require(["process/EnvironmentFactory", "process/ui/EnergyAllocationPanel"],
+			function(EnvironmentFactory, EnergyAllocationPanel)
+			{
+				var environment = EnvironmentFactory.createHugeShipEnvironment();
+				// var token = environment.tokens()[2]; // Raider-class Corvette.
+				var token = environment.tokens()[3]; // CR90 Corvette.
 
-            var element = React.createElement(EnergyAllocationPanel,
-            {
-                token: token,
-            });
-            ReactDOM.render(element, document.getElementById("panel"));
-        });
-    </script>
+				var element = React.createElement(EnergyAllocationPanel,
+				{
+					token: token,
+				});
+				ReactDOM.render(element, document.getElementById("panel"));
+			});
+	</script>
 </body>
+
 </html>

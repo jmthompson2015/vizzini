@@ -77,7 +77,9 @@
 		var iconBase = resourceBase + "icons/";
 		var imageBase = resourceBase + "images/";
 
-		require(["DamageCard", "process/DualToken", "process/EnvironmentFactory", "Pilot", "Position", "process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "Team", "process/Token", "process/Action", "process/ui/Connector", "ui/PilotCardUI"],
+		require(["DamageCard", "process/DualToken", "process/EnvironmentFactory", "Pilot", "Position", "process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "Team", "process/Token", "process/Action", "process/ui/Connector",
+				"process/ui/PilotCardUI"
+			],
 			function(DamageCard, DualToken, EnvironmentFactory, Pilot, Position, SimpleAgent, SquadBuilder, TargetLock, Team, Token, Action, Connector, PilotCardUI)
 			{
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
