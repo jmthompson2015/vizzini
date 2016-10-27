@@ -4,46 +4,40 @@
     <meta charset="utf-8">
     <title>TestSuite</title>
 
-    <link rel="stylesheet" href="../../../../coreweb/lib/qunit/qunit-1.20.0.css">
-    <script src="../../../../coreweb/lib/qunit/qunit-1.20.0.js"></script>
+    <link rel="stylesheet" href="../../../../coreweb/lib/qunit/qunit-2.0.1.css">
+    <script src="../../../../coreweb/lib/qunit/qunit-2.0.1.js"></script>
     <script>
         QUnit.config.autostart = false;
     </script>
 
     <link rel="stylesheet" href="../../main/css/style.css">
 
-    <script src="../../../../coreweb/lib/react/react-0.13.3.js"></script>
-    <script src="../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-    <script src="../../../../coreweb/lib/require/require-2.1.22.js" data-main="../../main/js/Team"></script>
+    <script src="../../../../coreweb/lib/react/react-15.3.2.js"></script>
+    <script src="../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+    <script src="../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../main/js/Team"></script>
 
     <script src="../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
     <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
     <script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
     <script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
     <script src="../../../../coreweb/src/main/js/util/MathAugments.js"></script>
-
     <script>
         "use strict";
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
-
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["process/ActivationAction", "ActivationState", "process/Adjudicator", "process/AgentInterface", "AttackDice",
-            "Bearing", "process/CombatAction", "Count", "DamageCard", "DamageCardTrait", "DamageCardV2", "process/DamageDealer",
-            "DefenseDice", "Difficulty", "process/DualToken", "process/Engine", "process/Environment", "FiringArc", "InitialState", "Maneuver",
-            "process/ManeuverAction", "ManeuverComputer", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction",
-            "Path", "Phase", "Pilot", "process/PlanningAction", "PlayFormat", "Position", "RangeRuler", "RectanglePath",
-            "Ship", "ShipAction", "process/ShipActionAction", "ShipBase", "process/ShipDestroyedAction", "process/ShipFledAction", "ShipTeam",
-            "process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "Team", "process/Token", "process/TokenFactory", "UpgradeCard",
-            "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "Value", "WeaponInterface", "Weapon",
-            "process/Reducer", "process/Selector"
+        var testModules = ["ActivationState", "AttackDice", "Bearing", "Count", "DamageCard", "DamageCardTrait", "DamageCardV2", "DefenseDice", "Difficulty",
+            "FiringArc", "InitialState", "Maneuver", "ManeuverComputer", "Path", "Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "RectanglePath",
+            "Ship", "ShipAction", "ShipBase", "ShipState", "ShipTeam", "Team", "UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "Value",
+            "WeaponInterface", "Weapon",
+
+            "process/ActivationAction", "process/Adjudicator", "process/AgentInterface", "process/DamageDealer", "process/DualToken", "process/Engine",
+            "process/Environment", "process/ManeuverAction", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction",
+            "process/PlanningAction", "process/ShipActionAction", "process/ShipDestroyedAction", "process/ShipFledAction", "process/SimpleAgent",
+            "process/SquadBuilder", "process/TargetLock", "process/Token", "process/TokenFactory", "process/Reducer", "process/Selector"
         ];
         testModules = testModules.map(function(testModule)
         {
@@ -59,6 +53,11 @@
 <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
+</body>
+
+</html>
+</div>
+<div id="qunit-fixture"></div>
 </body>
 
 </html>
