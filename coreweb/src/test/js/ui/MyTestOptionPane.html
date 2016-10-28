@@ -1,41 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>MyTestOptionPane</title>
+    <title>MyTestOptionPane</title>
 
-<script src="../../../../lib/react/react-0.13.3.js"></script>
+    <script src="../../../../lib/react/react-15.3.2.js"></script>
+    <script src="../../../../lib/react-dom/react-dom-15.3.2.js"></script>
 
-<script src="../../../main/js/util/Logger.js"></script>
+    <script src="../../../main/js/util/Logger.js"></script>
+    <script src="../../../main/js/util/InputValidator.js"></script>
+    <script src="../../../main/js/util/ArrayAugments.js"></script>
 
-<script src="../../../main/js/ui/OptionPane.js"></script>
-<script src="../../../main/js/ui/RadioButtonList.js"></script>
+    <script src="../../../main/js/ui/InputPanel.js"></script>
+    <script src="../../../main/js/ui/OptionPane.js"></script>
+    <script src="../../../main/js/ui/RadioInputPanel.js"></script>
 
-<style>
-.panelClass {
-    background-color: lightBlue;
-    border-collapse: collapse;
-    border-color: black;
-    border-style: solid;
-    border-width: 3px;
-}
+    <style>
+        .panelClass {
+            background-color: lightBlue;
+            border-collapse: collapse;
+            border-color: black;
+            border-style: solid;
+            border-width: 3px;
+        }
 
-.titleClass {
-    background-color: lightGray;
-    border-style: solid;
-    border-width: 1px;
-}
+        .titleClass {
+            background-color: lightGray;
+            border-style: solid;
+            border-width: 1px;
+        }
 
-.buttonsClass {
-    background-color: white;
-    text-align: right;
-}
-</style>
+        .buttonsClass {
+            background-color: white;
+            text-align: right;
+        }
+    </style>
 </head>
 <body>
-	<div id="testPanel0">testPanel0</div>
-	<p />
-	<div id="testPanel1">testPanel1</div>
-	<script>
+    <div id="testPanel0">testPanel0</div>
+    <p />
+    <div id="testPanel1">testPanel1</div>
+    <script>
         "use strict";
         var LOGGER = new Logger();
         var buttons = React.DOM.button(
@@ -51,46 +55,41 @@
             buttons: buttons,
             buttonsClass: "buttonsClass"
         });
-        React.render(element, document.getElementById("testPanel0"));
+        ReactDOM.render(element, document.getElementById("testPanel0"));
 
         function okActionPerformed0()
         {
             LOGGER.info("OK clicked");
         }
 
-        var icon = React.DOM
-                .img(
-                {
-                    src: "../../../../../starfightersquadronsweb/src/main/resources/images/RebelIcon24.png"
-                });
-        var options = [ "Zero", "One", "Two" ];
-        var selectedIndex = 0;
-        var panelStyle =
+        var icon = React.DOM.img(
         {
+            src: "../../../../../starfightersquadronsweb/src/main/resources/images/RebelIcon24.png"
+        });
+        var options = ["Zero", "One", "Two"];
+        var selected = options[0];
+        var panelStyle = {
             backgroundColor: "lightBlue",
             borderCollapse: "collapse",
             border: "3px solid black"
         };
-        var titleStyle =
-        {
+        var titleStyle = {
             backgroundColor: "lightGray",
             border: "1px solid black",
         };
-        var iconStyle =
-        {
+        var iconStyle = {
             padding: "5px",
         };
-        var buttonsStyle =
-        {
+        var buttonsStyle = {
             backgroundColor: "white",
             textAlign: "right",
         };
-        var initialInput = React.createElement(RadioButtonList,
+        var initialInput = React.createElement(RadioInputPanel,
         {
             name: "selectNumber",
-            options: options,
-            initialSelectedIndex: selectedIndex,
-            onChange: myOnChange1
+            values: options,
+            initialValue: selected,
+            onChange: myOnChange1,
         });
         var cancelButton = React.DOM.button(
         {
@@ -102,7 +101,8 @@
             key: 1,
             onClick: okActionPerformed1
         }, "OK");
-        var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
+        var buttons = React.DOM.span(
+        {}, [cancelButton, okButton]);
         var element = React.createElement(OptionPane,
         {
             panelStyle: panelStyle,
@@ -113,14 +113,14 @@
             message: "Ask a question?",
             initialInput: initialInput,
             buttons: buttons,
-            buttonsStyle: buttonsStyle
+            buttonsStyle: buttonsStyle,
         });
-        React.render(element, document.getElementById("testPanel1"));
+        ReactDOM.render(element, document.getElementById("testPanel1"));
 
         function okActionPerformed1()
         {
             LOGGER.info("OK clicked");
-            LOGGER.info("selectedIndex = " + selectedIndex);
+            LOGGER.info("selected = " + selected);
         }
 
         function cancelActionPerformed1()
@@ -128,12 +128,12 @@
             LOGGER.info("Cancel clicked");
         }
 
-        function myOnChange1(event)
+        function myOnChange1(selectedIn)
         {
-            LOGGER.info("myOnChange() event.currentTarget.value = "
-                    + event.currentTarget.value);
-            selectedIndex = event.currentTarget.value;
+            selected = selectedIn;
+            LOGGER.info("myOnChange1() selected = " + selected);
         }
     </script>
 </body>
+
 </html>
