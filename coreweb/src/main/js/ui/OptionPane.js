@@ -4,6 +4,28 @@
  */
 var OptionPane = React.createClass(
 {
+    propTypes:
+    {
+        buttons: React.PropTypes.object.isRequired,
+        message: React.PropTypes.string.isRequired,
+        title: React.PropTypes.string.isRequired,
+
+        initialInput: React.PropTypes.object,
+        buttonsClass: React.PropTypes.string,
+        buttonsStyle: React.PropTypes.object,
+        icon: React.PropTypes.object,
+        iconClass: React.PropTypes.string,
+        iconStyle: React.PropTypes.object,
+        inputClass: React.PropTypes.string,
+        inputStyle: React.PropTypes.object,
+        messageClass: React.PropTypes.string,
+        messageStyle: React.PropTypes.object,
+        panelClass: React.PropTypes.string,
+        panelStyle: React.PropTypes.object,
+        titleClass: React.PropTypes.string,
+        titleStyle: React.PropTypes.object,
+    },
+
     getInitialState: function()
     {
         return (
@@ -43,7 +65,7 @@ var OptionPane = React.createClass(
         rows.push(React.DOM.tr(
         {
             key: 1
-        }, [ cell10, cell11 ]));
+        }, [cell10, cell11]));
 
         var cell2 = React.DOM.td(
         {
@@ -70,6 +92,7 @@ var OptionPane = React.createClass(
         {
             className: this.props.panelClass,
             style: this.props.panelStyle
-        }, rows);
+        }, React.DOM.tbody(
+        {}, rows));
     }
 });
