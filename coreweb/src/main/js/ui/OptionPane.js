@@ -7,7 +7,7 @@ var OptionPane = React.createClass(
     propTypes:
     {
         buttons: React.PropTypes.object.isRequired,
-        message: React.PropTypes.string.isRequired,
+        message: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]).isRequired,
         title: React.PropTypes.string.isRequired,
 
         initialInput: React.PropTypes.object,
