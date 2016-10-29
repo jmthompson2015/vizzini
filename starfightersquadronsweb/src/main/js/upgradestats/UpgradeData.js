@@ -1,4 +1,4 @@
-define(["UpgradeCard"], function(UpgradeCard)
+define(function()
 {
     "use strict";
     var UpgradeData = {};
