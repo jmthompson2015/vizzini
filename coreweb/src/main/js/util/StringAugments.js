@@ -45,6 +45,7 @@ if (!String.pad)
 
 String.prototype.vizziniReplaceAll = function(search, replacement)
 {
+    LOGGER.warn("Deprecated: use String.replace(regexp, newSubStr) e.g. bearing.replace(/B/g, \"_b\")");
     var target = this;
     return target.replace(new RegExp(search, 'g'), replacement);
 };
