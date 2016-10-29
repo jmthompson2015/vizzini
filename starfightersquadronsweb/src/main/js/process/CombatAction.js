@@ -297,12 +297,12 @@ define(["AttackDice", "process/DamageDealer", "DefenseDice", "Phase", "Pilot", "
                         weapon.upgradeKey() === UpgradeCard.ION_CANNON_TURRET)
                     {
                         defender.addDamage(environment.drawDamage());
-                        store.dispatch(Action.addIonCount(token.id()));
+                        store.dispatch(Action.addIonCount(defender));
                     }
                     else if (weapon.upgradeKey() === UpgradeCard.ION_PULSE_MISSILES)
                     {
                         defender.addDamage(environment.drawDamage());
-                        store.dispatch(Action.addIonCount(token.id(), 2));
+                        store.dispatch(Action.addIonCount(defender, 2));
                     }
                     else if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET)
                     {
@@ -333,12 +333,12 @@ define(["AttackDice", "process/DamageDealer", "DefenseDice", "Phase", "Pilot", "
                     {
                         environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
                         {
-                            store.dispatch(Action.addIonCount(token.id()));
+                            store.dispatch(Action.addIonCount(token));
                         });
                     }
                     else if (weapon.upgradeKey() === UpgradeCard.PLASMA_TORPEDOES)
                     {
-                        store.dispatch(Action.addShieldCount(defender.id(), -1));
+                        store.dispatch(Action.addShieldCount(defender, -1));
                     }
 
                     if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
