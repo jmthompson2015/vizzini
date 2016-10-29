@@ -1,8 +1,15 @@
-define([ "RangeRuler" ], function(RangeRuler)
+define(["RangeRuler"], function(RangeRuler)
 {
     "use strict";
     var WeaponAndDefenderChooser = React.createClass(
     {
+        propTypes:
+        {
+            callback: React.PropTypes.func.isRequired,
+            choices: React.PropTypes.array.isRequired,
+            attacker: React.PropTypes.object.isRequired,
+        },
+
         getInitialState: function()
         {
             var weapon;
@@ -90,7 +97,8 @@ define([ "RangeRuler" ], function(RangeRuler)
                             {
                                 key: 1
                             }, token.name());
-                            var label = React.DOM.label({}, [ input, span ]);
+                            var label = React.DOM.label(
+                            {}, [input, span]);
                             var cell = React.DOM.td(
                             {
                                 className: "defenderChoice"
@@ -107,18 +115,20 @@ define([ "RangeRuler" ], function(RangeRuler)
             var initialInput = React.DOM.table(
             {
                 className: "combatTable"
-            }, rows);
+            }, React.DOM.tbody(
+            {}, rows));
             var cancelButton = React.DOM.button(
             {
-                key: 0,
+                key: "cancelButton",
                 onClick: self.cancel
             }, "Cancel");
             var okButton = React.DOM.button(
             {
-                key: 1,
+                key: "okButton",
                 onClick: self.ok
             }, "OK");
-            var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
+            var buttons = React.DOM.span(
+            {}, [cancelButton, okButton]);
             return React.createElement(OptionPane,
             {
                 panelClass: "optionPane",

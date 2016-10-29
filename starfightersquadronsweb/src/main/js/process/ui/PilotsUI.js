@@ -3,26 +3,35 @@ define(["process/ui/Connector", "process/ui/PilotCardUI"], function(Connector, P
     "use strict";
     var PilotsUI = React.createClass(
     {
+        propTypes:
+        {
+            tokens: React.PropTypes.array.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+        },
+
         render: function()
         {
             var tokens = this.props.tokens;
             var connector = ReactRedux.connect(Connector.PilotCardUI.mapStateToProps)(PilotCardUI);
 
-            var tokenHtml = tokens.map(function(token)
+            var tokenElements = tokens.map(function(token, i)
             {
                 return React.createElement(connector,
                 {
+                    key: i,
+                    imageBase: this.props.imageBase,
                     isCompact: true,
-                    token: token
+                    token: token,
                 });
-            });
+            }, this);
 
             var row = React.DOM.tr(
             {}, React.DOM.td(
-            {}, tokenHtml));
+            {}, tokenElements));
 
             return React.DOM.table(
-            {}, row);
+            {}, React.DOM.tbody(
+            {}, row));
         },
     });
 

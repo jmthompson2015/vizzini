@@ -5,22 +5,21 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
 	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
-
-	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
-	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
-
+	<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 </head>
 <body>
 	<table>
@@ -46,60 +45,60 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
-
-		require(["process/Adjudicator", "AttackDice", "process/CombatAction", "process/DamageDealer", "DefenseDice", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "Phase", "process/Action",
-				"process/ui/CombatUI"
+		require(["AttackDice", "DefenseDice", "Phase", "process/Action", "process/Adjudicator", "process/CombatAction", "process/DamageDealer",
+				"process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/CombatUI"
 			],
-			function(Adjudicator, AttackDice, CombatAction, DamageDealer, DefenseDice, EnvironmentFactory, ModifyAttackDiceAction, ModifyDefenseDiceAction, Phase, Action, CombatUI)
+			function(AttackDice, DefenseDice, Phase, Action, Adjudicator, CombatAction, DamageDealer, EnvironmentFactory, ModifyAttackDiceAction,
+				ModifyDefenseDiceAction, CombatUI)
 			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
 				var store = environment.store();
 				var adjudicator = new Adjudicator();
 				var attacker = environment.tokens()[0];
 				var attackerPosition = environment.getPositionFor(attacker);
 				LOGGER.debug("attacker = " + attacker);
-				store.dispatch(Action.addFocusCount(attacker.id()));
+				store.dispatch(Action.addFocusCount(attacker));
 				var weapon = attacker.primaryWeapon();
 				var attackDice = new AttackDice(5);
 				var defender = environment.tokens()[2];
 				var defenderPosition = environment.getPositionFor(defender);
 				LOGGER.debug("defender = " + defender);
-				store.dispatch(Action.addFocusCount(defender.id()));
-				store.dispatch(Action.addEvadeCount(defender.id()));
+				store.dispatch(Action.addFocusCount(defender));
+				store.dispatch(Action.addEvadeCount(defender));
 				attacker.combatState().combatAction(
 					new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
 						defenderPosition));
-				var modifications0 = [null, ModifyAttackDiceAction.Modification.SPEND_FOCUS];
+				var modificationKeys0 = [null, ModifyAttackDiceAction.Modification.SPEND_FOCUS];
 
 				var element0 = React.createElement(CombatUI,
 				{
-					phase: Phase.COMBAT_ROLL_ATTACK_DICE,
 					attacker: attacker,
 					attackDice: attackDice,
 					defender: defender,
-					modifications: modifications0,
+					imageBase: imageBase,
+					modificationKeys: modificationKeys0,
 					okFunction: myOK0,
+					phase: Phase.properties[Phase.COMBAT_ROLL_ATTACK_DICE],
 				});
 				ReactDOM.render(element0, document.getElementById("inputArea0"));
 
 				var defenseDice = new DefenseDice(4);
-				var modifications1 = [null, ModifyDefenseDiceAction.Modification.SPEND_EVADE,
+				var modificationKeys1 = [null, ModifyDefenseDiceAction.Modification.SPEND_EVADE,
 					ModifyDefenseDiceAction.Modification.SPEND_FOCUS
 				];
 
 				var element1 = React.createElement(CombatUI,
 				{
-					phase: Phase.COMBAT_ROLL_DEFENSE_DICE,
 					attacker: attacker,
 					attackDice: attackDice,
 					defender: defender,
 					defenseDice: defenseDice,
-					modifications: modifications1,
+					imageBase: imageBase,
+					modificationKeys: modificationKeys1,
 					okFunction: myOK1,
+					phase: Phase.properties[Phase.COMBAT_ROLL_DEFENSE_DICE],
 				});
 				ReactDOM.render(element1, document.getElementById("inputArea1"));
 
@@ -110,14 +109,15 @@
 
 				var element2 = React.createElement(CombatUI,
 				{
-					phase: Phase.COMBAT_MODIFY_DEFENSE_DICE,
 					attacker: attacker,
 					attackDice: attackDice,
+					criticalHitCount: damageDealer.criticalHits(),
 					defender: defender,
 					defenseDice: defenseDice,
 					hitCount: damageDealer.hits(),
-					criticalHitCount: damageDealer.criticalHits(),
+					imageBase: imageBase,
 					okFunction: myOK2,
+					phase: Phase.properties[Phase.COMBAT_MODIFY_DEFENSE_DICE],
 				});
 				ReactDOM.render(element2, document.getElementById("inputArea2"));
 

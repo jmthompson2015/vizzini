@@ -4,6 +4,14 @@ define(["UpgradeCard", "process/ui/UpgradeCardUI", "process/ui/UpgradeTypeUI"],
         "use strict";
         var UpgradeChooser = React.createClass(
         {
+            propTypes:
+            {
+                imageBase: React.PropTypes.string.isRequired,
+                onChange: React.PropTypes.func.isRequired,
+                pilot: React.PropTypes.object.isRequired,
+                upgradeType: React.PropTypes.object.isRequired,
+            },
+
             getInitialState: function()
             {
                 return (
@@ -16,14 +24,15 @@ define(["UpgradeCard", "process/ui/UpgradeCardUI", "process/ui/UpgradeTypeUI"],
             {
                 var pilot = this.props.pilot;
                 var upgradeType = this.props.upgradeType;
-                var upgrades = UpgradeCard.valuesByPilotAndType(pilot, upgradeType);
-                upgrades.unshift("*none*");
+                var upgradeCardKeys = UpgradeCard.valuesByPilotAndType(pilot.value, upgradeType.value);
+                upgradeCardKeys.unshift("*none*");
 
                 var rows = [];
 
                 var image = React.createElement(UpgradeTypeUI,
                 {
-                    upgradeTypeKey: upgradeType,
+                    upgradeType: upgradeType,
+                    imageBase: this.props.imageBase,
                 });
                 var labelFunction = function(value)
                 {
@@ -33,7 +42,7 @@ define(["UpgradeCard", "process/ui/UpgradeCardUI", "process/ui/UpgradeTypeUI"],
                 var select = React.createElement(Select,
                 {
                     key: 1,
-                    values: upgrades,
+                    values: upgradeCardKeys,
                     labelFunction: labelFunction,
                     initialSelectedValue: this.state.selected,
                     onChange: this.upgradeCardChanged,
@@ -52,9 +61,11 @@ define(["UpgradeCard", "process/ui/UpgradeCardUI", "process/ui/UpgradeTypeUI"],
                 var upgradeCardUI = " ";
                 if (selected)
                 {
+                    var upgrade = UpgradeCard.properties[selected];
                     upgradeCardUI = React.createElement(UpgradeCardUI,
                     {
-                        upgradeCard: selected
+                        imageBase: this.props.imageBase,
+                        upgradeCard: upgrade,
                     });
                 }
                 var cell = React.DOM.td(
@@ -102,7 +113,7 @@ define(["UpgradeCard", "process/ui/UpgradeCardUI", "process/ui/UpgradeTypeUI"],
                     selected: upgradeCard
                 });
 
-                this.props.onChangeFunction(event);
+                this.props.onChange(event);
             },
         });
 

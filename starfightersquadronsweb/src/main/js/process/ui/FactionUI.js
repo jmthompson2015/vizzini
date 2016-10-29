@@ -1,22 +1,25 @@
-/*
- * @param factionKey (required)
- * @param key (optional; default: 0)
- * @param isSmall (optional; default: false)
- */
-define([ "Team" ], function(Team)
+define(function()
 {
     "use strict";
     var FactionUI = React.createClass(
     {
+        propTypes:
+        {
+            faction: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+
+            // default: faction value
+            myKey: React.PropTypes.string,
+            // default: false
+            isSmall: React.PropTypes.bool,
+        },
+
         render: function()
         {
-            InputValidator.validateNotNull("factionKey", this.props.factionKey);
-
-            var factionKey = this.props.factionKey;
-            var faction = Team.properties[factionKey];
+            var faction = this.props.faction;
             var size = (this.props.isSmall !== undefined ? 24 : 32);
-            var fileString = imageBase + faction.shortName + "Icon" + size + ".png";
-            var myKey = (this.props.key !== undefined ? this.props.key : 0);
+            var fileString = this.props.imageBase + faction.shortName + "Icon" + size + ".png";
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : faction.value);
 
             var image = React.DOM.img(
             {

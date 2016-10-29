@@ -3,12 +3,11 @@ LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
 var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-var audioBase = resourceBase + "audio/";
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
-require(["process/Game", "process/Action", "process/Reducer", "process/ui/EnvironmentUI", "process/ui/NewGamePanel"],
-    function(Game, Action, Reducer, EnvironmentUI, NewGamePanel)
+require(["process/Action", "process/Game", "process/Reducer", "process/ui/EnvironmentUI", "process/ui/NewGamePanel"],
+    function(Action, Game, Reducer, EnvironmentUI, NewGamePanel)
     {
         "use strict";
 
@@ -20,6 +19,8 @@ require(["process/Game", "process/Action", "process/Reducer", "process/ui/Enviro
         }, React.createElement(NewGamePanel,
         {
             callback: startNewGame,
+            iconBase: iconBase,
+            imageBase: imageBase,
         }));
 
         ReactDOM.render(newGamePanel, document.getElementById("inputArea"));
@@ -47,6 +48,7 @@ require(["process/Game", "process/Action", "process/Reducer", "process/ui/Enviro
             {
                 engine: game.engine(),
                 environment: game.environment(),
+                imageBase: imageBase,
             }));
             ReactDOM.render(environmentUI, document.getElementById("environmentUI"));
 

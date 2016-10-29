@@ -1,31 +1,33 @@
-/*
- * @param shipActionKeys (required)
- */
-define(["process/ui/ShipActionUI"], function(ShipActionUI)
+define(["ShipAction", "process/ui/ShipActionUI"], function(ShipAction, ShipActionUI)
 {
     "use strict";
     var ShipActionPanel = React.createClass(
     {
+        propTypes:
+        {
+            shipActionKeys: React.PropTypes.array.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+        },
+
         render: function()
         {
-            InputValidator.validateNotNull("shipActionKeys", this.props.shipActionKeys);
-
             var shipActionKeys = this.props.shipActionKeys;
             var cells = [];
 
             shipActionKeys.forEach(function(shipActionKey, i)
             {
-                var img = React.createElement(ShipActionUI,
+                var image = React.createElement(ShipActionUI,
                 {
-                    shipActionKey: shipActionKey,
+                    shipAction: ShipAction.properties[shipActionKey],
+                    imageBase: this.props.imageBase,
                 });
 
                 cells.push(React.DOM.td(
                 {
                     key: i,
                     className: "shipActionPanelCell",
-                }, img));
-            });
+                }, image));
+            }, this);
 
             var row = React.DOM.tr(
             {
@@ -34,7 +36,8 @@ define(["process/ui/ShipActionUI"], function(ShipActionUI)
             return React.DOM.table(
             {
                 className: "pilotCardUIShipActions"
-            }, row);
+            }, React.DOM.tbody(
+            {}, row));
         },
     });
 

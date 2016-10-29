@@ -1,21 +1,24 @@
-/*
- * @param upgradeTypeKey (required)
- * @param key (optional; default: 0)
- */
-define([ "UpgradeType" ], function(UpgradeType)
+define(function()
 {
     "use strict";
     var UpgradeTypeUI = React.createClass(
     {
+        propTypes:
+        {
+            upgradeType: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+
+            // default: upgrade type value
+            myKey: React.PropTypes.string,
+        },
+
         render: function()
         {
-            InputValidator.validateNotNull("upgradeTypeKey", this.props.upgradeTypeKey);
-
-            var upgradeTypeKey = this.props.upgradeTypeKey;
-            var typeName0 = UpgradeType.properties[upgradeTypeKey].name;
+            var upgradeType = this.props.upgradeType;
+            var typeName0 = upgradeType.name;
             var typeName = typeName0.replace(" ", "");
-            var fileString = imageBase + "upgrade/" + typeName + "24.png";
-            var myKey = (this.props.key !== undefined ? this.props.key : 0);
+            var fileString = this.props.imageBase + "upgrade/" + typeName + "24.png";
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : upgradeType.value);
 
             return React.DOM.img(
             {

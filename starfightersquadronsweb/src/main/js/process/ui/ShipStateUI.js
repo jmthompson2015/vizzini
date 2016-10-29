@@ -1,26 +1,33 @@
-/*
- * @param shipStateKey (required)
- * @param factionKey (required)
- *
- * @param label (optional)
- * @param labelClass (optional)
- */
-define(["Team", "process/ui/LabeledImage"], function(Team, LabeledImage)
+define(["ShipState", "Team", "process/ui/LabeledImage"], function(ShipState, Team, LabeledImage)
 {
     "use strict";
     var ShipStateUI = React.createClass(
     {
+        propTypes:
+        {
+            faction: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+            shipState: React.PropTypes.object.isRequired,
+
+            // default: undefined
+            label: React.PropTypes.string,
+            // default: undefined
+            labelClass: React.PropTypes.string,
+            // default: ship state value
+            myKey: React.PropTypes.string,
+            // default: false
+            showName: React.PropTypes.bool,
+            // default: false
+            showOne: React.PropTypes.bool,
+        },
+
         render: function()
         {
-            InputValidator.validateNotNull("shipStateKey", this.props.shipStateKey);
-            InputValidator.validateNotNull("factionKey", this.props.factionKey);
-
-            var shipStateKey = this.props.shipStateKey;
-            var factionKey = this.determineFactionKey();
-            var factionName = Team.properties[factionKey].shortName;
-            var size = (shipStateKey === "Skill" ? 32 : 24);
-            var src = "pilotCard/" + factionName + "_" + shipStateKey + size + ".png";
-            var myKey = (this.props.key !== undefined ? this.props.key : 0);
+            var shipState = this.props.shipState;
+            var faction = this.determineFaction(this.props.faction);
+            var size = (shipState.value === ShipState.PILOT_SKILL ? 32 : 24);
+            var src = this.createFilename(faction, shipState, size);
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : shipState.value);
             var label = this.props.label;
             var cellStyle = {
                 display: "table-cell",
@@ -33,6 +40,7 @@ define(["Team", "process/ui/LabeledImage"], function(Team, LabeledImage)
                 image = React.createElement(LabeledImage,
                 {
                     image: src,
+                    imageBase: this.props.imageBase,
                     label: label,
                     labelClass: this.props.labelClass,
                     showOne: this.props.showOne,
@@ -44,7 +52,7 @@ define(["Team", "process/ui/LabeledImage"], function(Team, LabeledImage)
             {
                 image = React.DOM.img(
                 {
-                    src: imageBase + src,
+                    src: this.props.imageBase + src,
                     style: cellStyle,
                 });
             }
@@ -53,7 +61,7 @@ define(["Team", "process/ui/LabeledImage"], function(Team, LabeledImage)
             {
                 key: myKey,
                 style: cellStyle,
-                title: shipStateKey,
+                title: shipState.name,
             }, image);
 
             var showName = (this.props.showName !== undefined ? this.props.showName : false);
@@ -65,7 +73,7 @@ define(["Team", "process/ui/LabeledImage"], function(Team, LabeledImage)
                 {
                     className: "shipStateUIText",
                     style: cellStyle,
-                }, shipStateKey);
+                }, shipState.name);
                 var row = React.DOM.div(
                 {
                     style:
@@ -85,17 +93,46 @@ define(["Team", "process/ui/LabeledImage"], function(Team, LabeledImage)
             return answer;
         },
 
-        determineFactionKey: function()
+        createFilename: function(faction, shipState, size)
         {
-            var answer = this.props.factionKey;
+            InputValidator.validateNotNull("faction", faction);
+            InputValidator.validateNotNull("shipState", shipState);
+            InputValidator.validateNotNull("size", size);
 
-            if (answer === Team.FIRST_ORDER)
+            var factionName = faction.shortName;
+            var shipStateName;
+            // var size = 24;
+
+            switch (shipState.value)
             {
-                answer = Team.IMPERIAL;
+                case ShipState.PILOT_SKILL:
+                    shipStateName = "Skill";
+                    // size = 32;
+                    break;
+                case ShipState.PRIMARY_WEAPON:
+                    shipStateName = "Weapon";
+                    break;
+                case ShipState.TURRET_WEAPON:
+                    shipStateName = "Turret_Weapon";
+                    break;
+                default:
+                    shipStateName = shipState.name;
             }
-            else if (answer === Team.RESISTANCE)
+
+            return "pilotCard/" + factionName + "_" + shipStateName + size + ".png";
+        },
+
+        determineFaction: function(faction)
+        {
+            InputValidator.validateNotNull("faction", faction);
+
+            var answer = faction;
+
+            if (faction.value === Team.FIRST_ORDER ||
+                faction.value === Team.RESISTANCE)
             {
-                answer = Team.REBEL;
+                var teamKey = Team.friend(faction.value);
+                answer = Team.properties[teamKey];
             }
 
             return answer;

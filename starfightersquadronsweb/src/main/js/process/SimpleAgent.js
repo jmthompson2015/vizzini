@@ -311,22 +311,22 @@ define(["Maneuver", "ManeuverComputer", "process/ModifyAttackDiceAction", "proce
             InputValidator.validateNotNull("defender", defender);
             InputValidator.validateNotNull("callback", callback);
 
-            var modifications = [null];
+            var modificationKeys = [null];
             var store = environment.store();
 
             var targetLock = attacker.findTargetLockByDefender(defender);
 
             if (targetLock)
             {
-                modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
+                modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
             }
 
             if (attacker.focusCount() > 0)
             {
-                modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
+                modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
             }
 
-            var modification = modifications.vizziniRandomElement();
+            var modification = modificationKeys.vizziniRandomElement();
             var answer;
 
             if (modification)
@@ -348,20 +348,20 @@ define(["Maneuver", "ManeuverComputer", "process/ModifyAttackDiceAction", "proce
             InputValidator.validateNotNull("defenseDice", defenseDice);
             InputValidator.validateNotNull("callback", callback);
 
-            var modifications = [null];
+            var modificationKeys = [null];
             var store = environment.store();
 
             if (defender.evadeCount() > 0)
             {
-                modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+                modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
             }
 
             if (defender.focusCount() > 0)
             {
-                modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
+                modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
             }
 
-            var modification = modifications.vizziniRandomElement();
+            var modification = modificationKeys.vizziniRandomElement();
             var answer;
 
             if (modification)

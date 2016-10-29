@@ -4,6 +4,16 @@ define(["process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
         "use strict";
         var SquadChooser = React.createClass(
         {
+            propTypes:
+            {
+                iconBase: React.PropTypes.string.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+                squadBuilders: React.PropTypes.array.isRequired,
+
+                name: React.PropTypes.string,
+                onChange: React.PropTypes.func,
+            },
+
             getInitialState: function()
             {
                 var squadBuilders = this.props.squadBuilders;
@@ -44,6 +54,8 @@ define(["process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
                 var mySquad = selectedSquadBuilder.buildSquad(agent);
                 var squadDisplayPanel = React.createElement(SquadUI,
                 {
+                    iconBase: this.props.iconBase,
+                    imageBase: this.props.imageBase,
                     squad: mySquad,
                 });
 

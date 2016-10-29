@@ -1,6 +1,5 @@
 body {
-    background-image:
-        url(https://rawgit.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/images/SeamlessMetalTextureSmooth.jpg);
+    background-image: url(../resources/images/SeamlessMetalTextureSmooth.jpg);
     font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
 }
 
@@ -20,23 +19,19 @@ table {
     vertical-align: bottom;
 }
 
-#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .energyLabel, .optionPaneInput, .squadBuilderPanel,
-    .squadChooserPanel, .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
+#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .energyLabel, .optionPaneInput, .squadBuilderPanel, .squadChooserPanel, .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .factionUIImage, .shipActionUIImage, .shipSilhouetteUIImage, .shipStateUIImage, .upgradeCardUIImage,
-    .upgradeTypeUIImage, .alignMiddle {
+#ALIGN_MIDDLE, .factionUIImage, .shipActionUIImage, .shipSilhouetteUIImage, .shipStateUIImage, .upgradeCardUIImage, .upgradeTypeUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
-#ALIGN_RIGHT, .optionPaneButtons, .pilotCardUISquadPointCost, .pilotChooserValue, .upgradeCardUISquadPoints, .alignRight
-    {
+#ALIGN_RIGHT, .optionPaneButtons, .pilotCardUISquadPointCost, .pilotChooserValue, .upgradeCardUISquadPoints, .alignRight {
     text-align: right;
 }
 
-#ALIGN_TOP, #firstPilots, #inputArea, .newGamePanel, .pilotChooserCell, .planningTableCell, #playArea, .optionPane,
-    #secondPilots, .upgradesUICell, .alignTop {
+#ALIGN_TOP, #firstPilots, #inputArea, .newGamePanel, .pilotChooserCell, .planningTableCell, #playArea, .optionPane, #secondPilots, .upgradesUICell, .alignTop {
     vertical-align: top;
 }
 
@@ -52,14 +47,11 @@ table {
     background-color: #343434;
 }
 
-#BACKGROUND_LIGHT, #messageArea, .namePanel, .newGamePanel, .optionPane, .pilotCardUIDescription,
-    .pilotCardUIShipActions, .shipActionPanelCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName,
-    .squadChooser, .squadUI, .statusBarUI, .upgradeCardUI, .backgroundLight {
+#BACKGROUND_LIGHT, #messageArea, .namePanel, .newGamePanel, .optionPane, .pilotCardUIDescription, .pilotCardUIShipActions, .shipActionPanelCell, .pilotCardUISquadPointCost, .pilotChooser, #pilotName, #shipName, .squadChooser, .squadUI, .statusBarUI, .upgradeCardUI, .backgroundLight {
     background-color: #F0F0F0;
 }
 
-#BACKGROUND_MEDIUM, .highlight, .newGameTitle, .optionPaneTitle, .rangeLabel, .squadUISum, .tokensPanel,
-    .backgroundMedium {
+#BACKGROUND_MEDIUM, .highlight, .newGameTitle, .optionPaneTitle, .rangeLabel, .squadUISum, .tokensPanel, .backgroundMedium {
     background-color: lightGray;
 }
 
@@ -67,8 +59,7 @@ table {
     background-repeat: no-repeat;
 }
 
-#BORDER_BLACK, .namePanel, .newGamePanel, .pilotCardUIDescription, .squadUI tr td, .squadUI tr th, .statusBarUICell,
-    .upgradeCardUI, .upgradeCardUIName, .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .borderBlack {
+#BORDER_BLACK, .namePanel, .newGamePanel, .pilotCardUIDescription, .squadUI tr td, .squadUI tr th, .statusBarUICell, .upgradeCardUI, .upgradeCardUIName, .upgradeCardUIRanges, .upgradeCardUIWeaponValue, .borderBlack {
     border: 1px solid black;
 }
 
@@ -80,8 +71,7 @@ table {
     border: 1px solid lightGray;
 }
 
-#CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .maneuverTable, .newGamePanel, .optionPane,
-    .optionPaneTitle, .pilotCardUITokensTable, .rangesCell, .squadBuilderAdd, .statsTable, .tokensTable, .center {
+#CENTER, .agentTitle, .combatDicePanel, .combatMessage, .combatPanel, .maneuverTable, .newGamePanel, .optionPane, .optionPaneTitle, .pilotCardUITokensTable, .rangesCell, .squadBuilderAdd, .statsTable, .tokensTable, .center {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -131,8 +121,7 @@ table {
     font-size: medium;
 }
 
-#FONT_SMALL, .combatChoicePanel, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName,
-    .squadBuilderPanel, .squadChooserPanel, .squadUI, .upgradeCardUI, .fontSmall {
+#FONT_SMALL, .combatChoicePanel, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName, .squadBuilderPanel, .squadChooserPanel, .squadUI, .upgradeCardUI, .fontSmall {
     font-size: small;
 }
 
@@ -189,8 +178,7 @@ table {
     width: 40px;
 }
 
-#WIDTH_FULL, #mainTable, .nameTable, .pilotCardUITokensPanel, .pilotCardUITokensTable, .pilotCardUIUpgradeCell,
-    .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .squadBuilderAdd, .statusBarUI, .tokensPanel, .widthFull {
+#WIDTH_FULL, #mainTable, .nameTable, .pilotCardUITokensPanel, .pilotCardUITokensTable, .pilotCardUIUpgradeCell, .pilotCardUIUpgradeSquadCost, .pilotCardUITokensDamage, .squadBuilderAdd, .statusBarUI, .tokensPanel, .widthFull {
     width: 100%;
 }
 

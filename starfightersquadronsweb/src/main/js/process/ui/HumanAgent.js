@@ -1,12 +1,13 @@
-define(["process/ManeuverAction", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/SimpleAgent", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
-    function(ManeuverAction, ModifyAttackDiceAction, ModifyDefenseDiceAction, SimpleAgent, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/SimpleAgent", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
+    function(Phase, ManeuverAction, ModifyAttackDiceAction, ModifyDefenseDiceAction, SimpleAgent, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
     {
         "use strict";
 
-        function HumanAgent(name, teamKey)
+        function HumanAgent(name, teamKey, imageBase)
         {
             InputValidator.validateNotEmpty("name", name);
             InputValidator.validateNotNull("teamKey", teamKey);
+            InputValidator.validateNotNull("imageBase", imageBase);
 
             this.name = function()
             {
@@ -76,14 +77,15 @@ define(["process/ManeuverAction", "process/ModifyAttackDiceAction", "process/Mod
 
                 var element = React.createElement(CombatUI,
                 {
-                    phase: environment.phase(),
                     attacker: attacker,
                     attackDice: attackDice,
+                    criticalHitCount: damageDealer.criticalHits(),
                     defender: defender,
                     defenseDice: defenseDice,
                     hitCount: damageDealer.hits(),
-                    criticalHitCount: damageDealer.criticalHits(),
+                    imageBase: imageBase,
                     okFunction: finishDealDamage,
+                    phase: Phase.properties[environment.phase()],
                 });
 
                 ReactDOM.render(element, document.getElementById("inputArea"));
@@ -125,30 +127,31 @@ define(["process/ManeuverAction", "process/ModifyAttackDiceAction", "process/Mod
                 defender = defenderIn;
                 modifyAttackCallback = callback;
 
-                var modifications = [null];
+                var modificationKeys = [null];
                 var store = environment.store();
                 var targetLock = attacker.findTargetLockByDefender(defender);
 
                 if (targetLock)
                 {
-                    modifications.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
+                    modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
                 }
 
                 if (attacker.focusCount() > 0)
                 {
-                    modifications.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
+                    modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
                 }
 
-                if (modifications.length > 1)
+                if (modificationKeys.length > 1)
                 {
                     var element = React.createElement(CombatUI,
                     {
-                        phase: environment.phase(),
                         attacker: attacker,
                         attackDice: attackDice,
                         defender: defender,
-                        modifications: modifications,
+                        imageBase: imageBase,
+                        modificationKeys: modificationKeys,
                         okFunction: finishModifyAttackDice,
+                        phase: Phase.properties[environment.phase()],
                     });
                     ReactDOM.render(element, document.getElementById("inputArea"));
                     window.dispatchEvent(new Event('resize'));
@@ -170,29 +173,30 @@ define(["process/ManeuverAction", "process/ModifyAttackDiceAction", "process/Mod
                 defenseDice = defenseDiceIn;
                 modifyDefenseCallback = callback;
 
-                var modifications = [null];
+                var modificationKeys = [null];
 
                 if (defender.evadeCount() > 0)
                 {
-                    modifications.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+                    modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
                 }
 
                 if (defender.focusCount() > 0)
                 {
-                    modifications.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
+                    modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
                 }
 
-                if (modifications.length > 1)
+                if (modificationKeys.length > 1)
                 {
                     var element = React.createElement(CombatUI,
                     {
-                        phase: environment.phase(),
                         attacker: attacker,
                         attackDice: attackDice,
                         defender: defender,
                         defenseDice: defenseDice,
-                        modifications: modifications,
+                        imageBase: imageBase,
+                        modificationKeys: modificationKeys,
                         okFunction: finishModifyDefenseDice,
+                        phase: Phase.properties[environment.phase()],
                     });
                     ReactDOM.render(element, document.getElementById("inputArea"));
                     window.dispatchEvent(new Event('resize'));
@@ -223,10 +227,11 @@ define(["process/ManeuverAction", "process/ModifyAttackDiceAction", "process/Mod
                 var self = this;
                 var element = React.createElement(PlanningPanel,
                 {
-                    environment: environment,
                     agent: self,
+                    callback: finishPlanningAction,
+                    environment: environment,
+                    imageBase: imageBase,
                     tokens: tokens,
-                    callback: finishPlanningAction
                 });
                 ReactDOM.render(element, document.getElementById("inputArea"));
                 window.dispatchEvent(new Event('resize'));
@@ -249,9 +254,10 @@ define(["process/ManeuverAction", "process/ModifyAttackDiceAction", "process/Mod
                 {
                     var element = React.createElement(ShipActionChooser,
                     {
-                        token: token,
+                        callback: finishShipAction,
+                        imageBase: imageBase,
                         shipActions: shipActions,
-                        callback: finishShipAction
+                        token: token,
                     });
                     ReactDOM.render(element, document.getElementById("inputArea"));
                     window.dispatchEvent(new Event('resize'));

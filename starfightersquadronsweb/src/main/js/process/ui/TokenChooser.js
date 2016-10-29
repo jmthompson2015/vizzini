@@ -1,15 +1,18 @@
-/*
- * @param tokens Tokens. (required not empty)
- * @param callback Callback. (required)
- * 
- * @param title Option pane title. (optional)
- * @param attacker Attacker token. (optional)
- */
 define(function()
 {
     "use strict";
     var TokenChooser = React.createClass(
     {
+        propTypes:
+        {
+            tokens: React.PropTypes.array.isRequired,
+            callback: React.PropTypes.func.isRequired,
+
+            attacker: React.PropTypes.object,
+            inputPanelName: React.PropTypes.string,
+            title: React.PropTypes.string,
+        },
+
         getInitialState: function()
         {
             InputValidator.validateNotEmpty("tokens", this.props.tokens);
@@ -24,9 +27,6 @@ define(function()
 
         render: function()
         {
-            InputValidator.validateNotEmpty("tokens", this.props.tokens);
-            InputValidator.validateNotEmpty("callback", this.props.callback);
-
             var title = (this.props.title !== undefined ? this.props.title : "Select Starfighter");
             var attacker = this.props.attacker;
             var tokens = this.props.tokens;
@@ -35,7 +35,7 @@ define(function()
             {
                 className: "attackerLabel"
             }, "Attacker: " + attacker.name()) : "");
-
+            var inputPanelName = (this.props.inputPanelName ? this.props.inputPanelName : "tokenChooserRadioButtons");
             var idFunction = function(token)
             {
                 return token.id();
@@ -49,7 +49,7 @@ define(function()
             {
                 type: "radio",
                 values: tokens,
-                name: "tokenChooserRadioButtons",
+                name: inputPanelName,
                 idFunction: idFunction,
                 labelFunction: labelFunction,
                 initialValues: initialValue,
@@ -67,7 +67,8 @@ define(function()
                 key: 1,
                 onClick: this.ok,
             }, "OK");
-            var buttons = React.DOM.span({}, [ cancelButton, okButton ]);
+            var buttons = React.DOM.span(
+            {}, [cancelButton, okButton]);
 
             return React.createElement(OptionPane,
             {

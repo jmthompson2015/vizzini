@@ -1,22 +1,29 @@
-define([ "Phase" ], function(Phase)
+define(function()
 {
     "use strict";
     var StatusBarUI = React.createClass(
     {
+        propTypes:
+        {
+            round: React.PropTypes.number.isRequired,
+
+            activeShipName: React.PropTypes.string,
+            phase: React.PropTypes.object,
+        },
+
         render: function()
         {
-            InputValidator.validateNotNull("round", this.props.round);
-            InputValidator.validateNotNull("phaseKey", this.props.phaseKey);
-
             var round = this.props.round;
-            var phaseKey = this.props.phaseKey;
+            var phase = this.props.phase;
+            var phaseName = (phase ? phase.name : " ");
             var activeShipName = (this.props.activeShipName ? this.props.activeShipName : " ");
 
-            var phaseName = (phaseKey ? Phase.properties[phaseKey].name : " ");
-
-            var roundUI = React.DOM.span({}, "Round: " + round);
-            var phaseUI = React.DOM.span({}, "Phase: " + phaseName);
-            var activePilotUI = React.DOM.span({}, "Active Ship: " + activeShipName);
+            var roundUI = React.DOM.span(
+            {}, "Round: ", round);
+            var phaseUI = React.DOM.span(
+            {}, "Phase: ", phaseName);
+            var activePilotUI = React.DOM.span(
+            {}, "Active Ship: ", activeShipName);
             var helpLinkUI = React.DOM.a(
             {
                 href: "help.html",
@@ -46,12 +53,14 @@ define([ "Phase" ], function(Phase)
                 className: "statusBarUICell",
             }, helpLinkUI));
 
-            var row = React.DOM.tr({}, cells);
+            var row = React.DOM.tr(
+            {}, cells);
 
             return React.DOM.table(
             {
                 className: "statusBarUI",
-            }, React.DOM.tbody({}, row));
+            }, React.DOM.tbody(
+            {}, row));
         },
     });
 

@@ -1,34 +1,36 @@
-/*
- * @param shipActionKey (required)
- * 
- * @param showName (optional; default: false)
- */
-define([ "ShipAction" ], function(ShipAction)
+define(function()
 {
     "use strict";
     var ShipActionUI = React.createClass(
     {
+        propTypes:
+        {
+            shipAction: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+
+            // default: ship action value
+            myKey: React.PropTypes.string,
+            // default: false
+            showName: React.PropTypes.bool,
+        },
+
         render: function()
         {
-            InputValidator.validateNotNull("shipActionKey", this.props.shipActionKey);
+            var shipAction = this.props.shipAction;
 
-            var shipActionKey0 = this.props.shipActionKey;
-            var shipActionKey = (shipActionKey0.shipAction !== undefined ? shipActionKey0.shipAction : shipActionKey0);
-            var shipAction = ShipAction.properties[shipActionKey];
-            var actionName0 = shipAction.name;
-            var actionName1 = actionName0;
-
-            var actionName = actionName0.replace(" (left)", "Left");
+            var actionName = shipAction.name.replace(" (left)", "Left");
             actionName = actionName.replace(" (straight)", "Straight");
             actionName = actionName.replace(" (right)", "Right");
-            actionName = actionName.replace(" ", "");
-            var fileString = imageBase + "pilotCard/" + actionName + "24.png";
+            actionName = actionName.replace(/ /g, "");
+            var fileString = this.props.imageBase + "pilotCard/" + actionName + "24.png";
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : shipAction.value);
 
             var image = React.DOM.img(
             {
+                key: myKey,
                 className: "shipActionUIImage",
                 src: fileString,
-                title: actionName1,
+                title: shipAction.name,
             });
             var showName = (this.props.showName !== undefined ? this.props.showName : false);
 
@@ -39,7 +41,7 @@ define([ "ShipAction" ], function(ShipAction)
                 answer = React.DOM.span(
                 {
                     className: "shipActionUIImage",
-                }, image, " ", actionName1);
+                }, image, " ", shipAction.name);
             }
 
             return answer;

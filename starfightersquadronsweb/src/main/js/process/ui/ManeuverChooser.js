@@ -1,25 +1,16 @@
-define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
+define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
 {
     "use strict";
     var ManeuverChooser = React.createClass(
     {
-        findManeuver: function(maneuverKeys, bearingKey, speed)
+        propTypes:
         {
-            var answer;
+            imageBase: React.PropTypes.string.isRequired,
+            token: React.PropTypes.object.isRequired,
 
-            for (var i = 0; i < maneuverKeys.length; i++)
-            {
-                var maneuverKey = maneuverKeys[i];
-                var maneuver = Maneuver.properties[maneuverKey];
-
-                if (maneuver.bearingKey === bearingKey && maneuver.speed === speed)
-                {
-                    answer = maneuverKey;
-                    break;
-                }
-            }
-
-            return answer;
+            callback: React.PropTypes.func,
+            // default: true
+            isPilotNameShown: React.PropTypes.bool,
         },
 
         getInitialState: function()
@@ -29,44 +20,6 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                 element: undefined,
                 maneuver: undefined
             });
-        },
-
-        getMaximumSpeed: function(maneuverKeys)
-        {
-            var answer = -10000;
-
-            for (var i = 0; i < maneuverKeys.length; i++)
-            {
-                var maneuverKey = maneuverKeys[i];
-                var speed = Maneuver.properties[maneuverKey].speed;
-                answer = Math.max(speed, answer);
-            }
-
-            return answer;
-        },
-
-        getMinimumSpeed: function(maneuverKeys)
-        {
-            var answer = 10000;
-
-            for (var i = 0; i < maneuverKeys.length; i++)
-            {
-                var maneuverKey = maneuverKeys[i];
-                var speed = Maneuver.properties[maneuverKey].speed;
-                answer = Math.min(speed, answer);
-            }
-
-            return answer;
-        },
-
-        getSelectedManeuver: function()
-        {
-            return this.state.maneuver;
-        },
-
-        getToken: function()
-        {
-            return this.props.token;
         },
 
         render: function()
@@ -221,7 +174,65 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             return React.DOM.table(
             {
                 className: "maneuverTable"
-            }, myHtml);
+            }, React.DOM.tbody(
+            {}, myHtml));
+        },
+
+        findManeuver: function(maneuverKeys, bearingKey, speed)
+        {
+            var answer;
+
+            for (var i = 0; i < maneuverKeys.length; i++)
+            {
+                var maneuverKey = maneuverKeys[i];
+                var maneuver = Maneuver.properties[maneuverKey];
+
+                if (maneuver.bearingKey === bearingKey && maneuver.speed === speed)
+                {
+                    answer = maneuverKey;
+                    break;
+                }
+            }
+
+            return answer;
+        },
+
+        getMaximumSpeed: function(maneuverKeys)
+        {
+            var answer = -10000;
+
+            for (var i = 0; i < maneuverKeys.length; i++)
+            {
+                var maneuverKey = maneuverKeys[i];
+                var speed = Maneuver.properties[maneuverKey].speed;
+                answer = Math.max(speed, answer);
+            }
+
+            return answer;
+        },
+
+        getMinimumSpeed: function(maneuverKeys)
+        {
+            var answer = 10000;
+
+            for (var i = 0; i < maneuverKeys.length; i++)
+            {
+                var maneuverKey = maneuverKeys[i];
+                var speed = Maneuver.properties[maneuverKey].speed;
+                answer = Math.min(speed, answer);
+            }
+
+            return answer;
+        },
+
+        getSelectedManeuver: function()
+        {
+            return this.state.maneuver;
+        },
+
+        getToken: function()
+        {
+            return this.props.token;
         },
 
         /**
@@ -229,7 +240,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
          *            Bearing.
          * @param difficulty
          *            Difficulty.
-         * 
+         *
          * @return a new image icon.
          */
         createManeuverIconSource: function(bearing, difficulty)
@@ -241,11 +252,11 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
                 var bearingName = bearing.replace(/L/g, "_l");
                 bearingName = bearingName.replace(/R/g, "_r");
                 bearingName = bearingName.replace("kTurn", "koiogran_turn");
-                answer = imageBase + "maneuver/" + bearingName + "_" + difficulty + "16.png";
+                answer = this.props.imageBase + "maneuver/" + bearingName + "_" + difficulty + "16.png";
             }
             else
             {
-                answer = imageBase + "maneuver/stationary_" + difficulty + "16.png";
+                answer = this.props.imageBase + "maneuver/stationary_" + difficulty + "16.png";
             }
 
             return answer;
@@ -258,7 +269,7 @@ define([ "Bearing", "Maneuver" ], function(Bearing, Maneuver)
             bearingName = bearingName.replace(/R/g, "_r");
             bearingName = bearingName.replace("straight", "huge_straight");
 
-            return imageBase + "maneuver/" + bearingName + "_" + energy + ".png";
+            return this.props.imageBase + "maneuver/" + bearingName + "_" + energy + ".png";
         },
 
         selectionChanged: function(event)

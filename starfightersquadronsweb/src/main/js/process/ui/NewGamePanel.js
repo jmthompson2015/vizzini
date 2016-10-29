@@ -1,14 +1,20 @@
-define(["process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/ui/HumanAgent", "process/ui/SquadBuilderUI", "process/ui/SquadChooser"],
-    function(MediumAgent, SimpleAgent, SquadBuilder, Team, HumanAgent, SquadBuilderUI, SquadChooser)
+define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder", "process/ui/HumanAgent", "process/ui/SquadBuilderUI", "process/ui/SquadChooser"],
+    function(Team, MediumAgent, SimpleAgent, SquadBuilder, HumanAgent, SquadBuilderUI, SquadChooser)
     {
         "use strict";
         var NewGamePanel = React.createClass(
         {
+            propTypes:
+            {
+                iconBase: React.PropTypes.string.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+            },
+
             getInitialState: function()
             {
                 var agent1 = new MediumAgent("Agent 1", Team.IMPERIAL);
                 var squad1 = SquadBuilder.findByTeam(agent1.teamKey())[0].buildSquad(agent1);
-                var agent2 = new HumanAgent("Agent 2", Team.REBEL);
+                var agent2 = new HumanAgent("Agent 2", Team.REBEL, this.props.imageBase);
                 var squad2 = SquadBuilder.findByTeam(agent2.teamKey())[0].buildSquad(agent2);
 
                 return (
@@ -25,12 +31,16 @@ define(["process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder", "T
                 var agentPanel1 = React.createElement(NewGamePanel.AgentPanel,
                 {
                     agentNumber: 1,
+                    iconBase: this.props.iconBase,
+                    imageBase: this.props.imageBase,
                     initialType: "MediumAgent",
                     onChange: this.handleAgentChange,
                 });
                 var agentPanel2 = React.createElement(NewGamePanel.AgentPanel,
                 {
                     agentNumber: 2,
+                    iconBase: this.props.iconBase,
+                    imageBase: this.props.imageBase,
                     initialTeam: Team.REBEL,
                     initialType: "HumanAgent",
                     onChange: this.handleAgentChange,
@@ -103,21 +113,23 @@ define(["process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder", "T
             },
         });
 
-        /*
-         * Provides an agent panel.
-         *
-         * @param agentNumber Agent number. (required)
-         *
-         * @param initialTeam Initial team. (optional; default: Team.IMPERIAL)
-         *
-         * @param initialType Initial type. (optional; default: SimpleAgent)
-         *
-         * @param onChange Change method. (optional)
-         */
         NewGamePanel.AgentPanel = React.createClass(
         {
             CUSTOM: "Custom",
             PREFABRICATED: "Prefabricated",
+
+            propTypes:
+            {
+                agentNumber: React.PropTypes.number.isRequired,
+                iconBase: React.PropTypes.string.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+
+                // default: Team.IMPERIAL
+                initialTeam: React.PropTypes.string,
+                // default: SimpleAgent
+                initialType: React.PropTypes.string,
+                onChange: React.PropTypes.func,
+            },
 
             getInitialState: function()
             {
@@ -204,17 +216,21 @@ define(["process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder", "T
                     var squadBuilders = SquadBuilder.findByTeam(team);
                     squadChooserPanel = React.createElement(SquadChooser,
                     {
+                        iconBase: this.props.iconBase,
+                        imageBase: this.props.imageBase,
                         name: "agent" + this.props.agentNumber,
-                        squadBuilders: squadBuilders,
                         onChange: this.handleSquadBuilderChange,
+                        squadBuilders: squadBuilders,
                     });
                 }
                 else if (squadBuilderType === this.CUSTOM)
                 {
                     squadChooserPanel = React.createElement(SquadBuilderUI,
                     {
-                        team: team,
+                        iconBase: this.props.iconBase,
+                        imageBase: this.props.imageBase,
                         onChange: this.handleSquadChange,
+                        team: team,
                     });
                 }
                 else
@@ -305,7 +321,7 @@ define(["process/MediumAgent", "process/SimpleAgent", "process/SquadBuilder", "T
                         answer = new MediumAgent(name, team);
                         break;
                     case "HumanAgent":
-                        answer = new HumanAgent(name, team);
+                        answer = new HumanAgent(name, team, this.props.imageBase);
                         break;
                     default:
                         throw "Unknown agent type: " + type;

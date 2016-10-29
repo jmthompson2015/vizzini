@@ -1,13 +1,18 @@
-define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "process/ui/UpgradeTypeUI"],
-    function(RangeRuler, UpgradeCard, UpgradeHeader, UpgradeTypeUI)
+define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType", "process/ui/UpgradeTypeUI"],
+    function(RangeRuler, UpgradeCard, UpgradeHeader, UpgradeType, UpgradeTypeUI)
     {
         "use strict";
         var UpgradeCardUI = React.createClass(
         {
+            propTypes:
+            {
+                imageBase: React.PropTypes.string.isRequired,
+                upgradeCard: React.PropTypes.object.isRequired,
+            },
+
             render: function()
             {
-                var upgradeKey = this.props.upgradeCard;
-                var upgrade = UpgradeCard.properties[upgradeKey];
+                var upgrade = this.props.upgradeCard;
                 var rows = [];
 
                 var cells0 = [];
@@ -17,7 +22,7 @@ define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "process/ui/UpgradeTypeUI"
                     key: cells0.length,
                     colSpan: colspan0,
                     className: "upgradeCardUIName",
-                }, UpgradeCard.getName(upgradeKey)));
+                }, UpgradeCard.getName(upgrade.value)));
 
                 if (upgrade.weaponValue)
                 {
@@ -45,7 +50,7 @@ define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "process/ui/UpgradeTypeUI"
 
                     if (upgrade.ranges)
                     {
-                        var ranges = UpgradeCardUI.createRangesLabel(upgradeKey);
+                        var ranges = UpgradeCardUI.createRangesLabel(upgrade.value);
                         cells1.push(React.DOM.td(
                         {
                             key: cells1.length,
@@ -74,7 +79,8 @@ define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "process/ui/UpgradeTypeUI"
                     className: "upgradeCardUIImage"
                 }, React.createElement(UpgradeTypeUI,
                 {
-                    upgradeTypeKey: upgrade.type,
+                    upgradeType: UpgradeType.properties[upgrade.type],
+                    imageBase: this.props.imageBase,
                 })));
                 cells3.push(React.DOM.td(
                 {

@@ -1,5 +1,5 @@
-define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/FilterUI", "process/ui/FactionUI", "process/ui/ShipSilhouetteUI", "../../../../../../coreweb/src/main/js/ui/DataTable"],
-    function(PilotColumns, Connector, FilterUI, FactionUI, ShipSilhouetteUI, DataTable)
+define(["Ship", "Team", "pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/FilterUI", "process/ui/FactionUI", "process/ui/ShipSilhouetteUI", "../../../../../../coreweb/src/main/js/ui/DataTable"],
+    function(Ship, Team, PilotColumns, Connector, FilterUI, FactionUI, ShipSilhouetteUI, DataTable)
     {
         "use strict";
 
@@ -21,16 +21,18 @@ define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/Fil
         var cellFunctions = {
             "factionKey": function(data)
             {
+                var faction = Team.properties[data.factionKey];
                 return React.createElement(FactionUI,
                 {
-                    factionKey: data.factionKey,
+                    faction: faction,
+                    imageBase: imageBase,
                     isSmall: true,
                 });
             },
             "pilotName": function(data)
             {
                 var src = "../resources/icons/Wikipedia16.png";
-                var searchString = data.pilotName.vizziniReplaceAll(" ", "_");
+                var searchString = data.pilotName.replace(/ /g, "_");
                 var href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
                 var link = createImageLink(src, href);
                 return React.DOM.span(
@@ -45,13 +47,14 @@ define(["pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/Fil
                 if (!href)
                 {
                     var searchString = data.shipName + "_Expansion_Pack";
-                    searchString = searchString.vizziniReplaceAll(" ", "_");
+                    searchString = searchString.replace(/ /g, "_");
                     href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
                 }
                 var link = createImageLink(src, href);
                 var silhouette = React.createElement(ShipSilhouetteUI,
                 {
-                    shipKey: data.shipKey,
+                    ship: Ship.properties[data.shipKey],
+                    imageBase: imageBase,
                     showName: true,
                 });
                 return React.DOM.span(

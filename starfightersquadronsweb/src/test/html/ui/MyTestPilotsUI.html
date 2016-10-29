@@ -6,18 +6,16 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
 	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-
 </head>
 <body>
 	<table>
@@ -36,14 +34,11 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
-
-		require(["process/EnvironmentFactory", "Pilot", "Position", "Team", "Token", "process/Action", "process/ui/Connector", "process/ui/PilotsUI"],
-			function(EnvironmentFactory, Pilot, Position, Team, Token, Action, Connector, PilotsUI)
+		require(["Pilot", "Position", "Team", "process/Action", "process/EnvironmentFactory", "process/Token", "process/ui/Connector", "process/ui/PilotsUI"],
+			function(Pilot, Position, Team, Action, EnvironmentFactory, Token, Connector, PilotsUI)
 			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
 				var store = environment.store();
 				var tokens = environment.getTokensForTeam(Team.IMPERIAL);
@@ -54,6 +49,7 @@
 				}, React.createElement(connector1,
 				{
 					environment: environment,
+					imageBase: imageBase,
 					team: environment.firstTeam(),
 				}));
 				ReactDOM.render(imperialPilotsElement, document.getElementById("imperialPilots"));
@@ -61,8 +57,8 @@
 				function updateTokens()
 				{
 					LOGGER.info("updateTokens() start");
-					store.dispatch(Action.addCloakCount(tokens[0].id()));
-					store.dispatch(Action.addEvadeCount(tokens[1].id()));
+					store.dispatch(Action.addCloakCount(tokens[0]));
+					store.dispatch(Action.addEvadeCount(tokens[1]));
 					LOGGER.info("updateTokens() end");
 				}
 

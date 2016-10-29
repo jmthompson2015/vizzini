@@ -16,6 +16,7 @@
     <script src="../../../../coreweb/src/main/js/util/Logger.js"></script>
     <script src="../../../../coreweb/src/main/js/util/InputValidator.js"></script>
     <script src="../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+    <script src="../../../../coreweb/src/main/js/util/StringAugments.js"></script>
 
     <style>
         .galleryTable {
@@ -53,16 +54,18 @@
     <script>
         "use strict";
         var LOGGER = new Logger();
+        LOGGER.setTraceEnabled(false);
+        LOGGER.setDebugEnabled(false);
 
         var resourceBase = "../resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/TokenFactory", "process/Reducer", "process/ui/ManeuverChooser", "process/ui/ShipActionPanel",
+        require(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/TokenFactory", "process/Reducer",
+                "process/ui/ManeuverChooser", "process/ui/ShipActionPanel",
                 "process/ui/ShipSilhouetteUI"
             ],
-            function(Pilot, Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token, TokenFactory, Reducer, ManeuverChooser, ShipActionPanel, ShipSilhouetteUI)
+            function(Pilot, Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token, TokenFactory, Reducer, ManeuverChooser, ShipActionPanel,
+                ShipSilhouetteUI)
             {
                 var imageBase2 = imageBase + "ship/";
                 var store = Redux.createStore(Reducer.root);
@@ -114,7 +117,8 @@
 
                                 var silhouette = React.createElement(ShipSilhouetteUI,
                                 {
-                                    shipKey: shipTeam.shipKey,
+                                    ship: shipTeam.ship,
+                                    imageBase: imageBase,
                                     showName: true,
                                 });
 
@@ -125,10 +129,12 @@
                                 {
                                     shipActionPanel0 = React.createElement(ShipActionPanel,
                                     {
+                                        imageBase: imageBase,
                                         shipActionKeys: shipTeam.ship.fore.shipActionKeys,
                                     });
                                     shipActionPanel1 = React.createElement(ShipActionPanel,
                                     {
+                                        imageBase: imageBase,
                                         shipActionKeys: shipTeam.ship.aft.shipActionKeys,
                                     });
                                 }
@@ -136,12 +142,14 @@
                                 {
                                     shipActionPanel0 = React.createElement(ShipActionPanel,
                                     {
+                                        imageBase: imageBase,
                                         shipActionKeys: shipTeam.ship.shipActionKeys,
                                     });
                                 }
 
                                 var chooser = React.createElement(ManeuverChooser,
                                 {
+                                    imageBase: imageBase,
                                     token: token,
                                     isPilotNameShown: false,
                                 });

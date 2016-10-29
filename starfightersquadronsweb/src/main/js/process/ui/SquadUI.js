@@ -1,5 +1,5 @@
-define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/UpgradeTypeUI"],
-    function(UpgradeCard, Value, ShipSilhouetteUI, UpgradeTypeUI)
+define(["UpgradeCard", "UpgradeType", "Value", "process/ui/ShipSilhouetteUI", "process/ui/UpgradeTypeUI"],
+    function(UpgradeCard, UpgradeType, Value, ShipSilhouetteUI, UpgradeTypeUI)
     {
         "use strict";
         var SquadColumns = [
@@ -7,59 +7,63 @@ define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/Upgra
                 key: "pilot",
                 label: "Pilot",
                 className: "squadUIPilotName",
-    },
+            },
             {
                 key: "ship",
                 label: "Ship",
                 className: "squadUIPilotName",
-    },
+            },
             {
                 key: "pilotSkill",
                 label: "Pilot Skill",
                 className: "numberCell",
-    },
+            },
             {
                 key: "primaryWeapon",
                 label: "Primary Weapon",
                 className: "numberCell",
-    },
+            },
             {
                 key: "agility",
                 label: "Agility",
                 className: "numberCell",
-    },
+            },
             {
                 key: "hull",
                 label: "Hull",
                 className: "numberCell",
-    },
+            },
             {
                 key: "shield",
                 label: "Shield",
                 className: "numberCell",
-    },
+            },
             {
                 key: "squadPointCost",
                 label: "Squad Points",
                 className: "numberCell",
-    },
+            },
             {
                 key: "action",
                 label: "Action",
                 className: "actionCell",
-    }, ];
+            },
+        ];
 
-        /*
-         * Provides a user interface for a starfighter squadron.
-         *
-         * @param squad Squad.
-         *
-         * @param iconBase Icon base URL.
-         *
-         * @param removeFunction Called after an item is removed.
-         */
         var SquadUI = React.createClass(
         {
+            propTypes:
+            {
+                iconBase: React.PropTypes.string.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+                squad: React.PropTypes.array.isRequired,
+
+                // default: false
+                isEditable: React.PropTypes.bool,
+                // Called after an item is removed.
+                removeFunction: React.PropTypes.func,
+            },
+
             // Factories.
             Table: React.createFactory(Reactable.Table),
             Tr: React.createFactory(Reactable.Tr),
@@ -124,7 +128,7 @@ define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/Upgra
                 };
                 var image = React.DOM.img(
                 {
-                    src: iconBase + "delete.png",
+                    src: this.props.iconBase + "delete.png",
                 });
 
                 return React.DOM.a(
@@ -166,7 +170,8 @@ define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/Upgra
                 }, pilotProps.name)));
                 cells.push(createCell(cells.length, SquadColumns[j++], React.createElement(ShipSilhouetteUI,
                 {
-                    shipKey: pilotProps.shipTeam.shipKey,
+                    ship: pilotProps.shipTeam.ship,
+                    imageBase: this.props.imageBase,
                     showName: true,
                 })));
 
@@ -282,7 +287,8 @@ define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/Upgra
                 }
                 var image = React.createElement(UpgradeTypeUI,
                 {
-                    upgradeTypeKey: upgrade.type,
+                    upgradeType: UpgradeType.properties[upgrade.type],
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(this.Td(
                 {
@@ -317,11 +323,6 @@ define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/Upgra
                 var isEditable = this.props.isEditable;
 
                 return (isEditable ? isEditable : false);
-            },
-
-            removeFunction: function(selected, event)
-            {
-                this.props.removeFunction(selected, event);
             },
         });
 

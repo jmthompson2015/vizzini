@@ -1,13 +1,18 @@
-/*
- * @param initialToken
- * @param isCompact
- */
-define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipStateUI", "process/ui/UpgradeTypeUI"],
-    function(FactionUI, LabeledImage, ShipActionPanel, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI)
+define(["ShipState", "UpgradeType", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipStateUI", "process/ui/UpgradeTypeUI"],
+    function(ShipState, UpgradeType, FactionUI, LabeledImage, ShipActionPanel, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI)
     {
         "use strict";
         var PilotCardUI = React.createClass(
         {
+            propTypes:
+            {
+                initialToken: React.PropTypes.object.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+
+                // default: false
+                isCompact: React.PropTypes.bool,
+            },
+
             getInitialState: function()
             {
                 return (
@@ -54,6 +59,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 var element = React.createElement(StatsPanel,
                 {
                     token: myToken,
+                    imageBase: this.props.imageBase,
                     isCompact: true,
                 });
                 var cell = React.DOM.td(
@@ -64,10 +70,12 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     var element2 = React.createElement(StatsPanel,
                     {
                         token: myTokenAft,
+                        imageBase: this.props.imageBase,
                         isCompact: true,
                     });
                     cell = React.DOM.td(
                     {}, React.DOM.table(
+                    {}, React.DOM.tbody(
                     {}, React.DOM.tr(
                     {}, React.DOM.td(
                     {
@@ -75,7 +83,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     }, element), React.DOM.td(
                     {
                         key: 1,
-                    }, element2))));
+                    }, element2)))));
                 }
 
                 rows.push(React.DOM.tr(
@@ -92,7 +100,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 {
                     key: token.id(),
                     className: "pilotCard",
-                }, rows);
+                }, React.DOM.tbody(
+                {}, rows));
             },
 
             renderLarge: function()
@@ -135,7 +144,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 {
                     key: token.id(),
                     className: "pilotCard",
-                }, rows);
+                }, React.DOM.tbody(
+                {}, rows));
             },
 
             createInnerPanel: function(token, myToken, myTokenAft)
@@ -145,6 +155,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 var element = React.createElement(StatsPanel,
                 {
                     token: myToken,
+                    imageBase: this.props.imageBase,
                     isCompact: this.props.isCompact,
                 });
                 cells.push(React.DOM.td(
@@ -157,7 +168,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 {
                     key: cells.length,
                     pilot: myToken.pilot(),
-                    myKey: cells.length,
+                    myKey: String(cells.length),
                 }));
 
                 if (myTokenAft)
@@ -166,12 +177,13 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     {
                         key: cells.length,
                         pilot: myTokenAft.pilot(),
-                        myKey: cells.length,
+                        myKey: String(cells.length),
                     }));
 
                     element = React.createElement(StatsPanel,
                     {
                         token: myTokenAft,
+                        imageBase: this.props.imageBase,
                         isCompact: this.props.isCompact,
                     });
                     cells.push(React.DOM.td(
@@ -190,6 +202,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(ShipActionPanel,
                 {
                     shipActionKeys: myToken.ship().shipActionKeys,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -204,6 +217,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     }, React.createElement(ShipActionPanel,
                     {
                         shipActionKeys: myTokenAft.ship().shipActionKeys,
+                        imageBase: this.props.imageBase,
                     })));
                 }
 
@@ -213,7 +227,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 }, cells));
 
                 var table = React.DOM.table(
-                {}, rows);
+                {}, React.DOM.tbody(
+                {}, rows));
 
                 return React.DOM.td(
                 {}, table);
@@ -224,7 +239,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 var cells = [];
                 var element = React.createElement(ShipSilhouetteUI,
                 {
-                    shipKey: myToken.pilot().shipTeam.shipKey,
+                    ship: myToken.pilot().shipTeam.ship,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -234,7 +250,11 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
 
                 element = React.createElement(UpgradePanel,
                 {
-                    upgradeTypes: myToken.upgradeTypeKeys(),
+                    imageBase: this.props.imageBase,
+                    upgradeTypes: myToken.upgradeTypeKeys().map(function(upgradeTypeKey)
+                    {
+                        return UpgradeType.properties[upgradeTypeKey];
+                    }),
                 });
                 cells.push(React.DOM.td(
                 {
@@ -253,7 +273,11 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 {
                     element = React.createElement(UpgradePanel,
                     {
-                        upgradeTypes: myTokenAft.upgradeTypeKeys(),
+                        imageBase: this.props.imageBase,
+                        upgradeTypes: myTokenAft.upgradeTypeKeys().map(function(upgradeTypeKey)
+                        {
+                            return UpgradeType.properties[upgradeTypeKey];
+                        }),
                     });
                     cells.push(React.DOM.td(
                     {
@@ -274,7 +298,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 var table = React.DOM.table(
                 {
                     className: "pilotCardUIUpgradeSquadCost"
-                }, row);
+                }, React.DOM.tbody(
+                {}, row));
 
                 return React.DOM.td(
                 {}, table);
@@ -287,9 +312,10 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     pilotSkillValue: myToken.pilotSkillValue(),
                     pilotName: token.pilotName(),
                     shipName: (myTokenAft ? myToken.ship().name : token.shipName()),
-                    team: token.agent().teamKey(),
+                    team: token.pilot().shipTeam.team,
                     pilotAftSkillValue: (myTokenAft ? myTokenAft.pilotSkillValue() : undefined),
                     shipAftName: (myTokenAft ? myTokenAft.ship().name : undefined),
+                    imageBase: this.props.imageBase,
                 });
 
                 return React.DOM.td(
@@ -301,6 +327,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 var answer;
                 var element0 = React.createElement(TokensPanel,
                 {
+                    imageBase: this.props.imageBase,
                     token: myToken,
                 });
 
@@ -308,19 +335,21 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 {
                     var element1 = React.createElement(TokensPanel,
                     {
+                        imageBase: this.props.imageBase,
                         token: myTokenAft,
                     });
                     var table = React.DOM.table(
                     {
                         className: "pilotCardUITokensTable",
-                    }, React.DOM.tr(
+                    }, React.DOM.tbody(
+                    {}, React.DOM.tr(
                     {}, React.DOM.td(
                     {
                         key: "tokens0",
                     }, element0), React.DOM.td(
                     {
                         key: "tokens1",
-                    }, element1)));
+                    }, element1))));
 
                     answer = React.DOM.td(
                     {
@@ -346,18 +375,16 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
             },
         });
 
-        /*
-         * @param pilot
-         *
-         * @param myKey
-         */
         var DescriptionPanel = React.createClass(
         {
+            propTypes:
+            {
+                pilot: React.PropTypes.object.isRequired,
+                myKey: React.PropTypes.string.isRequired,
+            },
+
             render: function()
             {
-                InputValidator.validateNotNull("pilot", this.props.pilot);
-                InputValidator.validateNotNull("myKey", this.props.myKey);
-
                 var pilot = this.props.pilot;
                 var myKey = this.props.myKey;
 
@@ -372,35 +399,30 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
             },
         });
 
-        /*
-         * @param pilotSkillValue (required)
-         *
-         * @param pilotName (required)
-         *
-         * @param shipName (required)
-         *
-         * @param team (required)
-         *
-         * @param pilotAftSkillValue (optional)
-         *
-         * @param shipAftName (optional)
-         */
         var NamePanel = React.createClass(
         {
+            propTypes:
+            {
+                imageBase: React.PropTypes.string.isRequired,
+                pilotSkillValue: React.PropTypes.number.isRequired,
+                pilotName: React.PropTypes.string.isRequired,
+                shipName: React.PropTypes.string.isRequired,
+                team: React.PropTypes.object.isRequired,
+
+                pilotAftSkillValue: React.PropTypes.number,
+                shipAftName: React.PropTypes.string,
+            },
+
             render: function()
             {
-                InputValidator.validateNotNull("pilotSkillValue", this.props.pilotSkillValue);
-                InputValidator.validateNotNull("pilotName", this.props.pilotName);
-                InputValidator.validateNotNull("shipName", this.props.shipName);
-                InputValidator.validateNotNull("team", this.props.team);
-
                 var rows = [];
                 var cells = [];
                 var image = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Skill",
-                    factionKey: this.props.team,
-                    label: this.props.pilotSkillValue,
+                    shipState: ShipState.properties[ShipState.PILOT_SKILL],
+                    faction: this.props.team,
+                    imageBase: this.props.imageBase,
+                    label: String(this.props.pilotSkillValue),
                     labelClass: "pilotSkillValue",
                     showOne: true,
                 });
@@ -421,9 +443,10 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 {
                     image = React.createElement(ShipStateUI,
                     {
-                        shipStateKey: "Skill",
-                        factionKey: this.props.team,
-                        label: this.props.pilotAftSkillValue,
+                        shipState: ShipState.properties[ShipState.PILOT_SKILL],
+                        faction: this.props.team,
+                        imageBase: this.props.imageBase,
+                        label: String(this.props.pilotAftSkillValue),
                         labelClass: "pilotSkillValue",
                     });
                     cells.push(React.DOM.td(
@@ -439,7 +462,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     rowSpan: 2,
                 }, React.createElement(FactionUI,
                 {
-                    factionKey: this.props.team,
+                    faction: this.props.team,
+                    imageBase: this.props.imageBase,
                 })));
                 rows.push(React.DOM.tr(
                 {
@@ -479,12 +503,22 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 return React.DOM.table(
                 {
                     className: "nameTable"
-                }, rows);
+                }, React.DOM.tbody(
+                {}, rows));
             },
         });
 
         var StatsPanel = React.createClass(
         {
+            propTypes:
+            {
+                imageBase: React.PropTypes.string.isRequired,
+                token: React.PropTypes.object.isRequired,
+
+                // default: false
+                isCompact: React.PropTypes.bool,
+            },
+
             render: function()
             {
                 var isCompact = this.props.isCompact;
@@ -501,11 +535,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
 
             renderCompact: function()
             {
-                InputValidator.validateNotNull("token", this.props.token);
-
                 var myToken = this.props.token;
 
-                var factionKey = myToken.pilot().shipTeam.teamKey;
+                var faction = myToken.pilot().shipTeam.team;
                 var primaryWeaponValue = myToken.primaryWeaponValue();
                 var energyLimit = myToken.energyValue();
                 var agilityValue = myToken.agilityValue();
@@ -520,16 +552,17 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     var shipStateKey;
                     if (myToken.ship().isPrimaryWeaponTurret)
                     {
-                        shipStateKey = "Turret_Weapon";
+                        shipStateKey = ShipState.TURRET_WEAPON;
                     }
                     else
                     {
-                        shipStateKey = "Weapon";
+                        shipStateKey = ShipState.PRIMARY_WEAPON;
                     }
                     image = React.createElement(ShipStateUI,
                     {
-                        shipStateKey: shipStateKey,
-                        factionKey: factionKey,
+                        shipState: ShipState.properties[shipStateKey],
+                        faction: faction,
+                        imageBase: this.props.imageBase,
                     });
                     cells.push(React.DOM.td(
                     {
@@ -549,8 +582,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 {
                     image = React.createElement(ShipStateUI,
                     {
-                        shipStateKey: "Energy",
-                        factionKey: factionKey,
+                        shipState: ShipState.properties[ShipState.ENERGY],
+                        faction: faction,
+                        imageBase: this.props.imageBase,
                     });
                     cells.push(React.DOM.td(
                     {
@@ -568,8 +602,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
 
                 var image1 = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Agility",
-                    factionKey: factionKey,
+                    shipState: ShipState.properties[ShipState.AGILITY],
+                    faction: faction,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -586,8 +621,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
 
                 var image2 = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Hull",
-                    factionKey: factionKey,
+                    shipState: ShipState.properties[ShipState.HULL],
+                    faction: faction,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -604,8 +640,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
 
                 var image3 = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Shield",
-                    factionKey: factionKey,
+                    shipState: ShipState.properties[ShipState.SHIELD],
+                    faction: faction,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -626,16 +663,15 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 return React.DOM.table(
                 {
                     className: "statsTable"
-                }, row);
+                }, React.DOM.tbody(
+                {}, row));
             },
 
             renderLarge: function()
             {
-                InputValidator.validateNotNull("token", this.props.token);
-
                 var myToken = this.props.token;
 
-                var factionKey = myToken.pilot().shipTeam.teamKey;
+                var faction = myToken.pilot().shipTeam.team;
                 var primaryWeaponValue = myToken.primaryWeaponValue();
                 var energyLimit = myToken.energyValue();
                 var agilityValue = myToken.agilityValue();
@@ -651,16 +687,17 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     var shipStateKey;
                     if (myToken.ship().isPrimaryWeaponTurret)
                     {
-                        shipStateKey = "Turret_Weapon";
+                        shipStateKey = ShipState.TURRET_WEAPON;
                     }
                     else
                     {
-                        shipStateKey = "Weapon";
+                        shipStateKey = ShipState.PRIMARY_WEAPON;
                     }
                     image = React.createElement(ShipStateUI,
                     {
-                        shipStateKey: shipStateKey,
-                        factionKey: factionKey,
+                        shipState: ShipState.properties[shipStateKey],
+                        faction: faction,
+                        imageBase: this.props.imageBase,
                     });
                     cells.push(React.DOM.td(
                     {
@@ -685,8 +722,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     cells = [];
                     image = React.createElement(ShipStateUI,
                     {
-                        shipStateKey: "Energy",
-                        factionKey: factionKey,
+                        shipState: ShipState.properties[ShipState.ENERGY],
+                        faction: faction,
+                        imageBase: this.props.imageBase,
                     });
                     cells.push(React.DOM.td(
                     {
@@ -709,8 +747,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 cells = [];
                 var image1 = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Agility",
-                    factionKey: factionKey,
+                    shipState: ShipState.properties[ShipState.AGILITY],
+                    faction: faction,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -732,8 +771,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 cells = [];
                 var image2 = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Hull",
-                    factionKey: factionKey,
+                    shipState: ShipState.properties[ShipState.HULL],
+                    faction: faction,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -755,8 +795,9 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 cells = [];
                 var image3 = React.createElement(ShipStateUI,
                 {
-                    shipStateKey: "Shield",
-                    factionKey: factionKey,
+                    shipState: ShipState.properties[ShipState.SHIELD],
+                    faction: faction,
+                    imageBase: this.props.imageBase,
                 });
                 cells.push(React.DOM.td(
                 {
@@ -778,16 +819,21 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 return React.DOM.table(
                 {
                     className: "statsTable"
-                }, rows);
+                }, React.DOM.tbody(
+                {}, rows));
             },
         });
 
         var UpgradePanel = React.createClass(
         {
+            propTypes:
+            {
+                imageBase: React.PropTypes.string.isRequired,
+                upgradeTypes: React.PropTypes.array.isRequired,
+            },
+
             render: function()
             {
-                InputValidator.validateNotNull("upgradeTypes", this.props.upgradeTypes);
-
                 var upgradeTypes = this.props.upgradeTypes;
                 var cells = [];
 
@@ -796,7 +842,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     var upgradeType = upgradeTypes[i];
                     var img = React.createElement(UpgradeTypeUI,
                     {
-                        upgradeTypeKey: upgradeType,
+                        upgradeType: upgradeType,
+                        imageBase: this.props.imageBase,
                     });
                     cells.push(React.DOM.td(
                     {
@@ -809,37 +856,33 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 return React.DOM.table(
                 {
                     className: "pilotCardUIUpgrades"
-                }, row);
+                }, React.DOM.tbody(
+                {}, row));
             },
         });
 
         var TokensPanel = React.createClass(
         {
+            propTypes:
+            {
+                imageBase: React.PropTypes.string.isRequired,
+                token: React.PropTypes.object.isRequired,
+            },
+
             render: function()
             {
                 InputValidator.validateNotNull("token", this.props.token);
 
                 var myToken = this.props.token;
-
-                var cloakCount = myToken.cloakCount();
-                var energyCount = myToken.energyCount();
-                var evadeCount = myToken.evadeCount();
-                var focusCount = myToken.focusCount();
-                var ionCount = myToken.ionCount();
-                var reinforceCount = myToken.reinforceCount();
-                var shieldCount = myToken.shieldCount();
-                var stressCount = myToken.stressCount();
-                var weaponsDisabledCount = myToken.weaponsDisabledCount();
                 var attackerTargetLocks = myToken.attackerTargetLocks();
                 var defenderTargetLocks = myToken.defenderTargetLocks();
-                var damageCount = myToken.damageCount();
-                var criticalDamageCount = myToken.criticalDamageCount();
 
                 var cells = [];
                 var element = React.createElement(LabeledImage,
                 {
                     image: "token/CloakToken32.png",
-                    label: cloakCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.cloakCount()),
                     labelClass: "lightImageText",
                     title: "Cloak",
                     width: 36,
@@ -852,7 +895,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/EnergyToken32.png",
-                    label: energyCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.energyCount()),
                     labelClass: "lightImageText",
                     title: "Energy",
                 });
@@ -864,7 +908,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/EvadeToken32.png",
-                    label: evadeCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.evadeCount()),
                     labelClass: "lightImageText",
                     title: "Evade",
                 });
@@ -876,7 +921,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/FocusToken32.png",
-                    label: focusCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.focusCount()),
                     labelClass: "lightImageText",
                     title: "Focus",
                 });
@@ -888,7 +934,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/IonToken32.png",
-                    label: ionCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.ionCount()),
                     labelClass: "lightImageText",
                     title: "Ion",
                 });
@@ -900,7 +947,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/ReinforceToken32.png",
-                    label: reinforceCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.reinforceCount()),
                     labelClass: "lightImageText",
                     title: "Reinforce",
                 });
@@ -912,7 +960,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/ShieldToken32.png",
-                    label: shieldCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.shieldCount()),
                     labelClass: "lightImageText",
                     title: "Shield",
                 });
@@ -924,7 +973,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/StressToken32.png",
-                    label: stressCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.stressCount()),
                     labelClass: "lightImageText",
                     title: "Stress",
                 });
@@ -939,6 +989,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     var element = React.createElement(LabeledImage,
                     {
                         image: "token/AttackerTargetLock32.png",
+                        imageBase: this.props.imageBase,
                         label: targetLock.id(),
                         labelClass: "lightImageText",
                         title: title,
@@ -948,7 +999,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     {
                         key: cells.length,
                     }, element));
-                });
+                }, this);
 
                 defenderTargetLocks.forEach(function(targetLock)
                 {
@@ -956,6 +1007,7 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     var element = React.createElement(LabeledImage,
                     {
                         image: "token/DefenderTargetLock32.png",
+                        imageBase: this.props.imageBase,
                         label: targetLock.id(),
                         labelClass: "lightImageText",
                         title: title,
@@ -965,12 +1017,13 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                     {
                         key: cells.length,
                     }, element));
-                });
+                }, this);
 
                 element = React.createElement(LabeledImage,
                 {
                     image: "token/WeaponsDisabledToken32.png",
-                    label: weaponsDisabledCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.weaponsDisabledCount()),
                     labelClass: "lightImageText",
                     title: "Weapons Disabled",
                 });
@@ -982,7 +1035,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "pilotCard/Damage32.jpg",
-                    label: damageCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.damageCount()),
                     labelClass: "darkImageText",
                     title: "Damage",
                 });
@@ -994,7 +1048,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 element = React.createElement(LabeledImage,
                 {
                     image: "pilotCard/CriticalDamage32.jpg",
-                    label: criticalDamageCount,
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.criticalDamageCount()),
                     labelClass: "darkImageText",
                     title: "Critical Damage",
                 });
@@ -1008,7 +1063,8 @@ define(["process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActio
                 var table = React.DOM.table(
                 {
                     className: "tokensTable"
-                }, row);
+                }, React.DOM.tbody(
+                {}, row));
                 return React.DOM.div(
                 {
                     className: "tokensPanel"

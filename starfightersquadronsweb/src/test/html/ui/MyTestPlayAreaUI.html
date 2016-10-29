@@ -4,18 +4,18 @@
 	<meta charset="utf-8">
 	<title>MyTestPlayAreaUI</title>
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
 	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-
+	<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 </head>
 <body>
 	<div id="panel"></div>
@@ -31,15 +31,11 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		var resourceBase = "../../../main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
-
 		require(["process/EnvironmentFactory", "Maneuver", "PlayFormat", "Position", "process/Action", "process/Selector", "process/ui/PlayAreaUI"],
 			function(EnvironmentFactory, Maneuver, PlayFormat, Position, Action, Selector, PlayAreaUI)
 			{
-				// LOGGER.info("start");
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
 				var store = environment.store();
 				var token1 = Selector.token(store.getState(), 1);
@@ -50,7 +46,6 @@
 				store.dispatch(Action.placeToken(new Position(305, 120, 45), token1));
 
 				var tokenPositions = environment.createTokenPositions();
-				// LOGGER.info("tokenPositions.length = " + tokenPositions.length);
 				var explosionPosition = new Position(400, 400, 0);
 				var explosionShipBase = token1.pilot().shipTeam.ship.shipBase;
 				var laserFromPosition = Selector.position(store.getState(), token3.id());
@@ -64,6 +59,7 @@
 
 				var element = React.createElement(PlayAreaUI,
 				{
+					imageBase: imageBase,
 					playFormatKey: PlayFormat.STANDARD,
 					scale: scale,
 					width: scale * 915,
@@ -92,7 +88,6 @@
 					},
 				});
 				ReactDOM.render(element, document.getElementById("panel"));
-				//            LOGGER.info("end");
 			});
 	</script>
 </body>

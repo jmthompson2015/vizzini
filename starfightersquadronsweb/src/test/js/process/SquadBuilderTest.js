@@ -84,7 +84,8 @@ define(["Pilot", "Ship", "process/SimpleAgent", "process/SquadBuilder", "Team", 
         {
             var store = Redux.createStore(Reducer.root);
             var squadBuilder = SquadBuilder.CoreSetRebelSquadBuilder;
-            var agent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var agent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var result = squadBuilder.buildSquad(store, agent);
             assert.equal(result.length, 1);
 
@@ -117,7 +118,8 @@ define(["Pilot", "Ship", "process/SimpleAgent", "process/SquadBuilder", "Team", 
         {
             var store = Redux.createStore(Reducer.root);
             var squadBuilder = SquadBuilder.CoreSetResistanceSquadBuilder;
-            var agent = new HumanAgent("Resistance Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var agent = new HumanAgent("Resistance Agent", Team.REBEL, imageBase);
             var result = squadBuilder.buildSquad(store, agent);
             assert.equal(result.length, 1);
 

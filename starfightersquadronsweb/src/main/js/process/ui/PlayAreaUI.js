@@ -1,12 +1,28 @@
-define([ "Difficulty", "ManeuverComputer" ], function(Difficulty, ManeuverComputer)
+define(["Difficulty", "ManeuverComputer"], function(Difficulty, ManeuverComputer)
 {
     "use strict";
     var PlayAreaUI = React.createClass(
     {
+        propTypes:
+        {
+            height: React.PropTypes.number.isRequired,
+            image: React.PropTypes.string.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+            playFormatKey: React.PropTypes.string.isRequired,
+            scale: React.PropTypes.number.isRequired,
+            tokenPositions: React.PropTypes.array.isRequired,
+            width: React.PropTypes.number.isRequired,
+
+            explosion: React.PropTypes.object,
+            laserBeam: React.PropTypes.object,
+            maneuver: React.PropTypes.object,
+        },
+
         DEG_TO_RADIANS: Math.PI / 180,
 
         explosionImage: undefined,
-        shipTeamToImage: {},
+        shipTeamToImage:
+        {},
 
         componentDidMount: function()
         {
@@ -27,11 +43,7 @@ define([ "Difficulty", "ManeuverComputer" ], function(Difficulty, ManeuverComput
         {
             LOGGER.trace("PlayAreaUI.render()");
 
-            InputValidator.validateNotNull("width", this.props.width);
-            InputValidator.validateNotNull("height", this.props.height);
-            InputValidator.validateNotNull("image", this.props.image);
-
-            var imageSrc = imageBase + this.props.image;
+            var imageSrc = this.props.imageBase + this.props.image;
             LOGGER.trace("imageSrc = " + imageSrc);
 
             return React.DOM.canvas(
@@ -50,7 +62,7 @@ define([ "Difficulty", "ManeuverComputer" ], function(Difficulty, ManeuverComput
         createExplosionImage: function()
         {
             var image = new Image();
-            image.src = imageBase + "Explosion64.png";
+            image.src = this.props.imageBase + "Explosion64.png";
 
             return image;
         },
@@ -67,7 +79,7 @@ define([ "Difficulty", "ManeuverComputer" ], function(Difficulty, ManeuverComput
             }.bind(this);
 
             var filename = shipTeam.image;
-            image.src = imageBase + "ship/" + filename;
+            image.src = this.props.imageBase + "ship/" + filename;
 
             return image;
         },
@@ -124,7 +136,7 @@ define([ "Difficulty", "ManeuverComputer" ], function(Difficulty, ManeuverComput
                 var audioClip = laserBeam.audioClip;
 
                 var strokeStyle = teamColor;
-                var lineDashSegments = (isPrimary ? undefined : [ 10, 5 ]);
+                var lineDashSegments = (isPrimary ? undefined : [10, 5]);
 
                 context.save();
                 context.scale(this.props.scale, this.props.scale);
@@ -211,14 +223,14 @@ define([ "Difficulty", "ManeuverComputer" ], function(Difficulty, ManeuverComput
 
                 switch (difficulty)
                 {
-                case Difficulty.EASY:
-                    answer = EASY_COLOR;
-                    break;
-                case Difficulty.HARD:
-                    answer = HARD_COLOR;
-                    break;
-                default:
-                    answer = FOREGROUND_COLOR;
+                    case Difficulty.EASY:
+                        answer = EASY_COLOR;
+                        break;
+                    case Difficulty.HARD:
+                        answer = HARD_COLOR;
+                        break;
+                    default:
+                        answer = FOREGROUND_COLOR;
                 }
 
                 return answer;

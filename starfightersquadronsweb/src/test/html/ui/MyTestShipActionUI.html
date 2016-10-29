@@ -5,18 +5,11 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-
 </head>
 <body>
 	<div id="panel"></div>
@@ -24,59 +17,57 @@
 		"use strict";
 		var LOGGER = new Logger();
 
-		var resourceBase = "../../../main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
+		require(["ShipAction", "process/ui/ShipActionUI"], function(ShipAction, ShipActionUI)
+		{
+			var values = ShipAction.values();
+			var resourceBase = "../../../main/resources/";
+			var imageBase = resourceBase + "images/";
+			var style = {
+				backgroundColor: "#F0F0F0",
+				border: "1px solid gray",
+				fontSize: "small",
+				textAlign: "left",
+			};
+			var rows = [];
 
-		require(["DualToken", "Maneuver", "Pilot", "ShipAction", "SimpleAgent", "Team", "Token", "process/ui/ShipActionUI"],
-			function(DualToken, Maneuver, Pilot, ShipAction, SimpleAgent, Team, Token, ShipActionUI)
+			values.forEach(function(shipActionKey, i)
 			{
-				var values = ShipAction.values();
-				var rows = [];
-				values.forEach(function(shipActionKey, i)
+				var shipAction = ShipAction.properties[shipActionKey];
+				var image0 = React.createElement(ShipActionUI,
 				{
-					var myShipActionKey = shipActionKey;
-					var cells = [];
-					var image0 = React.createElement(ShipActionUI,
-					{
-						shipActionKey: myShipActionKey,
-					});
-					cells.push(React.DOM.td(
-					{
-						key: cells.length,
-						style:
-						{
-							backgroundColor: "#F0F0F0",
-							border: "1px solid gray",
-						},
-					}, image0));
-
-					var image1 = React.createElement(ShipActionUI,
-					{
-						shipActionKey: myShipActionKey,
-						showName: true,
-					});
-					cells.push(React.DOM.td(
-					{
-						key: cells.length,
-						style:
-						{
-							backgroundColor: "#F0F0F0",
-							border: "1px solid gray",
-							fontSize: "small",
-						},
-					}, image1));
-
-					rows.push(React.DOM.tr(
-					{
-						key: rows.length,
-					}, cells));
+					shipAction: shipAction,
+					imageBase: imageBase,
+				});
+				var image1 = React.createElement(ShipActionUI,
+				{
+					shipAction: shipAction,
+					imageBase: imageBase,
+					showName: true,
 				});
 
-				ReactDOM.render(React.DOM.table(
-				{}, rows), document.getElementById("panel"));
+				var cells = [];
+
+				cells.push(React.DOM.td(
+				{
+					key: cells.length,
+					style: style,
+				}, image0));
+				cells.push(React.DOM.td(
+				{
+					key: cells.length,
+					style: style,
+				}, image1));
+
+				rows.push(React.DOM.tr(
+				{
+					key: rows.length,
+				}, cells));
 			});
+
+			ReactDOM.render(React.DOM.table(
+			{}, React.DOM.tbody(
+			{}, rows)), document.getElementById("panel"));
+		});
 	</script>
 </body>
 

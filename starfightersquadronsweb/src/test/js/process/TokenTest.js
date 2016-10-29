@@ -21,7 +21,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
         QUnit.test("Token properties Dash Rendar", function(assert)
         {
             var store = Redux.createStore(Reducer.root);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
                 UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA]);
             assert.equal(token.id(), 1);
@@ -36,7 +37,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
         QUnit.test("Token properties GR-75 Medium Transport", function(assert)
         {
             var store = Redux.createStore(Reducer.root);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent, [UpgradeCard.CARLIST_RIEEKAN,
                 UpgradeCard.EM_EMITTER]);
             assert.equal(token.id(), 1);
@@ -152,7 +154,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
             assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
 
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token1 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
             assert.equal(token1.id(), 2);
             assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
@@ -205,7 +208,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
             var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var defender = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
             assert.equal(token.damageCount(), 0);
             assert.equal(token.criticalDamageCount(), 0);
@@ -240,7 +244,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.FOUR), 4);
             assert.equal(token0.computeDefenseDiceCount(token0.primaryWeapon(), RangeRuler.FIVE), 4);
 
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token1 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
             assert.equal(token1.id(), 2);
             assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
@@ -292,7 +297,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             // Setup.
             var store = Redux.createStore(Reducer.root);
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             var token1 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
             var token2 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
@@ -355,7 +361,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             // Setup.
             var store = Redux.createStore(Reducer.root);
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
             var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -387,7 +394,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             // Setup.
             var store = Redux.createStore(Reducer.root);
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
             var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -694,7 +702,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             // Setup.
             var store = Redux.createStore(Reducer.root);
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
             var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -786,7 +795,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             // Setup.
             var store = Redux.createStore(Reducer.root);
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
             var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -865,7 +875,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             // Setup.
             var store = Redux.createStore(Reducer.root);
             var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
             var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -880,7 +891,8 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
-            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
             var token = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
 
             // Run.

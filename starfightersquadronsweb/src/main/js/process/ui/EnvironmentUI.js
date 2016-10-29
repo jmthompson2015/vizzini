@@ -1,14 +1,18 @@
-define(["process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/PlayAreaUI", "process/ui/StatusBarUI", "process/ui/PilotsUI"],
-    function(Connector, MessageAreaUI, PlayAreaUI, StatusBarUI, PilotsUI)
+define(["process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/PilotsUI", "process/ui/PlayAreaUI", "process/ui/StatusBarUI"],
+    function(Connector, MessageAreaUI, PilotsUI, PlayAreaUI, StatusBarUI)
     {
         "use strict";
         var EnvironmentUI = React.createClass(
         {
+            propTypes:
+            {
+                engine: React.PropTypes.object.isRequired,
+                environment: React.PropTypes.object.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+            },
+
             render: function()
             {
-                InputValidator.validateNotNull("engine", this.props.engine);
-                InputValidator.validateNotNull("environment", this.props.environment);
-
                 var engine = this.props.engine;
                 var environment = this.props.environment;
 
@@ -24,6 +28,7 @@ define(["process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/PlayArea
                 var firstPilotsElement = React.createElement(connector1,
                 {
                     environment: environment,
+                    imageBase: this.props.imageBase,
                     team: environment.firstTeam(),
                 });
 
@@ -32,12 +37,14 @@ define(["process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/PlayArea
                 var playAreaElement = React.createElement(connector2,
                 {
                     environment: environment,
+                    imageBase: this.props.imageBase,
                 });
 
                 // Second pilots.
                 var secondPilotsElement = React.createElement(connector1,
                 {
                     environment: environment,
+                    imageBase: this.props.imageBase,
                     team: environment.secondTeam(),
                 });
 
@@ -49,7 +56,7 @@ define(["process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/PlayArea
                 var rows = [];
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "statusBar",
                 }, React.DOM.td(
                 {
                     colSpan: 3,
@@ -58,29 +65,29 @@ define(["process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/PlayArea
                 var cells = [];
                 cells.push(React.DOM.td(
                 {
-                    key: cells.length,
+                    key: "firstPilots",
                     id: "firstPilots",
                     rowSpan: 2,
                 }, firstPilotsElement));
                 cells.push(React.DOM.td(
                 {
-                    key: cells.length,
+                    key: "playArea",
                     id: "playArea",
                 }, playAreaElement));
                 cells.push(React.DOM.td(
                 {
-                    key: cells.length,
+                    key: "secondPilots",
                     id: "secondPilots",
                     rowSpan: 2,
                 }, secondPilotsElement));
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "middleArea",
                 }, cells));
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "messageArea",
                 }, React.DOM.td(
                 {
                     id: "messageArea",

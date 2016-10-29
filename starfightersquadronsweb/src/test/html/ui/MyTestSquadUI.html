@@ -5,18 +5,15 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-
 </head>
 <body>
 	<div id="squadPanel0"></div>
@@ -27,69 +24,75 @@
 	<script>
 		"use strict";
 		var LOGGER = new Logger();
+		LOGGER.setDebugEnabled(false);
+		LOGGER.setTraceEnabled(false);
 
-		var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
-
-		require(["SimpleAgent", "SquadBuilder", "Team", "process/ui/SquadUI"], function(SimpleAgent, SquadBuilder, Team,
-			SquadUI)
-		{
-			var team0 = Team.IMPERIAL;
-			var agentName0 = "Imperial Agent";
-			var squadBuilder0 = SquadBuilder.CoreSetImperialSquadBuilder;
-			var agent0 = new SimpleAgent(agentName0, team0);
-			var squad0 = squadBuilder0.buildSquad(agent0);
-
-			var element = React.createElement(SquadUI,
+		require(["Team", "process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
+			function(Team, SimpleAgent, SquadBuilder, SquadUI)
 			{
-				squad: squad0,
-				isEditable: true,
-				removeFunction: removeActionPerformed
-			});
-			ReactDOM.render(element, document.getElementById("squadPanel0"));
+				var resourceBase = "../../../main/resources/";
+				var iconBase = resourceBase + "icons/";
+				var imageBase = resourceBase + "images/";
+				var team0 = Team.IMPERIAL;
+				var agentName0 = "Imperial Agent";
+				var squadBuilder0 = SquadBuilder.CoreSetImperialSquadBuilder;
+				var agent0 = new SimpleAgent(agentName0, team0);
+				var squad0 = squadBuilder0.buildSquad(agent0);
 
-			var team1 = Team.REBEL;
-			var agentName1 = "Rebel Agent";
-			var squadBuilder1 = SquadBuilder.CoreSetRebelSquadBuilder;
-			var agent1 = new SimpleAgent(agentName1, team1);
-			var squad1 = squadBuilder1.buildSquad(agent1);
-
-			var element = React.createElement(SquadUI,
-			{
-				squad: squad1,
-				removeFunction: removeActionPerformed
-			});
-			ReactDOM.render(element, document.getElementById("squadPanel1"));
-
-			var squadBuilder2 = SquadBuilder.HugeShipRebelSquadBuilder;
-			var squad2 = squadBuilder2.buildSquad(agent1);
-
-			var element = React.createElement(SquadUI,
-			{
-				squad: squad2,
-				removeFunction: removeActionPerformed
-			});
-			ReactDOM.render(element, document.getElementById("squadPanel2"));
-
-			function removeActionPerformed(selected, event)
-			{
-				LOGGER.info("remove clicked");
-				LOGGER.info("selected = " + selected);
-
-				for (var i = 0; i < selected.length; i++)
+				var element = React.createElement(SquadUI,
 				{
-					var token = selected[i];
-					var index = squad.indexOf(token);
+					iconBase: iconBase,
+					imageBase: imageBase,
+					squad: squad0,
+					isEditable: true,
+					removeFunction: removeActionPerformed
+				});
+				ReactDOM.render(element, document.getElementById("squadPanel0"));
 
-					if (index >= 0)
+				var team1 = Team.REBEL;
+				var agentName1 = "Rebel Agent";
+				var squadBuilder1 = SquadBuilder.CoreSetRebelSquadBuilder;
+				var agent1 = new SimpleAgent(agentName1, team1);
+				var squad1 = squadBuilder1.buildSquad(agent1);
+
+				var element = React.createElement(SquadUI,
+				{
+					iconBase: iconBase,
+					imageBase: imageBase,
+					squad: squad1,
+					removeFunction: removeActionPerformed
+				});
+				ReactDOM.render(element, document.getElementById("squadPanel1"));
+
+				var squadBuilder2 = SquadBuilder.HugeShipRebelSquadBuilder;
+				var squad2 = squadBuilder2.buildSquad(agent1);
+
+				var element = React.createElement(SquadUI,
+				{
+					iconBase: iconBase,
+					imageBase: imageBase,
+					squad: squad2,
+					removeFunction: removeActionPerformed
+				});
+				ReactDOM.render(element, document.getElementById("squadPanel2"));
+
+				function removeActionPerformed(selected, event)
+				{
+					LOGGER.info("remove clicked");
+					LOGGER.info("selected = " + selected);
+
+					for (var i = 0; i < selected.length; i++)
 					{
-						squad.splice(index, 1);
+						var token = selected[i];
+						var index = squad.indexOf(token);
+
+						if (index >= 0)
+						{
+							squad.splice(index, 1);
+						}
 					}
 				}
-			}
-		});
+			});
 	</script>
 </body>
 

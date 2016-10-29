@@ -1,9 +1,24 @@
-define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "Phase"],
-    function(AttackDice, DefenseDice, ModifyAttackDiceAction, ModifyDefenseDiceAction, Phase)
+define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction"],
+    function(AttackDice, DefenseDice, Phase, ModifyAttackDiceAction, ModifyDefenseDiceAction)
     {
         "use strict";
         var CombatUI = React.createClass(
         {
+            propTypes:
+            {
+                attacker: React.PropTypes.object.isRequired,
+                attackDice: React.PropTypes.object.isRequired,
+                defender: React.PropTypes.object.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+                phase: React.PropTypes.object.isRequired,
+
+                criticalHitCount: React.PropTypes.number,
+                defenseDice: React.PropTypes.object,
+                hitCount: React.PropTypes.number,
+                modificationKeys: React.PropTypes.array,
+                okFunction: React.PropTypes.func,
+            },
+
             getInitialState: function()
             {
                 return (
@@ -16,13 +31,9 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
             render: function()
             {
                 var phase = this.props.phase;
-                InputValidator.validateNotNull("phase", phase);
                 var attacker = this.props.attacker;
-                InputValidator.validateNotNull("attacker", attacker);
                 var defender = this.props.defender;
-                InputValidator.validateNotNull("defender", defender);
                 var attackDice = this.props.attackDice;
-                InputValidator.validateNotNull("attackDice", attackDice);
                 var defenseDice = this.props.defenseDice;
 
                 var rows = [];
@@ -47,6 +58,7 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                 var attackPanel = React.createElement(CombatUI.AttackDiceUI,
                 {
                     dice: attackDice,
+                    imageBase: this.props.imageBase,
                 });
                 rows.push(React.DOM.tr(
                 {
@@ -56,13 +68,13 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                     className: "combatDicePanel",
                 }, attackPanel)));
 
-                if (attackDice.size() > 0 && phase === Phase.COMBAT_ROLL_ATTACK_DICE)
+                if (attackDice.size() > 0 && phase.value === Phase.COMBAT_ROLL_ATTACK_DICE)
                 {
                     // Modify Attack Dice panel.
                     var modifyAttackPanel = React.createElement(CombatUI.ModifyAttackUI,
                     {
                         attacker: attacker,
-                        modifications: this.props.modifications,
+                        modificationKeys: this.props.modificationKeys,
                         onChange: this.attackOnChange,
                     });
 
@@ -87,6 +99,7 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                     var defensePanel = React.createElement(CombatUI.DefenseDiceUI,
                     {
                         dice: defenseDice,
+                        imageBase: this.props.imageBase,
                     });
 
                     rows.push(React.DOM.tr(
@@ -97,13 +110,13 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                         className: "combatDicePanel",
                     }, defensePanel)));
 
-                    if (phase === Phase.COMBAT_ROLL_DEFENSE_DICE)
+                    if (phase.value === Phase.COMBAT_ROLL_DEFENSE_DICE)
                     {
                         // Modify Defense Dice panel.
                         var modifyDefensePanel = React.createElement(CombatUI.ModifyDefenseUI,
                         {
                             defender: defender,
-                            modifications: this.props.modifications,
+                            modificationKeys: this.props.modificationKeys,
                             onChange: this.defenseOnChange,
                         });
 
@@ -115,13 +128,14 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                     }
                 }
 
-                if (phase === Phase.COMBAT_MODIFY_DEFENSE_DICE)
+                if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
                 {
                     // Damage panel.
                     var damagePanel = React.createElement(CombatUI.DamageUI,
                     {
-                        hitCount: this.props.hitCount,
                         criticalHitCount: this.props.criticalHitCount,
+                        hitCount: this.props.hitCount,
+                        imageBase: this.props.imageBase,
                     });
 
                     rows.push(React.DOM.tr(
@@ -167,15 +181,16 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
             createTitle: function(phase)
             {
                 var answer = "Combat";
-                if (phase === Phase.COMBAT_ROLL_ATTACK_DICE)
+
+                if (phase.value === Phase.COMBAT_ROLL_ATTACK_DICE)
                 {
                     answer += ": Modify Attack Dice";
                 }
-                else if (phase === Phase.COMBAT_ROLL_DEFENSE_DICE)
+                else if (phase.value === Phase.COMBAT_ROLL_DEFENSE_DICE)
                 {
                     answer += ": Modify Defense Dice";
                 }
-                else if (phase === Phase.COMBAT_MODIFY_DEFENSE_DICE)
+                else if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
                 {
                     answer += ": Deal Damage";
                 }
@@ -198,11 +213,11 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                 var value;
                 var phase = this.props.phase;
 
-                if (phase === Phase.COMBAT_ROLL_ATTACK_DICE)
+                if (phase.value === Phase.COMBAT_ROLL_ATTACK_DICE)
                 {
                     value = this.state.attackModification;
                 }
-                else if (phase === Phase.COMBAT_ROLL_DEFENSE_DICE)
+                else if (phase.value === Phase.COMBAT_ROLL_DEFENSE_DICE)
                 {
                     value = this.state.defenseModification;
                 }
@@ -228,6 +243,12 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
          */
         CombatUI.AttackDiceUI = React.createClass(
         {
+            propTypes:
+            {
+                dice: React.PropTypes.object.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+            },
+
             render: function()
             {
                 var columns = [];
@@ -256,7 +277,7 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
             createImage: function(die)
             {
                 var title = AttackDice.Value.properties[die].name;
-                var source = imageBase + "dice/Attack" + title.replace(" ", "") + "32.png";
+                var source = this.props.imageBase + "dice/Attack" + title.replace(" ", "") + "32.png";
 
                 return React.DOM.img(
                 {
@@ -273,6 +294,12 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
          */
         CombatUI.DefenseDiceUI = React.createClass(
         {
+            propTypes:
+            {
+                dice: React.PropTypes.object.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+            },
+
             render: function()
             {
                 var columns = [];
@@ -303,7 +330,7 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
             createImage: function(die)
             {
                 var title = DefenseDice.Value.properties[die].name;
-                var source = imageBase + "dice/Defense" + title.replace(" ", "") + "32.png";
+                var source = this.props.imageBase + "dice/Defense" + title.replace(" ", "") + "32.png";
 
                 return React.DOM.img(
                 {
@@ -315,10 +342,17 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
 
         CombatUI.ModifyAttackUI = React.createClass(
         {
+            propTypes:
+            {
+                attacker: React.PropTypes.object.isRequired,
+                modificationKeys: React.PropTypes.array.isRequired,
+                onChange: React.PropTypes.func.isRequired,
+            },
+
             render: function()
             {
-                var modifications = this.props.modifications;
-                InputValidator.validateNotNull("modifications", modifications);
+                var modificationKeys = this.props.modificationKeys;
+                InputValidator.validateNotNull("modificationKeys", modificationKeys);
                 var attacker = this.props.attacker;
                 InputValidator.validateNotNull("attacker", attacker);
                 var labelFunction = function(value)
@@ -331,15 +365,15 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                     return answer;
                 };
                 var initialValue;
-                if (modifications.length > 0)
+                if (modificationKeys.length > 0)
                 {
-                    initialValue = modifications[0];
+                    initialValue = modificationKeys[0];
                 }
 
                 return React.createElement(InputPanel,
                 {
                     type: "radio",
-                    values: modifications,
+                    values: modificationKeys,
                     name: "selectModifyAttack",
                     labelFunction: labelFunction,
                     initialValues: initialValue,
@@ -360,10 +394,17 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
 
         CombatUI.ModifyDefenseUI = React.createClass(
         {
+            propTypes:
+            {
+                defender: React.PropTypes.object.isRequired,
+                modificationKeys: React.PropTypes.array.isRequired,
+                onChange: React.PropTypes.func.isRequired,
+            },
+
             render: function()
             {
-                var modifications = this.props.modifications;
-                InputValidator.validateNotNull("modifications", modifications);
+                var modificationKeys = this.props.modificationKeys;
+                InputValidator.validateNotNull("modificationKeys", modificationKeys);
                 var defender = this.props.defender;
                 InputValidator.validateNotNull("defender", defender);
                 var labelFunction = function(value)
@@ -376,15 +417,15 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                     return answer;
                 };
                 var initialValue;
-                if (modifications.length > 0)
+                if (modificationKeys.length > 0)
                 {
-                    initialValue = modifications[0];
+                    initialValue = modificationKeys[0];
                 }
 
                 return React.createElement(InputPanel,
                 {
                     type: "radio",
-                    values: modifications,
+                    values: modificationKeys,
                     name: "selectModifyDefense",
                     labelFunction: labelFunction,
                     initialValues: initialValue,
@@ -412,6 +453,13 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
          */
         CombatUI.DamageUI = React.createClass(
         {
+            propTypes:
+            {
+                criticalHitCount: React.PropTypes.number.isRequired,
+                hitCount: React.PropTypes.number.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+            },
+
             render: function()
             {
                 var hitCount = this.props.hitCount;
@@ -419,8 +467,8 @@ define(["AttackDice", "DefenseDice", "process/ModifyAttackDiceAction", "process/
                 var criticalHitCount = this.props.criticalHitCount;
                 InputValidator.validateNotNull("criticalHitCount", criticalHitCount);
 
-                var hitFilename = imageBase + "pilotCard/Damage32.jpg";
-                var criticalHitFilename = imageBase + "pilotCard/CriticalDamage32.jpg";
+                var hitFilename = this.props.imageBase + "pilotCard/Damage32.jpg";
+                var criticalHitFilename = this.props.imageBase + "pilotCard/CriticalDamage32.jpg";
                 var columns = [];
 
                 columns.push(React.DOM.td(

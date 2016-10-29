@@ -5,48 +5,45 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-
 </head>
 <body>
 	<div id="panel"></div>
 	<script>
 		"use strict";
 		var LOGGER = new Logger();
+		LOGGER.setDebugEnabled(false);
+		LOGGER.setTraceEnabled(false);
 
-		var resourceBase = "../../../main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
-
-		require(["Team", "process/ui/ShipStateUI"], function(Team, ShipStateUI)
+		require(["ShipState", "Team", "process/ui/ShipStateUI"], function(ShipState, Team, ShipStateUI)
 		{
-			var factionValues = Team.values();
-			var values = ["Skill", "Turret_Weapon", "Weapon", "Energy", "Agility", "Hull", "Shield"];
+			var resourceBase = "../../../main/resources/";
+			var imageBase = resourceBase + "images/";
+			var style0 = {
+				backgroundColor: "darkGreen",
+				border: "1px solid black",
+				color: "white",
+			};
+			var style1 = {
+				backgroundColor: "#F0F0F0",
+				border: "1px solid gray",
+				fontSize: "small",
+			};
 			var rows = [];
 			var cells = [];
-			factionValues.forEach(function(factionKey, j)
+
+			Team.values().forEach(function(factionKey, j)
 			{
 				cells.push(React.DOM.th(
 				{
 					key: cells.length,
 					colSpan: "2",
-					style:
-					{
-						backgroundColor: "darkGreen",
-						border: "1px solid black",
-						color: "white",
-					},
+					style: style0,
 				}, Team.properties[factionKey].name));
 			});
 			rows.push(React.DOM.tr(
@@ -54,29 +51,33 @@
 				key: rows.length,
 			}, cells));
 
-			values.forEach(function(shipStateKey, i)
+			ShipState.values().forEach(function(shipStateKey, i)
 			{
+				var shipState = ShipState.properties[shipStateKey];
 				cells = [];
 				var image0, image1;
 
-				factionValues.forEach(function(factionKey, j)
+				Team.values().forEach(function(factionKey, j)
 				{
+					var faction = Team.properties[factionKey];
+
 					if (shipStateKey === "Skill")
 					{
 						var label = 8;
 						var labelClass = "pilotSkillValue";
 						image0 = React.createElement(ShipStateUI,
 						{
-							shipStateKey: shipStateKey,
-							factionKey: factionKey,
+							shipState: shipState,
+							faction: faction,
+							imageBase: imageBase,
 							label: label,
 							labelClass: labelClass,
 						});
-
 						image1 = React.createElement(ShipStateUI,
 						{
-							shipStateKey: shipStateKey,
-							factionKey: factionKey,
+							shipState: shipState,
+							faction: faction,
+							imageBase: imageBase,
 							label: label,
 							labelClass: labelClass,
 							showName: true,
@@ -86,17 +87,19 @@
 					{
 						image0 = React.createElement(ShipStateUI,
 						{
-							shipStateKey: shipStateKey,
-							factionKey: factionKey,
+							shipState: shipState,
+							faction: faction,
+							imageBase: imageBase,
 						});
-
 						image1 = React.createElement(ShipStateUI,
 						{
-							shipStateKey: shipStateKey,
-							factionKey: factionKey,
+							shipState: shipState,
+							faction: faction,
+							imageBase: imageBase,
 							showName: true,
 						});
 					}
+
 					cells.push(React.DOM.td(
 					{
 						key: cells.length,
@@ -106,16 +109,10 @@
 							border: "1px solid gray",
 						},
 					}, image0));
-
 					cells.push(React.DOM.td(
 					{
 						key: cells.length,
-						style:
-						{
-							backgroundColor: "#F0F0F0",
-							border: "1px solid gray",
-							fontSize: "small",
-						},
+						style: style1,
 					}, image1));
 				});
 
@@ -126,7 +123,8 @@
 			});
 
 			ReactDOM.render(React.DOM.table(
-			{}, rows), document.getElementById("panel"));
+			{}, React.DOM.tbody(
+			{}, rows)), document.getElementById("panel"));
 		});
 	</script>
 </body>

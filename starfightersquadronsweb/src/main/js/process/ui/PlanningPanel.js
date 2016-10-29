@@ -3,12 +3,65 @@ define(["process/ui/ManeuverChooser"], function(ManeuverChooser)
     "use strict";
     var PlanningPanel = React.createClass(
     {
+        propTypes:
+        {
+            agent: React.PropTypes.object.isRequired,
+            callback: React.PropTypes.func.isRequired,
+            environment: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+            tokens: React.PropTypes.array.isRequired,
+        },
+
         getInitialState: function()
         {
             return (
             {
                 tokenToManeuver:
-                {}
+                {},
+            });
+        },
+
+        render: function()
+        {
+            var tokens = this.props.tokens;
+            var self = this;
+            var cells = [];
+
+            for (var i = 0; i < tokens.length; i++)
+            {
+                var token = tokens[i];
+                var element = React.createElement(ManeuverChooser,
+                {
+                    imageBase: this.props.imageBase,
+                    callback: self.selectionChanged,
+                    token: token,
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: i,
+                    className: "planningTableCell",
+                }, element));
+            }
+
+            var initialInput = React.DOM.table(
+            {}, React.DOM.tbody(
+            {}, React.DOM.tr(
+            {}, cells)));
+            var disabled = Object.getOwnPropertyNames(this.state.tokenToManeuver).length < tokens.length;
+            var buttons = React.DOM.button(
+            {
+                onClick: self.ok,
+                disabled: disabled,
+            }, "OK");
+            return React.createElement(OptionPane,
+            {
+                message: "",
+                panelClass: "optionPane",
+                title: "Planning: Select Maneuvers",
+                titleClass: "optionPaneTitle",
+                initialInput: initialInput,
+                buttons: buttons,
+                buttonsClass: "optionPaneButtons",
             });
         },
 
@@ -20,48 +73,6 @@ define(["process/ui/ManeuverChooser"], function(ManeuverChooser)
             var callback = this.props.callback;
 
             callback(tokenToManeuver);
-        },
-
-        render: function()
-        {
-            var tokens = this.props.tokens;
-            var imageUtils = this.props.imageUtils;
-            var self = this;
-            var cells = [];
-
-            for (var i = 0; i < tokens.length; i++)
-            {
-                var token = tokens[i];
-                var element = React.createElement(ManeuverChooser,
-                {
-                    token: token,
-                    callback: self.selectionChanged
-                });
-                cells.push(React.DOM.td(
-                {
-                    key: i,
-                    className: "planningTableCell"
-                }, element));
-            }
-
-            var initialInput = React.DOM.table(
-            {}, React.DOM.tr(
-            {}, cells));
-            var disabled = Object.getOwnPropertyNames(this.state.tokenToManeuver).length < tokens.length;
-            var buttons = React.DOM.button(
-            {
-                onClick: self.ok,
-                disabled: disabled,
-            }, "OK");
-            return React.createElement(OptionPane,
-            {
-                panelClass: "optionPane",
-                title: "Planning: Select Maneuvers",
-                titleClass: "optionPaneTitle",
-                initialInput: initialInput,
-                buttons: buttons,
-                buttonsClass: "optionPaneButtons"
-            });
         },
 
         selectionChanged: function(token, maneuver)

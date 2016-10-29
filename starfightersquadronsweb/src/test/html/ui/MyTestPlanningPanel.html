@@ -6,64 +6,64 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
 	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/HtmlUtilities.js"></script>
-
-	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
-
 </head>
 <body>
 	<div id="inputArea" style="background-color: lightBlue; display: inline-block;"></div>
 	<script>
 		var LOGGER = new Logger();
+		LOGGER.setDebugEnabled(false);
+		LOGGER.setTraceEnabled(false);
 
-		var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
-
-		require(["process/EnvironmentFactory", "Pilot", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/ui/PlanningPanel"],
-			function(EnvironmentFactory, Pilot, SimpleAgent, SquadBuilder, Team, Token, PlanningPanel)
+		require(["Pilot", "Team", "process/EnvironmentFactory", "process/SimpleAgent", "process/SquadBuilder", "process/Token", "process/ui/PlanningPanel"],
+			function(Pilot, Team, EnvironmentFactory, SimpleAgent, SquadBuilder, Token, PlanningPanel)
 			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
+				var store = environment.store();
 				var adjudicator;
 				var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-				var token0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-				var token1 = new Token(Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
-				var token2 = new Token(Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);
+				var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+				var token1 = new Token(store, Pilot.TEMPEST_SQUADRON_PILOT, imperialAgent);
+				var token2 = new Token(store, Pilot.ALPHA_SQUADRON_PILOT, imperialAgent);
 				var tokens = [token0, token1, token2];
 				var caller = {};
 
-				function callback(planningAction)
+				function callback(tokenToManeuver)
 				{
 					LOGGER.info("caller.callback() start");
 
-					for (var i = 0; i < tokens.length; i++)
+					tokens.forEach(function(token)
 					{
-						var token = tokens[i];
-						var maneuver = planningAction.getManeuver(token);
+						var maneuver = tokenToManeuver[token];
 						LOGGER.info(token + ": " + maneuver);
-					}
+					});
 
 					LOGGER.info("caller.callback() end");
 				}
 
 				var element = React.createElement(PlanningPanel,
 				{
-					environment: environment,
 					agent: imperialAgent,
+					callback: callback,
+					environment: environment,
+					imageBase: imageBase,
 					tokens: tokens,
-					callback: callback
 				});
 				ReactDOM.render(element, document.getElementById("inputArea"));
 			});

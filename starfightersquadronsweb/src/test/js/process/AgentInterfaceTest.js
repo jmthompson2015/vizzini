@@ -9,10 +9,11 @@ define(["process/MediumAgent", "process/SimpleAgent", "Team", "process/ui/HumanA
             // Setup.
             var name = "myAgent";
             var team = Team.IMPERIAL;
+            var imageBase = "../resources/images/";
 
             var agent0 = new SimpleAgent(name + "0", team);
             var agent1 = new MediumAgent(name + "1", team);
-            var agent2 = new HumanAgent(name + "2", team);
+            var agent2 = new HumanAgent(name + "2", team, imageBase);
             var agents = [agent0, agent1, agent2];
 
             // Run / Verify.

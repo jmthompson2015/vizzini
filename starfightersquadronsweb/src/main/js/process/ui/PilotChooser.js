@@ -1,24 +1,36 @@
-define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactory", "process/ui/PilotCardUI"],
-    function(Pilot, Ship, ShipTeam, SimpleAgent, Team, TokenFactory, PilotCardUI)
+define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "process/TokenFactory", "process/ui/PilotCardUI"],
+    function(Pilot, Ship, ShipTeam, SimpleAgent, TokenFactory, PilotCardUI)
     {
         "use strict";
         var PilotChooser = React.createClass(
         {
+            contextTypes:
+            {
+                store: React.PropTypes.object.isRequired,
+            },
+
+            propTypes:
+            {
+                imageBase: React.PropTypes.string.isRequired,
+                onChange: React.PropTypes.func.isRequired,
+                team: React.PropTypes.object.isRequired,
+            },
+
             getInitialState: function()
             {
                 LOGGER.trace("PilotChooser.getInitialState()");
 
                 // Default to first ship, first pilot.
-                var teamKey = this.props.team;
-                var shipTeamKey = ShipTeam.valuesByTeam(teamKey)[0];
+                var team = this.props.team;
+                var shipTeamKey = ShipTeam.valuesByTeam(team.value)[0];
                 var shipKey = ShipTeam.properties[shipTeamKey].shipKey;
                 var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
                 var token = this.createToken(pilotKey);
 
                 return (
                 {
-                    ship: shipKey,
-                    pilot: pilotKey,
+                    shipKey: shipKey,
+                    pilotKey: pilotKey,
                     token: token
                 });
             },
@@ -34,8 +46,8 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
             {
                 LOGGER.trace("PilotChooser.componentWillReceiveProps()");
 
-                var oldTeamKey = this.props.team;
-                var newTeamKey = nextProps.team;
+                var oldTeamKey = this.props.team.value;
+                var newTeamKey = nextProps.team.value;
 
                 if (oldTeamKey != newTeamKey)
                 {
@@ -49,8 +61,8 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
                     LOGGER.debug("new state = " + shipKey + ", " + pilotKey + ", " + token);
                     this.setState(
                     {
-                        ship: shipKey,
-                        pilot: pilotKey,
+                        shipKey: shipKey,
+                        pilotKey: pilotKey,
                         token: token
                     });
                 }
@@ -59,9 +71,6 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
             render: function()
             {
                 LOGGER.trace("PilotChooser.render()");
-
-                InputValidator.validateNotNull("team property", this.props.team);
-                InputValidator.validateNotNull("onChangeFunction property", this.props.onChangeFunction);
 
                 var shipSelect = this.createShipSelect();
                 var pilotSelect = this.createPilotSelect();
@@ -145,18 +154,18 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
             shipChanged: function(event)
             {
                 var shipKey = event.currentTarget.value;
-                var shipTeamValues = ShipTeam.valuesByShipAndTeam(shipKey, this.props.team);
+                var shipTeamValues = ShipTeam.valuesByShipAndTeam(shipKey, this.props.team.value);
                 var pilotKey = Pilot.valuesByShipTeam(shipTeamValues[0])[0];
                 var token = this.createToken(pilotKey);
                 LOGGER.debug("new shipKey = " + shipKey);
                 this.setState(
                 {
-                    ship: shipKey,
-                    pilot: pilotKey,
+                    shipKey: shipKey,
+                    pilotKey: pilotKey,
                     token: token
                 });
 
-                this.props.onChangeFunction(event, pilotKey);
+                this.props.onChange(event, pilotKey);
             },
 
             pilotChanged: function(event)
@@ -166,11 +175,11 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
                 LOGGER.debug("new pilot = " + pilot);
                 this.setState(
                 {
-                    pilot: pilot,
+                    pilotKey: pilot,
                     token: token
                 });
 
-                this.props.onChangeFunction(event, pilot);
+                this.props.onChange(event, pilot);
             },
 
             renderPilotCardUI: function()
@@ -181,7 +190,8 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
                 {
                     var element = React.createElement(PilotCardUI,
                     {
-                        initialToken: token
+                        imageBase: this.props.imageBase,
+                        initialToken: token,
                     });
                     this.pilotCardUI = ReactDOM.render(element, document.getElementById("pilotCardPanel"));
                 }
@@ -196,7 +206,7 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
 
             createPilotSelect: function()
             {
-                var values = Pilot.valuesByShipAndTeam(this.state.ship, this.props.team);
+                var values = Pilot.valuesByShipAndTeam(this.state.shipKey, this.props.team.value);
                 var labelFunction = function(value)
                 {
                     var properties = Pilot.properties[value];
@@ -207,14 +217,14 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
                 {
                     values: values,
                     labelFunction: labelFunction,
-                    initialSelectedValue: this.state.pilot,
+                    initialSelectedValue: this.state.pilotKey,
                     onChange: this.pilotChanged,
                 });
             },
 
             createShipSelect: function()
             {
-                var values = ShipTeam.shipValuesByTeam(this.props.team);
+                var values = ShipTeam.shipValuesByTeam(this.props.team.value);
                 var labelFunction = function(value)
                 {
                     return Ship.properties[value].name;
@@ -224,29 +234,20 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "Team", "process/Tok
                 {
                     values: values,
                     labelFunction: labelFunction,
-                    initialSelectedValue: this.state.ship,
+                    initialSelectedValue: this.state.shipKey,
                     onChange: this.shipChanged,
                 });
             },
 
             createToken: function(pilotKey)
             {
-                var teamKey = this.props.team;
-                var agentName = Team.properties[teamKey].name + " Agent";
-                var agent = new SimpleAgent(agentName, teamKey);
+                var team = this.props.team;
+                var agentName = team.name + " Agent";
+                var agent = new SimpleAgent(agentName, team.value);
 
                 return TokenFactory.create(this.context.store, pilotKey, agent);
             },
         });
-
-        PilotChooser.contextTypes = {
-            store: React.PropTypes.object.isRequired,
-        };
-
-        PilotChooser.propTypes = {
-            onChangeFunction: React.PropTypes.function,
-            team: React.PropTypes.string.isRequired,
-        };
 
         return PilotChooser;
     });

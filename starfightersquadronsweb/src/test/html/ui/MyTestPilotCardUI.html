@@ -5,18 +5,17 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-	<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
 	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-
 </head>
 <body>
 	<table>
@@ -70,59 +69,56 @@
 		"use strict";
 		var LOGGER = new Logger();
 		LOGGER.setTraceEnabled(false);
-		// LOGGER.setDebugEnabled(false);
+		LOGGER.setDebugEnabled(false);
 
-		var resourceBase = "../../../main/resources/";
-		var audioBase = resourceBase + "audio/";
-		var iconBase = resourceBase + "icons/";
-		var imageBase = resourceBase + "images/";
-
-		require(["DamageCard", "process/DualToken", "process/EnvironmentFactory", "Pilot", "Position", "process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "Team", "process/Token", "process/Action", "process/ui/Connector",
-				"process/ui/PilotCardUI"
+		require(["DamageCard", "Pilot", "Position", "Team", "process/Action", "process/DualToken", "process/EnvironmentFactory", "process/SimpleAgent",
+				"process/SquadBuilder", "process/TargetLock", "process/Token", "process/ui/Connector", "process/ui/PilotCardUI"
 			],
-			function(DamageCard, DualToken, EnvironmentFactory, Pilot, Position, SimpleAgent, SquadBuilder, TargetLock, Team, Token, Action, Connector, PilotCardUI)
+			function(DamageCard, Pilot, Position, Team, Action, DualToken, EnvironmentFactory, SimpleAgent, SquadBuilder, TargetLock, Token, Connector, PilotCardUI)
 			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
 				var environment = EnvironmentFactory.createCoreSetEnvironment();
 				var store = environment.store();
 				var imperialToken = environment.tokens()[0]; // TIE Fighter.
-				store.dispatch(Action.addCloakCount(imperialToken.id()));
-				store.dispatch(Action.addEvadeCount(imperialToken.id(), 2));
-				store.dispatch(Action.addFocusCount(imperialToken.id(), 3));
+				store.dispatch(Action.addCloakCount(imperialToken));
+				store.dispatch(Action.addEvadeCount(imperialToken, 2));
+				store.dispatch(Action.addFocusCount(imperialToken, 3));
 
 				var rebelToken = environment.tokens()[2]; // X-Wing.
-				store.dispatch(Action.addIonCount(rebelToken.id()));
-				store.dispatch(Action.addStressCount(rebelToken.id()));
+				store.dispatch(Action.addIonCount(rebelToken));
+				store.dispatch(Action.addStressCount(rebelToken));
 				rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
 				var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
 				var foToken = new Token(store, Pilot.EPSILON_LEADER, foAgent);
-				store.dispatch(Action.addWeaponsDisabledCount(foToken.id()));
+				store.dispatch(Action.addWeaponsDisabledCount(foToken));
 				environment.placeToken(new Position(200, 200, 0), foToken);
 
 				var resistanceAgent = new SimpleAgent("Resistance Agent", Team.RESISTANCE);
 				var resistanceToken = new Token(store, Pilot.POE_DAMERON, resistanceAgent);
-				store.dispatch(Action.addWeaponsDisabledCount(resistanceToken.id()));
+				store.dispatch(Action.addWeaponsDisabledCount(resistanceToken));
 				environment.placeToken(new Position(200, 200, 0), resistanceToken);
 
 				var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM);
 				var scumToken = new Token(store, Pilot.IG_88A, scumAgent);
-				store.dispatch(Action.addWeaponsDisabledCount(scumToken.id()));
+				store.dispatch(Action.addWeaponsDisabledCount(scumToken));
 				environment.placeToken(new Position(200, 200, 0), scumToken);
 
 				var cr90Token = new DualToken(store, Pilot.CR90_CORVETTE, environment.secondAgent());
-				store.dispatch(Action.addEnergyCount(cr90Token.id()));
+				store.dispatch(Action.addEnergyCount(cr90Token));
 				environment.placeToken(new Position(100, 100, 0), cr90Token);
 
 				var gr75Token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, environment.secondAgent());
-				store.dispatch(Action.addEnergyCount(gr75Token.id(), 2));
+				store.dispatch(Action.addEnergyCount(gr75Token, 2));
 				environment.placeToken(new Position(200, 100, 0), gr75Token);
 
 				var gozantiToken = new Token(store, Pilot.GOZANTI_CLASS_CRUISER, environment.firstAgent());
-				store.dispatch(Action.addEnergyCount(gozantiToken.id()));
+				store.dispatch(Action.addEnergyCount(gozantiToken));
 				environment.placeToken(new Position(150, 100, 0), gozantiToken);
 
 				var raiderToken = new DualToken(store, Pilot.RAIDER_CLASS_CORVETTE, environment.firstAgent());
-				store.dispatch(Action.addEnergyCount(raiderToken.id(), 2));
+				store.dispatch(Action.addEnergyCount(raiderToken, 2));
 				environment.placeToken(new Position(250, 100, 0), raiderToken);
 
 				var targetLock0 = new TargetLock(store, imperialToken, rebelToken);
@@ -139,6 +135,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: foToken
 				});
@@ -150,6 +147,7 @@
 					store: store,
 				}, React.createElement(connector,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					token: imperialToken,
 				}));
@@ -157,6 +155,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: rebelToken
 				});
@@ -164,6 +163,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: resistanceToken
 				});
@@ -171,6 +171,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: scumToken
 				});
@@ -178,6 +179,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: cr90Token,
 				});
@@ -185,6 +187,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: gr75Token,
 				});
@@ -192,6 +195,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: gozantiToken,
 				});
@@ -199,6 +203,7 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					isCompact: true,
 					initialToken: raiderToken,
 				});
@@ -206,58 +211,66 @@
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: foToken
 				});
 				ReactDOM.render(element, document.getElementById("foPilotLarge"));
 
-				// var connector = ReactRedux.connect(Connector.PilotCardUI.mapStateToProps)(PilotCardUI);
 				var element = React.createElement(ReactRedux.Provider,
 				{
 					store: store,
 				}, React.createElement(connector,
 				{
+					imageBase: imageBase,
 					token: imperialToken,
 				}));
 				var imperialTokenUI2 = ReactDOM.render(element, document.getElementById("imperialPilotLarge"));
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: rebelToken
 				});
 				ReactDOM.render(element, document.getElementById("rebelPilotLarge"));
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: resistanceToken
 				});
 				ReactDOM.render(element, document.getElementById("resistancePilotLarge"));
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: scumToken
 				});
 				ReactDOM.render(element, document.getElementById("scumPilotLarge"));
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: cr90Token,
 				});
 				ReactDOM.render(element, document.getElementById("cr90PilotLarge"));
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: gr75Token,
 				});
 				ReactDOM.render(element, document.getElementById("gr75PilotLarge"));
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: gozantiToken,
 				});
 				ReactDOM.render(element, document.getElementById("gozantiPilotLarge"));
 
 				var element = React.createElement(PilotCardUI,
 				{
+					imageBase: imageBase,
 					initialToken: raiderToken,
 				});
 				ReactDOM.render(element, document.getElementById("raiderPilotLarge"));
@@ -267,11 +280,9 @@
 					LOGGER.info("updateImperialToken() start");
 					imperialToken.addDamage(DamageCard.DIRECT_HIT);
 					imperialToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
-					store.dispatch(Action.addCloakCount(imperialToken.id()));
-					store.dispatch(Action.addEvadeCount(imperialToken.id()));
-					store.dispatch(Action.addFocusCount(imperialToken.id()));
-					// imperialTokenUI.forceUpdate();
-					// imperialTokenUI2.forceUpdate();
+					store.dispatch(Action.addCloakCount(imperialToken));
+					store.dispatch(Action.addEvadeCount(imperialToken));
+					store.dispatch(Action.addFocusCount(imperialToken));
 					LOGGER.info("updateImperialToken() end");
 				}
 
@@ -280,9 +291,9 @@
 					LOGGER.info("updateRebelToken() start");
 					rebelToken.addDamage(DamageCard.DIRECT_HIT);
 					rebelToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
-					store.dispatch(Action.addIonCount(rebelToken.id()));
-					store.dispatch(Action.addShieldCount(rebelToken.id()));
-					store.dispatch(Action.addStressCount(rebelToken.id()));
+					store.dispatch(Action.addIonCount(rebelToken));
+					store.dispatch(Action.addShieldCount(rebelToken));
+					store.dispatch(Action.addStressCount(rebelToken));
 					LOGGER.info("updateRebelToken() end");
 				}
 
@@ -291,9 +302,9 @@
 					LOGGER.info("updateScumToken() start");
 					scumToken.addDamage(DamageCard.DIRECT_HIT);
 					scumToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
-					store.dispatch(Action.addIonCount(scumToken.id()));
-					store.dispatch(Action.addShieldCount(scumToken.id()));
-					store.dispatch(Action.addStressCount(scumToken.id()));
+					store.dispatch(Action.addIonCount(scumToken));
+					store.dispatch(Action.addShieldCount(scumToken));
+					store.dispatch(Action.addStressCount(scumToken));
 					LOGGER.info("updateScumToken() end");
 				}
 

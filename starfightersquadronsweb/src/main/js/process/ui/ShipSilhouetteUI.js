@@ -1,32 +1,33 @@
-/*
- * @param shipKey (required)
- * 
- * @param key (optional; default: 0)
- * @param showName (optional; default: false)
- */
-define([ "Ship" ], function(Ship)
+define(function()
 {
     "use strict";
     var ShipSilhouetteUI = React.createClass(
     {
+        propTypes:
+        {
+            ship: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+
+            // default: ship value
+            myKey: React.PropTypes.string,
+            // default: false
+            showName: React.PropTypes.bool,
+        },
+
         render: function()
         {
-            InputValidator.validateNotNull("shipKey", this.props.shipKey);
-
-            var shipKey = this.props.shipKey;
-            var shipName0 = Ship.properties[shipKey].name;
-            var shipName = shipName0.replace("/", "_");
-            shipName = shipName.replace(" ", "_");
-            shipName = shipName.replace(" ", "_");
-            var fileString = imageBase + "silhouette/" + shipName + ".png";
-            var myKey = (this.props.key !== undefined ? this.props.key : 0);
+            var ship = this.props.ship;
+            var shipName = ship.name.replace(/\//g, "_"); // forward slash
+            shipName = shipName.replace(/ /g, "_");
+            var fileString = this.props.imageBase + "silhouette/" + shipName + ".png";
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : ship.value);
 
             var image = React.DOM.img(
             {
                 key: myKey,
                 className: "shipSilhouetteUIImage",
                 src: fileString,
-                title: shipName0,
+                title: ship.name,
             });
             var showName = (this.props.showName !== undefined ? this.props.showName : false);
 
@@ -37,7 +38,7 @@ define([ "Ship" ], function(Ship)
                 answer = React.DOM.span(
                 {
                     className: "shipSilhouetteUIImage",
-                }, image, " ", shipName0);
+                }, image, " ", ship.name);
             }
 
             return answer;

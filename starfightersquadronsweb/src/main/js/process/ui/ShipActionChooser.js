@@ -1,8 +1,16 @@
-define(["process/ui/ShipActionUI"], function(ShipActionUI)
+define(["ShipAction", "process/ui/ShipActionUI"], function(ShipAction, ShipActionUI)
 {
     "use strict";
     var ShipActionChooser = React.createClass(
     {
+        propTypes:
+        {
+            callback: React.PropTypes.func.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+            shipActions: React.PropTypes.array.isRequired,
+            token: React.PropTypes.object.isRequired,
+        },
+
         getInitialState: function()
         {
             var shipActions = this.props.shipActions;
@@ -18,6 +26,7 @@ define(["process/ui/ShipActionUI"], function(ShipActionUI)
             var token = this.props.token;
             var message = "Active Ship: " + token.name();
             var shipActions = this.props.shipActions;
+            var imageBase = this.props.imageBase;
             var idFunction = function(value)
             {
                 return value.toString();
@@ -27,7 +36,8 @@ define(["process/ui/ShipActionUI"], function(ShipActionUI)
                 var answer = React.DOM.span(
                 {}, React.createElement(ShipActionUI,
                 {
-                    shipActionKey: value.shipActionKey(),
+                    shipAction: ShipAction.properties[value.shipActionKey()],
+                    imageBase: imageBase,
                 }), " ", value.toString());
                 return answer;
             };
@@ -81,16 +91,15 @@ define(["process/ui/ShipActionUI"], function(ShipActionUI)
                 if (shipAction.toString() === selected)
                 {
                     selected = shipAction;
-                    LOGGER.trace("shipAction = " + JSON.stringify(shipAction));
                     break;
                 }
             }
 
-            LOGGER.debug("selectionChanged() selected = " + JSON.stringify(selected));
+            LOGGER.debug("selectionChanged() selected = " + selected + " typeof selected = " + (typeof selected));
 
             this.setState(
             {
-                selected: selected
+                selected: selected,
             });
         },
 

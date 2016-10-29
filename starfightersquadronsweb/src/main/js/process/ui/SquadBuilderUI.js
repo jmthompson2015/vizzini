@@ -1,9 +1,23 @@
-define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactory", "UpgradeCard", "process/Action", "process/ui/PilotChooser", "process/ui/SquadUI", "process/ui/UpgradeChooser"],
-    function(Pilot, ShipTeam, SimpleAgent, Team, TokenFactory, UpgradeCard, Action, PilotChooser, SquadUI, UpgradeChooser)
+define(["Pilot", "ShipTeam", "UpgradeCard", "UpgradeType", "process/Action", "process/SimpleAgent", "process/TokenFactory", "process/ui/PilotChooser", "process/ui/SquadUI", "process/ui/UpgradeChooser"],
+    function(Pilot, ShipTeam, UpgradeCard, UpgradeType, Action, SimpleAgent, TokenFactory, PilotChooser, SquadUI, UpgradeChooser)
     {
         "use strict";
         var SquadBuilderUI = React.createClass(
         {
+            contextTypes:
+            {
+                store: React.PropTypes.object.isRequired
+            },
+
+            propTypes:
+            {
+                iconBase: React.PropTypes.string.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+                team: React.PropTypes.object.isRequired,
+
+                onChange: React.PropTypes.func,
+            },
+
             getInitialState: function()
             {
                 LOGGER.trace("SquadBuilderUI.getInitialState()");
@@ -11,13 +25,13 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
                 var team = this.props.team;
 
                 // Default to first ship, first pilot.
-                var shipTeam = ShipTeam.valuesByTeam(team)[0];
-                var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-                var token = this.createToken(team, pilot);
+                var shipTeamKey = ShipTeam.valuesByTeam(team.value)[0];
+                var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
+                var token = this.createToken(team, pilotKey);
 
                 return (
                 {
-                    pilot: pilot,
+                    pilotKey: pilotKey,
                     token: token,
                     upgrades: [],
                     squad: []
@@ -28,21 +42,21 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
             {
                 LOGGER.trace("SquadBuilderUI.componentWillReceiveProps()");
 
-                var oldTeam = this.props.team;
-                var newTeam = nextProps.team;
+                var oldTeamKey = this.props.team.value;
+                var newTeamKey = nextProps.team.value;
 
                 if (oldTeam != newTeam)
                 {
                     // Team changed.
-                    LOGGER.debug("oldTeam = " + oldTeam);
-                    LOGGER.debug("newTeam = " + newTeam);
-                    var shipTeam = ShipTeam.valuesByTeam(newTeam)[0];
-                    var pilot = Pilot.valuesByShipTeam(shipTeam)[0];
-                    var token = this.createToken(newTeam, pilot);
-                    LOGGER.debug("new state = " + pilot + ", " + token);
+                    LOGGER.debug("oldTeamKey = " + oldTeamKey);
+                    LOGGER.debug("newTeamKey = " + newTeamKey);
+                    var shipTeamKey = ShipTeam.valuesByTeam(newTeamKey)[0];
+                    var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
+                    var token = this.createToken(newTeamKey, pilotKey);
+                    LOGGER.debug("new state = " + pilotKey + ", " + token);
                     this.setState(
                     {
-                        pilot: pilot,
+                        pilotKey: pilotKey,
                         token: token,
                         upgrades: [],
                         squad: []
@@ -50,15 +64,15 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
                 }
             },
 
-            pilotChanged: function(event, pilot)
+            pilotChanged: function(event, pilotKey)
             {
-                LOGGER.debug("new pilot = " + pilot);
+                LOGGER.debug("new pilotKey = " + pilotKey);
                 var team = this.props.team;
-                var token = this.createToken(team, pilot);
+                var token = this.createToken(team, pilotKey);
 
                 this.setState(
                 {
-                    pilot: pilot,
+                    pilotKey: pilotKey,
                     token: token,
                     upgrades: [],
                 });
@@ -73,8 +87,9 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
 
                 var pilotChooser = React.createElement(PilotChooser,
                 {
+                    imageBase: this.props.imageBase,
                     team: team,
-                    onChangeFunction: this.pilotChanged,
+                    onChange: this.pilotChanged,
                 });
                 var cell0 = React.DOM.td(
                 {
@@ -135,6 +150,8 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
 
                 var squadPanel = React.createElement(SquadUI,
                 {
+                    iconBase: this.props.iconBase,
+                    imageBase: this.props.imageBase,
                     squad: this.state.squad,
                     removeFunction: this.removeActionPerformed,
                     isEditable: true,
@@ -159,7 +176,7 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
             addActionPerformed: function(event)
             {
                 LOGGER.trace("add clicked");
-                var token = this.createToken(this.props.team, this.state.pilot);
+                var token = this.createToken(this.props.team, this.state.pilotKey);
 
                 // Add upgrade cards.
                 var myUpgrades = this.state.upgrades;
@@ -186,42 +203,43 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
                 }
             },
 
-            createToken: function(teamKey, pilotKey)
+            createToken: function(team, pilotKey)
             {
-                InputValidator.validateNotNull("teamKey", teamKey);
+                InputValidator.validateNotNull("team", team);
                 InputValidator.validateNotNull("pilotKey", pilotKey);
 
-                var agentName = Team.properties[teamKey].name + " Agent";
-                var agent = new SimpleAgent(agentName, teamKey);
+                var agentName = team.name + " Agent";
+                var agent = new SimpleAgent(agentName, team.value);
 
                 return TokenFactory.create(this.context.store, pilotKey, agent);
             },
 
             createUpgradesUI: function(token)
             {
-                var pilot = this.state.pilot;
-                var upgradeTypes = token.upgradeTypeKeys();
+                var pilotKey = this.state.pilotKey;
+                var upgradeTypeKeys = token.upgradeTypeKeys();
 
                 var rows = [];
 
                 var self = this;
-                upgradeTypes.forEach(function(upgradeType, i)
+                upgradeTypeKeys.forEach(function(upgradeTypeKey, i)
                 {
                     var element = React.createElement(UpgradeChooser,
                     {
-                        pilot: pilot,
-                        upgradeType: upgradeType,
+                        imageBase: this.props.imageBase,
+                        pilot: Pilot.properties[pilotKey],
+                        upgradeType: UpgradeType.properties[upgradeTypeKey],
                         index: i,
-                        onChangeFunction: self.upgradeChanged
+                        onChange: self.upgradeChanged
                     });
                     rows.push(React.DOM.tr(
                     {
-                        key: pilot + upgradeType + rows.length
+                        key: pilotKey + upgradeTypeKey + rows.length
                     }, React.DOM.td(
                     {
                         className: "squadBuilderUpgradeCell"
                     }, element)));
-                });
+                }, this);
 
                 return React.DOM.table(
                 {
@@ -261,7 +279,7 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
                 upgrades[index] = (upgradeCard == "*none*") ? undefined : upgradeCard;
                 LOGGER.debug("upgrades.length = " + upgrades.length);
 
-                var token = this.createToken(this.props.team, this.state.pilot);
+                var token = this.createToken(this.props.team, this.state.pilotKey);
 
                 // Add upgrade cards.
                 var tokenUpgrades = token.upgradeKeys();
@@ -296,14 +314,6 @@ define(["Pilot", "ShipTeam", "process/SimpleAgent", "Team", "process/TokenFactor
                 });
             },
         });
-
-        SquadBuilderUI.contextTypes = {
-            store: React.PropTypes.object.isRequired
-        };
-
-        SquadBuilderUI.propTypes = {
-            team: React.PropTypes.string.isRequired
-        };
 
         return SquadBuilderUI;
     });

@@ -1,5 +1,5 @@
-define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "upgradestats/UpgradeColumns", "upgradestats/ui/Connector", "upgradestats/ui/FilterUI", "process/ui/UpgradeTypeUI", "../../../../../../coreweb/src/main/js/ui/DataTable"],
-    function(FiringArc, RangeRuler, UpgradeHeader, UpgradeRestriction, UpgradeColumns, Connector, FilterUI, UpgradeTypeUI, DataTable)
+define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "upgradestats/UpgradeColumns", "upgradestats/ui/Connector", "upgradestats/ui/FilterUI", "process/ui/UpgradeTypeUI", "../../../../../../coreweb/src/main/js/ui/DataTable"],
+    function(FiringArc, RangeRuler, UpgradeHeader, UpgradeRestriction, UpgradeType, UpgradeColumns, Connector, FilterUI, UpgradeTypeUI, DataTable)
     {
         "use strict";
 
@@ -52,13 +52,14 @@ define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "upgra
             {
                 return React.createElement(UpgradeTypeUI,
                 {
-                    upgradeTypeKey: data.typeKey,
+                    upgradeType: UpgradeType.properties[data.typeKey],
+                    imageBase: imageBase,
                 });
             },
             "name": function(data)
             {
                 var src = "../resources/icons/Wikipedia16.png";
-                var searchString = data.name.vizziniReplaceAll(" ", "_");
+                var searchString = data.name.replace(/ /g, "_");
                 var href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
                 var link = createImageLink(src, href);
                 return React.DOM.span(

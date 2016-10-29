@@ -1,73 +1,77 @@
 <!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>MyTestWeaponAndDefenderChooser</title>
+	<meta charset="utf-8">
+	<title>MyTestWeaponAndDefenderChooser</title>
 
-<link rel="stylesheet" href="../../../main/css/style.css">
+	<link rel="stylesheet" href="../../../main/css/style.css">
 
-<script src="../../../../../coreweb/lib/react/react-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-<script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-<script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-<script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
-<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
-
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 </head>
 <body>
 	<div id="inputArea" style="background-color: lightBlue; display: inline-block;"></div>
 	<script>
-        var LOGGER = new Logger();
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
 
-        require([ "Environment", "Pilot", "Position", "RangeRuler", "SimpleAgent", "SquadBuilder", "Team", "Token",
-                "UpgradeCard", "process/Reducer", "ui/WeaponAndDefenderChooser" ], function(Environment, Pilot,
-                Position, RangeRuler, SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, Reducer,
-                WeaponAndDefenderChooser)
-        {
-            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-            var attacker = new Token(Pilot.DASH_RENDAR, rebelAgent, [ UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
-                    UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE ]);
-            var defender0 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-            var defender1 = new Token(Pilot.ACADEMY_PILOT, imperialAgent);
-            var defender2 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-            var defender3 = new Token(Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
-            var defender4 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-            var defender5 = new Token(Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
-            var store = Redux.createStore(Reducer.root);
-            var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+		require(["process/Environment", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token",
+			"UpgradeCard", "process/Reducer", "process/ui/WeaponAndDefenderChooser"
+		], function(Environment, Pilot,
+			Position, RangeRuler, SimpleAgent, SquadBuilder, Team, Token, UpgradeCard, Reducer,
+			WeaponAndDefenderChooser)
+		{
+			var store = Redux.createStore(Reducer.root);
+			var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+			var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+			var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.CALCULATION,
+				UpgradeCard.MANGLER_CANNON, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.ENGINE_UPGRADE
+			]);
+			var defender0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+			var defender1 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+			var defender2 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+			var defender3 = new Token(store, Pilot.OBSIDIAN_SQUADRON_PILOT, imperialAgent);
+			var defender4 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+			var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
+			var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
 
-            environment.placeToken(new Position(458, 895, -90), attacker);
-            environment.placeToken(new Position(450, 845, 90), defender0);
-            environment.placeToken(new Position(450, 795, 90), defender1);
-            environment.placeToken(new Position(450, 745, 90), defender2);
-            environment.placeToken(new Position(450, 695, 90), defender3);
-            environment.placeToken(new Position(450, 645, 90), defender4);
-            environment.placeToken(new Position(450, 595, 90), defender5);
-            var choices = environment.createWeaponToRangeToDefenders(attacker);
-            var callback = function(weapon, defender)
-            {
-                LOGGER.info("callback() start");
-                LOGGER.info("weapon = " + weapon + " defender = " + defender);
-                LOGGER.info("callback() end");
-            }
+			environment.placeToken(new Position(458, 895, -90), attacker);
+			environment.placeToken(new Position(450, 845, 90), defender0);
+			environment.placeToken(new Position(450, 795, 90), defender1);
+			environment.placeToken(new Position(450, 745, 90), defender2);
+			environment.placeToken(new Position(450, 695, 90), defender3);
+			environment.placeToken(new Position(450, 645, 90), defender4);
+			environment.placeToken(new Position(450, 595, 90), defender5);
+			var choices = environment.createWeaponToRangeToDefenders(attacker);
+			var callback = function(weapon, defender)
+			{
+				LOGGER.info("callback() start");
+				LOGGER.info("weapon = " + weapon + " defender = " + defender);
+				LOGGER.info("callback() end");
+			}
 
-            var element = React.createElement(WeaponAndDefenderChooser,
-            {
-                attacker: attacker,
-                choices: choices,
-                callback: callback
-            });
-            ReactDOM.render(element, document.getElementById("inputArea"));
-        });
-    </script>
+			var element = React.createElement(WeaponAndDefenderChooser,
+			{
+				attacker: attacker,
+				choices: choices,
+				callback: callback
+			});
+			ReactDOM.render(element, document.getElementById("inputArea"));
+		});
+	</script>
 </body>
+
 </html>
