@@ -1,4 +1,4 @@
-define(["Pilot"], function(Pilot)
+define(function()
 {
     "use strict";
     var PilotData = {};
