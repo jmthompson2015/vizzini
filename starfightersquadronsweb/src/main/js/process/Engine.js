@@ -93,7 +93,7 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                         if (ysanneIsard.shieldCount() === 0 &&
                             (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
                         {
-                            store.dispatch(Action.addEvadeCount(ysanneIsard.id()));
+                            store.dispatch(Action.addEvadeCount(ysanneIsard));
                         }
                     }
 
