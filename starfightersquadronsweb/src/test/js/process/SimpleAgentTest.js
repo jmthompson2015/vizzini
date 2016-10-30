@@ -134,7 +134,7 @@ define(["process/Adjudicator", "AttackDice", "DefenseDice", "process/Environment
 
             var result;
 
-            function callback(maneuverAction)
+            function callback(token, maneuverAction)
             {
                 LOGGER.debug("callback()");
                 result = maneuverAction;

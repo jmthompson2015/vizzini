@@ -108,9 +108,13 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
 
                 var element = React.createElement(ShipActionChooser,
                 {
+                    imageBase: imageBase,
                     token: attacker,
                     shipActions: decloakActions,
-                    callback: finishDecloakAction
+                    callback: function(decloakAction)
+                    {
+                        finishDecloakAction(attacker, decloakAction);
+                    }
                 });
                 ReactDOM.render(element, document.getElementById("inputArea"));
                 window.dispatchEvent(new Event('resize'));
@@ -283,11 +287,13 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
                 dealDamageCallback();
             }
 
-            function finishDecloakAction(decloakAction)
+            function finishDecloakAction(token, decloakAction)
             {
                 LOGGER.trace("HumanAgent.finishDecloakAction() start");
+                LOGGER.info("decloakAction = " + decloakAction);
+                LOGGER.info("decloakAction.maneuverKey() = " + decloakAction.maneuverKey());
 
-                var answer = new ManeuverAction(environment, attacker, decloakAction.maneuver);
+                var answer = new ManeuverAction(environment, attacker, decloakAction.maneuverKey());
 
                 // Handle the user response.
                 var element = document.getElementById("inputArea");
@@ -295,7 +301,7 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
                 window.dispatchEvent(new Event('resize'));
                 LOGGER.trace("HumanAgent.finishDecloakAction() end");
 
-                decloakActionCallback(answer);
+                decloakActionCallback(token, answer);
             }
 
             function finishModifyAttackDice(modification)

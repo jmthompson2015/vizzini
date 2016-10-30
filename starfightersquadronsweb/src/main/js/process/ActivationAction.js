@@ -1,5 +1,5 @@
-define(["Difficulty", "Maneuver", "process/ManeuverAction", "Phase", "process/Action"],
-    function(Difficulty, Maneuver, ManeuverAction, Phase, Action)
+define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAction"],
+    function(Difficulty, Maneuver, Phase, Action, ManeuverAction)
     {
         "use strict";
 
@@ -8,6 +8,7 @@ define(["Difficulty", "Maneuver", "process/ManeuverAction", "Phase", "process/Ac
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("token", token);
+            // maneuverKey optional.
             InputValidator.validateNotNull("callback", callback);
 
             this.environment = function()
@@ -36,13 +37,77 @@ define(["Difficulty", "Maneuver", "process/ManeuverAction", "Phase", "process/Ac
             };
         }
 
-        ActivationAction.prototype.allocateEnergy = function()
+        ActivationAction.prototype.doIt = function()
         {
-            // TODO: implement allocateEnergy()
+            LOGGER.trace("ActivationAction.doIt() start");
+
+            this.revealDial();
+
+            LOGGER.trace("ActivationAction.doIt() end");
         };
 
-        ActivationAction.prototype.checkPilotStress = function(maneuverKey)
+        ActivationAction.prototype.revealDial = function()
         {
+            LOGGER.trace("ActivationAction.revealDial() start");
+
+            this.environment().phase(Phase.ACTIVATION_REVEAL_DIAL);
+
+            this.setTemplate();
+
+            LOGGER.trace("ActivationAction.revealDial() end");
+        };
+
+        ActivationAction.prototype.setTemplate = function()
+        {
+            LOGGER.trace("ActivationAction.setTemplate() start");
+
+            this.environment().phase(Phase.ACTIVATION_SET_TEMPLATE);
+
+            this.executeManeuver();
+
+            LOGGER.trace("ActivationAction.setTemplate() end");
+        };
+
+        ActivationAction.prototype.executeManeuver = function()
+        {
+            LOGGER.trace("ActivationAction.executeManeuver() start");
+
+            this.environment().phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
+
+            var environment = this.environment();
+            var token = this.token();
+            var maneuverKey = this.maneuverKey();
+            var parentToken = token;
+
+            if (token.parent && token.pilot().value.endsWith("fore"))
+            {
+                parentToken = token.parent;
+            }
+
+            if (maneuverKey)
+            {
+                var fromPosition = environment.getPositionFor(parentToken);
+
+                if (fromPosition)
+                {
+                    var maneuverAction = new ManeuverAction(environment, parentToken, maneuverKey);
+                    maneuverAction.doIt();
+                }
+            }
+
+            this.checkPilotStress();
+
+            LOGGER.trace("ActivationAction.executeManeuver() end");
+        };
+
+        ActivationAction.prototype.checkPilotStress = function()
+        {
+            LOGGER.trace("ActivationAction.checkPilotStress() start");
+
+            this.environment().phase(Phase.ACTIVATION_CHECK_PILOT_STRESS);
+
+            var maneuverKey = this.maneuverKey();
+
             if (maneuverKey)
             {
                 var maneuver = Maneuver.properties[maneuverKey];
@@ -62,164 +127,128 @@ define(["Difficulty", "Maneuver", "process/ManeuverAction", "Phase", "process/Ac
                     }
                 }
             }
+
+            setTimeout(this.cleanUp.bind(this), 1000);
+
+            LOGGER.trace("ActivationAction.checkPilotStress() end");
         };
 
-        ActivationAction.prototype.doIt = function()
+        ActivationAction.prototype.cleanUp = function()
         {
-            LOGGER.trace("ActivationAction.doIt() start");
+            LOGGER.trace("ActivationAction.checkPilotStress() start");
 
-            var environment = this.environment();
-            var adjudicator = this.adjudicator();
-            var token = this.token();
+            this.environment().phase(Phase.ACTIVATION_CLEAN_UP);
 
-            if (token.isCloaked && token.isCloaked())
-            {
-                var agent = token.agent();
-                agent.getDecloakAction(environment, adjudicator, token, this.setDecloakAction.bind(this));
+            this.gainEnergy();
 
-                // Wait for agent to respond.
-            }
-            else
-            {
-                // Proceed.
-                this.executeManeuver();
-            }
-
-            LOGGER.trace("ActivationAction.doIt() end");
+            LOGGER.trace("ActivationAction.checkPilotStress() end");
         };
 
-        ActivationAction.prototype.executeManeuver = function()
+        ActivationAction.prototype.gainEnergy = function()
         {
-            LOGGER.trace("ActivationAction.executeManeuver() start");
+            LOGGER.trace("ActivationAction.gainEnergy() start");
 
-            var environment = this.environment();
-            var adjudicator = this.adjudicator();
+            this.environment().phase(Phase.ACTIVATION_GAIN_ENERGY);
+
             var token = this.token();
-            var maneuverKey = this.maneuverKey();
-            var callback = this.callback();
-
-            var agent = token.agent();
-            var factionKey = token.pilot().shipTeam.teamKey;
-            var parentToken = token;
-
-            if (token.parent && token.pilot().value.endsWith("fore"))
-            {
-                parentToken = token.parent;
-            }
-
-            if (maneuverKey)
-            {
-                var fromPosition = environment.getPositionFor(parentToken);
-
-                if (fromPosition)
-                {
-                    var maneuverAction = new ManeuverAction(environment, parentToken, maneuverKey);
-                    maneuverAction.doIt();
-                }
-
-                environment.phase(Phase.ACTIVATION_CHECK_PILOT_STRESS);
-                this.checkPilotStress(maneuverKey);
-            }
-
-            setTimeout(this.finishExecuteManeuver.bind(this), 500);
-        };
-
-        ActivationAction.prototype.finishExecuteManeuver = function()
-        {
-            var environment = this.environment();
-            var adjudicator = this.adjudicator();
-            var token = this.token();
-            var maneuverKey = this.maneuverKey();
-            var callback = this.callback();
-            var agent = token.agent();
-
-            environment.phase(Phase.ACTIVATION_CLEAN_UP);
 
             if (token.isHuge() || (token.parent && token.parent.isHuge()))
             {
-                environment.phase(Phase.ACTIVATION_GAIN_ENERGY);
-                this.gainEnergy(maneuverKey);
+                var maneuverKey = this.maneuverKey();
 
-                environment.phase(Phase.ACTIVATION_ALLOCATE_ENERGY);
-                this.allocateEnergy();
+                if (maneuverKey !== undefined)
+                {
+                    var maneuver = Maneuver.properties[maneuverKey];
 
-                environment.phase(Phase.ACTIVATION_USE_ENERGY);
-                this.useEnergy();
+                    if (maneuver && maneuver.energy !== undefined)
+                    {
+                        // Gain energy up to the energy limit.
+                        var energyLimit = token.energyValue();
+                        var diff = energyLimit - token.energyCount();
+
+                        if (diff > 0)
+                        {
+                            var value = Math.min(diff, maneuver.energy);
+                            var store = token.store();
+                            store.dispatch(Action.addEnergyCount(token, value));
+                        }
+                    }
+                }
             }
+
+            this.allocateEnergy();
+
+            LOGGER.trace("ActivationAction.gainEnergy() end");
+        };
+
+        ActivationAction.prototype.allocateEnergy = function()
+        {
+            LOGGER.trace("ActivationAction.allocateEnergy() start");
+
+            this.environment().phase(Phase.ACTIVATION_ALLOCATE_ENERGY);
+
+            var token = this.token();
+
+            if (token.isHuge() || (token.parent && token.parent.isHuge()))
+            {
+                // FIXME: implement allocateEnergy()
+            }
+
+            this.useEnergy();
+
+            LOGGER.trace("ActivationAction.allocateEnergy() end");
+        };
+
+        ActivationAction.prototype.useEnergy = function()
+        {
+            LOGGER.trace("ActivationAction.useEnergy() start");
+
+            this.environment().phase(Phase.ACTIVATION_USE_ENERGY);
+
+            var token = this.token();
+
+            if (token.isHuge() || (token.parent && token.parent.isHuge()))
+            {
+                // FIXME: implement useEnergy()
+            }
+
+            this.performAction();
+
+            LOGGER.trace("ActivationAction.useEnergy() end");
+        };
+
+        ActivationAction.prototype.performAction = function()
+        {
+            LOGGER.trace("ActivationAction.performAction() start");
+
+            this.environment().phase(Phase.ACTIVATION_PERFORM_ACTION);
+
+            var environment = this.environment();
+            var adjudicator = this.adjudicator();
+            var token = this.token();
+            var agent = token.agent();
 
             LOGGER.debug("adjudicator.canSelectShipAction(token) ? " + adjudicator.canSelectShipAction(token));
 
             if (adjudicator.canSelectShipAction(token))
             {
-                agent.getShipAction(environment, adjudicator, token, this.setShipActionAction.bind(this));
+                agent.getShipAction(environment, adjudicator, token, this.finishPerformAction.bind(this));
 
                 // Wait for agent to respond.
             }
             else
             {
-                // Proceed.
-                setTimeout(callback, 1000);
+                setTimeout(this.finishPerformAction.bind(this), 1000);
             }
 
-            LOGGER.trace("ActivationAction.executeManeuver() end");
+            LOGGER.trace("ActivationAction.performAction() end");
         };
 
-        ActivationAction.prototype.gainEnergy = function(maneuverKey)
+        ActivationAction.prototype.finishPerformAction = function(shipActionAction)
         {
-            if (maneuverKey)
-            {
-                var maneuver = Maneuver.properties[maneuverKey];
-
-                if (maneuver && maneuver.energy)
-                {
-                    var token = this.token();
-
-                    // Gain energy up to the energy limit.
-                    var energyLimit = token.energyValue();
-                    LOGGER.trace(token.pilotName() + " energyLimit = " + energyLimit);
-                    var store = token.store();
-
-                    for (var i = 0; i < maneuver.energy; i++)
-                    {
-                        if (token.energyCount() < energyLimit)
-                        {
-                            store.dispatch(Action.addEnergyCount(token.id()));
-                        }
-                    }
-                }
-            }
-        };
-
-        ActivationAction.prototype.setDecloakAction = function(decloakAction)
-        {
-            LOGGER.trace("ActivationAction.setDecloakAction() start");
-            LOGGER.debug("decloakAction = " + decloakAction);
-
-            var token = this.token();
-
-            if (decloakAction)
-            {
-                decloakAction.doIt();
-                var store = this.environment().store();
-                store.dispatch(Action.addCloakCount(this.token(), -1));
-                setTimeout(this.executeManeuver.bind(this), 1000);
-            }
-            else
-            {
-                // Proceed.
-                this.executeManeuver();
-            }
-
-            LOGGER.trace("ActivationAction.setDecloakAction() end");
-        };
-
-        ActivationAction.prototype.setShipActionAction = function(shipActionAction)
-        {
-            LOGGER.debug("shipActionAction = " + shipActionAction);
+            LOGGER.trace("ActivationAction.finishPerformAction() start");
 
             var environment = this.environment();
-            var callback = this.callback();
-
             var delay = 0;
 
             if (shipActionAction !== undefined)
@@ -229,12 +258,9 @@ define(["Difficulty", "Maneuver", "process/ManeuverAction", "Phase", "process/Ac
                 delay = 1000;
             }
 
-            setTimeout(callback, delay);
-        };
+            setTimeout(this.callback(), delay);
 
-        ActivationAction.prototype.useEnergy = function()
-        {
-            // TODO: implement useEnergy()
+            LOGGER.trace("ActivationAction.finishPerformAction() end");
         };
 
         return ActivationAction;

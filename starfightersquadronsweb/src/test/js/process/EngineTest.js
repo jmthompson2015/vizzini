@@ -1,5 +1,5 @@
-define(["process/Adjudicator", "process/Engine", "process/EnvironmentFactory", "Maneuver", "Position", "process/Action"],
-    function(Adjudicator, Engine, EnvironmentFactory, Maneuver, Position, Action)
+define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
+    function(Maneuver, Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, Reducer, SimpleAgent, SquadBuilder)
     {
         "use strict";
         QUnit.module("Engine");
@@ -65,6 +65,61 @@ define(["process/Adjudicator", "process/Engine", "process/EnvironmentFactory", "
                 assert.ok(true, "test resumed from async operation");
                 done();
             });
+        });
+
+        QUnit.test("performActivationPhase() decloak", function(assert)
+        {
+            // Setup.
+            var squadBuilder1 = SquadBuilder.findByNameAndYear("World #2", 2014);
+            var squadBuilder2 = SquadBuilder.findByNameAndYear("World #1", 2015);
+            var agent1 = new SimpleAgent("1", squadBuilder1.faction());
+            var agent2 = new SimpleAgent("2", squadBuilder2.faction());
+            var squad1 = squadBuilder1.buildSquad(agent1);
+            var squad2 = squadBuilder2.buildSquad(agent2);
+            var store = Redux.createStore(Reducer.root);
+            var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
+            environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+            var adjudicator = new Adjudicator();
+            var engine = new Engine(environment, adjudicator);
+            var firstAgent = environment.firstAgent();
+            var secondAgent = environment.secondAgent();
+            var token0 = environment.tokens()[0]; // TIE Phantom
+            store.dispatch(Action.addCloakCount(token0));
+            var firstTokenToManeuver = {};
+            firstTokenToManeuver[environment.tokens()[0].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            firstTokenToManeuver[environment.tokens()[1].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            firstTokenToManeuver[environment.tokens()[2].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            firstTokenToManeuver[environment.tokens()[3].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            firstTokenToManeuver[environment.tokens()[4].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            var secondTokenToManeuver = {};
+            secondTokenToManeuver[environment.tokens()[5].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            secondTokenToManeuver[environment.tokens()[6].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            secondTokenToManeuver[environment.tokens()[7].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            secondTokenToManeuver[environment.tokens()[8].toString()] = Maneuver.STRAIGHT_1_STANDARD;
+            engine.performCombatPhase = function()
+            {
+                LOGGER.info("performCombatPhase() dummy");
+            };
+            assert.ok(token0.isCloaked());
+            assert.equal(token0.cloakCount(), 1);
+
+            // Run.
+            var done = assert.async();
+            engine.setTokenToManeuver(firstAgent, firstTokenToManeuver);
+            engine.setTokenToManeuver(secondAgent, secondTokenToManeuver);
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+
+                var token = environment.tokens()[0]; // TIE Phantom
+                assert.equal(token.pilotKey(), Pilot.WHISPER);
+                assert.ok(!token.isCloaked());
+                assert.equal(token.cloakCount(), 0);
+
+                done();
+            }, 1000);
         });
 
         QUnit.skip("performCombatPhase()", function(assert)

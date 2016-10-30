@@ -298,7 +298,7 @@ define(["Maneuver", "ManeuverComputer", "process/ModifyAttackDiceAction", "proce
             var decloakActions = this.determineValidDecloakActions(environment, adjudicator, token);
             var answer = decloakActions.vizziniRandomElement();
 
-            callback(answer);
+            callback(token, answer);
         };
 
         SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice,

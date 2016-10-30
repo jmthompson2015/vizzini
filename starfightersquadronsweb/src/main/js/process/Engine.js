@@ -24,6 +24,7 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
             var combatQueue = [];
             var endQueue = [];
             var delay = 1000;
+            var decloakCount = 0;
 
             this.firstTokenToManeuver = function()
             {
@@ -44,8 +45,27 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                         token.activationState().clear();
                     }
 
-                    activationQueue = environment.getTokensForActivation(true);
-                    this.processActivationQueue();
+                    // FIXME: Perform start of activation phase actions.
+
+                    // Perform decloak action for all ships.
+                    decloakCount = 0;
+                    var tokens = environment.getTokensForActivation(true);
+
+                    tokens.forEach(function(token)
+                    {
+                        if (token.isCloaked && token.isCloaked())
+                        {
+                            LOGGER.info("checking decloak for " + token);
+                            var agent = token.agent();
+                            agent.getDecloakAction(environment, adjudicator, token, this.setDecloakAction.bind(this));
+
+                            // Wait for agent to respond.
+                        }
+                        else
+                        {
+                            this.setDecloakAction(token);
+                        }
+                    }, this);
                 }
             };
 
@@ -62,6 +82,8 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                         var token = store.getState().tokens[tokenId];
                         token.combatState().clear();
                     }
+
+                    // FIXME: Perform start of combat phase actions.
 
                     // Search for Epsilon Leader.
                     var tokens = environment.getTokensForCombat().filter(function(token)
@@ -297,6 +319,37 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
             this.secondTokenToManeuver = function()
             {
                 return secondTokenToManeuver;
+            };
+
+            this.setDecloakAction = function(token, decloakAction)
+            {
+                LOGGER.trace("Engine.setDecloakAction() start");
+
+                InputValidator.validateNotNull("token", token);
+
+                LOGGER.info("token = " + token + " decloakAction = " + decloakAction);
+
+                var delay = 0;
+
+                if (decloakAction !== undefined)
+                {
+                    decloakAction.doIt();
+                    var store = this.environment().store();
+                    store.dispatch(Action.addCloakCount(token, -1));
+                    LOGGER.info("token.isCloaked() ? " + token.isCloaked());
+                    LOGGER.info("token.cloakCount() = " + token.cloakCount());
+                    delay = 1000;
+                }
+
+                decloakCount++;
+
+                if (decloakCount === this.environment().tokens().length)
+                {
+                    activationQueue = environment.getTokensForActivation(true);
+                    setTimeout(this.processActivationQueue.bind(this), delay);
+                }
+
+                LOGGER.trace("Engine.setDecloakAction() end");
             };
 
             this.setTokenToManeuver = function(agent, tokenToManeuver)
