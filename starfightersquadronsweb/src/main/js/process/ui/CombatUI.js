@@ -68,7 +68,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                     className: "combatDicePanel",
                 }, attackPanel)));
 
-                if (attackDice.size() > 0 && phase.value === Phase.COMBAT_ROLL_ATTACK_DICE)
+                if (attackDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE)
                 {
                     // Modify Attack Dice panel.
                     var modifyAttackPanel = React.createElement(CombatUI.ModifyAttackUI,
@@ -110,7 +110,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                         className: "combatDicePanel",
                     }, defensePanel)));
 
-                    if (phase.value === Phase.COMBAT_ROLL_DEFENSE_DICE)
+                    if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
                     {
                         // Modify Defense Dice panel.
                         var modifyDefensePanel = React.createElement(CombatUI.ModifyDefenseUI,
@@ -128,7 +128,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                     }
                 }
 
-                if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
+                if (phase.value === Phase.COMBAT_DEAL_DAMAGE)
                 {
                     // Damage panel.
                     var damagePanel = React.createElement(CombatUI.DamageUI,
@@ -182,15 +182,15 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
             {
                 var answer = "Combat";
 
-                if (phase.value === Phase.COMBAT_ROLL_ATTACK_DICE)
+                if (phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE)
                 {
                     answer += ": Modify Attack Dice";
                 }
-                else if (phase.value === Phase.COMBAT_ROLL_DEFENSE_DICE)
+                else if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
                 {
                     answer += ": Modify Defense Dice";
                 }
-                else if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
+                else if (phase.value === Phase.COMBAT_DEAL_DAMAGE)
                 {
                     answer += ": Deal Damage";
                 }
@@ -213,11 +213,11 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 var value;
                 var phase = this.props.phase;
 
-                if (phase.value === Phase.COMBAT_ROLL_ATTACK_DICE)
+                if (phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE)
                 {
                     value = this.state.attackModification;
                 }
-                else if (phase.value === Phase.COMBAT_ROLL_DEFENSE_DICE)
+                else if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
                 {
                     value = this.state.defenseModification;
                 }
@@ -387,7 +387,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 LOGGER.trace("ModifyAttackUI.myOnChange()");
                 var source = event.target;
                 var modification = source.id;
-                LOGGER.info("ModifyAttackUI.myOnChange() modification = " + modification);
+                LOGGER.debug("ModifyAttackUI.myOnChange() modification = " + modification);
                 this.props.onChange(modification);
             },
         });
