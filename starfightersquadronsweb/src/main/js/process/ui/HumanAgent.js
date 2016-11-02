@@ -125,6 +125,13 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
             this.getModifyAttackDiceAction = function(environmentIn, adjudicator, attackerIn, attackDiceIn,
                 defenderIn, callback)
             {
+                InputValidator.validateNotNull("environment", environmentIn);
+                InputValidator.validateNotNull("adjudicator", adjudicator);
+                InputValidator.validateNotNull("attacker", attackerIn);
+                InputValidator.validateNotNull("attackDice", attackDiceIn);
+                InputValidator.validateNotNull("defender", defenderIn);
+                InputValidator.validateNotNull("callback", callback);
+
                 environment = environmentIn;
                 attacker = attackerIn;
                 attackDice = attackDiceIn;
