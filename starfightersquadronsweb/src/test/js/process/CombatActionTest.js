@@ -1,4 +1,4 @@
-define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Environment", "process/EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "process/Action", "process/Reducer", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "process/Action", "process/Reducer", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
     function(Value, Adjudicator, CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer, MockAttackDice, MockDefenseDice)
     {
         "use strict";
@@ -35,6 +35,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             {
                 LOGGER.info("callback() start");
             };
+            environment.activeToken(attacker);
             var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender, defenderPosition, callback, MockAttackDice, MockDefenseDice);
             combatAction.rollDefenseDice = function()
             {
@@ -83,6 +84,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             {
                 LOGGER.info("callback() start");
             };
+            environment.activeToken(attacker);
             var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender, defenderPosition, callback, MockAttackDice, MockDefenseDice);
             combatAction.finishModifyDefenseDice = function()
             {
@@ -133,6 +135,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             {
                 LOGGER.info("callback() start");
             };
+            environment.activeToken(attacker);
             var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender, defenderPosition, callback, MockAttackDice, MockDefenseDice);
 
             // Run.
@@ -145,7 +148,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
                 assert.ok(true, "test resumed from async operation");
                 assert.equal(combatAction.executionCount(), 1);
                 assert.equal(attacker.combatState().rangeKey(), RangeRuler.ONE);
-                assert.equal(environment.phase(), Phase.COMBAT_DEAL_DAMAGE);
+                assert.equal(environment.phase(), Phase.COMBAT_AFTER_DEAL_DAMAGE);
                 verifyAttackDice(assert, attacker.combatState().attackDice());
 
                 assert.ok(!defender.isDestroyed());
@@ -160,6 +163,33 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
                 {
                     assert.equal(defender.hullValue(), 3);
                 }
+                done();
+            }, delay);
+        });
+
+        QUnit.test("CombatAction.doIt() Advanced Homing Missiles", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.ADVANCED_HOMING_MISSILES;
+            var combatAction = createCombatActionRange2(upgradeKey);
+            var environment = combatAction.environment();
+            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+            // Run.
+            var done = assert.async();
+            combatAction.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(attacker.findTargetLockByDefender(defender));
+                assert.ok(!attacker.isUpgradedWith(upgradeKey));
+                assert.equal(attacker.secondaryWeapons().length, 0);
+
+                assert.equal(defender.damageCount(), 0);
+                assert.equal(defender.criticalDamageCount(), 1);
                 done();
             }, delay);
         });
@@ -254,6 +284,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             // var store = environment.store();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+            assert.equal(attacker.focusCount(), 1);
 
             // Run.
             var done = assert.async();
@@ -414,6 +445,37 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             }, delay);
         });
 
+        QUnit.test("CombatAction.doIt() Flechette Missiles", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.FLECHETTE_TORPEDOES;
+            var combatAction = createCombatAction(upgradeKey);
+            var environment = combatAction.environment();
+            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+            // Run.
+            var done = assert.async();
+            combatAction.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(!attacker.findTargetLockByDefender(defender));
+                assert.ok(!attacker.isUpgradedWith(upgradeKey));
+                assert.equal(attacker.secondaryWeapons().length, 0);
+                verifyAttackDice(assert, attacker.combatState().attackDice());
+
+                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                assert.equal(defender.damageCount(), 0);
+                assert.equal(defender.criticalDamageCount(), 1);
+                assert.ok(defender.isStressed());
+                assert.equal(defender.stressCount(), 1);
+                done();
+            }, 2200);
+        });
+
         QUnit.test("CombatAction.doIt() Heavy Laser Cannon", function(assert)
         {
             // Setup.
@@ -466,7 +528,6 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(!attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 0);
-                // assert.equal(attacker.combatState().attackDice().size(), 3);
                 verifyAttackDice(assert, attacker.combatState().attackDice());
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
@@ -481,6 +542,34 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
                 {
                     assert.equal(defender.hullValue(), 3);
                 }
+                done();
+            }, delay);
+        });
+
+        QUnit.test("CombatAction.doIt() Ion Pulse Missiles", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.ION_PULSE_MISSILES;
+            var combatAction = createCombatActionRange2(upgradeKey);
+            var environment = combatAction.environment();
+            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+            // Run.
+            var done = assert.async();
+            combatAction.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(attacker.findTargetLockByDefender(defender));
+                assert.ok(!attacker.isUpgradedWith(upgradeKey));
+                assert.equal(attacker.secondaryWeapons().length, 0);
+
+                assert.equal(defender.damageCount(), 1);
+                assert.equal(defender.criticalDamageCount(), 0);
+                assert.equal(defender.ionCount(), 2);
                 done();
             }, delay);
         });
@@ -559,6 +648,69 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             }, delay);
         });
 
+        QUnit.test("CombatAction.doIt() Plasma Torpedoes", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.PLASMA_TORPEDOES;
+            var store = Redux.createStore(Reducer.root);
+            var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+            var adjudicator = new Adjudicator();
+            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(null);
+            };
+            var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
+            var attackerPosition = new Position(458, 895, -90);
+            var weapon = attacker.secondaryWeapons()[0];
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+            imperialAgent.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, callback)
+            {
+                callback(null);
+            };
+            var defender = new Token(store, Pilot.PATROL_LEADER, imperialAgent);
+            var defenderPosition = new Position(450, 845, 90);
+            environment.placeToken(attackerPosition, attacker);
+            environment.placeToken(defenderPosition, defender);
+            store.dispatch(Action.addFocusCount(attacker));
+            var callback = function()
+            {
+                LOGGER.info("callback() start");
+            };
+            var targetLock = new TargetLock(store, attacker, defender);
+            attacker.addAttackerTargetLock(targetLock);
+            environment.activeToken(attacker);
+            var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
+                defenderPosition, callback, MockAttackDice, MockDefenseDice);
+            assert.ok(attacker.isUpgradedWith(upgradeKey));
+            assert.equal(attacker.secondaryWeapons().length, 1);
+            assert.equal(defender.shieldCount(), 4);
+
+            // Run.
+            var done = assert.async();
+            combatAction.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(!attacker.findTargetLockByDefender(defender));
+                assert.ok(!attacker.isUpgradedWith(upgradeKey));
+                assert.equal(combatAction.executionCount(), 1);
+                assert.equal(attacker.secondaryWeapons().length, 0);
+                assert.equal(attacker.combatState().attackDice().size(), 4);
+                verifyAttackDice(assert, attacker.combatState().attackDice());
+                assert.ok(attacker.combatState().isDefenderHit());
+
+                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                assert.equal(defender.damageCount(), 0);
+                assert.equal(defender.criticalDamageCount(), 0);
+                assert.ok(!defender.isDestroyed());
+                assert.equal(defender.shieldCount(), 2);
+                done();
+            }, delay);
+        });
+
         QUnit.test("CombatAction.doIt() Proton Rockets", function(assert)
         {
             // Setup.
@@ -588,6 +740,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             {
                 LOGGER.info("callback() start");
             };
+            environment.activeToken(attacker);
             var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                 defenderPosition, callback, undefined, MockDefenseDice);
             assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -728,6 +881,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             {
                 LOGGER.info("callback() start");
             };
+            environment.activeToken(attacker);
             var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon,
                 defender, defenderPosition, callback, MockAttackDice, MockDefenseDice);
 
@@ -740,16 +894,46 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             {
                 assert.ok(true, "test resumed from async operation");
                 verifyAttackDice(assert, attacker.combatState().attackDice());
-                // if (attacker.combatState().isDefenderHit())
-                // {
                 assert.equal(attacker.focusCount(), 1);
-                // }
-                // else
-                // {
-                //     assert.equal(attacker.focusCount(), 0);
-                // }
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                done();
+            }, delay);
+        });
+
+        QUnit.test("CombatAction.doIt() XX-23 S-Thread Tracers", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.XX_23_S_THREAD_TRACERS;
+            var combatAction = createCombatActionRange2(upgradeKey);
+            var environment = combatAction.environment();
+            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+            var store = environment.store();
+            var attackerPosition = combatAction.attackerPosition();
+            var token2 = new Token(store, Pilot.ROOKIE_PILOT, attacker.agent());
+            var token2Position = new Position(attackerPosition.x() + 80, attackerPosition.y(), attackerPosition.heading());
+            environment.placeToken(token2Position, token2);
+            assert.equal(environment.tokens().length, 3);
+
+            // Run.
+            var done = assert.async();
+            combatAction.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(!attacker.isUpgradedWith(upgradeKey));
+                assert.equal(attacker.secondaryWeapons().length, 0);
+                verifyAttackDice(assert, attacker.combatState().attackDice());
+                assert.ok(attacker.combatState().isDefenderHit());
+
+                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                assert.equal(defender.damageCount(), 0);
+                assert.equal(defender.criticalDamageCount(), 0);
+
+                assert.ok(token2.findTargetLockByDefender(defender));
                 done();
             }, delay);
         });
@@ -784,7 +968,9 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
 
             environment.placeToken(attackerPosition, attacker);
             environment.placeToken(defenderPosition, defender);
+            environment.activeToken(attacker);
 
+            store.dispatch(Action.setEnvironment(environment));
             store.dispatch(Action.addFocusCount(attacker));
 
             var targetLock = new TargetLock(store, attacker, defender);
@@ -827,8 +1013,10 @@ define(["Value", "process/Adjudicator", "process/CombatAction2", "process/Enviro
             var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
             var defenderPosition = new Position(450, 845, 90);
 
+            store.dispatch(Action.setEnvironment(environment));
             environment.placeToken(attackerPosition, attacker);
             environment.placeToken(defenderPosition, defender);
+            environment.activeToken(attacker);
 
             var callback = function()
             {
