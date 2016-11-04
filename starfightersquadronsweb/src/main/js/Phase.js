@@ -1,8 +1,7 @@
 define(function()
 {
     "use strict";
-    var Phase =
-    {
+    var Phase = {
         SETUP: "setup",
 
         PLANNING_START: "planningStart",
@@ -27,7 +26,9 @@ define(function()
         COMBAT_ROLL_DEFENSE_DICE: "combatRollDefenseDice",
         COMBAT_MODIFY_DEFENSE_DICE: "combatModifyDefenseDice",
         COMBAT_COMPARE_RESULTS: "combatCompareResults",
+        COMBAT_NOTIFY_DAMAGE: "combatNotifyDamage",
         COMBAT_DEAL_DAMAGE: "combatDealDamage",
+        COMBAT_AFTER_DEAL_DAMAGE: "combatAfterDealDamage",
         COMBAT_END: "combatEnd",
 
         END_START: "endStart",
@@ -140,10 +141,20 @@ define(function()
                 name: "Combat (compare results)",
                 value: "combatCompareResults",
             },
+            "combatNotifyDamage":
+            {
+                name: "Combat (notify damage)",
+                value: "combatNotifyDamage",
+            },
             "combatDealDamage":
             {
                 name: "Combat (deal damage)",
                 value: "combatDealDamage",
+            },
+            "combatAfterDealDamage":
+            {
+                name: "Combat (after deal damage)",
+                value: "combatAfterDealDamage",
             },
             "combatEnd":
             {
