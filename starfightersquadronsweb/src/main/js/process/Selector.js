@@ -1,4 +1,4 @@
-define([ "Count", "Value" ], function(Count, Value)
+define(["Count", "Value"], function(Count, Value)
 {
     "use strict";
     var Selector = {};
@@ -94,6 +94,11 @@ define([ "Count", "Value" ], function(Count, Value)
     Selector.energyValue = function(state, tokenId)
     {
         return Selector.value(state, tokenId, Value.ENERGY);
+    };
+
+    Selector.environment = function(state)
+    {
+        return state.environment;
     };
 
     Selector.evadeCount = function(state, tokenId)
