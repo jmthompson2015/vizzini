@@ -1,5 +1,5 @@
-define(["Pilot", "ShipTeam", "UpgradeCard", "UpgradeType", "process/Action", "process/SimpleAgent", "process/TokenFactory", "process/ui/PilotChooser", "process/ui/SquadUI", "process/ui/UpgradeChooser"],
-    function(Pilot, ShipTeam, UpgradeCard, UpgradeType, Action, SimpleAgent, TokenFactory, PilotChooser, SquadUI, UpgradeChooser)
+define(["Pilot", "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "process/Action", "process/SimpleAgent", "process/TokenFactory", "process/ui/PilotChooser", "process/ui/SquadUI", "process/ui/UpgradeChooser"],
+    function(Pilot, ShipTeam, Team, UpgradeCard, UpgradeType, Action, SimpleAgent, TokenFactory, PilotChooser, SquadUI, UpgradeChooser)
     {
         "use strict";
         var SquadBuilderUI = React.createClass(
@@ -45,14 +45,15 @@ define(["Pilot", "ShipTeam", "UpgradeCard", "UpgradeType", "process/Action", "pr
                 var oldTeamKey = this.props.team.value;
                 var newTeamKey = nextProps.team.value;
 
-                if (oldTeam != newTeam)
+                if (oldTeamKey != newTeamKey)
                 {
                     // Team changed.
                     LOGGER.debug("oldTeamKey = " + oldTeamKey);
                     LOGGER.debug("newTeamKey = " + newTeamKey);
+                    var newTeam = Team.properties[newTeamKey];
                     var shipTeamKey = ShipTeam.valuesByTeam(newTeamKey)[0];
                     var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
-                    var token = this.createToken(newTeamKey, pilotKey);
+                    var token = this.createToken(newTeam, pilotKey);
                     LOGGER.debug("new state = " + pilotKey + ", " + token);
                     this.setState(
                     {
