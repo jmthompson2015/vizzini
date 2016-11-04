@@ -41,7 +41,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                     agentNumber: 2,
                     iconBase: this.props.iconBase,
                     imageBase: this.props.imageBase,
-                    initialTeam: Team.REBEL,
+                    initialTeamKey: Team.REBEL,
                     initialType: "HumanAgent",
                     onChange: this.handleAgentChange,
                 });
@@ -125,7 +125,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                 imageBase: React.PropTypes.string.isRequired,
 
                 // default: Team.IMPERIAL
-                initialTeam: React.PropTypes.string,
+                initialTeamKey: React.PropTypes.string,
                 // default: SimpleAgent
                 initialType: React.PropTypes.string,
                 onChange: React.PropTypes.func,
@@ -134,17 +134,17 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
             getInitialState: function()
             {
                 InputValidator.validateNotNull("agentNumber", this.props.agentNumber);
-                var initialTeam = (this.props.initialTeam ? this.props.initialTeam : Team.IMPERIAL);
+                var initialTeamKey = (this.props.initialTeamKey ? this.props.initialTeamKey : Team.IMPERIAL);
                 var initialName = "Agent " + this.props.agentNumber;
                 var initialType = (this.props.initialType ? this.props.initialType : "SimpleAgent");
-                var squadBuilders = SquadBuilder.findByTeam(initialTeam);
+                var squadBuilders = SquadBuilder.findByTeam(initialTeamKey);
                 var initialSquadBuilder = squadBuilders[0];
-                var agent = new SimpleAgent(initialName, initialTeam);
+                var agent = new SimpleAgent(initialName, initialTeamKey);
                 var squad = initialSquadBuilder.buildSquad(agent);
 
                 return (
                 {
-                    team: initialTeam,
+                    teamKey: initialTeamKey,
                     name: initialName,
                     type: initialType,
                     squadBuilderType: this.PREFABRICATED,
@@ -154,7 +154,8 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
 
             render: function()
             {
-                var team = this.state.team;
+                var teamKey = this.state.teamKey;
+                var team = Team.properties[teamKey];
                 var name = this.state.name;
                 var type = this.state.type;
 
@@ -173,7 +174,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                 {
                     values: teamValues,
                     labelFunction: teamLabelFunction,
-                    initialSelectedValue: team,
+                    initialSelectedValue: teamKey,
                     onChange: this.handleTeamChange,
                 });
 
@@ -213,7 +214,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                     {
                         return value.toString();
                     };
-                    var squadBuilders = SquadBuilder.findByTeam(team);
+                    var squadBuilders = SquadBuilder.findByTeam(teamKey);
                     squadChooserPanel = React.createElement(SquadChooser,
                     {
                         iconBase: this.props.iconBase,
@@ -308,20 +309,20 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                 {}, rows));
             },
 
-            createAgent: function(type, name, team)
+            createAgent: function(type, name, teamKey)
             {
                 var answer;
 
                 switch (type)
                 {
                     case "SimpleAgent":
-                        answer = new SimpleAgent(name, team);
+                        answer = new SimpleAgent(name, teamKey);
                         break;
                     case "MediumAgent":
-                        answer = new MediumAgent(name, team);
+                        answer = new MediumAgent(name, teamKey);
                         break;
                     case "HumanAgent":
-                        answer = new HumanAgent(name, team, this.props.imageBase);
+                        answer = new HumanAgent(name, teamKey, this.props.imageBase);
                         break;
                     default:
                         throw "Unknown agent type: " + type;
@@ -347,7 +348,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
             handleSquadBuilderChange: function(squadBuilder)
             {
                 LOGGER.trace("handleBuilderSquadChange() squadBuilder = " + squadBuilder);
-                var agent = new SimpleAgent(this.state.name, this.state.team);
+                var agent = new SimpleAgent(this.state.name, this.state.teamKey);
                 var squad = squadBuilder.buildSquad(agent);
 
                 this.setState(
@@ -423,14 +424,14 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                 {
                     var type = this.state.type;
                     var name = this.state.name;
-                    var team = this.state.team;
+                    var teamKey = this.state.teamKey;
                     var squadBuilderType = this.state.squadBuilderType;
                     LOGGER.trace("type = " + type);
                     LOGGER.trace("name = " + name);
-                    LOGGER.trace("team = " + team);
+                    LOGGER.trace("teamKey = " + teamKey);
                     LOGGER.trace("squadBuilderType = " + squadBuilderType);
 
-                    var agent = this.createAgent(type, name, team);
+                    var agent = this.createAgent(type, name, teamKey);
                     LOGGER.trace("notifyNewAgent() agent = " + agent);
                     var squad = this.state.squad;
                     LOGGER.trace("squad = " + squad);
