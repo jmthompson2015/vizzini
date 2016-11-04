@@ -116,7 +116,12 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var weapon = this.weapon();
             var upgrade = weapon.upgrade();
 
-            if (upgrade)
+            if (upgrade &&
+                ![UpgradeCard.ADVANCED_HOMING_MISSILES, UpgradeCard.ADVANCED_PROTON_TORPEDOES, UpgradeCard.ASSAULT_MISSILES,
+                  UpgradeCard.BLASTER_TURRET, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.CONCUSSION_MISSILES,
+                  UpgradeCard.FLECHETTE_TORPEDOES, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.ION_PULSE_MISSILES,
+                  UpgradeCard.ION_TORPEDOES, UpgradeCard.MANGLER_CANNON, UpgradeCard.PLASMA_TORPEDOES,
+                  UpgradeCard.PROTON_TORPEDOES, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(upgrade.value))
             {
                 if (upgrade.spendFocus)
                 {
@@ -179,29 +184,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var attackDice = attacker.combatState().attackDice();
             var defender = this.defender();
             var agent = attacker.agent();
-
-            if (weapon.upgradeKey() === UpgradeCard.ADVANCED_PROTON_TORPEDOES)
-            {
-                attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
-                attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
-                attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
-            }
-            else if (weapon.upgradeKey() === UpgradeCard.CONCUSSION_MISSILES)
-            {
-                attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
-            }
-            else if (weapon.upgradeKey() === UpgradeCard.HEAVY_LASER_CANNON)
-            {
-                attackDice.changeAllToValue(AttackDice.Value.CRITICAL_HIT, AttackDice.Value.HIT);
-            }
-            else if (weapon.upgradeKey() === UpgradeCard.MANGLER_CANNON)
-            {
-                attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            }
-            else if (weapon.upgradeKey() === UpgradeCard.PROTON_TORPEDOES)
-            {
-                attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
-            }
 
             if (attacker.pilotKey() === Pilot.POE_DAMERON && attacker.focusCount() > 0)
             {
@@ -349,22 +331,21 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var defender = this.defender();
             var attackDice = attacker.combatState().attackDice();
             var defenseDice = attacker.combatState().defenseDice();
-            var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice
-                .criticalHitCount(), defender, defenseDice.evadeCount());
+            var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice.criticalHitCount(), defender, defenseDice.evadeCount());
             attacker.combatState().damageDealer(damageDealer);
             var isDefenderHit = (damageDealer.hits() + damageDealer.criticalHits() > 0);
             attacker.combatState().isDefenderHit(isDefenderHit);
 
-            this.dealDamage();
+            this.notifyDamage();
 
             LOGGER.trace("CombatAction.compareResults() end");
         };
 
-        CombatAction.prototype.dealDamage = function()
+        CombatAction.prototype.notifyDamage = function()
         {
             LOGGER.trace("CombatAction.dealDamage() start");
 
-            this.environment().phase(Phase.COMBAT_DEAL_DAMAGE);
+            this.environment().phase(Phase.COMBAT_NOTIFY_DAMAGE);
 
             var environment = this.environment();
             var adjudicator = this.adjudicator();
@@ -377,38 +358,39 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var attackDice = attacker.combatState().attackDice();
             var defenseDice = attacker.combatState().defenseDice();
             var damageDealer = attacker.combatState().damageDealer();
-            var callback = this.finishDealDamage.bind(this);
+            var callback = this.dealDamage.bind(this);
 
             // Four possibilities:
-            // computer vs computer: call finishDealDamage() once
-            // computer vs human: call finishDealDamage() once
-            // human vs computer: call finishDealDamage() once
-            // human vs human: call finishDealDamage() once
-            var callbackFunction = this.finishDealDamage.bind(this);
+            // computer vs computer: call dealDamage() once
+            // computer vs human: call dealDamage() once
+            // human vs computer: call dealDamage() once
+            // human vs human: call dealDamage() once
 
             if (attackerIsComputerAgent && defenderIsComputerAgent)
             {
                 // Both computer agents.
-                setTimeout(callbackFunction, 1000);
+                setTimeout(callback, 1000);
             }
             else if (attackerIsComputerAgent && !defenderIsComputerAgent)
             {
-                defenderAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callbackFunction);
+                defenderAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callback);
             }
             else if (!attackerIsComputerAgent && defenderIsComputerAgent)
             {
-                attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callbackFunction);
+                attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callback);
             }
             else if (!attackerIsComputerAgent && !defenderIsComputerAgent)
             {
                 // Both human agents.
-                attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callbackFunction);
+                attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callback);
             }
         };
 
-        CombatAction.prototype.finishDealDamage = function()
+        CombatAction.prototype.dealDamage = function()
         {
             LOGGER.trace("CombatAction.dealDamage() start");
+
+            this.environment().phase(Phase.COMBAT_DEAL_DAMAGE);
 
             var attacker = this.attacker();
             var damageDealer = attacker.combatState().damageDealer();
@@ -417,77 +399,45 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var attackerPosition = this.attackerPosition();
             var defender = this.defender();
             var defenderPosition = this.defenderPosition();
-            var callback = this.callback();
             var store = environment.store();
             var isDefenderHit = attacker.combatState().isDefenderHit();
-            LOGGER.debug("1 isDefenderHit ? " + isDefenderHit);
 
             if (isDefenderHit)
             {
-                if (weapon.upgradeKey() === UpgradeCard.ADVANCED_HOMING_MISSILES)
+                if (![UpgradeCard.ADVANCED_HOMING_MISSILES, UpgradeCard.ION_PULSE_MISSILES, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(weapon.upgradeKey()))
                 {
-                    defender.addCriticalDamage(environment.drawDamage());
-                }
-                else if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_CANNON)
-                {
-                    defender.addDamage(environment.drawDamage());
-                    if (!defender.isStressed())
+                    if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_CANNON)
                     {
-                        defender.receiveStress();
+                        defender.addDamage(environment.drawDamage());
+                        if (!defender.isStressed())
+                        {
+                            defender.receiveStress();
+                        }
                     }
-                }
-                else if (weapon.upgradeKey() === UpgradeCard.ION_CANNON ||
-                    weapon.upgradeKey() === UpgradeCard.ION_CANNON_TURRET)
-                {
-                    defender.addDamage(environment.drawDamage());
-                    store.dispatch(Action.addIonCount(defender));
-                }
-                else if (weapon.upgradeKey() === UpgradeCard.ION_PULSE_MISSILES)
-                {
-                    defender.addDamage(environment.drawDamage());
-                    store.dispatch(Action.addIonCount(defender, 2));
-                }
-                else if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET)
-                {
-                    defender.addDamage(environment.drawDamage());
-                }
-                else
-                {
-                    damageDealer.dealDamage();
-                }
-
-                if (attacker.pilotKey() === Pilot.WHISPER)
-                {
-                    store.dispatch(Action.addFocusCount(attacker));
-                }
-
-                if (weapon.upgradeKey() === UpgradeCard.ASSAULT_MISSILES)
-                {
-                    environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
+                    else if (weapon.upgradeKey() === UpgradeCard.ION_CANNON ||
+                        weapon.upgradeKey() === UpgradeCard.ION_CANNON_TURRET)
                     {
-                        token.addDamage(environment.drawDamage());
-                    });
-                }
-                else if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_TORPEDOES && defender.hullValue() <= 4)
-                {
-                    defender.receiveStress();
-                }
-                else if (weapon.upgradeKey() === UpgradeCard.ION_TORPEDOES)
-                {
-                    store.dispatch(Action.addIonCount(defender));
-                    environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
+                        defender.addDamage(environment.drawDamage());
+                        store.dispatch(Action.addIonCount(defender));
+                    }
+                    else if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET)
                     {
-                        store.dispatch(Action.addIonCount(token));
-                    });
-                }
-                else if (weapon.upgradeKey() === UpgradeCard.PLASMA_TORPEDOES)
-                {
-                    store.dispatch(Action.addShieldCount(defender, -1));
-                }
+                        defender.addDamage(environment.drawDamage());
+                    }
+                    else
+                    {
+                        damageDealer.dealDamage();
+                    }
 
-                if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
-                {
-                    defender.upgradeKeys().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
+                    if (attacker.pilotKey() === Pilot.WHISPER)
+                    {
+                        store.dispatch(Action.addFocusCount(attacker));
+                    }
+
+                    if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
+                    {
+                        defender.upgradeKeys().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
+                    }
                 }
             }
             else
@@ -506,8 +456,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
                 }
             }
 
-            if (attacker.isUpgradedWith(UpgradeCard.TACTICIAN) &&
-                attacker.combatState().rangeKey() === RangeRuler.TWO)
+            if (attacker.isUpgradedWith(UpgradeCard.TACTICIAN) && attacker.combatState().rangeKey() === RangeRuler.TWO)
             {
                 var firingArc = attacker.pilot().shipTeam.ship.primaryFiringArc;
 
@@ -517,6 +466,23 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
                 }
             }
 
+            this.afterDealDamage();
+
+            LOGGER.trace("CombatAction.dealDamage() end");
+        };
+
+        CombatAction.prototype.afterDealDamage = function()
+        {
+            LOGGER.trace("CombatAction.afterDealDamage() start");
+
+            this.environment().phase(Phase.COMBAT_AFTER_DEAL_DAMAGE);
+
+            var environment = this.environment();
+            var attacker = this.attacker();
+            var weapon = this.weapon();
+            var defender = this.defender();
+            var defenderPosition = this.defenderPosition();
+            var callback = this.callback();
             var myDefender, myDefenderPosition;
 
             if (defender.parent !== undefined)
@@ -529,8 +495,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
                 myDefender = defender;
                 myDefenderPosition = defenderPosition;
             }
-
-            LOGGER.debug("myDefender.isDestroyed() ? " + myDefender.isDestroyed());
 
             if (myDefender.isDestroyed())
             {
@@ -549,8 +513,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             }
             else
             {
-                if ((weapon.upgradeKey() === UpgradeCard.CLUSTER_MISSILES || weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET) &&
-                    this.executionCount() < 2)
+                if ([UpgradeCard.CLUSTER_MISSILES, UpgradeCard.TWIN_LASER_TURRET].vizziniContains(weapon.upgradeKey()) && this.executionCount() < 2)
                 {
                     this.doIt();
                 }
@@ -560,7 +523,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
                 }
             }
 
-            LOGGER.trace("CombatAction.finishDealDamage() end");
+            LOGGER.trace("CombatAction.afterDealDamage() end");
         };
 
         return CombatAction;
