@@ -394,12 +394,12 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             return Selector.cloakCount(this.store().getState(), this.id());
         };
 
-        Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, range)
+        Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, rangeKey)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("weapon", weapon);
             InputValidator.validateNotNull("defender", defender);
-            InputValidator.validateNotNull("range", range);
+            InputValidator.validateNotNull("rangeKey", rangeKey);
 
             var answer;
 
@@ -412,12 +412,16 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             {
                 answer = weapon.weaponValue();
 
-                if ((range === RangeRuler.ONE) && weapon.isPrimary())
+                if ((rangeKey === RangeRuler.ONE) && weapon.isPrimary())
                 {
                     // Bonus attack die at range one.
                     answer++;
 
                     if (this.pilotKey() === Pilot.TALONBANE_COBRA)
+                    {
+                        answer++;
+                    }
+                    else if (weapon.upgradeKey() === UpgradeCard.DORSAL_TURRET)
                     {
                         answer++;
                     }
@@ -428,7 +432,7 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
                     answer++;
                 }
 
-                if (this.pilotKey() === Pilot.MAULER_MITHEL && range === RangeRuler.ONE)
+                if (this.pilotKey() === Pilot.MAULER_MITHEL && rangeKey === RangeRuler.ONE)
                 {
                     answer++;
                 }
@@ -442,11 +446,11 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             return answer;
         };
 
-        Token.prototype.computeDefenseDiceCount = function(weapon, range)
+        Token.prototype.computeDefenseDiceCount = function(weapon, rangeKey)
         {
             var answer = this.agilityValue();
 
-            if ([RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE].vizziniContains(range) && weapon.isPrimary())
+            if ([RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE].vizziniContains(rangeKey) && weapon.isPrimary())
             {
                 // Bonus defense die at range three, four, and five.
                 answer++;
