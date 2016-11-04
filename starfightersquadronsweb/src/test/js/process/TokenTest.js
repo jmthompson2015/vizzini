@@ -171,6 +171,23 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.equal(token1.computeAttackDiceCount(environment, token1.primaryWeapon(), token0, RangeRuler.THREE), 3);
         });
 
+        QUnit.test("computeAttackDiceCount() Dorsal Turret", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var attacker = environment.tokens()[1]; // Dark Curse
+            var store = environment.store();
+            store.dispatch(Action.addTokenUpgrade(attacker, UpgradeCard.DORSAL_TURRET));
+            var defender = environment.tokens()[2]; // X-Wing
+            assert.equal(attacker.name(), "2 \"Dark Curse\" (TIE Fighter)");
+            var weapon = attacker.primaryWeapon();
+
+            // Run / Verify.
+            assert.equal(attacker.computeAttackDiceCount(environment, weapon, defender, RangeRuler.ONE), 3);
+            assert.equal(attacker.computeAttackDiceCount(environment, weapon, defender, RangeRuler.TWO), 2);
+            assert.equal(attacker.computeAttackDiceCount(environment, weapon, defender, RangeRuler.THREE), 2);
+        });
+
         QUnit.test("computeAttackDiceCount() Mauler Mithel", function(assert)
         {
             // Setup.
