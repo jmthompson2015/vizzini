@@ -1,8 +1,10 @@
-define([ "Phase" ], function(Phase)
+define(["Phase"], function(Phase)
 {
     "use strict";
+
     function InitialState()
     {
+        this.environment = undefined;
         this.playFormatKey = undefined;
         this.round = 0;
         this.phaseKey = Phase.SETUP;
