@@ -1,4 +1,4 @@
-define([ "Phase" ], function(Phase)
+define(["Phase"], function(Phase)
 {
     "use strict";
     QUnit.module("Phase");
@@ -56,9 +56,9 @@ define([ "Phase" ], function(Phase)
 
         // Verify.
         assert.ok(result);
-        var length = 25;
+        var length = 27;
         assert.equal(result.length, length);
         assert.equal(result[0], Phase.SETUP);
-        assert.equal(result[length-1], Phase.END_END);
+        assert.equal(result[length - 1], Phase.END_END);
     });
 });
