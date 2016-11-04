@@ -1,4 +1,4 @@
-define([ "Count" ], function(Count)
+define(["Count"], function(Count)
 {
     "use strict";
     var Action = {};
@@ -27,6 +27,7 @@ define([ "Count" ], function(Count)
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
     Action.SET_COUNT = "setCount";
     Action.SET_DAMAGE_DECK = "setDamageDeck";
+    Action.SET_ENVIRONMENT = "setEnvironment";
     Action.SET_FIRST_AGENT = "setFirstAgent";
     Action.SET_PHASE = "setPhase";
     Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
@@ -367,6 +368,17 @@ define([ "Count" ], function(Count)
     Action.setEnergyCount = function(token, value)
     {
         return Action.setCount(token, Count.ENERGY, value);
+    };
+
+    Action.setEnvironment = function(environment)
+    {
+        InputValidator.validateNotNull("environment", environment);
+
+        return (
+        {
+            type: Action.SET_ENVIRONMENT,
+            environment: environment,
+        });
     };
 
     Action.setEvadeCount = function(token, value)
