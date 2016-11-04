@@ -128,7 +128,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                     }
                 }
 
-                if (phase.value === Phase.COMBAT_DEAL_DAMAGE)
+                if (phase.value === Phase.COMBAT_NOTIFY_DAMAGE)
                 {
                     // Damage panel.
                     var damagePanel = React.createElement(CombatUI.DamageUI,
@@ -190,7 +190,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 {
                     answer += ": Modify Defense Dice";
                 }
-                else if (phase.value === Phase.COMBAT_DEAL_DAMAGE)
+                else if (phase.value === Phase.COMBAT_NOTIFY_DAMAGE)
                 {
                     answer += ": Deal Damage";
                 }
