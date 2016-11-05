@@ -2551,6 +2551,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     description: "Discard this card to perform this attack. If this attack hits, each friendly ship at Range 1-2 of you may acquire a target lock on the defender. Then cancel all dice results.",
                     discardThisCard: true,
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "xx23SThreadTracers",
                 },
                 "ysanneIsard":

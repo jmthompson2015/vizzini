@@ -15,6 +15,15 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.HOT_SHOT_BLASTER] = function(store, token)
+        {
+            combat(store, token, UpgradeCard.HOT_SHOT_BLASTER, function(store, attacker)
+            {
+                // Discard this card to attack 1 ship (even a ship outside your firing arc).
+                discardUpgrade(attacker);
+            });
+        };
+
         UpgradeAbility[Phase.COMBAT_MODIFY_ATTACK_DICE] = {};
 
         UpgradeAbility[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.ADVANCED_PROTON_TORPEDOES] = function(store, token)
@@ -53,54 +62,44 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
 
         UpgradeAbility[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.HEAVY_LASER_CANNON] = function(store, token)
         {
-            InputValidator.validateNotNull("store", store);
-            InputValidator.validateNotNull("token", token);
-
-            var attacker = Selector.activeToken(store.getState());
-
-            if (attacker === token)
+            combat(store, token, UpgradeCard.HEAVY_LASER_CANNON, function(store, attacker)
             {
-                var combatState = attacker.combatState();
-                var combatAction = combatState.combatAction();
-                var weapon = combatAction.weapon();
-
-                if (weapon.upgradeKey() === UpgradeCard.HEAVY_LASER_CANNON)
-                {
-                    LOGGER.info("UpgradeAbility.protonTorpedoes() start");
-
-                    // Immediately after rolling your attack dice, you must change all of your Critical Hit results to Hit results.
-                    var attackDice = combatState.attackDice();
-                    attackDice.changeAllToValue(AttackDice.Value.CRITICAL_HIT, AttackDice.Value.HIT);
-
-                    LOGGER.info("UpgradeAbility.protonTorpedoes() end");
-                }
-            }
+                // Immediately after rolling your attack dice, you must change all of your Critical Hit results to Hit results.
+                var attackDice = attacker.combatState().attackDice();
+                attackDice.changeAllToValue(AttackDice.Value.CRITICAL_HIT, AttackDice.Value.HIT);
+            });
         };
 
         UpgradeAbility[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MANGLER_CANNON] = function(store, token)
         {
-            InputValidator.validateNotNull("store", store);
-            InputValidator.validateNotNull("token", token);
-
-            var attacker = Selector.activeToken(store.getState());
-
-            if (attacker === token)
+            // InputValidator.validateNotNull("store", store);
+            // InputValidator.validateNotNull("token", token);
+            //
+            // var attacker = Selector.activeToken(store.getState());
+            //
+            // if (attacker === token)
+            // {
+            //     var combatState = attacker.combatState();
+            //     var combatAction = combatState.combatAction();
+            //     var weapon = combatAction.weapon();
+            //
+            //     if (weapon.upgradeKey() === UpgradeCard.MANGLER_CANNON)
+            //     {
+            //         LOGGER.info("UpgradeAbility.protonTorpedoes() start");
+            //
+            //         // When attacking, you may change 1 of your Hit results to a Critical Hit result.
+            //         var attackDice = combatState.attackDice();
+            //         attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
+            //
+            //         LOGGER.info("UpgradeAbility.protonTorpedoes() end");
+            //     }
+            // }
+            combat(store, token, UpgradeCard.MANGLER_CANNON, function(store, attacker)
             {
-                var combatState = attacker.combatState();
-                var combatAction = combatState.combatAction();
-                var weapon = combatAction.weapon();
-
-                if (weapon.upgradeKey() === UpgradeCard.MANGLER_CANNON)
-                {
-                    LOGGER.info("UpgradeAbility.protonTorpedoes() start");
-
-                    // When attacking, you may change 1 of your Hit results to a Critical Hit result.
-                    var attackDice = combatState.attackDice();
-                    attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-
-                    LOGGER.info("UpgradeAbility.protonTorpedoes() end");
-                }
-            }
+                // When attacking, you may change 1 of your Hit results to a Critical Hit result.
+                var attackDice = attacker.combatState().attackDice();
+                attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
+            });
         };
 
         UpgradeAbility[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PROTON_ROCKETS] = function(store, token)
@@ -212,6 +211,25 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.FLECHETTE_CANNON] = function(store, token)
+        {
+            combat(store, token, UpgradeCard.FLECHETTE_CANNON, function(store, attacker)
+            {
+                // If this attack hits, the defender suffers 1 damage and, if the defender is not stressed, it also receives 1 stress token.
+                if (attacker.combatState().isDefenderHit())
+                {
+                    var environment = store.getState().environment;
+                    var defender = attacker.combatState().combatAction().defender();
+                    defender.addDamage(environment.drawDamage());
+
+                    if (!defender.isStressed())
+                    {
+                        defender.receiveStress();
+                    }
+                }
+            });
+        };
+
         UpgradeAbility[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.FLECHETTE_TORPEDOES] = function(store, token)
         {
             combat(store, token, UpgradeCard.FLECHETTE_TORPEDOES, function(store, attacker)
@@ -224,6 +242,36 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 if (defender.hullValue() <= 4)
                 {
                     defender.receiveStress();
+                }
+            });
+        };
+
+        UpgradeAbility[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_CANNON] = function(store, token)
+        {
+            combat(store, token, UpgradeCard.ION_CANNON, function(store, attacker)
+            {
+                // If this attack hits, the defender suffers 1 damage and receives 1 ion token.
+                if (attacker.combatState().isDefenderHit())
+                {
+                    var environment = store.getState().environment;
+                    var defender = attacker.combatState().combatAction().defender();
+                    defender.addDamage(environment.drawDamage());
+                    store.dispatch(Action.addIonCount(defender));
+                }
+            });
+        };
+
+        UpgradeAbility[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_CANNON_TURRET] = function(store, token)
+        {
+            combat(store, token, UpgradeCard.ION_CANNON_TURRET, function(store, attacker)
+            {
+                // If this attack hits the target ship, the ship suffers 1 damage and receives 1 ion token.
+                if (attacker.combatState().isDefenderHit())
+                {
+                    var environment = store.getState().environment;
+                    var defender = attacker.combatState().combatAction().defender();
+                    defender.addDamage(environment.drawDamage());
+                    store.dispatch(Action.addIonCount(defender));
                 }
             });
         };
@@ -259,6 +307,20 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 {
                     var defender = attacker.combatState().combatAction().defender();
                     store.dispatch(Action.addShieldCount(defender, -1));
+                }
+            });
+        };
+
+        UpgradeAbility[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.TWIN_LASER_TURRET] = function(store, token)
+        {
+            combat(store, token, UpgradeCard.TWIN_LASER_TURRET, function(store, attacker)
+            {
+                // Each time this attack hits, the defender suffers 1 damage.
+                if (attacker.combatState().isDefenderHit())
+                {
+                    var environment = store.getState().environment;
+                    var defender = attacker.combatState().combatAction().defender();
+                    defender.addDamage(environment.drawDamage());
                 }
             });
         };

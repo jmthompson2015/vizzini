@@ -119,9 +119,10 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             if (upgrade &&
                 ![UpgradeCard.ADVANCED_HOMING_MISSILES, UpgradeCard.ADVANCED_PROTON_TORPEDOES, UpgradeCard.ASSAULT_MISSILES,
                   UpgradeCard.BLASTER_TURRET, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.CONCUSSION_MISSILES,
-                  UpgradeCard.FLECHETTE_TORPEDOES, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.ION_PULSE_MISSILES,
+                  UpgradeCard.FLECHETTE_TORPEDOES, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.HOT_SHOT_BLASTER,
+                  UpgradeCard.ION_CANNON, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.ION_PULSE_MISSILES,
                   UpgradeCard.ION_TORPEDOES, UpgradeCard.MANGLER_CANNON, UpgradeCard.PLASMA_TORPEDOES,
-                  UpgradeCard.PROTON_TORPEDOES, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(upgrade.value))
+                  UpgradeCard.PROTON_TORPEDOES, UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(upgrade.value))
             {
                 if (upgrade.spendFocus)
                 {
@@ -404,30 +405,9 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
 
             if (isDefenderHit)
             {
-                if (![UpgradeCard.ADVANCED_HOMING_MISSILES, UpgradeCard.ION_PULSE_MISSILES, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(weapon.upgradeKey()))
+                if (![UpgradeCard.ADVANCED_HOMING_MISSILES, UpgradeCard.FLECHETTE_CANNON, UpgradeCard.ION_CANNON, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.ION_PULSE_MISSILES, UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(weapon.upgradeKey()))
                 {
-                    if (weapon.upgradeKey() === UpgradeCard.FLECHETTE_CANNON)
-                    {
-                        defender.addDamage(environment.drawDamage());
-                        if (!defender.isStressed())
-                        {
-                            defender.receiveStress();
-                        }
-                    }
-                    else if (weapon.upgradeKey() === UpgradeCard.ION_CANNON ||
-                        weapon.upgradeKey() === UpgradeCard.ION_CANNON_TURRET)
-                    {
-                        defender.addDamage(environment.drawDamage());
-                        store.dispatch(Action.addIonCount(defender));
-                    }
-                    else if (weapon.upgradeKey() === UpgradeCard.TWIN_LASER_TURRET)
-                    {
-                        defender.addDamage(environment.drawDamage());
-                    }
-                    else
-                    {
-                        damageDealer.dealDamage();
-                    }
+                    damageDealer.dealDamage();
 
                     if (attacker.pilotKey() === Pilot.WHISPER)
                     {
