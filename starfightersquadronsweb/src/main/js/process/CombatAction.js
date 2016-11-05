@@ -113,39 +113,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             }
             attacker.combatState().rangeKey(rangeKey);
 
-            var weapon = this.weapon();
-            var upgrade = weapon.upgrade();
-
-            if (upgrade &&
-                ![UpgradeCard.ADVANCED_HOMING_MISSILES, UpgradeCard.ADVANCED_PROTON_TORPEDOES, UpgradeCard.ASSAULT_MISSILES,
-                  UpgradeCard.BLASTER_TURRET, UpgradeCard.CLUSTER_MISSILES, UpgradeCard.CONCUSSION_MISSILES,
-                  UpgradeCard.FLECHETTE_TORPEDOES, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.HOT_SHOT_BLASTER,
-                  UpgradeCard.ION_CANNON, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.ION_PULSE_MISSILES,
-                  UpgradeCard.ION_TORPEDOES, UpgradeCard.MANGLER_CANNON, UpgradeCard.PLASMA_TORPEDOES,
-                  UpgradeCard.PROTON_TORPEDOES, UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(upgrade.value))
-            {
-                if (upgrade.spendFocus)
-                {
-                    var store = this.environment().store();
-                    store.dispatch(Action.addFocusCount(attacker, -1));
-                }
-
-                if (upgrade.spendTargetLock)
-                {
-                    var targetLock = attacker.findTargetLockByDefender(defender);
-
-                    if (targetLock)
-                    {
-                        attacker.removeAttackerTargetLock(targetLock);
-                    }
-                }
-
-                if (upgrade.discardThisCard)
-                {
-                    attacker.discardUpgrade(weapon.upgradeKey());
-                }
-            }
-
             this.rollAttackDice();
 
             LOGGER.trace("CombatAction.declareTarget() end");
@@ -405,7 +372,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
 
             if (isDefenderHit)
             {
-                if (![UpgradeCard.ADVANCED_HOMING_MISSILES, UpgradeCard.FLECHETTE_CANNON, UpgradeCard.ION_CANNON, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.ION_PULSE_MISSILES, UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.XX_23_S_THREAD_TRACERS].vizziniContains(weapon.upgradeKey()))
+                if (!weapon.upgrade() || weapon.upgrade().cancelAllDiceResults !== true)
                 {
                     damageDealer.dealDamage();
 
