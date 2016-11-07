@@ -133,7 +133,6 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
 
             getInitialState: function()
             {
-                InputValidator.validateNotNull("agentNumber", this.props.agentNumber);
                 var initialTeamKey = (this.props.initialTeamKey ? this.props.initialTeamKey : Team.IMPERIAL);
                 var initialName = "Agent " + this.props.agentNumber;
                 var initialType = (this.props.initialType ? this.props.initialType : "SimpleAgent");
@@ -396,7 +395,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
 
                 this.setState(
                 {
-                    team: selected,
+                    teamKey: selected,
                     squadBuilder: squadBuilder,
                 }, function()
                 {
