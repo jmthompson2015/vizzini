@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>MyTestAgentPanel</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+	<script src="../../../../../coreweb/src/main/js/ui/Select.js"></script>
+
+	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+</head>
+<body>
+	<div id="inputArea"></div>
+
+	<script>
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["process/ui/NewGamePanel"], function(NewGamePanel)
+		{
+			var resourceBase = "../../../main/resources/";
+			var iconBase = resourceBase + "icons/";
+			var imageBase = resourceBase + "images/";
+
+			var element = React.createElement(NewGamePanel.AgentPanel,
+			{
+				agentNumber: 1,
+				iconBase: iconBase,
+				imageBase: imageBase,
+				onChange: myOnChange,
+			});
+			ReactDOM.render(element, document.getElementById("inputArea"));
+
+			function myOnChange(agent, agentNumber, squad)
+			{
+				LOGGER.info("myOnChange()");
+				LOGGER.info("agent = " + agent);
+				LOGGER.info("agentNumber = " + agentNumber);
+				LOGGER.info("squad = " + squad);
+			}
+		});
+	</script>
+</body>
+
+</html>
