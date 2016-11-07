@@ -4,6 +4,63 @@ define(["process/DualToken", "Pilot", "Team", "process/Token", "UpgradeCard", "p
         "use strict";
         var SquadBuilders = [];
 
+        // Duncan Howard
+        // - Omicron Group Pilot + Sensor Jammer + Emperor Palpatine
+        // - The Inquisitor + Push the Limit + Tie/v1 + Autothrusters
+        // - Soontir Fel + Push the Limit + Royal Guard TIE + Autothrusters + Stealth Device
+        SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #1", 2016, "Lambda Shuttle/TIE Adv. Prototype/Interceptor", function(store, agent)
+        {
+            var answer = [];
+            answer.push(new Token(store, Pilot.OMICRON_GROUP_PILOT, agent, [UpgradeCard.SENSOR_JAMMER, UpgradeCard.EMPEROR_PALPATINE]));
+            answer.push(new Token(store, Pilot.THE_INQUISITOR, agent, [UpgradeCard.TIE_V1, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.AUTOTHRUSTERS]));
+            answer.push(new Token(store, Pilot.SOONTIR_FEL, agent, [UpgradeCard.ROYAL_GUARD_TIE, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.AUTOTHRUSTERS, UpgradeCard.STEALTH_DEVICE]));
+            return answer;
+        }));
+
+        // Jeff Berling
+        // - Dengar + Punishing One + Lone Wolf + R5-P8 + Glitterstim + Plasma Torpedoes + Zuckuss + Counter-Measures
+        // - Manaroo + Feedback Array + Push the Limit + Unhinged Astromech + Engine Upgrade + Recon Specialist
+        SquadBuilders.push(new SquadBuilder(Team.SCUM, "US Nationals #2", 2016, "JumpMasters x2", function(store, agent)
+        {
+            var answer = [];
+            answer.push(new Token(store, Pilot.DENGAR, agent, [UpgradeCard.PUNISHING_ONE, UpgradeCard.LONE_WOLF, UpgradeCard.PLASMA_TORPEDOES, UpgradeCard.ZUCKUSS, UpgradeCard.R5_P8, UpgradeCard.GLITTERSTIM, UpgradeCard.COUNTERMEASURES]));
+            answer.push(new Token(store, Pilot.MANAROO, agent, [UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.RECON_SPECIALIST, UpgradeCard.UNHINGED_ASTROMECH, UpgradeCard.FEEDBACK_ARRAY, UpgradeCard.ENGINE_UPGRADE]));
+            return answer;
+        }));
+
+        // Preston Blitzer
+        // - Whisper + Intelligence Agent + Fire-Control System + Advanced Cloaking Device + Veteran Instincts
+        // - Captain Oicunn + Emperor Palpatine + Rebel Captive + Engine Upgrade + Predator
+        SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #3", 2016, "TIE Phantom/Decimator", function(store, agent)
+        {
+            var answer = [];
+            answer.push(new Token(store, Pilot.WHISPER, agent, [UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.INTELLIGENCE_AGENT, UpgradeCard.ADVANCED_CLOAKING_DEVICE]));
+            answer.push(new Token(store, Pilot.CAPTAIN_OICUNN, agent, [UpgradeCard.PREDATOR, UpgradeCard.EMPEROR_PALPATINE, UpgradeCard.REBEL_CAPTIVE, UpgradeCard.ENGINE_UPGRADE]));
+            return answer;
+        }));
+
+        // Derek Tokaz
+        // - Bossk + Crack Shot + Concussion Missiles + Zuckuss + Dengar
+        // - Tel Trevura + Push the Limit + Gonk + R5-P8 + Feedback Array + Hull Upgrade + Punishing One
+        SquadBuilders.push(new SquadBuilder(Team.SCUM, "US Nationals #4", 2016, "YV-666/JumpMaster", function(store, agent)
+        {
+            var answer = [];
+            answer.push(new Token(store, Pilot.BOSSK, agent, [UpgradeCard.CRACK_SHOT, UpgradeCard.CONCUSSION_MISSILES, UpgradeCard.ZUCKUSS, UpgradeCard.DENGAR]));
+            answer.push(new Token(store, Pilot.TEL_TREVURA, agent, [UpgradeCard.PUNISHING_ONE, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.GONK, UpgradeCard.R5_P8, UpgradeCard.FEEDBACK_ARRAY, UpgradeCard.HULL_UPGRADE]));
+            return answer;
+        }));
+
+        // Bryan England
+        // - Manaroo + Push the Limit + Unhinged Astromech + Feedback Array + Flechette Torpedoes + Gonk + Engine Upgrade
+        // - Dengar + Punishing One + Lone Wolf + Overclocked R4 + Glitterstim + Plasma Torpedoes + Zuckuss + Counter-Measures
+        SquadBuilders.push(new SquadBuilder(Team.SCUM, "US Nationals #5", 2016, "JumpMasters x2", function(store, agent)
+        {
+            var answer = [];
+            answer.push(new Token(store, Pilot.MANAROO, agent, [UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FLECHETTE_TORPEDOES, UpgradeCard.GONK, UpgradeCard.UNHINGED_ASTROMECH, UpgradeCard.FEEDBACK_ARRAY, UpgradeCard.ENGINE_UPGRADE]));
+            answer.push(new Token(store, Pilot.DENGAR, agent, [UpgradeCard.PUNISHING_ONE, UpgradeCard.LONE_WOLF, UpgradeCard.PLASMA_TORPEDOES, UpgradeCard.ZUCKUSS, UpgradeCard.OVERCLOCKED_R4, UpgradeCard.GLITTERSTIM, UpgradeCard.COUNTERMEASURES]));
+            return answer;
+        }));
+
         // Experimental: Huge ships
         var HugeShipImperialSquadBuilder = new SquadBuilder(Team.IMPERIAL, "Huge Ships: 168 Points", 2016,
             "Gozanti-class/Raider-class/TIE Advanced",
@@ -23,13 +80,13 @@ define(["process/DualToken", "Pilot", "Team", "process/Token", "UpgradeCard", "p
             {
                 var answer = [];
                 answer.push(new DualToken(store, Pilot.CR90_CORVETTE, agent, [UpgradeCard.HAN_SOLO,
-                        UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.GUNNERY_TEAM,
-                        UpgradeCard.SENSOR_TEAM, UpgradeCard.TIBANNA_GAS_SUPPLIES, UpgradeCard.CHEWBACCA,
-                        UpgradeCard.TANTIVE_IV], [UpgradeCard.WEAPONS_ENGINEER, UpgradeCard.QUAD_LASER_CANNONS,
-                        UpgradeCard.ENGINEERING_TEAM, UpgradeCard.IONIZATION_REACTOR]));
+                                UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.GUNNERY_TEAM,
+                                UpgradeCard.SENSOR_TEAM, UpgradeCard.TIBANNA_GAS_SUPPLIES, UpgradeCard.CHEWBACCA,
+                                UpgradeCard.TANTIVE_IV], [UpgradeCard.WEAPONS_ENGINEER, UpgradeCard.QUAD_LASER_CANNONS,
+                                UpgradeCard.ENGINEERING_TEAM, UpgradeCard.IONIZATION_REACTOR]));
                 answer.push(new Token(store, Pilot.WES_JANSON, agent, [UpgradeCard.R2_D2]));
                 answer.push(new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, agent, [UpgradeCard.DUTYFREE,
-                        UpgradeCard.RAYMUS_ANTILLES, UpgradeCard.FREQUENCY_JAMMER, UpgradeCard.EM_EMITTER]));
+                                UpgradeCard.RAYMUS_ANTILLES, UpgradeCard.FREQUENCY_JAMMER, UpgradeCard.EM_EMITTER]));
                 return answer;
             });
         SquadBuilders.push(HugeShipRebelSquadBuilder);
