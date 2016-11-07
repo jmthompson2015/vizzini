@@ -168,6 +168,11 @@ define(["Count"], function(Count)
         });
     };
 
+    Action.addTractorBeamCount = function(token, value)
+    {
+        return Action.addCount(token, Count.TRACTOR_BEAM, value);
+    };
+
     Action.addWeaponsDisabledCount = function(token, value)
     {
         return Action.addCount(token, Count.WEAPONS_DISABLED, value);
@@ -479,6 +484,11 @@ define(["Count"], function(Count)
             upgradeKey: upgradeKey,
             value: myValue,
         });
+    };
+
+    Action.setTractorBeamCount = function(token, value)
+    {
+        return Action.setCount(token, Count.TRACTOR_BEAM, value);
     };
 
     Action.setUserMessage = function(userMessage)

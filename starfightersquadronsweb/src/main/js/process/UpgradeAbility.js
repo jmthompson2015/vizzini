@@ -72,28 +72,6 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
 
         UpgradeAbility[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MANGLER_CANNON] = function(store, token)
         {
-            // InputValidator.validateNotNull("store", store);
-            // InputValidator.validateNotNull("token", token);
-            //
-            // var attacker = Selector.activeToken(store.getState());
-            //
-            // if (attacker === token)
-            // {
-            //     var combatState = attacker.combatState();
-            //     var combatAction = combatState.combatAction();
-            //     var weapon = combatAction.weapon();
-            //
-            //     if (weapon.upgradeKey() === UpgradeCard.MANGLER_CANNON)
-            //     {
-            //         LOGGER.info("UpgradeAbility.protonTorpedoes() start");
-            //
-            //         // When attacking, you may change 1 of your Hit results to a Critical Hit result.
-            //         var attackDice = combatState.attackDice();
-            //         attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            //
-            //         LOGGER.info("UpgradeAbility.protonTorpedoes() end");
-            //     }
-            // }
             combat(store, token, UpgradeCard.MANGLER_CANNON, function(store, attacker)
             {
                 // When attacking, you may change 1 of your Hit results to a Critical Hit result.
@@ -307,6 +285,19 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 {
                     var defender = attacker.combatState().combatAction().defender();
                     store.dispatch(Action.addShieldCount(defender, -1));
+                }
+            });
+        };
+
+        UpgradeAbility[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.TRACTOR_BEAM] = function(store, token)
+        {
+            combat(store, token, UpgradeCard.TRACTOR_BEAM, function(store, attacker)
+            {
+                // If this attack hits, the defender receives 1 tractor beam token.
+                if (attacker.combatState().isDefenderHit())
+                {
+                    var defender = attacker.combatState().combatAction().defender();
+                    store.dispatch(Action.addTractorBeamCount(defender));
                 }
             });
         };

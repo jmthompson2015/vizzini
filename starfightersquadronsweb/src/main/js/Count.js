@@ -1,8 +1,7 @@
 define(function()
 {
     "use strict";
-    var Count =
-    {
+    var Count = {
         CLOAK: "cloak",
         ENERGY: "energy",
         EVADE: "evade",
@@ -11,6 +10,7 @@ define(function()
         REINFORCE: "reinforce",
         SHIELD: "shield",
         STRESS: "stress",
+        TRACTOR_BEAM: "tractorBeam",
         WEAPONS_DISABLED: "weaponsDisabled",
 
         properties:
@@ -54,6 +54,11 @@ define(function()
             {
                 name: "Stress",
                 value: "stress",
+            },
+            "tractorBeam":
+            {
+                name: "Tractor Beam",
+                value: "tractorBeam",
             },
             "weaponsDisabled":
             {

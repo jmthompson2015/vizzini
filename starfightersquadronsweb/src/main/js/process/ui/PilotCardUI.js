@@ -983,6 +983,19 @@ define(["ShipState", "UpgradeType", "process/ui/FactionUI", "process/ui/LabeledI
                     key: cells.length,
                 }, element));
 
+                element = React.createElement(LabeledImage,
+                {
+                    image: "token/TractorBeam32.png",
+                    imageBase: this.props.imageBase,
+                    label: String(myToken.tractorBeamCount()),
+                    labelClass: "lightImageText",
+                    title: "Tractor Beam",
+                });
+                cells.push(React.DOM.td(
+                {
+                    key: cells.length,
+                }, element));
+
                 attackerTargetLocks.forEach(function(targetLock)
                 {
                     var title = "Target Lock to " + targetLock.defender().name();

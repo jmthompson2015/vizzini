@@ -1,4 +1,4 @@
-define([ "Count" ], function(Count)
+define(["Count"], function(Count)
 {
     "use strict";
     QUnit.module("Count");
@@ -56,7 +56,7 @@ define([ "Count" ], function(Count)
 
         // Verify.
         assert.ok(result);
-        var length = 9;
+        var length = 10;
         assert.equal(result.length, length);
         assert.equal(result[0], Count.CLOAK);
         assert.equal(result[length - 1], Count.WEAPONS_DISABLED);

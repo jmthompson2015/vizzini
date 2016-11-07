@@ -428,6 +428,36 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
             }, delay);
         });
 
+        QUnit.test("CombatAction.doIt() Tractor Beam", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.TRACTOR_BEAM;
+            var combatAction = createCombatAction(upgradeKey);
+            var environment = combatAction.environment();
+            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+            assert.equal(defender.tractorBeamCount(), 0);
+
+            // Run.
+            var done = assert.async();
+            combatAction.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(attacker.isUpgradedWith(upgradeKey));
+                assert.equal(attacker.secondaryWeapons().length, 1);
+                verifyAttackDice(assert, attacker.combatState().attackDice());
+
+                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                assert.equal(defender.damageCount(), 0);
+                assert.equal(defender.criticalDamageCount(), 0);
+                assert.equal(defender.tractorBeamCount(), 1);
+                done();
+            }, delay);
+        });
+
         QUnit.test("CombatAction.doIt() Twin Laser Turret", function(assert)
         {
             // Setup.

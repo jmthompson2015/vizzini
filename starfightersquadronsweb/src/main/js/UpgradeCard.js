@@ -2435,6 +2435,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     ranges: [RangeRuler.ONE, RangeRuler.TWO, RangeRuler.THREE],
                     firingArcKey: FiringArc.FORWARD,
                     description: "Attack 1 ship. If this attack hits, the defender receives 1 tractor beam token. Then cancel all dice results.",
+                    cancelAllDiceResults: true,
                     squadPointCost: 1,
                     value: "tractorBeam",
                 },

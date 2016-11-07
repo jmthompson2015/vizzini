@@ -309,6 +309,7 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                     }
 
                     store.dispatch(Action.setReinforceCount(token));
+                    store.dispatch(Action.setTractorBeamCount(token));
                     store.dispatch(Action.setWeaponsDisabledCount(token));
                 }
 

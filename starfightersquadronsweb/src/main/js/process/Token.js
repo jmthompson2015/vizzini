@@ -773,6 +773,11 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             return this.name();
         };
 
+        Token.prototype.tractorBeamCount = function()
+        {
+            return Selector.tractorBeamCount(this.store().getState(), this.id());
+        };
+
         Token.prototype.upgradeKeys = function()
         {
             return Selector.upgrades(this.store().getState(), this.id());

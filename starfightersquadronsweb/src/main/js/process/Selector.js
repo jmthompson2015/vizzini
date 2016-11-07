@@ -205,6 +205,11 @@ define(["Count", "Value"], function(Count, Value)
         return answer;
     };
 
+    Selector.tractorBeamCount = function(state, tokenId)
+    {
+        return Selector.count(state, tokenId, Count.TRACTOR_BEAM);
+    };
+
     Selector.upgrades = function(state, tokenId)
     {
         InputValidator.validateNotNull("state", state);

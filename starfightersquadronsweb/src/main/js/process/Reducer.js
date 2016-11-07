@@ -709,6 +709,16 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     newValue += 2;
                 }
 
+                if (property === Value.AGILITY)
+                {
+                    var tractorBeamCount = token.tractorBeamCount();
+
+                    if (tractorBeamCount !== undefined)
+                    {
+                        newValue -= tractorBeamCount;
+                    }
+                }
+
                 newValue = Math.max(newValue, 0);
             }
 
