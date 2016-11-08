@@ -1,5 +1,5 @@
-define(["process/Observer", "process/UpgradeAbility"],
-    function(Observer, UpgradeAbility)
+define(["process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
+    function(Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
     {
         "use strict";
 
@@ -9,25 +9,28 @@ define(["process/Observer", "process/UpgradeAbility"],
 
             this.onChange = function(phaseKey)
             {
-                var upgradeAbilities = UpgradeAbility[phaseKey];
-
-                if (upgradeAbilities !== undefined)
+              [UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4].forEach(function(upgradeAbility)
                 {
-                    var tokens = Object.values(store.getState().tokens);
+                    var upgradeAbilities = upgradeAbility[phaseKey];
 
-                    tokens.forEach(function(token)
+                    if (upgradeAbilities !== undefined)
                     {
-                        token.upgradeKeys().forEach(function(upgradeKey)
-                        {
-                            var upgradeAbility = upgradeAbilities[upgradeKey];
+                        var tokens = Object.values(store.getState().tokens);
 
-                            if (upgradeAbility !== undefined)
+                        tokens.forEach(function(token)
+                        {
+                            token.upgradeKeys().forEach(function(upgradeKey)
                             {
-                                upgradeAbility(store, token);
-                            }
+                                var upgradeAbility = upgradeAbilities[upgradeKey];
+
+                                if (upgradeAbility !== undefined)
+                                {
+                                    upgradeAbility(store, token);
+                                }
+                            });
                         });
-                    });
-                }
+                    }
+                });
             };
 
             this.select = function(state)

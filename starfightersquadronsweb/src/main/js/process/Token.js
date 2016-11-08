@@ -138,7 +138,7 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
                         answer = changeSpeedManeuversToDifficulty(answer, 3, Difficulty.EASY);
                     }
 
-                    if (this.isStressed())
+                    if (this.isStressed() && !this.isUpgradedWith(UpgradeCard.HERA_SYNDULLA))
                     {
                         answer = answer.filter(function(maneuverKey)
                         {
@@ -711,6 +711,11 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
                 answer.vizziniRemove(ShipAction.CLOAK);
             }
 
+            if (this.isUpgradedWith(UpgradeCard.MIST_HUNTER))
+            {
+                answer.push(ShipAction.BARREL_ROLL);
+            }
+
             if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
             {
                 answer.push(ShipAction.BOOST);
@@ -719,6 +724,11 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))
             {
                 answer.push(ShipAction.EVADE);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.BROADCAST_ARRAY))
+            {
+                answer.push(ShipAction.JAM);
             }
 
             if (this.isUpgradedWith(UpgradeCard.TARGETING_COMPUTER))
@@ -807,6 +817,11 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
                 answer.push(UpgradeType.ELITE);
             }
 
+            if (this.isUpgradedWith(UpgradeCard.R2_D6))
+            {
+                answer.push(UpgradeType.ELITE);
+            }
+
             if (this.isUpgradedWith(UpgradeCard.ANDRASTA))
             {
                 answer.push(UpgradeType.BOMB);
@@ -818,6 +833,12 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
                 answer.push(UpgradeType.CREW);
             }
 
+            if (this.isUpgradedWith(UpgradeCard.TANTIVE_IV))
+            {
+                answer.push(UpgradeType.CREW);
+                answer.push(UpgradeType.TEAM);
+            }
+
             if (this.isUpgradedWith(UpgradeCard.BOMB_LOADOUT))
             {
                 answer.push(UpgradeType.BOMB);
@@ -826,6 +847,11 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             if (this.isUpgradedWith(UpgradeCard.SLAVE_I))
             {
                 answer.push(UpgradeType.TORPEDO);
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.TIE_X1))
+            {
+                answer.push(UpgradeType.SYSTEM);
             }
 
             if (this.isUpgradedWith(UpgradeCard.VIRAGO))

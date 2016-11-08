@@ -558,6 +558,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.GOZANTI_CLASS_CRUISER_ONLY],
                     description: "Your action bar gains the Jam action icon.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "broadcastArray",
                 },
                 "btlA4YWing":
@@ -1114,6 +1115,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.CREW,
                     description: "When defending, you may reroll 1 of your Focus results. If the attacker's pilot skill value is \"2\" or lower, you may reroll 1 of your blank results instead.",
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "flightInstructor",
                 },
                 "fourLom":
@@ -1258,6 +1260,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.REBEL_ONLY],
                     description: "You can reveal and execute red maneuvers even while you are stressed.",
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "heraSyndulla",
                 },
                 "homingMissiles":
@@ -1667,6 +1670,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.G_1A_STARFIGHTER_ONLY],
                     description: "Your action bar gains the Barrel Roll action icon. You must equip 1 \"Tractor Beam\" upgrade card (paying its squad point cost as normal).",
                     squadPointCost: 0,
+                    isImplemented: true,
                     value: "mistHunter",
                 },
                 "moffJerjerrod":
@@ -1874,6 +1878,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.JUMPMASTER_5000_ONLY],
                     description: "Increase your primary weapon value by 1.",
                     squadPointCost: 12,
+                    isImplemented: true,
                     value: "punishingOne",
                 },
                 "pushTheLimit":
@@ -1906,6 +1911,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     description: "At the start of the End phase, if you have 1 or fewer energy tokens, gain 1 energy token.",
                     energyValue: 1,
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "quantumStorm",
                 },
                 "r2Astromech":
@@ -1944,6 +1950,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     isUnique: true,
                     description: "Your upgrade bar gains the Elite upgrade icon. You cannot equip this upgrade if you already have a Elite upgrade icon or if your pilot skill value is 2 or lower.",
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "r2D6",
                 },
                 "r2F2":
@@ -2351,6 +2358,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.CR90_ONLY],
                     description: "Your fore section upgrade bar gains 1 additional Crew and 1 additional Team upgrade icon.",
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "tantiveIv",
                 },
                 "targetingAstromech":

@@ -685,6 +685,14 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     }
                 }
 
+                if (property === Value.PRIMARY_WEAPON)
+                {
+                    if (token && token.isUpgradedWith(UpgradeCard.PUNISHING_ONE))
+                    {
+                        newValue++;
+                    }
+                }
+
                 var propertyName = property + "Value";
 
                 if (damage)
