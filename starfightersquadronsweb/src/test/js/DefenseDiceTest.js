@@ -1,4 +1,4 @@
-define([ "DefenseDice" ], function(DefenseDice)
+define(["DefenseDice"], function(DefenseDice)
 {
     "use strict";
     QUnit.module("DefenseDice");
@@ -56,8 +56,7 @@ define([ "DefenseDice" ], function(DefenseDice)
     QUnit.test("rerollBlank()", function(assert)
     {
         var dice;
-        do
-        {
+        do {
             dice = new DefenseDice(1);
         }
         while (dice.blankCount() === 0);
@@ -73,6 +72,28 @@ define([ "DefenseDice" ], function(DefenseDice)
         else
         {
             assert.equal(dice.blankCount(), 0);
+        }
+    });
+
+    QUnit.test("rerollFocus()", function(assert)
+    {
+        var dice;
+        do {
+            dice = new DefenseDice(1);
+        }
+        while (dice.focusCount() === 0);
+
+        // Run.
+        dice.rerollFocus();
+
+        // Verify.
+        if (dice.value(0) === DefenseDice.Value.FOCUS)
+        {
+            assert.equal(dice.focusCount(), 1);
+        }
+        else
+        {
+            assert.equal(dice.focusCount(), 0);
         }
     });
 });
