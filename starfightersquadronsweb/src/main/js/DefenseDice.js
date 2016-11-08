@@ -1,6 +1,7 @@
 define(function()
 {
     "use strict";
+
     function DefenseDice(initialSize)
     {
         InputValidator.validateIsNumber("initialSize", initialSize);
@@ -46,6 +47,21 @@ define(function()
                 var value = values[i];
 
                 if (value === DefenseDice.Value.BLANK)
+                {
+                    values[i] = rollRandomValue();
+                    break;
+                }
+            }
+        };
+
+        this.rerollFocus = function()
+        {
+            // Reroll a focus value.
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === DefenseDice.Value.FOCUS)
                 {
                     values[i] = rollRandomValue();
                     break;
@@ -126,22 +142,22 @@ define(function()
             // There are 2 focus, 3 evade, and 3 blank.
             switch (roll)
             {
-            case 1:
-            case 4:
-                value = DefenseDice.Value.FOCUS;
-                break;
-            case 2:
-            case 5:
-            case 7:
-                value = DefenseDice.Value.EVADE;
-                break;
-            case 3:
-            case 6:
-            case 8:
-                value = DefenseDice.Value.BLANK;
-                break;
-            default:
-                throw new RuntimeException("Unsupported roll: " + roll);
+                case 1:
+                case 4:
+                    value = DefenseDice.Value.FOCUS;
+                    break;
+                case 2:
+                case 5:
+                case 7:
+                    value = DefenseDice.Value.EVADE;
+                    break;
+                case 3:
+                case 6:
+                case 8:
+                    value = DefenseDice.Value.BLANK;
+                    break;
+                default:
+                    throw new RuntimeException("Unsupported roll: " + roll);
             }
 
             return value;
@@ -156,8 +172,7 @@ define(function()
         }
     }
 
-    DefenseDice.Value =
-    {
+    DefenseDice.Value = {
         EVADE: "evade",
         FOCUS: "focus",
         BLANK: "blank",
