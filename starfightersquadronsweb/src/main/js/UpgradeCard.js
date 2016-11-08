@@ -538,6 +538,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.SCUM_ONLY],
                     description: "After you perform an attack that does not hit, if you are not stressed, you must receive 1 Stress token. Then assign 1 Focus token to your ship and acquire a Target Lock on the defender.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "bossk",
                 },
                 "brightHope":
@@ -824,6 +825,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.ILLICIT,
                     description: "When you are destroyed, each ship at Range 1 suffers 1 damage.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "deadMansSwitch",
                 },
                 "deadeye":
@@ -850,6 +852,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.SCUM_ONLY],
                     description: "When attacking, you may reroll 1 attack die. If the defender is a unique pilot, you may instead reroll up to 2 attack dice.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "dengar",
                 },
                 "determination":
@@ -1050,8 +1053,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.CREW,
                     isUnique: true,
                     restrictions: [UpgradeRestriction.REBEL_ONLY],
-                    description: "When attacking, if you are stressed, you may change 1 of your focus results to a crit result.",
+                    description: "When attacking, if you are stressed, you may change 1 of your Focus results to a Critical Hit result.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "ezraBridger",
                 },
                 "feedbackArray":
@@ -1633,6 +1637,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.IMPERIAL_ONLY],
                     description: "At the end of the Combat phase, each enemy ship at Range 1 that does not have a stress token receives 1 stress token.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "maraJade",
                 },
                 "marksmanship":
@@ -1650,6 +1655,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.CREW,
                     description: "When attacking at Range 3, you may change 1 of your Hit results to a Critical Hit result.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "mercenaryCopilot",
                 },
                 "millenniumFalcon":
@@ -1822,6 +1828,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.ELITE,
                     description: "When attacking, you may reroll 1 attack die. If the defender's pilot skill value if \"2\" or lower, you may instead reroll up to 2 attack dice.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "predator",
                 },
                 "protonBombs":
@@ -2127,6 +2134,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.LARGE_SHIP_ONLY],
                     description: "After you suffer 3 or more damage from an attack, recover 1 shield (up to your shield value).",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "reinforcedDeflectors",
                 },
                 "requiem":
@@ -2553,6 +2561,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.ELITE,
                     description: "When attacking or defending, if you are stressed, you may reroll 1 or more of your Focus results.",
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "wired",
                 },
                 "xx23SThreadTracers":

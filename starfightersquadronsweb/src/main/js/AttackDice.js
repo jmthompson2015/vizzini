@@ -1,6 +1,7 @@
 define(function()
 {
     "use strict";
+
     function AttackDice(initialSize)
     {
         InputValidator.validateIsNumber("initialSize", initialSize);
@@ -54,19 +55,54 @@ define(function()
             return valueCount(AttackDice.Value.HIT);
         };
 
-        this.rerollBlank = function()
+        this.rerollAllFocus = function()
         {
-            // Reroll a blank value.
+            // Reroll all focus values.
             for (var i = 0; i < values.length; i++)
             {
                 var value = values[i];
 
-                if (value === AttackDice.Value.BLANK)
+                if (value === AttackDice.Value.FOCUS)
                 {
                     values[i] = rollRandomValue();
-                    break;
                 }
             }
+        };
+
+        this.rerollBlank = function(count)
+        {
+            rerollType(AttackDice.Value.BLANK, count);
+        };
+
+        this.rerollBlankAndFocus = function(count)
+        {
+            var blankCount = this.blankCount();
+            var focusCount = this.focusCount();
+
+            if (blankCount >= count)
+            {
+                this.rerollBlank(count);
+            }
+            else
+            {
+                // 0 <= blankCount < count
+                if (blankCount > 0)
+                {
+                    this.rerollBlank(count);
+                }
+
+                var myCount = count - blankCount;
+
+                if (myCount > 0)
+                {
+                    this.rerollFocus(myCount);
+                }
+            }
+        };
+
+        this.rerollFocus = function(count)
+        {
+            rerollType(AttackDice.Value.FOCUS, count);
         };
 
         this.size = function()
@@ -127,6 +163,31 @@ define(function()
             }
         }
 
+        function rerollType(type, count)
+        {
+            InputValidator.validateNotNull("type", type);
+            // count optional; default: 1
+
+            // Reroll type values.
+            var myCount = (count === undefined ? 1 : count);
+
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === type)
+                {
+                    values[i] = rollRandomValue();
+                    myCount--;
+
+                    if (myCount === 0)
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
         function rollRandomValue()
         {
             var min = 1;
@@ -137,24 +198,24 @@ define(function()
             // There are 2 focus, 3 hit, 1 critical hit, and 2 blank.
             switch (roll)
             {
-            case 1:
-            case 5:
-                value = AttackDice.Value.FOCUS;
-                break;
-            case 2:
-            case 6:
-            case 8:
-                value = AttackDice.Value.HIT;
-                break;
-            case 3:
-                value = AttackDice.Value.CRITICAL_HIT;
-                break;
-            case 4:
-            case 7:
-                value = AttackDice.Value.BLANK;
-                break;
-            default:
-                throw new RuntimeException("Unsupported roll: " + roll);
+                case 1:
+                case 5:
+                    value = AttackDice.Value.FOCUS;
+                    break;
+                case 2:
+                case 6:
+                case 8:
+                    value = AttackDice.Value.HIT;
+                    break;
+                case 3:
+                    value = AttackDice.Value.CRITICAL_HIT;
+                    break;
+                case 4:
+                case 7:
+                    value = AttackDice.Value.BLANK;
+                    break;
+                default:
+                    throw new RuntimeException("Unsupported roll: " + roll);
             }
 
             return value;
@@ -169,8 +230,7 @@ define(function()
         }
     }
 
-    AttackDice.Value =
-    {
+    AttackDice.Value = {
         HIT: "hit",
         CRITICAL_HIT: "criticalHit",
         FOCUS: "focus",

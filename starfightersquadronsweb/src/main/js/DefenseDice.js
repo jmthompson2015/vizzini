@@ -39,6 +39,20 @@ define(function()
             return valueCount(DefenseDice.Value.FOCUS);
         };
 
+        this.rerollAllFocus = function()
+        {
+            // Reroll all focus values.
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === DefenseDice.Value.FOCUS)
+                {
+                    values[i] = rollRandomValue();
+                }
+            }
+        };
+
         this.rerollBlank = function()
         {
             // Reroll a blank value.

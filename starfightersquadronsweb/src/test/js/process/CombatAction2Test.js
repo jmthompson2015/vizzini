@@ -167,13 +167,12 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
             }, delay);
         });
 
-        QUnit.skip("CombatAction.doIt() Bossk upgrade", function(assert)
+        QUnit.test("CombatAction.doIt() Bossk upgrade", function(assert)
         {
             // Setup.
             var upgradeKey = UpgradeCard.BOSSK;
             var combatAction = createCombatAction2(upgradeKey);
             var environment = combatAction.environment();
-            // var store = environment.store();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
             assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -190,22 +189,12 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
             setTimeout(function()
             {
                 assert.ok(true, "test resumed from async operation");
-                if (attacker.combatState().isDefenderHit())
-                {
-                    assert.equal(attacker.stressCount(), 0);
-                    assert.equal(attacker.focusCount(), 0);
-                    assert.equal(attacker.attackerTargetLocks().length, 0);
-                    assert.equal(defender.defenderTargetLocks().length, 0);
-                }
-                else
-                {
-                    assert.equal(attacker.stressCount(), 1);
-                    assert.equal(attacker.focusCount(), 1);
-                    assert.equal(attacker.attackerTargetLocks().length, 1);
-                    assert.equal(defender.defenderTargetLocks().length, 1);
-                }
+                assert.equal(attacker.stressCount(), 0);
+                assert.equal(attacker.focusCount(), 0);
+                assert.equal(attacker.attackerTargetLocks().length, 0);
+                assert.equal(defender.defenderTargetLocks().length, 0);
                 done();
-            }, 1100);
+            }, delay);
         });
 
         QUnit.test("CombatAction.doIt() Flechette Cannon", function(assert)

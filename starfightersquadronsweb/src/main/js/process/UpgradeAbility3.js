@@ -63,6 +63,31 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.DENGAR] = function(store, token)
+        {
+            attack(store, token, UpgradeCard.DENGAR, function(store, attacker)
+            {
+                // When attacking, you may reroll 1 attack die. If the defender is a unique pilot, you may instead reroll up to 2 attack dice.
+                var attackDice = attacker.combatState().attackDice();
+                var defender = attacker.combatState().combatAction().defender();
+                var count = (defender.isUnique() ? 2 : 1);
+                attackDice.rerollBlankAndFocus(count);
+            });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.EZRA_BRIDGER] = function(store, token)
+        {
+            attack(store, token, UpgradeCard.EZRA_BRIDGER, function(store, attacker)
+            {
+                // When attacking, if you are stressed, you may change 1 of your Focus results to a Critical Hit result.
+                if (attacker.isStressed())
+                {
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
+                }
+            });
+        };
+
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.HEAVY_LASER_CANNON] = function(store, token)
         {
             attack(store, token, UpgradeCard.HEAVY_LASER_CANNON, function(store, attacker)
@@ -80,6 +105,31 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 // When attacking, you may change 1 of your Hit results to a Critical Hit result.
                 var attackDice = attacker.combatState().attackDice();
                 attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
+            });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MERCENARY_COPILOT] = function(store, token)
+        {
+            attack(store, token, UpgradeCard.MERCENARY_COPILOT, function(store, attacker)
+            {
+                // When attacking at Range 3, you may change 1 of your Hit results to a Critical Hit result.
+                if (attacker.combatState().rangeKey() === RangeRuler.THREE)
+                {
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
+                }
+            });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PREDATOR] = function(store, token)
+        {
+            attack(store, token, UpgradeCard.PREDATOR, function(store, attacker)
+            {
+                // When attacking, you may reroll 1 attack die. If the defender's pilot skill value if "2" or lower, you may instead reroll up to 2 attack dice.
+                var attackDice = attacker.combatState().attackDice();
+                var defender = attacker.combatState().combatAction().defender();
+                var count = (defender.pilotSkillValue() <= 2 ? 2 : 1);
+                attackDice.rerollBlankAndFocus(count);
             });
         };
 
@@ -105,6 +155,19 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.WIRED] = function(store, token)
+        {
+            attack(store, token, UpgradeCard.WIRED, function(store, attacker)
+            {
+                // When attacking or defending, if you are stressed, you may reroll 1 or more of your Focus results.
+                if (attacker.isStressed())
+                {
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.rerollAllFocus();
+                }
+            });
+        };
+
         UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE] = {};
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.FLIGHT_INSTRUCTOR] = function(store, token)
@@ -121,6 +184,19 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 else
                 {
                     defenseDice.rerollFocus();
+                }
+            });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.WIRED] = function(store, token)
+        {
+            defend(store, token, UpgradeCard.WIRED, function(store, attacker, defender)
+            {
+                // When attacking or defending, if you are stressed, you may reroll 1 or more of your Focus results.
+                if (defender.isStressed())
+                {
+                    var defenseDice = attacker.combatState().defenseDice();
+                    defenseDice.rerollAllFocus();
                 }
             });
         };
@@ -204,6 +280,23 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 {
                     var environment = store.getState().environment;
                     var defender = attacker.combatState().combatAction().defender();
+                    environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
+                    {
+                        token.addDamage(environment.drawDamage());
+                    });
+                }
+            });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.DEAD_MANS_SWITCH] = function(store, token)
+        {
+            defend(store, token, UpgradeCard.DEAD_MANS_SWITCH, function(store, attacker, defender)
+            {
+                // When you are destroyed, each ship at Range 1 suffers 1 damage.
+                if (defender.isDestroyed())
+                {
+                    var environment = store.getState().environment;
+
                     environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
                     {
                         token.addDamage(environment.drawDamage());
@@ -312,6 +405,20 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.REINFORCED_DEFLECTORS] = function(store, token)
+        {
+            defend(store, token, UpgradeCard.REINFORCED_DEFLECTORS, function(store, attacker, defender)
+            {
+                // After you suffer 3 or more damage from an attack, recover 1 shield (up to your shield value).
+                var damageDealer = attacker.combatState().damageDealer();
+
+                if (damageDealer.hits() + damageDealer.criticalHits() >= 3)
+                {
+                    defender.recoverShield();
+                }
+            });
+        };
+
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.TRACTOR_BEAM] = function(store, token)
         {
             attack(store, token, UpgradeCard.TRACTOR_BEAM, function(store, attacker)
@@ -337,6 +444,23 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                     defender.addDamage(environment.drawDamage());
                 }
             });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_END] = {};
+
+        UpgradeAbility3[Phase.COMBAT_END][UpgradeCard.MARA_JADE] = function(store, token)
+        {
+            // At the end of the Combat phase, each enemy ship at Range 1 that does not have a stress token receives 1 stress token.
+            if (token.isUpgradedWith(UpgradeCard.MARA_JADE))
+            {
+                environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).forEach(function(enemy)
+                {
+                    if (!enemy.isStressed())
+                    {
+                        enemy.receiveStress();
+                    }
+                });
+            }
         };
 
         function attack(store, token, upgradeKeyIn, upgradeFunction)
