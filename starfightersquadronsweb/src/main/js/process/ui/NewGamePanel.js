@@ -216,6 +216,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                     var squadBuilders = SquadBuilder.findByTeam(teamKey);
                     squadChooserPanel = React.createElement(SquadChooser,
                     {
+                        key: squadBuilderType + teamKey,
                         iconBase: this.props.iconBase,
                         imageBase: this.props.imageBase,
                         name: "agent" + this.props.agentNumber,
@@ -227,6 +228,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
                 {
                     squadChooserPanel = React.createElement(SquadBuilderUI,
                     {
+                        key: squadBuilderType + teamKey,
                         iconBase: this.props.iconBase,
                         imageBase: this.props.imageBase,
                         onChange: this.handleSquadChange,
@@ -242,7 +244,7 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "agentRow",
                 }, React.DOM.td(
                 {
                     className: "agentTitle",
@@ -251,51 +253,51 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "factionRow",
                 }, React.DOM.td(
                 {
-                    key: 0,
+                    key: "factionLabel",
                 }, "Faction:"), React.DOM.td(
                 {
-                    key: 1,
+                    key: "factionValue",
                 }, teamUI)));
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "agentNameRow",
                 }, React.DOM.td(
                 {
-                    key: 0,
-                }, "Name:"), React.DOM.td(
+                    key: "agentNameLabel",
+                }, "Agent Name:"), React.DOM.td(
                 {
-                    key: 1,
+                    key: "agentNameValue",
                 }, nameUI)));
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "agentTypeRow",
                 }, React.DOM.td(
                 {
-                    key: 0,
-                }, "Type:"), React.DOM.td(
+                    key: "agentTypeLabel",
+                }, "Agent Type:"), React.DOM.td(
                 {
-                    key: 1,
+                    key: "agentTypeValue",
                 }, typeUI)));
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "squadTypeRow",
                 }, React.DOM.td(
                 {
-                    key: 0,
-                }, "Squad:"), React.DOM.td(
+                    key: "squadTypeLabel",
+                }, "Squad Type:"), React.DOM.td(
                 {
-                    key: 1,
+                    key: "squadTypeValue",
                 }, squadBuilderTypeUI)));
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "squadChooserRow",
                 }, React.DOM.td(
                 {
                     colSpan: 2,

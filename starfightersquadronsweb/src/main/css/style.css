@@ -19,7 +19,7 @@ table {
     vertical-align: bottom;
 }
 
-#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .energyLabel, .optionPaneInput, .squadBuilderPanel, .squadChooserPanel, .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
+#ALIGN_LEFT, .agentPanel, .combatChoicePanel, .defenderChoice, .energyLabel, .optionPaneInput, .squadBuilderPanel, .squadBuilderUpgradeCell, .squadUIPilotName, .squadUIRemove, .upgradeCardUIImage, .alignLeft {
     text-align: left;
 }
 
@@ -121,7 +121,7 @@ table {
     font-size: medium;
 }
 
-#FONT_SMALL, .combatChoicePanel, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName, .squadBuilderPanel, .squadChooserPanel, .squadUI, .upgradeCardUI, .fontSmall {
+#FONT_SMALL, .combatChoicePanel, .combatTable, .optionPaneInput, .pilotCard, .pilotChooserLabel, #pilotName, #shipName, .squadBuilderPanel, .squadUI, .upgradeCardUI, .fontSmall {
     font-size: small;
 }
 
@@ -150,7 +150,7 @@ table {
     padding: 2px;
 }
 
-#PADDING_5, .combatMessage, .optionPaneMessage, .squadBuilderPanel, .squadChooserPanel, .padding5 {
+#PADDING_5, .combatMessage, .optionPaneMessage, .squadBuilderPanel, .padding5 {
     padding: 5px;
 }
 

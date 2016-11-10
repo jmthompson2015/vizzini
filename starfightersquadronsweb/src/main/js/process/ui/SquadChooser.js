@@ -10,7 +10,6 @@ define(["process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
                 imageBase: React.PropTypes.string.isRequired,
                 squadBuilders: React.PropTypes.array.isRequired,
 
-                name: React.PropTypes.string,
                 onChange: React.PropTypes.func,
             },
 
@@ -29,26 +28,18 @@ define(["process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
             {
                 var faction = this.state.squadBuilder.faction();
 
-                var squadIdFunction = function(value)
-                {
-                    return value.year() + "_" + value.name();
-                };
                 var squadLabelFunction = function(value)
                 {
                     return value.toString();
                 };
                 var squadBuilders = this.props.squadBuilders;
                 var selectedSquadBuilder = this.state.squadBuilder;
-                var squadChooserPanel = React.createElement(InputPanel,
+                var squadChooserSelect = React.createElement(Select,
                 {
-                    type: "radio",
                     values: squadBuilders,
-                    name: this.props.name,
-                    idFunction: squadIdFunction,
                     labelFunction: squadLabelFunction,
-                    initialValues: selectedSquadBuilder,
+                    initialSelectedValue: selectedSquadBuilder,
                     onChange: this.handleSquadChange,
-                    panelClass: "squadChooserPanel",
                 });
                 var agent = new SimpleAgent("Placeholder", faction);
                 var mySquad = selectedSquadBuilder.buildSquad(agent);
@@ -60,18 +51,28 @@ define(["process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
                 });
 
                 var rows = [];
+                var cells = [];
+                cells.push(React.DOM.td(
+                {
+                    key: "squadLabel",
+                }, "Squad:"));
+                cells.push(React.DOM.td(
+                {
+                    key: "squadChooserSelect",
+                    className: "squadChooserSelect",
+                }, squadChooserSelect));
+                rows.push(React.DOM.tr(
+                {
+                    key: "selectRow",
+                }, cells));
 
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "displayRow",
                 }, React.DOM.td(
-                {}, squadChooserPanel)));
-
-                rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
-                }, React.DOM.td(
-                {}, squadDisplayPanel)));
+                    colSpan: 2,
+                }, squadDisplayPanel)));
 
                 return React.DOM.table(
                 {
@@ -82,12 +83,14 @@ define(["process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
 
             handleSquadChange: function(event)
             {
-                var selected = event.target.id;
+                var selected = event.target.value;
                 LOGGER.debug("handleSquadChange() selected = " + selected);
-                var parts = selected.split("_");
-                var year = parseInt(parts[0]);
-                var name = parts[1];
-                LOGGER.debug("name = " + name + " year = " + year);
+                var year = parseInt(selected.substring(0, 4));
+                LOGGER.debug("year = " + year + " " + (typeof year));
+                var name = selected.substring(5);
+                var index = name.indexOf("(");
+                name = name.substring(0, index - 1);
+                LOGGER.debug("name = [" + name + "]");
                 var squadBuilder = SquadBuilder.findByNameAndYear(name, year);
                 this.setState(
                 {

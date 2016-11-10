@@ -74,7 +74,7 @@ Select.propTypes = {
     // Client properties. (optional)
     clientProps: React.PropTypes.object,
     // Initially selected value. (optional)
-    initialSelectedValue: React.PropTypes.string,
+    initialSelectedValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
     // Function which returns the label for a value. Defaults to simply return the value. (optional)
     labelFunction: React.PropTypes.func,
     // Function called when the selection changes. (optional)

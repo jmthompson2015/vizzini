@@ -30,18 +30,22 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["process/ui/NewGamePanel"], function(NewGamePanel)
+		require(["process/Reducer", "process/ui/NewGamePanel"], function(Reducer, NewGamePanel)
 		{
 			var resourceBase = "../../../main/resources/";
 			var iconBase = resourceBase + "icons/";
 			var imageBase = resourceBase + "images/";
+			var store = Redux.createStore(Reducer.root);
 
-			var element = React.createElement(NewGamePanel,
+			var element = React.createElement(ReactRedux.Provider,
+			{
+				store: store,
+			}, React.createElement(NewGamePanel,
 			{
 				callback: myOnChange,
 				iconBase: iconBase,
 				imageBase: imageBase,
-			});
+			}));
 			ReactDOM.render(element, document.getElementById("inputArea"));
 
 			function myOnChange(agent1, squad1, agent2, squad2)
