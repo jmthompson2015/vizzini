@@ -47,6 +47,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             CLUSTER_BOMBS: "clusterBombs",
             CLUSTER_MINES: "clusterMines",
             CLUSTER_MISSILES: "clusterMissiles",
+            COLLISION_DETECTOR: "collisionDetector",
             COMBAT_RETROFIT: "combatRetrofit",
             COMM_RELAY: "commRelay",
             COMMS_BOOSTER: "commsBooster",
@@ -199,6 +200,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             SABOTEUR: "saboteur",
             SALVAGED_ASTROMECH: "salvagedAstromech",
             SEISMIC_CHARGES: "seismicCharges",
+            SEISMIC_TORPEDO: "seismicTorpedo",
             SENSOR_JAMMER: "sensorJammer",
             SENSOR_TEAM: "sensorTeam",
             SHIELD_PROJECTOR: "shieldProjector",
@@ -224,6 +226,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             TIBANNA_GAS_SUPPLIES: "tibannaGasSupplies",
             TIE_V1: "tieV1",
             TIE_X1: "tieX1",
+            TIE_X7: "tieX7",
             TORYN_FARR: "torynFarr",
             TRACTOR_BEAM: "tractorBeam",
             TWIN_ION_ENGINE_MK_II: "twinIonEngineMkII",
@@ -692,6 +695,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 4,
                     isImplemented: true,
                     value: "clusterMissiles",
+                },
+                "collisionDetector":
+                {
+                    name: "Collision Detector",
+                    type: UpgradeType.SYSTEM,
+                    description: "When performing a boost, barrel roll, or decloak, your ship and maneuver template can overlap obstacles. When rolling for obstacle damage, ignore all Critical results.",
+                    squadPointCost: 0,
+                    value: "collisionDetector",
                 },
                 "combatRetrofit":
                 {
@@ -2202,6 +2213,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 2,
                     value: "seismicCharges",
                 },
+                "seismicTorpedo":
+                {
+                    name: "Seismic Torpedo",
+                    type: UpgradeType.TORPEDO,
+                    header: UpgradeHeader.ACTION,
+                    description: "Discard this card to choose an obstacle at Range 1-2 and inside your primary firing arc. Each ship at Range 1 of the obstacle rolls 1 attack die and suffers any damage or critical damage rolled. Then remove the obstacle.",
+                    squadPointCost: 2,
+                    value: "seismicTorpedo",
+                },
                 "sensorJammer":
                 {
                     name: "Sensor Jammer",
@@ -2430,6 +2450,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     description: "Your upgrade bar gains the System upgrade icon. If you equip a System upgrade, its squad point cost is reduced by 4 (to a minimum of 0).",
                     squadPointCost: 0,
                     value: "tieX1",
+                },
+                "tieX7":
+                {
+                    name: "TIE/x7",
+                    type: UpgradeType.TITLE,
+                    restrictions: [UpgradeRestriction.TIE_DEFENDER_ONLY],
+                    description: "Your upgrade bar loses the Cannon and Missile upgrade icons. After executing a 3-, 4-, or 5-speed maneuver, you may assign 1 evade token to your ship.",
+                    squadPointCost: -2,
+                    value: "tieX7",
                 },
                 "torynFarr":
                 {

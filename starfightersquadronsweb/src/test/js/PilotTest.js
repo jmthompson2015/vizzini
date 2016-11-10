@@ -1,4 +1,4 @@
-define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, Team)
+define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Team)
 {
     "use strict";
     QUnit.module("Pilot");
@@ -84,17 +84,17 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        var length = 186;
+        var length = 187;
         assert.equal(result.length, length);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
         assert.equal(result[length - 1], Pilot.ZUCKUSS);
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 - // properties
-        1 - // values
-        1 - // valuesByShipAndTeam
-        1 - // valuesByShipTeam
-        1; // valuesByTeam
+            1 - // values
+            1 - // valuesByShipAndTeam
+            1 - // valuesByShipTeam
+            1; // valuesByTeam
         assert.equal(result.length, count);
 
         for (var i = 0; i < result.length; i++)
@@ -182,7 +182,7 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        var length = 75;
+        var length = 76;
         assert.equal(result.length, length);
         assert.equal(result[length - 1], Pilot.ZERTIK_STROM);
     });
@@ -209,7 +209,7 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        var length = 75;
+        var length = 76;
         assert.equal(result.length, length);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
         assert.equal(result[length - 1], Pilot.ZETA_SQUADRON_PILOT);
@@ -225,7 +225,7 @@ define([ "Pilot", "Ship", "ShipTeam", "Team" ], function(Pilot, Ship, ShipTeam, 
 
         // Verify.
         assert.ok(result);
-        var length = 66;
+        var length = 67;
         assert.equal(result.length, length);
         assert.equal(result[0], Pilot.ACADEMY_PILOT);
         assert.equal(result[length - 1], Pilot.ZERTIK_STROM);

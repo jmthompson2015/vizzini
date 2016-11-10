@@ -1,6 +1,7 @@
-define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, Team)
+define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Team)
 {
     "use strict";
+
     function PilotSkillRestriction(pilotSkill)
     {
         InputValidator.validateNotNull("pilotSkill", pilotSkill);
@@ -107,8 +108,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
         });
     }
 
-    var UpgradeRestriction =
-    {
+    var UpgradeRestriction = {
         // Pilot skill lower bound.
         PILOT_SKILL_ABOVE_1: "pilotSkillAbove1",
         PILOT_SKILL_ABOVE_2: "pilotSkillAbove2",
@@ -132,6 +132,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
         STAR_VIPER_ONLY: "starViperOnly",
         TIE_ADVANCED_ONLY: "tieAdvancedOnly",
         TIE_ADVANCED_PROTOTYPE_ONLY: "tieAdvancedPrototypeOnly",
+        TIE_DEFENDER_ONLY: "tieDefenderOnly",
         TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
         TIE_PHANTOM_ONLY: "tiePhantomOnly",
         VCX_100_ONLY: "vcx100Only",
@@ -202,6 +203,7 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             "starViperOnly": new ShipRestriction(Ship.STAR_VIPER),
             "tieAdvancedOnly": new ShipRestriction(Ship.TIE_ADVANCED),
             "tieAdvancedPrototypeOnly": new ShipRestriction(Ship.TIE_ADVANCED_PROTOTYPE),
+            "tieDefenderOnly": new ShipRestriction(Ship.TIE_DEFENDER),
             "tieInterceptorOnly": new ShipRestriction(Ship.TIE_INTERCEPTOR),
             "tieOnly":
             {
@@ -242,8 +244,10 @@ define([ "Pilot", "Ship", "ShipBase", "Team" ], function(Pilot, Ship, ShipBase, 
             {
                 answer = restrictions.reduce(function(previousValue, restriction)
                 {
-                    if (!UpgradeRestriction.properties[restriction]) { throw "Can't find properties for restriction: " +
-                            restriction; }
+                    if (!UpgradeRestriction.properties[restriction])
+                    {
+                        throw "Can't find properties for restriction: " + restriction;
+                    }
                     return previousValue && UpgradeRestriction.properties[restriction].passes(pilotKey);
                 }, true);
             }

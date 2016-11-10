@@ -1,4 +1,4 @@
-define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
+define(["Pilot", "UpgradeRestriction"], function(Pilot, UpgradeRestriction)
 {
     "use strict";
     QUnit.module("UpgradeRestriction");
@@ -8,9 +8,9 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         var properties = Object.getOwnPropertyNames(UpgradeRestriction);
         var values = UpgradeRestriction.values();
         assert.equal(properties.length - 1 - // properties
-        1 - // passes
-        1, // values
-        values.length);
+            1 - // passes
+            1, // values
+            values.length);
     });
 
     QUnit.test("UpgradeRestriction properties A-Wing only", function(assert)
@@ -55,32 +55,32 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
 
     QUnit.test("passes()", function(assert)
     {
-        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY ], Pilot.DARTH_VADER));
-        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY ], Pilot.LUKE_SKYWALKER));
+        assert.ok(UpgradeRestriction.passes([UpgradeRestriction.IMPERIAL_ONLY], Pilot.DARTH_VADER));
+        assert.ok(!UpgradeRestriction.passes([UpgradeRestriction.IMPERIAL_ONLY], Pilot.LUKE_SKYWALKER));
 
-        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY ], Pilot.DARTH_VADER));
-        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY ], Pilot.LUKE_SKYWALKER));
+        assert.ok(!UpgradeRestriction.passes([UpgradeRestriction.REBEL_ONLY], Pilot.DARTH_VADER));
+        assert.ok(UpgradeRestriction.passes([UpgradeRestriction.REBEL_ONLY], Pilot.LUKE_SKYWALKER));
 
         assert.ok(UpgradeRestriction.passes(
-                [ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
-                Pilot.ALPHA_SQUADRON_PILOT));
+                [UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY],
+            Pilot.ALPHA_SQUADRON_PILOT));
         assert
-                .ok(!UpgradeRestriction.passes(
-                        [ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ],
-                        Pilot.ALPHA_SQUADRON_PILOT));
-        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
+            .ok(!UpgradeRestriction.passes(
+                        [UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY],
                 Pilot.ALPHA_SQUADRON_PILOT));
-        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
-                Pilot.ALPHA_SQUADRON_PILOT));
+        assert.ok(!UpgradeRestriction.passes([UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY],
+            Pilot.ALPHA_SQUADRON_PILOT));
+        assert.ok(!UpgradeRestriction.passes([UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY],
+            Pilot.ALPHA_SQUADRON_PILOT));
 
-        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY,
-                UpgradeRestriction.TIE_INTERCEPTOR_ONLY ], Pilot.DUTCH_VANDER));
+        assert.ok(!UpgradeRestriction.passes([UpgradeRestriction.IMPERIAL_ONLY,
+                UpgradeRestriction.TIE_INTERCEPTOR_ONLY], Pilot.DUTCH_VANDER));
         assert.ok(!UpgradeRestriction.passes(
-                [ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY ], Pilot.DUTCH_VANDER));
-        assert.ok(!UpgradeRestriction.passes([ UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
-                Pilot.DUTCH_VANDER));
-        assert.ok(UpgradeRestriction.passes([ UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY ],
-                Pilot.DUTCH_VANDER));
+                [UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.TIE_INTERCEPTOR_ONLY], Pilot.DUTCH_VANDER));
+        assert.ok(!UpgradeRestriction.passes([UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.Y_WING_ONLY],
+            Pilot.DUTCH_VANDER));
+        assert.ok(UpgradeRestriction.passes([UpgradeRestriction.REBEL_ONLY, UpgradeRestriction.Y_WING_ONLY],
+            Pilot.DUTCH_VANDER));
 
         assert.ok(UpgradeRestriction.passes(undefined, Pilot.DUTCH_VANDER));
         assert.ok(UpgradeRestriction.passes([], Pilot.DUTCH_VANDER));
@@ -140,7 +140,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
     {
         var result = UpgradeRestriction.values();
         assert.ok(result);
-        var length = 37;
+        var length = 38;
         assert.equal(result.length, length);
         var i = 0;
         assert.equal(result[i++], UpgradeRestriction.A_WING_ONLY);
@@ -170,6 +170,7 @@ define([ "Pilot", "UpgradeRestriction" ], function(Pilot, UpgradeRestriction)
         assert.equal(result[i++], UpgradeRestriction.STAR_VIPER_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_ADVANCED_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_ADVANCED_PROTOTYPE_ONLY);
+        assert.equal(result[i++], UpgradeRestriction.TIE_DEFENDER_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_INTERCEPTOR_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_ONLY);
         assert.equal(result[i++], UpgradeRestriction.TIE_PHANTOM_ONLY);

@@ -1,5 +1,5 @@
-define(["Pilot", "Ship", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Reducer", "process/ui/HumanAgent"],
-    function(Pilot, Ship, SimpleAgent, SquadBuilder, Team, Reducer, HumanAgent)
+define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", "process/Reducer", "process/ui/HumanAgent"],
+    function(Pilot, Ship, Team, SimpleAgent, SquadBuilder, Reducer, HumanAgent)
     {
         "use strict";
         QUnit.module("SquadBuilder");
@@ -152,34 +152,34 @@ define(["Pilot", "Ship", "process/SimpleAgent", "process/SquadBuilder", "Team", 
         {
             var result = SquadBuilder.findByTeam(Team.FIRST_ORDER);
             assert.ok(result);
-            assert.equal(result.length, 14);
+            assert.equal(result.length, 16);
         });
 
         QUnit.test("SquadBuilder.findByTeam() Imperial", function(assert)
         {
             var result = SquadBuilder.findByTeam(Team.IMPERIAL);
             assert.ok(result);
-            assert.equal(result.length, 14);
+            assert.equal(result.length, 16);
         });
 
         QUnit.test("SquadBuilder.findByTeam() Rebel", function(assert)
         {
             var result = SquadBuilder.findByTeam(Team.REBEL);
             assert.ok(result);
-            assert.equal(result.length, 18);
+            assert.equal(result.length, 20);
         });
 
         QUnit.test("SquadBuilder.findByTeam() Resistance", function(assert)
         {
             var result = SquadBuilder.findByTeam(Team.RESISTANCE);
             assert.ok(result);
-            assert.equal(result.length, 18);
+            assert.equal(result.length, 20);
         });
 
         QUnit.test("SquadBuilder.findByTeam() Scum", function(assert)
         {
             var result = SquadBuilder.findByTeam(Team.SCUM);
             assert.ok(result);
-            assert.equal(result.length, 9);
+            assert.equal(result.length, 10);
         });
     });

@@ -42,6 +42,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         COMMANDER_KENKIRK: "commanderKenkirk",
         CONTRACTED_SCOUT: "contractedScout",
         CORRAN_HORN: "corranHorn",
+        COUNTESS_RYAD: "countessRyad",
         CR90_CORVETTE: "cr90Corvette",
         CUTLASS_SQUADRON_PILOT: "cutlassSquadronPilot",
         DACE_BONEARM: "daceBonearm",
@@ -658,6 +659,18 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.TORPEDO,
                                 UpgradeType.ASTROMECH],
                 value: "corranHorn",
+            },
+            "countessRyad":
+            {
+                name: "Countess Ryad",
+                description: "When you reveal a Straight maneuver, you may treat it as a K-Turn maneuver.",
+                isUnique: true,
+                // FIXME: change for new ship image
+                shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER,
+                pilotSkillValue: 5,
+                squadPointCost: 34,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE],
+                value: "countessRyad",
             },
             "cr90Corvette":
             {
