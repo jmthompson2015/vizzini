@@ -54,7 +54,7 @@
     </style>
 </head>
 <body>
-    <h1>Unimplemented Upgrades from Prefabricated SquadBuilders</h1>
+    <h1>Upgrades from Prefabricated SquadBuilders</h1>
     <div id="count"></div>
     <div id="panel"></div>
     <script>
@@ -63,126 +63,186 @@
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
 
-        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
-
-        require(["UpgradeCard", "process/SquadBuilder"], function(UpgradeCard, SquadBuilder)
-        {
-            var agent = {};
-            var upgradeKeys = [];
-            SquadBuilder.SquadBuilders.forEach(function(squadBuilder)
+        require(["UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "process/SquadBuilder"],
+            function(UpgradeCard, UpgradeHeader, UpgradeRestriction, UpgradeType, SquadBuilder)
             {
-                var squad = squadBuilder.buildSquad(agent);
-                squad.forEach(function(token)
+                var agent = {};
+                var upgradeKeys = [];
+                var counts = {};
+                SquadBuilder.SquadBuilders.forEach(function(squadBuilder)
                 {
-                    var myUpgradeKeys;
-                    if (token.tokenFore !== undefined)
+                    var squad = squadBuilder.buildSquad(agent);
+                    squad.forEach(function(token)
                     {
-                        myUpgradeKeys = token.tokenFore().upgradeKeys();
-                        myUpgradeKeys.vizziniAddAll(token.tokenAft().upgradeKeys());
+                        var myUpgradeKeys;
+                        if (token.tokenFore !== undefined)
+                        {
+                            myUpgradeKeys = token.tokenFore().upgradeKeys();
+                            myUpgradeKeys.vizziniAddAll(token.tokenAft().upgradeKeys());
+                        }
+                        else
+                        {
+                            if (!token.upgradeKeys)
+                            {
+                                LOGGER.error("No upgradeKeys() for token = " + token);
+                            }
+                            myUpgradeKeys = token.upgradeKeys();
+                        }
+                        myUpgradeKeys.forEach(function(myUpgradeKey)
+                        {
+                            addUpgradeKey(myUpgradeKey);
+                        });
+                    });
+                });
+
+                upgradeKeys.sort(compare);
+                var upgradeRows = upgradeKeys.map(function(upgradeKey)
+                {
+                    var upgrade = UpgradeCard.properties[upgradeKey];
+                    return createRowObject(upgrade);
+                });
+
+                var UpgradeColumns = [
+                {
+                    key: "count",
+                    label: "Count",
+                    className: "numberCell",
+                },
+                {
+                    key: "type",
+                    label: "Type",
+                    className: "textCell",
+                },
+                {
+                    key: "name",
+                    label: "Name",
+                    className: "textCell",
+                },
+                {
+                    key: "restrictions",
+                    label: "Restrictions",
+                    className: "textCell",
+                },
+                {
+                    key: "header",
+                    label: "Header",
+                    className: "textCell",
+                },
+                {
+                    key: "description",
+                    label: "Description",
+                    className: "textCell",
+                },
+                {
+                    key: "isImplemented",
+                    label: "Implemented",
+                    className: "textCell",
+                },
+                {
+                    key: "squadPointCost",
+                    label: "Squad Point Cost",
+                    className: "numberCell",
+                }, ];
+
+                // Factories.
+                var Table = React.createFactory(Reactable.Table);
+                var Tr = React.createFactory(Reactable.Tr);
+                var Td = React.createFactory(Reactable.Td);
+
+                var rows = upgradeRows.map(function(upgradeRow)
+                {
+                    var cells = UpgradeColumns.map(function(column)
+                    {
+                        return createCell(column, upgradeRow[column.key]);
+                    });
+                    return Tr(
+                    {
+                        key: upgradeRow.name,
+                    }, cells);
+                });
+
+                ReactDOM.render(React.DOM.span(
+                {}, upgradeRows.length), document.getElementById("count"));
+                var element = Table(
+                {
+                    id: "upgradeTable",
+                    columns: UpgradeColumns,
+                    sortable: true,
+                }, rows);
+                ReactDOM.render(element, document.getElementById("panel"));
+
+                function addUpgradeKey(upgradeKey)
+                {
+                    if (upgradeKeys.vizziniContains(upgradeKey))
+                    {
+                        counts[upgradeKey] = counts[upgradeKey] + 1;
                     }
                     else
                     {
-                        if (!token.upgradeKeys)
-                        {
-                            LOGGER.error("No upgradeKeys() for token = " + token);
-                        }
-                        myUpgradeKeys = token.upgradeKeys();
+                        upgradeKeys.push(upgradeKey);
+                        counts[upgradeKey] = 1;
                     }
-                    myUpgradeKeys.forEach(function(myUpgradeKey)
+                }
+
+                function compare(a, b)
+                {
+                    var answer = counts[b] - counts[a];
+
+                    if (answer === 0)
                     {
-                        if (!upgradeKeys.vizziniContains(myUpgradeKey))
+                        if (a > b)
                         {
-                            upgradeKeys.push(myUpgradeKey);
+                            answer = 1;
                         }
+                        else if (a < b)
+                        {
+                            answer = -1;
+                        }
+                    }
+
+                    return answer;
+                }
+
+                function createCell(column, value)
+                {
+                    return Td(
+                    {
+                        key: column.key,
+                        className: column.className,
+                        column: column.key,
+                    }, (value !== undefined ? value : ""));
+                }
+
+                function createRowObject(upgrade)
+                {
+                    var header = (upgrade.header === undefined ? " " : UpgradeHeader.properties[upgrade.header].name);
+                    var restrictions = "";
+                    if (upgrade.restrictions !== undefined)
+                    {
+                        restrictions = upgrade.restrictions.reduce(function(previousValue, restrictionKey, i)
+                        {
+                            var answer = previousValue + UpgradeRestriction.properties[restrictionKey].name;
+                            if (i < upgrade.restrictions.length - 1)
+                            {
+                                answer += " ";
+                            }
+                            return answer;
+                        }, "")
+                    };
+
+                    return (
+                    {
+                        count: counts[upgrade.value],
+                        type: UpgradeType.properties[upgrade.type].name,
+                        name: upgrade.name,
+                        restrictions: restrictions,
+                        header: header,
+                        description: upgrade.description,
+                        isImplemented: upgrade.isImplemented,
+                        squadPointCost: upgrade.squadPointCost,
                     });
-                });
-            });
-
-            upgradeKeys.sort();
-            var upgradeRows = [];
-            upgradeKeys.forEach(function(upgradeKey)
-            {
-                var upgrade = UpgradeCard.properties[upgradeKey];
-                if (!upgrade.isImplemented)
-                {
-                    upgradeRows.push(upgrade);
                 }
             });
-
-            var UpgradeColumns = [
-            {
-                key: "type",
-                label: "Type",
-                className: "textCell",
-            },
-            {
-                key: "name",
-                label: "Name",
-                className: "textCell",
-            },
-            {
-                key: "restrictions",
-                label: "Restrictions",
-                className: "textCell",
-            },
-            {
-                key: "header",
-                label: "Header",
-                className: "textCell",
-            },
-            {
-                key: "description",
-                label: "Description",
-                className: "textCell",
-            },
-            {
-                key: "squadPointCost",
-                label: "Squad Point Cost",
-                className: "numberCell",
-            }, ];
-
-            // Factories.
-            var Table = React.createFactory(Reactable.Table);
-            var Tr = React.createFactory(Reactable.Tr);
-            var Td = React.createFactory(Reactable.Td);
-
-            var rows = [];
-            upgradeRows.forEach(function(upgradeRow)
-            {
-                var cells = [];
-                for (var i = 0; i < UpgradeColumns.length; i++)
-                {
-                    cells.push(createCell(i, UpgradeColumns[i], upgradeRow[UpgradeColumns[i].key]));
-                }
-                rows.push(Tr(
-                {
-                    key: rows.length,
-                }, cells));
-            });
-
-            ReactDOM.render(React.DOM.span(
-            {}, upgradeRows.length), document.getElementById("count"));
-            var element = Table(
-            {
-                id: "upgradeTable",
-                columns: UpgradeColumns,
-                sortable: true,
-            }, rows);
-            ReactDOM.render(element, document.getElementById("panel"));
-
-            function createCell(key, column, value)
-            {
-                return Td(
-                {
-                    key: key,
-                    className: column.className,
-                    column: column.key,
-                }, (value !== undefined ? value : ""));
-            }
-        });
     </script>
 </body>
 
