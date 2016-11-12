@@ -67,9 +67,13 @@
 				LOGGER.debug("defender = " + defender);
 				store.dispatch(Action.addFocusCount(defender));
 				store.dispatch(Action.addEvadeCount(defender));
+				var callback = function()
+				{
+					LOGGER.info("callback() start");
+				};
 				attacker.combatState().combatAction(
 					new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-						defenderPosition));
+						defenderPosition, callback));
 				var modificationKeys0 = [null, ModifyAttackDiceAction.Modification.SPEND_FOCUS];
 
 				var element0 = React.createElement(CombatUI,
@@ -80,7 +84,7 @@
 					imageBase: imageBase,
 					modificationKeys: modificationKeys0,
 					okFunction: myOK0,
-					phase: Phase.properties[Phase.COMBAT_ROLL_ATTACK_DICE],
+					phase: Phase.properties[Phase.COMBAT_MODIFY_ATTACK_DICE],
 				});
 				ReactDOM.render(element0, document.getElementById("inputArea0"));
 
@@ -98,7 +102,7 @@
 					imageBase: imageBase,
 					modificationKeys: modificationKeys1,
 					okFunction: myOK1,
-					phase: Phase.properties[Phase.COMBAT_ROLL_DEFENSE_DICE],
+					phase: Phase.properties[Phase.COMBAT_MODIFY_DEFENSE_DICE],
 				});
 				ReactDOM.render(element1, document.getElementById("inputArea1"));
 
@@ -117,7 +121,7 @@
 					hitCount: damageDealer.hits(),
 					imageBase: imageBase,
 					okFunction: myOK2,
-					phase: Phase.properties[Phase.COMBAT_MODIFY_DEFENSE_DICE],
+					phase: Phase.properties[Phase.COMBAT_NOTIFY_DAMAGE],
 				});
 				ReactDOM.render(element2, document.getElementById("inputArea2"));
 
