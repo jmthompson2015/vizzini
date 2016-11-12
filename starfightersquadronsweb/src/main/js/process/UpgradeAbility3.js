@@ -188,6 +188,19 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.JUKE] = function(store, token)
+        {
+            defend(store, token, UpgradeCard.JUKE, function(store, attacker, defender)
+            {
+                // When attacking, if you have an Evade token, you may change 1 of the defender's Evade results to a Focus result.
+                if (defender.evadeCount() > 0)
+                {
+                    var defenseDice = attacker.combatState().defenseDice();
+                    defenseDice.changeOneToValue(AttackDice.Value.EVADE, AttackDice.Value.FOCUS);
+                }
+            });
+        };
+
         UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.WIRED] = function(store, token)
         {
             defend(store, token, UpgradeCard.WIRED, function(store, attacker, defender)
@@ -480,10 +493,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
 
                 if (weapon.upgradeKey() === upgradeKeyIn)
                 {
-                    // if (upgradeFunction)
-                    // {
                     upgradeFunction(store, attacker);
-                    // }
                 }
             }
         }
@@ -502,10 +512,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             {
                 if (defender.isUpgradedWith(upgradeKeyIn))
                 {
-                    // if (upgradeFunction)
-                    // {
                     upgradeFunction(store, attacker, defender);
-                    // }
                 }
             }
         }
