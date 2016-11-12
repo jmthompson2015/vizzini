@@ -35,6 +35,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 var defender = this.props.defender;
                 var attackDice = this.props.attackDice;
                 var defenseDice = this.props.defenseDice;
+                var modificationKeys = this.props.modificationKeys;
 
                 var rows = [];
 
@@ -68,7 +69,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                     className: "combatDicePanel",
                 }, attackPanel)));
 
-                if (attackDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE)
+                if (attackDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE && modificationKeys !== undefined)
                 {
                     // Modify Attack Dice panel.
                     var modifyAttackPanel = React.createElement(CombatUI.ModifyAttackUI,
@@ -110,7 +111,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                         className: "combatDicePanel",
                     }, defensePanel)));
 
-                    if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
+                    if (defenseDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE && modificationKeys !== undefined)
                     {
                         // Modify Defense Dice panel.
                         var modifyDefensePanel = React.createElement(CombatUI.ModifyDefenseUI,
@@ -345,16 +346,15 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
             propTypes:
             {
                 attacker: React.PropTypes.object.isRequired,
-                modificationKeys: React.PropTypes.array.isRequired,
                 onChange: React.PropTypes.func.isRequired,
+
+                modificationKeys: React.PropTypes.array,
             },
 
             render: function()
             {
                 var modificationKeys = this.props.modificationKeys;
-                InputValidator.validateNotNull("modificationKeys", modificationKeys);
                 var attacker = this.props.attacker;
-                InputValidator.validateNotNull("attacker", attacker);
                 var labelFunction = function(value)
                 {
                     var answer = "Pass";
@@ -365,7 +365,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                     return answer;
                 };
                 var initialValue;
-                if (modificationKeys.length > 0)
+                if (modificationKeys !== undefined && modificationKeys.length > 0)
                 {
                     initialValue = modificationKeys[0];
                 }
@@ -397,16 +397,15 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
             propTypes:
             {
                 defender: React.PropTypes.object.isRequired,
-                modificationKeys: React.PropTypes.array.isRequired,
                 onChange: React.PropTypes.func.isRequired,
+
+                modificationKeys: React.PropTypes.array,
             },
 
             render: function()
             {
                 var modificationKeys = this.props.modificationKeys;
-                InputValidator.validateNotNull("modificationKeys", modificationKeys);
                 var defender = this.props.defender;
-                InputValidator.validateNotNull("defender", defender);
                 var labelFunction = function(value)
                 {
                     var answer = "Pass";
@@ -417,7 +416,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                     return answer;
                 };
                 var initialValue;
-                if (modificationKeys.length > 0)
+                if (modificationKeys !== undefined && modificationKeys.length > 0)
                 {
                     initialValue = modificationKeys[0];
                 }
