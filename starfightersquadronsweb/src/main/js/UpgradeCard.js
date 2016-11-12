@@ -1214,7 +1214,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                 {
                     name: "Guidance Chips",
                     type: UpgradeType.MODIFICATION,
-                    description: "Once per round, when attacking with a Torpedo or Missile secondary weapon, you may change 1 die result to a hit result (or a crit result if your primary weapon value is \"3\" or higher).",
+                    description: "Once per round, when attacking with a Torpedo or Missile secondary weapon, you may change 1 die result to a Hit result (or a Critical result if your primary weapon value is \"3\" or higher).",
                     squadPointCost: 0,
                     value: "guidanceChips",
                 },
@@ -1525,6 +1525,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.SMALL_SHIP_ONLY],
                     description: "When attacking, if you have an Evade token, you may change 1 of the defender's Evade results to a Focus result.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "juke",
                 },
                 "k4SecurityDroid":
