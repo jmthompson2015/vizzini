@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestInputPanel2</title>
+
+	<script src="../../../lib/react/react-15.3.2.js"></script>
+	<script src="../../../lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../lib/require/require-2.3.2.js" data-main="../../main/js/ui/InputPanel2"></script>
+
+	<script src="../../main/js/util/Logger.js"></script>
+	<script src="../../main/js/util/InputValidator.js"></script>
+	<script src="../../main/js/util/ArrayAugments.js"></script>
+	<script src="../../main/js/util/ObjectAugments.js"></script>
+
+	<style>
+		.panelClass {
+			background-color: lightBlue;
+			border-collapse: collapse;
+			border: 3px solid black;
+			font-size: small;
+		}
+	</style>
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="testPanel0">testPanel0</td>
+			<td id="testPanel1">testPanel1</td>
+		</tr>
+		<tr>
+			<td id="testPanel2">testPanel2</td>
+			<td id="testPanel3">testPanel3</td>
+		</tr>
+		<tr>
+			<td id="testPanel4" colspan="2">testPanel4</td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["InputPanel2"], function(InputPanel2)
+		{
+			///////////////////////////////////////////////////////////////////////
+			// Checkbox with strings.
+			var values0 = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+			var element0 = React.createElement(InputPanel2,
+			{
+				type: InputPanel2.Type.CHECKBOX,
+				values: values0,
+				onChange: myOnChange0,
+				panelClass: "panelClass",
+			});
+			var panel0 = ReactDOM.render(element0, document.getElementById("testPanel0"));
+
+			function myOnChange0(event, selected)
+			{
+				var source = event.target;
+				LOGGER.info("myOnChange0() selected = " + selected + " " + (typeof selected));
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			// Checkbox with objects.
+			var values1 = values0.map(function(name, i)
+			{
+				return (
+				{
+					index: i + 1,
+					name: name,
+				});
+			});
+			var labelFunction1 = function(value)
+			{
+				return value.name.toUpperCase();
+			}
+			var initialValues1 = [values1[1], values1[3]];
+			var clientProps1 = {
+				"data-one": "One",
+				"data-two": "Two"
+			};
+			var element1 = React.createElement(InputPanel2,
+			{
+				type: InputPanel2.Type.CHECKBOX,
+				values: values1,
+				labelFunction: labelFunction1,
+				initialValues: initialValues1,
+				onChange: myOnChange1,
+				panelClass: "panelClass",
+				clientProps: clientProps1,
+			});
+			var panel1 = ReactDOM.render(element1, document.getElementById("testPanel1"));
+
+			function myOnChange1(event, selected)
+			{
+				LOGGER.info("myOnChange1() selected = " + JSON.stringify(selected) + " " + (typeof selected));
+				LOGGER.info("event.target.dataset.one = " + event.target.dataset.one);
+				LOGGER.info("event.target.dataset.two = " + event.target.dataset.two);
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			// Radio with strings.
+			var values2 = ["alpha", "bravo", "charlie", "delta", "echo"];
+			var element2 = React.createElement(InputPanel2,
+			{
+				type: InputPanel2.Type.RADIO,
+				values: values2,
+				name: "radioTest2",
+				onChange: myOnChange2,
+				panelClass: "panelClass",
+			});
+			var panel2 = ReactDOM.render(element2, document.getElementById("testPanel2"));
+
+			function myOnChange2(event, selected)
+			{
+				var source = event.target;
+				LOGGER.info("myOnChange2() selected = " + selected + " " + (typeof selected));
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			// Radio with objects.
+			var values3 = values2.map(function(name, i)
+			{
+				return (
+				{
+					index: i + 1,
+					name: name,
+				});
+			});
+			var labelFunction3 = function(value)
+			{
+				return value.name.toUpperCase();
+			}
+			var initialValue3 = values3[1];
+			var clientProps3 = {
+				"data-one": "One",
+				"data-two": "Two"
+			};
+			var element3 = React.createElement(InputPanel2,
+			{
+				type: InputPanel2.Type.RADIO,
+				values: values3,
+				name: "radioTest3",
+				labelFunction: labelFunction3,
+				initialValues: initialValue3,
+				onChange: myOnChange3,
+				panelClass: "panelClass",
+				clientProps: clientProps3,
+			});
+			var panel3 = ReactDOM.render(element3, document.getElementById("testPanel3"));
+
+			function myOnChange3(event, selected)
+			{
+				LOGGER.info("myOnChange3() selected = " + JSON.stringify(selected) + " " + (typeof selected));
+				LOGGER.info("event.target.dataset.one = " + event.target.dataset.one);
+				LOGGER.info("event.target.dataset.two = " + event.target.dataset.two);
+			}
+
+			///////////////////////////////////////////////////////////////////////
+			// Text.
+			var values4 = ["Alpha", "Bravo", "Charlie", "Delta", "Echo"];
+			var initialValues4 = {
+				// id to initial text value.
+				0: "myAlpha",
+				2: "myCharlie",
+			};
+			var labelFunction4 = function(value)
+			{
+				return value + ": ";
+			}
+			var element4 = React.createElement(InputPanel2,
+			{
+				type: InputPanel2.Type.TEXT,
+				values: values4,
+				labelFunction: labelFunction4,
+				initialValues: initialValues4,
+				onChange: myOnChange4,
+				panelClass: "panelClass",
+			});
+			var panel4 = ReactDOM.render(element4, document.getElementById("testPanel4"));
+
+			function myOnChange4(event, selected)
+			{
+				var source = event.target;
+				LOGGER.info("myOnChange4() selected = " + JSON.stringify(selected) + " " + (typeof selected));
+			}
+		});
+	</script>
+</body>
+
+</html>
