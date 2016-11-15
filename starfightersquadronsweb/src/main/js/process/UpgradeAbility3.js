@@ -43,6 +43,24 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.CALCULATION] = {
+            // When attacking, you may spend a Focus token to change 1 of your Focus results to a Critical Hit result.
+            condition: function(store, token)
+            {
+                var attackDice = token.combatState().attackDice();
+                return token.focusCount() > 0 && attackDice.focusCount() > 0;
+            },
+            consequent: function(store, token)
+            {
+                action(store, token, function(store, attacker)
+                {
+                    spendFocusToken(store, attacker);
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
+                });
+            },
+        };
+
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.CLUSTER_MISSILES] = function(store, token)
         {
             attack(store, token, UpgradeCard.CLUSTER_MISSILES, function(store, attacker)
@@ -88,6 +106,27 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.HAN_SOLO] = {
+            // When attacking, if you have a Target Lock on the defender, you may spend that Target Lock to change all of your Focus results to Hit results.
+            condition: function(store, token)
+            {
+                var defender = token.combatState().combatAction().defender();
+                var targetLock = token.findTargetLockByDefender(defender);
+                var attackDice = token.combatState().attackDice();
+                return targetLock !== undefined && attackDice.focusCount() > 0;
+            },
+            consequent: function(store, token)
+            {
+                action(store, token, function(store, attacker)
+                {
+                    var defender = attacker.combatState().combatAction().defender();
+                    spendTargetLock(attacker, defender);
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+                });
+            },
+        };
+
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.HEAVY_LASER_CANNON] = function(store, token)
         {
             attack(store, token, UpgradeCard.HEAVY_LASER_CANNON, function(store, attacker)
@@ -119,6 +158,24 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                     attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
                 }
             });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.OPPORTUNIST] = {
+            // When attacking, if the defender does not have any Focus or Evade tokens, you may receive 1 stress token to roll 1 additional attack die. You cannot use this ability if you have any stress tokens.
+            condition: function(store, token)
+            {
+                var defender = token.combatState().combatAction().defender();
+                return token.stressCount() === 0 && defender.evadeCount() === 0 && defender.focusCount() === 0;
+            },
+            consequent: function(store, token)
+            {
+                action(store, token, function(store, attacker)
+                {
+                    attacker.receiveStress();
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.addDie();
+                });
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PREDATOR] = function(store, token)
@@ -153,6 +210,24 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 var attackDice = attacker.combatState().attackDice();
                 attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
             });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.WEAPONS_GUIDANCE] = {
+            // When attacking, you may spend a focus token to change 1 of your blank results to a Hit result.
+            condition: function(store, token)
+            {
+                var attackDice = token.combatState().attackDice();
+                return token.focusCount() > 0 && attackDice.blankCount() > 0;
+            },
+            consequent: function(store, token)
+            {
+                action(store, token, function(store, attacker)
+                {
+                    spendFocusToken(store, attacker);
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
+                });
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.WIRED] = function(store, token)
@@ -475,6 +550,20 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                 });
             }
         };
+
+        function action(store, token, upgradeFunction)
+        {
+            InputValidator.validateNotNull("store", store);
+            InputValidator.validateNotNull("token", token);
+            InputValidator.validateNotNull("upgradeFunction", upgradeFunction);
+
+            var activeToken = Selector.activeToken(store.getState());
+
+            if (activeToken === token)
+            {
+                upgradeFunction(store, activeToken);
+            }
+        }
 
         function attack(store, token, upgradeKeyIn, upgradeFunction)
         {

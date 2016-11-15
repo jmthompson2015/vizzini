@@ -1,5 +1,5 @@
-define(["Maneuver", "ManeuverComputer", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "process/ShipActionAction"],
-    function(Maneuver, ManeuverComputer, ModifyAttackDiceAction, ModifyDefenseDiceAction, PlayFormat, RangeRuler, Ship, ShipAction, ShipActionAction)
+define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ShipActionAction", "process/UpgradeAbility3"],
+    function(Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, ShipActionAction, UpgradeAbility3)
     {
         "use strict";
 
@@ -121,6 +121,93 @@ define(["Maneuver", "ManeuverComputer", "process/ModifyAttackDiceAction", "proce
 
                 return (toPosition && PlayFormat.isPathInPlayArea(environment.playFormatKey(), polygon));
             });
+        };
+
+        SimpleAgent.prototype.determineValidModifyAttackDiceActions = function(environment, attacker, attackDice, defender)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("attackDice", attackDice);
+            InputValidator.validateNotNull("defender", defender);
+
+            var answer = [];
+            var modificationKey;
+            var store = environment.store();
+            var targetLock = attacker.findTargetLockByDefender(defender);
+
+            if (targetLock)
+            {
+                modificationKey = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
+                answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
+            }
+
+            if (attacker.focusCount() > 0)
+            {
+                modificationKey = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
+                answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
+            }
+
+            attacker.upgradeKeys().forEach(function(upgradeKey)
+            {
+                var upgrade = UpgradeCard.properties[upgradeKey];
+                var attackerUsedUpgrades = attacker.combatState().attackerUsedUpgrades();
+
+                if (upgrade.agentInput && !attackerUsedUpgrades.vizziniContains(upgradeKey))
+                {
+                    var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
+
+                    if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, attacker))
+                    {
+                        modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+                        answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, upgradeKey));
+                    }
+                }
+            });
+
+            return answer;
+        };
+
+        SimpleAgent.prototype.determineValidModifyDefenseDiceActions = function(environment, attacker, attackDice, defender, defenseDice)
+        {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("attackDice", attackDice);
+            InputValidator.validateNotNull("defender", defender);
+            InputValidator.validateNotNull("defenseDice", defenseDice);
+
+            var answer = [];
+            var modificationKey;
+
+            if (defender.evadeCount() > 0)
+            {
+                modificationKey = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
+                answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+            }
+
+            if (defender.focusCount() > 0)
+            {
+                modificationKey = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
+                answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+            }
+
+            defender.upgradeKeys().forEach(function(upgradeKey)
+            {
+                var upgrade = UpgradeCard.properties[upgradeKey];
+                var defenderUsedUpgrades = attacker.combatState().defenderUsedUpgrades();
+
+                if (upgrade.agentInput && !defenderUsedUpgrades.vizziniContains(upgradeKey))
+                {
+                    var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
+
+                    if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, attacker))
+                    {
+                        modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
+                        answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+                    }
+                }
+            });
+
+            return answer;
         };
 
         SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token)
@@ -311,28 +398,10 @@ define(["Maneuver", "ManeuverComputer", "process/ModifyAttackDiceAction", "proce
             InputValidator.validateNotNull("defender", defender);
             InputValidator.validateNotNull("callback", callback);
 
-            var modificationKeys = [null];
-            var store = environment.store();
+            var modifications = this.determineValidModifyAttackDiceActions(environment, attacker, attackDice, defender);
+            modifications.push(null);
 
-            var targetLock = attacker.findTargetLockByDefender(defender);
-
-            if (targetLock)
-            {
-                modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
-            }
-
-            if (attacker.focusCount() > 0)
-            {
-                modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
-            }
-
-            var modification = modificationKeys.vizziniRandomElement();
-            var answer;
-
-            if (modification)
-            {
-                answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
-            }
+            var answer = modifications.vizziniRandomElement();
 
             callback(answer);
         };
@@ -348,26 +417,10 @@ define(["Maneuver", "ManeuverComputer", "process/ModifyAttackDiceAction", "proce
             InputValidator.validateNotNull("defenseDice", defenseDice);
             InputValidator.validateNotNull("callback", callback);
 
-            var modificationKeys = [null];
-            var store = environment.store();
+            var modifications = this.determineValidModifyDefenseDiceActions(environment, attacker, attackDice, defender, defenseDice);
+            modifications.push(null);
 
-            if (defender.evadeCount() > 0)
-            {
-                modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
-            }
-
-            if (defender.focusCount() > 0)
-            {
-                modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
-            }
-
-            var modification = modificationKeys.vizziniRandomElement();
-            var answer;
-
-            if (modification)
-            {
-                answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-            }
+            var answer = modifications.vizziniRandomElement();
 
             callback(answer);
         };

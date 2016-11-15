@@ -39,6 +39,20 @@ define(function()
             return valueCount(DefenseDice.Value.FOCUS);
         };
 
+        this.newInstance = function()
+        {
+            var size = this.size();
+            var answer = new DefenseDice(size);
+            var newValues = answer.values();
+
+            for (var i = 0; i < size; i++)
+            {
+                newValues[i] = this.value(i);
+            }
+
+            return answer;
+        };
+
         this.rerollAllFocus = function()
         {
             // Reroll all focus values.
@@ -123,6 +137,11 @@ define(function()
         this.value = function(index)
         {
             return values[index];
+        };
+
+        this.values = function()
+        {
+            return values;
         };
 
         function changeAllToValue(oldValue, newValue)

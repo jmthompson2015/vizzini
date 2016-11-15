@@ -5,8 +5,10 @@ define(function()
     function CombatState()
     {
         var attackDice;
+        var attackerUsedUpgrades = [];
         var combatAction;
         var damageDealer;
+        var defenderUsedUpgrades = [];
         var defenseDice;
         var initialAttackDice;
         var initialDefenseDice;
@@ -29,10 +31,22 @@ define(function()
             return attackDice;
         };
 
+        this.attackerUsedUpgrades = function(upgradeKey)
+        {
+            if (upgradeKey !== undefined)
+            {
+                attackerUsedUpgrades.push(upgradeKey);
+            }
+
+            return attackerUsedUpgrades;
+        };
+
         this.clear = function()
         {
             attackDice = undefined;
+            attackerUsedUpgrades = [];
             combatAction = undefined;
+            defenderUsedUpgrades = [];
             defenseDice = undefined;
             initialAttackDice = false;
             initialDefenseDice = false;
@@ -58,6 +72,16 @@ define(function()
             }
 
             return damageDealer;
+        };
+
+        this.defenderUsedUpgrades = function(upgradeKey)
+        {
+            if (upgradeKey !== undefined)
+            {
+                defenderUsedUpgrades.push(upgradeKey);
+            }
+
+            return defenderUsedUpgrades;
         };
 
         this.defenseDice = function(value)

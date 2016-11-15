@@ -178,14 +178,24 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
         {
             LOGGER.trace("CombatAction.finishModifyAttackDice() start");
 
-            LOGGER.debug("CombatAction.finishModifyAttackDice() modifyAttackDiceAction = " + modifyAttackDiceAction);
+            LOGGER.debug("CombatAction.finishModifyAttackDice() modifyAttackDiceAction = " + modifyAttackDiceAction + " " + (typeof modifyAttackDiceAction));
 
-            if (modifyAttackDiceAction)
+            if (modifyAttackDiceAction && modifyAttackDiceAction.doIt)
             {
                 modifyAttackDiceAction.doIt();
-            }
 
-            this.rollDefenseDice();
+                if (modifyAttackDiceAction.upgradeKey())
+                {
+                    var attacker = modifyAttackDiceAction.attacker();
+                    attacker.combatState().attackerUsedUpgrades(modifyAttackDiceAction.upgradeKey());
+                }
+
+                this.modifyAttackDice();
+            }
+            else
+            {
+                this.rollDefenseDice();
+            }
 
             LOGGER.trace("CombatAction.finishModifyAttackDice() end");
         };
@@ -276,11 +286,16 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
         {
             LOGGER.trace("CombatAction.finishModifyDefenseDice() start");
 
-            LOGGER.debug("CombatAction.finishModifyDefenseDice() modifyDefenseDiceAction = " + modifyDefenseDiceAction);
+            LOGGER.debug("CombatAction.finishModifyDefenseDice() modifyDefenseDiceAction = " + modifyDefenseDiceAction + " " + (typeof modifyDefenseDiceAction));
 
-            if (modifyDefenseDiceAction)
+            if (modifyDefenseDiceAction && modifyDefenseDiceAction.doIt)
             {
                 modifyDefenseDiceAction.doIt();
+
+                if (modifyDefenseDiceAction.upgradeKey())
+                {
+                    attacker.combatState().defenderUsedUpgrades(modifyDefenseDiceAction.upgradeKey());
+                }
             }
 
             this.compareResults();

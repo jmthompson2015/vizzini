@@ -11,6 +11,19 @@ define(["AttackDice"], function(AttackDice)
         assert.ok(dice.value(2));
     });
 
+    QUnit.test("addDie()", function(assert)
+    {
+        // Setup.
+        var dice = new AttackDice(1);
+
+        // Run.
+        dice.addDie();
+
+        // Verify.
+        assert.equal(dice.size(), 2);
+        assert.ok(AttackDice.Value.values().vizziniContains(dice.value(1)));
+    });
+
     QUnit.test("blankCount()", function(assert)
     {
         var dice = new AttackDice(1);
@@ -64,6 +77,25 @@ define(["AttackDice"], function(AttackDice)
         else
         {
             assert.equal(dice.hitCount(), 0);
+        }
+    });
+
+    QUnit.test("newInstance()", function(assert)
+    {
+        // Setup.
+        var dice = new AttackDice(5);
+
+        // Run.
+        var result = dice.newInstance();
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(result !== dice);
+        assert.equal(result.size(), dice.size());
+
+        for (var i = 0; i < result.size(); i++)
+        {
+            assert.equal(result.value(i), dice.value(i));
         }
     });
 

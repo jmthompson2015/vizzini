@@ -10,6 +10,11 @@ define(function()
 
         rerollAll(initialSize);
 
+        this.addDie = function()
+        {
+            values.push(rollRandomValue());
+        };
+
         this.blankCount = function()
         {
             return valueCount(AttackDice.Value.BLANK);
@@ -53,6 +58,20 @@ define(function()
         this.hitCount = function()
         {
             return valueCount(AttackDice.Value.HIT);
+        };
+
+        this.newInstance = function()
+        {
+            var size = this.size();
+            var answer = new AttackDice(size);
+            var newValues = answer.values();
+
+            for (var i = 0; i < size; i++)
+            {
+                newValues[i] = this.value(i);
+            }
+
+            return answer;
         };
 
         this.rerollAllFocus = function()
@@ -151,6 +170,11 @@ define(function()
         this.value = function(index)
         {
             return values[index];
+        };
+
+        this.values = function()
+        {
+            return values;
         };
 
         function rerollAll(size)
@@ -258,6 +282,11 @@ define(function()
                 name: "Blank",
                 sortOrder: 3,
             },
+        },
+
+        values: function()
+        {
+            return Object.getOwnPropertyNames(AttackDice.Value.properties);
         },
     };
 

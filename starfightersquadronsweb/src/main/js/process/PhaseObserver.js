@@ -1,5 +1,5 @@
-define(["process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
-    function(Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
+define(["UpgradeCard", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
+    function(UpgradeCard, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
     {
         "use strict";
 
@@ -22,8 +22,9 @@ define(["process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2"
                             token.upgradeKeys().forEach(function(upgradeKey)
                             {
                                 var upgradeAbility = upgradeAbilities[upgradeKey];
+                                var upgrade = UpgradeCard.properties[upgradeKey];
 
-                                if (upgradeAbility !== undefined)
+                                if (upgradeAbility !== undefined && !upgrade.agentInput)
                                 {
                                     upgradeAbility(store, token);
                                 }

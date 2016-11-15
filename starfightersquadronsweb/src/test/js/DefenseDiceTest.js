@@ -53,6 +53,25 @@ define(["DefenseDice"], function(DefenseDice)
         }
     });
 
+    QUnit.test("newInstance()", function(assert)
+    {
+        // Setup.
+        var dice = new DefenseDice(5);
+
+        // Run.
+        var result = dice.newInstance();
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(result !== dice);
+        assert.equal(result.size(), dice.size());
+
+        for (var i = 0; i < result.size(); i++)
+        {
+            assert.equal(result.value(i), dice.value(i));
+        }
+    });
+
     QUnit.test("rerollAllFocus()", function(assert)
     {
         var dice;

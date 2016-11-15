@@ -1,80 +1,101 @@
-define([ "UpgradeCard", "process/Action" ], function(UpgradeCard, Action)
-{
-    "use strict";
-    function ModifyDefenseDiceAction(environment, defender, defenseDice, modification)
+define(["UpgradeCard", "process/Action"],
+    function(UpgradeCard, Action)
     {
-        InputValidator.validateNotNull("environment", environment);
-        InputValidator.validateNotNull("defender", defender);
-        InputValidator.validateNotNull("defenseDice", defenseDice);
-        InputValidator.validateNotNull("modification", modification);
+        "use strict";
 
-        this.getEnvironment = function()
+        function ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, upgradeKey)
         {
-            return environment;
-        };
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("defender", defender);
+            InputValidator.validateNotNull("defenseDice", defenseDice);
+            InputValidator.validateNotNull("modificationKey", modificationKey);
+            // upgradeKey optional.
 
-        this.getDefender = function()
-        {
-            return defender;
-        };
-
-        this.getDefenseDice = function()
-        {
-            return defenseDice;
-        };
-
-        this.getModification = function()
-        {
-            return modification;
-        };
-
-        this.doIt = function()
-        {
-            var store = environment.store();
-
-            if (modification === ModifyDefenseDiceAction.Modification.SPEND_FOCUS)
+            this.environment = function()
             {
-                defenseDice.spendFocusToken();
-                store.dispatch(Action.addFocusCount(defender, -1));
+                return environment;
+            };
 
-                if (defender.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
+            this.defender = function()
+            {
+                return defender;
+            };
+
+            this.defenseDice = function()
+            {
+                return defenseDice;
+            };
+
+            this.modificationKey = function()
+            {
+                return modificationKey;
+            };
+
+            this.upgradeKey = function()
+            {
+                return upgradeKey;
+            };
+
+            this.doIt = function()
+            {
+                var store = environment.store();
+
+                if (modificationKey === ModifyDefenseDiceAction.Modification.SPEND_FOCUS)
                 {
-                    store.dispatch(Action.addFocusCount(defender));
+                    defenseDice.spendFocusToken();
+                    store.dispatch(Action.addFocusCount(defender, -1));
+
+                    if (defender.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
+                    {
+                        store.dispatch(Action.addFocusCount(defender));
+                    }
                 }
-            }
-            else if (modification === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
-            {
-                defenseDice.spendEvadeToken();
-                store.dispatch(Action.addEvadeCount(defender, -1));
-            }
-            else
-            {
-                throw "Unknown modification: " + modification;
-            }
-        };
-    }
+                else if (modificationKey === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
+                {
+                    defenseDice.spendEvadeToken();
+                    store.dispatch(Action.addEvadeCount(defender, -1));
+                }
+                else if (modificationKey === ModifyDefenseDiceAction.Modification.USE_UPGRADE)
+                {
+                    var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
 
-    ModifyDefenseDiceAction.Modification =
-    {
-        SPEND_EVADE: "spendEvade",
-        SPEND_FOCUS: "spendFocus",
-        properties:
-        {
-            "spendEvade":
+                    if (upgradeAbility && upgradeAbility.consequent)
+                    {
+                        upgradeAbility.consequent(store, attacker);
+                    }
+                }
+                else
+                {
+                    throw "Unknown modificationKey: " + modificationKey;
+                }
+            };
+        }
+
+        ModifyDefenseDiceAction.Modification = {
+            SPEND_EVADE: "spendEvade",
+            SPEND_FOCUS: "spendFocus",
+            USE_UPGRADE: "useUpgrade",
+            properties:
             {
-                name: "Spend an Evade token",
+                "spendEvade":
+                {
+                    name: "Spend an Evade token",
+                },
+                "spendFocus":
+                {
+                    name: "Spend a Focus token",
+                },
+                "useUpgrade":
+                {
+                    name: "Use Upgrade",
+                },
             },
-            "spendFocus":
-            {
-                name: "Spend a Focus token",
-            }
-        },
-    };
+        };
 
-    ModifyDefenseDiceAction.prototype.toString = function()
-    {
-        return "ModifyDefenseDiceAction modification=" + this.getModification();
-    };
+        ModifyDefenseDiceAction.prototype.toString = function()
+        {
+            return "ModifyDefenseDiceAction modificationKey=" + this.modificationKey() + ",upgradeKey=" + this.upgradeKey();
+        };
 
-    return ModifyDefenseDiceAction;
-});
+        return ModifyDefenseDiceAction;
+    });

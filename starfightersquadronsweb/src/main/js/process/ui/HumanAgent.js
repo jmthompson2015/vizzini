@@ -1,5 +1,5 @@
-define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/SimpleAgent", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
-    function(Phase, ManeuverAction, ModifyAttackDiceAction, ModifyDefenseDiceAction, SimpleAgent, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
+    function(Phase, ManeuverAction, SimpleAgent, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
     {
         "use strict";
 
@@ -138,21 +138,9 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
                 defender = defenderIn;
                 modifyAttackCallback = callback;
 
-                var modificationKeys = [null];
-                var store = environment.store();
-                var targetLock = attacker.findTargetLockByDefender(defender);
+                var modifications = SimpleAgent.prototype.determineValidModifyAttackDiceActions.call(this, environment, attacker, attackDice, defender);
 
-                if (targetLock)
-                {
-                    modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK);
-                }
-
-                if (attacker.focusCount() > 0)
-                {
-                    modificationKeys.push(ModifyAttackDiceAction.Modification.SPEND_FOCUS);
-                }
-
-                if (modificationKeys.length > 1)
+                if (modifications.length > 0)
                 {
                     var element = React.createElement(CombatUI,
                     {
@@ -160,7 +148,7 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
                         attackDice: attackDice,
                         defender: defender,
                         imageBase: imageBase,
-                        modificationKeys: modificationKeys,
+                        modifications: modifications,
                         okFunction: finishModifyAttackDice,
                         phase: Phase.properties[environment.phase()],
                     });
@@ -179,24 +167,13 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
                 defenderIn, defenseDiceIn, callback)
             {
                 environment = environmentIn;
-                var store = environment.store();
                 defender = defenderIn;
                 defenseDice = defenseDiceIn;
                 modifyDefenseCallback = callback;
 
-                var modificationKeys = [null];
+                var modifications = SimpleAgent.prototype.determineValidModifyDefenseDiceActions.call(this, environment, attacker, attackDice, defender, defenseDice);
 
-                if (defender.evadeCount() > 0)
-                {
-                    modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_EVADE);
-                }
-
-                if (defender.focusCount() > 0)
-                {
-                    modificationKeys.push(ModifyDefenseDiceAction.Modification.SPEND_FOCUS);
-                }
-
-                if (modificationKeys.length > 1)
+                if (modifications.length > 1)
                 {
                     var element = React.createElement(CombatUI,
                     {
@@ -205,7 +182,7 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
                         defender: defender,
                         defenseDice: defenseDice,
                         imageBase: imageBase,
-                        modificationKeys: modificationKeys,
+                        modifications: modifications,
                         okFunction: finishModifyDefenseDice,
                         phase: Phase.properties[environment.phase()],
                     });
@@ -314,13 +291,11 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
             function finishModifyAttackDice(modification)
             {
                 var answer;
-                LOGGER.info("HumanAgent.finishModifyAttackDice() modification = " + modification);
 
                 if (modification && modification !== null && modification !== "null")
                 {
-                    answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
+                    answer = modification;
                 }
-                LOGGER.info("HumanAgent.finishModifyAttackDice() answer = " + answer);
 
                 modifyAttackCallback(answer);
             }
@@ -331,7 +306,7 @@ define(["Phase", "process/ManeuverAction", "process/ModifyAttackDiceAction", "pr
 
                 if (modification && modification !== null && modification !== "null")
                 {
-                    answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+                    answer = modification;
                 }
 
                 modifyDefenseCallback(answer);

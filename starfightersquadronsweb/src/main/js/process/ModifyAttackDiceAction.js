@@ -1,87 +1,108 @@
-define([ "UpgradeCard", "process/Action" ], function(UpgradeCard, Action)
-{
-    "use strict";
-    function ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification)
+define(["Phase", "UpgradeCard", "process/Action", "process/UpgradeAbility3"],
+    function(Phase, UpgradeCard, Action, UpgradeAbility3)
     {
-        InputValidator.validateNotNull("environment", environment);
-        InputValidator.validateNotNull("attacker", attacker);
-        InputValidator.validateNotNull("attackDice", attackDice);
-        InputValidator.validateNotNull("defender", defender);
-        InputValidator.validateNotNull("modification", modification);
+        "use strict";
 
-        this.getEnvironment = function()
+        function ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, upgradeKey)
         {
-            return environment;
-        };
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("attackDice", attackDice);
+            InputValidator.validateNotNull("defender", defender);
+            InputValidator.validateNotNull("modificationKey", modificationKey);
+            // upgradeKey optional.
 
-        this.getAttacker = function()
-        {
-            return attacker;
-        };
-
-        this.getAttackDice = function()
-        {
-            return attackDice;
-        };
-
-        this.getDefender = function()
-        {
-            return defender;
-        };
-
-        this.getModification = function()
-        {
-            return modification;
-        };
-
-        this.doIt = function()
-        {
-            var store = environment.store();
-
-            if (modification === ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK)
+            this.environment = function()
             {
-                attackDice.spendTargetLock();
-                var targetLock = attacker.findTargetLockByDefender(defender);
-                attacker.removeAttackerTargetLock(targetLock);
-            }
-            else if (modification === ModifyAttackDiceAction.Modification.SPEND_FOCUS)
-            {
-                attackDice.spendFocusToken();
-                store.dispatch(Action.addFocusCount(attacker, -1));
+                return environment;
+            };
 
-                if (attacker.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
+            this.attacker = function()
+            {
+                return attacker;
+            };
+
+            this.attackDice = function()
+            {
+                return attackDice;
+            };
+
+            this.defender = function()
+            {
+                return defender;
+            };
+
+            this.modificationKey = function()
+            {
+                return modificationKey;
+            };
+
+            this.upgradeKey = function()
+            {
+                return upgradeKey;
+            };
+
+            this.doIt = function()
+            {
+                var store = environment.store();
+
+                if (modificationKey === ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK)
                 {
-                    store.dispatch(Action.addFocusCount(attacker));
+                    attackDice.spendTargetLock();
+                    var targetLock = attacker.findTargetLockByDefender(defender);
+                    attacker.removeAttackerTargetLock(targetLock);
                 }
-            }
-            else
+                else if (modificationKey === ModifyAttackDiceAction.Modification.SPEND_FOCUS)
+                {
+                    attackDice.spendFocusToken();
+                    store.dispatch(Action.addFocusCount(attacker, -1));
+
+                    if (attacker.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
+                    {
+                        store.dispatch(Action.addFocusCount(attacker));
+                    }
+                }
+                else if (modificationKey === ModifyAttackDiceAction.Modification.USE_UPGRADE)
+                {
+                    var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
+
+                    if (upgradeAbility && upgradeAbility.consequent)
+                    {
+                        upgradeAbility.consequent(store, attacker);
+                    }
+                }
+                else
+                {
+                    throw "Unknown modificationKey: " + modificationKey;
+                }
+            };
+        }
+
+        ModifyAttackDiceAction.Modification = {
+            SPEND_FOCUS: "spendFocus",
+            SPEND_TARGET_LOCK: "spendTargetLock",
+            USE_UPGRADE: "useUpgrade",
+            properties:
             {
-                throw "Unknown modification: " + modification;
-            }
+                "spendFocus":
+                {
+                    name: "Spend a Focus token",
+                },
+                "spendTargetLock":
+                {
+                    name: "Spend Target Lock tokens",
+                },
+                "useUpgrade":
+                {
+                    name: "Use Upgrade",
+                },
+            },
         };
-    }
 
-    ModifyAttackDiceAction.Modification =
-    {
-        SPEND_FOCUS: "spendFocus",
-        SPEND_TARGET_LOCK: "spendTargetLock",
-        properties:
+        ModifyAttackDiceAction.prototype.toString = function()
         {
-            "spendFocus":
-            {
-                name: "Spend a Focus token",
-            },
-            "spendTargetLock":
-            {
-                name: "Spend Target Lock tokens",
-            },
-        },
-    };
+            return "ModifyAttackDiceAction modificationKey=" + this.modificationKey() + ",upgradeKey=" + this.upgradeKey();
+        };
 
-    ModifyAttackDiceAction.prototype.toString = function()
-    {
-        return "ModifyAttackDiceAction modification=" + this.getModification();
-    };
-
-    return ModifyAttackDiceAction;
-});
+        return ModifyAttackDiceAction;
+    });

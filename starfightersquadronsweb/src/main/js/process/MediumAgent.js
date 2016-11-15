@@ -28,58 +28,62 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "process/ModifyAttackDiceA
         {
             getModifyAttackDiceAction: function(environment, adjudicator, attacker, attackDice, defender, callback)
             {
-                // Maximize the hits and critical hits.
-                var answer;
-                var modification;
-                var store = environment.store();
+                // FIXME: Maximize the hits and critical hits.
+                // var store = environment.store();
+                // var bestModification;
+                // var bestHits = -1;
+                // var modifications = SimpleAgent.prototype.determineValidModifyAttackDiceActions.call(this, environment, attacker, attackDice, defender);
+                //
+                // modifications.forEach(function(modification)
+                // {
+                //     var mockDice = attackDice.newInstance();
+                //     var mockAttacker = attacker.newInstance(store, attacker.agent());
+                //     var mockDefender = defender.newInstance(store, defender.agent());
+                //     var mod = new ModifyAttackDiceAction(environment, mockAttacker, mockDice, mockDefender, modification.modificationKey(), modification.upgradeKey());
+                //     mod.doIt();
+                //     var hits = mockDice.hitCount() + mockDice.criticalHitCount();
+                //
+                //     if (hits > bestHits)
+                //     {
+                //         bestModification = modification;
+                //         bestHits = hits;
+                //     }
+                // });
 
-                if (attackDice.hitCount() + attackDice.criticalHitCount() === attackDice.size())
-                {
-                    // All hits and critical hits. Pass.
-                }
-                else if (attacker.findTargetLockByDefender(defender))
-                {
-                    modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
-                    answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
-                }
-                else if (attacker.focusCount() > 0 && attackDice.focusCount() > 0)
-                {
-                    modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
-                    answer = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
-                }
+                var modifications = SimpleAgent.prototype.determineValidModifyAttackDiceActions.call(this, environment, attacker, attackDice, defender);
+                var bestModification = modifications.vizziniRandomElement();
 
-                callback(answer);
+                callback(bestModification);
             },
 
             getModifyDefenseDiceAction: function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
                 callback)
             {
-                var answer;
-                var totalHits = attackDice.hitCount() + attackDice.criticalHitCount();
-                var modification;
-                var store = environment.store();
+                // FIXME: Maximize the evades.
+                // var store = environment.store();
+                // var bestModification;
+                // var bestEvades;
+                // var modifications = SimpleAgent.prototype.determineValidModifyDefenseDiceActions.call(this, environment, attacker, attackDice, defender, defenseDice);
+                //
+                // modifications.forEach(function(modification)
+                // {
+                //     var mockDice = defenseDice.newInstance();
+                //     var mockDefender = defender.newInstance(store, defender.agent());
+                //     var mod = new ModifyDefenseDiceAction(environment, mockDefender, mockDice, modification.modificationKey(), modification.upgradeKey());
+                //     mod.doIt();
+                //     var evades = mockDice.evadeCount();
+                //
+                //     if (evades > bestEvades)
+                //     {
+                //         bestModification = modification;
+                //         bestEvades = evades;
+                //     }
+                // });
 
-                if (defenseDice.evadeCount() >= totalHits)
-                {
-                    // Enough evades. Pass.
-                }
-                else if (defender.evadeCount() > 0 && defenseDice.evadeCount() + 1 >= totalHits)
-                {
-                    modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
-                    answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-                }
-                else if (defender.focusCount() > 0 && defenseDice.focusCount() > 0)
-                {
-                    modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
-                    answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-                }
-                else if (defender.evadeCount() > 0)
-                {
-                    modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
-                    answer = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
-                }
+                var modifications = SimpleAgent.prototype.determineValidModifyDefenseDiceActions.call(this, environment, attacker, attackDice, defender, defenseDice);
+                var bestModification = modifications.vizziniRandomElement();
 
-                callback(answer);
+                callback(bestModification);
             },
 
             getPlanningAction: function(environment, adjudicator, callback)

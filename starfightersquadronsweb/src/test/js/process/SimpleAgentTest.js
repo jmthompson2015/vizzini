@@ -1,5 +1,5 @@
-define(["process/Adjudicator", "AttackDice", "DefenseDice", "process/Environment", "process/EnvironmentFactory", "Maneuver", "process/ModifyDefenseDiceAction", "Pilot", "Position", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/Action", "process/Reducer"],
-    function(Adjudicator, AttackDice, DefenseDice, Environment, EnvironmentFactory, Maneuver, ModifyDefenseDiceAction, Pilot, Position, SimpleAgent, SquadBuilder, Team, Token, Action, Reducer)
+define(["AttackDice", "DefenseDice", "Maneuver", "Pilot", "Position", "Team", "process/Action", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
+    function(AttackDice, DefenseDice, Maneuver, Pilot, Position, Team, Action, Adjudicator, Environment, EnvironmentFactory, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SimpleAgent, SquadBuilder, Token)
     {
         "use strict";
         QUnit.module("SimpleAgent");
@@ -155,32 +155,31 @@ define(["process/Adjudicator", "AttackDice", "DefenseDice", "process/Environment
             result = agent.getDecloakAction(environment, adjudicator, token, callback);
         });
 
-        QUnit.test("getModifyDefenseDiceAction() evade", function(assert)
+        QUnit.test("getModifyAttackDiceAction() evade", function(assert)
         {
             // Setup.
             var environment = EnvironmentFactory.createCoreSetEnvironment();
             var store = environment.store();
             var adjudicator = new Adjudicator();
-            var agent = new SimpleAgent("myAgent", Team.IMPERIAL);
-            var attacker = environment.tokens()[0];
+            var attacker = environment.tokens()[0]; // TIE Fighter
+            var agent = attacker.agent();
             var attackDice = new AttackDice(3);
-            var defender = environment.tokens()[2];
+            var defender = environment.tokens()[2]; // X-Wing
             var defenseDice = new DefenseDice(3);
-            store.dispatch(Action.addEvadeCount(defender));
+            store.dispatch(Action.addFocusCount(attacker));
 
             var result;
-            var caller = {};
 
             function callback(modifyAction)
             {
-                LOGGER.debug("callback()");
+                LOGGER.debug("callback() modifyAction = " + modifyAction);
                 result = modifyAction;
 
                 // Verify.
                 if (result)
                 {
                     assert.ok(result);
-                    assert.equal(result.getModification(), ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+                    assert.equal(result.modificationKey(), ModifyAttackDiceAction.Modification.SPEND_FOCUS);
                 }
                 else
                 {
@@ -189,7 +188,43 @@ define(["process/Adjudicator", "AttackDice", "DefenseDice", "process/Environment
             }
 
             // Run.
-            result = agent.getModifyDefenseDiceAction(environment, adjudicator, attacker, attackDice, defender,
+            agent.getModifyAttackDiceAction(environment, adjudicator, attacker, attackDice, defender, callback);
+        });
+
+        QUnit.test("getModifyDefenseDiceAction() evade", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var adjudicator = new Adjudicator();
+            var attacker = environment.tokens()[2]; // X-Wing
+            var attackDice = new AttackDice(3);
+            var defender = environment.tokens()[0]; // TIE Fighter
+            var agent = defender.agent();
+            var defenseDice = new DefenseDice(3);
+            store.dispatch(Action.addEvadeCount(defender));
+
+            var result;
+
+            function callback(modifyAction)
+            {
+                LOGGER.debug("callback() modifyAction = " + modifyAction);
+                result = modifyAction;
+
+                // Verify.
+                if (result)
+                {
+                    assert.ok(result);
+                    assert.equal(result.modificationKey(), ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+                }
+                else
+                {
+                    assert.ok(!result);
+                }
+            }
+
+            // Run.
+            agent.getModifyDefenseDiceAction(environment, adjudicator, attacker, attackDice, defender,
                 defenseDice, callback);
         });
 

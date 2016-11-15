@@ -599,7 +599,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     name: "Calculation",
                     type: UpgradeType.ELITE,
                     description: "When attacking, you may spend a Focus token to change 1 of your Focus results to a Critical Hit result.",
+                    agentInput: true,
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "calculation",
                 },
                 "captainNeeda":
@@ -1242,7 +1244,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     isUnique: true,
                     restrictions: [UpgradeRestriction.REBEL_ONLY],
                     description: "When attacking, if you have a Target Lock on the defender, you may spend that Target Lock to change all of your Focus results to Hit results.",
+                    agentInput: true,
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "hanSolo",
                 },
                 "heavyLaserCannon":
@@ -1744,7 +1748,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     name: "Opportunist",
                     type: UpgradeType.ELITE,
                     description: "When attacking, if the defender does not have any Focus or Evade tokens, you may receive 1 stress token to roll 1 additional attack die. You cannot use this ability if you have any stress tokens.",
+                    agentInput: true,
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "opportunist",
                 },
                 "optimizedGenerators":
@@ -2564,7 +2570,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     name: "Weapons Guidance",
                     type: UpgradeType.TECH,
                     description: "When attacking, you may spend a focus token to change 1 of your blank results to a Hit result.",
+                    agentInput: true,
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "weaponsGuidance",
                 },
                 "wed15RepairDroid":

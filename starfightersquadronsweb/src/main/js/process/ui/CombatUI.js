@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction"],
-    function(AttackDice, DefenseDice, Phase, ModifyAttackDiceAction, ModifyDefenseDiceAction)
+define(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/UpgradeTypeUI", "../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(AttackDice, DefenseDice, Phase, UpgradeCard, UpgradeType, ModifyAttackDiceAction, ModifyDefenseDiceAction, UpgradeTypeUI, InputPanel)
     {
         "use strict";
         var CombatUI = React.createClass(
@@ -15,17 +15,8 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 criticalHitCount: React.PropTypes.number,
                 defenseDice: React.PropTypes.object,
                 hitCount: React.PropTypes.number,
-                modificationKeys: React.PropTypes.array,
+                modifications: React.PropTypes.array,
                 okFunction: React.PropTypes.func,
-            },
-
-            getInitialState: function()
-            {
-                return (
-                {
-                    attackModification: null,
-                    defenseModification: null,
-                });
             },
 
             render: function()
@@ -35,7 +26,7 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 var defender = this.props.defender;
                 var attackDice = this.props.attackDice;
                 var defenseDice = this.props.defenseDice;
-                var modificationKeys = this.props.modificationKeys;
+                var modifications = this.props.modifications;
 
                 var rows = [];
 
@@ -69,14 +60,15 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                     className: "combatDicePanel",
                 }, attackPanel)));
 
-                if (attackDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE && modificationKeys !== undefined)
+                if (attackDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE && modifications !== undefined)
                 {
                     // Modify Attack Dice panel.
                     var modifyAttackPanel = React.createElement(CombatUI.ModifyAttackUI,
                     {
                         attacker: attacker,
-                        modificationKeys: this.props.modificationKeys,
-                        onChange: this.attackOnChange,
+                        imageBase: this.props.imageBase,
+                        modifications: modifications,
+                        onChange: this.ok,
                     });
 
                     rows.push(React.DOM.tr(
@@ -111,14 +103,14 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                         className: "combatDicePanel",
                     }, defensePanel)));
 
-                    if (defenseDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE && modificationKeys !== undefined)
+                    if (defenseDice.size() > 0 && phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE && modifications !== undefined)
                     {
                         // Modify Defense Dice panel.
                         var modifyDefensePanel = React.createElement(CombatUI.ModifyDefenseUI,
                         {
                             defender: defender,
-                            modificationKeys: this.props.modificationKeys,
-                            onChange: this.defenseOnChange,
+                            modifications: modifications,
+                            onChange: this.ok,
                         });
 
                         rows.push(React.DOM.tr(
@@ -171,68 +163,43 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 });
             },
 
-            attackOnChange: function(modification)
-            {
-                this.setState(
-                {
-                    attackModification: modification,
-                });
-            },
-
             createTitle: function(phase)
             {
                 var answer = "Combat";
 
-                if (phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE)
+                switch (phase.value)
                 {
-                    answer += ": Modify Attack Dice";
-                }
-                else if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
-                {
-                    answer += ": Modify Defense Dice";
-                }
-                else if (phase.value === Phase.COMBAT_NOTIFY_DAMAGE)
-                {
-                    answer += ": Deal Damage";
+                    case Phase.COMBAT_MODIFY_ATTACK_DICE:
+                        answer += ": Modify Attack Dice";
+                        break;
+                    case Phase.COMBAT_MODIFY_DEFENSE_DICE:
+                        answer += ": Modify Defense Dice";
+                        break;
+                    case Phase.COMBAT_NOTIFY_DAMAGE:
+                        answer += ": Deal Damage";
+                        break;
                 }
 
                 return answer;
             },
 
-            defenseOnChange: function(modification)
-            {
-                this.setState(
-                {
-                    defenseModification: modification,
-                });
-            },
-
-            ok: function()
+            ok: function(modification)
             {
                 LOGGER.debug("CombatUI ok()");
+                var answer;
 
-                var value;
-                var phase = this.props.phase;
-
-                if (phase.value === Phase.COMBAT_MODIFY_ATTACK_DICE)
+                if (modification && modification.doIt)
                 {
-                    value = this.state.attackModification;
-                }
-                else if (phase.value === Phase.COMBAT_MODIFY_DEFENSE_DICE)
-                {
-                    value = this.state.defenseModification;
+                    answer = modification;
                 }
 
-                if (value === "null")
-                {
-                    value = null;
-                }
+                LOGGER.debug("CombatUI.ok() modification = " + modification + " " + (typeof modification));
 
                 var okFunction = this.props.okFunction;
 
                 if (okFunction)
                 {
-                    okFunction(value);
+                    okFunction(answer);
                 }
             },
         });
@@ -346,49 +313,49 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
             propTypes:
             {
                 attacker: React.PropTypes.object.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
+                modifications: React.PropTypes.array.isRequired,
                 onChange: React.PropTypes.func.isRequired,
-
-                modificationKeys: React.PropTypes.array,
             },
 
             render: function()
             {
-                var modificationKeys = this.props.modificationKeys;
+                var modifications = this.props.modifications;
                 var attacker = this.props.attacker;
+                var imageBase = this.props.imageBase;
                 var labelFunction = function(value)
                 {
-                    var answer = "Pass";
-                    if (value)
+                    var answer;
+
+                    if (value.modificationKey() === ModifyAttackDiceAction.Modification.USE_UPGRADE)
                     {
-                        answer = ModifyAttackDiceAction.Modification.properties[value].name;
+                        var upgrade = UpgradeCard.properties[value.upgradeKey()];
+                        answer = createUpgradeLabel(upgrade, imageBase);
                     }
+                    else
+                    {
+                        answer = ModifyAttackDiceAction.Modification.properties[value.modificationKey()].name;
+                    }
+
                     return answer;
                 };
-                var initialValue;
-                if (modificationKeys !== undefined && modificationKeys.length > 0)
-                {
-                    initialValue = modificationKeys[0];
-                }
 
                 return React.createElement(InputPanel,
                 {
-                    type: "radio",
-                    values: modificationKeys,
+                    type: InputPanel.Type.RADIO,
+                    values: modifications,
                     name: "selectModifyAttack",
                     labelFunction: labelFunction,
-                    initialValues: initialValue,
                     onChange: this.myOnChange,
                     panelClass: "combatChoicePanel",
                 });
             },
 
-            myOnChange: function(event)
+            myOnChange: function(event, selected)
             {
                 LOGGER.trace("ModifyAttackUI.myOnChange()");
-                var source = event.target;
-                var modification = source.id;
-                LOGGER.debug("ModifyAttackUI.myOnChange() modification = " + modification);
-                this.props.onChange(modification);
+                LOGGER.debug("ModifyAttackUI.myOnChange() modification = " + selected + " " + (typeof selected));
+                this.props.onChange(selected);
             },
         });
 
@@ -397,49 +364,48 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
             propTypes:
             {
                 defender: React.PropTypes.object.isRequired,
+                modifications: React.PropTypes.array.isRequired,
                 onChange: React.PropTypes.func.isRequired,
-
-                modificationKeys: React.PropTypes.array,
             },
 
             render: function()
             {
-                var modificationKeys = this.props.modificationKeys;
+                var modifications = this.props.modifications;
                 var defender = this.props.defender;
+                var imageBase = this.props.imageBase;
                 var labelFunction = function(value)
                 {
-                    var answer = "Pass";
-                    if (value)
+                    var answer;
+
+                    if (value.modificationKey() === ModifyDefenseDiceAction.Modification.USE_UPGRADE)
                     {
-                        answer = ModifyDefenseDiceAction.Modification.properties[value].name;
+                        var upgrade = UpgradeCard.properties[value.upgradeKey()];
+                        answer = createUpgradeLabel(upgrade, imageBase);
                     }
+                    else
+                    {
+                        answer = ModifyDefenseDiceAction.Modification.properties[value.modificationKey()].name;
+                    }
+
                     return answer;
                 };
-                var initialValue;
-                if (modificationKeys !== undefined && modificationKeys.length > 0)
-                {
-                    initialValue = modificationKeys[0];
-                }
 
                 return React.createElement(InputPanel,
                 {
-                    type: "radio",
-                    values: modificationKeys,
+                    type: InputPanel.Type.RADIO,
+                    values: modifications,
                     name: "selectModifyDefense",
                     labelFunction: labelFunction,
-                    initialValues: initialValue,
                     onChange: this.myOnChange,
                     panelClass: "combatChoicePanel",
                 });
             },
 
-            myOnChange: function(event)
+            myOnChange: function(event, selected)
             {
                 LOGGER.trace("ModifyDefenseUI.myOnChange()");
-                var source = event.target;
-                var modification = source.id;
-                LOGGER.debug("ModifyDefenseUI.myOnChange() modification = " + modification);
-                this.props.onChange(modification);
+                LOGGER.debug("ModifyDefenseUI.myOnChange() modification = " + selected + " " + (typeof selected));
+                this.props.onChange(selected);
             },
         });
 
@@ -508,6 +474,23 @@ define(["AttackDice", "DefenseDice", "Phase", "process/ModifyAttackDiceAction", 
                 {}, columns)));
             },
         });
+
+        function createUpgradeLabel(upgrade, imageBase)
+        {
+            InputValidator.validateNotNull("upgrade", upgrade);
+
+            var icon = React.createElement(UpgradeTypeUI,
+            {
+                upgradeType: UpgradeType.properties[upgrade.type],
+                imageBase: imageBase,
+            });
+
+            return React.DOM.span(
+            {}, icon, " ", React.DOM.span(
+            {
+                title: upgrade.description,
+            }, upgrade.name));
+        }
 
         return CombatUI;
     });

@@ -12,7 +12,6 @@
 	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
 	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
 	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
 	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
@@ -45,11 +44,11 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["AttackDice", "DefenseDice", "Phase", "process/Action", "process/Adjudicator", "process/CombatAction", "process/DamageDealer",
-				"process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/CombatUI"
+		require(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "process/Action", "process/Adjudicator", "process/CombatAction", "process/DamageDealer",
+				"process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/TargetLock", "process/ui/CombatUI"
 			],
-			function(AttackDice, DefenseDice, Phase, Action, Adjudicator, CombatAction, DamageDealer, EnvironmentFactory, ModifyAttackDiceAction,
-				ModifyDefenseDiceAction, CombatUI)
+			function(AttackDice, DefenseDice, Phase, UpgradeCard, Action, Adjudicator, CombatAction, DamageDealer, EnvironmentFactory, ModifyAttackDiceAction,
+				ModifyDefenseDiceAction, TargetLock, CombatUI)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
@@ -67,14 +66,20 @@
 				LOGGER.debug("defender = " + defender);
 				store.dispatch(Action.addFocusCount(defender));
 				store.dispatch(Action.addEvadeCount(defender));
+				var targetLock = new TargetLock(store, attacker, defender);
+				attacker.addAttackerTargetLock(targetLock);
 				var callback = function()
 				{
 					LOGGER.info("callback() start");
 				};
-				attacker.combatState().combatAction(
-					new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-						defenderPosition, callback));
-				var modificationKeys0 = [null, ModifyAttackDiceAction.Modification.SPEND_FOCUS];
+				attacker.combatState().combatAction(new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender, defenderPosition, callback));
+				var modificationKeys0 = [ModifyAttackDiceAction.Modification.SPEND_FOCUS, ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK];
+				var modifications0 = modificationKeys0.map(function(modificationKey)
+				{
+					var upgradeKey;
+					return new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, upgradeKey);
+				});
+				modifications0.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, ModifyAttackDiceAction.Modification.USE_UPGRADE, UpgradeCard.WEAPONS_GUIDANCE));
 
 				var element0 = React.createElement(CombatUI,
 				{
@@ -82,16 +87,19 @@
 					attackDice: attackDice,
 					defender: defender,
 					imageBase: imageBase,
-					modificationKeys: modificationKeys0,
+					modifications: modifications0,
 					okFunction: myOK0,
 					phase: Phase.properties[Phase.COMBAT_MODIFY_ATTACK_DICE],
 				});
 				ReactDOM.render(element0, document.getElementById("inputArea0"));
 
 				var defenseDice = new DefenseDice(4);
-				var modificationKeys1 = [null, ModifyDefenseDiceAction.Modification.SPEND_EVADE,
-					ModifyDefenseDiceAction.Modification.SPEND_FOCUS
-				];
+				var modificationKeys1 = [ModifyDefenseDiceAction.Modification.SPEND_EVADE, ModifyDefenseDiceAction.Modification.SPEND_FOCUS];
+				var modifications1 = modificationKeys1.map(function(modificationKey)
+				{
+					var upgradeKey;
+					return new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, upgradeKey);
+				});
 
 				var element1 = React.createElement(CombatUI,
 				{
@@ -100,7 +108,7 @@
 					defender: defender,
 					defenseDice: defenseDice,
 					imageBase: imageBase,
-					modificationKeys: modificationKeys1,
+					modifications: modifications1,
 					okFunction: myOK1,
 					phase: Phase.properties[Phase.COMBAT_MODIFY_DEFENSE_DICE],
 				});

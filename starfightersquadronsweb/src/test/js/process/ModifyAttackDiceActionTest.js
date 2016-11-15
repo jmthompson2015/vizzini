@@ -1,5 +1,5 @@
-define(["AttackDice", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/TargetLock", "process/Action"],
-    function(AttackDice, EnvironmentFactory, ModifyAttackDiceAction, TargetLock, Action)
+define(["AttackDice", "process/Action", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/TargetLock"],
+    function(AttackDice, Action, EnvironmentFactory, ModifyAttackDiceAction, TargetLock)
     {
         "use strict";
         QUnit.module("ModifyAttackDiceAction");
@@ -13,8 +13,8 @@ define(["AttackDice", "process/EnvironmentFactory", "process/ModifyAttackDiceAct
             store.dispatch(Action.addFocusCount(attacker));
             var attackDice = new AttackDice(3);
             var defender = environment.tokens()[2];
-            var modification = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
-            var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
+            var modificationKey = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
+            var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey);
             assert.equal(attacker.focusCount(), 1);
             var focusCount0 = attackDice.focusCount();
             var hitCount0 = attackDice.hitCount();
@@ -36,10 +36,10 @@ define(["AttackDice", "process/EnvironmentFactory", "process/ModifyAttackDiceAct
             var attacker = environment.tokens()[0]; // TIE Fighter.
             var attackDice = new AttackDice(3);
             var defender = environment.tokens()[2]; // X-Wing.
-            var modification = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
+            var modificationKey = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
             var targetLock = new TargetLock(store, attacker, defender);
             attacker.addAttackerTargetLock(targetLock);
-            var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modification);
+            var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey);
             var blankCount0 = attackDice.blankCount();
             var focusCount0 = attackDice.focusCount();
             var hitCount0 = attackDice.hitCount();
