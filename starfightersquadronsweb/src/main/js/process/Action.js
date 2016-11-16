@@ -10,6 +10,7 @@ define(["Count"], function(Count)
     Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
     Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
     Action.ADD_TOKEN_UPGRADE_ENERGY = "addTokenUpgradeEnergy";
+    Action.ADD_TOKEN_UPGRADE_PER_ROUND = "addTokenUpgradePerRound";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
     Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
@@ -34,6 +35,7 @@ define(["Count"], function(Count)
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
     Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
+    Action.SET_TOKEN_UPGRADE_PER_ROUND = "setTokenUpgradePerRound";
     Action.SET_USER_MESSAGE = "setUserMessage";
     Action.SET_VALUE = "setValue";
 
@@ -162,6 +164,21 @@ define(["Count"], function(Count)
         return (
         {
             type: Action.ADD_TOKEN_UPGRADE_ENERGY,
+            tokenId: tokenId,
+            upgradeKey: upgradeKey,
+            value: myValue,
+        });
+    };
+
+    Action.addTokenUpgradePerRound = function(tokenId, upgradeKey, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+        var myValue = (value !== undefined ? value : 1);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_UPGRADE_PER_ROUND,
             tokenId: tokenId,
             upgradeKey: upgradeKey,
             value: myValue,
@@ -480,6 +497,21 @@ define(["Count"], function(Count)
         return (
         {
             type: Action.SET_TOKEN_UPGRADE_ENERGY,
+            tokenId: tokenId,
+            upgradeKey: upgradeKey,
+            value: myValue,
+        });
+    };
+
+    Action.setTokenUpgradePerRound = function(tokenId, upgradeKey, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+        var myValue = (value !== undefined ? value : 0);
+
+        return (
+        {
+            type: Action.SET_TOKEN_UPGRADE_PER_ROUND,
             tokenId: tokenId,
             upgradeKey: upgradeKey,
             value: myValue,

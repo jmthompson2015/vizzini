@@ -258,6 +258,28 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
             }
         };
 
+        Reducer.tokenIdToUpgradePerRound = function(state, action)
+        {
+            LOGGER.debug("tokenIdToUpgradePerRound() type = " + action.type);
+
+            var newTokenIdToUpgradePerRound;
+
+            switch (action.type)
+            {
+                case Action.ADD_TOKEN_UPGRADE_PER_ROUND:
+                case Action.SET_TOKEN_UPGRADE_PER_ROUND:
+                    var oldTokenIdToUpgradePerRound = (state[action.tokenId] ? state[action.tokenId] :
+                    {});
+                    newTokenIdToUpgradePerRound = Object.assign(
+                    {}, state);
+                    newTokenIdToUpgradePerRound[action.tokenId] = Reducer.upgradePerRound(oldTokenIdToUpgradePerRound, action);
+                    return newTokenIdToUpgradePerRound;
+                default:
+                    LOGGER.warn("Reducer.tokenIdToUpgradePerRound: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
         Reducer.tokenIdToUpgrades = function(state, action)
         {
             LOGGER.debug("tokenIdToUpgrades() type = " + action.type);
@@ -348,6 +370,31 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
             }
         };
 
+        Reducer.upgradePerRound = function(state, action)
+        {
+            LOGGER.debug("upgradePerRound() type = " + action.type);
+
+            var newUpgradePerRound;
+
+            switch (action.type)
+            {
+                case Action.ADD_TOKEN_UPGRADE_PER_ROUND:
+                    var oldValue = (state[action.property] ? state[action.property] : 0);
+                    newUpgradePerRound = Object.assign(
+                    {}, state);
+                    newUpgradePerRound[action.upgradeKey] = Math.max(oldValue + action.value, 0);
+                    return newUpgradePerRound;
+                case Action.SET_TOKEN_UPGRADE_PER_ROUND:
+                    newUpgradePerRound = Object.assign(
+                    {}, state);
+                    newUpgradePerRound[action.upgradeKey] = action.value;
+                    return newUpgradePerRound;
+                default:
+                    LOGGER.warn("Reducer.upgradePerRound: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
         Reducer.upgrades = function(state, action)
         {
             LOGGER.debug("upgrades() type = " + action.type);
@@ -407,8 +454,7 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     var newTokenIdToCounts = Reducer.tokenIdToCounts(state.tokenIdToCounts, action);
                     newTokenIdToValues = Object.assign(
                     {}, state.tokenIdToValues);
-                    newTokenIdToValues = Reducer._recomputeValues(state, newTokenIdToCounts, newTokenIdToValues,
-                        action.token);
+                    newTokenIdToValues = Reducer._recomputeValues(state, newTokenIdToCounts, newTokenIdToValues, action.token);
                     return Object.assign(
                     {}, state,
                     {
@@ -430,13 +476,11 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     });
                 case Action.ADD_TOKEN_CRITICAL_DAMAGE:
                 case Action.REMOVE_TOKEN_CRITICAL_DAMAGE:
-                    var newTokenIdToCriticalDamages = Reducer.tokenIdToCriticalDamages(state.tokenIdToCriticalDamages,
-                        action);
+                    var newTokenIdToCriticalDamages = Reducer.tokenIdToCriticalDamages(state.tokenIdToCriticalDamages, action);
                     newTokenIdToValues = Object.assign(
                     {}, state.tokenIdToValues);
                     var damage = DamageCard.properties[action.damageKey];
-                    newTokenIdToValues = Reducer._recomputeValues(state, state.tokenIdToCounts, newTokenIdToValues,
-                        action.token, damage);
+                    newTokenIdToValues = Reducer._recomputeValues(state, state.tokenIdToCounts, newTokenIdToValues, action.token, damage);
                     return Object.assign(
                     {}, state,
                     {
@@ -457,8 +501,7 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     newTokenIdToValues = Object.assign(
                     {}, state.tokenIdToValues);
                     var upgrade = UpgradeCard.properties[action.upgradeKey];
-                    newTokenIdToValues = Reducer._recomputeValues(state, state.tokenIdToCounts, newTokenIdToValues,
-                        action.token, undefined, upgrade);
+                    newTokenIdToValues = Reducer._recomputeValues(state, state.tokenIdToCounts, newTokenIdToValues, action.token, undefined, upgrade);
                     return Object.assign(
                     {}, state,
                     {
@@ -467,12 +510,19 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     });
                 case Action.ADD_TOKEN_UPGRADE_ENERGY:
                 case Action.SET_TOKEN_UPGRADE_ENERGY:
-                    var newTokenIdToUpgradeEnergy = Reducer
-                        .tokenIdToUpgradeEnergy(state.tokenIdToUpgradeEnergy, action);
+                    var newTokenIdToUpgradeEnergy = Reducer.tokenIdToUpgradeEnergy(state.tokenIdToUpgradeEnergy, action);
                     return Object.assign(
                     {}, state,
                     {
                         tokenIdToUpgradeEnergy: newTokenIdToUpgradeEnergy,
+                    });
+                case Action.ADD_TOKEN_UPGRADE_PER_ROUND:
+                case Action.SET_TOKEN_UPGRADE_PER_ROUND:
+                    var newTokenIdToUpgradePerRound = Reducer.tokenIdToUpgradePerRound(state.tokenIdToUpgradePerRound, action);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToUpgradePerRound: newTokenIdToUpgradePerRound,
                     });
                 case Action.DISCARD_DAMAGE:
                     return Object.assign(

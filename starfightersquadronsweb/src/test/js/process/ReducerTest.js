@@ -389,6 +389,34 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
             assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 2);
         });
 
+        QUnit.test("addTokenUpgradePerRound()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var tokenId = 1;
+            var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
+            var upgradeKey1 = UpgradeCard.CALCULATION;
+
+            // Run.
+            store.dispatch(Action.addTokenUpgradePerRound(tokenId, upgradeKey0));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0]);
+            assert.ok(!store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
+
+            // Run.
+            store.dispatch(Action.addTokenUpgradePerRound(tokenId, upgradeKey1, 2));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0]);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1], 2);
+        });
+
         QUnit.test("addWeaponsDisabledCount()", function(assert)
         {
             // Setup.
@@ -1059,6 +1087,31 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
             assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
             assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
             assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 2);
+        });
+
+        QUnit.test("setTokenUpgradePerRound()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var tokenId = 1;
+            var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
+            var upgradeKey1 = UpgradeCard.CALCULATION;
+
+            // Run.
+            store.dispatch(Action.setTokenUpgradePerRound(tokenId, upgradeKey0, 1));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
+            assert.ok(!store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1], 0);
+
+            // Run.
+            store.dispatch(Action.setTokenUpgradePerRound(tokenId, upgradeKey1, 2));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1], 2);
         });
 
         QUnit.test("setUserMessage()", function(assert)

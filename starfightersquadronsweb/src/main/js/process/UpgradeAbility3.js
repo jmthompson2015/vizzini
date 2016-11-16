@@ -1,12 +1,13 @@
 /*
  * Provides upgrade abilities for the Combat Phase.
  */
-define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "process/Selector", "process/TargetLock"],
-    function(AttackDice, Phase, RangeRuler, UpgradeCard, Action, Selector, TargetLock)
+define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "process/Action", "process/Selector", "process/TargetLock"],
+    function(AttackDice, Phase, RangeRuler, UpgradeCard, UpgradeType, Action, Selector, TargetLock)
     {
         "use strict";
         var UpgradeAbility3 = {};
 
+        ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET] = {};
 
         UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.BLASTER_TURRET] = function(store, token)
@@ -27,6 +28,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE] = {};
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.ADVANCED_PROTON_TORPEDOES] = function(store, token)
@@ -104,6 +106,52 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
                     attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
                 }
             });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.GUIDANCE_CHIPS] = {
+            // Once per round, when attacking with a Torpedo or Missile secondary weapon, you may change 1 die result to a Hit result (or a Critical result if your primary weapon value is "3" or higher).
+            condition: function(store, token)
+            {
+                var upgradeKey = UpgradeCard.GUIDANCE_CHIPS;
+                var weapon = token.combatState().combatAction().weapon();
+                LOGGER.info("usedThisRound(" + token + ", " + upgradeKey + ") ? " + usedThisRound(store, token, upgradeKey));
+                var attackDice = token.combatState().attackDice();
+                return !usedThisRound(store, token, upgradeKey) && weapon.upgrade() && [UpgradeType.TORPEDO, UpgradeType.MISSILE].vizziniContains(weapon.upgrade().type) && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
+            },
+            consequent: function(store, token)
+            {
+                var upgradeKey = UpgradeCard.GUIDANCE_CHIPS;
+                action(store, token, function(store, attacker)
+                {
+                    var attackDice = attacker.combatState().attackDice();
+                    var weapon = attacker.combatState().combatAction().weapon();
+                    var oldValue = (attackDice.blankCount() > 0 ? AttackDice.Value.BLANK : AttackDice.Value.FOCUS);
+                    var newValue = (weapon.weaponValue() >= 3 ? AttackDice.Value.CRITICAL_HIT : AttackDice.Value.HIT);
+                    attackDice.changeOneToValue(oldValue, newValue);
+                    store.dispatch(Action.addTokenUpgradePerRound(attacker.id(), upgradeKey));
+                });
+            },
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.GUNNERY_TEAM] = {
+            // Once per round, when attacking with a secondary weapon, you may spend 1 energy to change 1 of your blank results to a Hit result.
+            condition: function(store, token)
+            {
+                var upgradeKey = UpgradeCard.GUNNERY_TEAM;
+                var weapon = token.combatState().combatAction().weapon();
+                var attackDice = token.combatState().attackDice();
+                return !usedThisRound(store, token, upgradeKey) && !weapon.isPrimary() && token.energyCount() > 0 && attackDice.blankCount() > 0;
+            },
+            consequent: function(store, token)
+            {
+                var upgradeKey = UpgradeCard.GUNNERY_TEAM;
+                action(store, token, function(store, attacker)
+                {
+                    var attackDice = attacker.combatState().attackDice();
+                    attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
+                    store.dispatch(Action.addTokenUpgradePerRound(attacker.id(), upgradeKey));
+                });
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.HAN_SOLO] = {
@@ -243,6 +291,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE] = {};
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.FLIGHT_INSTRUCTOR] = function(store, token)
@@ -289,6 +338,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE] = {};
 
         UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE][UpgradeCard.ADVANCED_HOMING_MISSILES] = function(store, token)
@@ -355,6 +405,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE] = {};
 
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ASSAULT_MISSILES] = function(store, token)
@@ -534,6 +585,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             });
         };
 
+        ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_END] = {};
 
         UpgradeAbility3[Phase.COMBAT_END][UpgradeCard.MARA_JADE] = function(store, token)
@@ -631,6 +683,11 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "process/Action", "p
             var defender = combatAction.defender();
             spendTargetLock(attacker, defender);
             discardUpgrade(attacker);
+        }
+
+        function usedThisRound(store, token, upgradeKey)
+        {
+            return Selector.tokenToUpgradePerRound(store.getState(), token.id(), upgradeKey) > 0;
         }
 
         if (Object.freeze)

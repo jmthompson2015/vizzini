@@ -205,6 +205,22 @@ define(["Count", "Value"], function(Count, Value)
         return answer;
     };
 
+    Selector.tokenToUpgradePerRound = function(state, tokenId, upgradeKey)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        var answer;
+
+        if (state.tokenIdToUpgradePerRound[tokenId] !== undefined)
+        {
+            answer = state.tokenIdToUpgradePerRound[tokenId][upgradeKey];
+        }
+
+        return answer;
+    };
+
     Selector.tractorBeamCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.TRACTOR_BEAM);

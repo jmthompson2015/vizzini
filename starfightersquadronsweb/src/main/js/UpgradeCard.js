@@ -1217,7 +1217,10 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     name: "Guidance Chips",
                     type: UpgradeType.MODIFICATION,
                     description: "Once per round, when attacking with a Torpedo or Missile secondary weapon, you may change 1 die result to a Hit result (or a Critical result if your primary weapon value is \"3\" or higher).",
+                    agentInput: true,
+                    oncePerRound: true,
                     squadPointCost: 0,
+                    isImplemented: true,
                     value: "guidanceChips",
                 },
                 "gunner":
@@ -1234,7 +1237,10 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.TEAM,
                     restrictions: [UpgradeRestriction.LIMITED],
                     description: "Once per round, when attacking with a secondary weapon, you may spend 1 energy to change 1 of your blank results to a Hit result.",
+                    agentInput: true,
+                    oncePerRound: true,
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "gunneryTeam",
                 },
                 "hanSolo":

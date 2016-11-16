@@ -4,6 +4,16 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "p
         "use strict";
         var SquadBuilders = [];
 
+        // TEST
+        // SquadBuilders.push(new SquadBuilder(Team.REBEL, "TEST", 2016, "YT-2400", function(store, agent)
+        // {
+        //     var answer = [];
+        //     answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.GUIDANCE_CHIPS,
+        //       UpgradeCard.PLASMA_TORPEDOES, UpgradeCard.PROTON_ROCKETS, UpgradeCard.PROTON_TORPEDOES,
+        //       UpgradeCard.CALCULATION, UpgradeCard.HAN_SOLO, UpgradeCard.OPPORTUNIST, UpgradeCard.WEAPONS_GUIDANCE]));
+        //     return answer;
+        // }));
+
         // Nand Torfs
         // - Dengar (54) + LW + Title + OCR4 + Zuckuss + Countermeasures + Glitterstim
         // - Manaroo (43) + PTL + Gonk + R5-P8 + Engine + Seismic Torpedo + Feedback Array

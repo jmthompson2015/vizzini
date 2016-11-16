@@ -311,6 +311,11 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                     store.dispatch(Action.setReinforceCount(token));
                     store.dispatch(Action.setTractorBeamCount(token));
                     store.dispatch(Action.setWeaponsDisabledCount(token));
+
+                    token.upgradeKeys().forEach(function(upgradeKey)
+                    {
+                        store.dispatch(Action.setTokenUpgradePerRound(token.id(), upgradeKey));
+                    });
                 }
 
                 this.processEndQueue();
