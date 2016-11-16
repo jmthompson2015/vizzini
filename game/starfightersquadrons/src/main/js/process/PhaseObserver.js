@@ -1,5 +1,5 @@
-define(["UpgradeCard", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
-    function(UpgradeCard, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
+define(["UpgradeCard", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
+    function(UpgradeCard, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
     {
         "use strict";
 
@@ -9,11 +9,42 @@ define(["UpgradeCard", "process/Observer", "process/UpgradeAbility1", "process/U
 
             this.onChange = function(phaseKey)
             {
-              [UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4].forEach(function(upgradeAbility)
-                {
-                    var upgradeAbilities = upgradeAbility[phaseKey];
+                this.performPilotAbilities(phaseKey);
+                this.performUpgradeAbilities(phaseKey);
+            };
 
-                    if (upgradeAbilities !== undefined)
+            this.performPilotAbilities = function(phaseKey)
+            {
+                [PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4].forEach(function(pilotAbility)
+                {
+                    var abilities = pilotAbility[phaseKey];
+
+                    if (abilities !== undefined)
+                    {
+                        var tokens = Object.values(store.getState().tokens);
+
+                        tokens.forEach(function(token)
+                        {
+                            var pilotKey = token.pilotKey();
+                            var pilot = token.pilot();
+                            var ability = abilities[pilotKey];
+
+                            if (ability !== undefined && !pilot.agentInput)
+                            {
+                                ability(store, token);
+                            }
+                        });
+                    }
+                });
+            };
+
+            this.performUpgradeAbilities = function(phaseKey)
+            {
+                [UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4].forEach(function(upgradeAbility)
+                {
+                    var abilities = upgradeAbility[phaseKey];
+
+                    if (abilities !== undefined)
                     {
                         var tokens = Object.values(store.getState().tokens);
 
@@ -21,12 +52,12 @@ define(["UpgradeCard", "process/Observer", "process/UpgradeAbility1", "process/U
                         {
                             token.upgradeKeys().forEach(function(upgradeKey)
                             {
-                                var upgradeAbility = upgradeAbilities[upgradeKey];
+                                var ability = abilities[upgradeKey];
                                 var upgrade = UpgradeCard.properties[upgradeKey];
 
-                                if (upgradeAbility !== undefined && !upgrade.agentInput)
+                                if (ability !== undefined && !upgrade.agentInput)
                                 {
-                                    upgradeAbility(store, token);
+                                    ability(store, token);
                                 }
                             });
                         });
