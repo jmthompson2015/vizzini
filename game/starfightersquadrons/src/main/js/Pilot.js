@@ -281,6 +281,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 4,
                 squadPointCost: 19,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "baronOfTheEmpire",
             },
             "biggsDarklighter":
@@ -611,6 +612,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 35,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "colonelVessery",
             },
             "commanderAlozen":
@@ -644,8 +646,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.SCUM_JUMPMASTER_5000,
                 pilotSkillValue: 3,
                 squadPointCost: 25,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
-                                UpgradeType.CREW, UpgradeType.SALVAGED_ASTROMECH, UpgradeType.ILLICIT],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.SALVAGED_ASTROMECH, UpgradeType.ILLICIT],
+                isImplemented: true,
                 value: "contractedScout",
             },
             "corranHorn":
@@ -1011,6 +1013,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 5,
                 squadPointCost: 25,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CREW, UpgradeType.SYSTEM, UpgradeType.ILLICIT],
+                isImplemented: true,
                 value: "gandFindsman",
             },
             "garvenDreis":
@@ -1521,8 +1524,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.REBEL_VCX_100,
                 pilotSkillValue: 3,
                 squadPointCost: 35,
-                upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.TURRET, UpgradeType.TORPEDO,
-                                UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW],
+                upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW],
+                isImplemented: true,
                 value: "lothalRebel",
             },
             "lukeSkywalker":
@@ -1973,6 +1976,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 22,
                 upgradeTypeKeys: [UpgradeType.ELITE],
+                isImplemented: true,
                 value: "royalGuardPilot",
             },
             "ruthlessFreelancer":
@@ -1984,6 +1988,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 3,
                 squadPointCost: 23,
                 upgradeTypeKeys: [UpgradeType.CREW, UpgradeType.SYSTEM, UpgradeType.ILLICIT],
+                isImplemented: true,
                 value: "ruthlessFreelancer",
             },
             "saberSquadronPilot":
@@ -2065,6 +2070,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 2,
                 squadPointCost: 16,
                 upgradeTypeKeys: [UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "sienarTestPilot",
             },
             "sigmaSquadronPilot":
