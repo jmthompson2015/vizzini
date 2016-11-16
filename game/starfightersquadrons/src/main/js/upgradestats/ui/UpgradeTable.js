@@ -1,4 +1,4 @@
-define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "upgradestats/UpgradeColumns", "upgradestats/ui/Connector", "upgradestats/ui/FilterUI", "process/ui/UpgradeTypeUI", "../../../../../../coreweb/src/main/js/ui/DataTable"],
+define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "upgradestats/UpgradeColumns", "upgradestats/ui/Connector", "upgradestats/ui/FilterUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
     function(FiringArc, RangeRuler, UpgradeHeader, UpgradeRestriction, UpgradeType, UpgradeColumns, Connector, FilterUI, UpgradeTypeUI, DataTable)
     {
         "use strict";

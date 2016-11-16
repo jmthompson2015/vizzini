@@ -1,4 +1,4 @@
-define(["Ship", "Team", "pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/FilterUI", "process/ui/FactionUI", "process/ui/ShipSilhouetteUI", "../../../../../../coreweb/src/main/js/ui/DataTable"],
+define(["Ship", "Team", "pilotstats/PilotColumns", "pilotstats/ui/Connector", "pilotstats/ui/FilterUI", "process/ui/FactionUI", "process/ui/ShipSilhouetteUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
     function(Ship, Team, PilotColumns, Connector, FilterUI, FactionUI, ShipSilhouetteUI, DataTable)
     {
         "use strict";

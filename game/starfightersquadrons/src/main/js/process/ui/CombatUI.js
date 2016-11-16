@@ -1,4 +1,4 @@
-define(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/UpgradeTypeUI", "../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+define(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
     function(AttackDice, DefenseDice, Phase, UpgradeCard, UpgradeType, ModifyAttackDiceAction, ModifyDefenseDiceAction, UpgradeTypeUI, InputPanel)
     {
         "use strict";
