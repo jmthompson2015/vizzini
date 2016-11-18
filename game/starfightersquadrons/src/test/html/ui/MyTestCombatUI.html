@@ -76,10 +76,10 @@
 				var modificationKeys0 = [ModifyAttackDiceAction.Modification.SPEND_FOCUS, ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK];
 				var modifications0 = modificationKeys0.map(function(modificationKey)
 				{
-					var upgradeKey;
-					return new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, upgradeKey);
+					return new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey);
 				});
-				modifications0.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, ModifyAttackDiceAction.Modification.USE_UPGRADE, UpgradeCard.WEAPONS_GUIDANCE));
+				modifications0.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, ModifyAttackDiceAction.Modification.USE_UPGRADE, undefined,
+					UpgradeCard.WEAPONS_GUIDANCE));
 
 				var element0 = React.createElement(CombatUI,
 				{
@@ -97,8 +97,9 @@
 				var modificationKeys1 = [ModifyDefenseDiceAction.Modification.SPEND_EVADE, ModifyDefenseDiceAction.Modification.SPEND_FOCUS];
 				var modifications1 = modificationKeys1.map(function(modificationKey)
 				{
+					var pilotKey;
 					var upgradeKey;
-					return new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, upgradeKey);
+					return new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey);
 				});
 
 				var element1 = React.createElement(CombatUI,

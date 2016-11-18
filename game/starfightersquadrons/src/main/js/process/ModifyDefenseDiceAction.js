@@ -3,12 +3,13 @@ define(["UpgradeCard", "process/Action"],
     {
         "use strict";
 
-        function ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, upgradeKey)
+        function ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("defender", defender);
             InputValidator.validateNotNull("defenseDice", defenseDice);
             InputValidator.validateNotNull("modificationKey", modificationKey);
+            // pilotKey optional.
             // upgradeKey optional.
 
             this.environment = function()
@@ -29,6 +30,11 @@ define(["UpgradeCard", "process/Action"],
             this.modificationKey = function()
             {
                 return modificationKey;
+            };
+
+            this.pilotKey = function()
+            {
+                return pilotKey;
             };
 
             this.upgradeKey = function()
@@ -55,13 +61,22 @@ define(["UpgradeCard", "process/Action"],
                     defenseDice.spendEvadeToken();
                     store.dispatch(Action.addEvadeCount(defender, -1));
                 }
+                else if (modificationKey === ModifyDefenseDiceAction.Modification.USE_PILOT)
+                {
+                    var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
+
+                    if (pilotAbility && pilotAbility.consequent)
+                    {
+                        pilotAbility.consequent(store, defender);
+                    }
+                }
                 else if (modificationKey === ModifyDefenseDiceAction.Modification.USE_UPGRADE)
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
 
                     if (upgradeAbility && upgradeAbility.consequent)
                     {
-                        upgradeAbility.consequent(store, attacker);
+                        upgradeAbility.consequent(store, defender);
                     }
                 }
                 else
@@ -74,20 +89,29 @@ define(["UpgradeCard", "process/Action"],
         ModifyDefenseDiceAction.Modification = {
             SPEND_EVADE: "spendEvade",
             SPEND_FOCUS: "spendFocus",
+            USE_PILOT: "usePilot",
             USE_UPGRADE: "useUpgrade",
             properties:
             {
                 "spendEvade":
                 {
                     name: "Spend an Evade token",
+                    value: "spendEvade",
                 },
                 "spendFocus":
                 {
                     name: "Spend a Focus token",
+                    value: "spendFocus",
+                },
+                "usePilot":
+                {
+                    name: "Use Pilot",
+                    value: "usePilot",
                 },
                 "useUpgrade":
                 {
                     name: "Use Upgrade",
+                    value: "useUpgrade",
                 },
             },
         };

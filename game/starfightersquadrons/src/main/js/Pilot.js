@@ -607,6 +607,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Colonel Vessery",
                 description: "When attacking, immediately after you roll attack dice, you may acquire a target lock on the defender if it already has a red target lock token.",
+                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER,
                 pilotSkillValue: 6,
@@ -1532,6 +1533,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Luke Skywalker",
                 description: "When defending, you may change 1 of your Focus results to an Evade result.",
+                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.REBEL_X_WING,
                 pilotSkillValue: 8,

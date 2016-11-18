@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-    function(AttackDice, DefenseDice, Phase, UpgradeCard, UpgradeType, ModifyAttackDiceAction, ModifyDefenseDiceAction, UpgradeTypeUI, InputPanel)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(AttackDice, DefenseDice, Phase, Pilot, UpgradeCard, UpgradeType, ModifyAttackDiceAction, ModifyDefenseDiceAction, FactionUI, UpgradeTypeUI, InputPanel)
     {
         "use strict";
         var CombatUI = React.createClass(
@@ -327,7 +327,12 @@ define(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "UpgradeType", "pro
                 {
                     var answer;
 
-                    if (value.modificationKey() === ModifyAttackDiceAction.Modification.USE_UPGRADE)
+                    if (value.modificationKey() === ModifyAttackDiceAction.Modification.USE_PILOT)
+                    {
+                        var pilot = Pilot.properties[value.pilotKey()];
+                        answer = createPilotLabel(pilot, imageBase);
+                    }
+                    else if (value.modificationKey() === ModifyAttackDiceAction.Modification.USE_UPGRADE)
                     {
                         var upgrade = UpgradeCard.properties[value.upgradeKey()];
                         answer = createUpgradeLabel(upgrade, imageBase);
@@ -377,7 +382,12 @@ define(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "UpgradeType", "pro
                 {
                     var answer;
 
-                    if (value.modificationKey() === ModifyDefenseDiceAction.Modification.USE_UPGRADE)
+                    if (value.modificationKey() === ModifyDefenseDiceAction.Modification.USE_PILOT)
+                    {
+                        var pilot = Pilot.properties[value.pilotKey()];
+                        answer = createPilotLabel(pilot, imageBase);
+                    }
+                    else if (value.modificationKey() === ModifyDefenseDiceAction.Modification.USE_UPGRADE)
                     {
                         var upgrade = UpgradeCard.properties[value.upgradeKey()];
                         answer = createUpgradeLabel(upgrade, imageBase);
@@ -474,6 +484,24 @@ define(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "UpgradeType", "pro
                 {}, columns)));
             },
         });
+
+        function createPilotLabel(pilot, imageBase)
+        {
+            InputValidator.validateNotNull("pilot", pilot);
+
+            var icon = React.createElement(FactionUI,
+            {
+                faction: pilot.shipTeam.team,
+                imageBase: imageBase,
+                isSmall: true,
+            });
+
+            return React.DOM.span(
+            {}, icon, " ", React.DOM.span(
+            {
+                title: pilot.description,
+            }, pilot.name));
+        }
 
         function createUpgradeLabel(upgrade, imageBase)
         {

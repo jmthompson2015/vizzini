@@ -153,11 +153,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var defender = this.defender();
             var agent = attacker.agent();
 
-            if (attacker.pilotKey() === Pilot.POE_DAMERON && attacker.focusCount() > 0)
-            {
-                attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-            }
-
             if (attacker.isUpgradedWith(UpgradeCard.LONE_WOLF) && attackDice.blankCount() > 0)
             {
                 var tokens1 = environment.getFriendlyTokensAtRange(attacker, RangeRuler.ONE);
@@ -238,21 +233,10 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var defenderPosition = this.defenderPosition();
             var rangeKey = attacker.combatState().rangeKey();
 
-            if (defender.pilotKey() === Pilot.LUKE_SKYWALKER && defenseDice.focusCount() > 0)
-            {
-                defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            }
-
-            if (defender.pilotKey() === Pilot.POE_DAMERON && defender.focusCount() > 0)
-            {
-                defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            }
-
             if (defender.isUpgradedWith(UpgradeCard.AUTOTHRUSTERS) && defenseDice.blankCount() > 0)
             {
                 var isBeyondRange2 = (rangeKey === undefined || rangeKey === RangeRuler.THREE);
-                var isOutsideFiringArc = !weapon.isDefenderInFiringArc(attackerPosition, weapon
-                    .primaryFiringArc(), defender, defenderPosition);
+                var isOutsideFiringArc = !weapon.isDefenderInFiringArc(attackerPosition, weapon.primaryFiringArc(), defender, defenderPosition);
 
                 if (isBeyondRange2 || isOutsideFiringArc)
                 {
@@ -391,11 +375,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
                 {
                     damageDealer.dealDamage();
 
-                    if (attacker.pilotKey() === Pilot.WHISPER)
-                    {
-                        store.dispatch(Action.addFocusCount(attacker));
-                    }
-
                     if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
                     {
                         defender.upgradeKeys().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
@@ -460,11 +439,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
 
             if (myDefender.isDestroyed())
             {
-                if (attacker.pilotKey() === Pilot.IG_88A)
-                {
-                    attacker.recoverShield();
-                }
-
                 var shipDestroyedAction = new ShipDestroyedAction(environment, myDefender, myDefenderPosition);
                 shipDestroyedAction.doIt();
                 var delay = 1500;

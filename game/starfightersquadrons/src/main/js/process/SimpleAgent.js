@@ -1,5 +1,5 @@
-define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ShipActionAction", "process/UpgradeAbility3"],
-    function(Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, ShipActionAction, UpgradeAbility3)
+define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility3"],
+    function(Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility3)
     {
         "use strict";
 
@@ -132,6 +132,7 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
 
             var answer = [];
             var modificationKey;
+            var pilotKey;
             var store = environment.store();
             var targetLock = attacker.findTargetLockByDefender(defender);
 
@@ -147,6 +148,23 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
                 answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
             }
 
+            var pilot = attacker.pilot();
+
+            if (pilot.agentInput)
+            {
+                pilotKey = pilot.value;
+                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
+
+                if (pilotAbility && pilotAbility.condition && pilotAbility.condition(store, attacker))
+                {
+                    modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
+                    answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
+                }
+            }
+
+            modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            pilotKey = undefined;
+
             attacker.upgradeKeys().forEach(function(upgradeKey)
             {
                 var upgrade = UpgradeCard.properties[upgradeKey];
@@ -158,8 +176,7 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
 
                     if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, attacker))
                     {
-                        modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-                        answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, upgradeKey));
+                        answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey));
                     }
                 }
             });
@@ -177,6 +194,8 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
 
             var answer = [];
             var modificationKey;
+            var pilotKey;
+            var store = environment.store();
 
             if (defender.evadeCount() > 0)
             {
@@ -190,6 +209,23 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
                 answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
             }
 
+            var pilot = defender.pilot();
+
+            if (pilot.agentInput)
+            {
+                pilotKey = pilot.value;
+                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
+
+                if (pilotAbility && pilotAbility.condition && pilotAbility.condition(store, attacker))
+                {
+                    modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
+                    answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
+                }
+            }
+
+            modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
+            pilotKey = undefined;
+
             defender.upgradeKeys().forEach(function(upgradeKey)
             {
                 var upgrade = UpgradeCard.properties[upgradeKey];
@@ -199,10 +235,9 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
 
-                    if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, attacker))
+                    if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, defender))
                     {
-                        modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
-                        answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+                        answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey));
                     }
                 }
             });

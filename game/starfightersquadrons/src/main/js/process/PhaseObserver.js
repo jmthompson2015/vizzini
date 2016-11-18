@@ -31,7 +31,17 @@ define(["UpgradeCard", "process/PilotAbility1", "process/PilotAbility2", "proces
 
                             if (ability !== undefined && !pilot.agentInput)
                             {
-                                ability(store, token);
+                                if (ability.condition && ability.consequent)
+                                {
+                                    if (ability.condition(store, token))
+                                    {
+                                        ability.consequent(store, token);
+                                    }
+                                }
+                                else
+                                {
+                                    ability(store, token);
+                                }
                             }
                         });
                     }
@@ -57,7 +67,17 @@ define(["UpgradeCard", "process/PilotAbility1", "process/PilotAbility2", "proces
 
                                 if (ability !== undefined && !upgrade.agentInput)
                                 {
-                                    ability(store, token);
+                                    if (ability.condition && ability.consequent)
+                                    {
+                                        if (ability.condition(store, token))
+                                        {
+                                            ability.consequent(store, token);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        ability(store, token);
+                                    }
                                 }
                             });
                         });
