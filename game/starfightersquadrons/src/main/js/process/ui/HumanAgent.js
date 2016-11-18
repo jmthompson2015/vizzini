@@ -173,7 +173,7 @@ define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/Co
 
                 var modifications = SimpleAgent.prototype.determineValidModifyDefenseDiceActions.call(this, environment, attacker, attackDice, defender, defenseDice);
 
-                if (modifications.length > 1)
+                if (modifications.length > 0)
                 {
                     var element = React.createElement(CombatUI,
                     {
