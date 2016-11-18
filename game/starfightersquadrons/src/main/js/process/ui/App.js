@@ -2,7 +2,7 @@ var LOGGER = new Logger();
 LOGGER.setTraceEnabled(false);
 LOGGER.setDebugEnabled(false);
 
-var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/game/starfightersquadrons/src/main/resources/";
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
