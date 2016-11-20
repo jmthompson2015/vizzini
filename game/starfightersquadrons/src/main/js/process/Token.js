@@ -550,7 +550,7 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
 
         Token.prototype.isDestroyed = function()
         {
-            return (this.damageCount() + this.criticalDamageCount()) >= this.hullValue();
+            return this.totalDamage() >= this.hullValue();
         };
 
         Token.prototype.isHuge = function()
@@ -781,6 +781,18 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
         Token.prototype.toString = function()
         {
             return this.name();
+        };
+
+        Token.prototype.totalDamage = function()
+        {
+            var answer = this.damageCount();
+
+            answer += this.criticalDamages().reduce(function(accumulator, currentValue)
+            {
+                return accumulator + ([DamageCard.DIRECT_HIT, DamageCardV2.DIRECT_HIT].vizziniContains(currentValue) ? 2 : 1);
+            }, 0);
+
+            return answer;
         };
 
         Token.prototype.tractorBeamCount = function()

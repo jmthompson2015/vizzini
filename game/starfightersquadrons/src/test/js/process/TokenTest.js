@@ -449,7 +449,7 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
 
             // Run / Verify.
             token.addCriticalDamage(DamageCard.DIRECT_HIT);
-            assert.equal(token.hullValue(), 2);
+            assert.equal(token.hullValue(), 3);
         });
 
         QUnit.test("cloakCount()", function(assert)
@@ -1192,6 +1192,36 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
 
             // Run / Verify.
             assert.equal(token.toString(), "1 Academy Pilot (TIE Fighter)");
+        });
+
+        QUnit.test("totalDamage()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var token = environment.tokens()[0]; // TIE Fighter.
+            assert.equal(token.damageCount(), 0);
+            assert.equal(token.criticalDamageCount(), 0);
+            assert.equal(token.totalDamage(), 0);
+            assert.ok(!token.isDestroyed());
+
+            // Run.
+            store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.BLINDED_PILOT));
+
+            // Verify.
+            assert.equal(token.damageCount(), 0);
+            assert.equal(token.criticalDamageCount(), 1);
+            assert.equal(token.totalDamage(), 1);
+            assert.ok(!token.isDestroyed());
+
+            // Run.
+            store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.DIRECT_HIT));
+
+            // Verify.
+            assert.equal(token.damageCount(), 0);
+            assert.equal(token.criticalDamageCount(), 2);
+            assert.equal(token.totalDamage(), 3);
+            assert.ok(token.isDestroyed());
         });
 
         QUnit.test("upgradeKeys()", function(assert)

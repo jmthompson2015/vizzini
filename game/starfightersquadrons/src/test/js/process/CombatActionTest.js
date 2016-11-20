@@ -1,8 +1,8 @@
 /*
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
-define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "process/Action", "process/Reducer", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-    function(Value, Adjudicator, CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer, MockAttackDice, MockDefenseDice)
+define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "process/Action", "process/Reducer", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+    function(DamageCard, Value, Adjudicator, CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer, MockAttackDice, MockDefenseDice)
     {
         "use strict";
         QUnit.module("CombatAction");
@@ -32,6 +32,15 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
 
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 1);
+                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT)
+                {
+                    assert.equal(defender.totalDamage(), 2);
+                }
+                else
+                {
+                    assert.equal(defender.totalDamage(), 1);
+                }
+                assert.ok(!defender.isDestroyed());
                 done();
             }, delay);
         });
@@ -66,14 +75,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 1);
-                if (defender.criticalDamages()[0] === "directHit")
-                {
-                    assert.equal(defender.hullValue(), 2);
-                }
-                else
-                {
-                    assert.equal(defender.hullValue(), 3);
-                }
+                assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
         });
@@ -105,14 +107,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 1);
-                if (defender.criticalDamages()[0] === "directHit")
-                {
-                    assert.equal(defender.hullValue(), 2);
-                }
-                else
-                {
-                    assert.equal(defender.hullValue(), 3);
-                }
+                assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
         });
@@ -123,7 +118,6 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
             var upgradeKey = UpgradeCard.BLASTER_TURRET;
             var combatAction = createCombatAction(upgradeKey);
             var environment = combatAction.environment();
-            // var store = environment.store();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
             assert.equal(attacker.focusCount(), 1);
@@ -146,14 +140,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 1);
-                if (defender.criticalDamages()[0] === "directHit")
-                {
-                    assert.equal(defender.hullValue(), 2);
-                }
-                else
-                {
-                    assert.equal(defender.hullValue(), 3);
-                }
+                assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
         });
@@ -184,20 +171,18 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 2);
-                if (defender.criticalDamages()[0] === "directHit" && defender.criticalDamages()[1] === "directHit")
+                assert.equal(defender.hullValue(), 3);
+                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT && defender.criticalDamages()[1] === DamageCard.DIRECT_HIT)
                 {
                     assert.ok(defender.isDestroyed());
-                    assert.equal(defender.hullValue(), 1);
                 }
-                else if (defender.criticalDamages()[0] === "directHit" || defender.criticalDamages()[1] === "directHit")
+                else if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT || defender.criticalDamages()[1] === DamageCard.DIRECT_HIT)
                 {
                     assert.ok(defender.isDestroyed());
-                    assert.equal(defender.hullValue(), 2);
                 }
                 else
                 {
                     assert.ok(!defender.isDestroyed());
-                    assert.equal(defender.hullValue(), 3);
                 }
                 done();
             }, 2200);
@@ -232,15 +217,14 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount(), 1);
                 assert.equal(defender.criticalDamageCount(), 1);
-                if (defender.criticalDamages()[0] === "directHit")
+                assert.equal(defender.hullValue(), 3);
+                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT)
                 {
                     assert.ok(defender.isDestroyed());
-                    assert.equal(defender.hullValue(), 2);
                 }
                 else
                 {
                     assert.ok(!defender.isDestroyed());
-                    assert.equal(defender.hullValue(), 3);
                 }
                 done();
             }, delay);

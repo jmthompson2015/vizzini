@@ -155,14 +155,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 1);
-                if (defender.criticalDamages()[0] === "directHit")
-                {
-                    assert.equal(defender.hullValue(), 2);
-                }
-                else
-                {
-                    assert.equal(defender.hullValue(), 3);
-                }
+                assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
         });
@@ -286,14 +279,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 1);
                 assert.ok(!defender.isDestroyed());
-                if (defender.criticalDamages()[0] === "directHit")
-                {
-                    assert.equal(defender.hullValue(), 2);
-                }
-                else
-                {
-                    assert.equal(defender.hullValue(), 3);
-                }
+                assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
         });
