@@ -55,6 +55,8 @@ define(["AttackDice"], function(AttackDice)
 
         this.rerollBlank = function() {};
 
+        this.rerollBlankAndFocus = function() {};
+
         this.size = function()
         {
             return values.length;

@@ -8,17 +8,16 @@ define(["Phase", "UpgradeCard", "process/Action"], function(Phase, UpgradeCard, 
 
     UpgradeAbility4[Phase.END_START] = {};
 
-    UpgradeAbility4[Phase.END_START][UpgradeCard.QUANTUM_STORM] = function(store, token)
-    {
-        var attacker = Selector.activeToken(store.getState());
-
-        if (attacker === token)
+    UpgradeAbility4[Phase.END_START][UpgradeCard.QUANTUM_STORM] = {
+        // At the start of the End phase, if you have 1 or fewer energy tokens, gain 1 energy token.
+        condition: function(store, token)
         {
-            if (token.energyCount() <= 1)
-            {
-                store.dispatch(Action.addEnergyCount(token));
-            }
-        }
+            return token.energyCount() <= 1;
+        },
+        consequent: function(store, token)
+        {
+            store.dispatch(Action.addEnergyCount(token));
+        },
     };
 
     if (Object.freeze)
