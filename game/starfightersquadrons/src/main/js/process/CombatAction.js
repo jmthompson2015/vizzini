@@ -103,6 +103,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
 
             var attacker = this.attacker();
             var attackerPosition = this.attackerPosition();
+            var weapon = this.weapon();
             var defender = this.defender();
             var defenderPosition = this.defenderPosition();
 
@@ -112,6 +113,10 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
                 throw "Defender out of range. attacker: " + attacker + " defender: " + defender;
             }
             attacker.combatState().rangeKey(rangeKey);
+
+            var firingArc = weapon.primaryFiringArc();
+            var isInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
+            attacker.combatState().isInFiringArc(isInFiringArc);
 
             this.rollAttackDice();
 
@@ -148,21 +153,9 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var environment = this.environment();
             var adjudicator = this.adjudicator();
             var attacker = this.attacker();
-            var weapon = this.weapon();
             var attackDice = attacker.combatState().attackDice();
             var defender = this.defender();
             var agent = attacker.agent();
-
-            if (attacker.isUpgradedWith(UpgradeCard.LONE_WOLF) && attackDice.blankCount() > 0)
-            {
-                var tokens1 = environment.getFriendlyTokensAtRange(attacker, RangeRuler.ONE);
-                var tokens2 = environment.getFriendlyTokensAtRange(attacker, RangeRuler.TWO);
-
-                if (tokens1.length === 0 && tokens2.length === 0)
-                {
-                    attackDice.rerollBlank();
-                }
-            }
 
             agent.getModifyAttackDiceAction(environment, adjudicator, attacker, attackDice, defender, this.finishModifyAttackDice.bind(this));
 
@@ -225,35 +218,9 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             var adjudicator = this.adjudicator();
             var attacker = this.attacker();
             var attackDice = attacker.combatState().attackDice();
-            var weapon = this.weapon();
-            var attackerPosition = this.attackerPosition();
             var defender = this.defender();
             var defenderAgent = defender.agent();
             var defenseDice = attacker.combatState().defenseDice();
-            var defenderPosition = this.defenderPosition();
-            var rangeKey = attacker.combatState().rangeKey();
-
-            if (defender.isUpgradedWith(UpgradeCard.AUTOTHRUSTERS) && defenseDice.blankCount() > 0)
-            {
-                var isBeyondRange2 = (rangeKey === undefined || rangeKey === RangeRuler.THREE);
-                var isOutsideFiringArc = !weapon.isDefenderInFiringArc(attackerPosition, weapon.primaryFiringArc(), defender, defenderPosition);
-
-                if (isBeyondRange2 || isOutsideFiringArc)
-                {
-                    defenseDice.changeOneToValue(DefenseDice.Value.BLANK, DefenseDice.Value.EVADE);
-                }
-            }
-
-            if (defender.isUpgradedWith(UpgradeCard.LONE_WOLF) && defenseDice.blankCount() > 0)
-            {
-                var tokens1 = environment.getFriendlyTokensAtRange(defender, RangeRuler.ONE);
-                var tokens2 = environment.getFriendlyTokensAtRange(defender, RangeRuler.TWO);
-
-                if (tokens1.length === 0 && tokens2.length === 0)
-                {
-                    defenseDice.rerollBlank();
-                }
-            }
 
             if (defender.reinforceCount() > 0)
             {
@@ -361,12 +328,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
 
             var attacker = this.attacker();
             var damageDealer = attacker.combatState().damageDealer();
-            var environment = this.environment();
             var weapon = this.weapon();
-            var attackerPosition = this.attackerPosition();
-            var defender = this.defender();
-            var defenderPosition = this.defenderPosition();
-            var store = environment.store();
             var isDefenderHit = attacker.combatState().isDefenderHit();
 
             if (isDefenderHit)
@@ -374,36 +336,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
                 if (!weapon.upgrade() || weapon.upgrade().cancelAllDiceResults !== true)
                 {
                     damageDealer.dealDamage();
-
-                    if (defender.isUpgradedWith(UpgradeCard.STEALTH_DEVICE))
-                    {
-                        defender.upgradeKeys().vizziniRemove(UpgradeCard.STEALTH_DEVICE);
-                    }
-                }
-            }
-            else
-            {
-                // Defender not hit.
-                if (attacker.isUpgradedWith(UpgradeCard.BOSSK))
-                {
-                    if (!attacker.isStressed())
-                    {
-                        attacker.receiveStress();
-                    }
-
-                    store.dispatch(Action.addFocusCount(attacker));
-                    var targetLock = new TargetLock(store, attacker, defender);
-                    attacker.addAttackerTargetLock(targetLock);
-                }
-            }
-
-            if (attacker.isUpgradedWith(UpgradeCard.TACTICIAN) && attacker.combatState().rangeKey() === RangeRuler.TWO)
-            {
-                var firingArc = attacker.pilot().shipTeam.ship.primaryFiringArc;
-
-                if (weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition))
-                {
-                    defender.receiveStress();
                 }
             }
 

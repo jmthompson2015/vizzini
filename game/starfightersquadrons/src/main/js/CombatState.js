@@ -13,6 +13,7 @@ define(function()
         var initialAttackDice;
         var initialDefenseDice;
         var isDefenderHit;
+        var isInFiringArc;
         var range;
 
         this.attackDice = function(value)
@@ -117,6 +118,16 @@ define(function()
             }
 
             return isDefenderHit;
+        };
+
+        this.isInFiringArc = function(value)
+        {
+            if (value === true || value === false)
+            {
+                isInFiringArc = value;
+            }
+
+            return isInFiringArc;
         };
 
         this.rangeKey = function(value)

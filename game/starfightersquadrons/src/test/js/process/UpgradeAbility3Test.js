@@ -114,6 +114,7 @@ define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction"
             var combatState = attacker.combatState();
             combatState.attackDice(new MockAttackDice());
             combatState.defenseDice(new MockDefenseDice());
+            combatState.isInFiringArc(true);
 
             var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
                 defenderPosition, callback, MockAttackDice, MockDefenseDice);
