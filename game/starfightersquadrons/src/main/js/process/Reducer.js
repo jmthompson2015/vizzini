@@ -721,40 +721,11 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
 
             if (newValue !== null)
             {
-                if (property === Value.PILOT_SKILL)
-                {
-                    if (token && token.pilotKey() === Pilot.EPSILON_ACE)
-                    {
-                        var damageCount = Selector.damages(state, tokenId).length;
-                        var criticalDamageCount = Selector.criticalDamages(state, tokenId).length;
-
-                        if (damageCount === 0 && criticalDamageCount === 0)
-                        {
-                            newValue = 12;
-                        }
-                    }
-                }
-
-                if (property === Value.PRIMARY_WEAPON)
-                {
-                    if (token && token.isUpgradedWith(UpgradeCard.PUNISHING_ONE))
-                    {
-                        newValue++;
-                    }
-                }
-
                 var propertyName = property + "Value";
 
-                if (damage)
+                if (damage && damage[propertyName])
                 {
-                    if (property === Value.PILOT_SKILL && [DamageCard.DAMAGED_COCKPIT, DamageCard.INJURED_PILOT].vizziniContains(damage.value))
-                    {
-                        newValue = 0;
-                    }
-                    else if (damage[propertyName])
-                    {
-                        newValue += damage[propertyName];
-                    }
+                    newValue += damage[propertyName];
                 }
 
                 if (upgrade && upgrade[propertyName])
@@ -762,19 +733,40 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     newValue += upgrade[propertyName];
                 }
 
-                if (isCloaked && property === Value.AGILITY)
+                switch (property)
                 {
-                    newValue += 2;
-                }
-
-                if (property === Value.AGILITY)
-                {
-                    var tractorBeamCount = token.tractorBeamCount();
-
-                    if (tractorBeamCount !== undefined)
-                    {
-                        newValue -= tractorBeamCount;
-                    }
+                    case Value.PILOT_SKILL:
+                        if (token && token.pilotKey() === Pilot.EPSILON_ACE)
+                        {
+                            var damageCount = Selector.damages(state, tokenId).length;
+                            var criticalDamageCount = Selector.criticalDamages(state, tokenId).length;
+                            if (damageCount === 0 && criticalDamageCount === 0)
+                            {
+                                newValue = 12;
+                            }
+                        }
+                        if (damage && [DamageCard.DAMAGED_COCKPIT, DamageCard.INJURED_PILOT].vizziniContains(damage.value))
+                        {
+                            newValue = 0;
+                        }
+                        break;
+                    case Value.PRIMARY_WEAPON:
+                        if (token && token.isUpgradedWith(UpgradeCard.PUNISHING_ONE))
+                        {
+                            newValue++;
+                        }
+                        break;
+                    case Value.AGILITY:
+                        if (isCloaked)
+                        {
+                            newValue += 2;
+                        }
+                        var tractorBeamCount = token.tractorBeamCount();
+                        if (tractorBeamCount !== undefined)
+                        {
+                            newValue -= tractorBeamCount;
+                        }
+                        break;
                 }
 
                 newValue = Math.max(newValue, 0);
