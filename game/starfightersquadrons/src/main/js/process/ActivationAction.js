@@ -135,13 +135,13 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
 
         ActivationAction.prototype.cleanUp = function()
         {
-            LOGGER.trace("ActivationAction.checkPilotStress() start");
+            LOGGER.trace("ActivationAction.cleanUp() start");
 
             this.environment().phase(Phase.ACTIVATION_CLEAN_UP);
 
             this.gainEnergy();
 
-            LOGGER.trace("ActivationAction.checkPilotStress() end");
+            LOGGER.trace("ActivationAction.cleanUp() end");
         };
 
         ActivationAction.prototype.gainEnergy = function()
