@@ -1,6 +1,8 @@
 /*
  * Provides utility methods for Math.
  */
+
+/* jshint -W097 */
 "use strict";
 
 /*
@@ -17,6 +19,11 @@ Math.vizziniFormat = function(number, digits)
     }
 
     return answer;
+};
+
+Math.vizziniRandomBoolean = function()
+{
+    return (Math.random() < 0.5);
 };
 
 Math.vizziniRandomIntFromRange = function(min, max)
