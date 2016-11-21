@@ -1,8 +1,7 @@
 define(function()
 {
     "use strict";
-    var UpgradeHeader =
-    {
+    var UpgradeHeader = {
         ACTION: "action",
         ATTACK: "attack",
         ATTACK_ENERGY: "attackEnergy",
@@ -24,17 +23,17 @@ define(function()
             },
             "attackEnergy":
             {
-                name: "Attack (Energy)",
+                name: "Attack [Energy]",
                 value: "attackEnergy",
             },
             "attackFocus":
             {
-                name: "Attack (Focus)",
+                name: "Attack [Focus]",
                 value: "attackFocus",
             },
             "attackTargetLock":
             {
-                name: "Attack (Target Lock)",
+                name: "Attack [Target Lock]",
                 value: "attackTargetLock",
             },
             "energy":
