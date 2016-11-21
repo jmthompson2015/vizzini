@@ -28,6 +28,23 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.REBEL_CAPTIVE] = {
+            // Once per round, the first ship that declares you as the target of an attack immediately receives 1 stress token.
+            condition: function(store, token)
+            {
+                var upgradeKey = UpgradeCard.REBEL_CAPTIVE;
+                var attacker = getActiveToken(store);
+                var defender = getDefender(attacker);
+                return !usedThisRound(store, token, upgradeKey) && token === defender;
+            },
+            consequent: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                store.dispatch(Action.addStressCount(attacker));
+                store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.REBEL_CAPTIVE));
+            },
+        };
+
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE] = {};
 
