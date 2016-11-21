@@ -60,26 +60,29 @@ define(["UpgradeCard", "process/PilotAbility1", "process/PilotAbility2", "proces
 
                         tokens.forEach(function(token)
                         {
-                            token.upgradeKeys().forEach(function(upgradeKey)
+                            if (token.upgradeKeys)
                             {
-                                var ability = abilities[upgradeKey];
-                                var upgrade = UpgradeCard.properties[upgradeKey];
-
-                                if (ability !== undefined && !upgrade.agentInput)
+                                token.upgradeKeys().forEach(function(upgradeKey)
                                 {
-                                    if (ability.condition && ability.consequent)
+                                    var ability = abilities[upgradeKey];
+                                    var upgrade = UpgradeCard.properties[upgradeKey];
+
+                                    if (ability !== undefined && !upgrade.agentInput)
                                     {
-                                        if (ability.condition(store, token))
+                                        if (ability.condition && ability.consequent)
                                         {
-                                            ability.consequent(store, token);
+                                            if (ability.condition(store, token))
+                                            {
+                                                ability.consequent(store, token);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            ability(store, token);
                                         }
                                     }
-                                    else
-                                    {
-                                        ability(store, token);
-                                    }
-                                }
-                            });
+                                });
+                            }
                         });
                     }
                 });
