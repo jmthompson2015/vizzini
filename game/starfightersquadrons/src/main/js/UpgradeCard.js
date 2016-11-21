@@ -2140,6 +2140,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.IMPERIAL_ONLY],
                     description: "Once per round, the first ship that declares you as the target of an attack immediately receives 1 stress token.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "rebelCaptive",
                 },
                 "reconSpecialist":
@@ -2471,6 +2472,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.TIE_DEFENDER_ONLY],
                     description: "Your upgrade bar loses the Cannon and Missile upgrade icons. After executing a 3-, 4-, or 5-speed maneuver, you may assign 1 evade token to your ship.",
                     squadPointCost: -2,
+                    isImplemented: true,
                     value: "tieX7",
                 },
                 "torynFarr":
