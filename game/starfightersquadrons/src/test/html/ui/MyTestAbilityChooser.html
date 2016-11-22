@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestAbilityChooser</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+</head>
+<body>
+	<div id="inputPanel"></div>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["Pilot", "UpgradeCard", "process/EnvironmentFactory", "process/ui/AbilityChooser"],
+			function(Pilot, UpgradeCard, EnvironmentFactory, AbilityChooser)
+			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+				var pilotKeys = [Pilot.AIREN_CRACKEN, Pilot.BOSSK, Pilot.CAPTAIN_YORR];
+				var pilots = pilotKeys.map(function(pilotKey)
+				{
+					return Pilot.properties[pilotKey];
+				});
+				var upgradeKeys = [UpgradeCard.LIGHTNING_REFLEXES, UpgradeCard.TIE_X7];
+				var upgrades = upgradeKeys.map(function(upgradeKey)
+				{
+					return UpgradeCard.properties[upgradeKey];
+				});
+
+				var environment = EnvironmentFactory.createCoreSetEnvironment();
+				var store = environment.store();
+				var token = environment.tokens()[2]; // X-Wing
+
+				var element = React.createElement(AbilityChooser,
+				{
+					imageBase: imageBase,
+					onChange: callback,
+					pilots: pilots,
+					token: token,
+					upgrades: upgrades,
+				});
+				ReactDOM.render(element, document.getElementById("inputPanel"));
+
+				function callback(pilotKey, upgradeKey, isAccepted)
+				{
+					LOGGER.info("pilotKey = " + pilotKey + " upgradeKey = " + upgradeKey + " isAccepted ? " + isAccepted);
+				}
+			});
+	</script>
+</body>
+
+</html>
