@@ -1,5 +1,5 @@
-define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilot", "PlayFormat", "Position", "RectanglePath", "process/ShipFledAction", "UpgradeCard", "process/Action"],
-    function(Bearing, Difficulty, Maneuver, ManeuverComputer, Phase, Pilot, PlayFormat, Position, RectanglePath, ShipFledAction, UpgradeCard, Action)
+define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "RectanglePath", "process/ShipFledAction", "UpgradeCard", "process/Action"],
+    function(Bearing, Difficulty, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, RectanglePath, ShipFledAction, UpgradeCard, Action)
     {
         "use strict";
 

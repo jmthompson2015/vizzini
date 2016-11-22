@@ -1,5 +1,5 @@
-define(["DamageCardTrait", "FiringArc", "RangeRuler", "damagestats/DamageColumns", "damagestats/ui/Connector", "damagestats/ui/FilterUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-    function(DamageCardTrait, FiringArc, RangeRuler, DamageColumns, Connector, FilterUI, DataTable)
+define(["DamageCardTrait", "damagestats/DamageColumns", "damagestats/ui/Connector", "damagestats/ui/FilterUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+    function(DamageCardTrait, DamageColumns, Connector, FilterUI, DataTable)
     {
         "use strict";
 

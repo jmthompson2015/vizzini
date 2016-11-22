@@ -1,5 +1,5 @@
-define(["UpgradeCard", "UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-    function(UpgradeCard, UpgradeType, FactionUI, UpgradeTypeUI, InputPanel)
+define(["UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(UpgradeType, FactionUI, UpgradeTypeUI, InputPanel)
     {
         var AbilityChooser = React.createClass(
         {

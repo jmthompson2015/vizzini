@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/Selector"],
-    function(Bearing, Difficulty, Maneuver, Phase, Position, UpgradeCard, Action, ManeuverAction, Selector)
+define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/Selector"],
+    function(Bearing, Difficulty, Maneuver, Phase, Position, UpgradeCard, Action, Selector)
     {
         "use strict";
         var UpgradeAbility2 = {};

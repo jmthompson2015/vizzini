@@ -1,5 +1,5 @@
-define(["DamageCardTrait", "FiringArc", "RangeRuler", "damagestats/Action", "damagestats/DefaultFilters", "damagestats/EntityFilter", "damagestats/RangeFilter"],
-    function(DamageCardTrait, FiringArc, RangeRuler, Action, DefaultFilters, EntityFilter, RangeFilter)
+define(["DamageCardTrait", "damagestats/Action", "damagestats/DefaultFilters", "damagestats/EntityFilter", "damagestats/RangeFilter"],
+    function(DamageCardTrait, Action, DefaultFilters, EntityFilter, RangeFilter)
     {
         "use strict";
         var FilterUI = React.createClass(
