@@ -62,11 +62,9 @@ define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilot
                 {
                     token.activationState().maneuverAction(this);
                     token.activationState().isTouching(false);
-                    environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
                     var bearingKey = this.maneuver().bearingKey;
                     isBarrelRoll = (bearingKey === Bearing.BARREL_ROLL_LEFT || bearingKey === Bearing.BARREL_ROLL_RIGHT);
 
-                    environment.phase(Phase.ACTIVATION_SET_TEMPLATE);
                     var toPosition = determineToPosition();
                     LOGGER.trace("toPosition = " + toPosition);
 
@@ -92,7 +90,6 @@ define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilot
                     }
                     else
                     {
-                        environment.phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
                         var store = environment.store();
                         store.dispatch(Action.moveToken(fromPosition, toPosition));
 
@@ -451,6 +448,19 @@ define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Phase", "Pilot
                 return answer;
             }
         }
+
+        ManeuverAction.prototype.toString = function()
+        {
+            var answer = "ManeuverAction ";
+
+            answer += this.token().name();
+            answer += " ";
+            answer += this.maneuverKey();
+            answer += " ";
+            answer += this.isBoost();
+
+            return answer;
+        };
 
         return ManeuverAction;
     });

@@ -1,5 +1,5 @@
-define(["Maneuver", "Phase", "process/Action", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/ManeuverAction", "process/UpgradeAbility2", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-    function(Maneuver, Phase, Action, Adjudicator, CombatAction, EnvironmentFactory, ManeuverAction, UpgradeAbility, MockAttackDice, MockDefenseDice)
+define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/UpgradeAbility2", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+    function(Maneuver, Phase, Action, ActivationAction, Adjudicator, CombatAction, EnvironmentFactory, UpgradeAbility, MockAttackDice, MockDefenseDice)
     {
         "use strict";
         QUnit.module("UpgradeAbility2");
@@ -108,8 +108,8 @@ define(["Maneuver", "Phase", "process/Action", "process/Adjudicator", "process/C
             store.dispatch(Action.setActiveToken(token.id()));
 
             var activationState = token.activationState();
-            var maneuverAction = new ManeuverAction(environment, token, maneuverKey, isBoost);
-            activationState.maneuverAction(maneuverAction);
+            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            activationState.activationAction(activationAction);
 
             return environment;
         }

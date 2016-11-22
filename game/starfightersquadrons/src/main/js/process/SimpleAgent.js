@@ -19,6 +19,21 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
             };
         }
 
+        SimpleAgent.prototype.chooseAbility = function(environment, pilotKeys, upgradeKeys, callback)
+        {
+            var pilotKey;
+            var upgradeKey = (upgradeKeys.length > 0 ? upgradeKeys.vizziniRandomElement() : undefined);
+
+            if (upgradeKey === undefined)
+            {
+                pilotKey = (pilotKeys.length > 0 ? pilotKeys.vizziniRandomElement() : undefined);
+            }
+
+            var isAccepted = (pilotKey !== undefined) || (upgradeKey !== undefined);
+
+            callback(pilotKey, upgradeKey, isAccepted);
+        };
+
         SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
         {
             InputValidator.validateNotNull("environment", environment);

@@ -1,5 +1,5 @@
-define(["ActivationState", "process/EnvironmentFactory", "Maneuver", "process/ManeuverAction"],
-    function(ActivationState, EnvironmentFactory, Maneuver, ManeuverAction)
+define(["ActivationState", "Maneuver", "process/ActivationAction", "process/Adjudicator", "process/EnvironmentFactory", "process/ManeuverAction"],
+    function(ActivationState, Maneuver, ActivationAction, Adjudicator, EnvironmentFactory, ManeuverAction)
     {
         "use strict";
         QUnit.module("ActivationState");
@@ -12,7 +12,27 @@ define(["ActivationState", "process/EnvironmentFactory", "Maneuver", "process/Ma
             // Run / Verify.
             assert.ok(activationState);
             assert.ok(!activationState.isTouching());
+            assert.equal(activationState.activationAction(), undefined);
             assert.equal(activationState.maneuverAction(), undefined);
+        });
+
+        QUnit.test("activationAction()", function(assert)
+        {
+            // Setup.
+            var activationState = new ActivationState();
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var adjudicator = new Adjudicator();
+            var token = environment.tokens()[0];
+            var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
+            var callback = function() {};
+            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+
+            // Run.
+            assert.equal(activationState.activationAction(), undefined);
+            var result = activationState.activationAction(activationAction);
+
+            // Verify.
+            assert.equal(activationState.activationAction(), activationAction);
         });
 
         QUnit.test("isTouching()", function(assert)

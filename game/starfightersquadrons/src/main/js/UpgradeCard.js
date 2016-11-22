@@ -289,7 +289,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     name: "Adrenaline Rush",
                     type: UpgradeType.ELITE,
                     description: "When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.",
+                    agentInput: true,
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "adrenalineRush",
                 },
                 "advancedCloakingDevice":
@@ -1004,6 +1006,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.LIMITED],
                     description: "During the Activation phase, when you reveal a Straight maneuver, gain 1 additional energy during the \"Gain Energy\" step.",
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "engineeringTeam",
                 },
                 "enhancedScopes":
@@ -1359,7 +1362,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     name: "Inertial Dampeners",
                     type: UpgradeType.ILLICIT,
                     description: "When you reveal your maneuver, you may discard this card to instead perform a white Stationary 0 maneuver. Then receive 1 stress token.",
+                    agentInput: true,
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "inertialDampeners",
                 },
                 "instigator":
@@ -1606,7 +1611,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.ELITE,
                     restrictions: [UpgradeRestriction.SMALL_SHIP_ONLY],
                     description: "After you execute a white or green maneuver on your dial, you may discard this card to rotate your ship 180˚. Then receive 1 stress token after the \"Check Pilot Stress\" step.",
+                    agentInput: true,
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "lightningReflexes",
                 },
                 "loneWolf":
@@ -1635,7 +1642,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.MODIFICATION,
                     restrictions: [UpgradeRestriction.YV_666_ONLY],
                     description: "When you reveal a turn maneuver (left or right), you may rotate your dial to the corresponding bank maneuver (left or right) of the same speed.",
+                    agentInput: true,
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "maneuveringFins",
                 },
                 "manglerCannon":

@@ -1,5 +1,5 @@
-define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAction"],
-    function(Difficulty, Maneuver, Phase, Action, ManeuverAction)
+define(["Difficulty", "Maneuver", "Phase", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/PilotAbility2", "process/UpgradeAbility2"],
+    function(Difficulty, Maneuver, Phase, UpgradeCard, Action, ManeuverAction, PilotAbility2, UpgradeAbility2)
     {
         "use strict";
 
@@ -26,8 +26,13 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
                 return token;
             };
 
-            this.maneuverKey = function()
+            this.maneuverKey = function(value)
             {
+                if (value !== undefined)
+                {
+                    maneuverKey = value;
+                }
+
                 return maneuverKey;
             };
 
@@ -35,11 +40,26 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
             {
                 return callback;
             };
+
+            var maneuverAction;
+
+            this.maneuverAction = function(value)
+            {
+                if (value !== undefined)
+                {
+                    maneuverAction = value;
+                }
+
+                return maneuverAction;
+            };
         }
 
         ActivationAction.prototype.doIt = function()
         {
             LOGGER.trace("ActivationAction.doIt() start");
+
+            var token = this.token();
+            token.activationState().activationAction(this);
 
             this.revealDial();
 
@@ -52,9 +72,24 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
 
             this.environment().phase(Phase.ACTIVATION_REVEAL_DIAL);
 
-            this.setTemplate();
+            var agent = this.token().agent();
+            var pilotKeys = this.getUnusedAgentInputPilotKeys();
+            var upgradeKeys = this.getUnusedAgentInputUpgradeKeys();
+            agent.chooseAbility(this.environment(), pilotKeys, upgradeKeys, this.finishRevealDial.bind(this));
+
+            // Wait for agent to respond.
 
             LOGGER.trace("ActivationAction.revealDial() end");
+        };
+
+        ActivationAction.prototype.finishRevealDial = function(pilotKey, upgradeKey, isAccepted)
+        {
+            LOGGER.trace("ActivationAction.finishRevealDial() start");
+            LOGGER.debug("ActivationAction.finishRevealDial() pilotKey = " + pilotKey + " upgradeKey = " + upgradeKey + " isAccepted ? " + isAccepted);
+
+            this.finish(pilotKey, upgradeKey, isAccepted, this.revealDial.bind(this), this.setTemplate.bind(this));
+
+            LOGGER.trace("ActivationAction.finishRevealDial() end");
         };
 
         ActivationAction.prototype.setTemplate = function()
@@ -90,8 +125,8 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
 
                 if (fromPosition)
                 {
-                    var maneuverAction = new ManeuverAction(environment, parentToken, maneuverKey);
-                    maneuverAction.doIt();
+                    this.maneuverAction(new ManeuverAction(environment, parentToken, maneuverKey));
+                    this.maneuverAction().doIt();
                 }
             }
 
@@ -139,9 +174,24 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
 
             this.environment().phase(Phase.ACTIVATION_CLEAN_UP);
 
-            this.gainEnergy();
+            var agent = this.token().agent();
+            var pilotKeys = this.getUnusedAgentInputPilotKeys();
+            var upgradeKeys = this.getUnusedAgentInputUpgradeKeys();
+            agent.chooseAbility(this.environment(), pilotKeys, upgradeKeys, this.finishCleanUp.bind(this));
+
+            // Wait for agent to respond.
 
             LOGGER.trace("ActivationAction.cleanUp() end");
+        };
+
+        ActivationAction.prototype.finishCleanUp = function(pilotKey, upgradeKey, isAccepted)
+        {
+            LOGGER.trace("ActivationAction.finishCleanUp() start");
+            LOGGER.debug("ActivationAction.finishCleanUp() pilotKey = " + pilotKey + " upgradeKey = " + upgradeKey + " isAccepted ? " + isAccepted);
+
+            this.finish(pilotKey, upgradeKey, isAccepted, this.cleanUp.bind(this), this.gainEnergy.bind(this));
+
+            LOGGER.trace("ActivationAction.finishCleanUp() end");
         };
 
         ActivationAction.prototype.gainEnergy = function()
@@ -176,9 +226,24 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
                 }
             }
 
-            this.allocateEnergy();
+            var agent = this.token().agent();
+            var pilotKeys = this.getUnusedAgentInputPilotKeys();
+            var upgradeKeys = this.getUnusedAgentInputUpgradeKeys();
+            agent.chooseAbility(this.environment(), pilotKeys, upgradeKeys, this.finishGainEnergy.bind(this));
+
+            // Wait for agent to respond.
 
             LOGGER.trace("ActivationAction.gainEnergy() end");
+        };
+
+        ActivationAction.prototype.finishGainEnergy = function(pilotKey, upgradeKey, isAccepted)
+        {
+            LOGGER.trace("ActivationAction.finishGainEnergy() start");
+            LOGGER.debug("ActivationAction.finishGainEnergy() pilotKey = " + pilotKey + " upgradeKey = " + upgradeKey + " isAccepted ? " + isAccepted);
+
+            this.finish(pilotKey, upgradeKey, isAccepted, this.gainEnergy.bind(this), this.allocateEnergy.bind(this));
+
+            LOGGER.trace("ActivationAction.finishGainEnergy() end");
         };
 
         ActivationAction.prototype.allocateEnergy = function()
@@ -261,6 +326,107 @@ define(["Difficulty", "Maneuver", "Phase", "process/Action", "process/ManeuverAc
             setTimeout(this.callback(), delay);
 
             LOGGER.trace("ActivationAction.finishPerformAction() end");
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+        ActivationAction.prototype.finish = function(pilotKey, upgradeKey, isAccepted, backFunction, forwardFunction)
+        {
+            InputValidator.validateNotNull("backFunction", backFunction);
+            InputValidator.validateNotNull("forwardFunction", forwardFunction);
+
+            var store = this.environment().store();
+            var token = this.token();
+
+            if (pilotKey)
+            {
+                if (isAccepted)
+                {
+                    var pilotAbility = this.getPilotAbility(pilotKey);
+                    pilotAbility.consequent(store, token);
+                }
+
+                token.activationState().usedPilots(upgradeKey);
+                backFunction();
+            }
+            else if (upgradeKey)
+            {
+                if (isAccepted)
+                {
+                    var upgradeAbility = this.getUpgradeAbility(upgradeKey);
+                    upgradeAbility.consequent(store, token);
+                }
+
+                token.activationState().usedUpgrades(upgradeKey);
+                backFunction();
+            }
+            else
+            {
+                forwardFunction();
+            }
+        };
+
+        ActivationAction.prototype.getPilotAbility = function(pilotKey)
+        {
+            InputValidator.validateNotNull("pilotKey", pilotKey);
+
+            var answer;
+            var phaseKey = this.environment().phase();
+
+            if (PilotAbility2[phaseKey])
+            {
+                answer = PilotAbility2[phaseKey][pilotKey];
+            }
+
+            return answer;
+        };
+
+        ActivationAction.prototype.getUnusedAgentInputPilotKeys = function()
+        {
+            var store = this.environment().store();
+            var token = this.token();
+            var pilot = token.pilot();
+            var pilotKey = pilot.value;
+            var usedPilots = token.activationState().usedPilots();
+            var pilotAbility = this.getPilotAbility(pilotKey);
+
+            var answer = [];
+
+            if (pilot.agentInput && !usedPilots.vizziniContains(pilotKey) && pilotAbility && pilotAbility.condition && pilotAbility.condition(store, token))
+            {
+                answer.push(pilotKey);
+            }
+
+            return answer;
+        };
+
+        ActivationAction.prototype.getUnusedAgentInputUpgradeKeys = function()
+        {
+            var store = this.environment().store();
+            var token = this.token();
+
+            return token.upgradeKeys().filter(function(upgradeKey)
+            {
+                var upgrade = UpgradeCard.properties[upgradeKey];
+                var usedUpgrades = token.activationState().usedUpgrades();
+                var upgradeAbility = this.getUpgradeAbility(upgradeKey);
+
+                return upgrade.agentInput && !usedUpgrades.vizziniContains(upgradeKey) && upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, token);
+            }, this);
+        };
+
+        ActivationAction.prototype.getUpgradeAbility = function(upgradeKey)
+        {
+            InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+            var answer;
+            var phaseKey = this.environment().phase();
+
+            if (UpgradeAbility2[phaseKey])
+            {
+                answer = UpgradeAbility2[phaseKey][upgradeKey];
+            }
+
+            return answer;
         };
 
         return ActivationAction;

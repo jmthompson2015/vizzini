@@ -1,5 +1,5 @@
-define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
-    function(Phase, ManeuverAction, SimpleAgent, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define(["Phase", "Pilot", "UpgradeCard", "UpgradeType", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/UpgradeTypeUI", "process/ui/WeaponAndDefenderChooser"],
+    function(Phase, Pilot, UpgradeCard, UpgradeType, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, UpgradeTypeUI, WeaponAndDefenderChooser)
     {
         "use strict";
 
@@ -19,6 +19,11 @@ define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/Co
                 return teamKey;
             };
 
+            this.imageBase = function()
+            {
+                return imageBase;
+            };
+
             this.isComputerAgent = function()
             {
                 return false;
@@ -36,6 +41,46 @@ define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/Co
             var modifyAttackCallback;
             var modifyDefenseCallback;
             var dealDamageCallback;
+            var chooseAbilityCallback;
+
+            this.chooseAbility = function(environment, pilotKeys, upgradeKeys, callback)
+            {
+                InputValidator.validateNotNull("environment", environment);
+                InputValidator.validateNotNull("pilotKeys", pilotKeys);
+                InputValidator.validateNotNull("upgradeKeys", upgradeKeys);
+                InputValidator.validateNotNull("callback", callback);
+
+                chooseAbilityCallback = callback;
+
+                if (pilotKeys.length > 0 || upgradeKeys.length > 0)
+                {
+                    var pilots = pilotKeys.map(function(pilotKey)
+                    {
+                        return Pilot.properties[pilotKey];
+                    });
+                    var upgrades = upgradeKeys.map(function(upgradeKey)
+                    {
+                        return UpgradeCard.properties[upgradeKey];
+                    });
+
+                    var element = React.createElement(AbilityChooser,
+                    {
+                        imageBase: imageBase,
+                        onChange: finishChooseAbility,
+                        pilots: pilots,
+                        token: environment.activeToken(),
+                        upgrades: upgrades,
+                    });
+                    ReactDOM.render(element, document.getElementById("inputArea"));
+                    window.dispatchEvent(new Event('resize'));
+
+                    // Wait for the user to respond.
+                }
+                else
+                {
+                    setTimeout(finishChooseAbility, 100);
+                }
+            };
 
             this.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
             {
@@ -258,6 +303,19 @@ define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/Co
                 }
             };
 
+            function finishChooseAbility(pilotKey, upgradeKey, isAccepted)
+            {
+                LOGGER.trace("HumanAgent.finishChooseAbility() start");
+
+                // Handle the user response.
+                var element = document.getElementById("inputArea");
+                element.innerHTML = "";
+                window.dispatchEvent(new Event('resize'));
+                LOGGER.trace("HumanAgent.finishChooseAbility() end");
+
+                chooseAbilityCallback(pilotKey, upgradeKey, isAccepted);
+            }
+
             function finishDealDamage()
             {
                 LOGGER.trace("HumanAgent.finishDealDamage() start");
@@ -274,8 +332,8 @@ define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/Co
             function finishDecloakAction(token, decloakAction)
             {
                 LOGGER.trace("HumanAgent.finishDecloakAction() start");
-                LOGGER.info("decloakAction = " + decloakAction);
-                LOGGER.info("decloakAction.maneuverKey() = " + decloakAction.maneuverKey());
+                LOGGER.debug("decloakAction = " + decloakAction);
+                LOGGER.debug("decloakAction.maneuverKey() = " + decloakAction.maneuverKey());
 
                 var answer = new ManeuverAction(environment, attacker, decloakAction.maneuverKey());
 

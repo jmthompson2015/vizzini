@@ -1,8 +1,89 @@
-define(["Maneuver", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
-    function(Maneuver, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, Reducer, SimpleAgent, SquadBuilder)
+define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
+    function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, Reducer, SimpleAgent, SquadBuilder, Token)
     {
         "use strict";
         QUnit.module("ActivationAction");
+
+        var delay = 1000;
+
+        QUnit.test("doIt() Lightning Reflexes", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.LIGHTNING_REFLEXES;
+            var action = createActivationAction(upgradeKey);
+
+            // Run.
+            var done = assert.async();
+            action.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+
+                var environment = action.environment();
+                var token = action.token();
+                assert.equal(token.upgradeKeys.length, 0);
+                var position = environment.getPositionFor(token);
+                assert.equal(position.x(), 458);
+                assert.equal(position.y(), 695);
+                assert.equal(position.heading(), 90);
+                assert.ok(token.isStressed());
+
+                done();
+            }, delay);
+        });
+
+        QUnit.test("doIt() Maneuvering Fins", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.MANEUVERING_FINS;
+            var action = createActivationAction(upgradeKey, Maneuver.TURN_LEFT_2_STANDARD);
+            action.performAction = function() {};
+
+            // Run.
+            var done = assert.async();
+            action.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+
+                var environment = action.environment();
+                var token = environment.activeToken();
+                var activationState = token.activationState();
+                assert.ok(activationState);
+                var activationAction = activationState.activationAction();
+                assert.ok(activationAction);
+                assert.equal(activationAction.maneuverKey(), Maneuver.BANK_LEFT_2_STANDARD);
+
+                done();
+            }, delay);
+        });
+
+        QUnit.test("doIt() TIE/x7", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.TIE_X7;
+            var action = createActivationAction(upgradeKey);
+
+            // Run.
+            var done = assert.async();
+            action.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+
+                var environment = action.environment();
+                var token = action.token();
+                assert.ok(token.evadeCount(), 1);
+
+                done();
+            }, delay);
+        });
 
         QUnit.test("doIt() X-Wing", function(assert)
         {
@@ -44,7 +125,7 @@ define(["Maneuver", "process/Action", "process/ActivationAction", "process/Adjud
                 assert.equal(token.focusCount(), 1);
 
                 done();
-            }, 1000);
+            }, delay);
         });
 
         QUnit.test("doIt() X-Wing K-turn", function(assert)
@@ -144,7 +225,7 @@ define(["Maneuver", "process/Action", "process/ActivationAction", "process/Adjud
                 assert.equal(token.focusCount(), 0);
 
                 done();
-            }, 1000);
+            }, delay);
         });
 
         QUnit.test("doIt() Lambda-class Shuttle stationary", function(assert)
@@ -197,4 +278,39 @@ define(["Maneuver", "process/Action", "process/ActivationAction", "process/Adjud
                 done();
             }, 600);
         });
+
+        function createActivationAction(upgradeKey, maneuverKey)
+        {
+            var store = Redux.createStore(Reducer.root);
+            var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+            var adjudicator = new Adjudicator();
+
+            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
+            rebelAgent.chooseAbility = function(environment, pilotKeys, upgradeKeys, callback)
+            {
+                var pilotKey;
+                var upgradeKey = (upgradeKeys.length > 0 ? upgradeKeys[0] : undefined);
+                var isAccepted = (upgradeKey !== undefined);
+
+                callback(pilotKey, upgradeKey, isAccepted);
+            };
+
+            var token = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
+            var tokenPosition = new Position(458, 895, -90);
+
+            environment.placeToken(tokenPosition, token);
+            environment.activeToken(token);
+
+            store.dispatch(Action.setEnvironment(environment));
+            store.dispatch(Action.addFocusCount(token));
+
+            var myManeuverKey = (maneuverKey !== undefined ? maneuverKey : Maneuver.STRAIGHT_3_STANDARD);
+
+            var callback = function()
+            {
+                LOGGER.info("callback() start");
+            };
+
+            return new ActivationAction(environment, adjudicator, token, myManeuverKey, callback);
+        }
     });
