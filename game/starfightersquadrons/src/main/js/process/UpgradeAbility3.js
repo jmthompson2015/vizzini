@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Combat Phase.
  */
-define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "process/Action", "process/Selector", "process/TargetLock"],
-    function(AttackDice, Phase, RangeRuler, UpgradeCard, UpgradeType, Action, Selector, TargetLock)
+define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "process/Action", "process/Selector", "process/TargetLock"],
+    function(AttackDice, DefenseDice, Phase, RangeRuler, UpgradeCard, UpgradeType, Action, Selector, TargetLock)
     {
         "use strict";
         var UpgradeAbility3 = {};
@@ -26,6 +26,29 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
             {
                 discardUpgrade(attacker);
             });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.R3_A2] = {
+            // When you declare the target of your attack, if the defender is inside your firing arc, you may receive 1 stress token to cause the defender to receive 1 stress token.
+            condition: function(store, token)
+            {
+                var upgradeKey = UpgradeCard.REBEL_CAPTIVE;
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var attackerPosition = getAttackerPosition(attacker);
+                var firingArc = weapon.primaryFiringArc();
+                var defender = getDefender(attacker);
+                var defenderPosition = getDefenderPosition(attacker);
+                var isDefenderInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition)
+                return token === attacker && isDefenderInFiringArc;
+            },
+            consequent: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var defender = getDefender(attacker);
+                store.dispatch(Action.addStressCount(attacker));
+                store.dispatch(Action.addStressCount(defender));
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.REBEL_CAPTIVE] = {
@@ -335,7 +358,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE] = {};
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.AUTOTHRUSTERS] = {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.AUTOTHRUSTERS] = {
             // When defending, if you are beyond Range 2 or outside the attacker's firing arc, you may change 1 of your blank results to an Evade result. You can equip this card only if you have the Boost action icon.
             condition: function(store, token)
             {
@@ -351,7 +374,7 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
             {
                 var attacker = getActiveToken(store);
                 var defenseDice = getDefenseDice(attacker);
-                defenseDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.EVADE);
+                defenseDice.changeOneToValue(DefenseDice.Value.BLANK, DefenseDice.Value.EVADE);
             },
         };
 
@@ -393,11 +416,11 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
             consequent: function(store, token)
             {
                 var defenseDice = getDefenseDice(token);
-                defenseDice.changeOneToValue(AttackDice.Value.EVADE, AttackDice.Value.FOCUS);
+                defenseDice.changeOneToValue(DefenseDice.Value.EVADE, DefenseDice.Value.FOCUS);
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.LONE_WOLF] = {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.LONE_WOLF] = {
             // When attacking or defending, if there are no friendly ships at Range 1-2, you may reroll 1 of your blank results.
             condition: function(store, token)
             {
@@ -414,6 +437,22 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
                 var attacker = getActiveToken(store);
                 var defenseDice = getDefenseDice(attacker);
                 defenseDice.rerollBlank();
+            },
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.SENSOR_JAMMER] = {
+            // When defending, you may change 1 of the attacker's Hit results to a Focus result. The attacker cannot reroll the die with the changed result.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var defender = getDefender(attacker);
+                var attackDice = getAttackDice(attacker);
+                return token === defender && attackDice.hitCount() > 0;
+            },
+            consequent: function(store, token)
+            {
+                var attackDice = getAttackDice(token);
+                attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.FOCUS);
             },
         };
 
@@ -646,6 +685,23 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.DEAD_MANS_SWITCH] = {
+            // When you are destroyed, each ship at Range 1 suffers 1 damage.
+            condition: function(store, token)
+            {
+                return token.isDestroyed();
+            },
+            consequent: function(store, token)
+            {
+                var environment = store.getState().environment;
+
+                environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(myToken)
+                {
+                    myToken.addDamage(environment.drawDamage());
+                });
+            },
+        };
+
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.PLASMA_TORPEDOES] = function(store, token)
         {
             // Spend your Target Lock and discard this card to perform this attack. If this attack hits, after dealing damage, remove 1 shield token from the defender.
@@ -798,6 +854,13 @@ define(["AttackDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "proc
             InputValidator.validateNotNull("attacker", attacker);
 
             return attacker.combatState().attackDice();
+        }
+
+        function getAttackerPosition(attacker)
+        {
+            InputValidator.validateNotNull("attacker", attacker);
+
+            return attacker.combatState().combatAction().attackerPosition();
         }
 
         function getDamageDealer(attacker)

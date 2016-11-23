@@ -397,7 +397,7 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
 
                     if (defender)
                     {
-                        environment.phase(Phase.COMBAT_DECLARE_TARGET);
+                        // environment.phase(Phase.COMBAT_DECLARE_TARGET);
                         var defenderPosition = environment.getPositionFor(defender);
                         var store = environment.store();
                         store.dispatch(Action.setUserMessage(attacker + " fires upon " + defender));

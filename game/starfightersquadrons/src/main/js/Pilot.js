@@ -432,12 +432,13 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Boba Fett (Imperial)",
                 description: "When you reveal a bank maneuver, you may rotate your dial to the other bank maneuver of the same speed.",
+                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.IMPERIAL_FIRESPRAY_31,
                 pilotSkillValue: 8,
                 squadPointCost: 39,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW,
-                                UpgradeType.MISSILE],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "bobaFettImperial",
             },
             "bobaFettScum":
@@ -667,12 +668,14 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Countess Ryad",
                 description: "When you reveal a Straight maneuver, you may treat it as a K-Turn maneuver.",
+                agentInput: true,
                 isUnique: true,
                 // FIXME: change for new ship image
                 shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER,
                 pilotSkillValue: 5,
                 squadPointCost: 34,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "countessRyad",
             },
             "cr90Corvette":
@@ -1134,6 +1137,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 5,
                 squadPointCost: 30,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO],
+                isImplemented: true,
                 value: "guri",
             },
             "hanSolo":
@@ -1443,11 +1447,13 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Laetin A'shera",
                 description: "After you defend against an attack, if the attack did not hit, you may assign 1 evade token to your ship.",
+                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.SCUM_M3_A_INTERCEPTOR,
                 pilotSkillValue: 6,
                 squadPointCost: 18,
                 upgradeTypeKeys: [],
+                isImplemented: true,
                 value: "laetinAshera",
             },
             "landoCalrissian":
@@ -1669,6 +1675,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 5,
                 squadPointCost: 15,
                 upgradeTypeKeys: [],
+                isImplemented: true,
                 value: "nightBeast",
             },
             "obsidianSquadronPilot":

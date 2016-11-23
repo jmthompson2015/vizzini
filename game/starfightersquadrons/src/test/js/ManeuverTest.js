@@ -87,7 +87,7 @@ define(["Bearing", "Difficulty", "Maneuver"], function(Bearing, Difficulty, Mane
 
         // Verify.
         assert.ok(result);
-        var length = 77;
+        var length = 87;
         assert.equal(result.length, length);
         assert.equal(result[0], "bankLeft1Easy");
         assert.equal(result[length - 1], "turnRight3Standard");

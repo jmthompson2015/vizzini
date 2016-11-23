@@ -1,11 +1,28 @@
 /*
  * Provides pilot abilities for the Combat Phase.
  */
-define(["AttackDice", "DefenseDice", "Phase", "Pilot", "process/Action", "process/Selector"],
-    function(AttackDice, DefenseDice, Phase, Pilot, Action, Selector)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "process/Action", "process/Selector"],
+    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, Action, Selector)
     {
         "use strict";
         var PilotAbility3 = {};
+
+        ////////////////////////////////////////////////////////////////////////
+        PilotAbility3[Phase.COMBAT_START] = {};
+
+        PilotAbility3[Phase.COMBAT_START][Pilot.GURI] = {
+            // At the start of the Combat phase, if you are at Range 1 of an enemy ship, you may assign 1 focus token to your ship.
+            condition: function(store, token)
+            {
+                var environment = store.getState().environment;
+                var enemies = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+                return enemies.length > 0;
+            },
+            consequent: function(store, token)
+            {
+                store.dispatch(Action.addFocusCount(token));
+            },
+        };
 
         ////////////////////////////////////////////////////////////////////////
         PilotAbility3[Phase.COMBAT_ROLL_ATTACK_DICE] = {};
@@ -124,6 +141,21 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "process/Action", "proces
             },
         };
 
+        PilotAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][Pilot.LAETIN_ASHERA] = {
+            // After you defend against an attack, if the attack did not hit, you may assign 1 evade token to your ship.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var defender = getDefender(attacker);
+                return token === defender && !isDefenderHit(attacker);
+            },
+            consequent: function(store, token)
+            {
+                store.dispatch(Action.addEvadeCount(token));
+            },
+        };
+
+        ////////////////////////////////////////////////////////////////////////
         function getActiveToken(store)
         {
             InputValidator.validateNotNull("store", store);

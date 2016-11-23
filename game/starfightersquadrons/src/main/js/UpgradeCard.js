@@ -2009,7 +2009,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.ASTROMECH,
                     isUnique: true,
                     description: "When you declare the target of your attack, if the defender is inside your firing arc, you may receive 1 stress token to cause the defender to receive 1 stress token.",
+                    agentInput: true,
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "r3A2",
                 },
                 "r4Agromech":
@@ -2251,6 +2253,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.SYSTEM,
                     description: "When defending, you may change 1 of the attacker's Hit results to a Focus result. The attacker cannot reroll the die with the changed result.",
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "sensorJammer",
                 },
                 "sensorTeam":
@@ -2453,7 +2456,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.LIMITED],
                     header: UpgradeHeader.ENERGY,
                     description: "You may discard this card to gain 3 energy.",
+                    agentInput: true,
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "tibannaGasSupplies",
                 },
                 "tieV1":

@@ -41,11 +41,21 @@ define(["Bearing", "Difficulty"],
             BARREL_ROLL_RIGHT_2_STANDARD: "barrelRollRight2Standard",
 
             // Koiogran turn.
+            KOIOGRAN_TURN_1_EASY: "koiogranTurn1Easy",
+            KOIOGRAN_TURN_1_HARD: "koiogranTurn1Hard",
+            KOIOGRAN_TURN_1_STANDARD: "koiogranTurn1Standard",
+            KOIOGRAN_TURN_2_EASY: "koiogranTurn2Easy",
             KOIOGRAN_TURN_2_HARD: "koiogranTurn2Hard",
+            KOIOGRAN_TURN_2_STANDARD: "koiogranTurn2Standard",
+            KOIOGRAN_TURN_3_EASY: "koiogranTurn3Easy",
             KOIOGRAN_TURN_3_HARD: "koiogranTurn3Hard",
+            KOIOGRAN_TURN_3_STANDARD: "koiogranTurn3Standard",
+            KOIOGRAN_TURN_4_EASY: "koiogranTurn4Easy",
             KOIOGRAN_TURN_4_HARD: "koiogranTurn4Hard",
             KOIOGRAN_TURN_4_STANDARD: "koiogranTurn4Standard",
+            KOIOGRAN_TURN_5_EASY: "koiogranTurn5Easy",
             KOIOGRAN_TURN_5_HARD: "koiogranTurn5Hard",
+            KOIOGRAN_TURN_5_STANDARD: "koiogranTurn5Standard",
 
             // Segnor's loop.
             SEGNORS_LOOP_LEFT_2_HARD: "segnorsLoopLeft2Hard",
@@ -318,6 +328,34 @@ define(["Bearing", "Difficulty"],
                     difficultyKey: Difficulty.STANDARD,
                     value: "barrelRollRight2Standard",
                 },
+                "koiogranTurn1Easy":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 1,
+                    difficultyKey: Difficulty.EASY,
+                    value: "koiogranTurn1Easy",
+                },
+                "koiogranTurn1Hard":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 1,
+                    difficultyKey: Difficulty.HARD,
+                    value: "koiogranTurn1Hard",
+                },
+                "koiogranTurn1Standard":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 1,
+                    difficultyKey: Difficulty.STANDARD,
+                    value: "koiogranTurn1Standard",
+                },
+                "koiogranTurn2Easy":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 2,
+                    difficultyKey: Difficulty.EASY,
+                    value: "koiogranTurn2Easy",
+                },
                 "koiogranTurn2Hard":
                 {
                     bearingKey: Bearing.KOIOGRAN_TURN,
@@ -325,12 +363,40 @@ define(["Bearing", "Difficulty"],
                     difficultyKey: Difficulty.HARD,
                     value: "koiogranTurn2Hard",
                 },
+                "koiogranTurn2Standard":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 2,
+                    difficultyKey: Difficulty.STANDARD,
+                    value: "koiogranTurn2Standard",
+                },
+                "koiogranTurn3Easy":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 3,
+                    difficultyKey: Difficulty.EASY,
+                    value: "koiogranTurn3Easy",
+                },
                 "koiogranTurn3Hard":
                 {
                     bearingKey: Bearing.KOIOGRAN_TURN,
                     speed: 3,
                     difficultyKey: Difficulty.HARD,
                     value: "koiogranTurn3Hard",
+                },
+                "koiogranTurn3Standard":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 3,
+                    difficultyKey: Difficulty.STANDARD,
+                    value: "koiogranTurn3Standard",
+                },
+                "koiogranTurn4Easy":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 4,
+                    difficultyKey: Difficulty.EASY,
+                    value: "koiogranTurn4Easy",
                 },
                 "koiogranTurn4Hard":
                 {
@@ -346,12 +412,26 @@ define(["Bearing", "Difficulty"],
                     difficultyKey: Difficulty.STANDARD,
                     value: "koiogranTurn4Standard",
                 },
+                "koiogranTurn5Easy":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 5,
+                    difficultyKey: Difficulty.EASY,
+                    value: "koiogranTurn5Easy",
+                },
                 "koiogranTurn5Hard":
                 {
                     bearingKey: Bearing.KOIOGRAN_TURN,
                     speed: 5,
                     difficultyKey: Difficulty.HARD,
                     value: "koiogranTurn5Hard",
+                },
+                "koiogranTurn5Standard":
+                {
+                    bearingKey: Bearing.KOIOGRAN_TURN,
+                    speed: 5,
+                    difficultyKey: Difficulty.STANDARD,
+                    value: "koiogranTurn5Standard",
                 },
                 "segnorsLoopLeft2Hard":
                 {

@@ -129,6 +129,21 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard",
             },
         };
 
+        UpgradeAbility2[Phase.ACTIVATION_GAIN_ENERGY][UpgradeCard.TIBANNA_GAS_SUPPLIES] = {
+            // You may discard this card to gain 3 energy.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token)
+            {
+                discardUpgrade(token, UpgradeCard.TIBANNA_GAS_SUPPLIES);
+
+                store.dispatch(Action.addEnergyCount(token, 3));
+            },
+        };
+
         ////////////////////////////////////////////////////////////////////////
         function discardUpgrade(token, upgradeKey)
         {

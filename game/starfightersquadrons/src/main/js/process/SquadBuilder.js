@@ -5,14 +5,14 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "p
         var SquadBuilders = [];
 
         // TEST
-        SquadBuilders.push(new SquadBuilder(Team.REBEL, "TEST", 2016, "YT-2400", function(store, agent)
-        {
-            var answer = [];
-            answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.ADRENALINE_RUSH,
-                UpgradeCard.ENGINEERING_TEAM, UpgradeCard.INERTIAL_DAMPENERS, UpgradeCard.LIGHTNING_REFLEXES,
-                UpgradeCard.MANEUVERING_FINS, UpgradeCard.TIE_X7]));
-            return answer;
-        }));
+        // SquadBuilders.push(new SquadBuilder(Team.REBEL, "TEST", 2016, "YT-2400", function(store, agent)
+        // {
+        //     var answer = [];
+        //     answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.ADRENALINE_RUSH,
+        //         UpgradeCard.ENGINEERING_TEAM, UpgradeCard.INERTIAL_DAMPENERS, UpgradeCard.LIGHTNING_REFLEXES,
+        //         UpgradeCard.MANEUVERING_FINS, UpgradeCard.TIE_X7]));
+        //     return answer;
+        // }));
 
         // Nand Torfs
         // - Dengar (54) + LW + Title + OCR4 + Zuckuss + Countermeasures + Glitterstim
