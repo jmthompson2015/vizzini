@@ -1581,7 +1581,9 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.REBEL_ONLY],
                     header: UpgradeHeader.ACTION,
                     description: "Roll 2 defense dice. For each Focus result, assign 1 Focus token to your ship. For each Evade result, assign 1 Evade token to your ship.",
+                    agentInput: true,
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "landoCalrissian",
                 },
                 "leiaOrgana":
@@ -1826,7 +1828,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                 {
                     name: "Overclocked R4",
                     type: UpgradeType.SALVAGED_ASTROMECH,
-                    description: "During the Combat Phase, when you spend a focus token, you may receive 1 stress token to assign 1 focus token to your ship.",
+                    description: "During the Combat phase, when you spend a focus token, you may receive 1 stress token to assign 1 focus token to your ship.",
                     squadPointCost: 1,
                     value: "overclockedR4",
                 },

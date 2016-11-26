@@ -1,5 +1,11 @@
-define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
-    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
+define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2",
+ "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType",
+  "Value", "Weapon",
+   "process/Action", "process/DamageAbility2", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2"],
+    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2,
+        Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType,
+        Value, Weapon,
+        Action, DamageAbility2, Selector, ShipActionAction, UpgradeAbility2)
     {
         "use strict";
 
@@ -441,6 +447,11 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
                 {
                     answer += Math.min(this.agilityValue(), 3);
                 }
+
+                if (this.isCriticallyDamagedWith(DamageCardV2.WEAPONS_FAILURE))
+                {
+                    answer -= 1;
+                }
             }
 
             return answer;
@@ -699,66 +710,99 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
         {
             var answer = [];
 
-            var criticalDamages = this.criticalDamages();
+            var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
+            var store = this.store();
 
-            if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
+            if (!this.isCriticallyDamagedWith(DamageCardV2.DAMAGED_SENSOR_ARRAY))
             {
-                answer.vizziniAddAll(this.ship().shipActionKeys);
+                if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
+                {
+                    answer.vizziniAddAll(this.ship().shipActionKeys);
+                }
+
+                if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())
+                {
+                    answer.vizziniRemove(ShipAction.CLOAK);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.MIST_HUNTER))
+                {
+                    answer.push(ShipAction.BARREL_ROLL);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
+                {
+                    answer.push(ShipAction.BOOST);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))
+                {
+                    answer.push(ShipAction.EVADE);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.BROADCAST_ARRAY))
+                {
+                    answer.push(ShipAction.JAM);
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.TARGETING_COMPUTER))
+                {
+                    answer.push(ShipAction.TARGET_LOCK);
+                }
+
+                LOGGER.info("UpgradeAbility2[" + phaseKey + "] = " + UpgradeAbility2[phaseKey]);
+
+                if (UpgradeAbility2[phaseKey])
+                {
+                    var upgradeKeys = this.upgradeKeys();
+                    LOGGER.info("token = " + this.name() + " upgradeKeys = " + upgradeKeys);
+                    // var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
+                    // var store = this.store();
+
+                    upgradeKeys.forEach(function(upgradeKey)
+                    {
+                        var upgradeAbility = UpgradeAbility2[phaseKey][upgradeKey];
+                        LOGGER.info("upgradeKey = " + upgradeKey + " upgradeAbility = " + upgradeAbility);
+                        if (upgradeAbility)
+                        {
+                            LOGGER.info("upgradeAbility = " + upgradeAbility);
+                            LOGGER.info("upgradeAbility.condition = " + upgradeAbility.condition);
+                            LOGGER.info("upgradeAbility.condition(store, this) ? " + upgradeAbility.condition(store, this));
+
+                            if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, this))
+                            {
+                                // answer.push(new ShipActionAction.SAAUpgradeCard(store, this, upgradeKey));
+                                answer.push(
+                                {
+                                    type: UpgradeCard,
+                                    key: upgradeKey,
+                                });
+                            }
+                        }
+                    }, this);
+                }
             }
 
-            if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())
+            if (DamageAbility2[phaseKey])
             {
-                answer.vizziniRemove(ShipAction.CLOAK);
+                var criticalDamages = this.criticalDamages();
+                // var store = this.store();
+
+                criticalDamages.forEach(function(damageKey)
+                {
+                    var damageAbility = DamageAbility2[phaseKey][damageKey];
+
+                    if (damageAbility && damageAbility.condition && damageAbility.condition(store, this))
+                    {
+                        // answer.push(new ShipActionAction.SAADamageCard(store, this, damageKey));
+                        answer.push(
+                        {
+                            type: DamageCard,
+                            key: damageKey,
+                        });
+                    }
+                }, this);
             }
-
-            if (this.isUpgradedWith(UpgradeCard.MIST_HUNTER))
-            {
-                answer.push(ShipAction.BARREL_ROLL);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.ENGINE_UPGRADE))
-            {
-                answer.push(ShipAction.BOOST);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.MILLENNIUM_FALCON))
-            {
-                answer.push(ShipAction.EVADE);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.BROADCAST_ARRAY))
-            {
-                answer.push(ShipAction.JAM);
-            }
-
-            if (this.isUpgradedWith(UpgradeCard.TARGETING_COMPUTER))
-            {
-                answer.push(ShipAction.TARGET_LOCK);
-            }
-
-            criticalDamages = this.criticalDamages();
-
-            criticalDamages.forEach(function(damage)
-            {
-                // FIXME: add damage card actions.
-                // if (damage.hasAction())
-                // {
-                // answer[answer.length] = new DamageCardShipAction(damage);
-                // }
-            });
-
-            var upgradeKeys = this.upgradeKeys();
-
-            upgradeKeys.forEach(function(upgradeKey)
-            {
-                var upgrade = UpgradeCard.properties[upgradeKey];
-
-                // FIXME: add upgrade card actions.
-                // if (upgrade.hasAction)
-                // {
-                // answer.push(new UpgradeCardShipAction(upgradeKey));
-                // }
-            });
 
             return answer;
         };

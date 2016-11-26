@@ -1,5 +1,11 @@
-define(["UpgradeCard", "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer", "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
-    function(UpgradeCard, PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer, UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
+define(["DamageCard", "Phase", "UpgradeCard",
+    "process/DamageAbility1", "process/DamageAbility2", "process/DamageAbility3", "process/DamageAbility4",
+    "process/PilotAbility1", "process/PilotAbility2", "process/PilotAbility3", "process/PilotAbility4", "process/Observer",
+    "process/UpgradeAbility1", "process/UpgradeAbility2", "process/UpgradeAbility3", "process/UpgradeAbility4"],
+    function(DamageCard, Phase, UpgradeCard,
+        DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4,
+        PilotAbility1, PilotAbility2, PilotAbility3, PilotAbility4, Observer,
+        UpgradeAbility1, UpgradeAbility2, UpgradeAbility3, UpgradeAbility4)
     {
         "use strict";
 
@@ -9,8 +15,52 @@ define(["UpgradeCard", "process/PilotAbility1", "process/PilotAbility2", "proces
 
             this.onChange = function(phaseKey)
             {
-                this.performPilotAbilities(phaseKey);
-                this.performUpgradeAbilities(phaseKey);
+                if (phaseKey !== Phase.ACTIVATION_PERFORM_ACTION)
+                {
+                    this.performDamageAbilities(phaseKey);
+                    this.performPilotAbilities(phaseKey);
+                    this.performUpgradeAbilities(phaseKey);
+                }
+            };
+
+            this.performDamageAbilities = function(phaseKey)
+            {
+                [DamageAbility1, DamageAbility2, DamageAbility3, DamageAbility4].forEach(function(damageAbility)
+                {
+                    var abilities = damageAbility[phaseKey];
+
+                    if (abilities !== undefined)
+                    {
+                        var tokens = Object.values(store.getState().tokens);
+
+                        tokens.forEach(function(token)
+                        {
+                            if (token.criticalDamages())
+                            {
+                                token.criticalDamages().forEach(function(damageKey)
+                                {
+                                    var ability = abilities[damageKey];
+                                    var damage = DamageCard.properties[damageKey];
+
+                                    if (ability !== undefined && !damage.agentInput)
+                                    {
+                                        if (ability.condition && ability.consequent)
+                                        {
+                                            if (ability.condition(store, token))
+                                            {
+                                                ability.consequent(store, token);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            ability(store, token);
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             };
 
             this.performPilotAbilities = function(phaseKey)

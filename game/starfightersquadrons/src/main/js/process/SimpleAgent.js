@@ -1,5 +1,5 @@
-define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility3"],
-    function(Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility3)
+define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility3"],
+    function(DamageCard, DamageCardV2, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility3)
     {
         "use strict";
 
@@ -268,10 +268,11 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
 
             var shipActions = token.shipActions();
             var answer = [];
+            var store = environment.store();
 
             if (shipActions.vizziniContains(ShipAction.FOCUS))
             {
-                answer.push(new ShipActionAction.Focus(environment.store(), token));
+                answer.push(new ShipActionAction.Focus(store, token));
             }
 
             if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
@@ -280,8 +281,6 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
 
                 if (defenders && defenders.length > 0)
                 {
-                    var store = environment.store();
-
                     defenders.forEach(function(defender)
                     {
                         // Only put choices without a current target lock.
@@ -342,12 +341,12 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
 
             if (shipActions.vizziniContains(ShipAction.EVADE))
             {
-                answer.push(new ShipActionAction.Evade(environment.store(), token));
+                answer.push(new ShipActionAction.Evade(store, token));
             }
 
             if (shipActions.vizziniContains(ShipAction.CLOAK))
             {
-                answer.push(new ShipActionAction.Cloak(environment.store(), token));
+                answer.push(new ShipActionAction.Cloak(store, token));
             }
 
             if (shipActions.vizziniContains(ShipAction.REINFORCE))
@@ -356,16 +355,16 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
                 {
                     if (!token.parent.tokenFore().isDestroyed())
                     {
-                        answer.push(new ShipActionAction.Reinforce(environment.store(), token.parent.tokenFore()));
+                        answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenFore()));
                     }
                     if (!token.parent.tokenAft().isDestroyed())
                     {
-                        answer.push(new ShipActionAction.Reinforce(environment.store(), token.parent.tokenAft()));
+                        answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenAft()));
                     }
                 }
                 else
                 {
-                    answer.push(new ShipActionAction.Reinforce(environment.store(), token));
+                    answer.push(new ShipActionAction.Reinforce(store, token));
                 }
             }
 
@@ -396,7 +395,7 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
 
                     if (!isHuge && myToken.stressCount() < 2)
                     {
-                        answer.push(new ShipActionAction.Jam(environment.store(), myToken));
+                        answer.push(new ShipActionAction.Jam(store, myToken));
                     }
                 });
             }
@@ -419,6 +418,19 @@ define(["Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Sh
                     answer.push(new ShipActionAction.Recover(token));
                 }
             }
+
+            shipActions.forEach(function(shipActionKey)
+            {
+                // LOGGER.info("SimpleAgent shipActionKey = " + shipActionKey + " " + JSON.stringify(shipActionKey));
+                if (shipActionKey.type === DamageCard || shipActionKey.type === DamageCardV2)
+                {
+                    answer.push(new ShipActionAction.SAADamageCard(store, token, shipActionKey.key));
+                }
+                else if (shipActionKey.type === UpgradeCard)
+                {
+                    answer.push(new ShipActionAction.SAAUpgradeCard(store, token, shipActionKey.key));
+                }
+            });
 
             LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);
 

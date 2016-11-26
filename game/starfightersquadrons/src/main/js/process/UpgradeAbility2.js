@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/Selector"],
-    function(Bearing, Difficulty, Maneuver, Phase, Position, UpgradeCard, Action, Selector)
+define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/Selector"],
+    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, UpgradeCard, Action, Selector)
     {
         "use strict";
         var UpgradeAbility2 = {};
@@ -141,6 +141,32 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard",
                 discardUpgrade(token, UpgradeCard.TIBANNA_GAS_SUPPLIES);
 
                 store.dispatch(Action.addEnergyCount(token, 3));
+            },
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION] = {};
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.LANDO_CALRISSIAN] = {
+            // Action: Roll 2 defense dice. For each Focus result, assign 1 Focus token to your ship. For each Evade result, assign 1 Evade token to your ship.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                LOGGER.info("token = " + token);
+                LOGGER.info("activeToken = " + activeToken);
+                return token === activeToken;
+            },
+            consequent: function(store, token)
+            {
+                var defenseDice = new DefenseDice(2);
+                if (defenseDice.focusCount() > 0)
+                {
+                    store.dispatch(Action.addFocusCount(token, defenseDice.focusCount()));
+                }
+                if (defenseDice.evadeCount() > 0)
+                {
+                    store.dispatch(Action.addEvadeCount(token, defenseDice.evadeCount()));
+                }
             },
         };
 

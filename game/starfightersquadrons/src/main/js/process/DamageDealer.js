@@ -114,12 +114,12 @@ define(["DamageCard", "DamageCardTrait", "UpgradeCard", "process/Action"],
                     else
                     {
                         defender.addCriticalDamage(damage);
-                        var dealEffect = DamageCard.properties[damage].dealEffect;
-
-                        if (dealEffect)
-                        {
-                            dealEffect(environment, defender);
-                        }
+                        // var dealEffect = DamageCard.properties[damage].dealEffect;
+                        //
+                        // if (dealEffect)
+                        // {
+                        //     dealEffect(environment, defender);
+                        // }
                     }
                 }
 
