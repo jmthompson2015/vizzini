@@ -29,6 +29,7 @@ define(["Count"], function(Count)
     Action.SET_COUNT = "setCount";
     Action.SET_DAMAGE_DECK = "setDamageDeck";
     Action.SET_ENVIRONMENT = "setEnvironment";
+    Action.SET_EVENT = "setEvent";
     Action.SET_FIRST_AGENT = "setFirstAgent";
     Action.SET_PHASE = "setPhase";
     Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
@@ -406,6 +407,17 @@ define(["Count"], function(Count)
     Action.setEvadeCount = function(token, value)
     {
         return Action.setCount(token, Count.EVADE, value);
+    };
+
+    Action.setEvent = function(eventKey)
+    {
+        InputValidator.validateNotNull("eventKey", eventKey);
+
+        return (
+        {
+            type: Action.SET_EVENT,
+            eventKey: eventKey,
+        });
     };
 
     Action.setFirstAgent = function(agent)
