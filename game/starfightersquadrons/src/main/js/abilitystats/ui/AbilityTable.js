@@ -1,5 +1,5 @@
-define(["DamageCardTrait", "Event", "Phase", "abilitystats/AbilityColumns", "abilitystats/ui/Connector", "abilitystats/ui/FilterUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-    function(DamageCardTrait, Event, Phase, AbilityColumns, Connector, FilterUI, DataTable)
+define(["Event", "Phase", "abilitystats/AbilityColumns", "abilitystats/ui/Connector", "abilitystats/ui/FilterUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+    function(Event, Phase, AbilityColumns, Connector, FilterUI, DataTable)
     {
         "use strict";
 

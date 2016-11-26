@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for the Activation Phase.
  */
-define(["Bearing", "Difficulty", "Maneuver", "Phase", "Pilot", "Position", "UpgradeCard", "process/Action", "process/Selector", "process/ShipActionAction"],
-    function(Bearing, Difficulty, Maneuver, Phase, Pilot, Position, UpgradeCard, Action, Selector, ShipActionAction)
+define(["Bearing", "Difficulty", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selector", "process/ShipActionAction"],
+    function(Bearing, Difficulty, Maneuver, Phase, Pilot, UpgradeCard, Selector, ShipActionAction)
     {
         "use strict";
         var PilotAbility2 = {};

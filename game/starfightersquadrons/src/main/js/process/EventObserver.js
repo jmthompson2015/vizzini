@@ -1,5 +1,5 @@
-define(["DamageCard", "Phase", "UpgradeCard", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
-    function(DamageCard, Phase, UpgradeCard, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
+define(["DamageCard", "UpgradeCard", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
+    function(DamageCard, UpgradeCard, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
     {
         "use strict";
 

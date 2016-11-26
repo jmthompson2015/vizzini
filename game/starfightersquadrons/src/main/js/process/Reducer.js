@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "DamageCardV2", "Event", "InitialState", "Pilot", "UpgradeCard", "Value", "process/Action", "process/Selector"],
-    function(Count, DamageCard, DamageCardV2, Event, InitialState, Pilot, UpgradeCard, Value, Action, Selector)
+define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", "Value", "process/Action", "process/Selector"],
+    function(Count, DamageCard, Event, InitialState, Pilot, UpgradeCard, Value, Action, Selector)
     {
         "use strict";
         var Reducer = {};
@@ -249,8 +249,7 @@ define(["Count", "DamageCard", "DamageCardV2", "Event", "InitialState", "Pilot",
                     {});
                     newTokenIdToUpgradeEnergy = Object.assign(
                     {}, state);
-                    newTokenIdToUpgradeEnergy[action.tokenId] = Reducer
-                        .upgradeEnergy(oldTokenIdToUpgradeEnergy, action);
+                    newTokenIdToUpgradeEnergy[action.tokenId] = Reducer.upgradeEnergy(oldTokenIdToUpgradeEnergy, action);
                     return newTokenIdToUpgradeEnergy;
                 default:
                     LOGGER.warn("Reducer.tokenIdToUpgradeEnergy: Unhandled action type: " + action.type);

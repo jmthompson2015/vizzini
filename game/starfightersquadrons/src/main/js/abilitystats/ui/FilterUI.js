@@ -1,5 +1,5 @@
-define(["DamageCardTrait", "Event", "Phase", "abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter"],
-    function(DamageCardTrait, Event, Phase, Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter)
+define(["Event", "Phase", "abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter"],
+    function(Event, Phase, Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter)
     {
         "use strict";
         var FilterUI = React.createClass(
@@ -127,37 +127,6 @@ define(["DamageCardTrait", "Event", "Phase", "abilitystats/Action", "abilitystat
                                         values.push(abilityData.event);
                                     }
                                 });
-                                // values.sort(function(a, b)
-                                // {
-                                //     var valueA, valueB;
-                                //     var keyA = a.substring(a.indexOf(".") + 1);
-                                //     var keyB = b.substring(b.indexOf(".") + 1);
-                                //     if (a.startsWith("Event"))
-                                //     {
-                                //         valueA = "Event" + Event.values().indexOf(Event.properties[keyA]);
-                                //         valueB = "Event" + Event.values().indexOf(Event.properties[keyB]);
-                                //     }
-                                //     else if (a.startsWith("Phase"))
-                                //     {
-                                //         valueA = "Phase" + Phase.values().indexOf(Phase.properties[keyA]);
-                                //         valueB = "Phase" + Phase.values().indexOf(Phase.properties[keyB]);
-                                //     }
-                                //     else
-                                //     {
-                                //         valueA = a;
-                                //         valueB = b;
-                                //     }
-                                //     var answer = -1;
-                                //     if (valueA === valueB)
-                                //     {
-                                //         answer = 0;
-                                //     }
-                                //     else if (valueA > valueB)
-                                //     {
-                                //         answer = 1;
-                                //     }
-                                //     return answer;
-                                // });
                                 values.sort(EventComparator);
                                 break;
                             default:

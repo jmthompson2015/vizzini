@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-    function(AttackDice, DefenseDice, Phase, Pilot, UpgradeCard, UpgradeType, ModifyAttackDiceAction, ModifyDefenseDiceAction, AbilityUI, InputPanel)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(AttackDice, DefenseDice, Phase, Pilot, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, AbilityUI, InputPanel)
     {
         "use strict";
         var CombatUI = React.createClass(
