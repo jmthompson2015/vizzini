@@ -6,19 +6,19 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
-	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
-	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
-	<script src="../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
-	<script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 </head>
 <body>
 	<div id="inputArea"></div>
@@ -30,8 +30,8 @@
 		LOGGER.setDebugEnabled(false);
 		LOGGER.setTraceEnabled(false);
 
-		require(["Maneuver", "process/EnvironmentFactory", "process/ShipActionAction", "process/ui/ShipActionChooser"],
-			function(Maneuver, EnvironmentFactory, ShipActionAction, ShipActionChooser)
+		require(["DamageCard", "Maneuver", "UpgradeCard", "process/EnvironmentFactory", "process/ShipActionAction", "process/ui/ShipActionChooser"],
+			function(DamageCard, Maneuver, UpgradeCard, EnvironmentFactory, ShipActionAction, ShipActionChooser)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
@@ -63,6 +63,8 @@
 				shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_RIGHT_2_STANDARD));
 				shipActions.push(new ShipActionAction.SAATargetLock(store, token2, token0));
 				shipActions.push(new ShipActionAction.SAATargetLock(store, token2, token1));
+				shipActions.push(new ShipActionAction.SAADamageCard(store, token2, DamageCard.CONSOLE_FIRE));
+				shipActions.push(new ShipActionAction.SAAUpgradeCard(store, token2, UpgradeCard.LANDO_CALRISSIAN));
 
 				var element = React.createElement(ShipActionChooser,
 				{
