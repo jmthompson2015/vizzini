@@ -5,17 +5,16 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
 </head>
 <body>
 	<table>
 		<tr>
-			<td id="shipPanel"></td>
-			<td id="silhouettePanel"></td>
+			<td id="upgradeTypePanel"></td>
 		</tr>
 	</table>
 	<script>
@@ -29,14 +28,11 @@
 			var values = UpgradeType.values();
 			var resourceBase = "../../../main/resources/";
 			var imageBase = resourceBase + "images/";
-			var style0 = {
-				backgroundColor: "gray",
-				border: "1px solid lightGray",
-			};
-			var style1 = {
+			var style = {
 				backgroundColor: "#F0F0F0",
 				border: "1px solid lightGray",
 				fontSize: "small",
+				textAlign: "left",
 			};
 			var rows = [];
 
@@ -44,24 +40,31 @@
 			{
 				var upgradeType = UpgradeType.properties[upgradeTypeKey];
 
-				var image = React.createElement(UpgradeTypeUI,
+				var image0 = React.createElement(UpgradeTypeUI,
 				{
 					upgradeType: upgradeType,
 					imageBase: imageBase,
+				});
+
+				var image1 = React.createElement(UpgradeTypeUI,
+				{
+					upgradeType: upgradeType,
+					imageBase: imageBase,
+					showName: true,
 				});
 
 				var cells = [];
 
 				cells.push(React.DOM.td(
 				{
-					key: "image",
-					style: style0,
-				}, image));
+					key: "standard",
+					style: style,
+				}, image0));
 				cells.push(React.DOM.td(
 				{
-					key: "name",
-					style: style1,
-				}, UpgradeType.properties[upgradeTypeKey].name));
+					key: "standard+name",
+					style: style,
+				}, image1));
 
 				rows.push(React.DOM.tr(
 				{
@@ -71,7 +74,7 @@
 
 			ReactDOM.render(React.DOM.table(
 			{}, React.DOM.tbody(
-			{}, rows)), document.getElementById("silhouettePanel"));
+			{}, rows)), document.getElementById("upgradeTypePanel"));
 		});
 	</script>
 </body>
