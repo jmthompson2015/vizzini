@@ -5,69 +5,73 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
-	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
 </head>
 <body>
 	<div id="panel"></div>
 	<script>
 		"use strict";
 		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
 
-		require(["ShipAction", "process/ui/ShipActionUI"], function(ShipAction, ShipActionUI)
-		{
-			var values = ShipAction.values();
-			var resourceBase = "../../../main/resources/";
-			var imageBase = resourceBase + "images/";
-			var style = {
-				backgroundColor: "#F0F0F0",
-				border: "1px solid gray",
-				fontSize: "small",
-				textAlign: "left",
-			};
-			var rows = [];
-
-			values.forEach(function(shipActionKey, i)
+		require(["ShipAction", "process/ui/ShipActionUI"],
+			function(ShipAction, ShipActionUI)
 			{
-				var shipAction = ShipAction.properties[shipActionKey];
-				var image0 = React.createElement(ShipActionUI,
+				var values = ShipAction.values();
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+				var style = {
+					backgroundColor: "#F0F0F0",
+					border: "1px solid gray",
+					fontSize: "small",
+					textAlign: "left",
+				};
+				var rows = [];
+
+				values.forEach(function(shipActionKey, i)
 				{
-					shipAction: shipAction,
-					imageBase: imageBase,
+					var shipAction = ShipAction.properties[shipActionKey];
+					var image0 = React.createElement(ShipActionUI,
+					{
+						shipAction: shipAction,
+						imageBase: imageBase,
+					});
+					var image1 = React.createElement(ShipActionUI,
+					{
+						shipAction: shipAction,
+						imageBase: imageBase,
+						showName: true,
+					});
+
+					var cells = [];
+
+					cells.push(React.DOM.td(
+					{
+						key: cells.length,
+						style: style,
+					}, image0));
+					cells.push(React.DOM.td(
+					{
+						key: cells.length,
+						style: style,
+					}, image1));
+
+					rows.push(React.DOM.tr(
+					{
+						key: rows.length,
+					}, cells));
 				});
-				var image1 = React.createElement(ShipActionUI,
-				{
-					shipAction: shipAction,
-					imageBase: imageBase,
-					showName: true,
-				});
 
-				var cells = [];
-
-				cells.push(React.DOM.td(
-				{
-					key: cells.length,
-					style: style,
-				}, image0));
-				cells.push(React.DOM.td(
-				{
-					key: cells.length,
-					style: style,
-				}, image1));
-
-				rows.push(React.DOM.tr(
-				{
-					key: rows.length,
-				}, cells));
+				ReactDOM.render(React.DOM.table(
+				{}, React.DOM.tbody(
+				{}, rows)), document.getElementById("panel"));
 			});
-
-			ReactDOM.render(React.DOM.table(
-			{}, React.DOM.tbody(
-			{}, rows)), document.getElementById("panel"));
-		});
 	</script>
 </body>
 
