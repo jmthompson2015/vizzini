@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-    function(AttackDice, DefenseDice, Phase, Pilot, UpgradeCard, UpgradeType, ModifyAttackDiceAction, ModifyDefenseDiceAction, FactionUI, UpgradeTypeUI, InputPanel)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "UpgradeType", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(AttackDice, DefenseDice, Phase, Pilot, UpgradeCard, UpgradeType, ModifyAttackDiceAction, ModifyDefenseDiceAction, AbilityUI, InputPanel)
     {
         "use strict";
         var CombatUI = React.createClass(
@@ -487,37 +487,20 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "UpgradeTy
 
         function createPilotLabel(pilot, imageBase)
         {
-            InputValidator.validateNotNull("pilot", pilot);
-
-            var icon = React.createElement(FactionUI,
+            return React.createElement(AbilityUI.Pilot,
             {
-                faction: pilot.shipTeam.team,
+                pilot: pilot,
                 imageBase: imageBase,
-                isSmall: true,
             });
-
-            return React.DOM.span(
-            {}, icon, " ", React.DOM.span(
-            {
-                title: pilot.description,
-            }, pilot.name));
         }
 
         function createUpgradeLabel(upgrade, imageBase)
         {
-            InputValidator.validateNotNull("upgrade", upgrade);
-
-            var icon = React.createElement(UpgradeTypeUI,
+            return React.createElement(AbilityUI.Upgrade,
             {
-                upgradeType: UpgradeType.properties[upgrade.type],
+                upgrade: upgrade,
                 imageBase: imageBase,
             });
-
-            return React.DOM.span(
-            {}, icon, " ", React.DOM.span(
-            {
-                title: upgrade.description,
-            }, upgrade.name));
         }
 
         return CombatUI;
