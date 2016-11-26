@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", "process/Action", "process/Selector"],
-    function(Count, DamageCard, InitialState, Pilot, UpgradeCard, Value, Action, Selector)
+define(["Count", "DamageCard", "DamageCardV2", "Event", "InitialState", "Pilot", "UpgradeCard", "Value", "process/Action", "process/Selector"],
+    function(Count, DamageCard, DamageCardV2, Event, InitialState, Pilot, UpgradeCard, Value, Action, Selector)
     {
         "use strict";
         var Reducer = {};
@@ -484,6 +484,7 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     return Object.assign(
                     {}, state,
                     {
+                        eventKey: Event.RECEIVE_CRITICAL_DAMAGE,
                         tokenIdToCriticalDamages: newTokenIdToCriticalDamages,
                         tokenIdToValues: newTokenIdToValues,
                     });
@@ -621,6 +622,7 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     return Object.assign(
                     {}, state,
                     {
+                        eventKey: undefined,
                         activeTokenId: action.tokenId,
                     });
                 case Action.SET_ENVIRONMENT:
@@ -628,6 +630,12 @@ define(["Count", "DamageCard", "InitialState", "Pilot", "UpgradeCard", "Value", 
                     {}, state,
                     {
                         environment: action.environment,
+                    });
+                case Action.SET_EVENT:
+                    return Object.assign(
+                    {}, state,
+                    {
+                        eventKey: action.eventKey,
                     });
                 case Action.SET_FIRST_AGENT:
                     return Object.assign(
