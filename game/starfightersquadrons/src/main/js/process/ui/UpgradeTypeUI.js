@@ -10,6 +10,8 @@ define(function()
 
             // default: upgrade type value
             myKey: React.PropTypes.string,
+            // default: false
+            showName: React.PropTypes.string,
         },
 
         render: function()
@@ -20,13 +22,25 @@ define(function()
             var fileString = this.props.imageBase + "upgrade/" + typeName + "24.png";
             var myKey = (this.props.myKey !== undefined ? this.props.myKey : upgradeType.value);
 
-            return React.DOM.img(
+            var icon = React.DOM.img(
             {
                 key: myKey,
                 className: "upgradeTypeUIImage",
                 src: fileString,
                 title: typeName0,
             });
+
+            var answer = icon;
+
+            var showName = (this.props.showName !== undefined ? this.props.showName : false);
+
+            if (showName)
+            {
+                answer = React.DOM.span(
+                {}, icon, " ", upgradeType.name);
+            }
+
+            return answer;
         },
     });
 
