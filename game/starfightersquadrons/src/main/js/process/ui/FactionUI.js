@@ -8,36 +8,37 @@ define(function()
             faction: React.PropTypes.object.isRequired,
             imageBase: React.PropTypes.string.isRequired,
 
+            // default: false
+            isSmall: React.PropTypes.bool,
             // default: faction value
             myKey: React.PropTypes.string,
             // default: false
-            isSmall: React.PropTypes.bool,
+            showName: React.PropTypes.string,
         },
 
         render: function()
         {
             var faction = this.props.faction;
-            var size = (this.props.isSmall !== undefined ? 24 : 32);
-            var fileString = this.props.imageBase + faction.shortName + "Icon" + size + ".png";
-            var myKey = (this.props.myKey !== undefined ? this.props.myKey : faction.value);
 
-            var image = React.DOM.img(
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : faction.value);
+            var size = (this.props.isSmall ? 24 : 32);
+            var fileString = this.props.imageBase + faction.shortName + "Icon" + size + ".png";
+            var icon = React.DOM.img(
             {
                 key: myKey,
                 className: "factionUIImage",
                 src: fileString,
                 title: faction.name,
             });
-            var showName = (this.props.showName !== undefined ? this.props.showName : false);
 
-            var answer = image;
+            var answer = icon;
+
+            var showName = (this.props.showName !== undefined ? this.props.showName : false);
 
             if (showName)
             {
                 answer = React.DOM.span(
-                {
-                    className: "factionUIImage",
-                }, image, " ", faction.name);
+                {}, icon, " ", faction.name);
             }
 
             return answer;
