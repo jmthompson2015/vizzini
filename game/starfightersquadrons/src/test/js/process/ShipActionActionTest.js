@@ -1,5 +1,5 @@
-define(["process/EnvironmentFactory", "Maneuver", "Position", "process/ShipActionAction", "process/Action"],
-    function(EnvironmentFactory, Maneuver, Position, ShipActionAction, Action)
+define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/EnvironmentFactory", "process/ShipActionAction"],
+    function(DamageCard, Maneuver, Phase, Position, UpgradeCard, Action, EnvironmentFactory, ShipActionAction)
     {
         "use strict";
         QUnit.module("ShipActionAction");
@@ -477,6 +477,115 @@ define(["process/EnvironmentFactory", "Maneuver", "Position", "process/ShipActio
                 "Reinforce: 8 CR90 Corvette (aft)");
         });
 
+        QUnit.test("SAADamageCard.doIt()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            store.dispatch(Action.setPhase(Phase.ACTIVATION_PERFORM_ACTION));
+            var token = environment.tokens()[2]; // X-Wing
+            var damageKey = DamageCard.CONSOLE_FIRE;
+            store.dispatch(Action.addTokenCriticalDamage(token, damageKey));
+            var action = new ShipActionAction.SAADamageCard(store, token, damageKey);
+
+            // Run.
+            assert.equal(token.damageCount(), 0);
+            assert.equal(token.criticalDamageCount(), 1);
+            action.doIt();
+
+            // Verify.
+            assert.equal(token.damageCount(), 1);
+            assert.equal(token.criticalDamageCount(), 0);
+        });
+
+        QUnit.test("SAADamageCard.toString()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var token = environment.tokens()[2]; // X-Wing
+            var upgradeKey = DamageCard.CONSOLE_FIRE;
+            var action = new ShipActionAction.SAADamageCard(environment, token, upgradeKey);
+
+            // Run.
+            var result = action.toString();
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result, "Damage Action: Console Fire");
+        });
+
+        QUnit.test("SAATargetLock.doIt()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var defender = environment.tokens()[0]; // TIE Fighter
+            var attacker = environment.tokens()[2]; // X-Wing
+            var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
+
+            // Run.
+            assert.equal(attacker.attackerTargetLocks().length, 0);
+            assert.equal(defender.defenderTargetLocks().length, 0);
+            action.doIt();
+
+            // Verify.
+            assert.equal(attacker.attackerTargetLocks().length, 1);
+            assert.equal(defender.defenderTargetLocks().length, 1);
+        });
+
+        QUnit.test("SAATargetLock.toString()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var defender = environment.tokens()[0]; // TIE Fighter
+            var attacker = environment.tokens()[2]; // X-Wing
+            var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
+
+            // Run.
+            var result = action.toString();
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result, "Target Lock: 1 \"Mauler Mithel\" (TIE Fighter)");
+        });
+
+        QUnit.test("SAAUpgradeCard.doIt()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            store.dispatch(Action.setPhase(Phase.ACTIVATION_PERFORM_ACTION));
+            var token = environment.tokens()[2]; // X-Wing
+            var upgradeKey = UpgradeCard.LANDO_CALRISSIAN;
+            var action = new ShipActionAction.SAAUpgradeCard(store, token, upgradeKey);
+
+            // Run.
+            assert.equal(token.evadeCount(), 0);
+            assert.equal(token.focusCount(), 0);
+            action.doIt();
+
+            // Verify.
+            assert.ok(token.focusCount() + token.evadeCount() >= 0);
+            assert.ok(token.focusCount() + token.evadeCount() <= 2);
+        });
+
+        QUnit.test("SAAUpgradeCard.toString()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var token = environment.tokens()[2]; // X-Wing
+            var upgradeKey = UpgradeCard.LANDO_CALRISSIAN;
+            var action = new ShipActionAction.SAAUpgradeCard(environment, token, upgradeKey);
+
+            // Run.
+            var result = action.toString();
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result, "Upgrade Action: Lando Calrissian");
+        });
+
         QUnit.test("Slam.doIt()", function(assert)
         {
             // Setup.
@@ -511,41 +620,5 @@ define(["process/EnvironmentFactory", "Maneuver", "Position", "process/ShipActio
             // Verify.
             assert.ok(result);
             assert.equal(result, "SLAM: Straight 2");
-        });
-
-        QUnit.test("TargetLock.doIt()", function(assert)
-        {
-            // Setup.
-            var environment = EnvironmentFactory.createCoreSetEnvironment();
-            var store = environment.store();
-            var defender = environment.tokens()[0]; // TIE Fighter
-            var attacker = environment.tokens()[2]; // X-Wing
-            var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
-
-            // Run.
-            assert.equal(attacker.attackerTargetLocks().length, 0);
-            assert.equal(defender.defenderTargetLocks().length, 0);
-            action.doIt();
-
-            // Verify.
-            assert.equal(attacker.attackerTargetLocks().length, 1);
-            assert.equal(defender.defenderTargetLocks().length, 1);
-        });
-
-        QUnit.test("TargetLock.toString()", function(assert)
-        {
-            // Setup.
-            var environment = EnvironmentFactory.createCoreSetEnvironment();
-            var store = environment.store();
-            var defender = environment.tokens()[0]; // TIE Fighter
-            var attacker = environment.tokens()[2]; // X-Wing
-            var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
-
-            // Run.
-            var result = action.toString();
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result, "Target Lock: 1 \"Mauler Mithel\" (TIE Fighter)");
         });
     });
