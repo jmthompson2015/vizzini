@@ -23,7 +23,7 @@ table {
     text-align: left;
 }
 
-#ALIGN_MIDDLE, .factionUIImage, .shipActionUIImage, .shipSilhouetteUIImage, .shipStateUIImage, .upgradeCardUIImage, .upgradeTypeUIImage, .alignMiddle {
+#ALIGN_MIDDLE, .damageAbilityUIImage, .factionUIImage, .shipActionUIImage, .shipSilhouetteUIImage, .shipStateUIImage, .upgradeCardUIImage, .upgradeTypeUIImage, .alignMiddle {
     vertical-align: middle;
 }
 
