@@ -27,11 +27,16 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["Pilot", "UpgradeCard", "process/EnvironmentFactory", "process/ui/AbilityChooser"],
-			function(Pilot, UpgradeCard, EnvironmentFactory, AbilityChooser)
+		require(["DamageCard", "Pilot", "UpgradeCard", "process/EnvironmentFactory", "process/ui/AbilityChooser"],
+			function(DamageCard, Pilot, UpgradeCard, EnvironmentFactory, AbilityChooser)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
+				var damageKeys = [DamageCard.CONSOLE_FIRE, DamageCard.MINOR_HULL_BREACH];
+				var damages = damageKeys.map(function(damageKey)
+				{
+					return DamageCard.properties[damageKey];
+				});
 				var pilotKeys = [Pilot.AIREN_CRACKEN, Pilot.BOSSK, Pilot.CAPTAIN_YORR];
 				var pilots = pilotKeys.map(function(pilotKey)
 				{
@@ -49,6 +54,7 @@
 
 				var element = React.createElement(AbilityChooser,
 				{
+					damages: damages,
 					imageBase: imageBase,
 					onChange: callback,
 					pilots: pilots,
