@@ -1,5 +1,5 @@
-define(["Maneuver", "process/ManeuverAction", "ShipAction", "process/TargetLock", "process/Action"],
-    function(Maneuver, ManeuverAction, ShipAction, TargetLock, Action)
+define(["DamageCard", "Maneuver", "Phase", "UpgradeCard", "UpgradeType", "process/ManeuverAction", "ShipAction", "process/Action", "process/DamageAbility2", "process/TargetLock", "process/UpgradeAbility2"],
+    function(DamageCard, Maneuver, Phase, UpgradeCard, UpgradeType, ManeuverAction, ShipAction, Action, DamageAbility2, TargetLock, UpgradeAbility2)
     {
         "use strict";
 
@@ -352,6 +352,66 @@ define(["Maneuver", "process/ManeuverAction", "ShipAction", "process/TargetLock"
             return answer;
         };
 
+        function SAADamageCard(store, token, damageKey)
+        {
+            InputValidator.validateNotNull("store", store);
+            InputValidator.validateNotNull("token", token);
+            InputValidator.validateNotNull("damageKey", damageKey);
+
+            this.shipActionKey = function()
+            {
+                return "criticalDamage";
+            };
+
+            this.store = function()
+            {
+                return store;
+            };
+
+            this.token = function()
+            {
+                return token;
+            };
+
+            this.damageKey = function()
+            {
+                return damageKey;
+            };
+
+            var damage = DamageCard.properties[damageKey];
+
+            this.damage = function()
+            {
+                return damage;
+            };
+
+            var damageAbility = (DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION] !== undefined ? DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][damageKey] : undefined);
+
+            this.damageAbility = function()
+            {
+                return damageAbility;
+            };
+        }
+
+        SAADamageCard.prototype.doIt = function()
+        {
+            var store = this.store();
+            var token = this.token();
+            var damageAbility = this.damageAbility();
+
+            if (damageAbility && damageAbility.consequent)
+            {
+                damageAbility.consequent(store, token);
+            }
+        };
+
+        SAADamageCard.prototype.toString = function()
+        {
+            var damage = this.damage();
+
+            return "Damage Action: " + damage.name;
+        };
+
         function SAATargetLock(store, attacker, defender)
         {
             InputValidator.validateNotNull("store", store);
@@ -391,6 +451,73 @@ define(["Maneuver", "process/ManeuverAction", "ShipAction", "process/TargetLock"
         SAATargetLock.prototype.toString = function()
         {
             return "Target Lock: " + this.defender().name();
+        };
+
+        function SAAUpgradeCard(store, token, upgradeKey)
+        {
+            InputValidator.validateNotNull("store", store);
+            InputValidator.validateNotNull("token", token);
+            InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+            this.shipActionKey = function()
+            {
+                return "upgrade";
+            };
+
+            this.store = function()
+            {
+                return store;
+            };
+
+            this.token = function()
+            {
+                return token;
+            };
+
+            this.upgradeKey = function()
+            {
+                return upgradeKey;
+            };
+
+            var upgrade = UpgradeCard.properties[upgradeKey];
+
+            this.upgrade = function()
+            {
+                return upgrade;
+            };
+
+            var upgradeType = UpgradeType.properties[upgrade.type];
+
+            this.upgradeType = function()
+            {
+                return upgradeType;
+            };
+
+            var upgradeAbility = (UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION] !== undefined ? UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][upgradeKey] : undefined);
+
+            this.upgradeAbility = function()
+            {
+                return upgradeAbility;
+            };
+        }
+
+        SAAUpgradeCard.prototype.doIt = function()
+        {
+            var store = this.store();
+            var token = this.token();
+            var upgradeAbility = this.upgradeAbility();
+
+            if (upgradeAbility && upgradeAbility.consequent)
+            {
+                upgradeAbility.consequent(store, token);
+            }
+        };
+
+        SAAUpgradeCard.prototype.toString = function()
+        {
+            var upgrade = this.upgrade();
+
+            return "Upgrade Action: " + upgrade.name;
         };
 
         function Slam(environment, token, maneuverKey)
@@ -447,7 +574,9 @@ define(["Maneuver", "process/ManeuverAction", "ShipAction", "process/TargetLock"
             Jam: Jam,
             Recover: Recover,
             Reinforce: Reinforce,
+            SAADamageCard: SAADamageCard,
             SAATargetLock: SAATargetLock,
+            SAAUpgradeCard: SAAUpgradeCard,
             Slam: Slam,
         });
     });
