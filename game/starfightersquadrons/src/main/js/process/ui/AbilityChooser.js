@@ -1,10 +1,11 @@
-define(["UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-    function(UpgradeType, FactionUI, UpgradeTypeUI, InputPanel)
+define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(AbilityUI, InputPanel)
     {
         var AbilityChooser = React.createClass(
         {
             propTypes:
             {
+                damages: React.PropTypes.array.isRequired,
                 imageBase: React.PropTypes.string.isRequired,
                 onChange: React.PropTypes.func.isRequired,
                 pilots: React.PropTypes.array.isRequired,
@@ -15,6 +16,7 @@ define(["UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../.
             render: function()
             {
                 var token = this.props.token;
+                var damages = this.props.damages;
                 var pilots = this.props.pilots;
                 var upgrades = this.props.upgrades;
                 var imageBase = this.props.imageBase;
@@ -30,11 +32,25 @@ define(["UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../.
 
                 var labelFunction = function(value)
                 {
-                    return (value.shipTeamKey ? createPilotLabel(value, imageBase) : createUpgradeLabel(value, imageBase));
+                    var answer;
+                    if (value.shipTeamKey)
+                    {
+                        answer = createPilotLabel(value, imageBase);
+                    }
+                    else if (value.type)
+                    {
+                        answer = createUpgradeLabel(value, imageBase);
+                    }
+                    else
+                    {
+                        answer = createDamageLabel(value, imageBase);
+                    }
+                    return answer;
                 };
 
                 var values = pilots.slice();
                 values.vizziniAddAll(upgrades);
+                values.vizziniAddAll(damages);
 
                 var initialInput = React.createElement(InputPanel,
                 {
@@ -90,39 +106,31 @@ define(["UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../.
             },
         });
 
+        function createDamageLabel(damage, imageBase)
+        {
+            return React.createElement(AbilityUI.Damage,
+            {
+                damage: damage,
+                imageBase: imageBase,
+            });
+        }
+
         function createPilotLabel(pilot, imageBase)
         {
-            InputValidator.validateNotNull("pilot", pilot);
-
-            var icon = React.createElement(FactionUI,
+            return React.createElement(AbilityUI.Pilot,
             {
-                faction: pilot.shipTeam.team,
+                pilot: pilot,
                 imageBase: imageBase,
-                isSmall: true,
             });
-
-            return React.DOM.span(
-            {}, icon, " ", React.DOM.span(
-            {
-                title: pilot.description,
-            }, pilot.name));
         }
 
         function createUpgradeLabel(upgrade, imageBase)
         {
-            InputValidator.validateNotNull("upgrade", upgrade);
-
-            var icon = React.createElement(UpgradeTypeUI,
+            return React.createElement(AbilityUI.Upgrade,
             {
-                upgradeType: UpgradeType.properties[upgrade.type],
+                upgrade: upgrade,
                 imageBase: imageBase,
             });
-
-            return React.DOM.span(
-            {}, icon, " ", React.DOM.span(
-            {
-                title: upgrade.description,
-            }, upgrade.name));
         }
 
         return AbilityChooser;
