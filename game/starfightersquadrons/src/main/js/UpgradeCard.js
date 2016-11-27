@@ -2058,6 +2058,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Roll 1 defense die. On an Evade or Focus result, discard 1 of your facedown Damage cards.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "r5D8",
                 },
                 "r5K6":
@@ -2143,6 +2144,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Execute a white (1 forward) maneuver.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "rearAdmiralChiraneau",
                 },
                 "rebelCaptive":
