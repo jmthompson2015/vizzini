@@ -25,7 +25,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
                     var environment = store.getState().environment;
                     token.addCriticalDamage(environment.drawDamage());
                 }
-                flipCardFacedown(store, token, DamageCard.MAJOR_EXPLOSION);
+                flipCardFacedown(store, token, DamageCardV2.MAJOR_EXPLOSION);
             },
         };
 
@@ -79,6 +79,10 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
         ////////////////////////////////////////////////////////////////////////
         function flipCardFacedown(store, token, damageKey)
         {
+            InputValidator.validateNotNull("store", store);
+            InputValidator.validateNotNull("token", token);
+            InputValidator.validateNotNull("damageKey", damageKey);
+
             store.dispatch(Action.removeTokenCriticalDamage(token, damageKey));
             store.dispatch(Action.addTokenDamage(token.id(), damageKey));
         }

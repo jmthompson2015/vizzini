@@ -1,8 +1,8 @@
 /*
  * Provides damage abilities for the Activation Phase.
  */
-define(["DamageCard", "DamageCardV2", "Phase", "process/Action", "process/Selector"],
-    function(DamageCard, DamageCardV2, Phase, Action, Selector)
+define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "process/Selector"],
+    function(AttackDice, DamageCard, DamageCardV2, Phase, Action, Selector)
     {
         "use strict";
         var DamageAbility2 = {};
