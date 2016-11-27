@@ -1,11 +1,5 @@
-define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2",
- "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType",
-  "Value", "Weapon",
-   "process/Action", "process/DamageAbility2", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2"],
-    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2,
-        Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType,
-        Value, Weapon,
-        Action, DamageAbility2, Selector, ShipActionAction, UpgradeAbility2)
+define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2"],
+    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, ShipActionAction, UpgradeAbility2)
     {
         "use strict";
 
@@ -750,28 +744,18 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
                     answer.push(ShipAction.TARGET_LOCK);
                 }
 
-                LOGGER.info("UpgradeAbility2[" + phaseKey + "] = " + UpgradeAbility2[phaseKey]);
-
                 if (UpgradeAbility2[phaseKey])
                 {
                     var upgradeKeys = this.upgradeKeys();
-                    LOGGER.info("token = " + this.name() + " upgradeKeys = " + upgradeKeys);
-                    // var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
-                    // var store = this.store();
 
                     upgradeKeys.forEach(function(upgradeKey)
                     {
                         var upgradeAbility = UpgradeAbility2[phaseKey][upgradeKey];
-                        LOGGER.info("upgradeKey = " + upgradeKey + " upgradeAbility = " + upgradeAbility);
+
                         if (upgradeAbility)
                         {
-                            LOGGER.info("upgradeAbility = " + upgradeAbility);
-                            LOGGER.info("upgradeAbility.condition = " + upgradeAbility.condition);
-                            LOGGER.info("upgradeAbility.condition(store, this) ? " + upgradeAbility.condition(store, this));
-
                             if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, this))
                             {
-                                // answer.push(new ShipActionAction.SAAUpgradeCard(store, this, upgradeKey));
                                 answer.push(
                                 {
                                     type: UpgradeCard,
@@ -786,7 +770,6 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             if (DamageAbility2[phaseKey])
             {
                 var criticalDamages = this.criticalDamages();
-                // var store = this.store();
 
                 criticalDamages.forEach(function(damageKey)
                 {
@@ -794,7 +777,6 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
 
                     if (damageAbility && damageAbility.condition && damageAbility.condition(store, this))
                     {
-                        // answer.push(new ShipActionAction.SAADamageCard(store, this, damageKey));
                         answer.push(
                         {
                             type: DamageCard,
