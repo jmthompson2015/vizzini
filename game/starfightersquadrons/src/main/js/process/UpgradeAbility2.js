@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/Selector"],
-    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, UpgradeCard, Action, Selector)
+define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/Selector"],
+    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, UpgradeCard, Action, ManeuverAction, Selector)
     {
         "use strict";
         var UpgradeAbility2 = {};
@@ -152,8 +152,6 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             condition: function(store, token)
             {
                 var activeToken = getActiveToken(store);
-                LOGGER.info("token = " + token);
-                LOGGER.info("activeToken = " + activeToken);
                 return token === activeToken;
             },
             consequent: function(store, token)
@@ -167,6 +165,40 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 {
                     store.dispatch(Action.addEvadeCount(token, defenseDice.evadeCount()));
                 }
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.R5_D8] = {
+            // Action: Roll 1 defense die. On an Evade or Focus result, discard 1 of your facedown Damage cards.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken && token.damages().length > 0;
+            },
+            consequent: function(store, token)
+            {
+                var defenseDice = new DefenseDice(1);
+                if (defenseDice.evadeCount() === 1 || defenseDice.focusCount() === 1)
+                {
+                    var damageKey = token.damages()[0];
+                    store.dispatch(Action.removeTokenDamage(token.id(), damageKey));
+                }
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.REAR_ADMIRAL_CHIRANEAU] = {
+            // Action: Execute a white (1 forward) maneuver.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token)
+            {
+                var environment = store.getState().environment;
+                var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
+                var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
+                maneuverAction.doIt();
             },
         };
 
