@@ -724,7 +724,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
             // isCloaked is optional.
 
             var tokenId = token.id();
-            var newValue = token.shipState(property);
+            var newValue = (token.shipState ? token.shipState(property) : undefined);
 
             if (newValue !== null)
             {

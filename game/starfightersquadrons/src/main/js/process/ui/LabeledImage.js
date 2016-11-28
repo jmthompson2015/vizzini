@@ -25,42 +25,34 @@ define(function()
         {
             var answer;
             var label = this.props.label;
+            var containerStyle = this.createContainerStyle();
+            var title = this.props.title;
 
-            if (label === "0")
+            if (!this.props.showOne && label === "1")
             {
-                answer = React.DOM.span();
+                answer = React.DOM.div(
+                {
+                    title: title,
+                    style: containerStyle,
+                });
             }
             else
             {
-                var containerStyle = this.createContainerStyle();
-                var title = this.props.title;
-
-                if (!this.props.showOne && label === "1")
+                var cell = React.DOM.div(
                 {
-                    answer = React.DOM.div(
+                    className: this.props.labelClass,
+                    style:
                     {
-                        title: title,
-                        style: containerStyle,
-                    });
-                }
-                else
-                {
-                    var cell = React.DOM.div(
-                    {
-                        className: this.props.labelClass,
-                        style:
-                        {
-                            display: "table-cell",
-                            verticalAlign: "middle",
-                        },
-                    }, label);
+                        display: "table-cell",
+                        verticalAlign: "middle",
+                    },
+                }, label);
 
-                    answer = React.DOM.div(
-                    {
-                        title: title,
-                        style: containerStyle,
-                    }, cell);
-                }
+                answer = React.DOM.div(
+                {
+                    title: title,
+                    style: containerStyle,
+                }, cell);
             }
 
             return answer;
@@ -74,7 +66,7 @@ define(function()
             return (
             {
                 backgroundImage: 'url(' + this.props.imageBase + this.props.image + ')',
-                backgroundPosition: "center",
+                backgroundPosition: "alignCenter",
                 backgroundRepeat: "no-repeat",
                 display: "table",
                 minHeight: height,

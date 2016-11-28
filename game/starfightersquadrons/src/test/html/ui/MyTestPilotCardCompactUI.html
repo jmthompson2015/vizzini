@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestPilotCardCompactUI</title>
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+</head>
+<body>
+	<table>
+		<tr>
+			<td id="imperialPilotCompact" style="vertical-align: top"></td>
+			<td id="foPilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="rebelPilotCompact" style="vertical-align: top"></td>
+			<td id="resistancePilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="scumPilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="gr75PilotCompact" style="vertical-align: top"></td>
+			<td id="cr90PilotCompact" style="vertical-align: top"></td>
+		</tr>
+		<tr>
+			<td id="gozantiPilotCompact" style="vertical-align: top"></td>
+			<td id="raiderPilotCompact" style="vertical-align: top"></td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["DamageCard", "DamageCardV2", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/DualToken", "process/EnvironmentFactory",
+				"process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/ui/PilotCardCompactUI"
+			],
+			function(DamageCard, DamageCardV2, Pilot, Position, Team, UpgradeCard, Action, DualToken, EnvironmentFactory, SimpleAgent, SquadBuilder, TargetLock, Token,
+				PilotCardCompactUI)
+			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+				var environment = EnvironmentFactory.createCoreSetEnvironment();
+				var store = environment.store();
+				var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
+				var resistanceAgent = new SimpleAgent("Resistance Agent", Team.RESISTANCE);
+				var scumAgent = new SimpleAgent("Scum & Villainy Agent", Team.SCUM);
+
+				var imperialToken = environment.tokens()[0]; // TIE Fighter.
+				store.dispatch(Action.addCloakCount(imperialToken));
+				store.dispatch(Action.addEvadeCount(imperialToken, 2));
+				store.dispatch(Action.addFocusCount(imperialToken, 3));
+				store.dispatch(Action.addTokenCriticalDamage(imperialToken, DamageCard.CONSOLE_FIRE));
+				store.dispatch(Action.addTokenCriticalDamage(imperialToken, DamageCard.DAMAGED_COCKPIT));
+				imperialToken.addDamage(DamageCard.BLINDED_PILOT);
+				imperialToken.addDamage(DamageCard.CONSOLE_FIRE);
+
+				var rebelToken = environment.tokens()[2]; // X-Wing.
+				store.dispatch(Action.addIonCount(rebelToken));
+				store.dispatch(Action.addStressCount(rebelToken));
+				rebelToken.addDamage(DamageCard.BLINDED_PILOT);
+				store.dispatch(Action.addTokenCriticalDamage(rebelToken, DamageCard.DAMAGED_ENGINE));
+
+				var foToken = new Token(store, Pilot.EPSILON_LEADER, foAgent);
+				store.dispatch(Action.addWeaponsDisabledCount(foToken));
+				environment.placeToken(new Position(200, 200, 0), foToken);
+
+				var resistanceToken = new Token(store, Pilot.POE_DAMERON, resistanceAgent);
+				store.dispatch(Action.setShieldCount(resistanceToken, 0));
+				environment.placeToken(new Position(200, 200, 0), resistanceToken);
+
+				var scumToken = new Token(store, Pilot.IG_88A, scumAgent);
+				store.dispatch(Action.addTractorBeamCount(scumToken));
+				store.dispatch(Action.addWeaponsDisabledCount(scumToken));
+				environment.placeToken(new Position(200, 200, 0), scumToken);
+
+				var cr90Token = new DualToken(store, Pilot.CR90_CORVETTE, environment.secondAgent(), [UpgradeCard.HAN_SOLO, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS], [
+					UpgradeCard.WEAPONS_ENGINEER, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.ENGINEERING_TEAM, UpgradeCard.TIBANNA_GAS_SUPPLIES
+				]);
+				store.dispatch(Action.addEnergyCount(cr90Token));
+				store.dispatch(Action.addTokenCriticalDamage(cr90Token.tokenFore(), DamageCard.CONSOLE_FIRE));
+				store.dispatch(Action.addTokenCriticalDamage(cr90Token.tokenFore(), DamageCard.DAMAGED_COCKPIT));
+				store.dispatch(Action.addTokenCriticalDamage(cr90Token.tokenAft(), DamageCard.DAMAGED_SENSOR_ARRAY));
+				environment.placeToken(new Position(100, 100, 0), cr90Token);
+
+				var gr75Token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, environment.secondAgent(), [UpgradeCard.DUTYFREE, UpgradeCard.RAYMUS_ANTILLES, UpgradeCard.FREQUENCY_JAMMER,
+					UpgradeCard.EM_EMITTER
+				]);
+				store.dispatch(Action.addEnergyCount(gr75Token, 2));
+				store.dispatch(Action.addTokenCriticalDamage(gr75Token, DamageCard.CONSOLE_FIRE));
+				store.dispatch(Action.addTokenCriticalDamage(gr75Token, DamageCard.DAMAGED_COCKPIT));
+				environment.placeToken(new Position(200, 100, 0), gr75Token);
+
+				var gozantiToken = new Token(store, Pilot.GOZANTI_CLASS_CRUISER, environment.firstAgent());
+				store.dispatch(Action.addEnergyCount(gozantiToken));
+				environment.placeToken(new Position(150, 100, 0), gozantiToken);
+
+				var raiderToken = new DualToken(store, Pilot.RAIDER_CLASS_CORVETTE, environment.firstAgent());
+				store.dispatch(Action.addEnergyCount(raiderToken, 2));
+				environment.placeToken(new Position(250, 100, 0), raiderToken);
+
+				var targetLock0 = new TargetLock(store, imperialToken, rebelToken);
+				imperialToken.addAttackerTargetLock(targetLock0);
+
+				var targetLock1 = new TargetLock(store, rebelToken, scumToken);
+				rebelToken.addAttackerTargetLock(targetLock1);
+
+				var targetLock2 = new TargetLock(store, scumToken, imperialToken);
+				scumToken.addAttackerTargetLock(targetLock2);
+
+				var targetLock3 = new TargetLock(store, cr90Token.tokenFore(), foToken);
+				cr90Token.tokenFore().addAttackerTargetLock(targetLock3);
+
+				var element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: foToken
+				});
+				ReactDOM.render(element, document.getElementById("foPilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: imperialToken,
+				});
+				ReactDOM.render(element, document.getElementById("imperialPilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: rebelToken
+				});
+				ReactDOM.render(element, document.getElementById("rebelPilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: resistanceToken
+				});
+				ReactDOM.render(element, document.getElementById("resistancePilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: scumToken
+				});
+				ReactDOM.render(element, document.getElementById("scumPilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: cr90Token,
+				});
+				ReactDOM.render(element, document.getElementById("cr90PilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: gr75Token,
+				});
+				ReactDOM.render(element, document.getElementById("gr75PilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: gozantiToken,
+				});
+				ReactDOM.render(element, document.getElementById("gozantiPilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: raiderToken,
+				});
+				ReactDOM.render(element, document.getElementById("raiderPilotCompact"));
+			});
+	</script>
+</body>
+
+</html>

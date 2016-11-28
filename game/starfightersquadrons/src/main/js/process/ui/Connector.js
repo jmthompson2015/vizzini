@@ -16,6 +16,23 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/Selector"],
             },
         };
 
+        Connector.PilotCardCompactUI = {
+            mapStateToProps: function(state, ownProps)
+            {
+                InputValidator.validateNotNull("token", ownProps.token);
+                InputValidator.validateNotNull("imageBase", ownProps.imageBase);
+
+                var token = ownProps.token;
+
+                return (
+                {
+                    // key: token.id(),
+                    imageBase: ownProps.imageBase,
+                    token: token,
+                });
+            },
+        };
+
         Connector.PilotCardUI = {
             mapStateToProps: function(state, ownProps)
             {

@@ -8,6 +8,7 @@ define(["Count"], function(Count)
         var property = Count.CLOAK;
         var properties = Count.properties[property];
         assert.equal(properties.name, "Cloak");
+        assert.equal(properties.image, "token/CloakToken32.png");
         assert.equal(properties.value, "cloak");
     });
 
@@ -16,6 +17,7 @@ define(["Count"], function(Count)
         var property = Count.ENERGY;
         var properties = Count.properties[property];
         assert.equal(properties.name, "Energy");
+        assert.equal(properties.image, "token/EnergyToken32.png");
         assert.equal(properties.value, "energy");
     });
 

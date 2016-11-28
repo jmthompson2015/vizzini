@@ -1,4 +1,4 @@
-define(["process/ui/Connector", "process/ui/PilotCardUI"], function(Connector, PilotCardUI)
+define(["process/ui/Connector", "process/ui/PilotCardCompactUI"], function(Connector, PilotCardCompactUI)
 {
     "use strict";
     var PilotsUI = React.createClass(
@@ -12,7 +12,7 @@ define(["process/ui/Connector", "process/ui/PilotCardUI"], function(Connector, P
         render: function()
         {
             var tokens = this.props.tokens;
-            var connector = ReactRedux.connect(Connector.PilotCardUI.mapStateToProps)(PilotCardUI);
+            var connector = ReactRedux.connect(Connector.PilotCardCompactUI.mapStateToProps)(PilotCardCompactUI);
 
             var tokenElements = tokens.map(function(token, i)
             {
