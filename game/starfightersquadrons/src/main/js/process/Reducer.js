@@ -730,14 +730,49 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
             {
                 var propertyName = property + "Value";
 
-                if (damage && damage[propertyName])
+                if (token.criticalDamages)
                 {
-                    newValue += damage[propertyName];
+                    var damageKeys = token.criticalDamages().slice();
+
+                    if (damage)
+                    {
+                        damageKeys.push(damage.value);
+                    }
+
+                    damageKeys.forEach(function(damageKey)
+                    {
+                        var myDamage = DamageCard.properties[damageKey];
+
+                        if (!myDamage)
+                        {
+                            myDamage = DamageCardV2.properties[damageKey];
+                        }
+
+                        if (myDamage && myDamage[propertyName])
+                        {
+                            newValue += myDamage[propertyName];
+                        }
+                    });
                 }
 
-                if (upgrade && upgrade[propertyName])
+                if (token.upgradeKeys)
                 {
-                    newValue += upgrade[propertyName];
+                    var upgradeKeys = token.upgradeKeys().slice();
+
+                    if (upgrade)
+                    {
+                        upgradeKeys.push(upgrade.value);
+                    }
+
+                    upgradeKeys.forEach(function(upgradeKey)
+                    {
+                        var myUpgrade = UpgradeCard.properties[upgradeKey];
+
+                        if (myUpgrade && myUpgrade[propertyName])
+                        {
+                            newValue += myUpgrade[propertyName];
+                        }
+                    });
                 }
 
                 switch (property)
@@ -768,10 +803,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
                         {
                             newValue += 2;
                         }
-                        var tractorBeamCount = token.tractorBeamCount();
-                        if (tractorBeamCount !== undefined)
+                        if (token.tractorBeamCount)
                         {
-                            newValue -= tractorBeamCount;
+                            var tractorBeamCount = token.tractorBeamCount();
+                            if (tractorBeamCount !== undefined)
+                            {
+                                newValue -= tractorBeamCount;
+                            }
                         }
                         break;
                 }

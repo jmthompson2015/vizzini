@@ -763,6 +763,21 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.equal(token.shieldValue(), 1);
         });
 
+        QUnit.test("pilotSkillValue() Poe Dameron and Veteran Instincts", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var agent = new SimpleAgent("Rebel Agent", Team.REBEL);
+            var token = new Token(store, Pilot.POE_DAMERON, agent, [UpgradeCard.VETERAN_INSTINCTS]);
+
+            // Run / Verify.
+            assert.equal(token.pilotSkillValue(), 10);
+            assert.equal(token.primaryWeaponValue(), 3);
+            assert.equal(token.agilityValue(), 2);
+            assert.equal(token.hullValue(), 3);
+            assert.equal(token.shieldValue(), 3);
+        });
+
         QUnit.test("pilotSkillValue() Whisper and Veteran Instincts", function(assert)
         {
             // Setup.
