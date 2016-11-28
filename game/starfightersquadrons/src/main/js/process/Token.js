@@ -1,5 +1,5 @@
-define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2"],
-    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, ShipActionAction, UpgradeAbility2)
+define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/UpgradeAbility2"],
+    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, UpgradeAbility2)
     {
         "use strict";
 

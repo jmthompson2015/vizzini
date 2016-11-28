@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "UpgradeType", "process/Selector", "process/ui/AbilityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipActionPanel", "process/ui/ShipSilhouetteUI", "process/ui/ShipStateUI", "process/ui/UpgradeTypeUI"],
-    function(Count, DamageCard, DamageCardV2, ShipState, UpgradeCard, UpgradeType, Selector, AbilityUI, FactionUI, LabeledImage, ShipActionPanel, ShipSilhouetteUI, ShipStateUI, UpgradeTypeUI)
+define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "process/Selector", "process/ui/AbilityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
+    function(Count, DamageCard, DamageCardV2, ShipState, UpgradeCard, Selector, AbilityUI, FactionUI, LabeledImage, ShipStateUI)
     {
         "use strict";
         var PilotCardCompactUI = React.createClass(
