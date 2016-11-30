@@ -96,7 +96,7 @@ define(["DamageCard", "DamageCardTrait", "UpgradeCard", "process/Action"],
 
                 for (i = 0; i < hits; i++)
                 {
-                    defender.addDamage(environment.drawDamage());
+                    defender.receiveDamage(environment.drawDamage());
                 }
 
                 LOGGER.debug("after hits, damage                   = " + defender.damageCount());
@@ -113,13 +113,7 @@ define(["DamageCard", "DamageCardTrait", "UpgradeCard", "process/Action"],
                     }
                     else
                     {
-                        defender.addCriticalDamage(damage);
-                        // var dealEffect = DamageCard.properties[damage].dealEffect;
-                        //
-                        // if (dealEffect)
-                        // {
-                        //     dealEffect(environment, defender);
-                        // }
+                        defender.receiveCriticalDamage(damage);
                     }
                 }
 

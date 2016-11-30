@@ -1,5 +1,5 @@
-define(["Difficulty", "Maneuver", "Phase", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/PilotAbility2", "process/UpgradeAbility2"],
-    function(Difficulty, Maneuver, Phase, UpgradeCard, Action, ManeuverAction, PilotAbility2, UpgradeAbility2)
+define(["Difficulty", "Event", "Maneuver", "Phase", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/PilotAbility2", "process/UpgradeAbility2"],
+    function(Difficulty, Event, Maneuver, Phase, UpgradeCard, Action, ManeuverAction, PilotAbility2, UpgradeAbility2)
     {
         "use strict";
 
@@ -127,6 +127,8 @@ define(["Difficulty", "Maneuver", "Phase", "UpgradeCard", "process/Action", "pro
                 {
                     this.maneuverAction(new ManeuverAction(environment, parentToken, maneuverKey));
                     this.maneuverAction().doIt();
+                    var store = this.environment().store();
+                    store.dispatch(Action.setEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken));
                 }
             }
 

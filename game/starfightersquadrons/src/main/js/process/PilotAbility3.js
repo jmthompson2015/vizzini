@@ -53,7 +53,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "process/Ac
             {
                 var attacker = getActiveToken(store);
                 var attackDice = getAttackDice(attacker);
-                LOGGER.info("Poe Dameron modify attack dice condition ? " + (token === attacker && token.focusCount() > 0 && attackDice.focusCount() > 0));
                 return token === attacker && token.focusCount() > 0 && attackDice.focusCount() > 0;
             },
             consequent: function(store, token)
@@ -91,12 +90,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "process/Ac
                 var attacker = getActiveToken(store);
                 var defender = getDefender(attacker);
                 var defenseDice = getDefenseDice(attacker);
-                LOGGER.info("Poe Dameron modify defense dice condition ? " + (token === defender && token.focusCount() > 0 && defenseDice.focusCount() > 0));
-                LOGGER.info("token = " + token);
-                LOGGER.info("defender = " + defender);
-                LOGGER.info("token === defender ? " + (token === defender));
-                LOGGER.info("token.focusCount() = " + token.focusCount());
-                LOGGER.info("defenseDice.focusCount() = " + defenseDice.focusCount());
                 return token === defender && token.focusCount() > 0 && defenseDice.focusCount() > 0;
             },
             consequent: function(store, token)

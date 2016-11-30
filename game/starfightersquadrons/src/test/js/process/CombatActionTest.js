@@ -30,8 +30,7 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
                 assert.ok(!attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 0);
 
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT)
                 {
                     assert.equal(defender.totalDamage(), 2);
@@ -73,8 +72,7 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
 
                 assert.ok(!defender.isDestroyed());
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
@@ -169,8 +167,7 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
                 verifyAttackDice(assert, attacker.combatState().attackDice());
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 2);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
                 assert.equal(defender.hullValue(), 3);
                 if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT && defender.criticalDamages()[1] === DamageCard.DIRECT_HIT)
                 {
@@ -322,8 +319,7 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
                 assert.ok(attacker.combatState().isDefenderHit());
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 assert.ok(!defender.isDestroyed());
                 assert.equal(defender.ionCount(), 1);
                 assert.equal(token2.ionCount(), 1);
@@ -475,8 +471,7 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
                 assert.equal(attackDice.hitCount(), 1);
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 2);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
                 done();
             }, delay);
         });

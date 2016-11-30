@@ -1,5 +1,5 @@
-define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "RectanglePath", "process/ShipFledAction", "UpgradeCard", "process/Action"],
-    function(Bearing, Difficulty, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, RectanglePath, ShipFledAction, UpgradeCard, Action)
+define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "RectanglePath", "process/Action", "process/ShipFledAction"],
+    function(Bearing, Difficulty, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, RectanglePath, Action, ShipFledAction)
     {
         "use strict";
 
@@ -101,17 +101,6 @@ define(["Bearing", "Difficulty", "Maneuver", "ManeuverComputer", "Pilot", "PlayF
                         if (token.pilotKey() === Pilot.IG_88C && isBoost)
                         {
                             store.dispatch(Action.addEvadeCount(token));
-                        }
-
-                        if (token.isUpgradedWith(UpgradeCard.R2_D2) && this.maneuver().difficultyKey === Difficulty.EASY)
-                        {
-                            token.recoverShield();
-                        }
-
-                        if (token.isUpgradedWith(UpgradeCard.OUTLAW_TECH) &&
-                            this.maneuver().difficultyKey === Difficulty.HARD)
-                        {
-                            store.dispatch(Action.addFocusCount(token));
                         }
                     }
                 }

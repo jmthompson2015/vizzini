@@ -1,5 +1,5 @@
-define(["UpgradeCard", "process/Action"],
-    function(UpgradeCard, Action)
+define(["process/Action"],
+    function(Action)
     {
         "use strict";
 
@@ -50,11 +50,6 @@ define(["UpgradeCard", "process/Action"],
                 {
                     defenseDice.spendFocusToken();
                     store.dispatch(Action.addFocusCount(defender, -1));
-
-                    if (defender.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
-                    {
-                        store.dispatch(Action.addFocusCount(defender));
-                    }
                 }
                 else if (modificationKey === ModifyDefenseDiceAction.Modification.SPEND_EVADE)
                 {

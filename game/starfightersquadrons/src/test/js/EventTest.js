@@ -3,12 +3,12 @@ define(["Event"], function(Event)
     "use strict";
     QUnit.module("Event");
 
-    QUnit.test("Event properties Acquire Target Lock", function(assert)
+    QUnit.test("Event properties Target Lock Acquired", function(assert)
     {
-        var event = Event.ACQUIRE_TARGET_LOCK;
+        var event = Event.TARGET_LOCK_ACQUIRED;
         var properties = Event.properties[event];
-        assert.equal(properties.name, "Acquire Target Lock");
-        assert.equal(properties.value, "acquireTargetLock");
+        assert.equal(properties.name, "Target Lock Acquired");
+        assert.equal(properties.value, "targetLockAcquired");
     });
 
     QUnit.test("keys and values", function(assert)
@@ -48,9 +48,9 @@ define(["Event"], function(Event)
 
         // Verify.
         assert.ok(result);
-        var length = 11;
+        var length = 13;
         assert.equal(result.length, length);
-        assert.equal(result[0], Event.ACQUIRE_TARGET_LOCK);
-        assert.equal(result[length - 1], Event.SPEND_TARGET_LOCK);
+        assert.equal(result[0], Event.ACTION_PERFORMED);
+        assert.equal(result[length - 1], Event.TARGET_LOCK_ACQUIRED);
     });
 });

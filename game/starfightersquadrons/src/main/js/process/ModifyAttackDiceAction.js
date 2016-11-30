@@ -1,5 +1,5 @@
-define(["Phase", "UpgradeCard", "process/Action", "process/PilotAbility3", "process/UpgradeAbility3"],
-    function(Phase, UpgradeCard, Action, PilotAbility3, UpgradeAbility3)
+define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbility3"],
+    function(Phase, Action, PilotAbility3, UpgradeAbility3)
     {
         "use strict";
 
@@ -62,11 +62,6 @@ define(["Phase", "UpgradeCard", "process/Action", "process/PilotAbility3", "proc
                 {
                     attackDice.spendFocusToken();
                     store.dispatch(Action.addFocusCount(attacker, -1));
-
-                    if (attacker.isUpgradedWith(UpgradeCard.RECON_SPECIALIST))
-                    {
-                        store.dispatch(Action.addFocusCount(attacker));
-                    }
                 }
                 else if (modificationKey === ModifyAttackDiceAction.Modification.USE_PILOT)
                 {

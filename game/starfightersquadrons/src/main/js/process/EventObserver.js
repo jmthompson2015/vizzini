@@ -1,5 +1,5 @@
-define(["DamageCard", "UpgradeCard", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
-    function(DamageCard, UpgradeCard, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
+define(["DamageCard", "UpgradeCard", "process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
+    function(DamageCard, UpgradeCard, Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
     {
         "use strict";
 
@@ -9,114 +9,85 @@ define(["DamageCard", "UpgradeCard", "process/DamageAbility0", "process/PilotAbi
 
             this.onChange = function(eventKey)
             {
-                this.performDamageAbilities(eventKey);
-                this.performPilotAbilities(eventKey);
-                this.performUpgradeAbilities(eventKey);
+                var token = store.getState().eventToken;
+
+                if (eventKey && token)
+                {
+                    this.performDamageAbilities(eventKey, token);
+                    this.performPilotAbilities(eventKey, token);
+                    this.performUpgradeAbilities(eventKey, token);
+                }
+
+                store.dispatch(Action.clearEvent());
             };
 
-            this.performDamageAbilities = function(eventKey)
+            this.performDamageAbilities = function(eventKey, token)
             {
                 var abilities = DamageAbility0[eventKey];
 
                 if (abilities !== undefined)
                 {
-                    var tokens = Object.values(store.getState().tokens);
-
-                    tokens.forEach(function(token)
+                    if (token.criticalDamages)
                     {
-                        if (token.criticalDamages())
+                        token.criticalDamages().forEach(function(damageKey)
                         {
-                            token.criticalDamages().forEach(function(damageKey)
-                            {
-                                var ability = abilities[damageKey];
-                                var damage = DamageCard.properties[damageKey];
+                            var ability = abilities[damageKey];
+                            var damage = DamageCard.properties[damageKey];
 
-                                if (ability !== undefined && !damage.agentInput)
-                                {
-                                    if (ability.condition && ability.consequent)
-                                    {
-                                        if (ability.condition(store, token))
-                                        {
-                                            ability.consequent(store, token);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        ability(store, token);
-                                    }
-                                }
-                            });
-                        }
-                    });
-                }
-            };
-
-            this.performPilotAbilities = function(eventKey)
-            {
-                var abilities = PilotAbility0[eventKey];
-
-                if (abilities !== undefined)
-                {
-                    var tokens = Object.values(store.getState().tokens);
-
-                    tokens.forEach(function(token)
-                    {
-                        var pilotKey = token.pilotKey();
-                        var pilot = token.pilot();
-                        var ability = abilities[pilotKey];
-
-                        if (ability !== undefined && !pilot.agentInput)
-                        {
-                            if (ability.condition && ability.consequent)
+                            if (ability !== undefined && !damage.agentInput)
                             {
                                 if (ability.condition(store, token))
                                 {
                                     ability.consequent(store, token);
                                 }
                             }
-                            else
-                            {
-                                ability(store, token);
-                            }
-                        }
-                    });
+                        });
+                    }
                 }
             };
 
-            this.performUpgradeAbilities = function(eventKey)
+            this.performPilotAbilities = function(eventKey, token)
+            {
+                var abilities = PilotAbility0[eventKey];
+
+                if (abilities !== undefined)
+                {
+                    var pilotKey = token.pilotKey();
+                    var pilot = token.pilot();
+                    var ability = abilities[pilotKey];
+
+                    if (ability !== undefined && !pilot.agentInput)
+                    {
+                        if (ability.condition(store, token))
+                        {
+                            ability.consequent(store, token);
+                        }
+                    }
+                }
+            };
+
+            this.performUpgradeAbilities = function(eventKey, token)
             {
                 var abilities = UpgradeAbility0[eventKey];
 
                 if (abilities !== undefined)
                 {
-                    var tokens = Object.values(store.getState().tokens);
-
-                    tokens.forEach(function(token)
+                    if (token.upgradeKeys)
                     {
-                        if (token.upgradeKeys)
+                        token.upgradeKeys().forEach(function(upgradeKey)
                         {
-                            token.upgradeKeys().forEach(function(upgradeKey)
-                            {
-                                var ability = abilities[upgradeKey];
-                                var upgrade = UpgradeCard.properties[upgradeKey];
+                            var ability = abilities[upgradeKey];
+                            var upgrade = UpgradeCard.properties[upgradeKey];
 
-                                if (ability !== undefined && !upgrade.agentInput)
+                            if (ability !== undefined && !upgrade.agentInput)
+                            {
+                                if (ability.condition(store, token))
                                 {
-                                    if (ability.condition && ability.consequent)
-                                    {
-                                        if (ability.condition(store, token))
-                                        {
-                                            ability.consequent(store, token);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        ability(store, token);
-                                    }
+                                    ability.consequent(store, token);
                                 }
-                            });
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             };
 

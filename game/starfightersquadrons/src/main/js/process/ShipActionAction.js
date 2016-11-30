@@ -1,5 +1,5 @@
-define(["DamageCard", "Maneuver", "Phase", "UpgradeCard", "UpgradeType", "process/ManeuverAction", "ShipAction", "process/Action", "process/DamageAbility2", "process/TargetLock", "process/UpgradeAbility2"],
-    function(DamageCard, Maneuver, Phase, UpgradeCard, UpgradeType, ManeuverAction, ShipAction, Action, DamageAbility2, TargetLock, UpgradeAbility2)
+define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType", "process/ManeuverAction", "ShipAction", "process/Action", "process/DamageAbility2", "process/TargetLock", "process/UpgradeAbility2"],
+    function(DamageCard, Event, Maneuver, Phase, UpgradeCard, UpgradeType, ManeuverAction, ShipAction, Action, DamageAbility2, TargetLock, UpgradeAbility2)
     {
         "use strict";
 
@@ -202,7 +202,9 @@ define(["DamageCard", "Maneuver", "Phase", "UpgradeCard", "UpgradeType", "proces
 
         Evade.prototype.doIt = function()
         {
+            var store = this.store();
             this.store().dispatch(Action.addEvadeCount(this.token()));
+            store.dispatch(Action.setEvent(Event.EVADE_ACTION_PERFORMED, this.token()));
         };
 
         Evade.prototype.toString = function()
@@ -233,7 +235,9 @@ define(["DamageCard", "Maneuver", "Phase", "UpgradeCard", "UpgradeType", "proces
 
         Focus.prototype.doIt = function()
         {
-            this.store().dispatch(Action.addFocusCount(this.token()));
+            var store = this.store();
+            store.dispatch(Action.addFocusCount(this.token()));
+            store.dispatch(Action.setEvent(Event.FOCUS_ACTION_PERFORMED, this.token()));
         };
 
         Focus.prototype.toString = function()
@@ -446,6 +450,7 @@ define(["DamageCard", "Maneuver", "Phase", "UpgradeCard", "UpgradeType", "proces
             var defender = this.defender();
             var targetLock = new TargetLock(store, attacker, defender);
             attacker.addAttackerTargetLock(targetLock);
+            store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attacker));
         };
 
         SAATargetLock.prototype.toString = function()

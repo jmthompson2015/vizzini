@@ -1,5 +1,5 @@
-define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/UpgradeAbility2"],
-    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, UpgradeAbility2)
+define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/UpgradeAbility2"],
+    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, UpgradeAbility2)
     {
         "use strict";
 
@@ -362,23 +362,6 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             this.store().dispatch(Action.addTargetLock(targetLock));
         };
 
-        Token.prototype.addCriticalDamage = function(damageKey)
-        {
-            if (this.pilotKey() === Pilot.CHEWBACCA)
-            {
-                this.addDamage(damageKey);
-            }
-            else
-            {
-                this.store().dispatch(Action.addTokenCriticalDamage(this, damageKey));
-            }
-        };
-
-        Token.prototype.addDamage = function(damageKey)
-        {
-            this.store().dispatch(Action.addTokenDamage(this.id(), damageKey));
-        };
-
         Token.prototype.agilityValue = function()
         {
             return Selector.agilityValue(this.store().getState(), this.id());
@@ -524,7 +507,7 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
         Token.prototype.flipDamageCardFacedown = function(damageKey)
         {
             this.removeCriticalDamage(damageKey);
-            this.addDamage(damageKey);
+            this.store().dispatch(Action.addTokenDamage(this.id(), damageKey));
         };
 
         Token.prototype.focusCount = function()
@@ -623,14 +606,33 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             return (value !== undefined ? value : null);
         };
 
+        Token.prototype.receiveCriticalDamage = function(damageKey)
+        {
+            InputValidator.validateNotNull("damageKey", damageKey);
+
+            if (this.pilotKey() === Pilot.CHEWBACCA)
+            {
+                this.receiveDamage(damageKey);
+            }
+            else
+            {
+                this.store().dispatch(Action.addTokenCriticalDamage(this, damageKey));
+                this.store().dispatch(Action.setEvent(Event.RECEIVE_CRITICAL_DAMAGE, this));
+            }
+        };
+
+        Token.prototype.receiveDamage = function(damageKey)
+        {
+            InputValidator.validateNotNull("damageKey", damageKey);
+
+            this.store().dispatch(Action.addTokenDamage(this.id(), damageKey));
+            this.store().dispatch(Action.setEvent(Event.RECEIVE_DAMAGE, this));
+        };
+
         Token.prototype.receiveStress = function()
         {
             this.store().dispatch(Action.addStressCount(this));
-
-            if (this.pilotKey() === Pilot.SOONTIR_FEL)
-            {
-                this.store().dispatch(Action.addFocusCount(this));
-            }
+            this.store().dispatch(Action.setEvent(Event.RECEIVE_STRESS, this));
         };
 
         Token.prototype.recoverShield = function()
@@ -674,6 +676,8 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
 
         Token.prototype.removeCriticalDamage = function(damageKey)
         {
+            InputValidator.validateNotNull("damageKey", damageKey);
+
             this.store().dispatch(Action.removeTokenCriticalDamage(this, damageKey));
         };
 
@@ -682,11 +686,7 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             if (this.stressCount() > 0)
             {
                 this.store().dispatch(Action.addStressCount(this, -1));
-
-                if (this.isUpgradedWith(UpgradeCard.KYLE_KATARN))
-                {
-                    this.store().dispatch(Action.addFocusCount(this));
-                }
+                this.store().dispatch(Action.setEvent(Event.REMOVE_STRESS, this));
             }
         };
 

@@ -1,9 +1,10 @@
 define(function()
 {
     var Event = {
-        ACQUIRE_TARGET_LOCK: "acquireTargetLock",
         ACTION_PERFORMED: "actionPerformed",
         AFTER_EXECUTE_MANEUVER: "afterExecuteManeuver",
+        EVADE_ACTION_PERFORMED: "evadeActionPerformed",
+        FOCUS_ACTION_PERFORMED: "focusActionPerformed",
         RECEIVE_CRITICAL_DAMAGE: "receiveCriticalDamage",
         RECEIVE_DAMAGE: "receiveDamage",
         RECEIVE_FOCUS: "receiveFocus",
@@ -12,14 +13,10 @@ define(function()
         SHIP_DESTROYED: "shipDestroyed",
         SPEND_FOCUS: "spendFocus",
         SPEND_TARGET_LOCK: "spendTargetLock",
+        TARGET_LOCK_ACQUIRED: "targetLockAcquired",
 
         properties:
         {
-            "acquireTargetLock":
-            {
-                name: "Acquire Target Lock",
-                value: "acquireTargetLock",
-            },
             "actionPerformed":
             {
                 name: "Action Performed",
@@ -29,6 +26,16 @@ define(function()
             {
                 name: "After Execute Maneuver",
                 value: "afterExecuteManeuver",
+            },
+            "evadeActionPerformed":
+            {
+                name: "Evade Action Performed",
+                value: "evadeActionPerformed",
+            },
+            "focusActionPerformed":
+            {
+                name: "Focus Action Performed",
+                value: "focusActionPerformed",
             },
             "receiveCriticalDamage":
             {
@@ -69,6 +76,11 @@ define(function()
             {
                 name: "Spend Target Lock",
                 value: "spendTargetLock",
+            },
+            "targetLockAcquired":
+            {
+                name: "Target Lock Acquired",
+                value: "targetLockAcquired",
             },
         },
 

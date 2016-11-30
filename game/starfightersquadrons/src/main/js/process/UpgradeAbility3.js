@@ -39,15 +39,15 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var firingArc = weapon.primaryFiringArc();
                 var defender = getDefender(attacker);
                 var defenderPosition = getDefenderPosition(attacker);
-                var isDefenderInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition)
+                var isDefenderInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
                 return token === attacker && isDefenderInFiringArc;
             },
             consequent: function(store, token)
             {
                 var attacker = getActiveToken(store);
                 var defender = getDefender(attacker);
-                store.dispatch(Action.addStressCount(attacker));
-                store.dispatch(Action.addStressCount(defender));
+                attacker.receiveStress();
+                defender.receiveStress();
             },
         };
 
@@ -63,7 +63,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
             consequent: function(store, token)
             {
                 var attacker = getActiveToken(store);
-                store.dispatch(Action.addStressCount(attacker));
+                attacker.receiveStress();
                 store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.REBEL_CAPTIVE));
             },
         };
@@ -487,7 +487,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     var defender = getDefender(attacker);
                     var environment = store.getState().environment;
-                    defender.addCriticalDamage(environment.drawDamage());
+                    defender.receiveCriticalDamage(environment.drawDamage());
                 }
             });
         };
@@ -503,7 +503,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     var defender = getDefender(attacker);
                     var environment = store.getState().environment;
-                    defender.addDamage(environment.drawDamage());
+                    defender.receiveDamage(environment.drawDamage());
                     store.dispatch(Action.addIonCount(defender, 2));
                 }
             });
@@ -556,7 +556,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                     var defender = getDefender(attacker);
                     environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(token)
                     {
-                        token.addDamage(environment.drawDamage());
+                        token.receiveDamage(environment.drawDamage());
                     });
                 }
             });
@@ -595,7 +595,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
 
                 environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(myToken)
                 {
-                    myToken.addDamage(environment.drawDamage());
+                    myToken.receiveDamage(environment.drawDamage());
                 });
             },
         };
@@ -609,7 +609,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     var environment = store.getState().environment;
                     var defender = getDefender(attacker);
-                    defender.addDamage(environment.drawDamage());
+                    defender.receiveDamage(environment.drawDamage());
 
                     if (!defender.isStressed())
                     {
@@ -644,7 +644,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     var environment = store.getState().environment;
                     var defender = getDefender(attacker);
-                    defender.addDamage(environment.drawDamage());
+                    defender.receiveDamage(environment.drawDamage());
                     store.dispatch(Action.addIonCount(defender));
                 }
             });
@@ -659,7 +659,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     var environment = store.getState().environment;
                     var defender = getDefender(attacker);
-                    defender.addDamage(environment.drawDamage());
+                    defender.receiveDamage(environment.drawDamage());
                     store.dispatch(Action.addIonCount(defender));
                 }
             });
@@ -697,7 +697,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
 
                 environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(myToken)
                 {
-                    myToken.addDamage(environment.drawDamage());
+                    myToken.receiveDamage(environment.drawDamage());
                 });
             },
         };
@@ -786,7 +786,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     var environment = store.getState().environment;
                     var defender = getDefender(attacker);
-                    defender.addDamage(environment.drawDamage());
+                    defender.receiveDamage(environment.drawDamage());
                 }
             });
         };

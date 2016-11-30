@@ -43,8 +43,6 @@ define(["DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "Ra
                 if (newActiveToken)
                 {
                     var oldValue = this.getTokenById(store.getState().activeTokenId);
-
-                    LOGGER.info("Active Token: " + newActiveToken);
                     store.dispatch(Action.setActiveToken(newActiveToken.id()));
                 }
 
@@ -487,8 +485,6 @@ define(["DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "Ra
             this.incrementRound = function()
             {
                 store.dispatch(Action.addRound());
-
-                LOGGER.info("Round: " + store.getState().round);
             };
 
             this.phase = function(newPhase)
@@ -499,7 +495,6 @@ define(["DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "Ra
 
                     if (oldValue !== newPhase)
                     {
-                        LOGGER.info("Phase: " + Phase.properties[newPhase].name);
                         store.dispatch(Action.setPhase(newPhase));
                     }
                 }

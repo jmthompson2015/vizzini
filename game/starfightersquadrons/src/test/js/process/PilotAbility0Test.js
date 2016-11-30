@@ -31,7 +31,7 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
                 }
             });
 
-            assert.ok(true);
+            // assert.ok(true);
         });
 
         QUnit.test("consequent()", function(assert)
@@ -55,36 +55,6 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
                         if (ability.condition && ability.condition(store, token))
                         {
                             ability.consequent(store, token);
-                            assert.ok(true, "eventKey = " + eventKey + " pilotKey = " + pilotKey);
-                        }
-                    });
-                }
-            });
-
-            assert.ok(true);
-        });
-
-        QUnit.test("function()", function(assert)
-        {
-            // Setup.
-            var environment = createEnvironment();
-            var store = environment.store();
-            var token = environment.tokens()[2]; // X-Wing.
-
-            // Run / Verify.
-            Event.values().forEach(function(eventKey)
-            {
-                var abilities = PilotAbility[eventKey];
-
-                if (abilities)
-                {
-                    Object.keys(abilities).forEach(function(pilotKey)
-                    {
-                        var ability = abilities[pilotKey];
-
-                        if (typeof ability === "function")
-                        {
-                            ability(store, token);
                             assert.ok(true, "eventKey = " + eventKey + " pilotKey = " + pilotKey);
                         }
                     });

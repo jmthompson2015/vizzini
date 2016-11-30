@@ -1,5 +1,5 @@
-define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/CombatAction", "process/DamageAbility0", "process/EnvironmentFactory", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-    function(Event, Maneuver, Action, ActivationAction, Adjudicator, CombatAction, DamageAbility, EnvironmentFactory, MockAttackDice, MockDefenseDice)
+define(["DamageCard", "Event", "Maneuver", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/CombatAction", "process/DamageAbility0", "process/EnvironmentFactory", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+    function(DamageCard, Event, Maneuver, Action, ActivationAction, Adjudicator, CombatAction, DamageAbility, EnvironmentFactory, MockAttackDice, MockDefenseDice)
     {
         "use strict";
         QUnit.module("DamageAbility0");
@@ -30,8 +30,6 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
                     });
                 }
             });
-
-            // assert.ok(true);
         });
 
         QUnit.test("consequent()", function(assert)
@@ -61,36 +59,6 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
                 }
             });
 
-            // assert.ok(true);
-        });
-
-        QUnit.test("function()", function(assert)
-        {
-            // Setup.
-            var environment = createEnvironment();
-            var store = environment.store();
-            var token = environment.tokens()[2]; // X-Wing.
-
-            // Run / Verify.
-            Event.values().forEach(function(eventKey)
-            {
-                var abilities = DamageAbility[eventKey];
-
-                if (abilities)
-                {
-                    Object.keys(abilities).forEach(function(damageKey)
-                    {
-                        var ability = abilities[damageKey];
-
-                        if (typeof ability === "function")
-                        {
-                            ability(store, token);
-                            assert.ok(true, "eventKey = " + eventKey + " damageKey = " + damageKey);
-                        }
-                    });
-                }
-            });
-
             assert.ok(true);
         });
 
@@ -102,6 +70,8 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
 
             store.dispatch(Action.setEnvironment(environment));
             store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.MINOR_EXPLOSION));
+            store.dispatch(Action.setEvent(Event.RECEIVE_CRITICAL_DAMAGE, token));
 
             return environment;
         }

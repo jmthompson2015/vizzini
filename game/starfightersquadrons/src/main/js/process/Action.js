@@ -11,6 +11,7 @@ define(["Count"], function(Count)
     Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
     Action.ADD_TOKEN_UPGRADE_ENERGY = "addTokenUpgradeEnergy";
     Action.ADD_TOKEN_UPGRADE_PER_ROUND = "addTokenUpgradePerRound";
+    Action.CLEAR_EVENT = "clearEvent";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
     Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
@@ -194,6 +195,14 @@ define(["Count"], function(Count)
     Action.addWeaponsDisabledCount = function(token, value)
     {
         return Action.addCount(token, Count.WEAPONS_DISABLED, value);
+    };
+
+    Action.clearEvent = function()
+    {
+        return (
+        {
+            type: Action.CLEAR_EVENT,
+        });
     };
 
     Action.discardDamage = function(damage)
@@ -409,14 +418,16 @@ define(["Count"], function(Count)
         return Action.setCount(token, Count.EVADE, value);
     };
 
-    Action.setEvent = function(eventKey)
+    Action.setEvent = function(eventKey, token)
     {
         InputValidator.validateNotNull("eventKey", eventKey);
+        InputValidator.validateNotNull("token", token);
 
         return (
         {
             type: Action.SET_EVENT,
             eventKey: eventKey,
+            eventToken: token,
         });
     };
 

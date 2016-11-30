@@ -55,7 +55,7 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                     {
                         if (token.isCloaked && token.isCloaked())
                         {
-                            LOGGER.info("checking decloak for " + token);
+                            LOGGER.debug("checking decloak for " + token);
                             var agent = token.agent();
                             agent.getDecloakAction(environment, adjudicator, token, this.setDecloakAction.bind(this));
 
@@ -333,7 +333,7 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
 
                 InputValidator.validateNotNull("token", token);
 
-                LOGGER.info("token = " + token + " decloakAction = " + decloakAction);
+                LOGGER.debug("token = " + token + " decloakAction = " + decloakAction);
 
                 var delay = 0;
 
@@ -342,8 +342,8 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                     decloakAction.doIt();
                     var store = this.environment().store();
                     store.dispatch(Action.addCloakCount(token, -1));
-                    LOGGER.info("token.isCloaked() ? " + token.isCloaked());
-                    LOGGER.info("token.cloakCount() = " + token.cloakCount());
+                    LOGGER.debug("token.isCloaked() ? " + token.isCloaked());
+                    LOGGER.debug("token.cloakCount() = " + token.cloakCount());
                     delay = 1000;
                 }
 

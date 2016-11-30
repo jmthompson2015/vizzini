@@ -8,7 +8,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "p
         // SquadBuilders.push(new SquadBuilder(Team.REBEL, "TEST", 2016, "YT-2400", function(store, agent)
         // {
         //     var answer = [];
-        //     answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.LANDO_CALRISSIAN, UpgradeCard.R5_D8, UpgradeCard.REAR_ADMIRAL_CHIRANEAU]));
+        //     answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.K4_SECURITY_DROID, UpgradeCard.KYLE_KATARN, UpgradeCard.OUTLAW_TECH, UpgradeCard.R2_D2, UpgradeCard.RECON_SPECIALIST, UpgradeCard.TIE_V1]));
         //     return answer;
         // }));
 

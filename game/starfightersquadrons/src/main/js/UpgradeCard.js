@@ -2472,6 +2472,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.TIE_ADVANCED_PROTOTYPE_ONLY],
                     description: "After you acquire a target lock, you may perform a free evade action.",
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "tieV1",
                 },
                 "tieX1":

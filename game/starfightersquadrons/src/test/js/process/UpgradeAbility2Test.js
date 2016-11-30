@@ -98,7 +98,6 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             var store = environment.store();
             var token = environment.tokens()[2]; // X-Wing.
             var maneuverKey = Maneuver.STRAIGHT_3_STANDARD;
-            var isBoost = false;
             var callback = function()
             {
                 LOGGER.info("in callback()");

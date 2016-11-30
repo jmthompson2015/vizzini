@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", "Value", "process/Action", "process/Selector"],
-    function(Count, DamageCard, Event, InitialState, Pilot, UpgradeCard, Value, Action, Selector)
+define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "UpgradeCard", "Value", "process/Action", "process/Selector"],
+    function(Count, DamageCard, Event, InitialState, Phase, Pilot, UpgradeCard, Value, Action, Selector)
     {
         "use strict";
         var Reducer = {};
@@ -461,6 +461,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
                         tokenIdToValues: newTokenIdToValues,
                     });
                 case Action.ADD_ROUND:
+                    LOGGER.info("Round: " + (state.round + action.value));
                     return Object.assign(
                     {}, state,
                     {
@@ -483,7 +484,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
                     return Object.assign(
                     {}, state,
                     {
-                        eventKey: Event.RECEIVE_CRITICAL_DAMAGE,
                         tokenIdToCriticalDamages: newTokenIdToCriticalDamages,
                         tokenIdToValues: newTokenIdToValues,
                     });
@@ -523,6 +523,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
                     {}, state,
                     {
                         tokenIdToUpgradePerRound: newTokenIdToUpgradePerRound,
+                    });
+                case Action.CLEAR_EVENT:
+                    return Object.assign(
+                    {}, state,
+                    {
+                        eventKey: undefined,
+                        eventToken: undefined,
                     });
                 case Action.DISCARD_DAMAGE:
                     return Object.assign(
@@ -618,10 +625,10 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
                         nextTokenId: 1,
                     });
                 case Action.SET_ACTIVE_TOKEN:
+                    LOGGER.info("Active Token: " + Selector.token(state, action.tokenId));
                     return Object.assign(
                     {}, state,
                     {
-                        eventKey: undefined,
                         activeTokenId: action.tokenId,
                     });
                 case Action.SET_ENVIRONMENT:
@@ -631,10 +638,12 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
                         environment: action.environment,
                     });
                 case Action.SET_EVENT:
+                    LOGGER.info("Event: " + Event.properties[action.eventKey].name);
                     return Object.assign(
                     {}, state,
                     {
                         eventKey: action.eventKey,
+                        eventToken: action.eventToken,
                     });
                 case Action.SET_FIRST_AGENT:
                     return Object.assign(
@@ -643,6 +652,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Pilot", "UpgradeCard", 
                         firstAgent: action.agent,
                     });
                 case Action.SET_PHASE:
+                    LOGGER.info("Phase: " + Phase.properties[action.phaseKey].name);
                     return Object.assign(
                     {}, state,
                     {

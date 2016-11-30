@@ -58,24 +58,6 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Pilot", "UpgradeCard", "p
         };
 
         ////////////////////////////////////////////////////////////////////////
-        PilotAbility2[Phase.ACTIVATION_CLEAN_UP] = {};
-
-        PilotAbility2[Phase.ACTIVATION_CLEAN_UP][Pilot.NIGHT_BEAST] = {
-            // After executing a green maneuver, you may perform a free focus action.
-            condition: function(store, token)
-            {
-                var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
-                return token === activeToken && maneuver.difficultyKey === Difficulty.EASY;
-            },
-            consequent: function(store, token)
-            {
-                var shipActionAction = new ShipActionAction.Focus(store, token);
-                shipActionAction.doIt();
-            },
-        };
-
-        ////////////////////////////////////////////////////////////////////////
         function findManeuverByBearingSpeed(token, bearing, speed)
         {
             InputValidator.validateNotNull("token", token);

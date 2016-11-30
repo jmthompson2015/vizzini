@@ -23,7 +23,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"]
                 if (attackDice.hitCount() === 1)
                 {
                     var environment = store.getState().environment;
-                    token.addDamage(environment.drawDamage());
+                    token.receiveDamage(environment.drawDamage());
                 }
             },
         };
@@ -41,7 +41,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"]
                 if (attackDice.hitCount() === 1)
                 {
                     var environment = store.getState().environment;
-                    token.addDamage(environment.drawDamage());
+                    token.receiveDamage(environment.drawDamage());
                 }
             },
         };

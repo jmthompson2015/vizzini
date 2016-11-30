@@ -44,19 +44,19 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
             var i;
             for (i = 0; i < tokenFore.hullValue() - 1; i++)
             {
-                tokenFore.addDamage(DamageCard.DIRECT_HIT);
+                tokenFore.receiveDamage(DamageCard.DIRECT_HIT);
             }
             var tokenAft = token.tokenAft();
             for (i = 0; i < tokenAft.hullValue() - 1; i++)
             {
-                tokenAft.addDamage(DamageCard.DIRECT_HIT);
+                tokenAft.receiveDamage(DamageCard.DIRECT_HIT);
             }
             assert.ok(!token.isDestroyed());
 
             // Run / Verify.
-            tokenFore.addDamage(DamageCard.DIRECT_HIT);
+            tokenFore.receiveDamage(DamageCard.DIRECT_HIT);
             assert.ok(!token.isDestroyed());
-            tokenAft.addDamage(DamageCard.DIRECT_HIT);
+            tokenAft.receiveDamage(DamageCard.DIRECT_HIT);
             assert.ok(token.isDestroyed());
         });
 
@@ -111,7 +111,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
             var tokenAft = token.tokenAft();
             for (var i = 0; i < tokenAft.hullValue(); i++)
             {
-                token.tokenAft().addDamage(DamageCard.BLINDED_PILOT);
+                token.tokenAft().receiveDamage(DamageCard.BLINDED_PILOT);
             }
             assert.ok(tokenAft.isDestroyed());
 
@@ -153,7 +153,7 @@ define(["DamageCard", "process/DualToken", "Pilot", "Ship", "process/SimpleAgent
             var tokenFore = token.tokenFore();
             for (var i = 0; i < tokenFore.hullValue(); i++)
             {
-                token.tokenFore().addDamage(DamageCard.BLINDED_PILOT);
+                token.tokenFore().receiveDamage(DamageCard.BLINDED_PILOT);
             }
             assert.ok(tokenFore.isDestroyed());
 

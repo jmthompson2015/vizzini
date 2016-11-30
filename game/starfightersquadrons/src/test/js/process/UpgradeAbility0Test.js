@@ -30,8 +30,6 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
                     });
                 }
             });
-
-            assert.ok(true);
         });
 
         QUnit.test("consequent()", function(assert)
@@ -64,44 +62,25 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
             assert.ok(true);
         });
 
-        QUnit.test("function()", function(assert)
-        {
-            // Setup.
-            var environment = createEnvironment();
-            var store = environment.store();
-            var token = environment.tokens()[2]; // X-Wing.
-
-            // Run / Verify.
-            Event.values().forEach(function(eventKey)
-            {
-                var abilities = UpgradeAbility[eventKey];
-
-                if (abilities)
-                {
-                    Object.keys(abilities).forEach(function(upgradeKey)
-                    {
-                        var ability = abilities[upgradeKey];
-
-                        if (typeof ability === "function")
-                        {
-                            ability(store, token);
-                            assert.ok(true, "eventKey = " + eventKey + " upgradeKey = " + upgradeKey);
-                        }
-                    });
-                }
-            });
-
-            assert.ok(true);
-        });
-
         function createEnvironment()
         {
             var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var adjudicator = new Adjudicator();
+
             var store = environment.store();
             var token = environment.tokens()[2]; // X-Wing.
+            var maneuverKey = Maneuver.STRAIGHT_2_EASY;
+            var callback = function()
+            {
+                LOGGER.info("in callback()");
+            };
 
             store.dispatch(Action.setEnvironment(environment));
             store.dispatch(Action.setActiveToken(token.id()));
+
+            var activationState = token.activationState();
+            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            activationState.activationAction(activationAction);
 
             return environment;
         }

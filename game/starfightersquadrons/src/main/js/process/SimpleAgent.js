@@ -260,13 +260,13 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
             return answer;
         };
 
-        SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token)
+        SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token, shipActions0)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("token", token);
 
-            var shipActions = token.shipActions();
+            var shipActions = (shipActions0 !== undefined ? shipActions0 : token.shipActions());
             var answer = [];
             var store = environment.store();
 
@@ -421,7 +421,6 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
 
             shipActions.forEach(function(shipActionKey)
             {
-                // LOGGER.info("SimpleAgent shipActionKey = " + shipActionKey + " " + JSON.stringify(shipActionKey));
                 if (shipActionKey.type === DamageCard || shipActionKey.type === DamageCardV2)
                 {
                     answer.push(new ShipActionAction.SAADamageCard(store, token, shipActionKey.key));
@@ -520,13 +519,14 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
             callback(tokenToManeuver);
         };
 
-        SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback)
+        SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback, shipActions0)
         {
             InputValidator.validateNotNull("environment", environment);
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("token", token);
+            // shipActions0 optional.
 
-            var shipActions = this.determineValidShipActions(environment, adjudicator, token);
+            var shipActions = this.determineValidShipActions(environment, adjudicator, token, shipActions0);
 
             var answer = shipActions.vizziniRandomElement();
 

@@ -90,6 +90,7 @@ define(["DamageCardTrait"],
                     name: "Minor Hull Breach",
                     trait: DamageCardTrait.SHIP,
                     description: "After executing a red maneuver, roll 1 attack die. On a Hit result, suffer 1 damage.",
+                    isImplemented: true,
                     value: "minorHullBreach",
                 },
                 "munitionsFailure":

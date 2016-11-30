@@ -56,7 +56,7 @@ define(["Phase", "UpgradeHeader"],
             },
             {
                 patterns: ["after acquiring a target lock", /after you acquire.*target lock/],
-                event: "Event.acquireTargetLock",
+                event: "Event.targetLockAcquired",
             },
             {
                 patterns: [/after performing.*action/, /(after|when) you perform.*action/],

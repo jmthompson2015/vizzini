@@ -1,11 +1,33 @@
 /*
  * Provides damage abilities for Events.
  */
-define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "process/Selector"],
-    function(AttackDice, DamageCard, DamageCardV2, Event, Action, Selector)
+define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "process/Action", "process/Selector"],
+    function(AttackDice, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Action, Selector)
     {
         "use strict";
         var DamageAbility0 = {};
+
+        ////////////////////////////////////////////////////////////////////////
+        DamageAbility0[Event.AFTER_EXECUTE_MANEUVER] = {};
+
+        DamageAbility0[Event.AFTER_EXECUTE_MANEUVER][DamageCard.MINOR_HULL_BREACH] = {
+            // After executing a red maneuver, roll 1 attack die. On a Hit result, suffer 1 damage.
+            condition: function(store, token)
+            {
+                var eventToken = getEventToken(store);
+                var maneuver = getManeuver(token);
+                return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD;
+            },
+            consequent: function(store, token)
+            {
+                var attackDice = new AttackDice(1);
+                if (attackDice.hitCount() === 1)
+                {
+                    var environment = store.getState().environment;
+                    token.receiveDamage(environment.drawDamage());
+                }
+            },
+        };
 
         ////////////////////////////////////////////////////////////////////////
         DamageAbility0[Event.RECEIVE_CRITICAL_DAMAGE] = {};
@@ -14,8 +36,8 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
             // Roll 1 attack die. On a Hit result, suffer 1 critical damage. Then flip this card facedown.
             condition: function(store, token)
             {
-                var activeToken = getActiveToken(store);
-                return token === activeToken;
+                var eventToken = getEventToken(store);
+                return token === eventToken;
             },
             consequent: function(store, token)
             {
@@ -23,7 +45,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
                 if (attackDice.hitCount() === 1)
                 {
                     var environment = store.getState().environment;
-                    token.addCriticalDamage(environment.drawDamage());
+                    token.receiveCriticalDamage(environment.drawDamage());
                 }
                 flipCardFacedown(store, token, DamageCardV2.MAJOR_EXPLOSION);
             },
@@ -33,8 +55,8 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
             // Immediately roll 1 attack die. On a Hit result, suffer 1 damage. Then flip this card facedown.
             condition: function(store, token)
             {
-                var activeToken = getActiveToken(store);
-                return token === activeToken;
+                var eventToken = getEventToken(store);
+                return token === eventToken;
             },
             consequent: function(store, token)
             {
@@ -42,7 +64,10 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
                 if (attackDice.hitCount() === 1)
                 {
                     var environment = store.getState().environment;
-                    token.addDamage(environment.drawDamage());
+                    if (environment)
+                    {
+                        token.receiveDamage(environment.drawDamage());
+                    }
                 }
                 flipCardFacedown(store, token, DamageCard.MINOR_EXPLOSION);
             },
@@ -52,12 +77,12 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
             // Immediately receive 1 stress token. Then flip this card facedown.
             condition: function(store, token)
             {
-                var activeToken = getActiveToken(store);
-                return token === activeToken;
+                var eventToken = getEventToken(store);
+                return token === eventToken;
             },
             consequent: function(store, token)
             {
-                store.dispatch(Action.addStressCount(token));
+                token.receiveStress();
                 flipCardFacedown(store, token, DamageCard.THRUST_CONTROL_FIRE);
             },
         };
@@ -66,12 +91,12 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
             // Receive 1 stress token. Then flip this card facedown.
             condition: function(store, token)
             {
-                var activeToken = getActiveToken(store);
-                return token === activeToken;
+                var eventToken = getEventToken(store);
+                return token === eventToken;
             },
             consequent: function(store, token)
             {
-                store.dispatch(Action.addStressCount(token));
+                token.receiveStress();
                 flipCardFacedown(store, token, DamageCardV2.THRUST_CONTROL_FIRE);
             },
         };
@@ -87,11 +112,41 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Event", "process/Action", "
             store.dispatch(Action.addTokenDamage(token.id(), damageKey));
         }
 
-        function getActiveToken(store)
+        function getActivationAction(token)
+        {
+            InputValidator.validateNotNull("token", token);
+
+            return token.activationState().activationAction();
+        }
+
+        function getEventToken(store)
         {
             InputValidator.validateNotNull("store", store);
 
-            return Selector.activeToken(store.getState());
+            return store.getState().eventToken;
+        }
+
+        function getManeuver(token)
+        {
+            InputValidator.validateNotNull("token", token);
+
+            var maneuverKey = getManeuverKey(token);
+            return Maneuver.properties[maneuverKey];
+        }
+
+        function getManeuverKey(token)
+        {
+            InputValidator.validateNotNull("token", token);
+
+            var answer;
+            var activationAction = getActivationAction(token);
+
+            if (activationAction)
+            {
+                answer = activationAction.maneuverKey();
+            }
+
+            return answer;
         }
 
         if (Object.freeze)

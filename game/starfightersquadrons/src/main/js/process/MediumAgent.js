@@ -253,7 +253,7 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "process/ModifyAttackDiceA
                     answer = shipActions.vizziniRandomElement();
                 }
 
-                LOGGER.info("shipAction for " + token.name() + ": " + answer);
+                LOGGER.debug("shipAction for " + token.name() + ": " + answer);
 
                 callback(answer);
             },
