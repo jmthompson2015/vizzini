@@ -368,6 +368,23 @@ define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/A
             assert.equal(token.focusCount(), 1);
         });
 
+        QUnit.test("Focus.doIt() Recon Specialist", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var token = environment.tokens()[2]; // X-Wing
+            store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.RECON_SPECIALIST));
+            var action = new ShipActionAction.Focus(store, token);
+
+            // Run.
+            assert.equal(token.focusCount(), 0);
+            action.doIt();
+
+            // Verify.
+            assert.equal(token.focusCount(), 2);
+        });
+
         QUnit.test("Focus.toString()", function(assert)
         {
             // Setup.

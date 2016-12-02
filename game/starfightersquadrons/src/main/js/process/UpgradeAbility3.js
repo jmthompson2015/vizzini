@@ -32,7 +32,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
             // When you declare the target of your attack, if the defender is inside your firing arc, you may receive 1 stress token to cause the defender to receive 1 stress token.
             condition: function(store, token)
             {
-                var upgradeKey = UpgradeCard.REBEL_CAPTIVE;
+                var upgradeKey = UpgradeCard.R3_A2;
                 var attacker = getActiveToken(store);
                 var weapon = getWeapon(attacker);
                 var attackerPosition = getAttackerPosition(attacker);

@@ -6,6 +6,30 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
         var delay = 1000;
 
+        QUnit.test("doIt() Adrenaline Rush", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.ADRENALINE_RUSH;
+            var action = createActivationAction(upgradeKey);
+
+            // Run.
+            var done = assert.async();
+            action.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+
+                var environment = action.environment();
+                var token = action.token();
+                assert.equal(token.upgradeKeys.length, 0);
+                assert.ok(!token.isStressed());
+
+                done();
+            }, delay);
+        });
+
         QUnit.test("doIt() Huge", function(assert)
         {
             // Setup.
@@ -58,6 +82,58 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
                 // Perform action.
                 assert.equal(token.focusCount(), 0);
+
+                done();
+            }, delay);
+        });
+
+        QUnit.test("doIt() Inertial Dampeners", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.INERTIAL_DAMPENERS;
+            var action = createActivationAction(upgradeKey);
+
+            // Run.
+            var done = assert.async();
+            action.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+
+                var environment = action.environment();
+                var token = action.token();
+                assert.equal(token.upgradeKeys.length, 0);
+                var position = environment.getPositionFor(token);
+                assert.ok(position);
+                assert.equal(position.x(), 400);
+                assert.equal(position.y(), 800);
+                assert.equal(position.heading(), 270);
+                assert.ok(token.isStressed());
+
+                done();
+            }, delay);
+        });
+
+        QUnit.test("doIt() K4 Security Droid", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.K4_SECURITY_DROID;
+            var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY);
+            assert.equal(action.token().attackerTargetLocks().length, 0);
+
+            // Run.
+            var done = assert.async();
+            action.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+
+                var token = action.token();
+                assert.equal(action.token().attackerTargetLocks().length, 1);
 
                 done();
             }, delay);
@@ -133,8 +209,8 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
                 var token = action.token();
                 assert.equal(token.upgradeKeys.length, 0);
                 var position = environment.getPositionFor(token);
-                assert.equal(position.x(), 458);
-                assert.equal(position.y(), 695);
+                assert.equal(position.x(), 400);
+                assert.equal(position.y(), 600);
                 assert.equal(position.heading(), 90);
                 assert.ok(token.isStressed());
 
@@ -356,23 +432,16 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             var store = Redux.createStore(Reducer.root);
             var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
             var adjudicator = new Adjudicator();
-
             var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-            rebelAgent.chooseAbility = function(environment, pilotKeys, upgradeKeys, callback)
-            {
-                var pilotKey;
-                var upgradeKey = (upgradeKeys.length > 0 ? upgradeKeys[0] : undefined);
-                var isAccepted = (upgradeKey !== undefined);
-
-                callback(pilotKey, upgradeKey, isAccepted);
-            };
-
             var token = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
-            var tokenPosition = new Position(458, 895, -90);
-
+            var tokenPosition = new Position(400, 800, -90);
             environment.placeToken(tokenPosition, token);
-            environment.activeToken(token);
 
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+            var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+            environment.placeToken(new Position(400, 500, 90), defender);
+
+            environment.activeToken(token);
             store.dispatch(Action.setEnvironment(environment));
             store.dispatch(Action.addFocusCount(token));
 

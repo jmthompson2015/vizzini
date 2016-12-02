@@ -418,7 +418,7 @@ define(["Count"], function(Count)
         return Action.setCount(token, Count.EVADE, value);
     };
 
-    Action.setEvent = function(eventKey, token)
+    Action.setEvent = function(eventKey, token, callback)
     {
         InputValidator.validateNotNull("eventKey", eventKey);
         InputValidator.validateNotNull("token", token);
@@ -428,6 +428,7 @@ define(["Count"], function(Count)
             type: Action.SET_EVENT,
             eventKey: eventKey,
             eventToken: token,
+            eventCallback: callback,
         });
     };
 

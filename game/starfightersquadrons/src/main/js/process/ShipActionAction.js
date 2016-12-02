@@ -450,7 +450,6 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType"
             var defender = this.defender();
             var targetLock = new TargetLock(store, attacker, defender);
             attacker.addAttackerTargetLock(targetLock);
-            store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attacker));
         };
 
         SAATargetLock.prototype.toString = function()

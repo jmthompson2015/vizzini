@@ -15,7 +15,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             condition: function(store, token)
             {
                 var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
+                var maneuver = getManeuver(token);
                 return token === activeToken && maneuver.difficultyKey === Difficulty.HARD;
             },
             consequent: function(store, token)
@@ -53,7 +53,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             condition: function(store, token)
             {
                 var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
+                var maneuver = getManeuver(token);
                 return token === activeToken && [Bearing.TURN_LEFT, Bearing.TURN_RIGHT].vizziniContains(maneuver.bearingKey);
             },
             consequent: function(store, token)
@@ -83,7 +83,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             condition: function(store, token)
             {
                 var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
+                var maneuver = getManeuver(token);
                 return token === activeToken && [Difficulty.STANDARD, Difficulty.EASY].vizziniContains(maneuver.difficultyKey);
             },
             consequent: function(store, token)
@@ -103,7 +103,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             condition: function(store, token)
             {
                 var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
+                var maneuver = getManeuver(token);
                 return token === activeToken && [3, 4, 5].vizziniContains(maneuver.speed);
             },
             consequent: function(store, token)
@@ -120,7 +120,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             condition: function(store, token)
             {
                 var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
+                var maneuver = getManeuver(token);
                 return token === activeToken && maneuver.bearingKey === Bearing.STRAIGHT;
             },
             consequent: function(store, token)

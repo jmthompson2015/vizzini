@@ -1,27 +1,17 @@
 define(function()
 {
     var Event = {
-        ACTION_PERFORMED: "actionPerformed",
         AFTER_EXECUTE_MANEUVER: "afterExecuteManeuver",
         EVADE_ACTION_PERFORMED: "evadeActionPerformed",
         FOCUS_ACTION_PERFORMED: "focusActionPerformed",
         RECEIVE_CRITICAL_DAMAGE: "receiveCriticalDamage",
         RECEIVE_DAMAGE: "receiveDamage",
-        RECEIVE_FOCUS: "receiveFocus",
         RECEIVE_STRESS: "receiveStress",
         REMOVE_STRESS: "removeStress",
-        SHIP_DESTROYED: "shipDestroyed",
-        SPEND_FOCUS: "spendFocus",
-        SPEND_TARGET_LOCK: "spendTargetLock",
         TARGET_LOCK_ACQUIRED: "targetLockAcquired",
 
         properties:
         {
-            "actionPerformed":
-            {
-                name: "Action Performed",
-                value: "actionPerformed",
-            },
             "afterExecuteManeuver":
             {
                 name: "After Execute Maneuver",
@@ -47,11 +37,6 @@ define(function()
                 name: "Receive Damage",
                 value: "receiveDamage",
             },
-            "receiveFocus":
-            {
-                name: "Receive Focus",
-                value: "receiveFocus",
-            },
             "receiveStress":
             {
                 name: "Receive Stress",
@@ -61,21 +46,6 @@ define(function()
             {
                 name: "Remove Stress",
                 value: "removeStress",
-            },
-            "shipDestroyed":
-            {
-                name: "Ship Destroyed",
-                value: "shipDestroyed",
-            },
-            "spendFocus":
-            {
-                name: "Spend Focus",
-                value: "spendFocus",
-            },
-            "spendTargetLock":
-            {
-                name: "Spend Target Lock",
-                value: "spendTargetLock",
             },
             "targetLockAcquired":
             {

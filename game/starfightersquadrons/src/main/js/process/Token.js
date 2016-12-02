@@ -360,6 +360,7 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
             }
 
             this.store().dispatch(Action.addTargetLock(targetLock));
+            this.store().dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, this));
         };
 
         Token.prototype.agilityValue = function()

@@ -67,18 +67,32 @@ define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbil
                 {
                     var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
 
-                    if (pilotAbility && pilotAbility.consequent)
+                    if (pilotAbility !== undefined)
                     {
-                        pilotAbility.consequent(store, attacker);
+                        if (pilotAbility.consequent !== undefined)
+                        {
+                            pilotAbility.consequent(store, attacker);
+                        }
+                        else
+                        {
+                            pilotAbility(store, attacker);
+                        }
                     }
                 }
                 else if (modificationKey === ModifyAttackDiceAction.Modification.USE_UPGRADE)
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
 
-                    if (upgradeAbility && upgradeAbility.consequent)
+                    if (upgradeAbility !== undefined)
                     {
-                        upgradeAbility.consequent(store, attacker);
+                        if (upgradeAbility.consequent !== undefined)
+                        {
+                            upgradeAbility.consequent(store, attacker);
+                        }
+                        else
+                        {
+                            upgradeAbility(store, attacker);
+                        }
                     }
                 }
                 else

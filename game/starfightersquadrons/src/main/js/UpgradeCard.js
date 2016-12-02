@@ -1550,6 +1550,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.SCUM_ONLY],
                     description: "After executing a green maneuver, you may acquire a Target Lock.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "k4SecurityDroid",
                 },
                 "kananJarrus":

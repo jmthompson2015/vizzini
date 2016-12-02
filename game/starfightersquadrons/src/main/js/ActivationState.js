@@ -7,6 +7,7 @@ define(function()
         var activationAction;
         var isTouching = false;
         var maneuverAction;
+        var usedDamages = [];
         var usedPilots = [];
         var usedUpgrades = [];
 
@@ -26,6 +27,7 @@ define(function()
             activationAction = undefined;
             isTouching = false;
             maneuverAction = undefined;
+            usedDamages = [];
             usedPilots = [];
             usedUpgrades = [];
         };
@@ -48,6 +50,16 @@ define(function()
             }
 
             return maneuverAction;
+        };
+
+        this.usedDamages = function(damageKey)
+        {
+            if (damageKey !== undefined)
+            {
+                usedDamages.push(damageKey);
+            }
+
+            return usedDamages;
         };
 
         this.usedPilots = function(pilotKey)

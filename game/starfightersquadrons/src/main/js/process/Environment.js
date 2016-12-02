@@ -17,8 +17,8 @@
  * but not touching.
  * </dl>
  */
-define(["DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team", "process/Action", "process/EventObserver", "process/PhaseObserver", "process/Selector", "process/Token"],
-    function(DamageCard, ManeuverComputer, Phase, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, EventObserver, PhaseObserver, Selector, Token)
+define(["DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team", "process/Action", "process/EventObserver", "process/Selector", "process/Token"],
+    function(DamageCard, ManeuverComputer, Phase, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, EventObserver, Selector, Token)
     {
         "use strict";
 
@@ -619,7 +619,6 @@ define(["DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "Ra
 
             // Initialize.
             new EventObserver(store);
-            new PhaseObserver(store);
 
             function createRangeData(range, defenders)
             {

@@ -10,6 +10,7 @@ define(["Phase"], function(Phase)
         this.phaseKey = Phase.SETUP;
         this.eventKey = undefined;
         this.eventToken = undefined;
+        this.eventCallback = undefined;
         this.playAreaScale = 1.0;
         this.activeTokenId = undefined;
         this.userMessage = "";

@@ -1,5 +1,5 @@
-define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "process/Action", "process/Reducer", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-    function(Value, Adjudicator, CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer, MockAttackDice, MockDefenseDice)
+define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value", "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+    function(Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value, Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
     {
         "use strict";
         QUnit.module("CombatAction");
@@ -230,6 +230,17 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
+            var attackDice = new MockAttackDice();
+            var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            var pilotKey;
+            var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+            var rebelAgent = attacker.agent();
+            var count = 0;
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(count++ === 0 ? modifyAttackDiceAction : null);
+            };
+
             // Run.
             var done = assert.async();
             combatAction.doIt();
@@ -351,6 +362,17 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
+            var attackDice = new MockAttackDice();
+            var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            var pilotKey;
+            var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+            var rebelAgent = attacker.agent();
+            var count = 0;
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(count++ === 0 ? modifyAttackDiceAction : null);
+            };
+
             // Run.
             var done = assert.async();
             combatAction.doIt();
@@ -368,8 +390,7 @@ define(["Value", "process/Adjudicator", "process/CombatAction", "process/Environ
                 assert.equal(attackDice.hitCount(), 0);
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 done();
             }, delay);
         });

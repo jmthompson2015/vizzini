@@ -90,6 +90,28 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.equal(defender1.defenderTargetLocks().length, 1);
         });
 
+        QUnit.test("addAttackerTargetLock() TIE/v1", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var attacker = environment.tokens()[0]; // TIE Fighter.
+            var defender = environment.tokens()[2]; // X-Wing.
+            store.dispatch(Action.addTokenUpgrade(attacker, UpgradeCard.TIE_V1));
+            assert.equal(attacker.attackerTargetLocks().length, 0);
+            assert.equal(defender.defenderTargetLocks().length, 0);
+            assert.equal(attacker.evadeCount(), 0);
+            var targetLock = new TargetLock(store, attacker, defender);
+
+            // Run.
+            attacker.addAttackerTargetLock(targetLock);
+
+            // Verify.
+            assert.equal(attacker.attackerTargetLocks().length, 1);
+            assert.equal(defender.defenderTargetLocks().length, 1);
+            assert.equal(attacker.evadeCount(), 1);
+        });
+
         QUnit.test("agilityValue()", function(assert)
         {
             // Setup.
@@ -1045,6 +1067,43 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.ok(!token.isCriticallyDamagedWith(damage));
         });
 
+        QUnit.test("removeStress()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var adjudicator = new Adjudicator();
+            var token = environment.tokens()[2]; // X-Wing
+            store.dispatch(Action.addStressCount(token));
+            assert.equal(token.stressCount(), 1);
+
+            // Run.
+            token.removeStress();
+
+            // Verify.
+            assert.equal(token.stressCount(), 0);
+        });
+
+        QUnit.test("removeStress() Kyle Katarn", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var adjudicator = new Adjudicator();
+            var token = environment.tokens()[2]; // X-Wing
+            store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.KYLE_KATARN));
+            store.dispatch(Action.addStressCount(token));
+            assert.equal(token.focusCount(), 0);
+            assert.equal(token.stressCount(), 1);
+
+            // Run.
+            token.removeStress();
+
+            // Verify.
+            assert.equal(token.focusCount(), 1);
+            assert.equal(token.stressCount(), 0);
+        });
+
         QUnit.test("secondaryWeapons()", function(assert)
         {
             // Setup.
@@ -1155,33 +1214,6 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.equal(token0.stressCount(), 0);
             store.dispatch(Action.addStressCount(token0, -1));
             assert.equal(token0.stressCount(), 0);
-        });
-
-        QUnit.test("stress() Kyle Katarn", function(assert)
-        {
-            // Setup.
-            var environment = EnvironmentFactory.createCoreSetEnvironment();
-            var store = environment.store();
-            var adjudicator = new Adjudicator();
-            var token = environment.tokens()[2]; // X-Wing
-            store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.KYLE_KATARN));
-            store.dispatch(Action.addStressCount(token));
-            assert.equal(token.focusCount(), 0);
-            assert.equal(token.stressCount(), 1);
-            var maneuverKey = Maneuver.STRAIGHT_1_EASY;
-
-            function callback()
-            {
-                LOGGER.info("callback");
-
-                // Verify.
-                assert.equal(token.focusCount(), 2); // Kyle Katarn upgrade + ship action Focus
-                assert.equal(token.stressCount(), 0);
-            }
-            var action = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
-
-            // Run.
-            setTimeout(action.doIt(), 600);
         });
 
         QUnit.test("toString()", function(assert)

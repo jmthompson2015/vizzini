@@ -1,8 +1,10 @@
 /*
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
-define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "process/Action", "process/Reducer", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-    function(DamageCard, Value, Adjudicator, CombatAction, Environment, EnvironmentFactory, Maneuver, Phase, Pilot, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Action, Reducer, MockAttackDice, MockDefenseDice)
+define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value",
+       "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+    function(DamageCard, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value,
+        Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
     {
         "use strict";
         QUnit.module("CombatAction");
@@ -52,6 +54,17 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+            var attackDice = new MockAttackDice();
+            var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            var pilotKey;
+            var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+            var rebelAgent = attacker.agent();
+            var count = 0;
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(count++ === 0 ? modifyAttackDiceAction : null);
+            };
 
             // Run.
             var done = assert.async();
@@ -152,6 +165,17 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
+            var attackDice = new MockAttackDice();
+            var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            var pilotKey;
+            var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+            var rebelAgent = attacker.agent();
+            var count = 0;
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(count++ === 0 ? modifyAttackDiceAction : null);
+            };
+
             // Run.
             var done = assert.async();
             combatAction.doIt();
@@ -193,6 +217,17 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+            var attackDice = new MockAttackDice();
+            var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            var pilotKey;
+            var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+            var rebelAgent = attacker.agent();
+            var count = 0;
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(count++ === 0 ? modifyAttackDiceAction : null);
+            };
 
             // Run.
             var done = assert.async();
@@ -425,6 +460,17 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 1);
 
+            var attackDice = new MockAttackDice();
+            var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            var pilotKey;
+            var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+            // var rebelAgent = attacker.agent();
+            var count = 0;
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(count++ === 0 ? modifyAttackDiceAction : null);
+            };
+
             // Run.
             var done = assert.async();
             combatAction.doIt();
@@ -453,6 +499,17 @@ define(["DamageCard", "Value", "process/Adjudicator", "process/CombatAction", "p
             assert.ok(attacker.findTargetLockByDefender(defender));
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 1);
+
+            var attackDice = new MockAttackDice();
+            var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+            var pilotKey;
+            var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+            var rebelAgent = attacker.agent();
+            var count = 0;
+            rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+            {
+                callback(count++ === 0 ? modifyAttackDiceAction : null);
+            };
 
             // Run.
             var done = assert.async();

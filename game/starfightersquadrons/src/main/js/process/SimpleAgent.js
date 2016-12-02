@@ -19,19 +19,31 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
             };
         }
 
-        SimpleAgent.prototype.chooseAbility = function(environment, pilotKeys, upgradeKeys, callback)
+        SimpleAgent.prototype.chooseAbility = function(environment, damageKeys, pilotKeys, upgradeKeys, callback)
         {
-            var pilotKey;
-            var upgradeKey = (upgradeKeys.length > 0 ? upgradeKeys.vizziniRandomElement() : undefined);
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("damageKeys", damageKeys);
+            InputValidator.validateNotNull("pilotKeys", pilotKeys);
+            InputValidator.validateNotNull("upgradeKeys", upgradeKeys);
+            InputValidator.validateNotNull("callback", callback);
 
-            if (upgradeKey === undefined)
+            var damageKey, pilotKey, upgradeKey;
+
+            damageKey = (damageKeys.length > 0 ? damageKeys.vizziniRandomElement() : undefined);
+
+            if (damageKey === undefined)
             {
-                pilotKey = (pilotKeys.length > 0 ? pilotKeys.vizziniRandomElement() : undefined);
+                upgradeKey = (upgradeKeys.length > 0 ? upgradeKeys.vizziniRandomElement() : undefined);
+
+                if (upgradeKey === undefined)
+                {
+                    pilotKey = (pilotKeys.length > 0 ? pilotKeys.vizziniRandomElement() : undefined);
+                }
             }
 
-            var isAccepted = (pilotKey !== undefined) || (upgradeKey !== undefined);
+            var isAccepted = (damageKey !== undefined) || (pilotKey !== undefined) || (upgradeKey !== undefined);
 
-            callback(pilotKey, upgradeKey, isAccepted);
+            callback(damageKey, pilotKey, upgradeKey, isAccepted);
         };
 
         SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
@@ -164,17 +176,13 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
             }
 
             var pilot = attacker.pilot();
+            pilotKey = pilot.value;
+            var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
 
-            if (pilot.agentInput)
+            if (pilotAbility !== undefined && (pilotAbility.condition === undefined || (pilotAbility.condition !== undefined && pilotAbility.condition(store, attacker))))
             {
-                pilotKey = pilot.value;
-                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
-
-                if (pilotAbility && pilotAbility.condition && pilotAbility.condition(store, attacker))
-                {
-                    modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
-                    answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
-                }
+                modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
+                answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
             }
 
             modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
@@ -182,14 +190,13 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
 
             attacker.upgradeKeys().forEach(function(upgradeKey)
             {
-                var upgrade = UpgradeCard.properties[upgradeKey];
                 var attackerUsedUpgrades = attacker.combatState().attackerUsedUpgrades();
 
-                if (upgrade.agentInput && !attackerUsedUpgrades.vizziniContains(upgradeKey))
+                if (!attackerUsedUpgrades.vizziniContains(upgradeKey))
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
 
-                    if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, attacker))
+                    if (upgradeAbility !== undefined && (upgradeAbility.condition === undefined || (upgradeAbility.condition !== undefined && upgradeAbility.condition(store, attacker))))
                     {
                         answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey));
                     }
@@ -225,17 +232,13 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
             }
 
             var pilot = defender.pilot();
+            pilotKey = pilot.value;
+            var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
 
-            if (pilot.agentInput)
+            if (pilotAbility !== undefined && pilotAbility.condition !== undefined && pilotAbility.condition(store, attacker))
             {
-                pilotKey = pilot.value;
-                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
-
-                if (pilotAbility && pilotAbility.condition && pilotAbility.condition(store, attacker))
-                {
-                    modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
-                    answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
-                }
+                modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
+                answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
             }
 
             modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
@@ -246,11 +249,11 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
                 var upgrade = UpgradeCard.properties[upgradeKey];
                 var defenderUsedUpgrades = attacker.combatState().defenderUsedUpgrades();
 
-                if (upgrade.agentInput && !defenderUsedUpgrades.vizziniContains(upgradeKey))
+                if (!defenderUsedUpgrades.vizziniContains(upgradeKey))
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
 
-                    if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, defender))
+                    if (upgradeAbility !== undefined && upgradeAbility.condition !== undefined && upgradeAbility.condition(store, defender))
                     {
                         answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey));
                     }

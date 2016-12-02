@@ -82,10 +82,15 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
                 LOGGER.trace("AbilityChooser.myOnChange()");
                 LOGGER.debug("AbilityChooser.myOnChange() selected = " + selected + " " + (typeof selected));
 
-                var pilotKey, upgradeKey;
+                var damageKey, pilotKey, upgradeKey;
                 var isAccepted = false;
 
-                if (selected.shipTeamKey)
+                if (selected.trait)
+                {
+                    damageKey = selected.value;
+                    isAccepted = true;
+                }
+                else if (selected.shipTeamKey)
                 {
                     pilotKey = selected.value;
                     isAccepted = true;
@@ -96,13 +101,13 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
                     isAccepted = true;
                 }
 
-                this.props.onChange(pilotKey, upgradeKey, isAccepted);
+                this.props.onChange(damageKey, pilotKey, upgradeKey, isAccepted);
             },
 
             ok: function(event, selected)
             {
                 var isAccepted = false;
-                this.props.onChange(undefined, undefined, isAccepted);
+                this.props.onChange(undefined, undefined, undefined, isAccepted);
             },
         });
 

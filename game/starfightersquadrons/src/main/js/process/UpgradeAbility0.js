@@ -10,6 +10,41 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility0[Event.AFTER_EXECUTE_MANEUVER] = {};
 
+        UpgradeAbility0[Event.AFTER_EXECUTE_MANEUVER][UpgradeCard.K4_SECURITY_DROID] = {
+            // After executing a green maneuver, you may acquire a Target Lock.
+            condition: function(store, token)
+            {
+                var eventToken = getEventToken(store);
+                var maneuver = getManeuver(token);
+                var environment = store.getState().environment;
+                var defenders = environment.getDefendersInRange(token);
+                return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY && defenders !== undefined && defenders.length > 0;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.TARGET_LOCK];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                callback();
+            },
+        };
+
         UpgradeAbility0[Event.AFTER_EXECUTE_MANEUVER][UpgradeCard.OUTLAW_TECH] = {
             // After you execute a red maneuver, you may assign 1 Focus token to your ship.
             condition: function(store, token)
@@ -18,39 +53,12 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
                 var maneuver = getManeuver(token);
                 return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addFocusCount(token));
+                callback();
             },
         };
-
-        // UpgradeAbility0[Event.AFTER_EXECUTE_MANEUVER][UpgradeCard.K4_SECURITY_DROID] = {
-        //     // After executing a green maneuver, you may acquire a Target Lock.
-        //     condition: function(store, token)
-        //     {
-        //         LOGGER.info("UpgradeAbility0 K4_SECURITY_DROID condition");
-        //         var activeToken = getActiveToken(store);
-        //         var maneuver = getManeuver(token);
-        //         return token === activeToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY;
-        //     },
-        //     consequent: function(store, token)
-        //     {
-        //         LOGGER.info("UpgradeAbility0 K4_SECURITY_DROID consequent");
-        //         var agent = token.agent();
-        //         var environment = store.getState().environment;
-        //         var adjudicator = new Adjudicator();
-        //         var shipActions0 = [ShipAction.TARGET_LOCK];
-        //         agent.getShipAction(environment, adjudicator, token, this.finishConsequent, shipActions0);
-        //     },
-        //     finishConsequent: function(shipActionAction)
-        //     {
-        //         LOGGER.info("UpgradeAbility0 K4_SECURITY_DROID finishConsequent");
-        //         if (shipActionAction)
-        //         {
-        //             shipActionAction.doIt();
-        //         }
-        //     },
-        // };
 
         UpgradeAbility0[Event.AFTER_EXECUTE_MANEUVER][UpgradeCard.R2_D2] = {
             // After executing a green maneuver, you may recover 1 shield (up to your shield value).
@@ -60,9 +68,10 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
                 var maneuver = getManeuver(token);
                 return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 token.recoverShield();
+                callback();
             },
         };
 
@@ -76,9 +85,10 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addFocusCount(token));
+                callback();
             },
         };
 
@@ -92,9 +102,10 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addFocusCount(token));
+                callback();
             },
         };
 
@@ -108,10 +119,11 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var evadeAction = new ShipActionAction.Evade(store, token);
                 evadeAction.doIt();
+                callback();
             },
         };
 

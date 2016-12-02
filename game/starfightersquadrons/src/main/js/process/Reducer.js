@@ -525,11 +525,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                         tokenIdToUpgradePerRound: newTokenIdToUpgradePerRound,
                     });
                 case Action.CLEAR_EVENT:
+                    LOGGER.info("Event: (cleared)");
                     return Object.assign(
                     {}, state,
                     {
                         eventKey: undefined,
                         eventToken: undefined,
+                        eventCallback: undefined,
                     });
                 case Action.DISCARD_DAMAGE:
                     return Object.assign(
@@ -644,6 +646,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {
                         eventKey: action.eventKey,
                         eventToken: action.eventToken,
+                        eventCallback: action.eventCallback,
                     });
                 case Action.SET_FIRST_AGENT:
                     return Object.assign(

@@ -1,5 +1,5 @@
-define(["Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
-    function(Phase, Pilot, UpgradeCard, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define(["DamageCard", "DamageCardV2", "Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
+    function(DamageCard, DamageCardV2, Phase, Pilot, UpgradeCard, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
     {
         "use strict";
 
@@ -43,17 +43,27 @@ define(["Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/Simp
             var dealDamageCallback;
             var chooseAbilityCallback;
 
-            this.chooseAbility = function(environment, pilotKeys, upgradeKeys, callback)
+            this.chooseAbility = function(environment, damageKeys, pilotKeys, upgradeKeys, callback)
             {
                 InputValidator.validateNotNull("environment", environment);
+                InputValidator.validateNotNull("damageKeys", damageKeys);
                 InputValidator.validateNotNull("pilotKeys", pilotKeys);
                 InputValidator.validateNotNull("upgradeKeys", upgradeKeys);
                 InputValidator.validateNotNull("callback", callback);
 
                 chooseAbilityCallback = callback;
 
-                if (pilotKeys.length > 0 || upgradeKeys.length > 0)
+                if (damageKeys.length > 0 || pilotKeys.length > 0 || upgradeKeys.length > 0)
                 {
+                    var damages = damageKeys.map(function(damageKey)
+                    {
+                        var answer = DamageCard.properties[damageKey];
+                        if (!answer)
+                        {
+                            answer = DamageCardV2.properties[damageKey];
+                        }
+                        return answer;
+                    });
                     var pilots = pilotKeys.map(function(pilotKey)
                     {
                         return Pilot.properties[pilotKey];
@@ -65,6 +75,7 @@ define(["Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/Simp
 
                     var element = React.createElement(AbilityChooser,
                     {
+                        damages: damages,
                         imageBase: imageBase,
                         onChange: finishChooseAbility,
                         pilots: pilots,
@@ -272,7 +283,7 @@ define(["Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/Simp
                 // Wait for the user to respond.
             };
 
-            this.getShipAction = function(environment, adjudicator, token, callback)
+            this.getShipAction = function(environment, adjudicator, token, callback, shipActions0)
             {
                 InputValidator.validateNotNull("environment", environment);
                 InputValidator.validateNotNull("adjudicator", adjudicator);
@@ -280,8 +291,7 @@ define(["Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/Simp
 
                 shipActionCallback = callback;
 
-                var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment,
-                    adjudicator, token);
+                var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment, adjudicator, token, shipActions0);
 
                 if (shipActions.length > 0)
                 {
@@ -303,7 +313,7 @@ define(["Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/Simp
                 }
             };
 
-            function finishChooseAbility(pilotKey, upgradeKey, isAccepted)
+            function finishChooseAbility(damageKey, pilotKey, upgradeKey, isAccepted)
             {
                 LOGGER.trace("HumanAgent.finishChooseAbility() start");
 
@@ -313,7 +323,7 @@ define(["Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/Simp
                 window.dispatchEvent(new Event('resize'));
                 LOGGER.trace("HumanAgent.finishChooseAbility() end");
 
-                chooseAbilityCallback(pilotKey, upgradeKey, isAccepted);
+                chooseAbilityCallback(damageKey, pilotKey, upgradeKey, isAccepted);
             }
 
             function finishDealDamage()

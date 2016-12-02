@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "process/DamageDealer", "process/ShipDestroyedAction"],
-    function(AttackDice, DefenseDice, Phase, RangeRuler, UpgradeCard, DamageDealer, ShipDestroyedAction)
+define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "process/DamageAbility3", "process/DamageDealer", "process/PilotAbility3", "process/ShipDestroyedAction", "process/UpgradeAbility3"],
+    function(AttackDice, DefenseDice, Phase, RangeRuler, UpgradeCard, DamageAbility3, DamageDealer, PilotAbility3, ShipDestroyedAction, UpgradeAbility3)
     {
         "use strict";
 
@@ -82,6 +82,8 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
             };
         }
 
+        CombatAction.prototype.PERFORM_ATTACK_TWICE_UPGRADES = [UpgradeCard.CLUSTER_MISSILES, UpgradeCard.TWIN_LASER_TURRET];
+
         CombatAction.prototype.doIt = function()
         {
             LOGGER.trace("CombatAction.doIt() start");
@@ -118,9 +120,34 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
             var isInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
             attacker.combatState().isInFiringArc(isInFiringArc);
 
-            this.rollAttackDice();
+            this.declareTarget2();
 
             LOGGER.trace("CombatAction.declareTarget() end");
+        };
+
+        CombatAction.prototype.declareTarget2 = function()
+        {
+            LOGGER.trace("CombatAction.declareTarget2() start");
+
+            var agent = this.attacker().agent();
+            var damageKeys = this.getUnusedDamageKeys();
+            var pilotKeys = this.getUnusedPilotKeys();
+            var upgradeKeys = this.getUnusedUpgradeKeys();
+            agent.chooseAbility(this.environment(), damageKeys, pilotKeys, upgradeKeys, this.finishDeclareTarget.bind(this));
+
+            // Wait for agent to respond.
+
+            LOGGER.trace("CombatAction.declareTarget2() end");
+        };
+
+        CombatAction.prototype.finishDeclareTarget = function(damageKey, pilotKey, upgradeKey, isAccepted)
+        {
+            LOGGER.trace("CombatAction.finishDeclareTarget() start");
+            LOGGER.debug("CombatAction.finishDeclareTarget() damageKey = " + damageKey + " pilotKey = " + pilotKey + " upgradeKey = " + upgradeKey + " isAccepted ? " + isAccepted);
+
+            this.finish(damageKey, pilotKey, upgradeKey, isAccepted, this.declareTarget2.bind(this), this.rollAttackDice.bind(this));
+
+            LOGGER.trace("CombatAction.finishDeclareTarget() end");
         };
 
         CombatAction.prototype.rollAttackDice = function()
@@ -339,9 +366,34 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
                 }
             }
 
-            this.afterDealDamage();
+            this.dealDamage2();
 
             LOGGER.trace("CombatAction.dealDamage() end");
+        };
+
+        CombatAction.prototype.dealDamage2 = function()
+        {
+            LOGGER.trace("CombatAction.declareTarget2() start");
+
+            var agent = this.attacker().agent();
+            var damageKeys = this.getUnusedDamageKeys();
+            var pilotKeys = this.getUnusedPilotKeys();
+            var upgradeKeys = this.getUnusedUpgradeKeys();
+            agent.chooseAbility(this.environment(), damageKeys, pilotKeys, upgradeKeys, this.finishDealDamage.bind(this));
+
+            // Wait for agent to respond.
+
+            LOGGER.trace("CombatAction.declareTarget2() end");
+        };
+
+        CombatAction.prototype.finishDealDamage = function(damageKey, pilotKey, upgradeKey, isAccepted)
+        {
+            LOGGER.trace("CombatAction.finishDealDamage() start");
+            LOGGER.debug("CombatAction.finishDealDamage() damageKey = " + damageKey + " pilotKey = " + pilotKey + " upgradeKey = " + upgradeKey + " isAccepted ? " + isAccepted);
+
+            this.finish(damageKey, pilotKey, upgradeKey, isAccepted, this.dealDamage2.bind(this), this.afterDealDamage.bind(this));
+
+            LOGGER.trace("CombatAction.finishDealDamage() end");
         };
 
         CombatAction.prototype.afterDealDamage = function()
@@ -349,6 +401,31 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
             LOGGER.trace("CombatAction.afterDealDamage() start");
 
             this.environment().phase(Phase.COMBAT_AFTER_DEAL_DAMAGE);
+
+            var agent = this.attacker().agent();
+            var damageKeys = this.getUnusedDamageKeys();
+            var pilotKeys = this.getUnusedPilotKeys();
+            var upgradeKeys = this.getUnusedUpgradeKeys();
+            agent.chooseAbility(this.environment(), damageKeys, pilotKeys, upgradeKeys, this.afterDealDamage2.bind(this));
+
+            // Wait for agent to respond.
+
+            LOGGER.trace("CombatAction.afterDealDamage() end");
+        };
+
+        CombatAction.prototype.afterDealDamage2 = function(damageKey, pilotKey, upgradeKey, isAccepted)
+        {
+            LOGGER.trace("CombatAction.afterDealDamage2() start");
+            LOGGER.debug("CombatAction.afterDealDamage2() damageKey = " + damageKey + " pilotKey = " + pilotKey + " upgradeKey = " + upgradeKey + " isAccepted ? " + isAccepted);
+
+            this.finish(damageKey, pilotKey, upgradeKey, isAccepted, this.afterDealDamage.bind(this), this.finishAfterDealDamage.bind(this));
+
+            LOGGER.trace("CombatAction.afterDealDamage2() end");
+        };
+
+        CombatAction.prototype.finishAfterDealDamage = function()
+        {
+            LOGGER.trace("CombatAction.finishAfterDealDamage() start");
 
             var environment = this.environment();
             var attacker = this.attacker();
@@ -381,8 +458,9 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
             }
             else
             {
-                if ([UpgradeCard.CLUSTER_MISSILES, UpgradeCard.TWIN_LASER_TURRET].vizziniContains(weapon.upgradeKey()) && this.executionCount() < 2)
+                if (this.PERFORM_ATTACK_TWICE_UPGRADES.vizziniContains(weapon.upgradeKey()) && this.executionCount() < 2)
                 {
+                    attacker.activationState().usedUpgrades().vizziniRemove(weapon.upgradeKey());
                     this.doIt();
                 }
                 else
@@ -391,7 +469,174 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
                 }
             }
 
-            LOGGER.trace("CombatAction.afterDealDamage() end");
+            LOGGER.trace("CombatAction.finishAfterDealDamage() end");
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+        CombatAction.prototype.finish = function(damageKey, pilotKey, upgradeKey, isAccepted, backFunction, forwardFunction)
+        {
+            InputValidator.validateNotNull("backFunction", backFunction);
+            InputValidator.validateNotNull("forwardFunction", forwardFunction);
+
+            var store = this.environment().store();
+            var token = this.attacker();
+
+            if (damageKey)
+            {
+                if (isAccepted)
+                {
+                    var damageAbility = this.getDamageAbility(damageKey);
+
+                    if (damageAbility.consequent !== undefined)
+                    {
+                        damageAbility.consequent(store, token);
+                    }
+                    else
+                    {
+                        damageAbility(store, token);
+                    }
+                }
+
+                token.activationState().usedDamages(damageKey);
+                backFunction();
+            }
+            else if (pilotKey)
+            {
+                if (isAccepted)
+                {
+                    var pilotAbility = this.getPilotAbility(pilotKey);
+
+                    if (pilotAbility.consequent !== undefined)
+                    {
+                        pilotAbility.consequent(store, token);
+                    }
+                    else
+                    {
+                        pilotAbility(store, token);
+                    }
+                }
+
+                token.activationState().usedPilots(pilotKey);
+                backFunction();
+            }
+            else if (upgradeKey)
+            {
+                if (isAccepted)
+                {
+                    var upgradeAbility = this.getUpgradeAbility(upgradeKey);
+
+                    if (upgradeAbility.consequent !== undefined)
+                    {
+                        upgradeAbility.consequent(store, token);
+                    }
+                    else
+                    {
+                        upgradeAbility(store, token);
+                    }
+                }
+
+                token.activationState().usedUpgrades(upgradeKey);
+                backFunction();
+            }
+            else
+            {
+                forwardFunction();
+            }
+        };
+
+        CombatAction.prototype.getDamageAbility = function(damageKey)
+        {
+            InputValidator.validateNotNull("damageKey", damageKey);
+
+            var answer;
+            var phaseKey = this.environment().phase();
+
+            if (DamageAbility3[phaseKey])
+            {
+                answer = DamageAbility3[phaseKey][damageKey];
+            }
+
+            return answer;
+        };
+
+        CombatAction.prototype.getPilotAbility = function(pilotKey)
+        {
+            InputValidator.validateNotNull("pilotKey", pilotKey);
+
+            var answer;
+            var phaseKey = this.environment().phase();
+
+            if (PilotAbility3[phaseKey])
+            {
+                answer = PilotAbility3[phaseKey][pilotKey];
+            }
+
+            return answer;
+        };
+
+        CombatAction.prototype.getUnusedDamageKeys = function()
+        {
+            var store = this.environment().store();
+            var token = this.attacker();
+
+            return token.criticalDamages().filter(function(damageKey)
+            {
+                var damage = DamageCard.properties[damageKey];
+                var usedDamages = token.activationState().usedDamages();
+                var damageAbility = this.getDamageAbility(damageKey);
+                return !usedDamages.vizziniContains(damageKey) && damageAbility !== undefined &&
+                    (damageAbility.condition === undefined || (damageAbility.condition !== undefined && damageAbility.condition(store, token)));
+            }, this);
+        };
+
+        CombatAction.prototype.getUnusedPilotKeys = function()
+        {
+            var store = this.environment().store();
+            var token = this.attacker();
+            var pilot = token.pilot();
+            var pilotKey = pilot.value;
+            var usedPilots = token.activationState().usedPilots();
+            var pilotAbility = this.getPilotAbility(pilotKey);
+
+            var answer = [];
+
+            if (!usedPilots.vizziniContains(pilotKey) && pilotAbility !== undefined &&
+                (pilotAbility.condition === undefined || (pilotAbility.condition !== undefined && pilotAbility.condition(store, token))))
+            {
+                answer.push(pilotKey);
+            }
+
+            return answer;
+        };
+
+        CombatAction.prototype.getUnusedUpgradeKeys = function()
+        {
+            var store = this.environment().store();
+            var token = this.attacker();
+
+            return token.upgradeKeys().filter(function(upgradeKey)
+            {
+                var upgrade = UpgradeCard.properties[upgradeKey];
+                var usedUpgrades = token.activationState().usedUpgrades();
+                var upgradeAbility = this.getUpgradeAbility(upgradeKey);
+                return !usedUpgrades.vizziniContains(upgradeKey) && upgradeAbility !== undefined &&
+                    (upgradeAbility.condition === undefined || (upgradeAbility.condition !== undefined && upgradeAbility.condition(store, token)));
+            }, this);
+        };
+
+        CombatAction.prototype.getUpgradeAbility = function(upgradeKey)
+        {
+            InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+            var answer;
+            var phaseKey = this.environment().phase();
+
+            if (UpgradeAbility3[phaseKey])
+            {
+                answer = UpgradeAbility3[phaseKey][upgradeKey];
+            }
+
+            return answer;
         };
 
         return CombatAction;

@@ -48,9 +48,9 @@ define(["Event"], function(Event)
 
         // Verify.
         assert.ok(result);
-        var length = 13;
+        var length = 8;
         assert.equal(result.length, length);
-        assert.equal(result[0], Event.ACTION_PERFORMED);
+        assert.equal(result[0], Event.AFTER_EXECUTE_MANEUVER);
         assert.equal(result[length - 1], Event.TARGET_LOCK_ACQUIRED);
     });
 });
