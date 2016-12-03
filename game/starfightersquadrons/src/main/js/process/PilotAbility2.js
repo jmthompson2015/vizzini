@@ -112,6 +112,11 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Pilot", "UpgradeCard", "p
             return activationAction.maneuverKey();
         }
 
+        PilotAbility2.toString = function()
+        {
+            return "PilotAbility2";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(PilotAbility2);

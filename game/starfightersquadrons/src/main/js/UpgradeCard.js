@@ -2734,6 +2734,11 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             },
         };
 
+        UpgradeCard.toString = function()
+        {
+            return "UpgradeCard";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(UpgradeCard);

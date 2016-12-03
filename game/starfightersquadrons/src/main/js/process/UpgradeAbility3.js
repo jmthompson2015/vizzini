@@ -954,6 +954,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
             return Selector.tokenToUpgradePerRound(store.getState(), token.id(), upgradeKey) > 0;
         }
 
+        UpgradeAbility3.toString = function()
+        {
+            return "UpgradeAbility3";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(UpgradeAbility3);

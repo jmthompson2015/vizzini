@@ -116,8 +116,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
 
                 assert.ok(!defender.isDestroyed());
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
@@ -149,8 +148,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
 
                 assert.ok(!defender.isDestroyed());
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 assert.equal(defender.hullValue(), 3);
                 done();
             }, delay);
@@ -247,8 +245,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 assert.equal(attackDice.hitCount(), 2);
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 1);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
                 assert.equal(defender.hullValue(), 3);
                 if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT)
                 {
@@ -285,8 +282,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 verifyAttackDice(assert, attacker.combatState().attackDice());
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 assert.ok(defender.isStressed());
                 assert.equal(defender.stressCount(), 1);
                 done();

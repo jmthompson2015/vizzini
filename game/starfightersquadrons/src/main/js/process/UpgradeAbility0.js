@@ -165,6 +165,11 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
             return answer;
         }
 
+        UpgradeAbility0.toString = function()
+        {
+            return "UpgradeAbility0";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(UpgradeAbility0);

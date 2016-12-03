@@ -2538,6 +2538,11 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         }
     });
 
+    Pilot.toString = function()
+    {
+        return "Pilot";
+    };
+
     if (Object.freeze)
     {
         Object.freeze(Pilot);

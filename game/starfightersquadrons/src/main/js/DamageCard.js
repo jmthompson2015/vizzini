@@ -168,5 +168,10 @@ define(["DamageCardTrait"],
             return answer;
         };
 
+        DamageCard.toString = function()
+        {
+            return "DamageCard";
+        };
+
         return DamageCard;
     });

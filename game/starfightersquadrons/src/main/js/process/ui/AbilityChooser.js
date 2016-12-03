@@ -1,5 +1,5 @@
-define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-    function(AbilityUI, InputPanel)
+define(["Pilot", "UpgradeCard", "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(Pilot, UpgradeCard, AbilityUI, InputPanel)
     {
         var AbilityChooser = React.createClass(
         {
@@ -33,13 +33,14 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
                 var labelFunction = function(value)
                 {
                     var answer;
-                    if (value.shipTeamKey)
+
+                    if (value.source() === Pilot)
                     {
-                        answer = createPilotLabel(value, imageBase);
+                        answer = createPilotLabel(value.sourceObject(), imageBase);
                     }
-                    else if (value.type)
+                    else if (value.source() === UpgradeCard)
                     {
-                        answer = createUpgradeLabel(value, imageBase);
+                        answer = createUpgradeLabel(value.sourceObject(), imageBase);
                     }
                     else
                     {

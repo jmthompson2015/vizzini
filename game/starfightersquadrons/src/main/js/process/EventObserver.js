@@ -1,5 +1,5 @@
-define(["DamageCard", "UpgradeCard", "process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
-    function(DamageCard, UpgradeCard, Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
+define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
+    function(Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
     {
         "use strict";
 
@@ -16,25 +16,36 @@ define(["DamageCard", "UpgradeCard", "process/Action", "process/DamageAbility0",
 
                 if (eventKey && token)
                 {
-                    var damageQueue = (token.criticalDamages ? token.criticalDamages().slice() : []);
-                    var pilotQueue = [token.pilotKey()];
-                    var upgradeQueue = (token.upgradeKeys ? token.upgradeKeys().slice() : []);
+                    var queue = [];
 
-                    this.performDamageAbilities(eventKey, token, damageQueue, pilotQueue, upgradeQueue, callback);
-                    this.performPilotAbilities(eventKey, token, damageQueue, pilotQueue, upgradeQueue, callback);
-                    this.performUpgradeAbilities(eventKey, token, damageQueue, pilotQueue, upgradeQueue, callback);
+                    if (token.unusedDamageAbilities)
+                    {
+                        queue.vizziniAddAll(token.unusedDamageAbilities(DamageAbility0, eventKey));
+                    }
+
+                    if (token.unusedPilotAbilities)
+                    {
+                        queue.vizziniAddAll(token.unusedPilotAbilities(PilotAbility0, eventKey));
+                    }
+
+                    if (token.unusedUpgradeAbilities)
+                    {
+                        queue.vizziniAddAll(token.unusedUpgradeAbilities(UpgradeAbility0, eventKey));
+                    }
+
+                    this.performAbilities(eventKey, token, queue, callback);
                 }
 
                 LOGGER.trace("EventObserver.onChange() end");
             };
 
-            this.finishOnChange = function(damageQueue, pilotQueue, upgradeQueue, callback)
+            this.finishOnChange = function(queue, callback)
             {
                 LOGGER.trace("EventObserver.finishOnChange() start");
 
-                InputValidator.validateNotNull("upgradeQueue", upgradeQueue);
+                InputValidator.validateNotNull("queue", queue);
 
-                if (damageQueue.length === 0 && pilotQueue.length === 0 && upgradeQueue.length === 0)
+                if (queue.length === 0)
                 {
                     if (callback)
                     {
@@ -47,94 +58,45 @@ define(["DamageCard", "UpgradeCard", "process/Action", "process/DamageAbility0",
                 LOGGER.trace("EventObserver.finishOnChange() end");
             };
 
-            this.performDamageAbilities = function(eventKey, token, damageQueue, pilotQueue, upgradeQueue, callback)
+            this.performAbilities = function(eventKey, token, queue, callback)
             {
-                LOGGER.trace("EventObserver.performDamageAbilities() start");
+                LOGGER.trace("EventObserver.performAbilities() start");
 
                 InputValidator.validateNotNull("eventKey", eventKey);
                 InputValidator.validateNotNull("token", token);
 
-                var abilities = DamageAbility0[eventKey];
+                this.processAbilityQueue(queue, store, token, callback);
 
-                if (abilities !== undefined)
-                {
-                    var usedAbilities = token.activationState().usedDamages();
-                    this.processAbilityQueue(damageQueue, pilotQueue, upgradeQueue, damageQueue, store, token, abilities, usedAbilities, callback);
-                }
-                else
-                {
-                    this.finishOnChange(damageQueue, pilotQueue, upgradeQueue, callback);
-                }
-
-                LOGGER.trace("EventObserver.performDamageAbilities() end");
+                LOGGER.trace("EventObserver.performAbilities() end");
             };
 
-            this.performPilotAbilities = function(eventKey, token, damageQueue, pilotQueue, upgradeQueue, callback)
-            {
-                LOGGER.trace("EventObserver.performPilotAbilities() start");
-
-                InputValidator.validateNotNull("eventKey", eventKey);
-                InputValidator.validateNotNull("token", token);
-
-                var abilities = PilotAbility0[eventKey];
-
-                if (abilities !== undefined)
-                {
-                    var usedAbilities = token.activationState().usedPilots();
-                    this.processAbilityQueue(damageQueue, pilotQueue, upgradeQueue, pilotQueue, store, token, abilities, usedAbilities, callback);
-                }
-                else
-                {
-                    this.finishOnChange(damageQueue, pilotQueue, upgradeQueue, callback);
-                }
-
-                LOGGER.trace("EventObserver.performPilotAbilities() end");
-            };
-
-            this.performUpgradeAbilities = function(eventKey, token, damageQueue, pilotQueue, upgradeQueue, callback)
-            {
-                LOGGER.trace("EventObserver.performUpgradeAbilities() start");
-
-                InputValidator.validateNotNull("eventKey", eventKey);
-                InputValidator.validateNotNull("token", token);
-
-                var abilities = UpgradeAbility0[eventKey];
-
-                if (abilities !== undefined)
-                {
-                    var usedAbilities = token.activationState().usedUpgrades();
-                    this.processAbilityQueue(damageQueue, pilotQueue, upgradeQueue, upgradeQueue, store, token, abilities, usedAbilities, callback);
-                }
-                else
-                {
-                    this.finishOnChange(damageQueue, pilotQueue, upgradeQueue, callback);
-                }
-
-                LOGGER.trace("EventObserver.performUpgradeAbilities() end");
-            };
-
-            this.processAbilityQueue = function(damageQueue, pilotQueue, upgradeQueue, queue, store, token, abilities, usedAbilities, callback)
+            this.processAbilityQueue = function(queue, store, token, callback)
             {
                 LOGGER.trace("EventObserver.processAbilityQueue() start");
 
                 if (queue.length === 0)
                 {
-                    setTimeout(this.finishOnChange(damageQueue, pilotQueue, upgradeQueue, callback), 10);
+                    setTimeout(this.finishOnChange(queue, callback), 10);
                 }
                 else
                 {
-                    var abilityKey = queue.shift();
-                    var ability = abilities[abilityKey];
+                    var ability = queue.shift();
                     var that = this;
                     var myCallback = function()
                     {
-                        that.processAbilityQueue(damageQueue, pilotQueue, upgradeQueue, queue, store, token, abilities, usedAbilities, callback);
+                        that.processAbilityQueue(queue, store, token, callback);
                     };
 
-                    if (ability !== undefined && ability.condition(store, token))
+                    if (ability.conditionPasses(store, token))
                     {
-                        ability.consequent(store, token, myCallback);
-                        usedAbilities.push(abilityKey);
+                        var consequent = ability.consequent();
+                        consequent(store, token, myCallback);
+                        var usedAbilities = ability.usedAbilities(token);
+
+                        if (usedAbilities !== undefined)
+                        {
+                            usedAbilities.push(ability.abilityKey);
+                        }
                     }
                     else
                     {

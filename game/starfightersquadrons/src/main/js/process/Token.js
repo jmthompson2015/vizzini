@@ -1,5 +1,5 @@
-define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/UpgradeAbility2"],
-    function(ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, UpgradeAbility2)
+define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/UpgradeAbility2"],
+    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, UpgradeAbility2)
     {
         "use strict";
 
@@ -825,6 +825,68 @@ define(["ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Dam
         Token.prototype.tractorBeamCount = function()
         {
             return Selector.tractorBeamCount(this.store().getState(), this.id());
+        };
+
+        Token.prototype.unusedDamageAbilities = function(abilityType, eventOrPhaseKey)
+        {
+            InputValidator.validateNotNull("abilityType", abilityType);
+            InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+
+            var answer = [];
+            var usedDamages = this.activationState().usedDamages();
+
+            this.criticalDamages().forEach(function(damageKey)
+            {
+                if (!usedDamages.vizziniContains(damageKey) && abilityType[eventOrPhaseKey] && abilityType[eventOrPhaseKey][damageKey])
+                {
+                    var source = DamageCard;
+
+                    if (DamageCard[damageKey] === undefined)
+                    {
+                        source = DamageCardV2;
+                    }
+
+                    answer.push(new Ability(source, damageKey, abilityType, eventOrPhaseKey));
+                }
+            });
+
+            return answer;
+        };
+
+        Token.prototype.unusedPilotAbilities = function(abilityType, eventOrPhaseKey)
+        {
+            InputValidator.validateNotNull("abilityType", abilityType);
+            InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+
+            var answer = [];
+            var pilotKey = this.pilotKey();
+            var usedPilots = this.activationState().usedPilots();
+
+            if (!usedPilots.vizziniContains(pilotKey) && abilityType[eventOrPhaseKey] && abilityType[eventOrPhaseKey][pilotKey])
+            {
+                answer.push(new Ability(Pilot, pilotKey, abilityType, eventOrPhaseKey));
+            }
+
+            return answer;
+        };
+
+        Token.prototype.unusedUpgradeAbilities = function(abilityType, eventOrPhaseKey)
+        {
+            InputValidator.validateNotNull("abilityType", abilityType);
+            InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+
+            var answer = [];
+            var usedUpgrades = this.activationState().usedUpgrades();
+
+            this.upgradeKeys().forEach(function(upgradeKey)
+            {
+                if (!usedUpgrades.vizziniContains(upgradeKey) && abilityType[eventOrPhaseKey] && abilityType[eventOrPhaseKey][upgradeKey])
+                {
+                    answer.push(new Ability(UpgradeCard, upgradeKey, abilityType, eventOrPhaseKey));
+                }
+            });
+
+            return answer;
         };
 
         Token.prototype.upgradeKeys = function()

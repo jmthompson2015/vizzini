@@ -266,6 +266,11 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             return activationAction.maneuverKey();
         }
 
+        UpgradeAbility2.toString = function()
+        {
+            return "UpgradeAbility2";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(UpgradeAbility2);

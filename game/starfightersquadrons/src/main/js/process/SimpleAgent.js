@@ -19,31 +19,31 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
             };
         }
 
-        SimpleAgent.prototype.chooseAbility = function(environment, damageKeys, pilotKeys, upgradeKeys, callback)
+        SimpleAgent.prototype.chooseAbility = function(environment, damageAbilities, pilotAbilities, upgradeAbilities, callback)
         {
             InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("damageKeys", damageKeys);
-            InputValidator.validateNotNull("pilotKeys", pilotKeys);
-            InputValidator.validateNotNull("upgradeKeys", upgradeKeys);
+            InputValidator.validateNotNull("damageAbilities", damageAbilities);
+            InputValidator.validateNotNull("pilotAbilities", pilotAbilities);
+            InputValidator.validateNotNull("upgradeAbilities", upgradeAbilities);
             InputValidator.validateNotNull("callback", callback);
 
-            var damageKey, pilotKey, upgradeKey;
+            var damageAbility, pilotAbility, upgradeAbility;
 
-            damageKey = (damageKeys.length > 0 ? damageKeys.vizziniRandomElement() : undefined);
+            damageAbility = (damageAbilities.length > 0 ? damageAbilities.vizziniRandomElement() : undefined);
 
-            if (damageKey === undefined)
+            if (damageAbility === undefined)
             {
-                upgradeKey = (upgradeKeys.length > 0 ? upgradeKeys.vizziniRandomElement() : undefined);
+                upgradeAbility = (upgradeAbilities.length > 0 ? upgradeAbilities.vizziniRandomElement() : undefined);
 
-                if (upgradeKey === undefined)
+                if (upgradeAbility === undefined)
                 {
-                    pilotKey = (pilotKeys.length > 0 ? pilotKeys.vizziniRandomElement() : undefined);
+                    pilotAbility = (pilotAbilities.length > 0 ? pilotAbilities.vizziniRandomElement() : undefined);
                 }
             }
 
-            var isAccepted = (damageKey !== undefined) || (pilotKey !== undefined) || (upgradeKey !== undefined);
+            var isAccepted = (damageAbility !== undefined) || (pilotAbility !== undefined) || (upgradeAbility !== undefined);
 
-            callback(damageKey, pilotKey, upgradeKey, isAccepted);
+            callback(damageAbility, pilotAbility, upgradeAbility, isAccepted);
         };
 
         SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)

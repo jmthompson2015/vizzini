@@ -178,6 +178,11 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             return Selector.activeToken(store.getState());
         }
 
+        DamageAbility2.toString = function()
+        {
+            return "DamageAbility2";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(DamageAbility2);

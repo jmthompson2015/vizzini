@@ -20,6 +20,11 @@ define(["Phase", "UpgradeCard", "process/Action"], function(Phase, UpgradeCard, 
         },
     };
 
+    UpgradeAbility4.toString = function()
+    {
+        return "UpgradeAbility4";
+    };
+
     if (Object.freeze)
     {
         Object.freeze(UpgradeAbility4);

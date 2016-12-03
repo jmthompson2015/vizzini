@@ -91,6 +91,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
         var properties = Object.getOwnPropertyNames(Pilot);
         var count = properties.length - 1 - // properties
+            1 - // toString
             1 - // values
             1 - // valuesByShipAndTeam
             1 - // valuesByShipTeam

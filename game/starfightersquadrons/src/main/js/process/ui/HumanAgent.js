@@ -43,44 +43,26 @@ define(["DamageCard", "DamageCardV2", "Phase", "Pilot", "UpgradeCard", "process/
             var dealDamageCallback;
             var chooseAbilityCallback;
 
-            this.chooseAbility = function(environment, damageKeys, pilotKeys, upgradeKeys, callback)
+            this.chooseAbility = function(environment, damageAbilities, pilotAbilities, upgradeAbilities, callback)
             {
                 InputValidator.validateNotNull("environment", environment);
-                InputValidator.validateNotNull("damageKeys", damageKeys);
-                InputValidator.validateNotNull("pilotKeys", pilotKeys);
-                InputValidator.validateNotNull("upgradeKeys", upgradeKeys);
+                InputValidator.validateNotNull("damageAbilities", damageAbilities);
+                InputValidator.validateNotNull("pilotAbilities", pilotAbilities);
+                InputValidator.validateNotNull("upgradeAbilities", upgradeAbilities);
                 InputValidator.validateNotNull("callback", callback);
 
                 chooseAbilityCallback = callback;
 
-                if (damageKeys.length > 0 || pilotKeys.length > 0 || upgradeKeys.length > 0)
+                if (damageAbilities.length > 0 || pilotAbilities.length > 0 || upgradeAbilities.length > 0)
                 {
-                    var damages = damageKeys.map(function(damageKey)
-                    {
-                        var answer = DamageCard.properties[damageKey];
-                        if (!answer)
-                        {
-                            answer = DamageCardV2.properties[damageKey];
-                        }
-                        return answer;
-                    });
-                    var pilots = pilotKeys.map(function(pilotKey)
-                    {
-                        return Pilot.properties[pilotKey];
-                    });
-                    var upgrades = upgradeKeys.map(function(upgradeKey)
-                    {
-                        return UpgradeCard.properties[upgradeKey];
-                    });
-
                     var element = React.createElement(AbilityChooser,
                     {
-                        damages: damages,
+                        damages: damageAbilities,
                         imageBase: imageBase,
                         onChange: finishChooseAbility,
-                        pilots: pilots,
+                        pilots: pilotAbilities,
                         token: environment.activeToken(),
-                        upgrades: upgrades,
+                        upgrades: upgradeAbilities,
                     });
                     ReactDOM.render(element, document.getElementById("inputArea"));
                     window.dispatchEvent(new Event('resize'));
@@ -313,7 +295,7 @@ define(["DamageCard", "DamageCardV2", "Phase", "Pilot", "UpgradeCard", "process/
                 }
             };
 
-            function finishChooseAbility(damageKey, pilotKey, upgradeKey, isAccepted)
+            function finishChooseAbility(damageAbility, pilotAbility, upgradeAbility, isAccepted)
             {
                 LOGGER.trace("HumanAgent.finishChooseAbility() start");
 
@@ -323,7 +305,7 @@ define(["DamageCard", "DamageCardV2", "Phase", "Pilot", "UpgradeCard", "process/
                 window.dispatchEvent(new Event('resize'));
                 LOGGER.trace("HumanAgent.finishChooseAbility() end");
 
-                chooseAbilityCallback(damageKey, pilotKey, upgradeKey, isAccepted);
+                chooseAbilityCallback(damageAbility, pilotAbility, upgradeAbility, isAccepted);
             }
 
             function finishDealDamage()

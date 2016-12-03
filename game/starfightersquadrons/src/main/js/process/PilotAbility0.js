@@ -79,6 +79,11 @@ define(["Event", "Maneuver", "Pilot", "process/Action", "process/Selector"],
             return answer;
         }
 
+        PilotAbility0.toString = function()
+        {
+            return "PilotAbility0";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(PilotAbility0);

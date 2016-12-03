@@ -1,5 +1,5 @@
-define(["process/Action"],
-    function(Action)
+define(["process/Action", "process/PilotAbility3", "process/UpgradeAbility3"],
+    function(Action, PilotAbility3, UpgradeAbility3)
     {
         "use strict";
 

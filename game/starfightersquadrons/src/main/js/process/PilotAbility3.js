@@ -184,6 +184,11 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "process/Ac
             return attacker.combatState().isDefenderHit();
         }
 
+        PilotAbility3.toString = function()
+        {
+            return "PilotAbility3";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(PilotAbility3);

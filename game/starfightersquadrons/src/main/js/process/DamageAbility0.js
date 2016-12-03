@@ -149,6 +149,11 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
             return answer;
         }
 
+        DamageAbility0.toString = function()
+        {
+            return "DamageAbility0";
+        };
+
         if (Object.freeze)
         {
             Object.freeze(DamageAbility0);

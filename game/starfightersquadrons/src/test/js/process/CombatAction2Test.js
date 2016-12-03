@@ -182,10 +182,22 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             setTimeout(function()
             {
                 assert.ok(true, "test resumed from async operation");
-                assert.equal(attacker.stressCount(), 0);
-                assert.equal(attacker.focusCount(), 0);
-                assert.equal(attacker.attackerTargetLocks().length, 0);
-                assert.equal(defender.defenderTargetLocks().length, 0);
+                if (attacker.combatState().isDefenderHit())
+                {
+                    assert.ok(attacker.combatState().isDefenderHit());
+                    assert.equal(attacker.stressCount(), 1);
+                    assert.equal(attacker.focusCount(), 1);
+                    assert.equal(attacker.attackerTargetLocks().length, 1);
+                    assert.equal(defender.defenderTargetLocks().length, 1);
+                }
+                else
+                {
+                    assert.ok(!attacker.combatState().isDefenderHit());
+                    assert.equal(attacker.stressCount(), 0);
+                    assert.equal(attacker.focusCount(), 0);
+                    assert.equal(attacker.attackerTargetLocks().length, 0);
+                    assert.equal(defender.defenderTargetLocks().length, 0);
+                }
                 done();
             }, delay);
         });
