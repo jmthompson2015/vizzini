@@ -75,9 +75,9 @@ define(["Ability", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuve
             var token = this.token();
             var agent = token.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = token.unusedDamageAbilities(DamageAbility2, phaseKey);
-            var pilotAbilities = token.unusedPilotAbilities(PilotAbility2, phaseKey);
-            var upgradeAbilities = token.unusedUpgradeAbilities(UpgradeAbility2, phaseKey);
+            var damageAbilities = token.usableDamageAbilities(DamageAbility2, phaseKey);
+            var pilotAbilities = token.usablePilotAbilities(PilotAbility2, phaseKey);
+            var upgradeAbilities = token.usableUpgradeAbilities(UpgradeAbility2, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishRevealDial.bind(this));
 
             // Wait for agent to respond.
@@ -85,12 +85,12 @@ define(["Ability", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuve
             LOGGER.trace("ActivationAction.revealDial() end");
         };
 
-        ActivationAction.prototype.finishRevealDial = function(damageAbility, pilotAbility, upgradeAbility, isAccepted)
+        ActivationAction.prototype.finishRevealDial = function(ability, isAccepted)
         {
             LOGGER.trace("ActivationAction.finishRevealDial() start");
-            LOGGER.debug("ActivationAction.finishRevealDial() damageAbility = " + damageAbility + " pilotAbility = " + pilotAbility + " upgradeAbility = " + upgradeAbility + " isAccepted ? " + isAccepted);
+            LOGGER.debug("ActivationAction.finishRevealDial() ability = " + ability + " isAccepted ? " + isAccepted);
 
-            this.finish(damageAbility, pilotAbility, upgradeAbility, isAccepted, this.revealDial.bind(this), this.setTemplate.bind(this));
+            this.finish(ability, isAccepted, this.revealDial.bind(this), this.setTemplate.bind(this));
             LOGGER.debug("ActivationAction.finishRevealDial() maneuverKey = " + this.maneuverKey());
 
             LOGGER.trace("ActivationAction.finishRevealDial() end");
@@ -198,9 +198,9 @@ define(["Ability", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuve
             var token = this.token();
             var agent = token.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = token.unusedDamageAbilities(DamageAbility2, phaseKey);
-            var pilotAbilities = token.unusedPilotAbilities(PilotAbility2, phaseKey);
-            var upgradeAbilities = token.unusedUpgradeAbilities(UpgradeAbility2, phaseKey);
+            var damageAbilities = token.usableDamageAbilities(DamageAbility2, phaseKey);
+            var pilotAbilities = token.usablePilotAbilities(PilotAbility2, phaseKey);
+            var upgradeAbilities = token.usableUpgradeAbilities(UpgradeAbility2, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishCleanUp.bind(this));
 
             // Wait for agent to respond.
@@ -208,12 +208,12 @@ define(["Ability", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuve
             LOGGER.trace("ActivationAction.cleanUp() end");
         };
 
-        ActivationAction.prototype.finishCleanUp = function(damageAbility, pilotAbility, upgradeAbility, isAccepted)
+        ActivationAction.prototype.finishCleanUp = function(ability, isAccepted)
         {
             LOGGER.trace("ActivationAction.finishCleanUp() start");
-            LOGGER.debug("ActivationAction.finishCleanUp() damageAbility = " + damageAbility + " pilotAbility = " + pilotAbility + " upgradeAbility = " + upgradeAbility + " isAccepted ? " + isAccepted);
+            LOGGER.debug("ActivationAction.finishCleanUp() ability = " + ability + " isAccepted ? " + isAccepted);
 
-            this.finish(damageAbility, pilotAbility, upgradeAbility, isAccepted, this.cleanUp.bind(this), this.gainEnergy.bind(this));
+            this.finish(ability, isAccepted, this.cleanUp.bind(this), this.gainEnergy.bind(this));
 
             LOGGER.trace("ActivationAction.finishCleanUp() end");
         };
@@ -252,9 +252,9 @@ define(["Ability", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuve
 
             var agent = token.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = token.unusedDamageAbilities(DamageAbility2, phaseKey);
-            var pilotAbilities = token.unusedPilotAbilities(PilotAbility2, phaseKey);
-            var upgradeAbilities = token.unusedUpgradeAbilities(UpgradeAbility2, phaseKey);
+            var damageAbilities = token.usableDamageAbilities(DamageAbility2, phaseKey);
+            var pilotAbilities = token.usablePilotAbilities(PilotAbility2, phaseKey);
+            var upgradeAbilities = token.usableUpgradeAbilities(UpgradeAbility2, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishGainEnergy.bind(this));
 
             // Wait for agent to respond.
@@ -262,12 +262,12 @@ define(["Ability", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuve
             LOGGER.trace("ActivationAction.gainEnergy() end");
         };
 
-        ActivationAction.prototype.finishGainEnergy = function(damageAbility, pilotAbility, upgradeAbility, isAccepted)
+        ActivationAction.prototype.finishGainEnergy = function(ability, isAccepted)
         {
             LOGGER.trace("ActivationAction.finishGainEnergy() start");
-            LOGGER.debug("ActivationAction.finishGainEnergy() damageAbility = " + damageAbility + " pilotAbility = " + pilotAbility + " upgradeAbility = " + upgradeAbility + " isAccepted ? " + isAccepted);
+            LOGGER.debug("ActivationAction.finishGainEnergy() ability = " + ability + " isAccepted ? " + isAccepted);
 
-            this.finish(damageAbility, pilotAbility, upgradeAbility, isAccepted, this.gainEnergy.bind(this), this.allocateEnergy.bind(this));
+            this.finish(ability, isAccepted, this.gainEnergy.bind(this), this.allocateEnergy.bind(this));
 
             LOGGER.trace("ActivationAction.finishGainEnergy() end");
         };
@@ -355,47 +355,18 @@ define(["Ability", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuve
         };
 
         ////////////////////////////////////////////////////////////////////////
-        ActivationAction.prototype.finish = function(damageAbility, pilotAbility, upgradeAbility, isAccepted, backFunction, forwardFunction)
+        ActivationAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
         {
             InputValidator.validateNotNull("backFunction", backFunction);
             InputValidator.validateNotNull("forwardFunction", forwardFunction);
 
-            var store = this.environment().store();
-            var token = this.token();
-            var consequent;
-
-            if (damageAbility)
+            if (ability && isAccepted)
             {
-                if (isAccepted)
-                {
-                    consequent = damageAbility.consequent();
-                    consequent(store, token);
-                    damageAbility.usedAbilities(token).push(damageAbility.sourceKey());
-                }
-
-                backFunction();
-            }
-            else if (pilotAbility)
-            {
-                if (isAccepted)
-                {
-                    consequent = pilotAbility.consequent();
-                    consequent(store, token);
-                    pilotAbility.usedAbilities(token).push(pilotAbility.sourceKey());
-                }
-
-                backFunction();
-            }
-            else if (upgradeAbility)
-            {
-                if (isAccepted)
-                {
-                    consequent = upgradeAbility.consequent();
-                    consequent(store, token);
-                    upgradeAbility.usedAbilities(token).push(upgradeAbility.sourceKey());
-                }
-
-                backFunction();
+                var store = this.environment().store();
+                var token = this.token();
+                ability.usedAbilities(token).push(ability.sourceKey());
+                var consequent = ability.consequent();
+                consequent(store, token, backFunction);
             }
             else
             {

@@ -1,14 +1,47 @@
 /*
  * Provides pilot abilities for the Combat Phase.
  */
-define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "process/Action", "process/Selector"],
-    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, Action, Selector)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction", "process/Action", "process/Adjudicator", "process/Selector"],
+    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, ShipAction, Action, Adjudicator, Selector)
     {
         "use strict";
         var PilotAbility3 = {};
 
         ////////////////////////////////////////////////////////////////////////
         PilotAbility3[Phase.COMBAT_START] = {};
+
+        PilotAbility3[Phase.COMBAT_START][Pilot.COMMANDER_ALOZEN] = {
+            // At the start of the Combat phase, you may acquire a target lock on an enemy ship at Range 1.
+            condition: function(store, token)
+            {
+                var environment = store.getState().environment;
+                var enemies = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+                return enemies.length > 0;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.TARGET_LOCK];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                callback();
+            },
+        };
 
         PilotAbility3[Phase.COMBAT_START][Pilot.GURI] = {
             // At the start of the Combat phase, if you are at Range 1 of an enemy ship, you may assign 1 focus token to your ship.
@@ -145,6 +178,39 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "process/Ac
             consequent: function(store, token)
             {
                 store.dispatch(Action.addEvadeCount(token));
+            },
+        };
+
+        PilotAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][Pilot.TURR_PHENNIR] = {
+            // After you perform an attack, you may perform a free boost or barrel roll action.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var combatAction = token.combatState().combatAction();
+                return token === attacker && combatAction !== undefined;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.BARREL_ROLL, ShipAction.BOOST];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                callback();
             },
         };
 

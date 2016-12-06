@@ -1,5 +1,5 @@
-define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCard", "Difficulty", "process/DualToken", "process/Environment", "process/EnvironmentFactory", "Maneuver", "process/ManeuverAction", "Pilot", "Position", "RangeRuler", "Ship", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "UpgradeType", "Value", "process/Action", "process/Reducer", "process/ui/HumanAgent"],
-    function(ActivationAction, Adjudicator, Bearing, DamageCard, Difficulty, DualToken, Environment, EnvironmentFactory, Maneuver, ManeuverAction, Pilot, Position, RangeRuler, Ship, SimpleAgent, TargetLock, Team, Token, UpgradeCard, UpgradeType, Value, Action, Reducer, HumanAgent)
+define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Ship", "Team", "UpgradeCard", "UpgradeType", "Value", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/DamageAbility2", "process/DualToken", "process/Environment", "process/EnvironmentFactory", "process/ManeuverAction", "process/PilotAbility2", "process/Reducer", "process/SimpleAgent", "process/TargetLock", "process/Token", "process/UpgradeAbility2", "process/ui/HumanAgent"],
+    function(Bearing, DamageCard, Difficulty, Event, Maneuver, Phase, Pilot, Position, RangeRuler, Ship, Team, UpgradeCard, UpgradeType, Value, Action, ActivationAction, Adjudicator, DamageAbility2, DualToken, Environment, EnvironmentFactory, ManeuverAction, PilotAbility2, Reducer, SimpleAgent, TargetLock, Token, UpgradeAbility2, HumanAgent)
     {
         "use strict";
         QUnit.module("Token");
@@ -1381,6 +1381,109 @@ define(["process/ActivationAction", "process/Adjudicator", "Bearing", "DamageCar
             assert.equal(token.upgradeTypeKeys()[0], UpgradeType.TITLE);
             assert.equal(token.upgradeTypeKeys()[5], UpgradeType.MODIFICATION);
             assert.equal(token.upgradeTypeKeys()[6], UpgradeType.BOMB);
+        });
+
+        QUnit.test("usableDamageAbilities()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var agent = new SimpleAgent("name", Team.IMPERIAL);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, agent);
+            var abilityType = DamageAbility2;
+            var eventOrPhaseKey = Phase.ACTIVATION_PERFORM_ACTION;
+            store.dispatch(Action.setActiveToken(token.id()));
+
+            // Run.
+            var result = token.usableDamageAbilities(abilityType, eventOrPhaseKey);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 0);
+
+            // Run.
+            var damageKey = DamageCard.CONSOLE_FIRE;
+            store.dispatch(Action.addTokenCriticalDamage(token, damageKey));
+            result = token.usableDamageAbilities(abilityType, eventOrPhaseKey);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 1);
+            assert.equal(result[0].sourceKey(), damageKey);
+        });
+
+        QUnit.test("usablePilotAbilities()", function(assert)
+        {
+            // Setup.
+            var pilotKey = Pilot.COUNTESS_RYAD;
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            var adjudicator = new Adjudicator();
+            var token0 = environment.tokens()[0]; // TIE Fighter.
+            var agent = token0.agent();
+            var token = new Token(store, pilotKey, agent);
+            var maneuverKey = Maneuver.BANK_LEFT_2_STANDARD;
+            var abilityType = PilotAbility2;
+            var eventOrPhaseKey = Phase.ACTIVATION_REVEAL_DIAL;
+            var callback = function()
+            {
+                LOGGER.info("in callback()");
+            };
+            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            token.activationState().activationAction(activationAction);
+            store.dispatch(Action.placeToken(new Position(400, 400, 0), token));
+            store.dispatch(Action.setActiveToken(token.id()));
+
+            // Run.
+            var result = token.usablePilotAbilities(abilityType, eventOrPhaseKey);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 0);
+
+            // Run.
+            token.activationState().activationAction().maneuverKey(Maneuver.STRAIGHT_1_EASY);
+            result = token.usablePilotAbilities(abilityType, eventOrPhaseKey);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 1);
+            assert.equal(result[0].sourceKey(), pilotKey);
+        });
+
+        QUnit.test("usableUpgradeAbilities()", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var adjudicator = new Adjudicator();
+            var token = environment.tokens()[2]; // X-Wing.
+            var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
+            var abilityType = UpgradeAbility2;
+            var eventOrPhaseKey = Phase.ACTIVATION_REVEAL_DIAL;
+            var callback = function()
+            {
+                LOGGER.info("in callback()");
+            };
+            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            token.activationState().activationAction(activationAction);
+            var store = environment.store();
+            store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.ADRENALINE_RUSH));
+            store.dispatch(Action.setActiveToken(token.id()));
+
+            // Run.
+            var result = token.usableUpgradeAbilities(abilityType, eventOrPhaseKey);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 0);
+
+            // Run.
+            token.activationState().activationAction().maneuverKey(Maneuver.STRAIGHT_4_HARD);
+            result = token.usableUpgradeAbilities(abilityType, eventOrPhaseKey);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 1);
+            assert.equal(result[0].sourceKey(), UpgradeCard.ADRENALINE_RUSH);
         });
 
         QUnit.test("weaponsDisabledCount()", function(assert)

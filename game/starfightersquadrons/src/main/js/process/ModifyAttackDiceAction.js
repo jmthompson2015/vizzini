@@ -71,7 +71,7 @@ define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbil
                     {
                         if (pilotAbility.consequent !== undefined)
                         {
-                            pilotAbility.consequent(store, attacker);
+                            pilotAbility.consequent(store, attacker, function() {});
                         }
                         else
                         {
@@ -87,7 +87,7 @@ define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbil
                     {
                         if (upgradeAbility.consequent !== undefined)
                         {
-                            upgradeAbility.consequent(store, attacker);
+                            upgradeAbility.consequent(store, attacker, function() {});
                         }
                         else
                         {

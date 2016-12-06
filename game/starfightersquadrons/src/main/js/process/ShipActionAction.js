@@ -397,15 +397,17 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType"
             };
         }
 
-        SAADamageCard.prototype.doIt = function()
+        SAADamageCard.prototype.doIt = function(callback)
         {
+            InputValidator.validateNotNull("callback", callback);
+
             var store = this.store();
             var token = this.token();
             var damageAbility = this.damageAbility();
 
             if (damageAbility && damageAbility.consequent)
             {
-                damageAbility.consequent(store, token);
+                damageAbility.consequent(store, token, callback);
             }
         };
 
@@ -505,15 +507,17 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType"
             };
         }
 
-        SAAUpgradeCard.prototype.doIt = function()
+        SAAUpgradeCard.prototype.doIt = function(callback)
         {
+            InputValidator.validateNotNull("callback", callback);
+
             var store = this.store();
             var token = this.token();
             var upgradeAbility = this.upgradeAbility();
 
             if (upgradeAbility && upgradeAbility.consequent)
             {
-                upgradeAbility.consequent(store, token);
+                upgradeAbility.consequent(store, token, callback);
             }
         };
 

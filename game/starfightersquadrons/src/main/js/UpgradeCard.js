@@ -301,6 +301,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.TIE_PHANTOM_ONLY],
                     description: "After you perform an attack, you may perform a free cloak action.",
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "advancedCloakingDevice",
                 },
                 "advancedHomingMissiles":
@@ -481,6 +482,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     isUnique: true,
                     description: "When you reveal a green maneuver, you may perform a free barrel roll action.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "bb8",
                 },
                 "blasterTurret":
@@ -1088,6 +1090,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.SYSTEM,
                     description: "After you perform an attack, you may acquire a Target Lock on the defender.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "fireControlSystem",
                 },
                 "flechetteCannon":
@@ -1355,6 +1358,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     restrictions: [UpgradeRestriction.RAIDER_CLASS_CORVETTE_AFT_SECTION_ONLY],
                     description: "After you perform an attack that destroys an enemy ship, you may acquire a target lock.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "impetuous",
                 },
                 "inertialDampeners":
@@ -2426,6 +2430,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     type: UpgradeType.ASTROMECH,
                     description: "After you execute a red maneuver, you may acquire a target lock.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "targetingAstromech",
                 },
                 "targetingComputer":

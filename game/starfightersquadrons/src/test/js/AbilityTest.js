@@ -1,5 +1,5 @@
-define(["Ability", "Event", "UpgradeCard", "process/UpgradeAbility0"],
-    function(Ability, Event, UpgradeCard, UpgradeAbility0)
+define(["Ability", "DamageCard", "DamageCardV2", "Event", "Pilot", "UpgradeCard", "process/DamageAbility0", "process/PilotAbility0", "process/UpgradeAbility0"],
+    function(Ability, DamageCard, DamageCardV2, Event, Pilot, UpgradeCard, DamageAbility0, PilotAbility0, UpgradeAbility0)
     {
         "use strict";
         QUnit.module("Ability");
@@ -23,6 +23,39 @@ define(["Ability", "Event", "UpgradeCard", "process/UpgradeAbility0"],
             assert.ok(ability.ability());
             assert.ok(ability.condition());
             assert.ok(ability.consequent());
+        });
+
+        QUnit.test("isDamage()", function(assert)
+        {
+            // Setup.
+            var ability = new Ability(DamageCard, DamageCard.BLINDED_PILOT, DamageAbility0, Event.FOCUS_ACTION_PERFORMED);
+
+            // Run / Verify.
+            assert.ok(ability.isDamage());
+            assert.ok(!ability.isPilot());
+            assert.ok(!ability.isUpgrade());
+        });
+
+        QUnit.test("isPilot()", function(assert)
+        {
+            // Setup.
+            var ability = new Ability(Pilot, Pilot.DASH_RENDAR, PilotAbility0, Event.FOCUS_ACTION_PERFORMED);
+
+            // Run / Verify.
+            assert.ok(!ability.isDamage());
+            assert.ok(ability.isPilot());
+            assert.ok(!ability.isUpgrade());
+        });
+
+        QUnit.test("isUpgrade()", function(assert)
+        {
+            // Setup.
+            var ability = new Ability(UpgradeCard, UpgradeCard.RECON_SPECIALIST, UpgradeAbility0, Event.FOCUS_ACTION_PERFORMED);
+
+            // Run / Verify.
+            assert.ok(!ability.isDamage());
+            assert.ok(!ability.isPilot());
+            assert.ok(ability.isUpgrade());
         });
 
         QUnit.test("toString()", function(assert)

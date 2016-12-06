@@ -80,6 +80,21 @@ define(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard"],
             return (myConsequent !== undefined ? myConsequent.bind(myAbility) : undefined);
         };
 
+        Ability.prototype.isDamage = function()
+        {
+            return [DamageCard, DamageCardV2].vizziniContains(this.source());
+        };
+
+        Ability.prototype.isPilot = function()
+        {
+            return this.source() === Pilot;
+        };
+
+        Ability.prototype.isUpgrade = function()
+        {
+            return this.source() === UpgradeCard;
+        };
+
         Ability.prototype.toString = function()
         {
             var answer = "Ability ";

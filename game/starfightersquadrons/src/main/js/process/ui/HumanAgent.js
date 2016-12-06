@@ -295,7 +295,7 @@ define(["DamageCard", "DamageCardV2", "Phase", "Pilot", "UpgradeCard", "process/
                 }
             };
 
-            function finishChooseAbility(damageAbility, pilotAbility, upgradeAbility, isAccepted)
+            function finishChooseAbility(ability, isAccepted)
             {
                 LOGGER.trace("HumanAgent.finishChooseAbility() start");
 
@@ -305,7 +305,7 @@ define(["DamageCard", "DamageCardV2", "Phase", "Pilot", "UpgradeCard", "process/
                 window.dispatchEvent(new Event('resize'));
                 LOGGER.trace("HumanAgent.finishChooseAbility() end");
 
-                chooseAbilityCallback(damageAbility, pilotAbility, upgradeAbility, isAccepted);
+                chooseAbilityCallback(ability, isAccepted);
             }
 
             function finishDealDamage()

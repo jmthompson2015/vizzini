@@ -504,11 +504,15 @@ define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/A
             var damageKey = DamageCard.CONSOLE_FIRE;
             store.dispatch(Action.addTokenCriticalDamage(token, damageKey));
             var action = new ShipActionAction.SAADamageCard(store, token, damageKey);
+            var callback = function()
+            {
+                LOGGER.info("in callback()");
+            };
 
             // Run.
             assert.equal(token.damageCount(), 0);
             assert.equal(token.criticalDamageCount(), 1);
-            action.doIt();
+            action.doIt(callback);
 
             // Verify.
             assert.equal(token.damageCount(), 1);
@@ -576,11 +580,15 @@ define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/A
             var token = environment.tokens()[2]; // X-Wing
             var upgradeKey = UpgradeCard.LANDO_CALRISSIAN;
             var action = new ShipActionAction.SAAUpgradeCard(store, token, upgradeKey);
+            var callback = function()
+            {
+                LOGGER.info("in callback()");
+            };
 
             // Run.
             assert.equal(token.evadeCount(), 0);
             assert.equal(token.focusCount(), 0);
-            action.doIt();
+            action.doIt(callback);
 
             // Verify.
             assert.ok(token.focusCount() + token.evadeCount() >= 0);

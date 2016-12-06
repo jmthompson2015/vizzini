@@ -58,14 +58,14 @@ define(["Phase", "UpgradeHeader"],
                 patterns: ["after acquiring a target lock", /after you acquire.*target lock/],
                 event: "Event.targetLockAcquired",
             },
-            {
-                patterns: [/after performing.*action/, /(after|when) you perform.*action/],
-                event: "Event.actionPerformed",
-            },
-            {
-                patterns: ["after you are destroyed", "the first time you would be destroyed", "when you are destroyed"],
-                event: "Event.shipDestroyed",
-            },
+            // {
+            //     patterns: [/after performing.*action/, /(after|when) you perform.*action/],
+            //     event: "Event.actionPerformed",
+            // },
+            // {
+            //     patterns: ["after you are destroyed", "the first time you would be destroyed", "when you are destroyed"],
+            //     event: "Event.shipDestroyed",
+            // },
             {
                 patterns: [/when performing.*(boost|barrel roll|decloak)/, /when you.*(boost|barrel roll|decloak)/],
                 event: "Event.afterExecuteManeuver",
@@ -74,10 +74,10 @@ define(["Phase", "UpgradeHeader"],
                 patterns: [/when you are dealt.*damage card/],
                 event: "Event.receiveDamage",
             },
-            {
-                patterns: [/each time you are assigned.*focus/],
-                event: "Event.receiveFocus",
-            },
+            // {
+            //     patterns: [/each time you are assigned.*focus/],
+            //     event: "Event.receiveFocus",
+            // },
             {
                 patterns: ["when you receive a stress token", /each time you are assigned.*stress/],
                 event: "Event.receiveStress",
@@ -86,14 +86,14 @@ define(["Phase", "UpgradeHeader"],
                 patterns: ["after you remove a stress token"],
                 event: "Event.removeStress",
             },
-            {
-                patterns: ["after spending a focus token"],
-                event: "Event.spendFocus",
-            },
-            {
-                patterns: ["after spending your target lock", "after you spend a target lock"],
-                event: "Event.spendTargetLock",
-            },
+            // {
+            //     patterns: ["after spending a focus token"],
+            //     event: "Event.spendFocus",
+            // },
+            // {
+            //     patterns: ["after spending your target lock", "after you spend a target lock"],
+            //     event: "Event.spendTargetLock",
+            // },
             {
                 patterns: ["at the start of the activation phase"],
                 event: "Phase.activationStart",

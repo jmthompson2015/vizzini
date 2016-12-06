@@ -132,9 +132,9 @@ define(["Ability", "AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", 
             var attacker = this.attacker();
             var agent = attacker.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = attacker.unusedDamageAbilities(DamageAbility3, phaseKey);
-            var pilotAbilities = attacker.unusedPilotAbilities(PilotAbility3, phaseKey);
-            var upgradeAbilities = attacker.unusedUpgradeAbilities(UpgradeAbility3, phaseKey);
+            var damageAbilities = attacker.usableDamageAbilities(DamageAbility3, phaseKey);
+            var pilotAbilities = attacker.usablePilotAbilities(PilotAbility3, phaseKey);
+            var upgradeAbilities = attacker.usableUpgradeAbilities(UpgradeAbility3, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishDeclareTarget.bind(this));
 
             // Wait for agent to respond.
@@ -142,12 +142,12 @@ define(["Ability", "AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", 
             LOGGER.trace("CombatAction.declareTarget2() end");
         };
 
-        CombatAction.prototype.finishDeclareTarget = function(damageAbility, pilotAbility, upgradeAbility, isAccepted)
+        CombatAction.prototype.finishDeclareTarget = function(ability, isAccepted)
         {
             LOGGER.trace("CombatAction.finishDeclareTarget() start");
-            LOGGER.debug("CombatAction.finishDeclareTarget() damageAbility = " + damageAbility + " pilotAbility = " + pilotAbility + " upgradeAbility = " + upgradeAbility + " isAccepted ? " + isAccepted);
+            LOGGER.debug("CombatAction.finishDeclareTarget() ability = " + ability + " isAccepted ? " + isAccepted);
 
-            this.finish(damageAbility, pilotAbility, upgradeAbility, isAccepted, this.declareTarget2.bind(this), this.rollAttackDice.bind(this));
+            this.finish(ability, isAccepted, this.declareTarget2.bind(this), this.rollAttackDice.bind(this));
 
             LOGGER.trace("CombatAction.finishDeclareTarget() end");
         };
@@ -380,9 +380,9 @@ define(["Ability", "AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", 
             var attacker = this.attacker();
             var agent = attacker.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = attacker.unusedDamageAbilities(DamageAbility3, phaseKey);
-            var pilotAbilities = attacker.unusedPilotAbilities(PilotAbility3, phaseKey);
-            var upgradeAbilities = attacker.unusedUpgradeAbilities(UpgradeAbility3, phaseKey);
+            var damageAbilities = attacker.usableDamageAbilities(DamageAbility3, phaseKey);
+            var pilotAbilities = attacker.usablePilotAbilities(PilotAbility3, phaseKey);
+            var upgradeAbilities = attacker.usableUpgradeAbilities(UpgradeAbility3, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishDealDamage.bind(this));
 
             // Wait for agent to respond.
@@ -390,12 +390,12 @@ define(["Ability", "AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", 
             LOGGER.trace("CombatAction.declareTarget2() end");
         };
 
-        CombatAction.prototype.finishDealDamage = function(damageAbility, pilotAbility, upgradeAbility, isAccepted)
+        CombatAction.prototype.finishDealDamage = function(ability, isAccepted)
         {
             LOGGER.trace("CombatAction.finishDealDamage() start");
-            LOGGER.debug("CombatAction.finishDealDamage() damageAbility = " + damageAbility + " pilotAbility = " + pilotAbility + " upgradeAbility = " + upgradeAbility + " isAccepted ? " + isAccepted);
+            LOGGER.debug("CombatAction.finishDealDamage() ability = " + ability + " isAccepted ? " + isAccepted);
 
-            this.finish(damageAbility, pilotAbility, upgradeAbility, isAccepted, this.dealDamage2.bind(this), this.afterDealDamage.bind(this));
+            this.finish(ability, isAccepted, this.dealDamage2.bind(this), this.afterDealDamage.bind(this));
 
             LOGGER.trace("CombatAction.finishDealDamage() end");
         };
@@ -409,9 +409,9 @@ define(["Ability", "AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", 
             var attacker = this.attacker();
             var agent = attacker.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = attacker.unusedDamageAbilities(DamageAbility3, phaseKey);
-            var pilotAbilities = attacker.unusedPilotAbilities(PilotAbility3, phaseKey);
-            var upgradeAbilities = attacker.unusedUpgradeAbilities(UpgradeAbility3, phaseKey);
+            var damageAbilities = attacker.usableDamageAbilities(DamageAbility3, phaseKey);
+            var pilotAbilities = attacker.usablePilotAbilities(PilotAbility3, phaseKey);
+            var upgradeAbilities = attacker.usableUpgradeAbilities(UpgradeAbility3, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.afterDealDamage2.bind(this));
 
             // Wait for agent to respond.
@@ -419,12 +419,12 @@ define(["Ability", "AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", 
             LOGGER.trace("CombatAction.afterDealDamage() end");
         };
 
-        CombatAction.prototype.afterDealDamage2 = function(damageAbility, pilotAbility, upgradeAbility, isAccepted)
+        CombatAction.prototype.afterDealDamage2 = function(ability, isAccepted)
         {
             LOGGER.trace("CombatAction.afterDealDamage2() start");
-            LOGGER.debug("CombatAction.afterDealDamage2() damageAbility = " + damageAbility + " pilotAbility = " + pilotAbility + " upgradeAbility = " + upgradeAbility + " isAccepted ? " + isAccepted);
+            LOGGER.debug("CombatAction.afterDealDamage2() ability = " + ability + " isAccepted ? " + isAccepted);
 
-            this.finish(damageAbility, pilotAbility, upgradeAbility, isAccepted, this.afterDealDamage.bind(this), this.finishAfterDealDamage.bind(this));
+            this.finish(ability, isAccepted, this.afterDealDamage.bind(this), this.finishAfterDealDamage.bind(this));
 
             LOGGER.trace("CombatAction.afterDealDamage2() end");
         };
@@ -479,64 +479,27 @@ define(["Ability", "AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", 
         };
 
         ////////////////////////////////////////////////////////////////////////
-        CombatAction.prototype.finish = function(damageAbility, pilotAbility, upgradeAbility, isAccepted, backFunction, forwardFunction)
+        CombatAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
         {
             InputValidator.validateNotNull("backFunction", backFunction);
             InputValidator.validateNotNull("forwardFunction", forwardFunction);
 
-            var store = this.environment().store();
-            var token = this.attacker();
-
-            if (damageAbility)
+            if (ability && isAccepted)
             {
-                if (isAccepted)
-                {
-                    if (damageAbility.consequent() !== undefined)
-                    {
-                        damageAbility.consequent()(store, token);
-                    }
-                    else
-                    {
-                        damageAbility.ability()(store, token);
-                    }
-                }
+                var store = this.environment().store();
+                var token = this.attacker();
+                ability.usedAbilities(token).push(ability.sourceKey());
+                var consequent = ability.consequent();
 
-                token.activationState().usedDamages(damageAbility.sourceKey());
-                backFunction();
-            }
-            else if (pilotAbility)
-            {
-                if (isAccepted)
+                if (consequent !== undefined)
                 {
-                    if (pilotAbility.consequent() !== undefined)
-                    {
-                        pilotAbility.consequent()(store, token);
-                    }
-                    else
-                    {
-                        pilotAbility.ability()(store, token);
-                    }
+                    consequent(store, token, backFunction);
                 }
-
-                token.activationState().usedPilots(pilotAbility.sourceKey());
-                backFunction();
-            }
-            else if (upgradeAbility)
-            {
-                if (isAccepted)
+                else
                 {
-                    if (upgradeAbility.consequent() !== undefined)
-                    {
-                        upgradeAbility.consequent()(store, token);
-                    }
-                    else
-                    {
-                        upgradeAbility.ability()(store, token);
-                    }
+                    ability.ability()(store, token);
+                    backFunction();
                 }
-
-                token.activationState().usedUpgrades(upgradeAbility.sourceKey());
-                backFunction();
             }
             else
             {

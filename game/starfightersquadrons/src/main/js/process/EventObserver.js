@@ -18,19 +18,19 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
                 {
                     var queue = [];
 
-                    if (token.unusedDamageAbilities)
+                    if (token.usableDamageAbilities)
                     {
-                        queue.vizziniAddAll(token.unusedDamageAbilities(DamageAbility0, eventKey));
+                        queue.vizziniAddAll(token.usableDamageAbilities(DamageAbility0, eventKey));
                     }
 
-                    if (token.unusedPilotAbilities)
+                    if (token.usablePilotAbilities)
                     {
-                        queue.vizziniAddAll(token.unusedPilotAbilities(PilotAbility0, eventKey));
+                        queue.vizziniAddAll(token.usablePilotAbilities(PilotAbility0, eventKey));
                     }
 
-                    if (token.unusedUpgradeAbilities)
+                    if (token.usableUpgradeAbilities)
                     {
-                        queue.vizziniAddAll(token.unusedUpgradeAbilities(UpgradeAbility0, eventKey));
+                        queue.vizziniAddAll(token.usableUpgradeAbilities(UpgradeAbility0, eventKey));
                     }
 
                     this.performAbilities(eventKey, token, queue, callback);

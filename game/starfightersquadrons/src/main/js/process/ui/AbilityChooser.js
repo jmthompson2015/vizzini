@@ -34,17 +34,21 @@ define(["Pilot", "UpgradeCard", "process/ui/AbilityUI", "../../../../../../../co
                 {
                     var answer;
 
-                    if (value.source() === Pilot)
+                    if (value.isDamage())
+                    {
+                        answer = createDamageLabel(value, imageBase);
+                    }
+                    else if (value.isPilot())
                     {
                         answer = createPilotLabel(value.sourceObject(), imageBase);
                     }
-                    else if (value.source() === UpgradeCard)
+                    else if (value.isUpgrade())
                     {
                         answer = createUpgradeLabel(value.sourceObject(), imageBase);
                     }
                     else
                     {
-                        answer = createDamageLabel(value, imageBase);
+                        throw "Unknown value: " + value;
                     }
                     return answer;
                 };
@@ -83,26 +87,8 @@ define(["Pilot", "UpgradeCard", "process/ui/AbilityUI", "../../../../../../../co
                 LOGGER.trace("AbilityChooser.myOnChange()");
                 LOGGER.debug("AbilityChooser.myOnChange() selected = " + selected + " " + (typeof selected));
 
-                var damageKey, pilotKey, upgradeKey;
-                var isAccepted = false;
-
-                if (selected.trait)
-                {
-                    damageKey = selected.value;
-                    isAccepted = true;
-                }
-                else if (selected.shipTeamKey)
-                {
-                    pilotKey = selected.value;
-                    isAccepted = true;
-                }
-                else if (selected.type)
-                {
-                    upgradeKey = selected.value;
-                    isAccepted = true;
-                }
-
-                this.props.onChange(damageKey, pilotKey, upgradeKey, isAccepted);
+                var isAccepted = (selected !== undefined);
+                this.props.onChange(selected, isAccepted);
             },
 
             ok: function(event, selected)

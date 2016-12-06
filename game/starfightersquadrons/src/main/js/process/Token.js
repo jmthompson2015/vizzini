@@ -827,64 +827,82 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             return Selector.tractorBeamCount(this.store().getState(), this.id());
         };
 
-        Token.prototype.unusedDamageAbilities = function(abilityType, eventOrPhaseKey)
+        Token.prototype.usableDamageAbilities = function(abilityType, eventOrPhaseKey)
         {
             InputValidator.validateNotNull("abilityType", abilityType);
             InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
 
             var answer = [];
+            var store = this.store();
             var usedDamages = this.activationState().usedDamages();
 
             this.criticalDamages().forEach(function(damageKey)
             {
-                if (!usedDamages.vizziniContains(damageKey) && abilityType[eventOrPhaseKey] && abilityType[eventOrPhaseKey][damageKey])
+                if (!usedDamages.vizziniContains(damageKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][damageKey] !== undefined)
                 {
-                    var source = DamageCard;
+                    var myAbility = abilityType[eventOrPhaseKey][damageKey];
 
-                    if (DamageCard[damageKey] === undefined)
+                    if (myAbility.condition === undefined || myAbility.condition(store, this))
                     {
-                        source = DamageCardV2;
-                    }
+                        var source = DamageCard;
 
-                    answer.push(new Ability(source, damageKey, abilityType, eventOrPhaseKey));
+                        if (DamageCard[damageKey] === undefined)
+                        {
+                            source = DamageCardV2;
+                        }
+
+                        answer.push(new Ability(source, damageKey, abilityType, eventOrPhaseKey));
+                    }
                 }
             });
 
             return answer;
         };
 
-        Token.prototype.unusedPilotAbilities = function(abilityType, eventOrPhaseKey)
+        Token.prototype.usablePilotAbilities = function(abilityType, eventOrPhaseKey)
         {
             InputValidator.validateNotNull("abilityType", abilityType);
             InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
 
             var answer = [];
+            var store = this.store();
             var pilotKey = this.pilotKey();
             var usedPilots = this.activationState().usedPilots();
 
-            if (!usedPilots.vizziniContains(pilotKey) && abilityType[eventOrPhaseKey] && abilityType[eventOrPhaseKey][pilotKey])
+            if (!usedPilots.vizziniContains(pilotKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][pilotKey] !== undefined)
             {
-                answer.push(new Ability(Pilot, pilotKey, abilityType, eventOrPhaseKey));
+                var myAbility = abilityType[eventOrPhaseKey][pilotKey];
+
+                if (myAbility.condition === undefined || myAbility.condition(store, this))
+                {
+                    answer.push(new Ability(Pilot, pilotKey, abilityType, eventOrPhaseKey));
+                }
             }
 
             return answer;
         };
 
-        Token.prototype.unusedUpgradeAbilities = function(abilityType, eventOrPhaseKey)
+        Token.prototype.usableUpgradeAbilities = function(abilityType, eventOrPhaseKey)
         {
             InputValidator.validateNotNull("abilityType", abilityType);
             InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
 
             var answer = [];
+            var store = this.store();
             var usedUpgrades = this.activationState().usedUpgrades();
 
             this.upgradeKeys().forEach(function(upgradeKey)
             {
-                if (!usedUpgrades.vizziniContains(upgradeKey) && abilityType[eventOrPhaseKey] && abilityType[eventOrPhaseKey][upgradeKey])
+                if (!usedUpgrades.vizziniContains(upgradeKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][upgradeKey] !== undefined)
                 {
-                    answer.push(new Ability(UpgradeCard, upgradeKey, abilityType, eventOrPhaseKey));
+                    var myAbility = abilityType[eventOrPhaseKey][upgradeKey];
+
+                    if (myAbility.condition === undefined || myAbility.condition(store, this))
+                    {
+                        answer.push(new Ability(UpgradeCard, upgradeKey, abilityType, eventOrPhaseKey));
+                    }
                 }
-            });
+            }, this);
 
             return answer;
         };

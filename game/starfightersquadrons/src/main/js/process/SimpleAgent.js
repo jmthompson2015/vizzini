@@ -27,23 +27,21 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
             InputValidator.validateNotNull("upgradeAbilities", upgradeAbilities);
             InputValidator.validateNotNull("callback", callback);
 
-            var damageAbility, pilotAbility, upgradeAbility;
+            var ability = (damageAbilities.length > 0 ? damageAbilities.vizziniRandomElement() : undefined);
 
-            damageAbility = (damageAbilities.length > 0 ? damageAbilities.vizziniRandomElement() : undefined);
-
-            if (damageAbility === undefined)
+            if (ability === undefined)
             {
-                upgradeAbility = (upgradeAbilities.length > 0 ? upgradeAbilities.vizziniRandomElement() : undefined);
+                ability = (upgradeAbilities.length > 0 ? upgradeAbilities.vizziniRandomElement() : undefined);
 
-                if (upgradeAbility === undefined)
+                if (ability === undefined)
                 {
-                    pilotAbility = (pilotAbilities.length > 0 ? pilotAbilities.vizziniRandomElement() : undefined);
+                    ability = (pilotAbilities.length > 0 ? pilotAbilities.vizziniRandomElement() : undefined);
                 }
             }
 
-            var isAccepted = (damageAbility !== undefined) || (pilotAbility !== undefined) || (upgradeAbility !== undefined);
+            var isAccepted = (ability !== undefined);
 
-            callback(damageAbility, pilotAbility, upgradeAbility, isAccepted);
+            callback(ability, isAccepted);
         };
 
         SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)

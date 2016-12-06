@@ -38,6 +38,10 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             var environment = createEnvironment();
             var store = environment.store();
             var token = environment.tokens()[2]; // X-Wing.
+            var callback = function()
+            {
+                LOGGER.info("in callback()");
+            };
 
             // Run / Verify.
             Phase.values().forEach(function(phaseKey)
@@ -52,7 +56,7 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
 
                         if (ability.condition && ability.condition(store, token))
                         {
-                            ability.consequent(store, token);
+                            ability.consequent(store, token, callback);
                             assert.ok(true, "phaseKey = " + phaseKey + " upgradeKey = " + upgradeKey);
                         }
                     });

@@ -185,19 +185,47 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 if (attacker.combatState().isDefenderHit())
                 {
                     assert.ok(attacker.combatState().isDefenderHit());
-                    assert.equal(attacker.stressCount(), 1);
-                    assert.equal(attacker.focusCount(), 1);
-                    assert.equal(attacker.attackerTargetLocks().length, 1);
-                    assert.equal(defender.defenderTargetLocks().length, 1);
-                }
-                else
-                {
-                    assert.ok(!attacker.combatState().isDefenderHit());
                     assert.equal(attacker.stressCount(), 0);
                     assert.equal(attacker.focusCount(), 0);
                     assert.equal(attacker.attackerTargetLocks().length, 0);
                     assert.equal(defender.defenderTargetLocks().length, 0);
                 }
+                else
+                {
+                    assert.ok(!attacker.combatState().isDefenderHit());
+                    assert.equal(attacker.stressCount(), 1);
+                    assert.equal(attacker.focusCount(), 1);
+                    assert.equal(attacker.attackerTargetLocks().length, 1);
+                    assert.equal(defender.defenderTargetLocks().length, 1);
+                }
+                done();
+            }, delay);
+        });
+
+        QUnit.test("CombatAction.doIt() Fire Control System", function(assert)
+        {
+            // Setup.
+            var upgradeKey = UpgradeCard.FIRE_CONTROL_SYSTEM;
+            var combatAction = createCombatAction(upgradeKey);
+            var environment = combatAction.environment();
+            var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+            var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+            assert.ok(attacker.findTargetLockByDefender(defender));
+
+            // Run.
+            var done = assert.async();
+            combatAction.doIt();
+
+            // Verify.
+            setTimeout(function()
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(attacker.findTargetLockByDefender(defender));
+                assert.ok(attacker.isUpgradedWith(upgradeKey));
+                verifyAttackDice(assert, attacker.combatState().attackDice());
+
+                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 done();
             }, delay);
         });

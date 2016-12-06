@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/Selector"],
-    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, UpgradeCard, Action, ManeuverAction, Selector)
+define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/Adjudicator", "process/ManeuverAction", "process/Selector"],
+    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, Adjudicator, ManeuverAction, Selector)
     {
         "use strict";
         var UpgradeAbility2 = {};
@@ -18,7 +18,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var maneuver = getManeuver(token);
                 return token === activeToken && maneuver.difficultyKey === Difficulty.HARD;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 discardUpgrade(token, UpgradeCard.ADRENALINE_RUSH);
 
@@ -29,6 +29,40 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                     throw "Can't find white maneuver for oldManeuver = " + oldManeuver;
                 }
                 token.activationState().activationAction().maneuverKey(newManeuverKey);
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_REVEAL_DIAL][UpgradeCard.BB_8] = {
+            // When you reveal a green maneuver, you may perform a free barrel roll action.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                var maneuver = getManeuver(token);
+                return token === activeToken && maneuver.difficultyKey === Difficulty.EASY;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.BARREL_ROLL];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                callback();
             },
         };
 
@@ -39,12 +73,13 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 discardUpgrade(token, UpgradeCard.INERTIAL_DAMPENERS);
 
                 token.activationState().activationAction().maneuverKey(Maneuver.STATIONARY_0_STANDARD);
                 token.receiveStress();
+                callback();
             },
         };
 
@@ -56,7 +91,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var maneuver = getManeuver(token);
                 return token === activeToken && [Bearing.TURN_LEFT, Bearing.TURN_RIGHT].vizziniContains(maneuver.bearingKey);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var environment = store.getState().environment;
                 var oldManeuver = getManeuver(token);
@@ -72,6 +107,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 }
                 var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
                 token.activationState().activationAction().maneuverKey(newManeuverKey);
+                callback();
             },
         };
 
@@ -86,7 +122,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var maneuver = getManeuver(token);
                 return token === activeToken && [Difficulty.STANDARD, Difficulty.EASY].vizziniContains(maneuver.difficultyKey);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 discardUpgrade(token, UpgradeCard.LIGHTNING_REFLEXES);
 
@@ -95,6 +131,42 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var toPosition = new Position(fromPosition.x(), fromPosition.y(), fromPosition.heading() + 180);
                 store.dispatch(Action.moveToken(fromPosition, toPosition));
                 token.receiveStress();
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_CLEAN_UP][UpgradeCard.TARGETING_ASTROMECH] = {
+            // After you execute a red maneuver, you may acquire a target lock.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                var maneuver = getManeuver(token);
+                var environment = store.getState().environment;
+                var defenders = environment.getDefendersInRange(token);
+                return token === activeToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD && defenders !== undefined && defenders.length > 0;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.TARGET_LOCK];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                callback();
             },
         };
 
@@ -106,9 +178,10 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var maneuver = getManeuver(token);
                 return token === activeToken && [3, 4, 5].vizziniContains(maneuver.speed);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addEvadeCount(token));
+                callback();
             },
         };
 
@@ -123,9 +196,10 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var maneuver = getManeuver(token);
                 return token === activeToken && maneuver.bearingKey === Bearing.STRAIGHT;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addEnergyCount(token));
+                callback();
             },
         };
 
@@ -136,11 +210,12 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 discardUpgrade(token, UpgradeCard.TIBANNA_GAS_SUPPLIES);
 
                 store.dispatch(Action.addEnergyCount(token, 3));
+                callback();
             },
         };
 
@@ -154,7 +229,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defenseDice = new DefenseDice(2);
                 if (defenseDice.focusCount() > 0)
@@ -165,6 +240,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 {
                     store.dispatch(Action.addEvadeCount(token, defenseDice.evadeCount()));
                 }
+                callback();
             },
         };
 
@@ -175,7 +251,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken && token.damages().length > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defenseDice = new DefenseDice(1);
                 if (defenseDice.evadeCount() === 1 || defenseDice.focusCount() === 1)
@@ -183,6 +259,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                     var damageKey = token.damages()[0];
                     store.dispatch(Action.removeTokenDamage(token.id(), damageKey));
                 }
+                callback();
             },
         };
 
@@ -193,12 +270,13 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var environment = store.getState().environment;
                 var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
                 var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
                 maneuverAction.doIt();
+                callback();
             },
         };
 
@@ -263,7 +341,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             InputValidator.validateNotNull("token", token);
 
             var activationAction = getActivationAction(token);
-            return activationAction.maneuverKey();
+            return (activationAction !== undefined ? activationAction.maneuverKey() : undefined);
         }
 
         UpgradeAbility2.toString = function()

@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Combat Phase.
  */
-define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "UpgradeType", "process/Action", "process/Selector", "process/TargetLock"],
-    function(AttackDice, DefenseDice, Phase, RangeRuler, UpgradeCard, UpgradeType, Action, Selector, TargetLock)
+define(["Ability", "AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "process/Action", "process/Adjudicator", "process/Selector", "process/TargetLock"],
+    function(Ability, AttackDice, DefenseDice, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Action, Adjudicator, Selector, TargetLock)
     {
         "use strict";
         var UpgradeAbility3 = {};
@@ -42,12 +42,13 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var isDefenderInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
                 return token === attacker && isDefenderInFiringArc;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defender = getDefender(attacker);
                 attacker.receiveStress();
                 defender.receiveStress();
+                callback();
             },
         };
 
@@ -60,11 +61,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defender = getDefender(attacker);
                 return !usedThisRound(store, token, upgradeKey) && token === defender;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 attacker.receiveStress();
                 store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.REBEL_CAPTIVE));
+                callback();
             },
         };
 
@@ -93,11 +95,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && token.focusCount() > 0 && attackDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 spendFocusToken(store, token);
                 var attackDice = getAttackDice(token);
                 attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
+                callback();
             },
         };
 
@@ -129,12 +132,13 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attacker = getActiveToken(store);
                 return token === attacker;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 var defender = getDefender(token);
                 var count = (defender.pilot().isUnique ? 2 : 1);
                 attackDice.rerollBlankAndFocus(count);
+                callback();
             },
         };
 
@@ -146,10 +150,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && token.isStressed() && attackDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
+                callback();
             },
         };
 
@@ -165,7 +170,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 return !usedThisRound(store, token, upgradeKey) && token === attacker && isTorpedoOrMissile &&
                     (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 var weapon = getWeapon(token);
@@ -173,6 +178,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var newValue = (weapon.weaponValue() >= 3 ? AttackDice.Value.CRITICAL_HIT : AttackDice.Value.HIT);
                 attackDice.changeOneToValue(oldValue, newValue);
                 store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.GUIDANCE_CHIPS));
+                callback();
             },
         };
 
@@ -187,11 +193,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 return !usedThisRound(store, token, upgradeKey) && token === attacker &&
                     !weapon.isPrimary() && token.energyCount() > 0 && attackDice.blankCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
                 store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.GUNNERY_TEAM));
+                callback();
             },
         };
 
@@ -205,12 +212,13 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && targetLock !== undefined && attackDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defender = getDefender(token);
                 spendTargetLock(token, defender);
                 var attackDice = getAttackDice(token);
                 attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+                callback();
             },
         };
 
@@ -235,10 +243,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && rangeOneTokens.length === 0 && rangeTwoTokens === 0 && attackDice.blankCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 attackDice.rerollBlank();
+                callback();
             },
         };
 
@@ -262,10 +271,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && rangeKey === RangeRuler.THREE && attackDice.hitCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
+                callback();
             }
         };
 
@@ -277,11 +287,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defender = getDefender(attacker);
                 return token === attacker && token.stressCount() === 0 && defender.evadeCount() === 0 && defender.focusCount() === 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 token.receiveStress();
                 var attackDice = getAttackDice(token);
                 attackDice.addDie();
+                callback();
             },
         };
 
@@ -293,12 +304,13 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defender = getDefender(attacker);
                 return token === attacker && token.stressCount() === 0 && defender.evadeCount() === 0 && defender.focusCount() === 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defender = getDefender(token);
                 var attackDice = getAttackDice(token);
                 var count = (defender.pilotSkillValue() <= 2 ? 2 : 1);
                 attackDice.rerollBlankAndFocus(count);
+                callback();
             }
         };
 
@@ -331,12 +343,13 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && token.focusCount() > 0 && attackDice.blankCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 spendFocusToken(store, token);
 
                 var attackDice = getAttackDice(token);
                 attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
+                callback();
             },
         };
 
@@ -348,10 +361,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && token.isStressed() && attackDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 attackDice.rerollAllFocus();
+                callback();
             },
         };
 
@@ -370,11 +384,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var isOutsideFiringArc = !isInFiringArc(attacker);
                 return token === defender && (isBeyondRange2 || isOutsideFiringArc) && defenseDice.blankCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defenseDice = getDefenseDice(attacker);
                 defenseDice.changeOneToValue(DefenseDice.Value.BLANK, DefenseDice.Value.EVADE);
+                callback();
             },
         };
 
@@ -389,7 +404,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 return token === defender && ((pilotSkill <= 2 && defenseDice.blankCount() > 0) ||
                     (pilotSkill > 2 && defenseDice.focusCount() > 0));
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defenseDice = getDefenseDice(attacker);
@@ -402,6 +417,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     defenseDice.rerollFocus();
                 }
+                callback();
             },
         };
 
@@ -413,10 +429,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defenseDice = getDefenseDice(attacker);
                 return token === attacker && token.evadeCount() > 0 && defenseDice.evadeCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defenseDice = getDefenseDice(token);
                 defenseDice.changeOneToValue(DefenseDice.Value.EVADE, DefenseDice.Value.FOCUS);
+                callback();
             },
         };
 
@@ -432,11 +449,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defenseDice = getDefenseDice(attacker);
                 return token === defender && rangeOneTokens.length === 0 && rangeTwoTokens.length === 0 && defenseDice.blankCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defenseDice = getDefenseDice(attacker);
                 defenseDice.rerollBlank();
+                callback();
             },
         };
 
@@ -449,10 +467,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attackDice = getAttackDice(attacker);
                 return token === defender && attackDice.hitCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = getAttackDice(token);
                 attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.FOCUS);
+                callback();
             },
         };
 
@@ -465,11 +484,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defenseDice = getDefenseDice(attacker);
                 return token === defender && token.isStressed() && defenseDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defenseDice = getDefenseDice(attacker);
                 defenseDice.rerollAllFocus();
+                callback();
             },
         };
 
@@ -543,6 +563,39 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE] = {};
 
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ADVANCED_CLOAKING_DEVICE] = {
+            // After you perform an attack, you may perform a free cloak action.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var combatAction = getCombatAction(token);
+                return token === attacker && combatAction !== undefined;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.CLOAK];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                callback();
+            },
+        };
+
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ASSAULT_MISSILES] = function(store, token)
         {
             // Spend your Target Lock and discard this card to perform this attack. If this attack hits, each other ship at Range 1 of the defender suffers 1 damage.
@@ -569,7 +622,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var attacker = getActiveToken(store);
                 return token === attacker && !isDefenderHit(attacker);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 if (!token.isStressed())
                 {
@@ -580,6 +633,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defender = getDefender(token);
                 var targetLock = new TargetLock(store, token, defender);
                 token.addAttackerTargetLock(targetLock);
+                callback();
             },
         };
 
@@ -589,7 +643,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
             {
                 return token.isDestroyed();
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var environment = store.getState().environment;
 
@@ -597,6 +651,25 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 {
                     myToken.receiveDamage(environment.drawDamage());
                 });
+                callback();
+            },
+        };
+
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.FIRE_CONTROL_SYSTEM] = {
+            // After you perform an attack, you may acquire a Target Lock on the defender.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var combatAction = getCombatAction(token);
+                return token === attacker && combatAction !== undefined;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
+                var defender = getDefender(attacker);
+                var targetLock = new TargetLock(store, attacker, defender);
+                attacker.addAttackerTargetLock(targetLock);
+                callback();
             },
         };
 
@@ -633,6 +706,39 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                     defender.receiveStress();
                 }
             });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.IMPETUOUS] = {
+            // 	After you perform an attack that destroys an enemy ship, you may acquire a target lock.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var defender = getDefender(token);
+                return token === attacker && defender.isDestroyed();
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.TARGET_LOCK];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_CANNON] = function(store, token)
@@ -685,23 +791,6 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
             });
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.DEAD_MANS_SWITCH] = {
-            // When you are destroyed, each ship at Range 1 suffers 1 damage.
-            condition: function(store, token)
-            {
-                return token.isDestroyed();
-            },
-            consequent: function(store, token)
-            {
-                var environment = store.getState().environment;
-
-                environment.getTokensAtRange(defender, RangeRuler.ONE).forEach(function(myToken)
-                {
-                    myToken.receiveDamage(environment.drawDamage());
-                });
-            },
-        };
-
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.PLASMA_TORPEDOES] = function(store, token)
         {
             // Spend your Target Lock and discard this card to perform this attack. If this attack hits, after dealing damage, remove 1 shield token from the defender.
@@ -726,11 +815,12 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var damageDealer = getDamageDealer(attacker);
                 return token === defender && damageDealer.hits() + damageDealer.criticalHits() >= 3;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defender = getDefender(attacker);
                 defender.recoverShield();
+                callback();
             },
         };
 
@@ -742,9 +832,10 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var defender = getDefender(attacker);
                 return token === defender && isDefenderHit(attacker);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 discardUpgrade(token, UpgradeCard.STEALTH_DEVICE);
+                callback();
             },
         };
 
@@ -757,10 +848,11 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
                 var rangeKey = getRangeKey(attacker);
                 return token === attacker && inFiringArc && rangeKey === RangeRuler.TWO;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defender = getDefender(token);
                 defender.receiveStress();
+                callback();
             },
         };
 
@@ -800,7 +892,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
             {
                 return true;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var environment = store.getState().environment;
                 environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).forEach(function(enemy)
@@ -813,6 +905,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
             },
         };
 
+        ////////////////////////////////////////////////////////////////////////
         function attack(store, token, upgradeKeyIn, upgradeFunction)
         {
             InputValidator.validateNotNull("store", store);
@@ -853,70 +946,92 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "Upgr
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().attackDice();
+            return getCombatState(attacker).attackDice();
         }
 
         function getAttackerPosition(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().combatAction().attackerPosition();
+            return getCombatAction(attacker).attackerPosition();
+        }
+
+        function getCombatAction(attacker)
+        {
+            InputValidator.validateNotNull("attacker", attacker);
+
+            var answer;
+            var combatState = getCombatState(attacker);
+
+            if (combatState)
+            {
+                answer = combatState.combatAction();
+            }
+
+            return answer;
+        }
+
+        function getCombatState(attacker)
+        {
+            InputValidator.validateNotNull("attacker", attacker);
+
+            return attacker.combatState();
         }
 
         function getDamageDealer(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().damageDealer();
+            return getCombatState(attacker).damageDealer();
         }
 
         function getDefender(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().combatAction().defender();
+            return getCombatAction(attacker).defender();
         }
 
         function getDefenderPosition(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().combatAction().defenderPosition();
+            return getCombatAction(attacker).defenderPosition();
         }
 
         function getDefenseDice(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().defenseDice();
+            return getCombatState(attacker).defenseDice();
         }
 
         function getRangeKey(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().rangeKey();
+            return getCombatState(attacker).rangeKey();
         }
 
         function getWeapon(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().combatAction().weapon();
+            return getCombatAction(attacker).weapon();
         }
 
         function isDefenderHit(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().isDefenderHit();
+            return getCombatState(attacker).isDefenderHit();
         }
 
         function isInFiringArc(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return attacker.combatState().isInFiringArc();
+            return getCombatState(attacker).isInFiringArc();
         }
 
         function spendFocusToken(store, attacker)

@@ -626,6 +626,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 5,
                 squadPointCost: 25,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "commanderAlozen",
             },
             "commanderKenkirk":
@@ -2281,6 +2282,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 7,
                 squadPointCost: 25,
                 upgradeTypeKeys: [UpgradeType.ELITE],
+                isImplemented: true,
                 value: "turrPhennir",
             },
             "tychoCelchu":
