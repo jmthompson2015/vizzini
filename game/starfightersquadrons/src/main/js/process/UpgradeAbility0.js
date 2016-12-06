@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for Events.
  */
-define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process/Action", "process/Adjudicator", "process/Selector", "process/ShipActionAction"],
-    function(Difficulty, Event, Maneuver, ShipAction, UpgradeCard, Action, Adjudicator, Selector, ShipActionAction)
+define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process/Action", "process/Adjudicator", "process/ShipActionAction"],
+    function(Difficulty, Event, Maneuver, ShipAction, UpgradeCard, Action, Adjudicator, ShipActionAction)
     {
         "use strict";
         var UpgradeAbility0 = {};

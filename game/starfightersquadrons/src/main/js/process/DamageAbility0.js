@@ -1,8 +1,8 @@
 /*
  * Provides damage abilities for Events.
  */
-define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "process/Action", "process/Selector"],
-    function(AttackDice, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Action, Selector)
+define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "process/Action"],
+    function(AttackDice, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Action)
     {
         "use strict";
         var DamageAbility0 = {};

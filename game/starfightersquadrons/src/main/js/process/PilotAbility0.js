@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for Events.
  */
-define(["Event", "Maneuver", "Pilot", "process/Action", "process/Selector"],
-    function(Event, Maneuver, Pilot, Action, Selector)
+define(["Event", "Maneuver", "Pilot", "process/Action"],
+    function(Event, Maneuver, Pilot, Action)
     {
         "use strict";
         var PilotAbility0 = {};

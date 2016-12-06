@@ -1,5 +1,5 @@
-define(["DamageCard", "DamageCardV2", "Phase", "Pilot", "UpgradeCard", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
-    function(DamageCard, DamageCardV2, Phase, Pilot, UpgradeCard, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
+    function(Phase, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
     {
         "use strict";
 

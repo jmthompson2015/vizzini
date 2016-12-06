@@ -1,5 +1,5 @@
-define(["Pilot", "UpgradeCard", "process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
-    function(Pilot, UpgradeCard, AbilityUI, InputPanel)
+define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(AbilityUI, InputPanel)
     {
         var AbilityChooser = React.createClass(
         {

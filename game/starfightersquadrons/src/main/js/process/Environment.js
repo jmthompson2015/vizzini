@@ -17,8 +17,8 @@
  * but not touching.
  * </dl>
  */
-define(["DamageCard", "ManeuverComputer", "Phase", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team", "process/Action", "process/EventObserver", "process/Selector", "process/Token"],
-    function(DamageCard, ManeuverComputer, Phase, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, EventObserver, Selector, Token)
+define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team", "process/Action", "process/EventObserver", "process/Selector"],
+    function(DamageCard, ManeuverComputer, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, EventObserver, Selector)
     {
         "use strict";
 
