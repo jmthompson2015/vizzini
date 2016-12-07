@@ -222,14 +222,23 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.HEAVY_LASER_CANNON] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.HEAVY_LASER_CANNON] = {
             // Attack 1 ship. Immediately after rolling your attack dice, you must change all of your Critical Hit results to Hit results.
-            attack(store, token, UpgradeCard.HEAVY_LASER_CANNON, function(store, attacker)
+            condition: function(store, token)
             {
-                var attackDice = getAttackDice(attacker);
-                attackDice.changeAllToValue(AttackDice.Value.CRITICAL_HIT, AttackDice.Value.HIT);
-            });
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(token);
+                var attackDice = getAttackDice(token);
+                if (token === attacker && weapon.upgradeKey() === UpgradeCard.HEAVY_LASER_CANNON && attackDice.criticalHitCount() > 0)
+                {
+                    attackDice.changeAllToValue(AttackDice.Value.CRITICAL_HIT, AttackDice.Value.HIT);
+                }
+                return false;
+            },
+            consequent: function(store, token, callback)
+            {
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.LONE_WOLF] = {
