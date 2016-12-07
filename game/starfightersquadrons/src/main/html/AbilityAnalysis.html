@@ -37,21 +37,47 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require(["abilitystats/Reducer", "abilitystats/ui/Connector", "abilitystats/ui/AbilityTable"],
-            function(Reducer, Connector, AbilityTable)
+        require(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard", "abilitystats/Reducer", "abilitystats/ui/Connector", "abilitystats/ui/AbilityTable"],
+            function(DamageCard, DamageCardV2, Pilot, UpgradeCard, Reducer, Connector, AbilityTable)
             {
                 var store = Redux.createStore(Reducer.root);
-                var implementedCount = 0;
-                // var implementedCount = AbilityCard.values().reduce(function(previousValue, ability)
-                // {
-                //     return previousValue + (AbilityCard.properties[ability].isImplemented ? 1 : 0);
-                // }, 0);
-                // implementedCount += AbilityCardV2.values().reduce(function(previousValue, ability)
-                // {
-                //     return previousValue + (AbilityCardV2.properties[ability].isImplemented ? 1 : 0);
-                // }, 0);
-                // var abilityCount = AbilityCard.values().length + AbilityCardV2.values().length;
-                var abilityCount = 1;
+
+                var implementedCount = DamageCard.values().reduce(function(accumulator, damageKey)
+                {
+                    var damage = DamageCard.properties[damageKey];
+                    return accumulator + (damage.isImplemented ? 1 : 0);
+                }, 0);
+
+                var abilityCount = DamageCard.values().length;
+
+                implementedCount += DamageCardV2.values().reduce(function(accumulator, damageKey)
+                {
+                    var damage = DamageCardV2.properties[damageKey];
+                    return accumulator + (damage.isImplemented ? 1 : 0);
+                }, 0);
+
+                abilityCount += DamageCardV2.values().length;
+
+                implementedCount += Pilot.values().reduce(function(accumulator, pilotKey)
+                {
+                    var pilot = Pilot.properties[pilotKey];
+                    return accumulator + (!pilot.isFlavorText && pilot.isImplemented ? 1 : 0);
+                }, 0);
+
+                abilityCount += Pilot.values().reduce(function(accumulator, pilotKey)
+                {
+                    var pilot = Pilot.properties[pilotKey];
+                    return accumulator + (pilot.isFlavorText ? 0 : 1);
+                }, 0);
+
+                implementedCount += UpgradeCard.values().reduce(function(accumulator, upgradeKey)
+                {
+                    var upgrade = UpgradeCard.properties[upgradeKey];
+                    return accumulator + (upgrade.isImplemented ? 1 : 0);
+                }, 0);
+
+                abilityCount += UpgradeCard.values().length;
+
                 var ratio = Math.vizziniRound(100.0 * implementedCount / abilityCount, 0);
                 document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " +
                     abilityCount + " = " + ratio + "%";
