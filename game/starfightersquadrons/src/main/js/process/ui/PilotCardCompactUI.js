@@ -93,6 +93,7 @@ define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "proc
                 {
                     pilotSkillValue: myToken.pilotSkillValue(),
                     pilotName: token.pilotName(),
+                    pilotDescription: (token.pilot().isFlavorText ? undefined : token.pilot().description),
                     shipName: (myTokenAft ? myToken.ship().name : token.shipName()),
                     team: token.pilot().shipTeam.team,
                     pilotAftSkillValue: (myTokenAft ? myTokenAft.pilotSkillValue() : undefined),
@@ -177,6 +178,7 @@ define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "proc
                 team: React.PropTypes.object.isRequired,
 
                 pilotAftSkillValue: React.PropTypes.number,
+                pilotDescription: React.PropTypes.string,
                 shipAftName: React.PropTypes.string,
             },
 
@@ -194,6 +196,8 @@ define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "proc
                     labelClass: "pilotSkillValue",
                     showOne: true,
                 });
+                var description = (this.props.pilotDescription ? this.props.pilotDescription : "Name");
+
                 cells.push(React.DOM.td(
                 {
                     key: cells.length,
@@ -202,7 +206,7 @@ define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "proc
                 cells.push(React.DOM.td(
                 {
                     key: cells.length,
-                    title: "Name",
+                    title: description,
                     className: "pilotCardNameCell",
                     colSpan: (this.props.shipAftName ? 2 : 1),
                 }, this.props.pilotName));
