@@ -229,7 +229,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token, callback)
+            consequent: function(store, token)
             {
                 var defenseDice = new DefenseDice(2);
                 if (defenseDice.focusCount() > 0)
@@ -240,7 +240,6 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 {
                     store.dispatch(Action.addEvadeCount(token, defenseDice.evadeCount()));
                 }
-                callback();
             },
         };
 
@@ -251,7 +250,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken && token.damages().length > 0;
             },
-            consequent: function(store, token, callback)
+            consequent: function(store, token)
             {
                 var defenseDice = new DefenseDice(1);
                 if (defenseDice.evadeCount() === 1 || defenseDice.focusCount() === 1)
@@ -259,7 +258,6 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                     var damageKey = token.damages()[0];
                     store.dispatch(Action.removeTokenDamage(token.id(), damageKey));
                 }
-                callback();
             },
         };
 
@@ -270,13 +268,12 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token, callback)
+            consequent: function(store, token)
             {
                 var environment = store.getState().environment;
                 var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
                 var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
                 maneuverAction.doIt();
-                callback();
             },
         };
 

@@ -17,7 +17,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"]
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1)
@@ -25,6 +25,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"]
                     var environment = store.getState().environment;
                     token.receiveDamage(environment.drawDamage());
                 }
+                callback();
             },
         };
 
@@ -35,7 +36,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"]
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1)
@@ -43,6 +44,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"]
                     var environment = store.getState().environment;
                     token.receiveDamage(environment.drawDamage());
                 }
+                callback();
             },
         };
 

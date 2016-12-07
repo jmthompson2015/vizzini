@@ -1,5 +1,5 @@
-define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/EnvironmentFactory", "process/ShipActionAction"],
-    function(DamageCard, Maneuver, Phase, Position, UpgradeCard, Action, EnvironmentFactory, ShipActionAction)
+define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/DamageAbility2", "process/EnvironmentFactory", "process/ShipActionAction", "process/UpgradeAbility2"],
+    function(Ability, DamageCard, Maneuver, Phase, Position, UpgradeCard, Action, DamageAbility2, EnvironmentFactory, ShipActionAction, UpgradeAbility2)
     {
         "use strict";
         QUnit.module("ShipActionAction");
@@ -503,11 +503,13 @@ define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/A
             var token = environment.tokens()[2]; // X-Wing
             var damageKey = DamageCard.CONSOLE_FIRE;
             store.dispatch(Action.addTokenCriticalDamage(token, damageKey));
-            var action = new ShipActionAction.SAADamageCard(store, token, damageKey);
+            var ability = new Ability(DamageCard, damageKey, DamageAbility2, Phase.ACTIVATION_PERFORM_ACTION);
+            var action = new ShipActionAction.SAADamageCard(store, token, ability);
             var callback = function()
             {
                 LOGGER.info("in callback()");
             };
+            store.dispatch(Action.setActiveToken(token.id()));
 
             // Run.
             assert.equal(token.damageCount(), 0);
@@ -524,8 +526,9 @@ define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/A
             // Setup.
             var environment = EnvironmentFactory.createCoreSetEnvironment();
             var token = environment.tokens()[2]; // X-Wing
-            var upgradeKey = DamageCard.CONSOLE_FIRE;
-            var action = new ShipActionAction.SAADamageCard(environment, token, upgradeKey);
+            var damageKey = DamageCard.CONSOLE_FIRE;
+            var ability = new Ability(DamageCard, damageKey, DamageAbility2, Phase.ACTIVATION_PERFORM_ACTION);
+            var action = new ShipActionAction.SAADamageCard(environment, token, ability);
 
             // Run.
             var result = action.toString();
@@ -579,7 +582,8 @@ define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/A
             store.dispatch(Action.setPhase(Phase.ACTIVATION_PERFORM_ACTION));
             var token = environment.tokens()[2]; // X-Wing
             var upgradeKey = UpgradeCard.LANDO_CALRISSIAN;
-            var action = new ShipActionAction.SAAUpgradeCard(store, token, upgradeKey);
+            var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, Phase.ACTIVATION_PERFORM_ACTION);
+            var action = new ShipActionAction.SAAUpgradeCard(store, token, ability);
             var callback = function()
             {
                 LOGGER.info("in callback()");
@@ -601,7 +605,8 @@ define(["DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/A
             var environment = EnvironmentFactory.createCoreSetEnvironment();
             var token = environment.tokens()[2]; // X-Wing
             var upgradeKey = UpgradeCard.LANDO_CALRISSIAN;
-            var action = new ShipActionAction.SAAUpgradeCard(environment, token, upgradeKey);
+            var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, Phase.ACTIVATION_PERFORM_ACTION);
+            var action = new ShipActionAction.SAAUpgradeCard(environment, token, ability);
 
             // Run.
             var result = action.toString();

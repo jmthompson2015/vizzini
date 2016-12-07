@@ -484,6 +484,9 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
             InputValidator.validateNotNull("backFunction", backFunction);
             InputValidator.validateNotNull("forwardFunction", forwardFunction);
 
+            LOGGER.debug("CombatAction.finish() ability = " + ability);
+            LOGGER.debug("CombatAction.finish() isAccepted ? " + isAccepted);
+
             if (ability && isAccepted)
             {
                 var store = this.environment().store();

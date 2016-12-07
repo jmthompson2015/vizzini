@@ -13,7 +13,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "p
         //     //      UpgradeCard.RECON_SPECIALIST, UpgradeCard.TIE_V1
         //     //   ]));
         //     // answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.ADRENALINE_RUSH, UpgradeCard.INERTIAL_DAMPENERS, UpgradeCard.LIGHTNING_REFLEXES, UpgradeCard.MANEUVERING_FINS, UpgradeCard.TIE_X7]));
-        //     answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.ADVANCED_CLOAKING_DEVICE, UpgradeCard.BB_8, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.IMPETUOUS, UpgradeCard.TARGETING_ASTROMECH]));
+        //     answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.ADVANCED_CLOAKING_DEVICE, UpgradeCard.BB_8, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.IMPETUOUS, UpgradeCard.LANDO_CALRISSIAN, UpgradeCard.TARGETING_ASTROMECH]));
         //     return answer;
         // }));
 

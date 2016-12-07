@@ -356,11 +356,11 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType"
             return answer;
         };
 
-        function SAADamageCard(store, token, damageKey)
+        function SAADamageCard(store, token, ability)
         {
             InputValidator.validateNotNull("store", store);
             InputValidator.validateNotNull("token", token);
-            InputValidator.validateNotNull("damageKey", damageKey);
+            InputValidator.validateNotNull("ability", ability);
 
             this.shipActionKey = function()
             {
@@ -377,37 +377,28 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType"
                 return token;
             };
 
-            this.damageKey = function()
+            this.ability = function()
             {
-                return damageKey;
+                return ability;
             };
-
-            var damage = DamageCard.properties[damageKey];
 
             this.damage = function()
             {
-                return damage;
-            };
-
-            var damageAbility = (DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION] !== undefined ? DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][damageKey] : undefined);
-
-            this.damageAbility = function()
-            {
-                return damageAbility;
+                return ability.sourceObject();
             };
         }
 
         SAADamageCard.prototype.doIt = function(callback)
         {
-            InputValidator.validateNotNull("callback", callback);
+            // callback optional.
 
             var store = this.store();
             var token = this.token();
-            var damageAbility = this.damageAbility();
+            var ability = this.ability();
 
-            if (damageAbility && damageAbility.consequent)
+            if (ability !== undefined && ability.consequent() !== undefined)
             {
-                damageAbility.consequent(store, token, callback);
+                ability.consequent()(store, token, callback);
             }
         };
 
@@ -459,11 +450,11 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType"
             return "Target Lock: " + this.defender().name();
         };
 
-        function SAAUpgradeCard(store, token, upgradeKey)
+        function SAAUpgradeCard(store, token, ability)
         {
             InputValidator.validateNotNull("store", store);
             InputValidator.validateNotNull("token", token);
-            InputValidator.validateNotNull("upgradeKey", upgradeKey);
+            InputValidator.validateNotNull("ability", ability);
 
             this.shipActionKey = function()
             {
@@ -480,44 +471,35 @@ define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType"
                 return token;
             };
 
-            this.upgradeKey = function()
+            this.ability = function()
             {
-                return upgradeKey;
+                return ability;
             };
-
-            var upgrade = UpgradeCard.properties[upgradeKey];
 
             this.upgrade = function()
             {
-                return upgrade;
+                return ability.sourceObject();
             };
 
-            var upgradeType = UpgradeType.properties[upgrade.type];
+            var upgradeType = UpgradeType.properties[this.upgrade().type];
 
             this.upgradeType = function()
             {
                 return upgradeType;
             };
-
-            var upgradeAbility = (UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION] !== undefined ? UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][upgradeKey] : undefined);
-
-            this.upgradeAbility = function()
-            {
-                return upgradeAbility;
-            };
         }
 
         SAAUpgradeCard.prototype.doIt = function(callback)
         {
-            InputValidator.validateNotNull("callback", callback);
+            // callback optional.
 
             var store = this.store();
             var token = this.token();
-            var upgradeAbility = this.upgradeAbility();
+            var ability = this.ability();
 
-            if (upgradeAbility && upgradeAbility.consequent)
+            if (ability !== undefined && ability.consequent() !== undefined)
             {
-                upgradeAbility.consequent(store, token, callback);
+                ability.consequent()(store, token, callback);
             }
         };
 

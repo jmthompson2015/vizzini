@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Combat Phase.
  */
-define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "process/Action", "process/Adjudicator", "process/Selector", "process/TargetLock"],
-    function(AttackDice, DefenseDice, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Action, Adjudicator, Selector, TargetLock)
+define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "process/Action", "process/Adjudicator", "process/Selector", "process/ShipActionAction", "process/TargetLock"],
+    function(AttackDice, DefenseDice, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Action, Adjudicator, Selector, ShipActionAction, TargetLock)
     {
         "use strict";
         var UpgradeAbility3 = {};
@@ -573,25 +573,8 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
             consequent: function(store, token, callback)
             {
-                var agent = token.agent();
-                var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
-                var shipActions0 = [ShipAction.CLOAK];
-                var that = this;
-                var finishCallback = function(shipActionAction)
-                {
-                    that.finishConsequent(shipActionAction, callback);
-                };
-                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
-
-                // Wait for agent to respond.
-            },
-            finishConsequent: function(shipActionAction, callback)
-            {
-                if (shipActionAction)
-                {
-                    shipActionAction.doIt();
-                }
+                var shipActionAction = new ShipActionAction.Cloak(store, token);
+                shipActionAction.doIt();
                 callback();
             },
         };

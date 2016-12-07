@@ -17,9 +17,10 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 flipCardFacedown(store, token, DamageCard.CONSOLE_FIRE);
+                callback();
             },
         };
 
@@ -30,9 +31,10 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 flipCardFacedown(store, token, DamageCardV2.CONSOLE_FIRE);
+                callback();
             },
         };
 
@@ -43,13 +45,14 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1)
                 {
                     flipCardFacedown(store, token, DamageCard.DAMAGED_SENSOR_ARRAY);
                 }
+                callback();
             },
         };
 
@@ -60,13 +63,14 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1 || attackDice.criticalHitCount() === 1)
                 {
                     flipCardFacedown(store, token, DamageCardV2.DAMAGED_SENSOR_ARRAY);
                 }
+                callback();
             },
         };
 
@@ -77,9 +81,10 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 flipCardFacedown(store, token, DamageCardV2.LOOSE_STABILIZER);
+                callback();
             },
         };
 
@@ -90,9 +95,10 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 flipCardFacedown(store, token, DamageCardV2.MAJOR_HULL_BREACH);
+                callback();
             },
         };
 
@@ -103,13 +109,14 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1)
                 {
                     flipCardFacedown(store, token, DamageCard.STRUCTURAL_DAMAGE);
                 }
+                callback();
             },
         };
 
@@ -120,13 +127,14 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1 || attackDice.criticalHitCount() === 1)
                 {
                     flipCardFacedown(store, token, DamageCardV2.STRUCTURAL_DAMAGE);
                 }
+                callback();
             },
         };
 
@@ -137,13 +145,14 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1 || attackDice.criticalHitCount() === 1)
                 {
                     flipCardFacedown(store, token, DamageCard.WEAPON_MALFUNCTION);
                 }
+                callback();
             },
         };
 
@@ -154,13 +163,14 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1 || attackDice.criticalHitCount() === 1)
                 {
                     flipCardFacedown(store, token, DamageCardV2.WEAPONS_FAILURE);
                 }
+                callback();
             },
         };
 

@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Maneuver", "Pilot", "Position", "Team", "process/Action", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
-    function(AttackDice, DefenseDice, Maneuver, Pilot, Position, Team, Action, Adjudicator, Environment, EnvironmentFactory, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SimpleAgent, SquadBuilder, Token)
+define(["AttackDice", "DamageCard", "DefenseDice", "Maneuver", "Pilot", "Position", "ShipAction", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
+    function(AttackDice, DamageCard, DefenseDice, Maneuver, Pilot, Position, ShipAction, Team, UpgradeCard, Action, Adjudicator, Environment, EnvironmentFactory, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SimpleAgent, SquadBuilder, Token)
     {
         "use strict";
         QUnit.module("SimpleAgent");
@@ -96,18 +96,13 @@ define(["AttackDice", "DefenseDice", "Maneuver", "Pilot", "Position", "Team", "p
             });
         });
 
-        QUnit.test("determineValidShipActions()", function(assert)
+        QUnit.test("determineValidShipActions() Mauler Mithel", function(assert)
         {
             // Setup.
             var environment = EnvironmentFactory.createCoreSetEnvironment();
             var adjudicator = new Adjudicator();
             var token = environment.tokens()[0]; // TIE Fighter.
             var agent = token.agent();
-            // var position = environment.getPositionFor(token);
-            // LOGGER.debug("before position = " + position);
-            // environment.removeToken(token);
-            // position = new Position(21, position.y(), position.heading());
-            // environment.placeToken(position, token);
 
             // Run.
             var result = agent.determineValidShipActions(environment, adjudicator, token);
@@ -119,6 +114,40 @@ define(["AttackDice", "DefenseDice", "Maneuver", "Pilot", "Position", "Team", "p
             {
                 LOGGER.debug(i + " maneuver = " + maneuver);
             });
+        });
+
+        QUnit.test("determineValidShipActions() Luke Skywalker", function(assert)
+        {
+            // Setup.
+            var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var adjudicator = new Adjudicator();
+            var token = environment.tokens()[2]; // X-Wing.
+            var agent = token.agent();
+            var store = environment.store();
+            store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.LANDO_CALRISSIAN));
+            store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.CONSOLE_FIRE));
+            store.dispatch(Action.setActiveToken(token.id()));
+
+            // Run.
+            var result = agent.determineValidShipActions(environment, adjudicator, token);
+
+            // Validate.
+            assert.ok(result);
+            assert.equal(result.length, 3);
+            result.forEach(function(maneuver, i)
+            {
+                LOGGER.debug(i + " maneuver = " + maneuver);
+            });
+            assert.equal(result[0].shipActionKey(), ShipAction.FOCUS);
+            assert.ok(result[1]);
+            assert.ok(result[1].ability());
+            assert.equal(result[1].ability().source(), UpgradeCard);
+            assert.equal(result[1].ability().sourceKey(), UpgradeCard.LANDO_CALRISSIAN);
+
+            assert.ok(result[2]);
+            assert.ok(result[2].ability());
+            assert.equal(result[2].ability().source(), DamageCard);
+            assert.equal(result[2].ability().sourceKey(), DamageCard.CONSOLE_FIRE);
         });
 
         QUnit.test("getDecloakAction()", function(assert)

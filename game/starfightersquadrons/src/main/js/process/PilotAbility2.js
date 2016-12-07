@@ -18,7 +18,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selecto
                 var maneuver = getManeuver(activeToken);
                 return token === activeToken && maneuver.bearingKey === Bearing.STRAIGHT;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var oldManeuver = getManeuver(token);
                 var newManeuverKey = Maneuver.find(Bearing.KOIOGRAN_TURN, oldManeuver.speed, oldManeuver.difficultyKey);
@@ -27,6 +27,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selecto
                     throw "Can't find K-Turn maneuver for oldManeuver = " + oldManeuver.bearingKey + " " + oldManeuver.speed + " " + oldManeuver.difficultyKey;
                 }
                 token.activationState().activationAction().maneuverKey(newManeuverKey);
+                callback();
             },
         };
 
@@ -38,7 +39,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selecto
                 var maneuver = getManeuver(activeToken);
                 return token === activeToken && [Bearing.BANK_LEFT, Bearing.BANK_RIGHT].vizziniContains(maneuver.bearingKey);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var environment = store.getState().environment;
                 var oldManeuver = getManeuver(token);
@@ -54,6 +55,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selecto
                 }
                 var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
                 token.activationState().activationAction().maneuverKey(newManeuverKey);
+                callback();
             },
         };
 

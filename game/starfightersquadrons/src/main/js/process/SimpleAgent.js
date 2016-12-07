@@ -1,5 +1,5 @@
-define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility3"],
-    function(DamageCard, DamageCardV2, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility3)
+define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+    function(Ability, DamageCard, DamageCardV2, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
     {
         "use strict";
 
@@ -420,17 +420,39 @@ define(["DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "
                 }
             }
 
-            shipActions.forEach(function(shipActionKey)
+            if (shipActions0 === undefined)
             {
-                if (shipActionKey.type === DamageCard || shipActionKey.type === DamageCardV2)
+                var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
+
+                token.upgradeKeys().forEach(function(upgradeKey)
                 {
-                    answer.push(new ShipActionAction.SAADamageCard(store, token, shipActionKey.key));
-                }
-                else if (shipActionKey.type === UpgradeCard)
+                    var myAbility = UpgradeAbility2[phaseKey][upgradeKey];
+
+                    if (myAbility !== undefined && myAbility.condition !== undefined && myAbility.condition(store, token))
+                    {
+                        var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey);
+                        answer.push(new ShipActionAction.SAAUpgradeCard(store, token, ability));
+                    }
+                });
+
+                token.criticalDamages().forEach(function(damageKey)
                 {
-                    answer.push(new ShipActionAction.SAAUpgradeCard(store, token, shipActionKey.key));
-                }
-            });
+                    var myAbility = DamageAbility2[phaseKey][damageKey];
+
+                    if (myAbility !== undefined && myAbility.condition !== undefined && myAbility.condition(store, token))
+                    {
+                        var source = DamageCard;
+
+                        if (DamageCard.properties[damageKey] === undefined)
+                        {
+                            source = DamageCardV2;
+                        }
+
+                        var ability = new Ability(source, damageKey, DamageAbility2, phaseKey);
+                        answer.push(new ShipActionAction.SAADamageCard(store, token, ability));
+                    }
+                });
+            }
 
             LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);
 

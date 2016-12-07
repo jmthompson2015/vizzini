@@ -705,7 +705,6 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
         {
             var answer = [];
 
-            var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
             var store = this.store();
 
             if (!this.isCriticallyDamagedWith(DamageCardV2.DAMAGED_SENSOR_ARRAY))
@@ -744,47 +743,6 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 {
                     answer.push(ShipAction.TARGET_LOCK);
                 }
-
-                if (UpgradeAbility2[phaseKey])
-                {
-                    var upgradeKeys = this.upgradeKeys();
-
-                    upgradeKeys.forEach(function(upgradeKey)
-                    {
-                        var upgradeAbility = UpgradeAbility2[phaseKey][upgradeKey];
-
-                        if (upgradeAbility)
-                        {
-                            if (upgradeAbility && upgradeAbility.condition && upgradeAbility.condition(store, this))
-                            {
-                                answer.push(
-                                {
-                                    type: UpgradeCard,
-                                    key: upgradeKey,
-                                });
-                            }
-                        }
-                    }, this);
-                }
-            }
-
-            if (DamageAbility2[phaseKey])
-            {
-                var criticalDamages = this.criticalDamages();
-
-                criticalDamages.forEach(function(damageKey)
-                {
-                    var damageAbility = DamageAbility2[phaseKey][damageKey];
-
-                    if (damageAbility && damageAbility.condition && damageAbility.condition(store, this))
-                    {
-                        answer.push(
-                        {
-                            type: DamageCard,
-                            key: damageKey,
-                        });
-                    }
-                }, this);
             }
 
             return answer;
@@ -854,7 +812,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                         answer.push(new Ability(source, damageKey, abilityType, eventOrPhaseKey));
                     }
                 }
-            });
+            }, this);
 
             return answer;
         };

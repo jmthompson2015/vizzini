@@ -51,9 +51,10 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var enemies = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
                 return enemies.length > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addFocusCount(token));
+                callback();
             },
         };
 
@@ -69,11 +70,12 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var targetLocks = Selector.defenderTargetLocks(store.getState(), defender);
                 return token === attacker && targetLocks.length > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defender = getDefender(token);
                 var targetLock = new TargetLock(store, token, defender);
                 token.addAttackerTargetLock(targetLock);
+                callback();
             },
         };
 
@@ -88,11 +90,12 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var attackDice = getAttackDice(attacker);
                 return token === attacker && token.focusCount() > 0 && attackDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var attackDice = getAttackDice(attacker);
                 attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+                callback();
             },
         };
 
@@ -108,11 +111,12 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var defenseDice = getDefenseDice(attacker);
                 return token === defender && defenseDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defenseDice = getDefenseDice(attacker);
                 defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+                callback();
             },
         };
 
@@ -125,12 +129,13 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var defenseDice = getDefenseDice(attacker);
                 return token === defender && token.focusCount() > 0 && defenseDice.focusCount() > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attacker = getActiveToken(store);
                 var defender = getDefender(attacker);
                 var defenseDice = getDefenseDice(attacker);
                 defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+                callback();
             },
         };
 
@@ -144,9 +149,10 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var attacker = getActiveToken(store);
                 return token === attacker && isDefenderHit(attacker);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addFocusCount(token));
+                callback();
             },
         };
 
@@ -161,9 +167,10 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var defender = getDefender(attacker);
                 return token === attacker && defender.isDestroyed();
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 token.recoverShield();
+                callback();
             },
         };
 
@@ -175,9 +182,10 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
                 var defender = getDefender(attacker);
                 return token === defender && !isDefenderHit(attacker);
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addEvadeCount(token));
+                callback();
             },
         };
 
