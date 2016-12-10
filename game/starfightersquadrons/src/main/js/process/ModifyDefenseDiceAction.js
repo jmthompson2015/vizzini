@@ -62,7 +62,7 @@ define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbil
 
                     if (pilotAbility && pilotAbility.consequent)
                     {
-                        pilotAbility.consequent(store, defender);
+                        pilotAbility.consequent(store, defender, function() {});
                     }
                 }
                 else if (modificationKey === ModifyDefenseDiceAction.Modification.USE_UPGRADE)
@@ -71,7 +71,7 @@ define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbil
 
                     if (upgradeAbility && upgradeAbility.consequent)
                     {
-                        upgradeAbility.consequent(store, defender);
+                        upgradeAbility.consequent(store, defender, function() {});
                     }
                 }
                 else

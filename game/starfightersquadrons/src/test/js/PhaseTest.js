@@ -56,7 +56,7 @@ define(["Phase"], function(Phase)
 
         // Verify.
         assert.ok(result);
-        var length = 27;
+        var length = 29;
         assert.equal(result.length, length);
         assert.equal(result[0], Phase.SETUP);
         assert.equal(result[length - 1], Phase.END_END);

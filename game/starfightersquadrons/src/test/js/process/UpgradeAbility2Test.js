@@ -56,7 +56,8 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
 
                         if (ability.condition && ability.condition(store, token))
                         {
-                            ability.consequent(store, token, callback);
+                            var consequent = ability.consequent.bind(ability);
+                            consequent(store, token, callback);
                             assert.ok(true, "phaseKey = " + phaseKey + " upgradeKey = " + upgradeKey);
                         }
                     });

@@ -1389,6 +1389,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
             var store = Redux.createStore(Reducer.root);
             var agent = new SimpleAgent("name", Team.IMPERIAL);
             var token = new Token(store, Pilot.ACADEMY_PILOT, agent);
+            store.dispatch(Action.placeToken(new Position(300, 300, 0), token));
             var abilityType = DamageAbility2;
             var eventOrPhaseKey = Phase.ACTIVATION_PERFORM_ACTION;
             store.dispatch(Action.setActiveToken(token.id()));

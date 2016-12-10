@@ -32,6 +32,8 @@ define(function()
         COMBAT_END: "combatEnd",
 
         END_START: "endStart",
+        END_CLEAN_UP: "endCleanUp",
+        END_ROUND_END: "endRoundEnd",
         END_END: "endEnd",
 
         properties:
@@ -165,6 +167,16 @@ define(function()
             {
                 name: "End (start)",
                 value: "endStart",
+            },
+            "endCleanUp":
+            {
+                name: "End (clean up)",
+                value: "endCleanUp",
+            },
+            "endRoundEnd":
+            {
+                name: "End (round end)",
+                value: "endRoundEnd",
             },
             "endEnd":
             {

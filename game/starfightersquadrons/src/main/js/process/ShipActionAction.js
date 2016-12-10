@@ -1,5 +1,5 @@
-define(["DamageCard", "Event", "Maneuver", "Phase", "UpgradeCard", "UpgradeType", "process/ManeuverAction", "ShipAction", "process/Action", "process/DamageAbility2", "process/TargetLock", "process/UpgradeAbility2"],
-    function(DamageCard, Event, Maneuver, Phase, UpgradeCard, UpgradeType, ManeuverAction, ShipAction, Action, DamageAbility2, TargetLock, UpgradeAbility2)
+define(["Event", "Maneuver", "UpgradeType", "process/ManeuverAction", "ShipAction", "process/Action", "process/TargetLock"],
+    function(Event, Maneuver, UpgradeType, ManeuverAction, ShipAction, Action, TargetLock)
     {
         "use strict";
 

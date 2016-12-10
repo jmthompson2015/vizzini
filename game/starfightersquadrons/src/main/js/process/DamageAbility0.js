@@ -10,6 +10,21 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
         ////////////////////////////////////////////////////////////////////////
         DamageAbility0[Event.AFTER_EXECUTE_MANEUVER] = {};
 
+        DamageAbility0[Event.AFTER_EXECUTE_MANEUVER][DamageCardV2.LOOSE_STABILIZER] = {
+            // After you execute a white maneuver, receive 1 stress token.
+            condition: function(store, token)
+            {
+                var eventToken = getEventToken(store);
+                var maneuver = getManeuver(token);
+                return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.STANDARD;
+            },
+            consequent: function(store, token, callback)
+            {
+                token.receiveStress();
+                callback();
+            },
+        };
+
         DamageAbility0[Event.AFTER_EXECUTE_MANEUVER][DamageCard.MINOR_HULL_BREACH] = {
             // After executing a red maneuver, roll 1 attack die. On a Hit result, suffer 1 damage.
             condition: function(store, token)
@@ -18,7 +33,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                 var maneuver = getManeuver(token);
                 return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.HARD;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1)
@@ -26,6 +41,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                     var environment = store.getState().environment;
                     token.receiveDamage(environment.drawDamage());
                 }
+                callback();
             },
         };
 
@@ -39,7 +55,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1)
@@ -48,6 +64,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                     token.receiveCriticalDamage(environment.drawDamage());
                 }
                 flipCardFacedown(store, token, DamageCardV2.MAJOR_EXPLOSION);
+                callback();
             },
         };
 
@@ -58,7 +75,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1)
@@ -70,6 +87,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                     }
                 }
                 flipCardFacedown(store, token, DamageCard.MINOR_EXPLOSION);
+                callback();
             },
         };
 
@@ -80,10 +98,11 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 token.receiveStress();
                 flipCardFacedown(store, token, DamageCard.THRUST_CONTROL_FIRE);
+                callback();
             },
         };
 
@@ -94,10 +113,11 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 token.receiveStress();
                 flipCardFacedown(store, token, DamageCardV2.THRUST_CONTROL_FIRE);
+                callback();
             },
         };
 

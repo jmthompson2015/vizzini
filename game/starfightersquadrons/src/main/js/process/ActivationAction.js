@@ -345,7 +345,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/D
             if (shipActionAction !== undefined)
             {
                 environment.phase(Phase.ACTIVATION_PERFORM_ACTION);
-                shipActionAction.doIt();
+                shipActionAction.doIt(function() {});
                 delay = 1000;
             }
 

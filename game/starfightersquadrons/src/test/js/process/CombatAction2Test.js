@@ -299,8 +299,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.equal(attackDice.hitCount(), 2);
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 1);
-                assert.equal(defender.criticalDamageCount(), 0);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 done();
             }, delay);
         });

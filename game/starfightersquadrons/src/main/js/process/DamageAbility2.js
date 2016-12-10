@@ -8,6 +8,23 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
         var DamageAbility2 = {};
 
         ////////////////////////////////////////////////////////////////////////
+        DamageAbility2[Phase.ACTIVATION_REVEAL_DIAL] = {};
+
+        DamageAbility2[Phase.ACTIVATION_REVEAL_DIAL][DamageCardV2.SHAKEN_PILOT] = {
+            // During the Planning phase, you cannot be assigned straight maneuvers. When you reveal a maneuver, flip this card facedown.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                flipCardFacedown(store, token, DamageCardV2.SHAKEN_PILOT);
+                callback();
+            },
+        };
+
+        ////////////////////////////////////////////////////////////////////////
         DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION] = {};
 
         DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCard.CONSOLE_FIRE] = {

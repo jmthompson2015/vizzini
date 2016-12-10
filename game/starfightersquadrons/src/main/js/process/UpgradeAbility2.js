@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/Adjudicator", "process/ManeuverAction", "process/Selector"],
-    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, Adjudicator, ManeuverAction, Selector)
+define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/Adjudicator", "process/ManeuverAction", "process/Selector", "process/ShipActionAction"],
+    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, Adjudicator, ManeuverAction, Selector, ShipActionAction)
     {
         "use strict";
         var UpgradeAbility2 = {};
@@ -222,6 +222,81 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION] = {};
 
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.CLOAKING_DEVICE] = {
+            // Action: Until the end of the round, increase your primary weapon value by 1 and decrease your agility value by 1.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                // FIXME can't resolve ShipActionAction for some reason?
+                // var shipActionAction = new ShipActionAction.Cloak(store, token);
+                // shipActionAction.doIt();
+                store.dispatch(Action.addCloakCount(token));
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.EXPERT_HANDLING] = {
+            // Action: Perform a free barrel roll action. If you do not have the Barrel Roll action icon, receive 1 stress token. You may then remove 1 enemy Target Lock from your ship.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.BARREL_ROLL];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(token, shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(token, shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                var hasBarrelRoll = token.shipActions().vizziniContains(ShipAction.BARREL_ROLL);
+                if (!hasBarrelRoll)
+                {
+                    token.receiveStress();
+                }
+                // FIXME: removing the *first* enemy target lock.
+                var defenderTargetLocks = token.defenderTargetLocks();
+                if (defenderTargetLocks.length > 0)
+                {
+                    var targetLock = defenderTargetLocks[0];
+                    var attacker = targetLock.attacker();
+                    attacker.removeAttackerTargetLock(targetLock);
+                }
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.EXPOSE] = {
+            // Action: Until the end of the round, increase your primary weapon value by 1 and decrease your agility value by 1.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                callback();
+            },
+        };
+
         UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.LANDO_CALRISSIAN] = {
             // Action: Roll 2 defense dice. For each Focus result, assign 1 Focus token to your ship. For each Evade result, assign 1 Evade token to your ship.
             condition: function(store, token)
@@ -229,7 +304,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defenseDice = new DefenseDice(2);
                 if (defenseDice.focusCount() > 0)
@@ -240,6 +315,66 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 {
                     store.dispatch(Action.addEvadeCount(token, defenseDice.evadeCount()));
                 }
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.LEEBO] = {
+            // Action: Perform a free boost action. Then receive 1 ion token.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                var agent = token.agent();
+                var environment = store.getState().environment;
+                var adjudicator = new Adjudicator();
+                var shipActions0 = [ShipAction.BOOST];
+                var that = this;
+                var finishCallback = function(shipActionAction)
+                {
+                    that.finishConsequent(shipActionAction, callback);
+                };
+                agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+
+                // Wait for agent to respond.
+            },
+            finishConsequent: function(shipActionAction, callback)
+            {
+                if (shipActionAction)
+                {
+                    shipActionAction.doIt();
+                }
+                store.dispatch(Action.addIonCount(token));
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.MARKSMANSHIP] = {
+            // Action: When attacking this round, you may change 1 of your Focus results to a Critical Hit result and all of your other Focus results to Hit results.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.R2_F2] = {
+            // Action: Increase your agility value by 1 until the end of this game round.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                callback();
             },
         };
 
@@ -250,7 +385,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken && token.damages().length > 0;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var defenseDice = new DefenseDice(1);
                 if (defenseDice.evadeCount() === 1 || defenseDice.focusCount() === 1)
@@ -258,6 +393,23 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                     var damageKey = token.damages()[0];
                     store.dispatch(Action.removeTokenDamage(token.id(), damageKey));
                 }
+                callback();
+            },
+        };
+
+        UpgradeAbility2[Phase.ACTIVATION_PERFORM_ACTION][UpgradeCard.RAGE] = {
+            // Action: Assign 1 focus token to your ship and receive 2 stress tokens. Until the end of the round, when attacking, you may reroll up to 3 attack dice.
+            condition: function(store, token)
+            {
+                var activeToken = getActiveToken(store);
+                return token === activeToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                store.dispatch(Action.addFocusCount(token));
+                token.receiveStress();
+                token.receiveStress();
+                callback();
             },
         };
 
@@ -268,12 +420,13 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 var activeToken = getActiveToken(store);
                 return token === activeToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var environment = store.getState().environment;
                 var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
                 var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
                 maneuverAction.doIt();
+                callback();
             },
         };
 
@@ -281,10 +434,9 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
         function discardUpgrade(token, upgradeKey)
         {
             InputValidator.validateNotNull("token", token);
-            // upgradeKey optional.
+            InputValidator.validateNotNull("upgradeKey", upgradeKey);
 
-            var myUpgradeKey = (upgradeKey === undefined ? getWeapon(token).upgradeKey() : upgradeKey);
-            token.discardUpgrade(myUpgradeKey);
+            token.discardUpgrade(upgradeKey);
         }
 
         function findManeuverByBearingSpeed(token, bearing, speed)

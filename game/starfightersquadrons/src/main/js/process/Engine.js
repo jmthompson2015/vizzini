@@ -1,5 +1,5 @@
-define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "process/PlanningAction", "RangeRuler", "Team", "UpgradeCard", "process/Action"],
-    function(ActivationAction, CombatAction, Phase, Pilot, PlanningAction, RangeRuler, Team, UpgradeCard, Action)
+define(["Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
+    function(Phase, Pilot, RangeRuler, Team, UpgradeCard, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
     {
         "use strict";
 
@@ -39,12 +39,6 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                     environment.phase(Phase.ACTIVATION_START);
                     var store = environment.store();
 
-                    for (var tokenId in store.getState().tokens)
-                    {
-                        var token = store.getState().tokens[tokenId];
-                        token.activationState().clear();
-                    }
-
                     // FIXME: Perform start of activation phase actions.
 
                     // Perform decloak action for all ships.
@@ -76,12 +70,6 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                     LOGGER.trace("Engine.performCombatPhase() start");
                     environment.phase(Phase.COMBAT_START);
                     var store = environment.store();
-
-                    for (var tokenId in store.getState().tokens)
-                    {
-                        var token = store.getState().tokens[tokenId];
-                        token.combatState().clear();
-                    }
 
                     // FIXME: Perform start of combat phase actions.
 
@@ -300,25 +288,14 @@ define(["process/ActivationAction", "process/CombatAction", "Phase", "Pilot", "p
                 {
                     environment.activeToken(token);
 
-                    // Perform end steps.
-                    store.dispatch(Action.setEvadeCount(token));
-
-                    if (!token.isUpgradedWith(UpgradeCard.MOLDY_CROW))
-                    {
-                        store.dispatch(Action.setFocusCount(token));
-                    }
-
-                    store.dispatch(Action.setReinforceCount(token));
-                    store.dispatch(Action.setTractorBeamCount(token));
-                    store.dispatch(Action.setWeaponsDisabledCount(token));
-
-                    token.upgradeKeys().forEach(function(upgradeKey)
-                    {
-                        store.dispatch(Action.setTokenUpgradePerRound(token.id(), upgradeKey));
-                    });
+                    var action = new EndPhaseAction(environment, token, this.processEndQueue.bind(this));
+                    action.doIt();
+                }
+                else
+                {
+                    this.processEndQueue();
                 }
 
-                this.processEndQueue();
                 LOGGER.trace("Engine.processEndQueue() end");
             };
 

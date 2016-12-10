@@ -1,5 +1,5 @@
-define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/DamageAbility2", "process/Selector", "process/UpgradeAbility2"],
-    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Phase, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, DamageAbility2, Selector, UpgradeAbility2)
+define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
+    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
     {
         "use strict";
 
@@ -108,6 +108,16 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 else
                 {
                     answer = pilot.shipTeam.ship.maneuverKeys.slice();
+
+                    if (this.isCriticallyDamagedWith(DamageCardV2.SHAKEN_PILOT))
+                    {
+                        // During the Planning phase, you cannot be assigned straight maneuvers. When you reveal a maneuver, flip this card facedown.
+                        answer = answer.filter(function(maneuverKey)
+                        {
+                            var maneuver = Maneuver.properties[maneuverKey];
+                            return maneuver.bearing !== Bearing.STRAIGHT;
+                        });
+                    }
 
                     if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE) ||
                         this.isCriticallyDamagedWith(DamageCardV2.DAMAGED_ENGINE))

@@ -270,6 +270,24 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             });
         };
 
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MARKSMANSHIP] = {
+            // Action: When attacking this round, you may change 1 of your Focus results to a Critical Hit result and all of your other Focus results to Hit results.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var marksmanshipUsed = token.activationState().usedUpgrades().vizziniContains(UpgradeCard.MARKSMANSHIP);
+                var attackDice = getAttackDice(token);
+                return token === attacker && marksmanshipUsed && attackDice.focusCount() > 0;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attackDice = getAttackDice(token);
+                attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
+                attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+                callback();
+            }
+        };
+
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MERCENARY_COPILOT] = {
             // When attacking at Range 3, you may change 1 of your Hit results to a Critical Hit result.
             condition: function(store, token)
@@ -342,6 +360,23 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                 var attackDice = getAttackDice(attacker);
                 attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
             });
+        };
+
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.RAGE] = {
+            // Action: Assign 1 focus token to your ship and receive 2 stress tokens. Until the end of the round, when attacking, you may reroll up to 3 attack dice.
+            condition: function(store, token)
+            {
+                var attacker = getActiveToken(store);
+                var attackDice = getAttackDice(token);
+                return token === attacker && (attackDice.blankCount() + attackDice.focusCount() > 0);
+            },
+            consequent: function(store, token, callback)
+            {
+                var attackDice = getAttackDice(token);
+                var count = Math.min(3, attackDice.blankCount() + attackDice.focusCount());
+                attackDice.rerollBlankAndFocus(count);
+                callback();
+            }
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.WEAPONS_GUIDANCE] = {
@@ -478,7 +513,8 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
             consequent: function(store, token, callback)
             {
-                var attackDice = getAttackDice(token);
+                var attacker = getActiveToken(store);
+                var attackDice = getAttackDice(attacker);
                 attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.FOCUS);
                 callback();
             },

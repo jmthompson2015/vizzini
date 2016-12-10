@@ -806,6 +806,10 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                         }
                         break;
                     case Value.PRIMARY_WEAPON:
+                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
+                        {
+                            newValue++;
+                        }
                         if (token && token.isUpgradedWith(UpgradeCard.PUNISHING_ONE))
                         {
                             newValue++;
@@ -815,6 +819,14 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                         if (isCloaked)
                         {
                             newValue += 2;
+                        }
+                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
+                        {
+                            newValue--;
+                        }
+                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.R2_F2))
+                        {
+                            newValue++;
                         }
                         if (token.tractorBeamCount)
                         {

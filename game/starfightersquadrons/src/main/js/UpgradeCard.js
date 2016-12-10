@@ -668,6 +668,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Perform a free cloak action. At the end of each round, if you are cloaked, roll 1 attack die. On a focus result, discard this card, then decloak or discard your cloak token.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "cloakingDevice",
                 },
                 "clusterBombs":
@@ -1045,6 +1046,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Perform a free barrel roll action. If you do not have the Barrel Roll action icon, receive 1 stress token. You may then remove 1 enemy Target Lock from your ship.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "expertHandling",
                 },
                 "expose":
@@ -1054,6 +1056,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Until the end of the round, increase your primary weapon value by 1 and decrease your agility value by 1.",
                     squadPointCost: 4,
+                    isImplemented: true,
                     value: "expose",
                 },
                 "extraMunitions":
@@ -1610,6 +1613,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Perform a free boost action. Then receive 1 ion token.",
                     squadPointCost: 2,
+                    isImplemented: true,
                     value: "leebo",
                 },
                 "lightningReflexes":
@@ -1685,6 +1689,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "When attacking this round, you may change 1 of your Focus results to a Critical Hit result and all of your other Focus results to Hit results.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "marksmanship",
                 },
                 "mercenaryCopilot":
@@ -2008,6 +2013,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Increase your agility value by 1 until the end of this game round.",
                     squadPointCost: 3,
+                    isImplemented: true,
                     value: "r2F2",
                 },
                 "r3A2":
@@ -2128,6 +2134,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     header: UpgradeHeader.ACTION,
                     description: "Assign 1 focus token to your ship and receive 2 stress tokens. Until the end of the round, when attacking, you may reroll up to 3 attack dice.",
                     squadPointCost: 1,
+                    isImplemented: true,
                     value: "rage",
                 },
                 "raymusAntilles":

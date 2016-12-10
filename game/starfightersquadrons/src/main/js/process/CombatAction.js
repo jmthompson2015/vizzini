@@ -274,6 +274,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
 
                 if (modifyDefenseDiceAction.upgradeKey())
                 {
+                    var attacker = this.attacker();
                     attacker.combatState().defenderUsedUpgrades(modifyDefenseDiceAction.upgradeKey());
                 }
             }
