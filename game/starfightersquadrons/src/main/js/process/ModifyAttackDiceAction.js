@@ -69,14 +69,7 @@ define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbil
 
                     if (pilotAbility !== undefined)
                     {
-                        if (pilotAbility.consequent !== undefined)
-                        {
-                            pilotAbility.consequent(store, attacker, function() {});
-                        }
-                        else
-                        {
-                            pilotAbility(store, attacker);
-                        }
+                        pilotAbility.consequent(store, attacker, function() {});
                     }
                 }
                 else if (modificationKey === ModifyAttackDiceAction.Modification.USE_UPGRADE)
@@ -85,16 +78,9 @@ define(["Phase", "process/Action", "process/PilotAbility3", "process/UpgradeAbil
 
                     if (upgradeAbility !== undefined)
                     {
-                        if (upgradeAbility.condition !== undefined && upgradeAbility.consequent !== undefined)
+                        if (upgradeAbility.condition(store, attacker))
                         {
-                            if (upgradeAbility.condition(store, attacker))
-                            {
-                                upgradeAbility.consequent(store, attacker, function() {});
-                            }
-                        }
-                        else
-                        {
-                            upgradeAbility(store, attacker);
+                            upgradeAbility.consequent(store, attacker, function() {});
                         }
                     }
                 }

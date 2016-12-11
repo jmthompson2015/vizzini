@@ -10,22 +10,38 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET] = {};
 
-        UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.BLASTER_TURRET] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.BLASTER_TURRET] = {
             // Spend 1 Focus token to perform this attack against 1 ship (even a ship outside your firing arc).
-            attack(store, token, UpgradeCard.BLASTER_TURRET, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.BLASTER_TURRET;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendFocusToken(store, attacker);
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.HOT_SHOT_BLASTER] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.HOT_SHOT_BLASTER] = {
             // Discard this card to attack 1 ship (even a ship outside your firing arc).
-            attack(store, token, UpgradeCard.HOT_SHOT_BLASTER, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.HOT_SHOT_BLASTER;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 discardUpgrade(attacker);
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_DECLARE_TARGET][UpgradeCard.R3_A2] = {
@@ -73,18 +89,25 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE] = {};
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.ADVANCED_PROTON_TORPEDOES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.ADVANCED_PROTON_TORPEDOES] = {
             // Spend your Target Lock and discard this card to perform this attack. You may change up to 3 of your blank results to Focus results.
-            attack(store, token, UpgradeCard.ADVANCED_PROTON_TORPEDOES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.ADVANCED_PROTON_TORPEDOES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-
                 var attackDice = getAttackDice(attacker);
                 attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
                 attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
                 attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.CALCULATION] = {
@@ -104,25 +127,40 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.CLUSTER_MISSILES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.CLUSTER_MISSILES] = {
             // Spend your Target Lock and discard this card to perform this attack twice.
-            attack(store, token, UpgradeCard.CLUSTER_MISSILES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.CLUSTER_MISSILES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.CONCUSSION_MISSILES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.CONCUSSION_MISSILES] = {
             // Spend your Target Lock and discard this card to perform this attack. You may change 1 of your blank results to a Hit result.
-            attack(store, token, UpgradeCard.CONCUSSION_MISSILES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.CONCUSSION_MISSILES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-
                 var attackDice = getAttackDice(attacker);
                 attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.DENGAR] = {
@@ -260,14 +298,22 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MANGLER_CANNON] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MANGLER_CANNON] = {
             // Attack 1 ship. When attacking, you may change 1 of your Hit results to a Critical Hit result.
-            attack(store, token, UpgradeCard.MANGLER_CANNON, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.MANGLER_CANNON;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 var attackDice = getAttackDice(attacker);
                 attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.MARKSMANSHIP] = {
@@ -341,25 +387,40 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             }
         };
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PROTON_ROCKETS] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PROTON_ROCKETS] = {
             // Discard this card to perform this attack. You may roll additional attack dice equal to your agility value, to a maximum of 3 additional dice.
-            attack(store, token, UpgradeCard.PROTON_ROCKETS, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.PROTON_ROCKETS;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 discardUpgrade(attacker);
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PROTON_TORPEDOES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.PROTON_TORPEDOES] = {
             // Spend your Target Lock and discard this card to perform this attack. You may change 1 of your Focus results to a Critical Hit result.
-            attack(store, token, UpgradeCard.PROTON_TORPEDOES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.PROTON_TORPEDOES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-
                 var attackDice = getAttackDice(attacker);
                 attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.RAGE] = {
@@ -541,29 +602,42 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         ////////////////////////////////////////////////////////////////////////
         UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE] = {};
 
-        UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE][UpgradeCard.ADVANCED_HOMING_MISSILES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE][UpgradeCard.ADVANCED_HOMING_MISSILES] = {
             // Discard this card to perform this attack. If this attack hits, deal 1 faceup Damage card to the defender. Then cancel all dice results.
-            attack(store, token, UpgradeCard.ADVANCED_HOMING_MISSILES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.ADVANCED_HOMING_MISSILES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 discardUpgrade(attacker);
-
                 if (isDefenderHit(attacker))
                 {
                     var defender = getDefender(attacker);
                     var environment = store.getState().environment;
                     defender.receiveCriticalDamage(environment.drawDamage());
                 }
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE][UpgradeCard.ION_PULSE_MISSILES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE][UpgradeCard.ION_PULSE_MISSILES] = {
             // Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender suffers 1 damage and receives 2 ion tokens. Then cancel all dice results.
-            attack(store, token, UpgradeCard.ION_PULSE_MISSILES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.ION_PULSE_MISSILES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 discardUpgrade(attacker);
-
                 if (isDefenderHit(attacker))
                 {
                     var defender = getDefender(attacker);
@@ -571,16 +645,23 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                     defender.receiveDamage(environment.drawDamage());
                     store.dispatch(Action.addIonCount(defender, 2));
                 }
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE][UpgradeCard.XX_23_S_THREAD_TRACERS] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_DEAL_DAMAGE][UpgradeCard.XX_23_S_THREAD_TRACERS] = {
             // Discard this card to perform this attack. If this attack hits, each friendly ship at Range 1-2 of you may acquire a target lock on the defender. Then cancel all dice results.
-            attack(store, token, UpgradeCard.XX_23_S_THREAD_TRACERS, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.XX_23_S_THREAD_TRACERS;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 discardUpgrade(attacker);
-
                 if (isDefenderHit(attacker))
                 {
                     // Each friendly ship at Range 1-2 of you may acquire a target lock on the defender.
@@ -602,7 +683,8 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                         });
                     });
                 }
-            });
+                callback();
+            },
         };
 
         ////////////////////////////////////////////////////////////////////////
@@ -624,13 +706,19 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ASSAULT_MISSILES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ASSAULT_MISSILES] = {
             // Spend your Target Lock and discard this card to perform this attack. If this attack hits, each other ship at Range 1 of the defender suffers 1 damage.
-            attack(store, token, UpgradeCard.ASSAULT_MISSILES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.ASSAULT_MISSILES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-
                 if (isDefenderHit(attacker))
                 {
                     var environment = store.getState().environment;
@@ -640,7 +728,8 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                         token.receiveDamage(environment.drawDamage());
                     });
                 }
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.BOSSK] = {
@@ -701,11 +790,18 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.FLECHETTE_CANNON] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.FLECHETTE_CANNON] = {
             // Attack 1 ship. If this attack hits, the defender suffers 1 damage and, if the defender is not stressed, it also receives 1 stress token. Then cancel all dice results.
-            attack(store, token, UpgradeCard.FLECHETTE_CANNON, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.FLECHETTE_CANNON;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 if (isDefenderHit(attacker))
                 {
                     var environment = store.getState().environment;
@@ -717,23 +813,30 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                         defender.receiveStress();
                     }
                 }
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.FLECHETTE_TORPEDOES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.FLECHETTE_TORPEDOES] = {
             // Discard this card and spend your Target Lock to perform this attack. After you perform this attack, the defender receives 1 stress token if its hull value is "4" or lower.
-            attack(store, token, UpgradeCard.FLECHETTE_TORPEDOES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.FLECHETTE_TORPEDOES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-
                 var defender = getDefender(attacker);
-
                 if (defender.hullValue() <= 4)
                 {
                     defender.receiveStress();
                 }
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.IMPETUOUS] = {
@@ -769,11 +872,18 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_CANNON] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_CANNON] = {
             // Attack 1 ship. If this attack hits, the defender suffers 1 damage and receives 1 ion token. Then cancel all dice results.
-            attack(store, token, UpgradeCard.ION_CANNON, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.ION_CANNON;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 if (isDefenderHit(attacker))
                 {
                     var environment = store.getState().environment;
@@ -781,14 +891,22 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                     defender.receiveDamage(environment.drawDamage());
                     store.dispatch(Action.addIonCount(defender));
                 }
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_CANNON_TURRET] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_CANNON_TURRET] = {
             // Attack 1 ship (even a ship outside your firing arc). If this attack hits the target ship, the ship suffers 1 damage and receives 1 ion token. Then cancel all dice results.
-            attack(store, token, UpgradeCard.ION_CANNON_TURRET, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.ION_CANNON_TURRET;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 if (isDefenderHit(attacker))
                 {
                     var environment = store.getState().environment;
@@ -796,16 +914,23 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                     defender.receiveDamage(environment.drawDamage());
                     store.dispatch(Action.addIonCount(defender));
                 }
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_TORPEDOES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.ION_TORPEDOES] = {
             // Spend your Target Lock and discard this card to perform this attack. If this attack hits, the defender and each ship at Range 1 of it receives 1 ion token.
-            attack(store, token, UpgradeCard.ION_TORPEDOES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.ION_TORPEDOES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-
                 if (isDefenderHit(attacker))
                 {
                     var environment = store.getState().environment;
@@ -816,22 +941,30 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                         store.dispatch(Action.addIonCount(token));
                     });
                 }
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.PLASMA_TORPEDOES] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.PLASMA_TORPEDOES] = {
             // Spend your Target Lock and discard this card to perform this attack. If this attack hits, after dealing damage, remove 1 shield token from the defender.
-            attack(store, token, UpgradeCard.PLASMA_TORPEDOES, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.PLASMA_TORPEDOES;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 spendTargetLockAndDiscardUpgrade(attacker);
-
                 if (isDefenderHit(attacker))
                 {
                     var defender = getDefender(attacker);
                     store.dispatch(Action.addShieldCount(defender, -1));
                 }
-            });
+                callback();
+            },
         };
 
         UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.REINFORCED_DEFLECTORS] = {
@@ -884,31 +1017,47 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.TRACTOR_BEAM] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.TRACTOR_BEAM] = {
             // Attack 1 ship. If this attack hits, the defender receives 1 tractor beam token. Then cancel all dice results.
-            attack(store, token, UpgradeCard.TRACTOR_BEAM, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.TRACTOR_BEAM;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 if (isDefenderHit(attacker))
                 {
                     var defender = getDefender(attacker);
                     store.dispatch(Action.addTractorBeamCount(defender));
                 }
-            });
+                callback();
+            },
         };
 
-        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.TWIN_LASER_TURRET] = function(store, token)
-        {
+        UpgradeAbility3[Phase.COMBAT_AFTER_DEAL_DAMAGE][UpgradeCard.TWIN_LASER_TURRET] = {
             // Perform this attack twice (even against a ship outside your firing arc). Each time this attack hits, the defender suffers 1 damage. Then cancel all dice results.
-            attack(store, token, UpgradeCard.TWIN_LASER_TURRET, function(store, attacker)
+            condition: function(store, token)
             {
+                var attacker = getActiveToken(store);
+                var weapon = getWeapon(attacker);
+                var upgradeKey = UpgradeCard.TWIN_LASER_TURRET;
+                return token === attacker && weapon.upgradeKey() === upgradeKey;
+            },
+            consequent: function(store, token, callback)
+            {
+                var attacker = getActiveToken(store);
                 if (isDefenderHit(attacker))
                 {
                     var environment = store.getState().environment;
                     var defender = getDefender(attacker);
                     defender.receiveDamage(environment.drawDamage());
                 }
-            });
+                callback();
+            },
         };
 
         ////////////////////////////////////////////////////////////////////////
@@ -934,26 +1083,6 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         };
 
         ////////////////////////////////////////////////////////////////////////
-        function attack(store, token, upgradeKeyIn, upgradeFunction)
-        {
-            InputValidator.validateNotNull("store", store);
-            InputValidator.validateNotNull("token", token);
-            InputValidator.validateNotNull("upgradeKeyIn", upgradeKeyIn);
-            InputValidator.validateNotNull("upgradeFunction", upgradeFunction);
-
-            var attacker = Selector.activeToken(store.getState());
-
-            if (attacker === token)
-            {
-                var weapon = getWeapon(attacker);
-
-                if (weapon.upgradeKey() === upgradeKeyIn)
-                {
-                    upgradeFunction(store, attacker);
-                }
-            }
-        }
-
         function discardUpgrade(token, upgradeKey)
         {
             InputValidator.validateNotNull("token", token);

@@ -177,7 +177,7 @@ define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer",
             pilotKey = pilot.value;
             var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
 
-            if (pilotAbility !== undefined && (pilotAbility.condition === undefined || (pilotAbility.condition !== undefined && pilotAbility.condition(store, attacker))))
+            if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
             {
                 modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
                 answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
@@ -194,7 +194,7 @@ define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer",
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
 
-                    if (upgradeAbility !== undefined && (upgradeAbility.condition === undefined || (upgradeAbility.condition !== undefined && upgradeAbility.condition(store, attacker))))
+                    if (upgradeAbility !== undefined && upgradeAbility.condition(store, attacker))
                     {
                         answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey));
                     }
@@ -233,7 +233,7 @@ define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer",
             pilotKey = pilot.value;
             var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
 
-            if (pilotAbility !== undefined && pilotAbility.condition !== undefined && pilotAbility.condition(store, attacker))
+            if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
             {
                 modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
                 answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
@@ -251,7 +251,7 @@ define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer",
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
 
-                    if (upgradeAbility !== undefined && upgradeAbility.condition !== undefined && upgradeAbility.condition(store, defender))
+                    if (upgradeAbility !== undefined && upgradeAbility.condition(store, defender))
                     {
                         answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey));
                     }
@@ -428,7 +428,7 @@ define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer",
                 {
                     var myAbility = UpgradeAbility2[phaseKey][upgradeKey];
 
-                    if (myAbility !== undefined && myAbility.condition !== undefined && myAbility.condition(store, token))
+                    if (myAbility !== undefined && myAbility.condition(store, token))
                     {
                         var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey);
                         answer.push(new ShipActionAction.SAAUpgradeCard(store, token, ability));
@@ -439,7 +439,7 @@ define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer",
                 {
                     var myAbility = DamageAbility2[phaseKey][damageKey];
 
-                    if (myAbility !== undefined && myAbility.condition !== undefined && myAbility.condition(store, token))
+                    if (myAbility !== undefined && myAbility.condition(store, token))
                     {
                         var source = DamageCard;
 

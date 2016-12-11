@@ -494,16 +494,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
                 var token = this.attacker();
                 ability.usedAbilities(token).push(ability.sourceKey());
                 var consequent = ability.consequent();
-
-                if (consequent !== undefined)
-                {
-                    consequent(store, token, backFunction);
-                }
-                else
-                {
-                    ability.ability()(store, token);
-                    backFunction();
-                }
+                consequent(store, token, backFunction);
             }
             else
             {

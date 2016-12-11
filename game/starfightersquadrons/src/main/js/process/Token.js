@@ -810,7 +810,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 {
                     var myAbility = abilityType[eventOrPhaseKey][damageKey];
 
-                    if (myAbility.condition === undefined || myAbility.condition(store, this))
+                    if (myAbility.condition(store, this))
                     {
                         var source = DamageCard;
 
@@ -841,7 +841,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             {
                 var myAbility = abilityType[eventOrPhaseKey][pilotKey];
 
-                if (myAbility.condition === undefined || myAbility.condition(store, this))
+                if (myAbility.condition(store, this))
                 {
                     answer.push(new Ability(Pilot, pilotKey, abilityType, eventOrPhaseKey));
                 }
@@ -865,7 +865,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 {
                     var myAbility = abilityType[eventOrPhaseKey][upgradeKey];
 
-                    if (myAbility.condition === undefined || myAbility.condition(store, this))
+                    if (myAbility.condition(store, this))
                     {
                         answer.push(new Ability(UpgradeCard, upgradeKey, abilityType, eventOrPhaseKey));
                     }

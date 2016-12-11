@@ -61,15 +61,9 @@ define(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard"],
             InputValidator.validateNotNull("store", store);
             InputValidator.validateNotNull("token", token);
 
-            var answer = false;
             var condition = this.condition();
 
-            if (condition !== undefined)
-            {
-                answer = condition(store, token);
-            }
-
-            return answer;
+            return condition(store, token);
         };
 
         Ability.prototype.consequent = function()
