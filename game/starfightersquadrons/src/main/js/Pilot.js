@@ -432,7 +432,6 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Boba Fett (Imperial)",
                 description: "When you reveal a bank maneuver, you may rotate your dial to the other bank maneuver of the same speed.",
-                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.IMPERIAL_FIRESPRAY_31,
                 pilotSkillValue: 8,
@@ -608,7 +607,6 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Colonel Vessery",
                 description: "When attacking, immediately after you roll attack dice, you may acquire a target lock on the defender if it already has a red target lock token.",
-                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER,
                 pilotSkillValue: 6,
@@ -669,7 +667,6 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Countess Ryad",
                 description: "When you reveal a Straight maneuver, you may treat it as a K-Turn maneuver.",
-                agentInput: true,
                 isUnique: true,
                 // FIXME: change for new ship image
                 shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER,
@@ -1448,7 +1445,6 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Laetin A'shera",
                 description: "After you defend against an attack, if the attack did not hit, you may assign 1 evade token to your ship.",
-                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.SCUM_M3_A_INTERCEPTOR,
                 pilotSkillValue: 6,
@@ -1540,7 +1536,6 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             {
                 name: "Luke Skywalker",
                 description: "When defending, you may change 1 of your Focus results to an Evade result.",
-                agentInput: true,
                 isUnique: true,
                 shipTeamKey: ShipTeam.REBEL_X_WING,
                 pilotSkillValue: 8,
