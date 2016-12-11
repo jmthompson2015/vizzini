@@ -14,7 +14,6 @@ define(["Phase", "UpgradeHeader"],
             switch (type)
             {
                 case "DamageCard":
-                case "DamageCardV2":
                     if (ability.hasAction)
                     {
                         action = "Action: " + ability.actionDescription;

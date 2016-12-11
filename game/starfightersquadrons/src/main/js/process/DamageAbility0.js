@@ -1,8 +1,8 @@
 /*
  * Provides damage abilities for Events.
  */
-define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "process/Action"],
-    function(AttackDice, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Action)
+define(["AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "process/Action"],
+    function(AttackDice, DamageCard, Difficulty, Event, Maneuver, Action)
     {
         "use strict";
         var DamageAbility0 = {};
@@ -10,7 +10,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
         ////////////////////////////////////////////////////////////////////////
         DamageAbility0[Event.AFTER_EXECUTE_MANEUVER] = {};
 
-        DamageAbility0[Event.AFTER_EXECUTE_MANEUVER][DamageCardV2.LOOSE_STABILIZER] = {
+        DamageAbility0[Event.AFTER_EXECUTE_MANEUVER][DamageCard.LOOSE_STABILIZER_V2] = {
             // After you execute a white maneuver, receive 1 stress token.
             condition: function(store, token)
             {
@@ -48,7 +48,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
         ////////////////////////////////////////////////////////////////////////
         DamageAbility0[Event.RECEIVE_CRITICAL_DAMAGE] = {};
 
-        DamageAbility0[Event.RECEIVE_CRITICAL_DAMAGE][DamageCardV2.MAJOR_EXPLOSION] = {
+        DamageAbility0[Event.RECEIVE_CRITICAL_DAMAGE][DamageCard.MAJOR_EXPLOSION_V2] = {
             // Roll 1 attack die. On a Hit result, suffer 1 critical damage. Then flip this card facedown.
             condition: function(store, token)
             {
@@ -63,7 +63,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
                     var environment = store.getState().environment;
                     token.receiveCriticalDamage(environment.drawDamage());
                 }
-                flipCardFacedown(store, token, DamageCardV2.MAJOR_EXPLOSION);
+                flipCardFacedown(store, token, DamageCard.MAJOR_EXPLOSION_V2);
                 callback();
             },
         };
@@ -106,7 +106,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
             },
         };
 
-        DamageAbility0[Event.RECEIVE_CRITICAL_DAMAGE][DamageCardV2.THRUST_CONTROL_FIRE] = {
+        DamageAbility0[Event.RECEIVE_CRITICAL_DAMAGE][DamageCard.THRUST_CONTROL_FIRE_V2] = {
             // Receive 1 stress token. Then flip this card facedown.
             condition: function(store, token)
             {
@@ -116,7 +116,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Mane
             consequent: function(store, token, callback)
             {
                 token.receiveStress();
-                flipCardFacedown(store, token, DamageCardV2.THRUST_CONTROL_FIRE);
+                flipCardFacedown(store, token, DamageCard.THRUST_CONTROL_FIRE_V2);
                 callback();
             },
         };

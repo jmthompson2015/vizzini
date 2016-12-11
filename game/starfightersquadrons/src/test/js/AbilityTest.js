@@ -1,5 +1,5 @@
-define(["Ability", "DamageCard", "DamageCardV2", "Event", "Pilot", "UpgradeCard", "process/DamageAbility0", "process/PilotAbility0", "process/UpgradeAbility0"],
-    function(Ability, DamageCard, DamageCardV2, Event, Pilot, UpgradeCard, DamageAbility0, PilotAbility0, UpgradeAbility0)
+define(["Ability", "DamageCard", "Event", "Pilot", "UpgradeCard", "process/DamageAbility0", "process/PilotAbility0", "process/UpgradeAbility0"],
+    function(Ability, DamageCard, Event, Pilot, UpgradeCard, DamageAbility0, PilotAbility0, UpgradeAbility0)
     {
         "use strict";
         QUnit.module("Ability");

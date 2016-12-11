@@ -1,5 +1,5 @@
-define(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard", "abilitystats/AbilityData", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/RangeFilter"],
-    function(DamageCard, DamageCardV2, Pilot, UpgradeCard, AbilityData, DefaultFilters, EntityFilter, RangeFilter)
+define(["DamageCard", "Pilot", "UpgradeCard", "abilitystats/AbilityData", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/RangeFilter"],
+    function(DamageCard, Pilot, UpgradeCard, AbilityData, DefaultFilters, EntityFilter, RangeFilter)
     {
         "use strict";
 
@@ -12,14 +12,6 @@ define(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard", "abilitystats/Abil
             {
                 var damage = DamageCard.properties[damageKey];
                 var abilityData = AbilityData.createAbilityData(damage, "DamageCard");
-                this.abilityData.push(abilityData);
-                this.filteredAbilityData.push(abilityData);
-            }, this);
-
-            DamageCardV2.values().forEach(function(damageKey)
-            {
-                var damage = DamageCardV2.properties[damageKey];
-                var abilityData = AbilityData.createAbilityData(damage, "DamageCardV2");
                 this.abilityData.push(abilityData);
                 this.filteredAbilityData.push(abilityData);
             }, this);

@@ -445,7 +445,7 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         QUnit.test("discardDamage()", function(assert)
         {
             // Setup.
-            var damageDeck = DamageCard.createDeck();
+            var damageDeck = DamageCard.createDeckV2();
             var store = Redux.createStore(Reducer.root);
             store.dispatch(Action.setDamageDeck(damageDeck));
             var damage = damageDeck[0];
@@ -464,7 +464,7 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         QUnit.test("drawDamage()", function(assert)
         {
             // Setup.
-            var damageDeck = DamageCard.createDeck();
+            var damageDeck = DamageCard.createDeckV2();
             var store = Redux.createStore(Reducer.root);
             store.dispatch(Action.setDamageDeck(damageDeck));
             var damage = damageDeck[0];
@@ -744,7 +744,7 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         QUnit.test("replenishDamageDeck()", function(assert)
         {
             // Setup.
-            var damageDeck = DamageCard.createDeck();
+            var damageDeck = DamageCard.createDeckV2();
             var store = Redux.createStore(Reducer.root);
             store.dispatch(Action.setDamageDeck(damageDeck));
             for (var i = 0; i < 33; i++)
@@ -839,7 +839,7 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         QUnit.test("setDamageDeck()", function(assert)
         {
             // Setup.
-            var damageDeck = DamageCard.createDeck();
+            var damageDeck = DamageCard.createDeckV2();
             var store = Redux.createStore(Reducer.root);
             assert.equal(store.getState().damageDeck.length, 0);
 

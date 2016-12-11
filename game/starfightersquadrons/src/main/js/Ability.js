@@ -1,11 +1,11 @@
 /*
- * @param source One of [DamageCard, DamageCardV2, Pilot, UpgradeCard].
+ * @param source One of [DamageCard, Pilot, UpgradeCard].
  * @param sourceKey Damage, pilot, or upgrade key.
  * @param type One of [DamageAbilityX, PilotAbilityX, UpgradeAbilityX].
  * @param eventOrPhaseKey Event key or Phase key.
  */
-define(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard"],
-    function(DamageCard, DamageCardV2, Pilot, UpgradeCard)
+define(["DamageCard", "Pilot", "UpgradeCard"],
+    function(DamageCard, Pilot, UpgradeCard)
     {
         function Ability(source, sourceKey, type, eventOrPhaseKey)
         {
@@ -76,7 +76,7 @@ define(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard"],
 
         Ability.prototype.isDamage = function()
         {
-            return [DamageCard, DamageCardV2].vizziniContains(this.source());
+            return this.source() === DamageCard;
         };
 
         Ability.prototype.isPilot = function()
@@ -115,7 +115,6 @@ define(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard"],
                 switch (source)
                 {
                     case DamageCard:
-                    case DamageCardV2:
                         answer = activationState.usedDamages();
                         break;
                     case Pilot:

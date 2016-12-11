@@ -756,11 +756,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {
                         var myDamage = DamageCard.properties[damageKey];
 
-                        if (!myDamage)
-                        {
-                            myDamage = DamageCardV2.properties[damageKey];
-                        }
-
                         if (myDamage && myDamage[propertyName])
                         {
                             newValue += myDamage[propertyName];

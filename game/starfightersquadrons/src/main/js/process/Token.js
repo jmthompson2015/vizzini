@@ -1,5 +1,5 @@
-define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "DamageCardV2", "Difficulty", "Event", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
-    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, DamageCardV2, Difficulty, Event, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
+define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty", "Event", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
+    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, Difficulty, Event, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
     {
         "use strict";
 
@@ -109,7 +109,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 {
                     answer = pilot.shipTeam.ship.maneuverKeys.slice();
 
-                    if (this.isCriticallyDamagedWith(DamageCardV2.SHAKEN_PILOT))
+                    if (this.isCriticallyDamagedWith(DamageCard.SHAKEN_PILOT_V2))
                     {
                         // During the Planning phase, you cannot be assigned straight maneuvers. When you reveal a maneuver, flip this card facedown.
                         answer = answer.filter(function(maneuverKey)
@@ -120,7 +120,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                     }
 
                     if (this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE) ||
-                        this.isCriticallyDamagedWith(DamageCardV2.DAMAGED_ENGINE))
+                        this.isCriticallyDamagedWith(DamageCard.DAMAGED_ENGINE_V2))
                     {
                         answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_LEFT, Difficulty.HARD);
                         answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_RIGHT, Difficulty.HARD);
@@ -436,7 +436,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                     answer += Math.min(this.agilityValue(), 3);
                 }
 
-                if (this.isCriticallyDamagedWith(DamageCardV2.WEAPONS_FAILURE))
+                if (this.isCriticallyDamagedWith(DamageCard.WEAPONS_FAILURE_V2))
                 {
                     answer -= 1;
                 }
@@ -717,7 +717,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
             var store = this.store();
 
-            if (!this.isCriticallyDamagedWith(DamageCardV2.DAMAGED_SENSOR_ARRAY))
+            if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY_V2))
             {
                 if (!this.isCriticallyDamagedWith(DamageCard.DAMAGED_SENSOR_ARRAY))
                 {
@@ -784,7 +784,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
             answer += this.criticalDamages().reduce(function(accumulator, currentValue)
             {
-                return accumulator + ([DamageCard.DIRECT_HIT, DamageCardV2.DIRECT_HIT].vizziniContains(currentValue) ? 2 : 1);
+                return accumulator + ([DamageCard.DIRECT_HIT, DamageCard.DIRECT_HIT_V2].vizziniContains(currentValue) ? 2 : 1);
             }, 0);
 
             return answer;
@@ -812,14 +812,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
                     if (myAbility.condition(store, this))
                     {
-                        var source = DamageCard;
-
-                        if (DamageCard[damageKey] === undefined)
-                        {
-                            source = DamageCardV2;
-                        }
-
-                        answer.push(new Ability(source, damageKey, abilityType, eventOrPhaseKey));
+                        answer.push(new Ability(DamageCard, damageKey, abilityType, eventOrPhaseKey));
                     }
                 }
             }, this);

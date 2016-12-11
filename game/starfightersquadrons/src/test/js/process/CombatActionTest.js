@@ -33,7 +33,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 assert.equal(attacker.secondaryWeapons().length, 0);
 
                 assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
-                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT)
+                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2)
                 {
                     assert.equal(defender.totalDamage(), 2);
                 }
@@ -191,11 +191,11 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
                 assert.equal(defender.hullValue(), 3);
-                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT && defender.criticalDamages()[1] === DamageCard.DIRECT_HIT)
+                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2 && defender.criticalDamages()[1] === DamageCard.DIRECT_HIT_V2)
                 {
                     assert.ok(defender.isDestroyed());
                 }
-                else if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT || defender.criticalDamages()[1] === DamageCard.DIRECT_HIT)
+                else if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2 || defender.criticalDamages()[1] === DamageCard.DIRECT_HIT_V2)
                 {
                     assert.ok(defender.isDestroyed());
                 }
@@ -247,7 +247,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
                 assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
                 assert.equal(defender.hullValue(), 3);
-                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT)
+                if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2)
                 {
                     assert.ok(defender.isDestroyed());
                 }

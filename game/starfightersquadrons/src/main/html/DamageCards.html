@@ -37,19 +37,15 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require(["DamageCard", "DamageCardV2", "damagestats/Reducer", "damagestats/ui/Connector", "damagestats/ui/DamageTable"],
-            function(DamageCard, DamageCardV2, Reducer, Connector, DamageTable)
+        require(["DamageCard", "damagestats/Reducer", "damagestats/ui/Connector", "damagestats/ui/DamageTable"],
+            function(DamageCard, Reducer, Connector, DamageTable)
             {
                 var store = Redux.createStore(Reducer.root);
                 var implementedCount = DamageCard.values().reduce(function(previousValue, damage)
                 {
                     return previousValue + (DamageCard.properties[damage].isImplemented ? 1 : 0);
                 }, 0);
-                implementedCount += DamageCardV2.values().reduce(function(previousValue, damage)
-                {
-                    return previousValue + (DamageCardV2.properties[damage].isImplemented ? 1 : 0);
-                }, 0);
-                var damageCount = DamageCard.values().length + DamageCardV2.values().length;
+                var damageCount = DamageCard.values().length;
                 var ratio = Math.vizziniRound(100.0 * implementedCount / damageCount, 0);
                 document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " +
                     damageCount + " = " + ratio + "%";

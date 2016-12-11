@@ -36,7 +36,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             var that = this;
 
             // Initialize the damage deck.
-            store.dispatch(Action.setDamageDeck(DamageCard.createDeck()));
+            store.dispatch(Action.setDamageDeck(DamageCard.createDeckV2()));
 
             this.activeToken = function(newActiveToken)
             {

@@ -1,8 +1,8 @@
 /*
  * Provides damage abilities for the Combat Phase.
  */
-define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"],
-    function(AttackDice, DamageCard, DamageCardV2, Phase, Selector)
+define(["AttackDice", "DamageCard", "Phase", "process/Selector"],
+    function(AttackDice, DamageCard, Phase, Selector)
     {
         "use strict";
         var DamageAbility3 = {};
@@ -29,7 +29,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Selector"]
             },
         };
 
-        DamageAbility3[Phase.COMBAT_START][DamageCardV2.CONSOLE_FIRE] = {
+        DamageAbility3[Phase.COMBAT_START][DamageCard.CONSOLE_FIRE_V2] = {
             // At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage.
             condition: function(store, token)
             {

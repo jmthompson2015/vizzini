@@ -37,8 +37,8 @@
         var iconBase = resourceBase + "icons/";
         var imageBase = resourceBase + "images/";
 
-        require(["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard", "abilitystats/Reducer", "abilitystats/ui/Connector", "abilitystats/ui/AbilityTable"],
-            function(DamageCard, DamageCardV2, Pilot, UpgradeCard, Reducer, Connector, AbilityTable)
+        require(["DamageCard", "Pilot", "UpgradeCard", "abilitystats/Reducer", "abilitystats/ui/Connector", "abilitystats/ui/AbilityTable"],
+            function(DamageCard, Pilot, UpgradeCard, Reducer, Connector, AbilityTable)
             {
                 var store = Redux.createStore(Reducer.root);
 
@@ -49,14 +49,6 @@
                 }, 0);
 
                 var abilityCount = DamageCard.values().length;
-
-                implementedCount += DamageCardV2.values().reduce(function(accumulator, damageKey)
-                {
-                    var damage = DamageCardV2.properties[damageKey];
-                    return accumulator + (damage.isImplemented ? 1 : 0);
-                }, 0);
-
-                abilityCount += DamageCardV2.values().length;
 
                 implementedCount += Pilot.values().reduce(function(accumulator, pilotKey)
                 {

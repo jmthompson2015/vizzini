@@ -1,8 +1,8 @@
 /*
  * Provides damage abilities for the Activation Phase.
  */
-define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "process/Selector"],
-    function(AttackDice, DamageCard, DamageCardV2, Phase, Action, Selector)
+define(["AttackDice", "DamageCard", "Phase", "process/Action", "process/Selector"],
+    function(AttackDice, DamageCard, Phase, Action, Selector)
     {
         "use strict";
         var DamageAbility2 = {};
@@ -10,7 +10,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
         ////////////////////////////////////////////////////////////////////////
         DamageAbility2[Phase.ACTIVATION_REVEAL_DIAL] = {};
 
-        DamageAbility2[Phase.ACTIVATION_REVEAL_DIAL][DamageCardV2.SHAKEN_PILOT] = {
+        DamageAbility2[Phase.ACTIVATION_REVEAL_DIAL][DamageCard.SHAKEN_PILOT_V2] = {
             // During the Planning phase, you cannot be assigned straight maneuvers. When you reveal a maneuver, flip this card facedown.
             condition: function(store, token)
             {
@@ -19,7 +19,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
             consequent: function(store, token, callback)
             {
-                flipCardFacedown(store, token, DamageCardV2.SHAKEN_PILOT);
+                flipCardFacedown(store, token, DamageCard.SHAKEN_PILOT_V2);
                 callback();
             },
         };
@@ -41,7 +41,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
         };
 
-        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCardV2.CONSOLE_FIRE] = {
+        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCard.CONSOLE_FIRE_V2] = {
             // Action: Flip this card facedown.
             condition: function(store, token)
             {
@@ -50,7 +50,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
             consequent: function(store, token, callback)
             {
-                flipCardFacedown(store, token, DamageCardV2.CONSOLE_FIRE);
+                flipCardFacedown(store, token, DamageCard.CONSOLE_FIRE_V2);
                 callback();
             },
         };
@@ -73,7 +73,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
         };
 
-        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCardV2.DAMAGED_SENSOR_ARRAY] = {
+        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCard.DAMAGED_SENSOR_ARRAY_V2] = {
             // Action: Roll 1 attack die. On a Hit or Critical Hit result, flip this card facedown.
             condition: function(store, token)
             {
@@ -85,13 +85,13 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1 || attackDice.criticalHitCount() === 1)
                 {
-                    flipCardFacedown(store, token, DamageCardV2.DAMAGED_SENSOR_ARRAY);
+                    flipCardFacedown(store, token, DamageCard.DAMAGED_SENSOR_ARRAY_V2);
                 }
                 callback();
             },
         };
 
-        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCardV2.LOOSE_STABILIZER] = {
+        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCard.LOOSE_STABILIZER_V2] = {
             // Action: Flip this card facedown.
             condition: function(store, token)
             {
@@ -100,12 +100,12 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
             consequent: function(store, token, callback)
             {
-                flipCardFacedown(store, token, DamageCardV2.LOOSE_STABILIZER);
+                flipCardFacedown(store, token, DamageCard.LOOSE_STABILIZER_V2);
                 callback();
             },
         };
 
-        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCardV2.MAJOR_HULL_BREACH] = {
+        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCard.MAJOR_HULL_BREACH_V2] = {
             // Action: Flip this card facedown.
             condition: function(store, token)
             {
@@ -114,7 +114,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
             consequent: function(store, token, callback)
             {
-                flipCardFacedown(store, token, DamageCardV2.MAJOR_HULL_BREACH);
+                flipCardFacedown(store, token, DamageCard.MAJOR_HULL_BREACH_V2);
                 callback();
             },
         };
@@ -137,7 +137,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
         };
 
-        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCardV2.STRUCTURAL_DAMAGE] = {
+        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCard.STRUCTURAL_DAMAGE_V2] = {
             // Action: Roll 1 attack die. On a Hit or Critical Hit result, flip this card facedown.
             condition: function(store, token)
             {
@@ -149,7 +149,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1 || attackDice.criticalHitCount() === 1)
                 {
-                    flipCardFacedown(store, token, DamageCardV2.STRUCTURAL_DAMAGE);
+                    flipCardFacedown(store, token, DamageCard.STRUCTURAL_DAMAGE_V2);
                 }
                 callback();
             },
@@ -173,7 +173,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
             },
         };
 
-        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCardV2.WEAPONS_FAILURE] = {
+        DamageAbility2[Phase.ACTIVATION_PERFORM_ACTION][DamageCard.WEAPONS_FAILURE_V2] = {
             // Action: Roll 1 attack die. On a Hit or Critical Hit result, flip this card facedown.
             condition: function(store, token)
             {
@@ -185,7 +185,7 @@ define(["AttackDice", "DamageCard", "DamageCardV2", "Phase", "process/Action", "
                 var attackDice = new AttackDice(1);
                 if (attackDice.hitCount() === 1 || attackDice.criticalHitCount() === 1)
                 {
-                    flipCardFacedown(store, token, DamageCardV2.WEAPONS_FAILURE);
+                    flipCardFacedown(store, token, DamageCard.WEAPONS_FAILURE_V2);
                 }
                 callback();
             },

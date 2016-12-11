@@ -64,6 +64,16 @@ define(["DamageCard", "DamageCardTrait"],
         QUnit.test("DamageCard.values()", function(assert)
         {
             var values = DamageCard.values();
+            assert.equal(values.length, 28);
+            assert.ok(!values[-1]);
+            assert.equal(values[0], DamageCard.BLINDED_PILOT);
+            assert.equal(values[27], DamageCard.WEAPONS_FAILURE_V2);
+            assert.ok(!values[28]);
+        });
+
+        QUnit.test("DamageCard.valuesV1()", function(assert)
+        {
+            var values = DamageCard.valuesV1();
             assert.equal(values.length, 14);
             assert.ok(!values[-1]);
             assert.equal(values[0], DamageCard.BLINDED_PILOT);
@@ -71,9 +81,19 @@ define(["DamageCard", "DamageCardTrait"],
             assert.ok(!values[14]);
         });
 
-        QUnit.test("DamageCard.createDeck()", function(assert)
+        QUnit.test("DamageCard.valuesV2()", function(assert)
         {
-            var deck = DamageCard.createDeck();
+            var values = DamageCard.valuesV2();
+            assert.equal(values.length, 14);
+            assert.ok(!values[-1]);
+            assert.equal(values[0], DamageCard.BLINDED_PILOT_V2);
+            assert.equal(values[13], DamageCard.WEAPONS_FAILURE_V2);
+            assert.ok(!values[14]);
+        });
+
+        QUnit.test("DamageCard.createDeckV1()", function(assert)
+        {
+            var deck = DamageCard.createDeckV1();
             assert.equal(deck.length, 33);
             assert.ok(!deck[-1]);
             assert.ok(deck[0]);
@@ -101,6 +121,46 @@ define(["DamageCard", "DamageCardTrait"],
             for (damage in damageToCount)
             {
                 if (damage === DamageCard.DIRECT_HIT)
+                {
+                    assert.equal(damageToCount[damage], 7);
+                }
+                else
+                {
+                    assert.equal(damageToCount[damage], 2);
+                }
+            }
+        });
+
+        QUnit.test("DamageCard.createDeckV2()", function(assert)
+        {
+            var deck = DamageCard.createDeckV2();
+            assert.equal(deck.length, 33);
+            assert.ok(!deck[-1]);
+            assert.ok(deck[0]);
+            assert.ok(deck[32]);
+            assert.ok(!deck[33]);
+
+            // Count each damage card type.
+            var damageToCount = {};
+            var damage;
+            for (var i = 0; i < deck.length; i++)
+            {
+                damage = deck[i];
+
+                if (damageToCount[damage])
+                {
+                    damageToCount[damage] += 1;
+                }
+                else
+                {
+                    damageToCount[damage] = 1;
+                }
+            }
+
+            // Verify.
+            for (damage in damageToCount)
+            {
+                if (damage === DamageCard.DIRECT_HIT_V2)
                 {
                     assert.equal(damageToCount[damage], 7);
                 }

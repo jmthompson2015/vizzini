@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "process/Selector", "process/ui/AbilityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
-    function(Count, DamageCard, DamageCardV2, ShipState, UpgradeCard, Selector, AbilityUI, FactionUI, LabeledImage, ShipStateUI)
+define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "process/ui/AbilityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
+    function(Count, DamageCard, ShipState, UpgradeCard, Selector, AbilityUI, FactionUI, LabeledImage, ShipStateUI)
     {
         "use strict";
         var PilotCardCompactUI = React.createClass(
@@ -147,10 +147,6 @@ define(["Count", "DamageCard", "DamageCardV2", "ShipState", "UpgradeCard", "proc
                 token.criticalDamages().forEach(function(damageKey, i)
                 {
                     var damage = DamageCard.properties[damageKey];
-                    if (!damage)
-                    {
-                        damage = DamageCardV2.properties[damageKey];
-                    }
                     var element = React.createElement(AbilityUI.Damage,
                     {
                         damage: damage,

@@ -109,7 +109,7 @@ define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/Enti
                         switch (column.key)
                         {
                             case "type":
-                                values = ["DamageCard", "DamageCardV2", "Pilot", "UpgradeCard"];
+                                values = ["DamageCard", "Pilot", "UpgradeCard"];
                                 break;
                             case "isImplemented":
                                 values = [true, false];

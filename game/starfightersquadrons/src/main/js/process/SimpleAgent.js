@@ -1,5 +1,5 @@
-define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
-    function(Ability, DamageCard, DamageCardV2, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
+define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+    function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
     {
         "use strict";
 
@@ -441,14 +441,7 @@ define(["Ability", "DamageCard", "DamageCardV2", "Maneuver", "ManeuverComputer",
 
                     if (myAbility !== undefined && myAbility.condition(store, token))
                     {
-                        var source = DamageCard;
-
-                        if (DamageCard.properties[damageKey] === undefined)
-                        {
-                            source = DamageCardV2;
-                        }
-
-                        var ability = new Ability(source, damageKey, DamageAbility2, phaseKey);
+                        var ability = new Ability(DamageCard, damageKey, DamageAbility2, phaseKey);
                         answer.push(new ShipActionAction.SAADamageCard(store, token, ability));
                     }
                 });

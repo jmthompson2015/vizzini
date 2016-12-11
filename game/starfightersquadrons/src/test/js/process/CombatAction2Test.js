@@ -326,8 +326,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 verifyAttackDice(assert, attacker.combatState().attackDice());
 
                 verifyDefenseDice(assert, attacker.combatState().defenseDice());
-                assert.equal(defender.damageCount(), 0);
-                assert.equal(defender.criticalDamageCount(), 1);
+                assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 assert.ok(!defender.isDestroyed());
                 assert.equal(defender.hullValue(), 3);
                 done();
