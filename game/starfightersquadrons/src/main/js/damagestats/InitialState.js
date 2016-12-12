@@ -11,7 +11,8 @@ define(["DamageCard", "damagestats/DamageData", "damagestats/DefaultFilters", "d
             DamageCard.values().forEach(function(damageKey)
             {
                 var damage = DamageCard.properties[damageKey];
-                var damageData = DamageData.createDamageData(damage, "v1");
+                var version = (damageKey.substring(damageKey.length - 2) === "V2" ? "v2" : "v1");
+                var damageData = DamageData.createDamageData(damage, version);
                 this.damageData.push(damageData);
                 this.filteredDamageData.push(damageData);
             }, this);
