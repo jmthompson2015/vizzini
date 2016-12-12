@@ -53,14 +53,10 @@
                 implementedCount += Pilot.values().reduce(function(accumulator, pilotKey)
                 {
                     var pilot = Pilot.properties[pilotKey];
-                    return accumulator + (!pilot.isFlavorText && pilot.isImplemented ? 1 : 0);
+                    return accumulator + (pilot.isImplemented ? 1 : 0);
                 }, 0);
 
-                abilityCount += Pilot.values().reduce(function(accumulator, pilotKey)
-                {
-                    var pilot = Pilot.properties[pilotKey];
-                    return accumulator + (pilot.isFlavorText ? 0 : 1);
-                }, 0);
+                abilityCount += Pilot.values().length;
 
                 implementedCount += UpgradeCard.values().reduce(function(accumulator, upgradeKey)
                 {

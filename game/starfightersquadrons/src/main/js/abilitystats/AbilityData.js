@@ -19,12 +19,6 @@ define(["Phase", "UpgradeHeader"],
                         action = "Action: " + ability.actionDescription;
                     }
                     break;
-                case "Pilot":
-                    if (ability.isFlavorText)
-                    {
-                        description = undefined;
-                    }
-                    break;
                 case "UpgradeCard":
                     if (ability.header !== undefined)
                     {
@@ -34,6 +28,7 @@ define(["Phase", "UpgradeHeader"],
                     }
                     break;
             }
+            var isFlavorText = (ability.isFlavorText !== undefined ? ability.isFlavorText : false);
             var isImplemented = (ability.isImplemented !== undefined ? ability.isImplemented : false);
             var event = determineEvent(ability, description, action);
 
@@ -42,6 +37,7 @@ define(["Phase", "UpgradeHeader"],
                 type: type,
                 name: ability.name,
                 description: description,
+                isFlavorText: isFlavorText,
                 action: action,
                 isImplemented: isImplemented,
                 event: event,

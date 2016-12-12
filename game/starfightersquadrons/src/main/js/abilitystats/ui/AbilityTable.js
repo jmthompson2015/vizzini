@@ -19,6 +19,24 @@ define(["Event", "Phase", "abilitystats/AbilityColumns", "abilitystats/ui/Connec
         }
 
         var valueFunctions = {
+            "name": function(data)
+            {
+                var answer = data.name;
+                answer = answer.replace(/\"/, "");
+                return answer;
+            },
+            "description": function(data)
+            {
+                var answer = data.description;
+                if (data.isFlavorText)
+                {
+                    answer = React.DOM.span(
+                    {
+                        className: "flavorText",
+                    }, data.description);
+                }
+                return answer;
+            },
             "event": function(data)
             {
                 if (data.event)
@@ -66,7 +84,19 @@ define(["Event", "Phase", "abilitystats/AbilityColumns", "abilitystats/ui/Connec
             "event": function(data)
             {
                 return data.event;
-            }
+            },
+            "isImplemented": function(data)
+            {
+                var implementedName = (data.isImplemented ? "accept" : "delete");
+                var fileString = iconBase + implementedName + ".png";
+                return React.DOM.img(
+                {
+                    className: "isImplementedImage",
+                    src: fileString,
+                    title: data.isImplemented,
+                    value: implementedName,
+                });
+            },
         };
 
         var AbilityTable = React.createClass(

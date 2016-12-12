@@ -19,12 +19,9 @@ define(["DamageCard", "Pilot", "UpgradeCard", "abilitystats/AbilityData", "abili
             Pilot.values().forEach(function(pilotKey)
             {
                 var pilot = Pilot.properties[pilotKey];
-                if (pilot.isFlavorText !== true)
-                {
-                    var abilityData = AbilityData.createAbilityData(pilot, "Pilot");
-                    this.abilityData.push(abilityData);
-                    this.filteredAbilityData.push(abilityData);
-                }
+                var abilityData = AbilityData.createAbilityData(pilot, "Pilot");
+                this.abilityData.push(abilityData);
+                this.filteredAbilityData.push(abilityData);
             }, this);
 
             UpgradeCard.values().forEach(function(upgradeKey)
