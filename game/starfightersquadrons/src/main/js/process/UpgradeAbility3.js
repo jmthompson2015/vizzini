@@ -961,7 +961,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                 if (isDefenderHit(attacker))
                 {
                     var defender = getDefender(attacker);
-                    store.dispatch(Action.addShieldCount(defender, -1));
+                    defender.removeShield();
                 }
                 callback();
             },

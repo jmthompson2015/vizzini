@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "process/DamageAbility3", "process/DamageDealer", "process/PilotAbility3", "process/ShipDestroyedAction", "process/UpgradeAbility3"],
-    function(AttackDice, DefenseDice, Phase, RangeRuler, UpgradeCard, DamageAbility3, DamageDealer, PilotAbility3, ShipDestroyedAction, UpgradeAbility3)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCard", "process/DamageAbility3", "process/DamageDealer", "process/PilotAbility3", "process/ShipDestroyedAction", "process/UpgradeAbility3"],
+    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, UpgradeCard, DamageAbility3, DamageDealer, PilotAbility3, ShipDestroyedAction, UpgradeAbility3)
     {
         "use strict";
 
@@ -227,7 +227,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
             var defender = this.defender();
             var weapon = this.weapon();
             var rangeKey = attacker.combatState().rangeKey();
-            var defenderDiceCount = defender.computeDefenseDiceCount(weapon, rangeKey);
+            var defenderDiceCount = defender.computeDefenseDiceCount(this.environment(), attacker, weapon, rangeKey);
             var defenseDiceClass = this.defenseDiceClass();
             var defenseDice = new defenseDiceClass(defenderDiceCount);
             attacker.combatState().defenseDice(defenseDice);
@@ -298,6 +298,10 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "UpgradeCard", "proc
             var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice.criticalHitCount(), defender, defenseDice.evadeCount());
             attacker.combatState().damageDealer(damageDealer);
             var isDefenderHit = (damageDealer.hits() + damageDealer.criticalHits() > 0);
+            if (attacker.pilotKey() === Pilot.LIEUTENANT_BLOUNT)
+            {
+                isDefenderHit = true;
+            }
             attacker.combatState().isDefenderHit(isDefenderHit);
 
             this.notifyDamage();

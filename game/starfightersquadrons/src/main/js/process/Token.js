@@ -1,5 +1,5 @@
-define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty", "Event", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
-    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, Difficulty, Event, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
+define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
+    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
     {
         "use strict";
 
@@ -124,6 +124,12 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                     {
                         answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_LEFT, Difficulty.HARD);
                         answer = changeBearingManeuversToDifficulty(answer, Bearing.TURN_RIGHT, Difficulty.HARD);
+                    }
+
+                    if (this.pilotKey() === Pilot.ELLO_ASTY && !this.isStressed())
+                    {
+                        answer = changeBearingManeuversToDifficulty(answer, Bearing.TALLON_ROLL_LEFT, Difficulty.STANDARD);
+                        answer = changeBearingManeuversToDifficulty(answer, Bearing.TALLON_ROLL_RIGHT, Difficulty.STANDARD);
                     }
 
                     if (this.isUpgradedWith(UpgradeCard.NIEN_NUNB))
@@ -406,7 +412,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             {
                 answer = weapon.weaponValue();
 
-                if ((rangeKey === RangeRuler.ONE) && weapon.isPrimary())
+                if (rangeKey === RangeRuler.ONE && weapon.isPrimary() && defender.pilotKey() !== Pilot.ZERTIK_STROM)
                 {
                     // Bonus attack die at range one.
                     answer++;
@@ -415,7 +421,18 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                     {
                         answer++;
                     }
-                    else if (weapon.upgradeKey() === UpgradeCard.DORSAL_TURRET)
+                }
+
+                var attackerPosition = environment.getPositionFor(this);
+                var defenderPosition = environment.getPositionFor(defender);
+                var firingArc, isInFiringArc;
+
+                if (this.pilotKey() === Pilot.BACKSTABBER)
+                {
+                    firingArc = FiringArc.FORWARD;
+                    isInFiringArc = weapon.isDefenderInFiringArc(defenderPosition, firingArc, this, attackerPosition);
+
+                    if (!isInFiringArc)
                     {
                         answer++;
                     }
@@ -426,7 +443,33 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                     answer++;
                 }
 
+                if (this.pilotKey() === Pilot.KAVIL)
+                {
+                    firingArc = weapon.primaryFiringArc();
+                    isInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
+
+                    if (!isInFiringArc)
+                    {
+                        answer++;
+                    }
+                }
+
                 if (this.pilotKey() === Pilot.MAULER_MITHEL && rangeKey === RangeRuler.ONE)
+                {
+                    answer++;
+                }
+
+                if (this.pilotKey() === Pilot.NDRU_SUHLAK && environment.getFriendlyTokensAtRange(this, RangeRuler.ONE).length === 0 && environment.getFriendlyTokensAtRange(this, RangeRuler.TWO).length === 0)
+                {
+                    answer++;
+                }
+
+                if (this.pilotKey() === Pilot.SCOURGE && (defender.damageCount() > 0 || defender.criticalDamageCount() > 0))
+                {
+                    answer++;
+                }
+
+                if (weapon.upgradeKey() === UpgradeCard.DORSAL_TURRET && rangeKey === RangeRuler.ONE)
                 {
                     answer++;
                 }
@@ -445,7 +488,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             return answer;
         };
 
-        Token.prototype.computeDefenseDiceCount = function(weapon, rangeKey)
+        Token.prototype.computeDefenseDiceCount = function(environment, attacker, weapon, rangeKey)
         {
             var answer = this.agilityValue();
 
@@ -455,6 +498,19 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 answer++;
 
                 if (this.pilotKey() === Pilot.TALONBANE_COBRA)
+                {
+                    answer++;
+                }
+            }
+
+            if (this.pilotKey() === Pilot.GRAZ_THE_HUNTER)
+            {
+                var attackerPosition = environment.getPositionFor(attacker);
+                var defenderPosition = environment.getPositionFor(this);
+                var firingArc = FiringArc.FORWARD;
+                var isInFiringArc = weapon.isDefenderInFiringArc(defenderPosition, firingArc, attacker, attackerPosition);
+
+                if (!isInFiringArc)
                 {
                     answer++;
                 }
@@ -651,6 +707,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             if (this.shieldCount() < this.shieldValue())
             {
                 this.store().dispatch(Action.addShieldCount(this));
+                this.store().dispatch(Action.setEvent(Event.RECOVER_SHIELD, this));
             }
         };
 
@@ -690,6 +747,16 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             InputValidator.validateNotNull("damageKey", damageKey);
 
             this.store().dispatch(Action.removeTokenCriticalDamage(this, damageKey));
+        };
+
+        Token.prototype.removeShield = function(count)
+        {
+            if (this.shieldCount() > 0)
+            {
+                var myCount = (count !== undefined ? count : 1);
+                this.store().dispatch(Action.addShieldCount(this, -myCount));
+                this.store().dispatch(Action.setEvent(Event.REMOVE_SHIELD, this));
+            }
         };
 
         Token.prototype.removeStress = function()

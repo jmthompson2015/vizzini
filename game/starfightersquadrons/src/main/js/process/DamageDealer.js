@@ -78,7 +78,7 @@ define(["DamageCard", "DamageCardTrait", "UpgradeCard", "process/Action"],
                     count = Math.min(hits, defender.shieldCount());
                     hits -= count;
 
-                    store.dispatch(Action.addShieldCount(defender, -count));
+                    defender.removeShield(count);
                 }
 
                 LOGGER.debug("before critical hits, shield         = " + defender.shieldCount());
@@ -88,7 +88,7 @@ define(["DamageCard", "DamageCardTrait", "UpgradeCard", "process/Action"],
                     count = Math.min(criticalHits, defender.shieldCount());
                     criticalHits -= count;
 
-                    store.dispatch(Action.addShieldCount(defender, -count));
+                    defender.removeShield(count);
                 }
 
                 LOGGER.debug("after both hits, shield              = " + defender.shieldCount());

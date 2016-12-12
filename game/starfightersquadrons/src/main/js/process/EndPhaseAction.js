@@ -96,6 +96,8 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
             token.activationState().clear();
             token.combatState().clear();
 
+            store.dispatch(Action.setTokenPilotPerRound(token.id(), token.pilotKey()));
+
             token.upgradeKeys().forEach(function(upgradeKey)
             {
                 store.dispatch(Action.setTokenUpgradePerRound(token.id(), upgradeKey));

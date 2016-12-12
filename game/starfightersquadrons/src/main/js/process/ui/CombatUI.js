@@ -109,6 +109,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "process/M
                         var modifyDefensePanel = React.createElement(CombatUI.ModifyDefenseUI,
                         {
                             defender: defender,
+                            imageBase: this.props.imageBase,
                             modifications: modifications,
                             onChange: this.ok,
                         });
@@ -369,6 +370,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "process/M
             propTypes:
             {
                 defender: React.PropTypes.object.isRequired,
+                imageBase: React.PropTypes.string.isRequired,
                 modifications: React.PropTypes.array.isRequired,
                 onChange: React.PropTypes.func.isRequired,
             },

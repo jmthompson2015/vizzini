@@ -7,6 +7,8 @@ define(function()
         RECEIVE_CRITICAL_DAMAGE: "receiveCriticalDamage",
         RECEIVE_DAMAGE: "receiveDamage",
         RECEIVE_STRESS: "receiveStress",
+        RECOVER_SHIELD: "recoverShield",
+        REMOVE_SHIELD: "removeShield",
         REMOVE_STRESS: "removeStress",
         TARGET_LOCK_ACQUIRED: "targetLockAcquired",
 
@@ -41,6 +43,16 @@ define(function()
             {
                 name: "Receive Stress",
                 value: "receiveStress",
+            },
+            "recoverShield":
+            {
+                name: "Recover Shield",
+                value: "recoverShield",
+            },
+            "removeShield":
+            {
+                name: "Remove Shield",
+                value: "removeShield",
             },
             "removeStress":
             {

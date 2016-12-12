@@ -205,6 +205,22 @@ define(["Count", "Value"], function(Count, Value)
         return answer;
     };
 
+    Selector.tokenToPilotPerRound = function(state, tokenId, pilotKey)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("pilotKey", pilotKey);
+
+        var answer;
+
+        if (state.tokenIdToPilotPerRound[tokenId] !== undefined)
+        {
+            answer = state.tokenIdToPilotPerRound[tokenId][pilotKey];
+        }
+
+        return answer;
+    };
+
     Selector.tokenToUpgradePerRound = function(state, tokenId, upgradeKey)
     {
         InputValidator.validateNotNull("state", state);

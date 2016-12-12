@@ -258,6 +258,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 16,
                 upgradeTypeKeys: [],
+                isImplemented: true,
                 value: "backstabber",
             },
             "banditSquadronPilot":
@@ -448,8 +449,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.SCUM_FIRESPRAY_31,
                 pilotSkillValue: 8,
                 squadPointCost: 39,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW,
-                                UpgradeType.MISSILE, UpgradeType.ILLICIT],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE, UpgradeType.ILLICIT],
+                isImplemented: true,
                 value: "bobaFettScum",
             },
             "bossk":
@@ -635,8 +636,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.IMPERIAL_VT_49_DECIMATOR,
                 pilotSkillValue: 6,
                 squadPointCost: 44,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW,
-                                UpgradeType.CREW, UpgradeType.BOMB],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.BOMB],
+                isImplemented: true,
                 value: "commanderKenkirk",
             },
             "contractedScout":
@@ -885,8 +886,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
                 pilotSkillValue: 7,
                 squadPointCost: 30,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH,
-                                UpgradeType.TECH],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
+                isImplemented: true,
                 value: "elloAsty",
             },
             "emonAzzameen":
@@ -896,8 +897,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.SCUM_FIRESPRAY_31,
                 pilotSkillValue: 6,
                 squadPointCost: 36,
-                upgradeTypeKeys: [UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE,
-                                UpgradeType.ILLICIT],
+                upgradeTypeKeys: [UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE, UpgradeType.ILLICIT],
                 value: "emonAzzameen",
             },
             "epsilonAce":
@@ -969,6 +969,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 4,
                 squadPointCost: 20,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TURRET, UpgradeType.CREW],
+                isImplemented: true,
                 value: "ezraBridger",
             },
             "felsWrath":
@@ -1001,8 +1002,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.IMPERIAL_TIE_BOMBER,
                 pilotSkillValue: 4,
                 squadPointCost: 18,
-                upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE,
-                                UpgradeType.MISSILE, UpgradeType.BOMB],
+                upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB],
                 isImplemented: true,
                 value: "gammaSquadronPilot",
             },
@@ -1085,8 +1085,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.REBEL_Y_WING,
                 pilotSkillValue: 4,
                 squadPointCost: 20,
-                upgradeTypeKeys: [UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
-                                UpgradeType.ASTROMECH],
+                upgradeTypeKeys: [UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.ASTROMECH],
                 isImplemented: true,
                 value: "graySquadronPilot",
             },
@@ -1099,6 +1098,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 25,
                 upgradeTypeKeys: [UpgradeType.MISSILE, UpgradeType.ILLICIT],
+                isImplemented: true,
                 value: "grazTheHunter",
             },
             "greenSquadronPilot":
@@ -1204,8 +1204,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.REBEL_Y_WING,
                 pilotSkillValue: 8,
                 squadPointCost: 25,
-                upgradeTypeKeys: [UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
-                                UpgradeType.ASTROMECH],
+                upgradeTypeKeys: [UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.ASTROMECH],
+                isImplemented: true,
                 value: "hortonSalm",
             },
             "howlrunner":
@@ -1227,8 +1227,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.REBEL_B_WING,
                 pilotSkillValue: 6,
                 squadPointCost: 28,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CANNON,
-                                UpgradeType.TORPEDO, UpgradeType.TORPEDO],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CANNON, UpgradeType.TORPEDO, UpgradeType.TORPEDO],
+                isImplemented: true,
                 value: "ibtisam",
             },
             "ig88A":
@@ -1312,6 +1312,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 7,
                 squadPointCost: 26,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH],
+                isImplemented: true,
                 value: "jekPorkins",
             },
             "junoEclipse":
@@ -1380,8 +1381,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.SCUM_Y_WING,
                 pilotSkillValue: 7,
                 squadPointCost: 24,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TURRET, UpgradeType.TORPEDO,
-                                UpgradeType.TORPEDO, UpgradeType.SALVAGED_ASTROMECH],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TURRET, UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.SALVAGED_ASTROMECH],
+                isImplemented: true,
                 value: "kavil",
             },
             "keyanFarlander":
@@ -1392,8 +1393,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.REBEL_B_WING_ACE,
                 pilotSkillValue: 7,
                 squadPointCost: 29,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CANNON,
-                                UpgradeType.TORPEDO, UpgradeType.TORPEDO],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CANNON, UpgradeType.TORPEDO, UpgradeType.TORPEDO],
+                isImplemented: true,
                 value: "keyanFarlander",
             },
             "kirKanos":
@@ -1405,6 +1406,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 24,
                 upgradeTypeKeys: [],
+                isImplemented: true,
                 value: "kirKanos",
             },
             "knaveSquadronPilot":
@@ -1428,6 +1430,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 5,
                 squadPointCost: 36,
                 upgradeTypeKeys: [UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "krassisTrelix",
             },
             "kyleKatarn":
@@ -1496,6 +1499,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 17,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "lieutenantBlount",
             },
             "lieutenantColzet":
@@ -1648,6 +1652,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 7,
                 squadPointCost: 17,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.ILLICIT],
+                isImplemented: true,
                 value: "ndruSuhlak",
             },
             "neraDantels":
@@ -1695,6 +1700,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 7,
                 squadPointCost: 20,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TECH],
+                isImplemented: true,
                 value: "omegaAce",
             },
             "omegaLeader":
@@ -1874,8 +1880,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.IMPERIAL_VT_49_DECIMATOR,
                 pilotSkillValue: 8,
                 squadPointCost: 46,
-                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW,
-                                UpgradeType.CREW, UpgradeType.BOMB],
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.BOMB],
+                isImplemented: true,
                 value: "rearAdmiralChiraneau",
             },
             "rebelOperative":
@@ -1899,6 +1905,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 29,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.ASTROMECH, UpgradeType.TECH],
+                isImplemented: true,
                 value: "redAce",
             },
             "redSquadronPilot":
@@ -2027,8 +2034,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 shipTeamKey: ShipTeam.IMPERIAL_TIE_BOMBER,
                 pilotSkillValue: 2,
                 squadPointCost: 16,
-                upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE,
-                                UpgradeType.MISSILE, UpgradeType.BOMB],
+                upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB],
                 isImplemented: true,
                 value: "scimitarSquadronPilot",
             },
@@ -2041,6 +2047,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 7,
                 squadPointCost: 17,
                 upgradeTypeKeys: [UpgradeType.ELITE],
+                isImplemented: true,
                 value: "scourge",
             },
             "serissu":
@@ -2184,6 +2191,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 3,
                 squadPointCost: 23,
                 upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.ASTROMECH],
+                isImplemented: true,
                 value: "tarnMison",
             },
             "telTrevura":
@@ -2301,6 +2309,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 22,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "valenRudor",
             },
             "wampa":
@@ -2382,6 +2391,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 5,
                 squadPointCost: 15,
                 upgradeTypeKeys: [],
+                isImplemented: true,
                 value: "wingedGundark",
             },
             "youngster":
@@ -2415,6 +2425,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 6,
                 squadPointCost: 26,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE],
+                isImplemented: true,
                 value: "zertikStrom",
             },
             "zetaAce":

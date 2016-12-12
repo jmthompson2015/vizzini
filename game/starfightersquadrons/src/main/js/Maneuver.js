@@ -93,7 +93,9 @@ define(["Bearing", "Difficulty"],
 
             // Tallon Roll.
             TALLON_ROLL_LEFT_3_HARD: "tallonRollLeft3Hard",
+            TALLON_ROLL_LEFT_3_STANDARD: "tallonRollLeft3Standard",
             TALLON_ROLL_RIGHT_3_HARD: "tallonRollRight3Hard",
+            TALLON_ROLL_RIGHT_3_STANDARD: "tallonRollRight3Standard",
 
             // Turn.
             TURN_LEFT_1_EASY: "turnLeft1Easy",
@@ -634,6 +636,14 @@ define(["Bearing", "Difficulty"],
                     radius: 88.9,
                     value: "tallonRollLeft3Hard",
                 },
+                "tallonRollLeft3Standard":
+                {
+                    bearingKey: Bearing.TALLON_ROLL_LEFT,
+                    speed: 3,
+                    difficultyKey: Difficulty.STANDARD,
+                    radius: 88.9,
+                    value: "tallonRollLeft3Standard",
+                },
                 "tallonRollRight3Hard":
                 {
                     bearingKey: Bearing.TALLON_ROLL_RIGHT,
@@ -641,6 +651,14 @@ define(["Bearing", "Difficulty"],
                     difficultyKey: Difficulty.HARD,
                     radius: 88.9,
                     value: "tallonRollRight3Hard",
+                },
+                "tallonRollRight3Standard":
+                {
+                    bearingKey: Bearing.TALLON_ROLL_RIGHT,
+                    speed: 3,
+                    difficultyKey: Difficulty.STANDARD,
+                    radius: 88.9,
+                    value: "tallonRollRight3Standard",
                 },
                 "turnLeft1Easy":
                 {

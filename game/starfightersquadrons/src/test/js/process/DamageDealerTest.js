@@ -1,5 +1,5 @@
-define(["DamageCard", "DamageCardTrait", "process/DamageDealer", "process/EnvironmentFactory", "Pilot", "Position", "process/Token", "UpgradeCard", "process/Action"],
-    function(DamageCard, DamageCardTrait, DamageDealer, EnvironmentFactory, Pilot, Position, Token, UpgradeCard, Action)
+define(["DamageCard", "DamageCardTrait", "Pilot", "Position", "UpgradeCard", "process/Action", "process/DamageDealer", "process/EnvironmentFactory", "process/Token"],
+    function(DamageCard, DamageCardTrait, Pilot, Position, UpgradeCard, Action, DamageDealer, EnvironmentFactory, Token)
     {
         "use strict";
         QUnit.module("DamageDealer");
@@ -33,6 +33,7 @@ define(["DamageCard", "DamageCardTrait", "process/DamageDealer", "process/Enviro
             var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
             assert.equal(defender.damageCount(), 0);
             assert.equal(defender.criticalDamageCount(), 0);
+            environment.store().dispatch(Action.setEnvironment(environment));
 
             // Run.
             damageDealer.dealDamage();

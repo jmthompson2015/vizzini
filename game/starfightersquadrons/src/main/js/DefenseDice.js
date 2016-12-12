@@ -67,34 +67,40 @@ define(function()
             }
         };
 
-        this.rerollBlank = function()
+        this.rerollBlank = function(count)
         {
-            // Reroll a blank value.
-            for (var i = 0; i < values.length; i++)
-            {
-                var value = values[i];
+            rerollType(DefenseDice.Value.BLANK, count);
+        };
 
-                if (value === DefenseDice.Value.BLANK)
+        this.rerollBlankAndFocus = function(count)
+        {
+            var blankCount = this.blankCount();
+            var focusCount = this.focusCount();
+
+            if (blankCount >= count)
+            {
+                this.rerollBlank(count);
+            }
+            else
+            {
+                // 0 <= blankCount < count
+                if (blankCount > 0)
                 {
-                    values[i] = rollRandomValue();
-                    break;
+                    this.rerollBlank(count);
+                }
+
+                var myCount = count - blankCount;
+
+                if (myCount > 0)
+                {
+                    this.rerollFocus(myCount);
                 }
             }
         };
 
-        this.rerollFocus = function()
+        this.rerollFocus = function(count)
         {
-            // Reroll a focus value.
-            for (var i = 0; i < values.length; i++)
-            {
-                var value = values[i];
-
-                if (value === DefenseDice.Value.FOCUS)
-                {
-                    values[i] = rollRandomValue();
-                    break;
-                }
-            }
+            rerollType(DefenseDice.Value.FOCUS, count);
         };
 
         this.size = function()
@@ -162,6 +168,31 @@ define(function()
             for (var i = 0; i < size; i++)
             {
                 values.push(rollRandomValue());
+            }
+        }
+
+        function rerollType(type, count)
+        {
+            InputValidator.validateNotNull("type", type);
+            // count optional; default: 1
+
+            // Reroll type values.
+            var myCount = (count === undefined ? 1 : count);
+
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === type)
+                {
+                    values[i] = rollRandomValue();
+                    myCount--;
+
+                    if (myCount === 0)
+                    {
+                        break;
+                    }
+                }
             }
         }
 

@@ -48,7 +48,7 @@ define(["Event"], function(Event)
 
         // Verify.
         assert.ok(result);
-        var length = 8;
+        var length = 10;
         assert.equal(result.length, length);
         assert.equal(result[0], Event.AFTER_EXECUTE_MANEUVER);
         assert.equal(result[length - 1], Event.TARGET_LOCK_ACQUIRED);

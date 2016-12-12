@@ -206,6 +206,28 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
             }
         };
 
+        Reducer.tokenIdToPilotPerRound = function(state, action)
+        {
+            LOGGER.debug("tokenIdToPilotPerRound() type = " + action.type);
+
+            var newTokenIdToPilotPerRound;
+
+            switch (action.type)
+            {
+                case Action.ADD_TOKEN_PILOT_PER_ROUND:
+                case Action.SET_TOKEN_PILOT_PER_ROUND:
+                    var oldTokenIdToPilotPerRound = (state[action.tokenId] ? state[action.tokenId] :
+                    {});
+                    newTokenIdToPilotPerRound = Object.assign(
+                    {}, state);
+                    newTokenIdToPilotPerRound[action.tokenId] = Reducer.upgradePerRound(oldTokenIdToPilotPerRound, action);
+                    return newTokenIdToPilotPerRound;
+                default:
+                    LOGGER.warn("Reducer.tokenIdToPilotPerRound: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
         Reducer.tokenIdToPosition = function(state, action)
         {
             LOGGER.debug("tokenIdToPosition() type = " + action.type);
@@ -494,6 +516,14 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {}, state,
                     {
                         tokenIdToDamages: newTokenIdToDamages,
+                    });
+                case Action.ADD_TOKEN_PILOT_PER_ROUND:
+                case Action.SET_TOKEN_PILOT_PER_ROUND:
+                    var newTokenIdToPilotPerRound = Reducer.tokenIdToPilotPerRound(state.tokenIdToPilotPerRound, action);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToPilotPerRound: newTokenIdToPilotPerRound,
                     });
                 case Action.ADD_TOKEN_UPGRADE:
                 case Action.REMOVE_TOKEN_UPGRADE:
@@ -814,6 +844,10 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                         if (isCloaked)
                         {
                             newValue += 2;
+                        }
+                        if (token && token.isUpgradedWith(UpgradeCard.COMMANDER_KENKIRK) && token.shieldCount() === 0 && (token.damageCount() > 0 || token.criticalDamageCount() > 0))
+                        {
+                            newValue++;
                         }
                         if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
                         {

@@ -10,9 +10,10 @@ define(function()
 
         rerollAll(initialSize);
 
-        this.addDie = function()
+        this.addDie = function(value)
         {
-            values.push(rollRandomValue());
+            var myValue = (value !== undefined ? value : rollRandomValue());
+            values.push(myValue);
         };
 
         this.blankCount = function()
@@ -72,6 +73,20 @@ define(function()
             }
 
             return answer;
+        };
+
+        this.rerollAllBlank = function()
+        {
+            // Reroll all blank values.
+            for (var i = 0; i < values.length; i++)
+            {
+                var value = values[i];
+
+                if (value === AttackDice.Value.BLANK)
+                {
+                    values[i] = rollRandomValue();
+                }
+            }
         };
 
         this.rerollAllFocus = function()

@@ -8,6 +8,7 @@ define(["Count"], function(Count)
     Action.ADD_TARGET_LOCK = "addTargetLock";
     Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
     Action.ADD_TOKEN_DAMAGE = "addTokenDamage";
+    Action.ADD_TOKEN_PILOT_PER_ROUND = "addTokenPilotPerRound";
     Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
     Action.ADD_TOKEN_UPGRADE_ENERGY = "addTokenUpgradeEnergy";
     Action.ADD_TOKEN_UPGRADE_PER_ROUND = "addTokenUpgradePerRound";
@@ -36,6 +37,7 @@ define(["Count"], function(Count)
     Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
+    Action.SET_TOKEN_PILOT_PER_ROUND = "setTokenPilotPerRound";
     Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
     Action.SET_TOKEN_UPGRADE_PER_ROUND = "setTokenUpgradePerRound";
     Action.SET_USER_MESSAGE = "setUserMessage";
@@ -141,6 +143,21 @@ define(["Count"], function(Count)
             type: Action.ADD_TOKEN_DAMAGE,
             tokenId: tokenId,
             damageKey: damageKey,
+        });
+    };
+
+    Action.addTokenPilotPerRound = function(tokenId, pilotKey, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("pilotKey", pilotKey);
+        var myValue = (value !== undefined ? value : 1);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_PILOT_PER_ROUND,
+            tokenId: tokenId,
+            pilotKey: pilotKey,
+            value: myValue,
         });
     };
 
@@ -510,6 +527,21 @@ define(["Count"], function(Count)
     Action.setStressCount = function(token, value)
     {
         return Action.setCount(token, Count.STRESS, value);
+    };
+
+    Action.setTokenPilotPerRound = function(tokenId, pilotKey, value)
+    {
+        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("pilotKey", pilotKey);
+        var myValue = (value !== undefined ? value : 0);
+
+        return (
+        {
+            type: Action.SET_TOKEN_PILOT_PER_ROUND,
+            tokenId: tokenId,
+            pilotKey: pilotKey,
+            value: myValue,
+        });
     };
 
     Action.setTokenUpgradeEnergy = function(tokenId, upgradeKey, value)

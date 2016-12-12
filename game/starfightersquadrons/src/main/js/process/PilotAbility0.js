@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for Events.
  */
-define(["Event", "Maneuver", "Pilot", "process/Action"],
-    function(Event, Maneuver, Pilot, Action)
+define(["Event", "Maneuver", "Pilot", "process/Action", "process/Selector"],
+    function(Event, Maneuver, Pilot, Action, Selector)
     {
         "use strict";
         var PilotAbility0 = {};
@@ -18,15 +18,35 @@ define(["Event", "Maneuver", "Pilot", "process/Action"],
                 var maneuver = getManeuver(token);
                 return token === eventToken && maneuver !== undefined && maneuver.difficultyKey === Difficulty.EASY;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 var focusAction = new ShipActionAction.Focus(store, token);
                 focusAction.doIt();
+                callback();
             },
         };
 
         ////////////////////////////////////////////////////////////////////////
         PilotAbility0[Event.RECEIVE_STRESS] = {};
+
+        PilotAbility0[Event.RECEIVE_STRESS][Pilot.JEK_PORKINS] = {
+            // When you receive a stress token, you may remove it and roll 1 attack die. On a Hit result, deal 1 facedown Damage card to this ship.
+            condition: function(store, token)
+            {
+                var eventToken = getEventToken(store);
+                return token === eventToken;
+            },
+            consequent: function(store, token, callback)
+            {
+                token.removeStress();
+                var attackDice = new AttackDice(1);
+                if (attackDice.hitCount() === 1)
+                {
+                    token.receiveDamage(environment.drawDamage());
+                }
+                callback();
+            },
+        };
 
         PilotAbility0[Event.RECEIVE_STRESS][Pilot.SOONTIR_FEL] = {
             // When you receive a stress token, you may assign 1 focus token to your ship.
@@ -35,9 +55,29 @@ define(["Event", "Maneuver", "Pilot", "process/Action"],
                 var eventToken = getEventToken(store);
                 return token === eventToken;
             },
-            consequent: function(store, token)
+            consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addFocusCount(token));
+                callback();
+            },
+        };
+
+        ////////////////////////////////////////////////////////////////////////
+        PilotAbility0[Event.REMOVE_SHIELD] = {};
+
+        PilotAbility0[Event.REMOVE_SHIELD][Pilot.RED_ACE] = {
+            // The first time you remove a shield token from your ship each round, assign 1 evade token to your ship.
+            condition: function(store, token)
+            {
+                var eventToken = getEventToken(store);
+                var isUsedThisRound = usedThisRound(store, token, Pilot.RED_ACE);
+                return token === eventToken && !isUsedThisRound;
+            },
+            consequent: function(store, token, callback)
+            {
+                store.dispatch(Action.addEvadeCount(token));
+                store.dispatch(Action.addTokenPilotPerRound(token.id(), Pilot.RED_ACE));
+                callback();
             },
         };
 
@@ -77,6 +117,15 @@ define(["Event", "Maneuver", "Pilot", "process/Action"],
             }
 
             return answer;
+        }
+
+        function usedThisRound(store, token, pilotKey)
+        {
+            InputValidator.validateNotNull("store", store);
+            InputValidator.validateNotNull("token", token);
+            InputValidator.validateNotNull("pilotKey", pilotKey);
+
+            return Selector.tokenToPilotPerRound(store.getState(), token.id(), pilotKey) > 0;
         }
 
         PilotAbility0.toString = function()
