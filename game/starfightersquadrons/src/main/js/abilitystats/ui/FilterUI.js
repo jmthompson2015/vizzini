@@ -1,5 +1,5 @@
-define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter"],
-    function(Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter)
+define(["DamageCardTrait", "Team", "UpgradeType", "abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter"],
+    function(DamageCardTrait, Team, UpgradeType, Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter)
     {
         "use strict";
         var FilterUI = React.createClass(
@@ -18,6 +18,7 @@ define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/Enti
             {
                 return (
                 {
+                    deckValues: (this.props.filters.deck ? this.props.filters.deck.values() : []),
                     typeValues: (this.props.filters.type ? this.props.filters.type.values() : []),
                     isImplementedValues: (this.props.filters.isImplemented ? this.props.filters.isImplemented.values() : []),
                     eventValues: (this.props.filters.event ? this.props.filters.event.values() : []),
@@ -108,8 +109,19 @@ define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/Enti
 
                         switch (column.key)
                         {
-                            case "type":
+                            case "deck":
                                 values = ["DamageCard", "Pilot", "UpgradeCard"];
+                                break;
+                            case "type":
+                                values = [];
+                                this.context.store.getState().abilityData.forEach(function(abilityData)
+                                {
+                                    if (abilityData.type && !values.vizziniContains(abilityData.type))
+                                    {
+                                        values.push(abilityData.type);
+                                    }
+                                });
+                                values.sort();
                                 break;
                             case "isImplemented":
                                 values = [true, false];
@@ -256,6 +268,9 @@ define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/Enti
 
                     switch (column.key)
                     {
+                        case "deck":
+                            values.vizziniAddAll(this.state.deckValues);
+                            break;
                         case "type":
                             values.vizziniAddAll(this.state.typeValues);
                             break;
@@ -300,6 +315,12 @@ define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/Enti
 
                 switch (entityType)
                 {
+                    case "deck":
+                        this.setState(
+                        {
+                            deckValues: values,
+                        });
+                        break;
                     case "type":
                         this.setState(
                         {

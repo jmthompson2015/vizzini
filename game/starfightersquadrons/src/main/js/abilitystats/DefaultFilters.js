@@ -33,9 +33,10 @@ define(["abilitystats/AbilityColumns", "abilitystats/EntityFilter", "abilitystat
 
             initialize: function()
             {
-                this.entityColumns.push(AbilityColumns[0]); // type
-                this.entityColumns.push(AbilityColumns[4]); // isImplemented
-                this.entityColumns.push(AbilityColumns[5]); // event
+                this.entityColumns.push(AbilityColumns[0]); // deck
+                this.entityColumns.push(AbilityColumns[1]); // type
+                this.entityColumns.push(AbilityColumns[5]); // isImplemented
+                this.entityColumns.push(AbilityColumns[6]); // event
             },
         };
 

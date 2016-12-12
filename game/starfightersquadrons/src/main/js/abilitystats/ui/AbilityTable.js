@@ -1,5 +1,5 @@
-define(["Event", "Phase", "abilitystats/AbilityColumns", "abilitystats/ui/Connector", "abilitystats/ui/FilterUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-    function(Event, Phase, AbilityColumns, Connector, FilterUI, DataTable)
+define(["DamageCardTrait", "Event", "Phase", "Team", "UpgradeType", "abilitystats/AbilityColumns", "abilitystats/ui/Connector", "abilitystats/ui/FilterUI", "process/ui/FactionUI", "process/ui/UpgradeTypeUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+    function(DamageCardTrait, Event, Phase, Team, UpgradeType, AbilityColumns, Connector, FilterUI, FactionUI, UpgradeTypeUI, DataTable)
     {
         "use strict";
 
@@ -70,6 +70,32 @@ define(["Event", "Phase", "abilitystats/AbilityColumns", "abilitystats/ui/Connec
         };
 
         var cellFunctions = {
+            "type": function(data)
+            {
+                var answer = data.type;
+                if (DamageCardTrait.properties[data.type])
+                {
+                    answer = DamageCardTrait.properties[data.type].name;
+                }
+                else if (Team.properties[data.type])
+                {
+                    answer = React.createElement(FactionUI,
+                    {
+                        faction: Team.properties[data.type],
+                        imageBase: imageBase,
+                        isSmall: true,
+                    });
+                }
+                else if (UpgradeType.properties[data.type])
+                {
+                    answer = React.createElement(UpgradeTypeUI,
+                    {
+                        upgradeType: UpgradeType.properties[data.type],
+                        imageBase: imageBase,
+                    });
+                }
+                return answer;
+            },
             "name": function(data)
             {
                 var src = "../resources/icons/Wikipedia16.png";

@@ -4,22 +4,28 @@ define(["Phase", "UpgradeHeader"],
         "use strict";
         var AbilityData = {};
 
-        AbilityData.createAbilityData = function(ability, type)
+        AbilityData.createAbilityData = function(ability, deck)
         {
             InputValidator.validateNotNull("ability", ability);
-            InputValidator.validateNotNull("type", type);
+            InputValidator.validateNotNull("deck", deck);
 
+            var type;
             var description = ability.description;
             var action;
-            switch (type)
+            switch (deck)
             {
                 case "DamageCard":
+                    type = ability.trait;
                     if (ability.hasAction)
                     {
                         action = "Action: " + ability.actionDescription;
                     }
                     break;
+                case "Pilot":
+                    type = ability.shipTeam.teamKey;
+                    break;
                 case "UpgradeCard":
+                    type = ability.type;
                     if (ability.header !== undefined)
                     {
                         var header = UpgradeHeader.properties[ability.header];
@@ -34,6 +40,7 @@ define(["Phase", "UpgradeHeader"],
 
             return (
             {
+                deck: deck,
                 type: type,
                 name: ability.name,
                 description: description,

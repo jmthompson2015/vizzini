@@ -3,6 +3,11 @@ define(function()
     "use strict";
     var AbilityColumns = [
         {
+            key: "deck",
+            label: "Deck",
+            className: "textCell",
+      },
+        {
             key: "type",
             label: "Type",
             className: "textCell",
