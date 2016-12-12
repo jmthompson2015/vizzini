@@ -20,6 +20,7 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                 factionValues: (this.props.filters.factionKey ? this.props.filters.factionKey.values() : []),
                 shipValues: (this.props.filters.shipKey ? this.props.filters.shipKey.values() : []),
                 waveValues: (this.props.filters.wave ? this.props.filters.wave.values() : []),
+                isImplementedValues: (this.props.filters.isImplemented ? this.props.filters.isImplemented.values() : []),
             });
         },
 
@@ -123,6 +124,14 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                     case "wave":
                         values = ["1", "2", "3", "4", "5", "6", "7", "8", "Aces", "Huge"];
                         clientProps["data-entitytype"] = "wave";
+                        break;
+                    case "isImplemented":
+                        values = [true, false];
+                        labelFunction = function(value)
+                        {
+                            return (value ? "true" : "false");
+                        };
+                        clientProps["data-entitytype"] = "isImplemented";
                         break;
                     default:
                         throw "Unknown entity column: " + column.key;
@@ -259,6 +268,9 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                     case "wave":
                         values.vizziniAddAll(this.state.waveValues);
                         break;
+                    case "isImplemented":
+                        values.vizziniAddAll(this.state.isImplementedValues);
+                        break;
                     default:
                         throw "Unknown entity column: " + column.key;
                 }
@@ -310,6 +322,12 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                     this.setState(
                     {
                         waveValues: values,
+                    });
+                    break;
+                case "isImplemented":
+                    this.setState(
+                    {
+                        isImplementedValues: values,
                     });
                     break;
                 default:

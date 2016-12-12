@@ -20,6 +20,7 @@ define(["DamageCardTrait", "damagestats/Action", "damagestats/DefaultFilters", "
                 {
                     versionValues: (this.props.filters.versions ? this.props.filters.version.values() : []),
                     traitValues: (this.props.filters.traitKeys ? this.props.filters.trait.values() : []),
+                    isImplementedValues: (this.props.filters.isImplemented ? this.props.filters.isImplemented.values() : []),
                 });
             },
 
@@ -118,22 +119,14 @@ define(["DamageCardTrait", "damagestats/Action", "damagestats/DefaultFilters", "
                             };
                             clientProps["data-entitytype"] = "trait";
                             break;
-                            // case "hasAction":
-                            //     values = [true, false];
-                            //     labelFunction = function(value)
-                            //     {
-                            //         return (value ? "true" : "false");
-                            //     };
-                            //     clientProps["data-entitytype"] = "hasAction";
-                            //     break;
-                            // case "isImplemented":
-                            //     values = [true, false];
-                            //     labelFunction = function(value)
-                            //     {
-                            //         return (value ? "true" : "false");
-                            //     };
-                            //     clientProps["data-entitytype"] = "isImplemented";
-                            //     break;
+                        case "isImplemented":
+                            values = [true, false];
+                            labelFunction = function(value)
+                            {
+                                return (value ? "true" : "false");
+                            };
+                            clientProps["data-entitytype"] = "isImplemented";
+                            break;
                         default:
                             throw "Unknown entity column: " + column.key;
                     }
@@ -266,12 +259,9 @@ define(["DamageCardTrait", "damagestats/Action", "damagestats/DefaultFilters", "
                         case "trait":
                             values.vizziniAddAll(this.state.traitValues);
                             break;
-                            // case "hasAction":
-                            //     values.vizziniAddAll(this.state.hasActionValues);
-                            //     break;
-                            // case "isImplemented":
-                            //     values.vizziniAddAll(this.state.isImplementedValues);
-                            //     break;
+                        case "isImplemented":
+                            values.vizziniAddAll(this.state.isImplementedValues);
+                            break;
                         default:
                             throw "Unknown entity column: " + column.key;
                     }
@@ -319,18 +309,12 @@ define(["DamageCardTrait", "damagestats/Action", "damagestats/DefaultFilters", "
                             traitValues: values,
                         });
                         break;
-                        // case "hasAction":
-                        //     this.setState(
-                        //     {
-                        //         hasActionValues: values,
-                        //     });
-                        //     break;
-                        // case "isImplemented":
-                        //     this.setState(
-                        //     {
-                        //         isImplementedValues: values,
-                        //     });
-                        //     break;
+                    case "isImplemented":
+                        this.setState(
+                        {
+                            isImplementedValues: values,
+                        });
+                        break;
                     default:
                         throw "Unknown entity column: " + column.key;
                 }

@@ -36,6 +36,7 @@ define(["upgradestats/EntityFilter", "upgradestats/RangeFilter", "upgradestats/U
                 this.entityColumns.push(UpgradeColumns[0]); // type
                 this.entityColumns.push(UpgradeColumns[2]); // restrictions
                 this.entityColumns.push(UpgradeColumns[3]); // header
+                this.entityColumns.push(UpgradeColumns[5]); // isImplemented
                 this.entityColumns.push(UpgradeColumns[7]); // ranges
                 this.entityColumns.push(UpgradeColumns[8]); // firingArc
 

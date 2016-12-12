@@ -35,6 +35,7 @@ define(["damagestats/DamageColumns", "damagestats/EntityFilter", "damagestats/Ra
             {
                 this.entityColumns.push(DamageColumns[0]); // version
                 this.entityColumns.push(DamageColumns[2]); // trait
+                this.entityColumns.push(DamageColumns[5]); // isImplemented
             },
         };
 

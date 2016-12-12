@@ -61,6 +61,7 @@ define(["pilotstats/EntityFilter", "pilotstats/PilotColumns", "pilotstats/RangeF
             this.entityColumns.push(PilotColumns[0]); // factionKey
             this.entityColumns.push(PilotColumns[2]); // shipKey
             this.entityColumns.push(PilotColumns[3]); // wave
+            this.entityColumns.push(PilotColumns[5]); // isImplemented
 
             this.rangeColumns.push(PilotColumns[6]); // pilotSkill
             this.rangeColumns.push(PilotColumns[7]); // primaryWeapon

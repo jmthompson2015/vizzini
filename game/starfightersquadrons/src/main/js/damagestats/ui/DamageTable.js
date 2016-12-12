@@ -38,6 +38,18 @@ define(["DamageCardTrait", "damagestats/DamageColumns", "damagestats/ui/Connecto
                     className: "textImageLink",
                 }, data.name, link);
             },
+            "isImplemented": function(data)
+            {
+                var implementedName = (data.isImplemented ? "accept" : "delete");
+                var fileString = iconBase + implementedName + ".png";
+                return React.DOM.img(
+                {
+                    className: "isImplementedImage",
+                    src: fileString,
+                    title: data.isImplemented,
+                    value: implementedName,
+                });
+            },
         };
 
         var DamageTable = React.createClass(

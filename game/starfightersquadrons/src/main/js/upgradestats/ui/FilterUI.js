@@ -21,6 +21,7 @@ define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "Upgra
                     typeValues: (this.props.filters.typeKey ? this.props.filters.typeKey.values() : []),
                     restrictionValues: (this.props.filters.restrictionKeys ? this.props.filters.restrictionKeys.values() : []),
                     headerValues: (this.props.filters.headerKey ? this.props.filters.headerKey.values() : []),
+                    isImplementedValues: (this.props.filters.isImplemented ? this.props.filters.isImplemented.values() : []),
                     rangeValues: (this.props.filters.rangeKeys ? this.props.filters.rangeKeys.values() : []),
                     firingArcValues: (this.props.filters.firingArcKey ? this.props.filters.firingArcKey.values() : []),
                 });
@@ -132,6 +133,14 @@ define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "Upgra
                                 return UpgradeHeader.properties[value].name;
                             };
                             clientProps["data-entitytype"] = "headerKey";
+                            break;
+                        case "isImplemented":
+                            values = [true, false];
+                            labelFunction = function(value)
+                            {
+                                return (value ? "true" : "false");
+                            };
+                            clientProps["data-entitytype"] = "isImplemented";
                             break;
                         case "rangeKeys":
                             values = RangeRuler.values();
@@ -284,6 +293,9 @@ define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "Upgra
                         case "headerKey":
                             values.vizziniAddAll(this.state.headerValues);
                             break;
+                        case "isImplemented":
+                            values.vizziniAddAll(this.state.isImplementedValues);
+                            break;
                         case "rangeKeys":
                             values.vizziniAddAll(this.state.rangeValues);
                             break;
@@ -341,6 +353,12 @@ define(["FiringArc", "RangeRuler", "UpgradeHeader", "UpgradeRestriction", "Upgra
                         this.setState(
                         {
                             headerValues: values,
+                        });
+                        break;
+                    case "isImplemented":
+                        this.setState(
+                        {
+                            isImplementedValues: values,
                         });
                         break;
                     case "rangeKeys":
