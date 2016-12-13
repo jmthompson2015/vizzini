@@ -37,6 +37,8 @@ define(["Count"], function(Count)
     Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
+    Action.SET_TOKEN_ACTIVATION_STATE = "setTokenActivationState";
+    Action.SET_TOKEN_COMBAT_STATE = "setTokenCombatState";
     Action.SET_TOKEN_PILOT_PER_ROUND = "setTokenPilotPerRound";
     Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
     Action.SET_TOKEN_UPGRADE_PER_ROUND = "setTokenUpgradePerRound";
@@ -527,6 +529,32 @@ define(["Count"], function(Count)
     Action.setStressCount = function(token, value)
     {
         return Action.setCount(token, Count.STRESS, value);
+    };
+
+    Action.setTokenActivationState = function(token, activationState)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("activationState", activationState);
+
+        return (
+        {
+            type: Action.SET_TOKEN_ACTIVATION_STATE,
+            token: token,
+            activationState: activationState,
+        });
+    };
+
+    Action.setTokenCombatState = function(token, combatState)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("combatState", combatState);
+
+        return (
+        {
+            type: Action.SET_TOKEN_COMBAT_STATE,
+            token: token,
+            combatState: combatState,
+        });
     };
 
     Action.setTokenPilotPerRound = function(tokenId, pilotKey, value)

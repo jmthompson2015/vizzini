@@ -92,6 +92,31 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
             }
         };
 
+        Reducer.pilotPerRound = function(state, action)
+        {
+            LOGGER.debug("pilotPerRound() type = " + action.type);
+
+            var newPilotPerRound;
+
+            switch (action.type)
+            {
+                case Action.ADD_TOKEN_PILOT_PER_ROUND:
+                    var oldValue = (state[action.property] ? state[action.property] : 0);
+                    newPilotPerRound = Object.assign(
+                    {}, state);
+                    newPilotPerRound[action.upgradeKey] = Math.max(oldValue + action.value, 0);
+                    return newPilotPerRound;
+                case Action.SET_TOKEN_PILOT_PER_ROUND:
+                    newPilotPerRound = Object.assign(
+                    {}, state);
+                    newPilotPerRound[action.upgradeKey] = action.value;
+                    return newPilotPerRound;
+                default:
+                    LOGGER.warn("Reducer.pilotPerRound: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
         Reducer.positionToTokenId = function(state, action)
         {
             LOGGER.debug("positionToTokenId() type = " + action.type);
@@ -140,6 +165,44 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     return newTargetLocks;
                 default:
                     LOGGER.warn("Reducer.targetLocks: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
+        Reducer.tokenIdToActivationState = function(state, action)
+        {
+            LOGGER.debug("tokenIdToActivationState() type = " + action.type);
+
+            var newTokenIdToActivationState;
+
+            switch (action.type)
+            {
+                case Action.SET_TOKEN_ACTIVATION_STATE:
+                    newTokenIdToActivationState = Object.assign(
+                    {}, state);
+                    newTokenIdToActivationState[action.token.id()] = action.activationState;
+                    return newTokenIdToActivationState;
+                default:
+                    LOGGER.warn("Reducer.tokenIdToActivationState: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
+        Reducer.tokenIdToCombatState = function(state, action)
+        {
+            LOGGER.debug("tokenIdToCombatState() type = " + action.type);
+
+            var newTokenIdToCombatState;
+
+            switch (action.type)
+            {
+                case Action.SET_TOKEN_COMBAT_STATE:
+                    newTokenIdToCombatState = Object.assign(
+                    {}, state);
+                    newTokenIdToCombatState[action.token.id()] = action.combatState;
+                    return newTokenIdToCombatState;
+                default:
+                    LOGGER.warn("Reducer.tokenIdToCombatState: Unhandled action type: " + action.type);
                     return state;
             }
         };
@@ -220,7 +283,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {});
                     newTokenIdToPilotPerRound = Object.assign(
                     {}, state);
-                    newTokenIdToPilotPerRound[action.tokenId] = Reducer.upgradePerRound(oldTokenIdToPilotPerRound, action);
+                    newTokenIdToPilotPerRound[action.tokenId] = Reducer.pilotPerRound(oldTokenIdToPilotPerRound, action);
                     return newTokenIdToPilotPerRound;
                 default:
                     LOGGER.warn("Reducer.tokenIdToPilotPerRound: Unhandled action type: " + action.type);
@@ -466,7 +529,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                 return new InitialState();
             }
 
-            var newPositionToTokenId, newTokenIdToPosition, newTokenIdToValues, newTokens, action2;
+            var newPositionToTokenId, newTokenIdToActivationState, newTokenIdToCombatState, newTokenIdToPosition, newTokenIdToValues, newTokens, action2;
 
             switch (action.type)
             {
@@ -702,6 +765,20 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {}, state,
                     {
                         secondAgent: action.agent,
+                    });
+                case Action.SET_TOKEN_ACTIVATION_STATE:
+                    newTokenIdToActivationState = Reducer.tokenIdToActivationState(state.tokenIdToActivationState, action);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToActivationState: newTokenIdToActivationState,
+                    });
+                case Action.SET_TOKEN_COMBAT_STATE:
+                    newTokenIdToCombatState = Reducer.tokenIdToCombatState(state.tokenIdToCombatState, action);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToCombatState: newTokenIdToCombatState,
                     });
                 case Action.SET_USER_MESSAGE:
                     return Object.assign(

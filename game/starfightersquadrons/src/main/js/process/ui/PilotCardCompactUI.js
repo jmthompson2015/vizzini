@@ -89,14 +89,16 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
 
             createNamePanel: function(token, myToken, myTokenAft)
             {
+                var state = token.store().getState();
+
                 return React.createElement(NamePanel,
                 {
-                    pilotSkillValue: myToken.pilotSkillValue(),
+                    pilotSkillValue: Selector.pilotSkillValue(state, myToken.id()),
                     pilotName: token.pilotName(),
                     pilotDescription: (token.pilot().isFlavorText ? undefined : token.pilot().description),
                     shipName: (myTokenAft ? myToken.ship().name : token.shipName()),
                     team: token.pilot().shipTeam.team,
-                    pilotAftSkillValue: (myTokenAft ? myTokenAft.pilotSkillValue() : undefined),
+                    pilotAftSkillValue: (myTokenAft ? Selector.pilotSkillValue(state, myTokenAft.id()) : undefined),
                     shipAftName: (myTokenAft ? myTokenAft.ship().name : undefined),
                     imageBase: this.props.imageBase,
                 });

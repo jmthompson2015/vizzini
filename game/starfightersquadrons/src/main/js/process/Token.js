@@ -61,16 +61,6 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 return ship;
             };
 
-            this.activationState = function()
-            {
-                return activationState;
-            };
-
-            this.combatState = function()
-            {
-                return combatState;
-            };
-
             this.discardUpgrade = function(upgradeKey)
             {
                 InputValidator.validateNotNull("upgradeKey", upgradeKey);
@@ -358,9 +348,14 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 });
             }
 
-            var activationState = new ActivationState();
-            var combatState = new CombatState();
+            store.dispatch(Action.setTokenActivationState(this, new ActivationState()));
+            store.dispatch(Action.setTokenCombatState(this, new CombatState()));
         }
+
+        Token.prototype.activationState = function()
+        {
+            return Selector.activationState(this.store().getState(), this.id());
+        };
 
         Token.prototype.addAttackerTargetLock = function(targetLock)
         {
@@ -429,6 +424,11 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
         Token.prototype.cloakCount = function()
         {
             return Selector.cloakCount(this.store().getState(), this.id());
+        };
+
+        Token.prototype.combatState = function()
+        {
+            return Selector.combatState(this.store().getState(), this.id());
         };
 
         Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, rangeKey)
@@ -680,7 +680,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
         Token.prototype.isDestroyed = function()
         {
-            return this.totalDamage() >= this.hullValue();
+            return this.totalDamage() >= Selector.hullValue(this.store().getState(), this.id());
         };
 
         Token.prototype.isHuge = function()

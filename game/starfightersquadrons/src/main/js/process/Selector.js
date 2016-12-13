@@ -3,6 +3,14 @@ define(["Count", "Value"], function(Count, Value)
     "use strict";
     var Selector = {};
 
+    Selector.activationState = function(state, tokenId)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("tokenId", tokenId);
+
+        return state.tokenIdToActivationState[tokenId];
+    };
+
     Selector.activeToken = function(state)
     {
         InputValidator.validateNotNull("state", state);
@@ -36,6 +44,14 @@ define(["Count", "Value"], function(Count, Value)
     Selector.cloakCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.CLOAK);
+    };
+
+    Selector.combatState = function(state, tokenId)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("tokenId", tokenId);
+
+        return state.tokenIdToCombatState[tokenId];
     };
 
     Selector.count = function(state, tokenId, property)

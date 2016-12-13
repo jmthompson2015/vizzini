@@ -22,6 +22,8 @@ define(["Phase"], function(Phase)
         this.nextTokenId = 1;
         this.positionToTokenId = {};
 
+        this.tokenIdToActivationState = {};
+        this.tokenIdToCombatState = {};
         this.tokenIdToCounts = {};
         this.tokenIdToCriticalDamages = {};
         this.tokenIdToDamages = {};
