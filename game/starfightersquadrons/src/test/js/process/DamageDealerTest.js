@@ -53,6 +53,7 @@ define(["DamageCard", "DamageCardTrait", "Pilot", "Position", "UpgradeCard", "pr
             var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
             assert.equal(defender.damageCount(), 0);
             assert.equal(defender.criticalDamageCount(), 0);
+            environment.store().dispatch(Action.setEnvironment(environment));
 
             // Run.
             damageDealer.dealDamage();
@@ -70,6 +71,7 @@ define(["DamageCard", "DamageCardTrait", "Pilot", "Position", "UpgradeCard", "pr
             var criticalHitCount = 1;
             var defender = environment.tokens()[2];
             store.dispatch(Action.addTokenUpgrade(defender, UpgradeCard.DETERMINATION));
+            store.dispatch(Action.setEnvironment(environment));
             var evadeCount = 0;
             var damageDealer = new DamageDealer(environment, hitCount, criticalHitCount, defender, evadeCount);
             assert.equal(defender.damageCount(), 0);
