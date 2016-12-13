@@ -231,7 +231,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                     answer = ship.aft[propertyName];
                 }
 
-                return (answer !== undefined ? answer : null);
+                return answer;
             };
 
             function changeBearingManeuversToDifficulty(maneuverKeys, bearingKey, difficultyKey)
@@ -327,7 +327,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 }
             }, this);
 
-            var primaryWeapon = (this.shipState(Value.PRIMARY_WEAPON) !== null ? createPrimaryWeapon() : undefined);
+            var primaryWeapon = (this.shipState(Value.PRIMARY_WEAPON) !== undefined ? createPrimaryWeapon() : undefined);
             var secondaryWeapons = [];
 
             // Initialize the upgrades.
@@ -381,7 +381,44 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
         Token.prototype.agilityValue = function()
         {
-            return Selector.agilityValue(this.store().getState(), this.id());
+            var property = Value.AGILITY;
+            var newValue = this.shipState(property);
+
+            var propertyName = property + "Value";
+            newValue += this.criticalDamageValue(propertyName);
+            newValue += this.upgradeValue(propertyName);
+
+            if (this.isCloaked())
+            {
+                newValue += 2;
+            }
+
+            if (this.isUpgradedWith(UpgradeCard.COMMANDER_KENKIRK) && this.shieldCount() === 0 && (this.damageCount() > 0 || this.criticalDamageCount() > 0))
+            {
+                newValue++;
+            }
+
+            if (this.activationState() && this.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
+            {
+                newValue--;
+            }
+
+            if (this.activationState() && this.activationState().usedUpgrades().vizziniContains(UpgradeCard.R2_F2))
+            {
+                newValue++;
+            }
+
+            var tractorBeamCount = this.tractorBeamCount();
+            if (tractorBeamCount !== undefined)
+            {
+                newValue -= tractorBeamCount;
+            }
+
+            newValue = Math.max(newValue, 0);
+
+            this.store().dispatch(Action.setValue(this, property, newValue));
+
+            return newValue;
         };
 
         Token.prototype.attackerTargetLocks = function()
@@ -529,6 +566,21 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             return Selector.criticalDamages(this.store().getState(), this.id());
         };
 
+        Token.prototype.criticalDamageValue = function(propertyName)
+        {
+            return this.criticalDamages().reduce(function(accumulator, damageKey)
+            {
+                var myDamage = DamageCard.properties[damageKey];
+
+                if (myDamage && myDamage[propertyName])
+                {
+                    accumulator += myDamage[propertyName];
+                }
+
+                return accumulator;
+            }, 0);
+        };
+
         Token.prototype.damageCount = function()
         {
             return this.damages().length;
@@ -551,9 +603,21 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
         Token.prototype.energyValue = function()
         {
-            var value = Selector.energyValue(this.store().getState(), this.id());
+            var property = Value.ENERGY;
+            var newValue = this.shipState(property);
 
-            return (value !== undefined ? value : null);
+            if (newValue !== undefined)
+            {
+                var propertyName = property + "Value";
+                newValue += this.criticalDamageValue(propertyName);
+                newValue += this.upgradeValue(propertyName);
+
+                newValue = Math.max(newValue, 0);
+            }
+
+            this.store().dispatch(Action.setValue(this, property, newValue));
+
+            return newValue;
         };
 
         Token.prototype.equals = function(other)
@@ -584,7 +648,18 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
         Token.prototype.hullValue = function()
         {
-            return Selector.hullValue(this.store().getState(), this.id());
+            var property = Value.HULL;
+            var newValue = this.shipState(property);
+
+            var propertyName = property + "Value";
+            newValue += this.criticalDamageValue(propertyName);
+            newValue += this.upgradeValue(propertyName);
+
+            newValue = Math.max(newValue, 0);
+
+            this.store().dispatch(Action.setValue(this, property, newValue));
+
+            return newValue;
         };
 
         Token.prototype.ionCount = function()
@@ -658,7 +733,30 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
         Token.prototype.pilotSkillValue = function()
         {
-            return Selector.pilotSkillValue(this.store().getState(), this.id());
+            var property = Value.PILOT_SKILL;
+            var newValue = this.shipState(property);
+
+            var propertyName = property + "Value";
+            newValue += this.criticalDamageValue(propertyName);
+            newValue += this.upgradeValue(propertyName);
+
+            if (this.pilotKey() === Pilot.EPSILON_ACE && this.damageCount() === 0 && this.criticalDamageCount() === 0)
+            {
+                newValue = 12;
+            }
+
+            var myCriticalDamages = this.criticalDamages();
+
+            if (myCriticalDamages.vizziniContains(DamageCard.DAMAGED_COCKPIT) || myCriticalDamages.vizziniContains(DamageCard.INJURED_PILOT))
+            {
+                newValue = 0;
+            }
+
+            newValue = Math.max(newValue, 0);
+
+            this.store().dispatch(Action.setValue(this, property, newValue));
+
+            return newValue;
         };
 
         Token.prototype.primaryFiringArcKey = function()
@@ -668,9 +766,31 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
         Token.prototype.primaryWeaponValue = function()
         {
-            var value = Selector.primaryWeaponValue(this.store().getState(), this.id());
+            var property = Value.PRIMARY_WEAPON;
+            var newValue = this.shipState(property);
 
-            return (value !== undefined ? value : null);
+            if (newValue !== undefined)
+            {
+                var propertyName = property + "Value";
+                newValue += this.criticalDamageValue(propertyName);
+                newValue += this.upgradeValue(propertyName);
+
+                if (this.activationState() && this.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
+                {
+                    newValue++;
+                }
+
+                if (this.isUpgradedWith(UpgradeCard.PUNISHING_ONE))
+                {
+                    newValue++;
+                }
+
+                newValue = Math.max(newValue, 0);
+            }
+
+            this.store().dispatch(Action.setValue(this, property, newValue));
+
+            return newValue;
         };
 
         Token.prototype.receiveCriticalDamage = function(damageKey)
@@ -775,7 +895,18 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
         Token.prototype.shieldValue = function()
         {
-            return Selector.shieldValue(this.store().getState(), this.id());
+            var property = Value.SHIELD;
+            var newValue = this.shipState(property);
+
+            var propertyName = property + "Value";
+            newValue += this.criticalDamageValue(propertyName);
+            newValue += this.upgradeValue(propertyName);
+
+            newValue = Math.max(newValue, 0);
+
+            this.store().dispatch(Action.setValue(this, property, newValue));
+
+            return newValue;
         };
 
         Token.prototype.shipActions = function()
@@ -1008,6 +1139,21 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             }
 
             return answer;
+        };
+
+        Token.prototype.upgradeValue = function(propertyName)
+        {
+            return this.upgradeKeys().reduce(function(accumulator, upgradeKey)
+            {
+                var myUpgrade = UpgradeCard.properties[upgradeKey];
+
+                if (myUpgrade && myUpgrade[propertyName])
+                {
+                    accumulator += myUpgrade[propertyName];
+                }
+
+                return accumulator;
+            }, 0);
         };
 
         Token.prototype.weaponsDisabledCount = function()

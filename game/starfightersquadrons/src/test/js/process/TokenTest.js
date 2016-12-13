@@ -325,6 +325,23 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
             assert.equal(token.secondaryWeapons().length, 0);
         });
 
+        QUnit.test("energyValue()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+            var imageBase = "../resources/images/";
+            var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+            var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
+            var token1 = new Token(store, Pilot.GOZANTI_CLASS_CRUISER, imperialAgent);
+            var token2 = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
+
+            // Run / Verify.
+            assert.equal(token0.energyValue(), undefined);
+            assert.equal(token1.energyValue(), 4);
+            assert.equal(token2.energyValue(), 4);
+        });
+
         QUnit.test("equals()", function(assert)
         {
             // Setup.

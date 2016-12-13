@@ -201,7 +201,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
             {
                 InputValidator.validateNotNull("polygon1", polygon1);
 
-                var answer = null;
+                var answer;
 
                 LOGGER.trace("x0, y0 = " + x0 + ", " + y0 + " x1, y1 = " + x1 + ", " + y1 + " heading = " +
                     Position.computeHeading(x0, y0, x1, y1));
@@ -238,7 +238,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                     }
                 }
 
-                if (answer === null)
+                if (answer === undefined)
                 {
                     heading = Position.computeHeading(x0, y0, x1, y1);
                     answer = new Position(toInt(x1), toInt(y1), heading);
@@ -256,7 +256,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                 tokens.forEach(function(token1)
                 {
                     var position1;
-                    var polygon1 = null;
+                    var polygon1;
 
                     if (token1 == token)
                     {
@@ -294,7 +294,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
 
             function determineToPosition()
             {
-                var answer = null;
+                var answer;
 
                 if (isBarrelRoll || isBoost)
                 {
@@ -312,7 +312,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
             {
                 LOGGER.trace("determineToPositionWithBackOff() start");
 
-                var answer = null;
+                var answer;
 
                 LOGGER.trace("fromPosition = " + fromPosition);
 
@@ -320,10 +320,10 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                 var toPosition = shipDataMap[token].position();
                 LOGGER.trace("nominal toPosition = " + toPosition);
 
-                if (toPosition === null)
+                if (toPosition === undefined)
                 {
                     // Ship fled the battlefield.
-                    return null;
+                    return undefined;
                 }
 
                 var shipData;
@@ -335,7 +335,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                     shipData = findCollision(shipDataMap);
                     LOGGER.trace("index = " + index + " shipData = " + shipData);
 
-                    if (shipData === null)
+                    if (shipData === undefined)
                     {
                         // No collision.
                         answer = shipDataMap[token].position();
@@ -365,7 +365,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                     }
 
                 }
-                while (answer === null);
+                while (answer === undefined);
 
                 LOGGER.trace("determineToPositionWithBackOff() end");
 
@@ -374,7 +374,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
 
             function determineToPositionWithoutBackOff()
             {
-                var answer = null;
+                var answer;
 
                 LOGGER.trace("fromPosition = " + fromPosition);
 
@@ -382,10 +382,10 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                 var toPosition = shipDataMap[token].position();
                 LOGGER.trace("nominal toPosition = " + toPosition);
 
-                if (toPosition === null)
+                if (toPosition === undefined)
                 {
                     // Ship fled the battlefield.
-                    return null;
+                    return undefined;
                 }
 
                 var shipData;
@@ -394,7 +394,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                 shipData = findCollision(shipDataMap);
                 LOGGER.trace("index = " + index + " shipData = " + shipData);
 
-                if (shipData === null)
+                if (shipData === undefined)
                 {
                     // No collision.
                     answer = shipDataMap[token].position();
@@ -405,7 +405,7 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
 
             function findCollision(shipDataMap)
             {
-                var answer = null;
+                var answer;
 
                 var shipData0 = shipDataMap[token];
                 var area0 = shipData0.polygon();

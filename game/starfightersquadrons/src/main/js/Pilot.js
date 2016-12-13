@@ -1639,7 +1639,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 isUnique: true,
                 shipTeamKey: ShipTeam.SCUM_Z_95_HEADHUNTER,
                 pilotSkillValue: undefined,
-                squadPointCost: null,
+                squadPointCost: undefined,
                 upgradeTypeKeys: [],
                 value: "nashtahPupPilot",
             },

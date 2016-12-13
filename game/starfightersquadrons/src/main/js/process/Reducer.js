@@ -475,12 +475,10 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     var newTokenIdToCounts = Reducer.tokenIdToCounts(state.tokenIdToCounts, action);
                     newTokenIdToValues = Object.assign(
                     {}, state.tokenIdToValues);
-                    newTokenIdToValues = Reducer._recomputeValues(state, newTokenIdToCounts, newTokenIdToValues, action.token);
                     return Object.assign(
                     {}, state,
                     {
                         tokenIdToCounts: newTokenIdToCounts,
-                        tokenIdToValues: newTokenIdToValues,
                     });
                 case Action.ADD_ROUND:
                     LOGGER.info("Round: " + (state.round + action.value));
@@ -502,12 +500,10 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     newTokenIdToValues = Object.assign(
                     {}, state.tokenIdToValues);
                     var damage = DamageCard.properties[action.damageKey];
-                    newTokenIdToValues = Reducer._recomputeValues(state, state.tokenIdToCounts, newTokenIdToValues, action.token, damage);
                     return Object.assign(
                     {}, state,
                     {
                         tokenIdToCriticalDamages: newTokenIdToCriticalDamages,
-                        tokenIdToValues: newTokenIdToValues,
                     });
                 case Action.ADD_TOKEN_DAMAGE:
                 case Action.REMOVE_TOKEN_DAMAGE:
@@ -531,12 +527,10 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     newTokenIdToValues = Object.assign(
                     {}, state.tokenIdToValues);
                     var upgrade = UpgradeCard.properties[action.upgradeKey];
-                    newTokenIdToValues = Reducer._recomputeValues(state, state.tokenIdToCounts, newTokenIdToValues, action.token, undefined, upgrade);
                     return Object.assign(
                     {}, state,
                     {
                         tokenIdToUpgrades: newTokenIdToUpgrades,
-                        tokenIdToValues: newTokenIdToValues,
                     });
                 case Action.ADD_TOKEN_UPGRADE_ENERGY:
                 case Action.SET_TOKEN_UPGRADE_ENERGY:
@@ -726,154 +720,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
                     return state;
             }
-        };
-
-        Reducer._recomputeValues = function(state, newTokenIdToCounts, newTokenIdToValues, token, damage, upgrade)
-        {
-            InputValidator.validateNotNull("state", state);
-            InputValidator.validateNotNull("newTokenIdToCounts", newTokenIdToCounts);
-            InputValidator.validateNotNull("newTokenIdToValues", newTokenIdToValues);
-            InputValidator.validateNotNull("token", token);
-            // damage is optional.
-            // upgrade is optional.
-
-            var isCloaked;
-            var counts = newTokenIdToCounts[token.id()];
-
-            if (counts)
-            {
-                var cloakCount = counts[Count.CLOAK];
-                isCloaked = (cloakCount > 0);
-            }
-
-            Value.values().forEach(
-                function(property)
-                {
-                    newTokenIdToValues = Reducer._recomputeValue(state, newTokenIdToValues, token, property,
-                        damage, upgrade, isCloaked);
-                });
-
-            return newTokenIdToValues;
-        };
-
-        Reducer._recomputeValue = function(state, newTokenIdToValues, token, property, damage, upgrade, isCloaked)
-        {
-            InputValidator.validateNotNull("state", state);
-            InputValidator.validateNotNull("newTokenIdToValues", newTokenIdToValues);
-            InputValidator.validateNotNull("token", token);
-            InputValidator.validateNotNull("property", property);
-            // damage is optional.
-            // upgrade is optional.
-            // isCloaked is optional.
-
-            var tokenId = token.id();
-            var newValue = (token.shipState ? token.shipState(property) : undefined);
-
-            if (newValue !== null)
-            {
-                var propertyName = property + "Value";
-
-                if (token.criticalDamages)
-                {
-                    var damageKeys = token.criticalDamages().slice();
-
-                    if (damage)
-                    {
-                        damageKeys.push(damage.value);
-                    }
-
-                    damageKeys.forEach(function(damageKey)
-                    {
-                        var myDamage = DamageCard.properties[damageKey];
-
-                        if (myDamage && myDamage[propertyName])
-                        {
-                            newValue += myDamage[propertyName];
-                        }
-                    });
-                }
-
-                if (token.upgradeKeys)
-                {
-                    var upgradeKeys = token.upgradeKeys().slice();
-
-                    if (upgrade)
-                    {
-                        upgradeKeys.push(upgrade.value);
-                    }
-
-                    upgradeKeys.forEach(function(upgradeKey)
-                    {
-                        var myUpgrade = UpgradeCard.properties[upgradeKey];
-
-                        if (myUpgrade && myUpgrade[propertyName])
-                        {
-                            newValue += myUpgrade[propertyName];
-                        }
-                    });
-                }
-
-                switch (property)
-                {
-                    case Value.PILOT_SKILL:
-                        if (token && token.pilotKey() === Pilot.EPSILON_ACE)
-                        {
-                            var damageCount = Selector.damages(state, tokenId).length;
-                            var criticalDamageCount = Selector.criticalDamages(state, tokenId).length;
-                            if (damageCount === 0 && criticalDamageCount === 0)
-                            {
-                                newValue = 12;
-                            }
-                        }
-                        if (damage && [DamageCard.DAMAGED_COCKPIT, DamageCard.INJURED_PILOT].vizziniContains(damage.value))
-                        {
-                            newValue = 0;
-                        }
-                        break;
-                    case Value.PRIMARY_WEAPON:
-                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
-                        {
-                            newValue++;
-                        }
-                        if (token && token.isUpgradedWith(UpgradeCard.PUNISHING_ONE))
-                        {
-                            newValue++;
-                        }
-                        break;
-                    case Value.AGILITY:
-                        if (isCloaked)
-                        {
-                            newValue += 2;
-                        }
-                        if (token && token.isUpgradedWith(UpgradeCard.COMMANDER_KENKIRK) && token.shieldCount() === 0 && (token.damageCount() > 0 || token.criticalDamageCount() > 0))
-                        {
-                            newValue++;
-                        }
-                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
-                        {
-                            newValue--;
-                        }
-                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.R2_F2))
-                        {
-                            newValue++;
-                        }
-                        if (token.tractorBeamCount)
-                        {
-                            var tractorBeamCount = token.tractorBeamCount();
-                            if (tractorBeamCount !== undefined)
-                            {
-                                newValue -= tractorBeamCount;
-                            }
-                        }
-                        break;
-                }
-
-                newValue = Math.max(newValue, 0);
-            }
-
-            var action = Action.setValue(token, property, newValue);
-
-            return Reducer.tokenIdToValues(newTokenIdToValues, action);
         };
 
         if (Object.freeze)

@@ -547,7 +547,7 @@ define(["ShipState", "UpgradeType", "process/ui/FactionUI", "process/ui/LabeledI
                 var cells = [];
                 var image;
 
-                if (primaryWeaponValue !== null)
+                if (primaryWeaponValue !== undefined)
                 {
                     var shipStateKey;
                     if (myToken.ship().isPrimaryWeaponTurret)
@@ -578,7 +578,7 @@ define(["ShipState", "UpgradeType", "process/ui/FactionUI", "process/ui/LabeledI
                     }, primaryWeaponValue));
                 }
 
-                if (energyLimit !== null)
+                if (energyLimit !== undefined)
                 {
                     image = React.createElement(ShipStateUI,
                     {
@@ -682,7 +682,7 @@ define(["ShipState", "UpgradeType", "process/ui/FactionUI", "process/ui/LabeledI
                 var cells = [];
                 var image;
 
-                if (primaryWeaponValue !== null)
+                if (primaryWeaponValue !== undefined)
                 {
                     var shipStateKey;
                     if (myToken.ship().isPrimaryWeaponTurret)
@@ -717,7 +717,7 @@ define(["ShipState", "UpgradeType", "process/ui/FactionUI", "process/ui/LabeledI
                     }, cells));
                 }
 
-                if (energyLimit !== null)
+                if (energyLimit !== undefined)
                 {
                     cells = [];
                     image = React.createElement(ShipStateUI,
