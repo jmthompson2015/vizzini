@@ -93,7 +93,7 @@ define(["Event", "Maneuver", "Pilot", "process/Action", "process/Selector"],
         {
             InputValidator.validateNotNull("store", store);
 
-            return store.getState().eventToken;
+            return store.getState().eventData.eventToken;
         }
 
         function getManeuver(token)

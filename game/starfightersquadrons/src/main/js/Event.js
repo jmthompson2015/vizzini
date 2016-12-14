@@ -72,6 +72,20 @@ define(function()
         },
     };
 
+    Event.createData = function(eventKey, eventToken, eventCallback)
+    {
+        InputValidator.validateNotNull("eventKey", eventKey);
+        InputValidator.validateNotNull("eventToken", eventToken);
+        // eventCallback optional.
+
+        return (
+        {
+            eventKey: eventKey,
+            eventToken: eventToken,
+            eventCallback: eventCallback,
+        });
+    };
+
     if (Object.freeze)
     {
         Object.freeze(Event);

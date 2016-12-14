@@ -38,6 +38,10 @@ define(["DamageCard", "Event", "Maneuver", "process/Action", "process/Activation
             var environment = createEnvironment();
             var store = environment.store();
             var token = environment.tokens()[2]; // X-Wing.
+            var callback = function()
+            {
+                LOGGER.info("in callback()");
+            };
 
             // Run / Verify.
             Event.values().forEach(function(eventKey)
@@ -52,7 +56,7 @@ define(["DamageCard", "Event", "Maneuver", "process/Action", "process/Activation
 
                         if (ability.condition && ability.condition(store, token))
                         {
-                            ability.consequent(store, token);
+                            ability.consequent(store, token, callback);
                             assert.ok(true, "eventKey = " + eventKey + " damageKey = " + damageKey);
                         }
                     });

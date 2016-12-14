@@ -734,12 +734,11 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     });
                 case Action.SET_EVENT:
                     LOGGER.info("Event: " + Event.properties[action.eventKey].name);
+                    var newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback);
                     return Object.assign(
                     {}, state,
                     {
-                        eventKey: action.eventKey,
-                        eventToken: action.eventToken,
-                        eventCallback: action.eventCallback,
+                        eventData: newEventData,
                     });
                 case Action.SET_FIRST_AGENT:
                     return Object.assign(

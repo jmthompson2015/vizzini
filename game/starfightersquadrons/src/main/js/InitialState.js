@@ -8,9 +8,11 @@ define(["Phase"], function(Phase)
         this.playFormatKey = undefined;
         this.round = 0;
         this.phaseKey = Phase.SETUP;
-        this.eventKey = undefined;
-        this.eventToken = undefined;
-        this.eventCallback = undefined;
+        this.eventData = {
+            eventKey: undefined,
+            eventToken: undefined,
+            eventCallback: undefined,
+        };
         this.playAreaScale = 1.0;
         this.activeTokenId = undefined;
         this.userMessage = "";

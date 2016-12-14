@@ -7,12 +7,13 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
         {
             InputValidator.validateNotNull("store", store);
 
-            this.onChange = function(eventKey)
+            this.onChange = function(eventData)
             {
                 LOGGER.trace("EventObserver.onChange() start");
 
-                var token = store.getState().eventToken;
-                var callback = store.getState().eventCallback;
+                var eventKey = eventData.eventKey;
+                var token = eventData.eventToken;
+                var callback = eventData.eventCallback;
 
                 if (eventKey && token)
                 {
@@ -109,7 +110,7 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
 
             this.select = function(state)
             {
-                return state.eventKey;
+                return state.eventData;
             };
 
             var unsubscribe = Observer.observeStore(store, this.select, this.onChange.bind(this), false);

@@ -143,7 +143,7 @@ define(["AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "process/
         {
             InputValidator.validateNotNull("store", store);
 
-            return store.getState().eventToken;
+            return store.getState().eventData.eventToken;
         }
 
         function getManeuver(token)
