@@ -42,14 +42,18 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             var store = Redux.createStore(Reducer.root);
             var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
             environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+            store.dispatch(Action.setEnvironment(environment));
             var adjudicator = new Adjudicator();
+            store.dispatch(Action.setAdjudicator(adjudicator));
             var token = environment.tokens()[0]; // Gozanti-class Cruiser
             var maneuverKey = Maneuver.STRAIGHT_1_3;
             var callback = function()
             {
                 LOGGER.info("callback() start");
             };
-            var action = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            var action = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             var position = environment.getPositionFor(token);
             assert.equal(position.x(), 458);
             assert.equal(position.y(), 96);
@@ -151,14 +155,18 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             var store = Redux.createStore(Reducer.root);
             var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
             environment.placeInitialTokens(agent1, squad1, agent2, squad2);
+            store.dispatch(Action.setEnvironment(environment));
             var adjudicator = new Adjudicator();
+            store.dispatch(Action.setAdjudicator(adjudicator));
             var token = environment.tokens()[2]; // Lambda-class Shuttle
             var maneuverKey = Maneuver.STATIONARY_0_HARD;
             var callback = function()
             {
                 LOGGER.info("callback() start");
             };
-            var action = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            var action = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             var position = environment.getPositionFor(token);
             assert.equal(position.x(), 686);
             assert.equal(position.y(), 40);
@@ -345,14 +353,19 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
         {
             // Setup.
             var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            store.dispatch(Action.setEnvironment(environment));
             var adjudicator = new Adjudicator();
+            store.dispatch(Action.setAdjudicator(adjudicator));
             var token = environment.tokens()[2]; // X-Wing
             var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
             var callback = function()
             {
                 LOGGER.info("callback() start");
             };
-            var action = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            var action = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             var position = environment.getPositionFor(token);
             assert.equal(position.x(), 458);
             assert.equal(position.y(), 895);
@@ -388,14 +401,19 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
         {
             // Setup.
             var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            store.dispatch(Action.setEnvironment(environment));
             var adjudicator = new Adjudicator();
+            store.dispatch(Action.setAdjudicator(adjudicator));
             var token = environment.tokens()[2]; // X-Wing
             var maneuverKey = Maneuver.KOIOGRAN_TURN_4_HARD;
             var callback = function()
             {
                 LOGGER.info("callback() start");
             };
-            var action = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            var action = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             var position = environment.getPositionFor(token);
             assert.equal(position.x(), 458);
             assert.equal(position.y(), 895);
@@ -443,6 +461,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
             environment.activeToken(token);
             store.dispatch(Action.setEnvironment(environment));
+            store.dispatch(Action.setAdjudicator(adjudicator));
             store.dispatch(Action.addFocusCount(token));
 
             var myManeuverKey = (maneuverKey !== undefined ? maneuverKey : Maneuver.STRAIGHT_3_STANDARD);
@@ -452,6 +471,9 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
                 LOGGER.info("callback() start");
             };
 
-            return new ActivationAction(environment, adjudicator, token, myManeuverKey, callback);
+            var answer = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[myManeuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
+            return answer;
         }
     });

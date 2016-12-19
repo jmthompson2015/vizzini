@@ -1,24 +1,17 @@
-define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/DamageAbility2", "process/ManeuverAction", "process/PilotAbility2", "process/UpgradeAbility2"],
-    function(Difficulty, Event, Maneuver, Phase, Action, DamageAbility2, ManeuverAction, PilotAbility2, UpgradeAbility2)
+define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/DamageAbility2", "process/ManeuverAction", "process/PilotAbility2", "process/Selector", "process/UpgradeAbility2"],
+    function(Difficulty, Event, Maneuver, Phase, Action, DamageAbility2, ManeuverAction, PilotAbility2, Selector, UpgradeAbility2)
     {
         "use strict";
 
-        function ActivationAction(environment, adjudicator, token, maneuverKey, callback)
+        function ActivationAction(store, token, callback)
         {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
+            InputValidator.validateNotNull("store", store);
             InputValidator.validateNotNull("token", token);
-            // maneuverKey optional.
             InputValidator.validateNotNull("callback", callback);
 
-            this.environment = function()
+            this.store = function()
             {
-                return environment;
-            };
-
-            this.adjudicator = function()
-            {
-                return adjudicator;
+                return store;
             };
 
             this.token = function()
@@ -26,31 +19,37 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/D
                 return token;
             };
 
-            this.maneuverKey = function(value)
-            {
-                if (value !== undefined)
-                {
-                    maneuverKey = value;
-                }
-
-                return maneuverKey;
-            };
-
             this.callback = function()
             {
                 return callback;
             };
 
-            var maneuverAction;
-
-            this.maneuverAction = function(value)
+            this.environment = function()
             {
-                if (value !== undefined)
+                return Selector.environment(store.getState());
+            };
+
+            this.adjudicator = function()
+            {
+                return Selector.adjudicator(store.getState());
+            };
+
+            this.maneuver = function()
+            {
+                return Selector.maneuver(store.getState(), token.id());
+            };
+
+            this.maneuverKey = function()
+            {
+                var answer;
+                var maneuver = this.maneuver();
+
+                if (maneuver !== undefined)
                 {
-                    maneuverAction = value;
+                    answer = maneuver.value;
                 }
 
-                return maneuverAction;
+                return answer;
             };
         }
 
@@ -129,9 +128,9 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/D
 
                 if (fromPosition)
                 {
-                    this.maneuverAction(new ManeuverAction(environment, parentToken, maneuverKey));
-                    this.maneuverAction().doIt();
-                    var store = this.environment().store();
+                    var maneuverAction = new ManeuverAction(environment, parentToken, maneuverKey);
+                    maneuverAction.doIt();
+                    var store = this.store();
                     store.dispatch(Action.setEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken, this.finishExecuteManeuver.bind(this)));
                 }
                 else
@@ -362,7 +361,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/D
 
             if (ability && isAccepted)
             {
-                var store = this.environment().store();
+                var store = this.store();
                 var token = this.token();
                 ability.usedAbilities(token).push(ability.sourceKey());
                 var consequent = ability.consequent();

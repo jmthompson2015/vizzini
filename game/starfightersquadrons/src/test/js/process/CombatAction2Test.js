@@ -110,6 +110,8 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
         {
             // Setup.
             var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
+            store.dispatch(Action.setEnvironment(environment));
             var adjudicator = new Adjudicator();
             var maneuver = Maneuver.STRAIGHT_1_EASY;
             var attacker = environment.tokens()[2]; // Luke Skywalker X-Wing
@@ -642,6 +644,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             var defenderPosition = new Position(450, 845, 90);
 
             store.dispatch(Action.setEnvironment(environment));
+            store.dispatch(Action.setAdjudicator(adjudicator));
             environment.placeToken(attackerPosition, attacker);
             environment.placeToken(defenderPosition, defender);
             environment.activeToken(attacker);

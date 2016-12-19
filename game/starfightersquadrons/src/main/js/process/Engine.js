@@ -1,5 +1,5 @@
-define(["Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
-    function(Phase, Pilot, RangeRuler, Team, UpgradeCard, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
+define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
+    function(Maneuver, Phase, Pilot, RangeRuler, Team, UpgradeCard, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
     {
         "use strict";
 
@@ -151,13 +151,14 @@ define(["Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "process/Action",
             {
                 LOGGER.trace("Engine.processActivationQueue() start");
 
+                var store = environment.store();
+
                 if (activationQueue.length === 0)
                 {
                     firstTokenToManeuver = undefined;
                     secondTokenToManeuver = undefined;
 
                     environment.activeToken(undefined);
-                    var store = environment.store();
                     store.dispatch(Action.setUserMessage(""));
                     LOGGER.trace("Engine.processActivationQueue() done");
                     environment.phase(Phase.ACTIVATION_END);
@@ -189,8 +190,9 @@ define(["Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "process/Action",
                     maneuverKey = secondTokenToManeuver[myToken];
                 }
 
-                var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey,
-                    this.processActivationQueue.bind(this));
+                var activationAction = new ActivationAction(store, token, this.processActivationQueue.bind(this));
+                var maneuver = Maneuver.properties[maneuverKey];
+                store.dispatch(Action.setTokenManeuver(token, maneuver));
 
                 setTimeout(function()
                 {

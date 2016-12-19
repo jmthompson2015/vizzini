@@ -111,7 +111,8 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             };
 
             store.dispatch(Action.setEnvironment(environment));
-            store.dispatch(Action.setActiveToken(attacker.id()));
+            store.dispatch(Action.setAdjudicator(adjudicator));
+            store.dispatch(Action.setActiveToken(attacker));
             store.dispatch(Action.addFocusCount(attacker));
             store.dispatch(Action.addStressCount(attacker));
 

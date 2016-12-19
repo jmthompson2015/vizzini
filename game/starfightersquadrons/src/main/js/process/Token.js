@@ -343,9 +343,9 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
                     if (upgrade.energyLimit !== undefined)
                     {
-                        store.dispatch(Action.setTokenUpgradeEnergy(id, upgradeKey, upgrade.energyLimit));
+                        store.dispatch(Action.setTokenUpgradeEnergy(this, upgradeKey, upgrade.energyLimit));
                     }
-                });
+                }, this);
             }
 
             store.dispatch(Action.setTokenActivationState(this, new ActivationState()));
@@ -574,7 +574,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
         Token.prototype.flipDamageCardFacedown = function(damageKey)
         {
             this.removeCriticalDamage(damageKey);
-            this.store().dispatch(Action.addTokenDamage(this.id(), damageKey));
+            this.store().dispatch(Action.addTokenDamage(this, damageKey));
         };
 
         Token.prototype.focusCount = function()
@@ -692,7 +692,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
         {
             InputValidator.validateNotNull("damageKey", damageKey);
 
-            this.store().dispatch(Action.addTokenDamage(this.id(), damageKey));
+            this.store().dispatch(Action.addTokenDamage(this, damageKey));
             this.store().dispatch(Action.setEvent(Event.RECEIVE_DAMAGE, this));
         };
 

@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/Adjudicator", "process/ManeuverAction", "process/Selector", "process/ShipActionAction"],
-    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, Adjudicator, ManeuverAction, Selector, ShipActionAction)
+define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/Selector", "process/ShipActionAction"],
+    function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, ManeuverAction, Selector, ShipActionAction)
     {
         "use strict";
         var UpgradeAbility2 = {};
@@ -28,7 +28,8 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                 {
                     throw "Can't find white maneuver for oldManeuver = " + oldManeuver;
                 }
-                token.activationState().activationAction().maneuverKey(newManeuverKey);
+                var newManeuver = Maneuver.properties[newManeuverKey];
+                store.dispatch(Action.setTokenManeuver(token, newManeuver));
                 callback();
             },
         };
@@ -45,7 +46,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.BARREL_ROLL];
                 var that = this;
                 var finishCallback = function(shipActionAction)
@@ -77,7 +78,8 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             {
                 discardUpgrade(token, UpgradeCard.INERTIAL_DAMPENERS);
 
-                token.activationState().activationAction().maneuverKey(Maneuver.STATIONARY_0_STANDARD);
+                var newManeuver = Maneuver.properties[Maneuver.STATIONARY_0_STANDARD];
+                store.dispatch(Action.setTokenManeuver(token, newManeuver));
                 token.receiveStress();
                 callback();
             },
@@ -106,7 +108,8 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
                         break;
                 }
                 var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
-                token.activationState().activationAction().maneuverKey(newManeuverKey);
+                var newManeuver = Maneuver.properties[newManeuverKey];
+                store.dispatch(Action.setTokenManeuver(token, newManeuver));
                 callback();
             },
         };
@@ -149,7 +152,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.TARGET_LOCK];
                 var that = this;
                 var finishCallback = function(shipActionAction)
@@ -250,7 +253,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.BARREL_ROLL];
                 var that = this;
                 var finishCallback = function(shipActionAction)
@@ -330,7 +333,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.BOOST];
                 var that = this;
                 var finishCallback = function(shipActionAction)
@@ -481,8 +484,8 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
         {
             InputValidator.validateNotNull("token", token);
 
-            var maneuverKey = getManeuverKey(token);
-            return Maneuver.properties[maneuverKey];
+            var activationAction = getActivationAction(token);
+            return (activationAction !== undefined ? activationAction.maneuver() : undefined);
         }
 
         function getManeuverKey(token)

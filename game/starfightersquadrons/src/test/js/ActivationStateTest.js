@@ -1,5 +1,5 @@
-define(["ActivationState", "Maneuver", "process/ActivationAction", "process/Adjudicator", "process/EnvironmentFactory", "process/ManeuverAction"],
-    function(ActivationState, Maneuver, ActivationAction, Adjudicator, EnvironmentFactory, ManeuverAction)
+define(["ActivationState", "Maneuver", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/EnvironmentFactory", "process/ManeuverAction"],
+    function(ActivationState, Maneuver, Action, ActivationAction, Adjudicator, EnvironmentFactory, ManeuverAction)
     {
         "use strict";
         QUnit.module("ActivationState");
@@ -21,11 +21,14 @@ define(["ActivationState", "Maneuver", "process/ActivationAction", "process/Adju
             // Setup.
             var activationState = new ActivationState();
             var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
             var adjudicator = new Adjudicator();
             var token = environment.tokens()[0];
             var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
             var callback = function() {};
-            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            var activationAction = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
 
             // Run.
             assert.equal(activationState.activationAction(), undefined);

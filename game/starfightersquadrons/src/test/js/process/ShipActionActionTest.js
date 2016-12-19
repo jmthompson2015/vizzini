@@ -509,7 +509,7 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
             {
                 LOGGER.info("in callback()");
             };
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
 
             // Run.
             assert.equal(token.damageCount(), 0);

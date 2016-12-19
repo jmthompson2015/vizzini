@@ -1409,7 +1409,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
             store.dispatch(Action.placeToken(new Position(300, 300, 0), token));
             var abilityType = DamageAbility2;
             var eventOrPhaseKey = Phase.ACTIVATION_PERFORM_ACTION;
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
 
             // Run.
             var result = token.usableDamageAbilities(abilityType, eventOrPhaseKey);
@@ -1446,10 +1446,12 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
             {
                 LOGGER.info("in callback()");
             };
-            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            var activationAction = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             token.activationState().activationAction(activationAction);
             store.dispatch(Action.placeToken(new Position(400, 400, 0), token));
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
 
             // Run.
             var result = token.usablePilotAbilities(abilityType, eventOrPhaseKey);
@@ -1459,7 +1461,8 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
             assert.equal(result.length, 0);
 
             // Run.
-            token.activationState().activationAction().maneuverKey(Maneuver.STRAIGHT_1_EASY);
+            maneuver = Maneuver.properties[Maneuver.STRAIGHT_1_EASY];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             result = token.usablePilotAbilities(abilityType, eventOrPhaseKey);
 
             // Verify.
@@ -1472,6 +1475,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
         {
             // Setup.
             var environment = EnvironmentFactory.createCoreSetEnvironment();
+            var store = environment.store();
             var adjudicator = new Adjudicator();
             var token = environment.tokens()[2]; // X-Wing.
             var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
@@ -1481,11 +1485,12 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
             {
                 LOGGER.info("in callback()");
             };
-            var activationAction = new ActivationAction(environment, adjudicator, token, maneuverKey, callback);
+            var activationAction = new ActivationAction(store, token, callback);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             token.activationState().activationAction(activationAction);
-            var store = environment.store();
             store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.ADRENALINE_RUSH));
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
 
             // Run.
             var result = token.usableUpgradeAbilities(abilityType, eventOrPhaseKey);
@@ -1495,7 +1500,8 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
             assert.equal(result.length, 0);
 
             // Run.
-            token.activationState().activationAction().maneuverKey(Maneuver.STRAIGHT_4_HARD);
+            maneuver = Maneuver.properties[Maneuver.STRAIGHT_4_HARD];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
             result = token.usableUpgradeAbilities(abilityType, eventOrPhaseKey);
 
             // Verify.

@@ -25,6 +25,11 @@ define(["Count", "Value"], function(Count, Value)
         return answer;
     };
 
+    Selector.adjudicator = function(state)
+    {
+        return state.adjudicator;
+    };
+
     Selector.agilityValue = function(state, tokenId)
     {
         return Selector.value(state, tokenId, Value.AGILITY);
@@ -135,6 +140,14 @@ define(["Count", "Value"], function(Count, Value)
     Selector.ionCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.ION);
+    };
+
+    Selector.maneuver = function(state, tokenId)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("tokenId", tokenId);
+
+        return state.tokenIdToManeuver[tokenId];
     };
 
     Selector.pilotSkillValue = function(state, tokenId)

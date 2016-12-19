@@ -642,6 +642,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             var defenderPosition = new Position(450, 845, 90);
 
             store.dispatch(Action.setEnvironment(environment));
+            store.dispatch(Action.setAdjudicator(adjudicator));
             environment.placeToken(attackerPosition, attacker);
             environment.placeToken(defenderPosition, defender);
             environment.activeToken(attacker);

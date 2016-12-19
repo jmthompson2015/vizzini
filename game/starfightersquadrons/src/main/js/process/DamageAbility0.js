@@ -129,7 +129,7 @@ define(["AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "process/
             InputValidator.validateNotNull("damageKey", damageKey);
 
             store.dispatch(Action.removeTokenCriticalDamage(token, damageKey));
-            store.dispatch(Action.addTokenDamage(token.id(), damageKey));
+            store.dispatch(Action.addTokenDamage(token, damageKey));
         }
 
         function getActivationAction(token)

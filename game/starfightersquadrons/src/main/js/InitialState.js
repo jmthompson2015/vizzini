@@ -5,6 +5,7 @@ define(["Phase"], function(Phase)
     function InitialState()
     {
         this.environment = undefined;
+        this.adjudicator = undefined;
         this.playFormatKey = undefined;
         this.round = 0;
         this.phaseKey = Phase.SETUP;
@@ -29,6 +30,7 @@ define(["Phase"], function(Phase)
         this.tokenIdToCounts = {};
         this.tokenIdToCriticalDamages = {};
         this.tokenIdToDamages = {};
+        this.tokenIdToManeuver = {};
         this.tokenIdToPosition = {};
         this.tokenIdToUpgrades = {};
         this.tokenIdToUpgradeEnergy = {};

@@ -24,7 +24,7 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.TARGET_LOCK];
                 var that = this;
                 var finishCallback = function(shipActionAction)

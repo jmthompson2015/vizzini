@@ -111,7 +111,8 @@ define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction"
             };
 
             store.dispatch(Action.setEnvironment(environment));
-            store.dispatch(Action.setActiveToken(attacker.id()));
+            store.dispatch(Action.setAdjudicator(adjudicator));
+            store.dispatch(Action.setActiveToken(attacker));
             store.dispatch(Action.addFocusCount(attacker));
             store.dispatch(Action.addStressCount(attacker));
 

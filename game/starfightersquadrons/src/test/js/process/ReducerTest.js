@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
-    function(Count, DamageCard, Phase, Pilot, PlayFormat, Position, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
+define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
+    function(Count, DamageCard, Maneuver, Phase, Pilot, PlayFormat, Position, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
     {
         "use strict";
         QUnit.module("Reducer");
@@ -309,27 +309,27 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
-            var tokenId = 1;
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
             var damageKey0 = DamageCard.BLINDED_PILOT;
             var damageKey1 = DamageCard.CONSOLE_FIRE;
-            assert.ok(!store.getState().tokenIdToDamages[tokenId]);
+            assert.ok(!store.getState().tokenIdToDamages[token.id()]);
 
             // Run.
-            store.dispatch(Action.addTokenDamage(tokenId, damageKey0));
+            store.dispatch(Action.addTokenDamage(token, damageKey0));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToDamages[tokenId]);
-            assert.equal(store.getState().tokenIdToDamages[tokenId].length, 1);
-            assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
+            assert.ok(store.getState().tokenIdToDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToDamages[token.id()].length, 1);
+            assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
 
             // Run.
-            store.dispatch(Action.addTokenDamage(tokenId, damageKey1));
+            store.dispatch(Action.addTokenDamage(token, damageKey1));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToDamages[tokenId]);
-            assert.equal(store.getState().tokenIdToDamages[tokenId].length, 2);
-            assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
-            assert.equal(store.getState().tokenIdToDamages[tokenId][1], damageKey1);
+            assert.ok(store.getState().tokenIdToDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToDamages[token.id()].length, 2);
+            assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
+            assert.equal(store.getState().tokenIdToDamages[token.id()][1], damageKey1);
         });
 
         QUnit.test("addTokenUpgrade()", function(assert)
@@ -364,57 +364,57 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
-            var tokenId = 1;
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
             var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
             var upgradeKey1 = UpgradeCard.CALCULATION;
-            assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId]);
+            assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()]);
 
             // Run.
-            store.dispatch(Action.addTokenUpgradeEnergy(tokenId, upgradeKey0));
+            store.dispatch(Action.addTokenUpgradeEnergy(token, upgradeKey0));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
-            assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0]);
-            assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1]);
-            assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
+            assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
+            assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0]);
+            assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1]);
+            assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
 
             // Run.
-            store.dispatch(Action.addTokenUpgradeEnergy(tokenId, upgradeKey1, 2));
+            store.dispatch(Action.addTokenUpgradeEnergy(token, upgradeKey1, 2));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
-            assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0]);
-            assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1]);
-            assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
-            assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 2);
+            assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
+            assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0]);
+            assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1]);
+            assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
+            assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1], 2);
         });
 
         QUnit.test("addTokenUpgradePerRound()", function(assert)
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
-            var tokenId = 1;
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
             var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
             var upgradeKey1 = UpgradeCard.CALCULATION;
 
             // Run.
-            store.dispatch(Action.addTokenUpgradePerRound(tokenId, upgradeKey0));
+            store.dispatch(Action.addTokenUpgradePerRound(token, upgradeKey0));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
-            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0]);
-            assert.ok(!store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1]);
-            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[token.id()]);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey0]);
+            assert.ok(!store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey1]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey0], 1);
 
             // Run.
-            store.dispatch(Action.addTokenUpgradePerRound(tokenId, upgradeKey1, 2));
+            store.dispatch(Action.addTokenUpgradePerRound(token, upgradeKey1, 2));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
-            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0]);
-            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1]);
-            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
-            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1], 2);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[token.id()]);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey0]);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey1]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey0], 1);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey1], 2);
         });
 
         QUnit.test("addWeaponsDisabledCount()", function(assert)
@@ -684,30 +684,30 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
-            var tokenId = 1;
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
             var damageKey0 = DamageCard.BLINDED_PILOT;
             var damageKey1 = DamageCard.CONSOLE_FIRE;
-            store.dispatch(Action.addTokenDamage(tokenId, damageKey0));
-            store.dispatch(Action.addTokenDamage(tokenId, damageKey1));
-            assert.ok(store.getState().tokenIdToDamages[tokenId]);
-            assert.equal(store.getState().tokenIdToDamages[tokenId].length, 2);
-            assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
-            assert.equal(store.getState().tokenIdToDamages[tokenId][1], damageKey1);
+            store.dispatch(Action.addTokenDamage(token, damageKey0));
+            store.dispatch(Action.addTokenDamage(token, damageKey1));
+            assert.ok(store.getState().tokenIdToDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToDamages[token.id()].length, 2);
+            assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
+            assert.equal(store.getState().tokenIdToDamages[token.id()][1], damageKey1);
 
             // Run.
-            store.dispatch(Action.removeTokenDamage(tokenId, damageKey1));
+            store.dispatch(Action.removeTokenDamage(token, damageKey1));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToDamages[tokenId]);
-            assert.equal(store.getState().tokenIdToDamages[tokenId].length, 1);
-            assert.equal(store.getState().tokenIdToDamages[tokenId][0], damageKey0);
+            assert.ok(store.getState().tokenIdToDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToDamages[token.id()].length, 1);
+            assert.equal(store.getState().tokenIdToDamages[token.id()][0], damageKey0);
 
             // Run.
-            store.dispatch(Action.removeTokenDamage(tokenId, damageKey0));
+            store.dispatch(Action.removeTokenDamage(token, damageKey0));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToDamages[tokenId]);
-            assert.equal(store.getState().tokenIdToDamages[tokenId].length, 0);
+            assert.ok(store.getState().tokenIdToDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToDamages[token.id()].length, 0);
         });
 
         QUnit.test("removeTokenUpgrade()", function(assert)
@@ -783,19 +783,21 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
+            var token0 = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var token1 = new Token(store, Pilot.ROOKIE_PILOT, new SimpleAgent("Rebel", Team.REBEL));
             assert.ok(!store.getState().activeTokenId);
 
             // Run.
-            store.dispatch(Action.setActiveToken(1));
+            store.dispatch(Action.setActiveToken(token0));
 
             // Verify.
-            assert.equal(store.getState().activeTokenId, 1);
+            assert.equal(store.getState().activeTokenId, token0.id());
 
             // Run.
-            store.dispatch(Action.setActiveToken(2));
+            store.dispatch(Action.setActiveToken(token1));
 
             // Verify.
-            assert.equal(store.getState().activeTokenId, 2);
+            assert.equal(store.getState().activeTokenId, token1.id());
         });
 
         QUnit.test("setCloakCount()", function(assert)
@@ -1063,55 +1065,81 @@ define(["Count", "DamageCard", "Phase", "Pilot", "PlayFormat", "Position", "proc
             assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
         });
 
+        QUnit.test("setTokenManeuver()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var maneuverKey0 = Maneuver.STRAIGHT_1_STANDARD;
+            var maneuverKey1 = Maneuver.BANK_RIGHT_2_STANDARD;
+            assert.ok(!store.getState().tokenIdToManeuver[token.id()]);
+
+            // Run.
+            var maneuver0 = Maneuver.properties[maneuverKey0];
+            store.dispatch(Action.setTokenManeuver(token, maneuver0));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToManeuver[token.id()]);
+            assert.equal(store.getState().tokenIdToManeuver[token.id()], maneuver0);
+
+            // Run.
+            var maneuver1 = Maneuver.properties[maneuverKey1];
+            store.dispatch(Action.setTokenManeuver(token, maneuver1));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToManeuver[token.id()]);
+            assert.equal(store.getState().tokenIdToManeuver[token.id()], maneuver1);
+        });
+
         QUnit.test("setTokenUpgradeEnergy()", function(assert)
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
-            var tokenId = 1;
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
             var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
             var upgradeKey1 = UpgradeCard.CALCULATION;
-            assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId]);
+            assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()]);
 
             // Run.
-            store.dispatch(Action.setTokenUpgradeEnergy(tokenId, upgradeKey0, 1));
+            store.dispatch(Action.setTokenUpgradeEnergy(token, upgradeKey0, 1));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
-            assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
-            assert.ok(!store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 0);
+            assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
+            assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
+            assert.ok(!store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1], 0);
 
             // Run.
-            store.dispatch(Action.setTokenUpgradeEnergy(tokenId, upgradeKey1, 2));
+            store.dispatch(Action.setTokenUpgradeEnergy(token, upgradeKey1, 2));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradeEnergy[tokenId]);
-            assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey0], 1);
-            assert.equal(store.getState().tokenIdToUpgradeEnergy[tokenId][upgradeKey1], 2);
+            assert.ok(store.getState().tokenIdToUpgradeEnergy[token.id()]);
+            assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey0], 1);
+            assert.equal(store.getState().tokenIdToUpgradeEnergy[token.id()][upgradeKey1], 2);
         });
 
         QUnit.test("setTokenUpgradePerRound()", function(assert)
         {
             // Setup.
             var store = Redux.createStore(Reducer.root);
-            var tokenId = 1;
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
             var upgradeKey0 = UpgradeCard.ADRENALINE_RUSH;
             var upgradeKey1 = UpgradeCard.CALCULATION;
 
             // Run.
-            store.dispatch(Action.setTokenUpgradePerRound(tokenId, upgradeKey0, 1));
+            store.dispatch(Action.setTokenUpgradePerRound(token, upgradeKey0, 1));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
-            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
-            assert.ok(!store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1], 0);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[token.id()]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey0], 1);
+            assert.ok(!store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey1], 0);
 
             // Run.
-            store.dispatch(Action.setTokenUpgradePerRound(tokenId, upgradeKey1, 2));
+            store.dispatch(Action.setTokenUpgradePerRound(token, upgradeKey1, 2));
 
             // Verify.
-            assert.ok(store.getState().tokenIdToUpgradePerRound[tokenId]);
-            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey0], 1);
-            assert.equal(store.getState().tokenIdToUpgradePerRound[tokenId][upgradeKey1], 2);
+            assert.ok(store.getState().tokenIdToUpgradePerRound[token.id()]);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey0], 1);
+            assert.equal(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey1], 2);
         });
 
         QUnit.test("setUserMessage()", function(assert)

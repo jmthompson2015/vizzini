@@ -18,7 +18,7 @@ define(["DamageCard", "process/EnvironmentFactory", "Pilot", "Position", "proces
             assert.ok(!result);
 
             // Run.
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
             result = Selector.activeToken(store.getState());
 
             // Verify.
@@ -127,7 +127,7 @@ define(["DamageCard", "process/EnvironmentFactory", "Pilot", "Position", "proces
             assert.equal(result.length, 0);
 
             // Setup.
-            store.dispatch(Action.addTokenDamage(token0.id(), DamageCard.BLINDED_PILOT));
+            store.dispatch(Action.addTokenDamage(token0, DamageCard.BLINDED_PILOT));
 
             // Run.
             result = Selector.damages(store.getState(), token0.id());

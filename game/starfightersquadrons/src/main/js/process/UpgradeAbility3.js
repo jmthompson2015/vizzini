@@ -81,7 +81,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             {
                 var attacker = getActiveToken(store);
                 attacker.receiveStress();
-                store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.REBEL_CAPTIVE));
+                store.dispatch(Action.addTokenUpgradePerRound(token, UpgradeCard.REBEL_CAPTIVE));
                 callback();
             },
         };
@@ -215,7 +215,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
                 var oldValue = (attackDice.blankCount() > 0 ? AttackDice.Value.BLANK : AttackDice.Value.FOCUS);
                 var newValue = (weapon.weaponValue() >= 3 ? AttackDice.Value.CRITICAL_HIT : AttackDice.Value.HIT);
                 attackDice.changeOneToValue(oldValue, newValue);
-                store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.GUIDANCE_CHIPS));
+                store.dispatch(Action.addTokenUpgradePerRound(token, UpgradeCard.GUIDANCE_CHIPS));
                 callback();
             },
         };
@@ -235,7 +235,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             {
                 var attackDice = getAttackDice(token);
                 attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
-                store.dispatch(Action.addTokenUpgradePerRound(token.id(), UpgradeCard.GUNNERY_TEAM));
+                store.dispatch(Action.addTokenUpgradePerRound(token, UpgradeCard.GUNNERY_TEAM));
                 callback();
             },
         };
@@ -851,7 +851,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.TARGET_LOCK];
                 var that = this;
                 var finishCallback = function(shipActionAction)

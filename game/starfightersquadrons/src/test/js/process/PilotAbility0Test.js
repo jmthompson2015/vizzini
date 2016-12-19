@@ -71,7 +71,7 @@ define(["Event", "Maneuver", "process/Action", "process/ActivationAction", "proc
             var token = environment.tokens()[2]; // X-Wing.
 
             store.dispatch(Action.setEnvironment(environment));
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
 
             return environment;
         }

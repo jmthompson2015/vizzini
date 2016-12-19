@@ -76,7 +76,7 @@ define(["Event", "Maneuver", "Pilot", "process/Action", "process/Selector"],
             consequent: function(store, token, callback)
             {
                 store.dispatch(Action.addEvadeCount(token));
-                store.dispatch(Action.addTokenPilotPerRound(token.id(), Pilot.RED_ACE));
+                store.dispatch(Action.addTokenPilotPerRound(token, Pilot.RED_ACE));
                 callback();
             },
         };

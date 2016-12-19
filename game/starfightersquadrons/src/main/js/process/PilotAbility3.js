@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for the Combat Phase.
  */
-define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction", "process/Action", "process/Adjudicator", "process/Selector"],
-    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, ShipAction, Action, Adjudicator, Selector)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction", "process/Action", "process/Selector"],
+    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, ShipAction, Action, Selector)
     {
         "use strict";
         var PilotAbility3 = {};
@@ -22,7 +22,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.TARGET_LOCK];
                 var that = this;
                 var finishCallback = function(shipActionAction)
@@ -462,7 +462,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var shipActions0 = [ShipAction.BARREL_ROLL, ShipAction.BOOST];
                 var that = this;
                 var finishCallback = function(shipActionAction)
@@ -495,7 +495,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
             {
                 var agent = token.agent();
                 var environment = store.getState().environment;
-                var adjudicator = new Adjudicator();
+                var adjudicator = store.getState().adjudicator;
                 var that = this;
                 var finishCallback = function(shipActionAction)
                 {

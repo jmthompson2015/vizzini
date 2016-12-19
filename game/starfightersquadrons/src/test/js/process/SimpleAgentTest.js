@@ -126,7 +126,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Maneuver", "Pilot", "Positio
             var store = environment.store();
             store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.LANDO_CALRISSIAN));
             store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.CONSOLE_FIRE));
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
 
             // Run.
             var result = agent.determineValidShipActions(environment, adjudicator, token);

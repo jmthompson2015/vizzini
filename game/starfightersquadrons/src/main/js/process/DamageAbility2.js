@@ -195,7 +195,7 @@ define(["AttackDice", "DamageCard", "Phase", "process/Action", "process/Selector
         function flipCardFacedown(store, token, damageKey)
         {
             store.dispatch(Action.removeTokenCriticalDamage(token, damageKey));
-            store.dispatch(Action.addTokenDamage(token.id(), damageKey));
+            store.dispatch(Action.addTokenDamage(token, damageKey));
         }
 
         function getActiveToken(store)

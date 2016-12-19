@@ -16,6 +16,7 @@ define(["process/Action", "process/Adjudicator", "process/Engine", "process/Envi
             environment.placeInitialTokens(agent1, squad1, agent2, squad2);
 
             var adjudicator = new Adjudicator();
+            environment.store().dispatch(Action.setAdjudicator(adjudicator));
             var engine = new Engine(environment, adjudicator);
 
             this.adjudicator = function()

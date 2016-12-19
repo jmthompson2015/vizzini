@@ -43,7 +43,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
                 if (newActiveToken)
                 {
                     var oldValue = this.getTokenById(store.getState().activeTokenId);
-                    store.dispatch(Action.setActiveToken(newActiveToken.id()));
+                    store.dispatch(Action.setActiveToken(newActiveToken));
                 }
 
                 return this.getTokenById(store.getState().activeTokenId);

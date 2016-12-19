@@ -28,6 +28,7 @@ define(["Count"], function(Count)
     Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
     Action.RESET_NEXT_TOKEN_ID = "resetNextTokenId";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
+    Action.SET_ADJUDICATOR = "setAdjudicator";
     Action.SET_COUNT = "setCount";
     Action.SET_DAMAGE_DECK = "setDamageDeck";
     Action.SET_ENVIRONMENT = "setEnvironment";
@@ -39,6 +40,7 @@ define(["Count"], function(Count)
     Action.SET_SECOND_AGENT = "setSecondAgent";
     Action.SET_TOKEN_ACTIVATION_STATE = "setTokenActivationState";
     Action.SET_TOKEN_COMBAT_STATE = "setTokenCombatState";
+    Action.SET_TOKEN_MANEUVER = "setTokenManeuver";
     Action.SET_TOKEN_PILOT_PER_ROUND = "setTokenPilotPerRound";
     Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
     Action.SET_TOKEN_UPGRADE_PER_ROUND = "setTokenUpgradePerRound";
@@ -135,29 +137,29 @@ define(["Count"], function(Count)
         });
     };
 
-    Action.addTokenDamage = function(tokenId, damageKey)
+    Action.addTokenDamage = function(token, damageKey)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("damageKey", damageKey);
 
         return (
         {
             type: Action.ADD_TOKEN_DAMAGE,
-            tokenId: tokenId,
+            token: token,
             damageKey: damageKey,
         });
     };
 
-    Action.addTokenPilotPerRound = function(tokenId, pilotKey, value)
+    Action.addTokenPilotPerRound = function(token, pilotKey, value)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("pilotKey", pilotKey);
         var myValue = (value !== undefined ? value : 1);
 
         return (
         {
             type: Action.ADD_TOKEN_PILOT_PER_ROUND,
-            tokenId: tokenId,
+            token: token,
             pilotKey: pilotKey,
             value: myValue,
         });
@@ -176,31 +178,31 @@ define(["Count"], function(Count)
         });
     };
 
-    Action.addTokenUpgradeEnergy = function(tokenId, upgradeKey, value)
+    Action.addTokenUpgradeEnergy = function(token, upgradeKey, value)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("upgradeKey", upgradeKey);
         var myValue = (value !== undefined ? value : 1);
 
         return (
         {
             type: Action.ADD_TOKEN_UPGRADE_ENERGY,
-            tokenId: tokenId,
+            token: token,
             upgradeKey: upgradeKey,
             value: myValue,
         });
     };
 
-    Action.addTokenUpgradePerRound = function(tokenId, upgradeKey, value)
+    Action.addTokenUpgradePerRound = function(token, upgradeKey, value)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("upgradeKey", upgradeKey);
         var myValue = (value !== undefined ? value : 1);
 
         return (
         {
             type: Action.ADD_TOKEN_UPGRADE_PER_ROUND,
-            tokenId: tokenId,
+            token: token,
             upgradeKey: upgradeKey,
             value: myValue,
         });
@@ -334,15 +336,15 @@ define(["Count"], function(Count)
         });
     };
 
-    Action.removeTokenDamage = function(tokenId, damageKey)
+    Action.removeTokenDamage = function(token, damageKey)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("damageKey", damageKey);
 
         return (
         {
             type: Action.REMOVE_TOKEN_DAMAGE,
-            tokenId: tokenId,
+            token: token,
             damageKey: damageKey,
         });
     };
@@ -376,12 +378,23 @@ define(["Count"], function(Count)
         });
     };
 
-    Action.setActiveToken = function(tokenId)
+    Action.setActiveToken = function(token)
     {
         return (
         {
             type: Action.SET_ACTIVE_TOKEN,
-            tokenId: tokenId,
+            token: token,
+        });
+    };
+
+    Action.setAdjudicator = function(adjudicator)
+    {
+        InputValidator.validateNotNull("adjudicator", adjudicator);
+
+        return (
+        {
+            type: Action.SET_ADJUDICATOR,
+            adjudicator: adjudicator,
         });
     };
 
@@ -557,46 +570,59 @@ define(["Count"], function(Count)
         });
     };
 
-    Action.setTokenPilotPerRound = function(tokenId, pilotKey, value)
+    Action.setTokenManeuver = function(token, maneuver)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
+        // maneuver optional.
+
+        return (
+        {
+            type: Action.SET_TOKEN_MANEUVER,
+            token: token,
+            maneuver: maneuver,
+        });
+    };
+
+    Action.setTokenPilotPerRound = function(token, pilotKey, value)
+    {
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("pilotKey", pilotKey);
         var myValue = (value !== undefined ? value : 0);
 
         return (
         {
             type: Action.SET_TOKEN_PILOT_PER_ROUND,
-            tokenId: tokenId,
+            token: token,
             pilotKey: pilotKey,
             value: myValue,
         });
     };
 
-    Action.setTokenUpgradeEnergy = function(tokenId, upgradeKey, value)
+    Action.setTokenUpgradeEnergy = function(token, upgradeKey, value)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("upgradeKey", upgradeKey);
         var myValue = (value !== undefined ? value : 0);
 
         return (
         {
             type: Action.SET_TOKEN_UPGRADE_ENERGY,
-            tokenId: tokenId,
+            token: token,
             upgradeKey: upgradeKey,
             value: myValue,
         });
     };
 
-    Action.setTokenUpgradePerRound = function(tokenId, upgradeKey, value)
+    Action.setTokenUpgradePerRound = function(token, upgradeKey, value)
     {
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
         InputValidator.validateNotNull("upgradeKey", upgradeKey);
         var myValue = (value !== undefined ? value : 0);
 
         return (
         {
             type: Action.SET_TOKEN_UPGRADE_PER_ROUND,
-            tokenId: tokenId,
+            token: token,
             upgradeKey: upgradeKey,
             value: myValue,
         });

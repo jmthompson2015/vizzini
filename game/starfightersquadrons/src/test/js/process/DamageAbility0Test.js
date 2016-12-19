@@ -73,7 +73,7 @@ define(["DamageCard", "Event", "Maneuver", "process/Action", "process/Activation
             var token = environment.tokens()[2]; // X-Wing.
 
             store.dispatch(Action.setEnvironment(environment));
-            store.dispatch(Action.setActiveToken(token.id()));
+            store.dispatch(Action.setActiveToken(token));
             store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.MINOR_EXPLOSION));
             store.dispatch(Action.setEvent(Event.RECEIVE_CRITICAL_DAMAGE, token));
 
