@@ -321,7 +321,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             condition: function(store, token)
             {
                 var attacker = getActiveToken(store);
-                var marksmanshipUsed = token.activationState().usedUpgrades().vizziniContains(UpgradeCard.MARKSMANSHIP);
+                var marksmanshipUsed = Selector.usedUpgrades(store.getState(), token).vizziniContains(UpgradeCard.MARKSMANSHIP);
                 var attackDice = getAttackDice(token);
                 return token === attacker && marksmanshipUsed && attackDice.focusCount() > 0;
             },

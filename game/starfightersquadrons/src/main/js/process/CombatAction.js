@@ -1,5 +1,5 @@
-define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCard", "process/DamageAbility3", "process/DamageDealer", "process/PilotAbility3", "process/ShipDestroyedAction", "process/UpgradeAbility3"],
-    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, UpgradeCard, DamageAbility3, DamageDealer, PilotAbility3, ShipDestroyedAction, UpgradeAbility3)
+define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCard", "process/Action", "process/DamageAbility3", "process/DamageDealer", "process/PilotAbility3", "process/Selector", "process/ShipDestroyedAction", "process/UpgradeAbility3"],
+    function(AttackDice, DamageCard, DefenseDice, Phase, Pilot, RangeRuler, UpgradeCard, Action, DamageAbility3, DamageDealer, PilotAbility3, Selector, ShipDestroyedAction, UpgradeAbility3)
     {
         "use strict";
 
@@ -471,7 +471,8 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             {
                 if (this.PERFORM_ATTACK_TWICE_UPGRADES.vizziniContains(weapon.upgradeKey()) && this.executionCount() < 2)
                 {
-                    attacker.activationState().usedUpgrades().vizziniRemove(weapon.upgradeKey());
+                    var store = attacker.store();
+                    store.dispatch(Action.removeTokenUsedUpgrade(attacker, weapon.upgradeKey()));
                     this.doIt();
                 }
                 else
@@ -496,7 +497,20 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCar
             {
                 var store = this.environment().store();
                 var token = this.attacker();
-                ability.usedAbilities(token).push(ability.sourceKey());
+                switch (ability.source())
+                {
+                    case DamageCard:
+                        store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
+                        break;
+                    case Pilot:
+                        store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
+                        break;
+                    case UpgradeCard:
+                        store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
+                        break;
+                    default:
+                        throw "Unknown source: " + source + " " + (typeof source);
+                }
                 var consequent = ability.consequent();
                 consequent(store, token, backFunction);
             }

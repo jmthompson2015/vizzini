@@ -1,5 +1,5 @@
-define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/DamageAbility2", "process/ManeuverAction", "process/PilotAbility2", "process/Selector", "process/UpgradeAbility2"],
-    function(Difficulty, Event, Maneuver, Phase, Action, DamageAbility2, ManeuverAction, PilotAbility2, Selector, UpgradeAbility2)
+define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action", "process/DamageAbility2", "process/ManeuverAction", "process/PilotAbility2", "process/Selector", "process/UpgradeAbility2"],
+    function(DamageCard, Difficulty, Event, Maneuver, Phase, Pilot, UpgradeCard, Action, DamageAbility2, ManeuverAction, PilotAbility2, Selector, UpgradeAbility2)
     {
         "use strict";
 
@@ -36,7 +36,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/D
 
             this.maneuver = function()
             {
-                return Selector.maneuver(store.getState(), token.id());
+                return Selector.maneuver(store.getState(), token);
             };
 
             this.maneuverKey = function()
@@ -58,7 +58,8 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/D
             LOGGER.trace("ActivationAction.doIt() start");
 
             var token = this.token();
-            token.activationState().activationAction(this);
+            var store = token.store();
+            store.dispatch(Action.setTokenActivationAction(token, this));
 
             this.revealDial();
 
@@ -363,7 +364,20 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/D
             {
                 var store = this.store();
                 var token = this.token();
-                ability.usedAbilities(token).push(ability.sourceKey());
+                switch (ability.source())
+                {
+                    case DamageCard:
+                        store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
+                        break;
+                    case Pilot:
+                        store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
+                        break;
+                    case UpgradeCard:
+                        store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
+                        break;
+                    default:
+                        throw "Unknown source: " + source + " " + (typeof source);
+                }
                 var consequent = ability.consequent();
                 consequent(store, token, backFunction);
             }

@@ -169,16 +169,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
             }
         };
 
-        Reducer.tokenIdToActivationState = function(state, action)
-        {
-            return Reducer.tokenIdToData(state, Action.SET_TOKEN_ACTIVATION_STATE, action.type, action.token.id(), action.activationState);
-        };
-
-        Reducer.tokenIdToCombatState = function(state, action)
-        {
-            return Reducer.tokenIdToData(state, Action.SET_TOKEN_COMBAT_STATE, action.type, action.token.id(), action.combatState);
-        };
-
         Reducer.tokenIdToCounts = function(state, action)
         {
             LOGGER.debug("tokenIdToCounts() type = " + action.type);
@@ -256,11 +246,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     LOGGER.warn("Reducer.tokenIdToData: Unhandled action type: " + actionType);
                     return state;
             }
-        };
-
-        Reducer.tokenIdToManeuver = function(state, action)
-        {
-            return Reducer.tokenIdToData(state, Action.SET_TOKEN_MANEUVER, action.type, action.token.id(), action.maneuver);
         };
 
         Reducer.tokenIdToPilotPerRound = function(state, action)
@@ -374,6 +359,95 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     return newTokenIdToUpgrades;
                 default:
                     LOGGER.warn("Reducer.tokenIdToUpgrades: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
+        Reducer.tokenIdToUsedDamages = function(state, action)
+        {
+            LOGGER.debug("tokenIdToUsedDamages() type = " + action.type);
+
+            var newTokenIdToArray;
+
+            switch (action.type)
+            {
+                case Action.ADD_TOKEN_USED_DAMAGE:
+                    var oldArray = state[action.token.id()];
+                    var newArray = (oldArray !== undefined ? oldArray.slice() : []);
+                    newArray.push(action.damageKey);
+                    newTokenIdToArray = Object.assign(
+                    {}, state);
+                    newTokenIdToArray[action.token.id()] = newArray;
+                    return newTokenIdToArray;
+                case Action.CLEAR_TOKEN_USED_DAMAGES:
+                    newTokenIdToArray = Object.assign(
+                    {}, state);
+                    newTokenIdToArray[action.token.id()] = [];
+                    return newTokenIdToArray;
+                default:
+                    LOGGER.warn("Reducer.tokenIdToUsedDamages: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
+        Reducer.tokenIdToUsedPilots = function(state, action)
+        {
+            LOGGER.debug("tokenIdToUsedPilots() type = " + action.type);
+
+            var newTokenIdToArray;
+
+            switch (action.type)
+            {
+                case Action.ADD_TOKEN_USED_PILOT:
+                    var oldArray = state[action.token.id()];
+                    var newArray = (oldArray !== undefined ? oldArray.slice() : []);
+                    newArray.push(action.pilotKey);
+                    newTokenIdToArray = Object.assign(
+                    {}, state);
+                    newTokenIdToArray[action.token.id()] = newArray;
+                    return newTokenIdToArray;
+                case Action.CLEAR_TOKEN_USED_PILOTS:
+                    newTokenIdToArray = Object.assign(
+                    {}, state);
+                    newTokenIdToArray[action.token.id()] = [];
+                    return newTokenIdToArray;
+                default:
+                    LOGGER.warn("Reducer.tokenIdToUsedPilots: Unhandled action type: " + action.type);
+                    return state;
+            }
+        };
+
+        Reducer.tokenIdToUsedUpgrades = function(state, action)
+        {
+            LOGGER.debug("tokenIdToUsedUpgrades() type = " + action.type);
+
+            var newTokenIdToArray, oldArray, newArray;
+
+            switch (action.type)
+            {
+                case Action.ADD_TOKEN_USED_UPGRADE:
+                    oldArray = state[action.token.id()];
+                    newArray = (oldArray !== undefined ? oldArray.slice() : []);
+                    newArray.push(action.upgradeKey);
+                    newTokenIdToArray = Object.assign(
+                    {}, state);
+                    newTokenIdToArray[action.token.id()] = newArray;
+                    return newTokenIdToArray;
+                case Action.CLEAR_TOKEN_USED_UPGRADES:
+                    newTokenIdToArray = Object.assign(
+                    {}, state);
+                    newTokenIdToArray[action.token.id()] = [];
+                    return newTokenIdToArray;
+                case Action.REMOVE_TOKEN_USED_UPGRADE:
+                    oldArray = state[action.token.id()];
+                    newArray = (oldArray !== undefined ? oldArray.slice() : []);
+                    newArray.vizziniRemove(action.upgradeKey);
+                    newTokenIdToArray = Object.assign(
+                    {}, state);
+                    newTokenIdToArray[action.token.id()] = newArray;
+                    return newTokenIdToArray;
+                default:
+                    LOGGER.warn("Reducer.tokenIdToUsedUpgrades: Unhandled action type: " + action.type);
                     return state;
             }
         };
@@ -523,7 +597,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                 return new InitialState();
             }
 
-            var newPositionToTokenId, newTokenIdToActivationState, newTokenIdToCombatState, newTokenIdToManeuver, newTokenIdToPosition, newTokenIdToValues, newTokens, action2, tokenId;
+            var newPositionToTokenId, newTokenIdToData, newTokenIdToValues, newTokens, action2, tokenId;
 
             switch (action.type)
             {
@@ -611,6 +685,31 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {
                         tokenIdToUpgradePerRound: newTokenIdToUpgradePerRound,
                     });
+                case Action.ADD_TOKEN_USED_DAMAGE:
+                case Action.CLEAR_TOKEN_USED_DAMAGES:
+                    newTokenIdToData = Reducer.tokenIdToUsedDamages(state.tokenIdToUsedDamages, action);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToUsedDamages: newTokenIdToData,
+                    });
+                case Action.ADD_TOKEN_USED_PILOT:
+                case Action.CLEAR_TOKEN_USED_PILOTS:
+                    newTokenIdToData = Reducer.tokenIdToUsedPilots(state.tokenIdToUsedPilots, action);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToUsedPilots: newTokenIdToData,
+                    });
+                case Action.ADD_TOKEN_USED_UPGRADE:
+                case Action.CLEAR_TOKEN_USED_UPGRADES:
+                case Action.REMOVE_TOKEN_USED_UPGRADE:
+                    newTokenIdToData = Reducer.tokenIdToUsedUpgrades(state.tokenIdToUsedUpgrades, action);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToUsedUpgrades: newTokenIdToData,
+                    });
                 case Action.CLEAR_EVENT:
                     LOGGER.info("Event: (cleared)");
                     return Object.assign(
@@ -654,35 +753,35 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     tokenId = state.positionToTokenId[action.fromPosition];
                     action.token = state.tokens[tokenId];
                     newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
-                    newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+                    newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
                     return Object.assign(
                     {}, state,
                     {
                         positionToTokenId: newPositionToTokenId,
-                        tokenIdToPosition: newTokenIdToPosition,
+                        tokenIdToPosition: newTokenIdToData,
                     });
                 case Action.PLACE_TOKEN:
                     newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
-                    newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+                    newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
                     newTokens = Reducer.tokens(state.tokens, action);
                     return Object.assign(
                     {}, state,
                     {
                         positionToTokenId: newPositionToTokenId,
-                        tokenIdToPosition: newTokenIdToPosition,
+                        tokenIdToPosition: newTokenIdToData,
                         tokens: newTokens,
                     });
                 case Action.REMOVE_TOKEN:
                     var position = state.tokenIdToPosition[action.token.id()];
                     action2 = Action.removeTokenAt(position);
                     newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action2);
-                    newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
+                    newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action);
                     newTokens = Reducer.tokens(state.tokens, action);
                     return Object.assign(
                     {}, state,
                     {
                         positionToTokenId: newPositionToTokenId,
-                        tokenIdToPosition: newTokenIdToPosition,
+                        tokenIdToPosition: newTokenIdToData,
                         tokens: newTokens,
                     });
                 case Action.REMOVE_TOKEN_AT:
@@ -690,13 +789,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     var token = state.tokens[tokenId];
                     action2 = Action.removeToken(token);
                     newPositionToTokenId = Reducer.positionToTokenId(state.positionToTokenId, action);
-                    newTokenIdToPosition = Reducer.tokenIdToPosition(state.tokenIdToPosition, action2);
+                    newTokenIdToData = Reducer.tokenIdToPosition(state.tokenIdToPosition, action2);
                     newTokens = Reducer.tokens(state.tokens, action2);
                     return Object.assign(
                     {}, state,
                     {
                         positionToTokenId: newPositionToTokenId,
-                        tokenIdToPosition: newTokenIdToPosition,
+                        tokenIdToPosition: newTokenIdToData,
                         tokens: newTokens,
                     });
                 case Action.REPLENISH_DAMAGE_DECK:
@@ -772,26 +871,40 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {
                         secondAgent: action.agent,
                     });
-                case Action.SET_TOKEN_ACTIVATION_STATE:
-                    newTokenIdToActivationState = Reducer.tokenIdToActivationState(state.tokenIdToActivationState, action);
+                case Action.SET_TOKEN_ACTIVATION_ACTION:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToActivationAction, Action.SET_TOKEN_ACTIVATION_ACTION, action.type, action.token.id(), action.activationAction);
                     return Object.assign(
                     {}, state,
                     {
-                        tokenIdToActivationState: newTokenIdToActivationState,
+                        tokenIdToActivationAction: newTokenIdToData,
                     });
                 case Action.SET_TOKEN_COMBAT_STATE:
-                    newTokenIdToCombatState = Reducer.tokenIdToCombatState(state.tokenIdToCombatState, action);
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToCombatState, Action.SET_TOKEN_COMBAT_STATE, action.type, action.token.id(), action.combatState);
                     return Object.assign(
                     {}, state,
                     {
-                        tokenIdToCombatState: newTokenIdToCombatState,
+                        tokenIdToCombatState: newTokenIdToData,
                     });
                 case Action.SET_TOKEN_MANEUVER:
-                    newTokenIdToManeuver = Reducer.tokenIdToManeuver(state.tokenIdToManeuver, action);
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToManeuver, Action.SET_TOKEN_MANEUVER, action.type, action.token.id(), action.maneuver);
                     return Object.assign(
                     {}, state,
                     {
-                        tokenIdToManeuver: newTokenIdToManeuver,
+                        tokenIdToManeuver: newTokenIdToData,
+                    });
+                case Action.SET_TOKEN_MANEUVER_ACTION:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToManeuverAction, Action.SET_TOKEN_MANEUVER_ACTION, action.type, action.token.id(), action.maneuverAction);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToManeuverAction: newTokenIdToData,
+                    });
+                case Action.SET_TOKEN_TOUCHING:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToIsTouching, Action.SET_TOKEN_TOUCHING, action.type, action.token.id(), action.isTouching);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToIsTouching: newTokenIdToData,
                     });
                 case Action.SET_USER_MESSAGE:
                     return Object.assign(
@@ -915,7 +1028,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                         }
                         break;
                     case Value.PRIMARY_WEAPON:
-                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
+                        if (token && Selector.usedUpgrades(state, token).vizziniContains(UpgradeCard.EXPOSE))
                         {
                             newValue++;
                         }
@@ -933,11 +1046,11 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                         {
                             newValue++;
                         }
-                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.EXPOSE))
+                        if (token && Selector.usedUpgrades(state, token).vizziniContains(UpgradeCard.EXPOSE))
                         {
                             newValue--;
                         }
-                        if (token && token.activationState && token.activationState() && token.activationState().usedUpgrades().vizziniContains(UpgradeCard.R2_F2))
+                        if (token && Selector.usedUpgrades(state, token).vizziniContains(UpgradeCard.R2_F2))
                         {
                             newValue++;
                         }

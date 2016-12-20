@@ -109,19 +109,19 @@ define(["DamageCard", "Pilot", "UpgradeCard"],
 
             if (token.activationState !== undefined)
             {
-                var activationState = token.activationState();
+                var state = token.store().getState();
                 var source = this.source();
 
                 switch (source)
                 {
                     case DamageCard:
-                        answer = activationState.usedDamages();
+                        answer = state.tokenIdToUsedDamages[token.id()];
                         break;
                     case Pilot:
-                        answer = activationState.usedPilots();
+                        answer = state.tokenIdToUsedPilots[token.id()];
                         break;
                     case UpgradeCard:
-                        answer = activationState.usedUpgrades();
+                        answer = state.tokenIdToUsedUpgrades[token.id()];
                         break;
                     default:
                         throw "Unknown source: " + source + " " + (typeof source);

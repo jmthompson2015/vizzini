@@ -1,5 +1,5 @@
-define(["ActivationState", "Pilot", "process/Token", "process/Action", "process/Selector"],
-    function(ActivationState, Pilot, Token, Action, Selector)
+define(["Pilot", "process/Token", "process/Action", "process/Selector"],
+    function(Pilot, Token, Action, Selector)
     {
         "use strict";
 
@@ -183,16 +183,7 @@ define(["ActivationState", "Pilot", "process/Token", "process/Action", "process/
 
                 return myCrippledTokenFore;
             }
-
-            // /////////////////////////////////////////////////////////////////////
-            // Initialize.
-            store.dispatch(Action.setTokenActivationState(this, new ActivationState()));
         }
-
-        DualToken.prototype.activationState = function()
-        {
-            return Selector.activationState(this.store().getState(), this.id());
-        };
 
         DualToken.prototype.isHuge = function()
         {

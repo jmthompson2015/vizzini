@@ -93,7 +93,12 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
             var token = this.token();
             var store = token.store();
 
-            token.activationState().clear();
+            store.dispatch(Action.setTokenActivationAction(token));
+            store.dispatch(Action.setTokenTouching(token, false));
+            store.dispatch(Action.setTokenManeuverAction(token));
+            store.dispatch(Action.clearTokenUsedDamages(token));
+            store.dispatch(Action.clearTokenUsedPilots(token));
+            store.dispatch(Action.clearTokenUsedUpgrades(token));
             token.combatState().clear();
 
             store.dispatch(Action.setTokenPilotPerRound(token, token.pilotKey()));

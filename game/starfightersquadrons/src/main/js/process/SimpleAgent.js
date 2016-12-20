@@ -325,7 +325,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
             if (shipActions.vizziniContains(ShipAction.SLAM))
             {
-                var previousManeuver = token.activationState().maneuverAction().maneuver();
+                var previousManeuver = token.maneuver();
                 var speed = previousManeuver.speed;
                 var ship = token.pilot().shipTeam.ship;
                 var maneuverKeys = ship.maneuverKeys;

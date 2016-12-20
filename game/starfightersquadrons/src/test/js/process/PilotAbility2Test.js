@@ -111,11 +111,10 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             store.dispatch(Action.setEnvironment(environment));
             store.dispatch(Action.setActiveToken(token));
 
-            var activationState = token.activationState();
             var activationAction = new ActivationAction(store, token, callback);
             var maneuver = Maneuver.properties[maneuverKey];
             store.dispatch(Action.setTokenManeuver(token, maneuver));
-            activationState.activationAction(activationAction);
+            store.dispatch(Action.setTokenActivationAction(token, activationAction));
 
             return environment;
         }

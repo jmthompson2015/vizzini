@@ -60,8 +60,9 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
 
                 if (token)
                 {
-                    token.activationState().maneuverAction(this);
-                    token.activationState().isTouching(false);
+                    var store = environment.store();
+                    store.dispatch(Action.setTokenManeuverAction(token, this));
+                    store.dispatch(Action.setTokenTouching(token, false));
                     var bearingKey = this.maneuver().bearingKey;
                     isBarrelRoll = (bearingKey === Bearing.BARREL_ROLL_LEFT || bearingKey === Bearing.BARREL_ROLL_RIGHT);
 
@@ -90,7 +91,6 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                     }
                     else
                     {
-                        var store = environment.store();
                         store.dispatch(Action.moveToken(fromPosition, toPosition));
 
                         if (token.isIonized && token.isIonized())
@@ -343,7 +343,8 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
                     else
                     {
                         // Collision with shipData, at least.
-                        token.activationState().isTouching(true);
+                        var store = token.store();
+                        store.dispatch(Action.setTokenTouching(token, true));
                         index = backOffFrom(shipData, index, shipDataMap);
                     }
 

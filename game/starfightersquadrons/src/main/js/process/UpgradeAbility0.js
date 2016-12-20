@@ -132,7 +132,7 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
         {
             InputValidator.validateNotNull("token", token);
 
-            return token.activationState().activationAction();
+            return token.activationAction();
         }
 
         function getEventToken(store)

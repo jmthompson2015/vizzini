@@ -12,7 +12,13 @@ define(["Count"], function(Count)
     Action.ADD_TOKEN_UPGRADE = "addTokenUpgrade";
     Action.ADD_TOKEN_UPGRADE_ENERGY = "addTokenUpgradeEnergy";
     Action.ADD_TOKEN_UPGRADE_PER_ROUND = "addTokenUpgradePerRound";
+    Action.ADD_TOKEN_USED_DAMAGE = "addTokenUsedDamage";
+    Action.ADD_TOKEN_USED_PILOT = "addTokenUsedPilot";
+    Action.ADD_TOKEN_USED_UPGRADE = "addTokenUsedUpgrade";
     Action.CLEAR_EVENT = "clearEvent";
+    Action.CLEAR_TOKEN_USED_DAMAGES = "clearTokenUsedDamages";
+    Action.CLEAR_TOKEN_USED_PILOTS = "clearTokenUsedPilots";
+    Action.CLEAR_TOKEN_USED_UPGRADES = "clearTokenUsedUpgrades";
     Action.DISCARD_DAMAGE = "discardDamage";
     Action.DRAW_DAMAGE = "drawDamage";
     Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
@@ -25,6 +31,7 @@ define(["Count"], function(Count)
     Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
     Action.REMOVE_TOKEN_DAMAGE = "removeTokenDamage";
     Action.REMOVE_TOKEN_UPGRADE = "removeTokenUpgrade";
+    Action.REMOVE_TOKEN_USED_UPGRADE = "removeTokenUsedUpgrade";
     Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
     Action.RESET_NEXT_TOKEN_ID = "resetNextTokenId";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
@@ -38,10 +45,12 @@ define(["Count"], function(Count)
     Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
-    Action.SET_TOKEN_ACTIVATION_STATE = "setTokenActivationState";
+    Action.SET_TOKEN_ACTIVATION_ACTION = "setTokenActivationAction";
     Action.SET_TOKEN_COMBAT_STATE = "setTokenCombatState";
     Action.SET_TOKEN_MANEUVER = "setTokenManeuver";
+    Action.SET_TOKEN_MANEUVER_ACTION = "setTokenManeuverAction";
     Action.SET_TOKEN_PILOT_PER_ROUND = "setTokenPilotPerRound";
+    Action.SET_TOKEN_TOUCHING = "setTokenTouching";
     Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
     Action.SET_TOKEN_UPGRADE_PER_ROUND = "setTokenUpgradePerRound";
     Action.SET_USER_MESSAGE = "setUserMessage";
@@ -208,6 +217,45 @@ define(["Count"], function(Count)
         });
     };
 
+    Action.addTokenUsedDamage = function(token, damageKey)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("damageKey", damageKey);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_USED_DAMAGE,
+            token: token,
+            damageKey: damageKey,
+        });
+    };
+
+    Action.addTokenUsedPilot = function(token, pilotKey)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("pilotKey", pilotKey);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_USED_PILOT,
+            token: token,
+            pilotKey: pilotKey,
+        });
+    };
+
+    Action.addTokenUsedUpgrade = function(token, upgradeKey)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        return (
+        {
+            type: Action.ADD_TOKEN_USED_UPGRADE,
+            token: token,
+            upgradeKey: upgradeKey,
+        });
+    };
+
     Action.addTractorBeamCount = function(token, value)
     {
         return Action.addCount(token, Count.TRACTOR_BEAM, value);
@@ -223,6 +271,39 @@ define(["Count"], function(Count)
         return (
         {
             type: Action.CLEAR_EVENT,
+        });
+    };
+
+    Action.clearTokenUsedDamages = function(token)
+    {
+        InputValidator.validateNotNull("token", token);
+
+        return (
+        {
+            type: Action.CLEAR_TOKEN_USED_DAMAGES,
+            token: token,
+        });
+    };
+
+    Action.clearTokenUsedPilots = function(token)
+    {
+        InputValidator.validateNotNull("token", token);
+
+        return (
+        {
+            type: Action.CLEAR_TOKEN_USED_PILOTS,
+            token: token,
+        });
+    };
+
+    Action.clearTokenUsedUpgrades = function(token)
+    {
+        InputValidator.validateNotNull("token", token);
+
+        return (
+        {
+            type: Action.CLEAR_TOKEN_USED_UPGRADES,
+            token: token,
         });
     };
 
@@ -357,6 +438,19 @@ define(["Count"], function(Count)
         return (
         {
             type: Action.REMOVE_TOKEN_UPGRADE,
+            token: token,
+            upgradeKey: upgradeKey,
+        });
+    };
+
+    Action.removeTokenUsedUpgrade = function(token, upgradeKey)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        return (
+        {
+            type: Action.REMOVE_TOKEN_USED_UPGRADE,
             token: token,
             upgradeKey: upgradeKey,
         });
@@ -544,16 +638,16 @@ define(["Count"], function(Count)
         return Action.setCount(token, Count.STRESS, value);
     };
 
-    Action.setTokenActivationState = function(token, activationState)
+    Action.setTokenActivationAction = function(token, activationAction)
     {
         InputValidator.validateNotNull("token", token);
-        InputValidator.validateNotNull("activationState", activationState);
+        // activationAction optional.
 
         return (
         {
-            type: Action.SET_TOKEN_ACTIVATION_STATE,
+            type: Action.SET_TOKEN_ACTIVATION_ACTION,
             token: token,
-            activationState: activationState,
+            activationAction: activationAction,
         });
     };
 
@@ -583,6 +677,19 @@ define(["Count"], function(Count)
         });
     };
 
+    Action.setTokenManeuverAction = function(token, maneuverAction)
+    {
+        InputValidator.validateNotNull("token", token);
+        // maneuverAction optional.
+
+        return (
+        {
+            type: Action.SET_TOKEN_MANEUVER_ACTION,
+            token: token,
+            maneuverAction: maneuverAction,
+        });
+    };
+
     Action.setTokenPilotPerRound = function(token, pilotKey, value)
     {
         InputValidator.validateNotNull("token", token);
@@ -595,6 +702,19 @@ define(["Count"], function(Count)
             token: token,
             pilotKey: pilotKey,
             value: myValue,
+        });
+    };
+
+    Action.setTokenTouching = function(token, isTouching)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("isTouching", isTouching);
+
+        return (
+        {
+            type: Action.SET_TOKEN_TOUCHING,
+            token: token,
+            isTouching: isTouching,
         });
     };
 

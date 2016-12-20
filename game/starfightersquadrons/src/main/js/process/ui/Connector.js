@@ -211,7 +211,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/Selector"],
                 {
                     if (Connector.PlayAreaUI.MANEUVER_PHASES.vizziniContains(state.phaseKey))
                     {
-                        var maneuverAction = activeToken.activationState().maneuverAction();
+                        var maneuverAction = activeToken.maneuverAction();
 
                         if (maneuverAction)
                         {

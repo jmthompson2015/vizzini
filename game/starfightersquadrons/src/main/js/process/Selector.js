@@ -3,12 +3,12 @@ define(["Count", "Value"], function(Count, Value)
     "use strict";
     var Selector = {};
 
-    Selector.activationState = function(state, tokenId)
+    Selector.activationAction = function(state, token)
     {
         InputValidator.validateNotNull("state", state);
-        InputValidator.validateNotNull("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
 
-        return state.tokenIdToActivationState[tokenId];
+        return state.tokenIdToActivationAction[token.id()];
     };
 
     Selector.activeToken = function(state)
@@ -142,12 +142,28 @@ define(["Count", "Value"], function(Count, Value)
         return Selector.count(state, tokenId, Count.ION);
     };
 
-    Selector.maneuver = function(state, tokenId)
+    Selector.isTouching = function(state, token)
     {
         InputValidator.validateNotNull("state", state);
-        InputValidator.validateIsNumber("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
 
-        return state.tokenIdToManeuver[tokenId];
+        return state.tokenIdToIsTouching[token.id()];
+    };
+
+    Selector.maneuver = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToManeuver[token.id()];
+    };
+
+    Selector.maneuverAction = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToManeuverAction[token.id()];
     };
 
     Selector.pilotSkillValue = function(state, tokenId)
@@ -279,6 +295,30 @@ define(["Count", "Value"], function(Count, Value)
         var answer = state.tokenIdToUpgrades[tokenId];
 
         return (answer ? answer.slice() : []);
+    };
+
+    Selector.usedDamages = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToUsedDamages[token.id()];
+    };
+
+    Selector.usedPilots = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToUsedPilots[token.id()];
+    };
+
+    Selector.usedUpgrades = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToUsedUpgrades[token.id()];
     };
 
     Selector.value = function(state, tokenId, property)

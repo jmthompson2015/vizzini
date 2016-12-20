@@ -1,5 +1,5 @@
-define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
-    function(Ability, ActivationState, Bearing, CombatState, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
+define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
+    function(Ability, Bearing, CombatState, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
     {
         "use strict";
 
@@ -292,6 +292,9 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             var that = this;
             var id = store.getState().nextTokenId;
             store.dispatch(Action.incrementNextTokenId());
+            store.dispatch(Action.clearTokenUsedDamages(this));
+            store.dispatch(Action.clearTokenUsedPilots(this));
+            store.dispatch(Action.clearTokenUsedUpgrades(this));
 
             Value.values().forEach(function(property)
             {
@@ -348,13 +351,12 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
                 }, this);
             }
 
-            store.dispatch(Action.setTokenActivationState(this, new ActivationState()));
             store.dispatch(Action.setTokenCombatState(this, new CombatState()));
         }
 
-        Token.prototype.activationState = function()
+        Token.prototype.activationAction = function()
         {
-            return Selector.activationState(this.store().getState(), this.id());
+            return Selector.activationAction(this.store().getState(), this);
         };
 
         Token.prototype.addAttackerTargetLock = function(targetLock)
@@ -628,6 +630,16 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             return this.upgradeKeys().vizziniContains(upgradeKey);
         };
 
+        Token.prototype.maneuver = function()
+        {
+            return Selector.maneuver(this.store().getState(), this);
+        };
+
+        Token.prototype.maneuverAction = function()
+        {
+            return Selector.maneuverAction(this.store().getState(), this);
+        };
+
         Token.prototype.name = function()
         {
             var pilotName = this.pilot().name;
@@ -869,7 +881,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
             var answer = [];
             var store = this.store();
-            var usedDamages = this.activationState().usedDamages();
+            var usedDamages = Selector.usedDamages(store.getState(), this);
 
             this.criticalDamages().forEach(function(damageKey)
             {
@@ -895,7 +907,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
             var answer = [];
             var store = this.store();
             var pilotKey = this.pilotKey();
-            var usedPilots = this.activationState().usedPilots();
+            var usedPilots = Selector.usedPilots(store.getState(), this);
 
             if (!usedPilots.vizziniContains(pilotKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][pilotKey] !== undefined)
             {
@@ -917,7 +929,7 @@ define(["Ability", "ActivationState", "Bearing", "CombatState", "Count", "Damage
 
             var answer = [];
             var store = this.store();
-            var usedUpgrades = this.activationState().usedUpgrades();
+            var usedUpgrades = Selector.usedUpgrades(store.getState(), this);
 
             this.upgradeKeys().forEach(function(upgradeKey)
             {

@@ -25,18 +25,23 @@ define(["Phase"], function(Phase)
         this.nextTokenId = 1;
         this.positionToTokenId = {};
 
-        this.tokenIdToActivationState = {};
+        this.tokenIdToActivationAction = {};
         this.tokenIdToCombatState = {};
         this.tokenIdToCounts = {};
         this.tokenIdToCriticalDamages = {};
         this.tokenIdToDamages = {};
+        this.tokenIdToIsTouching = {};
         this.tokenIdToManeuver = {};
+        this.tokenIdToManeuverAction = {};
         this.tokenIdToPosition = {};
         this.tokenIdToUpgrades = {};
         this.tokenIdToUpgradeEnergy = {};
         this.tokenIdToValues = {};
         this.tokenIdToPilotPerRound = {};
         this.tokenIdToUpgradePerRound = {};
+        this.tokenIdToUsedDamages = {};
+        this.tokenIdToUsedPilots = {};
+        this.tokenIdToUsedUpgrades = {};
 
         this.damageDeck = [];
         this.damageDiscardPile = [];

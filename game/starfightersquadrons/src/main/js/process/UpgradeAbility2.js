@@ -470,7 +470,7 @@ define(["Bearing", "DefenseDice", "Difficulty", "Maneuver", "Phase", "Position",
         {
             InputValidator.validateNotNull("token", token);
 
-            return token.activationState().activationAction();
+            return token.activationAction();
         }
 
         function getActiveToken(store)

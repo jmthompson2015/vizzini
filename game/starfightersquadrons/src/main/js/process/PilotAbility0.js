@@ -86,7 +86,7 @@ define(["Event", "Maneuver", "Pilot", "process/Action", "process/Selector"],
         {
             InputValidator.validateNotNull("token", token);
 
-            return token.activationState().activationAction();
+            return token.activationAction();
         }
 
         function getEventToken(store)

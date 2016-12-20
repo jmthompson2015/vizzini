@@ -244,9 +244,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
                 var environment = action.environment();
                 var token = environment.activeToken();
-                var activationState = token.activationState();
-                assert.ok(activationState);
-                var activationAction = activationState.activationAction();
+                var activationAction = token.activationAction();
                 assert.ok(activationAction);
                 assert.equal(activationAction.maneuverKey(), Maneuver.BANK_LEFT_2_STANDARD);
 

@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/EndPhaseAction", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "process/Token"],
-    function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, EndPhaseAction, Environment, EnvironmentFactory, Reducer, SimpleAgent, SquadBuilder, TargetLock, Token)
+define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/EndPhaseAction", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "process/Token"],
+    function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, EndPhaseAction, Environment, EnvironmentFactory, Reducer, Selector, SimpleAgent, SquadBuilder, TargetLock, Token)
     {
         "use strict";
         QUnit.module("EndPhaseAction");
@@ -43,11 +43,9 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
                 assert.equal(token.stressCount(), 1);
                 assert.equal(token.attackerTargetLocks().length, 1);
-
-                var activationState = token.activationState();
-                assert.equal(activationState.usedDamages().length, 0);
-                assert.equal(activationState.usedPilots().length, 0);
-                assert.equal(activationState.usedUpgrades().length, 0);
+                assert.equal(Selector.usedDamages(store.getState(), token).length, 0);
+                assert.equal(Selector.usedPilots(store.getState(), token).length, 0);
+                assert.equal(Selector.usedUpgrades(store.getState(), token).length, 0);
 
                 done();
             }, delay);

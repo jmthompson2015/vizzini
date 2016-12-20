@@ -417,6 +417,87 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
             assert.equal(store.getState().tokenIdToUpgradePerRound[token.id()][upgradeKey1], 2);
         });
 
+        QUnit.test("addTokenUsedDamage()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var damageKey0 = DamageCard.BLINDED_PILOT;
+            var damageKey1 = DamageCard.CONSOLE_FIRE;
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()].length, 0);
+
+            // Run.
+            store.dispatch(Action.addTokenUsedDamage(token, damageKey0));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()].length, 1);
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()][0], damageKey0);
+
+            // Run.
+            store.dispatch(Action.addTokenUsedDamage(token, damageKey1));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()].length, 2);
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()][0], damageKey0);
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()][1], damageKey1);
+        });
+
+        QUnit.test("addTokenUsedPilot()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var pilotKey0 = Pilot.ACADEMY_PILOT;
+            var pilotKey1 = Pilot.AIREN_CRACKEN;
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()].length, 0);
+
+            // Run.
+            store.dispatch(Action.addTokenUsedPilot(token, pilotKey0));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedPilots[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()].length, 1);
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()][0], pilotKey0);
+
+            // Run.
+            store.dispatch(Action.addTokenUsedPilot(token, pilotKey1));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedPilots[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()].length, 2);
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()][0], pilotKey0);
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()][1], pilotKey1);
+        });
+
+        QUnit.test("addTokenUsedUpgrade()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var upgradeKey0 = UpgradeCard.A_WING_TEST_PILOT;
+            var upgradeKey1 = UpgradeCard.ACCURACY_CORRECTOR;
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()].length, 0);
+
+            // Run.
+            store.dispatch(Action.addTokenUsedUpgrade(token, upgradeKey0));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedUpgrades[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()].length, 1);
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()][0], upgradeKey0);
+
+            // Run.
+            store.dispatch(Action.addTokenUsedUpgrade(token, upgradeKey1));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedUpgrades[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()].length, 2);
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()][0], upgradeKey0);
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()][1], upgradeKey1);
+        });
+
         QUnit.test("addWeaponsDisabledCount()", function(assert)
         {
             // Setup.
@@ -440,6 +521,63 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
             // Verify.
             assert.ok(store.getState().tokenIdToCounts[token.id()]);
             assert.equal(store.getState().tokenIdToCounts[token.id()][property], 3);
+        });
+
+        QUnit.test("clearTokenUsedDamages()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var damageKey0 = DamageCard.BLINDED_PILOT;
+            var damageKey1 = DamageCard.CONSOLE_FIRE;
+            store.dispatch(Action.addTokenUsedDamage(token, damageKey0));
+            store.dispatch(Action.addTokenUsedDamage(token, damageKey1));
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()].length, 2);
+
+            // Run.
+            store.dispatch(Action.clearTokenUsedDamages(token));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedDamages[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedDamages[token.id()].length, 0);
+        });
+
+        QUnit.test("clearTokenUsedPilots()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var pilotKey0 = Pilot.ACADEMY_PILOT;
+            var pilotKey1 = Pilot.AIREN_CRACKEN;
+            store.dispatch(Action.addTokenUsedPilot(token, pilotKey0));
+            store.dispatch(Action.addTokenUsedPilot(token, pilotKey1));
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()].length, 2);
+
+            // Run.
+            store.dispatch(Action.clearTokenUsedPilots(token));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedPilots[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedPilots[token.id()].length, 0);
+        });
+
+        QUnit.test("clearTokenUsedUpgrades()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var upgradeKey0 = UpgradeCard.A_WING_TEST_PILOT;
+            var upgradeKey1 = UpgradeCard.ACCURACY_CORRECTOR;
+            store.dispatch(Action.addTokenUsedUpgrade(token, upgradeKey0));
+            store.dispatch(Action.addTokenUsedUpgrade(token, upgradeKey1));
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()].length, 2);
+
+            // Run.
+            store.dispatch(Action.clearTokenUsedUpgrades(token));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToUsedUpgrades[token.id()]);
+            assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()].length, 0);
         });
 
         QUnit.test("discardDamage()", function(assert)
@@ -1065,6 +1203,22 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
             assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
         });
 
+        QUnit.test("setTokenActivationAction()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var activationAction = {};
+            assert.ok(!store.getState().tokenIdToActivationAction[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenActivationAction(token, activationAction));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToActivationAction[token.id()]);
+            assert.equal(store.getState().tokenIdToActivationAction[token.id()], activationAction);
+        });
+
         QUnit.test("setTokenManeuver()", function(assert)
         {
             // Setup.
@@ -1089,6 +1243,42 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
             // Verify.
             assert.ok(store.getState().tokenIdToManeuver[token.id()]);
             assert.equal(store.getState().tokenIdToManeuver[token.id()], maneuver1);
+        });
+
+        QUnit.test("setTokenManeuverAction()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var maneuverAction = {};
+            assert.ok(!store.getState().tokenIdToManeuverAction[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenManeuverAction(token, maneuverAction));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToManeuverAction[token.id()]);
+            assert.equal(store.getState().tokenIdToManeuverAction[token.id()], maneuverAction);
+        });
+
+        QUnit.test("setTokenTouching()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            assert.ok(!store.getState().tokenIdToIsTouching[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenTouching(token, true));
+
+            // Verify.
+            assert.equal(store.getState().tokenIdToIsTouching[token.id()], true);
+
+            // Run.
+            store.dispatch(Action.setTokenTouching(token, false));
+
+            // Verify.
+            assert.equal(store.getState().tokenIdToIsTouching[token.id()], false);
         });
 
         QUnit.test("setTokenUpgradeEnergy()", function(assert)

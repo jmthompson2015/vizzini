@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for the Activation Phase.
  */
-define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selector"],
-    function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Selector)
+define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action", "process/Selector"],
+    function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Action, Selector)
     {
         "use strict";
         var PilotAbility2 = {};
@@ -26,7 +26,8 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selecto
                 {
                     throw "Can't find K-Turn maneuver for oldManeuver = " + oldManeuver.bearingKey + " " + oldManeuver.speed + " " + oldManeuver.difficultyKey;
                 }
-                token.activationState().activationAction().maneuverKey(newManeuverKey);
+                var newManeuver = Maneuver.properties[newManeuverKey];
+                store.dispatch(Action.setTokenManeuver(token, newManeuver));
                 callback();
             },
         };
@@ -54,7 +55,8 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selecto
                         break;
                 }
                 var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
-                token.activationState().activationAction().maneuverKey(newManeuverKey);
+                var newManeuver = Maneuver.properties[newManeuverKey];
+                store.dispatch(Action.setTokenManeuver(token, newManeuver));
                 callback();
             },
         };
@@ -88,7 +90,7 @@ define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Selecto
         {
             InputValidator.validateNotNull("token", token);
 
-            return token.activationState().activationAction();
+            return token.activationAction();
         }
 
         function getActiveToken(store)
