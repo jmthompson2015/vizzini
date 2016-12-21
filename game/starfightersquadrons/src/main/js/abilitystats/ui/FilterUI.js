@@ -1,5 +1,5 @@
-define(["DamageCardTrait", "Team", "UpgradeType", "abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter"],
-    function(DamageCardTrait, Team, UpgradeType, Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter)
+define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter"],
+    function(Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter)
     {
         "use strict";
         var FilterUI = React.createClass(

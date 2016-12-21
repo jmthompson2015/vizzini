@@ -1,5 +1,5 @@
-define(["DamageCard", "DamageCardTrait", "UpgradeCard", "process/Action"],
-    function(DamageCard, DamageCardTrait, UpgradeCard, Action)
+define(["DamageCard", "DamageCardTrait", "UpgradeCard"],
+    function(DamageCard, DamageCardTrait, UpgradeCard)
     {
         "use strict";
 

@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Combat Phase.
  */
-define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "process/Action", "process/Adjudicator", "process/Selector", "process/ShipActionAction", "process/TargetLock"],
-    function(AttackDice, DefenseDice, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Action, Adjudicator, Selector, ShipActionAction, TargetLock)
+define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "UpgradeCard", "UpgradeType", "process/Action", "process/Selector", "process/ShipActionAction", "process/TargetLock"],
+    function(AttackDice, DefenseDice, Phase, RangeRuler, ShipAction, UpgradeCard, UpgradeType, Action, Selector, ShipActionAction, TargetLock)
     {
         "use strict";
         var UpgradeAbility3 = {};

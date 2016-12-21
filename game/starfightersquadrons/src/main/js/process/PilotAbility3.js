@@ -1,8 +1,8 @@
 /*
  * Provides pilot abilities for the Combat Phase.
  */
-define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction", "process/Action", "process/Selector"],
-    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, ShipAction, Action, Selector)
+define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction", "process/Action", "process/Selector", "process/TargetLock"],
+    function(AttackDice, DefenseDice, Phase, Pilot, RangeRuler, ShipAction, Action, Selector, TargetLock)
     {
         "use strict";
         var PilotAbility3 = {};
