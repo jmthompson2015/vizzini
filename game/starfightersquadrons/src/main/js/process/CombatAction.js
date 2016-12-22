@@ -132,9 +132,9 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             var attacker = this.attacker();
             var agent = attacker.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = attacker.usableDamageAbilities(DamageAbility3, phaseKey);
-            var pilotAbilities = attacker.usablePilotAbilities(PilotAbility3, phaseKey);
-            var upgradeAbilities = attacker.usableUpgradeAbilities(UpgradeAbility3, phaseKey);
+            var damageAbilities = attacker.usableAttackerDamageAbilities(DamageAbility3, phaseKey);
+            var pilotAbilities = attacker.usableAttackerPilotAbilities(PilotAbility3, phaseKey);
+            var upgradeAbilities = attacker.usableAttackerUpgradeAbilities(UpgradeAbility3, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishDeclareTarget.bind(this));
 
             // Wait for agent to respond.
@@ -204,7 +204,8 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
                 if (modifyAttackDiceAction.upgradeKey())
                 {
                     var attacker = modifyAttackDiceAction.attacker();
-                    attacker.combatState().attackerUsedUpgrades(modifyAttackDiceAction.upgradeKey());
+                    var store = attacker.store();
+                    store.dispatch(Action.addAttackerUsedUpgrade(attacker, modifyAttackDiceAction.upgradeKey()));
                 }
 
                 this.modifyAttackDice();
@@ -275,7 +276,8 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
                 if (modifyDefenseDiceAction.upgradeKey())
                 {
                     var attacker = this.attacker();
-                    attacker.combatState().defenderUsedUpgrades(modifyDefenseDiceAction.upgradeKey());
+                    var store = attacker.store();
+                    store.dispatch(Action.addDefenderUsedUpgrade(attacker, modifyDefenseDiceAction.upgradeKey()));
                 }
             }
 
@@ -385,9 +387,9 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             var attacker = this.attacker();
             var agent = attacker.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = attacker.usableDamageAbilities(DamageAbility3, phaseKey);
-            var pilotAbilities = attacker.usablePilotAbilities(PilotAbility3, phaseKey);
-            var upgradeAbilities = attacker.usableUpgradeAbilities(UpgradeAbility3, phaseKey);
+            var damageAbilities = attacker.usableAttackerDamageAbilities(DamageAbility3, phaseKey);
+            var pilotAbilities = attacker.usableAttackerPilotAbilities(PilotAbility3, phaseKey);
+            var upgradeAbilities = attacker.usableAttackerUpgradeAbilities(UpgradeAbility3, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishDealDamage.bind(this));
 
             // Wait for agent to respond.
@@ -414,9 +416,9 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             var attacker = this.attacker();
             var agent = attacker.agent();
             var phaseKey = this.environment().phase();
-            var damageAbilities = attacker.usableDamageAbilities(DamageAbility3, phaseKey);
-            var pilotAbilities = attacker.usablePilotAbilities(PilotAbility3, phaseKey);
-            var upgradeAbilities = attacker.usableUpgradeAbilities(UpgradeAbility3, phaseKey);
+            var damageAbilities = attacker.usableAttackerDamageAbilities(DamageAbility3, phaseKey);
+            var pilotAbilities = attacker.usableAttackerPilotAbilities(PilotAbility3, phaseKey);
+            var upgradeAbilities = attacker.usableAttackerUpgradeAbilities(UpgradeAbility3, phaseKey);
             agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.afterDealDamage2.bind(this));
 
             // Wait for agent to respond.
@@ -472,7 +474,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
                 if (this.PERFORM_ATTACK_TWICE_UPGRADES.vizziniContains(weapon.upgradeKey()) && this.executionCount() < 2)
                 {
                     var store = attacker.store();
-                    store.dispatch(Action.removeTokenUsedUpgrade(attacker, weapon.upgradeKey()));
+                    store.dispatch(Action.removeAttackerUsedUpgrade(attacker, weapon.upgradeKey()));
                     this.doIt();
                 }
                 else
@@ -496,23 +498,27 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             if (ability && isAccepted)
             {
                 var store = this.environment().store();
-                var token = this.attacker();
-                switch (ability.source())
+                var attacker = this.attacker();
+
+                if (ability.isDamage())
                 {
-                    case DamageCard:
-                        store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
-                        break;
-                    case Pilot:
-                        store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
-                        break;
-                    case UpgradeCard:
-                        store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
-                        break;
-                    default:
-                        throw "Unknown source: " + source + " " + (typeof source);
+                    store.dispatch(Action.addAttackerUsedDamage(attacker, ability.sourceKey()));
                 }
+                else if (ability.isPilot())
+                {
+                    store.dispatch(Action.addAttackerUsedPilot(attacker, ability.sourceKey()));
+                }
+                else if (ability.isUpgrade())
+                {
+                    store.dispatch(Action.addAttackerUsedUpgrade(attacker, ability.sourceKey()));
+                }
+                else
+                {
+                    throw "Unknown source: " + source + " " + (typeof source);
+                }
+
                 var consequent = ability.consequent();
-                consequent(store, token, backFunction);
+                consequent(store, attacker, backFunction);
             }
             else
             {

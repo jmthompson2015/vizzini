@@ -1,5 +1,5 @@
-define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
-    function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
+define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+    function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
     {
         "use strict";
 
@@ -175,21 +175,25 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
             var pilot = attacker.pilot();
             pilotKey = pilot.value;
-            var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
+            var attackerUsedPilots = Selector.attackerUsedPilots(store.getState(), attacker);
 
-            if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
+            if (!attackerUsedPilots.vizziniContains(pilotKey))
             {
-                modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
-                answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
+                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
+
+                if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
+                {
+                    modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
+                    answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
+                }
             }
 
             modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
             pilotKey = undefined;
+            var attackerUsedUpgrades = Selector.attackerUsedUpgrades(store.getState(), attacker);
 
             attacker.upgradeKeys().forEach(function(upgradeKey)
             {
-                var attackerUsedUpgrades = attacker.combatState().attackerUsedUpgrades();
-
                 if (!attackerUsedUpgrades.vizziniContains(upgradeKey))
                 {
                     var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
@@ -231,21 +235,26 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
             var pilot = defender.pilot();
             pilotKey = pilot.value;
-            var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
+            var defenderUsedPilots = Selector.defenderUsedPilots(store.getState(), attacker);
 
-            if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
+            if (!defenderUsedPilots.vizziniContains(pilotKey))
             {
-                modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
-                answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
+                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
+
+                if (pilotAbility !== undefined && pilotAbility.condition(store, defender))
+                {
+                    modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
+                    answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
+                }
             }
 
             modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
             pilotKey = undefined;
+            var defenderUsedUpgrades = Selector.defenderUsedUpgrades(store.getState(), attacker);
 
             defender.upgradeKeys().forEach(function(upgradeKey)
             {
                 var upgrade = UpgradeCard.properties[upgradeKey];
-                var defenderUsedUpgrades = attacker.combatState().defenderUsedUpgrades();
 
                 if (!defenderUsedUpgrades.vizziniContains(upgradeKey))
                 {

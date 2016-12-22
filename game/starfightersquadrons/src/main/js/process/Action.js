@@ -3,7 +3,13 @@ define(["Count"], function(Count)
     "use strict";
     var Action = {};
 
+    Action.ADD_ATTACKER_USED_DAMAGE = "addAttackerUsedDamage";
+    Action.ADD_ATTACKER_USED_PILOT = "addAttackerUsedPilot";
+    Action.ADD_ATTACKER_USED_UPGRADE = "addAttackerUsedUpgrade";
     Action.ADD_COUNT = "addCount";
+    Action.ADD_DEFENDER_USED_DAMAGE = "addDefenderUsedDamage";
+    Action.ADD_DEFENDER_USED_PILOT = "addDefenderUsedPilot";
+    Action.ADD_DEFENDER_USED_UPGRADE = "addDefenderUsedUpgrade";
     Action.ADD_ROUND = "addRound";
     Action.ADD_TARGET_LOCK = "addTargetLock";
     Action.ADD_TOKEN_CRITICAL_DAMAGE = "addTokenCriticalDamage";
@@ -15,6 +21,12 @@ define(["Count"], function(Count)
     Action.ADD_TOKEN_USED_DAMAGE = "addTokenUsedDamage";
     Action.ADD_TOKEN_USED_PILOT = "addTokenUsedPilot";
     Action.ADD_TOKEN_USED_UPGRADE = "addTokenUsedUpgrade";
+    Action.CLEAR_ATTACKER_USED_DAMAGES = "clearAttackerUsedDamages";
+    Action.CLEAR_ATTACKER_USED_PILOTS = "clearAttackerUsedPilots";
+    Action.CLEAR_ATTACKER_USED_UPGRADES = "clearAttackerUsedUpgrades";
+    Action.CLEAR_DEFENDER_USED_DAMAGES = "clearDefenderUsedDamages";
+    Action.CLEAR_DEFENDER_USED_PILOTS = "clearDefenderUsedPilots";
+    Action.CLEAR_DEFENDER_USED_UPGRADES = "clearDefenderUsedUpgrades";
     Action.CLEAR_EVENT = "clearEvent";
     Action.CLEAR_TOKEN_USED_DAMAGES = "clearTokenUsedDamages";
     Action.CLEAR_TOKEN_USED_PILOTS = "clearTokenUsedPilots";
@@ -25,13 +37,13 @@ define(["Count"], function(Count)
     Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
     Action.MOVE_TOKEN = "moveToken";
     Action.PLACE_TOKEN = "placeToken";
+    Action.REMOVE_ATTACKER_USED_UPGRADE = "removeAttackerUsedUpgrade";
     Action.REMOVE_TARGET_LOCK = "removeTargetLock";
     Action.REMOVE_TOKEN = "removeToken";
     Action.REMOVE_TOKEN_AT = "removeTokenAt";
     Action.REMOVE_TOKEN_CRITICAL_DAMAGE = "removeTokenCriticalDamage";
     Action.REMOVE_TOKEN_DAMAGE = "removeTokenDamage";
     Action.REMOVE_TOKEN_UPGRADE = "removeTokenUpgrade";
-    Action.REMOVE_TOKEN_USED_UPGRADE = "removeTokenUsedUpgrade";
     Action.REPLENISH_DAMAGE_DECK = "replenishDamageDeck";
     Action.RESET_NEXT_TOKEN_ID = "resetNextTokenId";
     Action.SET_ACTIVE_TOKEN = "setActiveToken";
@@ -56,6 +68,45 @@ define(["Count"], function(Count)
     Action.SET_USER_MESSAGE = "setUserMessage";
     Action.SET_VALUE = "setValue";
 
+    Action.addAttackerUsedDamage = function(attacker, damageKey)
+    {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("damageKey", damageKey);
+
+        return (
+        {
+            type: Action.ADD_ATTACKER_USED_DAMAGE,
+            attacker: attacker,
+            damageKey: damageKey,
+        });
+    };
+
+    Action.addAttackerUsedPilot = function(attacker, pilotKey)
+    {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("pilotKey", pilotKey);
+
+        return (
+        {
+            type: Action.ADD_ATTACKER_USED_PILOT,
+            attacker: attacker,
+            pilotKey: pilotKey,
+        });
+    };
+
+    Action.addAttackerUsedUpgrade = function(attacker, upgradeKey)
+    {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        return (
+        {
+            type: Action.ADD_ATTACKER_USED_UPGRADE,
+            attacker: attacker,
+            upgradeKey: upgradeKey,
+        });
+    };
+
     Action.addCloakCount = function(token, value)
     {
         return Action.addCount(token, Count.CLOAK, value);
@@ -73,6 +124,45 @@ define(["Count"], function(Count)
             token: token,
             property: property,
             value: myValue,
+        });
+    };
+
+    Action.addDefenderUsedDamage = function(defender, damageKey)
+    {
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("damageKey", damageKey);
+
+        return (
+        {
+            type: Action.ADD_DEFENDER_USED_DAMAGE,
+            defender: defender,
+            damageKey: damageKey,
+        });
+    };
+
+    Action.addDefenderUsedPilot = function(defender, pilotKey)
+    {
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("pilotKey", pilotKey);
+
+        return (
+        {
+            type: Action.ADD_DEFENDER_USED_PILOT,
+            defender: defender,
+            pilotKey: pilotKey,
+        });
+    };
+
+    Action.addDefenderUsedUpgrade = function(defender, upgradeKey)
+    {
+        InputValidator.validateNotNull("defender", defender);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        return (
+        {
+            type: Action.ADD_DEFENDER_USED_UPGRADE,
+            defender: defender,
+            upgradeKey: upgradeKey,
         });
     };
 
@@ -266,6 +356,72 @@ define(["Count"], function(Count)
         return Action.addCount(token, Count.WEAPONS_DISABLED, value);
     };
 
+    Action.clearAttackerUsedDamages = function(attacker)
+    {
+        InputValidator.validateNotNull("attacker", attacker);
+
+        return (
+        {
+            type: Action.CLEAR_ATTACKER_USED_DAMAGES,
+            attacker: attacker,
+        });
+    };
+
+    Action.clearAttackerUsedPilots = function(attacker)
+    {
+        InputValidator.validateNotNull("attacker", attacker);
+
+        return (
+        {
+            type: Action.CLEAR_ATTACKER_USED_PILOTS,
+            attacker: attacker,
+        });
+    };
+
+    Action.clearAttackerUsedUpgrades = function(attacker)
+    {
+        InputValidator.validateNotNull("attacker", attacker);
+
+        return (
+        {
+            type: Action.CLEAR_ATTACKER_USED_UPGRADES,
+            attacker: attacker,
+        });
+    };
+
+    Action.clearDefenderUsedDamages = function(defender)
+    {
+        InputValidator.validateNotNull("defender", defender);
+
+        return (
+        {
+            type: Action.CLEAR_DEFENDER_USED_DAMAGES,
+            defender: defender,
+        });
+    };
+
+    Action.clearDefenderUsedPilots = function(defender)
+    {
+        InputValidator.validateNotNull("defender", defender);
+
+        return (
+        {
+            type: Action.CLEAR_DEFENDER_USED_PILOTS,
+            defender: defender,
+        });
+    };
+
+    Action.clearDefenderUsedUpgrades = function(defender)
+    {
+        InputValidator.validateNotNull("defender", defender);
+
+        return (
+        {
+            type: Action.CLEAR_DEFENDER_USED_UPGRADES,
+            defender: defender,
+        });
+    };
+
     Action.clearEvent = function()
     {
         return (
@@ -371,6 +527,19 @@ define(["Count"], function(Count)
         });
     };
 
+    Action.removeAttackerUsedUpgrade = function(attacker, upgradeKey)
+    {
+        InputValidator.validateNotNull("attacker", attacker);
+        InputValidator.validateNotNull("upgradeKey", upgradeKey);
+
+        return (
+        {
+            type: Action.REMOVE_ATTACKER_USED_UPGRADE,
+            attacker: attacker,
+            upgradeKey: upgradeKey,
+        });
+    };
+
     Action.removeTargetLock = function(targetLock)
     {
         InputValidator.validateNotNull("targetLock", targetLock);
@@ -438,19 +607,6 @@ define(["Count"], function(Count)
         return (
         {
             type: Action.REMOVE_TOKEN_UPGRADE,
-            token: token,
-            upgradeKey: upgradeKey,
-        });
-    };
-
-    Action.removeTokenUsedUpgrade = function(token, upgradeKey)
-    {
-        InputValidator.validateNotNull("token", token);
-        InputValidator.validateNotNull("upgradeKey", upgradeKey);
-
-        return (
-        {
-            type: Action.REMOVE_TOKEN_USED_UPGRADE,
             token: token,
             upgradeKey: upgradeKey,
         });

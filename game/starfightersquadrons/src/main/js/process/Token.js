@@ -292,6 +292,12 @@ define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty"
             var that = this;
             var id = store.getState().nextTokenId;
             store.dispatch(Action.incrementNextTokenId());
+            store.dispatch(Action.clearAttackerUsedDamages(this));
+            store.dispatch(Action.clearAttackerUsedPilots(this));
+            store.dispatch(Action.clearAttackerUsedUpgrades(this));
+            store.dispatch(Action.clearDefenderUsedDamages(this));
+            store.dispatch(Action.clearDefenderUsedPilots(this));
+            store.dispatch(Action.clearDefenderUsedUpgrades(this));
             store.dispatch(Action.clearTokenUsedDamages(this));
             store.dispatch(Action.clearTokenUsedPilots(this));
             store.dispatch(Action.clearTokenUsedUpgrades(this));
@@ -874,29 +880,79 @@ define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty"
             return Selector.tractorBeamCount(this.store().getState(), this.id());
         };
 
-        Token.prototype.usableDamageAbilities = function(abilityType, eventOrPhaseKey)
+        Token.prototype.usableAbilities = function(source, sourceKeys, usedKeys, abilityType, eventOrPhaseKey)
         {
+            InputValidator.validateNotNull("source", source);
+            InputValidator.validateNotNull("sourceKeys", sourceKeys);
+            InputValidator.validateNotNull("usedKeys", usedKeys);
             InputValidator.validateNotNull("abilityType", abilityType);
             InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
 
             var answer = [];
             var store = this.store();
-            var usedDamages = Selector.usedDamages(store.getState(), this);
 
-            this.criticalDamages().forEach(function(damageKey)
+            sourceKeys.forEach(function(sourceKey)
             {
-                if (!usedDamages.vizziniContains(damageKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][damageKey] !== undefined)
+                if (!usedKeys.vizziniContains(sourceKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][sourceKey] !== undefined)
                 {
-                    var myAbility = abilityType[eventOrPhaseKey][damageKey];
+                    var myAbility = abilityType[eventOrPhaseKey][sourceKey];
 
                     if (myAbility.condition(store, this))
                     {
-                        answer.push(new Ability(DamageCard, damageKey, abilityType, eventOrPhaseKey));
+                        answer.push(new Ability(source, sourceKey, abilityType, eventOrPhaseKey));
                     }
                 }
             }, this);
 
             return answer;
+        };
+
+        Token.prototype.usableAttackerDamageAbilities = function(abilityType, eventOrPhaseKey)
+        {
+            InputValidator.validateNotNull("abilityType", abilityType);
+            InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+
+            var store = this.store();
+            var damageKeys = this.criticalDamages();
+            var usedDamages = Selector.attackerUsedDamages(store.getState(), this);
+
+            return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, eventOrPhaseKey);
+        };
+
+        Token.prototype.usableAttackerPilotAbilities = function(abilityType, eventOrPhaseKey)
+        {
+            InputValidator.validateNotNull("abilityType", abilityType);
+            InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+
+            var store = this.store();
+            var pilotKeys = [this.pilotKey()];
+            var usedPilots = Selector.attackerUsedPilots(store.getState(), this);
+
+            return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, eventOrPhaseKey);
+        };
+
+        Token.prototype.usableAttackerUpgradeAbilities = function(abilityType, eventOrPhaseKey)
+        {
+            InputValidator.validateNotNull("abilityType", abilityType);
+            InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+
+            var store = this.store();
+            var upgradeKeys = this.upgradeKeys();
+            var usedUpgrades = Selector.attackerUsedUpgrades(store.getState(), this);
+
+            return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, eventOrPhaseKey);
+        };
+
+        Token.prototype.usableDamageAbilities = function(abilityType, eventOrPhaseKey)
+        {
+            InputValidator.validateNotNull("abilityType", abilityType);
+            InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
+
+            var store = this.store();
+            var damageKeys = this.criticalDamages();
+            var usedDamages = Selector.usedDamages(store.getState(), this);
+
+            return this.usableAbilities(DamageCard, damageKeys, usedDamages, abilityType, eventOrPhaseKey);
         };
 
         Token.prototype.usablePilotAbilities = function(abilityType, eventOrPhaseKey)
@@ -904,22 +960,11 @@ define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty"
             InputValidator.validateNotNull("abilityType", abilityType);
             InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
 
-            var answer = [];
             var store = this.store();
-            var pilotKey = this.pilotKey();
+            var pilotKeys = [this.pilotKey()];
             var usedPilots = Selector.usedPilots(store.getState(), this);
 
-            if (!usedPilots.vizziniContains(pilotKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][pilotKey] !== undefined)
-            {
-                var myAbility = abilityType[eventOrPhaseKey][pilotKey];
-
-                if (myAbility.condition(store, this))
-                {
-                    answer.push(new Ability(Pilot, pilotKey, abilityType, eventOrPhaseKey));
-                }
-            }
-
-            return answer;
+            return this.usableAbilities(Pilot, pilotKeys, usedPilots, abilityType, eventOrPhaseKey);
         };
 
         Token.prototype.usableUpgradeAbilities = function(abilityType, eventOrPhaseKey)
@@ -927,24 +972,11 @@ define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty"
             InputValidator.validateNotNull("abilityType", abilityType);
             InputValidator.validateNotNull("eventOrPhaseKey", eventOrPhaseKey);
 
-            var answer = [];
             var store = this.store();
+            var upgradeKeys = this.upgradeKeys();
             var usedUpgrades = Selector.usedUpgrades(store.getState(), this);
 
-            this.upgradeKeys().forEach(function(upgradeKey)
-            {
-                if (!usedUpgrades.vizziniContains(upgradeKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][upgradeKey] !== undefined)
-                {
-                    var myAbility = abilityType[eventOrPhaseKey][upgradeKey];
-
-                    if (myAbility.condition(store, this))
-                    {
-                        answer.push(new Ability(UpgradeCard, upgradeKey, abilityType, eventOrPhaseKey));
-                    }
-                }
-            }, this);
-
-            return answer;
+            return this.usableAbilities(UpgradeCard, upgradeKeys, usedUpgrades, abilityType, eventOrPhaseKey);
         };
 
         Token.prototype.upgradeKeys = function()

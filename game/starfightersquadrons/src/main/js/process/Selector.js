@@ -46,6 +46,30 @@ define(["Count", "Value"], function(Count, Value)
         });
     };
 
+    Selector.attackerUsedDamages = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToAttackerUsedDamages[token.id()];
+    };
+
+    Selector.attackerUsedPilots = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToAttackerUsedPilots[token.id()];
+    };
+
+    Selector.attackerUsedUpgrades = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToAttackerUsedUpgrades[token.id()];
+    };
+
     Selector.cloakCount = function(state, tokenId)
     {
         return Selector.count(state, tokenId, Count.CLOAK);
@@ -105,6 +129,30 @@ define(["Count", "Value"], function(Count, Value)
         {
             return targetLock.defender().id() === defender.id();
         });
+    };
+
+    Selector.defenderUsedDamages = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToDefenderUsedDamages[token.id()];
+    };
+
+    Selector.defenderUsedPilots = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToDefenderUsedPilots[token.id()];
+    };
+
+    Selector.defenderUsedUpgrades = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToDefenderUsedUpgrades[token.id()];
     };
 
     Selector.energyCount = function(state, tokenId)
