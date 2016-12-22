@@ -169,6 +169,51 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
             }
         };
 
+        Reducer.tokenIdToArray = function(state, actionType, actionTokenId, actionData)
+        {
+            InputValidator.validateNotNull("state", state);
+            InputValidator.validateNotNull("actionType", actionType);
+            InputValidator.validateIsNumber("actionTokenId", actionTokenId);
+            // actionData optional.
+
+            LOGGER.debug("Reducer.tokenIdToArray() type = " + actionType);
+
+            var newTokenIdToArray, newArray, oldArray;
+
+            if (actionType.startsWith("add"))
+            {
+                oldArray = state[actionTokenId];
+                newArray = oldArray.slice();
+                newArray.push(actionData);
+                newTokenIdToArray = Object.assign(
+                {}, state);
+                newTokenIdToArray[actionTokenId] = newArray;
+                return newTokenIdToArray;
+            }
+            else if (actionType.startsWith("clear"))
+            {
+                newTokenIdToArray = Object.assign(
+                {}, state);
+                newTokenIdToArray[actionTokenId] = [];
+                return newTokenIdToArray;
+            }
+            else if (actionType.startsWith("remove"))
+            {
+                oldArray = state[actionTokenId];
+                newArray = oldArray.slice();
+                newArray.vizziniRemove(actionData);
+                newTokenIdToArray = Object.assign(
+                {}, state);
+                newTokenIdToArray[actionTokenId] = newArray;
+                return newTokenIdToArray;
+            }
+            else
+            {
+                LOGGER.warn("Reducer.tokenIdToArray: Unhandled action type: " + actionType);
+                return state;
+            }
+        };
+
         Reducer.tokenIdToCounts = function(state, action)
         {
             LOGGER.debug("tokenIdToCounts() type = " + action.type);
@@ -359,95 +404,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     return newTokenIdToUpgrades;
                 default:
                     LOGGER.warn("Reducer.tokenIdToUpgrades: Unhandled action type: " + action.type);
-                    return state;
-            }
-        };
-
-        Reducer.tokenIdToUsedDamages = function(state, action)
-        {
-            LOGGER.debug("tokenIdToUsedDamages() type = " + action.type);
-
-            var newTokenIdToArray;
-
-            switch (action.type)
-            {
-                case Action.ADD_TOKEN_USED_DAMAGE:
-                    var oldArray = state[action.token.id()];
-                    var newArray = (oldArray !== undefined ? oldArray.slice() : []);
-                    newArray.push(action.damageKey);
-                    newTokenIdToArray = Object.assign(
-                    {}, state);
-                    newTokenIdToArray[action.token.id()] = newArray;
-                    return newTokenIdToArray;
-                case Action.CLEAR_TOKEN_USED_DAMAGES:
-                    newTokenIdToArray = Object.assign(
-                    {}, state);
-                    newTokenIdToArray[action.token.id()] = [];
-                    return newTokenIdToArray;
-                default:
-                    LOGGER.warn("Reducer.tokenIdToUsedDamages: Unhandled action type: " + action.type);
-                    return state;
-            }
-        };
-
-        Reducer.tokenIdToUsedPilots = function(state, action)
-        {
-            LOGGER.debug("tokenIdToUsedPilots() type = " + action.type);
-
-            var newTokenIdToArray;
-
-            switch (action.type)
-            {
-                case Action.ADD_TOKEN_USED_PILOT:
-                    var oldArray = state[action.token.id()];
-                    var newArray = (oldArray !== undefined ? oldArray.slice() : []);
-                    newArray.push(action.pilotKey);
-                    newTokenIdToArray = Object.assign(
-                    {}, state);
-                    newTokenIdToArray[action.token.id()] = newArray;
-                    return newTokenIdToArray;
-                case Action.CLEAR_TOKEN_USED_PILOTS:
-                    newTokenIdToArray = Object.assign(
-                    {}, state);
-                    newTokenIdToArray[action.token.id()] = [];
-                    return newTokenIdToArray;
-                default:
-                    LOGGER.warn("Reducer.tokenIdToUsedPilots: Unhandled action type: " + action.type);
-                    return state;
-            }
-        };
-
-        Reducer.tokenIdToUsedUpgrades = function(state, action)
-        {
-            LOGGER.debug("tokenIdToUsedUpgrades() type = " + action.type);
-
-            var newTokenIdToArray, oldArray, newArray;
-
-            switch (action.type)
-            {
-                case Action.ADD_TOKEN_USED_UPGRADE:
-                    oldArray = state[action.token.id()];
-                    newArray = (oldArray !== undefined ? oldArray.slice() : []);
-                    newArray.push(action.upgradeKey);
-                    newTokenIdToArray = Object.assign(
-                    {}, state);
-                    newTokenIdToArray[action.token.id()] = newArray;
-                    return newTokenIdToArray;
-                case Action.CLEAR_TOKEN_USED_UPGRADES:
-                    newTokenIdToArray = Object.assign(
-                    {}, state);
-                    newTokenIdToArray[action.token.id()] = [];
-                    return newTokenIdToArray;
-                case Action.REMOVE_TOKEN_USED_UPGRADE:
-                    oldArray = state[action.token.id()];
-                    newArray = (oldArray !== undefined ? oldArray.slice() : []);
-                    newArray.vizziniRemove(action.upgradeKey);
-                    newTokenIdToArray = Object.assign(
-                    {}, state);
-                    newTokenIdToArray[action.token.id()] = newArray;
-                    return newTokenIdToArray;
-                default:
-                    LOGGER.warn("Reducer.tokenIdToUsedUpgrades: Unhandled action type: " + action.type);
                     return state;
             }
         };
@@ -687,7 +643,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     });
                 case Action.ADD_TOKEN_USED_DAMAGE:
                 case Action.CLEAR_TOKEN_USED_DAMAGES:
-                    newTokenIdToData = Reducer.tokenIdToUsedDamages(state.tokenIdToUsedDamages, action);
+                    newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedDamages, action.type, action.token.id(), action.damageKey);
                     return Object.assign(
                     {}, state,
                     {
@@ -695,7 +651,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     });
                 case Action.ADD_TOKEN_USED_PILOT:
                 case Action.CLEAR_TOKEN_USED_PILOTS:
-                    newTokenIdToData = Reducer.tokenIdToUsedPilots(state.tokenIdToUsedPilots, action);
+                    newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedPilots, action.type, action.token.id(), action.pilotKey);
                     return Object.assign(
                     {}, state,
                     {
@@ -704,7 +660,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                 case Action.ADD_TOKEN_USED_UPGRADE:
                 case Action.CLEAR_TOKEN_USED_UPGRADES:
                 case Action.REMOVE_TOKEN_USED_UPGRADE:
-                    newTokenIdToData = Reducer.tokenIdToUsedUpgrades(state.tokenIdToUsedUpgrades, action);
+                    newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedUpgrades, action.type, action.token.id(), action.upgradeKey);
                     return Object.assign(
                     {}, state,
                     {
