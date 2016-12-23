@@ -56,13 +56,11 @@
 				var store = environment.store();
 				var adjudicator = new Adjudicator();
 				var attacker = environment.tokens()[0];
-				var attackerPosition = environment.getPositionFor(attacker);
 				LOGGER.debug("attacker = " + attacker);
 				store.dispatch(Action.addFocusCount(attacker));
 				var weapon = attacker.primaryWeapon();
 				var attackDice = new AttackDice(5);
 				var defender = environment.tokens()[2];
-				var defenderPosition = environment.getPositionFor(defender);
 				LOGGER.debug("defender = " + defender);
 				store.dispatch(Action.addFocusCount(defender));
 				store.dispatch(Action.addEvadeCount(defender));
@@ -72,7 +70,7 @@
 				{
 					LOGGER.info("callback() start");
 				};
-				attacker.combatState().combatAction(new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender, defenderPosition, callback));
+				attacker.combatState().combatAction(new CombatAction(store, attacker, weapon, defender, callback));
 				var modificationKeys0 = [ModifyAttackDiceAction.Modification.SPEND_FOCUS, ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK];
 				var modifications0 = modificationKeys0.map(function(modificationKey)
 				{

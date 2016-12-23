@@ -365,6 +365,8 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             var store = Redux.createStore(Reducer.root);
             var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
             var adjudicator = new Adjudicator();
+            store.dispatch(Action.setEnvironment(environment));
+            store.dispatch(Action.setAdjudicator(adjudicator));
             var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
             rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
             {
@@ -390,8 +392,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             var targetLock = new TargetLock(store, attacker, defender);
             attacker.addAttackerTargetLock(targetLock);
             environment.activeToken(attacker);
-            var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-                defenderPosition, callback, MockAttackDice, MockDefenseDice);
+            var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 1);
             assert.equal(defender.shieldCount(), 4);
@@ -428,6 +429,8 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             var store = Redux.createStore(Reducer.root);
             var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
             var adjudicator = new Adjudicator();
+            store.dispatch(Action.setEnvironment(environment));
+            store.dispatch(Action.setAdjudicator(adjudicator));
             var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
             rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
             {
@@ -451,8 +454,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 LOGGER.info("callback() start");
             };
             environment.activeToken(attacker);
-            var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-                defenderPosition, callback, undefined, MockDefenseDice);
+            var combatAction = new CombatAction(store, attacker, weapon, defender, callback, undefined, MockDefenseDice);
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 1);
 
@@ -609,8 +611,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 LOGGER.info("callback() start");
             };
 
-            return new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-                defenderPosition, callback, MockAttackDice, MockDefenseDice);
+            return new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
         }
 
         function createCombatActionRange2(upgradeKey)
@@ -652,8 +653,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                 LOGGER.info("callback() start");
             };
 
-            return new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-                defenderPosition, callback, MockAttackDice, MockDefenseDice);
+            return new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
         }
 
         function verifyAttackDice(assert, attackDice)

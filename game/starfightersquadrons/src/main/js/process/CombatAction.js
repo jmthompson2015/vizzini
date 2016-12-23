@@ -1,42 +1,29 @@
-define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCard", "process/Action", "process/DamageAbility3", "process/DamageDealer", "process/PilotAbility3", "process/ShipDestroyedAction", "process/UpgradeAbility3"],
-    function(AttackDice, DamageCard, DefenseDice, Phase, Pilot, RangeRuler, UpgradeCard, Action, DamageAbility3, DamageDealer, PilotAbility3, ShipDestroyedAction, UpgradeAbility3)
+define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler", "UpgradeCard", "process/Action", "process/DamageAbility3", "process/DamageDealer", "process/PilotAbility3", "process/Selector", "process/ShipDestroyedAction", "process/UpgradeAbility3"],
+    function(AttackDice, DamageCard, DefenseDice, Phase, Pilot, RangeRuler, UpgradeCard, Action, DamageAbility3, DamageDealer, PilotAbility3, Selector, ShipDestroyedAction, UpgradeAbility3)
     {
         "use strict";
 
-        function CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-            defenderPosition, callback, attackDiceClassIn, defenseDiceClassIn)
+        function CombatAction(store, attacker, weapon, defender, callback, attackDiceClassIn, defenseDiceClassIn)
         {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
+            InputValidator.validateNotNull("store", store);
             InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("attackerPosition", attackerPosition);
             InputValidator.validateNotNull("weapon", weapon);
             InputValidator.validateNotNull("defender", defender);
-            InputValidator.validateNotNull("defenderPosition", defenderPosition);
             InputValidator.validateNotNull("callback", callback);
+            // attackDiceClassIn optional.
+            // defenseDiceClassIn optional.
 
-            var that = this;
             var attackDiceClass = (attackDiceClassIn ? attackDiceClassIn : AttackDice);
             var defenseDiceClass = (defenseDiceClassIn ? defenseDiceClassIn : DefenseDice);
 
-            this.environment = function()
+            this.store = function()
             {
-                return environment;
-            };
-
-            this.adjudicator = function()
-            {
-                return adjudicator;
+                return store;
             };
 
             this.attacker = function()
             {
                 return attacker;
-            };
-
-            this.attackerPosition = function()
-            {
-                return attackerPosition;
             };
 
             this.weapon = function()
@@ -47,11 +34,6 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             this.defender = function()
             {
                 return defender;
-            };
-
-            this.defenderPosition = function()
-            {
-                return defenderPosition;
             };
 
             this.callback = function()
@@ -142,6 +124,12 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             LOGGER.trace("CombatAction.declareTarget2() end");
         };
 
+        CombatAction.prototype.environment = function()
+        {
+            var store = this.store();
+            return Selector.environment(store.getState());
+        };
+
         CombatAction.prototype.finishDeclareTarget = function(ability, isAccepted)
         {
             LOGGER.trace("CombatAction.finishDeclareTarget() start");
@@ -204,7 +192,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
                 if (modifyAttackDiceAction.upgradeKey())
                 {
                     var attacker = modifyAttackDiceAction.attacker();
-                    var store = attacker.store();
+                    var store = this.store();
                     store.dispatch(Action.addAttackerUsedUpgrade(attacker, modifyAttackDiceAction.upgradeKey()));
                 }
 
@@ -276,7 +264,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
                 if (modifyDefenseDiceAction.upgradeKey())
                 {
                     var attacker = this.attacker();
-                    var store = attacker.store();
+                    var store = this.store();
                     store.dispatch(Action.addDefenderUsedUpgrade(attacker, modifyDefenseDiceAction.upgradeKey()));
                 }
             }
@@ -473,7 +461,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             {
                 if (this.PERFORM_ATTACK_TWICE_UPGRADES.vizziniContains(weapon.upgradeKey()) && this.executionCount() < 2)
                 {
-                    var store = attacker.store();
+                    var store = this.store();
                     store.dispatch(Action.removeAttackerUsedUpgrade(attacker, weapon.upgradeKey()));
                     this.doIt();
                 }
@@ -487,6 +475,26 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
         };
 
         ////////////////////////////////////////////////////////////////////////
+        CombatAction.prototype.adjudicator = function()
+        {
+            var store = this.store();
+            return Selector.adjudicator(store.getState());
+        };
+
+        CombatAction.prototype.attackerPosition = function()
+        {
+            var environment = this.environment();
+            var attacker = this.attacker();
+            return environment.getPositionFor(attacker);
+        };
+
+        CombatAction.prototype.defenderPosition = function()
+        {
+            var environment = this.environment();
+            var defender = this.defender();
+            return environment.getPositionFor(defender);
+        };
+
         CombatAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
         {
             InputValidator.validateNotNull("backFunction", backFunction);
@@ -497,7 +505,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             if (ability && isAccepted)
             {
-                var store = this.environment().store();
+                var store = this.store();
                 var attacker = this.attacker();
 
                 if (ability.isDamage())

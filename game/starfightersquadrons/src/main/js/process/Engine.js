@@ -369,21 +369,14 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             {
                 if (weapon && defender)
                 {
-                    LOGGER.debug("weapon = " + weapon);
-                    LOGGER.debug("defender = " + defender);
                     var attacker = environment.activeToken();
-                    var attackerPosition = environment.getPositionFor(attacker);
 
                     if (defender)
                     {
-                        // environment.phase(Phase.COMBAT_DECLARE_TARGET);
-                        var defenderPosition = environment.getPositionFor(defender);
                         var store = environment.store();
                         store.dispatch(Action.setUserMessage(attacker + " fires upon " + defender));
 
-                        var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon,
-                            defender, defenderPosition, that.processCombatQueue);
-                        LOGGER.trace("combatAction = " + combatAction);
+                        var combatAction = new CombatAction(store, attacker, weapon, defender, that.processCombatQueue);
 
                         setTimeout(function()
                         {

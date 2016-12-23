@@ -122,8 +122,7 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             combatState.isInFiringArc(true);
             combatState.isDefenderHit(true);
 
-            var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-                defenderPosition, callback, MockAttackDice, MockDefenseDice);
+            var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
             combatState.combatAction(combatAction);
 
             return environment;

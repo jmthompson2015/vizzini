@@ -33,12 +33,10 @@ define(function()
         this.clear = function()
         {
             attackDice = undefined;
-            // attackerUsedUpgrades = [];
             combatAction = undefined;
-            // defenderUsedUpgrades = [];
             defenseDice = undefined;
-            initialAttackDice = false;
-            initialDefenseDice = false;
+            initialAttackDice = undefined;
+            initialDefenseDice = undefined;
             isDefenderHit = false;
             range = undefined;
         };

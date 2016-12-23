@@ -24,21 +24,6 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
                 return callback;
             };
 
-            this.environment = function()
-            {
-                return Selector.environment(store.getState());
-            };
-
-            this.adjudicator = function()
-            {
-                return Selector.adjudicator(store.getState());
-            };
-
-            this.maneuver = function()
-            {
-                return Selector.maneuver(store.getState(), token);
-            };
-
             this.maneuverKey = function()
             {
                 var answer;
@@ -355,6 +340,25 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
         };
 
         ////////////////////////////////////////////////////////////////////////
+        ActivationAction.prototype.adjudicator = function()
+        {
+            var store = this.store();
+            return Selector.adjudicator(store.getState());
+        };
+
+        ActivationAction.prototype.environment = function()
+        {
+            var store = this.store();
+            return Selector.environment(store.getState());
+        };
+
+        ActivationAction.prototype.maneuver = function()
+        {
+            var store = this.store();
+            var token = this.token();
+            return Selector.maneuver(store.getState(), token);
+        };
+
         ActivationAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
         {
             InputValidator.validateNotNull("backFunction", backFunction);

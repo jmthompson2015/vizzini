@@ -23,16 +23,12 @@ define(["AttackDice", "CombatState", "DefenseDice", "RangeRuler", "process/Comba
         QUnit.test("combatAction()", function(assert)
         {
             // Setup.
-            var environment = {};
-            var adjudicator = {};
+            var store = {};
             var attacker = {};
-            var attackerPosition = {};
             var weapon = {};
             var defender = {};
-            var defenderPosition = {};
             var callback = {};
-            var combatAction = new CombatAction(environment, adjudicator, attacker, attackerPosition, weapon, defender,
-                defenderPosition, callback);
+            var combatAction = new CombatAction(store, attacker, weapon, defender, callback);
             var combatState = new CombatState();
             assert.ok(!combatState.combatAction());
 
