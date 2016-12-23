@@ -44,7 +44,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "UpgradeCard", "process/M
                     key: rows.length,
                 }, React.DOM.td(
                 {}, React.DOM.span(
-                {}, "Weapon: " + attacker.combatState().combatAction().weapon()))));
+                {}, "Weapon: " + attacker.combatAction().weapon()))));
 
                 // Attack Dice panel.
                 var attackPanel = React.createElement(CombatUI.AttackDiceUI,

@@ -71,8 +71,9 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             LOGGER.trace("CombatAction.doIt() start");
 
             this.executionCount(this.executionCount() + 1);
+            var store = this.store();
             var attacker = this.attacker();
-            attacker.combatState().combatAction(this);
+            store.dispatch(Action.setTokenCombatAction(attacker, this));
 
             this.declareTarget();
 

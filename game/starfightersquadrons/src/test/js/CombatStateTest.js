@@ -1,5 +1,5 @@
-define(["AttackDice", "CombatState", "DefenseDice", "RangeRuler", "process/CombatAction"],
-    function(AttackDice, CombatState, DefenseDice, RangeRuler, CombatAction)
+define(["AttackDice", "CombatState", "DefenseDice", "RangeRuler"],
+    function(AttackDice, CombatState, DefenseDice, RangeRuler)
     {
         "use strict";
         QUnit.module("CombatState");
@@ -18,26 +18,6 @@ define(["AttackDice", "CombatState", "DefenseDice", "RangeRuler", "process/Comba
             // Verify.
             assert.ok(result);
             assert.equal(result, attackDice);
-        });
-
-        QUnit.test("combatAction()", function(assert)
-        {
-            // Setup.
-            var store = {};
-            var attacker = {};
-            var weapon = {};
-            var defender = {};
-            var callback = {};
-            var combatAction = new CombatAction(store, attacker, weapon, defender, callback);
-            var combatState = new CombatState();
-            assert.ok(!combatState.combatAction());
-
-            // Run.
-            var result = combatState.combatAction(combatAction);
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result, combatAction);
         });
 
         QUnit.test("defenseDice()", function(assert)

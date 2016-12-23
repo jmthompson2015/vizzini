@@ -5,7 +5,6 @@ define(function()
     function CombatState()
     {
         var attackDice;
-        var combatAction;
         var damageDealer;
         var defenseDice;
         var initialAttackDice;
@@ -33,22 +32,11 @@ define(function()
         this.clear = function()
         {
             attackDice = undefined;
-            combatAction = undefined;
             defenseDice = undefined;
             initialAttackDice = undefined;
             initialDefenseDice = undefined;
             isDefenderHit = false;
             range = undefined;
-        };
-
-        this.combatAction = function(value)
-        {
-            if (value !== undefined)
-            {
-                combatAction = value;
-            }
-
-            return combatAction;
         };
 
         this.damageDealer = function(value)

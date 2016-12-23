@@ -121,9 +121,10 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             combatState.defenseDice(new MockDefenseDice());
             combatState.isInFiringArc(true);
             combatState.isDefenderHit(true);
+            store.dispatch(Action.setTokenCombatState(attacker, combatState));
 
             var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
-            combatState.combatAction(combatAction);
+            store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
 
             return environment;
         }

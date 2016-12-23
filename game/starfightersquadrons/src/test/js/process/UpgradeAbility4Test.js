@@ -119,9 +119,10 @@ define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction"
             var combatState = attacker.combatState();
             combatState.attackDice(new MockAttackDice());
             combatState.defenseDice(new MockDefenseDice());
+            store.dispatch(Action.setTokenCombatState(attacker, combatState));
 
             var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
-            combatState.combatAction(combatAction);
+            store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
 
             return environment;
         }

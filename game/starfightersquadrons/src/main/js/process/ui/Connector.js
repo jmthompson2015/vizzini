@@ -129,7 +129,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/Selector"],
                 {
                     if (Connector.PlayAreaUI.EXPLOSION_PHASES.vizziniContains(state.phaseKey))
                     {
-                        var combatAction = activeToken.combatState().combatAction();
+                        var combatAction = activeToken.combatAction();
 
                         if (combatAction)
                         {
@@ -167,7 +167,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/Selector"],
                 {
                     if (Connector.PlayAreaUI.LASER_BEAM_PHASES.vizziniContains(state.phaseKey))
                     {
-                        var combatAction = activeToken.combatState().combatAction();
+                        var combatAction = activeToken.combatAction();
                         LOGGER.debug("combatAction = " + combatAction);
 
                         if (combatAction)

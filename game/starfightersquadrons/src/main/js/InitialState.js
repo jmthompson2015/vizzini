@@ -29,6 +29,7 @@ define(["Phase"], function(Phase)
         this.tokenIdToAttackerUsedDamages = {};
         this.tokenIdToAttackerUsedPilots = {};
         this.tokenIdToAttackerUsedUpgrades = {};
+        this.tokenIdToCombatAction = {};
         this.tokenIdToCombatState = {};
         this.tokenIdToCounts = {};
         this.tokenIdToCriticalDamages = {};

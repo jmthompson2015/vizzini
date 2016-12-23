@@ -1117,15 +1117,7 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            var answer;
-            var combatState = getCombatState(attacker);
-
-            if (combatState)
-            {
-                answer = combatState.combatAction();
-            }
-
-            return answer;
+            return attacker.combatAction();
         }
 
         function getCombatState(attacker)

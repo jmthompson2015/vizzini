@@ -75,12 +75,20 @@ define(["Count", "Value"], function(Count, Value)
         return Selector.count(state, tokenId, Count.CLOAK);
     };
 
-    Selector.combatState = function(state, tokenId)
+    Selector.combatAction = function(state, token)
     {
         InputValidator.validateNotNull("state", state);
-        InputValidator.validateNotNull("tokenId", tokenId);
+        InputValidator.validateNotNull("token", token);
 
-        return state.tokenIdToCombatState[tokenId];
+        return state.tokenIdToCombatAction[token.id()];
+    };
+
+    Selector.combatState = function(state, token)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateNotNull("token", token);
+
+        return state.tokenIdToCombatState[token.id()];
     };
 
     Selector.count = function(state, tokenId, property)

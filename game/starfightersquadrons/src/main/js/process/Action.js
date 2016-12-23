@@ -58,6 +58,7 @@ define(["Count"], function(Count)
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
     Action.SET_TOKEN_ACTIVATION_ACTION = "setTokenActivationAction";
+    Action.SET_TOKEN_COMBAT_ACTION = "setTokenCombatAction";
     Action.SET_TOKEN_COMBAT_STATE = "setTokenCombatState";
     Action.SET_TOKEN_MANEUVER = "setTokenManeuver";
     Action.SET_TOKEN_MANEUVER_ACTION = "setTokenManeuverAction";
@@ -804,6 +805,19 @@ define(["Count"], function(Count)
             type: Action.SET_TOKEN_ACTIVATION_ACTION,
             token: token,
             activationAction: activationAction,
+        });
+    };
+
+    Action.setTokenCombatAction = function(token, combatAction)
+    {
+        InputValidator.validateNotNull("token", token);
+        // combatAction optional.
+
+        return (
+        {
+            type: Action.SET_TOKEN_COMBAT_ACTION,
+            token: token,
+            combatAction: combatAction,
         });
     };
 

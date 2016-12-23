@@ -455,7 +455,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
             condition: function(store, token)
             {
                 var attacker = getActiveToken(store);
-                var combatAction = token.combatState().combatAction();
+                var combatAction = getCombatAction(token);
                 return token === attacker && combatAction !== undefined;
             },
             consequent: function(store, token, callback)
@@ -534,15 +534,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            var answer;
-            var combatState = getCombatState(attacker);
-
-            if (combatState)
-            {
-                answer = combatState.combatAction();
-            }
-
-            return answer;
+            return attacker.combatAction();
         }
 
         function getCombatState(attacker)
@@ -556,7 +548,7 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).combatAction().defender();
+            return getCombatAction(attacker).defender();
         }
 
         function getDefenseDice(attacker)

@@ -397,9 +397,14 @@ define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty"
             return Selector.cloakCount(this.store().getState(), this.id());
         };
 
+        Token.prototype.combatAction = function()
+        {
+            return Selector.combatAction(this.store().getState(), this);
+        };
+
         Token.prototype.combatState = function()
         {
-            return Selector.combatState(this.store().getState(), this.id());
+            return Selector.combatState(this.store().getState(), this);
         };
 
         Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, rangeKey)
