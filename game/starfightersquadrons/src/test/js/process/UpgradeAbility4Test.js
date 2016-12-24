@@ -116,10 +116,8 @@ define(["Phase", "process/Action", "process/Adjudicator", "process/CombatAction"
             store.dispatch(Action.addFocusCount(attacker));
             store.dispatch(Action.addStressCount(attacker));
 
-            var combatState = attacker.combatState();
-            combatState.attackDice(new MockAttackDice());
-            combatState.defenseDice(new MockDefenseDice());
-            store.dispatch(Action.setTokenCombatState(attacker, combatState));
+            store.dispatch(Action.setTokenAttackDice(attacker, new MockAttackDice()));
+            store.dispatch(Action.setTokenDefenseDice(attacker, new MockDefenseDice()));
 
             var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
             store.dispatch(Action.setTokenCombatAction(attacker, combatAction));

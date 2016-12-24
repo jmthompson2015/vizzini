@@ -1,5 +1,5 @@
-define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
-    function(Ability, Bearing, CombatState, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
+define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
+    function(Ability, Bearing, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
     {
         "use strict";
 
@@ -356,8 +356,6 @@ define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty"
                     }
                 }, this);
             }
-
-            store.dispatch(Action.setTokenCombatState(this, new CombatState()));
         }
 
         Token.prototype.activationAction = function()
@@ -400,11 +398,6 @@ define(["Ability", "Bearing", "CombatState", "Count", "DamageCard", "Difficulty"
         Token.prototype.combatAction = function()
         {
             return Selector.combatAction(this.store().getState(), this);
-        };
-
-        Token.prototype.combatState = function()
-        {
-            return Selector.combatState(this.store().getState(), this);
         };
 
         Token.prototype.computeAttackDiceCount = function(environment, weapon, defender, rangeKey)

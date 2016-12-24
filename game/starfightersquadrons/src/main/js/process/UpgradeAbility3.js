@@ -1103,7 +1103,9 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).attackDice();
+            var store = attacker.store();
+
+            return Selector.attackDice(store.getState(), attacker);
         }
 
         function getAttackerPosition(attacker)
@@ -1120,18 +1122,13 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
             return attacker.combatAction();
         }
 
-        function getCombatState(attacker)
-        {
-            InputValidator.validateNotNull("attacker", attacker);
-
-            return attacker.combatState();
-        }
-
         function getDamageDealer(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).damageDealer();
+            var store = attacker.store();
+
+            return Selector.damageDealer(store.getState(), attacker);
         }
 
         function getDefender(attacker)
@@ -1152,14 +1149,18 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).defenseDice();
+            var store = attacker.store();
+
+            return Selector.defenseDice(store.getState(), attacker);
         }
 
         function getRangeKey(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).rangeKey();
+            var store = attacker.store();
+
+            return Selector.rangeKey(store.getState(), attacker);
         }
 
         function getWeapon(attacker)
@@ -1173,14 +1174,18 @@ define(["AttackDice", "DefenseDice", "Phase", "RangeRuler", "ShipAction", "Upgra
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).isDefenderHit();
+            var store = attacker.store();
+
+            return Selector.isDefenderHit(store.getState(), attacker);
         }
 
         function isInFiringArc(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).isInFiringArc();
+            var store = attacker.store();
+
+            return Selector.isInFiringArc(store.getState(), attacker);
         }
 
         function spendFocusToken(store, attacker)

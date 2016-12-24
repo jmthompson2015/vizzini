@@ -86,6 +86,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_DECLARE_TARGET);
 
+            var store = this.store();
             var attacker = this.attacker();
             var attackerPosition = this.attackerPosition();
             var weapon = this.weapon();
@@ -97,11 +98,11 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             {
                 throw "Defender out of range. attacker: " + attacker + " defender: " + defender;
             }
-            attacker.combatState().rangeKey(rangeKey);
+            store.dispatch(Action.setTokenRange(attacker, rangeKey));
 
             var firingArc = weapon.primaryFiringArc();
             var isInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
-            attacker.combatState().isInFiringArc(isInFiringArc);
+            store.dispatch(Action.setTokenInFiringArc(attacker, isInFiringArc));
 
             this.declareTarget2();
 
@@ -147,15 +148,16 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_ROLL_ATTACK_DICE);
 
+            var store = this.store();
             var environment = this.environment();
             var attacker = this.attacker();
             var defender = this.defender();
             var weapon = this.weapon();
-            var rangeKey = attacker.combatState().rangeKey();
+            var rangeKey = Selector.rangeKey(store.getState(), attacker);
             var attackDiceCount = attacker.computeAttackDiceCount(environment, weapon, defender, rangeKey);
             var attackDiceClass = this.attackDiceClass();
             var attackDice = new attackDiceClass(attackDiceCount);
-            attacker.combatState().attackDice(attackDice);
+            store.dispatch(Action.setTokenAttackDice(attacker, attackDice));
 
             this.modifyAttackDice();
 
@@ -168,10 +170,11 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_MODIFY_ATTACK_DICE);
 
+            var store = this.store();
             var environment = this.environment();
             var adjudicator = this.adjudicator();
             var attacker = this.attacker();
-            var attackDice = attacker.combatState().attackDice();
+            var attackDice = Selector.attackDice(store.getState(), attacker);
             var defender = this.defender();
             var agent = attacker.agent();
 
@@ -213,14 +216,15 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_ROLL_DEFENSE_DICE);
 
+            var store = this.store();
             var attacker = this.attacker();
             var defender = this.defender();
             var weapon = this.weapon();
-            var rangeKey = attacker.combatState().rangeKey();
+            var rangeKey = Selector.rangeKey(store.getState(), attacker);
             var defenderDiceCount = defender.computeDefenseDiceCount(this.environment(), attacker, weapon, rangeKey);
             var defenseDiceClass = this.defenseDiceClass();
             var defenseDice = new defenseDiceClass(defenderDiceCount);
-            attacker.combatState().defenseDice(defenseDice);
+            store.dispatch(Action.setTokenDefenseDice(attacker, defenseDice));
 
             this.modifyDefenseDice();
 
@@ -233,13 +237,14 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_MODIFY_DEFENSE_DICE);
 
+            var store = this.store();
             var environment = this.environment();
             var adjudicator = this.adjudicator();
             var attacker = this.attacker();
-            var attackDice = attacker.combatState().attackDice();
+            var attackDice = Selector.attackDice(store.getState(), attacker);
             var defender = this.defender();
             var defenderAgent = defender.agent();
-            var defenseDice = attacker.combatState().defenseDice();
+            var defenseDice = Selector.defenseDice(store.getState(), attacker);
 
             if (defender.reinforceCount() > 0)
             {
@@ -281,19 +286,20 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_COMPARE_RESULTS);
 
+            var store = this.store();
             var environment = this.environment();
             var attacker = this.attacker();
             var defender = this.defender();
-            var attackDice = attacker.combatState().attackDice();
-            var defenseDice = attacker.combatState().defenseDice();
+            var attackDice = Selector.attackDice(store.getState(), attacker);
+            var defenseDice = Selector.defenseDice(store.getState(), attacker);
             var damageDealer = new DamageDealer(environment, attackDice.hitCount(), attackDice.criticalHitCount(), defender, defenseDice.evadeCount());
-            attacker.combatState().damageDealer(damageDealer);
+            store.dispatch(Action.setTokenDamageDealer(attacker, damageDealer));
             var isDefenderHit = (damageDealer.hits() + damageDealer.criticalHits() > 0);
             if (attacker.pilotKey() === Pilot.LIEUTENANT_BLOUNT)
             {
                 isDefenderHit = true;
             }
-            attacker.combatState().isDefenderHit(isDefenderHit);
+            store.dispatch(Action.setTokenDefenderHit(attacker, isDefenderHit));
 
             this.notifyDamage();
 
@@ -306,6 +312,7 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_NOTIFY_DAMAGE);
 
+            var store = this.store();
             var environment = this.environment();
             var adjudicator = this.adjudicator();
             var attacker = this.attacker();
@@ -314,9 +321,9 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
             var defenderAgent = defender.agent();
             var attackerIsComputerAgent = attackerAgent.isComputerAgent();
             var defenderIsComputerAgent = defenderAgent.isComputerAgent();
-            var attackDice = attacker.combatState().attackDice();
-            var defenseDice = attacker.combatState().defenseDice();
-            var damageDealer = attacker.combatState().damageDealer();
+            var attackDice = Selector.attackDice(store.getState(), attacker);
+            var defenseDice = Selector.defenseDice(store.getState(), attacker);
+            var damageDealer = Selector.damageDealer(store.getState(), attacker);
             var callback = this.dealDamage.bind(this);
 
             // Four possibilities:
@@ -351,10 +358,11 @@ define(["AttackDice", "DamageCard", "DefenseDice", "Phase", "Pilot", "RangeRuler
 
             this.environment().phase(Phase.COMBAT_DEAL_DAMAGE);
 
+            var store = this.store();
             var attacker = this.attacker();
-            var damageDealer = attacker.combatState().damageDealer();
+            var damageDealer = Selector.damageDealer(store.getState(), attacker);
             var weapon = this.weapon();
-            var isDefenderHit = attacker.combatState().isDefenderHit();
+            var isDefenderHit = Selector.isDefenderHit(store.getState(), attacker);
 
             if (isDefenderHit)
             {

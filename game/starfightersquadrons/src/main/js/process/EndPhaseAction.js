@@ -94,8 +94,14 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
             var store = token.store();
 
             store.dispatch(Action.setTokenActivationAction(token));
+            store.dispatch(Action.setTokenAttackDice(token));
             store.dispatch(Action.setTokenCombatAction(token));
+            store.dispatch(Action.setTokenDamageDealer(token));
+            store.dispatch(Action.setTokenDefenseDice(token));
+            store.dispatch(Action.setTokenDefenderHit(token, false));
+            store.dispatch(Action.setTokenInFiringArc(token, false));
             store.dispatch(Action.setTokenManeuverAction(token));
+            store.dispatch(Action.setTokenRange(token));
             store.dispatch(Action.setTokenTouching(token, false));
             store.dispatch(Action.clearAttackerUsedDamages(token));
             store.dispatch(Action.clearAttackerUsedPilots(token));
@@ -106,7 +112,6 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
             store.dispatch(Action.clearTokenUsedDamages(token));
             store.dispatch(Action.clearTokenUsedPilots(token));
             store.dispatch(Action.clearTokenUsedUpgrades(token));
-            token.combatState().clear();
 
             store.dispatch(Action.setTokenPilotPerRound(token, token.pilotKey()));
 

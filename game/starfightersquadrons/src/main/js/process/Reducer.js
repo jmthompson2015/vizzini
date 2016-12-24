@@ -882,6 +882,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {
                         tokenIdToActivationAction: newTokenIdToData,
                     });
+                case Action.SET_TOKEN_ATTACK_DICE:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToAttackDice, Action.SET_TOKEN_ATTACK_DICE, action.type, action.token.id(), action.attackDice);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToAttackDice: newTokenIdToData,
+                    });
                 case Action.SET_TOKEN_COMBAT_ACTION:
                     newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToCombatAction, Action.SET_TOKEN_COMBAT_ACTION, action.type, action.token.id(), action.combatAction);
                     return Object.assign(
@@ -889,12 +896,33 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {
                         tokenIdToCombatAction: newTokenIdToData,
                     });
-                case Action.SET_TOKEN_COMBAT_STATE:
-                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToCombatState, Action.SET_TOKEN_COMBAT_STATE, action.type, action.token.id(), action.combatState);
+                case Action.SET_TOKEN_DAMAGE_DEALER:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToDamageDealer, Action.SET_TOKEN_DAMAGE_DEALER, action.type, action.token.id(), action.damageDealer);
                     return Object.assign(
                     {}, state,
                     {
-                        tokenIdToCombatState: newTokenIdToData,
+                        tokenIdToDamageDealer: newTokenIdToData,
+                    });
+                case Action.SET_TOKEN_DEFENDER_HIT:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToIsDefenderHit, Action.SET_TOKEN_DEFENDER_HIT, action.type, action.token.id(), action.isDefenderHit);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToIsDefenderHit: newTokenIdToData,
+                    });
+                case Action.SET_TOKEN_DEFENSE_DICE:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToDefenseDice, Action.SET_TOKEN_DEFENSE_DICE, action.type, action.token.id(), action.defenseDice);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToDefenseDice: newTokenIdToData,
+                    });
+                case Action.SET_TOKEN_IN_FIRING_ARC:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToIsInFiringArc, Action.SET_TOKEN_IN_FIRING_ARC, action.type, action.token.id(), action.isInFiringArc);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToIsInFiringArc: newTokenIdToData,
                     });
                 case Action.SET_TOKEN_MANEUVER:
                     newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToManeuver, Action.SET_TOKEN_MANEUVER, action.type, action.token.id(), action.maneuver);
@@ -909,6 +937,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                     {}, state,
                     {
                         tokenIdToManeuverAction: newTokenIdToData,
+                    });
+                case Action.SET_TOKEN_RANGE:
+                    newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToRange, Action.SET_TOKEN_RANGE, action.type, action.token.id(), action.rangeKey);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        tokenIdToRange: newTokenIdToData,
                     });
                 case Action.SET_TOKEN_TOUCHING:
                     newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToIsTouching, Action.SET_TOKEN_TOUCHING, action.type, action.token.id(), action.isTouching);

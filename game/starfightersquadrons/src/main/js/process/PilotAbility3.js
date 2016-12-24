@@ -527,7 +527,9 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).attackDice();
+            var store = attacker.store();
+
+            return Selector.attackDice(store.getState(), attacker);
         }
 
         function getCombatAction(attacker)
@@ -535,13 +537,6 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
             InputValidator.validateNotNull("attacker", attacker);
 
             return attacker.combatAction();
-        }
-
-        function getCombatState(attacker)
-        {
-            InputValidator.validateNotNull("attacker", attacker);
-
-            return attacker.combatState();
         }
 
         function getDefender(attacker)
@@ -555,14 +550,18 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).defenseDice();
+            var store = attacker.store();
+
+            return Selector.defenseDice(store.getState(), attacker);
         }
 
         function getRangeKey(attacker)
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).rangeKey();
+            var store = attacker.store();
+
+            return Selector.rangeKey(store.getState(), attacker);
         }
 
         function getWeapon(attacker)
@@ -576,7 +575,9 @@ define(["AttackDice", "DefenseDice", "Phase", "Pilot", "RangeRuler", "ShipAction
         {
             InputValidator.validateNotNull("attacker", attacker);
 
-            return getCombatState(attacker).isDefenderHit();
+            var store = attacker.store();
+
+            return Selector.isDefenderHit(store.getState(), attacker);
         }
 
         PilotAbility3.toString = function()

@@ -58,11 +58,16 @@ define(["Count"], function(Count)
     Action.SET_PLAY_FORMAT = "setPlayFormat";
     Action.SET_SECOND_AGENT = "setSecondAgent";
     Action.SET_TOKEN_ACTIVATION_ACTION = "setTokenActivationAction";
+    Action.SET_TOKEN_ATTACK_DICE = "setTokenAttackDice";
     Action.SET_TOKEN_COMBAT_ACTION = "setTokenCombatAction";
-    Action.SET_TOKEN_COMBAT_STATE = "setTokenCombatState";
+    Action.SET_TOKEN_DAMAGE_DEALER = "setTokenDamageDealer";
+    Action.SET_TOKEN_DEFENDER_HIT = "setTokenDefenderHit";
+    Action.SET_TOKEN_DEFENSE_DICE = "setTokenDefenseDice";
+    Action.SET_TOKEN_IN_FIRING_ARC = "setTokenInFiringArc";
     Action.SET_TOKEN_MANEUVER = "setTokenManeuver";
     Action.SET_TOKEN_MANEUVER_ACTION = "setTokenManeuverAction";
     Action.SET_TOKEN_PILOT_PER_ROUND = "setTokenPilotPerRound";
+    Action.SET_TOKEN_RANGE = "setTokenRange";
     Action.SET_TOKEN_TOUCHING = "setTokenTouching";
     Action.SET_TOKEN_UPGRADE_ENERGY = "setTokenUpgradeEnergy";
     Action.SET_TOKEN_UPGRADE_PER_ROUND = "setTokenUpgradePerRound";
@@ -808,6 +813,19 @@ define(["Count"], function(Count)
         });
     };
 
+    Action.setTokenAttackDice = function(token, attackDice)
+    {
+        InputValidator.validateNotNull("token", token);
+        // attackDice optional.
+
+        return (
+        {
+            type: Action.SET_TOKEN_ATTACK_DICE,
+            token: token,
+            attackDice: attackDice,
+        });
+    };
+
     Action.setTokenCombatAction = function(token, combatAction)
     {
         InputValidator.validateNotNull("token", token);
@@ -821,16 +839,55 @@ define(["Count"], function(Count)
         });
     };
 
-    Action.setTokenCombatState = function(token, combatState)
+    Action.setTokenDamageDealer = function(token, damageDealer)
     {
         InputValidator.validateNotNull("token", token);
-        InputValidator.validateNotNull("combatState", combatState);
+        // damageDealer optional.
 
         return (
         {
-            type: Action.SET_TOKEN_COMBAT_STATE,
+            type: Action.SET_TOKEN_DAMAGE_DEALER,
             token: token,
-            combatState: combatState,
+            damageDealer: damageDealer,
+        });
+    };
+
+    Action.setTokenDefenderHit = function(token, isDefenderHit)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("isDefenderHit", isDefenderHit);
+
+        return (
+        {
+            type: Action.SET_TOKEN_DEFENDER_HIT,
+            token: token,
+            isDefenderHit: isDefenderHit,
+        });
+    };
+
+    Action.setTokenDefenseDice = function(token, defenseDice)
+    {
+        InputValidator.validateNotNull("token", token);
+        // defenseDice optional.
+
+        return (
+        {
+            type: Action.SET_TOKEN_DEFENSE_DICE,
+            token: token,
+            defenseDice: defenseDice,
+        });
+    };
+
+    Action.setTokenInFiringArc = function(token, isInFiringArc)
+    {
+        InputValidator.validateNotNull("token", token);
+        InputValidator.validateNotNull("isInFiringArc", isInFiringArc);
+
+        return (
+        {
+            type: Action.SET_TOKEN_IN_FIRING_ARC,
+            token: token,
+            isInFiringArc: isInFiringArc,
         });
     };
 
@@ -872,6 +929,19 @@ define(["Count"], function(Count)
             token: token,
             pilotKey: pilotKey,
             value: myValue,
+        });
+    };
+
+    Action.setTokenRange = function(token, rangeKey)
+    {
+        InputValidator.validateNotNull("token", token);
+        // rangeKey optional.
+
+        return (
+        {
+            type: Action.SET_TOKEN_RANGE,
+            token: token,
+            rangeKey: rangeKey,
         });
     };
 

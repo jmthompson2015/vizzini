@@ -70,7 +70,8 @@
 				{
 					LOGGER.info("callback() start");
 				};
-				attacker.combatState().combatAction(new CombatAction(store, attacker, weapon, defender, callback));
+				var combatAction = new CombatAction(store, attacker, weapon, defender, callback);
+				store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
 				var modificationKeys0 = [ModifyAttackDiceAction.Modification.SPEND_FOCUS, ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK];
 				var modifications0 = modificationKeys0.map(function(modificationKey)
 				{

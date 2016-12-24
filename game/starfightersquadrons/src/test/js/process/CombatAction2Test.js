@@ -1,5 +1,5 @@
-define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value", "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-    function(Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value, Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value", "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+    function(Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value, Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
     {
         "use strict";
         QUnit.module("CombatAction");
@@ -50,11 +50,11 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             combatAction.doIt();
 
             // Verify.
-            assert.equal(attacker.combatState().rangeKey(), RangeRuler.ONE);
+            assert.equal(Selector.rangeKey(store.getState(), attacker), RangeRuler.ONE);
             assert.equal(environment.phase(), Phase.COMBAT_MODIFY_ATTACK_DICE);
-            verifyAttackDice(assert, attacker.combatState().attackDice());
+            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
             assert.ok(!defender.isDestroyed());
-            var defenseDice = attacker.combatState().defenseDice();
+            var defenseDice = Selector.defenseDice(store.getState(), attacker);
             assert.ok(!defenseDice);
         });
 
@@ -102,11 +102,11 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             combatAction.doIt();
 
             // Verify.
-            assert.equal(attacker.combatState().rangeKey(), RangeRuler.ONE);
+            assert.equal(Selector.rangeKey(store.getState(), attacker), RangeRuler.ONE);
             assert.equal(environment.phase(), Phase.COMBAT_MODIFY_DEFENSE_DICE);
-            verifyAttackDice(assert, attacker.combatState().attackDice());
+            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
             assert.ok(!defender.isDestroyed());
-            verifyDefenseDice(assert, attacker.combatState().defenseDice());
+            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
             assert.equal(defender.hullValue(), 3);
             assert.equal(defender.damageCount(), 0);
             assert.equal(defender.criticalDamageCount(), 0);
@@ -155,12 +155,12 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             {
                 assert.ok(true, "test resumed from async operation");
                 assert.equal(combatAction.executionCount(), 1);
-                assert.equal(attacker.combatState().rangeKey(), RangeRuler.ONE);
+                assert.equal(Selector.rangeKey(store.getState(), attacker), RangeRuler.ONE);
                 assert.equal(environment.phase(), Phase.COMBAT_AFTER_DEAL_DAMAGE);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
                 assert.ok(!defender.isDestroyed());
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 1);
                 assert.equal(defender.hullValue(), 3);
@@ -173,6 +173,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.BOSSK;
             var combatAction = createCombatAction2(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -190,9 +191,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             setTimeout(function()
             {
                 assert.ok(true, "test resumed from async operation");
-                if (attacker.combatState().isDefenderHit())
+                if (Selector.isDefenderHit(store.getState(), attacker))
                 {
-                    assert.ok(attacker.combatState().isDefenderHit());
+                    assert.ok(Selector.isDefenderHit(store.getState(), attacker));
                     assert.equal(attacker.stressCount(), 0);
                     assert.equal(attacker.focusCount(), 0);
                     assert.equal(attacker.attackerTargetLocks().length, 0);
@@ -200,7 +201,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 }
                 else
                 {
-                    assert.ok(!attacker.combatState().isDefenderHit());
+                    assert.ok(!Selector.isDefenderHit(store.getState(), attacker));
                     assert.equal(attacker.stressCount(), 1);
                     assert.equal(attacker.focusCount(), 1);
                     assert.equal(attacker.attackerTargetLocks().length, 1);
@@ -215,6 +216,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.FIRE_CONTROL_SYSTEM;
             var combatAction = createCombatAction(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -230,9 +232,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(attacker.findTargetLockByDefender(defender));
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 done();
             }, delay);
@@ -243,6 +245,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.FLECHETTE_CANNON;
             var combatAction = createCombatAction(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -258,9 +261,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(attacker.findTargetLockByDefender(defender));
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 1);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount(), 1);
                 assert.equal(defender.criticalDamageCount(), 0);
                 assert.ok(defender.isStressed());
@@ -274,6 +277,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.HEAVY_LASER_CANNON;
             var combatAction = createCombatActionRange2(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -299,14 +303,14 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 1);
-                assert.equal(attacker.combatState().attackDice().size(), 4);
-                var attackDice = attacker.combatState().attackDice();
+                assert.equal(Selector.attackDice(store.getState(), attacker).size(), 4);
+                var attackDice = Selector.attackDice(store.getState(), attacker);
                 assert.equal(attackDice.blankCount(), 1);
                 assert.equal(attackDice.criticalHitCount(), 0);
                 assert.equal(attackDice.focusCount(), 1);
                 assert.equal(attackDice.hitCount(), 2);
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 done();
             }, delay);
@@ -317,6 +321,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.HOT_SHOT_BLASTER;
             var combatAction = createCombatAction(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -331,9 +336,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(!attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 0);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 assert.ok(!defender.isDestroyed());
                 assert.equal(defender.hullValue(), 3);
@@ -346,6 +351,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.ION_CANNON;
             var combatAction = createCombatAction(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -360,9 +366,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 1);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount(), 1);
                 assert.equal(defender.criticalDamageCount(), 0);
                 assert.equal(defender.ionCount(), 1);
@@ -375,6 +381,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.ION_CANNON_TURRET;
             var combatAction = createCombatAction(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -389,9 +396,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 1);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount(), 1);
                 assert.equal(defender.criticalDamageCount(), 0);
                 assert.equal(defender.ionCount(), 1);
@@ -404,6 +411,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.MANGLER_CANNON;
             var combatAction = createCombatAction(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -429,13 +437,13 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 1);
-                var attackDice = attacker.combatState().attackDice();
+                var attackDice = Selector.attackDice(store.getState(), attacker);
                 assert.equal(attackDice.blankCount(), 1);
                 assert.equal(attackDice.criticalHitCount(), 2);
                 assert.equal(attackDice.focusCount(), 1);
                 assert.equal(attackDice.hitCount(), 0);
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
                 done();
             }, delay);
@@ -446,6 +454,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.TACTICIAN;
             var combatAction = createCombatActionRange2(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -460,9 +469,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(combatAction.executionCount(), 1);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 var sum = defender.damageCount() + defender.criticalDamageCount();
                 assert.ok(1 <= sum <= 2);
                 assert.equal(defender.stressCount(), 1);
@@ -475,6 +484,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.TRACTOR_BEAM;
             var combatAction = createCombatAction(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
             var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -490,9 +500,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(true, "test resumed from async operation");
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(attacker.secondaryWeapons().length, 1);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.equal(defender.damageCount(), 0);
                 assert.equal(defender.criticalDamageCount(), 0);
                 assert.equal(defender.tractorBeamCount(), 1);
@@ -505,6 +515,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             // Setup.
             var upgradeKey = UpgradeCard.TWIN_LASER_TURRET;
             var combatAction = createCombatActionRange2(upgradeKey);
+            var store = combatAction.store();
             var environment = combatAction.environment();
             var attacker = environment.tokens()[0];
             assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -523,9 +534,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                 assert.ok(attacker.isUpgradedWith(upgradeKey));
                 assert.equal(combatAction.executionCount(), 2);
                 assert.equal(attacker.secondaryWeapons().length, 1);
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 assert.ok(0 <= defender.damageCount() && defender.damageCount() <= 2, "defender.damageCount() = " +
                     defender.damageCount());
                 assert.equal(defender.damageCount(), 2);
@@ -567,10 +578,10 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             setTimeout(function()
             {
                 assert.ok(true, "test resumed from async operation");
-                verifyAttackDice(assert, attacker.combatState().attackDice());
+                verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
                 assert.equal(attacker.focusCount(), 1);
 
-                verifyDefenseDice(assert, attacker.combatState().defenseDice());
+                verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
                 done();
             }, delay);
         });

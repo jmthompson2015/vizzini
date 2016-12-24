@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
-    function(Count, DamageCard, Maneuver, Phase, Pilot, PlayFormat, Position, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
+define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
+    function(Count, DamageCard, Maneuver, Phase, Pilot, PlayFormat, Position, RangeRuler, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
     {
         "use strict";
         QUnit.module("Reducer");
@@ -1219,6 +1219,110 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
             assert.equal(store.getState().tokenIdToActivationAction[token.id()], activationAction);
         });
 
+        QUnit.test("setTokenAttackDice()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var attackDice = {};
+            assert.ok(!store.getState().tokenIdToAttackDice[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenAttackDice(token, attackDice));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToAttackDice[token.id()]);
+            assert.equal(store.getState().tokenIdToAttackDice[token.id()], attackDice);
+        });
+
+        QUnit.test("setTokenCombatAction()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var combatAction = {};
+            assert.ok(!store.getState().tokenIdToCombatAction[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenCombatAction(token, combatAction));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToCombatAction[token.id()]);
+            assert.equal(store.getState().tokenIdToCombatAction[token.id()], combatAction);
+        });
+
+        QUnit.test("setTokenDamageDealer()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var damageDealer = {};
+            assert.ok(!store.getState().tokenIdToDamageDealer[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenDamageDealer(token, damageDealer));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToDamageDealer[token.id()]);
+            assert.equal(store.getState().tokenIdToDamageDealer[token.id()], damageDealer);
+        });
+
+        QUnit.test("setTokenDefenderHit()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            assert.ok(!store.getState().tokenIdToIsDefenderHit[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenDefenderHit(token, true));
+
+            // Verify.
+            assert.equal(store.getState().tokenIdToIsDefenderHit[token.id()], true);
+
+            // Run.
+            store.dispatch(Action.setTokenDefenderHit(token, false));
+
+            // Verify.
+            assert.equal(store.getState().tokenIdToIsDefenderHit[token.id()], false);
+        });
+
+        QUnit.test("setTokenDefenseDice()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var defenseDice = {};
+            assert.ok(!store.getState().tokenIdToDefenseDice[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenDefenseDice(token, defenseDice));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToDefenseDice[token.id()]);
+            assert.equal(store.getState().tokenIdToDefenseDice[token.id()], defenseDice);
+        });
+
+        QUnit.test("setTokenInFiringArc()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            assert.ok(!store.getState().tokenIdToIsInFiringArc[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenInFiringArc(token, true));
+
+            // Verify.
+            assert.equal(store.getState().tokenIdToIsInFiringArc[token.id()], true);
+
+            // Run.
+            store.dispatch(Action.setTokenInFiringArc(token, false));
+
+            // Verify.
+            assert.equal(store.getState().tokenIdToIsInFiringArc[token.id()], false);
+        });
+
         QUnit.test("setTokenManeuver()", function(assert)
         {
             // Setup.
@@ -1259,6 +1363,22 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
             // Verify.
             assert.ok(store.getState().tokenIdToManeuverAction[token.id()]);
             assert.equal(store.getState().tokenIdToManeuverAction[token.id()], maneuverAction);
+        });
+
+        QUnit.test("setTokenRange()", function(assert)
+        {
+            // Setup.
+            var store = Redux.createStore(Reducer.root);
+            var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+            var rangeKey = RangeRuler.TWO;
+            assert.ok(!store.getState().tokenIdToRange[token.id()]);
+
+            // Run.
+            store.dispatch(Action.setTokenRange(token, rangeKey));
+
+            // Verify.
+            assert.ok(store.getState().tokenIdToRange[token.id()]);
+            assert.equal(store.getState().tokenIdToRange[token.id()], rangeKey);
         });
 
         QUnit.test("setTokenTouching()", function(assert)
