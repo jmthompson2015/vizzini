@@ -985,7 +985,7 @@ define(["ShipState", "UpgradeType", "process/ui/FactionUI", "process/ui/LabeledI
 
                 element = React.createElement(LabeledImage,
                 {
-                    image: "token/TractorBeam32.png",
+                    image: "token/TractorBeamToken32.png",
                     imageBase: this.props.imageBase,
                     label: String(myToken.tractorBeamCount()),
                     labelClass: "lightImageText",
