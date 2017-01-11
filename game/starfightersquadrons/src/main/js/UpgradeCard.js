@@ -15,6 +15,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             ADVANCED_SLAM: "advancedSlam",
             ADVANCED_TARGETING_COMPUTER: "advancedTargetingComputer",
             AGENT_KALLUS: "agentKallus",
+            ALLIANCE_OVERHAUL: "allianceOverhaul",
             ANDRASTA: "andrasta",
             ANTI_PURSUIT_LASERS: "antiPursuitLasers",
             ASSAILER: "assailer",
@@ -51,6 +52,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             COMBAT_RETROFIT: "combatRetrofit",
             COMM_RELAY: "commRelay",
             COMMS_BOOSTER: "commsBooster",
+            CONCORD_DAWN_PROTECTOR: "concordDawnProtector",
             CONCUSSION_MISSILES: "concussionMissiles",
             CONNER_NET: "connerNet",
             CONSTRUCTION_DROID: "constructionDroid",
@@ -86,6 +88,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             EXPOSE: "expose",
             EXTRA_MUNITIONS: "extraMunitions",
             EZRA_BRIDGER: "ezraBridger",
+            FEARLESSNESS: "fearlessness",
             FEEDBACK_ARRAY: "feedbackArray",
             FIRE_CONTROL_SYSTEM: "fireControlSystem",
             FLECHETTE_CANNON: "flechetteCannon",
@@ -138,6 +141,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             LEIA_ORGANA: "leiaOrgana",
             LIGHTNING_REFLEXES: "lightningReflexes",
             LONE_WOLF: "loneWolf",
+            LONG_RANGE_SCANNERS: "longRangeScanners",
             LUKE_SKYWALKER: "lukeSkywalker",
             MANEUVERING_FINS: "maneuveringFins",
             MANGLER_CANNON: "manglerCannon",
@@ -176,6 +180,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             R2_D6: "r2D6",
             R2_F2: "r2F2",
             R3_A2: "r3A2",
+            R3_ASTROMECH: "r3Astromech",
             R4_AGROMECH: "r4Agromech",
             R4_B11: "r4B11",
             R4_D6: "r4D6",
@@ -201,6 +206,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             SALVAGED_ASTROMECH: "salvagedAstromech",
             SEISMIC_CHARGES: "seismicCharges",
             SEISMIC_TORPEDO: "seismicTorpedo",
+            SENSOR_CLUSTER: "sensorCluster",
             SENSOR_JAMMER: "sensorJammer",
             SENSOR_TEAM: "sensorTeam",
             SHIELD_PROJECTOR: "shieldProjector",
@@ -209,6 +215,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             SINGLE_TURBOLASERS: "singleTurbolasers",
             SLAVE_I: "slaveI",
             SLICER_TOOLS: "slicerTools",
+            SPECIAL_OPS_TRAINING: "specialOpsTraining",
             SQUAD_LEADER: "squadLeader",
             ST_321: "st321",
             STAY_ON_TARGET: "stayOnTarget",
@@ -216,14 +223,18 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             STYGIUM_PARTICLE_ACCELERATOR: "stygiumParticleAccelerator",
             SUPPRESSOR: "suppressor",
             SWARM_TACTICS: "swarmTactics",
+            SYSTEMS_OFFICER: "systemsOfficer",
             TACTICIAN: "tactician",
             TACTICAL_JAMMER: "tacticalJammer",
+            TAIL_GUNNER: "tailGunner",
             TANTIVE_IV: "tantiveIv",
             TARGETING_ASTROMECH: "targetingAstromech",
             TARGETING_COMPUTER: "targetingComputer",
             TARGETING_COORDINATOR: "targetingCoordinator",
             THERMAL_DETONATORS: "thermalDetonators",
             TIBANNA_GAS_SUPPLIES: "tibannaGasSupplies",
+            TIE_D: "tieD",
+            TIE_SHUTTLE: "tieShuttle",
             TIE_V1: "tieV1",
             TIE_X1: "tieX1",
             TIE_X7: "tieX7",
@@ -233,6 +244,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
             TWIN_LASER_TURRET: "twinLaserTurret",
             UNHINGED_ASTROMECH: "unhingedAstromech",
             VECTOR: "vector",
+            VECTORED_THRUSTERS: "vectoredThrusters",
             VETERAN_INSTINCTS: "veteranInstincts",
             VIRAGO: "virago",
             WEAPONS_ENGINEER: "weaponsEngineer",
@@ -367,6 +379,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     description: "At the start of the first round, choose 1 enemy small or large ship. When attacking or defending against that ship, you may change 1 of your focus results to a hit or evade result.",
                     squadPointCost: 2,
                     value: "agentKallus",
+                },
+                "allianceOverhaul":
+                {
+                    name: "Alliance Overhaul",
+                    type: UpgradeType.TITLE,
+                    restrictions: [UpgradeRestriction.ARC_170_ONLY],
+                    description: "When attacking with a primary weapon from your primary firing arc, you may roll 1 additional attack die. When attacking from your auxiliary firing arc, you may change 1 of your Focus results to a Critical result.",
+                    squadPointCost: 0,
+                    value: "allianceOverhaul",
                 },
                 "andrasta":
                 {
@@ -738,6 +759,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 4,
                     value: "commsBooster",
                 },
+                "concordDawnProtector":
+                {
+                    name: "Concord Dawn Protector",
+                    type: UpgradeType.TITLE,
+                    restrictions: [UpgradeRestriction.PROTECTORATE_STARFIGHTER_ONLY],
+                    description: "When defending, if you are inside the attacker's firing arc and at Range 1, and the attacker is inside your firing arc, add 1 Evade result.",
+                    squadPointCost: 1,
+                    value: "concordDawnProtector",
+                },
                 "concussionMissiles":
                 {
                     name: "Concussion Missiles",
@@ -1076,6 +1106,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 3,
                     isImplemented: true,
                     value: "ezraBridger",
+                },
+                "fearlessness":
+                {
+                    name: "Fearlessness",
+                    type: UpgradeType.ELITE,
+                    restrictions: [UpgradeRestriction.SCUM_ONLY],
+                    description: "When attacking, if you are inside the defender's firing arc at Range 1 and the defender is inside your firing arc, you may add 1 hit result to your roll.",
+                    squadPointCost: 1,
+                    value: "fearlessness",
                 },
                 "feedbackArray":
                 {
@@ -1629,6 +1668,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     isImplemented: true,
                     value: "loneWolf",
                 },
+                "longRangeScanners":
+                {
+                    name: "Long-Range Scanners",
+                    type: UpgradeType.MODIFICATION,
+                    description: "You can acquire target locks on ships at Range 3 and beyond. You cannot acquire target locks on ships at Range 1-2. You can equip this card only if you have Torpedo and Missile in your upgrade bar.",
+                    squadPointCost: 0,
+                    value: "longRangeScanners",
+                },
                 "lukeSkywalker":
                 {
                     name: "Luke Skywalker",
@@ -2016,6 +2063,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     isImplemented: true,
                     value: "r3A2",
                 },
+                "r3Astromech":
+                {
+                    name: "R3 Astromech",
+                    type: UpgradeType.ASTROMECH,
+                    description: "Once per round, when attacking with a primary weapon, you may cancel 1 of your focus results during the \"Modify Attack Dice\" step to assign 1 evade token to your ship.",
+                    squadPointCost: 2,
+                    value: "r3Astromech",
+                },
                 "r4Agromech":
                 {
                     name: "R4 Agromech",
@@ -2252,6 +2307,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 2,
                     value: "seismicTorpedo",
                 },
+                "sensorCluster":
+                {
+                    name: "Sensor Cluster",
+                    type: UpgradeType.TECH,
+                    description: "When defending, you may spend a focus token to change 1 of your blank results to an evade result.",
+                    squadPointCost: 2,
+                    value: "sensorCluster",
+                },
                 "sensorJammer":
                 {
                     name: "Sensor Jammer",
@@ -2328,6 +2391,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 7,
                     value: "slicerTools",
                 },
+                "specialOpsTraining":
+                {
+                    name: "Special Ops Training",
+                    type: UpgradeType.TITLE,
+                    restrictions: [UpgradeRestriction.TIE_SF_ONLY],
+                    description: "When attacking with a primary weapon from your primary firing arc, you may roll 1 additional attack die. If you do not, you may perform an additional attack from your auxiliary firing arc.",
+                    squadPointCost: 0,
+                    value: "specialOpsTraining",
+                },
                 "squadLeader":
                 {
                     name: "Squad Leader",
@@ -2391,6 +2463,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 2,
                     value: "swarmTactics",
                 },
+                "systemsOfficer":
+                {
+                    name: "Systems Officer",
+                    type: UpgradeType.CREW,
+                    restrictions: [UpgradeRestriction.IMPERIAL_ONLY, UpgradeRestriction.LIMITED],
+                    description: "After you execute a green maneuver, choose another friendly ship at Range 1. That ship may acquire a target lock.",
+                    squadPointCost: 2,
+                    value: "systemsOfficer",
+                },
                 "tactician":
                 {
                     name: "Tactician",
@@ -2408,6 +2489,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     description: "Your ship can obstruct enemy attacks.",
                     squadPointCost: 1,
                     value: "tacticalJammer",
+                },
+                "tailGunner":
+                {
+                    name: "Tail Gunner",
+                    type: UpgradeType.CREW,
+                    restrictions: [UpgradeRestriction.LIMITED],
+                    description: "When attacking from your rear-facing auxiliary firing arc, reduce the defender's agility by 1 (to a minimum of \"0\").",
+                    squadPointCost: 2,
+                    value: "tailGunner",
                 },
                 "tantiveIv":
                 {
@@ -2465,6 +2555,24 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     squadPointCost: 4,
                     isImplemented: true,
                     value: "tibannaGasSupplies",
+                },
+                "tieD":
+                {
+                    name: "TIE/D",
+                    type: UpgradeType.TITLE,
+                    restrictions: [UpgradeRestriction.TIE_DEFENDER_ONLY],
+                    description: "Once per round, after you perform an attack with a Cannon secondary weapon that costs 3 or fewer squad points, you may perform a primary weapon attack.",
+                    squadPointCost: 0,
+                    value: "tieD",
+                },
+                "tieShuttle":
+                {
+                    name: "TIE Shuttle",
+                    type: UpgradeType.TITLE,
+                    restrictions: [UpgradeRestriction.TIE_BOMBER_ONLY],
+                    description: "Your upgrade bar loses all Torpedo, Missile, and Bomb icons and gains 2 Crew upgrade icons. You cannot equip a Crew upgrade card that costs more than 4 squad points.",
+                    squadPointCost: 0,
+                    value: "tieShuttle",
                 },
                 "tieV1":
                 {
@@ -2563,6 +2671,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                     energyValue: 1,
                     squadPointCost: 2,
                     value: "vector",
+                },
+                "vectoredThrusters":
+                {
+                    name: "Vectored Thrusters",
+                    type: UpgradeType.MODIFICATION,
+                    restrictions: [UpgradeRestriction.SMALL_SHIP_ONLY],
+                    description: "Your action bar gains the barrel roll action icon.",
+                    squadPointCost: 2,
+                    value: "vectoredThrusters",
                 },
                 "veteranInstincts":
                 {

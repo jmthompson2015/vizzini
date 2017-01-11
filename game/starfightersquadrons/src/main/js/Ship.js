@@ -6,6 +6,7 @@ define(
         var Ship = {
             A_WING: "aWing",
             AGGRESSOR: "aggressor",
+            ARC_170: "arc170",
             ATTACK_SHUTTLE: "attackShuttle",
             B_WING: "bWing",
             CR90_CORVETTE: "cr90Corvette",
@@ -20,6 +21,7 @@ define(
             KIHRAXZ_FIGHTER: "kihraxzFighter",
             LAMBDA_CLASS_SHUTTLE: "lambdaClassShuttle",
             M3_A_INTERCEPTOR: "m3AInterceptor",
+            PROTECTORATE_STARFIGHTER: "protectorateStarfighter",
             RAIDER_CLASS_CORVETTE: "raiderClassCorvette",
             STAR_VIPER: "starViper",
             T_70_X_WING: "t70XWing",
@@ -32,6 +34,7 @@ define(
             TIE_INTERCEPTOR: "tieInterceptor",
             TIE_PHANTOM: "tiePhantom",
             TIE_PUNISHER: "tiePunisher",
+            TIE_SF_FIGHTER: "tieSfFighter",
             VCX_100: "vcx100",
             VT_49_DECIMATOR: "vt49Decimator",
             X_WING: "xWing",
@@ -83,6 +86,25 @@ define(
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST, ShipAction.EVADE],
                     wikiUrl: "http://xwing-miniatures.wikia.com/wiki/IG-2000_Expansion_Pack",
                     value: "aggressor",
+                },
+                "arc170":
+                {
+                    name: "ARC-170",
+                    description: "An ARC-170.",
+                    primaryWeaponValue: 2,
+                    agilityValue: 1,
+                    hullValue: 6,
+                    shieldValue: 3,
+                    shipBaseKey: ShipBase.SMALL,
+                    primaryFiringArcKey: FiringArc.FORWARD,
+                    maneuverKeys: [Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
+                                Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
+                                Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_STANDARD,
+                                Maneuver.TURN_LEFT_3_HARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_STANDARD,
+                                Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_HARD,
+                                Maneuver.STRAIGHT_4_HARD, Maneuver.KOIOGRAN_TURN_4_HARD],
+                    shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK],
+                    value: "arc170",
                 },
                 "attackShuttle":
                 {
@@ -432,6 +454,27 @@ define(
                     wikiUrl: "http://xwing-miniatures.wikia.com/wiki/M3-A_Scyk_Interceptor_Expansion_Pack",
                     value: "m3AInterceptor",
                 },
+                "protectorateStarfighter":
+                {
+                    name: "Protectorate Starfighter",
+                    description: "A Protectorate starfighter.",
+                    primaryWeaponValue: 3,
+                    agilityValue: 3,
+                    hullValue: 4,
+                    shieldValue: 0,
+                    shipBaseKey: ShipBase.SMALL,
+                    primaryFiringArcKey: FiringArc.FORWARD,
+                    maneuverKeys: [Maneuver.TURN_LEFT_1_STANDARD, Maneuver.TURN_RIGHT_1_STANDARD,
+                                Maneuver.TURN_LEFT_2_EASY, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
+                                Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_EASY,
+                                Maneuver.TALLON_ROLL_LEFT_2_HARD, Maneuver.TALLON_ROLL_RIGHT_2_HARD,
+                                Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_STANDARD,
+                                Maneuver.BANK_RIGHT_3_STANDARD,
+                                Maneuver.STRAIGHT_4_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD,
+                                Maneuver.KOIOGRAN_TURN_5_HARD],
+                    shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL, ShipAction.BOOST],
+                    value: "protectorateStarfighter",
+                },
                 "raiderClassCorvette":
                 {
                     fore:
@@ -717,6 +760,25 @@ define(
                                 Maneuver.TURN_RIGHT_3_STANDARD, Maneuver.KOIOGRAN_TURN_4_HARD],
                     shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BOOST],
                     value: "tiePunisher",
+                },
+                "tieSfFighter":
+                {
+                    name: "TIE/sf Fighter",
+                    description: "A TIE/sf fighter.",
+                    primaryWeaponValue: 2,
+                    agilityValue: 2,
+                    hullValue: 3,
+                    shieldValue: 3,
+                    shipBaseKey: ShipBase.SMALL,
+                    primaryFiringArcKey: FiringArc.FORWARD,
+                    maneuverKeys: [Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_HARD,
+                                Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_STANDARD,
+                                Maneuver.TURN_LEFT_3_HARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
+                                Maneuver.BANK_RIGHT_3_STANDARD, Maneuver.TURN_RIGHT_3_HARD,
+                                Maneuver.SEGNORS_LOOP_LEFT_3_HARD, Maneuver.SEGNORS_LOOP_RIGHT_3_HARD,
+                                Maneuver.STRAIGHT_4_STANDARD],
+                    shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL],
+                    value: "tieSfFighter",
                 },
                 "vcx100":
                 {

@@ -91,7 +91,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
             // Verify.
             assert.ok(result);
-            var length = 241;
+            var length = 253;
             assert.equal(result.length, length);
             assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
             assert.equal(result[length - 1], UpgradeCard.ZUCKUSS);
@@ -104,11 +104,10 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
             // Verify.
             assert.ok(result);
-            assert.equal(result.length, 15);
+            var length = 16;
+            assert.equal(result.length, length);
             assert.equal(result[0], UpgradeCard.BB_8);
-            assert.equal(result[1], UpgradeCard.R2_ASTROMECH);
-            assert.equal(result[13], UpgradeCard.R7_T1);
-            assert.equal(result[14], UpgradeCard.TARGETING_ASTROMECH);
+            assert.equal(result[length - 1], UpgradeCard.TARGETING_ASTROMECH);
         });
 
         QUnit.test("valuesByPilotAndType() Boba Fett Modification", function(assert)
@@ -118,7 +117,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
             // Verify.
             assert.ok(result);
-            var length = 15;
+            var length = 16;
             assert.equal(result.length, length);
             var i = 0;
             assert.equal(result[i++], UpgradeCard.ADVANCED_SLAM);
@@ -130,6 +129,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
             assert.equal(result[i++], UpgradeCard.GUIDANCE_CHIPS);
             assert.equal(result[i++], UpgradeCard.HULL_UPGRADE);
             assert.equal(result[i++], UpgradeCard.ION_PROJECTOR);
+            assert.equal(result[i++], UpgradeCard.LONG_RANGE_SCANNERS);
             assert.equal(result[i++], UpgradeCard.MUNITIONS_FAILSAFE);
             assert.equal(result[i++], UpgradeCard.SHIELD_UPGRADE);
             assert.equal(result[i++], UpgradeCard.STEALTH_DEVICE);
@@ -200,11 +200,10 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
             // Verify.
             assert.ok(result);
-            assert.equal(result.length, 15);
+            var length = 16;
+            assert.equal(result.length, 16);
             assert.equal(result[0], UpgradeCard.BB_8);
-            assert.equal(result[1], UpgradeCard.R2_ASTROMECH);
-            assert.equal(result[13], UpgradeCard.R7_T1);
-            assert.equal(result[14], UpgradeCard.TARGETING_ASTROMECH);
+            assert.equal(result[length - 1], UpgradeCard.TARGETING_ASTROMECH);
         });
 
         QUnit.test("valuesByType() Elite", function(assert)
@@ -214,7 +213,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
             // Verify.
             assert.ok(result);
-            var length = 32;
+            var length = 33;
             assert.equal(result.length, length);
             assert.equal(result[0], UpgradeCard.ADAPTABILITY);
             assert.equal(result[length - 1], UpgradeCard.WIRED);

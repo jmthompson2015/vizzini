@@ -118,6 +118,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
         // Ship specific.
         A_WING_ONLY: "aWingOnly",
         AGGRESSOR_ONLY: "aggressorOnly",
+        ARC_170_ONLY: "arc170Only",
         B_WING_ONLY: "bWingOnly",
         CR90_ONLY: "cr90Only",
         FIRESPRAY_31_ONLY: "firespray31Only",
@@ -128,13 +129,16 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
         JUMPMASTER_5000_ONLY: "jumpMaster5000Only",
         LAMBDA_CLASS_SHUTTLE_ONLY: "lambdaClassShuttleOnly",
         M3_A_INTERCEPTOR_ONLY: "m3AInterceptorOnly",
+        PROTECTORATE_STARFIGHTER_ONLY: "protectorateStarfighterOnly",
         RAIDER_CLASS_CORVETTE_AFT_SECTION_ONLY: "raiderClassCorvetteAftSectionOnly",
         STAR_VIPER_ONLY: "starViperOnly",
         TIE_ADVANCED_ONLY: "tieAdvancedOnly",
         TIE_ADVANCED_PROTOTYPE_ONLY: "tieAdvancedPrototypeOnly",
+        TIE_BOMBER_ONLY: "tieBomberOnly",
         TIE_DEFENDER_ONLY: "tieDefenderOnly",
         TIE_INTERCEPTOR_ONLY: "tieInterceptorOnly",
         TIE_PHANTOM_ONLY: "tiePhantomOnly",
+        TIE_SF_ONLY: "tieSfOnly",
         VCX_100_ONLY: "vcx100Only",
         VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
         X_WING_ONLY: "xWingOnly",
@@ -161,6 +165,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
         {
             "aWingOnly": new ShipRestriction(Ship.A_WING),
             "aggressorOnly": new ShipRestriction(Ship.AGGRESSOR),
+            "arc170Only": new ShipRestriction(Ship.ARC_170),
             "bWingOnly": new ShipRestriction(Ship.B_WING),
             "cr90Only": new ShipRestriction(Ship.CR90_CORVETTE),
             "firespray31Only": new ShipRestriction(Ship.FIRESPRAY_31),
@@ -196,6 +201,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
             "pilotSkillAbove2": new PilotSkillRestriction(2),
             "pilotSkillAbove3": new PilotSkillRestriction(3),
             "pilotSkillAbove4": new PilotSkillRestriction(4),
+            "protectorateStarfighterOnly": new ShipRestriction(Ship.PROTECTORATE_STARFIGHTER),
             "raiderClassCorvetteAftSectionOnly": new ShipRestriction("raiderClassCorvette.aft"),
             "rebelOnly": new TeamRestriction(Team.REBEL),
             "scumOnly": new TeamRestriction(Team.SCUM),
@@ -203,6 +209,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
             "starViperOnly": new ShipRestriction(Ship.STAR_VIPER),
             "tieAdvancedOnly": new ShipRestriction(Ship.TIE_ADVANCED),
             "tieAdvancedPrototypeOnly": new ShipRestriction(Ship.TIE_ADVANCED_PROTOTYPE),
+            "tieBomberOnly": new ShipRestriction(Ship.TIE_BOMBER),
             "tieDefenderOnly": new ShipRestriction(Ship.TIE_DEFENDER),
             "tieInterceptorOnly": new ShipRestriction(Ship.TIE_INTERCEPTOR),
             "tieOnly":
@@ -216,6 +223,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
                 }
             },
             "tiePhantomOnly": new ShipRestriction(Ship.TIE_PHANTOM),
+            "tieSfOnly": new ShipRestriction(Ship.TIE_SF_FIGHTER),
             "vcx100Only": new ShipRestriction(Ship.VCX_100),
             "vt49DecimatorOnly": new ShipRestriction(Ship.VT_49_DECIMATOR),
             "xWingOnly":

@@ -40,19 +40,19 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
                 {
                     ship = pilot.shipTeam.ship;
 
-                    if (pilot.value.endsWith("fore"))
+                    if (pilot.value.endsWith(".fore"))
                     {
                         ship = ship.fore;
                     }
-                    else if (pilot.value.endsWith("aft"))
+                    else if (pilot.value.endsWith(".aft"))
                     {
                         ship = ship.aft;
                     }
-                    else if (pilot.value.endsWith("crippledFore"))
+                    else if (pilot.value.endsWith(".crippledFore"))
                     {
                         ship = ship.crippledFore;
                     }
-                    else if (pilot.value.endsWith("crippledAft"))
+                    else if (pilot.value.endsWith(".crippledAft"))
                     {
                         ship = ship.crippledAft;
                     }

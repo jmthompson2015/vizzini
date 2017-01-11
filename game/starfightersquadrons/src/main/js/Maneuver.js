@@ -92,6 +92,10 @@ define(["Bearing", "Difficulty"],
             STRAIGHT_4_2: "straight4_2",
 
             // Tallon Roll.
+            TALLON_ROLL_LEFT_2_HARD: "tallonRollLeft2Hard",
+            TALLON_ROLL_LEFT_2_STANDARD: "tallonRollLeft2Standard",
+            TALLON_ROLL_RIGHT_2_HARD: "tallonRollRight2Hard",
+            TALLON_ROLL_RIGHT_2_STANDARD: "tallonRollRight2Standard",
             TALLON_ROLL_LEFT_3_HARD: "tallonRollLeft3Hard",
             TALLON_ROLL_LEFT_3_STANDARD: "tallonRollLeft3Standard",
             TALLON_ROLL_RIGHT_3_HARD: "tallonRollRight3Hard",
@@ -627,6 +631,38 @@ define(["Bearing", "Difficulty"],
                     energy: 2,
                     difficultyKey: Difficulty.STANDARD,
                     value: "straight4_2",
+                },
+                "tallonRollLeft2Hard":
+                {
+                    bearingKey: Bearing.TALLON_ROLL_LEFT,
+                    speed: 2,
+                    difficultyKey: Difficulty.HARD,
+                    radius: 62.2,
+                    value: "tallonRollLeft2Hard",
+                },
+                "tallonRollLeft2Standard":
+                {
+                    bearingKey: Bearing.TALLON_ROLL_LEFT,
+                    speed: 2,
+                    difficultyKey: Difficulty.STANDARD,
+                    radius: 62.2,
+                    value: "tallonRollLeft2Standard",
+                },
+                "tallonRollRight2Hard":
+                {
+                    bearingKey: Bearing.TALLON_ROLL_RIGHT,
+                    speed: 2,
+                    difficultyKey: Difficulty.HARD,
+                    radius: 62.2,
+                    value: "tallonRollRight2Hard",
+                },
+                "tallonRollRight2Standard":
+                {
+                    bearingKey: Bearing.TALLON_ROLL_RIGHT,
+                    speed: 2,
+                    difficultyKey: Difficulty.STANDARD,
+                    radius: 62.2,
+                    value: "tallonRollRight2Standard",
                 },
                 "tallonRollLeft3Hard":
                 {

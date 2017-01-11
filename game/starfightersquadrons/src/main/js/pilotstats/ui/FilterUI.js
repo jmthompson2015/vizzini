@@ -122,7 +122,7 @@ define(["Ship", "Team", "pilotstats/Action", "pilotstats/DefaultFilters", "pilot
                         clientProps["data-entitytype"] = "shipKey";
                         break;
                     case "wave":
-                        values = ["1", "2", "3", "4", "5", "6", "7", "8", "Aces", "Huge"];
+                        values = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "Aces", "Huge"];
                         clientProps["data-entitytype"] = "wave";
                         break;
                     case "isImplemented":

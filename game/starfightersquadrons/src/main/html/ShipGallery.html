@@ -88,12 +88,18 @@
                         var images = [];
                         images.push(this.createShipImage(shipTeamKey, images.length));
 
-                        if (shipTeamKey === ShipTeam.IMPERIAL_TIE_INTERCEPTOR)
+                        if (shipTeamKey === ShipTeam.IMPERIAL_TIE_BOMBER)
                         {
-                            images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
-                                images.length));
-                            images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON,
-                                images.length));
+                            images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_BOMBER_VETERAN, images.length));
+                        }
+                        else if (shipTeamKey === ShipTeam.IMPERIAL_TIE_DEFENDER)
+                        {
+                            images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_DEFENDER_VETERAN, images.length));
+                        }
+                        else if (shipTeamKey === ShipTeam.IMPERIAL_TIE_INTERCEPTOR)
+                        {
+                            images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD, images.length));
+                            images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON, images.length));
                         }
                         else if (shipTeamKey === ShipTeam.REBEL_A_WING)
                         {
@@ -238,7 +244,9 @@
                         var agent = new SimpleAgent("Agent", team);
 
                         var cells = [];
-                        var excludes = [ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
+                        var excludes = [ShipTeam.IMPERIAL_TIE_BOMBER_VETERAN,
+                            ShipTeam.IMPERIAL_TIE_DEFENDER_VETERAN,
+                            ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
                             ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON,
                             ShipTeam.REBEL_A_WING_ACE,
                             ShipTeam.REBEL_B_WING_ACE

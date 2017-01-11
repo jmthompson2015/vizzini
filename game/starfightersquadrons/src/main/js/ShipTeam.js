@@ -4,6 +4,7 @@ define(["Ship", "Team"], function(Ship, Team)
     var ShipTeam = {
         // First Order.
         FIRST_ORDER_TIE_FO_FIGHTER: "firstOrderTieFoFighter",
+        FIRST_ORDER_TIE_SF_FIGHTER: "firstOrderTieSfFighter",
 
         // Imperial.
         IMPERIAL_FIRESPRAY_31: "imperialFirespray31",
@@ -13,7 +14,9 @@ define(["Ship", "Team"], function(Ship, Team)
         IMPERIAL_TIE_ADVANCED: "imperialTieAdvanced",
         IMPERIAL_TIE_ADVANCED_PROTOTYPE: "imperialTieAdvancedPrototype",
         IMPERIAL_TIE_BOMBER: "imperialTieBomber",
+        IMPERIAL_TIE_BOMBER_VETERAN: "imperialTieBomberVeteran",
         IMPERIAL_TIE_DEFENDER: "imperialTieDefender",
+        IMPERIAL_TIE_DEFENDER_VETERAN: "imperialTieDefenderVeteran",
         IMPERIAL_TIE_FIGHTER: "imperialTieFighter",
         IMPERIAL_TIE_INTERCEPTOR: "imperialTieInterceptor",
         IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD: "imperialTieInterceptorRoyalGuard",
@@ -25,6 +28,7 @@ define(["Ship", "Team"], function(Ship, Team)
         // Rebel.
         REBEL_A_WING: "rebelAWing",
         REBEL_A_WING_ACE: "rebelAWingAce",
+        REBEL_ARC_170: "rebelArc170",
         REBEL_ATTACK_SHUTTLE: "rebelAttackShuttle",
         REBEL_B_WING: "rebelBWing",
         REBEL_B_WING_ACE: "rebelBWingAce",
@@ -51,6 +55,7 @@ define(["Ship", "Team"], function(Ship, Team)
         SCUM_JUMPMASTER_5000: "scumJumpMaster5000",
         SCUM_KIHRAXZ_FIGHTER: "scumKihraxzFighter",
         SCUM_M3_A_INTERCEPTOR: "scumM3AInterceptor",
+        SCUM_PROTECTORATE_STARFIGHTER: "scumProtectorateStarfighter",
         SCUM_STAR_VIPER: "scumStarViper",
         SCUM_Y_WING: "scumYWing",
         SCUM_YV_666: "scumYv666",
@@ -67,6 +72,15 @@ define(["Ship", "Team"], function(Ship, Team)
                 image: "FirstOrder_TIE_fo_Fighter.png",
                 wave: "8",
                 value: "firstOrderTieFoFighter",
+            },
+            "firstOrderTieSfFighter":
+            {
+                name: "TIE/sf Fighter",
+                shipKey: Ship.TIE_SF_FIGHTER,
+                teamKey: Team.FIRST_ORDER,
+                image: "FirstOrder_TIE_sf_Fighter.png",
+                wave: "9",
+                value: "firstOrderTieSfFighter",
             },
 
             // Imperial.
@@ -133,6 +147,15 @@ define(["Ship", "Team"], function(Ship, Team)
                 wave: "3",
                 value: "imperialTieBomber",
             },
+            "imperialTieBomberVeteran":
+            {
+                name: "TIE Bomber",
+                shipKey: Ship.TIE_BOMBER,
+                teamKey: Team.IMPERIAL,
+                image: "Imperial_Veterans_TIE_Bomber.png",
+                wave: "Aces",
+                value: "imperialTieBomberVeteran",
+            },
             "imperialTieDefender":
             {
                 name: "TIE Defender",
@@ -141,6 +164,15 @@ define(["Ship", "Team"], function(Ship, Team)
                 image: "TIE_Defender.png",
                 wave: "4",
                 value: "imperialTieDefender",
+            },
+            "imperialTieDefenderVeteran":
+            {
+                name: "TIE Defender",
+                shipKey: Ship.TIE_DEFENDER,
+                teamKey: Team.IMPERIAL,
+                image: "Imperial_Veterans_TIE_Defender.png",
+                wave: "Aces",
+                value: "imperialTieDefenderVeteran",
             },
             "imperialTieFighter":
             {
@@ -224,6 +256,15 @@ define(["Ship", "Team"], function(Ship, Team)
                 image: "Rebel_Aces_A-Wing.png",
                 wave: "Aces",
                 value: "rebelAWingAce",
+            },
+            "rebelArc170":
+            {
+                name: "ARC-170",
+                shipKey: Ship.ARC_170,
+                teamKey: Team.REBEL,
+                image: "Rebel_ARC-170.png",
+                wave: "9",
+                value: "rebelArc170",
             },
             "rebelAttackShuttle":
             {
@@ -426,6 +467,15 @@ define(["Ship", "Team"], function(Ship, Team)
                 image: "Scum_M3-A_Interceptor.png",
                 wave: "6",
                 value: "scumM3AInterceptor",
+            },
+            "scumProtectorateStarfighter":
+            {
+                name: "Protectorate Starfighter",
+                shipKey: Ship.PROTECTORATE_STARFIGHTER,
+                teamKey: Team.SCUM,
+                image: "Scum_Protectorate_Starfighter.png",
+                wave: "9",
+                value: "scumProtectorateStarfighter",
             },
             "scumStarViper":
             {

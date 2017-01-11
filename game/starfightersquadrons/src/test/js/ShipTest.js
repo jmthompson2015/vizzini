@@ -1,4 +1,4 @@
-define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
+define(["FiringArc", "Ship", "ShipBase"], function(FiringArc, Ship, ShipBase)
 {
     "use strict";
     QUnit.module("Ship");
@@ -98,14 +98,14 @@ define([ "FiringArc", "Ship", "ShipBase" ], function(FiringArc, Ship, ShipBase)
 
         // Verify.
         assert.ok(result);
-        var length = 36;
+        var length = 39;
         assert.equal(result.length, length);
         assert.equal(result[0], "aWing");
         assert.equal(result[length - 1], "z95Headhunter");
 
         var properties = Object.getOwnPropertyNames(Ship);
         var count = properties.length - 1 - // properties
-        1; // values
+            1; // values
         assert.equal(result.length, count);
     });
 });

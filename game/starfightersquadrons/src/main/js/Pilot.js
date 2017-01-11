@@ -7,6 +7,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         ALPHA_SQUADRON_PILOT: "alphaSquadronPilot",
         ARVEL_CRYNYD: "arvelCrynyd",
         AVENGER_SQUADRON_PILOT: "avengerSquadronPilot",
+        BACKDRAFT: "backdraft",
         BACKSTABBER: "backstabber",
         BANDIT_SQUADRON_PILOT: "banditSquadronPilot",
         BARON_OF_THE_EMPIRE: "baronOfTheEmpire",
@@ -26,6 +27,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         BOBA_FETT_SCUM: "bobaFettScum",
         BOSSK: "bossk",
         BOUNTY_HUNTER: "bountyHunter",
+        BRAYLEN_STRAMM: "braylenStramm",
         CAPTAIN_JONUS: "captainJonus",
         CAPTAIN_KAGI: "captainKagi",
         CAPTAIN_OICUNN: "captainOicunn",
@@ -40,6 +42,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         COLONEL_VESSERY: "colonelVessery",
         COMMANDER_ALOZEN: "commanderAlozen",
         COMMANDER_KENKIRK: "commanderKenkirk",
+        CONCORD_DAWN_ACE: "concordDawnAce",
+        CONCORD_DAWN_VETERAN: "concordDawnVeteran",
         CONTRACTED_SCOUT: "contractedScout",
         CORRAN_HORN: "corranHorn",
         COUNTESS_RYAD: "countessRyad",
@@ -50,6 +54,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         DARK_CURSE: "darkCurse",
         DARTH_VADER: "darthVader",
         DASH_RENDAR: "dashRendar",
+        DEATHFIRE: "deathfire",
         DEATHRAIN: "deathrain",
         DELTA_SQUADRON_PILOT: "deltaSquadronPilot",
         DENGAR: "dengar",
@@ -66,11 +71,14 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         ETAHN_ABAHT: "etahnAbaht",
         EZRA_BRIDGER: "ezraBridger",
         FELS_WRATH: "felsWrath",
+        FENN_RAU: "fennRau",
         FOUR_LOM: "fourLom",
         GAMMA_SQUADRON_PILOT: "gammaSquadronPilot",
+        GAMMA_SQUADRON_VETERAN: "gammaSquadronVeteran",
         GAND_FINDSMAN: "gandFindsman",
         GARVEN_DREIS: "garvenDreis",
         GEMMER_SOJAN: "gemmerSojan",
+        GLAIVE_SQUADRON_PILOT: "glaiveSquadronPilot",
         GOLD_SQUADRON_PILOT: "goldSquadronPilot",
         GOZANTI_CLASS_CRUISER: "gozantiClassCruiser",
         GR_75_MEDIUM_TRANSPORT: "gr75MediumTransport",
@@ -96,6 +104,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         JEK_PORKINS: "jekPorkins",
         JUNO_ECLIPSE: "junoEclipse",
         KAATO_LEEACHOS: "kaatoLeeachos",
+        KAD_SOLUS: "kadSolus",
         KANAN_JARRUS: "kananJarrus",
         KATH_SCARLET_IMPERIAL: "kathScarletImperial",
         KATH_SCARLET_SCUM: "kathScarletScum",
@@ -114,7 +123,8 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         LIEUTENANT_LORRIR: "lieutenantLorrir",
         LOTHAL_REBEL: "lothalRebel",
         LUKE_SKYWALKER: "lukeSkywalker",
-        MAAREK_STELE: "maarekStele",
+        MAAREK_STELE_TIE_ADVANCED: "maarekSteleTieAdvanced",
+        MAAREK_STELE_TIE_DEFENDER: "maarekSteleTieDefender",
         MAJOR_RHYMER: "majorRhymer",
         MANAROO: "manaroo",
         MANDALORIAN_MERCENARY: "mandalorianMercenary",
@@ -125,9 +135,12 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         NERA_DANTELS: "neraDantels",
         NDRU_SUHLAK: "ndruSuhlak",
         NIGHT_BEAST: "nightBeast",
+        NORRA_WEXLEY: "norraWexley",
         OBSIDIAN_SQUADRON_PILOT: "obsidianSquadronPilot",
+        OLD_TEROCH: "oldTeroch",
         OMEGA_ACE: "omegaAce",
         OMEGA_LEADER: "omegaLeader",
+        OMEGA_SPECIALIST: "omegaSpecialist",
         OMEGA_SQUADRON_PILOT: "omegaSquadronPilot",
         OMICRON_GROUP_PILOT: "omicronGroupPilot",
         ONYX_SQUADRON_PILOT: "onyxSquadronPilot",
@@ -137,6 +150,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         POE_DAMERON: "poeDameron",
         PRINCE_XIZOR: "princeXizor",
         PROTOTYPE_PILOT: "prototypePilot",
+        QUICKDRAW: "quickdraw",
         RAIDER_CLASS_CORVETTE: "raiderClassCorvette",
         REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
         REBEL_OPERATIVE: "rebelOperative",
@@ -155,6 +169,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         SCOURGE: "scourge",
         SERISSU: "serissu",
         SHADOW_SQUADRON_PILOT: "shadowSquadronPilot",
+        SHARA_BEY: "sharaBey",
         SIENAR_TEST_PILOT: "sienarTestPilot",
         SIGMA_SQUADRON_PILOT: "sigmaSquadronPilot",
         SOONTIR_FEL: "soontirFel",
@@ -169,7 +184,9 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         TEMPEST_SQUADRON_PILOT: "tempestSquadronPilot",
         TEN_NUMB: "tenNumb",
         TETRAN_COWALL: "tetranCowall",
+        THANE_KYRELL: "thaneKyrell",
         THE_INQUISITOR: "theInquisitor",
+        TOMAX_BREN: "tomaxBren",
         TORKIL_MUX: "torkilMux",
         TRANDOSHAN_SLAVER: "trandoshanSlaver",
         TURR_PHENNIR: "turrPhennir",
@@ -183,10 +200,12 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
         WILD_SPACE_FRINGER: "wildSpaceFringer",
         WINGED_GUNDARK: "wingedGundark",
         YOUNGSTER: "youngster",
+        ZEALOUS_RECRUIT: "zealousRecruit",
         ZEB_ORRELIOS: "zebOrrelios",
         ZERTIK_STROM: "zertikStrom",
         ZETA_ACE: "zetaAce",
         ZETA_LEADER: "zetaLeader",
+        ZETA_SPECIALIST: "zetaSpecialist",
         ZETA_SQUADRON_PILOT: "zetaSquadronPilot",
         ZUCKUSS: "zuckuss",
         properties:
@@ -248,6 +267,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [],
                 isImplemented: true,
                 value: "avengerSquadronPilot",
+            },
+            "backdraft":
+            {
+                name: "\"Backdraft\"",
+                description: "When attacking a ship inside your auxiliary firing arc, you may add 1 critical result.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.FIRST_ORDER_TIE_SF_FIGHTER,
+                pilotSkillValue: 7,
+                squadPointCost: 27,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.MISSILE, UpgradeType.TECH],
+                value: "backdraft",
             },
             "backstabber":
             {
@@ -477,6 +507,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 isImplemented: true,
                 value: "bountyHunter",
             },
+            "braylenStramm":
+            {
+                name: "Braylen Stramm",
+                description: "After you execute a maneuver, you may roll an attack die. On a hit or critical result, remove 1 stress token from your ship.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.REBEL_ARC_170,
+                pilotSkillValue: 3,
+                squadPointCost: 25,
+                upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.ASTROMECH],
+                value: "braylenStramm",
+            },
             "captainJonus":
             {
                 name: "Captain Jonus",
@@ -616,6 +657,30 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 isImplemented: true,
                 value: "colonelVessery",
             },
+            "concordDawnAce":
+            {
+                name: "Concord Dawn Ace",
+                description: "The elite of the Concord Dawn Protectorate mastered the Concordia Face Off maneuver, leveraging their ships' narrow attack profile to execute deadly head-on charges.",
+                isFlavorText: true,
+                shipTeamKey: ShipTeam.SCUM_PROTECTORATE_STARFIGHTER,
+                pilotSkillValue: 5,
+                squadPointCost: 23,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO],
+                isImplemented: true,
+                value: "concordDawnAce",
+            },
+            "concordDawnVeteran":
+            {
+                name: "Concord Dawn Veteran",
+                description: "Concord Dawn Protectors favored an aggressive approach, using their craft's pivot wing technology to achieve unmatched agility in the pursuit of their quarry.",
+                isFlavorText: true,
+                shipTeamKey: ShipTeam.SCUM_PROTECTORATE_STARFIGHTER,
+                pilotSkillValue: 3,
+                squadPointCost: 22,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO],
+                isImplemented: true,
+                value: "concordDawnVeteran",
+            },
             "commanderAlozen":
             {
                 name: "Commander Alozen",
@@ -669,8 +734,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 name: "Countess Ryad",
                 description: "When you reveal a Straight maneuver, you may treat it as a K-Turn maneuver.",
                 isUnique: true,
-                // FIXME: change for new ship image
-                shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER,
+                shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER_VETERAN,
                 pilotSkillValue: 5,
                 squadPointCost: 34,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE],
@@ -794,6 +858,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 squadPointCost: 36,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE, UpgradeType.CREW],
                 value: "dashRendar",
+            },
+            "deathfire":
+            {
+                name: "\"Deathfire\"",
+                description: "When you reveal your maneuver dial or after you perform an action, you may perform a Bomb Upgrade card action as a free action.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.IMPERIAL_TIE_BOMBER_VETERAN,
+                pilotSkillValue: 3,
+                squadPointCost: 17,
+                upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB],
+                value: "deathfire",
             },
             "deathrain":
             {
@@ -983,6 +1058,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [],
                 value: "felsWrath",
             },
+            "fennRau":
+            {
+                name: "Fenn Rau",
+                description: "When attacking or defending, if the enemy ship is at Range 1, you may roll 1 additional dice.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.SCUM_PROTECTORATE_STARFIGHTER,
+                pilotSkillValue: 9,
+                squadPointCost: 28,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO],
+                value: "fennRau",
+            },
             "fourLom":
             {
                 name: "4-LOM",
@@ -1005,6 +1091,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB],
                 isImplemented: true,
                 value: "gammaSquadronPilot",
+            },
+            "gammaSquadronVeteran":
+            {
+                name: "Gamma Squadron Pilot",
+                description: "The white-striped TIE bombers flown by the elite Gamma Squadron possess enhanced maneuverability, allowing them to nimbly strike capital ships with fearsome ease.",
+                isFlavorText: true,
+                shipTeamKey: ShipTeam.IMPERIAL_TIE_BOMBER_VETERAN,
+                pilotSkillValue: 5,
+                squadPointCost: 19,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB],
+                value: "gammaSquadronVeteran",
             },
             "gandFindsman":
             {
@@ -1039,6 +1136,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 squadPointCost: 22,
                 upgradeTypeKeys: [UpgradeType.MISSILE],
                 value: "gemmerSojan",
+            },
+            "glaiveSquadronPilot":
+            {
+                name: "Glaive Squadron Pilot",
+                description: "The elite pilots of Glaive Squadron often serve as protective vanguard for high-ranking Imperial officials.",
+                isFlavorText: true,
+                shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER_VETERAN,
+                pilotSkillValue: 6,
+                squadPointCost: 34,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE],
+                value: "glaiveSquadronPilot",
             },
             "goldSquadronPilot":
             {
@@ -1337,6 +1445,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.ILLICIT],
                 value: "kaatoLeeachos",
             },
+            "kadSolus":
+            {
+                name: "Kad Solus",
+                description: "After you execute a red maneuver, assign 2 focus tokens to your ship.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.SCUM_PROTECTORATE_STARFIGHTER,
+                pilotSkillValue: 6,
+                squadPointCost: 25,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO],
+                value: "kadSolus",
+            },
             "kananJarrus":
             {
                 name: "Kanan Jarrus",
@@ -1548,7 +1667,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 isImplemented: true,
                 value: "lukeSkywalker",
             },
-            "maarekStele":
+            "maarekSteleTieAdvanced":
             {
                 name: "Maarek Stele",
                 description: "When your attack deals a faceup Damage card to the defender, instead draw 3 Damage cards, choose 1 to deal, and discard the others.",
@@ -1557,7 +1676,18 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 pilotSkillValue: 7,
                 squadPointCost: 27,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE],
-                value: "maarekStele",
+                value: "maarekSteleTieAdvanced",
+            },
+            "maarekSteleTieDefender":
+            {
+                name: "Maarek Stele",
+                description: "When your attack deals a faceup Damage card to the defender, instead draw 3 Damage cards, choose 1 to deal, and discard the others.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.IMPERIAL_TIE_DEFENDER_VETERAN,
+                pilotSkillValue: 7,
+                squadPointCost: 35,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE],
+                value: "maarekSteleTieDefender",
             },
             "majorRhymer":
             {
@@ -1679,6 +1809,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 isImplemented: true,
                 value: "nightBeast",
             },
+            "norraWexley":
+            {
+                name: "Norra Wexley",
+                description: "When attacking or defending, you may spend a target lock you have on the enemy ship to add 1 Focus result to your roll.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.REBEL_ARC_170,
+                pilotSkillValue: 7,
+                squadPointCost: 29,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.ASTROMECH],
+                value: "norraWexley",
+            },
             "obsidianSquadronPilot":
             {
                 name: "Obsidian Squadron Pilot",
@@ -1690,6 +1831,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [],
                 isImplemented: true,
                 value: "obsidianSquadronPilot",
+            },
+            "oldTeroch":
+            {
+                name: "Old Teroch",
+                description: "At the start of the Combat phase, you may choose 1 enemy ship at Range 1. If you are inside its firing arc, it discards all focus and evade tokens.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.SCUM_PROTECTORATE_STARFIGHTER,
+                pilotSkillValue: 7,
+                squadPointCost: 26,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO],
+                value: "oldTeroch",
             },
             "omegaAce":
             {
@@ -1713,6 +1865,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 squadPointCost: 21,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TECH],
                 value: "omegaLeader",
+            },
+            "omegaSpecialist":
+            {
+                name: "Omega Specialist",
+                description: "Special Forces TIE fighters employed a dual heavy laser turret mounted to the bottom of the fuselage to defend against threats from the rear and augment their forward firepower.",
+                isFlavorText: true,
+                shipTeamKey: ShipTeam.FIRST_ORDER_TIE_SF_FIGHTER,
+                pilotSkillValue: 5,
+                squadPointCost: 25,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.MISSILE, UpgradeType.TECH],
+                value: "omegaSpecialist",
             },
             "omegaSquadronPilot":
             {
@@ -1824,6 +1987,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [UpgradeType.MISSILE],
                 isImplemented: true,
                 value: "prototypePilot",
+            },
+            "quickdraw":
+            {
+                name: "\"Quickdraw\"",
+                description: "Once per round, when you lose a shield token, you may perform a primary weapon attack.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.FIRST_ORDER_TIE_SF_FIGHTER,
+                pilotSkillValue: 9,
+                squadPointCost: 29,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.MISSILE, UpgradeType.TECH],
+                value: "quickdraw",
             },
             "raiderClassCorvette":
             {
@@ -2073,6 +2247,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 isImplemented: true,
                 value: "shadowSquadronPilot",
             },
+            "sharaBey":
+            {
+                name: "Shara Bey",
+                description: "When another friendly ship at Range 1-2 is attacking, it may treat your blue target lock tokens as its own.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.REBEL_ARC_170,
+                pilotSkillValue: 6,
+                squadPointCost: 28,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.ASTROMECH],
+                value: "sharaBey",
+            },
             "sienarTestPilot":
             {
                 name: "Sienar Test Pilot",
@@ -2241,6 +2426,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [UpgradeType.ELITE],
                 value: "tetranCowall",
             },
+            "thaneKyrell":
+            {
+                name: "Thane Kyrell",
+                description: "After an enemy ship inside your firing arc at Range 1-3 attacks another friendly ship, you may perform a free action.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.REBEL_ARC_170,
+                pilotSkillValue: 4,
+                squadPointCost: 26,
+                upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.ASTROMECH],
+                value: "thaneKyrell",
+            },
             "theInquisitor":
             {
                 name: "The Inquisitor",
@@ -2251,6 +2447,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 squadPointCost: 25,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE],
                 value: "theInquisitor",
+            },
+            "tomaxBren":
+            {
+                name: "Tomax Bren",
+                description: "Once per round, after you discard an Elite Upgrade card, flip that card faceup.",
+                isUnique: true,
+                shipTeamKey: ShipTeam.IMPERIAL_TIE_BOMBER_VETERAN,
+                pilotSkillValue: 8,
+                squadPointCost: 24,
+                upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO, UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB],
+                value: "tomaxBren",
             },
             "torkilMux":
             {
@@ -2405,6 +2612,18 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 upgradeTypeKeys: [UpgradeType.ELITE],
                 value: "youngster",
             },
+            "zealousRecruit":
+            {
+                name: "Zealous Recruit",
+                description: "The Concord Dawn Protectorate starfighter was armed with a hidden torpedo launcher, allowing it to launch a deadly salvo before its foes realized it was carrying ordnance.",
+                isFlavorText: true,
+                shipTeamKey: ShipTeam.SCUM_PROTECTORATE_STARFIGHTER,
+                pilotSkillValue: 1,
+                squadPointCost: 20,
+                upgradeTypeKeys: [UpgradeType.TORPEDO],
+                isImplemented: true,
+                value: "zealousRecruit",
+            },
             "zebOrrelios":
             {
                 name: "\"Zeb\" Orrelios",
@@ -2449,6 +2668,18 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                 squadPointCost: 20,
                 upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TECH],
                 value: "zetaLeader",
+            },
+            "zetaSpecialist":
+            {
+                name: "Zeta Specialist",
+                description: "Only the most elite pilots of the First Order were authorized to fly this specialized two-seater TIE craft outfitted with enhanced shields, weapons, and sensor systems.",
+                isFlavorText: true,
+                shipTeamKey: ShipTeam.FIRST_ORDER_TIE_SF_FIGHTER,
+                pilotSkillValue: 3,
+                squadPointCost: 23,
+                upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.MISSILE, UpgradeType.TECH],
+                isImplemented: true,
+                value: "zetaSpecialist",
             },
             "zetaSquadronPilot":
             {
