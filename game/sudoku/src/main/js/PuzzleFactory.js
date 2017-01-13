@@ -14,9 +14,18 @@ define(["GridFactory", "PuzzleFormat", "Unit"],
             }
         };
 
-        PuzzleFactory.createEasy = function()
+        PuzzleFactory.createEasy1 = function()
         {
-            var grid = GridFactory.createEasy();
+            var grid = GridFactory.createEasy1();
+            var answer = PuzzleFormat.parse(grid);
+            PuzzleFactory.adjustPossibilites(answer, 9);
+
+            return answer;
+        };
+
+        PuzzleFactory.createEasy2 = function()
+        {
+            var grid = GridFactory.createEasy2();
             var answer = PuzzleFormat.parse(grid);
             PuzzleFactory.adjustPossibilites(answer, 9);
 
