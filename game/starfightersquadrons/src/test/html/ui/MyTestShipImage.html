@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestShipImage</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+</head>
+<body>
+	<table style="background-color: Black;">
+		<tr>
+			<td>
+				<canvas id="firesprayCanvas" width="100" height="100"></canvas>
+			</td>
+			<td>
+				<canvas id="tieDefenderCanvas" width="100" height="100"></canvas>
+			</td>
+			<td>
+				<canvas id="arc170Canvas" width="100" height="100"></canvas>
+			</td>
+			<td>
+				<canvas id="vcx100Canvas" width="100" height="100"></canvas>
+			</td>
+			<td>
+				<canvas id="firespray2Canvas" width="100" height="100"></canvas>
+			</td>
+			<td>
+				<canvas id="yv666Canvas" width="100" height="100"></canvas>
+			</td>
+			<td>
+				<canvas id="tieSfFighterCanvas" width="100" height="100"></canvas>
+			</td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["Position", "ShipTeam", "Team", "process/ui/ShipImage"],
+			function(Position, ShipTeam, Team, ShipImage)
+			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+				var id = 1;
+
+				drawShip(id++, "firesprayCanvas", ShipTeam.properties[ShipTeam.IMPERIAL_FIRESPRAY_31]);
+				drawShip(id++, "tieDefenderCanvas", ShipTeam.properties[ShipTeam.IMPERIAL_TIE_DEFENDER_VETERAN]);
+
+				drawShip(id++, "arc170Canvas", ShipTeam.properties[ShipTeam.REBEL_ARC_170]);
+				drawShip(id++, "vcx100Canvas", ShipTeam.properties[ShipTeam.REBEL_VCX_100]);
+
+				drawShip(id++, "firespray2Canvas", ShipTeam.properties[ShipTeam.SCUM_FIRESPRAY_31]);
+				drawShip(id++, "yv666Canvas", ShipTeam.properties[ShipTeam.SCUM_YV_666]);
+
+				drawShip(id++, "tieSfFighterCanvas", ShipTeam.properties[ShipTeam.FIRST_ORDER_TIE_SF_FIGHTER]);
+
+				function drawShip(id, elementId, shipTeam)
+				{
+					var canvas = document.getElementById(elementId);
+					var context = canvas.getContext("2d");
+					var scale = 1.0;
+					var image = new Image();
+					image.src = imageBase + "ship/" + shipTeam.image;
+					var position = new Position(50, 50, 0);
+
+					ShipImage.draw(context, scale, id, image, position, shipTeam);
+				}
+			});
+	</script>
+</body>
+
+</html>

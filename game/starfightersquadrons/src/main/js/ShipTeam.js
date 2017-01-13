@@ -149,7 +149,7 @@ define(["Ship", "Team"], function(Ship, Team)
             },
             "imperialTieBomberVeteran":
             {
-                name: "TIE Bomber",
+                name: "TIE Bomber (Gamma Squadron)",
                 shipKey: Ship.TIE_BOMBER,
                 teamKey: Team.IMPERIAL,
                 image: "Imperial_Veterans_TIE_Bomber.png",
@@ -167,7 +167,7 @@ define(["Ship", "Team"], function(Ship, Team)
             },
             "imperialTieDefenderVeteran":
             {
-                name: "TIE Defender",
+                name: "TIE Defender (Glaive Squadron)",
                 shipKey: Ship.TIE_DEFENDER,
                 teamKey: Team.IMPERIAL,
                 image: "Imperial_Veterans_TIE_Defender.png",
@@ -250,7 +250,7 @@ define(["Ship", "Team"], function(Ship, Team)
             },
             "rebelAWingAce":
             {
-                name: "A-Wing (Ace)",
+                name: "A-Wing (Prototype)",
                 shipKey: Ship.A_WING,
                 teamKey: Team.REBEL,
                 image: "Rebel_Aces_A-Wing.png",
@@ -286,7 +286,7 @@ define(["Ship", "Team"], function(Ship, Team)
             },
             "rebelBWingAce":
             {
-                name: "B-Wing (Ace)",
+                name: "B-Wing (Dagger Squadron)",
                 shipKey: Ship.B_WING,
                 teamKey: Team.REBEL,
                 image: "Rebel_Aces_B-Wing.png",
@@ -419,7 +419,7 @@ define(["Ship", "Team"], function(Ship, Team)
                 name: "Firespray-31 (Scum)",
                 shipKey: Ship.FIRESPRAY_31,
                 teamKey: Team.SCUM,
-                image: "Scum_Firespray-31.png",
+                image: "Firespray-31.png",
                 wave: "6",
                 value: "scumFirespray31",
             },
@@ -437,7 +437,7 @@ define(["Ship", "Team"], function(Ship, Team)
                 name: "HWK-290 (Scum)",
                 shipKey: Ship.HWK_290,
                 teamKey: Team.SCUM,
-                image: "Scum_HWK-290.png",
+                image: "HWK-290.png",
                 wave: "6",
                 value: "scumHwk290",
             },

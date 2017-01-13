@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestShipUI</title>
+
+	<link rel="stylesheet" href="../../../main/css/style.css">
+
+	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+
+	<script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+</head>
+<body>
+	<table style="background-color: Black;">
+		<tr>
+			<td id="tieDefenderPanel">
+			</td>
+			<td id="firesprayPanel">
+			</td>
+			<td id="vcx100Panel">
+			</td>
+			<td id="firespray2Panel">
+			</td>
+			<td id="yv666Panel">
+			</td>
+		</tr>
+	</table>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["Position", "ShipTeam", "Team", "process/ui/ShipUI"],
+			function(Position, ShipTeam, Team, ShipUI)
+			{
+				var resourceBase = "../../../main/resources/";
+				var imageBase = resourceBase + "images/";
+
+				drawShip("tieDefenderPanel", ShipTeam.properties[ShipTeam.IMPERIAL_TIE_DEFENDER_VETERAN]);
+				drawShip("firesprayPanel", ShipTeam.properties[ShipTeam.IMPERIAL_FIRESPRAY_31]);
+				drawShip("vcx100Panel", ShipTeam.properties[ShipTeam.REBEL_VCX_100]);
+				drawShip("firespray2Panel", ShipTeam.properties[ShipTeam.SCUM_FIRESPRAY_31]);
+				drawShip("yv666Panel", ShipTeam.properties[ShipTeam.SCUM_YV_666]);
+
+				function drawShip(elementId, shipTeam)
+				{
+					var shipBase = shipTeam.ship.shipBase;
+					var position = new Position(shipBase.width / 2, shipBase.height / 2, 0);
+
+					var element = React.createElement(ShipUI,
+					{
+						canvasId: shipTeam.name,
+						imageBase: imageBase,
+						position: position,
+						shipTeam: shipTeam,
+					});
+
+					ReactDOM.render(element, document.getElementById(elementId));
+				}
+			});
+	</script>
+</body>
+
+</html>

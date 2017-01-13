@@ -62,12 +62,11 @@
         var resourceBase = "../resources/";
         var imageBase = resourceBase + "images/";
 
-        require(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/TokenFactory", "process/Reducer",
-                "process/ui/ManeuverChooser", "process/ui/ShipActionPanel",
-                "process/ui/ShipSilhouetteUI"
+        require(["Pilot", "Position", "Ship", "ShipTeam", "process/SimpleAgent", "process/SquadBuilder", "Team", "process/Token", "process/TokenFactory",
+                "process/Reducer", "process/ui/ManeuverChooser", "process/ui/ShipActionPanel", "process/ui/ShipUI", "process/ui/ShipSilhouetteUI"
             ],
-            function(Pilot, Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token, TokenFactory, Reducer, ManeuverChooser, ShipActionPanel,
-                ShipSilhouetteUI)
+            function(Pilot, Position, Ship, ShipTeam, SimpleAgent, SquadBuilder, Team, Token, TokenFactory, Reducer, ManeuverChooser, ShipActionPanel,
+                ShipUI, ShipSilhouetteUI)
             {
                 var imageBase2 = imageBase + "ship/";
                 var store = Redux.createStore(Reducer.root);
@@ -152,7 +151,7 @@
                         cell0 = React.DOM.td(
                         {
                             key: "image" + shipTeamKey,
-                            className: "galleryCell"
+                            className: "galleryCell",
                         }, images);
                         cell1 = React.DOM.td(
                         {
@@ -223,14 +222,16 @@
                     createShipImage: function(shipTeamKey, key)
                     {
                         var shipTeam = ShipTeam.properties[shipTeamKey];
-                        var filename = imageBase2 + shipTeam.image;
+                        var shipBase = shipTeam.ship.shipBase;
+                        var position = new Position(shipBase.width / 2, shipBase.height / 2, 0);
 
-                        return React.DOM.img(
+                        return React.createElement(ShipUI,
                         {
                             key: key,
-                            className: "galleryShipCell",
-                            src: filename,
-                            title: shipTeam.name,
+                            canvasId: shipTeam.name,
+                            imageBase: imageBase,
+                            position: position,
+                            shipTeam: shipTeam,
                         });
                     },
                 });

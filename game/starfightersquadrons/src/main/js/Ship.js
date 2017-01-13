@@ -97,6 +97,7 @@ define(
                     shieldValue: 3,
                     shipBaseKey: ShipBase.SMALL,
                     primaryFiringArcKey: FiringArc.FORWARD,
+                    auxiliaryFiringArcKey: FiringArc.AFT,
                     maneuverKeys: [Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
                                 Maneuver.BANK_RIGHT_2_EASY, Maneuver.TURN_RIGHT_2_STANDARD,
@@ -296,7 +297,6 @@ define(
                     name: "Gozanti-class Cruiser",
                     description: "A Gozanti-class Cruiser.",
                     shipBaseKey: ShipBase.HUGE1,
-                    primaryFiringArcKey: FiringArc.FORWARD,
                     maneuverKeys: [Maneuver.BANK_LEFT_1_2, Maneuver.STRAIGHT_1_3, Maneuver.BANK_RIGHT_1_2,
                                 Maneuver.BANK_LEFT_2_1, Maneuver.STRAIGHT_2_2, Maneuver.BANK_RIGHT_2_1,
                                 Maneuver.STRAIGHT_3_1, Maneuver.STRAIGHT_4_1],
@@ -326,7 +326,6 @@ define(
                     name: "GR-75 Medium Transport",
                     description: "A GR-75 Medium Transport.",
                     shipBaseKey: ShipBase.HUGE1,
-                    primaryFiringArcKey: FiringArc.FORWARD,
                     maneuverKeys: [Maneuver.BANK_LEFT_1_2, Maneuver.STRAIGHT_1_3, Maneuver.BANK_RIGHT_1_2,
                                 Maneuver.BANK_LEFT_2_1, Maneuver.STRAIGHT_2_2, Maneuver.BANK_RIGHT_2_1,
                                 Maneuver.STRAIGHT_3_1, Maneuver.STRAIGHT_4_0],
@@ -771,6 +770,7 @@ define(
                     shieldValue: 3,
                     shipBaseKey: ShipBase.SMALL,
                     primaryFiringArcKey: FiringArc.FORWARD,
+                    auxiliaryFiringArcKey: FiringArc.AFT,
                     maneuverKeys: [Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_EASY, Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_EASY, Maneuver.TURN_RIGHT_1_HARD,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_STANDARD, Maneuver.STRAIGHT_2_EASY, Maneuver.BANK_RIGHT_2_STANDARD, Maneuver.TURN_RIGHT_2_STANDARD,
                                 Maneuver.TURN_LEFT_3_HARD, Maneuver.BANK_LEFT_3_STANDARD, Maneuver.STRAIGHT_3_EASY,
@@ -790,6 +790,7 @@ define(
                     shieldValue: 6,
                     shipBaseKey: ShipBase.LARGE,
                     primaryFiringArcKey: FiringArc.FORWARD,
+                    auxiliaryFiringArcKey: FiringArc.AFT,
                     maneuverKeys: [Maneuver.TURN_LEFT_1_HARD, Maneuver.BANK_LEFT_1_STANDARD,
                                 Maneuver.STRAIGHT_1_EASY, Maneuver.BANK_RIGHT_1_STANDARD, Maneuver.TURN_RIGHT_1_HARD,
                                 Maneuver.TURN_LEFT_2_STANDARD, Maneuver.BANK_LEFT_2_EASY, Maneuver.STRAIGHT_2_EASY,
@@ -963,6 +964,7 @@ define(
             var ship = Ship.properties[shipKey];
             ship.shipBase = ShipBase.properties[ship.shipBaseKey];
             ship.primaryFiringArc = FiringArc.properties[ship.primaryFiringArcKey];
+            ship.auxiliaryFiringArc = FiringArc.properties[ship.auxiliaryFiringArcKey];
 
             if (ship.fore === undefined && ship.primaryWeaponRanges === undefined)
             {
