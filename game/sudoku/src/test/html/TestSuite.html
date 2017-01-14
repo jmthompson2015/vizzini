@@ -10,24 +10,11 @@
         QUnit.config.autostart = false;
     </script>
 
-    <link rel="stylesheet" href="../../main/css/style.css">
-
-    <script src="../../../../../coreweb/lib/require/require-2.3.2.min.js" data-main="../../main/js/Unit"></script>
-
-    <script src="../../../../../coreweb/lib/microevent/microevent-1.0.0.js"></script>
+    <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../main/js/Unit"></script>
 
     <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
     <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
     <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-
-    <!--
-    <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-    <script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
-
-    <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
-   -->
     <script>
         "use strict";
         var LOGGER = new Logger();
@@ -36,7 +23,7 @@
 
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["GridFactory", "PuzzleFormat", "Unit"];
+        var testModules = ["GridFactory", "InitialState", "PuzzleFactory", "PuzzleFormat", "SudokuToGo", "Unit"];
         testModules = testModules.map(function(testModule)
         {
             return prefix + testModule + suffix;

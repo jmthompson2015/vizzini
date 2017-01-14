@@ -23,16 +23,19 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["GridFactory", "PuzzleFactory", "PuzzleFormat", "process/Action", "process/Reducer", "process/Selector", "process/ui/Connector",
+		require(["GridFactory", "PuzzleFactory", "PuzzleFormat", "SudokuToGo", "process/Action", "process/Reducer", "process/Selector", "process/ui/Connector",
 				"process/ui/SudokuUI"
 			],
-			function(GridFactory, PuzzleFactory, PuzzleFormat, Action, Reducer, Selector, Connector, SudokuUI)
+			function(GridFactory, PuzzleFactory, PuzzleFormat, SudokuToGo, Action, Reducer, Selector, Connector, SudokuUI)
 			{
 				var store = Redux.createStore(Reducer.root);
-				var grids = [GridFactory.createEasy1(), GridFactory.createEasy2(), GridFactory.createMedium31(), GridFactory.createMedium32(), GridFactory.createHard66(),
-					GridFactory.createHard67(), GridFactory.createDiabolical86(), GridFactory.createDiabolical87()
-				];
-				var puzzle = PuzzleFormat.parse(grids.vizziniRandomElement());
+				var grids = SudokuToGo.values().map(function(gridKey)
+				{
+					return SudokuToGo.properties[gridKey];
+				});
+				var grid = grids.vizziniRandomElement();
+				LOGGER.info("grid " + grid.name);
+				var puzzle = PuzzleFormat.parse(grid.grid);
 				PuzzleFactory.adjustPossibilites(puzzle, Selector.N(store.getState()));
 				store.dispatch(Action.setPuzzle(puzzle));
 

@@ -14,20 +14,14 @@ define(["GridFactory", "PuzzleFormat", "Unit"],
             }
         };
 
-        PuzzleFactory.createEasy1 = function()
+        PuzzleFactory.create = function(grid, NIn)
         {
-            var grid = GridFactory.createEasy1();
-            var answer = PuzzleFormat.parse(grid);
-            PuzzleFactory.adjustPossibilites(answer, 9);
+            InputValidator.validateNotNull("grid", grid);
+            // NIn optional.
 
-            return answer;
-        };
-
-        PuzzleFactory.createEasy2 = function()
-        {
-            var grid = GridFactory.createEasy2();
+            var N = (NIn !== undefined ? NIn : 9);
             var answer = PuzzleFormat.parse(grid);
-            PuzzleFactory.adjustPossibilites(answer, 9);
+            PuzzleFactory.adjustPossibilites(answer, N);
 
             return answer;
         };

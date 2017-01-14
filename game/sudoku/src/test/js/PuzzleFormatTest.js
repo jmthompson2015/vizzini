@@ -1,5 +1,5 @@
-define(["GridFactory", "PuzzleFormat"],
-    function(GridFactory, PuzzleFormat)
+define(["GridFactory", "PuzzleFormat", "SudokuToGo"],
+    function(GridFactory, PuzzleFormat, SudokuToGo)
     {
         "use strict";
         QUnit.module("PuzzleFormat");
@@ -7,7 +7,7 @@ define(["GridFactory", "PuzzleFormat"],
         QUnit.test("format() easy 1", function(assert)
         {
             // Setup.
-            var grid = GridFactory.createEasy1();
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
@@ -22,7 +22,7 @@ define(["GridFactory", "PuzzleFormat"],
         QUnit.test("parse() easy 1", function(assert)
         {
             // Setup.
-            var grid = GridFactory.createEasy1();
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
 
             // Run.
             var result = PuzzleFormat.parse(grid);
@@ -38,7 +38,7 @@ define(["GridFactory", "PuzzleFormat"],
         QUnit.test("parse() easy 2", function(assert)
         {
             // Setup.
-            var grid = GridFactory.createEasy2();
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_2].grid;
 
             // Run.
             var result = PuzzleFormat.parse(grid);
@@ -51,30 +51,5 @@ define(["GridFactory", "PuzzleFormat"],
             assert.equal(result[72], "6");
             assert.equal(result[79].join(""), "123456789");
             assert.equal(result[80], "8");
-        });
-
-        QUnit.skip("parse() and eliminate()", function(assert)
-        {
-            // Setup.
-            var grid = GridFactory.createEasy1();
-
-            // Run.
-            var result = PuzzleFormat.parse(grid);
-            assert.ok(result);
-            var filled = result.getFilledSquares();
-            var isRecursive = false;
-
-            filled.forEach(function(cellName)
-            {
-                var value = result.get(cellName);
-                result.eliminate(cellName, value, isRecursive);
-            });
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result.get("A1"), "3");
-            assert.equal(result.get("A9"), "4");
-            assert.equal(result.get("I1"), "6");
-            assert.equal(result.get("I9"), "127");
         });
     });
