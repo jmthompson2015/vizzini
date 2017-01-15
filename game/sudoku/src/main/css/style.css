@@ -41,7 +41,7 @@ table {
     border: 3px solid Black;
 }
 
-#BORDER_THIN, .candidatesCell, .constantCell, .invalidValueCell, .valueCell, .borderThin {
+#BORDER_THIN, .candidatesCell, .conflictCell, .constantCell, .valueCell, .borderThin {
     border: 1px solid Black;
 }
 
@@ -49,15 +49,15 @@ table {
     color: Blue;
 }
 
-#COLOR_RED, .invalidValueCell, .colorRed {
+#COLOR_RED, .conflictCell, .colorRed {
     color: Red;
 }
 
-#FONT_BOLD, .constantCell, .valueCell, .fontBold {
+#FONT_BOLD, .conflictCell, .constantCell, .valueCell, .fontBold {
     font-weight: bold;
 }
 
-#FONT_LARGE, .constantCell, .invalidValueCell, .valueCell, .fontLarge {
+#FONT_LARGE, .conflictCell, .constantCell, .valueCell, .fontLarge {
     font-size: xx-large;
 }
 

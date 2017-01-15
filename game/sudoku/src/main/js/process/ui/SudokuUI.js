@@ -1,5 +1,5 @@
-define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/CandidatesUI", "process/ui/Connector", "process/ui/NumberPad"],
-    function(Action, Selector, BoardUI, CandidatesUI, Connector, NumberPad)
+define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/Connector", "process/ui/NumberPad"],
+    function(Action, Selector, BoardUI, Connector, NumberPad)
     {
         var SudokuUI = React.createClass(
         {

@@ -8,6 +8,9 @@ define(["Unit", "process/ui/CandidatesUI"],
                 callback: React.PropTypes.func.isRequired,
                 n: React.PropTypes.number.isRequired,
                 puzzle: React.PropTypes.array.isRequired,
+                conflictIndices: React.PropTypes.array.isRequired,
+                sameValueIndices: React.PropTypes.array.isRequired,
+                sameCandidateIndices: React.PropTypes.array.isRequired,
 
                 selectedIndex: React.PropTypes.number,
                 selectedValue: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.array]),
@@ -18,6 +21,9 @@ define(["Unit", "process/ui/CandidatesUI"],
                 var n = this.props.n;
                 var N = n * n;
                 var puzzle = this.props.puzzle;
+                var conflictIndices = this.props.conflictIndices;
+                var sameValueIndices = this.props.sameValueIndices;
+                var sameCandidateIndices = this.props.sameCandidateIndices;
                 var selectedIndex = this.props.selectedIndex;
                 var selectedValue = this.props.selectedValue;
                 var rows = [];
@@ -34,13 +40,15 @@ define(["Unit", "process/ui/CandidatesUI"],
                         var isCandidates = Array.isArray(values);
                         var isConstant = puzzle.constantIndices.vizziniContains(index);
                         var isSelected = (selectedIndex === index);
-                        var isHighlighted1 = (selectedValue === values);
-                        var isHighlighted2 = (Array.isArray(values) && values.vizziniContains(selectedValue));
                         var className, element;
 
                         if (isCandidates)
                         {
                             className = "candidatesCell";
+                        }
+                        else if (conflictIndices.vizziniContains(index))
+                        {
+                            className = "conflictCell";
                         }
                         else if (isConstant)
                         {
@@ -55,11 +63,11 @@ define(["Unit", "process/ui/CandidatesUI"],
                         {
                             className += " selectedCell";
                         }
-                        else if (isHighlighted1)
+                        else if (sameValueIndices.vizziniContains(index))
                         {
                             className += " highlightedNumberCell";
                         }
-                        else if (isHighlighted2)
+                        else if (sameCandidateIndices.vizziniContains(index))
                         {
                             className += " highlightedCandidateCell";
                         }

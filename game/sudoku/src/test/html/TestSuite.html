@@ -10,6 +10,7 @@
         QUnit.config.autostart = false;
     </script>
 
+    <script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
     <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../main/js/Unit"></script>
 
     <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
@@ -23,7 +24,10 @@
 
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["GridFactory", "InitialState", "PuzzleFactory", "PuzzleFormat", "SudokuToGo", "Unit"];
+        var testModules = ["GridFactory", "InitialState", "PuzzleAnalyzer", "PuzzleFactory", "PuzzleFormat", "SudokuToGo", "Unit",
+
+            "process/Reducer"
+        ];
         testModules = testModules.map(function(testModule)
         {
             return prefix + testModule + suffix;

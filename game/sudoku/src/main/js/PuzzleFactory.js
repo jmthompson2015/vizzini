@@ -1,5 +1,5 @@
-define(["GridFactory", "PuzzleFormat", "Unit"],
-    function(GridFactory, PuzzleFormat, Unit)
+define(["PuzzleFormat", "Unit"],
+    function(PuzzleFormat, Unit)
     {
         var PuzzleFactory = {};
 

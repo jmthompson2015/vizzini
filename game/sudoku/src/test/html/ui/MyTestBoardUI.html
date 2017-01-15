@@ -23,11 +23,12 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["PuzzleFactory", "process/Action", "process/Reducer", "process/ui/Connector", "process/ui/BoardUI"],
-			function(PuzzleFactory, Action, Reducer, Connector, BoardUI)
+		require(["PuzzleFactory", "SudokuToGo", "process/Action", "process/Reducer", "process/ui/Connector", "process/ui/BoardUI"],
+			function(PuzzleFactory, SudokuToGo, Action, Reducer, Connector, BoardUI)
 			{
 				var store = Redux.createStore(Reducer.root);
-				var puzzle = PuzzleFactory.createEasy1();
+				var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+				var puzzle = PuzzleFactory.create(grid);
 				store.dispatch(Action.setPuzzle(puzzle));
 
 				var connector = ReactRedux.connect(Connector.BoardUI.mapStateToProps)(BoardUI);

@@ -1,5 +1,5 @@
-define(["GridFactory", "PuzzleFormat", "SudokuToGo"],
-    function(GridFactory, PuzzleFormat, SudokuToGo)
+define(["PuzzleFormat", "SudokuToGo"],
+    function(PuzzleFormat, SudokuToGo)
     {
         "use strict";
         QUnit.module("PuzzleFormat");

@@ -8,6 +8,9 @@ define(["Unit"],
             this.isConstantSelected = false;
             this.n = 3;
             this.puzzle = [];
+            this.conflictIndices = [];
+            this.sameCandidateIndices = [];
+            this.sameValueIndices = [];
             this.selectedIndex = undefined;
             this.selectedValue = undefined;
 

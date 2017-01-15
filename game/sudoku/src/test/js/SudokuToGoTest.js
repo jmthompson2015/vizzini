@@ -56,7 +56,9 @@ define(["SudokuToGo"], function(SudokuToGo)
 
         var properties = Object.getOwnPropertyNames(SudokuToGo);
         var count = properties.length - 1 - // properties
-            1; // values
+            1 - // values
+            1 - // createEasy1Solution
+            1; // createDiabolical86Solution
         assert.equal(result.length, count);
     });
 });

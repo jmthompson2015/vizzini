@@ -7,17 +7,17 @@ define(["process/Selector"],
         Connector.BoardUI = {
             mapStateToProps: function(state, ownProps)
             {
-                var n = Selector.n(state);
-                var puzzle = Selector.puzzle(state);
-                var selectedIndex = Selector.selectedIndex(state);
                 var selectedValue = Selector.selectedValue(state);
 
                 return (
                 {
                     callback: ownProps.callback,
-                    n: n,
-                    puzzle: puzzle,
-                    selectedIndex: selectedIndex,
+                    n: state.n,
+                    puzzle: state.puzzle,
+                    conflictIndices: state.conflictIndices,
+                    sameValueIndices: state.sameValueIndices,
+                    sameCandidateIndices: state.sameCandidateIndices,
+                    selectedIndex: state.selectedIndex,
                     selectedValue: selectedValue,
                 });
             },

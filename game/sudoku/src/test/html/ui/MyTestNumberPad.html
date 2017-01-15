@@ -23,11 +23,12 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["PuzzleFactory", "process/Action", "process/Reducer", "process/Selector", "process/ui/Connector", "process/ui/NumberPad"],
-			function(PuzzleFactory, Action, Reducer, Selector, Connector, NumberPad)
+		require(["PuzzleFactory", "SudokuToGo", "process/Action", "process/Reducer", "process/Selector", "process/ui/Connector", "process/ui/NumberPad"],
+			function(PuzzleFactory, SudokuToGo, Action, Reducer, Selector, Connector, NumberPad)
 			{
 				var store = Redux.createStore(Reducer.root);
-				var puzzle = PuzzleFactory.createEasy1();
+				var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+				var puzzle = PuzzleFactory.create(grid);
 				store.dispatch(Action.setPuzzle(puzzle));
 				store.dispatch(Action.setSelectedIndex(2));
 
