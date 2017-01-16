@@ -25,7 +25,7 @@ define(function()
 
                     if (candidates.indexOf(value) < 0)
                     {
-                        value = "";
+                        value = "\u00a0"; // &nbsp;
                     }
 
                     cells.push(React.DOM.td(
