@@ -38,20 +38,35 @@
 				{
 					var myCandidates = candidates.slice();
 					myCandidates.vizziniRemove(i);
+					var myCandidates2 = [i];
 
 					var element = React.createElement(CandidatesUI,
 					{
 						n: n,
 						candidates: myCandidates,
 					});
+					var element2 = React.createElement(CandidatesUI,
+					{
+						n: n,
+						candidates: myCandidates2,
+					});
+
+					var cells = [];
+					cells.push(React.DOM.td(
+					{
+						key: "omitted",
+						style: cellStyle,
+					}, element));
+					cells.push(React.DOM.td(
+					{
+						key: "single",
+						style: cellStyle,
+					}, element2));
 
 					rows.push(React.DOM.tr(
 					{
 						key: "row" + i,
-					}, React.DOM.td(
-					{
-						style: cellStyle,
-					}, element)));
+					}, cells));
 				}
 
 				var table = React.DOM.table(
