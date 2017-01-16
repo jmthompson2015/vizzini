@@ -16,40 +16,24 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
             render: function()
             {
                 var boardUI = this.createBoardUI();
-                var numberPad = this.createNumberPad();
-                var candidatePad = this.createCandidatePad();
+                var controlTable = this.createControlTable();
 
-                var rows = [];
-                var cells = [];
-                cells.push(React.DOM.td(
+                var boardUIPanel = React.DOM.div(
                 {
-                    key: "boardUICell",
-                    rowSpan: 2,
-                }, boardUI));
-                cells.push(React.DOM.td(
+                    key: "boardUIPanel",
+                    className: "boardUIPanel",
+                }, boardUI);
+                var controlTablePanel = React.DOM.div(
                 {
-                    key: "numberPadCell",
-                }, numberPad));
-                rows.push(React.DOM.tr(
-                {
-                    key: "row0",
-                }, cells));
+                    key: "controlTablePanel",
+                    className: "controlTablePanel",
+                }, controlTable);
 
-                cells = [];
-                cells.push(React.DOM.td(
+                return React.DOM.span(
                 {
-                    key: "candidatePadCell",
-                }, candidatePad));
-                rows.push(React.DOM.tr(
-                {
-                    key: "row1",
-                }, cells));
-
-                var tbody = React.DOM.tbody(
-                {}, rows);
-
-                return React.DOM.table(
-                {}, tbody);
+                    key: "sudokuUIPanel",
+                    className: "sudokuUIPanel",
+                }, boardUIPanel, controlTablePanel);
             },
 
             createBoardUI: function()
@@ -62,16 +46,140 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
                 });
             },
 
+            createButtonArea: function()
+            {
+                var pencilButton = React.DOM.button(
+                {}, "Pencil");
+                var eraseButton = React.DOM.button(
+                {}, "Erase");
+                var undoButton = React.DOM.button(
+                {}, "Undo");
+                var hintButton = React.DOM.button(
+                {}, "Hint");
+                var redoButton = React.DOM.button(
+                {}, "Redo");
+                var menuButton = React.DOM.button(
+                {}, "Menu");
+
+                var rows = [];
+
+                var cells = [];
+                cells.push(React.DOM.td(
+                {
+                    key: "pencilButtonCell",
+                }, pencilButton));
+                cells.push(React.DOM.td(
+                {
+                    key: "eraseButtonCell",
+                }, eraseButton));
+                rows.push(React.DOM.tr(
+                {
+                    key: "row0",
+                }, cells));
+
+                cells = [];
+                cells.push(React.DOM.td(
+                {
+                    key: "undoButtonCell",
+                }, undoButton));
+                cells.push(React.DOM.td(
+                {
+                    key: "hintButtonCell",
+                }, hintButton));
+                rows.push(React.DOM.tr(
+                {
+                    key: "row1",
+                }, cells));
+
+                cells = [];
+                cells.push(React.DOM.td(
+                {
+                    key: "redoButtonCell",
+                }, redoButton));
+                cells.push(React.DOM.td(
+                {
+                    key: "menuButtonCell",
+                }, menuButton));
+                rows.push(React.DOM.tr(
+                {
+                    key: "row2",
+                }, cells));
+
+                var tbody = React.DOM.tbody(
+                {}, rows);
+
+                var table = React.DOM.table(
+                {
+                    className: "buttonAreaTable",
+                }, tbody);
+
+                return React.DOM.div(
+                {
+                    className: "buttonAreaContainer",
+                }, table);
+            },
+
             createCandidatePad: function()
             {
                 var isNumberPadDisabled = true;
                 var connector = ReactRedux.connect(Connector.NumberPad.mapStateToProps)(NumberPad);
 
-                return React.createElement(connector,
+                var table = React.createElement(connector,
                 {
                     callback: this.myCandidateCallback,
+                    className: "candidatePadTable",
                     isDisabled: isNumberPadDisabled,
                 });
+
+                return React.DOM.div(
+                {
+                    className: "candidatePadContainer",
+                }, table);
+            },
+
+            createControlTable: function()
+            {
+                var candidatePad = this.createCandidatePad();
+                var numberPad = this.createNumberPad();
+                var buttonArea = this.createButtonArea();
+
+                var candidatePadCell = React.DOM.div(
+                {
+                    key: "candidatePadCell",
+                    className: "candidatePadCell",
+                }, candidatePad);
+                var numberPadCell = React.DOM.div(
+                {
+                    key: "numberPadCell",
+                    className: "numberPadCell",
+                }, numberPad);
+                var buttonAreaCell = React.DOM.div(
+                {
+                    key: "buttonAreaCell",
+                    className: "buttonAreaCell",
+                }, buttonArea);
+
+                var candidatePadRow = React.DOM.div(
+                {
+                    key: "candidatePadRow",
+                    className: "candidatePadRow",
+                }, candidatePadCell);
+                var numberPadRow = React.DOM.div(
+                {
+                    key: "numberPadRow",
+                    className: "numberPadRow",
+                }, numberPadCell);
+                var buttonAreaRow = React.DOM.div(
+                {
+                    key: "buttonAreaRow",
+                    className: "buttonAreaRow",
+                }, buttonAreaCell);
+
+                return React.DOM.div(
+                {
+                    key: "controlTableContainer",
+                    className: "controlTableContainer",
+                }, candidatePadRow, numberPadRow, buttonAreaRow);
             },
 
             createNumberPad: function()
@@ -80,11 +188,17 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
                 LOGGER.info("isNumberPadDisabled ? " + isNumberPadDisabled);
                 var connector = ReactRedux.connect(Connector.NumberPad.mapStateToProps)(NumberPad);
 
-                return React.createElement(connector,
+                var table = React.createElement(connector,
                 {
                     callback: this.myNumberCallback,
+                    className: "numberPadTable",
                     isDisabled: isNumberPadDisabled,
                 });
+
+                return React.DOM.div(
+                {
+                    className: "numberPadContainer",
+                }, table);
             },
 
             myCandidateCallback: function(selectedCandidate)
