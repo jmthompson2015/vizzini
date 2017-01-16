@@ -13,6 +13,10 @@ table {
     vertical-align: middle;
 }
 
+#ALIGN_ITEMS_CENTER, .controlTableContainer, .alignItemsCenter {
+    align-items: center;
+}
+
 #BACKGROUND_LIME, .selectedCell, .backgroundLime {
     background-color: Lime;
 }
@@ -37,7 +41,7 @@ table {
     border-right: 3px solid Black;
 }
 
-#BORDER_THICK, .boardUI, .borderThick {
+#BORDER_THICK, .boardUI, .controlTablePanel, .borderThick {
     border: 3px solid Black;
 }
 
@@ -53,6 +57,14 @@ table {
     color: Red;
 }
 
+#DISPLAY_FLEX, .controlTableContainer, .controlTablePanel, .sudokuUIPanel, .displayFlex {
+    display: flex;
+}
+
+#FLEX_DIRECTION_COLUMN, .controlTableContainer, .flexDirectionColumn {
+    flex-direction: column;
+}
+
 #FONT_BOLD, .conflictCell, .constantCell, .valueCell, .fontBold {
     font-weight: bold;
 }
@@ -63,6 +75,14 @@ table {
 
 #FONT_SMALL, .candidatesCell, .fontSmall {
     font-size: xx-small;
+}
+
+#JUSTIFY_CONTENT_SPACE_AROUND, .controlTableContainer, .justifyContentSpaceAround {
+    justify-content: space-around;
+}
+
+#MARGIN_LEFT_5, .controlTablePanel, .marginLeft5 {
+    margin-left: 5px;
 }
 
 #PADDING_3, .candidatesCell, .constantCell, .valueCell, .padding3 {
