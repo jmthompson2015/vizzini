@@ -32,18 +32,24 @@ define(["PuzzleFormat", "Unit"],
             InputValidator.validateIsNumber("index", index);
 
             var value = puzzle[index];
-            var cellName = Unit.indexToCellName(index);
-            var peers = Unit.getPeers(cellName);
+            LOGGER.trace(index + " value = " + value);
 
-            peers.forEach(function(name)
+            if (!Array.isArray(value))
             {
-                var myIndex = Unit.cellNameToIndex(name);
+                var cellName = Unit.indexToCellName(index);
+                var peers = Unit.getPeers(cellName);
 
-                if (Array.isArray(puzzle[myIndex]))
+                peers.forEach(function(name)
                 {
-                    puzzle[myIndex].vizziniRemove(value);
-                }
-            });
+                    var myIndex = Unit.cellNameToIndex(name);
+
+                    if (Array.isArray(puzzle[myIndex]))
+                    {
+                        LOGGER.trace(myIndex + " removing " + value);
+                        puzzle[myIndex].vizziniRemove(value);
+                    }
+                });
+            }
         };
 
         return PuzzleFactory;

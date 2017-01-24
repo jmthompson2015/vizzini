@@ -16,17 +16,20 @@
     <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
     <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
     <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+    <script src="../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
     <script>
         "use strict";
         var LOGGER = new Logger();
         LOGGER.setTraceEnabled(false);
         LOGGER.setDebugEnabled(false);
+        LOGGER.setTimeEnabled(false);
 
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["GridFactory", "InitialState", "PuzzleAnalyzer", "PuzzleFactory", "PuzzleFormat", "SudokuToGo", "Unit",
+        var testModules = ["GridFactory", "InitialState", "PuzzleFormat", "SudokuToGo", "Unit",
 
-            "process/Reducer"
+            "process/Action", "process/PuzzleAnalyzer", "process/PuzzleFactory", "process/Reducer", "process/Selector", "process/SudokuSolver",
+            "process/SudokuValidator"
         ];
         testModules = testModules.map(function(testModule)
         {

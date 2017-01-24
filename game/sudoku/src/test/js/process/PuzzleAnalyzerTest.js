@@ -1,5 +1,5 @@
-define(["PuzzleAnalyzer", "PuzzleFactory", "SudokuToGo"],
-    function(PuzzleAnalyzer, PuzzleFactory, SudokuToGo)
+define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
+    function(SudokuToGo, PuzzleAnalyzer, PuzzleFactory)
     {
         "use strict";
         QUnit.module("PuzzleAnalyzer");

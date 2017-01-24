@@ -1,5 +1,5 @@
-define(["InitialState", "PuzzleAnalyzer", "PuzzleFactory", "process/Action"],
-    function(InitialState, PuzzleAnalyzer, PuzzleFactory, Action)
+define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
+    function(InitialState, Action, PuzzleAnalyzer, PuzzleFactory)
     {
         "use strict";
         var Reducer = {};
