@@ -23,8 +23,8 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["PuzzleFactory", "SudokuToGo", "process/Action", "process/Reducer", "process/ui/Connector", "process/ui/BoardUI"],
-			function(PuzzleFactory, SudokuToGo, Action, Reducer, Connector, BoardUI)
+		require(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reducer", "process/ui/Connector", "process/ui/BoardUI"],
+			function(SudokuToGo, Action, PuzzleFactory, Reducer, Connector, BoardUI)
 			{
 				var store = Redux.createStore(Reducer.root);
 				var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
