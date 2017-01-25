@@ -1,5 +1,5 @@
-define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/Connector", "process/ui/NumberPad"],
-    function(Action, Selector, BoardUI, Connector, NumberPad)
+define(["process/Action", "process/Selector", "process/SudokuSolver", "process/ui/BoardUI", "process/ui/Connector", "process/ui/NumberPad"],
+    function(Action, Selector, SudokuSolver, BoardUI, Connector, NumberPad)
     {
         var SudokuUI = React.createClass(
         {
@@ -48,18 +48,42 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
 
             createButtonArea: function()
             {
+                var store = this.context.store;
+                var puzzle = Selector.puzzle(store.getState());
+
+                var isPencilDisabled = true;
+                var isEraseDisabled = true;
+                var isUndoDisabled = true;
+                var isHintDisabled = SudokuSolver.isDone(puzzle);
+                var isRedoDisabled = true;
+                var isMenuDisabled = true;
+
                 var pencilButton = React.DOM.button(
-                {}, "Pencil");
+                {
+                    disabled: isPencilDisabled,
+                }, "Pencil");
                 var eraseButton = React.DOM.button(
-                {}, "Erase");
+                {
+                    disabled: isEraseDisabled,
+                    onClick: this.performEraseAction,
+                }, "Erase");
                 var undoButton = React.DOM.button(
-                {}, "Undo");
+                {
+                    disabled: isUndoDisabled,
+                }, "Undo");
                 var hintButton = React.DOM.button(
-                {}, "Hint");
+                {
+                    disabled: isHintDisabled,
+                    onClick: this.performHintAction,
+                }, "Hint");
                 var redoButton = React.DOM.button(
-                {}, "Redo");
+                {
+                    disabled: isRedoDisabled,
+                }, "Redo");
                 var menuButton = React.DOM.button(
-                {}, "Menu");
+                {
+                    disabled: isMenuDisabled,
+                }, "Menu");
 
                 var rows = [];
 
@@ -225,6 +249,21 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
 
                 var store = this.context.store;
                 store.dispatch(Action.setSelectedIndex(selectedIndex));
+            },
+
+            performHintAction: function()
+            {
+                LOGGER.info("performHintAction()");
+
+                var store = this.context.store;
+                var puzzle = Selector.puzzle(store.getState());
+                var N = Selector.N(store.getState());
+                var action = SudokuSolver.getAction(puzzle, N);
+
+                if (action !== undefined)
+                {
+                    store.dispatch(Action.setCellValue(action.index, action.value));
+                }
             },
         });
 
