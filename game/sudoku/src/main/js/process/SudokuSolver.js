@@ -1,5 +1,5 @@
-define(["Unit", "process/PuzzleFactory"],
-    function(Unit, PuzzleFactory)
+define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
+    function(PuzzleFormat, Unit, PuzzleFactory)
     {
         var SudokuSolver = {
 
@@ -47,7 +47,7 @@ define(["Unit", "process/PuzzleFactory"],
 
                 var answer;
 
-                for (var i = 0; i < puzzle.length; i++)
+                for (var i = 0; i < puzzle.length && answer === undefined; i++)
                 {
                     var cellName = Unit.indexToCellName(i);
                     var value = puzzle[i];
@@ -55,7 +55,6 @@ define(["Unit", "process/PuzzleFactory"],
                     if (Array.isArray(value) && value.length === 1)
                     {
                         answer = this.createAction(i, value[0]);
-                        break;
                     }
                 }
 
@@ -70,7 +69,7 @@ define(["Unit", "process/PuzzleFactory"],
 
                 var answer;
 
-                for (var v = 0; v < N; v++)
+                for (var v = 0; v < N && answer === undefined; v++)
                 {
                     var myCount = this.countCandidateInUnit(puzzle, v, unit);
 
@@ -78,7 +77,6 @@ define(["Unit", "process/PuzzleFactory"],
                     {
                         var myIndex = this.firstIndexWithCandidate(puzzle, v, unit);
                         answer = this.createAction(myIndex, v);
-                        break;
                     }
                 }
 
@@ -91,9 +89,9 @@ define(["Unit", "process/PuzzleFactory"],
                 InputValidator.validateNotNull("candidate", candidate);
                 InputValidator.validateNotNull("unit", unit);
 
-                var answer = 0;
+                var answer;
 
-                for (var i = 0; i < unit.length; i++)
+                for (var i = 0; i < unit.length && answer === undefined; i++)
                 {
                     var cellName = unit[i];
                     var index = Unit.cellNameToIndex(cellName);
@@ -102,7 +100,6 @@ define(["Unit", "process/PuzzleFactory"],
                     if (Array.isArray(value) && value.vizziniContains(candidate))
                     {
                         answer = index;
-                        break;
                     }
                 }
 
@@ -148,6 +145,43 @@ define(["Unit", "process/PuzzleFactory"],
                     }
                 }
 
+                if (answer === undefined)
+                {
+                    // Try two candidate cell values.
+                    var length = 2;
+                    var indices = [];
+                    var i, index, value;
+
+                    for (i = 0; i < puzzle.length; i++)
+                    {
+                        value = puzzle[i];
+
+                        if (Array.isArray(value) && value.length === length)
+                        {
+                            indices.push(i);
+                        }
+                    }
+
+                    for (i = 0; i < indices.length && answer === undefined; i++)
+                    {
+                        index = indices[i];
+                        value = puzzle[index];
+
+                        for (var j = 0; j < value.length && answer === undefined; j++)
+                        {
+                            var puzzleClone = PuzzleFormat.parse(PuzzleFormat.format(puzzle));
+                            puzzleClone[index] = value[j];
+                            PuzzleFactory.adjustPossibilites(puzzleClone, N);
+                            this.solve(puzzleClone);
+
+                            if (this.isDone(puzzleClone))
+                            {
+                                answer = this.createAction(index, value[j]);
+                            }
+                        }
+                    }
+                }
+
                 return answer;
             },
 
@@ -159,7 +193,7 @@ define(["Unit", "process/PuzzleFactory"],
                 {
                     var value = puzzle[i];
 
-                    if (Array.isArray(value) && value.length > 1)
+                    if (Array.isArray(value))
                     {
                         return false;
                     }
