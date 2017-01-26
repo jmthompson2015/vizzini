@@ -1,5 +1,5 @@
-define(["process/PuzzleFactory"],
-    function(PuzzleFactory)
+define(["process/Action", "process/PuzzleFactory"],
+    function(Action, PuzzleFactory)
     {
         var Move = {};
 
@@ -26,12 +26,19 @@ define(["process/PuzzleFactory"],
                 return source;
             };
 
-            this.execute = function()
+            this.execute = function(store)
             {
                 LOGGER.info("Move.RemoveCellCandidate.execute()");
 
-                puzzle[index].vizziniRemove(candidate);
-                PuzzleFactory.adjustPossibilites(puzzle, N);
+                if (store !== undefined)
+                {
+                    store.dispatch(Action.removeCellCandidate(index, candidate));
+                }
+                else
+                {
+                    puzzle[index].vizziniRemove(candidate);
+                    PuzzleFactory.adjustPossibilites(puzzle, N);
+                }
             };
         };
 
@@ -58,12 +65,19 @@ define(["process/PuzzleFactory"],
                 return source;
             };
 
-            this.execute = function()
+            this.execute = function(store)
             {
                 LOGGER.trace("Move.SetCellValue.execute()");
 
-                puzzle[index] = value;
-                PuzzleFactory.adjustPossibilites(puzzle, N);
+                if (store !== undefined)
+                {
+                    store.dispatch(Action.setCellValue(index, value));
+                }
+                else
+                {
+                    puzzle[index] = value;
+                    PuzzleFactory.adjustPossibilites(puzzle, N);
+                }
             };
         };
 
