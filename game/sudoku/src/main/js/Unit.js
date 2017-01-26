@@ -14,7 +14,7 @@
  *         ---------+----------+---------
  * G - 6 - 54 55 56 | 57 58 59 | 60 61 62
  * H - 7 - 63 64 65 | 66 67 68 | 69 70 71
- * I - 8 - 72 73 74 | 75 76 77 | 78 79 80
+ * J - 8 - 72 73 74 | 75 76 77 | 78 79 80
  *
  * Blocks:
  * 0 | 1 | 2
@@ -28,7 +28,7 @@ define(function()
 {
     var Unit = {
         N: 9,
-        ROW_NAMES: ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
+        ROW_NAMES: ["A", "B", "C", "D", "E", "F", "G", "H", "J"],
         ROWS: [],
         COLUMNS: [],
         BLOCKS: [],
@@ -55,18 +55,18 @@ define(function()
             return parseInt(cellName[1]) - 1;
         },
 
-        cellNameToRow: function(cellName)
-        {
-            InputValidator.validateNotEmpty("cellName", cellName);
-
-            return this.ROW_NAMES.indexOf(cellName[0]);
-        },
-
         cellNameToIndex: function(cellName)
         {
             InputValidator.validateNotEmpty("cellName", cellName);
 
             return this.CELL_NAME_TO_INDEX[cellName];
+        },
+
+        cellNameToRow: function(cellName)
+        {
+            InputValidator.validateNotEmpty("cellName", cellName);
+
+            return this.ROW_NAMES.indexOf(cellName[0]);
         },
 
         coordinatesToIndex: function(column, row)
