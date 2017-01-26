@@ -13,16 +13,25 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
                 return new InitialState();
             }
 
-            var newSameValueIndices, newSameCandidateIndices;
+            var newConflictIndices, newPuzzle, newSameValueIndices, newSameCandidateIndices;
 
             switch (action.type)
             {
+                case Action.REMOVE_CELL_CANDIDATE:
+                    LOGGER.info("Reducer removeCellCandidate " + action.index + " " + (typeof action.index) + " " + action.candidate + " " + (typeof action.candidate));
+                    newPuzzle = Reducer._clonePuzzle(state.puzzle);
+                    newPuzzle[action.index].vizziniRemove(action.candidate);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        puzzle: newPuzzle,
+                    });
                 case Action.SET_CELL_VALUE:
-                    LOGGER.info("Reducer.setCellValue() " + action.index + " " + (typeof action.index) + " " + action.value + " " + (typeof action.value));
-                    var newPuzzle = Reducer._clonePuzzle(state.puzzle);
+                    LOGGER.info("Reducer setCellValue " + action.index + " " + (typeof action.index) + " " + action.value + " " + (typeof action.value));
+                    newPuzzle = Reducer._clonePuzzle(state.puzzle);
                     newPuzzle[action.index] = action.value;
                     PuzzleFactory.removeValueFromPeers(newPuzzle, action.index);
-                    var newConflictIndices = Reducer._determineConflictIndices(newPuzzle, action.value);
+                    newConflictIndices = Reducer._determineConflictIndices(newPuzzle, action.value);
                     newSameValueIndices = Reducer._determineSameValueIndices(newPuzzle, action.value);
                     newSameCandidateIndices = Reducer._determineSameCandidateIndices(newPuzzle, action.value);
                     return Object.assign(
@@ -36,7 +45,7 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
                         selectedValue: action.value,
                     });
                 case Action.SET_PUZZLE:
-                    LOGGER.info("Reducer.setPuzzle()");
+                    LOGGER.info("Reducer setPuzzle");
                     return Object.assign(
                     {}, state,
                     {
@@ -49,7 +58,7 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
                         selectedValue: undefined,
                     });
                 case Action.SET_SELECTED_INDEX:
-                    LOGGER.info("Reducer.setSelectedIndex() " + action.index + " " + (typeof action.index));
+                    LOGGER.info("Reducer setSelectedIndex " + action.index + " " + (typeof action.index));
                     var newSelectedValue = state.puzzle[action.index];
                     var isConstant = state.puzzle.constantIndices.vizziniContains(action.index);
                     if (Array.isArray(newSelectedValue))

@@ -1,5 +1,5 @@
-define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
-    function(PuzzleFormat, Unit, PuzzleFactory)
+define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
+    function(PuzzleFormat, Unit, Move, PuzzleFactory)
     {
         var SudokuSolver = {
 
@@ -28,18 +28,32 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
                 return answer;
             },
 
-            createAction: function(index, value, source)
+            createMoveRemoveCellCandidate: function(puzzle, N, index, value, source)
             {
-                InputValidator.validateIsNumber("index", index);
-                InputValidator.validateIsNumber("value", value);
-                InputValidator.validateNotNull("source", source);
+                return new Move.RemoveCellCandidate(puzzle, N, index, value, source);
+            },
 
-                return (
+            createMoveSetCellValue: function(puzzle, N, index, value, source)
+            {
+                return new Move.SetCellValue(puzzle, N, index, value, source);
+            },
+
+            findCellsWithCandidateLength: function(puzzle, length)
+            {
+                var indices = [];
+                var i, index, value;
+
+                for (i = 0; i < puzzle.length; i++)
                 {
-                    index: index,
-                    value: value,
-                    source: source,
-                });
+                    value = puzzle[i];
+
+                    if (Array.isArray(value) && value.length === length)
+                    {
+                        indices.push(i);
+                    }
+                }
+
+                return indices;
             },
 
             findSingleCandidateCell: function(puzzle, N)
@@ -56,7 +70,7 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
 
                     if (Array.isArray(value) && value.length === 1)
                     {
-                        answer = this.createAction(i, value[0], "single candidate cell");
+                        answer = this.createMoveSetCellValue(puzzle, N, i, value[0], "single candidate cell");
                     }
                 }
 
@@ -78,7 +92,7 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
                     if (myCount === 1)
                     {
                         var myIndex = this.firstIndexWithCandidate(puzzle, v, unit);
-                        answer = this.createAction(myIndex, v, "single candidate unit cell");
+                        answer = this.createMoveSetCellValue(puzzle, N, myIndex, v, "single candidate unit cell");
                     }
                 }
 
@@ -108,7 +122,66 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
                 return answer;
             },
 
-            getAction: function(puzzle, N)
+            forwardSearch: function(puzzle, N)
+            {
+                // Try two candidate cell values.
+                var indices = this.findCellsWithCandidateLength(puzzle, 2);
+
+                var answer;
+
+                for (var i = 0; i < indices.length && answer === undefined; i++)
+                {
+                    var index = indices[i];
+                    var value = puzzle[index];
+
+                    for (var j = 0; j < value.length && answer === undefined; j++)
+                    {
+                        var puzzleClone = PuzzleFormat.parse(PuzzleFormat.format(puzzle));
+                        puzzleClone[index] = value[j];
+                        PuzzleFactory.adjustPossibilites(puzzleClone, N);
+                        this.solve(puzzleClone);
+
+                        if (this.isDone(puzzleClone))
+                        {
+                            answer = this.createMoveSetCellValue(puzzle, N, index, value[j], "candidate look-ahead");
+                        }
+                    }
+                }
+
+                return answer;
+            },
+
+            getMove: function(puzzle, N)
+            {
+                InputValidator.validateNotNull("puzzle", puzzle);
+                InputValidator.validateIsNumber("N", N);
+
+                var answer = this.getNakedSingle(puzzle, N);
+
+                if (answer === undefined)
+                {
+                    answer = this.getNakedPair(puzzle, N);
+                }
+
+                if (answer === undefined)
+                {
+                    answer = this.forwardSearch(puzzle, N);
+                }
+
+                return answer;
+            },
+
+            getNakedPair: function(puzzle, N)
+            {
+                InputValidator.validateNotNull("puzzle", puzzle);
+                InputValidator.validateIsNumber("N", N);
+
+                var answer;
+
+                return answer;
+            },
+
+            getNakedSingle: function(puzzle, N)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
                 InputValidator.validateIsNumber("N", N);
@@ -147,43 +220,6 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
                     }
                 }
 
-                if (answer === undefined)
-                {
-                    // Try two candidate cell values.
-                    var length = 2;
-                    var indices = [];
-                    var i, index, value;
-
-                    for (i = 0; i < puzzle.length; i++)
-                    {
-                        value = puzzle[i];
-
-                        if (Array.isArray(value) && value.length === length)
-                        {
-                            indices.push(i);
-                        }
-                    }
-
-                    for (i = 0; i < indices.length && answer === undefined; i++)
-                    {
-                        index = indices[i];
-                        value = puzzle[index];
-
-                        for (var j = 0; j < value.length && answer === undefined; j++)
-                        {
-                            var puzzleClone = PuzzleFormat.parse(PuzzleFormat.format(puzzle));
-                            puzzleClone[index] = value[j];
-                            PuzzleFactory.adjustPossibilites(puzzleClone, N);
-                            this.solve(puzzleClone);
-
-                            if (this.isDone(puzzleClone))
-                            {
-                                answer = this.createAction(index, value[j], "candidate look-ahead");
-                            }
-                        }
-                    }
-                }
-
                 return answer;
             },
 
@@ -218,12 +254,11 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
 
                 while (!this.isDone(puzzle) && count < maxTries)
                 {
-                    var action = this.getAction(puzzle, N);
+                    var move = this.getMove(puzzle, N);
 
-                    if (action !== undefined)
+                    if (move !== undefined)
                     {
-                        puzzle[action.index] = action.value;
-                        PuzzleFactory.adjustPossibilites(puzzle, N);
+                        move.execute();
                     }
 
                     count++;

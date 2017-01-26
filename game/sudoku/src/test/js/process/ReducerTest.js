@@ -4,6 +4,23 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reduce
         "use strict";
         QUnit.module("Reducer");
 
+        QUnit.test("removeCellCandidate()", function(assert)
+        {
+            // Setup.
+            var store = createStore();
+            var index = 4;
+            var candidate = 5;
+            assert.equal(store.getState().puzzle[index].length, 4);
+            assert.equal(store.getState().puzzle[index].vizziniContains(candidate), true);
+
+            // Run.
+            store.dispatch(Action.removeCellCandidate(index, candidate));
+
+            // Verify.
+            assert.equal(store.getState().puzzle[index].length, 3);
+            assert.equal(store.getState().puzzle[index].vizziniContains(candidate), false);
+        });
+
         QUnit.test("setCellValue()", function(assert)
         {
             // Setup.

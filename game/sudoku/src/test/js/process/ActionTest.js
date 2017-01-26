@@ -4,6 +4,22 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory"],
         "use strict";
         QUnit.module("Action");
 
+        QUnit.test("removeCellCandidate()", function(assert)
+        {
+            // Setup.
+            var index = 12;
+            var candidate = 8;
+
+            // Run.
+            var result = Action.removeCellCandidate(index, candidate);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.type, Action.REMOVE_CELL_CANDIDATE);
+            assert.equal(result.index, index);
+            assert.equal(result.candidate, candidate);
+        });
+
         QUnit.test("setCellValue()", function(assert)
         {
             // Setup.

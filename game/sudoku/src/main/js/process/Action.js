@@ -3,12 +3,29 @@ define(function()
     "use strict";
     var Action = {};
 
+    Action.REMOVE_CELL_CANDIDATE = "removeCellCandidate";
     Action.SET_CELL_VALUE = "setCellValue";
     Action.SET_PUZZLE = "setPuzzle";
     Action.SET_SELECTED_INDEX = "setSelectedIndex";
 
+    Action.removeCellCandidate = function(index, candidate)
+    {
+        InputValidator.validateIsNumber("index", index);
+        InputValidator.validateIsNumber("candidate", candidate);
+
+        return (
+        {
+            type: Action.REMOVE_CELL_CANDIDATE,
+            index: index,
+            candidate: candidate,
+        });
+    };
+
     Action.setCellValue = function(index, value)
     {
+        InputValidator.validateIsNumber("index", index);
+        InputValidator.validateIsNumber("value", value);
+
         return (
         {
             type: Action.SET_CELL_VALUE,
