@@ -258,11 +258,11 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
                 var store = this.context.store;
                 var puzzle = Selector.puzzle(store.getState());
                 var N = Selector.N(store.getState());
-                var action = SudokuSolver.getAction(puzzle, N);
+                var move = SudokuSolver.getMove(puzzle, N);
 
-                if (action !== undefined)
+                if (move !== undefined)
                 {
-                    store.dispatch(Action.setCellValue(action.index, action.value));
+                    move.execute(store);
                 }
             },
         });
