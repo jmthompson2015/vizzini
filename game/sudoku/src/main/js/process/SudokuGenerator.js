@@ -1,0 +1,80 @@
+define(["GridFactory", "PuzzleFormat", "Unit"],
+    function(GridFactory, PuzzleFormat, Unit)
+    {
+        var SudokuGenerator = {
+
+            generate: function()
+            {
+                var answer = GridFactory.createDefaultSolution();
+
+                // Shuffle intra-block columns.
+                answer = this.shuffleIntraBlockUnits(answer, Unit.COLUMNS, 0, 2);
+                answer = this.shuffleIntraBlockUnits(answer, Unit.COLUMNS, 3, 5);
+                answer = this.shuffleIntraBlockUnits(answer, Unit.COLUMNS, 6, 8);
+
+                // Shuffle intra-block rows.
+                answer = this.shuffleIntraBlockUnits(answer, Unit.ROWS, 0, 2);
+                answer = this.shuffleIntraBlockUnits(answer, Unit.ROWS, 3, 5);
+                answer = this.shuffleIntraBlockUnits(answer, Unit.ROWS, 6, 8);
+
+                // Shuffle block-columns.
+
+                // Shuffle block-rows.
+
+                // Remove values.
+                // FIXME: implement remove values.
+
+                return answer;
+            },
+
+            shuffleBlockUnits: function(grid)
+            {
+                var answer = grid;
+
+                // FIXME: implement shuffleBlockUnits().
+
+                return answer;
+            },
+
+            shuffleIntraBlockUnits: function(grid, units, low, high)
+            {
+                var answer = grid;
+
+                for (var i = 0; i < 3; i++)
+                {
+                    var index0 = Math.vizziniRandomIntFromRange(low, high);
+                    var index1 = Math.vizziniRandomIntFromRange(low, high);
+                    answer = this.swapUnits(grid, units[index0], units[index1]);
+                }
+
+                return answer;
+            },
+
+            swapUnits: function(grid, unit0, unit1)
+            {
+                InputValidator.validateNotNull("grid", grid);
+                InputValidator.validateNotNull("unit0", unit0);
+                InputValidator.validateNotNull("unit1", unit1);
+
+                if (unit0.length !== unit1.length)
+                {
+                    throw "Size mismatch: unit0.length = " + unit0.length + " uni1.length = " + unit1.length;
+                }
+
+                var puzzle0 = PuzzleFormat.parse(grid);
+                var puzzle = PuzzleFormat.parse(grid);
+
+                for (var i = 0; i < unit0.length; i++)
+                {
+                    var index0 = Unit.cellNameToIndex(unit0[i]);
+                    var index1 = Unit.cellNameToIndex(unit1[i]);
+                    puzzle[index0] = puzzle0[index1];
+                    puzzle[index1] = puzzle0[index0];
+                }
+
+                return PuzzleFormat.format(puzzle);
+            },
+        };
+
+        return SudokuGenerator;
+    });

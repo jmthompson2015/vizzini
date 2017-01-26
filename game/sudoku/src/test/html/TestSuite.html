@@ -16,6 +16,7 @@
     <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
     <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
     <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+    <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
     <script src="../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
     <script>
         "use strict";
@@ -26,10 +27,10 @@
 
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["GridFactory", "InitialState", "PuzzleFormat", "SudokuToGo", "Unit",
+        var testModules = ["GridFactory", "InitialState", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit",
 
-            "process/Action", "process/PuzzleAnalyzer", "process/PuzzleFactory", "process/Reducer", "process/Selector", "process/SudokuSolver",
-            "process/SudokuValidator"
+            "process/Action", "process/PuzzleAnalyzer", "process/PuzzleFactory", "process/Reducer", "process/Selector", "process/SudokuGenerator",
+            "process/SudokuSolver", "process/SudokuValidator"
         ];
         testModules = testModules.map(function(testModule)
         {

@@ -28,15 +28,17 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
                 return answer;
             },
 
-            createAction: function(index, value)
+            createAction: function(index, value, source)
             {
                 InputValidator.validateIsNumber("index", index);
                 InputValidator.validateIsNumber("value", value);
+                InputValidator.validateNotNull("source", source);
 
                 return (
                 {
                     index: index,
                     value: value,
+                    source: source,
                 });
             },
 
@@ -54,7 +56,7 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
 
                     if (Array.isArray(value) && value.length === 1)
                     {
-                        answer = this.createAction(i, value[0]);
+                        answer = this.createAction(i, value[0], "single candidate cell");
                     }
                 }
 
@@ -76,7 +78,7 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
                     if (myCount === 1)
                     {
                         var myIndex = this.firstIndexWithCandidate(puzzle, v, unit);
-                        answer = this.createAction(myIndex, v);
+                        answer = this.createAction(myIndex, v, "single candidate unit cell");
                     }
                 }
 
@@ -176,7 +178,7 @@ define(["PuzzleFormat", "Unit", "process/PuzzleFactory"],
 
                             if (this.isDone(puzzleClone))
                             {
-                                answer = this.createAction(index, value[j]);
+                                answer = this.createAction(index, value[j], "candidate look-ahead");
                             }
                         }
                     }

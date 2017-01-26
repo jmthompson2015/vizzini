@@ -1,5 +1,5 @@
-define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFactory", "process/SudokuSolver"],
-    function(GridFactory, PuzzleFormat, SudokuToGo, Unit, PuzzleFactory, SudokuSolver)
+define(["GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit", "process/PuzzleFactory", "process/SudokuSolver"],
+    function(GridFactory, PuzzleFormat, SudokuToGo, SudokuWiki, Unit, PuzzleFactory, SudokuSolver)
     {
         "use strict";
         QUnit.module("SudokuSolver");
@@ -435,12 +435,12 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            LOGGER.info("0 grid = " + grid);
+            // LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             SudokuSolver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
@@ -454,12 +454,12 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_2].grid;
-            LOGGER.info("0 grid = " + grid);
+            // LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             SudokuSolver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
@@ -473,12 +473,12 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.MEDIUM_31].grid;
-            LOGGER.info("0 grid = " + grid);
+            // LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             SudokuSolver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
@@ -492,12 +492,12 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.MEDIUM_32].grid;
-            LOGGER.info("0 grid = " + grid);
+            // LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             SudokuSolver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
@@ -511,12 +511,12 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.HARD_66].grid;
-            LOGGER.info("0 grid = " + grid);
+            // LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             SudokuSolver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
@@ -530,12 +530,12 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.HARD_67].grid;
-            LOGGER.info("0 grid = " + grid);
+            // LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             SudokuSolver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
@@ -549,12 +549,12 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_86].grid;
-            LOGGER.info("0 grid = " + grid);
+            // LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             SudokuSolver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
@@ -568,6 +568,25 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_87].grid;
+            // LOGGER.info("0 grid = " + grid);
+            var puzzle = PuzzleFormat.parse(grid);
+
+            // Run.
+            SudokuSolver.solve(puzzle);
+            // LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+
+            // Verify.
+            assert.ok(SudokuSolver.isDone(puzzle));
+            assert.equal(puzzle[Unit.cellNameToIndex("A1")], "3", "A1");
+            assert.equal(puzzle[Unit.cellNameToIndex("A9")], "4", "A9");
+            assert.equal(puzzle[Unit.cellNameToIndex("I1")], "4", "I1");
+            assert.equal(puzzle[Unit.cellNameToIndex("I9")], "3", "I9");
+        });
+
+        QUnit.skip("solve() Unsolvable #28", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_28].grid;
             LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
 
@@ -577,9 +596,66 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
 
             // Verify.
             assert.ok(SudokuSolver.isDone(puzzle));
-            assert.equal(puzzle[Unit.cellNameToIndex("A1")], "3", "A1");
+            assert.equal(puzzle[Unit.cellNameToIndex("A1")], "6", "A1");
             assert.equal(puzzle[Unit.cellNameToIndex("A9")], "4", "A9");
-            assert.equal(puzzle[Unit.cellNameToIndex("I1")], "4", "I1");
+            assert.equal(puzzle[Unit.cellNameToIndex("I1")], "8", "I1");
+            assert.equal(puzzle[Unit.cellNameToIndex("I9")], "3", "I9");
+        });
+
+        QUnit.skip("solve() Unsolvable #49", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_49].grid;
+            LOGGER.info("0 grid = " + grid);
+            var puzzle = PuzzleFormat.parse(grid);
+
+            // Run.
+            SudokuSolver.solve(puzzle);
+            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+
+            // Verify.
+            assert.ok(SudokuSolver.isDone(puzzle));
+            assert.equal(puzzle[Unit.cellNameToIndex("A1")], "6", "A1");
+            assert.equal(puzzle[Unit.cellNameToIndex("A9")], "4", "A9");
+            assert.equal(puzzle[Unit.cellNameToIndex("I1")], "8", "I1");
+            assert.equal(puzzle[Unit.cellNameToIndex("I9")], "3", "I9");
+        });
+
+        QUnit.skip("solve() Arto Inkala's Puzzle", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.ARTO_INKALAS_PUZZLE].grid;
+            LOGGER.info("0 grid = " + grid);
+            var puzzle = PuzzleFormat.parse(grid);
+
+            // Run.
+            SudokuSolver.solve(puzzle);
+            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+
+            // Verify.
+            assert.ok(SudokuSolver.isDone(puzzle));
+            assert.equal(puzzle[Unit.cellNameToIndex("A1")], "6", "A1");
+            assert.equal(puzzle[Unit.cellNameToIndex("A9")], "4", "A9");
+            assert.equal(puzzle[Unit.cellNameToIndex("I1")], "8", "I1");
+            assert.equal(puzzle[Unit.cellNameToIndex("I9")], "3", "I9");
+        });
+
+        QUnit.skip("solve() Escargot", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.ESCARGOT].grid;
+            LOGGER.info("0 grid = " + grid);
+            var puzzle = PuzzleFormat.parse(grid);
+
+            // Run.
+            SudokuSolver.solve(puzzle);
+            LOGGER.info("1 grid = " + PuzzleFormat.format(puzzle));
+
+            // Verify.
+            assert.ok(SudokuSolver.isDone(puzzle));
+            assert.equal(puzzle[Unit.cellNameToIndex("A1")], "6", "A1");
+            assert.equal(puzzle[Unit.cellNameToIndex("A9")], "4", "A9");
+            assert.equal(puzzle[Unit.cellNameToIndex("I1")], "8", "I1");
             assert.equal(puzzle[Unit.cellNameToIndex("I9")], "3", "I9");
         });
 
@@ -591,19 +667,24 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "Unit", "process/PuzzleFact
                 PuzzleFactory.adjustPossibilites(puzzle, 9);
                 var indices = [];
                 var values = [];
+                var sourceCounts = {};
                 var result = SudokuSolver.getAction(puzzle, 9);
 
                 while (!SudokuSolver.isDone(puzzle) && result)
                 {
                     indices.push(result.index);
                     values.push(result.value);
+                    var count = (sourceCounts[result.source] !== undefined ? sourceCounts[result.source] : 0);
+                    sourceCounts[result.source] = count + 1;
                     puzzle[result.index] = result.value;
                     PuzzleFactory.adjustPossibilites(puzzle, 9);
                     result = SudokuSolver.getAction(puzzle, 9);
                 }
 
+                LOGGER.info("count = " + indices.length + " givens = " + (81 - indices.length));
                 LOGGER.info("var indices = [" + indices + "];");
                 LOGGER.info("var values = [" + values + "];");
+                LOGGER.info("var sourceCounts = " + JSON.stringify(sourceCounts));
             }
         }
     });
