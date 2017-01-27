@@ -21,7 +21,7 @@ define(["process/Action", "process/PuzzleFactory"],
 
                 if (store !== undefined)
                 {
-                    // FIXME: create batch remove candidates in Reducer.
+                    store.dispatch(Action.batchRemoveCandidates(indices, candidates));
                 }
                 else
                 {
@@ -38,6 +38,11 @@ define(["process/Action", "process/PuzzleFactory"],
                         }
                     });
                 }
+            };
+
+            this.toString = function()
+            {
+                return "BatchRemoveCandidates indices=[" + indices + "] candidates=[" + candidates + "] source=" + source;
             };
         };
 
@@ -75,6 +80,11 @@ define(["process/Action", "process/PuzzleFactory"],
                 {
                     puzzle[index].vizziniRemove(candidate);
                 }
+            };
+
+            this.toString = function()
+            {
+                return "RemoveCellCandidate index=" + index + " candidate=" + candidate + " source=" + source;
             };
         };
 
@@ -114,6 +124,11 @@ define(["process/Action", "process/PuzzleFactory"],
                     puzzle[index] = value;
                     PuzzleFactory.adjustPossibilites(puzzle, N);
                 }
+            };
+
+            this.toString = function()
+            {
+                return "SetCellValue index=" + index + " value=" + value + " source=" + source;
             };
         };
 

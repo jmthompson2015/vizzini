@@ -17,6 +17,25 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
 
             switch (action.type)
             {
+                case Action.BATCH_REMOVE_CANDIDATES:
+                    LOGGER.info("Reducer batchRemoveCandidates " + action.indices + " " + action.candidates);
+                    newPuzzle = Reducer._clonePuzzle(state.puzzle);
+                    action.indices.forEach(function(index)
+                    {
+                        var value = newPuzzle[index];
+                        if (Array.isArray(value))
+                        {
+                            action.candidates.forEach(function(candidate)
+                            {
+                                value.vizziniRemove(candidate);
+                            });
+                        }
+                    });
+                    return Object.assign(
+                    {}, state,
+                    {
+                        puzzle: newPuzzle,
+                    });
                 case Action.REMOVE_CELL_CANDIDATE:
                     LOGGER.info("Reducer removeCellCandidate " + action.index + " " + (typeof action.index) + " " + action.candidate + " " + (typeof action.candidate));
                     newPuzzle = Reducer._clonePuzzle(state.puzzle);

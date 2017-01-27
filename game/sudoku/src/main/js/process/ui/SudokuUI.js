@@ -262,6 +262,7 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
 
                 if (move !== undefined)
                 {
+                    LOGGER.info("move: " + move);
                     move.execute(store);
                 }
             },
