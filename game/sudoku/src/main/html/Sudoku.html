@@ -24,16 +24,20 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["GridFactory", "PuzzleFormat", "SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reducer", "process/Selector",
+		require(["GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/Action", "process/PuzzleFactory", "process/Reducer", "process/Selector",
 				"process/ui/Connector", "process/ui/SudokuUI"
 			],
-			function(GridFactory, PuzzleFormat, SudokuToGo, Action, PuzzleFactory, Reducer, Selector, Connector, SudokuUI)
+			function(GridFactory, PuzzleFormat, SudokuToGo, SudokuWiki, Action, PuzzleFactory, Reducer, Selector, Connector, SudokuUI)
 			{
 				var store = Redux.createStore(Reducer.root);
 				var grids = SudokuToGo.values().map(function(gridKey)
 				{
 					return SudokuToGo.properties[gridKey];
 				});
+				grids = grids.concat(SudokuWiki.values().map(function(gridKey)
+				{
+					return SudokuWiki.properties[gridKey];
+				}));
 				var grid = grids.vizziniRandomElement();
 				LOGGER.info("grid " + grid.name);
 				var puzzle = PuzzleFormat.parse(grid.grid);
