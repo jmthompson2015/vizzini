@@ -71,6 +71,26 @@ define(["Unit"], function(Unit)
         assert.equal(result[i++], "C3");
     });
 
+    QUnit.test("getBlockPeerIndices() A1", function(assert)
+    {
+        // Run.
+        var result = Unit.getBlockPeerIndices(0);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(Array.isArray(result));
+        assert.equal(result.length, 8);
+        var i = 0;
+        assert.equal(result[i++], 1);
+        assert.equal(result[i++], 2);
+        assert.equal(result[i++], 9);
+        assert.equal(result[i++], 10);
+        assert.equal(result[i++], 11);
+        assert.equal(result[i++], 18);
+        assert.equal(result[i++], 19);
+        assert.equal(result[i++], 20);
+    });
+
     QUnit.test("getColumnPeers() A1", function(assert)
     {
         // Run.
@@ -89,6 +109,22 @@ define(["Unit"], function(Unit)
         assert.equal(result[i++], "G1");
         assert.equal(result[i++], "H1");
         assert.equal(result[i++], "J1");
+    });
+
+    QUnit.test("getColumnPeerIndices() A1", function(assert)
+    {
+        // Run.
+        var result = Unit.getColumnPeerIndices(0);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(Array.isArray(result));
+        assert.equal(result.length, 8);
+
+        for (var i = 1; i < Unit.N; i++)
+        {
+            assert.equal(result[i - 1], 9 * i);
+        }
     });
 
     QUnit.test("getPeers() A1", function(assert)
@@ -173,6 +209,22 @@ define(["Unit"], function(Unit)
         assert.equal(result[i++], "A7");
         assert.equal(result[i++], "A8");
         assert.equal(result[i++], "A9");
+    });
+
+    QUnit.test("getRowPeerIndices() A1", function(assert)
+    {
+        // Run.
+        var result = Unit.getRowPeerIndices(0);
+
+        // Verify.
+        assert.ok(result);
+        assert.ok(Array.isArray(result));
+        assert.equal(result.length, 8);
+
+        for (var i = 1; i < Unit.N; i++)
+        {
+            assert.equal(result[i - 1], i);
+        }
     });
 
     QUnit.test("indexToBlock()", function(assert)

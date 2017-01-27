@@ -87,6 +87,19 @@ define(function()
             return this.getUnitPeers(cellName, unit);
         },
 
+        getBlockPeerIndices: function(index)
+        {
+            InputValidator.validateIsNumber("index", index);
+
+            var cellName = this.indexToCellName(index);
+            var peers = this.getBlockPeers(cellName);
+
+            return peers.map(function(cellName)
+            {
+                return this.cellNameToIndex(cellName);
+            }, this);
+        },
+
         getColumnPeers: function(cellName)
         {
             InputValidator.validateNotEmpty("cellName", cellName);
@@ -95,6 +108,19 @@ define(function()
             var unit = this.COLUMNS[column];
 
             return this.getUnitPeers(cellName, unit);
+        },
+
+        getColumnPeerIndices: function(index)
+        {
+            InputValidator.validateIsNumber("index", index);
+
+            var cellName = this.indexToCellName(index);
+            var peers = this.getColumnPeers(cellName);
+
+            return peers.map(function(cellName)
+            {
+                return this.cellNameToIndex(cellName);
+            }, this);
         },
 
         getPeers: function(cellName)
@@ -128,6 +154,19 @@ define(function()
             var unit = this.ROWS[row];
 
             return this.getUnitPeers(cellName, unit);
+        },
+
+        getRowPeerIndices: function(index)
+        {
+            InputValidator.validateIsNumber("index", index);
+
+            var cellName = this.indexToCellName(index);
+            var peers = this.getRowPeers(cellName);
+
+            return peers.map(function(cellName)
+            {
+                return this.cellNameToIndex(cellName);
+            }, this);
         },
 
         getUnitPeers: function(cellName, unit)

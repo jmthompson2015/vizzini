@@ -3,10 +3,47 @@ define(["process/Action", "process/PuzzleFactory"],
     {
         var Move = {};
 
-        Move.RemoveCellCandidate = function(puzzle, N, index, candidate, source)
+        Move.BatchRemoveCandidates = function(puzzle, indices, candidates, source)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
-            InputValidator.validateIsNumber("N", N);
+            InputValidator.validateNotNull("indices", indices);
+            InputValidator.validateNotNull("candidates", candidates);
+            InputValidator.validateNotNull("source", source);
+
+            this.source = function()
+            {
+                return source;
+            };
+
+            this.execute = function(store)
+            {
+                LOGGER.trace("Move.BatchRemoveCandidates.execute()");
+
+                if (store !== undefined)
+                {
+                    // FIXME: create batch remove candidates in Reducer.
+                }
+                else
+                {
+                    indices.forEach(function(index)
+                    {
+                        var value = puzzle[index];
+
+                        if (Array.isArray(value))
+                        {
+                            candidates.forEach(function(candidate)
+                            {
+                                value.vizziniRemove(candidate);
+                            });
+                        }
+                    });
+                }
+            };
+        };
+
+        Move.RemoveCellCandidate = function(puzzle, index, candidate, source)
+        {
+            InputValidator.validateNotNull("puzzle", puzzle);
             InputValidator.validateIsNumber("index", index);
             InputValidator.validateIsNumber("candidate", candidate);
             InputValidator.validateNotNull("source", source);
@@ -28,7 +65,7 @@ define(["process/Action", "process/PuzzleFactory"],
 
             this.execute = function(store)
             {
-                LOGGER.info("Move.RemoveCellCandidate.execute()");
+                LOGGER.trace("Move.RemoveCellCandidate.execute()");
 
                 if (store !== undefined)
                 {
@@ -37,7 +74,6 @@ define(["process/Action", "process/PuzzleFactory"],
                 else
                 {
                     puzzle[index].vizziniRemove(candidate);
-                    PuzzleFactory.adjustPossibilites(puzzle, N);
                 }
             };
         };
