@@ -1,5 +1,5 @@
-define(["GridFactory", "PuzzleFormat", "Unit"],
-    function(GridFactory, PuzzleFormat, Unit)
+define(["GridFactory", "PuzzleFormat"],
+    function(GridFactory, PuzzleFormat)
     {
         "use strict";
 

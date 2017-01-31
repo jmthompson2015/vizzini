@@ -1,5 +1,5 @@
-define(["Cell", "PuzzleFormat", "Unit", "process/Move"],
-    function(Cell, PuzzleFormat, Unit, Move)
+define(["Cell", "Unit", "process/Move"],
+    function(Cell, Unit, Move)
     {
         var SudokuSolver = {
 

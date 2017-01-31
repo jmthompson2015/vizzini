@@ -1,5 +1,5 @@
-define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move"],
-    function(Cell, PuzzleFormat, SudokuToGo, Move)
+define(["PuzzleFormat", "SudokuToGo", "process/Move"],
+    function(PuzzleFormat, SudokuToGo, Move)
     {
         "use strict";
         QUnit.module("Move");
