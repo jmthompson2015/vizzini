@@ -1,5 +1,5 @@
-define(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reducer"],
-    function(SudokuToGo, Action, PuzzleFactory, Reducer)
+define(["PuzzleFormat", "SudokuToGo", "process/Action", "process/Reducer"],
+    function(PuzzleFormat, SudokuToGo, Action, Reducer)
     {
         "use strict";
         QUnit.module("Reducer");
@@ -11,17 +11,17 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reduce
             var index = 43;
             var indices = [index];
             var candidates = [3, 8];
-            assert.equal(store.getState().puzzle[index].length, 5);
-            assert.equal(store.getState().puzzle[index].vizziniContains(candidates[0]), true);
-            assert.equal(store.getState().puzzle[index].vizziniContains(candidates[1]), true);
+            assert.equal(store.getState().puzzle.get(index).candidates().size, 5);
+            assert.equal(store.getState().puzzle.get(index).candidates().includes(candidates[0]), true);
+            assert.equal(store.getState().puzzle.get(index).candidates().includes(candidates[1]), true);
 
             // Run.
             store.dispatch(Action.batchRemoveCandidates(indices, candidates));
 
             // Verify.
-            assert.equal(store.getState().puzzle[index].length, 3);
-            assert.equal(store.getState().puzzle[index].vizziniContains(candidates[0]), false);
-            assert.equal(store.getState().puzzle[index].vizziniContains(candidates[1]), false);
+            assert.equal(store.getState().puzzle.get(index).candidates().size, 3);
+            assert.equal(store.getState().puzzle.get(index).candidates().includes(candidates[0]), false);
+            assert.equal(store.getState().puzzle.get(index).candidates().includes(candidates[1]), false);
         });
 
         QUnit.test("removeCellCandidate()", function(assert)
@@ -30,15 +30,15 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reduce
             var store = createStore();
             var index = 4;
             var candidate = 5;
-            assert.equal(store.getState().puzzle[index].length, 4);
-            assert.equal(store.getState().puzzle[index].vizziniContains(candidate), true);
+            assert.equal(store.getState().puzzle.get(index).candidates().size, 4);
+            assert.equal(store.getState().puzzle.get(index).candidates().includes(candidate), true);
 
             // Run.
             store.dispatch(Action.removeCellCandidate(index, candidate));
 
             // Verify.
-            assert.equal(store.getState().puzzle[index].length, 3);
-            assert.equal(store.getState().puzzle[index].vizziniContains(candidate), false);
+            assert.equal(store.getState().puzzle.get(index).candidates().size, 3);
+            assert.equal(store.getState().puzzle.get(index).candidates().includes(candidate), false);
         });
 
         QUnit.test("setCellValue()", function(assert)
@@ -52,7 +52,7 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reduce
             store.dispatch(Action.setCellValue(index, value));
 
             // Verify.
-            assert.equal(store.getState().puzzle[index], value);
+            assert.equal(store.getState().puzzle.get(index).value(), value);
         });
 
         QUnit.test("setPuzzle()", function(assert)
@@ -60,7 +60,7 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reduce
             // Setup.
             var store = Redux.createStore(Reducer.root);
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
             store.dispatch(Action.setPuzzle(puzzle));
@@ -86,7 +86,8 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reduce
         {
             var store = Redux.createStore(Reducer.root);
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
             store.dispatch(Action.setPuzzle(puzzle));
 
             return store;

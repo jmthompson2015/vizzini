@@ -4,7 +4,7 @@ define(["PuzzleFormat", "SudokuToGo", "process/PuzzleFactory"],
         "use strict";
         QUnit.module("PuzzleFactory");
 
-        QUnit.test("create() easy 1", function(assert)
+        QUnit.skip("create() easy 1", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
@@ -20,7 +20,7 @@ define(["PuzzleFormat", "SudokuToGo", "process/PuzzleFactory"],
             assert.equal(result[80].join(""), "127");
         });
 
-        QUnit.test("removeValueFromPeers() easy 1", function(assert)
+        QUnit.skip("removeValueFromPeers() easy 1", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;

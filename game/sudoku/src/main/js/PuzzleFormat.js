@@ -1,5 +1,5 @@
-define(["Unit"],
-    function(Unit)
+define(["Cell", "Puzzle"],
+    function(Cell, Puzzle)
     {
         var PuzzleFormat = {
             BLANK: ".",
@@ -9,19 +9,19 @@ define(["Unit"],
                 InputValidator.validateNotNull("puzzle", puzzle);
 
                 var answer = "";
-                var cellCount = puzzle.length;
+                var cells = puzzle.cells();
 
-                for (var i = 0; i < cellCount; i++)
+                for (var i = 0; i < cells.size; i++)
                 {
-                    var value = puzzle[i];
+                    var cell = cells.get(i);
 
-                    if (Array.isArray(value))
+                    if (cell.isCandidates)
                     {
                         answer += PuzzleFormat.BLANK;
                     }
                     else
                     {
-                        answer += value;
+                        answer += cell.value();
                     }
                 }
 
@@ -30,39 +30,55 @@ define(["Unit"],
 
             parse: function(grid)
             {
-                InputValidator.validateNotEmpty("grid", grid);
+                InputValidator.validateNotNull("grid", grid);
 
-                var answer = this.createEmpty();
-                var cellCount = answer.length;
+                var N = Math.sqrt(grid.length);
+                var cells = this.createEmpty(N).cells();
 
                 // Assign values from the grid.
-                for (var i = 0; i < cellCount; i++)
+                for (var i = 0; i < cells.size; i++)
                 {
                     var value = grid[i];
 
                     if (value !== PuzzleFormat.BLANK)
                     {
-                        answer[i] = Number(value);
-                        answer.constantIndices.push(i);
+                        var cell = new Cell.Value(Number(value), true);
+                        cells = cells.set(i, cell);
                     }
                 }
 
-                return answer;
+                return new Puzzle(cells, grid);
+            },
+
+            createCandidates: function(N)
+            {
+                InputValidator.validateIsNumber("N", N);
+
+                var myCandidates = [];
+
+                for (var i = 1; i <= N; i++)
+                {
+                    myCandidates.push(i);
+                }
+
+                return Immutable.List(myCandidates);
             },
 
             createEmpty: function(NIn)
             {
                 var N = (NIn !== undefined ? NIn : 9);
-                var answer = [];
-                answer.constantIndices = [];
+                var candidates = this.createCandidates(N);
+                var myCells = [];
 
                 // Initialize.
                 for (var i = 0; i < (N * N); i++)
                 {
-                    answer[i] = Unit.DEFAULT_CELL.slice();
+                    myCells[i] = new Cell.Candidates(candidates);
                 }
 
-                return answer;
+                var cells = Immutable.List(myCells);
+
+                return new Puzzle(cells);
             },
         };
 

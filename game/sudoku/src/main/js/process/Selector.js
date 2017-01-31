@@ -3,6 +3,22 @@ define(function()
     "use strict";
     var Selector = {};
 
+    Selector.candidates = function(state, index)
+    {
+        InputValidator.validateNotNull("state", state);
+        InputValidator.validateIsNumber("index", index);
+
+        var answer;
+        var cell = state.puzzle.get(index);
+
+        if (cell.isCandidates)
+        {
+            answer = cell.candidates();
+        }
+
+        return answer;
+    };
+
     Selector.isConstantSelected = function(state)
     {
         InputValidator.validateNotNull("state", state);
@@ -65,7 +81,15 @@ define(function()
         InputValidator.validateNotNull("state", state);
         InputValidator.validateIsNumber("index", index);
 
-        return state.puzzle[index];
+        var answer;
+        var cell = state.puzzle.get(index);
+
+        if (cell.isValue)
+        {
+            answer = cell.value();
+        }
+
+        return answer;
     };
 
     if (Object.freeze)

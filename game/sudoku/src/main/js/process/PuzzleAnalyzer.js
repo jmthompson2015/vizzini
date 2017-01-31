@@ -8,10 +8,11 @@ define(["Unit"],
                 InputValidator.validateIsNumber("index", index);
 
                 var answer = false;
-                var cellValue = puzzle[index];
+                var cell0 = puzzle.get(index);
 
-                if (!Array.isArray(cellValue))
+                if (cell0.isValue)
                 {
+                    var value0 = cell0.value();
                     var cellName = Unit.indexToCellName(index);
                     var peers = Unit.getPeers(cellName);
 
@@ -19,9 +20,9 @@ define(["Unit"],
                     {
                         var peer = peers[i];
                         var myIndex = Unit.cellNameToIndex(peer);
-                        var value = puzzle[myIndex];
+                        var cell = puzzle.get(myIndex);
 
-                        if (!Array.isArray(value) && value === cellValue)
+                        if (cell.isValue && cell.value() === value0)
                         {
                             answer = true;
                             break;
@@ -39,11 +40,11 @@ define(["Unit"],
                 InputValidator.validateIsNumber("index", index);
 
                 var answer = false;
-                var cellValue = puzzle[index];
+                var cell = puzzle.get(index);
 
-                if (Array.isArray(cellValue))
+                if (cell.isCandidates)
                 {
-                    answer = cellValue.vizziniContains(selectedValue);
+                    answer = cell.candidates().includes(selectedValue);
                 }
 
                 return answer;
@@ -55,9 +56,9 @@ define(["Unit"],
                 // selectedValue optional.
                 InputValidator.validateIsNumber("index", index);
 
-                var cellValue = puzzle[index];
+                var cell = puzzle.get(index);
 
-                return (cellValue === selectedValue);
+                return (cell.isValue === true && cell.value() === selectedValue);
             },
         };
 

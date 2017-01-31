@@ -1,5 +1,5 @@
-define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
-    function(SudokuToGo, PuzzleAnalyzer, PuzzleFactory)
+define(["Cell", "PuzzleFormat", "SudokuToGo", "process/PuzzleAnalyzer"],
+    function(Cell, PuzzleFormat, SudokuToGo, PuzzleAnalyzer)
     {
         "use strict";
         QUnit.module("PuzzleAnalyzer");
@@ -8,7 +8,8 @@ define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
 
             // Run / Verify.
             for (var i = 0; i < 81; i++)
@@ -21,8 +22,9 @@ define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
-            puzzle[16] = 6;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            puzzle = puzzle.withCell(16, new Cell.Value(6));
 
             // Run / Verify.
             var cells = [16, 24];
@@ -37,8 +39,9 @@ define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
-            puzzle[71] = 6;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            puzzle = puzzle.withCell(71, new Cell.Value(6));
 
             // Run / Verify.
             var cells = [35, 71];
@@ -53,8 +56,9 @@ define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
-            puzzle[22] = 6;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            puzzle = puzzle.withCell(22, new Cell.Value(6));
 
             // Run / Verify.
             var cells = [22, 24];
@@ -69,7 +73,8 @@ define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
             var selectedValue = 6;
 
             // Run / Verify.
@@ -85,7 +90,8 @@ define(["SudokuToGo", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
             var selectedValue = 6;
 
             // Run / Verify.

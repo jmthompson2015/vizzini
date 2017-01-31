@@ -1,5 +1,5 @@
-define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
-    function(PuzzleFormat, Unit, Move, PuzzleFactory)
+define(["Cell", "PuzzleFormat", "Unit", "process/Move"],
+    function(Cell, PuzzleFormat, Unit, Move)
     {
         var SudokuSolver = {
 
@@ -15,14 +15,12 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 {
                     var cellName = unit[i];
                     var index = Unit.cellNameToIndex(cellName);
-                    var value = puzzle[index];
+                    var cell = puzzle.get(index);
 
-                    if (Array.isArray(value) && value.vizziniContains(candidate))
+                    if (cell.isCandidates === true && cell.candidates().includes(candidate))
                     {
                         answer++;
                     }
-
-                    LOGGER.trace(i + " value = " + value + " answer = " + answer);
                 }
 
                 return answer;
@@ -33,14 +31,9 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 return new Move.BatchRemoveCandidates(puzzle, indices, candidates, source);
             },
 
-            createMoveRemoveCellCandidate: function(puzzle, index, candidate, source)
+            createMoveSetCellValue: function(puzzle, index, value, source)
             {
-                return new Move.RemoveCellCandidate(puzzle, index, candidate, source);
-            },
-
-            createMoveSetCellValue: function(puzzle, N, index, value, source)
-            {
-                return new Move.SetCellValue(puzzle, N, index, value, source);
+                return new Move.SetCellValue(puzzle, index, value, source);
             },
 
             findCellsWithCandidateLength: function(puzzle, length)
@@ -48,11 +41,11 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 var indices = [];
                 var i, index, value;
 
-                for (i = 0; i < puzzle.length; i++)
+                for (i = 0; i < puzzle.cells().size; i++)
                 {
-                    value = puzzle[i];
+                    var cell = puzzle.get(i);
 
-                    if (Array.isArray(value) && value.length === length)
+                    if (cell.isCandidates === true && cell.candidates().size === length)
                     {
                         indices.push(i);
                     }
@@ -61,34 +54,73 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 return indices;
             },
 
-            findSingleCandidateCell: function(puzzle, N)
+            findNakedPairMove: function(puzzle, index, peers)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateIsNumber("N", N);
+                InputValidator.validateIsNumber("index", index);
+                InputValidator.validateNotNull("peers", peers);
+
+                var answer;
+                var cell = puzzle.get(index);
+
+                if (cell.isCandidates === true)
+                {
+                    for (var j = 0; j < peers.length && answer === undefined; j++)
+                    {
+                        var peerIndex = peers[j];
+                        var myCell = puzzle.get(peerIndex);
+
+                        if (peerIndex > index && (myCell.isCandidates === true) && (cell.candidates().toString() === myCell.candidates().toString()))
+                        {
+                            // Find the other peers which contains the pair's candidates.
+                            var otherPeers = peers.slice();
+                            otherPeers.vizziniRemove(peerIndex);
+                            var candidatePeers = otherPeers.filter(filterOtherPeers);
+
+                            if (candidatePeers.length > 0)
+                            {
+                                answer = this.createMoveBatchRemoveCandidates(puzzle, candidatePeers, cell.candidates(), "naked pair");
+                            }
+                        }
+                    }
+                }
+
+                return answer;
+
+                function filterOtherPeers(index)
+                {
+                    var myCell = puzzle.get(index);
+                    return (myCell.isCandidates === true) && (myCell.candidates().includes(cell.candidates().get(0)) || myCell.candidates().includes(cell.candidates().get(1)));
+                }
+            },
+
+            findSingleCandidateCell: function(puzzle)
+            {
+                InputValidator.validateNotNull("puzzle", puzzle);
 
                 var answer;
 
-                for (var i = 0; i < puzzle.length && answer === undefined; i++)
+                for (var i = 0; i < puzzle.cells().size && answer === undefined; i++)
                 {
                     var cellName = Unit.indexToCellName(i);
-                    var value = puzzle[i];
+                    var cell = puzzle.get(i);
 
-                    if (Array.isArray(value) && value.length === 1)
+                    if (cell.isCandidates === true && cell.candidates().size === 1)
                     {
-                        answer = this.createMoveSetCellValue(puzzle, N, i, value[0], "naked single");
+                        answer = this.createMoveSetCellValue(puzzle, i, cell.candidates().get(0), "naked single");
                     }
                 }
 
                 return answer;
             },
 
-            findSingleCandidateUnitCell: function(puzzle, N, unit)
+            findSingleCandidateUnitCell: function(puzzle, unit)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateIsNumber("N", N);
                 InputValidator.validateNotNull("unit", unit);
 
                 var answer;
+                var N = puzzle.N();
 
                 for (var v = 0; v < N && answer === undefined; v++)
                 {
@@ -97,7 +129,7 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                     if (myCount === 1)
                     {
                         var myIndex = this.firstIndexWithCandidate(puzzle, v, unit);
-                        answer = this.createMoveSetCellValue(puzzle, N, myIndex, v, "naked single");
+                        answer = this.createMoveSetCellValue(puzzle, myIndex, v, "naked single");
                     }
                 }
 
@@ -116,9 +148,9 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 {
                     var cellName = unit[i];
                     var index = Unit.cellNameToIndex(cellName);
-                    var value = puzzle[index];
+                    var cell = puzzle.get(index);
 
-                    if (Array.isArray(value) && value.vizziniContains(candidate))
+                    if (cell.isCandidates === true && cell.candidates().includes(candidate))
                     {
                         answer = index;
                     }
@@ -127,43 +159,7 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 return answer;
             },
 
-            findNakedPairMove: function(puzzle, index, peers)
-            {
-                InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateIsNumber("index", index);
-                InputValidator.validateNotNull("peers", peers);
-
-                var answer;
-                var value = puzzle[index];
-
-                for (var j = 0; j < peers.length && answer === undefined; j++)
-                {
-                    var peerIndex = peers[j];
-
-                    if (peerIndex > index && value.toString() === puzzle[peerIndex].toString())
-                    {
-                        // Find the other peers which contains the pair's candidates.
-                        var otherPeers = peers.slice();
-                        otherPeers.vizziniRemove(peerIndex);
-                        var candidatePeers = otherPeers.filter(filterOtherPeers);
-
-                        if (candidatePeers.length > 0)
-                        {
-                            answer = this.createMoveBatchRemoveCandidates(puzzle, candidatePeers, value, "naked pair");
-                        }
-                    }
-                }
-
-                return answer;
-
-                function filterOtherPeers(index)
-                {
-                    var myValue = puzzle[index];
-                    return Array.isArray(myValue) && (myValue.vizziniContains(value[0]) || myValue.vizziniContains(value[1]));
-                }
-            },
-
-            forwardSearch: function(puzzle, N)
+            forwardSearch: function(puzzle)
             {
                 // Try two candidate cell values.
                 var indices = this.findCellsWithCandidateLength(puzzle, 2);
@@ -173,18 +169,19 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 for (var i = 0; i < indices.length && answer === undefined; i++)
                 {
                     var index = indices[i];
-                    var value = puzzle[index];
+                    var cell = puzzle.get(index);
+                    var candidates = cell.candidates();
 
-                    for (var j = 0; j < value.length && answer === undefined; j++)
+                    for (var j = 0; j < candidates.size && answer === undefined; j++)
                     {
-                        var puzzleClone = PuzzleFormat.parse(PuzzleFormat.format(puzzle));
-                        puzzleClone[index] = value[j];
-                        PuzzleFactory.adjustPossibilites(puzzleClone, N);
-                        this.solve(puzzleClone);
+                        var candidate = candidates.get(j);
+                        var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
+                        puzzleClone = puzzleClone.adjustCandidates();
+                        puzzleClone = this.solve(puzzleClone);
 
                         if (this.isDone(puzzleClone))
                         {
-                            answer = this.createMoveSetCellValue(puzzle, N, index, value[j], "forward search");
+                            answer = this.createMoveSetCellValue(puzzle, index, candidate, "forward search");
                         }
                     }
                 }
@@ -192,30 +189,28 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 return answer;
             },
 
-            getMove: function(puzzle, N)
+            getMove: function(puzzle)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateIsNumber("N", N);
 
-                var answer = this.getNakedSingle(puzzle, N);
+                var answer = this.getNakedSingle(puzzle);
 
                 if (answer === undefined)
                 {
-                    answer = this.getNakedPair(puzzle, N);
+                    answer = this.getNakedPair(puzzle);
                 }
 
                 if (answer === undefined)
                 {
-                    answer = this.forwardSearch(puzzle, N);
+                    answer = this.forwardSearch(puzzle);
                 }
 
                 return answer;
             },
 
-            getNakedPair: function(puzzle, N)
+            getNakedPair: function(puzzle)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateIsNumber("N", N);
 
                 var indices = this.findCellsWithCandidateLength(puzzle, 2);
 
@@ -244,13 +239,12 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                 return answer;
             },
 
-            getNakedSingle: function(puzzle, N)
+            getNakedSingle: function(puzzle)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateIsNumber("N", N);
 
-                var answer = this.findSingleCandidateCell(puzzle, N);
-
+                var answer = this.findSingleCandidateCell(puzzle);
+                var N = puzzle.N();
                 var unit;
 
                 if (answer === undefined)
@@ -259,7 +253,7 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                     for (var b = 0; b < N && answer === undefined; b++)
                     {
                         unit = Unit.BLOCKS[b];
-                        answer = this.findSingleCandidateUnitCell(puzzle, N, unit);
+                        answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }
 
@@ -269,7 +263,7 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                     for (var c = 0; c < N && answer === undefined; c++)
                     {
                         unit = Unit.COLUMNS[c];
-                        answer = this.findSingleCandidateUnitCell(puzzle, N, unit);
+                        answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }
 
@@ -279,7 +273,7 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
                     for (var r = 0; r < N && answer === undefined; r++)
                     {
                         unit = Unit.ROWS[r];
-                        answer = this.findSingleCandidateUnitCell(puzzle, N, unit);
+                        answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }
 
@@ -290,11 +284,11 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
 
-                for (var i = 0; i < puzzle.length; i++)
+                for (var i = 0; i < puzzle.cells().size; i++)
                 {
-                    var value = puzzle[i];
+                    var cell = puzzle.get(i);
 
-                    if (Array.isArray(value))
+                    if (cell.isCandidates === true)
                     {
                         return false;
                     }
@@ -309,26 +303,29 @@ define(["PuzzleFormat", "Unit", "process/Move", "process/PuzzleFactory"],
 
                 LOGGER.trace("solve() start");
 
-                var N = Math.sqrt(puzzle.length);
-                PuzzleFactory.adjustPossibilites(puzzle, N);
+                var myPuzzle = puzzle;
+                myPuzzle = myPuzzle.adjustCandidates();
                 var start = new Date().getTime();
-                var maxTries = 100;
+                var maxTries = 81;
                 var count = 0;
 
-                while (!this.isDone(puzzle) && count < maxTries)
+                while (!this.isDone(myPuzzle) && count < maxTries)
                 {
-                    var move = this.getMove(puzzle, N);
+                    var move = this.getMove(myPuzzle);
 
-                    if (move !== undefined)
+                    if (move === undefined)
                     {
-                        move.execute();
+                        break;
                     }
 
+                    myPuzzle = move.execute();
                     count++;
                 }
 
                 LOGGER.time("solve()", start, new Date().getTime());
                 LOGGER.trace("solve() end");
+
+                return myPuzzle;
             },
         };
 

@@ -12,7 +12,7 @@ define(["process/Selector"],
                 return (
                 {
                     callback: ownProps.callback,
-                    n: state.n,
+                    // n: state.n,
                     puzzle: state.puzzle,
                     conflictIndices: state.conflictIndices,
                     sameValueIndices: state.sameValueIndices,

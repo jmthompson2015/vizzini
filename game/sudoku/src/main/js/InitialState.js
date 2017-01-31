@@ -1,5 +1,5 @@
-define(["Unit"],
-    function(Unit)
+define(["GridFactory", "PuzzleFormat", "Unit"],
+    function(GridFactory, PuzzleFormat, Unit)
     {
         "use strict";
 
@@ -7,7 +7,7 @@ define(["Unit"],
         {
             this.isConstantSelected = false;
             this.n = 3;
-            this.puzzle = [];
+            this.puzzle = undefined;
             this.conflictIndices = [];
             this.sameCandidateIndices = [];
             this.sameValueIndices = [];
@@ -15,11 +15,9 @@ define(["Unit"],
             this.selectedValue = undefined;
 
             // Initialize.
-            var N = this.n * this.n;
-            for (var i = 0; i < (N * N); i++)
-            {
-                this.puzzle[i] = Unit.DEFAULT_CELL.slice();
-            }
+            var grid = GridFactory.createEmpty();
+            this.puzzle = PuzzleFormat.parse(grid);
+            this.puzzle = this.puzzle.adjustCandidates();
         }
 
         if (Object.freeze)

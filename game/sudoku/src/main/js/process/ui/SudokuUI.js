@@ -257,8 +257,7 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
 
                 var store = this.context.store;
                 var puzzle = Selector.puzzle(store.getState());
-                var N = Selector.N(store.getState());
-                var move = SudokuSolver.getMove(puzzle, N);
+                var move = SudokuSolver.getMove(puzzle);
 
                 if (move !== undefined)
                 {

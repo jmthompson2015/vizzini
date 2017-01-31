@@ -1,5 +1,5 @@
-define(["process/Action", "process/PuzzleFactory"],
-    function(Action, PuzzleFactory)
+define(["Cell", "process/Action"],
+    function(Cell, Action)
     {
         var Move = {};
 
@@ -9,6 +9,16 @@ define(["process/Action", "process/PuzzleFactory"],
             InputValidator.validateNotNull("indices", indices);
             InputValidator.validateNotNull("candidates", candidates);
             InputValidator.validateNotNull("source", source);
+
+            this.indices = function()
+            {
+                return indices;
+            };
+
+            this.candidates = function()
+            {
+                return candidates;
+            };
 
             this.source = function()
             {
@@ -25,18 +35,7 @@ define(["process/Action", "process/PuzzleFactory"],
                 }
                 else
                 {
-                    indices.forEach(function(index)
-                    {
-                        var value = puzzle[index];
-
-                        if (Array.isArray(value))
-                        {
-                            candidates.forEach(function(candidate)
-                            {
-                                value.vizziniRemove(candidate);
-                            });
-                        }
-                    });
+                    return puzzle.withoutCandidates(indices, candidates);
                 }
             };
 
@@ -78,7 +77,7 @@ define(["process/Action", "process/PuzzleFactory"],
                 }
                 else
                 {
-                    puzzle[index].vizziniRemove(candidate);
+                    return puzzle.withoutCandidate(index, candidate);
                 }
             };
 
@@ -88,10 +87,9 @@ define(["process/Action", "process/PuzzleFactory"],
             };
         };
 
-        Move.SetCellValue = function(puzzle, N, index, value, source)
+        Move.SetCellValue = function(puzzle, index, value, source)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
-            InputValidator.validateIsNumber("N", N);
             InputValidator.validateIsNumber("index", index);
             InputValidator.validateIsNumber("value", value);
             InputValidator.validateNotNull("source", source);
@@ -121,8 +119,7 @@ define(["process/Action", "process/PuzzleFactory"],
                 }
                 else
                 {
-                    puzzle[index] = value;
-                    PuzzleFactory.adjustPossibilites(puzzle, N);
+                    return puzzle.withCell(index, new Cell.Value(value)).adjustCandidates();
                 }
             };
 

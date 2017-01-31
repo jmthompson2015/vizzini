@@ -4,6 +4,7 @@
 	<title>Vizzini Sudoku</title>
 	<link rel="stylesheet" href="../css/style.css">
 
+	<script src="../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
 	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
 	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
 	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
@@ -24,10 +25,10 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/Action", "process/PuzzleFactory", "process/Reducer", "process/Selector",
-				"process/ui/Connector", "process/ui/SudokuUI"
+		require(["GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/Action", "process/Reducer", "process/Selector", "process/ui/Connector",
+				"process/ui/SudokuUI"
 			],
-			function(GridFactory, PuzzleFormat, SudokuToGo, SudokuWiki, Action, PuzzleFactory, Reducer, Selector, Connector, SudokuUI)
+			function(GridFactory, PuzzleFormat, SudokuToGo, SudokuWiki, Action, Reducer, Selector, Connector, SudokuUI)
 			{
 				var store = Redux.createStore(Reducer.root);
 				var grids = SudokuToGo.values().map(function(gridKey)
@@ -41,7 +42,7 @@
 				var grid = grids.vizziniRandomElement();
 				LOGGER.info("grid " + grid.name);
 				var puzzle = PuzzleFormat.parse(grid.grid);
-				PuzzleFactory.adjustPossibilites(puzzle, Selector.N(store.getState()));
+				puzzle = puzzle.adjustCandidates();
 				store.dispatch(Action.setPuzzle(puzzle));
 
 				var connector = ReactRedux.connect(Connector.SudokuUI.mapStateToProps)(SudokuUI);

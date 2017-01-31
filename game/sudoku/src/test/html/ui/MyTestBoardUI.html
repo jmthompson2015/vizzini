@@ -4,6 +4,7 @@
 	<title>MyTestBoardUI</title>
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
 	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
@@ -23,12 +24,13 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reducer", "process/ui/Connector", "process/ui/BoardUI"],
-			function(SudokuToGo, Action, PuzzleFactory, Reducer, Connector, BoardUI)
+		require(["PuzzleFormat", "SudokuToGo", "process/Action", "process/Reducer", "process/ui/Connector", "process/ui/BoardUI"],
+			function(PuzzleFormat, SudokuToGo, Action, Reducer, Connector, BoardUI)
 			{
 				var store = Redux.createStore(Reducer.root);
 				var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-				var puzzle = PuzzleFactory.create(grid);
+				var puzzle = PuzzleFormat.parse(grid);
+				puzzle = puzzle.adjustCandidates();
 				store.dispatch(Action.setPuzzle(puzzle));
 
 				var connector = ReactRedux.connect(Connector.BoardUI.mapStateToProps)(BoardUI);

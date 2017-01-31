@@ -1,5 +1,5 @@
-define(["SudokuToGo", "process/Action", "process/PuzzleFactory"],
-    function(SudokuToGo, Action, PuzzleFactory)
+define(["PuzzleFormat", "SudokuToGo", "process/Action"],
+    function(PuzzleFormat, SudokuToGo, Action)
     {
         "use strict";
         QUnit.module("Action");
@@ -40,7 +40,8 @@ define(["SudokuToGo", "process/Action", "process/PuzzleFactory"],
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
 
             // Run.
             var result = Action.setPuzzle(puzzle);

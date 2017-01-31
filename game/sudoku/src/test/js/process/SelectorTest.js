@@ -1,8 +1,25 @@
-define(["GridFactory", "SudokuToGo", "process/Action", "process/PuzzleFactory", "process/Reducer", "process/Selector"],
-    function(GridFactory, SudokuToGo, Action, PuzzleFactory, Reducer, Selector)
+define(["GridFactory", "PuzzleFormat", "SudokuToGo", "process/Action", "process/Reducer", "process/Selector"],
+    function(GridFactory, PuzzleFormat, SudokuToGo, Action, Reducer, Selector)
     {
         "use strict";
         QUnit.module("Selector");
+
+        QUnit.test("candidates()", function(assert)
+        {
+            // Setup.
+            var store = createStore();
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            store.dispatch(Action.setPuzzle(puzzle));
+            var index = 1;
+
+            // Run.
+            var result = Selector.candidates(store.getState(), index);
+
+            // Verify.
+            assert.equal(result.size, 2);
+        });
 
         QUnit.test("n()", function(assert)
         {
@@ -35,17 +52,19 @@ define(["GridFactory", "SudokuToGo", "process/Action", "process/PuzzleFactory", 
             // Setup.
             var store = createStore();
             var defaultGrid = GridFactory.createEmpty();
-            var defaultPuzzle = PuzzleFactory.create(defaultGrid);
+            var defaultPuzzle = PuzzleFormat.parse(defaultGrid);
+            defaultPuzzle = defaultPuzzle.adjustCandidates();
 
             // Run.
             var result = Selector.puzzle(store.getState());
 
             // Verify.
-            assert.equal(result.join(""), defaultPuzzle.join(""));
+            assert.equal(PuzzleFormat.format(result), PuzzleFormat.format(defaultPuzzle));
 
             // Run.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
             store.dispatch(Action.setPuzzle(puzzle));
             result = Selector.puzzle(store.getState());
 
@@ -58,7 +77,8 @@ define(["GridFactory", "SudokuToGo", "process/Action", "process/PuzzleFactory", 
             // Setup.
             var store = createStore();
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
             store.dispatch(Action.setPuzzle(puzzle));
 
             // Run.
@@ -81,7 +101,8 @@ define(["GridFactory", "SudokuToGo", "process/Action", "process/PuzzleFactory", 
             // Setup.
             var store = createStore();
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFactory.create(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
             store.dispatch(Action.setPuzzle(puzzle));
             var index = 18;
 

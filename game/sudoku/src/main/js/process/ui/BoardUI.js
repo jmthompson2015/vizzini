@@ -6,8 +6,8 @@ define(["Unit", "process/ui/CandidatesUI"],
             propTypes:
             {
                 callback: React.PropTypes.func.isRequired,
-                n: React.PropTypes.number.isRequired,
-                puzzle: React.PropTypes.array.isRequired,
+                // n: React.PropTypes.number.isRequired,
+                puzzle: React.PropTypes.object.isRequired,
                 conflictIndices: React.PropTypes.array.isRequired,
                 sameValueIndices: React.PropTypes.array.isRequired,
                 sameCandidateIndices: React.PropTypes.array.isRequired,
@@ -18,9 +18,11 @@ define(["Unit", "process/ui/CandidatesUI"],
 
             render: function()
             {
-                var n = this.props.n;
-                var N = n * n;
+                // var n = this.props.n;
+                // var N = n * n;
                 var puzzle = this.props.puzzle;
+                var n = puzzle.n();
+                var N = puzzle.N();
                 var conflictIndices = this.props.conflictIndices;
                 var sameValueIndices = this.props.sameValueIndices;
                 var sameCandidateIndices = this.props.sameCandidateIndices;
@@ -36,9 +38,9 @@ define(["Unit", "process/ui/CandidatesUI"],
                     {
                         var index = Unit.coordinatesToIndex(i, j);
                         var cellName = Unit.indexToCellName(index);
-                        var values = puzzle[index];
-                        var isCandidates = Array.isArray(values);
-                        var isConstant = puzzle.constantIndices.vizziniContains(index);
+                        var cell = puzzle.get(index);
+                        var isCandidates = (cell.isCandidates !== undefined ? cell.isCandidates : false);
+                        var isConstant = puzzle.clueIndices().vizziniContains(index);
                         var isSelected = (selectedIndex === index);
                         var className, element;
 
@@ -75,7 +77,7 @@ define(["Unit", "process/ui/CandidatesUI"],
                         element = React.createElement(BoardUI.CellUI,
                         {
                             n: n,
-                            values: values,
+                            cell: cell,
                         });
 
                         cells.push(React.DOM.td(
@@ -117,26 +119,26 @@ define(["Unit", "process/ui/CandidatesUI"],
             propTypes:
             {
                 n: React.PropTypes.number.isRequired,
-                values: React.PropTypes.oneOfType([React.PropTypes.number, React.PropTypes.array]),
+                cell: React.PropTypes.object.isRequired,
             },
 
             render: function()
             {
                 var answer;
-                var values = this.props.values;
+                var cell = this.props.cell;
 
-                if (Array.isArray(values))
+                if (cell.isCandidates === true)
                 {
                     answer = React.createElement(CandidatesUI,
                     {
                         n: this.props.n,
-                        candidates: values,
+                        candidates: cell.candidates().toJS(),
                     });
                 }
                 else
                 {
                     answer = React.DOM.span(
-                    {}, values);
+                    {}, cell.value());
                 }
 
                 return answer;

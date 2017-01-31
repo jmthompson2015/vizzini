@@ -1,5 +1,5 @@
-define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/PuzzleFactory"],
-    function(InitialState, Action, PuzzleAnalyzer, PuzzleFactory)
+define(["Cell", "InitialState", "process/Action", "process/PuzzleAnalyzer"],
+    function(Cell, InitialState, Action, PuzzleAnalyzer)
     {
         "use strict";
         var Reducer = {};
@@ -19,18 +19,8 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
             {
                 case Action.BATCH_REMOVE_CANDIDATES:
                     LOGGER.info("Reducer batchRemoveCandidates " + action.indices + " " + action.candidates);
-                    newPuzzle = Reducer._clonePuzzle(state.puzzle);
-                    action.indices.forEach(function(index)
-                    {
-                        var value = newPuzzle[index];
-                        if (Array.isArray(value))
-                        {
-                            action.candidates.forEach(function(candidate)
-                            {
-                                value.vizziniRemove(candidate);
-                            });
-                        }
-                    });
+                    newPuzzle = state.puzzle.withoutCandidates(action.indices, action.candidates);
+                    newPuzzle = newPuzzle.adjustCandidates();
                     return Object.assign(
                     {}, state,
                     {
@@ -38,8 +28,8 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
                     });
                 case Action.REMOVE_CELL_CANDIDATE:
                     LOGGER.info("Reducer removeCellCandidate " + action.index + " " + (typeof action.index) + " " + action.candidate + " " + (typeof action.candidate));
-                    newPuzzle = Reducer._clonePuzzle(state.puzzle);
-                    newPuzzle[action.index].vizziniRemove(action.candidate);
+                    newPuzzle = state.puzzle.withoutCandidate(action.index, action.candidate);
+                    newPuzzle = newPuzzle.adjustCandidates();
                     return Object.assign(
                     {}, state,
                     {
@@ -47,12 +37,12 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
                     });
                 case Action.SET_CELL_VALUE:
                     LOGGER.info("Reducer setCellValue " + action.index + " " + (typeof action.index) + " " + action.value + " " + (typeof action.value));
-                    newPuzzle = Reducer._clonePuzzle(state.puzzle);
-                    newPuzzle[action.index] = action.value;
-                    PuzzleFactory.removeValueFromPeers(newPuzzle, action.index);
-                    newConflictIndices = Reducer._determineConflictIndices(newPuzzle, action.value);
-                    newSameValueIndices = Reducer._determineSameValueIndices(newPuzzle, action.value);
-                    newSameCandidateIndices = Reducer._determineSameCandidateIndices(newPuzzle, action.value);
+                    var newCell = new Cell.Value(action.value);
+                    newPuzzle = state.puzzle.withCell(action.index, newCell);
+                    newPuzzle = newPuzzle.adjustCandidates();
+                    newConflictIndices = Reducer._determineConflictIndices(newPuzzle, newCell);
+                    newSameValueIndices = Reducer._determineSameValueIndices(newPuzzle, newCell);
+                    newSameCandidateIndices = Reducer._determineSameCandidateIndices(newPuzzle, newCell);
                     return Object.assign(
                     {}, state,
                     {
@@ -78,9 +68,10 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
                     });
                 case Action.SET_SELECTED_INDEX:
                     LOGGER.info("Reducer setSelectedIndex " + action.index + " " + (typeof action.index));
-                    var newSelectedValue = state.puzzle[action.index];
-                    var isConstant = state.puzzle.constantIndices.vizziniContains(action.index);
-                    if (Array.isArray(newSelectedValue))
+                    var newSelectedValue = state.puzzle.get(action.index);
+                    var cell = state.puzzle.get(action.index);
+                    var isClue = (cell.isValue === true) && cell.isClue();
+                    if (newSelectedValue.isCandidates === true)
                     {
                         newSelectedValue = state.selectedValue;
                     }
@@ -89,7 +80,7 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
                     return Object.assign(
                     {}, state,
                     {
-                        isConstantSelected: isConstant,
+                        isConstantSelected: isClue,
                         sameCandidateIndices: newSameCandidateIndices,
                         sameValueIndices: newSameValueIndices,
                         selectedIndex: action.index,
@@ -101,16 +92,6 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
             }
         };
 
-        Reducer._clonePuzzle = function(puzzle)
-        {
-            InputValidator.validateNotNull("puzzle", puzzle);
-
-            var newPuzzle = puzzle.slice();
-            newPuzzle.constantIndices = puzzle.constantIndices.slice();
-
-            return newPuzzle;
-        };
-
         Reducer._determineConflictIndices = function(puzzle, selectedValue)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
@@ -118,9 +99,9 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
 
             var answer = [];
 
-            if (selectedValue && !Array.isArray(selectedValue))
+            if (selectedValue && selectedValue.isValue === true)
             {
-                for (var i = 0; i < puzzle.length; i++)
+                for (var i = 0; i < puzzle.cells().size; i++)
                 {
                     if (PuzzleAnalyzer.isConflictCell(puzzle, i))
                     {
@@ -139,11 +120,11 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
 
             var answer = [];
 
-            if (selectedValue && !Array.isArray(selectedValue))
+            if (selectedValue && selectedValue.isValue === true)
             {
-                for (var i = 0; i < puzzle.length; i++)
+                for (var i = 0; i < puzzle.cells().size; i++)
                 {
-                    if (PuzzleAnalyzer.isSameCandidateCell(puzzle, selectedValue, i))
+                    if (PuzzleAnalyzer.isSameCandidateCell(puzzle, selectedValue.value(), i))
                     {
                         answer.push(i);
                     }
@@ -160,11 +141,11 @@ define(["InitialState", "process/Action", "process/PuzzleAnalyzer", "process/Puz
 
             var answer = [];
 
-            if (selectedValue && !Array.isArray(selectedValue))
+            if (selectedValue && selectedValue.isValue === true)
             {
-                for (var i = 0; i < puzzle.length; i++)
+                for (var i = 0; i < puzzle.cells().size; i++)
                 {
-                    if (PuzzleAnalyzer.isSameValueCell(puzzle, selectedValue, i))
+                    if (PuzzleAnalyzer.isSameValueCell(puzzle, selectedValue.value(), i))
                     {
                         answer.push(i);
                     }
