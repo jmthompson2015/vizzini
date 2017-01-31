@@ -74,7 +74,7 @@ define(["Unit"],
             return answer;
         };
 
-        Puzzle.prototype.determineConflictIndices = function(cell)
+        Puzzle.prototype.conflictIndices = function(cell)
         {
             InputValidator.validateNotNull("cell", cell);
 
@@ -87,50 +87,6 @@ define(["Unit"],
                 for (var i = 0; i < size; i++)
                 {
                     if (this.isConflictCell(i))
-                    {
-                        answer.push(i);
-                    }
-                }
-            }
-
-            return answer;
-        };
-
-        Puzzle.prototype.determineSameCandidateIndices = function(cell)
-        {
-            // cell optional.
-
-            var answer = [];
-
-            if (cell && cell.isValue === true)
-            {
-                var size = this.cells().size;
-
-                for (var i = 0; i < size; i++)
-                {
-                    if (this.isSameCandidateCell(cell.value(), i))
-                    {
-                        answer.push(i);
-                    }
-                }
-            }
-
-            return answer;
-        };
-
-        Puzzle.prototype.determineSameValueIndices = function(cell)
-        {
-            // cell optional.
-
-            var answer = [];
-
-            if (cell && cell.isValue === true)
-            {
-                var size = this.cells().size;
-
-                for (var i = 0; i < size; i++)
-                {
-                    if (this.isSameValueCell(cell.value(), i))
                     {
                         answer.push(i);
                     }
@@ -221,6 +177,50 @@ define(["Unit"],
                         answer = answer.withCell(myIndex, newCell);
                     }
                 });
+            }
+
+            return answer;
+        };
+
+        Puzzle.prototype.sameCandidateIndices = function(cell)
+        {
+            // cell optional.
+
+            var answer = [];
+
+            if (cell && cell.isValue === true)
+            {
+                var size = this.cells().size;
+
+                for (var i = 0; i < size; i++)
+                {
+                    if (this.isSameCandidateCell(cell.value(), i))
+                    {
+                        answer.push(i);
+                    }
+                }
+            }
+
+            return answer;
+        };
+
+        Puzzle.prototype.sameValueIndices = function(cell)
+        {
+            // cell optional.
+
+            var answer = [];
+
+            if (cell && cell.isValue === true)
+            {
+                var size = this.cells().size;
+
+                for (var i = 0; i < size; i++)
+                {
+                    if (this.isSameValueCell(cell.value(), i))
+                    {
+                        answer.push(i);
+                    }
+                }
             }
 
             return answer;

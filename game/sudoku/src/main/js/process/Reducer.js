@@ -40,9 +40,9 @@ define(["Cell", "InitialState", "process/Action"],
                     var newCell = new Cell.Value(action.value);
                     newPuzzle = state.puzzle.withCell(action.index, newCell);
                     newPuzzle = newPuzzle.adjustCandidates();
-                    newConflictIndices = newPuzzle.determineConflictIndices(newCell);
-                    newSameValueIndices = newPuzzle.determineSameValueIndices(newCell);
-                    newSameCandidateIndices = newPuzzle.determineSameCandidateIndices(newCell);
+                    newConflictIndices = newPuzzle.conflictIndices(newCell);
+                    newSameValueIndices = newPuzzle.sameValueIndices(newCell);
+                    newSameCandidateIndices = newPuzzle.sameCandidateIndices(newCell);
                     return Object.assign(
                     {}, state,
                     {
@@ -75,8 +75,8 @@ define(["Cell", "InitialState", "process/Action"],
                     {
                         newSelectedValue = state.selectedValue;
                     }
-                    newSameValueIndices = state.puzzle.determineSameValueIndices(newSelectedValue);
-                    newSameCandidateIndices = state.puzzle.determineSameCandidateIndices(newSelectedValue);
+                    newSameValueIndices = state.puzzle.sameValueIndices(newSelectedValue);
+                    newSameCandidateIndices = state.puzzle.sameCandidateIndices(newSelectedValue);
                     return Object.assign(
                     {}, state,
                     {

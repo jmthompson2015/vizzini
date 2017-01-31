@@ -80,7 +80,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
             });
         });
 
-        QUnit.test("determineConflictIndices()", function(assert)
+        QUnit.test("conflictIndices()", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
@@ -89,7 +89,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
             var index = 19;
 
             // Run.
-            var result = puzzle.determineConflictIndices(puzzle.get(index));
+            var result = puzzle.conflictIndices(puzzle.get(index));
 
             // Verify.
             assert.ok(result);
@@ -98,56 +98,12 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
 
             // Run.
             puzzle = puzzle.withCell(index, new Cell.Value(6));
-            result = puzzle.determineConflictIndices(puzzle.get(index));
+            result = puzzle.conflictIndices(puzzle.get(index));
 
             // Verify.
             assert.ok(result);
             LOGGER.info("result = " + result);
             var expected = [2, 19, 24, 46];
-            assert.equal(result.length, expected.length);
-            expected.forEach(function(index, i)
-            {
-                assert.equal(result[i], index);
-            });
-        });
-
-        QUnit.test("determineSameCandidateIndices()", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            puzzle = puzzle.adjustCandidates();
-            var index = 2;
-
-            // Run.
-            var result = puzzle.determineSameCandidateIndices(puzzle.get(index));
-
-            // Verify.
-            assert.ok(result);
-            LOGGER.info("result = " + result);
-            var expected = [13, 14, 40, 41, 70];
-            assert.equal(result.length, expected.length);
-            expected.forEach(function(index, i)
-            {
-                assert.equal(result[i], index);
-            });
-        });
-
-        QUnit.test("determineSameValueIndices()", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            puzzle = puzzle.adjustCandidates();
-            var index = 2;
-
-            // Run.
-            var result = puzzle.determineSameValueIndices(puzzle.get(index));
-
-            // Verify.
-            assert.ok(result);
-            LOGGER.info("result = " + result);
-            var expected = [2, 24, 35, 46, 57, 72];
             assert.equal(result.length, expected.length);
             expected.forEach(function(index, i)
             {
@@ -183,6 +139,50 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
             assert.equal(cell1.isCandidates, true);
             assert.equal(cell1.candidates().size, 8);
             assert.ok(!cell1.candidates().includes(6));
+        });
+
+        QUnit.test("sameCandidateIndices()", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var index = 2;
+
+            // Run.
+            var result = puzzle.sameCandidateIndices(puzzle.get(index));
+
+            // Verify.
+            assert.ok(result);
+            LOGGER.info("result = " + result);
+            var expected = [13, 14, 40, 41, 70];
+            assert.equal(result.length, expected.length);
+            expected.forEach(function(index, i)
+            {
+                assert.equal(result[i], index);
+            });
+        });
+
+        QUnit.test("sameValueIndices()", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var index = 2;
+
+            // Run.
+            var result = puzzle.sameValueIndices(puzzle.get(index));
+
+            // Verify.
+            assert.ok(result);
+            LOGGER.info("result = " + result);
+            var expected = [2, 24, 35, 46, 57, 72];
+            assert.equal(result.length, expected.length);
+            expected.forEach(function(index, i)
+            {
+                assert.equal(result[i], index);
+            });
         });
 
         QUnit.test("withCell()", function(assert)
