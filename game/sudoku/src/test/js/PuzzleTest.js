@@ -80,6 +80,81 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
             });
         });
 
+        QUnit.test("determineConflictIndices()", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var index = 19;
+
+            // Run.
+            var result = puzzle.determineConflictIndices(puzzle.get(index));
+
+            // Verify.
+            assert.ok(result);
+            LOGGER.info("result = " + result);
+            assert.equal(result.length, 0);
+
+            // Run.
+            puzzle = puzzle.withCell(index, new Cell.Value(6));
+            result = puzzle.determineConflictIndices(puzzle.get(index));
+
+            // Verify.
+            assert.ok(result);
+            LOGGER.info("result = " + result);
+            var expected = [2, 19, 24, 46];
+            assert.equal(result.length, expected.length);
+            expected.forEach(function(index, i)
+            {
+                assert.equal(result[i], index);
+            });
+        });
+
+        QUnit.test("determineSameCandidateIndices()", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var index = 2;
+
+            // Run.
+            var result = puzzle.determineSameCandidateIndices(puzzle.get(index));
+
+            // Verify.
+            assert.ok(result);
+            LOGGER.info("result = " + result);
+            var expected = [13, 14, 40, 41, 70];
+            assert.equal(result.length, expected.length);
+            expected.forEach(function(index, i)
+            {
+                assert.equal(result[i], index);
+            });
+        });
+
+        QUnit.test("determineSameValueIndices()", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var index = 2;
+
+            // Run.
+            var result = puzzle.determineSameValueIndices(puzzle.get(index));
+
+            // Verify.
+            assert.ok(result);
+            LOGGER.info("result = " + result);
+            var expected = [2, 24, 35, 46, 57, 72];
+            assert.equal(result.length, expected.length);
+            expected.forEach(function(index, i)
+            {
+                assert.equal(result[i], index);
+            });
+        });
+
         QUnit.test("removeValueFromPeers()", function(assert)
         {
             // Setup.

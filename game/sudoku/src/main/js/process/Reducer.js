@@ -1,5 +1,5 @@
-define(["Cell", "InitialState", "process/Action", "process/PuzzleAnalyzer"],
-    function(Cell, InitialState, Action, PuzzleAnalyzer)
+define(["Cell", "InitialState", "process/Action"],
+    function(Cell, InitialState, Action)
     {
         "use strict";
         var Reducer = {};
@@ -40,9 +40,9 @@ define(["Cell", "InitialState", "process/Action", "process/PuzzleAnalyzer"],
                     var newCell = new Cell.Value(action.value);
                     newPuzzle = state.puzzle.withCell(action.index, newCell);
                     newPuzzle = newPuzzle.adjustCandidates();
-                    newConflictIndices = Reducer._determineConflictIndices(newPuzzle, newCell);
-                    newSameValueIndices = Reducer._determineSameValueIndices(newPuzzle, newCell);
-                    newSameCandidateIndices = Reducer._determineSameCandidateIndices(newPuzzle, newCell);
+                    newConflictIndices = newPuzzle.determineConflictIndices(newCell);
+                    newSameValueIndices = newPuzzle.determineSameValueIndices(newCell);
+                    newSameCandidateIndices = newPuzzle.determineSameCandidateIndices(newCell);
                     return Object.assign(
                     {}, state,
                     {
@@ -75,8 +75,8 @@ define(["Cell", "InitialState", "process/Action", "process/PuzzleAnalyzer"],
                     {
                         newSelectedValue = state.selectedValue;
                     }
-                    newSameValueIndices = Reducer._determineSameValueIndices(state.puzzle, newSelectedValue);
-                    newSameCandidateIndices = Reducer._determineSameCandidateIndices(state.puzzle, newSelectedValue);
+                    newSameValueIndices = state.puzzle.determineSameValueIndices(newSelectedValue);
+                    newSameCandidateIndices = state.puzzle.determineSameCandidateIndices(newSelectedValue);
                     return Object.assign(
                     {}, state,
                     {
@@ -90,69 +90,6 @@ define(["Cell", "InitialState", "process/Action", "process/PuzzleAnalyzer"],
                     LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
                     return state;
             }
-        };
-
-        Reducer._determineConflictIndices = function(puzzle, selectedValue)
-        {
-            InputValidator.validateNotNull("puzzle", puzzle);
-            // selectedValue optional.
-
-            var answer = [];
-
-            if (selectedValue && selectedValue.isValue === true)
-            {
-                for (var i = 0; i < puzzle.cells().size; i++)
-                {
-                    if (PuzzleAnalyzer.isConflictCell(puzzle, i))
-                    {
-                        answer.push(i);
-                    }
-                }
-            }
-
-            return answer;
-        };
-
-        Reducer._determineSameCandidateIndices = function(puzzle, selectedValue)
-        {
-            InputValidator.validateNotNull("puzzle", puzzle);
-            // selectedValue optional.
-
-            var answer = [];
-
-            if (selectedValue && selectedValue.isValue === true)
-            {
-                for (var i = 0; i < puzzle.cells().size; i++)
-                {
-                    if (PuzzleAnalyzer.isSameCandidateCell(puzzle, selectedValue.value(), i))
-                    {
-                        answer.push(i);
-                    }
-                }
-            }
-
-            return answer;
-        };
-
-        Reducer._determineSameValueIndices = function(puzzle, selectedValue)
-        {
-            InputValidator.validateNotNull("puzzle", puzzle);
-            // selectedValue optional.
-
-            var answer = [];
-
-            if (selectedValue && selectedValue.isValue === true)
-            {
-                for (var i = 0; i < puzzle.cells().size; i++)
-                {
-                    if (PuzzleAnalyzer.isSameValueCell(puzzle, selectedValue.value(), i))
-                    {
-                        answer.push(i);
-                    }
-                }
-            }
-
-            return answer;
         };
 
         if (Object.freeze)

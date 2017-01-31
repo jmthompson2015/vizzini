@@ -1,6 +1,8 @@
 define(["Unit"],
     function(Unit)
     {
+        "use strict";
+
         function Puzzle(cells, grid, solution)
         {
             InputValidator.validateNotEmpty("cells", cells);
@@ -72,11 +74,127 @@ define(["Unit"],
             return answer;
         };
 
+        Puzzle.prototype.determineConflictIndices = function(cell)
+        {
+            InputValidator.validateNotNull("cell", cell);
+
+            var answer = [];
+
+            if (cell.isValue === true)
+            {
+                var size = this.cells().size;
+
+                for (var i = 0; i < size; i++)
+                {
+                    if (this.isConflictCell(i))
+                    {
+                        answer.push(i);
+                    }
+                }
+            }
+
+            return answer;
+        };
+
+        Puzzle.prototype.determineSameCandidateIndices = function(cell)
+        {
+            // cell optional.
+
+            var answer = [];
+
+            if (cell && cell.isValue === true)
+            {
+                var size = this.cells().size;
+
+                for (var i = 0; i < size; i++)
+                {
+                    if (this.isSameCandidateCell(cell.value(), i))
+                    {
+                        answer.push(i);
+                    }
+                }
+            }
+
+            return answer;
+        };
+
+        Puzzle.prototype.determineSameValueIndices = function(cell)
+        {
+            // cell optional.
+
+            var answer = [];
+
+            if (cell && cell.isValue === true)
+            {
+                var size = this.cells().size;
+
+                for (var i = 0; i < size; i++)
+                {
+                    if (this.isSameValueCell(cell.value(), i))
+                    {
+                        answer.push(i);
+                    }
+                }
+            }
+
+            return answer;
+        };
+
         Puzzle.prototype.get = function(index)
         {
             InputValidator.validateIsNumber("index", index);
 
             return this.cells().get(index);
+        };
+
+        Puzzle.prototype.isConflictCell = function(index)
+        {
+            InputValidator.validateIsNumber("index", index);
+
+            var answer = false;
+            var cell0 = this.get(index);
+
+            if (cell0.isValue)
+            {
+                var value0 = cell0.value();
+                var cellName = Unit.indexToCellName(index);
+                var peers = Unit.getPeers(cellName);
+
+                for (var i = 0; i < peers.length; i++)
+                {
+                    var peer = peers[i];
+                    var myIndex = Unit.cellNameToIndex(peer);
+                    var cell = this.get(myIndex);
+
+                    if (cell.isValue && cell.value() === value0)
+                    {
+                        answer = true;
+                        break;
+                    }
+                }
+            }
+
+            return answer;
+        };
+
+        Puzzle.prototype.isSameCandidateCell = function(selectedValue, index)
+        {
+            // selectedValue optional.
+            InputValidator.validateIsNumber("index", index);
+
+            var cell = this.get(index);
+
+            return (cell.isCandidates === true && cell.candidates().includes(selectedValue));
+        };
+
+        Puzzle.prototype.isSameValueCell = function(selectedValue, index)
+        {
+            // selectedValue optional.
+            InputValidator.validateIsNumber("index", index);
+
+            var cell = this.get(index);
+
+            return (cell.isValue === true && cell.value() === selectedValue);
         };
 
         Puzzle.prototype.removeValueFromPeers = function(index)
