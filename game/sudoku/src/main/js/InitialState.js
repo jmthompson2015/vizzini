@@ -6,7 +6,6 @@ define(["GridFactory", "PuzzleFormat"],
         function InitialState()
         {
             this.isConstantSelected = false;
-            this.n = 3;
             this.puzzle = undefined;
             this.conflictIndices = [];
             this.sameCandidateIndices = [];

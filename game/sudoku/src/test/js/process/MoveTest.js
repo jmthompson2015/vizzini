@@ -10,7 +10,6 @@ define(["PuzzleFormat", "SudokuToGo", "process/Move"],
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
             var puzzle = PuzzleFormat.parse(grid);
             puzzle = puzzle.adjustCandidates();
-            var N = Math.sqrt(puzzle.length);
             var indices = [4];
             var candidates = [5];
             var source = "test";
@@ -33,7 +32,6 @@ define(["PuzzleFormat", "SudokuToGo", "process/Move"],
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
             var puzzle = PuzzleFormat.parse(grid);
             puzzle = puzzle.adjustCandidates();
-            var N = Math.sqrt(puzzle.length);
             var index = 4;
             var candidate = 5;
             var source = "test";

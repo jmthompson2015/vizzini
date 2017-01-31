@@ -18,8 +18,6 @@ define(["Unit", "process/ui/CandidatesUI"],
 
             render: function()
             {
-                // var n = this.props.n;
-                // var N = n * n;
                 var puzzle = this.props.puzzle;
                 var n = puzzle.n();
                 var N = puzzle.N();

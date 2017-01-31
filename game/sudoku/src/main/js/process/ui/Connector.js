@@ -26,7 +26,7 @@ define(["process/Selector"],
         Connector.NumberPad = {
             mapStateToProps: function(state, ownProps)
             {
-                var n = Selector.n(state);
+                var n = state.puzzle.n();
 
                 return (
                 {

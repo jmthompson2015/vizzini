@@ -21,32 +21,6 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "process/Action", "process/
             assert.equal(result.size, 2);
         });
 
-        QUnit.test("n()", function(assert)
-        {
-            // Setup.
-            var store = createStore();
-            var n = 3;
-
-            // Run.
-            var result = Selector.n(store.getState());
-
-            // Verify.
-            assert.equal(result, n);
-        });
-
-        QUnit.test("N()", function(assert)
-        {
-            // Setup.
-            var store = createStore();
-            var N = 9;
-
-            // Run.
-            var result = Selector.N(store.getState());
-
-            // Verify.
-            assert.equal(result, N);
-        });
-
         QUnit.test("puzzle()", function(assert)
         {
             // Setup.

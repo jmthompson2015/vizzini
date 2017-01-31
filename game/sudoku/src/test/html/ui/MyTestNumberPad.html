@@ -37,7 +37,7 @@
 				var element = React.createElement(NumberPad,
 				{
 					callback: myCallback,
-					n: Selector.n(store.getState()),
+					n: puzzle.n(),
 				});
 				ReactDOM.render(element, document.getElementById("board"));
 

@@ -26,22 +26,6 @@ define(function()
         return state.isConstantSelected;
     };
 
-    Selector.n = function(state)
-    {
-        InputValidator.validateNotNull("state", state);
-
-        return state.n;
-    };
-
-    Selector.N = function(state)
-    {
-        InputValidator.validateNotNull("state", state);
-
-        var n = Selector.n(state);
-
-        return n * n;
-    };
-
     Selector.puzzle = function(state)
     {
         InputValidator.validateNotNull("state", state);
