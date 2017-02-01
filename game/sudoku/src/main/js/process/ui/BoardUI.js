@@ -1,6 +1,7 @@
-define(["Unit", "process/ui/CandidatesUI"],
-    function(Unit, CandidatesUI)
+define(["process/ui/CandidatesUI"],
+    function(CandidatesUI)
     {
+        "use strict";
         var BoardUI = React.createClass(
         {
             propTypes:
@@ -34,8 +35,8 @@ define(["Unit", "process/ui/CandidatesUI"],
 
                     for (var i = 0; i < N; i++)
                     {
-                        var index = Unit.coordinatesToIndex(i, j);
-                        var cellName = Unit.indexToCellName(index);
+                        var index = puzzle.unit().coordinatesToIndex(i, j);
+                        var cellName = puzzle.unit().indexToCellName(index);
                         var cell = puzzle.get(index);
                         var isCandidates = (cell.isCandidates !== undefined ? cell.isCandidates : false);
                         var isConstant = puzzle.clueIndices().vizziniContains(index);

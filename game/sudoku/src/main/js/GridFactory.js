@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     var GridFactory = {
         createDefaultSolution: function()
         {

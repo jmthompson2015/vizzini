@@ -1,21 +1,24 @@
 define(["GridFactory", "PuzzleFormat", "Unit"],
     function(GridFactory, PuzzleFormat, Unit)
     {
+        "use strict";
         var SudokuGenerator = {
 
             generate: function()
             {
                 var answer = GridFactory.createDefaultSolution();
+                var N = Math.sqrt(answer.length);
+                var unit = new Unit(N);
 
                 // Shuffle intra-block columns.
-                answer = this.shuffleIntraBlockUnits(answer, Unit.COLUMNS, 0, 2);
-                answer = this.shuffleIntraBlockUnits(answer, Unit.COLUMNS, 3, 5);
-                answer = this.shuffleIntraBlockUnits(answer, Unit.COLUMNS, 6, 8);
+                answer = this.shuffleIntraBlockUnits(answer, unit.COLUMNS, 0, 2);
+                answer = this.shuffleIntraBlockUnits(answer, unit.COLUMNS, 3, 5);
+                answer = this.shuffleIntraBlockUnits(answer, unit.COLUMNS, 6, 8);
 
                 // Shuffle intra-block rows.
-                answer = this.shuffleIntraBlockUnits(answer, Unit.ROWS, 0, 2);
-                answer = this.shuffleIntraBlockUnits(answer, Unit.ROWS, 3, 5);
-                answer = this.shuffleIntraBlockUnits(answer, Unit.ROWS, 6, 8);
+                answer = this.shuffleIntraBlockUnits(answer, unit.ROWS, 0, 2);
+                answer = this.shuffleIntraBlockUnits(answer, unit.ROWS, 3, 5);
+                answer = this.shuffleIntraBlockUnits(answer, unit.ROWS, 6, 8);
 
                 // Shuffle block-columns.
 
@@ -68,8 +71,6 @@ define(["GridFactory", "PuzzleFormat", "Unit"],
                 {
                     var index0 = unit0[i];
                     var index1 = unit1[i];
-                    // puzzle[index0] = puzzle0[index1];
-                    // puzzle[index1] = puzzle0[index0];
                     puzzle = puzzle.withCell(index0, puzzle0.get(index1));
                     puzzle = puzzle.withCell(index1, puzzle0.get(index0));
                 }

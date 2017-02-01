@@ -11,6 +11,7 @@ define(["Unit"],
 
             var N = Math.sqrt(cells.size);
             var n = Math.sqrt(N);
+            var unit;
 
             this.cells = function()
             {
@@ -35,6 +36,16 @@ define(["Unit"],
             this.n = function()
             {
                 return n;
+            };
+
+            this.unit = function()
+            {
+                if (unit === undefined)
+                {
+                    unit = new Unit(N);
+                }
+
+                return unit;
             };
         }
 
@@ -113,7 +124,7 @@ define(["Unit"],
             if (cell0.isValue)
             {
                 var value0 = cell0.value();
-                var peers = Unit.getPeers(index);
+                var peers = this.unit().getPeers(index);
 
                 for (var i = 0; i < peers.length; i++)
                 {
@@ -161,7 +172,7 @@ define(["Unit"],
             if (cell0.isValue)
             {
                 var value = cell0.value();
-                var peers = Unit.getPeers(index);
+                var peers = this.unit().getPeers(index);
 
                 peers.forEach(function(myIndex)
                 {

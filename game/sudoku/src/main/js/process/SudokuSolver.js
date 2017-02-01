@@ -1,6 +1,7 @@
-define(["Cell", "Unit", "process/Move"],
-    function(Cell, Unit, Move)
+define(["Cell", "process/Move"],
+    function(Cell, Move)
     {
+        "use strict";
         var SudokuSolver = {
 
             countCandidateInUnit: function(puzzle, candidate, unit)
@@ -101,7 +102,7 @@ define(["Cell", "Unit", "process/Move"],
 
                 for (var i = 0; i < puzzle.cells().size && answer === undefined; i++)
                 {
-                    var cellName = Unit.indexToCellName(i);
+                    var cellName = puzzle.unit().indexToCellName(i);
                     var cell = puzzle.get(i);
 
                     if (cell.isCandidates === true && cell.candidates().size === 1)
@@ -218,18 +219,18 @@ define(["Cell", "Unit", "process/Move"],
                 {
                     var index = indices[i];
 
-                    var peers = Unit.getBlockPeers(index);
+                    var peers = puzzle.unit().getBlockPeers(index);
                     answer = this.findNakedPairMove(puzzle, index, peers);
 
                     if (answer === undefined)
                     {
-                        peers = Unit.getColumnPeers(index);
+                        peers = puzzle.unit().getColumnPeers(index);
                         answer = this.findNakedPairMove(puzzle, index, peers);
                     }
 
                     if (answer === undefined)
                     {
-                        peers = Unit.getRowPeers(index);
+                        peers = puzzle.unit().getRowPeers(index);
                         answer = this.findNakedPairMove(puzzle, index, peers);
                     }
                 }
@@ -250,7 +251,7 @@ define(["Cell", "Unit", "process/Move"],
                     // Look for one candidate in a block.
                     for (var b = 0; b < N && answer === undefined; b++)
                     {
-                        unit = Unit.BLOCKS[b];
+                        unit = puzzle.unit().BLOCKS[b];
                         answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }
@@ -260,7 +261,7 @@ define(["Cell", "Unit", "process/Move"],
                     // Look for one candidate in a column.
                     for (var c = 0; c < N && answer === undefined; c++)
                     {
-                        unit = Unit.COLUMNS[c];
+                        unit = puzzle.unit().COLUMNS[c];
                         answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }
@@ -270,7 +271,7 @@ define(["Cell", "Unit", "process/Move"],
                     // Look for one candidate in a row.
                     for (var r = 0; r < N && answer === undefined; r++)
                     {
-                        unit = Unit.ROWS[r];
+                        unit = puzzle.unit().ROWS[r];
                         answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }

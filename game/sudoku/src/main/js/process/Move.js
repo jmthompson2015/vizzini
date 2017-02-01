@@ -1,6 +1,7 @@
 define(["Cell", "process/Action"],
     function(Cell, Action)
     {
+        "use strict";
         var Move = {};
 
         Move.BatchRemoveCandidates = function(puzzle, indices, candidates, source)

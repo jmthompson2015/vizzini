@@ -22,8 +22,9 @@ define(["GridFactory", "Unit", "process/SudokuGenerator", "process/SudokuValidat
         {
             // Setup.
             var grid = GridFactory.createDefaultSolution();
-            var unit0 = Unit.COLUMNS[0];
-            var unit1 = Unit.COLUMNS[1];
+            var unit = new Unit();
+            var unit0 = unit.COLUMNS[0];
+            var unit1 = unit.COLUMNS[1];
 
             // Run.
             var result = SudokuGenerator.swapUnits(grid, unit0, unit1);
@@ -40,8 +41,9 @@ define(["GridFactory", "Unit", "process/SudokuGenerator", "process/SudokuValidat
         {
             // Setup.
             var grid = GridFactory.createDefaultSolution();
-            var unit0 = Unit.ROWS[0];
-            var unit1 = Unit.ROWS[1];
+            var unit = new Unit();
+            var unit0 = unit.ROWS[0];
+            var unit1 = unit.ROWS[1];
 
             // Run.
             var result = SudokuGenerator.swapUnits(grid, unit0, unit1);

@@ -1,6 +1,7 @@
 define(["process/Action", "process/Selector", "process/SudokuSolver", "process/ui/BoardUI", "process/ui/Connector", "process/ui/NumberPad"],
     function(Action, Selector, SudokuSolver, BoardUI, Connector, NumberPad)
     {
+        "use strict";
         var SudokuUI = React.createClass(
         {
             contextTypes:

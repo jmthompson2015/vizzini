@@ -26,216 +26,217 @@
  */
 define(function()
 {
-    var Unit = {
-        N: 9,
-        ROW_NAMES: ["A", "B", "C", "D", "E", "F", "G", "H", "J"],
-        ROWS: [],
-        COLUMNS: [],
-        BLOCKS: [],
-        CELL_NAME_TO_INDEX:
-        {},
-        INDEX_TO_CELL_NAME:
-        {},
+    "use strict";
 
-        cellNameToBlock: function(cellName)
+    function Unit(NIn)
+    {
+        this.N = (NIn !== undefined ? NIn : 9);
+        this.ROW_NAMES = ["A", "B", "C", "D", "E", "F", "G", "H", "J"];
+        this.ROWS = [];
+        this.COLUMNS = [];
+        this.BLOCKS = [];
+        this.CELL_NAME_TO_INDEX = {};
+        this.INDEX_TO_CELL_NAME = {};
+
+        var i, j;
+
+        // Initialize maps.
+        for (i = 0; i < this.N * this.N; i++)
         {
-            InputValidator.validateNotEmpty("cellName", cellName);
+            var row = this.indexToRow(i);
+            var column = this.indexToColumn(i) + 1;
+            var cellName = this.ROW_NAMES[row] + column;
+            this.CELL_NAME_TO_INDEX[cellName] = i;
+            this.INDEX_TO_CELL_NAME[i] = cellName;
+        }
 
-            var c = Math.floor(this.cellNameToColumn(cellName) / 3);
-            var r = Math.floor(this.cellNameToRow(cellName) / 3);
-
-            return (r * 3) + c;
-        },
-
-        cellNameToColumn: function(cellName)
+        // Initialize rows.
+        for (j = 0; j < this.N; j++)
         {
-            InputValidator.validateNotEmpty("cellName", cellName);
+            this.ROWS[j] = [];
 
-            return parseInt(cellName[1]) - 1;
-        },
-
-        cellNameToIndex: function(cellName)
-        {
-            InputValidator.validateNotEmpty("cellName", cellName);
-
-            return this.CELL_NAME_TO_INDEX[cellName];
-        },
-
-        cellNameToRow: function(cellName)
-        {
-            InputValidator.validateNotEmpty("cellName", cellName);
-
-            return this.ROW_NAMES.indexOf(cellName[0]);
-        },
-
-        coordinatesToIndex: function(column, row)
-        {
-            InputValidator.validateNotNull("column", column);
-            InputValidator.validateNotNull("row", row);
-
-            return (row * Unit.N) + column;
-        },
-
-        getBlockPeers: function(index)
-        {
-            InputValidator.validateIsNumber("index", index);
-
-            var block = this.indexToBlock(index);
-            var unit = this.BLOCKS[block];
-
-            return this.getUnitPeers(index, unit);
-        },
-
-        getColumnPeers: function(index)
-        {
-            InputValidator.validateIsNumber("index", index);
-
-            var column = this.indexToColumn(index);
-            var unit = this.COLUMNS[column];
-
-            return this.getUnitPeers(index, unit);
-        },
-
-        getPeers: function(index)
-        {
-            InputValidator.validateIsNumber("index", index);
-
-            var rowPeers = this.getRowPeers(index);
-            var columnPeers = this.getColumnPeers(index);
-            var blockPeers = this.getBlockPeers(index);
-
-            var answer = rowPeers.concat(columnPeers);
-
-            blockPeers.forEach(function(peer)
+            for (i = 0; i < this.N; i++)
             {
-                if (!answer.vizziniContains(peer))
-                {
-                    answer.push(peer);
-                }
-            });
-
-            answer.sort(function(a, b)
-            {
-                return a - b;
-            });
-
-            return answer;
-        },
-
-        getRowPeers: function(index)
-        {
-            InputValidator.validateIsNumber("index", index);
-
-            var row = this.indexToRow(index);
-            var unit = this.ROWS[row];
-
-            return this.getUnitPeers(index, unit);
-        },
-
-        getUnitPeers: function(index, unit)
-        {
-            InputValidator.validateIsNumber("index", index);
-            InputValidator.validateNotNull("unit", unit);
-
-            var answer = unit.slice();
-
-            answer.vizziniRemove(index);
-
-            return answer;
-        },
-
-        indexToBlock: function(index)
-        {
-            InputValidator.validateNotNull("index", index);
-
-            var answer = -1;
-
-            for (var i = 0; i < this.BLOCKS.length; i++)
-            {
-                var block = this.BLOCKS[i];
-
-                if (block.vizziniContains(index))
-                {
-                    answer = i;
-                    break;
-                }
+                this.ROWS[j][i] = (j * this.N) + i;
             }
+        }
 
-            return answer;
-        },
-
-        indexToCellName: function(index)
+        // Initialize columns.
+        for (j = 0; j < this.N; j++)
         {
-            InputValidator.validateNotNull("index", index);
+            this.COLUMNS[j] = [];
 
-            return this.INDEX_TO_CELL_NAME[index];
-        },
+            for (i = 0; i < this.N; i++)
+            {
+                this.COLUMNS[j][i] = (i * this.N) + j;
+            }
+        }
 
-        indexToColumn: function(index)
+        // Initialize blocks.
+        var start0 = this.N / 3; // 3
+        var start1 = 2 * this.N / 3; // 6
+
+        for (j = 0; j < this.N; j++)
         {
-            InputValidator.validateNotNull("index", index);
+            this.BLOCKS[j] = [];
+            var offset = start1 * (j % start0);
 
-            return index % Unit.N;
-        },
+            for (i = 0; i < start0; i++)
+            {
+                this.BLOCKS[j][i] = (j * this.N) + i - offset;
+                this.BLOCKS[j][i + start0] = (j * this.N) + i + this.N - offset;
+                this.BLOCKS[j][i + start1] = (j * this.N) + i + (2 * this.N) - offset;
+            }
+        }
+    }
 
-        indexToRow: function(index)
-        {
-            InputValidator.validateNotNull("index", index);
+    Unit.prototype.cellNameToBlock = function(cellName)
+    {
+        InputValidator.validateNotEmpty("cellName", cellName);
 
-            return Math.floor(index / Unit.N);
-        },
+        var c = Math.floor(this.cellNameToColumn(cellName) / 3);
+        var r = Math.floor(this.cellNameToRow(cellName) / 3);
+
+        return (r * 3) + c;
     };
 
-    var i, j;
-
-    // Initialize maps.
-    for (i = 0; i < Unit.N * Unit.N; i++)
+    Unit.prototype.cellNameToColumn = function(cellName)
     {
-        var row = Unit.indexToRow(i);
-        var column = Unit.indexToColumn(i) + 1;
-        var cellName = Unit.ROW_NAMES[row] + column;
-        Unit.CELL_NAME_TO_INDEX[cellName] = i;
-        Unit.INDEX_TO_CELL_NAME[i] = cellName;
-    }
+        InputValidator.validateNotEmpty("cellName", cellName);
 
-    // Initialize rows.
-    for (j = 0; j < Unit.N; j++)
+        return parseInt(cellName[1]) - 1;
+    };
+
+    Unit.prototype.cellNameToIndex = function(cellName)
     {
-        Unit.ROWS[j] = [];
+        InputValidator.validateNotEmpty("cellName", cellName);
 
-        for (i = 0; i < Unit.N; i++)
+        return this.CELL_NAME_TO_INDEX[cellName];
+    };
+
+    Unit.prototype.cellNameToRow = function(cellName)
+    {
+        InputValidator.validateNotEmpty("cellName", cellName);
+
+        return this.ROW_NAMES.indexOf(cellName[0]);
+    };
+
+    Unit.prototype.coordinatesToIndex = function(column, row)
+    {
+        InputValidator.validateNotNull("column", column);
+        InputValidator.validateNotNull("row", row);
+
+        return (row * this.N) + column;
+    };
+
+    Unit.prototype.getBlockPeers = function(index)
+    {
+        InputValidator.validateIsNumber("index", index);
+
+        var block = this.indexToBlock(index);
+        var unit = this.BLOCKS[block];
+
+        return this.getUnitPeers(index, unit);
+    };
+
+    Unit.prototype.getColumnPeers = function(index)
+    {
+        InputValidator.validateIsNumber("index", index);
+
+        var column = this.indexToColumn(index);
+        var unit = this.COLUMNS[column];
+
+        return this.getUnitPeers(index, unit);
+    };
+
+    Unit.prototype.getPeers = function(index)
+    {
+        InputValidator.validateIsNumber("index", index);
+
+        var rowPeers = this.getRowPeers(index);
+        var columnPeers = this.getColumnPeers(index);
+        var blockPeers = this.getBlockPeers(index);
+
+        var answer = rowPeers.concat(columnPeers);
+
+        blockPeers.forEach(function(peer)
         {
-            Unit.ROWS[j][i] = (j * Unit.N) + i;
-        }
-    }
+            if (!answer.vizziniContains(peer))
+            {
+                answer.push(peer);
+            }
+        });
 
-    // Initialize columns.
-    for (j = 0; j < Unit.N; j++)
-    {
-        Unit.COLUMNS[j] = [];
-
-        for (i = 0; i < Unit.N; i++)
+        answer.sort(function(a, b)
         {
-            Unit.COLUMNS[j][i] = (i * Unit.N) + j;
-        }
-    }
+            return a - b;
+        });
 
-    // Initialize blocks.
-    var start0 = Unit.N / 3; // 3
-    var start1 = 2 * Unit.N / 3; // 6
+        return answer;
+    };
 
-    for (j = 0; j < Unit.N; j++)
+    Unit.prototype.getRowPeers = function(index)
     {
-        Unit.BLOCKS[j] = [];
-        var offset = start1 * (j % start0);
+        InputValidator.validateIsNumber("index", index);
 
-        for (i = 0; i < start0; i++)
+        var row = this.indexToRow(index);
+        var unit = this.ROWS[row];
+
+        return this.getUnitPeers(index, unit);
+    };
+
+    Unit.prototype.getUnitPeers = function(index, unit)
+    {
+        InputValidator.validateIsNumber("index", index);
+        InputValidator.validateNotNull("unit", unit);
+
+        var answer = unit.slice();
+
+        answer.vizziniRemove(index);
+
+        return answer;
+    };
+
+    Unit.prototype.indexToBlock = function(index)
+    {
+        InputValidator.validateNotNull("index", index);
+
+        var answer = -1;
+
+        for (var i = 0; i < this.BLOCKS.length; i++)
         {
-            Unit.BLOCKS[j][i] = (j * Unit.N) + i - offset;
-            Unit.BLOCKS[j][i + start0] = (j * Unit.N) + i + Unit.N - offset;
-            Unit.BLOCKS[j][i + start1] = (j * Unit.N) + i + (2 * Unit.N) - offset;
+            var block = this.BLOCKS[i];
+
+            if (block.vizziniContains(index))
+            {
+                answer = i;
+                break;
+            }
         }
-    }
+
+        return answer;
+    };
+
+    Unit.prototype.indexToCellName = function(index)
+    {
+        InputValidator.validateNotNull("index", index);
+
+        return this.INDEX_TO_CELL_NAME[index];
+    };
+
+    Unit.prototype.indexToColumn = function(index)
+    {
+        InputValidator.validateNotNull("index", index);
+
+        return index % this.N;
+    };
+
+    Unit.prototype.indexToRow = function(index)
+    {
+        InputValidator.validateNotNull("index", index);
+
+        return Math.floor(index / this.N);
+    };
 
     if (Object.freeze)
     {

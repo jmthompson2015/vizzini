@@ -16,7 +16,8 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
                 "........." + // row G
                 "........." + // row H
                 "........."; // row I
-            var units = Unit.BLOCKS;
+            var unit = new Unit(Math.sqrt(grid.length));
+            var units = unit.BLOCKS;
 
             // Run / Verify.
             assert.equal(SudokuValidator.countValidUnits(grid, units), 2);
@@ -34,7 +35,8 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
                 "7..8....." + // row G
                 "8..9....." + // row H
                 "9..1....."; // row I
-            var units = Unit.COLUMNS;
+            var unit = new Unit(Math.sqrt(grid.length));
+            var units = unit.COLUMNS;
 
             // Run / Verify.
             assert.equal(SudokuValidator.countValidUnits(grid, units), 2);
@@ -52,7 +54,8 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
                 "........." + // row G
                 "........." + // row H
                 "........."; // row I
-            var units = Unit.ROWS;
+            var unit = new Unit(Math.sqrt(grid.length));
+            var units = unit.ROWS;
 
             // Run / Verify.
             assert.equal(SudokuValidator.countValidUnits(grid, units), 2);
@@ -70,13 +73,14 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
                 "........." + // row G
                 "........." + // row H
                 "........."; // row I
+            var unit = new Unit(Math.sqrt(grid.length));
 
             // Run / Verify.
-            assert.ok(SudokuValidator.isUnitValid(grid, Unit.BLOCKS[0]));
+            assert.ok(SudokuValidator.isUnitValid(grid, unit.BLOCKS[0]));
 
             for (var i = 1; i < 9; i++)
             {
-                assert.ok(!SudokuValidator.isUnitValid(grid, Unit.BLOCKS[i]));
+                assert.ok(!SudokuValidator.isUnitValid(grid, unit.BLOCKS[i]));
             }
         });
 
@@ -92,13 +96,14 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
                 "7........" + // row G
                 "8........" + // row H
                 "9........"; // row I
+            var unit = new Unit(Math.sqrt(grid.length));
 
             // Run / Verify.
-            assert.ok(SudokuValidator.isUnitValid(grid, Unit.COLUMNS[0]));
+            assert.ok(SudokuValidator.isUnitValid(grid, unit.COLUMNS[0]));
 
             for (var i = 1; i < 9; i++)
             {
-                assert.ok(!SudokuValidator.isUnitValid(grid, Unit.COLUMNS[i]));
+                assert.ok(!SudokuValidator.isUnitValid(grid, unit.COLUMNS[i]));
             }
         });
 
@@ -114,13 +119,14 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
                 "........." + // row G
                 "........." + // row H
                 "........."; // row I
+            var unit = new Unit(Math.sqrt(grid.length));
 
             // Run / Verify.
-            assert.ok(SudokuValidator.isUnitValid(grid, Unit.ROWS[0]));
+            assert.ok(SudokuValidator.isUnitValid(grid, unit.ROWS[0]));
 
             for (var i = 1; i < 9; i++)
             {
-                assert.ok(!SudokuValidator.isUnitValid(grid, Unit.ROWS[i]));
+                assert.ok(!SudokuValidator.isUnitValid(grid, unit.ROWS[i]));
             }
         });
 
@@ -128,7 +134,8 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
         {
             // Setup.
             var grid = GridFactory.createDefaultSolution();
-            var units = Unit.BLOCKS;
+            var unit = new Unit(Math.sqrt(grid.length));
+            var units = unit.BLOCKS;
 
             // Run / Verify.
             assert.ok(SudokuValidator.isUnitsValid(grid, units));
@@ -138,7 +145,8 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
         {
             // Setup.
             var grid = GridFactory.createDefaultSolution();
-            var units = Unit.COLUMNS;
+            var unit = new Unit(Math.sqrt(grid.length));
+            var units = unit.COLUMNS;
 
             // Run / Verify.
             assert.ok(SudokuValidator.isUnitsValid(grid, units));
@@ -148,7 +156,8 @@ define(["GridFactory", "SudokuToGo", "Unit", "process/SudokuValidator"],
         {
             // Setup.
             var grid = GridFactory.createDefaultSolution();
-            var units = Unit.ROWS;
+            var unit = new Unit(Math.sqrt(grid.length));
+            var units = unit.ROWS;
 
             // Run / Verify.
             assert.ok(SudokuValidator.isUnitsValid(grid, units));

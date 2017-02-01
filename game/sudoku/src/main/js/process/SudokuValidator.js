@@ -1,6 +1,7 @@
 define(["Unit"],
     function(Unit)
     {
+        "use strict";
         var SudokuValidator = {
             BLANK: ".",
 
@@ -60,9 +61,11 @@ define(["Unit"],
             {
                 InputValidator.validateNotEmpty("grid", grid);
 
-                return this.isUnitsValid(grid, Unit.ROWS) &&
-                    this.isUnitsValid(grid, Unit.COLUMNS) &&
-                    this.isUnitsValid(grid, Unit.BLOCKS);
+                var unit = new Unit(Math.sqrt(grid.length));
+
+                return this.isUnitsValid(grid, unit.ROWS) &&
+                    this.isUnitsValid(grid, unit.COLUMNS) &&
+                    this.isUnitsValid(grid, unit.BLOCKS);
             },
         };
 

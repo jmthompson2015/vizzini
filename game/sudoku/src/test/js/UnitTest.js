@@ -5,56 +5,79 @@ define(["Unit"], function(Unit)
 
     QUnit.test("cellNameToBlock()", function(assert)
     {
-        assert.equal(Unit.cellNameToBlock("A1"), 0);
-        assert.equal(Unit.cellNameToBlock("A9"), 2);
-        assert.equal(Unit.cellNameToBlock("B2"), 0);
-        assert.equal(Unit.cellNameToBlock("B5"), 1);
-        assert.equal(Unit.cellNameToBlock("C3"), 0);
-        assert.equal(Unit.cellNameToBlock("D4"), 4);
-        assert.equal(Unit.cellNameToBlock("E5"), 4);
-        assert.equal(Unit.cellNameToBlock("F6"), 4);
-        assert.equal(Unit.cellNameToBlock("G7"), 8);
-        assert.equal(Unit.cellNameToBlock("H5"), 7);
-        assert.equal(Unit.cellNameToBlock("H8"), 8);
-        assert.equal(Unit.cellNameToBlock("J1"), 6);
-        assert.equal(Unit.cellNameToBlock("J9"), 8);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.cellNameToBlock("A1"), 0);
+        assert.equal(unit.cellNameToBlock("A9"), 2);
+        assert.equal(unit.cellNameToBlock("B2"), 0);
+        assert.equal(unit.cellNameToBlock("B5"), 1);
+        assert.equal(unit.cellNameToBlock("C3"), 0);
+        assert.equal(unit.cellNameToBlock("D4"), 4);
+        assert.equal(unit.cellNameToBlock("E5"), 4);
+        assert.equal(unit.cellNameToBlock("F6"), 4);
+        assert.equal(unit.cellNameToBlock("G7"), 8);
+        assert.equal(unit.cellNameToBlock("H5"), 7);
+        assert.equal(unit.cellNameToBlock("H8"), 8);
+        assert.equal(unit.cellNameToBlock("J1"), 6);
+        assert.equal(unit.cellNameToBlock("J9"), 8);
     });
 
     QUnit.test("cellNameToColumn()", function(assert)
     {
-        assert.equal(Unit.cellNameToColumn("A1"), 0);
-        assert.equal(Unit.cellNameToColumn("A2"), 1);
-        assert.equal(Unit.cellNameToColumn("B1"), 0);
-        assert.equal(Unit.cellNameToColumn("J9"), 8);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.cellNameToColumn("A1"), 0);
+        assert.equal(unit.cellNameToColumn("A2"), 1);
+        assert.equal(unit.cellNameToColumn("B1"), 0);
+        assert.equal(unit.cellNameToColumn("J9"), 8);
     });
 
     QUnit.test("cellNameToIndex()", function(assert)
     {
-        assert.equal(Unit.cellNameToIndex("A1"), 0);
-        assert.equal(Unit.cellNameToIndex("A2"), 1);
-        assert.equal(Unit.cellNameToIndex("B1"), 9);
-        assert.equal(Unit.cellNameToIndex("J9"), 80);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.cellNameToIndex("A1"), 0);
+        assert.equal(unit.cellNameToIndex("A2"), 1);
+        assert.equal(unit.cellNameToIndex("B1"), 9);
+        assert.equal(unit.cellNameToIndex("J9"), 80);
     });
 
     QUnit.test("cellNameToRow()", function(assert)
     {
-        assert.equal(Unit.cellNameToRow("A1"), 0);
-        assert.equal(Unit.cellNameToRow("A2"), 0);
-        assert.equal(Unit.cellNameToRow("B1"), 1);
-        assert.equal(Unit.cellNameToRow("J9"), 8);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.cellNameToRow("A1"), 0);
+        assert.equal(unit.cellNameToRow("A2"), 0);
+        assert.equal(unit.cellNameToRow("B1"), 1);
+        assert.equal(unit.cellNameToRow("J9"), 8);
     });
 
     QUnit.test("coordinatesToIndex()", function(assert)
     {
-        assert.equal(Unit.coordinatesToIndex(0, 0), 0);
-        assert.equal(Unit.coordinatesToIndex(1, 0), 1);
-        assert.equal(Unit.coordinatesToIndex(8, 8), 80);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.coordinatesToIndex(0, 0), 0);
+        assert.equal(unit.coordinatesToIndex(1, 0), 1);
+        assert.equal(unit.coordinatesToIndex(8, 8), 80);
     });
 
     QUnit.test("getBlockPeers() A1", function(assert)
     {
+        // Setup.
+        var unit = new Unit();
+
         // Run.
-        var result = Unit.getBlockPeers(0);
+        var result = unit.getBlockPeers(0);
 
         // Verify.
         assert.ok(result);
@@ -73,15 +96,18 @@ define(["Unit"], function(Unit)
 
     QUnit.test("getColumnPeers() A1", function(assert)
     {
+        // Setup.
+        var unit = new Unit();
+
         // Run.
-        var result = Unit.getColumnPeers(0);
+        var result = unit.getColumnPeers(0);
 
         // Verify.
         assert.ok(result);
         assert.ok(Array.isArray(result));
         assert.equal(result.length, 8);
 
-        for (var i = 1; i < Unit.N; i++)
+        for (var i = 1; i < unit.N; i++)
         {
             assert.equal(result[i - 1], 9 * i);
         }
@@ -89,8 +115,11 @@ define(["Unit"], function(Unit)
 
     QUnit.test("getPeers() A1", function(assert)
     {
+        // Setup.
+        var unit = new Unit();
+
         // Run.
-        var result = Unit.getPeers(0);
+        var result = unit.getPeers(0);
 
         // Verify.
         assert.ok(result);
@@ -121,8 +150,11 @@ define(["Unit"], function(Unit)
 
     QUnit.test("getPeers() E5", function(assert)
     {
+        // Setup.
+        var unit = new Unit();
+
         // Run.
-        var result = Unit.getPeers(40);
+        var result = unit.getPeers(40);
 
         // Verify.
         assert.ok(result);
@@ -153,15 +185,18 @@ define(["Unit"], function(Unit)
 
     QUnit.test("getRowPeers() A1", function(assert)
     {
+        // Setup.
+        var unit = new Unit();
+
         // Run.
-        var result = Unit.getRowPeers(0);
+        var result = unit.getRowPeers(0);
 
         // Verify.
         assert.ok(result);
         assert.ok(Array.isArray(result));
         assert.equal(result.length, 8);
 
-        for (var i = 1; i < Unit.N; i++)
+        for (var i = 1; i < unit.N; i++)
         {
             assert.equal(result[i - 1], i);
         }
@@ -169,71 +204,88 @@ define(["Unit"], function(Unit)
 
     QUnit.test("indexToBlock()", function(assert)
     {
-        assert.equal(Unit.indexToBlock(0), 0);
-        assert.equal(Unit.indexToBlock(1), 0);
-        assert.equal(Unit.indexToBlock(3), 1);
-        assert.equal(Unit.indexToBlock(27), 3);
-        assert.equal(Unit.indexToBlock(47), 3);
-        assert.equal(Unit.indexToBlock(30), 4);
-        assert.equal(Unit.indexToBlock(50), 4);
-        assert.equal(Unit.indexToBlock(33), 5);
-        assert.equal(Unit.indexToBlock(53), 5);
-        assert.equal(Unit.indexToBlock(80), 8);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.indexToBlock(0), 0);
+        assert.equal(unit.indexToBlock(1), 0);
+        assert.equal(unit.indexToBlock(3), 1);
+        assert.equal(unit.indexToBlock(27), 3);
+        assert.equal(unit.indexToBlock(47), 3);
+        assert.equal(unit.indexToBlock(30), 4);
+        assert.equal(unit.indexToBlock(50), 4);
+        assert.equal(unit.indexToBlock(33), 5);
+        assert.equal(unit.indexToBlock(53), 5);
+        assert.equal(unit.indexToBlock(80), 8);
     });
 
     QUnit.test("indexToCellName()", function(assert)
     {
-        assert.equal(Unit.indexToCellName(0), "A1");
-        assert.equal(Unit.indexToCellName(1), "A2");
-        assert.equal(Unit.indexToCellName(79), "J8");
-        assert.equal(Unit.indexToCellName(80), "J9");
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.indexToCellName(0), "A1");
+        assert.equal(unit.indexToCellName(1), "A2");
+        assert.equal(unit.indexToCellName(79), "J8");
+        assert.equal(unit.indexToCellName(80), "J9");
     });
 
     QUnit.test("indexToColumn()", function(assert)
     {
-        assert.equal(Unit.indexToColumn(0), 0);
-        assert.equal(Unit.indexToColumn(1), 1);
-        assert.equal(Unit.indexToColumn(80), 8);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.indexToColumn(0), 0);
+        assert.equal(unit.indexToColumn(1), 1);
+        assert.equal(unit.indexToColumn(80), 8);
     });
 
     QUnit.test("indexToRow()", function(assert)
     {
-        assert.equal(Unit.indexToRow(0), 0);
-        assert.equal(Unit.indexToRow(1), 0);
-        assert.equal(Unit.indexToColumn(80), 8);
+        // Setup.
+        var unit = new Unit();
+
+        // Run / Verify.
+        assert.equal(unit.indexToRow(0), 0);
+        assert.equal(unit.indexToRow(1), 0);
+        assert.equal(unit.indexToColumn(80), 8);
     });
 
     QUnit.test("verify rows, columns, and blocks", function(assert)
     {
         // Setup.
+        var unit = new Unit();
 
         // Run.
 
         // Verify.
-        assert.equal(Unit.ROWS[0][0], 0);
-        assert.equal(Unit.ROWS[0][8], 8);
-        assert.equal(Unit.ROWS[8][0], 72);
-        assert.equal(Unit.ROWS[8][8], 80);
-        validateLengths(Unit.ROWS);
+        assert.equal(unit.ROWS[0][0], 0);
+        assert.equal(unit.ROWS[0][8], 8);
+        assert.equal(unit.ROWS[8][0], 72);
+        assert.equal(unit.ROWS[8][8], 80);
+        validateLengths(unit.ROWS);
 
-        assert.equal(Unit.COLUMNS[0][0], 0, "column 0, 0");
-        assert.equal(Unit.COLUMNS[0][8], 72, "column 0, 8");
-        assert.equal(Unit.COLUMNS[8][0], 8, "column 8, 0");
-        assert.equal(Unit.COLUMNS[8][8], 80, "column 8, 8");
-        validateLengths(Unit.COLUMNS);
+        assert.equal(unit.COLUMNS[0][0], 0, "column 0, 0");
+        assert.equal(unit.COLUMNS[0][8], 72, "column 0, 8");
+        assert.equal(unit.COLUMNS[8][0], 8, "column 8, 0");
+        assert.equal(unit.COLUMNS[8][8], 80, "column 8, 8");
+        validateLengths(unit.COLUMNS);
 
-        assert.equal(Unit.BLOCKS[0][0], 0, "block 0, 0");
-        assert.equal(Unit.BLOCKS[0][8], 20, "block 0, 8");
-        assert.equal(Unit.BLOCKS[1][0], 3, "block 1, 0");
-        assert.equal(Unit.BLOCKS[1][8], 23, "block 1, 8");
-        assert.equal(Unit.BLOCKS[2][0], 6, "block 2, 0");
-        assert.equal(Unit.BLOCKS[2][8], 26, "block 2, 8");
-        assert.equal(Unit.BLOCKS[4][0], 30, "block 4, 0");
-        assert.equal(Unit.BLOCKS[4][8], 50, "block 4, 8");
-        assert.equal(Unit.BLOCKS[6][8], 74, "block 6, 8");
-        assert.equal(Unit.BLOCKS[8][0], 60, "block 8, 0");
-        assert.equal(Unit.BLOCKS[8][8], 80, "block 8, 8");
-        validateLengths(Unit.BLOCKS);
+        assert.equal(unit.BLOCKS[0][0], 0, "block 0, 0");
+        assert.equal(unit.BLOCKS[0][8], 20, "block 0, 8");
+        assert.equal(unit.BLOCKS[1][0], 3, "block 1, 0");
+        assert.equal(unit.BLOCKS[1][8], 23, "block 1, 8");
+        assert.equal(unit.BLOCKS[2][0], 6, "block 2, 0");
+        assert.equal(unit.BLOCKS[2][8], 26, "block 2, 8");
+        assert.equal(unit.BLOCKS[4][0], 30, "block 4, 0");
+        assert.equal(unit.BLOCKS[4][8], 50, "block 4, 8");
+        assert.equal(unit.BLOCKS[6][8], 74, "block 6, 8");
+        assert.equal(unit.BLOCKS[8][0], 60, "block 8, 0");
+        assert.equal(unit.BLOCKS[8][8], 80, "block 8, 8");
+        validateLengths(unit.BLOCKS);
 
         function validateLengths(unit)
         {

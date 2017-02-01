@@ -1,5 +1,5 @@
-define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
-    function(Cell, Puzzle, PuzzleFormat, SudokuToGo)
+define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
+    function(Cell, Puzzle, PuzzleFormat, SudokuToGo, Unit)
     {
         "use strict";
         QUnit.module("Puzzle");
@@ -40,6 +40,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
             var puzzle = PuzzleFormat.parse(grid);
+            var unit = new Unit(puzzle.N());
             var cell0 = puzzle.cells().get(0);
             assert.equal(cell0.isCandidates, true);
             assert.equal(cell0.candidates().size, 9);
@@ -48,7 +49,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo"],
             assert.equal(cell1.candidates().size, 9);
 
             // Run.
-            var result = puzzle.adjustCandidates();
+            var result = puzzle.adjustCandidates(unit);
 
             // Verify.
             assert.ok(result);

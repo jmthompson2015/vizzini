@@ -1,6 +1,7 @@
 define(["Cell", "Puzzle"],
     function(Cell, Puzzle)
     {
+        "use strict";
         var PuzzleFormat = {
             BLANK: ".",
 

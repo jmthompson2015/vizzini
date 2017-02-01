@@ -1,5 +1,6 @@
 define(function()
 {
+    "use strict";
     var Cell = {};
 
     Cell.Candidates = function(candidates)
