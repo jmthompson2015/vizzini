@@ -13,8 +13,7 @@ define(["Cell", "Unit", "process/Move"],
 
                 for (var i = 0; i < unit.length; i++)
                 {
-                    var cellName = unit[i];
-                    var index = Unit.cellNameToIndex(cellName);
+                    var index = unit[i];
                     var cell = puzzle.get(index);
 
                     if (cell.isCandidates === true && cell.candidates().includes(candidate))
@@ -146,8 +145,7 @@ define(["Cell", "Unit", "process/Move"],
 
                 for (var i = 0; i < unit.length && answer === undefined; i++)
                 {
-                    var cellName = unit[i];
-                    var index = Unit.cellNameToIndex(cellName);
+                    var index = unit[i];
                     var cell = puzzle.get(index);
 
                     if (cell.isCandidates === true && cell.candidates().includes(candidate))
@@ -220,18 +218,18 @@ define(["Cell", "Unit", "process/Move"],
                 {
                     var index = indices[i];
 
-                    var peers = Unit.getBlockPeerIndices(index);
+                    var peers = Unit.getBlockPeers(index);
                     answer = this.findNakedPairMove(puzzle, index, peers);
 
                     if (answer === undefined)
                     {
-                        peers = Unit.getColumnPeerIndices(index);
+                        peers = Unit.getColumnPeers(index);
                         answer = this.findNakedPairMove(puzzle, index, peers);
                     }
 
                     if (answer === undefined)
                     {
-                        peers = Unit.getRowPeerIndices(index);
+                        peers = Unit.getRowPeers(index);
                         answer = this.findNakedPairMove(puzzle, index, peers);
                     }
                 }

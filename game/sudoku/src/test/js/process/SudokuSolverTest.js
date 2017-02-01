@@ -164,7 +164,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_86].grid;
             var puzzle = PuzzleFormat.parse(grid);
             var index = 18;
-            var peers = Unit.getBlockPeerIndices(index);
+            var peers = Unit.getBlockPeers(index);
             puzzle = puzzle.adjustCandidates();
 
             // Run.
@@ -183,7 +183,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_87].grid;
             var puzzle = PuzzleFormat.parse(grid);
             var index = 16;
-            var peers = Unit.getBlockPeerIndices(index);
+            var peers = Unit.getBlockPeers(index);
             puzzle = puzzle.adjustCandidates();
             var indices = [39, 30, 41, 44, 36, 50, 34, 58, 22, 13, 4, -1, -1, 7, 8, 35, 53, 17, 16, 52, 51, 33, 61, 70, 63, 80, 69, 68, 64, 28, 27, 29, 67, 72, 56, 59, 5, 60, 73, 74, 75, 76, 77, 78, 20, 19, 21, 12, 3, 11, 10, 0, 2, 6, 24, 45, 46, 47];
             var values = [8, 3, 4, 2, 9, 5, 7, 2, 5, 4, 7, -1, -1, 8, 4, 1, 6, 5, 6, 4, 8, 9, 9, 5, 6, 3, 1, 9, 8, 4, 5, 8, 3, 4, 7, 6, 1, 4, 9, 5, 1, 8, 7, 6, 4, 6, 2, 9, 6, 1, 2, 3, 9, 2, 3, 2, 1, 3];
@@ -204,7 +204,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
 
             // Run.
             puzzle = result.execute();
-            peers = Unit.getRowPeerIndices(index);
+            peers = Unit.getRowPeers(index);
             result = SudokuSolver.findNakedPairMove(puzzle, index, peers);
 
             // Verify.

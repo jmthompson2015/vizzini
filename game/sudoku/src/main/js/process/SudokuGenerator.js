@@ -66,8 +66,8 @@ define(["GridFactory", "PuzzleFormat", "Unit"],
 
                 for (var i = 0; i < unit0.length; i++)
                 {
-                    var index0 = Unit.cellNameToIndex(unit0[i]);
-                    var index1 = Unit.cellNameToIndex(unit1[i]);
+                    var index0 = unit0[i];
+                    var index1 = unit1[i];
                     // puzzle[index0] = puzzle0[index1];
                     // puzzle[index1] = puzzle0[index0];
                     puzzle = puzzle.withCell(index0, puzzle0.get(index1));

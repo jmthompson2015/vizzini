@@ -36,7 +36,6 @@ define(function()
         {},
         INDEX_TO_CELL_NAME:
         {},
-        DEFAULT_CELL: [],
 
         cellNameToBlock: function(cellName)
         {
@@ -77,59 +76,33 @@ define(function()
             return (row * Unit.N) + column;
         },
 
-        getBlockPeers: function(cellName)
+        getBlockPeers: function(index)
         {
-            InputValidator.validateNotEmpty("cellName", cellName);
+            InputValidator.validateIsNumber("index", index);
 
-            var block = this.cellNameToBlock(cellName);
+            var block = this.indexToBlock(index);
             var unit = this.BLOCKS[block];
 
-            return this.getUnitPeers(cellName, unit);
+            return this.getUnitPeers(index, unit);
         },
 
-        getBlockPeerIndices: function(index)
+        getColumnPeers: function(index)
         {
             InputValidator.validateIsNumber("index", index);
 
-            var cellName = this.indexToCellName(index);
-            var peers = this.getBlockPeers(cellName);
-
-            return peers.map(function(cellName)
-            {
-                return this.cellNameToIndex(cellName);
-            }, this);
-        },
-
-        getColumnPeers: function(cellName)
-        {
-            InputValidator.validateNotEmpty("cellName", cellName);
-
-            var column = this.cellNameToColumn(cellName);
+            var column = this.indexToColumn(index);
             var unit = this.COLUMNS[column];
 
-            return this.getUnitPeers(cellName, unit);
+            return this.getUnitPeers(index, unit);
         },
 
-        getColumnPeerIndices: function(index)
+        getPeers: function(index)
         {
             InputValidator.validateIsNumber("index", index);
 
-            var cellName = this.indexToCellName(index);
-            var peers = this.getColumnPeers(cellName);
-
-            return peers.map(function(cellName)
-            {
-                return this.cellNameToIndex(cellName);
-            }, this);
-        },
-
-        getPeers: function(cellName)
-        {
-            InputValidator.validateNotEmpty("cellName", cellName);
-
-            var rowPeers = this.getRowPeers(cellName);
-            var columnPeers = this.getColumnPeers(cellName);
-            var blockPeers = this.getBlockPeers(cellName);
+            var rowPeers = this.getRowPeers(index);
+            var columnPeers = this.getColumnPeers(index);
+            var blockPeers = this.getBlockPeers(index);
 
             var answer = rowPeers.concat(columnPeers);
 
@@ -141,42 +114,32 @@ define(function()
                 }
             });
 
-            answer.sort();
+            answer.sort(function(a, b)
+            {
+                return a - b;
+            });
 
             return answer;
         },
 
-        getRowPeers: function(cellName)
-        {
-            InputValidator.validateNotEmpty("cellName", cellName);
-
-            var row = this.cellNameToRow(cellName);
-            var unit = this.ROWS[row];
-
-            return this.getUnitPeers(cellName, unit);
-        },
-
-        getRowPeerIndices: function(index)
+        getRowPeers: function(index)
         {
             InputValidator.validateIsNumber("index", index);
 
-            var cellName = this.indexToCellName(index);
-            var peers = this.getRowPeers(cellName);
+            var row = this.indexToRow(index);
+            var unit = this.ROWS[row];
 
-            return peers.map(function(cellName)
-            {
-                return this.cellNameToIndex(cellName);
-            }, this);
+            return this.getUnitPeers(index, unit);
         },
 
-        getUnitPeers: function(cellName, unit)
+        getUnitPeers: function(index, unit)
         {
-            InputValidator.validateNotEmpty("cellName", cellName);
+            InputValidator.validateIsNumber("index", index);
             InputValidator.validateNotNull("unit", unit);
 
             var answer = unit.slice();
 
-            answer.vizziniRemove(cellName);
+            answer.vizziniRemove(index);
 
             return answer;
         },
@@ -186,13 +149,12 @@ define(function()
             InputValidator.validateNotNull("index", index);
 
             var answer = -1;
-            var cellName = this.indexToCellName(index);
 
             for (var i = 0; i < this.BLOCKS.length; i++)
             {
                 var block = this.BLOCKS[i];
 
-                if (block.vizziniContains(cellName))
+                if (block.vizziniContains(index))
                 {
                     answer = i;
                     break;
@@ -236,12 +198,6 @@ define(function()
         Unit.INDEX_TO_CELL_NAME[i] = cellName;
     }
 
-    // Initialize default cells.
-    for (i = 0; i < Unit.N; i++)
-    {
-        Unit.DEFAULT_CELL.push(i + 1);
-    }
-
     // Initialize rows.
     for (j = 0; j < Unit.N; j++)
     {
@@ -249,7 +205,7 @@ define(function()
 
         for (i = 0; i < Unit.N; i++)
         {
-            Unit.ROWS[j][i] = Unit.indexToCellName((j * Unit.N) + i);
+            Unit.ROWS[j][i] = (j * Unit.N) + i;
         }
     }
 
@@ -260,7 +216,7 @@ define(function()
 
         for (i = 0; i < Unit.N; i++)
         {
-            Unit.COLUMNS[j][i] = Unit.indexToCellName((i * Unit.N) + j);
+            Unit.COLUMNS[j][i] = (i * Unit.N) + j;
         }
     }
 
@@ -275,9 +231,9 @@ define(function()
 
         for (i = 0; i < start0; i++)
         {
-            Unit.BLOCKS[j][i] = Unit.indexToCellName((j * Unit.N) + i - offset);
-            Unit.BLOCKS[j][i + start0] = Unit.indexToCellName((j * Unit.N) + i + Unit.N - offset);
-            Unit.BLOCKS[j][i + start1] = Unit.indexToCellName((j * Unit.N) + i + (2 * Unit.N) - offset);
+            Unit.BLOCKS[j][i] = (j * Unit.N) + i - offset;
+            Unit.BLOCKS[j][i + start0] = (j * Unit.N) + i + Unit.N - offset;
+            Unit.BLOCKS[j][i + start1] = (j * Unit.N) + i + (2 * Unit.N) - offset;
         }
     }
 

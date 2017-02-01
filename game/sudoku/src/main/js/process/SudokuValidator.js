@@ -34,8 +34,7 @@ define(["Unit"],
 
                 for (var i = 0; i < unit.length; i++)
                 {
-                    var cellName = unit[i];
-                    var index = Unit.cellNameToIndex(cellName);
+                    var index = unit[i];
                     var value = grid[index];
 
                     if (value === this.BLANK || counts[value] !== undefined)
