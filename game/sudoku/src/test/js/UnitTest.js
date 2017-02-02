@@ -107,7 +107,7 @@ define(["Unit"], function(Unit)
         assert.ok(Array.isArray(result));
         assert.equal(result.length, 8);
 
-        for (var i = 1; i < unit.N; i++)
+        for (var i = 1; i < unit.N(); i++)
         {
             assert.equal(result[i - 1], 9 * i);
         }
@@ -196,7 +196,7 @@ define(["Unit"], function(Unit)
         assert.ok(Array.isArray(result));
         assert.equal(result.length, 8);
 
-        for (var i = 1; i < unit.N; i++)
+        for (var i = 1; i < unit.N(); i++)
         {
             assert.equal(result[i - 1], i);
         }

@@ -30,7 +30,8 @@ define(function()
 
     function Unit(NIn)
     {
-        this.N = (NIn !== undefined ? NIn : 9);
+        var N = (NIn !== undefined ? NIn : 9);
+        var n;
         this.ROW_NAMES = ["A", "B", "C", "D", "E", "F", "G", "H", "J"];
         this.ROWS = [];
         this.COLUMNS = [];
@@ -38,66 +39,110 @@ define(function()
         this.CELL_NAME_TO_INDEX = {};
         this.INDEX_TO_CELL_NAME = {};
 
-        var i, j;
-
-        // Initialize maps.
-        for (i = 0; i < this.N * this.N; i++)
+        this.N = function()
         {
-            var row = this.indexToRow(i);
-            var column = this.indexToColumn(i) + 1;
-            var cellName = this.ROW_NAMES[row] + column;
-            this.CELL_NAME_TO_INDEX[cellName] = i;
-            this.INDEX_TO_CELL_NAME[i] = cellName;
-        }
+            return N;
+        };
 
-        // Initialize rows.
-        for (j = 0; j < this.N; j++)
+        this.n = function()
         {
-            this.ROWS[j] = [];
-
-            for (i = 0; i < this.N; i++)
+            if (n === undefined)
             {
-                this.ROWS[j][i] = (j * this.N) + i;
+                n = Math.sqrt(this.N());
+            }
+
+            return n;
+        };
+
+        var that = this;
+
+        function initializeBlocks()
+        {
+            var N = that.N();
+            var n = that.n();
+            var start0 = N / n; // 3
+            var start1 = 2 * N / n; // 6
+
+            for (var j = 0; j < N; j++)
+            {
+                var blockj = [];
+                var offset = start1 * (j % start0);
+
+                for (var i = 0; i < start0; i++)
+                {
+                    blockj[i] = (j * N) + i - offset;
+                    blockj[i + start0] = (j * N) + i + N - offset;
+                    blockj[i + start1] = (j * N) + i + (2 * N) - offset;
+                }
+
+                that.BLOCKS.push(blockj);
             }
         }
 
-        // Initialize columns.
-        for (j = 0; j < this.N; j++)
+        function initializeColumns()
         {
-            this.COLUMNS[j] = [];
+            var N = that.N();
 
-            for (i = 0; i < this.N; i++)
+            for (var j = 0; j < N; j++)
             {
-                this.COLUMNS[j][i] = (i * this.N) + j;
+                var columnj = [];
+
+                for (var i = 0; i < N; i++)
+                {
+                    columnj.push((i * N) + j);
+                }
+
+                that.COLUMNS.push(columnj);
             }
         }
 
-        // Initialize blocks.
-        var start0 = this.N / 3; // 3
-        var start1 = 2 * this.N / 3; // 6
-
-        for (j = 0; j < this.N; j++)
+        function initializeMaps()
         {
-            this.BLOCKS[j] = [];
-            var offset = start1 * (j % start0);
+            var N = that.N();
 
-            for (i = 0; i < start0; i++)
+            // Initialize maps.
+            for (var i = 0; i < N * N; i++)
             {
-                this.BLOCKS[j][i] = (j * this.N) + i - offset;
-                this.BLOCKS[j][i + start0] = (j * this.N) + i + this.N - offset;
-                this.BLOCKS[j][i + start1] = (j * this.N) + i + (2 * this.N) - offset;
+                var row = that.indexToRow(i);
+                var column = that.indexToColumn(i) + 1;
+                var cellName = that.ROW_NAMES[row] + column;
+                that.CELL_NAME_TO_INDEX[cellName] = i;
+                that.INDEX_TO_CELL_NAME[i] = cellName;
             }
         }
+
+        function initializeRows()
+        {
+            var N = that.N();
+
+            for (var j = 0; j < N; j++)
+            {
+                var rowj = [];
+
+                for (var i = 0; i < N; i++)
+                {
+                    rowj.push((j * N) + i);
+                }
+
+                that.ROWS.push(rowj);
+            }
+        }
+
+        initializeBlocks();
+        initializeColumns();
+        initializeMaps();
+        initializeRows();
     }
 
     Unit.prototype.cellNameToBlock = function(cellName)
     {
         InputValidator.validateNotEmpty("cellName", cellName);
 
-        var c = Math.floor(this.cellNameToColumn(cellName) / 3);
-        var r = Math.floor(this.cellNameToRow(cellName) / 3);
+        var n = this.n();
+        var c = Math.floor(this.cellNameToColumn(cellName) / n);
+        var r = Math.floor(this.cellNameToRow(cellName) / n);
 
-        return (r * 3) + c;
+        return (r * n) + c;
     };
 
     Unit.prototype.cellNameToColumn = function(cellName)
@@ -126,7 +171,7 @@ define(function()
         InputValidator.validateNotNull("column", column);
         InputValidator.validateNotNull("row", row);
 
-        return (row * this.N) + column;
+        return (row * this.N()) + column;
     };
 
     Unit.prototype.getBlockPeers = function(index)
@@ -228,14 +273,14 @@ define(function()
     {
         InputValidator.validateNotNull("index", index);
 
-        return index % this.N;
+        return index % this.N();
     };
 
     Unit.prototype.indexToRow = function(index)
     {
         InputValidator.validateNotNull("index", index);
 
-        return Math.floor(index / this.N);
+        return Math.floor(index / this.N());
     };
 
     if (Object.freeze)

@@ -34,7 +34,8 @@ define(["Cell", "Puzzle"],
                 InputValidator.validateNotNull("grid", grid);
 
                 var N = Math.sqrt(grid.length);
-                var cells = this.createEmpty(N).cells();
+                var emptyPuzzle = this.createEmpty(N);
+                var cells = emptyPuzzle.cells();
 
                 // Assign values from the grid.
                 for (var i = 0; i < cells.size; i++)
@@ -48,7 +49,7 @@ define(["Cell", "Puzzle"],
                     }
                 }
 
-                return new Puzzle(cells, grid);
+                return new Puzzle(cells, emptyPuzzle.unit(), grid);
             },
 
             createCandidates: function(N)
