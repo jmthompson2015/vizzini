@@ -1,4 +1,4 @@
-define([ "process/KeyStatistics", "process/Reducer" ], function(KeyStatistics, Reducer)
+define(["process/KeyStatistics", "process/Reducer"], function(KeyStatistics, Reducer)
 {
     "use strict";
     QUnit.module("KeyStatistics");
@@ -31,7 +31,7 @@ define([ "process/KeyStatistics", "process/Reducer" ], function(KeyStatistics, R
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, 24.0);
+        assert.equal(result, 95);
     });
 
     QUnit.test("forwardAnnualDividendYield", function(assert)
@@ -48,7 +48,7 @@ define([ "process/KeyStatistics", "process/Reducer" ], function(KeyStatistics, R
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, 2.31);
+        assert.equal(result, 1.77);
     });
 
     QUnit.test("forwardPE", function(assert)
@@ -65,7 +65,7 @@ define([ "process/KeyStatistics", "process/Reducer" ], function(KeyStatistics, R
 
         // Verify.
         assert.ok(result);
-        assert.equal(result, 11.159777);
+        assert.equal(result, 12.750992);
     });
 
     QUnit.test("freeCashFlow", function(assert)

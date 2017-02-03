@@ -1,6 +1,7 @@
-define([ "process/Action" ], function(Action)
+define(["process/Action"], function(Action)
 {
     "use strict";
+
     function KeyStatistics(store, symbol)
     {
         InputValidator.validateNotEmpty("store", store);
@@ -49,14 +50,14 @@ define([ "process/Action" ], function(Action)
             LOGGER.debug("xmlDocument = " + xmlDocument);
             if (symbol === "AAPL")
             {
-                var xml_serializer = new XMLSerializer();
-                LOGGER.trace("xmlDocument = " + xml_serializer.serializeToString(xmlDocument));
+                var xmlSerializer = new XMLSerializer();
+                var prettyXML = xmlSerializer.serializeToString(xmlDocument);
+                console.log(prettyXML);
             }
             parsePrice(xmlDocument);
             parseRowData(xmlDocument);
 
-            var data =
-            {
+            var data = {
                 fiftyTwoWeekPricePercent: fiftyTwoWeekPricePercent,
                 freeCashFlow: (freeCashFlow ? freeCashFlow.number : undefined),
                 forwardPE: (forwardPE ? forwardPE.number : undefined),
@@ -93,14 +94,13 @@ define([ "process/Action" ], function(Action)
         function parsePrice(xmlDocument)
         {
             // This finds the price (real-time quote).
-            var xpath = "//span[@class='Fw(500) D(ib) Fz(42px)']/text()";
+            var xpath = "//span[@class='Fw(b) Fz(36px) Mb(-4px)']/text()";
             var nsResolver = null;
             var resultType = XPathResult.NUMBER_TYPE;
             var result = null;
             var rawPrice = xmlDocument.evaluate(xpath, xmlDocument, nsResolver, resultType, result).numberValue;
             LOGGER.debug("rawPrice = " + rawPrice);
-            price =
-            {
+            price = {
                 label: "Price",
                 value: rawPrice,
                 number: Number(rawPrice)
@@ -122,13 +122,12 @@ define([ "process/Action" ], function(Action)
                 myDocument = myDocument.substring(index1 + key1.length, index2);
                 var data1 = JSON.parse(myDocument);
                 var summaryDetail = data1.context.dispatcher.stores.QuoteSummaryStore.summaryDetail;
-                var labels = [ "forwardPE", /* "freeCashFlow", */"_52WeekLow", "_52WeekHigh" ];
-                var keys = [ "forwardPE", /* "freeCashFlow", */"fiftyTwoWeekLow", "fiftyTwoWeekHigh" ];
+                var labels = ["forwardPE", /* "freeCashFlow", */ "_52WeekLow", "_52WeekHigh"];
+                var keys = ["forwardPE", /* "freeCashFlow", */ "fiftyTwoWeekLow", "fiftyTwoWeekHigh"];
 
                 labels.forEach(function(label, i)
                 {
-                    var newData =
-                    {
+                    var newData = {
                         label: label,
                         value: summaryDetail[keys[i]].fmt,
                         number: summaryDetail[keys[i]].raw,
@@ -138,23 +137,22 @@ define([ "process/Action" ], function(Action)
 
                     switch (label)
                     {
-                    case "_52WeekLow":
-                        _52WeekLow = newData;
-                        break;
-                    case "_52WeekHigh":
-                        _52WeekHigh = newData;
-                        break;
-                    case "forwardPE":
-                        forwardPE = newData;
-                        break;
-                    case "freeCashFlow":
-                        freeCashFlow = newData;
-                        break;
+                        case "_52WeekLow":
+                            _52WeekLow = newData;
+                            break;
+                        case "_52WeekHigh":
+                            _52WeekHigh = newData;
+                            break;
+                        case "forwardPE":
+                            forwardPE = newData;
+                            break;
+                        case "freeCashFlow":
+                            freeCashFlow = newData;
+                            break;
                     }
                 });
 
-                dividendYield =
-                {
+                dividendYield = {
                     label: "dividendYield",
                     value: summaryDetail.dividendYield.fmt,
                     number: summaryDetail.dividendYield.raw * 100.0,
