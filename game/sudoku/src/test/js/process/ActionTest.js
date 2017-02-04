@@ -4,6 +4,22 @@ define(["PuzzleFormat", "SudokuToGo", "process/Action"],
         "use strict";
         QUnit.module("Action");
 
+        QUnit.test("addCellCandidate()", function(assert)
+        {
+            // Setup.
+            var index = 12;
+            var candidate = 8;
+
+            // Run.
+            var result = Action.addCellCandidate(index, candidate);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.type, Action.ADD_CELL_CANDIDATE);
+            assert.equal(result.index, index);
+            assert.equal(result.candidate, candidate);
+        });
+
         QUnit.test("removeCellCandidate()", function(assert)
         {
             // Setup.

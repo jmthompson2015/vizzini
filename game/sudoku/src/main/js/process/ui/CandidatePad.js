@@ -1,7 +1,7 @@
-define(function()
+define(["process/ui/CandidatesUI"], function(CandidatesUI)
 {
     "use strict";
-    var NumberPad = React.createClass(
+    var CandidatePad = React.createClass(
     {
         propTypes:
         {
@@ -25,13 +25,17 @@ define(function()
                 {
                     var index = (j * n) + i;
                     var value = index + 1;
+                    var component = React.createElement(CandidatesUI,
+                    {
+                        n: 3,
+                        candidates: [value],
+                    });
                     var button = React.DOM.button(
                     {
-                        className: "numberPadButton",
                         disabled: isDisabled,
                         onClick: this.buttonClicked,
                         "data-value": value,
-                    }, value);
+                    }, component);
 
                     cells.push(React.DOM.td(
                     {
@@ -61,5 +65,5 @@ define(function()
         },
     });
 
-    return NumberPad;
+    return CandidatePad;
 });

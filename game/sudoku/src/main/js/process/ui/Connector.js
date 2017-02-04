@@ -23,6 +23,19 @@ define(["process/Selector"],
             },
         };
 
+        Connector.CandidatePad = {
+            mapStateToProps: function(state, ownProps)
+            {
+                var n = state.puzzle.n();
+
+                return (
+                {
+                    callback: ownProps.callback,
+                    n: n,
+                });
+            },
+        };
+
         Connector.NumberPad = {
             mapStateToProps: function(state, ownProps)
             {
@@ -39,10 +52,12 @@ define(["process/Selector"],
         Connector.SudokuUI = {
             mapStateToProps: function(state, ownProps)
             {
+                var isCandidatePadDisabled = Selector.isConstantSelected(state);
                 var isNumberPadDisabled = Selector.isConstantSelected(state);
 
                 return (
                 {
+                    isCandidatePadDisabled: isCandidatePadDisabled,
                     isNumberPadDisabled: isNumberPadDisabled,
                 });
             },

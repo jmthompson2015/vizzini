@@ -243,6 +243,23 @@ define(["Unit"], function(Unit)
         return answer;
     };
 
+    Puzzle.prototype.withCandidate = function(index, candidate)
+    {
+        InputValidator.validateIsNumber("index", index);
+        InputValidator.validateIsNumber("candidate", candidate);
+
+        var answer = this;
+        var cell = this.get(index);
+
+        if (cell.isCandidates)
+        {
+            var newCell = this.get(index).withCandidate(candidate);
+            answer = this.withCell(index, newCell);
+        }
+
+        return answer;
+    };
+
     Puzzle.prototype.withCell = function(index, cell)
     {
         InputValidator.validateIsNumber("index", index);
@@ -275,9 +292,16 @@ define(["Unit"], function(Unit)
         InputValidator.validateIsNumber("index", index);
         InputValidator.validateIsNumber("candidate", candidate);
 
-        var newCell = this.get(index).withoutCandidate(candidate);
+        var answer = this;
+        var cell = this.get(index);
 
-        return this.withCell(index, newCell);
+        if (cell.isCandidates)
+        {
+            var newCell = this.get(index).withoutCandidate(candidate);
+            answer = this.withCell(index, newCell);
+        }
+
+        return answer;
     };
 
     Puzzle.prototype.withoutCandidates = function(indices, candidates)

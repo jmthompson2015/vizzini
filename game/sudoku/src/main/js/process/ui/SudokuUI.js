@@ -1,5 +1,5 @@
-define(["process/Action", "process/Selector", "process/SudokuSolver", "process/ui/BoardUI", "process/ui/Connector", "process/ui/NumberPad"],
-    function(Action, Selector, SudokuSolver, BoardUI, Connector, NumberPad)
+define(["process/Action", "process/Selector", "process/SudokuSolver", "process/ui/BoardUI", "process/ui/CandidatePad", "process/ui/Connector", "process/ui/NumberPad"],
+    function(Action, Selector, SudokuSolver, BoardUI, CandidatePad, Connector, NumberPad)
     {
         "use strict";
         var SudokuUI = React.createClass(
@@ -11,6 +11,7 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
 
             propTypes:
             {
+                isCandidatePadDisabled: React.PropTypes.bool.isRequired,
                 isNumberPadDisabled: React.PropTypes.bool.isRequired,
             },
 
@@ -146,14 +147,15 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
 
             createCandidatePad: function()
             {
-                var isNumberPadDisabled = true;
-                var connector = ReactRedux.connect(Connector.NumberPad.mapStateToProps)(NumberPad);
+                var isCandidatePadDisabled = this.props.isCandidatePadDisabled;
+                LOGGER.info("isCandidatePadDisabled ? " + isCandidatePadDisabled);
+                var connector = ReactRedux.connect(Connector.CandidatePad.mapStateToProps)(CandidatePad);
 
                 var table = React.createElement(connector,
                 {
-                    callback: this.myCandidateCallback,
+                    callback: this.myCandidatePadCallback,
                     className: "candidatePadTable",
-                    isDisabled: isNumberPadDisabled,
+                    isDisabled: isCandidatePadDisabled,
                 });
 
                 return React.DOM.div(
@@ -215,7 +217,7 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
 
                 var table = React.createElement(connector,
                 {
-                    callback: this.myNumberCallback,
+                    callback: this.myNumberPadCallback,
                     className: "numberPadTable",
                     isDisabled: isNumberPadDisabled,
                 });
@@ -226,18 +228,31 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
                 }, table);
             },
 
-            myCandidateCallback: function(selectedCandidate)
+            myCandidatePadCallback: function(selectedCandidate)
             {
-                LOGGER.info("myCandidateCallback() selectedCandidate = " + selectedCandidate + " " + (typeof selectedCandidate));
+                LOGGER.info("myCandidatePadCallback() selectedCandidate = " + selectedCandidate + " " + (typeof selectedCandidate));
 
                 var store = this.context.store;
                 var index = Selector.selectedIndex(store.getState());
-                // store.dispatch(Action.setCellValue(index, selectedValue));
+                var puzzle = Selector.puzzle(store.getState());
+                var cell = puzzle.cells().get(index);
+
+                if (cell.isCandidates)
+                {
+                    if (cell.candidates().includes(selectedCandidate))
+                    {
+                        store.dispatch(Action.removeCellCandidate(index, selectedCandidate));
+                    }
+                    else
+                    {
+                        store.dispatch(Action.addCellCandidate(index, selectedCandidate));
+                    }
+                }
             },
 
-            myNumberCallback: function(selectedValue)
+            myNumberPadCallback: function(selectedValue)
             {
-                LOGGER.info("myNumberCallback() selectedValue = " + selectedValue + " " + (typeof selectedValue));
+                LOGGER.info("myNumberPadCallback() selectedValue = " + selectedValue + " " + (typeof selectedValue));
 
                 var store = this.context.store;
                 var index = Selector.selectedIndex(store.getState());

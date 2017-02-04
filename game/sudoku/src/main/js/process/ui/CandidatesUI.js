@@ -32,6 +32,7 @@ define(function()
                     cells.push(React.DOM.td(
                     {
                         key: "cell" + index,
+                        className: "candidatesCellCell",
                     }, value));
                 }
 

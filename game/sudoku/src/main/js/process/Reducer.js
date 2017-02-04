@@ -17,6 +17,14 @@ define(["Cell", "InitialState", "process/Action"],
 
             switch (action.type)
             {
+                case Action.ADD_CELL_CANDIDATE:
+                    LOGGER.info("Reducer addCellCandidate " + action.index + " " + (typeof action.index) + " " + action.candidate + " " + (typeof action.candidate));
+                    newPuzzle = state.puzzle.withCandidate(action.index, action.candidate);
+                    return Object.assign(
+                    {}, state,
+                    {
+                        puzzle: newPuzzle,
+                    });
                 case Action.BATCH_REMOVE_CANDIDATES:
                     LOGGER.info("Reducer batchRemoveCandidates " + action.indices + " " + action.candidates);
                     newPuzzle = state.puzzle.withoutCandidates(action.indices, action.candidates);
@@ -29,7 +37,6 @@ define(["Cell", "InitialState", "process/Action"],
                 case Action.REMOVE_CELL_CANDIDATE:
                     LOGGER.info("Reducer removeCellCandidate " + action.index + " " + (typeof action.index) + " " + action.candidate + " " + (typeof action.candidate));
                     newPuzzle = state.puzzle.withoutCandidate(action.index, action.candidate);
-                    newPuzzle = newPuzzle.adjustCandidates();
                     return Object.assign(
                     {}, state,
                     {

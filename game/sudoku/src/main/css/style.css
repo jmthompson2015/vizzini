@@ -69,12 +69,16 @@ table {
     font-weight: bold;
 }
 
-#FONT_LARGE, .conflictCell, .constantCell, .valueCell, .fontLarge {
+#FONT_X_LARGE, .numberPadButton, .fontXLarge {
+    font-size: x-large;
+}
+
+#FONT_XX_LARGE, .conflictCell, .constantCell, .valueCell, .fontXXLarge {
     font-size: xx-large;
 }
 
-#FONT_SMALL, .candidatesCell, .fontSmall {
-    font-size: xx-small;
+#FONT_X_SMALL, .candidatesCell, .candidatesCellCell, .fontXSmall {
+    font-size: x-small;
 }
 
 #JUSTIFY_CONTENT_SPACE_AROUND, .controlTableContainer, .justifyContentSpaceAround {

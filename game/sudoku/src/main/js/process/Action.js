@@ -3,11 +3,25 @@ define(function()
     "use strict";
     var Action = {};
 
+    Action.ADD_CELL_CANDIDATE = "addCellCandidate";
     Action.BATCH_REMOVE_CANDIDATES = "batchRemoveCandidates";
     Action.REMOVE_CELL_CANDIDATE = "removeCellCandidate";
     Action.SET_CELL_VALUE = "setCellValue";
     Action.SET_PUZZLE = "setPuzzle";
     Action.SET_SELECTED_INDEX = "setSelectedIndex";
+
+    Action.addCellCandidate = function(index, candidate)
+    {
+        InputValidator.validateIsNumber("index", index);
+        InputValidator.validateIsNumber("candidate", candidate);
+
+        return (
+        {
+            type: Action.ADD_CELL_CANDIDATE,
+            index: index,
+            candidate: candidate,
+        });
+    };
 
     Action.batchRemoveCandidates = function(indices, candidates)
     {

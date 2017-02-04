@@ -15,6 +15,21 @@ define(function()
 
     Cell.Candidates.prototype.isCandidates = true;
 
+    Cell.Candidates.prototype.withCandidate = function(candidate)
+    {
+        InputValidator.validateIsNumber("candidate", candidate);
+
+        var newCandidates = this.candidates();
+
+        if (!newCandidates.includes(candidate))
+        {
+            newCandidates = newCandidates.push(candidate);
+            newCandidates = newCandidates.sort();
+        }
+
+        return new Cell.Candidates(newCandidates);
+    };
+
     Cell.Candidates.prototype.withoutCandidate = function(candidate)
     {
         InputValidator.validateIsNumber("candidate", candidate);

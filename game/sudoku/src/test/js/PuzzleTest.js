@@ -186,6 +186,34 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             });
         });
 
+        QUnit.test("withCandidate()", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var index = 3;
+            var candidate = 4;
+            var cell = puzzle.get(index);
+            assert.equal(cell.candidates().size, 3);
+            assert.equal(cell.candidates().includes(2), true);
+            assert.equal(cell.candidates().includes(3), true);
+            assert.equal(cell.candidates().includes(4), false);
+            assert.equal(cell.candidates().includes(5), true);
+
+            // Run.
+            var result = puzzle.withCandidate(index, candidate);
+
+            // Verify.
+            assert.ok(result);
+            cell = result.get(index);
+            assert.equal(cell.candidates().size, 4);
+            assert.equal(cell.candidates().includes(2), true);
+            assert.equal(cell.candidates().includes(3), true);
+            assert.equal(cell.candidates().includes(4), true);
+            assert.equal(cell.candidates().includes(5), true);
+        });
+
         QUnit.test("withCell()", function(assert)
         {
             // Setup.
