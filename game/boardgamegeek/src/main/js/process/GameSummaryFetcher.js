@@ -1,6 +1,7 @@
 define(function()
 {
     "use strict";
+
     function GameSummaryFetcher(gameDatabase, page, callback)
     {
         InputValidator.validateNotNull("gameDatabase", gameDatabase);
@@ -97,6 +98,7 @@ define(function()
             var idCell = xmlDocument.evaluate("a/@href", cells.snapshotItem(1), null, XPathResult.STRING_TYPE, null);
             var id = idCell.stringValue.trim();
             id = id.replace("/boardgame/", "");
+            id = id.replace("/boardgameexpansion/", "");
             var index = id.indexOf("/");
             id = id.substring(0, index);
 
@@ -105,7 +107,7 @@ define(function()
             var numVoters = cells.snapshotItem(5).textContent.trim();
 
             return gameDatabase.newGameSummary(id, title, boardGameRank, geekRatingDisplay, averageRatingDisplay,
-                    numVoters);
+                numVoters);
         }
     }
 
