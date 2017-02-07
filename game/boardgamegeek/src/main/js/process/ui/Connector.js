@@ -19,8 +19,6 @@ define(function()
         {
             return (
             {
-                filters: state.filters,
-                gameDatabase: state.gameDatabase,
                 rowData: state.filteredGameData,
             });
         },

@@ -5,9 +5,7 @@ define(function()
 
     Action.MERGE_ENTITY_MAP = "mergeEntityMap";
     Action.MERGE_GAME_DETAIL_MAP = "mergeGameDetailMap";
-    Action.MERGE_GAME_SUMMARY_MAP = "mergeGameSummaryMap";
     Action.REMOVE_FILTERS = "removeFilters";
-    Action.RESET_GAME_DETAIL_MAP = "resetGameDetailMap";
     Action.SET_DEFAULT_FILTERS = "setDefaultFilters";
     Action.SET_FILTERS = "setFilters";
     Action.SET_GAME_DATABASE = "setGameDatabase";
@@ -30,28 +28,11 @@ define(function()
         });
     };
 
-    Action.mergeGameSummaryMap = function(gameSummaryMap)
-    {
-        return (
-        {
-            type: Action.MERGE_GAME_SUMMARY_MAP,
-            gameSummaryMap: gameSummaryMap,
-        });
-    };
-
     Action.removeFilters = function()
     {
         return (
         {
             type: Action.REMOVE_FILTERS,
-        });
-    };
-
-    Action.resetGameDetailMap = function()
-    {
-        return (
-        {
-            type: Action.RESET_GAME_DETAIL_MAP,
         });
     };
 

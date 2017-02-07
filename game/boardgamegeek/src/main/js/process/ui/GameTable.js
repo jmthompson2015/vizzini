@@ -105,8 +105,6 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
 
             propTypes:
             {
-                filters: React.PropTypes.object.isRequired,
-                gameDatabase: React.PropTypes.object.isRequired,
                 rowData: React.PropTypes.array.isRequired,
             },
 

@@ -9,6 +9,8 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
 
             var that = this;
             var store = Redux.createStore(Reducer.root);
+            var gameSummaryMap = {};
+            var gameDetailMap = {};
             store.dispatch(Action.setGameDatabase(this));
 
             this.pageCount = function()
@@ -19,6 +21,16 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
             this.store = function()
             {
                 return store;
+            };
+
+            this.gameSummaryMap = function()
+            {
+                return gameSummaryMap;
+            };
+
+            this.gameDetailMap = function()
+            {
+                return gameDetailMap;
             };
 
             this.categories = function()
@@ -41,8 +53,6 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
                 }
 
                 LOGGER.debug("gameSummaries loading from the internet");
-
-                store.dispatch(Action.resetGameDetailMap());
             };
 
             this.mechanics = function()
@@ -54,6 +64,8 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
             {
                 LOGGER.trace("GameDatabase.receiveDetailData() start");
 
+                Object.vizziniMerge(gameDetailMap, newGameDetailMap);
+
                 store.dispatch(Action.mergeGameDetailMap(newGameDetailMap));
 
                 LOGGER.trace("GameDatabase.receiveDetailData() end");
@@ -63,7 +75,7 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
             {
                 LOGGER.trace("GameDatabase.receiveSummaryData() start");
 
-                store.dispatch(Action.mergeGameSummaryMap(newGameSummaryMap));
+                Object.vizziniMerge(gameSummaryMap, newGameSummaryMap);
 
                 // Fetch a game detail for each game summary.
                 var needGameDetailIds = [];
@@ -152,16 +164,6 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
         GameDatabase.prototype.findGameDetailById = function(id)
         {
             return this.gameDetailMap()[id];
-        };
-
-        GameDatabase.prototype.gameDetailMap = function()
-        {
-            return this.store().getState().gameDetailMap;
-        };
-
-        GameDatabase.prototype.gameSummaryMap = function()
-        {
-            return this.store().getState().gameSummaryMap;
         };
 
         GameDatabase.prototype.newEntity = function(type, id, name)

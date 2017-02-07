@@ -10,8 +10,6 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter"],
             this.filteredGameData = [];
 
             this.entityMap = {};
-            this.gameDetailMap = {};
-            this.gameSummaryMap = {};
 
             // FIXME
             // localStorage.removeItem("filters");

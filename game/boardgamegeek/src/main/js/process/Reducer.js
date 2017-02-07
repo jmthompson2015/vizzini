@@ -13,7 +13,7 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                 return new InitialState();
             }
 
-            var newEntityMap, newFilteredGameData, newFilters, newGameData, newGameDetailMap, newGameSummaryMap;
+            var newEntityMap, newFilteredGameData, newFilters, newGameData;
 
             switch (action.type)
             {
@@ -29,12 +29,8 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     });
                 case Action.MERGE_GAME_DETAIL_MAP:
                     LOGGER.info("Reducer merge game detail map");
-                    newGameDetailMap = Object.assign(
-                    {}, state.gameDetailMap);
-                    Object.vizziniMerge(newGameDetailMap, action.gameDetailMap);
-
                     newGameData = [];
-                    newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, state.gameSummaryMap));
+                    newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, state.gameDatabase.gameSummaryMap()));
                     Reducer.sortGameData(newGameData);
                     newFilteredGameData = [];
                     newFilteredGameData.vizziniAddAll(newGameData);
@@ -44,26 +40,6 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     {
                         filteredGameData: newFilteredGameData,
                         gameData: newGameData,
-                        gameDetailMap: newGameDetailMap,
-                    });
-                case Action.MERGE_GAME_SUMMARY_MAP:
-                    LOGGER.info("Reducer merge game summary map");
-                    newGameSummaryMap = Object.assign(
-                    {}, state.gameSummaryMap);
-                    Object.vizziniMerge(newGameSummaryMap, action.gameSummaryMap);
-
-                    newGameData = [];
-                    newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, action.gameSummaryMap));
-                    Reducer.sortGameData(newGameData);
-                    newFilteredGameData = [];
-                    newFilteredGameData.vizziniAddAll(newGameData);
-
-                    return Object.assign(
-                    {}, state,
-                    {
-                        filteredGameData: newFilteredGameData,
-                        gameData: newGameData,
-                        gameSummaryMap: newGameSummaryMap,
                     });
                 case Action.REMOVE_FILTERS:
                     newFilteredGameData = [];
@@ -72,14 +48,6 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     {}, state,
                     {
                         filteredGameData: newFilteredGameData,
-                    });
-                case Action.RESET_GAME_DETAIL_MAP:
-                    LOGGER.info("Reducer reset game detail map");
-                    return Object.assign(
-                    {}, state,
-                    {
-                        gameDetailMap:
-                        {},
                     });
                 case Action.SET_DEFAULT_FILTERS:
                     newFilters = DefaultFilters.create();
