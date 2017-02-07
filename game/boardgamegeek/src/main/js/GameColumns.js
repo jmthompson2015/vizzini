@@ -52,6 +52,11 @@ define(function()
             className: "numberCell",
         },
         {
+            key: "averageWeight",
+            label: "Complexity",
+            className: "numberCell",
+        },
+        {
             key: "categories",
             label: "Category",
         },

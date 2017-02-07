@@ -32,6 +32,7 @@ define(function()
             answer.bestWithPlayers = gameDetail.bestWithPlayers;
             answer.minPlayTime = gameDetail.minPlayTime;
             answer.maxPlayTime = gameDetail.maxPlayTime;
+            answer.averageWeight = gameDetail.averageWeight;
             answer.categories = categories;
             answer.mechanics = mechanics;
         }

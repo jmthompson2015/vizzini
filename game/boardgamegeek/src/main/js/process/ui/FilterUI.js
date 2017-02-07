@@ -66,10 +66,6 @@ define(["DefaultFilters", "EntityFilter", "GameColumns", "RangeFilter", "process
                 {
                     onClick: this.filterCacheActionPerformed,
                 }, "Clear Filter Cache");
-                var dataCacheButton = React.DOM.button(
-                {
-                    onClick: this.dataCacheActionPerformed,
-                }, "Clear Data Cache");
                 var restoreButton = React.DOM.button(
                 {
                     onClick: this.restoreActionPerformed,
@@ -88,10 +84,6 @@ define(["DefaultFilters", "EntityFilter", "GameColumns", "RangeFilter", "process
                 {
                     key: cells.length,
                 }, filterCacheButton));
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                }, dataCacheButton));
                 cells.push(React.DOM.td(
                 {
                     key: cells.length,
@@ -142,7 +134,7 @@ define(["DefaultFilters", "EntityFilter", "GameColumns", "RangeFilter", "process
 
                     var idFunction = function(value)
                     {
-                        return value.id;
+                        return (value !== undefined ? value.id : undefined);
                     };
                     var labelFunction = function(value)
                     {
@@ -262,18 +254,6 @@ define(["DefaultFilters", "EntityFilter", "GameColumns", "RangeFilter", "process
                     className: "filterTable",
                 }, React.DOM.tbody(
                 {}, rows));
-            },
-
-            dataCacheActionPerformed: function(event)
-            {
-                LOGGER.trace("FilterUI.filterActionPerformed() start");
-                localStorage.removeItem("gameSummaryTimestamp");
-                localStorage.removeItem("gameSummaryMap");
-                localStorage.removeItem("gameDetailTimestamp");
-                localStorage.removeItem("gameDetailMap");
-                localStorage.removeItem("entityTimestamp");
-                localStorage.removeItem("entityMap");
-                LOGGER.trace("FilterUI.filterActionPerformed() end");
             },
 
             filterActionPerformed: function(event)

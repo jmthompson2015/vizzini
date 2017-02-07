@@ -5,6 +5,7 @@
 define(function()
 {
     "use strict";
+
     function GameDetailFetcher(gameDatabase, gameIds, callback)
     {
         InputValidator.validateNotNull("gameDatabase", gameDatabase);
@@ -31,8 +32,7 @@ define(function()
             LOGGER.trace("GameDetailFetcher.receiveData() start");
 
             // LOGGER.debug("xmlDocument = " + xmlDocument);
-            // LOGGER.debug("xmlDocument = " + (new
-            // XMLSerializer()).serializeToString(xmlDocument));
+            // LOGGER.info("xmlDocument = " + (new XMLSerializer()).serializeToString(xmlDocument));
             var gameDetails = parseGameDetails(xmlDocument);
             callback(gameDetails);
 
@@ -57,7 +57,7 @@ define(function()
                 return answer;
             }, initialValue);
 
-            var sourceUrl = "https://www.boardgamegeek.com/xmlapi2/thing?id=" + idsString;
+            var sourceUrl = "https://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=" + idsString;
 
             var query = "select * from xml where url=\"" + sourceUrl + "\"";
             LOGGER.debug("unencoded url = " + (baseUrl + query));
@@ -81,8 +81,7 @@ define(function()
             {
                 var numPlayersCell = xmlDocument.evaluate("@numplayers", thisRow, null, XPathResult.STRING_TYPE, null);
                 var numPlayers = numPlayersCell.stringValue.trim();
-                var numVotesCell = xmlDocument.evaluate("result[@value='Best']/@numvotes", thisRow, null,
-                        XPathResult.STRING_TYPE, null);
+                var numVotesCell = xmlDocument.evaluate("result[@value='Best']/@numvotes", thisRow, null, XPathResult.STRING_TYPE, null);
                 var numVotes = parseInt(numVotesCell.stringValue.trim());
                 LOGGER.debug("numPlayers = " + numPlayers + " numVotes = " + numVotes);
 
@@ -154,38 +153,35 @@ define(function()
             var idCell = xmlDocument.evaluate("@id", xmlFragment, null, XPathResult.STRING_TYPE, null);
             var id = idCell.stringValue.trim();
 
-            var titleCell = xmlDocument.evaluate("name[@type='primary']/@value", xmlFragment, null,
-                    XPathResult.STRING_TYPE, null);
+            var titleCell = xmlDocument.evaluate("name[@type='primary']/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
             var title = titleCell.stringValue.trim();
 
-            var yearPublishedCell = xmlDocument.evaluate("yearpublished/@value", xmlFragment, null,
-                    XPathResult.STRING_TYPE, null);
+            var yearPublishedCell = xmlDocument.evaluate("yearpublished/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
             var yearPublished = yearPublishedCell.stringValue.trim();
 
-            var minPlayersCell = xmlDocument.evaluate("minplayers/@value", xmlFragment, null, XPathResult.STRING_TYPE,
-                    null);
+            var minPlayersCell = xmlDocument.evaluate("minplayers/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
             var minPlayers = minPlayersCell.stringValue.trim();
 
-            var maxPlayersCell = xmlDocument.evaluate("maxplayers/@value", xmlFragment, null, XPathResult.STRING_TYPE,
-                    null);
+            var maxPlayersCell = xmlDocument.evaluate("maxplayers/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
             var maxPlayers = maxPlayersCell.stringValue.trim();
 
             var bestWithPlayers = parseBestWithPlayers(xmlDocument, xmlFragment);
 
-            var minPlayTimeCell = xmlDocument.evaluate("minplaytime/@value", xmlFragment, null,
-                    XPathResult.STRING_TYPE, null);
+            var minPlayTimeCell = xmlDocument.evaluate("minplaytime/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
             var minPlayTime = minPlayTimeCell.stringValue.trim();
 
-            var maxPlayTimeCell = xmlDocument.evaluate("maxplaytime/@value", xmlFragment, null,
-                    XPathResult.STRING_TYPE, null);
+            var maxPlayTimeCell = xmlDocument.evaluate("maxplaytime/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
             var maxPlayTime = maxPlayTimeCell.stringValue.trim();
+
+            var averageWeightCell = xmlDocument.evaluate("statistics/ratings/averageweight/@value", xmlFragment, null, XPathResult.STRING_TYPE, null);
+            var averageWeight = averageWeightCell.stringValue.trim();
 
             var categories = parseEntities(xmlDocument, xmlFragment, "boardgamecategory");
             var designers = parseEntities(xmlDocument, xmlFragment, "boardgamedesigner");
             var mechanics = parseEntities(xmlDocument, xmlFragment, "boardgamemechanic");
 
             return gameDatabase.newGameDetail(id, title, designers, yearPublished, minPlayers, maxPlayers,
-                    bestWithPlayers, minPlayTime, maxPlayTime, categories, mechanics);
+                bestWithPlayers, minPlayTime, maxPlayTime, averageWeight, categories, mechanics);
         }
     }
 

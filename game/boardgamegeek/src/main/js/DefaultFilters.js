@@ -28,13 +28,13 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
                     switch (column.key)
                     {
                         case "boardGameRank":
-                            filter = new RangeFilter(column.key, isMinEnabled, 1, isMaxEnabled, 20);
+                            filter = new RangeFilter(column.key, isMinEnabled, 1, isMaxEnabled, 100);
                             break;
                         case "yearPublished":
-                            filter = new RangeFilter(column.key, isMinEnabled, 2006, isMaxEnabled, 2016);
+                            filter = new RangeFilter(column.key, isMinEnabled, 2007, isMaxEnabled, 2017);
                             break;
                         case "geekRating":
-                            filter = new RangeFilter(column.key, isMinEnabled, 7.2, isMaxEnabled, 10);
+                            filter = new RangeFilter(column.key, isMinEnabled, 7, isMaxEnabled, 10);
                             break;
                         case "minPlayers":
                             filter = new RangeFilter(column.key, true, 2, true, 3);
@@ -51,6 +51,9 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
                         case "maxPlayTime":
                             filter = new RangeFilter(column.key, isMinEnabled, 30, true, 120);
                             break;
+                        case "averageWeight":
+                            filter = new RangeFilter(column.key, isMinEnabled, 1, isMaxEnabled, 5);
+                            break;
                         default:
                             filter = new RangeFilter(column.key, isMinEnabled, minValue, isMaxEnabled, maxValue);
                     }
@@ -64,8 +67,8 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
             initialize: function()
             {
                 this.entityColumns.push(GameColumns[2]); // designers
-                this.entityColumns.push(GameColumns[10]); // categories
-                this.entityColumns.push(GameColumns[11]); // mechanics
+                this.entityColumns.push(GameColumns[11]); // categories
+                this.entityColumns.push(GameColumns[12]); // mechanics
 
                 this.rangeColumns.push(GameColumns[0]); // boardGameRank
                 this.rangeColumns.push(GameColumns[3]); // yearPublished
@@ -75,6 +78,7 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
                 this.rangeColumns.push(GameColumns[7]); // bestWithPlayers
                 this.rangeColumns.push(GameColumns[8]); // minPlayTime
                 this.rangeColumns.push(GameColumns[9]); // maxPlayTime
+                this.rangeColumns.push(GameColumns[10]); // averageWeight
             },
         };
 

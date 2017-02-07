@@ -9,11 +9,8 @@ define(function()
     Action.REMOVE_FILTERS = "removeFilters";
     Action.RESET_GAME_DETAIL_MAP = "resetGameDetailMap";
     Action.SET_DEFAULT_FILTERS = "setDefaultFilters";
-    Action.SET_ENTITY_TIMESTAMP = "setEntitiesTimestamp";
     Action.SET_FILTERS = "setFilters";
     Action.SET_GAME_DATABASE = "setGameDatabase";
-    Action.SET_GAME_DETAIL_TIMESTAMP = "setGameDetailsTimestamp";
-    Action.SET_GAME_SUMMARY_TIMESTAMP = "setGameSummariesTimestamp";
 
     Action.mergeEntityMap = function(entityMap)
     {
@@ -66,15 +63,6 @@ define(function()
         });
     };
 
-    Action.setEntityTimestamp = function(entityTimestamp)
-    {
-        return (
-        {
-            type: Action.SET_ENTITY_TIMESTAMP,
-            entityTimestamp: entityTimestamp,
-        });
-    };
-
     Action.setFilters = function(filters)
     {
         return (
@@ -90,24 +78,6 @@ define(function()
         {
             type: Action.SET_GAME_DATABASE,
             gameDatabase: gameDatabase,
-        });
-    };
-
-    Action.setGameDetailTimestamp = function(gameDetailTimestamp)
-    {
-        return (
-        {
-            type: Action.SET_GAME_DETAIL_TIMESTAMP,
-            gameDetailTimestamp: gameDetailTimestamp,
-        });
-    };
-
-    Action.setGameSummaryTimestamp = function(gameSummaryTimestamp)
-    {
-        return (
-        {
-            type: Action.SET_GAME_SUMMARY_TIMESTAMP,
-            gameSummaryTimestamp: gameSummaryTimestamp,
         });
     };
 

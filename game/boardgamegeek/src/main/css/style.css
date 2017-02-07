@@ -101,8 +101,8 @@ table {
     font-size: x-small;
 }
 
-#HEIGHT_170, .entitiesContainer, .height170 {
-    height: 170px;
+#HEIGHT_200, .entitiesContainer, .height170 {
+    height: 200px;
 }
 
 #OVERFLOW_Y_AUTO, .entitiesContainer, .overflowYAuto {

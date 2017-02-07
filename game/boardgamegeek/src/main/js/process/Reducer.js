@@ -88,13 +88,6 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     {
                         filters: newFilters,
                     });
-                case Action.SET_ENTITY_TIMESTAMP:
-                    LOGGER.info("Reducer entityTimestamp = " + action.entityTimestamp);
-                    return Object.assign(
-                    {}, state,
-                    {
-                        entityTimestamp: action.entityTimestamp,
-                    });
                 case Action.SET_FILTERS:
                     LOGGER.info("Reducer filters = " + action.filters);
                     Object.getOwnPropertyNames(action.filters).forEach(function(columnKey)
@@ -118,20 +111,6 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     {}, state,
                     {
                         gameDatabase: action.gameDatabase,
-                    });
-                case Action.SET_GAME_DETAIL_TIMESTAMP:
-                    LOGGER.info("Reducer gameDetailTimestamp = " + action.gameDetailTimestamp);
-                    return Object.assign(
-                    {}, state,
-                    {
-                        gameDetailTimestamp: action.gameDetailTimestamp,
-                    });
-                case Action.SET_GAME_SUMMARY_TIMESTAMP:
-                    LOGGER.info("Reducer gameSummaryTimestamp = " + action.gameSummaryTimestamp);
-                    return Object.assign(
-                    {}, state,
-                    {
-                        gameSummaryTimestamp: action.gameSummaryTimestamp,
                     });
                 default:
                     LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);

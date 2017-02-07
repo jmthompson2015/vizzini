@@ -1,0 +1,184 @@
+<html>
+<head>
+	<title>Game Data Fetcher</title>
+
+	<link rel="stylesheet" href="../css/style.css">
+
+	<script src="../../../../../coreweb/lib/jquery/jquery-1.11.3.min.js"></script>
+	<script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+	<script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+	<script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../js/GameColumns"></script>
+
+	<script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+</head>
+<body>
+	<h1>Game Data Fetcher</h1>
+	<p>Page:
+		<select id="pageSelect">
+	<option>1</option>
+	<option>2</option>
+	<option>3</option>
+	<option>4</option>
+	<option>5</option>
+	<option>6</option>
+	<option>7</option>
+	<option>8</option>
+	<option>9</option>
+	<option>10</option>
+	</select>
+		<button id="submitButton" type="submit">Submit</button>
+		<span id="statusIcon"></span>
+	</p>
+	<div id="pageContent"></div>
+	<script>
+		"use strict";
+
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["process/GameDatabase", "process/GameSummaryFetcher"],
+			function(GameDatabase, GameSummaryFetcher)
+			{
+				var pageCount = 10;
+				LOGGER.info("pageCount = " + pageCount);
+
+				var doneIcon = "<img src='../resources/accept.png' style='vertical-align: middle;'/>";
+				var waitingIcon = "<img src='../resources/Waiting.gif' style='vertical-align: middle;' width='24'/>";
+
+				var gameDatabase = new GameDatabase(pageCount);
+				var page;
+
+				function submitPage()
+				{
+					LOGGER.info("submitPage()");
+
+					gameDatabase = new GameDatabase(pageCount);
+					var store = gameDatabase.store();
+					store.subscribe(handleChange);
+
+					page = Number(document.getElementById("pageSelect").value);
+					LOGGER.info("page = " + page);
+
+					document.getElementById("statusIcon").innerHTML = waitingIcon;
+					document.getElementById("pageContent").innerHTML = "";
+
+					// Load from the internet.
+					var summaryFetcher = new GameSummaryFetcher(gameDatabase, page, gameDatabase.receiveSummaryData);
+					summaryFetcher.fetchData();
+				}
+
+				document.getElementById("submitButton").onclick = submitPage;
+
+				function handleChange()
+				{
+					LOGGER.info("handleChange()");
+					var summaryLength = Object.values(gameDatabase.gameSummaryMap()).length
+					var detailLength = Object.values(gameDatabase.gameDetailMap()).length;
+					LOGGER.info("summaryLength = " + summaryLength);
+					LOGGER.info("detailLength = " + detailLength);
+
+					var low = ((page - 1) * 100) + 1;
+					var high = page * 100;
+					var myContent = serializeRange(low, high);
+
+					if (summaryLength === 100 && detailLength === 100)
+					{
+						document.getElementById("statusIcon").innerHTML = doneIcon;
+					}
+
+					document.getElementById("pageContent").innerHTML = myContent;
+				}
+
+				function serializeRange(low, high)
+				{
+					var store = gameDatabase.store();
+					var gameData = store.getState().gameData;
+					LOGGER.info("serializeRange(" + low + ", " + high + ") gameData.length = " + gameData.length);
+
+					var keys = gameData.reduce(function(accumulator, game)
+					{
+						var answer = accumulator;
+						answer += createKeyName(game) + ": ";
+						answer += "\"" + createKeyValue(game) + "\", ";
+
+						return answer;
+					}, "");
+
+					var properties = gameData.reduce(function(accumulator, game)
+					{
+						var answer = accumulator;
+						var keyValue = createKeyValue(game);
+						answer += "\"" + keyValue + "\": {";
+						answer += "id: " + game.id + ", ";
+						answer += "boardGameRank: " + game.boardGameRank + ", ";
+						answer += "title: \"" + game.title + "\", ";
+						answer += "geekRating: " + game.geekRating + ", ";
+
+						answer += "yearPublished: " + game.yearPublished + ", ";
+						answer += "minPlayers: " + game.minPlayers + ", ";
+						answer += "maxPlayers: " + game.maxPlayers + ", ";
+						answer += "bestWithPlayers: " + game.bestWithPlayers + ", ";
+						answer += "minPlayTime: " + game.minPlayTime + ", ";
+						answer += "maxPlayTime: " + game.maxPlayTime + ", ";
+
+						answer += "value: \"" + keyValue + "\", ";
+						answer += "}, ";
+
+						return answer;
+					}, "");
+
+					return keys + " properties: { " + properties + "}, ";
+				}
+
+				function createKeyName(game)
+				{
+					var answer = game.title;
+					answer = answer.toUpperCase();
+					answer = answer.replace(/-/g, "");
+					answer = answer.replace(/\u2013|\u2014/g, ""); // ndash and mdash
+					answer = answer.replace(/\u2082/g, "2"); // subscript 2
+					answer = answer.replace(/[.,&$?#!':()]/g, "");
+
+					answer = answer.replace(/  /g, "_");
+					answer = answer.replace(/ /g, "_");
+					answer = answer.replace(/\//g, "_");
+					answer = answer.replace(/^7/, "SEVEN");
+					answer = answer.replace(/^51/, "FIFTY_ONE");
+					answer = answer.replace(/^1775/, "SEVENTEEN_SEVENTY_FIVE");
+					answer = answer.replace(/^1830/, "EIGHTEEN_THIRTY");
+					answer = answer.replace(/^1960/, "NINETEEN_SIXTY");
+					answer = answer.replace(/^1989/, "NINETEEN_EIGHTY_NINE");
+
+					return answer;
+				}
+
+				function createKeyValue(game)
+				{
+					var answer = game.title;
+					answer = answer.replace(/-/g, "");
+					answer = answer.replace(/\u2013|\u2014/g, ""); // ndash and mdash
+					answer = answer.replace(/\u2082/g, "2"); // subscript 2
+					answer = answer.replace(/[.,&$?#!':()]/g, "");
+					answer = answer.replace(/\//g, " ");
+
+					var parts = answer.split(" ");
+					answer = parts.reduce(function(accumulator, part, i)
+					{
+						return accumulator + part.charAt(0).toUpperCase() + part.slice(1);
+					}, "");
+
+					answer = answer.charAt(0).toLowerCase() + answer.slice(1);
+
+					return answer;
+				}
+			});
+	</script>
+</body>
+
+</html>

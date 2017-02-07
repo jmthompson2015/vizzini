@@ -9,11 +9,8 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter"],
             this.gameData = [];
             this.filteredGameData = [];
 
-            this.entityTimestamp = 0;
             this.entityMap = {};
-            this.gameDetailTimestamp = 0;
             this.gameDetailMap = {};
-            this.gameSummaryTimestamp = 0;
             this.gameSummaryMap = {};
 
             // FIXME
