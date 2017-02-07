@@ -98,7 +98,7 @@
 				function serializeRange(low, high)
 				{
 					var store = gameDatabase.store();
-					var gameData = store.getState().gameData;
+					var gameData = Object.values(store.getState().gameDataMap);
 					LOGGER.info("serializeRange(" + low + ", " + high + ") gameData.length = " + gameData.length);
 
 					var keys = gameData.reduce(function(accumulator, game)

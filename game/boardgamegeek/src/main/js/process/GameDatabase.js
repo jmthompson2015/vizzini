@@ -166,6 +166,11 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
             return this.gameDetailMap()[id];
         };
 
+        GameDatabase.prototype.findGameSummaryById = function(id)
+        {
+            return this.gameSummaryMap()[id];
+        };
+
         GameDatabase.prototype.newEntity = function(type, id, name)
         {
             var entityMap = this.entityMap();

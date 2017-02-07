@@ -6,7 +6,7 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter"],
         function InitialState()
         {
             this.gameDatabase = undefined;
-            this.gameData = [];
+            this.gameDataMap = {};
             this.filteredGameData = [];
 
             this.entityMap = {};

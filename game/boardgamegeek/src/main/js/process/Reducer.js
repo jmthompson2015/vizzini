@@ -13,7 +13,7 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                 return new InitialState();
             }
 
-            var newEntityMap, newFilteredGameData, newFilters, newGameData;
+            var newEntityMap, newFilteredGameData, newFilters, newGameDataMap;
 
             switch (action.type)
             {
@@ -29,21 +29,23 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     });
                 case Action.MERGE_GAME_DETAIL_MAP:
                     LOGGER.info("Reducer merge game detail map");
-                    newGameData = [];
-                    newGameData.vizziniAddAll(Reducer.createGameData(state.gameDatabase, state.gameDatabase.gameSummaryMap()));
-                    Reducer.sortGameData(newGameData);
+                    newGameDataMap = Object.assign(
+                    {}, state.gameDataMap);
+                    Reducer.addGameData(newGameDataMap, state.gameDatabase, action.gameDetailMap);
                     newFilteredGameData = [];
-                    newFilteredGameData.vizziniAddAll(newGameData);
+                    newFilteredGameData.vizziniAddAll(Object.values(newGameDataMap));
+                    Reducer.sortGameData(newFilteredGameData);
 
                     return Object.assign(
                     {}, state,
                     {
                         filteredGameData: newFilteredGameData,
-                        gameData: newGameData,
+                        gameDataMap: newGameDataMap,
                     });
                 case Action.REMOVE_FILTERS:
                     newFilteredGameData = [];
-                    newFilteredGameData.vizziniAddAll(state.gameData);
+                    newFilteredGameData.vizziniAddAll(Object.values(state.gameDataMap));
+                    Reducer.sortGameData(newFilteredGameData);
                     return Object.assign(
                     {}, state,
                     {
@@ -65,7 +67,7 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     newFilters = Object.assign(
                     {}, state.filters);
                     Object.vizziniMerge(newFilters, action.filters);
-                    newFilteredGameData = Reducer.filterGameData(state.gameData, newFilters);
+                    newFilteredGameData = Reducer.filterGameData(Object.values(state.gameDataMap), newFilters);
                     Reducer.saveToLocalStorage(newFilters);
                     return Object.assign(
                     {}, state,
@@ -86,19 +88,17 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
             }
         };
 
-        Reducer.createGameData = function(gameDatabase, gameSummaryMap)
+        Reducer.addGameData = function(gameDataMap, gameDatabase, newGameDetailMap)
         {
-            InputValidator.validateNotNull("gameSummaryMap", gameSummaryMap);
+            InputValidator.validateNotNull("gameDataMap", gameDataMap);
+            InputValidator.validateNotNull("gameDatabase", gameDatabase);
+            InputValidator.validateNotNull("newGameDetailMap", newGameDetailMap);
 
-            var answer = [];
-
-            Object.values(gameSummaryMap).forEach(function(gameSummary)
+            Object.values(newGameDetailMap).forEach(function(gameDetail)
             {
-                var gameDetail = gameDatabase.findGameDetailById(gameSummary.id);
-                answer.push(GameData.createGameData(gameSummary, gameDetail));
+                var gameSummary = gameDatabase.findGameSummaryById(gameDetail.id);
+                gameDataMap[gameDetail.id] = GameData.createGameData(gameSummary, gameDetail);
             });
-
-            return answer;
         };
 
         Reducer.filterGameData = function(gameData, filters)
@@ -106,15 +106,12 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
             InputValidator.validateNotNull("gameData", gameData);
             InputValidator.validateNotNull("filters", filters);
 
-            var answer = [];
-
-            gameData.forEach(function(data)
+            var answer = gameData.filter(function(data)
             {
-                if (Reducer.passes(data, filters))
-                {
-                    answer.push(data);
-                }
+                return Reducer.passes(data, filters);
             });
+
+            Reducer.sortGameData(answer);
 
             return answer;
         };
