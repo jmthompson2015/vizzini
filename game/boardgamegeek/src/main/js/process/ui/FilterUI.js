@@ -1,5 +1,5 @@
-define(["DefaultFilters", "EntityFilter", "GameColumns", "RangeFilter", "process/Action"],
-    function(DefaultFilters, EntityFilter, GameColumns, RangeFilter, Action)
+define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
+    function(DefaultFilters, EntityFilter, RangeFilter, Action)
     {
         "use strict";
         var FilterUI = React.createClass(
