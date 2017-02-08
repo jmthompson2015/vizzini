@@ -58,11 +58,6 @@ table {
     color: white;
 }
 
-
-/*#BORDER_BLACK, .filterTable, .borderBlack {
-    border: 1px solid black;
-}*/
-
 #BORDER_DARK, .dataTable td, .borderDark {
     border: 1px solid green;
 }
@@ -74,12 +69,6 @@ table {
 #BORDER_NONE, .entitiesTable td, .borderNone {
     border: 0px solid lightGray;
 }
-
-
-/*#BORDER_TB_BLACK, .filterTable td, .borderTBBlack {
-    border-bottom: 1px solid black;
-    border-top: 1px solid black;
-}*/
 
 #DISPLAY_INLINE_BLOCK, .textImageLink, .displayInlineBlock {
     display: inline-block;
