@@ -122,7 +122,7 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
 
                 if (needGameDetailIds.length > 0)
                 {
-                    var numPerCall = 20;
+                    var numPerCall = 50;
                     var count = Math.ceil(needGameDetailIds.length / numPerCall);
 
                     for (i = 0; i < count; i++)

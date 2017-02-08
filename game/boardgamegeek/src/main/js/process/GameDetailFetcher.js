@@ -1,6 +1,4 @@
-// https://query.yahooapis.com/v1/public/yql?q=select * from xml where url='https://www.boardgamegeek.com/xmlapi2/thing?id=42,91,93,188,215,234,521,555,2511,2651,3076,4098,9209,9216,9609,10630,12333,12493,14105,14996'
-
-// https://www.boardgamegeek.com/xmlapi2/thing?id=42,91,93,188,215,234,521,555,2511,2651,3076,4098,9209,9216,9609,10630,12333,12493,14105,14996
+// https://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=42,91,93,188,215,234,521,555,2511,2651,3076,4098,9209,9216,9609,10630,12333,12493,14105,14996
 
 define(function()
 {
@@ -41,9 +39,9 @@ define(function()
 
         function createUrl()
         {
-            var baseUrl = "https://query.yahooapis.com/v1/public/yql?q=";
+            var baseUrl = "https://www.boardgamegeek.com/xmlapi2/thing";
 
-            // https://www.boardgamegeek.com/xmlapi2/thing?id=12333,120677
+            // https://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=12333,120677
             var initialValue = "";
             var idsString = gameIds.reduce(function(previousValue, id, i)
             {
@@ -57,11 +55,8 @@ define(function()
                 return answer;
             }, initialValue);
 
-            var sourceUrl = "https://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=" + idsString;
-
-            var query = "select * from xml where url=\"" + sourceUrl + "\"";
-            LOGGER.debug("unencoded url = " + (baseUrl + query));
-            var answer = baseUrl + encodeURIComponent(query);
+            var query = "?stats=1&id=" + idsString;
+            var answer = baseUrl + query;
             LOGGER.debug("url = " + answer);
 
             return answer;
@@ -130,7 +125,7 @@ define(function()
             var answer = {};
 
             // This gives the data items.
-            var xpath = "query/results/items/item";
+            var xpath = "items/item";
             var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
             var rows = xmlDocument.evaluate(xpath, xmlDocument, null, resultType, null);
             var thisRow = rows.iterateNext();
