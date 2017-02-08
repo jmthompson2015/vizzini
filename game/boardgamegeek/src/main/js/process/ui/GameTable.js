@@ -82,6 +82,14 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
                 var url = "https://www.boardgamegeek.com/boardgamedesigner/";
                 return createEntitiesTable(entities, url);
             },
+            "geekRating": function(data)
+            {
+                return Math.vizziniFormat(data.geekRating, 2);
+            },
+            "averageWeight": function(data)
+            {
+                return Math.vizziniFormat(data.averageWeight, 2);
+            },
             "categories": function(data)
             {
                 var entities = data.categories;
