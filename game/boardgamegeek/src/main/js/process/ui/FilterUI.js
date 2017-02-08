@@ -1,5 +1,5 @@
-define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
-    function(DefaultFilters, EntityFilter, RangeFilter, Action)
+define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+    function(DefaultFilters, EntityFilter, RangeFilter, Action, InputPanel2)
     {
         "use strict";
         var FilterUI = React.createClass(
@@ -134,10 +134,6 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
                     var values = Object.values(valueMap);
                     this.sortEntities(values);
 
-                    var idFunction = function(value)
-                    {
-                        return (value !== undefined ? value.id : undefined);
-                    };
                     var nbsp = "\u00A0";
                     var labelFunction = function(value)
                     {
@@ -160,15 +156,16 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
                     {
                         className: "entityLabel",
                     }, column.label);
-                    var checkboxPanel = React.createElement(CheckboxInputPanel,
+                    var checkboxPanel = React.createElement(InputPanel2,
                     {
-                        values: values,
-                        idFunction: idFunction,
-                        labelFunction: labelFunction,
-                        initialValues: initialValues,
                         onChange: this.handleEntityChange,
-                        panelClass: "entitiesTable",
+                        type: InputPanel2.Type.CHECKBOX,
+                        values: values,
+
                         clientProps: clientProps,
+                        initialValues: initialValues,
+                        labelFunction: labelFunction,
+                        panelClass: "entitiesTable",
                     });
 
                     cells.push(React.DOM.td(
@@ -316,41 +313,33 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
             {
                 LOGGER.trace("FilterUI.handleEntityChange() start");
 
+                LOGGER.debug("selected = " + selected);
                 var entityType = event.target.dataset.entitytype;
                 LOGGER.debug("entityType = " + entityType);
-                var values = [];
-                var id = event.target.id;
-                LOGGER.debug("id = " + id + " typeof " + (typeof id));
-                var checked = event.target.checked;
-                LOGGER.debug("checked ? " + checked);
+                var ids = selected.map(function(entity)
+                {
+                    return entity.id;
+                });
+                LOGGER.debug("ids = " + ids);
 
                 switch (entityType)
                 {
                     case "designers":
-                        var designerValues = this.state.designerValues;
-                        if (checked) designerValues.push(id);
-                        else designerValues.vizziniRemove(id);
                         this.setState(
                         {
-                            designerValues: designerValues,
+                            designerValues: ids,
                         });
                         break;
                     case "categories":
-                        var categoryValues = this.state.categoryValues;
-                        if (checked) categoryValues.push(id);
-                        else categoryValues.vizziniRemove(id);
                         this.setState(
                         {
-                            categoryValues: categoryValues,
+                            categoryValues: ids,
                         });
                         break;
                     case "mechanics":
-                        var mechanicValues = this.state.mechanicValues;
-                        if (checked) mechanicValues.push(id);
-                        else mechanicValues.vizziniRemove(id);
                         this.setState(
                         {
-                            mechanicValues: mechanicValues,
+                            mechanicValues: ids,
                         });
                         break;
                     default:
