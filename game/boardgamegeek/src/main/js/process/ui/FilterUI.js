@@ -12,7 +12,6 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
             propTypes:
             {
                 filters: React.PropTypes.object.isRequired,
-                gameDatabase: React.PropTypes.object.isRequired,
             },
 
             getInitialState: function()
@@ -110,44 +109,48 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
 
                 DefaultFilters.entityColumns.forEach(function(column)
                 {
-                    var gameDatabase = this.props.gameDatabase;
-                    var values;
+                    var store = this.context.store;
+                    var valueMap;
                     var clientProps = {};
 
                     switch (column.key)
                     {
                         case "designers":
-                            values = gameDatabase.designers();
+                            valueMap = store.getState().designerMap;
                             clientProps["data-entitytype"] = "designers";
                             break;
                         case "categories":
-                            values = gameDatabase.categories();
+                            valueMap = store.getState().categoryMap;
                             clientProps["data-entitytype"] = "categories";
                             break;
                         case "mechanics":
-                            values = gameDatabase.mechanics();
+                            valueMap = store.getState().mechanicMap;
                             clientProps["data-entitytype"] = "mechanics";
                             break;
                         default:
                             throw "Unknown entity column: " + column.key;
                     }
 
+                    var values = Object.values(valueMap);
+                    this.sortEntities(values);
+
                     var idFunction = function(value)
                     {
                         return (value !== undefined ? value.id : undefined);
                     };
+                    var nbsp = "\u00A0";
                     var labelFunction = function(value)
                     {
-                        return value.name + " (" + value.count + ")";
+                        return value.name.replace(/ /g, nbsp) + nbsp + "(" + value.count + ")";
                     };
                     var oldFilter = this.context.store.getState().filters[column.key];
                     var initialValues = [];
 
                     if (oldFilter && oldFilter.values().length > 0)
                     {
-                        var entities = oldFilter.values().map(function(value)
+                        var entities = oldFilter.values().map(function(id)
                         {
-                            return gameDatabase.findEntityById(value);
+                            return valueMap[id];
                         });
 
                         initialValues.vizziniAddAll(entities);
@@ -362,6 +365,28 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action"],
                 LOGGER.trace("FilterUI.restoreActionPerformed() start");
                 this.context.store.dispatch(Action.setDefaultFilters());
                 LOGGER.trace("FilterUI.restoreActionPerformed() end");
+            },
+
+            sortEntities: function(entities)
+            {
+                entities.sort(function(a, b)
+                {
+                    var answer = b.count - a.count;
+
+                    if (answer === 0)
+                    {
+                        if (a.name > b.name)
+                        {
+                            answer = 1;
+                        }
+                        else if (a.name < b.name)
+                        {
+                            answer = -1;
+                        }
+                    }
+
+                    return answer;
+                });
             },
 
             unfilterActionPerformed: function(event)

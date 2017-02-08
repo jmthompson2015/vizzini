@@ -34,10 +34,10 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
                             filter = new RangeFilter(column.key, isMinEnabled, 2007, isMaxEnabled, 2017);
                             break;
                         case "geekRating":
-                            filter = new RangeFilter(column.key, isMinEnabled, 7, isMaxEnabled, 10);
+                            filter = new RangeFilter(column.key, true, 7, isMaxEnabled, 10);
                             break;
                         case "minPlayers":
-                            filter = new RangeFilter(column.key, true, 2, true, 3);
+                            filter = new RangeFilter(column.key, isMinEnabled, 2, true, 3);
                             break;
                         case "maxPlayers":
                             filter = new RangeFilter(column.key, true, 4, isMaxEnabled, 6);
@@ -46,13 +46,13 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
                             filter = new RangeFilter(column.key, isMinEnabled, 3, isMaxEnabled, 4);
                             break;
                         case "minPlayTime":
-                            filter = new RangeFilter(column.key, true, 30, isMaxEnabled, 120);
+                            filter = new RangeFilter(column.key, true, 30, isMaxEnabled, 90);
                             break;
                         case "maxPlayTime":
-                            filter = new RangeFilter(column.key, isMinEnabled, 30, true, 120);
+                            filter = new RangeFilter(column.key, isMinEnabled, 30, true, 90);
                             break;
                         case "averageWeight":
-                            filter = new RangeFilter(column.key, isMinEnabled, 1, isMaxEnabled, 5);
+                            filter = new RangeFilter(column.key, true, 1.5, true, 3.2);
                             break;
                         default:
                             filter = new RangeFilter(column.key, isMinEnabled, minValue, isMaxEnabled, maxValue);

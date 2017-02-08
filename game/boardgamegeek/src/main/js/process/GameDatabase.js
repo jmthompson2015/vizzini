@@ -11,6 +11,9 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
             var store = Redux.createStore(Reducer.root);
             var gameSummaryMap = {};
             var gameDetailMap = {};
+            var categoryMap = {};
+            var designerMap = {};
+            var mechanicMap = {};
             store.dispatch(Action.setGameDatabase(this));
 
             this.pageCount = function()
@@ -33,14 +36,43 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
                 return gameDetailMap;
             };
 
-            this.categories = function()
+            this.categoryMap = function()
             {
-                return getEntities("boardgamecategory");
+                return categoryMap;
             };
 
-            this.designers = function()
+            this.designerMap = function()
             {
-                return getEntities("boardgamedesigner");
+                return designerMap;
+            };
+
+            this.mechanicMap = function()
+            {
+                return mechanicMap;
+            };
+
+            this.entityMap = function(type)
+            {
+                InputValidator.validateNotNull("type", type);
+
+                var answer;
+
+                switch (type)
+                {
+                    case "boardgamecategory":
+                        answer = categoryMap;
+                        break;
+                    case "boardgamedesigner":
+                        answer = designerMap;
+                        break;
+                    case "boardgamemechanic":
+                        answer = mechanicMap;
+                        break;
+                    default:
+                        throw "Unknown entity type: " + type;
+                }
+
+                return answer;
             };
 
             this.load = function()
@@ -53,11 +85,6 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
                 }
 
                 LOGGER.debug("gameSummaries loading from the internet");
-            };
-
-            this.mechanics = function()
-            {
-                return getEntities("boardgamemechanic");
             };
 
             this.receiveDetailData = function(newGameDetailMap)
@@ -110,56 +137,7 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
 
                 LOGGER.trace("GameDatabase.receiveSummaryData() end");
             };
-
-            function getEntities(type)
-            {
-                var answer = [];
-
-                var entityMap = that.entityMap();
-                var keys = Object.keys(entityMap);
-
-                for (var i = 0, len = keys.length; i < len; i++)
-                {
-                    var entity = entityMap[keys[i]];
-
-                    if (entity.type === type)
-                    {
-                        answer.push(entity);
-                    }
-                }
-
-                answer.sort(function(a, b)
-                {
-                    var answer = b.count - a.count;
-
-                    if (answer === 0)
-                    {
-                        if (a.name > b.name)
-                        {
-                            answer = 1;
-                        }
-                        else if (a.name < b.name)
-                        {
-                            answer = -1;
-                        }
-                    }
-
-                    return answer;
-                });
-
-                return answer;
-            }
         }
-
-        GameDatabase.prototype.entityMap = function()
-        {
-            return this.store().getState().entityMap;
-        };
-
-        GameDatabase.prototype.findEntityById = function(id)
-        {
-            return this.entityMap()[id];
-        };
 
         GameDatabase.prototype.findGameDetailById = function(id)
         {
@@ -173,7 +151,7 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
 
         GameDatabase.prototype.newEntity = function(type, id, name)
         {
-            var entityMap = this.entityMap();
+            var entityMap = this.entityMap(type);
             var answer = entityMap[id];
 
             if (answer)

@@ -13,25 +13,21 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                 return new InitialState();
             }
 
-            var newEntityMap, newFilteredGameData, newFilters, newGameDataMap;
+            var newCategoryMap, newDesignerMap, newFilteredGameData, newFilters, newGameDataMap, newMechanicMap;
 
             switch (action.type)
             {
-                case Action.MERGE_ENTITY_MAP:
-                    LOGGER.info("Reducer merge entity map");
-                    newEntityMap = Object.assign(
-                    {}, state.entityMap);
-                    Object.vizziniMerge(newEntityMap, action.entityMap);
-                    return Object.assign(
-                    {}, state,
-                    {
-                        entityMap: newEntityMap,
-                    });
                 case Action.MERGE_GAME_DETAIL_MAP:
                     LOGGER.info("Reducer merge game detail map");
                     newGameDataMap = Object.assign(
                     {}, state.gameDataMap);
                     Reducer.addGameData(newGameDataMap, state.gameDatabase, action.gameDetailMap);
+                    newCategoryMap = Object.assign(
+                    {}, state.gameDatabase.categoryMap());
+                    newDesignerMap = Object.assign(
+                    {}, state.gameDatabase.designerMap());
+                    newMechanicMap = Object.assign(
+                    {}, state.gameDatabase.mechanicMap());
                     newFilteredGameData = [];
                     newFilteredGameData.vizziniAddAll(Object.values(newGameDataMap));
                     Reducer.sortGameData(newFilteredGameData);
@@ -39,8 +35,11 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     return Object.assign(
                     {}, state,
                     {
+                        categoryMap: newCategoryMap,
+                        designerMap: newDesignerMap,
                         filteredGameData: newFilteredGameData,
                         gameDataMap: newGameDataMap,
+                        mechanicMap: newMechanicMap,
                     });
                 case Action.REMOVE_FILTERS:
                     newFilteredGameData = [];

@@ -3,21 +3,11 @@ define(function()
     "use strict";
     var Action = {};
 
-    Action.MERGE_ENTITY_MAP = "mergeEntityMap";
     Action.MERGE_GAME_DETAIL_MAP = "mergeGameDetailMap";
     Action.REMOVE_FILTERS = "removeFilters";
     Action.SET_DEFAULT_FILTERS = "setDefaultFilters";
     Action.SET_FILTERS = "setFilters";
     Action.SET_GAME_DATABASE = "setGameDatabase";
-
-    Action.mergeEntityMap = function(entityMap)
-    {
-        return (
-        {
-            type: Action.MERGE_ENTITY_MAP,
-            entityMap: entityMap,
-        });
-    };
 
     Action.mergeGameDetailMap = function(gameDetailMap)
     {
