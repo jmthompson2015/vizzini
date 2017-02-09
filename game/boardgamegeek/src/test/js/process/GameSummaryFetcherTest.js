@@ -1,37 +1,35 @@
-define([ "process/GameDatabase", "process/GameSummaryFetcher" ], function(GameDatabase, GameSummaryFetcher)
-{
-    "use strict";
-    QUnit.module("GameSummaryFetcher");
-
-    QUnit.test("fetchData()", function(assert)
+define(["process/GameDatabase", "process/GameSummaryFetcher"],
+    function(GameDatabase, GameSummaryFetcher)
     {
-        // Setup.
-        var numPages = 5;
-        var gameDatabase = new GameDatabase(numPages);
-        var page = 2;
-        var callback = myReceiveData;
-        var fetcher = new GameSummaryFetcher(gameDatabase, page, callback);
+        "use strict";
+        QUnit.module("GameSummaryFetcher");
 
-        // Run.
-        fetcher.fetchData();
-
-        // Verify.
-        assert.ok(true);
-    });
-
-    function myReceiveData(newGameSummaryMap)
-    {
-        LOGGER.debug("myReceiveData() start");
-        LOGGER.debug("newGameSummaryMap = " + newGameSummaryMap);
-        var gameSummaries = Object.values(newGameSummaryMap);
-        LOGGER.debug("myReceiveData gameSummaries.length = " + gameSummaries.length);
-
-        for (var i = 0; i < gameSummaries.length; i++)
+        QUnit.test("fetchData()", function(assert)
         {
-            var gameSummary = gameSummaries[i];
-            LOGGER.debug("gameSummaries[" + i + "] = " + JSON.stringify(gameSummary, null, "   "));
-        }
+            // Setup.
+            var numPages = 5;
+            var gameDatabase = new GameDatabase(numPages);
+            var page = 2;
+            var fetcher = new GameSummaryFetcher(gameDatabase, page, myCallback);
 
-        LOGGER.debug("myReceiveData() end");
-    }
-});
+            // Run.
+            var done = assert.async();
+            fetcher.fetchData();
+
+            // Verify.
+            function myCallback(newGameSummaryMap)
+            {
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(newGameSummaryMap);
+                var gameSummaries = Object.values(newGameSummaryMap);
+                assert.ok(gameSummaries);
+                var length = 100;
+                assert.equal(gameSummaries.length, length);
+                assert.equal(gameSummaries[0].id, 1);
+                assert.equal(gameSummaries[0].title, "Die Macher  (1986)");
+                assert.equal(gameSummaries[length - 1].id, 198773);
+                assert.equal(gameSummaries[length - 1].title, "Codenames: Pictures  (2016)");
+                done();
+            }
+        });
+    });

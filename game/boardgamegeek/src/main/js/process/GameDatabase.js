@@ -1,5 +1,5 @@
-define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetcher", "process/Reducer"],
-    function(Action, GameDetailFetcher, GameSummaryFetcher, Reducer)
+define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFetcher", "process/GameSummaryFetcher", "process/Reducer"],
+    function(Action, GameCollectionFetcher, GameDetailFetcher, GameSummaryFetcher, Reducer)
     {
         "use strict";
 
@@ -14,26 +14,15 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
             var categoryMap = {};
             var designerMap = {};
             var mechanicMap = {};
+            var usernames = ["ghightshoe", "jmthompson", "kmistr"];
+            var gameCollectionMap = {};
+            var usernameToReceivedMap = {};
+            var idToUsernamesMap = {};
             store.dispatch(Action.setGameDatabase(this));
 
             this.pageCount = function()
             {
                 return pageCount;
-            };
-
-            this.store = function()
-            {
-                return store;
-            };
-
-            this.gameSummaryMap = function()
-            {
-                return gameSummaryMap;
-            };
-
-            this.gameDetailMap = function()
-            {
-                return gameDetailMap;
             };
 
             this.categoryMap = function()
@@ -46,98 +35,129 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
                 return designerMap;
             };
 
+            this.gameCollectionMap = function()
+            {
+                return gameCollectionMap;
+            };
+
+            this.gameDetailMap = function()
+            {
+                return gameDetailMap;
+            };
+
+            this.gameSummaryMap = function()
+            {
+                return gameSummaryMap;
+            };
+
             this.mechanicMap = function()
             {
                 return mechanicMap;
             };
 
-            this.entityMap = function(type)
+            this.store = function()
             {
-                InputValidator.validateNotNull("type", type);
-
-                var answer;
-
-                switch (type)
-                {
-                    case "boardgamecategory":
-                        answer = categoryMap;
-                        break;
-                    case "boardgamedesigner":
-                        answer = designerMap;
-                        break;
-                    case "boardgamemechanic":
-                        answer = mechanicMap;
-                        break;
-                    default:
-                        throw "Unknown entity type: " + type;
-                }
-
-                return answer;
+                return store;
             };
 
-            this.load = function()
+            this.usernames = function()
             {
-                // Load from the internet.
-                for (var i = 1; i <= pageCount; i++)
+                return usernames;
+            };
+
+            this.usernameToReceivedMap = function()
+            {
+                return usernameToReceivedMap;
+            };
+
+            this.idToUsernamesMap = function()
+            {
+                return idToUsernamesMap;
+            };
+
+            this.receiveCollection = function(username, collectionIds)
+            {
+                InputValidator.validateNotNull("username", username);
+                InputValidator.validateNotNull("collectionIds", collectionIds);
+                LOGGER.info("GameDatabase.receiveCollection(" + username + ") collectionIds.length = " + collectionIds.length);
+
+                gameCollectionMap[username] = collectionIds;
+
+                if (collectionIds.length > 0)
                 {
-                    var summaryFetcher = new GameSummaryFetcher(this, i, this.receiveSummaryData.bind(this));
-                    summaryFetcher.fetchData();
+                    usernameToReceivedMap[username] = true;
+
+                    collectionIds.forEach(function(id)
+                    {
+                        var users = idToUsernamesMap[id];
+
+                        if (users === undefined)
+                        {
+                            idToUsernamesMap[id] = [username];
+                        }
+                        else
+                        {
+                            users.push(username);
+                        }
+                    });
                 }
 
-                LOGGER.debug("gameSummaries loading from the internet");
+                if (this.isCollectionsLoaded())
+                {
+                    this.loadGameDetails(gameSummaryMap);
+                }
             };
 
             this.receiveDetailData = function(newGameDetailMap)
             {
-                LOGGER.trace("GameDatabase.receiveDetailData() start");
+                InputValidator.validateNotNull("newGameDetailMap", newGameDetailMap);
+                LOGGER.info("GameDatabase.receiveDetailData() newGameDetailMap length = " + Object.keys(newGameDetailMap).length);
 
                 Object.vizziniMerge(gameDetailMap, newGameDetailMap);
 
                 store.dispatch(Action.mergeGameDetailMap(newGameDetailMap));
-
-                LOGGER.trace("GameDatabase.receiveDetailData() end");
             };
 
             this.receiveSummaryData = function(newGameSummaryMap)
             {
-                LOGGER.trace("GameDatabase.receiveSummaryData() start");
+                InputValidator.validateNotNull("newGameSummaryMap", newGameSummaryMap);
+                LOGGER.info("GameDatabase.receiveSummaryData() newGameSummaryMap length = " + Object.keys(newGameSummaryMap).length);
 
                 Object.vizziniMerge(gameSummaryMap, newGameSummaryMap);
 
-                // Fetch a game detail for each game summary.
-                var needGameDetailIds = [];
-                var keys = Object.keys(newGameSummaryMap);
-                var i, len;
-
-                for (i = 0, len = keys.length; i < len; i++)
+                if (this.isCollectionsLoaded())
                 {
-                    var gameSummary = newGameSummaryMap[keys[i]];
-                    var gameDetail = that.findGameDetailById(gameSummary.id);
-
-                    if (!gameDetail)
-                    {
-                        needGameDetailIds.push(gameSummary.id);
-                    }
+                    this.loadGameDetails(gameSummaryMap);
                 }
-
-                if (needGameDetailIds.length > 0)
-                {
-                    var numPerCall = 50;
-                    var count = Math.ceil(needGameDetailIds.length / numPerCall);
-
-                    for (i = 0; i < count; i++)
-                    {
-                        var start = numPerCall * i;
-                        var max = Math.min(numPerCall, needGameDetailIds.length);
-                        var end = start + max;
-                        var detailFetcher = new GameDetailFetcher(that, needGameDetailIds.slice(start, end), that.receiveDetailData.bind(that));
-                        detailFetcher.fetchData();
-                    }
-                }
-
-                LOGGER.trace("GameDatabase.receiveSummaryData() end");
             };
         }
+
+        GameDatabase.prototype.entityMap = function(type)
+        {
+            InputValidator.validateNotNull("type", type);
+
+            var answer;
+
+            switch (type)
+            {
+                case "boardgamecategory":
+                    answer = this.categoryMap();
+                    break;
+                case "boardgamedesigner":
+                    answer = this.designerMap();
+                    break;
+                case "boardgamemechanic":
+                    answer = this.mechanicMap();
+                    break;
+                case "username":
+                    answer = this.usernameMap();
+                    break;
+                default:
+                    throw "Unknown entity type: " + type;
+            }
+
+            return answer;
+        };
 
         GameDatabase.prototype.findGameDetailById = function(id)
         {
@@ -147,6 +167,81 @@ define(["process/Action", "process/GameDetailFetcher", "process/GameSummaryFetch
         GameDatabase.prototype.findGameSummaryById = function(id)
         {
             return this.gameSummaryMap()[id];
+        };
+
+        GameDatabase.prototype.findUsernamesById = function(id)
+        {
+            return this.idToUsernamesMap()[id];
+        };
+
+        GameDatabase.prototype.isCollectionsLoaded = function()
+        {
+            var usernames = this.usernames();
+            var usernameToReceivedMap = this.usernameToReceivedMap();
+
+            return usernames.reduce(function(accumulator, username)
+            {
+                return accumulator && (usernameToReceivedMap[username] === true);
+            }, true);
+        };
+
+        GameDatabase.prototype.load = function()
+        {
+            // Load from the internet.
+            this.loadCollections();
+            this.loadGameSummaries();
+        };
+
+        GameDatabase.prototype.loadCollections = function()
+        {
+            var usernames = this.usernames();
+
+            usernames.forEach(function(username)
+            {
+                var fetcher = new GameCollectionFetcher(username, this.receiveCollection.bind(this));
+                fetcher.fetchData();
+            }, this);
+        };
+
+        GameDatabase.prototype.loadGameDetails = function(newGameSummaryMap)
+        {
+            InputValidator.validateNotNull("newGameSummaryMap", newGameSummaryMap);
+
+            // Fetch a game detail for each game summary.
+            var keys = Object.keys(newGameSummaryMap);
+            LOGGER.info("GameDatabase.loadGameDetails() keys.length = " + keys.length);
+
+            var needGameDetailIds = keys.filter(function(key)
+            {
+                return this.findGameDetailById(key) === undefined;
+            }, this);
+            LOGGER.info("GameDatabase.loadGameDetails() needGameDetailIds.length = " + needGameDetailIds.length);
+
+            if (needGameDetailIds.length > 0)
+            {
+                var numPerCall = 50;
+                var count = Math.ceil(needGameDetailIds.length / numPerCall);
+
+                for (var i = 0; i < count; i++)
+                {
+                    var start = numPerCall * i;
+                    var max = Math.min(numPerCall, needGameDetailIds.length);
+                    var end = start + max;
+                    var fetcher = new GameDetailFetcher(this, needGameDetailIds.slice(start, end), this.receiveDetailData.bind(this));
+                    fetcher.fetchData();
+                }
+            }
+        };
+
+        GameDatabase.prototype.loadGameSummaries = function()
+        {
+            var pageCount = this.pageCount();
+
+            for (var i = 1; i <= pageCount; i++)
+            {
+                var fetcher = new GameSummaryFetcher(this, i, this.receiveSummaryData.bind(this));
+                fetcher.fetchData();
+            }
         };
 
         GameDatabase.prototype.newEntity = function(type, id, name)

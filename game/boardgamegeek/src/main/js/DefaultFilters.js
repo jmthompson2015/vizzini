@@ -66,19 +66,19 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
 
             initialize: function()
             {
-                this.entityColumns.push(GameColumns[2]); // designers
-                this.entityColumns.push(GameColumns[11]); // categories
-                this.entityColumns.push(GameColumns[12]); // mechanics
+                this.entityColumns.push(GameColumns[3]); // designers
+                this.entityColumns.push(GameColumns[12]); // categories
+                this.entityColumns.push(GameColumns[13]); // mechanics
 
-                this.rangeColumns.push(GameColumns[0]); // boardGameRank
-                this.rangeColumns.push(GameColumns[3]); // yearPublished
-                this.rangeColumns.push(GameColumns[4]); // geekRating
-                this.rangeColumns.push(GameColumns[5]); // minPlayers
-                this.rangeColumns.push(GameColumns[6]); // maxPlayers
-                this.rangeColumns.push(GameColumns[7]); // bestWithPlayers
-                this.rangeColumns.push(GameColumns[8]); // minPlayTime
-                this.rangeColumns.push(GameColumns[9]); // maxPlayTime
-                this.rangeColumns.push(GameColumns[10]); // averageWeight
+                this.rangeColumns.push(GameColumns[1]); // boardGameRank
+                this.rangeColumns.push(GameColumns[4]); // yearPublished
+                this.rangeColumns.push(GameColumns[5]); // geekRating
+                this.rangeColumns.push(GameColumns[6]); // minPlayers
+                this.rangeColumns.push(GameColumns[7]); // maxPlayers
+                this.rangeColumns.push(GameColumns[8]); // bestWithPlayers
+                this.rangeColumns.push(GameColumns[9]); // minPlayTime
+                this.rangeColumns.push(GameColumns[10]); // maxPlayTime
+                this.rangeColumns.push(GameColumns[11]); // averageWeight
             },
         };
 

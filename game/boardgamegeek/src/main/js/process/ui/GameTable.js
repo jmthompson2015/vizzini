@@ -27,11 +27,12 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
             {}, rows));
         }
 
-        function createImageLink(src, href)
+        function createImageLink(src, href, className)
         {
+            var myClassName = (className !== undefined ? className : "imageBlock");
             var image = React.DOM.img(
             {
-                className: "imageBlock",
+                className: myClassName,
                 src: src,
             });
 
@@ -43,6 +44,18 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
         }
 
         var valueFunctions = {
+            "usernames": function(data)
+            {
+                var answer;
+                if (data.usernames !== undefined)
+                {
+                    answer = data.usernames.reduce(function(previousValue, username, i)
+                    {
+                        return previousValue + username + (i < data.usernames.length - 1 ? ", " : "");
+                    }, "");
+                }
+                return answer;
+            },
             "designers": function(data)
             {
                 return data.designers.reduce(function(previousValue, designer, i)
@@ -66,6 +79,26 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
             },
         };
         var cellFunctions = {
+            "usernames": function(data)
+            {
+                var answer;
+                if (data.usernames !== undefined)
+                {
+                    var cells = [];
+                    for (var i = 0; i < data.usernames.length; i++)
+                    {
+                        var username = data.usernames[i];
+                        var src = "../resources/" + username + ".png";
+                        var href = "https://www.boardgamegeek.com/collection/user/" + username;
+                        cells.push(createImageLink(src, href, ""));
+                    }
+                    answer = React.DOM.span(
+                    {
+                        className: "widthFull",
+                    }, cells);
+                }
+                return answer;
+            },
             "title": function(data)
             {
                 var src = "../resources/BoardGameGeek16.png";

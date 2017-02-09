@@ -61,6 +61,7 @@
 					gameDatabase = new GameDatabase(pageCount);
 					var store = gameDatabase.store();
 					store.subscribe(handleChange);
+					gameDatabase.loadCollections();
 
 					page = Number(document.getElementById("pageSelect").value);
 					LOGGER.info("page = " + page);
@@ -69,8 +70,8 @@
 					document.getElementById("pageContent").innerHTML = "";
 
 					// Load from the internet.
-					var summaryFetcher = new GameSummaryFetcher(gameDatabase, page, gameDatabase.receiveSummaryData);
-					summaryFetcher.fetchData();
+					var fetcher = new GameSummaryFetcher(gameDatabase, page, gameDatabase.receiveSummaryData.bind(gameDatabase));
+					fetcher.fetchData();
 				}
 
 				document.getElementById("submitButton").onclick = submitPage;

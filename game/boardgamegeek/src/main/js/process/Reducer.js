@@ -96,7 +96,8 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
             Object.values(newGameDetailMap).forEach(function(gameDetail)
             {
                 var gameSummary = gameDatabase.findGameSummaryById(gameDetail.id);
-                gameDataMap[gameDetail.id] = GameData.createGameData(gameSummary, gameDetail);
+                var usernames = gameDatabase.findUsernamesById(gameDetail.id);
+                gameDataMap[gameDetail.id] = GameData.createGameData(gameSummary, gameDetail, usernames);
             });
         };
 

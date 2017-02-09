@@ -3,10 +3,11 @@ define(function()
     "use strict";
     var GameData = {};
 
-    GameData.createGameData = function(gameSummary, gameDetail)
+    GameData.createGameData = function(gameSummary, gameDetail, usernames)
     {
         InputValidator.validateNotNull("gameSummary", gameSummary);
         InputValidator.validateNotNull("gameDetail", gameDetail);
+        // usernames optional.
         if (gameSummary.id !== gameDetail.id)
         {
             throw "ID mismatch: gameSummary.id = " + gameSummary.id + " gameDetail.id = " + gameDetail.id;
@@ -33,6 +34,8 @@ define(function()
         answer.averageWeight = gameDetail.averageWeight;
         answer.categories = categories;
         answer.mechanics = mechanics;
+
+        answer.usernames = usernames;
 
         return answer;
     };

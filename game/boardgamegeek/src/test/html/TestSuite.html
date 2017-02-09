@@ -30,7 +30,9 @@
 
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["EntityFilter", "GameColumns", "RangeFilter", "process/GameDetailFetcher", "process/GameSummaryFetcher"];
+        var testModules = ["EntityFilter", "GameColumns", "RangeFilter", "process/GameCollectionFetcher", "process/GameDatabase", "process/GameDetailFetcher",
+            "process/GameSummaryFetcher"
+        ];
         testModules = testModules.map(function(testModule)
         {
             return prefix + testModule + suffix;

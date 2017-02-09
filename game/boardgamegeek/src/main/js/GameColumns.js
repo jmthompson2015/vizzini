@@ -3,6 +3,11 @@ define(function()
     "use strict";
     var GameColumns = [
         {
+            key: "usernames",
+            label: "Owner",
+            className: "displayInlineBlock",
+        },
+        {
             key: "boardGameRank",
             label: "Board Game Rank",
             className: "numberCell",
