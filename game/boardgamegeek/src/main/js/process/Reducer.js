@@ -13,7 +13,7 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                 return new InitialState();
             }
 
-            var newCategoryMap, newDesignerMap, newFilteredGameData, newFilters, newGameDataMap, newMechanicMap;
+            var newCategoryMap, newDesignerMap, newFilteredGameData, newFilters, newGameDataMap, newMechanicMap, newUsernameMap;
 
             switch (action.type)
             {
@@ -28,6 +28,8 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     {}, state.gameDatabase.designerMap());
                     newMechanicMap = Object.assign(
                     {}, state.gameDatabase.mechanicMap());
+                    newUsernameMap = Object.assign(
+                    {}, state.gameDatabase.usernameMap());
                     newFilteredGameData = [];
                     newFilteredGameData.vizziniAddAll(Object.values(newGameDataMap));
                     Reducer.sortGameData(newFilteredGameData);
@@ -40,6 +42,7 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                         filteredGameData: newFilteredGameData,
                         gameDataMap: newGameDataMap,
                         mechanicMap: newMechanicMap,
+                        usernameMap: newUsernameMap,
                     });
                 case Action.REMOVE_FILTERS:
                     newFilteredGameData = [];
@@ -96,8 +99,8 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
             Object.values(newGameDetailMap).forEach(function(gameDetail)
             {
                 var gameSummary = gameDatabase.findGameSummaryById(gameDetail.id);
-                var usernames = gameDatabase.findUsernamesById(gameDetail.id);
-                gameDataMap[gameDetail.id] = GameData.createGameData(gameSummary, gameDetail, usernames);
+                var gameCollections = gameDatabase.findGameCollectionsById(gameDetail.id);
+                gameDataMap[gameDetail.id] = GameData.createGameData(gameSummary, gameDetail, gameCollections);
             });
         };
 

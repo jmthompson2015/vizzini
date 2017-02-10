@@ -21,6 +21,7 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action", "../.
                     designerValues: (this.props.filters.designers ? this.props.filters.designers.values() : []),
                     categoryValues: (this.props.filters.categories ? this.props.filters.categories.values() : []),
                     mechanicValues: (this.props.filters.mechanics ? this.props.filters.mechanics.values() : []),
+                    usernameValues: (this.props.filters.usernames ? this.props.filters.usernames.values() : []),
                 });
             },
 
@@ -49,7 +50,7 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action", "../.
                     key: rows.length,
                 }, React.DOM.td(
                 {
-                    colSpan: 4,
+                    colSpan: 5,
                 }, this.createButtonTable())));
 
                 return React.DOM.table(
@@ -126,6 +127,10 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action", "../.
                         case "mechanics":
                             valueMap = store.getState().mechanicMap;
                             clientProps["data-entitytype"] = "mechanics";
+                            break;
+                        case "usernames":
+                            valueMap = store.getState().usernameMap;
+                            clientProps["data-entitytype"] = "usernames";
                             break;
                         default:
                             throw "Unknown entity column: " + column.key;
@@ -270,13 +275,15 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action", "../.
                     {
                         case "designers":
                             values.vizziniAddAll(this.state.designerValues);
-                            LOGGER.info("designerIds = " + values);
                             break;
                         case "categories":
                             values.vizziniAddAll(this.state.categoryValues);
                             break;
                         case "mechanics":
                             values.vizziniAddAll(this.state.mechanicValues);
+                            break;
+                        case "usernames":
+                            values.vizziniAddAll(this.state.usernameValues);
                             break;
                         default:
                             throw "Unknown entity column: " + column.key;
@@ -340,6 +347,12 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter", "process/Action", "../.
                         this.setState(
                         {
                             mechanicValues: ids,
+                        });
+                        break;
+                    case "usernames":
+                        this.setState(
+                        {
+                            usernameValues: ids,
                         });
                         break;
                     default:

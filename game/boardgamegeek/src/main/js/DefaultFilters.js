@@ -66,6 +66,7 @@ define(["EntityFilter", "GameColumns", "RangeFilter"],
 
             initialize: function()
             {
+                this.entityColumns.push(GameColumns[0]); // usernames
                 this.entityColumns.push(GameColumns[3]); // designers
                 this.entityColumns.push(GameColumns[12]); // categories
                 this.entityColumns.push(GameColumns[13]); // mechanics

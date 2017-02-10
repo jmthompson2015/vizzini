@@ -9,15 +9,15 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
 
             var that = this;
             var store = Redux.createStore(Reducer.root);
-            var gameSummaryMap = {};
-            var gameDetailMap = {};
             var categoryMap = {};
             var designerMap = {};
-            var mechanicMap = {};
-            var usernames = ["ghightshoe", "jmthompson", "kmistr"];
             var gameCollectionMap = {};
+            var gameDetailMap = {};
+            var gameSummaryMap = {};
+            var mechanicMap = {};
+            var usernameMap = {};
+            var usernames = ["ghightshoe", "jmthompson", "kmistr"];
             var usernameToReceivedMap = {};
-            var idToUsernamesMap = {};
             store.dispatch(Action.setGameDatabase(this));
 
             this.pageCount = function()
@@ -60,6 +60,11 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
                 return store;
             };
 
+            this.usernameMap = function()
+            {
+                return usernameMap;
+            };
+
             this.usernames = function()
             {
                 return usernames;
@@ -70,40 +75,37 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
                 return usernameToReceivedMap;
             };
 
-            this.idToUsernamesMap = function()
-            {
-                return idToUsernamesMap;
-            };
-
             this.receiveCollection = function(username, collectionIds)
             {
                 InputValidator.validateNotNull("username", username);
                 InputValidator.validateNotNull("collectionIds", collectionIds);
                 LOGGER.info("GameDatabase.receiveCollection(" + username + ") collectionIds.length = " + collectionIds.length);
 
-                gameCollectionMap[username] = collectionIds;
-
                 if (collectionIds.length > 0)
                 {
                     usernameToReceivedMap[username] = true;
 
+                    var userId = this.usernames().indexOf(username);
+                    var user = this.usernameMap()[userId];
+
                     collectionIds.forEach(function(id)
                     {
-                        var users = idToUsernamesMap[id];
+                        var users = gameCollectionMap[id];
 
                         if (users === undefined)
                         {
-                            idToUsernamesMap[id] = [username];
+                            gameCollectionMap[id] = [user];
                         }
                         else
                         {
-                            users.push(username);
+                            users.push(user);
                         }
                     });
                 }
 
                 if (this.isCollectionsLoaded())
                 {
+                    this.determineCollectionCounts();
                     this.loadGameDetails(gameSummaryMap);
                 }
             };
@@ -127,9 +129,15 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
 
                 if (this.isCollectionsLoaded())
                 {
+                    this.determineCollectionCounts();
                     this.loadGameDetails(gameSummaryMap);
                 }
             };
+
+            usernames.forEach(function(username, i)
+            {
+                this.newEntity("username", i, username);
+            }, this);
         }
 
         GameDatabase.prototype.entityMap = function(type)
@@ -159,6 +167,38 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
             return answer;
         };
 
+        GameDatabase.prototype.determineCollectionCounts = function()
+        {
+            var users = Object.values(this.usernameMap());
+
+            users.forEach(function(user)
+            {
+                user.count = 0;
+            });
+
+            var gameCollectionMap = this.gameCollectionMap();
+            var collectionKeys = Object.keys(gameCollectionMap);
+            var summaryKeys = Object.keys(this.gameSummaryMap());
+
+            collectionKeys.forEach(function(collectionKey)
+            {
+                if (summaryKeys.includes(collectionKey))
+                {
+                    var collectionValues = gameCollectionMap[collectionKey];
+
+                    collectionValues.forEach(function(user)
+                    {
+                        user.count++;
+                    });
+                }
+            });
+        };
+
+        GameDatabase.prototype.findGameCollectionsById = function(id)
+        {
+            return this.gameCollectionMap()[id];
+        };
+
         GameDatabase.prototype.findGameDetailById = function(id)
         {
             return this.gameDetailMap()[id];
@@ -167,11 +207,6 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
         GameDatabase.prototype.findGameSummaryById = function(id)
         {
             return this.gameSummaryMap()[id];
-        };
-
-        GameDatabase.prototype.findUsernamesById = function(id)
-        {
-            return this.idToUsernamesMap()[id];
         };
 
         GameDatabase.prototype.isCollectionsLoaded = function()

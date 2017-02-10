@@ -17,12 +17,37 @@ define(["process/GameDatabase"],
             assert.equal(result.pageCount(), pageCount);
             assert.ok(result.categoryMap());
             assert.ok(result.designerMap());
+            assert.ok(result.gameCollectionMap());
             assert.ok(result.gameDetailMap());
             assert.ok(result.gameSummaryMap());
             assert.ok(result.mechanicMap());
             assert.ok(result.usernames());
             assert.ok(result.usernameToReceivedMap());
-            assert.ok(result.idToUsernamesMap());
+        });
+
+        QUnit.test("findGameCollectionsById()", function(assert)
+        {
+            // Setup.
+            var pageCount = 1;
+            var gameDatabase = new GameDatabase(pageCount);
+            var id = 161936;
+            var done = assert.async();
+            gameDatabase.loadCollections();
+
+            setTimeout(function()
+            {
+                assert.equal(Object.keys(gameDatabase.gameCollectionMap()).length, 169);
+
+                // Run.
+                var result = gameDatabase.findGameCollectionsById(id);
+
+                // Verify.
+                assert.ok(true, "test resumed from async operation");
+                assert.ok(result);
+                assert.ok(Array.isArray(result));
+                assert.equal(result[0].name, "ghightshoe");
+                done();
+            }, 1000);
         });
 
         QUnit.test("loadCollections()", function(assert)
@@ -41,12 +66,7 @@ define(["process/GameDatabase"],
                 assert.ok(true, "test resumed from async operation");
                 var gameCollectionMap = gameDatabase.gameCollectionMap();
                 assert.ok(gameCollectionMap);
-                assert.ok(gameCollectionMap.ghightshoe);
-                assert.equal(gameCollectionMap.ghightshoe.length, 25);
-                assert.ok(gameCollectionMap.jmthompson);
-                assert.equal(gameCollectionMap.jmthompson.length, 116);
-                assert.ok(gameCollectionMap.kmistr);
-                assert.equal(gameCollectionMap.kmistr.length, 30);
+                assert.equal(Object.keys(gameCollectionMap).length, 169);
                 done();
             }, 1000);
         });

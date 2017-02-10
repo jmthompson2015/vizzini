@@ -51,7 +51,7 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
                 {
                     answer = data.usernames.reduce(function(previousValue, username, i)
                     {
-                        return previousValue + username + (i < data.usernames.length - 1 ? ", " : "");
+                        return previousValue + username.name + (i < data.usernames.length - 1 ? ", " : "");
                     }, "");
                 }
                 return answer;
@@ -88,8 +88,8 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
                     for (var i = 0; i < data.usernames.length; i++)
                     {
                         var username = data.usernames[i];
-                        var src = "../resources/" + username + ".png";
-                        var href = "https://www.boardgamegeek.com/collection/user/" + username;
+                        var src = "../resources/" + username.name + ".png";
+                        var href = "https://www.boardgamegeek.com/collection/user/" + username.name;
                         cells.push(createImageLink(src, href, ""));
                     }
                     answer = React.DOM.span(

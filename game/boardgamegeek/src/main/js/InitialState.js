@@ -12,6 +12,7 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter"],
             this.categoryMap = {};
             this.designerMap = {};
             this.mechanicMap = {};
+            this.usernameMap = {};
 
             // FIXME
             // localStorage.removeItem("filters");
