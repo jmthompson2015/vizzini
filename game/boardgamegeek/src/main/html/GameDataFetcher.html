@@ -42,8 +42,8 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["process/GameDatabase", "process/GameSummaryFetcher"],
-			function(GameDatabase, GameSummaryFetcher)
+		require(["process/Action", "process/GameDatabase", "process/GameSummaryFetcher", "process/Reducer"],
+			function(Action, GameDatabase, GameSummaryFetcher, Reducer)
 			{
 				var pageCount = 10;
 				LOGGER.info("pageCount = " + pageCount);
@@ -51,16 +51,18 @@
 				var doneIcon = "<img src='../resources/accept.png' style='vertical-align: middle;'/>";
 				var waitingIcon = "<img src='../resources/Waiting.gif' style='vertical-align: middle;' width='24'/>";
 
-				var gameDatabase = new GameDatabase(pageCount);
+				var store;
+				var gameDatabase = new GameDatabase(pageCount, myCallback);
 				var page;
 
 				function submitPage()
 				{
 					LOGGER.info("submitPage()");
 
-					gameDatabase = new GameDatabase(pageCount);
-					var store = gameDatabase.store();
+					store = Redux.createStore(Reducer.root);
+					gameDatabase = new GameDatabase(pageCount, myCallback);
 					store.subscribe(handleChange);
+					store.dispatch(Action.setGameDatabase(gameDatabase));
 					gameDatabase.loadCollections();
 
 					page = Number(document.getElementById("pageSelect").value);
@@ -96,9 +98,13 @@
 					document.getElementById("pageContent").innerHTML = myContent;
 				}
 
+				function myCallback(newGameDetailMap)
+				{
+					store.dispatch(Action.mergeGameDetailMap(newGameDetailMap));
+				}
+
 				function serializeRange(low, high)
 				{
-					var store = gameDatabase.store();
 					var gameData = Object.values(store.getState().gameDataMap);
 					LOGGER.info("serializeRange(" + low + ", " + high + ") gameData.length = " + gameData.length);
 

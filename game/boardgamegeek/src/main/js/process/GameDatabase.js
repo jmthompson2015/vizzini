@@ -3,12 +3,12 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
     {
         "use strict";
 
-        function GameDatabase(pageCount)
+        function GameDatabase(pageCount, callback)
         {
             InputValidator.validateInRange("pageCount", pageCount, 1, 10);
+            // callback optional.
 
             var that = this;
-            var store = Redux.createStore(Reducer.root);
             var categoryMap = {};
             var designerMap = {};
             var gameCollectionMap = {};
@@ -18,11 +18,15 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
             var usernameMap = {};
             var usernames = ["ghightshoe", "jmthompson", "kmistr"];
             var usernameToReceivedMap = {};
-            store.dispatch(Action.setGameDatabase(this));
 
             this.pageCount = function()
             {
                 return pageCount;
+            };
+
+            this.callback = function()
+            {
+                return callback;
             };
 
             this.categoryMap = function()
@@ -53,11 +57,6 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
             this.mechanicMap = function()
             {
                 return mechanicMap;
-            };
-
-            this.store = function()
-            {
-                return store;
             };
 
             this.usernameMap = function()
@@ -117,7 +116,10 @@ define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFe
 
                 Object.vizziniMerge(gameDetailMap, newGameDetailMap);
 
-                store.dispatch(Action.mergeGameDetailMap(newGameDetailMap));
+                if (callback !== undefined)
+                {
+                    callback(newGameDetailMap);
+                }
             };
 
             this.receiveSummaryData = function(newGameSummaryMap)
