@@ -1,5 +1,5 @@
-define(["process/Action", "process/GameCollectionFetcher", "process/GameDetailFetcher", "process/GameSummaryFetcher", "process/Reducer"],
-    function(Action, GameCollectionFetcher, GameDetailFetcher, GameSummaryFetcher, Reducer)
+define(["process/GameCollectionFetcher", "process/GameDetailFetcher", "process/GameSummaryFetcher"],
+    function(GameCollectionFetcher, GameDetailFetcher, GameSummaryFetcher)
     {
         "use strict";
 
