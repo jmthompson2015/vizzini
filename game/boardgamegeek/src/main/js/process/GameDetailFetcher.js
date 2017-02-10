@@ -39,10 +39,9 @@ define(function()
 
         function createUrl()
         {
-            var baseUrl = "https://www.boardgamegeek.com/xmlapi2/thing";
+            var baseUrl = "https://query.yahooapis.com/v1/public/yql?q=";
 
             // https://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=12333,120677
-            var initialValue = "";
             var idsString = gameIds.reduce(function(previousValue, id, i)
             {
                 var answer = previousValue + id;
@@ -53,10 +52,11 @@ define(function()
                 }
 
                 return answer;
-            }, initialValue);
+            }, "");
 
-            var query = "?stats=1&id=" + idsString;
-            var answer = baseUrl + query;
+            var sourceUrl = "https://www.boardgamegeek.com/xmlapi2/thing?stats=1&id=" + idsString;
+            var query = "select * from xml where url='" + sourceUrl + "'";
+            var answer = baseUrl + encodeURIComponent(query);
             LOGGER.debug("url = " + answer);
 
             return answer;
@@ -125,7 +125,7 @@ define(function()
             var answer = {};
 
             // This gives the data items.
-            var xpath = "items/item";
+            var xpath = "query/results/items/item";
             var resultType = XPathResult.ORDERED_NODE_ITERATOR_TYPE;
             var rows = xmlDocument.evaluate(xpath, xmlDocument, null, resultType, null);
             var thisRow = rows.iterateNext();

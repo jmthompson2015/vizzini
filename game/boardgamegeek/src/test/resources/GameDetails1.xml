@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="1" yahoo:created="2017-02-06T18:00:41Z" yahoo:lang="en-us"><results><items termsofuse="http://boardgamegeek.com/xmlapi/termsofuse"><item id="12333" type="boardgame">
+<?xml version="1.0" encoding="UTF-8"?><query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="1" yahoo:created="2017-02-10T23:28:08Z" yahoo:lang="en-us"><results><items termsofuse="http://boardgamegeek.com/xmlapi/termsofuse"><item id="12333" type="boardgame">
          <thumbnail>//cf.geekdo-images.com/images/pic361592_t.jpg</thumbnail>
       <image>//cf.geekdo-images.com/images/pic361592.jpg</image>
 
@@ -66,11 +66,11 @@
 			      			<poll name="language_dependence" title="Language Dependence" totalvotes="282">
 
 		<results>
-					<result level="26" numvotes="1" value="No necessary in-game text"/>
-					<result level="27" numvotes="2" value="Some necessary text - easily memorized or small crib sheet"/>
-					<result level="28" numvotes="13" value="Moderate in-game text - needs crib sheet or paste ups"/>
-					<result level="29" numvotes="228" value="Extensive use of text - massive conversion needed to be playable"/>
-					<result level="30" numvotes="38" value="Unplayable in another language"/>
+					<result level="16" numvotes="1" value="No necessary in-game text"/>
+					<result level="17" numvotes="2" value="Some necessary text - easily memorized or small crib sheet"/>
+					<result level="18" numvotes="13" value="Moderate in-game text - needs crib sheet or paste ups"/>
+					<result level="19" numvotes="228" value="Extensive use of text - massive conversion needed to be playable"/>
+					<result level="20" numvotes="38" value="Unplayable in another language"/>
 				</results>
 	</poll>
 
@@ -382,25 +382,25 @@
 
    		<statistics page="1">
 								<ratings>
-			<usersrated value="26013"/>
-			<average value="8.35836"/>
-			<bayesaverage value="8.22447"/>
+			<usersrated value="26064"/>
+			<average value="8.35987"/>
+			<bayesaverage value="8.22535"/>
 
 			<ranks>
-															<rank bayesaverage="8.22447" friendlyname="Board Game Rank" id="1" name="boardgame" type="subtype" value="3"/>
-																				<rank bayesaverage="8.30914" friendlyname="War Game Rank" id="4664" name="wargames" type="family" value="1"/>
-											<rank bayesaverage="8.21015" friendlyname="Strategy Game Rank" id="5497" name="strategygames" type="family" value="3"/>
+															<rank bayesaverage="8.22535" friendlyname="Board Game Rank" id="1" name="boardgame" type="subtype" value="3"/>
+																				<rank bayesaverage="8.30882" friendlyname="War Game Rank" id="4664" name="wargames" type="family" value="1"/>
+											<rank bayesaverage="8.21111" friendlyname="Strategy Game Rank" id="5497" name="strategygames" type="family" value="3"/>
 												</ranks>
 
-			<stddev value="1.60259"/>
+			<stddev value="1.60171"/>
 			<median value="0"/>
-			<owned value="35088"/>
-			<trading value="493"/>
-			<wanting value="1318"/>
-			<wishing value="7155"/>
-			<numcomments value="6341"/>
-			<numweights value="2879"/>
-			<averageweight value="3.5255"/>
+			<owned value="35158"/>
+			<trading value="498"/>
+			<wanting value="1313"/>
+			<wishing value="7156"/>
+			<numcomments value="6355"/>
+			<numweights value="2884"/>
+			<averageweight value="3.526"/>
 			</ratings>
 								</statistics>
 
@@ -487,11 +487,11 @@
 			      			<poll name="language_dependence" title="Language Dependence" totalvotes="161">
 
 		<results>
-					<result level="11" numvotes="153" value="No necessary in-game text"/>
-					<result level="12" numvotes="8" value="Some necessary text - easily memorized or small crib sheet"/>
-					<result level="13" numvotes="0" value="Moderate in-game text - needs crib sheet or paste ups"/>
-					<result level="14" numvotes="0" value="Extensive use of text - massive conversion needed to be playable"/>
-					<result level="15" numvotes="0" value="Unplayable in another language"/>
+					<result level="31" numvotes="153" value="No necessary in-game text"/>
+					<result level="32" numvotes="8" value="Some necessary text - easily memorized or small crib sheet"/>
+					<result level="33" numvotes="0" value="Moderate in-game text - needs crib sheet or paste ups"/>
+					<result level="34" numvotes="0" value="Extensive use of text - massive conversion needed to be playable"/>
+					<result level="35" numvotes="0" value="Unplayable in another language"/>
 				</results>
 	</poll>
 
@@ -763,23 +763,23 @@
 
    		<statistics page="1">
 								<ratings>
-			<usersrated value="22206"/>
-			<average value="8.2947"/>
-			<bayesaverage value="8.15066"/>
+			<usersrated value="22270"/>
+			<average value="8.29448"/>
+			<bayesaverage value="8.15093"/>
 
 			<ranks>
-															<rank bayesaverage="8.15066" friendlyname="Board Game Rank" id="1" name="boardgame" type="subtype" value="4"/>
-																				<rank bayesaverage="8.16365" friendlyname="Strategy Game Rank" id="5497" name="strategygames" type="family" value="4"/>
+															<rank bayesaverage="8.15093" friendlyname="Board Game Rank" id="1" name="boardgame" type="subtype" value="4"/>
+																				<rank bayesaverage="8.16345" friendlyname="Strategy Game Rank" id="5497" name="strategygames" type="family" value="4"/>
 												</ranks>
 
-			<stddev value="1.45107"/>
+			<stddev value="1.45232"/>
 			<median value="0"/>
-			<owned value="25735"/>
-			<trading value="232"/>
-			<wanting value="1746"/>
-			<wishing value="8501"/>
-			<numcomments value="3564"/>
-			<numweights value="1867"/>
+			<owned value="25813"/>
+			<trading value="235"/>
+			<wanting value="1753"/>
+			<wishing value="8493"/>
+			<numcomments value="3571"/>
+			<numweights value="1868"/>
 			<averageweight value="3.9336"/>
 			</ratings>
 								</statistics>
@@ -787,4 +787,4 @@
 
 
 </item>
-</items></results></query><!-- total: 382 --><!-- prod_gq1_1;paas.yql;queryyahooapiscomproductiongq1;41bb5743-e192-11e6-8909-f0921c12e67c -->
+</items></results></query><!-- total: 376 --><!-- prod_gq1_1;paas.yql;queryyahooapiscomproductiongq1;c8298324-ef29-11e6-912b-f0921c12e67c -->

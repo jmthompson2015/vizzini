@@ -95,7 +95,7 @@ define(["process/GameDatabase"],
                     assert.ok(gameDetailMap);
                     assert.equal(Object.keys(gameDetailMap).length, 100);
                     done();
-                }, 1500);
+                }, 3000);
 
                 done2();
             }, 500);
