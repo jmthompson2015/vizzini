@@ -236,7 +236,11 @@ define(["process/GameCollectionFetcher", "process/GameDetailFetcher", "process/G
             usernames.forEach(function(username)
             {
                 var fetcher = new GameCollectionFetcher(username, this.receiveCollection.bind(this));
-                fetcher.fetchData();
+
+                setTimeout(function()
+                {
+                    fetcher.fetchData();
+                }, 50);
             }, this);
         };
 
