@@ -162,6 +162,18 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
                     store: this.context.store,
                 }, React.createElement(connector));
 
+                var gameCount = this.context.store.getState().gameDatabase.pageCount() * 100;
+                var isDone = gameCount === this.props.rowData.length;
+                var statusUI;
+                if (!isDone)
+                {
+                    statusUI = React.DOM.img(
+                    {
+                        src: "../resources/Waiting.gif",
+                        width: 24,
+                    });
+                }
+
                 var table = React.createElement(DataTable,
                 {
                     columns: GameColumns,
@@ -173,12 +185,20 @@ define(["GameColumns", "process/ui/Connector", "process/ui/FilterUI", "../../../
                 var rows = [];
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "filterUI",
                 }, React.DOM.td(
                 {}, filterUI)));
+                if (!isDone)
+                {
+                    rows.push(React.DOM.tr(
+                    {
+                        key: "statusUI",
+                    }, React.DOM.td(
+                    {}, statusUI)));
+                }
                 rows.push(React.DOM.tr(
                 {
-                    key: rows.length,
+                    key: "table",
                 }, React.DOM.td(
                 {}, table)));
 
