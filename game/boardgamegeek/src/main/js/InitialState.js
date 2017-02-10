@@ -9,6 +9,7 @@ define(["DefaultFilters", "EntityFilter", "RangeFilter"],
             this.gameDataMap = {};
             this.filteredGameData = [];
 
+            this.isDataLoaded = false;
             this.categoryMap = {};
             this.designerMap = {};
             this.mechanicMap = {};

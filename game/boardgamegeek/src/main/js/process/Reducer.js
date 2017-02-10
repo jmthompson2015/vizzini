@@ -31,7 +31,10 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                     newUsernameMap = Object.assign(
                     {}, state.gameDatabase.usernameMap());
                     newFilteredGameData = [];
-                    newFilteredGameData.vizziniAddAll(Object.values(newGameDataMap));
+                    var gameData = Object.values(newGameDataMap);
+                    var gameCount = state.gameDatabase.pageCount() * 100;
+                    var isDataLoaded = (gameCount === gameData.length);
+                    newFilteredGameData.vizziniAddAll(gameData);
                     Reducer.sortGameData(newFilteredGameData);
 
                     return Object.assign(
@@ -41,6 +44,7 @@ define(["DefaultFilters", "GameData", "InitialState", "process/Action"],
                         designerMap: newDesignerMap,
                         filteredGameData: newFilteredGameData,
                         gameDataMap: newGameDataMap,
+                        isDataLoaded: isDataLoaded,
                         mechanicMap: newMechanicMap,
                         usernameMap: newUsernameMap,
                     });
