@@ -2,104 +2,116 @@ define(["Cell", "process/Strategy"],
     function(Cell, Strategy)
     {
         "use strict";
-        var SudokuSolver = {
 
-            forwardSearch: function(puzzle)
+        function SudokuSolver(strategiesIn)
+        {
+            // strategies optional.
+
+            var strategies = (strategiesIn !== undefined ? strategiesIn : [Strategy.NakedSingle, Strategy.NakedPair]);
+
+            this.strategies = function()
             {
-                // Try two candidate cell values.
-                var indices = Strategy.findCellsWithCandidateLength(puzzle, 2);
+                return strategies;
+            };
+        }
 
-                var answer;
+        SudokuSolver.prototype.forwardSearch = function(puzzle)
+        {
+            // Try two candidate cell values.
+            var indices = Strategy.findCellsWithCandidateLength(puzzle, 2);
 
-                for (var i = 0; i < indices.length && answer === undefined; i++)
+            var answer;
+
+            for (var i = 0; i < indices.length && answer === undefined; i++)
+            {
+                var index = indices[i];
+                var cell = puzzle.get(index);
+                var candidates = cell.candidates();
+
+                for (var j = 0; j < candidates.size && answer === undefined; j++)
                 {
-                    var index = indices[i];
-                    var cell = puzzle.get(index);
-                    var candidates = cell.candidates();
+                    var candidate = candidates.get(j);
+                    var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
+                    puzzleClone = puzzleClone.adjustCandidates();
+                    puzzleClone = this.solve(puzzleClone);
 
-                    for (var j = 0; j < candidates.size && answer === undefined; j++)
+                    if (this.isDone(puzzleClone))
                     {
-                        var candidate = candidates.get(j);
-                        var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
-                        puzzleClone = puzzleClone.adjustCandidates();
-                        puzzleClone = this.solve(puzzleClone);
-
-                        if (this.isDone(puzzleClone))
-                        {
-                            answer = Strategy.createMoveSetCellValue(puzzle, index, candidate, "forward search");
-                        }
+                        answer = Strategy.createMoveSetCellValue(puzzle, index, candidate, "forward search");
                     }
                 }
+            }
 
-                return answer;
-            },
+            return answer;
+        };
 
-            getMove: function(puzzle)
+        SudokuSolver.prototype.getMove = function(puzzle)
+        {
+            InputValidator.validateNotNull("puzzle", puzzle);
+
+            var answer;
+            var strategies = this.strategies();
+
+            for (var i = 0; i < strategies.length && answer === undefined; i++)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
+                var strategy = strategies[i];
+                answer = strategy.getMove(puzzle);
+            }
 
-                var answer = Strategy.NakedSingle.getMove(puzzle);
-
-                if (answer === undefined)
-                {
-                    answer = Strategy.NakedPair.getMove(puzzle);
-                }
-
-                if (answer === undefined)
-                {
-                    answer = this.forwardSearch(puzzle);
-                }
-
-                return answer;
-            },
-
-            isDone: function(puzzle)
+            if (answer === undefined)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
+                answer = this.forwardSearch(puzzle);
+            }
 
-                for (var i = 0; i < puzzle.cells().size; i++)
-                {
-                    var cell = puzzle.get(i);
+            return answer;
+        };
 
-                    if (cell.isCandidates === true)
-                    {
-                        return false;
-                    }
-                }
+        SudokuSolver.prototype.isDone = function(puzzle)
+        {
+            InputValidator.validateNotNull("puzzle", puzzle);
 
-                return true;
-            },
-
-            solve: function(puzzle)
+            for (var i = 0; i < puzzle.cells().size; i++)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
+                var cell = puzzle.get(i);
 
-                LOGGER.trace("solve() start");
-
-                var myPuzzle = puzzle;
-                myPuzzle = myPuzzle.adjustCandidates();
-                var start = new Date().getTime();
-                var maxTries = 81;
-                var count = 0;
-
-                while (!this.isDone(myPuzzle) && count < maxTries)
+                if (cell.isCandidates === true)
                 {
-                    var move = this.getMove(myPuzzle);
+                    return false;
+                }
+            }
 
-                    if (move === undefined)
-                    {
-                        break;
-                    }
+            return true;
+        };
 
-                    myPuzzle = move.execute();
-                    count++;
+        SudokuSolver.prototype.solve = function(puzzle)
+        {
+            InputValidator.validateNotNull("puzzle", puzzle);
+
+            LOGGER.trace("solve() start");
+
+            var myPuzzle = puzzle;
+            myPuzzle = myPuzzle.adjustCandidates();
+            var start = new Date().getTime();
+            var maxTries = 81;
+            var count = 0;
+
+            while (!this.isDone(myPuzzle) && count < maxTries)
+            {
+                var move = this.getMove(myPuzzle);
+
+                if (move === undefined)
+                {
+                    break;
                 }
 
-                LOGGER.time("solve()", start, new Date().getTime());
-                LOGGER.trace("solve() end");
+                myPuzzle = move.execute();
+                count++;
+            }
 
-                return myPuzzle;
-            },
+            LOGGER.time("solve()", start, new Date().getTime());
+            LOGGER.trace("solve() end");
+
+            return myPuzzle;
         };
 
         return SudokuSolver;
