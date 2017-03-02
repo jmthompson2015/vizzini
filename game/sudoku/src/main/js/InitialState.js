@@ -12,6 +12,7 @@ define(["GridFactory", "PuzzleFormat"],
             this.sameValueIndices = [];
             this.selectedIndex = undefined;
             this.selectedValue = undefined;
+            this.solver = undefined;
 
             // Initialize.
             var grid = GridFactory.createEmpty();

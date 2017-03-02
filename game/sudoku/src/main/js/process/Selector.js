@@ -60,6 +60,13 @@ define(function()
         return answer;
     };
 
+    Selector.solver = function(state)
+    {
+        InputValidator.validateNotNull("state", state);
+
+        return state.solver;
+    };
+
     Selector.value = function(state, index)
     {
         InputValidator.validateNotNull("state", state);

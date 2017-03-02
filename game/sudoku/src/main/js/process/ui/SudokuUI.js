@@ -52,11 +52,12 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
             {
                 var store = this.context.store;
                 var puzzle = Selector.puzzle(store.getState());
+                var solver = Selector.solver(store.getState());
 
                 var isPencilDisabled = true;
                 var isEraseDisabled = true;
                 var isUndoDisabled = true;
-                var isHintDisabled = SudokuSolver.isDone(puzzle);
+                var isHintDisabled = solver.isDone(puzzle);
                 var isRedoDisabled = true;
                 var isMenuDisabled = true;
 
@@ -273,7 +274,8 @@ define(["process/Action", "process/Selector", "process/SudokuSolver", "process/u
 
                 var store = this.context.store;
                 var puzzle = Selector.puzzle(store.getState());
-                var move = SudokuSolver.getMove(puzzle);
+                var solver = Selector.solver(store.getState());
+                var move = solver.getMove(puzzle);
 
                 if (move !== undefined)
                 {

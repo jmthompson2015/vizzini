@@ -93,6 +93,13 @@ define(["Cell", "InitialState", "process/Action"],
                         selectedIndex: action.index,
                         selectedValue: newSelectedValue,
                     });
+                case Action.SET_SOLVER:
+                    LOGGER.info("Reducer setSolver");
+                    return Object.assign(
+                    {}, state,
+                    {
+                        solver: action.solver,
+                    });
                 default:
                     LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
                     return state;
