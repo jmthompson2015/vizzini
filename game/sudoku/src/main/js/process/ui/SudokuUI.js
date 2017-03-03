@@ -1,5 +1,5 @@
-define(["process/Action", "process/Selector", "process/SudokuSolver", "process/ui/BoardUI", "process/ui/CandidatePad", "process/ui/Connector", "process/ui/NumberPad"],
-    function(Action, Selector, SudokuSolver, BoardUI, CandidatePad, Connector, NumberPad)
+define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/CandidatePad", "process/ui/Connector", "process/ui/NumberPad"],
+    function(Action, Selector, BoardUI, CandidatePad, Connector, NumberPad)
     {
         "use strict";
         var SudokuUI = React.createClass(

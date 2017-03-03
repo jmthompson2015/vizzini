@@ -1,5 +1,5 @@
-define(["Cell", "process/Move"],
-    function(Cell, Move)
+define(["process/Move"],
+    function(Move)
     {
         "use strict";
         var Strategy = {
