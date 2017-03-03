@@ -72,7 +72,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
 
             // Verify.
             assert.ok(result);
-            LOGGER.info("result = " + result);
+            // LOGGER.info("result = " + result);
             var expected = [2, 5, 7, 8, 11, 15, 17, 18, 20, 21, 23, 24, 26, 28, 30, 34, 35, 45, 46, 50, 52, 54, 56, 57, 59, 60, 62, 63, 65, 69, 72, 73, 75, 78];
             assert.equal(result.length, expected.length);
             expected.forEach(function(index, i)
@@ -94,7 +94,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
 
             // Verify.
             assert.ok(result);
-            LOGGER.info("result = " + result);
+            // LOGGER.info("result = " + result);
             assert.equal(result.length, 0);
 
             // Run.
@@ -103,7 +103,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
 
             // Verify.
             assert.ok(result);
-            LOGGER.info("result = " + result);
+            // LOGGER.info("result = " + result);
             var expected = [2, 19, 24, 46];
             assert.equal(result.length, expected.length);
             expected.forEach(function(index, i)
@@ -177,7 +177,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
 
             // Verify.
             assert.ok(result);
-            LOGGER.info("result = " + result);
+            // LOGGER.info("result = " + result);
             var expected = [13, 14, 40, 41, 70];
             assert.equal(result.length, expected.length);
             expected.forEach(function(index, i)
@@ -199,7 +199,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
 
             // Verify.
             assert.ok(result);
-            LOGGER.info("result = " + result);
+            // LOGGER.info("result = " + result);
             var expected = [2, 24, 35, 46, 57, 72];
             assert.equal(result.length, expected.length);
             expected.forEach(function(index, i)

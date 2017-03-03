@@ -15,9 +15,10 @@ define(["Cell", "process/Move", "process/Strategy"],
             };
         }
 
-        SudokuSolver.prototype.forwardSearch = function(puzzle)
+        SudokuSolver.prototype.forwardSearch = function(puzzle, solver)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
+            InputValidator.validateNotNull("solver", solver);
 
             // Try two candidate cell values.
             var indices = puzzle.findCellsWithCandidateLength(2);
@@ -34,9 +35,9 @@ define(["Cell", "process/Move", "process/Strategy"],
                     var candidate = candidates.get(j);
                     var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
                     puzzleClone = puzzleClone.adjustCandidates();
-                    puzzleClone = this.solve(puzzleClone);
+                    puzzleClone = solver.solve(puzzleClone);
 
-                    if (this.isDone(puzzleClone))
+                    if (solver.isDone(puzzleClone))
                     {
                         answer = new Move.SetCellValue(puzzle, index, candidate, "forward search");
                     }
@@ -61,7 +62,7 @@ define(["Cell", "process/Move", "process/Strategy"],
 
             if (answer === undefined)
             {
-                answer = this.forwardSearch(puzzle);
+                answer = this.forwardSearch(puzzle, this);
             }
 
             return answer;

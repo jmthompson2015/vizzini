@@ -372,7 +372,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
 
         function runActions(grid)
         {
-            // if (false)
+            if (false)
             {
                 var puzzle = PuzzleFormat.parse(grid);
                 puzzle = puzzle.adjustCandidates();
