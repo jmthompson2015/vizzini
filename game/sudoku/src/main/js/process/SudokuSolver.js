@@ -3,11 +3,18 @@ define(["Cell", "process/Move", "process/Strategy"],
     {
         "use strict";
 
-        function SudokuSolver(strategiesIn)
+        function SudokuSolver(useForwardSearchIn, strategiesIn)
         {
+            // useForwardSearch optional. default: true
             // strategies optional.
 
+            var useForwardSearch = (useForwardSearchIn !== undefined ? useForwardSearchIn : true);
             var strategies = (strategiesIn !== undefined ? strategiesIn : [Strategy.NakedSingle, Strategy.NakedPair]);
+
+            this.useForwardSearch = function()
+            {
+                return useForwardSearch;
+            };
 
             this.strategies = function()
             {
@@ -15,13 +22,14 @@ define(["Cell", "process/Move", "process/Strategy"],
             };
         }
 
-        SudokuSolver.prototype.forwardSearch = function(puzzle, solver)
+        SudokuSolver.prototype.forwardSearch = function(puzzle)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
-            InputValidator.validateNotNull("solver", solver);
 
             // Try two candidate cell values.
             var indices = puzzle.findCellsWithCandidateLength(2);
+            var useForwardSearch = false;
+            var solver = new SudokuSolver(useForwardSearch);
             var answer;
 
             for (var i = 0; i < indices.length && answer === undefined; i++)
@@ -60,9 +68,9 @@ define(["Cell", "process/Move", "process/Strategy"],
                 answer = strategy.getMove(puzzle);
             }
 
-            if (answer === undefined)
+            if (this.useForwardSearch() && answer === undefined)
             {
-                answer = this.forwardSearch(puzzle, this);
+                answer = this.forwardSearch(puzzle);
             }
 
             return answer;
