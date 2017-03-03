@@ -1,5 +1,5 @@
-define(["Cell", "process/Strategy"],
-    function(Cell, Strategy)
+define(["Cell", "process/Move", "process/Strategy"],
+    function(Cell, Move, Strategy)
     {
         "use strict";
 
@@ -17,9 +17,10 @@ define(["Cell", "process/Strategy"],
 
         SudokuSolver.prototype.forwardSearch = function(puzzle)
         {
-            // Try two candidate cell values.
-            var indices = Strategy.findCellsWithCandidateLength(puzzle, 2);
+            InputValidator.validateNotNull("puzzle", puzzle);
 
+            // Try two candidate cell values.
+            var indices = puzzle.findCellsWithCandidateLength(2);
             var answer;
 
             for (var i = 0; i < indices.length && answer === undefined; i++)
@@ -37,7 +38,7 @@ define(["Cell", "process/Strategy"],
 
                     if (this.isDone(puzzleClone))
                     {
-                        answer = Strategy.createMoveSetCellValue(puzzle, index, candidate, "forward search");
+                        answer = new Move.SetCellValue(puzzle, index, candidate, "forward search");
                     }
                 }
             }

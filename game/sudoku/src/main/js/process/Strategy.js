@@ -4,29 +4,6 @@ define(["Cell", "process/Move"],
         "use strict";
         var Strategy = {
 
-            createMoveSetCellValue: function(puzzle, index, value, source)
-            {
-                return new Move.SetCellValue(puzzle, index, value, source);
-            },
-
-            findCellsWithCandidateLength: function(puzzle, length)
-            {
-                var indices = [];
-                var i, index, value;
-
-                for (i = 0; i < puzzle.cells().size; i++)
-                {
-                    var cell = puzzle.get(i);
-
-                    if (cell.isCandidates === true && cell.candidates().size === length)
-                    {
-                        indices.push(i);
-                    }
-                }
-
-                return indices;
-            },
-
             NakedPair:
             {
                 createMoveBatchRemoveCandidates: function(puzzle, indices, candidates, source)
@@ -78,7 +55,7 @@ define(["Cell", "process/Move"],
                 {
                     InputValidator.validateNotNull("puzzle", puzzle);
 
-                    var indices = Strategy.findCellsWithCandidateLength(puzzle, 2);
+                    var indices = puzzle.findCellsWithCandidateLength(2);
 
                     var answer;
 
@@ -143,7 +120,7 @@ define(["Cell", "process/Move"],
 
                         if (cell.isCandidates === true && cell.candidates().size === 1)
                         {
-                            answer = Strategy.createMoveSetCellValue(puzzle, i, cell.candidates().get(0), "naked single");
+                            answer = new Move.SetCellValue(puzzle, i, cell.candidates().get(0), "naked single");
                         }
                     }
 
@@ -165,7 +142,7 @@ define(["Cell", "process/Move"],
                         if (myCount === 1)
                         {
                             var myIndex = this.firstIndexWithCandidate(puzzle, v, unit);
-                            answer = Strategy.createMoveSetCellValue(puzzle, myIndex, v, "naked single");
+                            answer = new Move.SetCellValue(puzzle, myIndex, v, "naked single");
                         }
                     }
 

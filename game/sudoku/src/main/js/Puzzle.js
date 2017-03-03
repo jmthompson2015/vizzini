@@ -117,6 +117,27 @@ define(["Unit"], function(Unit)
         return answer;
     };
 
+    Puzzle.prototype.findCellsWithCandidateLength = function(length)
+    {
+        InputValidator.validateIsNumber("length", length);
+
+        var indices = [];
+        var size = this.cells().size;
+        var i, index, value;
+
+        for (i = 0; i < size; i++)
+        {
+            var cell = this.get(i);
+
+            if (cell.isCandidates === true && cell.candidates().size === length)
+            {
+                indices.push(i);
+            }
+        }
+
+        return indices;
+    };
+
     Puzzle.prototype.get = function(index)
     {
         InputValidator.validateIsNumber("index", index);

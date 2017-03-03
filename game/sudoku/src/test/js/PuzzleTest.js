@@ -112,6 +112,28 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             });
         });
 
+        QUnit.test("findCellsWithCandidateLength() 2", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+
+            // Run.
+            var result = puzzle.findCellsWithCandidateLength(2);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 0);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = puzzle.findCellsWithCandidateLength(2);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 14);
+        });
+
         QUnit.test("removeValueFromPeers()", function(assert)
         {
             // Setup.

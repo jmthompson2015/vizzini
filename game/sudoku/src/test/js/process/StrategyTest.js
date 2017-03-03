@@ -4,28 +4,6 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
         "use strict";
         QUnit.module("Strategy");
 
-        QUnit.test("findCellsWithCandidateLength() 2", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-
-            // Run.
-            var result = Strategy.findCellsWithCandidateLength(puzzle, 2);
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result.length, 0);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.findCellsWithCandidateLength(puzzle, 2);
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result.length, 14);
-        });
-
         QUnit.test("NakedPair.findNakedPairMove() diabolical 86", function(assert)
         {
             // Setup.
