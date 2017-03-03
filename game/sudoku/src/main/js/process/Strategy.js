@@ -1,3 +1,6 @@
+/*
+ * @see http://www.sudokuwiki.org/Strategy_Families
+ */
 define(["process/Move"],
     function(Move)
     {
