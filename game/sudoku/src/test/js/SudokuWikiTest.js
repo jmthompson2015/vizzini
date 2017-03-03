@@ -51,8 +51,8 @@ define(["SudokuWiki"], function(SudokuWiki)
         assert.ok(result);
         var length = 4;
         assert.equal(result.length, length);
-        assert.equal(result[0], "unsolvable28");
-        assert.equal(result[length - 1], "escargot");
+        assert.equal(result[0], "escargot");
+        assert.equal(result[length - 1], "unsolvable28");
 
         var properties = Object.getOwnPropertyNames(SudokuWiki);
         var count = properties.length - 1 - // properties
