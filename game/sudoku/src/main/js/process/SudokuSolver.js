@@ -1,15 +1,21 @@
-define(["Cell", "process/Move", "process/HiddenPairStrategy", "process/HiddenSingleStrategy", "process/NakedPairStrategy", "process/NakedSingleStrategy"],
-    function(Cell, Move, HiddenPairStrategy, HiddenSingleStrategy, NakedPairStrategy, NakedSingleStrategy)
+define(["process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/HiddenSingleStrategy", "process/NakedPairStrategy", "process/NakedSingleStrategy"],
+    function(ForwardSearchStrategy, HiddenPairStrategy, HiddenSingleStrategy, NakedPairStrategy, NakedSingleStrategy)
     {
         "use strict";
 
         function SudokuSolver(useForwardSearchIn, strategiesIn)
         {
             // useForwardSearch optional. default: true
-            // strategies optional.
+            // strategies optional. default: four basic strategies + forward search
 
             var useForwardSearch = (useForwardSearchIn !== undefined ? useForwardSearchIn : true);
-            var strategies = (strategiesIn !== undefined ? strategiesIn : [NakedSingleStrategy, HiddenSingleStrategy, NakedPairStrategy, HiddenPairStrategy]);
+            var basicStrategies = [NakedSingleStrategy, HiddenSingleStrategy, NakedPairStrategy, HiddenPairStrategy];
+            var strategies = (strategiesIn !== undefined ? strategiesIn : basicStrategies);
+
+            if (useForwardSearch)
+            {
+                strategies.push(ForwardSearchStrategy);
+            }
 
             this.useForwardSearch = function()
             {
@@ -22,42 +28,6 @@ define(["Cell", "process/Move", "process/HiddenPairStrategy", "process/HiddenSin
             };
         }
 
-        SudokuSolver.prototype.forwardSearch = function(puzzle)
-        {
-            InputValidator.validateNotNull("puzzle", puzzle);
-
-            var answer;
-
-            for (var k = 2; k < 4 && answer === undefined; k++)
-            {
-                var indices = puzzle.findCellsWithCandidateLength(k);
-                var useForwardSearch = false;
-                var solver = new SudokuSolver(useForwardSearch);
-
-                for (var i = 0; i < indices.length && answer === undefined; i++)
-                {
-                    var index = indices[i];
-                    var cell = puzzle.get(index);
-                    var candidates = cell.candidates();
-
-                    for (var j = 0; j < candidates.size && answer === undefined; j++)
-                    {
-                        var candidate = candidates.get(j);
-                        var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
-                        puzzleClone = puzzleClone.adjustCandidates();
-                        puzzleClone = solver.solve(puzzleClone);
-
-                        if (solver.isDone(puzzleClone))
-                        {
-                            answer = new Move.SetCellValue(puzzle, index, candidate, "forward search " + k);
-                        }
-                    }
-                }
-            }
-
-            return answer;
-        };
-
         SudokuSolver.prototype.getMove = function(puzzle)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
@@ -68,12 +38,17 @@ define(["Cell", "process/Move", "process/HiddenPairStrategy", "process/HiddenSin
             for (var i = 0; i < strategies.length && answer === undefined; i++)
             {
                 var strategy = strategies[i];
-                answer = strategy.getMove(puzzle);
-            }
 
-            if (this.useForwardSearch() && answer === undefined)
-            {
-                answer = this.forwardSearch(puzzle);
+                if (strategy === ForwardSearchStrategy)
+                {
+                    var useForwardSearch = false;
+                    var solver = new SudokuSolver(useForwardSearch);
+                    answer = ForwardSearchStrategy.getMove(puzzle, solver);
+                }
+                else
+                {
+                    answer = strategy.getMove(puzzle);
+                }
             }
 
             return answer;

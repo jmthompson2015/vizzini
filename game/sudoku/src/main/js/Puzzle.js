@@ -68,7 +68,7 @@ define(["Unit"], function(Unit)
         {
             var cell = answer.cells().get(i);
 
-            if (cell.isValue)
+            if (cell.isValue === true)
             {
                 answer = answer.removeValueFromPeers(i);
             }
@@ -101,7 +101,7 @@ define(["Unit"], function(Unit)
 
         var answer = [];
 
-        if (cell.isValue)
+        if (cell.isValue === true)
         {
             var size = this.cells().size;
 
@@ -272,7 +272,7 @@ define(["Unit"], function(Unit)
         var answer = this;
         var cell = this.get(index);
 
-        if (cell.isCandidates)
+        if (cell.isCandidates === true)
         {
             var newCell = this.get(index).withCandidate(candidate);
             answer = this.withCell(index, newCell);
@@ -316,7 +316,7 @@ define(["Unit"], function(Unit)
         var answer = this;
         var cell = this.get(index);
 
-        if (cell.isCandidates)
+        if (cell.isCandidates === true)
         {
             var newCell = this.get(index).withoutCandidate(candidate);
             answer = this.withCell(index, newCell);
