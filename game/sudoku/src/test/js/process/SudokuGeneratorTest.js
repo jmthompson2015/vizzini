@@ -1,5 +1,5 @@
-define(["GridFactory", "Unit", "process/SudokuGenerator", "process/SudokuValidator"],
-    function(GridFactory, Unit, SudokuGenerator, SudokuValidator)
+define(["GridFactory", "PuzzleFormat", "Unit", "process/SudokuAnalyzer", "process/SudokuGenerator", "process/SudokuValidator"],
+    function(GridFactory, PuzzleFormat, Unit, SudokuAnalyzer, SudokuGenerator, SudokuValidator)
     {
         "use strict";
         QUnit.module("SudokuGenerator");
@@ -13,9 +13,21 @@ define(["GridFactory", "Unit", "process/SudokuGenerator", "process/SudokuValidat
 
             // Verify.
             assert.ok(result);
-            // LOGGER.info("result = " + result);
-            assert.ok(SudokuValidator.isValid(result));
-            // assert.equal(result, "");
+            assert.equal(result.length, 81);
+
+            var puzzle = PuzzleFormat.parse(result);
+            puzzle = puzzle.adjustCandidates();
+            assert.ok(puzzle);
+
+            var useForwardSearch = false;
+            var analysis = SudokuAnalyzer.analyze(puzzle, useForwardSearch);
+            assert.ok(analysis);
+            assert.ok(analysis.isSolved);
+            var emptyCount = analysis.emptyCount;
+            var clueCount = analysis.clueCount;
+            assert.equal((emptyCount + clueCount), 81);
+            var moveCount = analysis.moves.length;
+            assert.ok(emptyCount <= moveCount);
         });
 
         QUnit.test("swapUnits() column", function(assert)

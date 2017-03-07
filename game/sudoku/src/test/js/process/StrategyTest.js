@@ -4,6 +4,262 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
         "use strict";
         QUnit.module("Strategy");
 
+        QUnit.test("HiddenPair.getMove() easy 1", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = Strategy.HiddenPair.getMove(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.indices().join(","), [29, 38].join(","));
+            assert.equal(result.candidates().join(","), [1, 3, 4, 5, 6, 7, 8].join(","));
+            assert.equal(result.source(), "hidden pair");
+        });
+
+        QUnit.test("HiddenPair.getMove() easy 2", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_2].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = Strategy.HiddenPair.getMove(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.indices().join(","), [66, 68].join(","));
+            assert.equal(result.candidates().join(","), [1, 2, 3, 4, 5, 7, 9].join(","));
+            assert.equal(result.source(), "hidden pair");
+        });
+
+        QUnit.test("HiddenSingle.countCandidateInUnit() block 0", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().BLOCKS[0];
+
+            // Run.
+            var result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 5);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 0);
+        });
+
+        QUnit.test("HiddenSingle.countCandidateInUnit() block 1", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().BLOCKS[1];
+
+            // Run.
+            var result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 6);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 2);
+        });
+
+        QUnit.test("HiddenSingle.countCandidateInUnit() column 0", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().COLUMNS[0];
+
+            // Run.
+            var result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 4);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 0);
+        });
+
+        QUnit.test("HiddenSingle.countCandidateInUnit() column 2", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().COLUMNS[2];
+
+            // Run.
+            var result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 4);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 0);
+        });
+
+        QUnit.test("HiddenSingle.countCandidateInUnit() row 0", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().ROWS[0];
+
+            // Run.
+            var result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 5);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 0);
+        });
+
+        QUnit.test("HiddenSingle.countCandidateInUnit() row 2", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().ROWS[2];
+
+            // Run.
+            var result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 3);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.HiddenSingle.countCandidateInUnit(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 0);
+        });
+
+        QUnit.test("HiddenSingle.findSingleCandidateUnitCell()", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var unit = puzzle.unit().BLOCKS[0];
+
+            // Run.
+            var result = Strategy.HiddenSingle.findSingleCandidateUnitCell(puzzle, unit);
+
+            // Verify.
+            assert.equal(result, undefined);
+
+            // Run.
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.HiddenSingle.findSingleCandidateUnitCell(puzzle, unit);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.index(), 1);
+            assert.equal(result.value(), 1);
+        });
+
+        QUnit.test("HiddenSingle.firstIndexWithCandidate() row 0", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 1;
+            var unit = puzzle.unit().ROWS[0];
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = Strategy.HiddenSingle.firstIndexWithCandidate(puzzle, candidate, unit);
+
+            // Verify.
+            assert.equal(result, 1);
+        });
+
+        QUnit.test("HiddenSingle.getMove() easy 1", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = Strategy.HiddenSingle.getMove(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.index(), 1);
+            assert.equal(result.value(), 1);
+            assert.equal(result.source(), "hidden single");
+        });
+
+        QUnit.test("HiddenSingle.getMove() hard 66", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.HARD_66].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = Strategy.HiddenSingle.getMove(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.index(), 49);
+            assert.equal(result.value(), 7);
+            assert.equal(result.source(), "hidden single");
+        });
+
+        QUnit.test("HiddenSingle.getMove() diabolical 86", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_86].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = Strategy.HiddenSingle.getMove(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.index(), 40);
+            assert.equal(result.value(), 9);
+            assert.equal(result.source(), "hidden single");
+        });
+
         QUnit.test("NakedPair.findNakedPairMove() diabolical 86", function(assert)
         {
             // Setup.
@@ -101,222 +357,6 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             assert.equal(result.source(), "naked pair");
         });
 
-        QUnit.test("NakedSingle.countCandidateInUnit() block 0", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var candidate = 6;
-            var unit = puzzle.unit().BLOCKS[0];
-
-            // Run.
-            var result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 5);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 0);
-        });
-
-        QUnit.test("NakedSingle.countCandidateInUnit() block 1", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var candidate = 6;
-            var unit = puzzle.unit().BLOCKS[1];
-
-            // Run.
-            var result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 6);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 2);
-        });
-
-        QUnit.test("NakedSingle.countCandidateInUnit() column 0", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var candidate = 6;
-            var unit = puzzle.unit().COLUMNS[0];
-
-            // Run.
-            var result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 4);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 0);
-        });
-
-        QUnit.test("NakedSingle.countCandidateInUnit() column 2", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var candidate = 6;
-            var unit = puzzle.unit().COLUMNS[2];
-
-            // Run.
-            var result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 4);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 0);
-        });
-
-        QUnit.test("NakedSingle.countCandidateInUnit() row 0", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var candidate = 6;
-            var unit = puzzle.unit().ROWS[0];
-
-            // Run.
-            var result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 5);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 0);
-        });
-
-        QUnit.test("NakedSingle.countCandidateInUnit() row 2", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var candidate = 6;
-            var unit = puzzle.unit().ROWS[2];
-
-            // Run.
-            var result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 3);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.countCandidateInUnit(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 0);
-        });
-
-        QUnit.test("NakedSingle.findSingleCandidateCell() 0", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-
-            // Run.
-            var result = Strategy.NakedSingle.findSingleCandidateCell(puzzle);
-
-            // Verify.
-            assert.equal(result, undefined);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.findSingleCandidateCell(puzzle);
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result.index(), 0);
-            assert.equal(result.value(), 3);
-        });
-
-        QUnit.test("NakedSingle.findSingleCandidateCell() 6", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-
-            // Run.
-            var result = Strategy.NakedSingle.findSingleCandidateCell(puzzle);
-
-            // Verify.
-            assert.equal(result, undefined);
-
-            // Run.
-            puzzle = puzzle.withCell(0, new Cell.Value(3));
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.findSingleCandidateCell(puzzle);
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result.index(), 6);
-            assert.equal(result.value(), 2);
-        });
-
-        QUnit.test("NakedSingle.findSingleCandidateUnitCell()", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var unit = puzzle.unit().BLOCKS[0];
-
-            // Run.
-            var result = Strategy.NakedSingle.findSingleCandidateUnitCell(puzzle, unit);
-
-            // Verify.
-            assert.equal(result, undefined);
-
-            // Run.
-            puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.findSingleCandidateUnitCell(puzzle, unit);
-
-            // Verify.
-            assert.ok(result);
-            assert.equal(result.index(), 1);
-            assert.equal(result.value(), 1);
-        });
-
-        QUnit.test("NakedSingle.firstIndexWithCandidate() row 0", function(assert)
-        {
-            // Setup.
-            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
-            var puzzle = PuzzleFormat.parse(grid);
-            var candidate = 1;
-            var unit = puzzle.unit().ROWS[0];
-            puzzle = puzzle.adjustCandidates();
-
-            // Run.
-            var result = Strategy.NakedSingle.firstIndexWithCandidate(puzzle, candidate, unit);
-
-            // Verify.
-            assert.equal(result, 1);
-        });
-
         QUnit.test("NakedSingle.getMove() easy 1", function(assert)
         {
             // Setup.
@@ -331,6 +371,30 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             assert.ok(result);
             assert.equal(result.index(), 0);
             assert.equal(result.value(), 3);
+            assert.equal(result.source(), "naked single");
+        });
+
+        QUnit.test("NakedSingle.getMove() easy 1 2", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+
+            // Run.
+            var result = Strategy.NakedSingle.getMove(puzzle);
+
+            // Verify.
+            assert.equal(result, undefined);
+
+            // Run.
+            puzzle = puzzle.withCell(0, new Cell.Value(3));
+            puzzle = puzzle.adjustCandidates();
+            result = Strategy.NakedSingle.getMove(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.index(), 6);
+            assert.equal(result.value(), 2);
             assert.equal(result.source(), "naked single");
         });
 
@@ -396,10 +460,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             var result = Strategy.NakedSingle.getMove(puzzle);
 
             // Verify.
-            assert.ok(result);
-            assert.equal(result.index(), 49);
-            assert.equal(result.value(), 7);
-            assert.equal(result.source(), "naked single");
+            assert.ok(!result);
         });
 
         QUnit.test("NakedSingle.getMove() hard 67", function(assert)
@@ -430,10 +491,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             var result = Strategy.NakedSingle.getMove(puzzle);
 
             // Verify.
-            assert.ok(result);
-            assert.equal(result.index(), 58);
-            assert.equal(result.value(), 2);
-            assert.equal(result.source(), "naked single");
+            assert.ok(!result);
         });
 
         QUnit.test("NakedSingle.getMove() diabolical 87", function(assert)

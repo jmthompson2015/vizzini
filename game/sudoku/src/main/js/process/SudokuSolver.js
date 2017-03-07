@@ -9,7 +9,7 @@ define(["Cell", "process/Move", "process/Strategy"],
             // strategies optional.
 
             var useForwardSearch = (useForwardSearchIn !== undefined ? useForwardSearchIn : true);
-            var strategies = (strategiesIn !== undefined ? strategiesIn : [Strategy.NakedSingle, Strategy.NakedPair]);
+            var strategies = (strategiesIn !== undefined ? strategiesIn : [Strategy.NakedSingle, Strategy.HiddenSingle, Strategy.NakedPair, Strategy.HiddenPair]);
 
             this.useForwardSearch = function()
             {
@@ -26,28 +26,31 @@ define(["Cell", "process/Move", "process/Strategy"],
         {
             InputValidator.validateNotNull("puzzle", puzzle);
 
-            // Try two candidate cell values.
-            var indices = puzzle.findCellsWithCandidateLength(2);
-            var useForwardSearch = false;
-            var solver = new SudokuSolver(useForwardSearch);
             var answer;
 
-            for (var i = 0; i < indices.length && answer === undefined; i++)
+            for (var k = 2; k < 4 && answer === undefined; k++)
             {
-                var index = indices[i];
-                var cell = puzzle.get(index);
-                var candidates = cell.candidates();
+                var indices = puzzle.findCellsWithCandidateLength(k);
+                var useForwardSearch = false;
+                var solver = new SudokuSolver(useForwardSearch);
 
-                for (var j = 0; j < candidates.size && answer === undefined; j++)
+                for (var i = 0; i < indices.length && answer === undefined; i++)
                 {
-                    var candidate = candidates.get(j);
-                    var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
-                    puzzleClone = puzzleClone.adjustCandidates();
-                    puzzleClone = solver.solve(puzzleClone);
+                    var index = indices[i];
+                    var cell = puzzle.get(index);
+                    var candidates = cell.candidates();
 
-                    if (solver.isDone(puzzleClone))
+                    for (var j = 0; j < candidates.size && answer === undefined; j++)
                     {
-                        answer = new Move.SetCellValue(puzzle, index, candidate, "forward search");
+                        var candidate = candidates.get(j);
+                        var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
+                        puzzleClone = puzzleClone.adjustCandidates();
+                        puzzleClone = solver.solve(puzzleClone);
+
+                        if (solver.isDone(puzzleClone))
+                        {
+                            answer = new Move.SetCellValue(puzzle, index, candidate, "forward search " + k);
+                        }
                     }
                 }
             }

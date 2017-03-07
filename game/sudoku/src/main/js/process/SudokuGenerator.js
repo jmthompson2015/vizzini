@@ -1,8 +1,29 @@
-define(["GridFactory", "PuzzleFormat", "Unit"],
-    function(GridFactory, PuzzleFormat, Unit)
+define(["GridFactory", "PuzzleFormat", "Unit", "process/SudokuAnalyzer", "process/SudokuValidator"],
+    function(GridFactory, PuzzleFormat, Unit, SudokuAnalyzer, SudokuValidator)
     {
         "use strict";
         var SudokuGenerator = {
+
+            addClues: function(grid, grid0, amount)
+            {
+                var answer = grid;
+                var N = Math.sqrt(answer.length);
+                var length = N * N;
+                var count = 0;
+
+                while (count < amount)
+                {
+                    var index = Math.vizziniRandomIntFromRange(0, length);
+
+                    if (answer.charAt(index) === SudokuValidator.BLANK)
+                    {
+                        answer = answer.vizziniReplaceAt(index, grid0.charAt(index));
+                        count++;
+                    }
+                }
+
+                return answer;
+            },
 
             generate: function()
             {
@@ -25,7 +46,24 @@ define(["GridFactory", "PuzzleFormat", "Unit"],
                 // Shuffle block-rows.
 
                 // Remove values.
-                // FIXME: implement remove values.
+                answer = this.generateSolvableGrid(answer);
+
+                return answer;
+            },
+
+            generateSolvableGrid: function(grid0)
+            {
+                var answer = GridFactory.createEmpty();
+                answer = this.addClues(answer, grid0, 23);
+                var useForwardSearch = false;
+                var analysis;
+
+                do {
+                    answer = this.addClues(answer, grid0, 1);
+                    var puzzle = PuzzleFormat.parse(answer);
+                    puzzle = puzzle.adjustCandidates();
+                    analysis = SudokuAnalyzer.analyze(puzzle, useForwardSearch);
+                } while (!analysis.isSolved);
 
                 return answer;
             },

@@ -1,20 +1,22 @@
-define(["process/SudokuSolver"],
-    function(SudokuSolver)
+define(["PuzzleFormat", "process/SudokuSolver", "process/SudokuValidator"],
+    function(PuzzleFormat, SudokuSolver, SudokuValidator)
     {
         var SudokuAnalyzer = {
 
-            analyze: function(puzzleIn)
+            analyze: function(puzzleIn, useForwardSearchIn)
             {
                 InputValidator.validateNotNull("puzzle", puzzleIn);
+                // useForwardSearch optional. default: true
 
                 var puzzle = puzzleIn;
+                var useForwardSearch = (useForwardSearchIn !== undefined ? useForwardSearchIn : true);
                 var clueCount = puzzle.clueIndices().length;
                 var cellCount = puzzle.N() * puzzle.N();
                 var emptyCount = cellCount - clueCount;
 
                 var sourceCounts = {};
                 var moves = [];
-                var solver = new SudokuSolver();
+                var solver = new SudokuSolver(useForwardSearch);
                 var move = solver.getMove(puzzle);
 
                 while (!solver.isDone(puzzle) && move)
@@ -29,12 +31,18 @@ define(["process/SudokuSolver"],
                     move = solver.getMove(puzzle);
                 }
 
+                var solvedGrid = PuzzleFormat.format(puzzle);
+                var isSolved = SudokuValidator.isValid(solvedGrid);
+
                 return (
                 {
                     clueCount: clueCount,
                     emptyCount: emptyCount,
-                    sourceCounts: sourceCounts,
+                    isSolved: isSolved,
                     moves: moves,
+                    solvedGrid: solvedGrid,
+                    solvedPuzzle: puzzle,
+                    sourceCounts: sourceCounts,
                 });
             },
         };
