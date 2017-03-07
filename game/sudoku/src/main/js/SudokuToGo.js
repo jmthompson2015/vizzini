@@ -10,13 +10,14 @@ define(function()
         HARD_67: "hard67",
         DIABOLICAL_86: "diabolical86",
         DIABOLICAL_87: "diabolical87",
+        PUZZLE_100: "puzzle100",
 
         properties:
         {
             "easy1":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 1, Easy
-                name: "Easy 1",
+                name: "Sudoku To Go 001",
                 grid: "..6..8.74" + // row A
                     "..5...1.9" + // row B
                     "9.74.16.5" + // row C
@@ -31,7 +32,7 @@ define(function()
             "easy2":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 2, Easy
-                name: "Easy 2",
+                name: "Sudoku To Go 002",
                 grid: "4..2..197" + // row A
                     ".5.....3." + // row B
                     ".31.67.8." + // row C
@@ -46,7 +47,7 @@ define(function()
             "medium31":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 31, Medium
-                name: "Medium 31",
+                name: "Sudoku To Go 031",
                 grid: ".......89" + // row A
                     "9..487..5" + // row B
                     "......36." + // row C
@@ -61,7 +62,7 @@ define(function()
             "medium32":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 32, Medium
-                name: "Medium 32",
+                name: "Sudoku To Go 032",
                 grid: ".4......." + // row A
                     ".....4893" + // row B
                     ".3..8.6.." + // row C
@@ -76,7 +77,7 @@ define(function()
             "hard66":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 66, Hard
-                name: "Hard 66",
+                name: "Sudoku To Go 066",
                 grid: ".8762...5" + // row A
                     "...31...." + // row B
                     "..6..7..." + // row C
@@ -91,7 +92,7 @@ define(function()
             "hard67":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 67, Hard
-                name: "Hard 67",
+                name: "Sudoku To Go 067",
                 grid: ".5.4.37.." + // row A
                     "2....7..3" + // row B
                     "..129.8.." + // row C
@@ -106,7 +107,7 @@ define(function()
             "diabolical86":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 86, Diabolical
-                name: "Diabolical 86",
+                name: "Sudoku To Go 086",
                 grid: "17.....8." + // row A
                     "86.9...7." + // row B
                     "...3..5.." + // row C
@@ -121,7 +122,7 @@ define(function()
             "diabolical87":
             {
                 // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 87, Diabolical
-                name: "Diabolical 87",
+                name: "Sudoku To Go 087",
                 grid: ".5......." + // row A
                     "8....37.." + // row B
                     "7....8.19" + // row C
@@ -132,6 +133,21 @@ define(function()
                     "..24....7" + // row H
                     ".......2.", // row I
                 value: "diabolical87",
+            },
+            "puzzle100":
+            {
+                // Sudoku To Go, Volume 12, 2008.12.09, Puzzle 100, Diabolical
+                name: "Sudoku To Go 100",
+                grid: "4651....." + // row A
+                    "....5..47" + // row B
+                    "2..6....." + // row C
+                    "6.2....1." + // row D
+                    "........." + // row E
+                    ".1....9.3" + // row F
+                    ".....9..4" + // row G
+                    "98..3...." + // row H
+                    ".....1592", // row I
+                value: "puzzle100",
             },
         },
 

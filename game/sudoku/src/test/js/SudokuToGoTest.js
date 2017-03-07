@@ -7,7 +7,7 @@ define(["SudokuToGo"], function(SudokuToGo)
     {
         var key = SudokuToGo.EASY_1;
         var properties = SudokuToGo.properties[key];
-        assert.equal(properties.name, "Easy 1");
+        assert.equal(properties.name, "Sudoku To Go 001");
         assert.equal(properties.grid, "..6..8.74..5...1.99.74.16.5.3.1...46.........16...9.2.2.36.54.87.4...9..68.9..3..");
         assert.equal(properties.value, key);
     });
@@ -49,10 +49,10 @@ define(["SudokuToGo"], function(SudokuToGo)
 
         // Verify.
         assert.ok(result);
-        var length = 8;
+        var length = 9;
         assert.equal(result.length, length);
         assert.equal(result[0], "easy1");
-        assert.equal(result[length - 1], "diabolical87");
+        assert.equal(result[length - 1], "puzzle100");
 
         var properties = Object.getOwnPropertyNames(SudokuToGo);
         var count = properties.length - 1 - // properties

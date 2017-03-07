@@ -1,5 +1,5 @@
-define(["PuzzleFormat", "process/SudokuSolver", "process/SudokuValidator"],
-    function(PuzzleFormat, SudokuSolver, SudokuValidator)
+define(["Difficulty", "PuzzleFormat", "process/SudokuSolver", "process/SudokuValidator"],
+    function(Difficulty, PuzzleFormat, SudokuSolver, SudokuValidator)
     {
         var SudokuAnalyzer = {
 
@@ -33,10 +33,12 @@ define(["PuzzleFormat", "process/SudokuSolver", "process/SudokuValidator"],
 
                 var solvedGrid = PuzzleFormat.format(puzzle);
                 var isSolved = SudokuValidator.isValid(solvedGrid);
+                var difficulty = this.determineDifficulty(isSolved, sourceCounts);
 
                 return (
                 {
                     clueCount: clueCount,
+                    difficulty: difficulty,
                     emptyCount: emptyCount,
                     isSolved: isSolved,
                     moves: moves,
@@ -44,6 +46,38 @@ define(["PuzzleFormat", "process/SudokuSolver", "process/SudokuValidator"],
                     solvedPuzzle: puzzle,
                     sourceCounts: sourceCounts,
                 });
+            },
+
+            determineDifficulty: function(isSolved, sourceCounts)
+            {
+                var answer;
+
+                if (!isSolved)
+                {
+                    answer = Difficulty.IMPOSSIBLE;
+                }
+                else if (sourceCounts["forward search 2"] !== undefined)
+                {
+                    answer = Difficulty.DIABOLICAL;
+                }
+                else if (sourceCounts["hidden pair"] !== undefined)
+                {
+                    answer = Difficulty.DEVIOUS;
+                }
+                else if (sourceCounts["naked pair"] !== undefined)
+                {
+                    answer = Difficulty.HARD;
+                }
+                else if (sourceCounts["hidden single"] !== undefined)
+                {
+                    answer = Difficulty.MEDIUM;
+                }
+                else if (sourceCounts["naked single"] !== undefined)
+                {
+                    answer = Difficulty.EASY;
+                }
+
+                return answer;
             },
         };
 
