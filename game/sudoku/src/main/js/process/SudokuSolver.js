@@ -1,5 +1,5 @@
-define(["Cell", "process/Move", "process/Strategy"],
-    function(Cell, Move, Strategy)
+define(["Cell", "process/Move", "process/HiddenPairStrategy", "process/HiddenSingleStrategy", "process/NakedPairStrategy", "process/NakedSingleStrategy"],
+    function(Cell, Move, HiddenPairStrategy, HiddenSingleStrategy, NakedPairStrategy, NakedSingleStrategy)
     {
         "use strict";
 
@@ -9,7 +9,7 @@ define(["Cell", "process/Move", "process/Strategy"],
             // strategies optional.
 
             var useForwardSearch = (useForwardSearchIn !== undefined ? useForwardSearchIn : true);
-            var strategies = (strategiesIn !== undefined ? strategiesIn : [Strategy.NakedSingle, Strategy.HiddenSingle, Strategy.NakedPair, Strategy.HiddenPair]);
+            var strategies = (strategiesIn !== undefined ? strategiesIn : [NakedSingleStrategy, HiddenSingleStrategy, NakedPairStrategy, HiddenPairStrategy]);
 
             this.useForwardSearch = function()
             {

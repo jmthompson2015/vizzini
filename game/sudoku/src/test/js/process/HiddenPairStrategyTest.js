@@ -1,8 +1,8 @@
-define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"],
-    function(Cell, PuzzleFormat, SudokuToGo, Move, Strategy)
+define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/HiddenPairStrategy"],
+    function(Cell, PuzzleFormat, SudokuToGo, Move, HiddenPairStrategy)
     {
         "use strict";
-        QUnit.module("Strategy.HiddenPair");
+        QUnit.module("HiddenPairStrategy");
 
         QUnit.test("HiddenPair.getMove() easy 1", function(assert)
         {
@@ -12,7 +12,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -29,7 +29,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -46,7 +46,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -63,7 +63,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -80,7 +80,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -97,7 +97,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -114,7 +114,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -131,7 +131,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.HiddenPair.getMove(puzzle);
+            var result = HiddenPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);

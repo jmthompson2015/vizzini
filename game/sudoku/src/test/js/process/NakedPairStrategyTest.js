@@ -1,8 +1,8 @@
-define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"],
-    function(Cell, PuzzleFormat, SudokuToGo, Move, Strategy)
+define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/NakedPairStrategy"],
+    function(Cell, PuzzleFormat, SudokuToGo, Move, NakedPairStrategy)
     {
         "use strict";
-        QUnit.module("Strategy.NakedPair");
+        QUnit.module("NakedPairStrategy");
 
         QUnit.test("findNakedPairMove() diabolical 86", function(assert)
         {
@@ -14,7 +14,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.findNakedPairMove(puzzle, index, peers);
+            var result = NakedPairStrategy.findNakedPairMove(puzzle, index, peers);
 
             // Verify.
             assert.ok(result);
@@ -40,7 +40,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.findNakedPairMove(puzzle, index, peers);
+            var result = NakedPairStrategy.findNakedPairMove(puzzle, index, peers);
 
             // Verify.
             assert.ok(result);
@@ -51,7 +51,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             // Run.
             puzzle = result.execute();
             peers = puzzle.unit().getRowPeers(index);
-            result = Strategy.NakedPair.findNakedPairMove(puzzle, index, peers);
+            result = NakedPairStrategy.findNakedPairMove(puzzle, index, peers);
 
             // Verify.
             assert.ok(result);
@@ -68,7 +68,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -85,7 +85,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -102,7 +102,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -119,7 +119,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -136,7 +136,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -153,7 +153,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -170,7 +170,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -194,7 +194,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             }
 
             // Run.
-            var result = Strategy.NakedPair.getMove(puzzle);
+            var result = NakedPairStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);

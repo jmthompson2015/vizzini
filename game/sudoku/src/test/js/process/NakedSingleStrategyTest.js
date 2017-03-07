@@ -1,8 +1,8 @@
-define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"],
-    function(Cell, PuzzleFormat, SudokuToGo, Move, Strategy)
+define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/NakedSingleStrategy"],
+    function(Cell, PuzzleFormat, SudokuToGo, Move, NakedSingleStrategy)
     {
         "use strict";
-        QUnit.module("Strategy.NakedSingle");
+        QUnit.module("NakedSingleStrategy");
 
         QUnit.test("getMove() easy 1", function(assert)
         {
@@ -12,7 +12,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -28,7 +28,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             var puzzle = PuzzleFormat.parse(grid);
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.equal(result, undefined);
@@ -36,7 +36,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             // Run.
             puzzle = puzzle.withCell(0, new Cell.Value(3));
             puzzle = puzzle.adjustCandidates();
-            result = Strategy.NakedSingle.getMove(puzzle);
+            result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -53,7 +53,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -70,7 +70,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -87,7 +87,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -104,7 +104,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(!result);
@@ -118,7 +118,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
@@ -135,7 +135,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(!result);
@@ -149,7 +149,7 @@ define(["Cell", "PuzzleFormat", "SudokuToGo", "process/Move", "process/Strategy"
             puzzle = puzzle.adjustCandidates();
 
             // Run.
-            var result = Strategy.NakedSingle.getMove(puzzle);
+            var result = NakedSingleStrategy.getMove(puzzle);
 
             // Verify.
             assert.ok(result);
