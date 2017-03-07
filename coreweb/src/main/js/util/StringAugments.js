@@ -43,6 +43,11 @@ if (!String.pad)
     };
 }
 
+String.prototype.vizziniReplaceAt = function(index, character)
+{
+    return this.substr(0, index) + character + this.substr(index + character.length);
+};
+
 String.prototype.vizziniReplaceAll = function(search, replacement)
 {
     LOGGER.warn("Deprecated: use String.replace(regexp, newSubStr) e.g. bearing.replace(/B/g, \"_b\")");
