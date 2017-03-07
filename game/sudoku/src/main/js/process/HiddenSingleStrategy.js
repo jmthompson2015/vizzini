@@ -7,28 +7,6 @@ define(["process/Move"],
         "use strict";
         var HiddenSingleStrategy = {
 
-            countCandidateInUnit: function(puzzle, candidate, unit)
-            {
-                InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateNotNull("candidate", candidate);
-                InputValidator.validateNotNull("unit", unit);
-
-                var answer = 0;
-
-                for (var i = 0; i < unit.length; i++)
-                {
-                    var index = unit[i];
-                    var cell = puzzle.get(index);
-
-                    if (cell.isCandidates === true && cell.candidates().includes(candidate))
-                    {
-                        answer++;
-                    }
-                }
-
-                return answer;
-            },
-
             findSingleCandidateUnitCell: function(puzzle, unit)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
@@ -39,34 +17,11 @@ define(["process/Move"],
 
                 for (var v = 1; v <= N && answer === undefined; v++)
                 {
-                    var myCount = this.countCandidateInUnit(puzzle, v, unit);
+                    var indices = puzzle.candidateIndicesInUnit(v, unit);
 
-                    if (myCount === 1)
+                    if (indices.length === 1)
                     {
-                        var myIndex = this.firstIndexWithCandidate(puzzle, v, unit);
-                        answer = new Move.SetCellValue(puzzle, myIndex, v, "hidden single");
-                    }
-                }
-
-                return answer;
-            },
-
-            firstIndexWithCandidate: function(puzzle, candidate, unit)
-            {
-                InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateNotNull("candidate", candidate);
-                InputValidator.validateNotNull("unit", unit);
-
-                var answer;
-
-                for (var i = 0; i < unit.length && answer === undefined; i++)
-                {
-                    var index = unit[i];
-                    var cell = puzzle.get(index);
-
-                    if (cell.isCandidates === true && cell.candidates().includes(candidate))
-                    {
-                        answer = index;
+                        answer = new Move.SetCellValue(puzzle, indices[0], v, "hidden single");
                     }
                 }
 

@@ -4,7 +4,7 @@ define(["Unit"], function(Unit)
 
     function Puzzle(cells, unitIn, grid, solution)
     {
-        InputValidator.validateNotEmpty("cells", cells);
+        InputValidator.validateNotNull("cells", cells);
         // unit optional.
         // grid optional.
         // solution optional.
@@ -77,6 +77,27 @@ define(["Unit"], function(Unit)
         return answer;
     };
 
+    Puzzle.prototype.candidateIndicesInUnit = function(candidate, unit)
+    {
+        InputValidator.validateNotNull("candidate", candidate);
+        InputValidator.validateNotNull("unit", unit);
+
+        var answer = [];
+
+        for (var i = 0; i < unit.length; i++)
+        {
+            var index = unit[i];
+            var cell = this.get(index);
+
+            if (cell.isCandidates === true && cell.candidates().includes(candidate))
+            {
+                answer.push(index);
+            }
+        }
+
+        return answer;
+    };
+
     Puzzle.prototype.clueIndices = function()
     {
         var answer = [];
@@ -121,21 +142,20 @@ define(["Unit"], function(Unit)
     {
         InputValidator.validateIsNumber("length", length);
 
-        var indices = [];
+        var answer = [];
         var size = this.cells().size;
-        var i, index, value;
 
-        for (i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             var cell = this.get(i);
 
             if (cell.isCandidates === true && cell.candidates().size === length)
             {
-                indices.push(i);
+                answer.push(i);
             }
         }
 
-        return indices;
+        return answer;
     };
 
     Puzzle.prototype.get = function(index)

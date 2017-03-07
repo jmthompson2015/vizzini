@@ -120,7 +120,10 @@ define(["Cell", "process/Action"],
                 }
                 else
                 {
-                    return puzzle.withCell(index, new Cell.Value(value)).adjustCandidates();
+                    var answer = puzzle.withCell(index, new Cell.Value(value));
+                    answer = answer.removeValueFromPeers(index, value);
+
+                    return answer;
                 }
             };
 

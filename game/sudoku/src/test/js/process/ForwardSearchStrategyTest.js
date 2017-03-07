@@ -175,7 +175,7 @@ define(["PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/ForwardSearchStrate
             assert.equal(result.source(), "forward search 2");
         });
 
-        QUnit.skip("getMove() Sudoku Wiki Escargot", function(assert)
+        QUnit.test("getMove() Sudoku Wiki Escargot", function(assert)
         {
             // Setup.
             var grid = SudokuWiki.properties[SudokuWiki.ESCARGOT].grid;

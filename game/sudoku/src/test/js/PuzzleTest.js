@@ -61,6 +61,57 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             assert.equal(cell1.candidates().size, 2);
         });
 
+        QUnit.test("candidateIndicesInUnit() block 0", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().BLOCKS[0];
+
+            // Run.
+            var result = puzzle.candidateIndicesInUnit(candidate, unit);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 5);
+            assert.equal(result.join(","), [0, 1, 9, 10, 19].join(","));
+        });
+
+        QUnit.test("candidateIndicesInUnit() column 0", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().COLUMNS[0];
+
+            // Run.
+            var result = puzzle.candidateIndicesInUnit(candidate, unit);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 4);
+            assert.equal(result.join(","), [0, 9, 27, 36].join(","));
+        });
+
+        QUnit.test("candidateIndicesInUnit() row 0", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var candidate = 6;
+            var unit = puzzle.unit().ROWS[0];
+
+            // Run.
+            var result = puzzle.candidateIndicesInUnit(candidate, unit);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.length, 5);
+            assert.equal(result.join(","), [0, 1, 3, 4, 6].join(","));
+        });
+
         QUnit.test("clueIndices()", function(assert)
         {
             // Setup.

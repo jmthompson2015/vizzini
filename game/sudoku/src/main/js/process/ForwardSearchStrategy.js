@@ -13,28 +13,30 @@ define(["Cell", "process/Move"],
                 InputValidator.validateNotNull("solver", solver);
 
                 var answer;
+                var indices = [];
 
-                for (var k = 2; k < 4 && answer === undefined; k++)
+                for (var k = 2; k < 4; k++)
                 {
-                    var indices = puzzle.findCellsWithCandidateLength(k);
+                    var myIndices = puzzle.findCellsWithCandidateLength(k);
+                    Array.prototype.push.apply(indices, myIndices);
+                }
 
-                    for (var i = 0; i < indices.length && answer === undefined; i++)
+                for (var i = 0; i < indices.length && answer === undefined; i++)
+                {
+                    var index = indices[i];
+                    var cell = puzzle.get(index);
+                    var candidates = cell.candidates();
+
+                    for (var j = 0; j < candidates.size && answer === undefined; j++)
                     {
-                        var index = indices[i];
-                        var cell = puzzle.get(index);
-                        var candidates = cell.candidates();
+                        var candidate = candidates.get(j);
+                        var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
+                        puzzleClone = puzzleClone.removeValueFromPeers(index);
+                        puzzleClone = solver.solve(puzzleClone);
 
-                        for (var j = 0; j < candidates.size && answer === undefined; j++)
+                        if (solver.isDone(puzzleClone))
                         {
-                            var candidate = candidates.get(j);
-                            var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
-                            puzzleClone = puzzleClone.removeValueFromPeers(index);
-                            puzzleClone = solver.solve(puzzleClone);
-
-                            if (solver.isDone(puzzleClone))
-                            {
-                                answer = new Move.SetCellValue(puzzle, index, candidate, "forward search " + k);
-                            }
+                            answer = new Move.SetCellValue(puzzle, index, candidate, "forward search " + candidates.size);
                         }
                     }
                 }

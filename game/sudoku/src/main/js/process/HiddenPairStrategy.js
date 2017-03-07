@@ -7,28 +7,6 @@ define(["process/Move"],
         "use strict";
         var HiddenPairStrategy = {
 
-            candidateIndicesInUnit: function(puzzle, candidate, unit)
-            {
-                InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateNotNull("candidate", candidate);
-                InputValidator.validateNotNull("unit", unit);
-
-                var answer = [];
-
-                for (var i = 0; i < unit.length; i++)
-                {
-                    var index = unit[i];
-                    var cell = puzzle.get(index);
-
-                    if (cell.isCandidates === true && cell.candidates().includes(candidate))
-                    {
-                        answer.push(index);
-                    }
-                }
-
-                return answer;
-            },
-
             findDualCandidatesUnitCell: function(puzzle, unit)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
@@ -47,7 +25,7 @@ define(["process/Move"],
 
                 for (var v = 1; v <= N; v++)
                 {
-                    valueToIndices[v] = this.candidateIndicesInUnit(puzzle, v, unit);
+                    valueToIndices[v] = puzzle.candidateIndicesInUnit(v, unit);
                 }
 
                 for (var v0 = 1; v0 < N && answer === undefined; v0++)

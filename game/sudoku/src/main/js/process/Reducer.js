@@ -46,7 +46,7 @@ define(["Cell", "InitialState", "process/Action"],
                     LOGGER.info("Reducer setCellValue " + action.index + " " + (typeof action.index) + " " + action.value + " " + (typeof action.value));
                     var newCell = new Cell.Value(action.value);
                     newPuzzle = state.puzzle.withCell(action.index, newCell);
-                    newPuzzle = newPuzzle.adjustCandidates();
+                    newPuzzle = newPuzzle.removeValueFromPeers(action.index, action.value);
                     newConflictIndices = newPuzzle.conflictIndices(newCell);
                     newSameValueIndices = newPuzzle.sameValueIndices(newCell);
                     newSameCandidateIndices = newPuzzle.sameCandidateIndices(newCell);
