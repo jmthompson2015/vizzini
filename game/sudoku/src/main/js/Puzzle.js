@@ -172,7 +172,7 @@ define(["Unit"], function(Unit)
         var answer = false;
         var cell0 = this.get(index);
 
-        if (cell0.isValue)
+        if (cell0.isValue === true)
         {
             var value0 = cell0.value();
             var peers = this.unit().getPeers(index);
@@ -220,7 +220,7 @@ define(["Unit"], function(Unit)
         var answer = this;
         var cell0 = answer.cells().get(index);
 
-        if (cell0.isValue)
+        if (cell0.isValue === true)
         {
             var value = cell0.value();
             var peers = this.unit().getPeers(index);
