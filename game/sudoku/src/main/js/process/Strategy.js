@@ -52,35 +52,26 @@ define(["process/Move"],
                         valueToIndices[v] = this.candidateIndicesInUnit(puzzle, v, unit);
                     }
 
-                    for (var v0 = 1; v0 <= N && answer === undefined; v0++)
+                    for (var v0 = 1; v0 < N && answer === undefined; v0++)
                     {
                         var indices0 = valueToIndices[v0];
 
                         if (indices0.length === 2)
                         {
-                            LOGGER.debug("v0 = " + v0);
-                            LOGGER.debug("indices0 = " + indices0);
                             var cell00 = puzzle.get(indices0[0]);
                             var cell01 = puzzle.get(indices0[1]);
-                            LOGGER.debug("cell00 = " + cell00 + " cell00.candidates().size = " + cell00.candidates().size);
-                            LOGGER.debug("cell01 = " + cell01 + " cell01.candidates().size = " + cell01.candidates().size);
 
-                            for (var v1 = 1; v1 <= N && answer === undefined; v1++)
+                            for (var v1 = v0 + 1; v1 <= N && answer === undefined; v1++)
                             {
-                                if (v0 !== v1)
-                                {
-                                    var indices1 = valueToIndices[v1];
-                                    LOGGER.debug("v1 = " + v1);
-                                    LOGGER.debug("indices1 = " + indices1);
+                                var indices1 = valueToIndices[v1];
 
-                                    if (indices1.length === 2 && indices0[0] === indices1[0] && indices0[1] === indices1[1] &&
-                                        (cell00.candidates().size > 2 || cell01.candidates().size > 2))
-                                    {
-                                        var candidates = allCandidates.slice();
-                                        candidates.vizziniRemove(v0);
-                                        candidates.vizziniRemove(v1);
-                                        answer = new Move.BatchRemoveCandidates(puzzle, indices0, Immutable.List(candidates), "hidden pair");
-                                    }
+                                if (indices1.length === 2 && indices0[0] === indices1[0] && indices0[1] === indices1[1] &&
+                                    (cell00.candidates().size > 2 || cell01.candidates().size > 2))
+                                {
+                                    var candidates = allCandidates.slice();
+                                    candidates.vizziniRemove(v0);
+                                    candidates.vizziniRemove(v1);
+                                    answer = new Move.BatchRemoveCandidates(puzzle, indices0, Immutable.List(candidates), "hidden pair");
                                 }
                             }
                         }
@@ -237,11 +228,6 @@ define(["process/Move"],
 
             NakedPair:
             {
-                createMoveBatchRemoveCandidates: function(puzzle, indices, candidates, source)
-                {
-                    return new Move.BatchRemoveCandidates(puzzle, indices, candidates, source);
-                },
-
                 findNakedPairMove: function(puzzle, index, peers)
                 {
                     InputValidator.validateNotNull("puzzle", puzzle);
@@ -267,7 +253,7 @@ define(["process/Move"],
 
                                 if (candidatePeers.length > 0)
                                 {
-                                    answer = this.createMoveBatchRemoveCandidates(puzzle, candidatePeers, cell.candidates(), "naked pair");
+                                    answer = new Move.BatchRemoveCandidates(puzzle, candidatePeers, cell.candidates(), "naked pair");
                                 }
                             }
                         }
@@ -278,7 +264,9 @@ define(["process/Move"],
                     function filterOtherPeers(index)
                     {
                         var myCell = puzzle.get(index);
-                        return (myCell.isCandidates === true) && (myCell.candidates().includes(cell.candidates().get(0)) || myCell.candidates().includes(cell.candidates().get(1)));
+                        var candidate0 = cell.candidates().get(0);
+                        var candidate1 = cell.candidates().get(1);
+                        return (myCell.isCandidates === true) && (myCell.candidates().includes(candidate0) || myCell.candidates().includes(candidate1));
                     }
                 },
 
