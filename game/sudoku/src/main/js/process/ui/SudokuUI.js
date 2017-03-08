@@ -254,7 +254,7 @@ define(["PuzzleFormat", "process/Action", "process/Selector", "process/SudokuGen
                 var puzzle = Selector.puzzle(store.getState());
                 var cell = puzzle.cells().get(index);
 
-                if (cell.isCandidates)
+                if (cell.isCandidates === true)
                 {
                     if (cell.candidates().includes(selectedCandidate))
                     {

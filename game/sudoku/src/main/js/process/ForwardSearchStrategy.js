@@ -27,16 +27,16 @@ define(["Cell", "process/Move"],
                     var cell = puzzle.get(index);
                     var candidates = cell.candidates();
 
-                    for (var j = 0; j < candidates.size && answer === undefined; j++)
+                    for (var j = 0; j < candidates.length && answer === undefined; j++)
                     {
-                        var candidate = candidates.get(j);
+                        var candidate = candidates[j];
                         var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
                         puzzleClone = puzzleClone.removeValueFromPeers(index);
                         puzzleClone = solver.solve(puzzleClone);
 
                         if (solver.isDone(puzzleClone))
                         {
-                            answer = new Move.SetCellValue(puzzle, index, candidate, "forward search " + candidates.size);
+                            answer = new Move.SetCellValue(puzzle, index, candidate, "forward search " + candidates.length);
                         }
                     }
                 }

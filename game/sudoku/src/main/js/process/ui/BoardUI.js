@@ -131,7 +131,7 @@ define(["process/ui/CandidatesUI"],
                     answer = React.createElement(CandidatesUI,
                     {
                         n: this.props.n,
-                        candidates: cell.candidates().toJS(),
+                        candidates: cell.candidates(),
                     });
                 }
                 else

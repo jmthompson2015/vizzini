@@ -19,12 +19,12 @@ define(function()
     {
         InputValidator.validateIsNumber("candidate", candidate);
 
-        var newCandidates = this.candidates();
+        var newCandidates = this.candidates().slice();
 
         if (!newCandidates.includes(candidate))
         {
-            newCandidates = newCandidates.push(candidate);
-            newCandidates = newCandidates.sort();
+            newCandidates.push(candidate);
+            newCandidates.sort();
         }
 
         return new Cell.Candidates(newCandidates);
@@ -34,12 +34,12 @@ define(function()
     {
         InputValidator.validateIsNumber("candidate", candidate);
 
-        var newCandidates = this.candidates();
+        var newCandidates = this.candidates().slice();
         var index = newCandidates.indexOf(candidate);
 
         if (index >= 0)
         {
-            newCandidates = newCandidates.delete(index);
+            newCandidates.splice(index, 1);
         }
 
         return new Cell.Candidates(newCandidates);

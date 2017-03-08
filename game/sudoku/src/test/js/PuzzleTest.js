@@ -7,15 +7,13 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
         QUnit.test("Puzzle()", function(assert)
         {
             // Setup.
-            var candidates = Immutable.List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            var myCells = [];
+            var candidates = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            var cells = [];
 
             for (var i = 0; i < 81; i++)
             {
-                myCells.push(new Cell.Candidates(candidates));
+                cells.push(new Cell.Candidates(candidates));
             }
-
-            var cells = Immutable.List(myCells);
 
             // Run.
             var result = new Puzzle(cells);
@@ -27,7 +25,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             assert.equal(result.N(), 9);
             assert.equal(result.n(), 3);
             assert.ok(result.cells());
-            assert.equal(result.cells().size, 81);
+            assert.equal(result.cells().length, 81);
 
             var cell0 = result.get(0);
             assert.ok(cell0);
@@ -41,24 +39,24 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
             var puzzle = PuzzleFormat.parse(grid);
             var unit = new Unit(puzzle.N());
-            var cell0 = puzzle.cells().get(0);
+            var cell0 = puzzle.cells()[0];
             assert.equal(cell0.isCandidates, true);
-            assert.equal(cell0.candidates().size, 9);
-            var cell1 = puzzle.cells().get(1);
+            assert.equal(cell0.candidates().length, 9);
+            var cell1 = puzzle.cells()[1];
             assert.equal(cell1.isCandidates, true);
-            assert.equal(cell1.candidates().size, 9);
+            assert.equal(cell1.candidates().length, 9);
 
             // Run.
             var result = puzzle.adjustCandidates(unit);
 
             // Verify.
             assert.ok(result);
-            cell0 = result.cells().get(0);
+            cell0 = result.cells()[0];
             assert.equal(cell0.isCandidates, true);
-            assert.equal(cell0.candidates().size, 1);
-            cell1 = result.cells().get(1);
+            assert.equal(cell0.candidates().length, 1);
+            cell1 = result.cells()[1];
             assert.equal(cell1.isCandidates, true);
-            assert.equal(cell1.candidates().size, 2);
+            assert.equal(cell1.candidates().length, 2);
         });
 
         QUnit.test("candidateIndicesInUnit() block 0", function(assert)
@@ -191,13 +189,13 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
             var puzzle = PuzzleFormat.parse(grid);
             var index = 2;
-            var cell0 = puzzle.cells().get(0);
+            var cell0 = puzzle.cells()[0];
             assert.equal(cell0.isCandidates, true);
-            assert.equal(cell0.candidates().size, 9);
+            assert.equal(cell0.candidates().length, 9);
             assert.ok(cell0.candidates().includes(6));
-            var cell1 = puzzle.cells().get(1);
+            var cell1 = puzzle.cells()[1];
             assert.equal(cell1.isCandidates, true);
-            assert.equal(cell1.candidates().size, 9);
+            assert.equal(cell1.candidates().length, 9);
             assert.ok(cell1.candidates().includes(6));
 
             // Run.
@@ -205,13 +203,13 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
 
             // Verify.
             assert.ok(result);
-            cell0 = result.cells().get(0);
+            cell0 = result.cells()[0];
             assert.equal(cell0.isCandidates, true);
-            assert.equal(cell0.candidates().size, 8);
+            assert.equal(cell0.candidates().length, 8);
             assert.ok(!cell0.candidates().includes(6));
-            cell1 = result.cells().get(1);
+            cell1 = result.cells()[1];
             assert.equal(cell1.isCandidates, true);
-            assert.equal(cell1.candidates().size, 8);
+            assert.equal(cell1.candidates().length, 8);
             assert.ok(!cell1.candidates().includes(6));
         });
 
@@ -268,7 +266,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             var index = 3;
             var candidate = 4;
             var cell = puzzle.get(index);
-            assert.equal(cell.candidates().size, 3);
+            assert.equal(cell.candidates().length, 3);
             assert.equal(cell.candidates().includes(2), true);
             assert.equal(cell.candidates().includes(3), true);
             assert.equal(cell.candidates().includes(4), false);
@@ -280,7 +278,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             // Verify.
             assert.ok(result);
             cell = result.get(index);
-            assert.equal(cell.candidates().size, 4);
+            assert.equal(cell.candidates().length, 4);
             assert.equal(cell.candidates().includes(2), true);
             assert.equal(cell.candidates().includes(3), true);
             assert.equal(cell.candidates().includes(4), true);
@@ -340,7 +338,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             var index = 0;
             var candidate = 6;
             var cell0 = puzzle.get(0);
-            assert.equal(cell0.candidates().size, 9);
+            assert.equal(cell0.candidates().length, 9);
             assert.equal(cell0.candidates().includes(6), true);
             assert.equal(cell0.candidates().includes(8), true);
 
@@ -350,7 +348,7 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             // Verify.
             assert.ok(result);
             cell0 = result.get(0);
-            assert.equal(cell0.candidates().size, 8);
+            assert.equal(cell0.candidates().length, 8);
             assert.equal(cell0.candidates().includes(6), false);
         });
 
@@ -362,11 +360,11 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             var indices = [0, 1];
             var candidates = [6, 8];
             var cell0 = puzzle.get(0);
-            assert.equal(cell0.candidates().size, 9);
+            assert.equal(cell0.candidates().length, 9);
             assert.equal(cell0.candidates().includes(6), true);
             assert.equal(cell0.candidates().includes(8), true);
             var cell1 = puzzle.get(1);
-            assert.equal(cell1.candidates().size, 9);
+            assert.equal(cell1.candidates().length, 9);
             assert.equal(cell1.candidates().includes(6), true);
             assert.equal(cell1.candidates().includes(8), true);
 
@@ -376,26 +374,24 @@ define(["Cell", "Puzzle", "PuzzleFormat", "SudokuToGo", "Unit"],
             // Verify.
             assert.ok(result);
             cell0 = result.get(0);
-            assert.equal(cell0.candidates().size, 7);
+            assert.equal(cell0.candidates().length, 7);
             assert.equal(cell0.candidates().includes(6), false);
             assert.equal(cell0.candidates().includes(8), false);
             cell1 = result.get(1);
-            assert.equal(cell1.candidates().size, 7);
+            assert.equal(cell1.candidates().length, 7);
             assert.equal(cell1.candidates().includes(6), false);
             assert.equal(cell1.candidates().includes(8), false);
         });
 
         function createBlankPuzzle()
         {
-            var candidates = Immutable.List.of(1, 2, 3, 4, 5, 6, 7, 8, 9);
-            var myCells = [];
+            var candidates = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+            var cells = [];
 
             for (var i = 0; i < 81; i++)
             {
-                myCells.push(new Cell.Candidates(candidates));
+                cells.push(new Cell.Candidates(candidates));
             }
-
-            var cells = Immutable.List(myCells);
 
             return new Puzzle(cells);
         }

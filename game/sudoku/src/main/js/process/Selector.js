@@ -11,7 +11,7 @@ define(function()
         var answer;
         var cell = state.puzzle.get(index);
 
-        if (cell.isCandidates)
+        if (cell.isCandidates === true)
         {
             answer = cell.candidates();
         }
@@ -75,7 +75,7 @@ define(function()
         var answer;
         var cell = state.puzzle.get(index);
 
-        if (cell.isValue)
+        if (cell.isValue === true)
         {
             answer = cell.value();
         }

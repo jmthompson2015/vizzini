@@ -43,8 +43,8 @@ define(["process/Move"],
                 function filterOtherPeers(index)
                 {
                     var myCell = puzzle.get(index);
-                    var candidate0 = cell.candidates().get(0);
-                    var candidate1 = cell.candidates().get(1);
+                    var candidate0 = cell.candidates()[0];
+                    var candidate1 = cell.candidates()[1];
                     return (myCell.isCandidates === true) && (myCell.candidates().includes(candidate0) || myCell.candidates().includes(candidate1));
                 }
             },

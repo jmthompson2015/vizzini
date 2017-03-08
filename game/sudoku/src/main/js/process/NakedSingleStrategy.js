@@ -12,15 +12,15 @@ define(["process/Move"],
                 InputValidator.validateNotNull("puzzle", puzzle);
 
                 var answer;
-                var size = puzzle.cells().size;
+                var size = puzzle.cells().length;
 
                 for (var i = 0; i < size && answer === undefined; i++)
                 {
                     var cell = puzzle.get(i);
 
-                    if (cell.isCandidates === true && cell.candidates().size === 1)
+                    if (cell.isCandidates === true && cell.candidates().length === 1)
                     {
-                        answer = new Move.SetCellValue(puzzle, i, cell.candidates().get(0), "naked single");
+                        answer = new Move.SetCellValue(puzzle, i, cell.candidates()[0], "naked single");
                     }
                 }
 

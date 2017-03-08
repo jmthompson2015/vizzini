@@ -42,12 +42,12 @@ define(["process/Move"],
                             var indices1 = valueToIndices[v1];
 
                             if (indices1.length === 2 && indices0[0] === indices1[0] && indices0[1] === indices1[1] &&
-                                (cell00.candidates().size > 2 || cell01.candidates().size > 2))
+                                (cell00.candidates().length > 2 || cell01.candidates().length > 2))
                             {
                                 var candidates = allCandidates.slice();
                                 candidates.vizziniRemove(v0);
                                 candidates.vizziniRemove(v1);
-                                answer = new Move.BatchRemoveCandidates(puzzle, indices0, Immutable.List(candidates), "hidden pair");
+                                answer = new Move.BatchRemoveCandidates(puzzle, indices0, candidates, "hidden pair");
                             }
                         }
                     }

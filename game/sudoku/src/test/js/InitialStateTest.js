@@ -13,7 +13,7 @@ define(["InitialState"], function(InitialState)
         assert.ok(result.puzzle);
         assert.equal(result.puzzle.n(), 3);
         assert.equal(result.puzzle.N(), 9);
-        assert.equal(result.puzzle.cells().size, 81);
+        assert.equal(result.puzzle.cells().length, 81);
         assert.equal(result.selectedIndex, undefined);
         assert.equal(result.selectedValue, undefined);
     });

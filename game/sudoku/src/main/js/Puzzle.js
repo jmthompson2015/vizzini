@@ -42,7 +42,7 @@ define(["Unit"], function(Unit)
         {
             if (N === undefined)
             {
-                N = Math.sqrt(cells.size);
+                N = Math.sqrt(cells.length);
             }
 
             return N;
@@ -62,11 +62,11 @@ define(["Unit"], function(Unit)
     Puzzle.prototype.adjustCandidates = function()
     {
         var answer = this;
-        var size = this.cells().size;
+        var size = this.cells().length;
 
         for (var i = 0; i < size; i++)
         {
-            var cell = answer.cells().get(i);
+            var cell = answer.cells()[i];
 
             if (cell.isValue === true)
             {
@@ -103,9 +103,9 @@ define(["Unit"], function(Unit)
         var answer = [];
         var cells = this.cells();
 
-        for (var i = 0; i < cells.size; i++)
+        for (var i = 0; i < cells.length; i++)
         {
-            var cell = cells.get(i);
+            var cell = cells[i];
 
             if (cell.isValue === true && cell.isClue())
             {
@@ -124,7 +124,7 @@ define(["Unit"], function(Unit)
 
         if (cell.isValue === true)
         {
-            var size = this.cells().size;
+            var size = this.cells().length;
 
             for (var i = 0; i < size; i++)
             {
@@ -143,13 +143,13 @@ define(["Unit"], function(Unit)
         InputValidator.validateIsNumber("length", length);
 
         var answer = [];
-        var size = this.cells().size;
+        var size = this.cells().length;
 
         for (var i = 0; i < size; i++)
         {
             var cell = this.get(i);
 
-            if (cell.isCandidates === true && cell.candidates().size === length)
+            if (cell.isCandidates === true && cell.candidates().length === length)
             {
                 answer.push(i);
             }
@@ -162,7 +162,7 @@ define(["Unit"], function(Unit)
     {
         InputValidator.validateIsNumber("index", index);
 
-        return this.cells().get(index);
+        return this.cells()[index];
     };
 
     Puzzle.prototype.isConflictCell = function(index)
@@ -218,7 +218,7 @@ define(["Unit"], function(Unit)
         InputValidator.validateIsNumber("index", index);
 
         var answer = this;
-        var cell0 = answer.cells().get(index);
+        var cell0 = answer.cells()[index];
 
         if (cell0.isValue === true)
         {
@@ -227,7 +227,7 @@ define(["Unit"], function(Unit)
 
             peers.forEach(function(myIndex)
             {
-                var cell = answer.cells().get(myIndex);
+                var cell = answer.cells()[myIndex];
 
                 if (cell.isCandidates === true && cell.candidates().includes(value))
                 {
@@ -248,7 +248,7 @@ define(["Unit"], function(Unit)
 
         if (cell && cell.isValue === true)
         {
-            var size = this.cells().size;
+            var size = this.cells().length;
 
             for (var i = 0; i < size; i++)
             {
@@ -270,7 +270,7 @@ define(["Unit"], function(Unit)
 
         if (cell && cell.isValue === true)
         {
-            var size = this.cells().size;
+            var size = this.cells().length;
 
             for (var i = 0; i < size; i++)
             {
@@ -306,8 +306,8 @@ define(["Unit"], function(Unit)
         InputValidator.validateIsNumber("index", index);
         InputValidator.validateNotNull("cell", cell);
 
-        var oldCells = this.cells();
-        var newCells = oldCells.set(index, cell);
+        var newCells = this.cells().slice();
+        newCells.splice(index, 1, cell);
 
         return new Puzzle(newCells, this.unit(), this.grid(), this.solution());
     };
@@ -317,12 +317,12 @@ define(["Unit"], function(Unit)
         InputValidator.validateNotNull("indices", indices);
         InputValidator.validateNotNull("cells", cells);
 
-        var newCells = this.cells();
+        var newCells = this.cells().slice();
 
         indices.forEach(function(index, i)
         {
             var cell = cells[i];
-            newCells = newCells.set(index, cell);
+            newCells.splice(index, 1, cell);
         });
 
         return new Puzzle(newCells, this.unit(), this.grid(), this.solution());
@@ -338,7 +338,7 @@ define(["Unit"], function(Unit)
 
         if (cell.isCandidates === true)
         {
-            var newCell = this.get(index).withoutCandidate(candidate);
+            var newCell = cell.withoutCandidate(candidate);
             answer = this.withCell(index, newCell);
         }
 
@@ -354,8 +354,8 @@ define(["Unit"], function(Unit)
 
         indices.forEach(function(index, i)
         {
-            var cell = newCells.get(index).withoutCandidates(candidates);
-            newCells = newCells.set(index, cell);
+            var cell = newCells[index].withoutCandidates(candidates);
+            newCells.splice(index, 1, cell);
         });
 
         return new Puzzle(newCells, this.unit(), this.grid(), this.solution());

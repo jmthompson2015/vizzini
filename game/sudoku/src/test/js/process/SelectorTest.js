@@ -18,7 +18,7 @@ define(["GridFactory", "PuzzleFormat", "SudokuToGo", "process/Action", "process/
             var result = Selector.candidates(store.getState(), index);
 
             // Verify.
-            assert.equal(result.size, 2);
+            assert.equal(result.length, 2);
         });
 
         QUnit.test("puzzle()", function(assert)

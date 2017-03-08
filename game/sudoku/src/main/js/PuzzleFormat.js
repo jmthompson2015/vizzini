@@ -12,11 +12,11 @@ define(["Cell", "Puzzle"],
                 var answer = "";
                 var cells = puzzle.cells();
 
-                for (var i = 0; i < cells.size; i++)
+                for (var i = 0; i < cells.length; i++)
                 {
-                    var cell = cells.get(i);
+                    var cell = cells[i];
 
-                    if (cell.isCandidates)
+                    if (cell.isCandidates === true)
                     {
                         answer += PuzzleFormat.BLANK;
                     }
@@ -38,14 +38,14 @@ define(["Cell", "Puzzle"],
                 var cells = emptyPuzzle.cells();
 
                 // Assign values from the grid.
-                for (var i = 0; i < cells.size; i++)
+                for (var i = 0; i < cells.length; i++)
                 {
                     var value = grid[i];
 
                     if (value !== PuzzleFormat.BLANK)
                     {
                         var cell = new Cell.Value(Number(value), true);
-                        cells = cells.set(i, cell);
+                        cells.splice(i, 1, cell);
                     }
                 }
 
@@ -56,29 +56,27 @@ define(["Cell", "Puzzle"],
             {
                 InputValidator.validateIsNumber("N", N);
 
-                var myCandidates = [];
+                var answer = [];
 
                 for (var i = 1; i <= N; i++)
                 {
-                    myCandidates.push(i);
+                    answer.push(i);
                 }
 
-                return Immutable.List(myCandidates);
+                return answer;
             },
 
             createEmpty: function(NIn)
             {
                 var N = (NIn !== undefined ? NIn : 9);
                 var candidates = this.createCandidates(N);
-                var myCells = [];
+                var cells = [];
 
                 // Initialize.
                 for (var i = 0; i < (N * N); i++)
                 {
-                    myCells[i] = new Cell.Candidates(candidates);
+                    cells[i] = new Cell.Candidates(candidates);
                 }
-
-                var cells = Immutable.List(myCells);
 
                 return new Puzzle(cells);
             },
