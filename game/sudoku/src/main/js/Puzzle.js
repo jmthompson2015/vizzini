@@ -83,11 +83,12 @@ define(["Unit"], function(Unit)
         InputValidator.validateNotNull("unit", unit);
 
         var answer = [];
+        var cells = this.cells();
 
         for (var i = 0; i < unit.length; i++)
         {
             var index = unit[i];
-            var cell = this.get(index);
+            var cell = cells[index];
 
             if (cell.isCandidates === true && cell.candidates().includes(candidate))
             {

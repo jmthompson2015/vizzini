@@ -18,7 +18,7 @@ define(["Cell", "process/Move"],
                 for (var k = 2; k < 4; k++)
                 {
                     var myIndices = puzzle.findCellsWithCandidateLength(k);
-                    Array.prototype.push.apply(indices, myIndices);
+                    indices = indices.concat(myIndices);
                 }
 
                 for (var i = 0; i < indices.length && answer === undefined; i++)

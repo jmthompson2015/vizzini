@@ -38,6 +38,7 @@ define(function()
         this.BLOCKS = [];
         this.CELL_NAME_TO_INDEX = {};
         this.INDEX_TO_CELL_NAME = {};
+        this.INDEX_TO_PEERS = {};
 
         this.N = function()
         {
@@ -198,24 +199,31 @@ define(function()
     {
         InputValidator.validateIsNumber("index", index);
 
-        var rowPeers = this.getRowPeers(index);
-        var columnPeers = this.getColumnPeers(index);
-        var blockPeers = this.getBlockPeers(index);
+        var answer = this.INDEX_TO_PEERS[index];
 
-        var answer = rowPeers.concat(columnPeers);
-
-        blockPeers.forEach(function(peer)
+        if (answer === undefined)
         {
-            if (!answer.vizziniContains(peer))
+            var rowPeers = this.getRowPeers(index);
+            var columnPeers = this.getColumnPeers(index);
+            var blockPeers = this.getBlockPeers(index);
+
+            answer = rowPeers.concat(columnPeers);
+
+            blockPeers.forEach(function(peer)
             {
-                answer.push(peer);
-            }
-        });
+                if (!answer.vizziniContains(peer))
+                {
+                    answer.push(peer);
+                }
+            });
 
-        answer.sort(function(a, b)
-        {
-            return a - b;
-        });
+            answer.sort(function(a, b)
+            {
+                return a - b;
+            });
+
+            this.INDEX_TO_PEERS[index] = answer;
+        }
 
         return answer;
     };
