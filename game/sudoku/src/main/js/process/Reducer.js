@@ -75,19 +75,22 @@ define(["Cell", "InitialState", "process/Action"],
                     });
                 case Action.SET_SELECTED_INDEX:
                     LOGGER.info("Reducer setSelectedIndex " + action.index + " " + (typeof action.index));
-                    var newSelectedValue = state.puzzle.get(action.index);
+                    var newSelectedValue = state.selectedValue;
+                    var newIsConstantSelected = state.isConstantSelected;
+                    newSameValueIndices = state.sameValueIndices;
+                    newSameCandidateIndices = state.sameCandidateIndices;
                     var cell = state.puzzle.get(action.index);
-                    var isClue = (cell.isValue === true) && cell.isClue();
-                    if (newSelectedValue.isCandidates === true)
+                    if (cell.isValue === true)
                     {
-                        newSelectedValue = state.selectedValue;
+                        newSelectedValue = cell.value();
+                        newIsConstantSelected = cell.isClue();
+                        newSameValueIndices = state.puzzle.sameValueIndices(cell);
+                        newSameCandidateIndices = state.puzzle.sameCandidateIndices(cell);
                     }
-                    newSameValueIndices = state.puzzle.sameValueIndices(newSelectedValue);
-                    newSameCandidateIndices = state.puzzle.sameCandidateIndices(newSelectedValue);
                     return Object.assign(
                     {}, state,
                     {
-                        isConstantSelected: isClue,
+                        isConstantSelected: newIsConstantSelected,
                         sameCandidateIndices: newSameCandidateIndices,
                         sameValueIndices: newSameValueIndices,
                         selectedIndex: action.index,

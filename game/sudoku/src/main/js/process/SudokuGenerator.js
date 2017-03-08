@@ -65,6 +65,8 @@ define(["GridFactory", "PuzzleFormat", "Unit", "process/SudokuAnalyzer", "proces
                     analysis = SudokuAnalyzer.analyze(puzzle, useForwardSearch);
                 } while (!analysis.isSolved);
 
+                LOGGER.info("analysis = " + JSON.stringify(analysis));
+
                 return answer;
             },
 

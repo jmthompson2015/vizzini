@@ -1,5 +1,5 @@
-define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/CandidatePad", "process/ui/Connector", "process/ui/NumberPad"],
-    function(Action, Selector, BoardUI, CandidatePad, Connector, NumberPad)
+define(["PuzzleFormat", "process/Action", "process/Selector", "process/SudokuGenerator", "process/ui/BoardUI", "process/ui/CandidatePad", "process/ui/Connector", "process/ui/NumberPad"],
+    function(PuzzleFormat, Action, Selector, SudokuGenerator, BoardUI, CandidatePad, Connector, NumberPad)
     {
         "use strict";
         var SudokuUI = React.createClass(
@@ -60,6 +60,7 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
                 var isHintDisabled = solver.isDone(puzzle);
                 var isRedoDisabled = true;
                 var isMenuDisabled = true;
+                var isNewDisabled = false;
 
                 var pencilButton = React.DOM.button(
                 {
@@ -87,6 +88,11 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
                 {
                     disabled: isMenuDisabled,
                 }, "Menu");
+                var newButton = React.DOM.button(
+                {
+                    disabled: isNewDisabled,
+                    onClick: this.performNewAction,
+                }, "New");
 
                 var rows = [];
 
@@ -130,6 +136,16 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
                 rows.push(React.DOM.tr(
                 {
                     key: "row2",
+                }, cells));
+
+                cells = [];
+                cells.push(React.DOM.td(
+                {
+                    key: "newButtonCell",
+                }, newButton));
+                rows.push(React.DOM.tr(
+                {
+                    key: "row3",
                 }, cells));
 
                 var tbody = React.DOM.tbody(
@@ -282,6 +298,17 @@ define(["process/Action", "process/Selector", "process/ui/BoardUI", "process/ui/
                     LOGGER.info("move: " + move);
                     move.execute(store);
                 }
+            },
+
+            performNewAction: function()
+            {
+                LOGGER.info("performNewAction()");
+
+                var store = this.context.store;
+                var grid = SudokuGenerator.generate();
+                var puzzle = PuzzleFormat.parse(grid);
+                puzzle = puzzle.adjustCandidates();
+                store.dispatch(Action.setPuzzle(puzzle));
             },
         });
 
