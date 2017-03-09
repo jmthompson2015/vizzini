@@ -4,7 +4,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
         "use strict";
         QUnit.module("SudokuSolver");
 
-        QUnit.test("getMove() easy 1", function(assert)
+        QUnit.test("getMove() Sudoku To Go 001", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
@@ -18,7 +18,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             runGetMove(assert, puzzle, indices, values);
         });
 
-        QUnit.test("getMove() easy 2", function(assert)
+        QUnit.test("getMove() Sudoku To Go 002", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_2].grid;
@@ -32,7 +32,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             runGetMove(assert, puzzle, indices, values);
         });
 
-        QUnit.test("getMove() medium 31", function(assert)
+        QUnit.test("getMove() Sudoku To Go 031", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.MEDIUM_31].grid;
@@ -46,7 +46,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             runGetMove(assert, puzzle, indices, values);
         });
 
-        QUnit.test("getMove() medium 32", function(assert)
+        QUnit.test("getMove() Sudoku To Go 032", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.MEDIUM_32].grid;
@@ -60,7 +60,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             runGetMove(assert, puzzle, indices, values);
         });
 
-        QUnit.test("getMove() hard 66", function(assert)
+        QUnit.test("getMove() Sudoku To Go 066", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.HARD_66].grid;
@@ -74,7 +74,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             runGetMove(assert, puzzle, indices, values);
         });
 
-        QUnit.test("getMove() hard 67", function(assert)
+        QUnit.test("getMove() Sudoku To Go 067", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.HARD_67].grid;
@@ -88,7 +88,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             runGetMove(assert, puzzle, indices, values);
         });
 
-        QUnit.test("getMove() diabolical 86", function(assert)
+        QUnit.test("getMove() Sudoku To Go 086", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_86].grid;
@@ -102,7 +102,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             runGetMove(assert, puzzle, indices, values);
         });
 
-        QUnit.test("getMove() diabolical 87", function(assert)
+        QUnit.test("getMove() Sudoku To Go 087", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_87].grid;
@@ -111,6 +111,20 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             puzzle = puzzle.adjustCandidates();
             var indices = [39, 30, 41, 44, 36, 50, 34, 33, 58, 22, 13, 4, -1, -1, -1, 19, 21, 6, 0, 8, 7, 20, 24, 35, 45, 53, 17, 16, 52, 51, 46, 47, 61, 56, 59, 60, 70, 63, 69, 68, 5, 2, 3, 10, 11, 12, 64, 28, 27, 29, 67, 72, 73, 74, 75, 76, 77, 78, 80];
             var values = [8, 3, 4, 2, 9, 5, 7, 9, 2, 5, 4, 7, -1, -1, -1, 6, 2, 2, 3, 4, 8, 4, 3, 1, 2, 6, 5, 6, 4, 8, 1, 3, 9, 7, 6, 4, 5, 6, 1, 9, 1, 9, 6, 2, 1, 9, 8, 4, 5, 8, 3, 4, 9, 5, 1, 8, 7, 6, 3];
+
+            // Run / Verify.
+            runGetMove(assert, puzzle, indices, values);
+        });
+
+        QUnit.test("getMove() Sudoku To Go 100", function(assert)
+        {
+            // Setup.
+            var grid = SudokuToGo.properties[SudokuToGo.PUZZLE_100].grid;
+            runActions(grid);
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var indices = [15, 40, 55, 54, 9, -1, 65, 56, 74, 58, -1, 36, 38, 72, 45, 47, 73, 10, 19, 57, 30, 32, 12, 11, 14, 20, 68, 66, 49, -1, 5, 31, -1, 33, 28, 35, 8, 4, 23, 22, 37, 50, 41, 39, 44, 48, 52, 25, 24, 26, 61, 7, 6, 43, 42, 60, 69, 70, 71, 75, 76];
+            var values = [6, 1, 2, 5, 1, -1, 4, 1, 6, 6, -1, 3, 9, 7, 8, 7, 3, 9, 7, 7, 9, 3, 3, 8, 2, 3, 5, 2, 2, -1, 7, 7, -1, 4, 5, 8, 9, 8, 4, 9, 4, 6, 8, 5, 6, 4, 5, 8, 1, 5, 3, 2, 3, 7, 2, 8, 7, 6, 1, 8, 4];
 
             // Run / Verify.
             runGetMove(assert, puzzle, indices, values);
@@ -130,7 +144,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             assert.equal(result, true);
         });
 
-        QUnit.test("isDone() easy", function(assert)
+        QUnit.test("isDone() Sudoku To Go 001", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
@@ -144,7 +158,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             assert.equal(result, false);
         });
 
-        QUnit.test("solve() easy 1", function(assert)
+        QUnit.test("solve() Sudoku To Go 001", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_1].grid;
@@ -163,7 +177,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 7, "J9");
         });
 
-        QUnit.test("solve() easy 2", function(assert)
+        QUnit.test("solve() Sudoku To Go 002", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.EASY_2].grid;
@@ -182,7 +196,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 8, "J9");
         });
 
-        QUnit.test("solve() medium 31", function(assert)
+        QUnit.test("solve() Sudoku To Go 031", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.MEDIUM_31].grid;
@@ -200,7 +214,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 4, "J9");
         });
 
-        QUnit.test("solve() medium 32", function(assert)
+        QUnit.test("solve() Sudoku To Go 032", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.MEDIUM_32].grid;
@@ -218,7 +232,7 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
             assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 7, "J9");
         });
 
-        QUnit.test("solve() hard 66", function(assert)
+        QUnit.test("solve() Sudoku To Go 066", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.HARD_66].grid;
@@ -230,13 +244,13 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
 
             // Verify.
             assert.ok(solver.isDone(result));
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), "3", "A1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), "5", "A9");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), "5", "J1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), "7", "J9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 3, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 5, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 5, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 7, "J9");
         });
 
-        QUnit.test("solve() hard 67", function(assert)
+        QUnit.test("solve() Sudoku To Go 067", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.HARD_67].grid;
@@ -248,13 +262,13 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
 
             // Verify.
             assert.ok(solver.isDone(result));
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), "6", "A1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), "2", "A9");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), "8", "J1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), "7", "J9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 6, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 2, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 8, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 7, "J9");
         });
 
-        QUnit.test("solve() diabolical 86", function(assert)
+        QUnit.test("solve() Sudoku To Go 086", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_86].grid;
@@ -266,13 +280,13 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
 
             // Verify.
             assert.ok(solver.isDone(result));
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), "1", "A1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), "9", "A9");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), "3", "J1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), "2", "J9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 1, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 9, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 3, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 2, "J9");
         });
 
-        QUnit.test("solve() diabolical 87", function(assert)
+        QUnit.test("solve() Sudoku To Go 087", function(assert)
         {
             // Setup.
             var grid = SudokuToGo.properties[SudokuToGo.DIABOLICAL_87].grid;
@@ -284,90 +298,100 @@ define(["Cell", "GridFactory", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit
 
             // Verify.
             assert.ok(solver.isDone(result));
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), "3", "A1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), "4", "A9");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), "4", "J1");
-            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), "3", "J9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 3, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 4, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 4, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 3, "J9");
         });
 
-        QUnit.skip("solve() Unsolvable #28", function(assert)
+        QUnit.test("solve() Sudoku To Go 100", function(assert)
         {
             // Setup.
-            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_28].grid;
-            LOGGER.info("0 grid = " + grid);
+            var grid = SudokuToGo.properties[SudokuToGo.PUZZLE_100].grid;
             var puzzle = PuzzleFormat.parse(grid);
             var solver = new SudokuSolver();
 
             // Run.
             var result = solver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(result));
 
             // Verify.
             assert.ok(solver.isDone(result));
-            assert.equal(result[puzzle.unit().cellNameToIndex("A1")], "6", "A1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("A9")], "4", "A9");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J1")], "8", "J1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J9")], "3", "J9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 4, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 9, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 7, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 2, "J9");
         });
 
-        QUnit.skip("solve() Unsolvable #49", function(assert)
-        {
-            // Setup.
-            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_49].grid;
-            LOGGER.info("0 grid = " + grid);
-            var puzzle = PuzzleFormat.parse(grid);
-            var solver = new SudokuSolver();
-
-            // Run.
-            var result = solver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(result));
-
-            // Verify.
-            assert.ok(solver.isDone(result));
-            assert.equal(result[puzzle.unit().cellNameToIndex("A1")], "6", "A1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("A9")], "4", "A9");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J1")], "8", "J1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J9")], "3", "J9");
-        });
-
-        QUnit.skip("solve() Arto Inkala's Puzzle", function(assert)
-        {
-            // Setup.
-            var grid = SudokuWiki.properties[SudokuWiki.ARTO_INKALAS_PUZZLE].grid;
-            LOGGER.info("0 grid = " + grid);
-            var puzzle = PuzzleFormat.parse(grid);
-            var solver = new SudokuSolver();
-
-            // Run.
-            var result = solver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(result));
-
-            // Verify.
-            assert.ok(solver.isDone(result));
-            assert.equal(result[puzzle.unit().cellNameToIndex("A1")], "6", "A1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("A9")], "4", "A9");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J1")], "8", "J1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J9")], "3", "J9");
-        });
-
-        QUnit.skip("solve() Escargot", function(assert)
+        QUnit.test("solve() Sudoku Wiki Escargot", function(assert)
         {
             // Setup.
             var grid = SudokuWiki.properties[SudokuWiki.ESCARGOT].grid;
-            LOGGER.info("0 grid = " + grid);
             var puzzle = PuzzleFormat.parse(grid);
             var solver = new SudokuSolver();
 
             // Run.
             var result = solver.solve(puzzle);
-            LOGGER.info("1 grid = " + PuzzleFormat.format(result));
 
             // Verify.
             assert.ok(solver.isDone(result));
-            assert.equal(result[puzzle.unit().cellNameToIndex("A1")], "6", "A1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("A9")], "4", "A9");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J1")], "8", "J1");
-            assert.equal(result[puzzle.unit().cellNameToIndex("J9")], "3", "J9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 1, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 3, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 8, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 4, "J9");
+        });
+
+        QUnit.test("solve() Sudoku Wiki Arto Inkala's Puzzle", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.ARTO_INKALAS_PUZZLE].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var solver = new SudokuSolver();
+
+            // Run.
+            var result = solver.solve(puzzle);
+
+            // Verify.
+            assert.ok(solver.isDone(result));
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 8, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 9, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 7, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 2, "J9");
+        });
+
+        QUnit.test("solve() Sudoku Wiki Unsolvable #49", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_49].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var solver = new SudokuSolver();
+
+            // Run.
+            var result = solver.solve(puzzle);
+
+            // Verify.
+            assert.ok(solver.isDone(result));
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 7, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 1, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 4, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 5, "J9");
+        });
+
+        QUnit.test("solve() Sudoku Wiki Unsolvable #28", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_28].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            var solver = new SudokuSolver();
+
+            // Run.
+            var result = solver.solve(puzzle);
+
+            // Verify.
+            assert.ok(solver.isDone(result));
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A1")).value(), 6, "A1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("A9")).value(), 3, "A9");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J1")).value(), 8, "J1");
+            assert.equal(result.get(puzzle.unit().cellNameToIndex("J9")).value(), 9, "J9");
         });
 
         function runActions(grid)

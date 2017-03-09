@@ -175,7 +175,7 @@ define(["PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/ForwardSearchStrate
             assert.equal(result.source(), "forward search 2");
         });
 
-        QUnit.test("getMove() Sudoku Wiki Escargot", function(assert)
+        QUnit.skip("getMove() Sudoku Wiki Escargot", function(assert)
         {
             // Setup.
             var grid = SudokuWiki.properties[SudokuWiki.ESCARGOT].grid;
@@ -189,8 +189,66 @@ define(["PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/ForwardSearchStrate
 
             // Verify.
             assert.ok(result);
-            assert.equal(result.index(), 6);
-            assert.equal(result.value(), 4);
+            assert.equal(result.index(), 4);
+            assert.equal(result.value(), 5);
+            assert.equal(result.source(), "forward search 3");
+        });
+
+        QUnit.skip("getMove() Sudoku Wiki Arto Inkala's Puzzle", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.ARTO_INKALAS_PUZZLE].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var useForwardSearch = true;
+            var solver = new SudokuSolver(useForwardSearch);
+
+            // Run.
+            var result = ForwardSearchStrategy.getMove(puzzle, solver);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.index(), 38);
+            assert.equal(result.value(), 9);
+            assert.equal(result.source(), "forward search 3");
+        });
+
+        QUnit.skip("getMove() Sudoku Wiki Unsolvable #49", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_49].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var useForwardSearch = true;
+            var solver = new SudokuSolver(useForwardSearch);
+
+            // Run.
+            var result = ForwardSearchStrategy.getMove(puzzle, solver);
+
+            // Verify.
+            assert.ok(!result);
+            // assert.ok(result);
+            // assert.equal(result.index(), 6);
+            // assert.equal(result.value(), 4);
+            // assert.equal(result.source(), "forward search 3");
+        });
+
+        QUnit.skip("getMove() Sudoku Wiki Unsolvable #28", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_28].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+            var useForwardSearch = true;
+            var solver = new SudokuSolver(useForwardSearch);
+
+            // Run.
+            var result = ForwardSearchStrategy.getMove(puzzle, solver);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.index(), 23);
+            assert.equal(result.value(), 5);
             assert.equal(result.source(), "forward search 3");
         });
     });

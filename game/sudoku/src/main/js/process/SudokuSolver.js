@@ -28,11 +28,13 @@ define(["process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/
             };
         }
 
-        SudokuSolver.prototype.getMove = function(puzzle)
+        SudokuSolver.prototype.getMove = function(puzzle, depthIn)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
+            // depth optional. default: 0
 
             var answer;
+            var depth = (depthIn !== undefined ? depthIn : 0);
             var strategies = this.strategies();
 
             for (var i = 0; i < strategies.length && answer === undefined; i++)
@@ -41,9 +43,17 @@ define(["process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/
 
                 if (strategy === ForwardSearchStrategy)
                 {
-                    var useForwardSearch = false;
-                    var solver = new SudokuSolver(useForwardSearch);
-                    answer = ForwardSearchStrategy.getMove(puzzle, solver);
+                    // Depth limit.
+                    if (depth < 1)
+                    {
+                        answer = strategy.getMove(puzzle, this, depth);
+                    }
+                    else
+                    {
+                        var useForwardSearch = false;
+                        var solver = new SudokuSolver(useForwardSearch);
+                        answer = strategy.getMove(puzzle, solver, depth);
+                    }
                 }
                 else
                 {
@@ -71,7 +81,7 @@ define(["process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/
             return true;
         };
 
-        SudokuSolver.prototype.solve = function(puzzle)
+        SudokuSolver.prototype.solve = function(puzzle, depth)
         {
             InputValidator.validateNotNull("puzzle", puzzle);
 
@@ -85,7 +95,7 @@ define(["process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/
 
             while (!this.isDone(myPuzzle) && count < maxTries)
             {
-                var move = this.getMove(myPuzzle);
+                var move = this.getMove(myPuzzle, depth);
 
                 if (move === undefined)
                 {

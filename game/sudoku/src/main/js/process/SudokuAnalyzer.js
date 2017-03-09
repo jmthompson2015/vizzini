@@ -56,7 +56,10 @@ define(["Difficulty", "PuzzleFormat", "process/SudokuSolver", "process/SudokuVal
                 {
                     answer = Difficulty.IMPOSSIBLE;
                 }
-                else if (sourceCounts["forward search 2"] !== undefined)
+                else if (sourceCounts["forward search 2"] !== undefined ||
+                    sourceCounts["forward search 3"] !== undefined ||
+                    sourceCounts["forward search 4"] !== undefined ||
+                    sourceCounts["forward search 5"] !== undefined)
                 {
                     answer = Difficulty.DIABOLICAL;
                 }

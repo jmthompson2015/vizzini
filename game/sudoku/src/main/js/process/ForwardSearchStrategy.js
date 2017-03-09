@@ -7,15 +7,17 @@ define(["Cell", "process/Move"],
         "use strict";
         var ForwardSearchStrategy = {
 
-            getMove: function(puzzle, solver)
+            getMove: function(puzzle, solver, depthIn)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
                 InputValidator.validateNotNull("solver", solver);
+                // depth optional. default: 0
 
                 var answer;
+                var depth = (depthIn !== undefined ? depthIn : 0);
                 var indices = [];
 
-                for (var k = 2; k < 4; k++)
+                for (var k = 2; k < 6; k++)
                 {
                     var myIndices = puzzle.findCellsWithCandidateLength(k);
                     indices = indices.concat(myIndices);
@@ -32,7 +34,7 @@ define(["Cell", "process/Move"],
                         var candidate = candidates[j];
                         var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));
                         puzzleClone = puzzleClone.removeValueFromPeers(index);
-                        puzzleClone = solver.solve(puzzleClone);
+                        puzzleClone = solver.solve(puzzleClone, depth + 1);
 
                         if (solver.isDone(puzzleClone))
                         {

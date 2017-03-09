@@ -269,7 +269,7 @@ define(["Difficulty", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/Sudok
             assert.equal(result.sourceCounts["forward search 2"], 1);
         });
 
-        QUnit.test("analyze() Escargot", function(assert)
+        QUnit.skip("analyze() Escargot", function(assert)
         {
             // Setup.
             var grid = SudokuWiki.properties[SudokuWiki.ESCARGOT].grid;
@@ -282,18 +282,99 @@ define(["Difficulty", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "process/Sudok
             // Verify.
             assert.ok(result);
             assert.equal(result.clueCount, 24);
-            assert.equal(result.difficulty, Difficulty.IMPOSSIBLE);
+            assert.equal(result.difficulty, Difficulty.DIABOLICAL);
             assert.equal(result.emptyCount, 57);
-            assert.ok(!result.isSolved);
+            assert.ok(result.isSolved);
 
             assert.ok(result.moves);
-            assert.equal(result.moves.length, 0);
+            assert.equal(result.moves.length, 60);
 
             assert.ok(result.solvedGrid);
             assert.ok(result.solvedPuzzle);
 
             assert.ok(result.sourceCounts);
-            assert.equal(Object.keys(result.sourceCounts).length, 0);
+            assert.equal(Object.keys(result.sourceCounts).length, 6);
+        });
+
+        QUnit.skip("analyze() Arto Inkala's Puzzle", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.ARTO_INKALAS_PUZZLE].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = SudokuAnalyzer.analyze(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.clueCount, 21);
+            assert.equal(result.difficulty, Difficulty.DIABOLICAL);
+            assert.equal(result.emptyCount, 60);
+            assert.ok(result.isSolved);
+
+            assert.ok(result.moves);
+            assert.equal(result.moves.length, 64);
+
+            assert.ok(result.solvedGrid);
+            assert.ok(result.solvedPuzzle);
+
+            assert.ok(result.sourceCounts);
+            assert.equal(Object.keys(result.sourceCounts).length, 6);
+        });
+
+        QUnit.skip("analyze() Unsolvable #49", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_49].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = SudokuAnalyzer.analyze(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.clueCount, 22);
+            assert.equal(result.difficulty, Difficulty.DIABOLICAL);
+            assert.equal(result.emptyCount, 59);
+            assert.ok(result.isSolved);
+
+            assert.ok(result.moves);
+            assert.equal(result.moves.length, 59);
+
+            assert.ok(result.solvedGrid);
+            assert.ok(result.solvedPuzzle);
+
+            assert.ok(result.sourceCounts);
+            assert.equal(Object.keys(result.sourceCounts).length, 4);
+        });
+
+        QUnit.skip("analyze() Unsolvable #28", function(assert)
+        {
+            // Setup.
+            var grid = SudokuWiki.properties[SudokuWiki.UNSOLVABLE_28].grid;
+            var puzzle = PuzzleFormat.parse(grid);
+            puzzle = puzzle.adjustCandidates();
+
+            // Run.
+            var result = SudokuAnalyzer.analyze(puzzle);
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.clueCount, 22);
+            assert.equal(result.difficulty, Difficulty.DIABOLICAL);
+            assert.equal(result.emptyCount, 59);
+            assert.ok(result.isSolved);
+
+            assert.ok(result.moves);
+            assert.equal(result.moves.length, 73);
+
+            assert.ok(result.solvedGrid);
+            assert.ok(result.solvedPuzzle);
+
+            assert.ok(result.sourceCounts);
+            assert.equal(Object.keys(result.sourceCounts).length, 6);
         });
 
         QUnit.test("statistics", function(assert)
