@@ -3,39 +3,6 @@ define(["Unit"], function(Unit)
     "use strict";
     QUnit.module("Unit");
 
-    QUnit.test("cellNameToBlock()", function(assert)
-    {
-        // Setup.
-        var unit = new Unit();
-
-        // Run / Verify.
-        assert.equal(unit.cellNameToBlock("A1"), 0);
-        assert.equal(unit.cellNameToBlock("A9"), 2);
-        assert.equal(unit.cellNameToBlock("B2"), 0);
-        assert.equal(unit.cellNameToBlock("B5"), 1);
-        assert.equal(unit.cellNameToBlock("C3"), 0);
-        assert.equal(unit.cellNameToBlock("D4"), 4);
-        assert.equal(unit.cellNameToBlock("E5"), 4);
-        assert.equal(unit.cellNameToBlock("F6"), 4);
-        assert.equal(unit.cellNameToBlock("G7"), 8);
-        assert.equal(unit.cellNameToBlock("H5"), 7);
-        assert.equal(unit.cellNameToBlock("H8"), 8);
-        assert.equal(unit.cellNameToBlock("J1"), 6);
-        assert.equal(unit.cellNameToBlock("J9"), 8);
-    });
-
-    QUnit.test("cellNameToColumn()", function(assert)
-    {
-        // Setup.
-        var unit = new Unit();
-
-        // Run / Verify.
-        assert.equal(unit.cellNameToColumn("A1"), 0);
-        assert.equal(unit.cellNameToColumn("A2"), 1);
-        assert.equal(unit.cellNameToColumn("B1"), 0);
-        assert.equal(unit.cellNameToColumn("J9"), 8);
-    });
-
     QUnit.test("cellNameToIndex()", function(assert)
     {
         // Setup.
@@ -46,18 +13,6 @@ define(["Unit"], function(Unit)
         assert.equal(unit.cellNameToIndex("A2"), 1);
         assert.equal(unit.cellNameToIndex("B1"), 9);
         assert.equal(unit.cellNameToIndex("J9"), 80);
-    });
-
-    QUnit.test("cellNameToRow()", function(assert)
-    {
-        // Setup.
-        var unit = new Unit();
-
-        // Run / Verify.
-        assert.equal(unit.cellNameToRow("A1"), 0);
-        assert.equal(unit.cellNameToRow("A2"), 0);
-        assert.equal(unit.cellNameToRow("B1"), 1);
-        assert.equal(unit.cellNameToRow("J9"), 8);
     });
 
     QUnit.test("coordinatesToIndex()", function(assert)
@@ -252,6 +207,28 @@ define(["Unit"], function(Unit)
         assert.equal(unit.indexToRow(0), 0);
         assert.equal(unit.indexToRow(1), 0);
         assert.equal(unit.indexToColumn(80), 8);
+    });
+
+    QUnit.test("indexToUnits()", function(assert)
+    {
+        // Setup.
+        var unit = new Unit();
+
+        // Run.
+        var result = unit.indexToUnits(0);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 3);
+        assert.equal(result.join(","), [0, 0, 0].join(","));
+
+        // Run.
+        result = unit.indexToUnits(1);
+
+        // Verify.
+        assert.ok(result);
+        assert.equal(result.length, 3);
+        assert.equal(result.join(","), [0, 1, 0].join(","));
     });
 
     QUnit.test("verify rows, columns, and blocks", function(assert)

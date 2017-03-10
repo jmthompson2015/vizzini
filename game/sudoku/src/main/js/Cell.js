@@ -14,6 +14,7 @@ define(function()
     };
 
     Cell.Candidates.prototype.isCandidates = true;
+    Cell.Candidates.prototype.isValue = false;
 
     Cell.Candidates.prototype.withCandidate = function(candidate)
     {
@@ -77,6 +78,7 @@ define(function()
         };
     };
 
+    Cell.Value.prototype.isCandidates = false;
     Cell.Value.prototype.isValue = true;
 
     return Cell;
