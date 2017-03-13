@@ -7,6 +7,27 @@ define(["process/Move"],
         "use strict";
         var NakedPairStrategy = {
 
+            filterOtherPeers: function(puzzle, cell, otherPeers)
+            {
+                var answer = [];
+
+                for (var k = 0; k < otherPeers.length; k++)
+                {
+                    var myIndex = otherPeers[k];
+                    var myPeer = puzzle.get(myIndex);
+                    var candidate0 = cell.candidates()[0];
+                    var candidate1 = cell.candidates()[1];
+
+                    if ((myPeer.isCandidates === true) &&
+                        (myPeer.candidates().includes(candidate0) || myPeer.candidates().includes(candidate1)))
+                    {
+                        answer.push(myIndex);
+                    }
+                }
+
+                return answer;
+            },
+
             findNakedPairMove: function(puzzle, index, peers)
             {
                 InputValidator.validateNotNull("puzzle", puzzle);
@@ -28,25 +49,18 @@ define(["process/Move"],
                             // Find the other peers which contains the pair's candidates.
                             var otherPeers = peers.slice();
                             otherPeers.vizziniRemove(peerIndex);
-                            var candidatePeers = otherPeers.filter(filterOtherPeers);
+                            var candidatePeers = this.filterOtherPeers(puzzle, cell, otherPeers);
 
                             if (candidatePeers.length > 0)
                             {
                                 answer = new Move.BatchRemoveCandidates(puzzle, candidatePeers, cell.candidates(), "naked pair");
+                                break;
                             }
                         }
                     }
                 }
 
                 return answer;
-
-                function filterOtherPeers(index)
-                {
-                    var myCell = puzzle.get(index);
-                    var candidate0 = cell.candidates()[0];
-                    var candidate1 = cell.candidates()[1];
-                    return (myCell.isCandidates === true) && (myCell.candidates().includes(candidate0) || myCell.candidates().includes(candidate1));
-                }
             },
 
             getMove: function(puzzle)
