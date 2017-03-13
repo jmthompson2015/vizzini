@@ -22,6 +22,7 @@ define(["process/Move"],
                     if (indices.length === 1)
                     {
                         answer = new Move.SetCellValue(puzzle, indices[0], v, "hidden single");
+                        break;
                     }
                 }
 
