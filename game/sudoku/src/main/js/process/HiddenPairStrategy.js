@@ -48,6 +48,7 @@ define(["process/Move"],
                                 candidates.vizziniRemove(v0);
                                 candidates.vizziniRemove(v1);
                                 answer = new Move.BatchRemoveCandidates(puzzle, indices0, candidates, "hidden pair");
+                                break;
                             }
                         }
                     }
