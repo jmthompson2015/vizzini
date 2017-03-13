@@ -39,6 +39,7 @@ define(["Cell", "process/Move"],
                         if (solver.isDone(puzzleClone))
                         {
                             answer = new Move.SetCellValue(puzzle, index, candidate, "forward search " + candidates.length);
+                            break;
                         }
                     }
                 }
