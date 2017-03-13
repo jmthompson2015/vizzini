@@ -52,10 +52,11 @@ define(function()
 
         var answer = this;
 
-        candidates.forEach(function(candidate)
+        for (var i = 0; i < candidates.length; i++)
         {
+            var candidate = candidates[i];
             answer = answer.withoutCandidate(candidate);
-        });
+        }
 
         return answer;
     };
