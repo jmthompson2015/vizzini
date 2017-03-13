@@ -226,8 +226,9 @@ define(["Unit"], function(Unit)
             var value = cell0.value();
             var peers = this.unit().getPeers(index);
 
-            peers.forEach(function(myIndex)
+            for (var i = 0; i < peers.length; i++)
             {
+                var myIndex = peers[i];
                 var cell = answer.cells()[myIndex];
 
                 if (cell.isCandidates === true && cell.candidates().includes(value))
@@ -235,7 +236,7 @@ define(["Unit"], function(Unit)
                     var newCell = cell.withoutCandidate(value);
                     answer = answer.withCell(myIndex, newCell);
                 }
-            });
+            }
         }
 
         return answer;
@@ -320,11 +321,12 @@ define(["Unit"], function(Unit)
 
         var newCells = this.cells().slice();
 
-        indices.forEach(function(index, i)
+        for (var i = 0; i < indices.length; i++)
         {
+            var index = indices[i];
             var cell = cells[i];
             newCells.splice(index, 1, cell);
-        });
+        }
 
         return new Puzzle(newCells, this.unit(), this.grid(), this.solution());
     };
@@ -353,11 +355,12 @@ define(["Unit"], function(Unit)
 
         var newCells = this.cells();
 
-        indices.forEach(function(index, i)
+        for (var i = 0; i < indices.length; i++)
         {
+            var index = indices[i];
             var cell = newCells[index].withoutCandidates(candidates);
             newCells.splice(index, 1, cell);
-        });
+        }
 
         return new Puzzle(newCells, this.unit(), this.grid(), this.solution());
     };
