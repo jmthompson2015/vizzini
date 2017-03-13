@@ -21,6 +21,7 @@ define(["process/Move"],
                     if (cell.isCandidates === true && cell.candidates().length === 1)
                     {
                         answer = new Move.SetCellValue(puzzle, i, cell.candidates()[0], "naked single");
+                        break;
                     }
                 }
 
