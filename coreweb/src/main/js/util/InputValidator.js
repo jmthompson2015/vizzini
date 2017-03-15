@@ -3,8 +3,7 @@
 /*
  * Provides methods for input validation.
  */
-var InputValidator =
-{
+var InputValidator = {
     EMPTY: " is null or empty.",
     NULL: " is null.",
     UNDEFINED: " is undefined.",
@@ -22,12 +21,21 @@ var InputValidator =
     validateInRange: function(objectName, object, low, high)
     {
         this.validateIsNumber(objectName, object);
-        
+
         if (object < low || high < object)
         {
             LOGGER.error(new Error().stack);
-            throw objectName + " is out of range [" + low + ", " + high + "]: "
-                    + object;
+            throw objectName + " is out of range [" + low + ", " + high + "]: " +
+                object;
+        }
+    },
+
+    validateIsArray: function(objectName, object)
+    {
+        if (!Array.isArray(object))
+        {
+            LOGGER.error(new Error().stack);
+            throw objectName + " is not an array: " + object;
         }
     },
 
