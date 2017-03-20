@@ -10,8 +10,9 @@ define(["process/Move"],
             filterOtherPeers: function(puzzle, cell, otherPeers)
             {
                 var answer = [];
+                var length = otherPeers.length;
 
-                for (var k = 0; k < otherPeers.length; k++)
+                for (var k = 0; k < length; k++)
                 {
                     var myIndex = otherPeers[k];
                     var myPeer = puzzle.get(myIndex);
@@ -39,7 +40,9 @@ define(["process/Move"],
 
                 if (cell.isCandidates === true)
                 {
-                    for (var j = 0; j < peers.length && answer === undefined; j++)
+                    var length = peers.length;
+
+                    for (var j = 0; j < length && answer === undefined; j++)
                     {
                         var peerIndex = peers[j];
                         var myCell = puzzle.get(peerIndex);
@@ -65,28 +68,27 @@ define(["process/Move"],
 
             getMove: function(puzzle)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
-
-                var indices = puzzle.findCellsWithCandidateLength(2);
-
                 var answer;
+                var indices = puzzle.findCellsWithCandidateLength(2);
+                var length = indices.length;
+                var puzzleUnit = puzzle.unit();
 
-                for (var i = 0; i < indices.length && answer === undefined; i++)
+                for (var i = 0; i < length && answer === undefined; i++)
                 {
                     var index = indices[i];
 
-                    var peers = puzzle.unit().getBlockPeers(index);
+                    var peers = puzzleUnit.getBlockPeers(index);
                     answer = this.findNakedPairMove(puzzle, index, peers);
 
                     if (answer === undefined)
                     {
-                        peers = puzzle.unit().getColumnPeers(index);
+                        peers = puzzleUnit.getColumnPeers(index);
                         answer = this.findNakedPairMove(puzzle, index, peers);
                     }
 
                     if (answer === undefined)
                     {
-                        peers = puzzle.unit().getRowPeers(index);
+                        peers = puzzleUnit.getRowPeers(index);
                         answer = this.findNakedPairMove(puzzle, index, peers);
                     }
                 }

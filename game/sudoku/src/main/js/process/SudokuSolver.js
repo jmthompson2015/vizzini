@@ -68,7 +68,9 @@ define(["process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/
         {
             InputValidator.validateNotNull("puzzle", puzzle);
 
-            for (var i = 0; i < puzzle.cells().length; i++)
+            var size = puzzle.size();
+
+            for (var i = 0; i < size; i++)
             {
                 var cell = puzzle.get(i);
 

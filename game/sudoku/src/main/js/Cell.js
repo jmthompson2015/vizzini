@@ -5,8 +5,6 @@ define(function()
 
     Cell.Candidates = function(candidates)
     {
-        InputValidator.validateNotNull("candidates", candidates);
-
         this.candidates = function()
         {
             return candidates;
@@ -18,54 +16,52 @@ define(function()
 
     Cell.Candidates.prototype.withCandidate = function(candidate)
     {
-        InputValidator.validateIsNumber("candidate", candidate);
+        var answer = this;
+        var candidates = this.candidates();
 
-        var newCandidates = this.candidates().slice();
-
-        if (!newCandidates.includes(candidate))
+        if (!candidates.includes(candidate))
         {
+            var newCandidates = candidates.slice();
             newCandidates.push(candidate);
             newCandidates.sort();
-        }
-
-        return new Cell.Candidates(newCandidates);
-    };
-
-    Cell.Candidates.prototype.withoutCandidate = function(candidate)
-    {
-        InputValidator.validateIsNumber("candidate", candidate);
-
-        var newCandidates = this.candidates().slice();
-        var index = newCandidates.indexOf(candidate);
-
-        if (index >= 0)
-        {
-            newCandidates.splice(index, 1);
-        }
-
-        return new Cell.Candidates(newCandidates);
-    };
-
-    Cell.Candidates.prototype.withoutCandidates = function(candidates)
-    {
-        InputValidator.validateNotNull("candidates", candidates);
-
-        var answer = this;
-
-        for (var i = 0; i < candidates.length; i++)
-        {
-            var candidate = candidates[i];
-            answer = answer.withoutCandidate(candidate);
+            answer = new Cell.Candidates(newCandidates);
         }
 
         return answer;
     };
 
+    Cell.Candidates.prototype.withoutCandidate = function(candidate)
+    {
+        var answer = this;
+        var candidates = this.candidates();
+        var index = candidates.indexOf(candidate);
+
+        if (index >= 0)
+        {
+            var newCandidates = candidates.slice();
+            newCandidates.splice(index, 1);
+            answer = new Cell.Candidates(newCandidates);
+        }
+
+        return answer;
+    };
+
+    Cell.Candidates.prototype.withoutCandidates = function(candidates)
+    {
+        var newCandidates = this.candidates().slice();
+        var length = candidates.length;
+
+        for (var i = 0; i < length; i++)
+        {
+            var candidate = candidates[i];
+            newCandidates.vizziniRemove(candidate);
+        }
+
+        return new Cell.Candidates(newCandidates);
+    };
+
     Cell.Value = function(value, isClueIn)
     {
-        InputValidator.validateIsNumber("value", value);
-        // isClue optional.
-
         var isClue = (isClueIn !== undefined ? isClueIn : false);
 
         this.value = function()

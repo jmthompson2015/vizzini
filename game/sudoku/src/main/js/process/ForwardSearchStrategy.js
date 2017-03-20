@@ -9,8 +9,6 @@ define(["Cell", "process/Move"],
 
             getMove: function(puzzle, solver, depthIn)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateNotNull("solver", solver);
                 // depth optional. default: 0
 
                 var answer;
@@ -23,13 +21,17 @@ define(["Cell", "process/Move"],
                     indices = indices.concat(myIndices);
                 }
 
-                for (var i = 0; i < indices.length && answer === undefined; i++)
+                var length = indices.length;
+                var cells = puzzle.cells();
+
+                for (var i = 0; i < length && answer === undefined; i++)
                 {
                     var index = indices[i];
-                    var cell = puzzle.get(index);
+                    var cell = cells[index];
                     var candidates = cell.candidates();
+                    var cLength = candidates.length;
 
-                    for (var j = 0; j < candidates.length && answer === undefined; j++)
+                    for (var j = 0; j < cLength && answer === undefined; j++)
                     {
                         var candidate = candidates[j];
                         var puzzleClone = puzzle.withCell(index, new Cell.Value(candidate));

@@ -9,10 +9,8 @@ define(["process/Move"],
 
             getMove: function(puzzle)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
-
                 var answer;
-                var size = puzzle.cells().length;
+                var size = puzzle.size();
 
                 for (var i = 0; i < size && answer === undefined; i++)
                 {

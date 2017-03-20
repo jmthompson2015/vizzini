@@ -9,8 +9,7 @@ define(["Unit"], function(Unit)
         // grid optional.
         // solution optional.
 
-        var N;
-        var n;
+        var size, N, n;
         var unit = unitIn;
 
         this.cells = function()
@@ -38,11 +37,16 @@ define(["Unit"], function(Unit)
             return solution;
         };
 
+        this.get = function(index)
+        {
+            return cells[index];
+        };
+
         this.N = function()
         {
             if (N === undefined)
             {
-                N = Math.sqrt(cells.length);
+                N = Math.sqrt(this.size());
             }
 
             return N;
@@ -57,12 +61,22 @@ define(["Unit"], function(Unit)
 
             return n;
         };
+
+        this.size = function()
+        {
+            if (size === undefined)
+            {
+                size = cells.length;
+            }
+
+            return size;
+        };
     }
 
     Puzzle.prototype.adjustCandidates = function()
     {
         var answer = this;
-        var size = this.cells().length;
+        var size = this.size();
 
         for (var i = 0; i < size; i++)
         {
@@ -77,34 +91,34 @@ define(["Unit"], function(Unit)
         return answer;
     };
 
-    Puzzle.prototype.candidateIndicesInUnit = function(candidate, unit)
+    Puzzle.prototype.candidateIndicesInUnit = function(candidate, unit, limitIn)
     {
-        InputValidator.validateNotNull("candidate", candidate);
-        InputValidator.validateNotNull("unit", unit);
-
-        var answer = [];
+        var length = unit.length;
+        var limit = (limitIn !== undefined ? limitIn : length + 1);
         var cells = this.cells();
+        var indices = [];
 
-        for (var i = 0; i < unit.length; i++)
+        for (var i = 0; i < length && indices.length <= limit; i++)
         {
             var index = unit[i];
             var cell = cells[index];
 
             if (cell.isCandidates === true && cell.candidates().includes(candidate))
             {
-                answer.push(index);
+                indices.push(index);
             }
         }
 
-        return answer;
+        return (indices.length <= limit ? indices : []);
     };
 
     Puzzle.prototype.clueIndices = function()
     {
         var answer = [];
         var cells = this.cells();
+        var size = this.size();
 
-        for (var i = 0; i < cells.length; i++)
+        for (var i = 0; i < size; i++)
         {
             var cell = cells[i];
 
@@ -125,7 +139,7 @@ define(["Unit"], function(Unit)
 
         if (cell.isValue === true)
         {
-            var size = this.cells().length;
+            var size = this.size();
 
             for (var i = 0; i < size; i++)
             {
@@ -141,10 +155,8 @@ define(["Unit"], function(Unit)
 
     Puzzle.prototype.findCellsWithCandidateLength = function(length)
     {
-        InputValidator.validateIsNumber("length", length);
-
         var answer = [];
-        var size = this.cells().length;
+        var size = this.size();
 
         for (var i = 0; i < size; i++)
         {
@@ -157,13 +169,6 @@ define(["Unit"], function(Unit)
         }
 
         return answer;
-    };
-
-    Puzzle.prototype.get = function(index)
-    {
-        InputValidator.validateIsNumber("index", index);
-
-        return this.cells()[index];
     };
 
     Puzzle.prototype.isConflictCell = function(index)
@@ -216,8 +221,6 @@ define(["Unit"], function(Unit)
 
     Puzzle.prototype.removeValueFromPeers = function(index)
     {
-        InputValidator.validateIsNumber("index", index);
-
         var answer = this;
         var cell0 = answer.cells()[index];
 
@@ -225,8 +228,9 @@ define(["Unit"], function(Unit)
         {
             var value = cell0.value();
             var peers = this.unit().getPeers(index);
+            var length = peers.length;
 
-            for (var i = 0; i < peers.length; i++)
+            for (var i = 0; i < length; i++)
             {
                 var myIndex = peers[i];
                 var cell = answer.cells()[myIndex];
@@ -250,7 +254,7 @@ define(["Unit"], function(Unit)
 
         if (cell && cell.isValue === true)
         {
-            var size = this.cells().length;
+            var size = this.size();
 
             for (var i = 0; i < size; i++)
             {
@@ -272,7 +276,7 @@ define(["Unit"], function(Unit)
 
         if (cell && cell.isValue === true)
         {
-            var size = this.cells().length;
+            var size = this.size();
 
             for (var i = 0; i < size; i++)
             {
@@ -288,9 +292,6 @@ define(["Unit"], function(Unit)
 
     Puzzle.prototype.withCandidate = function(index, candidate)
     {
-        InputValidator.validateIsNumber("index", index);
-        InputValidator.validateIsNumber("candidate", candidate);
-
         var answer = this;
         var cell = this.get(index);
 
@@ -305,9 +306,6 @@ define(["Unit"], function(Unit)
 
     Puzzle.prototype.withCell = function(index, cell)
     {
-        InputValidator.validateIsNumber("index", index);
-        InputValidator.validateNotNull("cell", cell);
-
         var newCells = this.cells().slice();
         newCells.splice(index, 1, cell);
 
@@ -316,12 +314,10 @@ define(["Unit"], function(Unit)
 
     Puzzle.prototype.withCells = function(indices, cells)
     {
-        InputValidator.validateNotNull("indices", indices);
-        InputValidator.validateNotNull("cells", cells);
-
         var newCells = this.cells().slice();
+        var length = indices.length;
 
-        for (var i = 0; i < indices.length; i++)
+        for (var i = 0; i < length; i++)
         {
             var index = indices[i];
             var cell = cells[i];
@@ -333,9 +329,6 @@ define(["Unit"], function(Unit)
 
     Puzzle.prototype.withoutCandidate = function(index, candidate)
     {
-        InputValidator.validateIsNumber("index", index);
-        InputValidator.validateIsNumber("candidate", candidate);
-
         var answer = this;
         var cell = this.get(index);
 
@@ -350,12 +343,10 @@ define(["Unit"], function(Unit)
 
     Puzzle.prototype.withoutCandidates = function(indices, candidates)
     {
-        InputValidator.validateNotNull("indices", indices);
-        InputValidator.validateNotNull("candidates", candidates);
+        var newCells = this.cells().slice();
+        var length = indices.length;
 
-        var newCells = this.cells();
-
-        for (var i = 0; i < indices.length; i++)
+        for (var i = 0; i < length; i++)
         {
             var index = indices[i];
             var cell = newCells[index].withoutCandidates(candidates);

@@ -39,8 +39,8 @@ define(function()
         this.CELL_NAME_TO_INDEX = {};
         this.INDEX_TO_CELL_NAME = {};
         this.INDEX_TO_PEERS = {};
-        this.UNITS = {};
-        this.PEERS = {};
+        this.UNITS = [];
+        this.PEERS = [];
 
         this.N = function()
         {

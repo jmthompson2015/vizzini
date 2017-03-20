@@ -31,7 +31,7 @@ define(["Unit"],
                 InputValidator.validateNotEmpty("unit", unit);
 
                 var answer = true;
-                var counts = {};
+                var counts = [];
 
                 for (var i = 0; i < unit.length; i++)
                 {

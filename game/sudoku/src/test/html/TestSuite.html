@@ -28,11 +28,14 @@
 
         var prefix = "../../test/js/";
         var suffix = "Test";
-        var testModules = ["Cell", "Difficulty", "GridFactory", "InitialState", "Puzzle", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit",
+        var testModules = [
+            // "Cell", "Difficulty", "GridFactory", "InitialState", "Puzzle", "PuzzleFormat", "SudokuToGo", "SudokuWiki", "Unit",
+            //
+            // "process/Action", "process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/HiddenSingleStrategy", "process/Move",
+            // "process/NakedPairStrategy", "process/NakedSingleStrategy", "process/Reducer", "process/Selector", "process/SudokuAnalyzer",
+            // "process/SudokuGenerator", "process/SudokuSolver", "process/SudokuValidator",
 
-            "process/Action", "process/ForwardSearchStrategy", "process/HiddenPairStrategy", "process/HiddenSingleStrategy", "process/Move",
-            "process/NakedPairStrategy", "process/NakedSingleStrategy", "process/Reducer", "process/Selector", "process/SudokuAnalyzer",
-            "process/SudokuGenerator", "process/SudokuSolver", "process/SudokuValidator",
+            "process/SudokuSolver"
         ];
         testModules = testModules.map(function(testModule)
         {

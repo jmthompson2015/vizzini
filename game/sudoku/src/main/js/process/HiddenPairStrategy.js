@@ -7,25 +7,18 @@ define(["process/Move"],
         "use strict";
         var HiddenPairStrategy = {
 
+            allCandidates: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+
             findDualCandidatesUnitCell: function(puzzle, unit)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateNotNull("unit", unit);
-
                 var answer;
                 var N = puzzle.N();
-                var allCandidates = [];
 
-                for (var i = 1; i <= N; i++)
-                {
-                    allCandidates.push(i);
-                }
-
-                var valueToIndices = {};
+                var valueToIndices = [];
 
                 for (var v = 1; v <= N; v++)
                 {
-                    valueToIndices[v] = puzzle.candidateIndicesInUnit(v, unit);
+                    valueToIndices[v] = puzzle.candidateIndicesInUnit(v, unit, 2);
                 }
 
                 for (var v0 = 1; v0 < N && answer === undefined; v0++)
@@ -44,7 +37,7 @@ define(["process/Move"],
                             if (indices1.length === 2 && indices0[0] === indices1[0] && indices0[1] === indices1[1] &&
                                 (cell00.candidates().length > 2 || cell01.candidates().length > 2))
                             {
-                                var candidates = allCandidates.slice();
+                                var candidates = this.allCandidates.slice();
                                 candidates.vizziniRemove(v0);
                                 candidates.vizziniRemove(v1);
                                 answer = new Move.BatchRemoveCandidates(puzzle, indices0, candidates, "hidden pair");
@@ -59,16 +52,15 @@ define(["process/Move"],
 
             getMove: function(puzzle)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
-
                 var answer;
                 var N = puzzle.N();
+                var puzzleUnit = puzzle.unit();
                 var unit;
 
                 // Look for dual candidates in a block.
                 for (var b = 0; b < N && answer === undefined; b++)
                 {
-                    unit = puzzle.unit().BLOCKS[b];
+                    unit = puzzleUnit.BLOCKS[b];
                     answer = this.findDualCandidatesUnitCell(puzzle, unit);
                 }
 
@@ -77,7 +69,7 @@ define(["process/Move"],
                     // Look for dual candidates in a column.
                     for (var c = 0; c < N && answer === undefined; c++)
                     {
-                        unit = puzzle.unit().COLUMNS[c];
+                        unit = puzzleUnit.COLUMNS[c];
                         answer = this.findDualCandidatesUnitCell(puzzle, unit);
                     }
                 }
@@ -87,7 +79,7 @@ define(["process/Move"],
                     // Look for dual candidates in a row.
                     for (var r = 0; r < N && answer === undefined; r++)
                     {
-                        unit = puzzle.unit().ROWS[r];
+                        unit = puzzleUnit.ROWS[r];
                         answer = this.findDualCandidatesUnitCell(puzzle, unit);
                     }
                 }

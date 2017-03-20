@@ -9,15 +9,12 @@ define(["process/Move"],
 
             findSingleCandidateUnitCell: function(puzzle, unit)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
-                InputValidator.validateNotNull("unit", unit);
-
                 var answer;
                 var N = puzzle.N();
 
                 for (var v = 1; v <= N && answer === undefined; v++)
                 {
-                    var indices = puzzle.candidateIndicesInUnit(v, unit);
+                    var indices = puzzle.candidateIndicesInUnit(v, unit, 1);
 
                     if (indices.length === 1)
                     {
@@ -31,16 +28,15 @@ define(["process/Move"],
 
             getMove: function(puzzle)
             {
-                InputValidator.validateNotNull("puzzle", puzzle);
-
                 var answer;
                 var N = puzzle.N();
+                var puzzleUnit = puzzle.unit();
                 var unit;
 
                 // Look for a single candidate in a block.
                 for (var b = 0; b < N && answer === undefined; b++)
                 {
-                    unit = puzzle.unit().BLOCKS[b];
+                    unit = puzzleUnit.BLOCKS[b];
                     answer = this.findSingleCandidateUnitCell(puzzle, unit);
                 }
 
@@ -49,7 +45,7 @@ define(["process/Move"],
                     // Look for a single candidate in a column.
                     for (var c = 0; c < N && answer === undefined; c++)
                     {
-                        unit = puzzle.unit().COLUMNS[c];
+                        unit = puzzleUnit.COLUMNS[c];
                         answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }
@@ -59,7 +55,7 @@ define(["process/Move"],
                     // Look for a single candidate in a row.
                     for (var r = 0; r < N && answer === undefined; r++)
                     {
-                        unit = puzzle.unit().ROWS[r];
+                        unit = puzzleUnit.ROWS[r];
                         answer = this.findSingleCandidateUnitCell(puzzle, unit);
                     }
                 }
