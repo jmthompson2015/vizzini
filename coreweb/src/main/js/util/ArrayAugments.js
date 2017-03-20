@@ -80,6 +80,26 @@ Array.prototype.vizziniEquals = function(b)
     return true;
 };
 
+Array.prototype.vizziniIntersect = function(array2)
+{
+    // Assumptions:
+    // - input is not necessarily sorted
+    // - an element only appears once in this and/or array2
+    var answer = [];
+
+    for (var i = 0; i < this.length; i++)
+    {
+        var n = this[i];
+
+        if (array2.indexOf(n) >= 0)
+        {
+            answer.push(n);
+        }
+    }
+
+    return answer;
+};
+
 Array.prototype.vizziniRandomElement = function()
 {
     return this[Math.floor(Math.random() * this.length)];
