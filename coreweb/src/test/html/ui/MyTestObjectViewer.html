@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTestObjectViewer</title>
+
+	<script src="../../../../lib/react/react-with-addons-15.3.0.js"></script>
+	<script src="../../../../lib/react-dom/react-dom-15.3.0.min.js"></script>
+	<script src="../../../../lib/require/require-2.2.0.js" data-main="../../../../src/main/js/ui/ObjectViewer"></script>
+	<script src="../../../../lib/three/three-0.79.0.min.js"></script>
+
+	<script src="../../../../src/main/js/util/Logger.js"></script>
+	<script src="../../../../src/main/js/util/InputValidator.js"></script>
+
+</head>
+<body>
+	<div id="mainContainer">mainContainer</div>
+	<script>
+		"use strict";
+		var LOGGER = new Logger();
+		LOGGER.setTraceEnabled(false);
+		LOGGER.setDebugEnabled(false);
+
+		require(["ObjectViewer"], function(ObjectViewer)
+		{
+			var geometry = new THREE.ConeGeometry(5, 20, 8);
+			var material = new THREE.MeshStandardMaterial(
+			{
+				color: 0xFF0000,
+				metalness: 0.3,
+			});
+
+			var root = new THREE.Mesh(geometry, material);
+
+			var width = 400;
+			var height = width;
+			var d = 25;
+
+			var element = React.createElement(ObjectViewer,
+			{
+				canvasId: "mainCanvas",
+				width: width,
+				height: height,
+				root: root,
+
+				cameraFOV: 60,
+				cameraPosition: new THREE.Vector3(0, 0, d),
+				pointLightPosition: new THREE.Vector3(d / 2, d, d),
+				deltaAngle: 30,
+			});
+			ReactDOM.render(element, document.getElementById("mainContainer"));
+		});
+	</script>
+</body>
+
+</html>
