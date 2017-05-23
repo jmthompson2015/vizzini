@@ -1,34 +1,35 @@
-define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
-{
-    "use strict";
+define(["Award", "Book", "Nomination"],
+   function(Award, Book, Nomination)
+   {
+      "use strict";
 
-    function CrimeAndBeyondFetcher(callback)
-    {
-        InputValidator.validateNotNull("callback", callback);
+      function CrimeAndBeyondFetcher(callback)
+      {
+         InputValidator.validateNotNull("callback", callback);
 
-        var award = Award.properties[Award.CRIME_AND_BEYOND];
+         var award = Award.properties[Award.CRIME_AND_BEYOND];
 
-        this.award = function()
-        {
+         this.award = function()
+         {
             return award;
-        };
+         };
 
-        this.category = function()
-        {
+         this.category = function()
+         {
             var categoryKey = award.categories.CASE;
 
             return award.categories.properties[categoryKey];
-        };
+         };
 
-        var that = this;
+         var that = this;
 
-        this.fetchData = function()
-        {
+         this.fetchData = function()
+         {
             this.receiveData();
-        };
+         };
 
-        this.receiveData = function()
-        {
+         this.receiveData = function()
+         {
             LOGGER.trace("CrimeAndBeyondFetcher.receiveData() start");
 
             var books = [];
@@ -37,44 +38,50 @@ define(["Award", "Book", "Nomination"], function(Award, Book, Nomination)
             var nomination = new Nomination(award, this.category(), 2016);
 
             var titleAndAuthor = [
-  ["Blood On Snow", "Jo Nesbø"],
-  ["Crazy Love You", "Lisa Unger"],
-  ["The Killer Next Door", "Alex Marwood"],
-  ["The Stranger", "Harlan Coben"],
-  ["Vanishing Games", "Roger Hobbs"],
-  ["Make Me", "Lee Child"],
-  ["The Promise", "Robert Crais"],
-  ["The Guilty", "David Baldacci"],
-  ["The Crossing", "Michael Connelly"],
-  ["The Travelers", "Chris Pavone"],
-  ["Redemption Road", "John Hart"],
-  ["Ink & Bone", "Lisa Unger"],
-];
+              ["Blood On Snow", "Jo Nesbø"],
+              ["Crazy Love You", "Lisa Unger"],
+              ["The Killer Next Door", "Alex Marwood"],
+              ["The Stranger", "Harlan Coben"],
+              ["Vanishing Games", "Roger Hobbs"],
+              ["Make Me", "Lee Child"],
+              ["The Promise", "Robert Crais"],
+              ["The Guilty", "David Baldacci"],
+              ["The Crossing", "Michael Connelly"],
+              ["The Travelers", "Chris Pavone"],
+              ["Redemption Road", "John Hart"],
+              ["Ink & Bone", "Lisa Unger"],
+            ];
             addTitleAndAuthor(books, bookToNomination, titleAndAuthor, nomination);
 
             nomination = new Nomination(award, this.category(), 2017);
             titleAndAuthor = [
-  ["The Last Painting of Sara de Vos", "Dominic Smith"],
-  ["Fool Me Once", "Harlan Coben"],
-];
+              ["The Last Painting of Sara de Vos", "Dominic Smith"],
+              ["Fool Me Once", "Harlan Coben"],
+              ["Marked for Life", "Emelie Schepp"],
+              ["The English Spy", "Daniel Silva"],
+              ["Orphan X", "Gregg Hurwitz"],
+              ["The Black Window", "Daniel Silva"],
+              ["The Woman in Cabin 10", "Ruth Ware"],
+              ["In a Dark, Dark Wood", "Ruth Ware"],
+            ];
             addTitleAndAuthor(books, bookToNomination, titleAndAuthor, nomination);
 
             LOGGER.info(award.name + " books.length = " + books.length);
             callback(books, bookToNomination);
 
             LOGGER.trace("CrimeAndBeyondFetcher.receiveData() end");
-        };
+         };
 
-        function addTitleAndAuthor(books, bookToNomination, titleAndAuthor, nomination)
-        {
+         function addTitleAndAuthor(books, bookToNomination, titleAndAuthor, nomination)
+         {
             for (var i = 0; i < titleAndAuthor.length; i++)
             {
-                var book = new Book(titleAndAuthor[i][0], titleAndAuthor[i][1]);
-                books.push(book);
-                bookToNomination[book] = [nomination];
+               var book = new Book(titleAndAuthor[i][0], titleAndAuthor[i][1]);
+               books.push(book);
+               bookToNomination[book] = [nomination];
             }
-        }
-    }
+         }
+      }
 
-    return CrimeAndBeyondFetcher;
-});
+      return CrimeAndBeyondFetcher;
+   });
