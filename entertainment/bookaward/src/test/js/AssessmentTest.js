@@ -1,61 +1,61 @@
 define(["Assessment"], function(Assessment)
 {
-    "use strict";
-    QUnit.module("Assessment");
+   "use strict";
+   QUnit.module("Assessment");
 
-    QUnit.test("Assessment properties Possible pick", function(assert)
-    {
-        var assessmentKey = Assessment.POSSIBLE_PICK;
-        var assessment = Assessment.properties[assessmentKey];
-        assert.equal(assessment.name, "Possible pick");
-        assert.equal(assessment.value, assessmentKey);
-    });
+   QUnit.test("Assessment properties Possible pick", function(assert)
+   {
+      var assessmentKey = Assessment.POSSIBLE_PICK;
+      var assessment = Assessment.properties[assessmentKey];
+      assert.equal(assessment.name, "Possible pick");
+      assert.equal(assessment.value, assessmentKey);
+   });
 
-    QUnit.test("keys and values", function(assert)
-    {
-        // Setup.
+   QUnit.test("keys and values", function(assert)
+   {
+      // Setup.
 
-        // Run.
-        var result = Assessment.values();
-        var ownPropertyNames = Object.getOwnPropertyNames(Assessment);
+      // Run.
+      var result = Assessment.values();
+      var ownPropertyNames = Object.getOwnPropertyNames(Assessment);
 
-        // Verify.
-        ownPropertyNames.forEach(function(key)
-        {
-            var key2 = Assessment[key];
+      // Verify.
+      ownPropertyNames.forEach(function(key)
+      {
+         var key2 = Assessment[key];
 
-            if (key !== "properties" && typeof key2 === "string")
-            {
-                assert.ok(Assessment.properties[key2], "Missing value for key = " + key);
-            }
-        });
+         if (key !== "properties" && typeof key2 === "string")
+         {
+            assert.ok(Assessment.properties[key2], "Missing value for key = " + key);
+         }
+      });
 
-        result.forEach(function(value)
-        {
-            var p = ownPropertyNames.filter(function(key)
-            {
-                return Assessment[key] === value;
-            });
+      result.forEach(function(value)
+      {
+         var p = ownPropertyNames.filter(function(key)
+         {
+            return Assessment[key] === value;
+         });
 
-            assert.equal(p.length, 1, "Missing key for value = " + value);
-        });
-    });
+         assert.equal(p.length, 1, "Missing key for value = " + value);
+      });
+   });
 
-    QUnit.test("values()", function(assert)
-    {
-        // Run.
-        var result = Assessment.values();
+   QUnit.test("values()", function(assert)
+   {
+      // Run.
+      var result = Assessment.values();
 
-        // Verify.
-        assert.ok(result);
-        var length = 5;
-        assert.equal(result.length, length);
-        assert.equal(result[0], "possiblePick");
-        assert.equal(result[length - 1], "read");
+      // Verify.
+      assert.ok(result);
+      var length = 6;
+      assert.equal(result.length, length);
+      assert.equal(result[0], "bookClubPick");
+      assert.equal(result[length - 1], "read");
 
-        var properties = Object.getOwnPropertyNames(Assessment);
-        var count = properties.length - 1 - // properties
-            1; // values
-        assert.equal(result.length, count);
-    });
+      var properties = Object.getOwnPropertyNames(Assessment);
+      var count = properties.length - 1 - // properties
+         1; // values
+      assert.equal(result.length, count);
+   });
 });
