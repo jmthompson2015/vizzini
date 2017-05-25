@@ -358,6 +358,10 @@ define(["Assessment", "Award", "Book", "Nomination"],
             {
                this.bookToAssessment[book] = Assessment.BOOK_CLUB_PICK;
             }
+            else if (this.bookToDclUrl[book] === undefined)
+            {
+               this.bookToAssessment[book] = Assessment.NOT_AVAILABLE;
+            }
             else
             {
                this.bookToAssessment[book] = Assessment.NONE;
