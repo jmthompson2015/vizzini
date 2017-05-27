@@ -17,7 +17,8 @@
 </head>
 <body>
 	<h1>Nominee Fetcher</h1>
-	<div id="statusBar"></div>
+	<div id="statusBar0"></div>
+	<div id="statusBar1"></div>
 	<div id="bookTablePanel"></div>
 	<script>
 		"use strict";
@@ -30,13 +31,14 @@
 			["Award", "BookComparator", "NominationComparator", "process/CrimeAndBeyondFetcher", "process/DCLURLFetcher", "process/SYKMNomineeFetcher"],
 			function(Award, BookComparator, NominationComparator, CrimeAndBeyondFetcher, DCLURLFetcher, SYKMNomineeFetcher)
 			{
-				document.getElementById("statusBar").innerHTML = "Loading...";
+				document.getElementById("statusBar0").innerHTML = "Loading...";
 
 				var books = [];
 				var bookToDclUrl = {};
 				var bookToNomination = {};
 				var count0 = 0;
 				var count1 = 0;
+				var missingCount = 0;
 
 				Award.values().forEach(function(awardKey)
 				{
@@ -75,7 +77,7 @@
 					});
 					count0++;
 
-					document.getElementById("statusBar").innerHTML = "count0 = " + count0 + " Award.values().length = " + Award.values().length;
+					document.getElementById("statusBar0").innerHTML = "count0 = " + count0 + " Award.values().length = " + Award.values().length;
 
 					if (count0 === Award.values().length)
 					{
@@ -98,7 +100,7 @@
 						books.forEach(function(book)
 						{
 							var fetcher = new DCLURLFetcher(book, callback1);
-							fetcher.fetchData();
+							setTimeout(fetcher.fetchData(), 500);
 						});
 					}
 				}
@@ -107,12 +109,17 @@
 				{
 					bookToDclUrl[book] = dclUrl;
 					count1++;
+					if (dclUrl === undefined)
+					{
+						missingCount++;
+					}
 
-					document.getElementById("statusBar").innerHTML = "count1 = " + count1 + " books.length = " + books.length;
+					document.getElementById("statusBar1").innerHTML = "count1 = " + count1 + " books.length = " + books.length + " missingCount = " + missingCount;
 
 					if (count1 === books.length)
 					{
 						LOGGER.info("Object.keys(bookToDclUrl).length = " + Object.keys(bookToDclUrl).length);
+						LOGGER.info("missingCount = " + missingCount);
 						var content = Award.values().reduce(function(previousValue, awardKey)
 						{
 							var awardString = "var " + awardKey + " = Award.properties." + awardKey + ";<br/>"
@@ -157,7 +164,8 @@
 						content += "this.loadBookToAssessment();<br/>";
 
 						document.getElementById("bookTablePanel").innerHTML = content;
-						document.getElementById("statusBar").innerHTML = "";
+						document.getElementById("statusBar0").innerHTML = "";
+						document.getElementById("statusBar1").innerHTML = "";
 					}
 				}
 			});

@@ -1,5 +1,5 @@
-define(["Award", "Book", "Nomination"],
-   function(Award, Book, Nomination)
+define(["Award", "Book", "Library", "Nomination", "process/ui/UrlGenerator"],
+   function(Award, Book, Library, Nomination, UrlGenerator)
    {
       "use strict";
 
@@ -51,9 +51,9 @@ define(["Award", "Book", "Nomination"],
          {
             var baseUrl = "https://query.yahooapis.com/v1/public/yql?q=";
 
-            var title = book.title();
-            title = title.replace(/ /g, "+");
-            var sourceUrl = "https://dcl.bibliocommons.com/search?t=smart&q=" + title;
+            var library = Library.properties[Library.DCL];
+            var subject = book.toString();
+            var sourceUrl = UrlGenerator.createLibrarySearchUrl(library, subject);
 
             var query = "select * from html where url='" + sourceUrl + "'";
             var answer = baseUrl + encodeURIComponent(query);
@@ -72,12 +72,41 @@ define(["Award", "Book", "Nomination"],
             var rows = xmlDocument.evaluate(xpath, xmlDocument, null, resultType, null);
             var row = rows.iterateNext();
             LOGGER.trace("row = " + row);
-            if (row)
+            var title = processTitle(book.title());
+            LOGGER.trace("title = " + title);
+
+            while (row)
             {
-               dclUrl = BASE_URL + row.value;
+               var myTitle = row.value;
+               LOGGER.trace("myTitle = " + myTitle);
+
+               if (myTitle.endsWith(title))
+               {
+                  dclUrl = BASE_URL + row.value;
+                  break;
+               }
+
+               row = rows.iterateNext();
+            }
+
+            if (dclUrl === undefined)
+            {
+               LOGGER.warn("missing row for book = " + book);
             }
 
             LOGGER.trace("DCLURLFetcher.parse() end");
+         }
+
+         function processTitle(title)
+         {
+            var answer = title;
+
+            answer = answer.replace(/\u2019/g, "'");
+            answer = answer.replace(/'/g, "");
+            answer = answer.replace(/ /g, "_");
+            answer = answer.toLowerCase();
+
+            return answer;
          }
       }
 

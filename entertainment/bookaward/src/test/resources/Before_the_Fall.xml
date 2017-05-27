@@ -1,0 +1,2119 @@
+<?xml version="1.0" encoding="UTF-8"?><query xmlns:yahoo="http://www.yahooapis.com/v1/base.rng" yahoo:count="1" yahoo:created="2017-05-27T17:03:20Z" yahoo:lang="en-us"><results><body class="lt_responsive sidebar_and_content search-results" id="context_core"><!-- APPLICATION LAYOUT -->
+
+
+
+
+
+
+
+  <!-- Google Analytics (analytics.js) -->
+
+<!-- End Google Analytics -->
+
+
+<!-- NEW RELIC -->
+
+  <!-- start CrazyEgg -->
+
+<!-- end CrazyEgg -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--[if lt IE 9]><link href="//cor-cdn-static.bibliocommons.com/assets/deprecated/context/core/IE-223cce97d2a1ab4365e01eb4070abbb7.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+  <!--[if IE 8]><link href="//cor-cdn-static.bibliocommons.com/assets/deprecated/context/core/IE8-6423c920b2af42d04525fdd61d76a9ee.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+  <!--[if IE 9]><link href="//cor-cdn-static.bibliocommons.com/assets/deprecated/context/core/ie9-f9eebad232c8e6d89bc517dc1c34ab40.css" media="screen" rel="stylesheet" type="text/css" /><![endif]-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="screen_reader_navigation" role="navigation">
+
+  <a class="hidden-xs screen_reader_nav" href="#header_main_nav">Skip to main navigation</a>
+    <a class="hidden-xs screen_reader_nav" href="#desktop_search_form">Skip to search</a>
+
+  <a class="screen_reader_nav" href="#content-start">Skip to content</a>
+</div>
+
+<div class="view_medium" id="ct_search">
+
+
+
+
+<script type="text/javascript"><![CDATA[
+  window.BCHeaderConfig = {"is_responsive_header":true,"is_externally_rendered":false,"core_base_url":"https://dcl.bibliocommons.com/"}
+]]></script>
+
+
+<div class="cp_header_wrapper_old">
+  <div class="cp_header" data-js="cp_header" data-responsive="true" testid="header">
+
+    <div class="cp_header_biblio_bar">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-xs-12">
+        <!-- begin LANGUAGES (desktop and tablet) -->
+        <!-- end LANGUAGES -->
+
+        <div class="pull-left visible-xs">
+          <a class="biblio_bar_link header_help_link" data-ga-category="header_help_link" data-ga-label="Help Link" data-js="header_help_link" data-target="header_help_dropdown_menu" href="http://help.bibliocommons.com" testid="link_help">
+  <i aria-hidden="true" class=" icon-help-circled"/>
+  <span class="sr-only-xs">Help</span>
+</a>
+
+        </div>
+
+        <!-- begin BCNAV -->
+<div data-js="bc_my_account_nav">
+  <div class="pull-right biblio_bar_my_account">
+
+    <a aria-expanded="false" aria-haspopup="true" class="dropdown-toggle my_account_toggle biblio_bar_link " data-js="biblionav_account_trigger" data-toggle="dropdown" href="javascript:void(0);" id="biblionav_account_trigger" testid="user_state_logged_out" type="button">
+        <!-- Template: t_biblionav_account_trigger -->
+          <span>Log In / My DCL</span>
+    </a>
+
+    <ul aria-labelledby="biblionav_account_trigger" class="dropdown-menu biblionav_my_account" data-js="biblionav_my_account">
+
+      <!-- Template - t_biblionav_my_account_user_info -->
+      <li class="info" data-js="biblionav_my_account_user_info" role="presentation">
+        <a class="btn btn-transactional btn-block log_in_btn" data-ga-category="biblionav_my_account_login" data-js="header_login_button" href="https://dcl.bibliocommons.com/user/login" role="button" testid="biblionav_login">Log In / Register</a>
+      </li>
+
+
+        <li class="divider" role="presentation"/>
+
+
+          <li role="presentation">
+            <a class="" data-ga-category="biblionav_my_account_dashboard" href="https://dcl.bibliocommons.com/dashboard/user_dashboard" tabindex="-1" testid="biblionav_mylibrary">My Library Dashboard</a>
+</li>
+        <li class="divider" role="presentation"/>
+
+          <li class="dropdown-header" role="presentation">My Borrowing</li>
+
+          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_checkedout" href="https://dcl.bibliocommons.com/checkedout" tabindex="-1" testid="biblionav_checkedout">Checked Out</a>
+</li>          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_holds" href="https://dcl.bibliocommons.com/holds" tabindex="-1" testid="biblionav_holds">On Hold</a>
+</li>          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_recentlyreturned" href="https://dcl.bibliocommons.com/recentlyreturned" style="display: none;" tabindex="-1" testid="biblionav_borrowing_history">Borrowing History</a>
+</li>          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_fines" href="https://dcl.bibliocommons.com/fines" tabindex="-1" testid="biblionav_fines">Fees</a>
+</li>
+        <li class="divider" role="presentation"/>
+
+          <li class="dropdown-header" role="presentation">My Collections</li>
+
+          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_shelves_future" href="https://dcl.bibliocommons.com/collection/show/my/library/for_later" tabindex="-1" testid="biblionav_shelves_future">For Later Shelf</a>
+</li>          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_shelves_past" href="https://dcl.bibliocommons.com/collection/show/my/library/completed" tabindex="-1" testid="biblionav_shelves_past">Completed Shelf</a>
+</li>          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_shelves_present" href="https://dcl.bibliocommons.com/collection/show/my/library/in_progress" tabindex="-1" testid="biblionav_shelves_present">In Progress Shelf</a>
+</li>          <li role="presentation">
+            <a class="indented" data-ga-category="biblionav_my_account_lists" href="https://dcl.bibliocommons.com/lists/show/mine" tabindex="-1" testid="biblionav_lists">Lists</a>
+</li>          <li data-js="biblionav_my_purchases_link" role="presentation" style="display: none;">
+            <a class="indented" data-ga-category="biblionav_my_account_purchases" href="https://dcl.bibliocommons.com/read" tabindex="-1" testid="biblionav_purchases">My Purchases</a>
+</li>
+        <li class="divider" role="presentation"/>
+
+
+          <li role="presentation">
+            <a class="" data-ga-category="biblionav_my_account_myprofile" href="https://dcl.bibliocommons.com/user_profile/me" tabindex="-1" testid="biblionav_myprofile">My Profile</a>
+</li>
+        <li class="divider" role="presentation"/>
+
+
+          <li role="presentation">
+            <a class="" data-ga-category="biblionav_my_account_mysettings" href="https://dcl.bibliocommons.com/account" tabindex="-1" testid="biblionav_mysettings">My Settings</a>
+</li>
+      <!-- Template: t_biblionav_account_selector -->
+      <li data-js="biblionav_account_selector" role="presentation"/>
+
+    </ul>
+  </div>
+
+  <!-- Template: t_biblionav_admin_nav -->
+<div class="pull-right admin_nav hidden" data-js="biblionav_admin_nav" testid="admin_nav">
+  <a aria-expanded="false" class="dropdown-toggle biblio_bar_link admin_nav_trigger" data-js="admin_nav_trigger" data-toggle="dropdown" href="#" id="admin_nav_trigger" testid="admin_nav_trigger" type="button">
+    <svg aria-hidden="false" class="svg_icon " focusable="false" height="14" viewbox="0 0 30 32" width="14">
+  Admin
+<path d="M6.848 26.272q0-0.448-0.32-0.8t-0.8-0.32-0.8 0.32-0.352 0.8 0.352 0.8 0.8 0.352 0.8-0.352 0.32-0.8zM18.368 18.784l-12.192 12.192q-0.672 0.64-1.6 0.64t-1.632-0.64l-1.888-1.952q-0.672-0.64-0.672-1.6 0-0.928 0.672-1.632l12.16-12.16q0.704 1.76 2.048 3.104t3.104 2.048zM29.696 11.008q0 0.704-0.416 1.888-0.864 2.4-2.944 3.904t-4.608 1.472q-3.328 0-5.664-2.336t-2.336-5.664 2.336-5.632 5.664-2.368q1.024 0 2.144 0.32t1.92 0.832q0.288 0.192 0.288 0.48t-0.288 0.512l-5.216 3.008v4l3.456 1.92q0.064-0.064 1.408-0.864t2.4-1.44 1.28-0.64q0.256 0 0.416 0.16t0.16 0.448z"/>
+</svg>
+    <span class="hidden-sm hidden-xs">Admin</span>
+  </a>
+
+  <ul aria-labelledby="admin_nav_trigger" class="dropdown-menu admin_nav_menu" data-js="admin_nav_menu" role="menu">
+  </ul>
+</div>
+
+<script id="t_biblionav_admin_nav" type="x-handlebars-template"><![CDATA[
+  {{#if admin_nav.length}}
+    <li role="presentation" class="dropdown-header">
+      Library
+    </li>
+
+    {{#each admin_nav}}
+      <li role="presentation">
+        <a href="{{link}}"
+           role="menuitem"
+           tabindex="-1"
+           testid="biblionav_admin_{{locals.testid}}">{{title}}</a>
+      </li>
+    {{/each}}
+  {{/if}}
+
+  {{#if is_acquisitions_user}}
+    {{#if admin_nav.length}}
+      <li role="presentation" class="divider"></li>
+    {{/if}}
+
+    <li role="presentation" class="dropdown-header">
+      Acquisitions
+    </li>
+    <li role="presentation">
+      <a href="https://dcl-acquisitions.bibliocommons.com" role="menuitem" tabindex="-1" testid="link_acquisitions">Home</a>
+    </li>
+  {{/if}}
+
+  {{#if bcadmin_nav.length}}
+    <li role="presentation" class="divider"></li>
+
+    <li role="presentation" class="dropdown-header">
+      BC Admin
+    </li>
+
+    {{#each bcadmin_nav}}
+      <li role="presentation">
+        <a href="{{link}}"
+           role="menuitem"
+           tabindex="-1"
+           testid="biblionav_admin_{{locals.testid}}">{{title}}</a>
+      </li>
+    {{/each}}
+  {{/if}}
+]]></script>
+
+</div>
+<!-- end BCNAV -->
+
+<script id="t_biblionav_divider" type="x-handlebars-template"><![CDATA[
+  <li role="presentation" class="divider" data-js="divider_{{divider_name}}"></li>
+]]></script>
+
+<script id="t_biblionav_account_trigger" type="x-handlebars-template"><![CDATA[
+  {{#if logged_in}}
+    <div class="cp_user_avatar sm home_patron" testid="user_avatar_{{user_id}}">
+      {{#if user_avatar}}
+        <img src="{{user_avatar}}" class="img-circle">
+      {{else}}
+        <div class="img-circle initial"><span>{{user_initial}}</span></div>
+      {{/if}}
+    </div>
+    <span class="hidden-xs user_identity_name">{{user_name}}</span>
+  {{else}}
+    <span>Log In / My DCL</span>
+  {{/if}}
+]]></script>
+
+<script id="t_biblionav_my_account_user_info" type="x-handlebars-template"><![CDATA[
+  <li role="presentation" class="info" data-js="biblionav_my_account_user_info">
+    {{#if logged_in}}
+      <div class="pull-left">
+        <div><b>My Account</b></div>
+        <a href="https://dcl.bibliocommons.com/user/logout" class="log_out_btn" data-ga-category="biblionav_my_account_logout" role="button" testid="biblionav_logout">Log Out</a>
+      </div>
+
+      <div class="pull-right notification-buttons">
+
+
+        <a href="https://dcl.bibliocommons.com/messages" class="btn btn-default btn-flat" data-ga-category="biblionav_my_account_messages" testid="biblionav_messages">
+          <i aria-hidden="true" class=" icon-mail"></i>
+          <span class="sr-only">Messages</span>
+          {{#if unread_messages}}
+            <span class="badge">{{unread_messages}}</span>
+          {{/if}}
+</a>
+        <a href="https://dcl.bibliocommons.com/account/personal_information" class="btn btn-default btn-flat" data-ga-category="biblionav_my_account_mysettings" data-ga-label="Settings Icon" testid="biblionav_mysettings">
+          <i aria-hidden="true" class=" icon-cog"></i>
+          <span class="sr-only">My Settings</span>
+</a>      </div>
+    {{else}}
+      <a href="https://dcl.bibliocommons.com/user/login" class="btn btn-transactional btn-block log_in_btn" data-ga-category="biblionav_my_account_login" data-js="header_login_button" role="button" testid="biblionav_login">Log In / Register</a>
+    {{/if}}
+  </li>
+]]></script>
+
+<script id="t_biblionav_account_selector" type="x-handlebars-template"><![CDATA[
+  <li role="presentation" class="divider"></li>
+
+  <li role="presentation" class="dropdown-header">
+    Switch Library Account
+  </li>
+  {{#each accounts}}
+    <li role="presentation">
+      <a href="https://{{link}}"
+         class="indented"
+         data-js="switch_linked_library"
+         data-host="{{link}}"
+         data-ga-category="biblionav_my_account_switch_account"
+         testid="biblionav_multiaccount_lib_{{text}}">
+        {{text}} <i aria-hidden="true" class=" icon-right"></i>
+      </a>
+    </li>
+  {{/each}}
+]]></script>
+
+        <div class="pull-right hidden-xs">
+            <a class="biblio_bar_link header_help_link" data-ga-category="header_help_link" data-ga-label="Help Link" data-js="header_help_link" data-target="header_help_dropdown_menu" href="http://help.bibliocommons.com" testid="link_help">
+  <i aria-hidden="true" class=" icon-help-circled"/>
+  <span class="sr-only-xs">Help</span>
+</a>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /.cp_header_biblio_bar -->
+
+
+    <div class="header_main">
+        <div class="client_and_search">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-md-4 col-xs-9">
+        <div class="pull-left cp_header_client_area">
+  <div class="pull-left logo">
+    <a href="http://dcl.org"><picture><source media="(max-width: 991px)" sizes="64px" srcset="//cor-liv-cdn-static.bibliocommons.com/images/CO-DOUGLASCOUNTY/mobile_logo.png?1495870928076"><img alt="Douglas County Libraries" src="//cor-liv-cdn-static.bibliocommons.com/images/CO-DOUGLASCOUNTY/logo.png?1495870928076" title=""/></source></picture></a>
+  </div>
+
+  <div class="pull-left visible-xs-block visible-sm-block xs_icon_triggers">
+    <a aria-label="Main navigation" data-ga-category="mobile_header_main_nav" data-ga-label="Mobile Main Nav" data-js="header_nav_xs_trigger" data-main-nav="true" data-target="header-main-nav" href="#" role="button"><i aria-hidden="true" class=" icon-menu"/></a>
+
+  </div>
+</div>
+      </div>
+      <div class="col-lg-7 col-md-8 col-xs-3">
+        <div class="visible-xs-block visible-sm-block xs_icon_triggers xs_icon_right">
+          <a aria-label="Open search form" class="header_search_xs" data-icon-off="icon-cancel" data-icon-on="icon-search" data-js="header_search_xs_trigger" href="#" role="button"><i aria-hidden="true" class=" icon-search"/></a>
+        </div>
+        <div class="hidden-xs hidden-sm">
+            <div data-js="header_search_wrapper_desktop">
+              <div class="cp_header_search" data-js="header_search">
+                <form accept-charset="UTF-8" action="https://dcl.bibliocommons.com/search" class="desktop_search_form" data-js="desktop_search_form" id="desktop_search_form" method="get" name="desktop_search_form"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"/></div>
+                  <div class="row">
+                    <!-- begin SEARCH  -->
+                    <div class="form-horizontal">
+                      <div class="form-group">
+                        <div class="col-md-offset-1 col-md-3 col-lg-3 col-lg-offset-0 reduced_gutter_right text-right">
+                          <!-- begin SEARCH TYPE -->
+<div class="bootstrap-select-wrapper"><select aria-label="Search type" class="form-control selectpicker form-control" data-dropup-auto="false" data-js="search_type" data-style="btn-flat btn-default" id="search_filter_id_25vkj39bv7gt1outi2appvrdis" name="t" testid="search_filter"><option value="smart">Keyword</option><option value="title">Title</option><option value="author">Author</option><option value="subject">Subject</option><option value="tag">Tag</option><option value="userlist">List</option><option value="user">User</option><option value="series">Series</option></select></div>
+
+<input data-js="search_category" id="search_category_id_2mbh4sj0skbeflrk551el87ur5" name="search_category" testid="search_category" type="hidden" value="keyword"/>
+<!-- end SEARCH TYPE-->
+                        </div>
+                        <div class="col-md-8 col-lg-9 no_gutter_left">
+                          <!-- begin SEARCH INPUT -->
+
+  <div class="input-group header_search_box">
+    <label class="sr-only" for="q">Enter search query</label>
+    <input autocomplete="off" class="form-control main_search_input text" data-js="main_search_input" data-original-query="Before the Fall by Noah Hawley" id="search_box_id_6vvi77re2jf28871r0odevabp6" name="q" testid="main_search_input" type="text" value="Before the Fall by Noah Hawley"/>
+    <span class="input-group-btn">
+      <button class="btn btn-primary btn-flat" type="submit">
+        <i aria-hidden="true" class=" icon-search"/>
+        <span class="sr-only">Search</span>
+      </button>
+    </span>
+  </div>
+
+<!-- end SEARCH INPUT -->
+
+
+                        </div>
+                      </div>
+                    </div>
+                    <!-- end SEARCH  -->
+                  </div>
+                  <div class="row">
+                    <div class="col-md-offset-4 col-md-5 col-lg-offset-3 col-lg-5">
+                    </div>
+                    <div class="col-md-3 col-lg-4 small adv_search">
+                      <a class="hidden" data-ga-category="header_saved_searches" data-js="save_search_overlay" href="https://dcl.bibliocommons.com/user/saved_searches" testid="link_savedsearches">Saved Searches</a>
+
+                      <a href="https://dcl.bibliocommons.com/search" test_id="link_advancedsearch">Advanced Search</a>
+
+                    </div>
+                  </div>
+
+
+
+
+</form>              </div><!-- /.cp_header_search -->
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /.client_and_search -->
+
+<div class="clearfix search_wrapper_xs" data-js="header_search_wrapper_xs">
+  <div class="col-xs-12">
+    <div class="cp_header_search" data-js="header_search">
+      <form accept-charset="UTF-8" action="https://dcl.bibliocommons.com/search" data-js="mobile_search_form" id="mobile_search_form" method="get" name="mobile_search_form"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="✓"/></div>
+        <div class="form-group small pull-right adv_search">
+          <a href="https://dcl.bibliocommons.com/search" test_id="link_advancedsearch">Advanced Search</a>
+
+        </div>
+        <h2 class="header_search_title">Search</h2>
+        <div class="form-group">
+          <!-- begin SEARCH INPUT -->
+
+  <div class="input-group header_search_box">
+    <label class="sr-only" for="q">Enter search query</label>
+    <input autocomplete="off" class="form-control main_search_input text" data-js="main_search_input" data-original-query="Before the Fall by Noah Hawley" id="search_box_id_20mao43kiut5paa4o3g5t61l6k" name="q" testid="main_search_input" type="text" value="Before the Fall by Noah Hawley"/>
+    <span class="input-group-btn">
+      <button class="btn btn-primary btn-flat" type="submit">
+        <i aria-hidden="true" class=" icon-search"/>
+        <span class="sr-only">Search</span>
+      </button>
+    </span>
+  </div>
+
+<!-- end SEARCH INPUT -->
+
+
+        </div>
+            <div data-js="header_target_search_options" data-target="catalogue">
+
+<div class="form-group">
+  <span class="connector" role="presentation">
+    Search by
+  </span>
+  <!-- begin SEARCH TYPE -->
+<div class="bootstrap-select-wrapper"><select aria-label="Search type" class="form-control selectpicker form-control" data-dropup-auto="false" data-js="search_type" data-style="btn-flat btn-default" id="search_filter_id_68eqpt22s8krrgln7u8oode281" name="t" testid="search_filter"><option value="smart">Keyword</option><option value="title">Title</option><option value="author">Author</option><option value="subject">Subject</option><option value="tag">Tag</option><option value="userlist">List</option><option value="user">User</option><option value="series">Series</option></select></div>
+
+<input data-js="search_category" id="search_category_id_k6jeeknrel64qkinhfoieo3r3" name="search_category" testid="search_category" type="hidden" value="keyword"/>
+<!-- end SEARCH TYPE-->
+</div>
+
+
+
+
+</div>
+</form>
+    </div>
+    <!-- /.cp_header_search -->
+  </div>
+  <div class="col-xs-12">
+    <div class="small header_search_links">
+      <a class="hidden" data-ga-category="header_saved_searches" data-js="save_search_overlay" href="https://dcl.bibliocommons.com/user/saved_searches" testid="link_savedsearches">Saved Searches</a>
+
+    </div>
+  </div>
+</div>
+
+      <div class="navbar yamm navbar-default hidden-xs hidden-sm cp_header_nav" data-js="header-top-nav">
+  <div class="container">
+    <nav class="navbar-collapse collapse col-md-12" role="navigation">
+
+      <ul aria-haspopup="true" class="nav navbar-nav header_main_nav" data-js="header-main-nav" id="header_main_nav" role="menubar">
+
+        <li class="dropdown desktop mobile" data-ga-category="header_top_level_nav" data-ga-event="show" data-ga-label="Explore" role="menuitem"><a class="dropdown-toggle" data-toggle="dropdown" href="#" testid="link_explore">Explore</a><ul class="dropdown-menu" role="menu">  <li>   <div class="yamm-content"><ul class="menu-column list-unstyled" role="menu"><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Recent Activity — Explore" href="/" testid="link_whatsnew">Recent Activity</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="New Titles — Explore" href="/explore/recent_arrivals" testid="link_explorenewlyacquired">New Titles</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Awards — Explore" href="/explore/awards" testid="link_exploreawards">Awards</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Bestsellers — Explore" href="/explore/bestsellers" testid="link_explorebestsellers">Bestsellers</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Staff Picks — Explore" href="/explore/featured_lists/staff_picks" testid="link_e">Staff Picks</a></li></ul>    </div>  </li></ul></li><li class="dropdown desktop mobile" data-ga-category="header_top_level_nav" data-ga-event="show" data-ga-label="Locations" role="menuitem"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Locations</a><ul class="dropdown-menu" role="menu">  <li>   <div class="yamm-content"><ul class="menu-column list-unstyled" role="menu"><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="All Locations — Locations" href="http://www.dcl.org/locations/">All Locations</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Castle Pines — Locations" href="http://www.dcl.org/castle-pines/">Castle Pines</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Castle Rock — Locations" href="http://www.dcl.org/castle-rock/">Castle Rock</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Highlands Ranch — Locations" href="http://www.dcl.org/highlands-ranch/">Highlands Ranch</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Lone Tree — Locations" href="http://www.dcl.org/lone-tree/">Lone Tree</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Louviers — Locations" href="http://www.dcl.org/louviers/">Louviers</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Parker — Locations" href="http://www.dcl.org/parker/">Parker</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Roxborough — Locations" href="http://www.dcl.org/roxborough/">Roxborough</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Douglas County History — Locations" href="http://www.dcl.org/history/">Douglas County History</a></li></ul>    </div>  </li></ul></li><li class="dropdown desktop mobile" data-ga-category="header_top_level_nav" data-ga-event="show" data-ga-label="Using the Library" role="menuitem"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Using the Library</a><ul class="dropdown-menu" role="menu">  <li>   <div class="yamm-content"><ul class="menu-column list-unstyled" role="menu"><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Library Basics — Using the Library" href="http://www.dcl.org/library-basics/">Library Basics</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Get a Library Card — Using the Library" href="http://getacard.org/v2/index.html">Get a Library Card</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Book Clubs — Using the Library" href="http://www.dcl.org/book-clubs/">Book Clubs</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Staff Recommendations — Using the Library" href="http://www.dcl.org/staff-recommendations/">Staff Recommendations</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Business Resources — Using the Library" href="http://www.dcl.org/bizinfo/">Business Resources</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Online Learning — Using the Library" href="http://www.dcl.org/research/online-learning/">Online Learning</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Adult Education &amp; Test Prep — Using the Library" href="http://www.dcl.org/adult-education/">Adult Education &amp; Test Prep</a></li></ul>    </div>  </li></ul></li><li class="dropdown desktop mobile" data-ga-category="header_top_level_nav" data-ga-event="show" data-ga-label="Kids &amp; Teens" role="menuitem"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Kids &amp; Teens</a><ul class="dropdown-menu" role="menu">  <li>   <div class="yamm-content"><ul class="menu-column list-unstyled" role="menu"><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Storytime — Kids &amp; Teens" href="http://www.dcl.org/storytime/">Storytime</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Read, Listen, Watch — Kids &amp; Teens" href="http://www.dcl.org/read-listen-watch/">Read, Listen, Watch</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Kids Events — Kids &amp; Teens" href="http://douglascountylibraries.evanced.info/signup/calendar?ag=724,729,731,730&amp;et=18,2,22,16,20,15,3,24,25&amp;lib=ALL">Kids Events</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Parents &amp; Teachers — Kids &amp; Teens" href="http://www.dcl.org/parents-teachers/">Parents &amp; Teachers</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Homework Help — Kids &amp; Teens" href="http://www.dcl.org/research/students/">Homework Help</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_sub_level_nav" data-ga-label="Teens — Kids &amp; Teens" href="http://blogs.douglascountylibraries.org/teens/">Teens</a></li></ul>    </div>  </li></ul></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_top_level_nav" data-ga-label="Digital Media" href="http://www.dcl.org/digital-media/">Digital Media</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_top_level_nav" data-ga-label="Reserve a Space" href="http://www.dcl.org/reserve-a-space/">Reserve a Space</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_top_level_nav" data-ga-label="Library Events" href="http://www.dcl.org/library-events/">Library Events</a></li><li class="desktop mobile" role="menuitem"><a data-ga-category="header_top_level_nav" data-ga-label="Research" href="http://www.dcl.org/research/">Research</a></li>
+
+      </ul>
+
+    </nav>
+
+  </div>
+</div>
+<!-- /.cp_header_nav -->
+
+<script id="t_biblionav_header_nav_xs" type="x-handlebars-template"><![CDATA[
+  <div class="navbar yamm navbar-default cp_header_nav">
+    <nav class="col-xs-12" role="navigation">
+
+      {{{nav_html}}}
+
+    </nav>
+  </div>
+]]></script>
+
+    </div>
+
+    <!-- TODO: Remove this message when responsive header goes out to everyone -->
+  </div><!-- /.cp_header -->
+</div>
+
+
+  <div class="container container_for_page">
+
+    <div id="page">
+      <a class="screen-reader-text" name="content-start"/>
+
+      <div class="legacy_page_row">
+
+            <div class="alert cp_system_message critical collapsed" data-js="system_message" data-notice_id="956570007" role="alert" testid="system_message critical">
+      <button aria-label="hide" class="close" data-dismiss="alert" testid="system_message_close_button" type="button"><span aria-hidden="true">×</span></button>
+    <div class="wrapper">
+      <div class="priority_box">
+        <i aria-hidden="true" class=" icon-attention-circled"/>
+      </div>
+
+      <div class="message_box" data-js="expand-text" testid="system_message_text">
+        Closed Monday, May 29, Memorial Day.
+      </div>
+
+      <div class="collapse_expand_actions" data-js="collapse_expand_actions">
+        <a class="expand_trigger" data-js="expand_action" href="#"><i aria-hidden="true" class=" icon-down-dir"/></a>
+        <a class="collapse_trigger" data-js="collapse_action" href="#"><i aria-hidden="true" class=" icon-up-dir"/></a>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+        <div id="top_banner">
+            <div class="title_row row">
+  <div class="page_status_container col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-offset-0 col-lg-12" data-js="save_search_container">
+
+      <div class="preTitle">
+        Keyword search results for…
+            <a class="help_icon blockHijack inline" href="http://help.bibliocommons.com/010searching" id="main_help_010searching_id_43kiad8gffbr7usacbamo4jdh6" target="_blank"><i aria-hidden="true" class=" icon-info-circled"/>search</a>
+      </div>
+      <h1 class="section_title clearfix text_black">
+        <span class="search_query" data-js="search_query">
+          Before the Fall by Noah Hawley
+        </span>
+        <div class="cp_save_search" data-js="save_search">
+          <a class="link_contextual save_search_trigger" data-js="save_search_trigger" href="#">
+            Save Search
+          </a>
+        </div>
+        <div class="pull-right broaden">
+              <a class="extendSearch" href="/search?display_quantity=25&amp;last_search_scope=CO-DOUGLASCOUNTY&amp;page=1&amp;q=Before+the+Fall+by+Noah+Hawley&amp;search_category=bkw&amp;search_scope=CO-DOUGLASCOUNTY&amp;suppress=true&amp;t=bkw&amp;title=Before+the+Fall+by+Noah+Hawley&amp;utf8=%C3%A2%C2%9C%C2%93" testid="link_broadensearchresults">Broaden your search <i aria-hidden="true" class=" icon-right"/></a>
+        </div>
+      </h1>
+
+
+  </div>
+</div>
+<div class="separator_border col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-offset-0 col-lg-12"/>
+
+
+        </div>
+
+
+
+        <div class="clearfix row" id="main">
+            <div class="col-xs-4 col-sm-5 col-md-4 col-lg-3 cp_drawer cp_drawer_left" data-analytics="{ &quot;Section&quot;: &quot;Left&quot; }" data-js="drawer-element" id="">
+
+<div class="filterList facets reskinned_facets" data-js="filter_list">
+    <div class="visible_in_drawer facet_close" data-js="drawer_close">
+      <button class="close" type="button">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
+    </div>
+
+    <h3>Filter Results by...</h3>
+  <div aria-multiselectable="true" class="filterGroup" role="tablist">
+                <div class="facet multiple collapsable locations" data-analytics="{ &quot;Primary Facet&quot;: &quot;Available now...&quot; }" id="expander_status">
+      <div aria-controls="facet_tabpanel_status" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_status" param="status" role="tab" tabindex="0">
+        <h5 class="mobile_list_heading" testid="facet_category_heading">Available now...</h5>
+      </div>
+      <div aria-label="Available now..." aria-labeledby="facet_tab_status" class="collapseTarget" id="facet_tabpanel_status" role="tabpanel">
+        <ul class="facet_list mobile_list_content">
+              <li class="disjunctive">
+                <label class="facet_label" for="STATUS__anywhere_">
+                  <input data-js="pretty-checkbox" data-value="_anywhere_" id="STATUS__anywhere_" name="f_status" param="f_status" testid="checkbox_status__anywhere_" type="checkbox" value="_anywhere_"/>
+                  At any location
+                </label>
+                <span class="count">(4)</span>
+              </li>
+        </ul>
+          <div class="clearfix expand_buttons">
+            <a class="all popup_more facet_show_more" href="/search?display_quantity=25&amp;expanded_field=STATUS&amp;page=1&amp;q=Before+the+Fall+by+Noah+Hawley&amp;search_category=keyword&amp;sort_this=true&amp;t=keyword&amp;utf8=%C3%A2%C2%9C%C2%93" style="display: inline-block" testid="expand_STATUS">More locations... <i aria-hidden="true" class=" icon-angle-right"/></a>          </div>
+      </div>
+    </div>
+
+
+  <div class="facet multiple collapsable" data-analytics="{ &quot;Primary Facet&quot;: &quot;Format&quot; }" id="expander_super_format">
+    <div aria-controls="facet_tabpanel_super_format" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_super_format" param="format" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading format_heading" testid="facet_category_heading">Format</h5>
+        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Format" aria-labeledby="facet_tab_super_format" class="collapseTarget grouped_facets" id="facet_tabpanel_super_format" role="tabpanel">
+      <ul class="facet_list " role="tablist">
+            <li class="facetGroup" data-analytics="{ &quot;Secondary Facet&quot;: &quot;Books&quot; }">
+              <div class="collapsable  collapsed">
+                <div aria-controls="facet_tabpanel_books" class="collapseTrigger clearfix button" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_books" param="books" role="tab" tabindex="0">
+                  <h4><i aria-hidden="true" class=" icon-book-open"/> Books</h4>
+                    <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+                    <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+                </div>
+                <div aria-labeledby="facet_tab_books" id="facet_tabpanel_books" role="tabpanel">
+                  <div class="appliedFilters">
+                    <ul>
+                    </ul>
+                  </div>
+                  <div class="collapseTarget" style="display: none">
+                    <ul class="subFacetList">
+                          <li class="disjunctive">
+                          <label class="facet_label" for="FORMAT_BK"><input data-js="pretty-checkbox" id="FORMAT_BK" name="formats" param="formats" testid="checkbox_format_bk" type="checkbox" value="BK"/> Book </label><span class="count">(1)</span></li>
+                          <li class="disjunctive">
+                          <label class="facet_label" for="FORMAT_EBOOK"><input data-js="pretty-checkbox" id="FORMAT_EBOOK" name="formats" param="formats" testid="checkbox_format_ebook" type="checkbox" value="EBOOK"/> eBook </label><span class="count">(1)</span></li>
+                          <li class="disjunctive">
+                          <label class="facet_label" for="FORMAT_LPRINT"><input data-js="pretty-checkbox" id="FORMAT_LPRINT" name="formats" param="formats" testid="checkbox_format_lprint" type="checkbox" value="LPRINT"/> Large Print </label><span class="count">(1)</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="facetGroup" data-analytics="{ &quot;Secondary Facet&quot;: &quot;Audiobooks&quot; }">
+              <div class="collapsable  collapsed">
+                <div aria-controls="facet_tabpanel_audiobooks_spoken_word" class="collapseTrigger clearfix button" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_audiobooks_spoken_word" param="audiobooks_spoken_word" role="tab" tabindex="0">
+                  <h4><i aria-hidden="true" class=" icon-headphones"/> Audiobooks</h4>
+                    <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+                    <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+                </div>
+                <div aria-labeledby="facet_tab_audiobooks_spoken_word" id="facet_tabpanel_audiobooks_spoken_word" role="tabpanel">
+                  <div class="appliedFilters">
+                    <ul>
+                    </ul>
+                  </div>
+                  <div class="collapseTarget" style="display: none">
+                    <ul class="subFacetList">
+                          <li class="disjunctive">
+                          <label class="facet_label" for="FORMAT_AB"><input data-js="pretty-checkbox" id="FORMAT_AB" name="formats" param="formats" testid="checkbox_format_ab" type="checkbox" value="AB"/> Downloadable Audiobook </label><span class="count">(1)</span></li>
+                          <li class="disjunctive">
+                          <label class="facet_label" for="FORMAT_BOOK_CD"><input data-js="pretty-checkbox" id="FORMAT_BOOK_CD" name="formats" param="formats" testid="checkbox_format_book_cd" type="checkbox" value="BOOK_CD"/> Audiobook CD </label><span class="count">(1)</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="facetGroup" data-analytics="{ &quot;Secondary Facet&quot;: &quot;Accessible Formats&quot; }">
+              <div class="collapsable  collapsed">
+                <div aria-controls="facet_tabpanel_accessible_formats" class="collapseTrigger clearfix button" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_accessible_formats" param="accessible_formats" role="tab" tabindex="0">
+                  <h4><i aria-hidden="true" class=" icon-font"/> Accessible Formats</h4>
+                    <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+                    <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+                </div>
+                <div aria-labeledby="facet_tab_accessible_formats" id="facet_tabpanel_accessible_formats" role="tabpanel">
+                  <div class="appliedFilters">
+                    <ul>
+                    </ul>
+                  </div>
+                  <div class="collapseTarget" style="display: none">
+                    <ul class="subFacetList">
+                          <li class="disjunctive">
+                          <label class="facet_label" for="FORMAT_LPRINT"><input data-js="pretty-checkbox" id="FORMAT_LPRINT" name="formats" param="formats" testid="checkbox_format_lprint" type="checkbox" value="LPRINT"/> Large Print </label><span class="count">(1)</span></li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </li>
+      </ul>
+    </div>
+</div>
+
+              <div class="facet multiple collapsable" data-analytics="{ &quot;Primary Facet&quot;: &quot;New at the Library...&quot; }" id="expander_newly_acquired">
+    <div aria-controls="facet_tabpanel_newly_acquired" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_newly_acquired" param="newly_acquired" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        New at the Library...
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="New at the Library..." aria-labeledby="facet_tab_newly_acquired" id="facet_tabpanel_newly_acquired" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="OLDER_THAN_180_DAYS" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;newly_acquired=OLDER_THAN_180_DAYS" id="NEWLY_ACQUIRED_OLDER_THAN_180_DAYS" param="newly_acquired" testid="link_newly_acquired_older_than_180_days">Over 180 Days</a> <span class="count">(5)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable" data-analytics="{ &quot;Primary Facet&quot;: &quot;Titles I can...&quot; }" id="expander_circ">
+    <div aria-controls="facet_tabpanel_circ" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_circ" param="circ" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Titles I can...
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Titles I can..." aria-labeledby="facet_tab_circ" id="facet_tabpanel_circ" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="">
+      <ul class="facet_list">
+                   <li class="disjunctive"><label class="facet_label" for="CIRC_CIRC"><input data-js="pretty-checkbox" id="CIRC_CIRC" name="circ" param="circ" testid="checkbox_circ_circ" type="checkbox" value="CIRC"/> Borrow and take home</label> <span class="count">(3)</span></li>
+         <li class="disjunctive"><label class="facet_label" for="CIRC_ONLINE"><input data-js="pretty-checkbox" id="CIRC_ONLINE" name="circ" param="circ" testid="checkbox_circ_online" type="checkbox" value="ONLINE"/> Access online</label> <span class="count">(2)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable" data-analytics="{ &quot;Primary Facet&quot;: &quot;Content&quot; }" id="expander_fiction_type">
+    <div aria-controls="facet_tabpanel_fiction_type" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_fiction_type" param="fiction_type" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Content
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Content" aria-labeledby="facet_tab_fiction_type" id="facet_tabpanel_fiction_type" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="FICTION" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;fictype=FICTION" id="FICTION_TYPE_FICTION" param="fictype" testid="link_fiction_type_fiction">Fiction</a> <span class="count">(5)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable" data-analytics="{ &quot;Primary Facet&quot;: &quot;Audience&quot; }" id="expander_audience">
+    <div aria-controls="facet_tabpanel_audience" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_audience" param="audience" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Audience
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Audience" aria-labeledby="facet_tab_audience" id="facet_tabpanel_audience" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="">
+      <ul class="facet_list">
+                   <li class="disjunctive"><label class="facet_label" for="AUDIENCE_adult"><input data-js="pretty-checkbox" id="AUDIENCE_adult" name="audience" param="audience" testid="checkbox_audience_adult" type="checkbox" value="adult"/> Adult</label> <span class="count">(5)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable" data-analytics="{ &quot;Primary Facet&quot;: &quot;Form/Genre&quot; }" id="expander_genre_headings">
+    <div aria-controls="facet_tabpanel_genre_headings" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_genre_headings" param="genre_headings" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Form/Genre
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Form/Genre" aria-labeledby="facet_tab_genre_headings" id="facet_tabpanel_genre_headings" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Fiction" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Fiction" id="GENRE_HEADINGS_Fiction" param="genre" testid="link_genre_headings_fiction">Fiction</a> <span class="count">(5)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Thrillers (Fiction)" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Thrillers+%28Fiction%29" id="GENRE_HEADINGS_Thrillers (Fiction)" param="genre" testid="link_genre_headings_thrillers_(fiction)">Thrillers (Fiction)</a> <span class="count">(5)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Audiobooks" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Audiobooks" id="GENRE_HEADINGS_Audiobooks" param="genre" testid="link_genre_headings_audiobooks">Audiobooks</a> <span class="count">(2)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Downloadable Audio Books" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Downloadable+Audio+Books" id="GENRE_HEADINGS_Downloadable Audio Books" param="genre" testid="link_genre_headings_downloadable_audio_books">Downloadable Audio Books</a> <span class="count">(1)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Downloadable Overdrive Eaudio" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Downloadable+Overdrive+Eaudio" id="GENRE_HEADINGS_Downloadable Overdrive Eaudio" param="genre" testid="link_genre_headings_downloadable_overdrive_eaudio">Downloadable Overdrive Eaudio</a> <span class="count">(1)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Downloadable Overdrive Ebooks" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Downloadable+Overdrive+Ebooks" id="GENRE_HEADINGS_Downloadable Overdrive Ebooks" param="genre" testid="link_genre_headings_downloadable_overdrive_ebooks">Downloadable Overdrive Ebooks</a> <span class="count">(1)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Electronic Books" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Electronic+Books" id="GENRE_HEADINGS_Electronic Books" param="genre" testid="link_genre_headings_electronic_books">Electronic Books</a> <span class="count">(1)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Large Type Books" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;genre=Large+Type+Books" id="GENRE_HEADINGS_Large Type Books" param="genre" testid="link_genre_headings_large_type_books">Large Type Books</a> <span class="count">(1)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Topic&quot; }" id="expander_topic_headings">
+    <div aria-controls="facet_tabpanel_topic_headings" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_topic_headings" param="topic_headings" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Topic
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Topic" aria-labeledby="facet_tab_topic_headings" id="facet_tabpanel_topic_headings" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Airplane crash survival" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;topic=Airplane+crash+survival" id="TOPIC_HEADINGS_Airplane crash survival" param="topic" testid="link_topic_headings_airplane_crash_survival">Airplane crash survival</a> <span class="count">(5)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Aircraft accident victims" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;topic=Aircraft+accident+victims" id="TOPIC_HEADINGS_Aircraft accident victims" param="topic" testid="link_topic_headings_aircraft_accident_victims">Aircraft accident victims</a> <span class="count">(4)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Region&quot; }" id="expander_geo_headings">
+    <div aria-controls="facet_tabpanel_geo_headings" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_geo_headings" param="geo_headings" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Region
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Region" aria-labeledby="facet_tab_geo_headings" id="facet_tabpanel_geo_headings" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Martha's Vineyard (Mass.)" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;region=Martha%27s+Vineyard+%28Mass.%29" id="GEO_HEADINGS_Martha's Vineyard (Mass.)" param="region" testid="link_geo_headings_martha&amp;#27;s_vineyard_(mass.)">Martha's Vineyard (Mass.)</a> <span class="count">(2)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Author&quot; }" id="expander_author">
+    <div aria-controls="facet_tabpanel_author" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_author" param="author" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Author
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Author" aria-labeledby="facet_tab_author" id="facet_tabpanel_author" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="Hawley, Noah" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;author=Hawley%2C+Noah" id="AUTHOR_Hawley, Noah" param="author" testid="link_author_hawley,_noah">Hawley, Noah</a> <span class="count">(5)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+
+<div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Language&quot; }" id="expander_primary_language">
+  <div aria-controls="facet_tabpanel_primary_language" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_primary_language" param="lang" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">Language</h5>
+        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+  </div>
+  <div aria-label="Language" aria-labeledby="facet_tab_primary_language" id="facet_tabpanel_primary_language" role="tabpanel">
+      <ul class="facet_list collapseTarget facet_hide">
+        <li class="languageToggle">
+          <input data-js="pretty-checkbox" id="languageToggle" name="languageToggle" type="checkbox" value="true"/><label class="inline facet_label" for="languageToggle">Include translations</label>
+          <a href="http://help.bibliocommons.com/045faq/030faq-searching/#trans" target="_blank"><span class="icon-info-circled"/></a>
+        </li>
+      </ul>
+      <div class="appliedFilters">
+        <ul>
+        </ul>
+      </div>
+  <div class="collapseTarget" style="display: none">
+    <ul class="facet_list mobile_list_content plang" style="display:block;">
+                 <li class="disjunctive"><label class="facet_label" for="PRIMARY_LANGUAGE_plang_eng"><input data-js="pretty-checkbox" id="PRIMARY_LANGUAGE_plang_eng" name="plang" param="plang" testid="checkbox_primary_language_eng" type="checkbox" value="eng"/> English</label> <span class="count">(5)</span></li>
+
+    </ul>
+    <ul class="facet_list lang" style="display:none;">
+                 <li class="disjunctive"><label class="facet_label" for="LANGUAGE_lang_eng"><input data-js="pretty-checkbox" id="LANGUAGE_lang_eng" name="lang" param="lang" testid="checkbox_language_eng" type="checkbox" value="eng"/> English</label> <span class="count">(5)</span></li>
+
+    </ul>
+
+  </div>
+  </div>
+</div>
+
+              <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Published Date&quot; }" id="expander_published_date">
+    <div aria-controls="facet_tabpanel_published_date" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_published_date" param="published_date" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Published Date
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Published Date" aria-labeledby="facet_tab_published_date" id="facet_tabpanel_published_date" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="2016" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;pubdate=2016" id="PUBLISHED_DATE_2016" param="pubdate" testid="link_published_date_2016">2016</a> <span class="count">(5)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+              <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Rating&quot; }" id="expander_ugc_rating">
+    <div aria-controls="facet_tabpanel_ugc_rating" class="collapseTrigger clearfix button single" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_ugc_rating" param="ugc_rating" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+
+        Rating
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Rating" aria-labeledby="facet_tab_ugc_rating" id="facet_tabpanel_ugc_rating" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="THREE_PLUS_STARS" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;rating=THREE_PLUS_STARS" id="UGC_RATING_THREE_PLUS_STARS" param="rating" testid="link_ugc_rating_three_plus_stars">3-4 Stars</a> <span class="count">(5)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+          <div class="facet multiple collapsable collapsed" id="expander_Tags">
+    <div aria-controls="facet_tabpanel_tags" class="collapseTrigger clearfix button single" id="facet_tab_Tags" param="Tags" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">Tags</h5>
+        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Tags" aria-labeledby="facet_tab_tags" class="collapseTarget grouped_facets" id="facet_tabpanel_Tags" role="tabpanel" style="display: none">
+      <ul class="facet_list" role="tablist">
+        <li class="facetGroup">
+            <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Genre&quot; }" id="expander_tag_genre">
+    <div aria-controls="facet_tabpanel_tag_genre" class="collapseTrigger clearfix button no" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_tag_genre" param="tag_genre" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+        <i aria-hidden="true" class=" icon-tag"/>
+        Genre
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Genre" aria-labeledby="facet_tab_tag_genre" id="facet_tabpanel_tag_genre" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="character-driven" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;gtag=character-driven" id="TAG_GENRE_character-driven" param="gtag" testid="link_tag_genre_character-driven">character-driven</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="suspense" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;gtag=suspense" id="TAG_GENRE_suspense" param="gtag" testid="link_tag_genre_suspense">suspense</a> <span class="count">(3)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+        </li>
+        <li class="facetGroup">
+            <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Tone&quot; }" id="expander_tag_tone">
+    <div aria-controls="facet_tabpanel_tag_tone" class="collapseTrigger clearfix button no" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_tag_tone" param="tag_tone" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+        <i aria-hidden="true" class=" icon-tag"/>
+        Tone
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Tone" aria-labeledby="facet_tab_tag_tone" id="facet_tabpanel_tag_tone" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="political" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;ttag=political" id="TAG_TONE_political" param="ttag" testid="link_tag_tone_political">political</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="satirical" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;ttag=satirical" id="TAG_TONE_satirical" param="ttag" testid="link_tag_tone_satirical">satirical</a> <span class="count">(3)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+        </li>
+        <li class="facetGroup">
+            <div class="facet multiple collapsable collapsed" data-analytics="{ &quot;Primary Facet&quot;: &quot;Theme&quot; }" id="expander_tag_about">
+    <div aria-controls="facet_tabpanel_tag_about" class="collapseTrigger clearfix button no" data-analytics="{ &quot;EventName&quot;:&quot;Clicked Search Facet&quot; }" id="facet_tab_tag_about" param="tag_about" role="tab" tabindex="0">
+      <h5 class="mobile_list_heading" testid="facet_category_heading">
+        <i aria-hidden="true" class=" icon-tag"/>
+        Theme
+</h5>        <i aria-hidden="true" class="collapsed_icon icon-down-dir"/>
+        <i aria-hidden="true" class="expanded_icon icon-up-dir"/>
+    </div>
+    <div aria-label="Theme" aria-labeledby="facet_tab_tag_about" id="facet_tabpanel_tag_about" role="tabpanel">
+    <div class="appliedFilters">
+      <ul>
+      </ul>
+    </div>
+    <div class="collapseTarget" style="display: none">
+      <ul class="facet_list">
+                <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="chipublib best adults" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;atag=chipublib+best+adults" id="TAG_ABOUT_chipublib best adults" param="atag" testid="link_tag_about_chipublib_best_adults">chipublib best adults</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="fame" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;atag=fame" id="TAG_ABOUT_fame" param="atag" testid="link_tag_about_fame">fame</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="news media" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;atag=news+media" id="TAG_ABOUT_news media" param="atag" testid="link_tag_about_news_media">news media</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="plane crash" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;atag=plane+crash" id="TAG_ABOUT_plane crash" param="atag" testid="link_tag_about_plane_crash">plane crash</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="relationships" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;atag=relationships" id="TAG_ABOUT_relationships" param="atag" testid="link_tag_about_relationships">relationships</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="survivor's guilt" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;atag=survivor%27s+guilt" id="TAG_ABOUT_survivor's guilt" param="atag" testid="link_tag_about_survivor&amp;#27;s_guilt">survivor's guilt</a> <span class="count">(3)</span></li>
+      <li class="conjunctive" data-analytics="{ &quot;EventName&quot;:&quot;Search Filter&quot;, &quot;State&quot;:&quot;Applied&quot; }"><a data-value="wealth" href="/search?utf8=%C3%A2%C2%9C%C2%93&amp;q=Before+the+Fall+by+Noah+Hawley&amp;t=keyword&amp;search_category=keyword&amp;display_quantity=25&amp;atag=wealth" id="TAG_ABOUT_wealth" param="atag" testid="link_tag_about_wealth">wealth</a> <span class="count">(3)</span></li>
+
+      </ul>
+    </div>
+    </div>
+  </div>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+  </div>
+</div>
+
+</div>  <div class="col-xs-12 col-sm-12 col-md-10 col-md-offset-1 col-lg-offset-0 col-lg-9" data-analytics="{ &quot;Section&quot;: &quot;Center&quot; }" id="">
+
+
+  <div class="list_container" id="bibList">
+  <div class="cp_list_utility_bar col-xs-12" data-js="utility_bar">
+  <div class="utility_context_info">
+    <a class="btn btn-primary btn-float hidden-lg pull-left filter_drawer_trigger" data-disabled_viewports="['lg']" data-js="drawer-trigger position_sticky" href="#">
+      <i class="icon-filter"/>
+      <span class="visible_if_sticky_position">
+          <span class="hidden-xs">
+            Filter these results
+          </span>
+          <span class="hidden-md hidden-sm hidden-lg">
+            Filter
+          </span>
+      </span>
+    </a>
+      <div class="utility_bar_sort pull-left" data-js="dropdown-filter">
+          <div class="dropdown">
+    <a class="dropdown-toggle" data-target="" data-toggle="dropdown" href="">
+      <span data-js="overlay-title">
+        <i aria-hidden="true" class=" icon-sort"/>
+        <span>
+          Sort By:  
+        </span>
+      </span>
+      <span class="tappable_link" data-js="selected">
+        Relevance
+      </span>
+    </a>
+    <ul class="dropdown-menu">
+        <li class="active">
+          <a data-filter-attribute="{&quot;sort[field]&quot;:&quot;RELEVANCY&quot;,&quot;sort[type]&quot;:&quot;CATALOG_SEARCH_FIELDS&quot;,&quot;sort[direction]&quot;:&quot;descending&quot;}" data-filter-label="Relevance" data-js="filter-option" href="javascript:void(0)" testid="filterRelevance">Relevance</a>
+        </li>
+        <li>
+          <a data-filter-attribute="{&quot;sort[field]&quot;:&quot;NEWLY_ACQUIRED&quot;,&quot;sort[type]&quot;:&quot;BIB_FIELDS&quot;,&quot;sort[direction]&quot;:&quot;descending&quot;}" data-filter-label="Date acquired" data-js="filter-option" href="javascript:void(0)" testid="filterDate acquired">Date acquired</a>
+        </li>
+        <li>
+          <a data-filter-attribute="{&quot;sort[field]&quot;:&quot;TITLE&quot;,&quot;sort[type]&quot;:&quot;BIB_FIELDS&quot;,&quot;sort[direction]&quot;:&quot;ascending&quot;}" data-filter-label="Title" data-js="filter-option" href="javascript:void(0)" testid="filterTitle">Title</a>
+        </li>
+        <li>
+          <a data-filter-attribute="{&quot;sort[field]&quot;:&quot;AUTHOR&quot;,&quot;sort[type]&quot;:&quot;BIB_FIELDS&quot;,&quot;sort[direction]&quot;:&quot;ascending&quot;}" data-filter-label="Author" data-js="filter-option" href="javascript:void(0)" testid="filterAuthor">Author</a>
+        </li>
+        <li>
+          <a data-filter-attribute="{&quot;sort[field]&quot;:&quot;PUBLISHED_DATE&quot;,&quot;sort[type]&quot;:&quot;BIB_FIELDS&quot;,&quot;sort[direction]&quot;:&quot;descending&quot;}" data-filter-label="Published date" data-js="filter-option" href="javascript:void(0)" testid="filterPublished date">Published date</a>
+        </li>
+        <li>
+          <a data-filter-attribute="{&quot;sort[field]&quot;:&quot;UGC_RATING&quot;,&quot;sort[type]&quot;:&quot;UGC_FIELDS&quot;,&quot;sort[direction]&quot;:&quot;descending&quot;}" data-filter-label="Rating" data-js="filter-option" href="javascript:void(0)" testid="filterRating">Rating</a>
+        </li>
+    </ul>
+  </div>
+
+      </div>
+  </div>
+  <div class="filter_actions">
+    <div class="pull-right">
+      <div class="utility_bar_paginate">
+  <span class="items_showing_count">
+    1 - 5 of 5 items
+  </span>
+
+  <div class="pull-right">
+    <a class="utility_pagination_link disabled" href="/search?display_quantity=25&amp;page=0&amp;q=Before+the+Fall+by+Noah+Hawley&amp;search_category=keyword&amp;t=keyword&amp;utf8=%C3%A2%C2%9C%C2%93">
+      <i aria-hidden="true" class=" icon-angle-left"/>
+      <span class="sr-only">Previous</span>
+</a>    <a class="utility_pagination_link disabled" href="/search?display_quantity=25&amp;page=2&amp;q=Before+the+Fall+by+Noah+Hawley&amp;search_category=keyword&amp;t=keyword&amp;utf8=%C3%A2%C2%9C%C2%93">
+      <i aria-hidden="true" class=" icon-angle-right"/>
+      <span class="sr-only">Next</span>
+</a>  </div>
+</div>
+    </div>
+      <div class="view_selector pull-right hidden-xs">
+      <a class="current_view btn btn-flat btn-default view_btn" data-toggle="tooltip" href="javascript:void(0);" id="view_medium" testid="link_viewmedium" title="Cover View">
+        <svg aria-hidden="false" class="svg_icon " focusable="false" height="14" viewbox="0 0 1792 1792" width="14">
+  Cover View
+  <path d="M512 1248v192q0 40-28 68t-68 28h-320q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h320q40 0 68 28t28 68zm0-512v192q0 40-28 68t-68 28h-320q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h320q40 0 68 28t28 68zm1280 512v192q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h960q40 0 68 28t28 68zm-1280-1024v192q0 40-28 68t-68 28h-320q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h320q40 0 68 28t28 68zm1280 512v192q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h960q40 0 68 28t28 68zm0-512v192q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-192q0-40 28-68t68-28h960q40 0 68 28t28 68z">
+</path></svg>
+</a>      <a class=" btn btn-flat btn-default view_btn" data-toggle="tooltip" href="/search?display_quantity=25&amp;page=1&amp;q=Before+the+Fall+by+Noah+Hawley&amp;search_category=keyword&amp;t=keyword&amp;utf8=%C3%A2%C2%9C%C2%93&amp;view=small" id="view_small" testid="link_viewsmall" title="Detail View">
+        <svg aria-hidden="false" class="svg_icon " focusable="false" height="14" viewbox="0 0 1792 1792" width="14">
+  Detail View
+  <path d="M256 1312v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm-1536-1152v192q0 13-9.5 22.5t-22.5 9.5h-192q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h192q13 0 22.5 9.5t9.5 22.5zm1536 768v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5zm0-384v192q0 13-9.5 22.5t-22.5 9.5h-1344q-13 0-22.5-9.5t-9.5-22.5v-192q0-13 9.5-22.5t22.5-9.5h1344q13 0 22.5 9.5t9.5 22.5z">
+</path></svg>
+</a>      <a alt="Print View" class=" btn btn-flat btn-default view_btn" data-popup="printWindow resizable=1,status=0,toolbar=0,scrollbars=1,location=0,menubar=0" data-toggle="tooltip" href="/search/print_list?page=1&amp;q=Before+the+Fall+by+Noah+Hawley&amp;search_category=keyword&amp;t=keyword&amp;utf8=%C3%A2%C2%9C%C2%93" id="view_print" testid="link_print_entire_page" title="Print View">
+        <svg aria-hidden="false" class="svg_icon " focusable="false" height="14" viewbox="0 0 1792 1792" width="14">
+  Print View
+  <path d="M448 1536h896v-256h-896v256zm0-640h896v-384h-160q-40 0-68-28t-28-68v-160h-640v640zm1152 64q0-26-19-45t-45-19-45 19-19 45 19 45 45 19 45-19 19-45zm128 0v416q0 13-9.5 22.5t-22.5 9.5h-224v160q0 40-28 68t-68 28h-960q-40 0-68-28t-28-68v-160h-224q-13 0-22.5-9.5t-9.5-22.5v-416q0-79 56.5-135.5t135.5-56.5h64v-544q0-40 28-68t68-28h672q40 0 88 20t76 48l152 152q28 28 48 76t20 88v256h64q79 0 135.5 56.5t56.5 135.5z">
+</path></svg>
+</a></div>
+  </div>
+</div>
+  <div class="cp_bib_list clearfix">
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list_item_outer clearfix" data-analytics="{ &quot;SubFeature&quot;: &quot;Bib&quot; }" data-js="batch-action-item bib-list-item" id="bib1309150114">
+  <div class="jacket_cover_container visible-md visible-lg col-md-2 col-lg-2">
+      <a class="jacketCoverLink" href="/item/show/1309150114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-book-93409e4decdf10c55296c91a97ac2653.png" id="1309150114" src="https://secure.syndetics.com/index.aspx?isbn=9781455561780/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>  </div>
+  <div class="bg_white listItem col-md-10 col-lg-10 col-xs-12 col-sm-12">
+    <div class="row top_info list_item_section">
+      <div class="col-xs-10 col-sm-8">
+        <div class="pull-left visible-xs visible-sm">
+            <a class="jacketCoverLink" href="/item/show/1309150114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-book-93409e4decdf10c55296c91a97ac2653.png" id="1309150114" src="https://secure.syndetics.com/index.aspx?isbn=9781455561780/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>        </div>
+        <span class="title"><a href="/item/show/1309150114_before_the_fall" target="_parent" testid="bib_link" title="Before the Fall (Book)">Before the Fall</a></span>
+
+
+   <span class="author">
+       By <a class="author_detail_link" href="/search?q=Hawley%2C+Noah&amp;search_category=author&amp;t=author" target="_parent" testid="author_search" title="Hawley, Noah">Hawley, Noah</a>
+   </span>
+
+
+
+        <div class="search_ratings">
+              <i class="icon-star"/>
+    <i class="icon-star"/>
+    <i class="icon-star"/>
+
+    <i class="icon-star-half-alt"/>
+
+    <i class="icon-star-empty"/>
+
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-4 text-right_sm">
+        <div class="hidden-xs">
+          <div class="cp_shelf_dropdown">
+  <div class="shelf_actions" data-js="shelf-actions" id="id_2e67v42k1lc81oo9u7pi8eteqc">
+    <div class="dropdown clearfix" data-js="add_to_shelf_dropdown" id="bibStatus_1309150114_id_2e67v42k1lc81oo9u7pi8eteqc">
+      <div class="btn-group add_to_shelf_btn_group">
+          <a class="btn btn-default add_to_shelf_main_action" href="/collection/add/my/library?bib=1309150114&amp;bib_status=future&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_shelf_action" with_hook="shelf_dropdown"><i aria-hidden="true" class=" icon-book-shelf"/> For Later</a>
+          <a class="btn btn-default trigger dropdown-toggle " data-target="" data-toggle="dropdown" href="#" role="button" testid="add_to_shelf_dropdown">
+              <span class="sr-only">Toggle Dropdown</span>
+</a>
+        <ul class="dropdown-menu dropdown-menu-right" data-js="add_to_shelf_dropdown_menu">
+            <li><a href="/collection/add/my/library?bib=1309150114&amp;bib_status=past&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_Completed" with_hook="shelf_dropdown">Completed</a></li>
+            <li><a href="/collection/add/my/library?bib=1309150114&amp;bib_status=present&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_In_Progress" with_hook="shelf_dropdown">In Progress</a></li>
+        </ul>
+</div>    </div>
+  </div>
+</div>
+        </div>
+        <div class="hidden-sm hidden-md hidden-lg">
+            <div class="mini_shelf_btn extra_action_panel ">
+    <a class="btn btn-default btn-flat pull-right " data-container="body" data-default-tooltip-text="Add to My For Later Shelf" data-ga-action="Add To Shelf" data-ga-category="search" data-ga-label="Mobile" data-js="shelf-inline-overlay hide-when-batch-item-checked action-link" data-on-shelf-text="On my shelf" data-placement="bottom" data-title="Add to My For Later Shelf" data-toggle="tooltip" href="/collection/add_bib_overlay/1309150114/for_later?privacy_toggle=true">
+      <i aria-hidden="true" class=" icon-book-shelf"/>
+      <span class="status-label on_shelf_indicator">
+        <i aria-hidden="true" class=" icon-ok-circled"/>
+      </span>
+</a>  </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="secondary_info list_item_section visible-md visible-lg">
+        <span class="format">
+    <i aria-hidden="true" class=" icon-book"/>Book
+     - 2016
+  </span>
+
+    </div>
+    <div class="row circ_info list_item_section">
+      <div class="col-sm-3">
+        <div class="hidden-md hidden-lg">
+            <span class="format">
+    <i aria-hidden="true" class=" icon-book"/>Book
+     - 2016
+  </span>
+
+        </div>
+            <span class="label">
+      <span class="value callNumber">
+        HAWLEY, N
+      </span>
+    </span>
+
+
+      </div>
+      <div class="col-sm-5 text_right_sm availability_block">
+
+            <span class="label availability">
+                    <span class="item_available" role="presentation" testid="item_availability">Available </span>
+                      <a class="circInfo value underlined location_info" href="/item/show_circulation/1309150114?search_scope=CO-DOUGLASCOUNTY" id="circ_info_trigger_1309150114_0.31649757833809833" role="button" testid="availability_details">in some locations</a>
+
+            </span>
+            <span class="label">
+
+            </span>
+
+      </div>
+      <div class="col-sm-4 text_right_sm">
+            <span class="hold_button" data-bundle="block_button" data-js="hold_button_container">
+              <a class="btn btn-transactional btn-block  circ_button" data-js="request-hold-button" href="/holds/select_hold/1309150114?j_callback=hold_popup_1309150114&amp;responsive=true" id="hold_popup_1309150114" name="hold_popup_1309150114" testid="hold_button">
+Place a Hold</a>
+
+</span>
+
+      </div>
+    </div>
+  </div>
+  <div data-react-class="WhileYouWaitContainer" data-react-props="{&quot;id&quot;:&quot;S114C1309150&quot;,&quot;format&quot;:&quot;BK&quot;,&quot;availability&quot;:&quot;AVAILABLE&quot;,&quot;view&quot;:&quot;medium&quot;,&quot;graphicNovelRecommendations&quot;:false,&quot;messages&quot;:{&quot;while_you_wait_empty&quot;:&quot;Sorry, there are no recommendations at this moment&quot;,&quot;while_you_wait_loading&quot;:&quot;Looking for recommendations you can borrow now&quot;,&quot;while_you_wait_title&quot;:&quot;While You Wait&quot;,&quot;recommendations_powered_by&quot;:&quot;Powered by {service}.&quot;,&quot;bookish_recommends&quot;:&quot;Zola Recommends&quot;,&quot;library_thing_recommends&quot;:&quot;LibraryThing&quot;,&quot;novelist_recommends&quot;:&quot;NoveList&quot;,&quot;while_you_wait_available_count&quot;:&quot;{count} available&quot;}}"/>
+</div>
+
+
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list_item_outer clearfix" data-analytics="{ &quot;SubFeature&quot;: &quot;Bib&quot; }" data-js="batch-action-item bib-list-item" id="bib1358316114">
+  <div class="jacket_cover_container visible-md visible-lg col-md-2 col-lg-2">
+      <a class="jacketCoverLink" href="/item/show/1358316114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-book-largeprint-66504507489ec6ca828a1ea29774fe96.png" id="1358316114" src="https://secure.syndetics.com/index.aspx?isbn=9781455566143/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>  </div>
+  <div class="bg_white listItem col-md-10 col-lg-10 col-xs-12 col-sm-12">
+    <div class="row top_info list_item_section">
+      <div class="col-xs-10 col-sm-8">
+        <div class="pull-left visible-xs visible-sm">
+            <a class="jacketCoverLink" href="/item/show/1358316114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-book-largeprint-66504507489ec6ca828a1ea29774fe96.png" id="1358316114" src="https://secure.syndetics.com/index.aspx?isbn=9781455566143/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>        </div>
+        <span class="title"><a href="/item/show/1358316114_before_the_fall" target="_parent" testid="bib_link" title="Before the Fall (Large Print)">Before the Fall</a></span>
+
+
+   <span class="author">
+       By <a class="author_detail_link" href="/search?q=Hawley%2C+Noah&amp;search_category=author&amp;t=author" target="_parent" testid="author_search" title="Hawley, Noah">Hawley, Noah</a>
+   </span>
+
+
+
+        <div class="search_ratings">
+              <i class="icon-star"/>
+    <i class="icon-star"/>
+    <i class="icon-star"/>
+
+    <i class="icon-star-half-alt"/>
+
+    <i class="icon-star-empty"/>
+
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-4 text-right_sm">
+        <div class="hidden-xs">
+          <div class="cp_shelf_dropdown">
+  <div class="shelf_actions" data-js="shelf-actions" id="id_3bss2bt6ln8irh6t9fpvgh0ais">
+    <div class="dropdown clearfix" data-js="add_to_shelf_dropdown" id="bibStatus_1358316114_id_3bss2bt6ln8irh6t9fpvgh0ais">
+      <div class="btn-group add_to_shelf_btn_group">
+          <a class="btn btn-default add_to_shelf_main_action" href="/collection/add/my/library?bib=1358316114&amp;bib_status=future&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_shelf_action" with_hook="shelf_dropdown"><i aria-hidden="true" class=" icon-book-shelf"/> For Later</a>
+          <a class="btn btn-default trigger dropdown-toggle " data-target="" data-toggle="dropdown" href="#" role="button" testid="add_to_shelf_dropdown">
+              <span class="sr-only">Toggle Dropdown</span>
+</a>
+        <ul class="dropdown-menu dropdown-menu-right" data-js="add_to_shelf_dropdown_menu">
+            <li><a href="/collection/add/my/library?bib=1358316114&amp;bib_status=past&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_Completed" with_hook="shelf_dropdown">Completed</a></li>
+            <li><a href="/collection/add/my/library?bib=1358316114&amp;bib_status=present&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_In_Progress" with_hook="shelf_dropdown">In Progress</a></li>
+        </ul>
+</div>    </div>
+  </div>
+</div>
+        </div>
+        <div class="hidden-sm hidden-md hidden-lg">
+            <div class="mini_shelf_btn extra_action_panel ">
+    <a class="btn btn-default btn-flat pull-right " data-container="body" data-default-tooltip-text="Add to My For Later Shelf" data-ga-action="Add To Shelf" data-ga-category="search" data-ga-label="Mobile" data-js="shelf-inline-overlay hide-when-batch-item-checked action-link" data-on-shelf-text="On my shelf" data-placement="bottom" data-title="Add to My For Later Shelf" data-toggle="tooltip" href="/collection/add_bib_overlay/1358316114/for_later?privacy_toggle=true">
+      <i aria-hidden="true" class=" icon-book-shelf"/>
+      <span class="status-label on_shelf_indicator">
+        <i aria-hidden="true" class=" icon-ok-circled"/>
+      </span>
+</a>  </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="secondary_info list_item_section visible-md visible-lg">
+        <span class="format">
+    <i aria-hidden="true" class=" icon-font"/>Large Print
+     - 2016
+  </span>
+
+    </div>
+    <div class="row circ_info list_item_section">
+      <div class="col-sm-3">
+        <div class="hidden-md hidden-lg">
+            <span class="format">
+    <i aria-hidden="true" class=" icon-font"/>Large Print
+     - 2016
+  </span>
+
+        </div>
+            <span class="label">
+      <span class="value callNumber">
+        LT HAWLEY, N
+      </span>
+    </span>
+
+
+      </div>
+      <div class="col-sm-5 text_right_sm availability_block">
+
+            <span class="label availability">
+                    <span class="item_available" role="presentation" testid="item_availability">Available </span>
+                      <a class="circInfo value underlined location_info" href="/item/show_circulation/1358316114?search_scope=CO-DOUGLASCOUNTY" id="circ_info_trigger_1358316114_0.32362922738076816" role="button" testid="availability_details">in some locations</a>
+
+            </span>
+            <span class="label">
+
+            </span>
+
+      </div>
+      <div class="col-sm-4 text_right_sm">
+            <span class="hold_button" data-bundle="block_button" data-js="hold_button_container">
+              <a class="btn btn-transactional btn-block  circ_button" data-js="request-hold-button" href="/holds/select_hold/1358316114?j_callback=hold_popup_1358316114&amp;responsive=true" id="hold_popup_1358316114" name="hold_popup_1358316114" testid="hold_button">
+Place a Hold</a>
+
+</span>
+
+      </div>
+    </div>
+  </div>
+  <div data-react-class="WhileYouWaitContainer" data-react-props="{&quot;id&quot;:&quot;S114C1358316&quot;,&quot;format&quot;:&quot;LPRINT&quot;,&quot;availability&quot;:&quot;AVAILABLE&quot;,&quot;view&quot;:&quot;medium&quot;,&quot;graphicNovelRecommendations&quot;:false,&quot;messages&quot;:{&quot;while_you_wait_empty&quot;:&quot;Sorry, there are no recommendations at this moment&quot;,&quot;while_you_wait_loading&quot;:&quot;Looking for recommendations you can borrow now&quot;,&quot;while_you_wait_title&quot;:&quot;While You Wait&quot;,&quot;recommendations_powered_by&quot;:&quot;Powered by {service}.&quot;,&quot;bookish_recommends&quot;:&quot;Zola Recommends&quot;,&quot;library_thing_recommends&quot;:&quot;LibraryThing&quot;,&quot;novelist_recommends&quot;:&quot;NoveList&quot;,&quot;while_you_wait_available_count&quot;:&quot;{count} available&quot;}}"/>
+</div>
+
+
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list_item_outer clearfix" data-analytics="{ &quot;SubFeature&quot;: &quot;Bib&quot; }" data-js="batch-action-item bib-list-item" id="bib1349097114">
+  <div class="jacket_cover_container visible-md visible-lg col-md-2 col-lg-2">
+      <a class="jacketCoverLink" href="/item/show/1349097114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-book-eformat-21fed9c79996fb130cd45e5edad3686f.png" id="1349097114" src="https://secure.syndetics.com/index.aspx?isbn=9781455561803/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>  </div>
+  <div class="bg_white listItem col-md-10 col-lg-10 col-xs-12 col-sm-12">
+    <div class="row top_info list_item_section">
+      <div class="col-xs-10 col-sm-8">
+        <div class="pull-left visible-xs visible-sm">
+            <a class="jacketCoverLink" href="/item/show/1349097114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-book-eformat-21fed9c79996fb130cd45e5edad3686f.png" id="1349097114" src="https://secure.syndetics.com/index.aspx?isbn=9781455561803/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>        </div>
+        <span class="title"><a href="/item/show/1349097114_before_the_fall" target="_parent" testid="bib_link" title="Before the Fall (eBook)">Before the Fall</a></span>
+
+
+   <span class="author">
+       By <a class="author_detail_link" href="/search?q=Hawley%2C+Noah&amp;search_category=author&amp;t=author" target="_parent" testid="author_search" title="Hawley, Noah">Hawley, Noah</a>
+   </span>
+
+
+
+        <div class="search_ratings">
+              <i class="icon-star"/>
+    <i class="icon-star"/>
+    <i class="icon-star"/>
+
+    <i class="icon-star-half-alt"/>
+
+    <i class="icon-star-empty"/>
+
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-4 text-right_sm">
+        <div class="hidden-xs">
+          <div class="cp_shelf_dropdown">
+  <div class="shelf_actions" data-js="shelf-actions" id="id_40qg8sboi5tv36dpv0orbm1gki">
+    <div class="dropdown clearfix" data-js="add_to_shelf_dropdown" id="bibStatus_1349097114_id_40qg8sboi5tv36dpv0orbm1gki">
+      <div class="btn-group add_to_shelf_btn_group">
+          <a class="btn btn-default add_to_shelf_main_action" href="/collection/add/my/library?bib=1349097114&amp;bib_status=future&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_shelf_action" with_hook="shelf_dropdown"><i aria-hidden="true" class=" icon-book-shelf"/> For Later</a>
+          <a class="btn btn-default trigger dropdown-toggle " data-target="" data-toggle="dropdown" href="#" role="button" testid="add_to_shelf_dropdown">
+              <span class="sr-only">Toggle Dropdown</span>
+</a>
+        <ul class="dropdown-menu dropdown-menu-right" data-js="add_to_shelf_dropdown_menu">
+            <li><a href="/collection/add/my/library?bib=1349097114&amp;bib_status=past&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_Completed" with_hook="shelf_dropdown">Completed</a></li>
+            <li><a href="/collection/add/my/library?bib=1349097114&amp;bib_status=present&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_In_Progress" with_hook="shelf_dropdown">In Progress</a></li>
+        </ul>
+</div>    </div>
+  </div>
+</div>
+        </div>
+        <div class="hidden-sm hidden-md hidden-lg">
+            <div class="mini_shelf_btn extra_action_panel ">
+    <a class="btn btn-default btn-flat pull-right " data-container="body" data-default-tooltip-text="Add to My For Later Shelf" data-ga-action="Add To Shelf" data-ga-category="search" data-ga-label="Mobile" data-js="shelf-inline-overlay hide-when-batch-item-checked action-link" data-on-shelf-text="On my shelf" data-placement="bottom" data-title="Add to My For Later Shelf" data-toggle="tooltip" href="/collection/add_bib_overlay/1349097114/for_later?privacy_toggle=true">
+      <i aria-hidden="true" class=" icon-book-shelf"/>
+      <span class="status-label on_shelf_indicator">
+        <i aria-hidden="true" class=" icon-ok-circled"/>
+      </span>
+</a>  </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="secondary_info list_item_section visible-md visible-lg">
+        <span class="format">
+    <i aria-hidden="true" class=" icon-tablet"/>eBook
+     - 2016
+  </span>
+
+    </div>
+    <div class="row circ_info list_item_section">
+      <div class="col-sm-3">
+        <div class="hidden-md hidden-lg">
+            <span class="format">
+    <i aria-hidden="true" class=" icon-tablet"/>eBook
+     - 2016
+  </span>
+
+        </div>
+
+
+      </div>
+      <div class="col-sm-5 text_right_sm availability_block">
+          <div data-js="circ-error">
+  <div class="messaging inPage" id="id_1ua6cherm8tlb2t4t96hic1u6a" role="alert">
+  <div class="messageContent">
+    <span class="message-icon"/>
+    <p class="first" id="msg_id_26cq5l43l2nnlk31n5cdvbs1iu">
+      <a name="cached_items"/>
+    </p>
+  </div>
+</div>
+<script charset="utf-8" type="text/javascript"><![CDATA[
+ registered_messages.push({element: 'msg_id_26cq5l43l2nnlk31n5cdvbs1iu', key: ["cached_items"], type: ["message","error"]});
+]]></script>
+
+</div>    <span><span class="digital not_yet_available">Not Currently Available.</span><span class="holdposition">Holds: 3 on 15 copies</span></span>
+
+      </div>
+      <div class="col-sm-4 text_right_sm">
+          <span class="hold_button" data-bundle="block_button" data-js="hold_button_container">
+
+
+        <a class="btn btn-transactional btn-block digital_request not_mmm" data-js="digital_request_button" href="/holds/request_digital_title/1349097114?j_callback=request_link_1349097114" id="request_link_1349097114" testid="request_link_1349097114"><span>Request this Download</span></a>
+</span>
+
+      </div>
+    </div>
+  </div>
+  <div data-react-class="WhileYouWaitContainer" data-react-props="{&quot;id&quot;:&quot;S114C1349097&quot;,&quot;format&quot;:&quot;EBOOK&quot;,&quot;availability&quot;:&quot;DIGITAL&quot;,&quot;view&quot;:&quot;medium&quot;,&quot;graphicNovelRecommendations&quot;:false,&quot;messages&quot;:{&quot;while_you_wait_empty&quot;:&quot;Sorry, there are no recommendations at this moment&quot;,&quot;while_you_wait_loading&quot;:&quot;Looking for recommendations you can borrow now&quot;,&quot;while_you_wait_title&quot;:&quot;While You Wait&quot;,&quot;recommendations_powered_by&quot;:&quot;Powered by {service}.&quot;,&quot;bookish_recommends&quot;:&quot;Zola Recommends&quot;,&quot;library_thing_recommends&quot;:&quot;LibraryThing&quot;,&quot;novelist_recommends&quot;:&quot;NoveList&quot;,&quot;while_you_wait_available_count&quot;:&quot;{count} available&quot;}}"/>
+</div>
+
+
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list_item_outer clearfix" data-analytics="{ &quot;SubFeature&quot;: &quot;Bib&quot; }" data-js="batch-action-item bib-list-item" id="bib1353298114">
+  <div class="jacket_cover_container visible-md visible-lg col-md-2 col-lg-2">
+      <a class="jacketCoverLink" href="/item/show/1353298114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-audio-fa5b965413f4cfec2cc90e7b632aeb61.png" id="1353298114" src="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-audio-fa5b965413f4cfec2cc90e7b632aeb61.png" title="Before the Fall"/></a>  </div>
+  <div class="bg_white listItem col-md-10 col-lg-10 col-xs-12 col-sm-12">
+    <div class="row top_info list_item_section">
+      <div class="col-xs-10 col-sm-8">
+        <div class="pull-left visible-xs visible-sm">
+            <a class="jacketCoverLink" href="/item/show/1353298114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-audio-fa5b965413f4cfec2cc90e7b632aeb61.png" id="1353298114" src="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-audio-fa5b965413f4cfec2cc90e7b632aeb61.png" title="Before the Fall"/></a>        </div>
+        <span class="title"><a href="/item/show/1353298114_before_the_fall" target="_parent" testid="bib_link" title="Before the Fall - A Novel (Downloadable Audiobook)">Before the Fall</a></span>
+          <span class="subTitle">A Novel</span>
+
+
+   <span class="author">
+       By <a class="author_detail_link" href="/search?q=Hawley%2C+Noah&amp;search_category=author&amp;t=author" target="_parent" testid="author_search" title="Hawley, Noah">Hawley, Noah</a>
+   </span>
+
+
+
+        <div class="search_ratings">
+              <i class="icon-star"/>
+    <i class="icon-star"/>
+    <i class="icon-star"/>
+
+    <i class="icon-star-half-alt"/>
+
+    <i class="icon-star-empty"/>
+
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-4 text-right_sm">
+        <div class="hidden-xs">
+          <div class="cp_shelf_dropdown">
+  <div class="shelf_actions" data-js="shelf-actions" id="id_17m9ivk2jueabb6vhh6m7i9ahp">
+    <div class="dropdown clearfix" data-js="add_to_shelf_dropdown" id="bibStatus_1353298114_id_17m9ivk2jueabb6vhh6m7i9ahp">
+      <div class="btn-group add_to_shelf_btn_group">
+          <a class="btn btn-default add_to_shelf_main_action" href="/collection/add/my/library?bib=1353298114&amp;bib_status=future&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_shelf_action" with_hook="shelf_dropdown"><i aria-hidden="true" class=" icon-book-shelf"/> For Later</a>
+          <a class="btn btn-default trigger dropdown-toggle " data-target="" data-toggle="dropdown" href="#" role="button" testid="add_to_shelf_dropdown">
+              <span class="sr-only">Toggle Dropdown</span>
+</a>
+        <ul class="dropdown-menu dropdown-menu-right" data-js="add_to_shelf_dropdown_menu">
+            <li><a href="/collection/add/my/library?bib=1353298114&amp;bib_status=past&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_Completed" with_hook="shelf_dropdown">Completed</a></li>
+            <li><a href="/collection/add/my/library?bib=1353298114&amp;bib_status=present&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_In_Progress" with_hook="shelf_dropdown">In Progress</a></li>
+        </ul>
+</div>    </div>
+  </div>
+</div>
+        </div>
+        <div class="hidden-sm hidden-md hidden-lg">
+            <div class="mini_shelf_btn extra_action_panel ">
+    <a class="btn btn-default btn-flat pull-right " data-container="body" data-default-tooltip-text="Add to My For Later Shelf" data-ga-action="Add To Shelf" data-ga-category="search" data-ga-label="Mobile" data-js="shelf-inline-overlay hide-when-batch-item-checked action-link" data-on-shelf-text="On my shelf" data-placement="bottom" data-title="Add to My For Later Shelf" data-toggle="tooltip" href="/collection/add_bib_overlay/1353298114/for_later?privacy_toggle=true">
+      <i aria-hidden="true" class=" icon-book-shelf"/>
+      <span class="status-label on_shelf_indicator">
+        <i aria-hidden="true" class=" icon-ok-circled"/>
+      </span>
+</a>  </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="secondary_info list_item_section visible-md visible-lg">
+        <span class="format">
+    <i aria-hidden="true" class=" icon-headphones"/>Downloadable Audiobook
+     - 2016
+  </span>
+
+    </div>
+    <div class="row circ_info list_item_section">
+      <div class="col-sm-3">
+        <div class="hidden-md hidden-lg">
+            <span class="format">
+    <i aria-hidden="true" class=" icon-headphones"/>Downloadable Audiobook
+     - 2016
+  </span>
+
+        </div>
+
+
+      </div>
+      <div class="col-sm-5 text_right_sm availability_block">
+          <div data-js="circ-error">
+  <div class="messaging inPage" id="id_cso9j66ch1jvcrbv0jopvg29n" role="alert">
+  <div class="messageContent">
+    <span class="message-icon"/>
+    <p class="first" id="msg_id_1j93msdbgd96q7l4a15sao6ir3">
+      <a name="cached_items"/>
+    </p>
+  </div>
+</div>
+<script charset="utf-8" type="text/javascript"><![CDATA[
+ registered_messages.push({element: 'msg_id_1j93msdbgd96q7l4a15sao6ir3', key: ["cached_items"], type: ["message","error"]});
+]]></script>
+
+</div>    <span><span class="digital not_yet_available">Not Currently Available.</span><span class="holdposition">Holds: 1 on 5 copies</span></span>
+
+      </div>
+      <div class="col-sm-4 text_right_sm">
+          <span class="hold_button" data-bundle="block_button" data-js="hold_button_container">
+
+
+        <a class="btn btn-transactional btn-block digital_request not_mmm" data-js="digital_request_button" href="/holds/request_digital_title/1353298114?j_callback=request_link_1353298114" id="request_link_1353298114" testid="request_link_1353298114"><span>Request this Download</span></a>
+</span>
+
+      </div>
+    </div>
+  </div>
+  <div data-react-class="WhileYouWaitContainer" data-react-props="{&quot;id&quot;:&quot;S114C1353298&quot;,&quot;format&quot;:&quot;AB&quot;,&quot;availability&quot;:&quot;DIGITAL&quot;,&quot;view&quot;:&quot;medium&quot;,&quot;graphicNovelRecommendations&quot;:false,&quot;messages&quot;:{&quot;while_you_wait_empty&quot;:&quot;Sorry, there are no recommendations at this moment&quot;,&quot;while_you_wait_loading&quot;:&quot;Looking for recommendations you can borrow now&quot;,&quot;while_you_wait_title&quot;:&quot;While You Wait&quot;,&quot;recommendations_powered_by&quot;:&quot;Powered by {service}.&quot;,&quot;bookish_recommends&quot;:&quot;Zola Recommends&quot;,&quot;library_thing_recommends&quot;:&quot;LibraryThing&quot;,&quot;novelist_recommends&quot;:&quot;NoveList&quot;,&quot;while_you_wait_available_count&quot;:&quot;{count} available&quot;}}"/>
+</div>
+
+
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 list_item_outer clearfix" data-analytics="{ &quot;SubFeature&quot;: &quot;Bib&quot; }" data-js="batch-action-item bib-list-item" id="bib1321927114">
+  <div class="jacket_cover_container visible-md visible-lg col-md-2 col-lg-2">
+      <a class="jacketCoverLink" href="/item/show/1321927114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-audio-cd-f000a837db0467ca698e6ab9f74befaf.png" id="1321927114" src="https://secure.syndetics.com/index.aspx?isbn=9781478939665/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>  </div>
+  <div class="bg_white listItem col-md-10 col-lg-10 col-xs-12 col-sm-12">
+    <div class="row top_info list_item_section">
+      <div class="col-xs-10 col-sm-8">
+        <div class="pull-left visible-xs visible-sm">
+            <a class="jacketCoverLink" href="/item/show/1321927114_before_the_fall" target="_parent"><img alt="Before the Fall" class="jacketCover bib_detail" data-js="" fallback="//cor-cdn-static.bibliocommons.com/assets/default_covers/icon-audio-cd-f000a837db0467ca698e6ab9f74befaf.png" id="1321927114" src="https://secure.syndetics.com/index.aspx?isbn=9781478939665/MC.GIF&amp;client=dougp&amp;type=xw12&amp;oclc=" title="Before the Fall"/></a>        </div>
+        <span class="title"><a href="/item/show/1321927114_before_the_fall" target="_parent" testid="bib_link" title="Before the Fall (Audiobook CD)">Before the Fall</a></span>
+
+
+   <span class="author">
+       By <a class="author_detail_link" href="/search?q=Hawley%2C+Noah&amp;search_category=author&amp;t=author" target="_parent" testid="author_search" title="Hawley, Noah">Hawley, Noah</a>
+   </span>
+
+
+
+        <div class="search_ratings">
+              <i class="icon-star"/>
+    <i class="icon-star"/>
+    <i class="icon-star"/>
+
+    <i class="icon-star-half-alt"/>
+
+    <i class="icon-star-empty"/>
+
+        </div>
+      </div>
+      <div class="col-xs-2 col-sm-4 text-right_sm">
+        <div class="hidden-xs">
+          <div class="cp_shelf_dropdown">
+  <div class="shelf_actions" data-js="shelf-actions" id="id_6jgsp6kvtqrqrsu6hde9f04j4t">
+    <div class="dropdown clearfix" data-js="add_to_shelf_dropdown" id="bibStatus_1321927114_id_6jgsp6kvtqrqrsu6hde9f04j4t">
+      <div class="btn-group add_to_shelf_btn_group">
+          <a class="btn btn-default add_to_shelf_main_action" href="/collection/add/my/library?bib=1321927114&amp;bib_status=future&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_shelf_action" with_hook="shelf_dropdown"><i aria-hidden="true" class=" icon-book-shelf"/> For Later</a>
+          <a class="btn btn-default trigger dropdown-toggle " data-target="" data-toggle="dropdown" href="#" role="button" testid="add_to_shelf_dropdown">
+              <span class="sr-only">Toggle Dropdown</span>
+</a>
+        <ul class="dropdown-menu dropdown-menu-right" data-js="add_to_shelf_dropdown_menu">
+            <li><a href="/collection/add/my/library?bib=1321927114&amp;bib_status=past&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_Completed" with_hook="shelf_dropdown">Completed</a></li>
+            <li><a href="/collection/add/my/library?bib=1321927114&amp;bib_status=present&amp;button_styles%5B%5D=bootstrap&amp;button_styles%5B%5D=combo_button" testid="add_to_In_Progress" with_hook="shelf_dropdown">In Progress</a></li>
+        </ul>
+</div>    </div>
+  </div>
+</div>
+        </div>
+        <div class="hidden-sm hidden-md hidden-lg">
+            <div class="mini_shelf_btn extra_action_panel ">
+    <a class="btn btn-default btn-flat pull-right " data-container="body" data-default-tooltip-text="Add to My For Later Shelf" data-ga-action="Add To Shelf" data-ga-category="search" data-ga-label="Mobile" data-js="shelf-inline-overlay hide-when-batch-item-checked action-link" data-on-shelf-text="On my shelf" data-placement="bottom" data-title="Add to My For Later Shelf" data-toggle="tooltip" href="/collection/add_bib_overlay/1321927114/for_later?privacy_toggle=true">
+      <i aria-hidden="true" class=" icon-book-shelf"/>
+      <span class="status-label on_shelf_indicator">
+        <i aria-hidden="true" class=" icon-ok-circled"/>
+      </span>
+</a>  </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="secondary_info list_item_section visible-md visible-lg">
+        <span class="format">
+    <i aria-hidden="true" class=" icon-headphones"/>Audiobook CD
+     - 2016
+  </span>
+
+    </div>
+    <div class="row circ_info list_item_section">
+      <div class="col-sm-3">
+        <div class="hidden-md hidden-lg">
+            <span class="format">
+    <i aria-hidden="true" class=" icon-headphones"/>Audiobook CD
+     - 2016
+  </span>
+
+        </div>
+            <span class="label">
+      <span class="value callNumber">
+        CD HAWLEY, N
+      </span>
+    </span>
+
+
+      </div>
+      <div class="col-sm-5 text_right_sm availability_block">
+
+            <span class="label availability">
+                    <span class="item_available" role="presentation" testid="item_availability">Available </span>
+                      <a class="circInfo value underlined location_info" href="/item/show_circulation/1321927114?search_scope=CO-DOUGLASCOUNTY" id="circ_info_trigger_1321927114_0.4141983548068777" role="button" testid="availability_details">in some locations</a>
+
+            </span>
+            <span class="label">
+
+            </span>
+
+      </div>
+      <div class="col-sm-4 text_right_sm">
+            <span class="hold_button" data-bundle="block_button" data-js="hold_button_container">
+              <a class="btn btn-transactional btn-block  circ_button" data-js="request-hold-button" href="/holds/select_hold/1321927114?j_callback=hold_popup_1321927114&amp;responsive=true" id="hold_popup_1321927114" name="hold_popup_1321927114" testid="hold_button">
+Place a Hold</a>
+
+</span>
+
+      </div>
+    </div>
+  </div>
+  <div data-react-class="WhileYouWaitContainer" data-react-props="{&quot;id&quot;:&quot;S114C1321927&quot;,&quot;format&quot;:&quot;BOOK_CD&quot;,&quot;availability&quot;:&quot;AVAILABLE&quot;,&quot;view&quot;:&quot;medium&quot;,&quot;graphicNovelRecommendations&quot;:false,&quot;messages&quot;:{&quot;while_you_wait_empty&quot;:&quot;Sorry, there are no recommendations at this moment&quot;,&quot;while_you_wait_loading&quot;:&quot;Looking for recommendations you can borrow now&quot;,&quot;while_you_wait_title&quot;:&quot;While You Wait&quot;,&quot;recommendations_powered_by&quot;:&quot;Powered by {service}.&quot;,&quot;bookish_recommends&quot;:&quot;Zola Recommends&quot;,&quot;library_thing_recommends&quot;:&quot;LibraryThing&quot;,&quot;novelist_recommends&quot;:&quot;NoveList&quot;,&quot;while_you_wait_available_count&quot;:&quot;{count} available&quot;}}"/>
+</div>
+
+
+
+
+      <div class="rss_block col-xs-offset-8 col-xs-4">
+        <a class="link_contextual rss_link" href="/search/rss?display_quantity=25&amp;q=Before+the+Fall+by+Noah+Hawley&amp;search_category=keyword&amp;t=keyword&amp;utf8=%C3%A2%C2%9C%C2%93" testid="rss"><i aria-hidden="true" class=" icon-rss"/> RSS</a>
+      </div>
+  </div>
+</div>
+
+
+</div>
+        </div>
+        <!-- /#main -->
+
+</div>
+    </div>
+    <!-- /#page -->
+
+</div>
+
+  <div class="container container_for_footer">
+
+
+
+
+  <div id="footer">
+      <div class="footerContent clearfix ">
+          <div class="col footerLinks">
+    <div class="pull-right">
+
+    </div>
+  <a href="/info/privacy" testid="footer_link_privacy">Privacy Statement</a>
+  <a href="/info/terms" testid="footer_link_terms">Terms of Use</a>
+          <a href="http://dcl.org/about" testid="footer_link_1">About</a>
+          <a href="http://dcl.org/contact" testid="footer_link_2">Contact</a>
+          <a href="http://dcl.org/connect" testid="footer_link_3">Connect</a>
+          <a href="http://dcl.org/support" testid="footer_link_4">Support</a>
+</div>
+
+      </div>
+  </div>
+
+    <div class="appserver">
+  <div class="powered-by">
+    Powered by BiblioCommons.
+  </div>
+
+  <div class="product-version">
+    BiblioCore: app08 Version v1.9 Last updated 2017/05/17 09:12
+  </div>
+</div>
+
+
+
+</div>
+  <!-- begin POSITIONED ELEMENTS -->
+
+
+
+  <div class="errorSpace messaging">
+    <div class="errors">[]</div>
+  </div>
+
+
+  <div class="messageSpace messaging">
+    <div class="messages">[]</div>
+  </div>
+
+<div data-analytics="{ &quot;Section&quot;:&quot;Messaging&quot; }">
+  <div class="messaging" id="id_37b40qr6gc087m8usiii5jjjpd">
+  <div class="messageContent">
+    <span class="message-icon"/>
+    <div class="top_message" data-test-id="top-message" id="msg_id_7quo9eh8rfih1opncnnf8ic7ej" testid="test_message">
+      <a name=""/>
+    </div>
+  </div>
+  <div class="closeButton" data-js="close_system_message"/>
+</div>
+<script charset="utf-8" type="text/javascript"><![CDATA[
+    registered_messages.push( {element: 'msg_id_7quo9eh8rfih1opncnnf8ic7ej', key: [], type: ["message","error"]});
+]]></script>
+</div>
+  <div class="cp_bc_modal">
+  <div aria-describedby="modal_label" aria-hidden="true" aria-labelledby="modal_label" class="modal fade" id="master_modal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- Currently, we cannot cache these templates because the content would change depending on the value of the
+feature flag.-->
+<script charset="utf-8" id="discussion_flag_tpl" type="x-handlebars-template"><![CDATA[
+  <div class="flagging overlay-white" id="flag_{{content_id}}">
+    <div class="flag_selection">
+      <h4>
+        <span class="flag_icon"><i aria-hidden="true" class=" icon-flag-empty"></i></span>
+        Flag this content because:
+          <a href="http://help.bibliocommons.com/025ug/060reporting-inappropriate-content/" class="help_icon blockHijack inline" id="main_help_025ug/060reporting-inappropriate-content/_id_4esil96if8h4ni01qffdrvb7oh" target="_blank"><i aria-hidden="true" class=" icon-info-circled"></i></a>
+      </h4>
+        {{#if flag_options.violates_appropriate_use_show_option}}
+        <div class="types" testid="violates_appropriate_use">          <a href="#" data-js="type_form_trigger" data-type="violates_appropriate_use"><i aria-hidden="true" class=" icon-right-open"></i> Violates Appropriate Use Standards</a>
+</div>        <form accept-charset="UTF-8" action="/{{controller}}/flag/{{content_id}}" class="flag_form" id="flag_form_violates_appropriate_use" method="post" style="display:none;" testid="flag_form_violates_appropriate_use"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="diAGqYj6BiknnfQgUJNhaeyuVJbvWl2psYiCiV4/wQI=" /></div>          <input data-js="flag_type" id="flag_type" name="flag_type" type="hidden" value="VIOLATES_APPROPRIATE_USE" />
+          <input data-js="java-content-class" id="content_class" name="content_class" type="hidden" value="{{java_content_class}}" />
+          <p>Please review the Appropriate Use standard and tell us which term has been violated.</p>
+<input checked="checked" id="violation_type_UNRELATED" name="violation_type" type="radio" value="UNRELATED" /> Unrelated <br/>
+<input id="violation_type_UNLAWFUL" name="violation_type" type="radio" value="UNLAWFUL" /> Unlawful <br/>
+<input id="violation_type_OBSCENE" name="violation_type" type="radio" value="OBSCENE" /> Obscene <br/>
+<input id="violation_type_MARKETING_SCHEME" name="violation_type" type="radio" value="MARKETING_SCHEME" /> Marketing Scheme <br/>
+<input id="violation_type_ADVERTISING" name="violation_type" type="radio" value="ADVERTISING" /> Advertising <br/>
+<input id="violation_type_PRIVACY_VIOLATION" name="violation_type" type="radio" value="PRIVACY_VIOLATION" /> Privacy Violation <br/>
+<input id="violation_type_VIRUS" name="violation_type" type="radio" value="VIRUS" /> Virus <br/>
+<input id="violation_type_RIGHTS_VIOLATION" name="violation_type" type="radio" value="RIGHTS_VIOLATION" /> Rights Violation <br/>
+<input id="violation_type_CRIMINAL_ADVICE" name="violation_type" type="radio" value="CRIMINAL_ADVICE" /> Criminal Advice <br/>
+<p><label for="accept" class="review_standards"><input class="required" id="accept" name="accept" type="checkbox" value="1" /> I have reviewed the <a href="/info/terms" target="_blank">Appropriate Use Standards</a></label></p>
+
+          <input class="btn btn-primary" name="commit" type="submit" value="Submit" />
+</form>        {{/if}}
+        {{#if flag_options.offensive_show_option}}
+        <div class="types" testid="offensive">          <a href="#" data-js="type_form_trigger" data-type="offensive"><i aria-hidden="true" class=" icon-right-open"></i> Is offensive (To me or my community)</a>
+</div>        <form accept-charset="UTF-8" action="/{{controller}}/flag/{{content_id}}" class="flag_form" id="flag_form_offensive" method="post" style="display:none;" testid="flag_form_offensive"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="diAGqYj6BiknnfQgUJNhaeyuVJbvWl2psYiCiV4/wQI=" /></div>          <input data-js="flag_type" id="flag_type" name="flag_type" type="hidden" value="OFFENSIVE" />
+          <input data-js="java-content-class" id="content_class" name="content_class" type="hidden" value="{{java_content_class}}" />
+          <p>This content is offensive because:</p>
+<textarea class="required" id="reason" name="reason" placeholder="Please enter the reason">
+</textarea>
+
+          <input class="btn btn-primary" name="commit" type="submit" value="Submit" />
+</form>        {{/if}}
+        {{#if flag_options.spoiler_show_option}}
+        <div class="types" testid="spoiler">          <a href="#" data-js="type_form_trigger" data-type="spoiler"><i aria-hidden="true" class=" icon-right-open"></i> Contains spoilers (Gives away the ending)</a>
+</div>        <form accept-charset="UTF-8" action="/{{controller}}/flag/{{content_id}}" class="flag_form" id="flag_form_spoiler" method="post" style="display:none;" testid="flag_form_spoiler"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="diAGqYj6BiknnfQgUJNhaeyuVJbvWl2psYiCiV4/wQI=" /></div>          <input data-js="flag_type" id="flag_type" name="flag_type" type="hidden" value="SPOILER" />
+          <input data-js="java-content-class" id="content_class" name="content_class" type="hidden" value="{{java_content_class}}" />
+          <p>This content contains spoilers.</p>
+<p>Some people don't want to ruin the ending.</p>
+
+          <input class="btn btn-primary" name="commit" type="submit" value="Submit" />
+</form>        {{/if}}
+    </div>
+  </div>
+]]></script>
+<!-- For the popout when user clicks "Contains Spoiler" on a tagged UGC. -->
+<script charset="utf-8" id="ugc_flagged_content_spoiler_info" type="x-handlebars-template"><![CDATA[
+  <p><b>May contain spoilers</b><br> Spoilers give away details you may not want to know until you've read/watched this yourself.</p>
+]]></script>
+<!-- For the popout when user clicks "Contains Offensive Content" on a tagged UGC. -->
+<script charset="utf-8" id="ugc_flagged_content_offensive_info" type="x-handlebars-template"><![CDATA[
+  <p><b>This content has been tagged as offensive</b><br> This content has been reported by other users as offensive. <a href="/info/terms">Learn more about reported content.</a></p>
+]]></script>
+
+<script charset="UTF-8" id="dropdown_filter_template" type="x-handlebars-template"><![CDATA[
+  <div class="cp_filter_overlay">
+    <h2 class="filter_title" data-js='overlay-title'>{{{title}}}</h2>
+    <div class="list-group">
+      {{#each options}}
+        <a class="list-group-item {{#if active}} active {{/if}}" href="#" data-js="filter-option" data-filter-attribute="{{filterAttribute}}">{{filterLabel}}</a>
+      {{/each}}
+    </div>
+  </div>
+]]></script>
+<script charset="utf-8" id="list_more_actions_tmpl" type="x-handlebars-template"><![CDATA[
+  <div class="more_actions_overlay">
+    <div class="content-header">
+      <button type="button" class="close close_top_right" data-js="close_button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <h4 class="content-title" id="modal_label">
+        {{{sectionTitle}}}
+      </h4>
+    </div>
+    <div class="content-body">
+      <h3 class="inline_bib_title">{{{bibTitle}}}</h3>
+      <div class="more_actions_info" data-js="more_actions_info_container"></div>
+      <div class="list-group more_actions_list" data-js="append-links">
+
+      </div>
+      <a href="#" data-js="close_button" class="nevermind_link">
+        No, go back
+      </a>
+    </div>
+  </div>
+]]></script>
+<script charset="utf-8" data-js="like_button_template" type="text/x-handlebars-template"><![CDATA[
+  <button class="like_button {{liking_like_status liked}}" data-liked="{{liked}}" data-js="like_button" data-count="{{like_count}}" data-content-id="{{content_id}}" data-resource="{{resource}}">
+    {{liking_like_heart_icon liked}}{{liking_like_state liked display_text="true"}}
+  </button>
+  {{#if like_count_button_enabled}}
+ {{#if like_count}}
+      <button class="like_count_button" data-js="like_count_button">{{format_number_with_commas like_count}} {{liking_like_noun like_count}}</button>
+    {{/if}}
+  {{/if}}
+]]></script>
+
+<script charset="utf-8" data-js="like_breakdown_template" type="text/x-handlebars-template"><![CDATA[
+  <a href="#" class="like_breakdown_close" data-js="like_breakdown_close"><i aria-hidden="true" class=" icon-cancel"></i></a>
+  {{#liking_ifContentHasLikes like_count}}
+    <h4 class="like_breakdown_heading">
+        {{#liking_if_single_user_liked like_count}}
+          {{liking_liked_users_count like_count}} likes this
+        {{else}}
+          {{liking_liked_users_count like_count}} like this
+        {{/liking_if_single_user_liked}}
+    </h4>
+    <span class="like_usernames">
+      <i aria-hidden="true" class=" icon-heart"></i>
+      {{#if liked}}
+        You{{#liking_unlessContentOnlyHasOneLike like_count}},{{/liking_unlessContentOnlyHasOneLike}}
+      {{/if}}
+      {{#each liked_users.users}}
+        {{#if is_active}}
+          <a class="like_username" href="/user_profile/{{id}}">{{username}}</a>{{#unless @last}},{{/unless}}
+        {{else}}
+          <span class="like_username" title="Inactive User">{{username}}</span>{{#unless @last}},{{/unless}}
+        {{/if}}
+      {{/each}}
+    </span>
+
+    {{#if liked_users.see_more}}
+      <div class="like_usernames_see_more_wrap">
+        <a href="{{url}}" data-js="like_breakdown_see_more">See more<i aria-hidden="true" class=" icon-down-dir"></i></a>
+        <i aria-hidden="true" class="hidden icon-spinner" data-js="liked_users_spinner"></i>
+      </div>
+    {{/if}}
+
+  {{else}}
+    <h4 class="like_breakdown_heading">No one has liked this yet. Be the first!</h4>
+  {{/liking_ifContentHasLikes}}
+]]></script>
+<script id="tmpl_save_search_form" type="text/x-handlebars"><![CDATA[
+  <form accept-charset="UTF-8" action="/user/save_search" class="form-inline save_search_form" data-js="save_search_form" data-remote="true" data-type="json" method="post"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /><input name="authenticity_token" type="hidden" value="diAGqYj6BiknnfQgUJNhaeyuVJbvWl2psYiCiV4/wQI=" /></div>
+    <div data-js="messaging">
+    </div>
+    <button type="button" class="close close_top_right" data-js="close_button">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <input type="hidden" name="search_string" data-js="search_string">
+    <input type="hidden" name="inline_messaging" value="true">
+    <input type="hidden" name="original_search_name" data-js="original_search_name">
+    <div class="search_prompt">
+      <div class="form-group">
+        <label for="search_name">
+          Save search as:
+        </label>
+        <input type="text" name="search_name" data-js="search_name" required class="form-control search_name_field" maxlength="100" value="{{current_query}}">
+
+        <div class="form_buttons">
+          <button type="submit" class="btn btn-primary" data-saving-text="<i class='icon-spinner animate-spin'></i> Saving..." data-js="save_button">
+            <i aria-hidden="true" class=" icon-ok"></i> Save it
+          </button>
+          <a href="#" data-js="close_button" class="btn btn-default">
+            Cancel
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="duplicate_search_prompt">
+      <div class="form-group">
+        <span>
+          You already have a search saved as "<span class="replace_query" data-js="search_name_replace"></span>". Replace it with this one?
+        </span>
+        <div class="form_buttons">
+          <button type="submit" class="btn btn-primary" data-saving-text="<i class='icon-spinner animate-spin'></i> Saving..." data-js="save_button" name="replace" value="true">
+            Yes, replace it
+          </button>
+
+          <a href="#" data-js="choose_new_name" class="btn btn-default">
+            Choose new name
+          </a>
+
+          <a href="#" data-js="close_button" class="btn btn-default">
+            Cancel
+          </a>
+        </div>
+      </div>
+    </div>
+</form>]]></script>
+<script charset="utf-8" id="confirmation_prompt_tpl" type="x-handlebars-template"><![CDATA[
+ <div class="content-header">
+  <button type="button" class="close close_top_right" data-js="close_button">
+    <span aria-hidden="true">&times;</span>
+    <span class="sr-only">Close Dialog</span>
+  </button>
+  <h4 class="content-title" id="modal_label">
+    Are you sure?
+  </h4>
+</div>
+<div class="content-body">
+
+   <p>You cannot undo this action.</p>
+  {{#if message}}<p> {{message}}</p>{{/if}}
+   <label for="conf_prompt_ignore">
+   <input data-js="pretty-checkbox conf_prompt_ignore" id="conf_prompt_ignore" name="conf_prompt_ignore" testid="conf_checkbox" type="checkbox" value="1" />
+   Don't show this message again
+   </label>
+
+</div>
+  <div class="content-footer">
+        <input class="btn btn-transactional" data-js="conf_proceed_btn" name="commit" testid="conf_proceed_btn" type="submit" value="Continue" />
+  <input class="btn btn-secondary" data-js="close_button" name="commit" testid="conf_cancel_btn" type="submit" value="Cancel" />
+
+  </div>
+]]></script>
+
+<script charset="utf-8" data-js="user_card_template" type="text/x-handlebars-template"><![CDATA[
+  <div class="card" testid="user_card_hover_{{id}}">
+    <div class="row">
+      <div class="col-xs-3">
+        <span class="cp_user_avatar md {{libraryMembership}}" testid="user_avatar">
+          <a href="/user_profile/{{id}}">
+            {{#if avatar}}
+              <img src="{{avatar}}" class="img-circle">
+            {{else}}
+              <div class="img-circle initial"><span>{{initial}}</span></div>
+            {{/if}}
+          </a>
+        </span>
+      </div>
+
+      <div class="col-xs-9">
+        <h4>
+          <a href="/user_profile/{{id}}" title="{{name}}'s Profile" testid="user_profile_link">{{name}}</a>
+        </h4>
+
+        {{#if libraryName}}
+          <p>{{libraryName}}</p>
+        {{/if}}
+
+        {{#if staff}}<p><span class="cp_staff_stamp">Library Staff</span></p>{{/if}}
+
+        <p><a href="/user_profile/{{id}}" title="{{name}}'s Profile">View Profile</a></p>
+
+
+
+        <p>  <a href="/user/login" class="btn btn-secondary btn-flat btn-sm" testid="logged_out_follow_user"><i aria-hidden="true" class=" icon-user-plus"></i>Follow</a>
+  <a href="/user/login" class="btn btn-secondary btn-flat btn-sm" testid="logged_out_ignore_user"><i aria-hidden="true" class=" icon-block"></i>Ignore</a>
+</p>
+
+        {{#if is_currently_logged_in_user}}<div class="status-label status-label-info">This is me!</div>{{/if}}
+      </div>
+    </div>
+  </div>
+]]></script>
+
+<script charset="utf-8" data-js="tour_dots_template" type="text/x-handlebars-template"><![CDATA[
+  <div class="pagination_dots">
+    {{#each steps}}
+      <div class="dot {{#isTourDotFilledIn ../currentStep @index}}active{{/isTourDotFilledIn}}"></div>
+    {{/each}}
+  </div>
+]]></script>
+  <div aria-hidden="true" data-js="overlay-container" id="overlay" role="dialog">
+  <div class="overlay-backdrop"/>
+  <div class="overlay-inner">
+    <div class="overlay-body"/>
+    <a class="overlay-close js-close-trigger" href="#close-overlay">
+      <i aria-hidden="true" class=" icon-cancel"/>
+      <span class="sr-only">Close Dialog</span>
+    </a>
+  </div>
+</div>
+  <div class="popup-box-ie-position">
+  <div class="popout-box">
+    <div aria-atomic="true" aria-live="polite" aria-relevant="additions" id="popout-box-content"/>
+    <div class="popout-box-border"/>
+    <div class="popout-box-arrow"/>
+  </div>
+</div>
+  <div class="spinner" id="globalSpinner">
+ <img alt="" src="//cor-cdn-static.bibliocommons.com/assets/ajax-loader-2ad22ee6988a62b7f1661cb696219501.gif" title=""/>
+</div>
+
+  <a class="btn btn-secondary cp_sticky_tab btn-float back_to_top" data-bottom="30" data-js="sticky_tab back_to_top" data-right="0">
+  <i aria-hidden="true" class=" icon-up"/> To Top
+</a>
+
+  <!-- end POSITIONED ELEMENTS -->
+
+</div>
+<!-- /#ct_controller -->
+
+<!-- begin JS BLOCK -->
+  <script src="//cor-cdn-static.bibliocommons.com/assets/core-81a7deef27879307471a8bd39941e089.js" type="text/javascript"/>
+  <script src="//cor-cdn-static.bibliocommons.com/assets/controllers/search-62cf88e6c783c9051017ba93f1877c2d.js" type="text/javascript"/>
+
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Function.prototype.bind,Intl.~locale.en" type="text/javascript"/>
+
+    <script src="//s3.amazonaws.com/bibliocommons-dig-assets/react-shared-components/IntlWrapper-df97f2fcc754e94fc37f.js" type="text/javascript"/>
+    <script src="//s3.amazonaws.com/bibliocommons-dig-assets/react-shared-components/RecommendationsModule-d438836f0d83979b4940.js" type="text/javascript"/>
+
+
+
+
+
+
+
+
+  <script type="text/javascript"><![CDATA[
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : 821053187955346,
+        xfbml      : false,
+        version    : 'v2.4'
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  ]]></script>
+
+
+
+
+
+
+
+
+<!-- end JS BLOCK -->
+
+
+
+</body></results></query><!-- total: 882 --><!-- prod_bf1_1;paas.yql;queryyahooapiscomproductionbf1;b412e3c3-4182-11e7-ba9d-d4ae5297450a -->

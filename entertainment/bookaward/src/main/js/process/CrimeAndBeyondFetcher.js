@@ -49,7 +49,7 @@ define(["Award", "Book", "Nomination"],
               ["The Crossing", "Michael Connelly"],
               ["The Travelers", "Chris Pavone"],
               ["Redemption Road", "John Hart"],
-              ["Ink & Bone", "Lisa Unger"],
+              ["Ink and Bone", "Lisa Unger"],
             ];
             addTitleAndAuthor(books, bookToNomination, titleAndAuthor, nomination);
 
@@ -60,7 +60,7 @@ define(["Award", "Book", "Nomination"],
               ["Marked for Life", "Emelie Schepp"],
               ["The English Spy", "Daniel Silva"],
               ["Orphan X", "Gregg Hurwitz"],
-              ["The Black Window", "Daniel Silva"],
+              ["The Black Widow", "Daniel Silva"],
               ["The Woman in Cabin 10", "Ruth Ware"],
               ["In a Dark, Dark Wood", "Ruth Ware"],
             ];
