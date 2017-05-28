@@ -7,7 +7,7 @@ define(["Library", "SciFiAward"], function(Library, SciFiAward)
       {
          InputValidator.validateNotNull("subject", subject);
 
-         var searchString = subject.vizziniReplaceAll(" ", "+");
+         var searchString = subject.replace(/ /g, "+");
 
          return "https://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Dstripbooks&field-keywords=" + searchString;
       },
@@ -31,7 +31,7 @@ define(["Library", "SciFiAward"], function(Library, SciFiAward)
       {
          InputValidator.validateNotNull("subject", subject);
 
-         var searchString = subject.vizziniReplaceAll(" ", "+");
+         var searchString = subject.replace(/ /g, "+");
 
          return "https://www.goodreads.com/search?q=" + searchString;
       },
@@ -51,10 +51,10 @@ define(["Library", "SciFiAward"], function(Library, SciFiAward)
          switch (library.value)
          {
             case Library.DCL:
-               searchString = searchString.vizziniReplaceAll(" ", "+");
+               searchString = searchString.replace(/ /g, "+");
                break;
             default:
-               searchString = searchString.vizziniReplaceAll(" ", "%20");
+               searchString = searchString.replace(/ /g, "%20");
                break;
          }
 
@@ -65,7 +65,7 @@ define(["Library", "SciFiAward"], function(Library, SciFiAward)
       {
          InputValidator.validateNotNull("subject", subject);
 
-         var searchString = subject.vizziniReplaceAll(" ", "_");
+         var searchString = subject.replace(/ /g, "_");
 
          return "https://en.wikipedia.org/wiki/" + searchString;
       },
