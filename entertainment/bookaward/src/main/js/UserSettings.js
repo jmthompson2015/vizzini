@@ -29,8 +29,6 @@ define(["Assessment", "Award"],
          InputValidator.validateNotNull("bookToDclUrl", bookToDclUrl);
          InputValidator.validateNotNull("bookToNomination", bookToNomination);
 
-         localStorage.removeItem("bookToAssessment");
-
          var answer = Object.assign(
          {}, bookToAssessment);
 

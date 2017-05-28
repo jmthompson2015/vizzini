@@ -360,8 +360,6 @@ define(["Assessment", "BookComparator", "Library", "process/Action", "process/ui
             var book = this.findBook(booktitle, bookauthor);
             LOGGER.debug("book = " + book);
             this.context.store.dispatch(Action.setAssessment(book, selectedValue));
-            localStorage.bookToAssessment = JSON.stringify(this.context.store.getState().bookToAssessment);
-            LOGGER.debug("bookToAssessment stored to localStorage");
          },
       });
 

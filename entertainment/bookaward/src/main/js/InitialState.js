@@ -334,11 +334,6 @@ define(["Assessment", "Award", "Book", "Nomination", "UserSettings"],
          this.bookToNomination[this.books[100]].push(new Nomination(anthony, anthony.categories.properties.mystery, 2017, false));
 
          this.initializeBookToAssessment();
-
-         // FIXME
-         // localStorage.removeItem("bookToAssessment");
-         // FIXME
-
          this.loadBookToAssessment();
       }
 

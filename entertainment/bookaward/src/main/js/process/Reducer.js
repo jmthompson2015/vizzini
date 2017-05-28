@@ -1,5 +1,5 @@
-define(["Assessment", "InitialState", "process/Action"],
-   function(Assessment, InitialState, Action)
+define(["Assessment", "InitialState", "UserSettings", "process/Action"],
+   function(Assessment, InitialState, UserSettings, Action)
    {
       "use strict";
       var Reducer = {};
@@ -60,6 +60,7 @@ define(["Assessment", "InitialState", "process/Action"],
                   throw "Missing bookToAssessment entry for book: " + action.book;
                }
                newBookToAssessment[action.book] = action.assessment;
+               UserSettings.storeBookToAssessment(newBookToAssessment);
                return Object.assign(
                {}, state,
                {
@@ -70,6 +71,7 @@ define(["Assessment", "InitialState", "process/Action"],
                newBookToAssessment = Object.assign(
                {}, state.bookToAssessment);
                Object.vizziniMerge(newBookToAssessment, action.bookToAssessment);
+               UserSettings.storeBookToAssessment(newBookToAssessment);
                return Object.assign(
                {}, state,
                {
