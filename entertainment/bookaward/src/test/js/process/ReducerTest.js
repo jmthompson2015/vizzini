@@ -62,6 +62,27 @@ define(["Assessment", "Award", "Book", "InitialState", "Nomination", "process/Ac
          assert.equal(result.bookToAssessment[book], assessment);
       });
 
+      QUnit.test("setAssessments()", function(assert)
+      {
+         // Setup.
+         var state = new InitialState();
+         var book = createBook1();
+         state = Reducer.root(state, Action.addBook(book));
+         assert.equal(state.bookToAssessment[book], Assessment.NONE);
+
+         var assessment = Assessment.POSSIBLE_PICK;
+         var bookToAssessment = {};
+         bookToAssessment[book] = assessment;
+         var action = Action.setAssessments(bookToAssessment);
+
+         // Run.
+         var result = Reducer.root(state, action);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.bookToAssessment[book], assessment);
+      });
+
       function createBook1()
       {
          var title = "A Dark and Stormy Night";

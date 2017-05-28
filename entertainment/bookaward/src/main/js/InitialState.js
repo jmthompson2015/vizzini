@@ -1,5 +1,5 @@
-define(["Assessment", "Award", "Book", "Nomination"],
-   function(Assessment, Award, Book, Nomination)
+define(["Assessment", "Award", "Book", "Nomination", "UserSettings"],
+   function(Assessment, Award, Book, Nomination, UserSettings)
    {
       "use strict";
 
@@ -344,28 +344,7 @@ define(["Assessment", "Award", "Book", "Nomination"],
 
       InitialState.prototype.initializeBookToAssessment = function()
       {
-         this.books.forEach(function(book)
-         {
-            var nominations = this.bookToNomination[book];
-
-            var clubNominations = nominations.filter(function(nomination)
-            {
-               return nomination.award().value === Award.CRIME_AND_BEYOND;
-            });
-
-            if (clubNominations.length > 0)
-            {
-               this.bookToAssessment[book] = Assessment.BOOK_CLUB_PICK;
-            }
-            else if (this.bookToDclUrl[book] === undefined)
-            {
-               this.bookToAssessment[book] = Assessment.NOT_AVAILABLE;
-            }
-            else
-            {
-               this.bookToAssessment[book] = Assessment.NONE;
-            }
-         }, this);
+         this.bookToAssessment = UserSettings.resetBookToAssessment(this.bookToAssessment, this.books, this.bookToDclUrl, this.bookToNomination);
       };
 
       InitialState.prototype.initializeBookToNomination = function()
@@ -378,15 +357,8 @@ define(["Assessment", "Award", "Book", "Nomination"],
 
       InitialState.prototype.loadBookToAssessment = function()
       {
-         if (localStorage.bookToAssessment)
-         {
-            var myBookToAssessment = JSON.parse(localStorage.bookToAssessment);
-
-            if (myBookToAssessment)
-            {
-               Object.vizziniMerge(this.bookToAssessment, myBookToAssessment);
-            }
-         }
+         var myBookToAssessment = UserSettings.loadBookToAssessment();
+         Object.vizziniMerge(this.bookToAssessment, myBookToAssessment);
       };
 
       if (Object.freeze)

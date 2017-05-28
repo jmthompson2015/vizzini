@@ -9,7 +9,7 @@ define(["Assessment", "Award", "Book", "Nomination", "process/Action"],
          // Setup.
          var book = createBook1();
 
-         // Run. 
+         // Run.
          var result = Action.addBook(book);
 
          // Verify.
@@ -48,6 +48,23 @@ define(["Assessment", "Award", "Book", "Nomination", "process/Action"],
          assert.equal(result.type, Action.SET_ASSESSMENT);
          assert.equal(result.book, book);
          assert.equal(result.assessment, assessment);
+      });
+
+      QUnit.test("setAssessments()", function(assert)
+      {
+         // Setup.
+         var book = createBook1();
+         var assessment = Assessment.POSSIBLE_PICK;
+         var bookToAssessment = {};
+         bookToAssessment[book] = assessment;
+
+         // Run.
+         var result = Action.setAssessments(bookToAssessment);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.type, Action.SET_ASSESSMENTS);
+         assert.equal(result.bookToAssessment, bookToAssessment);
       });
 
       function createBook1()

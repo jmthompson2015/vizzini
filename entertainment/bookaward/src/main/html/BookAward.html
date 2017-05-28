@@ -27,6 +27,9 @@
 		<img class="logo" src="http://vignette1.wikia.nocookie.net/crimeandbeyond/images/9/98/CrimeBeyondLogo98x65.png/revision/latest?cb=20111031173250" /></a>
 	Mystery Book Award Nominees</h1>
 	<div id="bookTablePanel"></div>
+	<div id="buttonPanel">
+		<button id="resetAssessmentsButton">Reset Assessments</button>
+	</div>
 	<script>
 		"use strict";
 
@@ -35,16 +38,32 @@
 		LOGGER.setDebugEnabled(false);
 
 		require(
-			["process/Reducer", "process/ui/BookTable", "process/ui/Connector"],
-			function(Reducer, BookTable, Connector) {
+			["UserSettings", "process/Action", "process/Reducer", "process/ui/BookTable", "process/ui/Connector"],
+			function(UserSettings, Action, Reducer, BookTable, Connector)
+			{
 				var store = Redux.createStore(Reducer.root);
 
 				var connector = ReactRedux.connect(Connector.BookTable.mapStateToProps)(BookTable);
-				var element = React.createElement(ReactRedux.Provider, {
+				var element = React.createElement(ReactRedux.Provider,
+				{
 					store: store,
 				}, React.createElement(connector));
 
 				ReactDOM.render(element, document.getElementById("bookTablePanel"));
+
+				document.getElementById("resetAssessmentsButton").onclick = resetAssessments;
+
+				function resetAssessments()
+				{
+					var bookToAssessment = store.getState().bookToAssessment;
+					var books = store.getState().books;
+					var bookToDclUrl = store.getState().bookToDclUrl;
+					var bookToNomination = store.getState().bookToNomination;
+					bookToAssessment = UserSettings.resetBookToAssessment(bookToAssessment, books, bookToDclUrl, bookToNomination);
+
+					UserSettings.storeBookToAssessment(bookToAssessment);
+					store.dispatch(Action.setAssessments(bookToAssessment));
+				}
 			});
 	</script>
 </body>
