@@ -92,50 +92,33 @@ define(["Assessment", "BookComparator", "Library", "process/Action", "process/ui
             InputValidator.validateNotNull("column", column);
             InputValidator.validateNotNull("nominee", nominee);
 
-            var answer;
-
-            if (nominee.assessmentKey === Assessment.BOOK_CLUB_PICK)
+            var assessmentKey = nominee.assessmentKey;
+            var labelFunction = function(value)
             {
-               var assessmentName = Assessment.properties[Assessment.BOOK_CLUB_PICK].name;
+               return Assessment.properties[value].name;
+            };
 
-               answer = this.Td(
-               {
-                  key: key,
-                  className: column.className,
-                  column: column.key,
-                  value: -1,
-               }, assessmentName);
-            }
-            else
+            var selector = React.createElement(Select,
             {
-               var assessmentKey = nominee.assessmentKey;
-               var labelFunction = function(value)
+               key: nominee.book.toString() + "_" + assessmentKey,
+               values: Assessment.values(),
+               initialSelectedValue: assessmentKey,
+               labelFunction: labelFunction,
+               onChange: this.handleChange,
+               clientProps:
                {
-                  return Assessment.properties[value].name;
-               };
+                  "data-booktitle": nominee.book.title(),
+                  "data-bookauthor": nominee.book.author(),
+               }
+            });
 
-               var selector = React.createElement(Select,
-               {
-                  key: nominee.book.toString() + "_" + assessmentKey,
-                  values: Assessment.values(),
-                  initialSelectedValue: assessmentKey,
-                  labelFunction: labelFunction,
-                  onChange: this.handleChange,
-                  clientProps:
-                  {
-                     "data-booktitle": nominee.book.title(),
-                     "data-bookauthor": nominee.book.author(),
-                  }
-               });
-
-               answer = this.Td(
-               {
-                  key: key,
-                  className: column.className,
-                  column: column.key,
-                  value: Assessment.values().indexOf(assessmentKey),
-               }, selector);
-            }
+            var answer = this.Td(
+            {
+               key: key,
+               className: column.className,
+               column: column.key,
+               value: Assessment.values().indexOf(assessmentKey),
+            }, selector);
 
             return answer;
          },
