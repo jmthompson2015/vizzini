@@ -29,7 +29,7 @@
 
 		require(
 			["Award", "BookComparator", "NominationComparator", "process/CrimeAndBeyondFetcher", "process/DCLURLFetcher", "process/SYKMNomineeFetcher"],
-			function(Award, BookComparator, NominationComparator, CrimeAndBeyondFetcher, DCLURLFetcher, SYKMNomineeFetcher)
+			function(Award, BookComparator, NominationComparator, CrimeAndBeyondFetcher, DCLURLFetcher, NomineeFetcher)
 			{
 				document.getElementById("statusBar0").innerHTML = "Loading...";
 
@@ -50,7 +50,7 @@
 					else
 					{
 						var award = Award.properties[awardKey];
-						fetcher = new SYKMNomineeFetcher(award, callback0);
+						fetcher = new NomineeFetcher(award, callback0);
 					}
 
 					fetcher.fetchData();
