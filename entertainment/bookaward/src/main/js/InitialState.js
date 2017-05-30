@@ -176,6 +176,7 @@ define(["Assessment", "Award", "Book", "Nomination", "UserSettings"],
          this.bookToDclUrl[this.books[61]] = "https://dcl.bibliocommons.com/item/show/1329900114_missing,_presumed";
          this.bookToDclUrl[this.books[62]] = "https://dcl.bibliocommons.com/item/show/1366172114_murder_in_g_major";
          this.bookToDclUrl[this.books[63]] = "https://dcl.bibliocommons.com/item/show/1336233114_murder_in_morningside_heights";
+         this.bookToDclUrl[this.books[65]] = "https://dcl.bibliocommons.com/item/show/1274243114_night_tremors_a_novel";
          this.bookToDclUrl[this.books[66]] = "https://dcl.bibliocommons.com/item/show/1338089114_the_one_man";
          this.bookToDclUrl[this.books[67]] = "https://dcl.bibliocommons.com/item/show/1300042114_orphan_x";
          this.bookToDclUrl[this.books[68]] = "https://dcl.bibliocommons.com/item/show/1311564114_overwatch";
