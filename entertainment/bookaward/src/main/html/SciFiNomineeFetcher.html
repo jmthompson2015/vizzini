@@ -39,16 +39,22 @@
 				var count0 = 0;
 				var count1 = 0;
 				var missingCount = 0;
-				var year = 2016;
+				var date = new Date();
+				var year1 = date.getFullYear();
+				var year0 = year1 - 2;
+				LOGGER.info("year0 = " + year0 + " year1 = " + year1);
 
-				Award.values().forEach(function(awardKey)
+				for (var year = year0; year <= year1; year++)
 				{
-					var fetcher;
-					var award = Award.properties[awardKey];
-					fetcher = new NomineeFetcher(award, year, callback0);
+					Award.values().forEach(function(awardKey)
+					{
+						var fetcher;
+						var award = Award.properties[awardKey];
+						fetcher = new NomineeFetcher(award, year, callback0);
 
-					fetcher.fetchData();
-				});
+						fetcher.fetchData();
+					});
+				}
 
 				function callback0(newBooks, newBookToNomination)
 				{
@@ -73,7 +79,7 @@
 
 					document.getElementById("statusBar0").innerHTML = "count0 = " + count0 + " Award.values().length = " + Award.values().length;
 
-					if (count0 === Award.values().length)
+					if (count0 === (year1 - year0 + 1) * Award.values().length)
 					{
 						LOGGER.info("books.length = " + books.length);
 
