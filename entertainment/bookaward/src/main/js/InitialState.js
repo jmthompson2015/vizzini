@@ -5,6 +5,7 @@ define(["Assessment", "Award", "Book", "Nomination", "UserSettings"],
 
       function InitialState()
       {
+         this.winnerImage = "../resources/BloodSplatter14.png";
          this.books = [];
          this.bookToDclUrl = {};
          this.bookToNomination = {};

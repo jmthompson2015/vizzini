@@ -224,11 +224,12 @@ define(["Assessment", "BookComparator", "Library", "process/Action", "process/ui
 
             nominations.forEach(function(nomination)
             {
+               var winnerImage = this.context.store.getState().winnerImage;
                var prefix = (nomination.isWinner() ?
                   React.DOM.img(
                   {
                      className: "winner",
-                     src: "../resources/BloodSplatter14.png",
+                     src: winnerImage,
                      title: "Winner",
                   }) :
                   "");

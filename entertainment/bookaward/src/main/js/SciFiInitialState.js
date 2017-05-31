@@ -5,6 +5,7 @@ define(["Assessment", "SciFiAward", "Book", "Nomination", "UserSettings"],
 
       function SciFiInitialState()
       {
+         this.winnerImage = "../resources/Rocketship14.png";
          this.books = [];
          this.bookToDclUrl = {};
          this.bookToNomination = {};
