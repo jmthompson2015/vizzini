@@ -121,6 +121,12 @@ define(["Book", "Nomination", "SciFiAward"], function(Book, Nomination, SciFiAwa
                   titleAuthor = titleAuthor.substring(7).trim();
                }
                LOGGER.debug("isWinner ? " + isWinner);
+
+               if (titleAuthor.startsWith("(tie):"))
+               {
+                  titleAuthor = titleAuthor.substring(6).trim();
+               }
+
                var book = parseBook(titleAuthor);
                var nomination = new Nomination(award, category, year, isWinner);
                add(book, nomination);
