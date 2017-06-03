@@ -91,7 +91,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 260;
+         var length = 265;
          assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
          assert.equal(result[length - 1], UpgradeCard.ZUCKUSS);
@@ -104,7 +104,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 16;
+         var length = 17;
          assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.BB_8);
          assert.equal(result[length - 1], UpgradeCard.TARGETING_ASTROMECH);
@@ -158,7 +158,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 30;
+         var length = 31;
          assert.equal(result.length, length);
          var i = 0;
          assert.equal(result[i++], UpgradeCard.ADAPTABILITY);
@@ -173,6 +173,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
          assert.equal(result[i++], UpgradeCard.DRAW_THEIR_FIRE);
          assert.equal(result[i++], UpgradeCard.ELUSIVENESS);
          assert.equal(result[i++], UpgradeCard.EXPERT_HANDLING);
+         assert.equal(result[i++], UpgradeCard.EXPERTISE);
          assert.equal(result[i++], UpgradeCard.EXPOSE);
          assert.equal(result[i++], UpgradeCard.INTIMIDATION);
          assert.equal(result[i++], UpgradeCard.JUKE);
@@ -200,8 +201,8 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 16;
-         assert.equal(result.length, 16);
+         var length = 17;
+         assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.BB_8);
          assert.equal(result[length - 1], UpgradeCard.TARGETING_ASTROMECH);
       });
@@ -213,7 +214,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 33;
+         var length = 34;
          assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.ADAPTABILITY);
          assert.equal(result[length - 1], UpgradeCard.WIRED);

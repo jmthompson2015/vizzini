@@ -86,6 +86,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          EXPANDED_CARGO_HOLD: "expandedCargoHold",
          EXPERIMENTAL_INTERFACE: "experimentalInterface",
          EXPERT_HANDLING: "expertHandling",
+         EXPERTISE: "expertise",
          EXPOSE: "expose",
          EXTRA_MUNITIONS: "extraMunitions",
          EZRA_BRIDGER: "ezraBridger",
@@ -120,6 +121,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          IG_88D: "ig88D",
          IMPETUOUS: "impetuous",
          INERTIAL_DAMPENERS: "inertialDampeners",
+         INSPIRING_RECRUIT: "inspiringRecruit",
          INSTIGATOR: "instigator",
          INTEGRATED_ASTROMECH: "integratedAstromech",
          INTELLIGENCE_AGENT: "intelligenceAgent",
@@ -148,6 +150,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          LONE_WOLF: "loneWolf",
          LONG_RANGE_SCANNERS: "longRangeScanners",
          LUKE_SKYWALKER: "lukeSkywalker",
+         M9_G8: "m9G8",
          MANEUVERING_FINS: "maneuveringFins",
          MANGLER_CANNON: "manglerCannon",
          MARA_JADE: "maraJade",
@@ -168,6 +171,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          OUTMANEUVER: "outmaneuver",
          OUTRIDER: "outrider",
          OVERCLOCKED_R4: "overclockedR4",
+         PATTERN_ANALYZER: "patternAnalyzer",
          PHANTOM: "phantom",
          PLASMA_TORPEDOES: "plasmaTorpedoes",
          PREDATOR: "predator",
@@ -204,6 +208,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          RECON_SPECIALIST: "reconSpecialist",
          REINFORCED_DEFLECTORS: "reinforcedDeflectors",
          REQUIEM: "requiem",
+         REY: "rey",
          RIGGED_CARGO_CHUTE: "riggedCargoChute",
          ROYAL_GUARD_TIE: "royalGuardTie",
          RUTHLESSNESS: "ruthlessness",
@@ -1093,6 +1098,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "expertHandling",
             },
+            "expertise":
+            {
+               name: "Expertise",
+               type: UpgradeType.ELITE,
+               description: "When attacking, if you are not stressed, you may change all of your focus results to hit results.",
+               squadPointCost: 4,
+               value: "expertise",
+            },
             "expose":
             {
                name: "Expose",
@@ -1442,6 +1455,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "inertialDampeners",
             },
+            "inspiringRecruit":
+            {
+               name: "Inspiring Recruit",
+               type: UpgradeType.CREW,
+               description: "Once per round, when a friendly ship at Range 1-2 removes a stress token, it may remove 1 additional stress token.",
+               squadPointCost: 1,
+               value: "inspiringRecruit",
+            },
             "instigator":
             {
                name: "Instigator",
@@ -1741,6 +1762,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 7,
                value: "lukeSkywalker",
             },
+            "m9G8":
+            {
+               name: "M9-G8",
+               type: UpgradeType.ASTROMECH,
+               isUnique: true,
+               description: "When a ship you have locked is attacking, you may choose 1 attack die. The attacker must reroll that die. You can acquire target locks on other friendly ships.",
+               squadPointCost: 3,
+               value: "m9G8",
+            },
             "maneuveringFins":
             {
                name: "Maneuvering Fins",
@@ -1933,6 +1963,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                description: "During the Combat phase, when you spend a focus token, you may receive 1 stress token to assign 1 focus token to your ship.",
                squadPointCost: 1,
                value: "overclockedR4",
+            },
+            "patternAnalyzer":
+            {
+               name: "Pattern Analyzer",
+               type: UpgradeType.TECH,
+               description: "When executing a maneuver, you may resolve the \"Check Pilot Stress\" step after the \"Perform Action\" step (instead of before that step).",
+               squadPointCost: 2,
+               value: "patternAnalyzer",
             },
             "phantom":
             {
@@ -2298,6 +2336,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                energyValue: 0,
                squadPointCost: 4,
                value: "requiem",
+            },
+            "rey":
+            {
+               name: "Rey",
+               type: UpgradeType.CREW,
+               isUnique: true,
+               restrictions: [UpgradeRestriction.REBEL_ONLY],
+               description: "At the start of the End phase, you may place 1 of your ship's focus tokens on this card. At the start of the Combat phase, you may assign 1 of those tokens to your ship.",
+               squadPointCost: 2,
+               value: "rey",
             },
             "riggedCargoChute":
             {

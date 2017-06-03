@@ -32,6 +32,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       CAPTAIN_JONUS: "captainJonus",
       CAPTAIN_KAGI: "captainKagi",
       CAPTAIN_OICUNN: "captainOicunn",
+      CAPTAIN_REX: "captainRex",
       CAPTAIN_YORR: "captainYorr",
       CARNOR_JAX: "carnorJax",
       CARTEL_MARAUDER: "cartelMarauder",
@@ -103,6 +104,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       JAKE_FARRELL: "jakeFarrell",
       JAN_ORS: "janOrs",
       JEK_PORKINS: "jekPorkins",
+      JESS_PAVA: "jessPava",
       JUNO_ECLIPSE: "junoEclipse",
       KAATO_LEEACHOS: "kaatoLeeachos",
       KAD_SOLUS: "kadSolus",
@@ -567,6 +569,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW,
                                 UpgradeType.CREW, UpgradeType.BOMB],
             value: "captainOicunn",
+         },
+         "captainRex":
+         {
+            name: "Captain Rex",
+            description: "After you perform an attack, assign the 'Suppressive Fire' Condition card to the defender.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.REBEL_SABINES_TIE_FIGHTER,
+            pilotSkillValue: 4,
+            squadPointCost: 14,
+            upgradeTypeKeys: [],
+            value: "captainRex",
          },
          "captainYorr":
          {
@@ -1437,6 +1450,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH],
             isImplemented: true,
             value: "jekPorkins",
+         },
+         "jessPava":
+         {
+            name: "Jess Pava",
+            description: "When attacking or defending, you may reroll 1 of your dice for each other friendly ship at Range 1.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            pilotSkillValue: 3,
+            squadPointCost: 25,
+            upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
+            value: "jessPava",
          },
          "junoEclipse":
          {
