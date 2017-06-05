@@ -80,7 +80,7 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      var length = 51;
+      var length = 52;
       assert.equal(result.length, length);
       assert.equal(result[0], "firstOrderTieFoFighter");
       assert.equal(result[length - 1], "scumZ95Headhunter");
@@ -176,9 +176,10 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 1);
+      assert.equal(result.length, 2);
       var i = 0;
       assert.equal(result[i++], Ship.T_70_X_WING);
+      assert.equal(result[i++], Ship.YT_1300);
    });
 
    QUnit.test("valuesByShipAndTeam() Imperial", function(assert)
@@ -325,7 +326,7 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      var length = 19;
+      var length = 20;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], ShipTeam.REBEL_A_WING);
@@ -347,6 +348,7 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
       assert.equal(result[i++], ShipTeam.REBEL_YT_2400);
       assert.equal(result[i++], ShipTeam.REBEL_Z_95_HEADHUNTER);
       assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
+      assert.equal(result[i++], ShipTeam.RESISTANCE_YT_1300);
    });
 
    QUnit.test("valuesByTeam() Rebel strict", function(assert)
@@ -389,10 +391,11 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      var length = 19;
+      var length = 20;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
+      assert.equal(result[i++], ShipTeam.RESISTANCE_YT_1300);
       assert.equal(result[i++], ShipTeam.REBEL_A_WING);
       assert.equal(result[i++], ShipTeam.REBEL_A_WING_ACE);
       assert.equal(result[i++], ShipTeam.REBEL_ARC_170);
@@ -423,9 +426,10 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 1);
+      assert.equal(result.length, 2);
       var i = 0;
       assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
+      assert.equal(result[i++], ShipTeam.RESISTANCE_YT_1300);
    });
 
    QUnit.test("valuesByTeam() Scum", function(assert)

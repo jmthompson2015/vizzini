@@ -91,7 +91,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 265;
+         var length = 274;
          assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
          assert.equal(result[length - 1], UpgradeCard.ZUCKUSS);
@@ -158,7 +158,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 31;
+         var length = 33;
          assert.equal(result.length, length);
          var i = 0;
          assert.equal(result[i++], UpgradeCard.ADAPTABILITY);
@@ -186,9 +186,11 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
          assert.equal(result[i++], UpgradeCard.PUSH_THE_LIMIT);
          assert.equal(result[i++], UpgradeCard.RAGE);
          assert.equal(result[i++], UpgradeCard.RUTHLESSNESS);
+         assert.equal(result[i++], UpgradeCard.SNAP_SHOT);
          assert.equal(result[i++], UpgradeCard.SQUAD_LEADER);
          assert.equal(result[i++], UpgradeCard.STAY_ON_TARGET);
          assert.equal(result[i++], UpgradeCard.SWARM_TACTICS);
+         assert.equal(result[i++], UpgradeCard.TRICK_SHOT);
          assert.equal(result[i++], UpgradeCard.VETERAN_INSTINCTS);
          assert.equal(result[i++], UpgradeCard.WINGMAN);
          assert.equal(result[i++], UpgradeCard.WIRED);
@@ -214,7 +216,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 34;
+         var length = 36;
          assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.ADAPTABILITY);
          assert.equal(result[length - 1], UpgradeCard.WIRED);

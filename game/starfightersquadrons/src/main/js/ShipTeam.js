@@ -47,6 +47,7 @@ define(["Ship", "Team"], function(Ship, Team)
 
       // Resistance.
       RESISTANCE_T_70_X_WING: "resistanceT70XWing",
+      RESISTANCE_YT_1300: "resistanceYt1300",
 
       // Scum & Villainy.
       SCUM_AGGRESSOR: "scumAggressor",
@@ -413,6 +414,15 @@ define(["Ship", "Team"], function(Ship, Team)
             image: "Resistance_T-70_X-Wing.png",
             wave: "8",
             value: "resistanceT70XWing",
+         },
+         "resistanceYt1300":
+         {
+            name: "YT-1300",
+            shipKey: Ship.YT_1300,
+            teamKey: Team.RESISTANCE,
+            image: "Resistance_YT-1300.png",
+            wave: "Aces",
+            value: "resistanceYt1300",
          },
 
          // Scum & Villainy.

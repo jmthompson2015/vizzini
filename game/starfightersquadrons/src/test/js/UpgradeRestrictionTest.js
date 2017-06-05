@@ -140,7 +140,7 @@ define(["Pilot", "UpgradeRestriction"], function(Pilot, UpgradeRestriction)
    {
       var result = UpgradeRestriction.values();
       assert.ok(result);
-      var length = 43;
+      var length = 45;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], UpgradeRestriction.A_WING_ONLY);
@@ -171,6 +171,7 @@ define(["Pilot", "UpgradeRestriction"], function(Pilot, UpgradeRestriction)
       assert.equal(result[i++], UpgradeRestriction.SCUM_ONLY);
       assert.equal(result[i++], UpgradeRestriction.SMALL_SHIP_ONLY);
       assert.equal(result[i++], UpgradeRestriction.STAR_VIPER_ONLY);
+      assert.equal(result[i++], UpgradeRestriction.T_70_X_WING_ONLY);
       assert.equal(result[i++], UpgradeRestriction.TIE_ADVANCED_ONLY);
       assert.equal(result[i++], UpgradeRestriction.TIE_ADVANCED_PROTOTYPE_ONLY);
       assert.equal(result[i++], UpgradeRestriction.TIE_BOMBER_ONLY);
@@ -182,6 +183,7 @@ define(["Pilot", "UpgradeRestriction"], function(Pilot, UpgradeRestriction)
       assert.equal(result[i++], UpgradeRestriction.VCX_100_ONLY);
       assert.equal(result[i++], UpgradeRestriction.VT_49_DECIMATOR_ONLY);
       assert.equal(result[i++], UpgradeRestriction.X_WING_ONLY);
+      assert.equal(result[i++], UpgradeRestriction.YT_1300_AND_YT_2400_ONLY);
       assert.equal(result[i++], UpgradeRestriction.YT_1300_ONLY);
       assert.equal(result[i++], UpgradeRestriction.YT_2400_ONLY);
       assert.equal(result[i++], UpgradeRestriction.Y_WING_ONLY);

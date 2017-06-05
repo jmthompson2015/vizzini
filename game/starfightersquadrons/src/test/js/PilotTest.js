@@ -84,7 +84,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 212;
+      var length = 219;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.ACADEMY_PILOT);
       assert.equal(result[length - 1], Pilot.ZUCKUSS);
@@ -240,10 +240,10 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 72;
+      var length = 79;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.AIREN_CRACKEN);
-      assert.equal(result[length - 1], Pilot.RED_SQUADRON_VETERAN);
+      assert.equal(result[length - 1], Pilot.SNAP_WEXLEY);
    });
 
    QUnit.test("valuesByTeam() Rebel strict", function(assert)
@@ -269,7 +269,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 72;
+      var length = 79;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.BLUE_ACE);
       assert.equal(result[length - 1], Pilot.ZEB_ORRELIOS);
@@ -285,9 +285,10 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 7);
+      var length = 14;
+      assert.equal(result.length, length);
       assert.equal(result[0], Pilot.BLUE_ACE);
-      assert.equal(result[6], Pilot.RED_SQUADRON_VETERAN);
+      assert.equal(result[length - 1], Pilot.SNAP_WEXLEY);
    });
 
    QUnit.test("valuesByTeam() Scum", function(assert)

@@ -39,6 +39,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       CARTEL_SPACER: "cartelSpacer",
       CHASER: "chaser",
       CHEWBACCA: "chewbacca",
+      CHEWBACCA_HOTR: "chewbaccaHotr",
       CHOPPER: "chopper",
       COLONEL_JENDON: "colonelJendon",
       COLONEL_VESSERY: "colonelVessery",
@@ -90,6 +91,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       GUARDIAN_SQUADRON_PILOT: "guardianSquadronPilot",
       GURI: "guri",
       HAN_SOLO: "hanSolo",
+      HAN_SOLO_HOTR: "hanSoloHotr",
       HERA_SYNDULLA_ATTACK_SHUTTLE: "heraSyndullaAttackShuttle",
       HERA_SYNDULLA_VCX_100: "heraSyndullaVcx100",
       HIRED_GUN: "hiredGun",
@@ -138,6 +140,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       NASHTAH_PUP_PILOT: "nashtahPupPilot",
       NERA_DANTELS: "neraDantels",
       NDRU_SUHLAK: "ndruSuhlak",
+      NIEN_NUNB: "nienNunb",
       NIGHT_BEAST: "nightBeast",
       NORRA_WEXLEY: "norraWexley",
       OBSIDIAN_SQUADRON_PILOT: "obsidianSquadronPilot",
@@ -152,6 +155,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       PALOB_GODALHI: "palobGodalhi",
       PATROL_LEADER: "patrolLeader",
       POE_DAMERON: "poeDameron",
+      POE_DAMERON_HOTR: "poeDameronHotr",
       PRINCE_XIZOR: "princeXizor",
       PROTOTYPE_PILOT: "prototypePilot",
       QUICKDRAW: "quickdraw",
@@ -162,7 +166,9 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       RED_SQUADRON_PILOT: "redSquadronPilot",
       RED_SQUADRON_VETERAN: "redSquadronVeteran",
       REDLINE: "redline",
+      RESISTANCE_SYMPATHIZER: "resistanceSympathizer",
       REXLER_BRATH: "rexlerBrath",
+      REY: "rey",
       ROARK_GARNET: "roarkGarnet",
       ROOKIE_PILOT: "rookiePilot",
       ROYAL_GUARD_PILOT: "royalGuardPilot",
@@ -178,6 +184,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       SHARA_BEY: "sharaBey",
       SIENAR_TEST_PILOT: "sienarTestPilot",
       SIGMA_SQUADRON_PILOT: "sigmaSquadronPilot",
+      SNAP_WEXLEY: "snapWexley",
       SOONTIR_FEL: "soontirFel",
       SPICE_RUNNER: "spiceRunner",
       STORM_SQUADRON_PILOT: "stormSquadronPilot",
@@ -649,6 +656,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW],
             isImplemented: true,
             value: "chewbacca",
+         },
+         "chewbaccaHotr":
+         {
+            name: "Chewbacca (HotR)",
+            description: "When another friendly ship at Range 1-3 is destroyed (but has not fled the battlefield), you may perform an attack.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.RESISTANCE_YT_1300,
+            pilotSkillValue: 5,
+            squadPointCost: 42,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW],
+            value: "chewbaccaHotr",
          },
          "chopper":
          {
@@ -1285,6 +1303,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW],
             value: "hanSolo",
          },
+         "hanSoloHotr":
+         {
+            name: "Han Solo (HotR)",
+            description: "When you are placed during setup, you can be placed anywhere in the play area beyond Range 3 of the enemy ships.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.RESISTANCE_YT_1300,
+            pilotSkillValue: 9,
+            squadPointCost: 46,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW],
+            value: "hanSoloHotr",
+         },
          "heraSyndullaAttackShuttle":
          {
             name: "Hera Syndulla (Attack Shuttle)",
@@ -1847,6 +1876,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                                 UpgradeType.TORPEDO, UpgradeType.TORPEDO],
             value: "neraDantels",
          },
+         "nienNunb":
+         {
+            name: "Nien Nunb",
+            description: "When you recieve a stress token, if there is an enemy ship inside your firing arc at Range 1, you may discard that stress token.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            pilotSkillValue: 7,
+            squadPointCost: 29,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
+            value: "nienNunb",
+         },
          "nightBeast":
          {
             name: "\"Night Beast\"",
@@ -2015,6 +2055,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             isImplemented: true,
             value: "poeDameron",
          },
+         "poeDameronHotr":
+         {
+            name: "Poe Dameron (HotR)",
+            description: "While attacking or defending, if you have a Focus token, you may change 1 of your Focus results to a Hit or Evade result.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            pilotSkillValue: 9,
+            squadPointCost: 33,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
+            value: "poeDameronHotr",
+         },
          "princeXizor":
          {
             name: "Prince Xizor",
@@ -2169,6 +2220,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                                 UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB, UpgradeType.BOMB],
             value: "redline",
          },
+         "resistanceSympathizer":
+         {
+            name: "Resistance Sympathizer",
+            description: "After the destruction of the Hosnian system, some spacers willingly aided the Resistance against the malevolent First Order.",
+            isFlavorText: true,
+            shipTeamKey: ShipTeam.RESISTANCE_YT_1300,
+            pilotSkillValue: 3,
+            squadPointCost: 38,
+            upgradeTypeKeys: [UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW],
+            value: "resistanceSympathizer",
+         },
          "rexlerBrath":
          {
             name: "Rexler Brath",
@@ -2179,6 +2241,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             squadPointCost: 37,
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.MISSILE],
             value: "rexlerBrath",
+         },
+         "rey":
+         {
+            name: "Rey",
+            description: "When attacking or defending, if the enemy ship is inside your firing arc, you may reroll up to 2 of your blank results.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.RESISTANCE_YT_1300,
+            pilotSkillValue: 8,
+            squadPointCost: 45,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW],
+            value: "rey",
          },
          "roarkGarnet":
          {
@@ -2353,6 +2426,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.CREW],
             isImplemented: true,
             value: "sigmaSquadronPilot",
+         },
+         "snapWexley":
+         {
+            name: "\"Snap\" Wexley",
+            description: "After you execute a 2-, 3- or 4-speed maneuver, if you are not touching a ship, you may perform a free boost action.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            pilotSkillValue: 6,
+            squadPointCost: 28,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
+            value: "snapWexley",
          },
          "soontirFel":
          {

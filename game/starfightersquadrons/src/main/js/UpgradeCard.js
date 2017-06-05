@@ -29,6 +29,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          B_WING_E2: "bWingE2",
          BB_8: "bb8",
          BLACK_MARKET_SLICER_TOOLS: "blackMarketSlicerTools",
+         BLACK_ONE: "blackOne",
          BLASTER_TURRET: "blasterTurret",
          BOBA_FETT: "bobaFett",
          BODYGUARD: "bodyguard",
@@ -38,6 +39,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          BRIGHT_HOPE: "brightHope",
          BROADCAST_ARRAY: "broadcastArray",
          BTL_A4_Y_WING: "btlA4YWing",
+         BURNOUT_SLAM: "burnoutSlam",
          C_3PO: "c3po",
          CALCULATION: "calculation",
          CAPTAIN_NEEDA: "captainNeeda",
@@ -92,6 +94,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          EZRA_BRIDGER: "ezraBridger",
          FEARLESSNESS: "fearlessness",
          FEEDBACK_ARRAY: "feedbackArray",
+         FINN: "finn",
          FIRE_CONTROL_SYSTEM: "fireControlSystem",
          FLECHETTE_CANNON: "flechetteCannon",
          FLECHETTE_TORPEDOES: "flechetteTorpedoes",
@@ -115,6 +118,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          HERA_SYNDULLA: "heraSyndulla",
          HOMING_MISSILES: "homingMissiles",
          HOT_SHOT_BLASTER: "hotShotBlaster",
+         HOTSHOT_CO_PILOT: "hotshotCoPilot",
          HOUNDS_TOOTH: "houndsTooth",
          HULL_UPGRADE: "hullUpgrade",
          IG_2000: "ig2000",
@@ -157,6 +161,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          MARKSMANSHIP: "marksmanship",
          MERCENARY_COPILOT: "mercenaryCopilot",
          MILLENNIUM_FALCON: "millenniumFalcon",
+         MILLENNIUM_FALCON_HOTR: "millenniumFalconHotr",
          MIST_HUNTER: "mistHunter",
          MOFF_JERJERROD: "moffJerjerrod",
          MOLDY_CROW: "moldyCrow",
@@ -175,6 +180,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          PHANTOM: "phantom",
          PLASMA_TORPEDOES: "plasmaTorpedoes",
          PREDATOR: "predator",
+         PRIMED_THRUSTERS: "primedThrusters",
          PROTON_BOMBS: "protonBombs",
          PROTON_ROCKETS: "protonRockets",
          PROTON_TORPEDOES: "protonTorpedoes",
@@ -227,6 +233,8 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          SINGLE_TURBOLASERS: "singleTurbolasers",
          SLAVE_I: "slaveI",
          SLICER_TOOLS: "slicerTools",
+         SMUGGLING_COMPARTMENT: "smugglingCompartment",
+         SNAP_SHOT: "snapShot",
          SPECIAL_OPS_TRAINING: "specialOpsTraining",
          SQUAD_LEADER: "squadLeader",
          ST_321: "st321",
@@ -252,6 +260,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          TIE_X7: "tieX7",
          TORYN_FARR: "torynFarr",
          TRACTOR_BEAM: "tractorBeam",
+         TRICK_SHOT: "trickShot",
          TWIN_ION_ENGINE_MK_II: "twinIonEngineMkII",
          TWIN_LASER_TURRET: "twinLaserTurret",
          UNHINGED_ASTROMECH: "unhingedAstromech",
@@ -526,6 +535,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 1,
                value: "blackMarketSlicerTools",
             },
+            "blackOne":
+            {
+               name: "Black One",
+               type: UpgradeType.TITLE,
+               isUnique: true,
+               restrictions: [UpgradeRestriction.T_70_X_WING_ONLY],
+               description: "After you perform a boost or barrel roll action, you may remove 1 enemy target lock from a friendly ship at Range 1. You cannot equip this card if your pilot skill is \"6\" or lower.",
+               squadPointCost: 1,
+               value: "blackOne",
+            },
             "blasterTurret":
             {
                name: "Blaster Turret",
@@ -628,6 +647,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 1,
                isImplemented: true,
                value: "bWingE2",
+            },
+            "burnoutSlam":
+            {
+               name: "Burnout SLAM",
+               type: UpgradeType.ILLICIT,
+               restrictions: [UpgradeRestriction.LARGE_SHIP_ONLY],
+               description: "Your action bar gains the SLAM action icon. After you perform a SLAM action, discard this card.",
+               squadPointCost: 1,
+               value: "burnoutSlam",
             },
             "c3po":
             {
@@ -1153,6 +1181,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 2,
                value: "feedbackArray",
             },
+            "finn":
+            {
+               name: "Finn",
+               type: UpgradeType.CREW,
+               isUnique: true,
+               restrictions: [UpgradeRestriction.REBEL_ONLY],
+               description: "When attacking with a primary weapon or defending, if the enemy ship is inside your firing arc, you may add 1 blank result to your roll.",
+               squadPointCost: 5,
+               value: "finn",
+            },
             "fireControlSystem":
             {
                name: "Fire Control System",
@@ -1395,6 +1433,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 3,
                isImplemented: true,
                value: "hotShotBlaster",
+            },
+            "hotshotCoPilot":
+            {
+               name: "Hotshot Co-Pilot",
+               type: UpgradeType.CREW,
+               description: "When attacking with a primary weapon, the defender must spend 1 focus token if able. When defending, the attacker must spend 1 focus token if able.",
+               squadPointCost: 4,
+               value: "hotshotCoPilot",
             },
             "houndsTooth":
             {
@@ -1834,6 +1880,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "millenniumFalcon",
             },
+            "millenniumFalconHotr":
+            {
+               name: "Millennium Falcon (HotR)",
+               type: UpgradeType.TITLE,
+               restrictions: [UpgradeRestriction.YT_1300_ONLY],
+               description: "After you execute a 3-speed bank maneuver, if you are not touching another ship and you are not stressed, you may receive 1 stress token to rotate your ship 180 degrees.",
+               squadPointCost: 1,
+               value: "millenniumFalconHotr",
+            },
             "mistHunter":
             {
                name: "Mist Hunter",
@@ -2005,6 +2060,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 3,
                isImplemented: true,
                value: "predator",
+            },
+            "primedThrusters":
+            {
+               name: "Primed Thrusters",
+               type: UpgradeType.TECH,
+               restrictions: [UpgradeRestriction.SMALL_SHIP_ONLY],
+               description: "Stress Tokens do not prevent you from performing boost or barrel roll actions unless you have 3 or more stress tokens.",
+               squadPointCost: 1,
+               value: "primedThrusters",
             },
             "protonBombs":
             {
@@ -2514,6 +2578,27 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 7,
                value: "slicerTools",
             },
+            "smugglingCompartment":
+            {
+               name: "Smuggling Compartment",
+               type: UpgradeType.MODIFICATION,
+               restrictions: [UpgradeRestriction.YT_1300_AND_YT_2400_ONLY, UpgradeRestriction.LIMITED],
+               description: "Your upgrade bar gains the Illicit upgrade icon. You may equip 1 additional Modification upgrade that costs 3 or fewer squad points.",
+               squadPointCost: 0,
+               value: "smugglingCompartment",
+            },
+            "snapShot":
+            {
+               name: "Snap Shot",
+               type: UpgradeType.ELITE,
+               header: UpgradeHeader.ATTACK,
+               weaponValue: 2,
+               ranges: [RangeRuler.ONE],
+               firingArcKey: FiringArc.FORWARD,
+               description: "After an enemy ship executes a maneuver, you may perform this attack against that ship. Attack 1 ship. You cannot modify your attack dice and cannot attack again this phase.",
+               squadPointCost: 2,
+               value: "snapShot",
+            },
             "specialOpsTraining":
             {
                name: "Special Ops Training",
@@ -2749,6 +2834,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                cancelAllDiceResults: true,
                squadPointCost: 1,
                value: "tractorBeam",
+            },
+            "trickShot":
+            {
+               name: "Trick Shot",
+               type: UpgradeType.ELITE,
+               description: "When attacking, if the attack is obstructed, you may roll 1 additional attack die.",
+               squadPointCost: 0,
+               value: "trickShot",
             },
             "twinIonEngineMkII":
             {

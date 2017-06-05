@@ -133,6 +133,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
       PROTECTORATE_STARFIGHTER_ONLY: "protectorateStarfighterOnly",
       RAIDER_CLASS_CORVETTE_AFT_SECTION_ONLY: "raiderClassCorvetteAftSectionOnly",
       STAR_VIPER_ONLY: "starViperOnly",
+      T_70_X_WING_ONLY: "t70XWingOnly",
       TIE_ADVANCED_ONLY: "tieAdvancedOnly",
       TIE_ADVANCED_PROTOTYPE_ONLY: "tieAdvancedPrototypeOnly",
       TIE_BOMBER_ONLY: "tieBomberOnly",
@@ -143,6 +144,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
       VCX_100_ONLY: "vcx100Only",
       VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
       X_WING_ONLY: "xWingOnly",
+      YT_1300_AND_YT_2400_ONLY: "yt1300AndYt2400Only",
       YT_1300_ONLY: "yt1300Only",
       YT_2400_ONLY: "yt2400Only",
       Y_WING_ONLY: "yWingOnly",
@@ -209,6 +211,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
          "scumOnly": new TeamRestriction(Team.SCUM),
          "smallShipOnly": new ShipSizeRestriction(ShipBase.SMALL),
          "starViperOnly": new ShipRestriction(Ship.STAR_VIPER),
+         "t70XWingOnly": new ShipRestriction(Ship.T_70_X_WING),
          "tieAdvancedOnly": new ShipRestriction(Ship.TIE_ADVANCED),
          "tieAdvancedPrototypeOnly": new ShipRestriction(Ship.TIE_ADVANCED_PROTOTYPE),
          "tieBomberOnly": new ShipRestriction(Ship.TIE_BOMBER),
@@ -236,6 +239,16 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
                var pilot = Pilot.properties[pilotKey];
                var shipKey = pilot.shipTeam.shipKey;
                return shipKey === Ship.X_WING || shipKey === Ship.T_70_X_WING;
+            }
+         },
+         "yt1300AndYt2400Only":
+         {
+            name: "YT-1300 and YT-2400 only.",
+            passes: function(pilotKey)
+            {
+               var pilot = Pilot.properties[pilotKey];
+               var shipKey = pilot.shipTeam.shipKey;
+               return shipKey === Ship.YT_1300 || shipKey === Ship.YT_2400;
             }
          },
          "yt1300Only": new ShipRestriction(Ship.YT_1300),
