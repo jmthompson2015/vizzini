@@ -1,0 +1,45 @@
+body {
+  background-image: url(../resources/images/SeamlessMetalTextureSmooth.jpg);
+  font-family: "San Francisco", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+table {
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.dataTable {
+  background-color: White;
+  border-collapse: collapse;
+  font-size: small;
+}
+
+.dataTable tr:nth-child(odd) {
+  background: White;
+}
+
+.dataTable tr:nth-child(even) {
+  background: LightCyan;
+}
+
+.dataTable th {
+  background-color: #555555;
+  border: 1px solid LightGray;
+  color: White;
+}
+
+.dataTable td {
+  border: 1px solid LightGray;
+}
+
+#ALIGN_LEFT, .rowCount, .textCell, .alignLeft {
+  text-align: left;
+}
+
+#ALIGN_RIGHT, .numberCell, .alignRight {
+  text-align: right;
+}
+
+#FONT_SMALL, .dataTable, .rowCount, .fontSmall {
+  font-size: small;
+}

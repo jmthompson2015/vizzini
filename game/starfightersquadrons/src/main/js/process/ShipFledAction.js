@@ -1,55 +1,60 @@
-define([ "process/Action" ], function(Action)
+define(["process/Action"], function(Action)
 {
-    "use strict";
-    function ShipFledAction(environment, token, fromPosition)
-    {
-        this.environment = function()
-        {
-            return environment;
-        };
+   "use strict";
 
-        this.token = function()
-        {
-            return token;
-        };
+   function ShipFledAction(environment, token, fromPosition)
+   {
+      InputValidator.validateNotNull("environment", environment);
+      InputValidator.validateNotNull("token", token);
+      InputValidator.validateNotNull("fromPosition", fromPosition);
 
-        this.fromPosition = function()
-        {
-            return fromPosition;
-        };
+      this.environment = function()
+      {
+         return environment;
+      };
 
-        this.doIt = function()
-        {
-            LOGGER.trace("ShipFledAction.doIt() start");
+      this.token = function()
+      {
+         return token;
+      };
 
-            var tokens = [];
+      this.fromPosition = function()
+      {
+         return fromPosition;
+      };
 
-            if (token.tokenFore && token.tokenAft)
-            {
-                tokens.push(token.tokenFore());
-                tokens.push(token.tokenAft());
-            }
-            else
-            {
-                tokens.push(token);
-            }
+      this.doIt = function()
+      {
+         LOGGER.trace("ShipFledAction.doIt() start");
 
-            tokens.forEach(function(token)
-            {
-                token.removeAllTargetLocks();
+         var tokens = [];
 
-                // Return the damage cards.
-                environment.discardAllDamage(token.damages());
-                environment.discardAllDamage(token.criticalDamages());
+         if (token.tokenFore && token.tokenAft)
+         {
+            tokens.push(token.tokenFore());
+            tokens.push(token.tokenAft());
+         }
+         else
+         {
+            tokens.push(token);
+         }
 
-                environment.removeToken(fromPosition);
-                var store = environment.store();
-                store.dispatch(Action.setUserMessage("Ship fled the battlefield: " + token));
-            });
+         tokens.forEach(function(token)
+         {
+            token.removeAllTargetLocks();
 
-            LOGGER.trace("ShipFledAction.doIt() end");
-        };
-    }
+            // Return the damage cards.
+            environment.discardAllDamage(token.damages());
+            environment.discardAllDamage(token.criticalDamages());
 
-    return ShipFledAction;
+            environment.removeToken(fromPosition);
+            var store = environment.store();
+            store.dispatch(Action.setUserMessage("Ship fled the battlefield: " + token));
+         });
+
+         LOGGER.trace("ShipFledAction.doIt() end");
+      };
+   }
+
+   return ShipFledAction;
 });

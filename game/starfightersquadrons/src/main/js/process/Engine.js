@@ -1,429 +1,431 @@
 define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/CombatAction", "process/EndPhaseAction", "process/PlanningAction"],
-    function(Maneuver, Phase, Pilot, RangeRuler, Team, UpgradeCard, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
-    {
-        "use strict";
+   function(Maneuver, Phase, Pilot, RangeRuler, Team, UpgradeCard, Action, ActivationAction, CombatAction, EndPhaseAction, PlanningAction)
+   {
+      "use strict";
 
-        function Engine(environment, adjudicator)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
+      function Engine(environment, adjudicator, delayIn)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         // delayIn optional.
 
-            this.environment = function()
+         var delay = (delayIn !== undefined ? delayIn : 1000);
+
+         this.environment = function()
+         {
+            return environment;
+         };
+
+         this.adjudicator = function()
+         {
+            return adjudicator;
+         };
+
+         this.delay = function()
+         {
+            return delay;
+         };
+
+         var that = this;
+         var firstTokenToManeuver, secondTokenToManeuver;
+         var activationQueue = [];
+         var combatQueue = [];
+         var endQueue = [];
+         var decloakCount = 0;
+
+         this.firstTokenToManeuver = function()
+         {
+            return firstTokenToManeuver;
+         };
+
+         this.performActivationPhase = function()
+         {
+            if (!isGameOver())
             {
-                return environment;
-            };
+               LOGGER.trace("Engine.performActivationPhase() start");
+               environment.phase(Phase.ACTIVATION_START);
+               var store = environment.store();
 
-            this.adjudicator = function()
+               // FIXME: Perform start of activation phase actions.
+
+               // Perform decloak action for all ships.
+               decloakCount = 0;
+               var tokens = environment.getTokensForActivation(true);
+
+               tokens.forEach(function(token)
+               {
+                  if (token.isCloaked && token.isCloaked())
+                  {
+                     LOGGER.debug("checking decloak for " + token);
+                     var agent = token.agent();
+                     agent.getDecloakAction(environment, adjudicator, token, this.setDecloakAction.bind(this));
+
+                     // Wait for agent to respond.
+                  }
+                  else
+                  {
+                     this.setDecloakAction(token);
+                  }
+               }, this);
+            }
+         };
+
+         this.performCombatPhase = function()
+         {
+            if (!isGameOver())
             {
-                return adjudicator;
-            };
+               LOGGER.trace("Engine.performCombatPhase() start");
+               environment.phase(Phase.COMBAT_START);
+               var store = environment.store();
 
-            var that = this;
-            var firstTokenToManeuver, secondTokenToManeuver;
-            var activationQueue = [];
-            var combatQueue = [];
-            var endQueue = [];
-            var delay = 1000;
-            var decloakCount = 0;
+               // FIXME: Perform start of combat phase actions.
 
-            this.firstTokenToManeuver = function()
+               // Search for Epsilon Leader.
+               var tokens = environment.getTokensForCombat().filter(function(token)
+               {
+                  return token.pilotKey() === Pilot.EPSILON_LEADER;
+               });
+
+               if (tokens.length > 0)
+               {
+                  var epsilonLeader = tokens[0];
+                  var friendlies = environment.getFriendlyTokensAtRange(epsilonLeader, RangeRuler.ONE);
+
+                  friendlies.forEach(function(token)
+                  {
+                     token.removeStress();
+                  });
+               }
+
+               // Search for a ship upgraded with Ysanne Isard.
+               tokens = environment.getTokensForCombat().filter(function(token)
+               {
+                  return token.isUpgradedWith(UpgradeCard.YSANNE_ISARD);
+               });
+
+               if (tokens.length > 0)
+               {
+                  var ysanneIsard = tokens[0];
+
+                  if (ysanneIsard.shieldCount() === 0 &&
+                     (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
+                  {
+                     store.dispatch(Action.addEvadeCount(ysanneIsard));
+                  }
+               }
+
+               combatQueue = environment.getTokensForCombat();
+               this.processCombatQueue();
+            }
+         };
+
+         this.performEndPhase = function()
+         {
+            if (!isGameOver())
             {
-                return firstTokenToManeuver;
-            };
+               LOGGER.trace("Engine.performEndPhase() start");
+               environment.phase(Phase.END_START);
 
-            this.performActivationPhase = function()
+               endQueue = environment.getTokensForCombat();
+               this.processEndQueue();
+            }
+         };
+
+         this.performPlanningPhase = function()
+         {
+            if (!isGameOver())
             {
-                if (!isGameOver())
-                {
-                    LOGGER.trace("Engine.performActivationPhase() start");
-                    environment.phase(Phase.ACTIVATION_START);
-                    var store = environment.store();
+               LOGGER.trace("Engine.performPlanningPhase() start");
 
-                    // FIXME: Perform start of activation phase actions.
+               environment.phase(Phase.PLANNING_START);
+               environment.incrementRound();
 
-                    // Perform decloak action for all ships.
-                    decloakCount = 0;
-                    var tokens = environment.getTokensForActivation(true);
+               var firstAgent = environment.firstAgent();
+               var firstPlanningAction = new PlanningAction(environment, adjudicator, firstAgent,
+                  that.setTokenToManeuver);
+               firstPlanningAction.doIt();
 
-                    tokens.forEach(function(token)
-                    {
-                        if (token.isCloaked && token.isCloaked())
-                        {
-                            LOGGER.debug("checking decloak for " + token);
-                            var agent = token.agent();
-                            agent.getDecloakAction(environment, adjudicator, token, this.setDecloakAction.bind(this));
+               var secondAgent = environment.secondAgent();
+               var secondPlanningAction = new PlanningAction(environment, adjudicator, secondAgent,
+                  that.setTokenToManeuver);
+               secondPlanningAction.doIt();
 
-                            // Wait for agent to respond.
-                        }
-                        else
-                        {
-                            this.setDecloakAction(token);
-                        }
-                    }, this);
-                }
-            };
+               // Wait for agents to respond.
+            }
+         };
 
-            this.performCombatPhase = function()
+         this.processActivationQueue = function()
+         {
+            LOGGER.trace("Engine.processActivationQueue() start");
+
+            var store = environment.store();
+
+            if (activationQueue.length === 0)
             {
-                if (!isGameOver())
-                {
-                    LOGGER.trace("Engine.performCombatPhase() start");
-                    environment.phase(Phase.COMBAT_START);
-                    var store = environment.store();
+               firstTokenToManeuver = undefined;
+               secondTokenToManeuver = undefined;
 
-                    // FIXME: Perform start of combat phase actions.
-
-                    // Search for Epsilon Leader.
-                    var tokens = environment.getTokensForCombat().filter(function(token)
-                    {
-                        return token.pilotKey() === Pilot.EPSILON_LEADER;
-                    });
-
-                    if (tokens.length > 0)
-                    {
-                        var epsilonLeader = tokens[0];
-                        var friendlies = environment.getFriendlyTokensAtRange(epsilonLeader, RangeRuler.ONE);
-
-                        friendlies.forEach(function(token)
-                        {
-                            token.removeStress();
-                        });
-                    }
-
-                    // Search for a ship upgraded with Ysanne Isard.
-                    tokens = environment.getTokensForCombat().filter(function(token)
-                    {
-                        return token.isUpgradedWith(UpgradeCard.YSANNE_ISARD);
-                    });
-
-                    if (tokens.length > 0)
-                    {
-                        var ysanneIsard = tokens[0];
-
-                        if (ysanneIsard.shieldCount() === 0 &&
-                            (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
-                        {
-                            store.dispatch(Action.addEvadeCount(ysanneIsard));
-                        }
-                    }
-
-                    combatQueue = environment.getTokensForCombat();
-                    this.processCombatQueue();
-                }
-            };
-
-            this.performEndPhase = function()
-            {
-                if (!isGameOver())
-                {
-                    LOGGER.trace("Engine.performEndPhase() start");
-                    environment.phase(Phase.END_START);
-
-                    endQueue = environment.getTokensForCombat();
-                    this.processEndQueue();
-                }
-            };
-
-            this.performPlanningPhase = function()
-            {
-                if (!isGameOver())
-                {
-                    LOGGER.trace("Engine.performPlanningPhase() start");
-
-                    environment.phase(Phase.PLANNING_START);
-                    environment.incrementRound();
-
-                    var firstAgent = environment.firstAgent();
-                    var firstPlanningAction = new PlanningAction(environment, adjudicator, firstAgent,
-                        that.setTokenToManeuver);
-                    firstPlanningAction.doIt();
-
-                    var secondAgent = environment.secondAgent();
-                    var secondPlanningAction = new PlanningAction(environment, adjudicator, secondAgent,
-                        that.setTokenToManeuver);
-                    secondPlanningAction.doIt();
-
-                    // Wait for agents to respond.
-                }
-            };
-
-            this.processActivationQueue = function()
-            {
-                LOGGER.trace("Engine.processActivationQueue() start");
-
-                var store = environment.store();
-
-                if (activationQueue.length === 0)
-                {
-                    firstTokenToManeuver = undefined;
-                    secondTokenToManeuver = undefined;
-
-                    environment.activeToken(undefined);
-                    store.dispatch(Action.setUserMessage(""));
-                    LOGGER.trace("Engine.processActivationQueue() done");
-                    environment.phase(Phase.ACTIVATION_END);
-                    setTimeout(function()
-                    {
-                        that.performCombatPhase();
-                    }, delay);
-                    return;
-                }
-
-                var token = activationQueue.shift();
-                environment.activeToken(token);
-                var factionKey = token.pilot().shipTeam.teamKey;
-                var myToken = token;
-
-                if (token.parent && token.pilot().value.endsWith("fore"))
-                {
-                    myToken = token.parent;
-                }
-
-                var maneuverKey;
-
-                if (Team.isFriendly(factionKey, environment.firstTeam()))
-                {
-                    maneuverKey = firstTokenToManeuver[myToken];
-                }
-                else
-                {
-                    maneuverKey = secondTokenToManeuver[myToken];
-                }
-
-                var activationAction = new ActivationAction(store, token, this.processActivationQueue.bind(this));
-                var maneuver = Maneuver.properties[maneuverKey];
-                store.dispatch(Action.setTokenManeuver(token, maneuver));
-
-                setTimeout(function()
-                {
-                    activationAction.doIt();
-                }, 500);
-
-                LOGGER.trace("Engine.processActivationQueue() end");
-            };
-
-            this.processCombatQueue = function()
-            {
-                LOGGER.trace("Engine.processCombatQueue() start");
-
-                var store = environment.store();
-
-                if (combatQueue.length === 0)
-                {
-                    // Search for a ship upgraded with R5-P9.
-                    var tokens = environment.getTokensForCombat().filter(function(token)
-                    {
-                        return token.isUpgradedWith(UpgradeCard.R5_P9);
-                    });
-
-                    if (tokens.length > 0)
-                    {
-                        var r5p9 = tokens[0];
-
-                        if (r5p9.focusCount() > 0 && r5p9.shieldCount() < r5p9.shieldValue())
-                        {
-                            store.dispatch(Action.addFocusCount(token, -1));
-                            r5p9.recoverShield();
-                        }
-                    }
-
-                    environment.activeToken(undefined);
-                    store.dispatch(Action.setUserMessage(""));
-                    LOGGER.trace("Engine.processCombatQueue() done");
-                    environment.phase(Phase.COMBAT_END);
-                    setTimeout(function()
-                    {
-                        that.performEndPhase();
-                    }, delay);
-                    return;
-                }
-
-                var attacker = combatQueue.shift();
-
-                if (attacker)
-                {
-                    environment.activeToken(attacker);
-
-                    if (adjudicator.canAttack(attacker))
-                    {
-                        // Perform combat steps.
-                        LOGGER.debug("attacker = " + attacker.name());
-
-                        // Declare target.
-                        var agent = attacker.agent();
-                        agent.chooseWeaponAndDefender(environment, adjudicator, attacker, that.setWeaponAndDefender);
-
-                        // Wait for agent to respond.
-                    }
-                    else
-                    {
-                        // Proceed.
-                        setTimeout(that.processCombatQueue, delay);
-                    }
-                }
-
-                LOGGER.trace("Engine.processCombatQueue() end");
-            };
-
-            this.processEndQueue = function()
-            {
-                LOGGER.trace("Engine.processEndQueue() start");
-
-                var store = environment.store();
-
-                if (endQueue.length === 0)
-                {
-                    environment.activeToken(undefined);
-                    store.dispatch(Action.setUserMessage(""));
-                    LOGGER.trace("Engine.processEndQueue() done");
-                    environment.phase(Phase.END_END);
-                    setTimeout(function()
-                    {
-                        that.performPlanningPhase();
-                    }, delay);
-                    return;
-                }
-
-                var token = endQueue.shift();
-
-                if (token)
-                {
-                    environment.activeToken(token);
-
-                    var action = new EndPhaseAction(environment, token, this.processEndQueue.bind(this));
-                    action.doIt();
-                }
-                else
-                {
-                    this.processEndQueue();
-                }
-
-                LOGGER.trace("Engine.processEndQueue() end");
-            };
-
-            this.secondTokenToManeuver = function()
-            {
-                return secondTokenToManeuver;
-            };
-
-            this.setDecloakAction = function(token, decloakAction)
-            {
-                LOGGER.trace("Engine.setDecloakAction() start");
-
-                InputValidator.validateNotNull("token", token);
-
-                LOGGER.debug("token = " + token + " decloakAction = " + decloakAction);
-
-                var delay = 0;
-
-                if (decloakAction !== undefined)
-                {
-                    decloakAction.doIt();
-                    var store = this.environment().store();
-                    store.dispatch(Action.addCloakCount(token, -1));
-                    LOGGER.debug("token.isCloaked() ? " + token.isCloaked());
-                    LOGGER.debug("token.cloakCount() = " + token.cloakCount());
-                    delay = 1000;
-                }
-
-                decloakCount++;
-
-                if (decloakCount === this.environment().tokens().length)
-                {
-                    activationQueue = environment.getTokensForActivation(true);
-                    setTimeout(this.processActivationQueue.bind(this), delay);
-                }
-
-                LOGGER.trace("Engine.setDecloakAction() end");
-            };
-
-            this.setTokenToManeuver = function(agent, tokenToManeuver)
-            {
-                if (agent === environment.firstAgent())
-                {
-                    firstTokenToManeuver = tokenToManeuver;
-                    LOGGER.trace("firstTokenToManeuver = " + firstTokenToManeuver);
-                }
-                else if (agent === environment.secondAgent())
-                {
-                    secondTokenToManeuver = tokenToManeuver;
-                    LOGGER.trace("secondTokenToManeuver = " + secondTokenToManeuver);
-                }
-                else
-                {
-                    LOGGER.error("planningAction agent = " + agent);
-                }
-
-                if (firstTokenToManeuver && secondTokenToManeuver)
-                {
-                    LOGGER.trace("Engine.performPlanningPhase() end");
-                    environment.phase(Phase.PLANNING_END);
-                    setTimeout(function()
-                    {
-                        that.performActivationPhase();
-                    }, delay);
-                }
-            };
-
-            this.setWeaponAndDefender = function(weapon, defender)
-            {
-                if (weapon && defender)
-                {
-                    var attacker = environment.activeToken();
-
-                    if (defender)
-                    {
-                        var store = environment.store();
-                        store.dispatch(Action.setUserMessage(attacker + " fires upon " + defender));
-
-                        var combatAction = new CombatAction(store, attacker, weapon, defender, that.processCombatQueue);
-
-                        setTimeout(function()
-                        {
-                            combatAction.doIt();
-                        }, 500);
-                    }
-                }
-                else
-                {
-                    that.processCombatQueue();
-                }
-            };
-
-            function isGameOver()
-            {
-                var answer = adjudicator.isGameOver(environment);
-
-                if (answer)
-                {
-                    LOGGER.debug("adjudicator.isGameOver() ? " + adjudicator.isGameOver(environment));
-                    processGameOver();
-                }
-
-                return answer;
+               environment.activeToken(undefined);
+               store.dispatch(Action.setUserMessage(""));
+               LOGGER.trace("Engine.processActivationQueue() done");
+               environment.phase(Phase.ACTIVATION_END);
+               setTimeout(function()
+               {
+                  that.performCombatPhase();
+               }, delay);
+               return;
             }
 
-            function processGameOver()
+            var token = activationQueue.shift();
+            environment.activeToken(token);
+            var factionKey = token.pilot().shipTeam.teamKey;
+            var myToken = token;
+
+            if (token.parent && token.pilot().value.endsWith("fore"))
             {
-                var winner = adjudicator.determineWinner(environment);
-
-                var message;
-
-                if (winner === "")
-                {
-                    message = "Game is a draw.";
-                }
-                else
-                {
-                    message = winner.name() + " won! ";
-                }
-
-                var store = environment.store();
-                store.dispatch(Action.setUserMessage(message));
-
-                return winner;
+               myToken = token.parent;
             }
-        }
 
-        return Engine;
-    });
+            var maneuverKey;
+
+            if (Team.isFriendly(factionKey, environment.firstTeam()))
+            {
+               maneuverKey = firstTokenToManeuver[myToken];
+            }
+            else
+            {
+               maneuverKey = secondTokenToManeuver[myToken];
+            }
+
+            var activationAction = new ActivationAction(store, token, this.processActivationQueue.bind(this), delay);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
+
+            setTimeout(function()
+            {
+               activationAction.doIt();
+            }, 500);
+
+            LOGGER.trace("Engine.processActivationQueue() end");
+         };
+
+         this.processCombatQueue = function()
+         {
+            LOGGER.trace("Engine.processCombatQueue() start");
+
+            var store = environment.store();
+
+            if (combatQueue.length === 0)
+            {
+               // Search for a ship upgraded with R5-P9.
+               var tokens = environment.getTokensForCombat().filter(function(token)
+               {
+                  return token.isUpgradedWith(UpgradeCard.R5_P9);
+               });
+
+               if (tokens.length > 0)
+               {
+                  var r5p9 = tokens[0];
+
+                  if (r5p9.focusCount() > 0 && r5p9.shieldCount() < r5p9.shieldValue())
+                  {
+                     store.dispatch(Action.addFocusCount(token, -1));
+                     r5p9.recoverShield();
+                  }
+               }
+
+               environment.activeToken(undefined);
+               store.dispatch(Action.setUserMessage(""));
+               LOGGER.trace("Engine.processCombatQueue() done");
+               environment.phase(Phase.COMBAT_END);
+               setTimeout(function()
+               {
+                  that.performEndPhase();
+               }, delay);
+               return;
+            }
+
+            var attacker = combatQueue.shift();
+
+            if (attacker)
+            {
+               environment.activeToken(attacker);
+
+               if (adjudicator.canAttack(attacker))
+               {
+                  // Perform combat steps.
+                  LOGGER.debug("attacker = " + attacker.name());
+
+                  // Declare target.
+                  var agent = attacker.agent();
+                  agent.chooseWeaponAndDefender(environment, adjudicator, attacker, that.setWeaponAndDefender);
+
+                  // Wait for agent to respond.
+               }
+               else
+               {
+                  // Proceed.
+                  setTimeout(that.processCombatQueue, delay);
+               }
+            }
+
+            LOGGER.trace("Engine.processCombatQueue() end");
+         };
+
+         this.processEndQueue = function()
+         {
+            LOGGER.trace("Engine.processEndQueue() start");
+
+            var store = environment.store();
+
+            if (endQueue.length === 0)
+            {
+               environment.activeToken(undefined);
+               store.dispatch(Action.setUserMessage(""));
+               LOGGER.trace("Engine.processEndQueue() done");
+               environment.phase(Phase.END_END);
+               setTimeout(function()
+               {
+                  that.performPlanningPhase();
+               }, delay);
+               return;
+            }
+
+            var token = endQueue.shift();
+
+            if (token)
+            {
+               environment.activeToken(token);
+
+               var action = new EndPhaseAction(environment, token, this.processEndQueue.bind(this));
+               action.doIt();
+            }
+            else
+            {
+               this.processEndQueue();
+            }
+
+            LOGGER.trace("Engine.processEndQueue() end");
+         };
+
+         this.secondTokenToManeuver = function()
+         {
+            return secondTokenToManeuver;
+         };
+
+         this.setDecloakAction = function(token, decloakAction)
+         {
+            LOGGER.trace("Engine.setDecloakAction() start");
+
+            InputValidator.validateNotNull("token", token);
+
+            LOGGER.debug("token = " + token + " decloakAction = " + decloakAction);
+
+            var delay = 0;
+
+            if (decloakAction !== undefined)
+            {
+               decloakAction.doIt();
+               var store = this.environment().store();
+               store.dispatch(Action.addCloakCount(token, -1));
+               LOGGER.debug("token.isCloaked() ? " + token.isCloaked());
+               LOGGER.debug("token.cloakCount() = " + token.cloakCount());
+               delay = 1000;
+            }
+
+            decloakCount++;
+
+            if (decloakCount === this.environment().tokens().length)
+            {
+               activationQueue = environment.getTokensForActivation(true);
+               setTimeout(this.processActivationQueue.bind(this), delay);
+            }
+
+            LOGGER.trace("Engine.setDecloakAction() end");
+         };
+
+         this.setTokenToManeuver = function(agent, tokenToManeuver)
+         {
+            if (agent === environment.firstAgent())
+            {
+               firstTokenToManeuver = tokenToManeuver;
+               LOGGER.trace("firstTokenToManeuver = " + firstTokenToManeuver);
+            }
+            else if (agent === environment.secondAgent())
+            {
+               secondTokenToManeuver = tokenToManeuver;
+               LOGGER.trace("secondTokenToManeuver = " + secondTokenToManeuver);
+            }
+            else
+            {
+               LOGGER.error("planningAction agent = " + agent);
+            }
+
+            if (firstTokenToManeuver && secondTokenToManeuver)
+            {
+               LOGGER.trace("Engine.performPlanningPhase() end");
+               environment.phase(Phase.PLANNING_END);
+               setTimeout(function()
+               {
+                  that.performActivationPhase();
+               }, delay);
+            }
+         };
+
+         this.setWeaponAndDefender = function(weapon, defender)
+         {
+            if (weapon && defender)
+            {
+               var attacker = environment.activeToken();
+
+               if (defender)
+               {
+                  var store = environment.store();
+                  store.dispatch(Action.setUserMessage(attacker + " fires upon " + defender));
+
+                  var combatAction = new CombatAction(store, attacker, weapon, defender, that.processCombatQueue, delay);
+
+                  setTimeout(function()
+                  {
+                     combatAction.doIt();
+                  }, 500);
+               }
+            }
+            else
+            {
+               that.processCombatQueue();
+            }
+         };
+
+         function isGameOver()
+         {
+            var store = environment.store();
+            var answer = store.getState().isGameOver;
+
+            if (!answer)
+            {
+               answer = adjudicator.isGameOver(environment);
+
+               if (answer)
+               {
+                  LOGGER.debug("adjudicator.isGameOver() ? " + adjudicator.isGameOver(environment));
+                  processGameOver();
+               }
+            }
+
+            return answer;
+         }
+
+         function processGameOver()
+         {
+            var winner = adjudicator.determineWinner(environment);
+            var store = environment.store();
+            store.dispatch(Action.setGameOver(winner));
+
+            var message = (winner === undefined ? "Game is a draw." : winner.name() + " won! ");
+            store.dispatch(Action.setUserMessage(message));
+         }
+      }
+
+      return Engine;
+   });
