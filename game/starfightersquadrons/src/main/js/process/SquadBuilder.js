@@ -32,7 +32,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "p
       // - Miranda Doni + Autoblaster Turret + Plasma Torpedoes + Extra Munitions + Rey + Ion Bombs + Cluster Mines + Guidance Chips
       // - Biggs Darklighter + R4-D6 + Integrated Astromech
       // - Jess Pava + M9-G8 + Integrated Astromech + Pattern Analyzer
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #2", 2017, "K-Wing/X-Wing/T-70 X-Wing", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #2", 2017, "K-Wing/X-Wing/T-70 X-Wing", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.MIRANDA_DONI, agent, [UpgradeCard.AUTOBLASTER_TURRET, UpgradeCard.PLASMA_TORPEDOES, UpgradeCard.EXTRA_MUNITIONS, UpgradeCard.REY, UpgradeCard.ION_BOMBS, UpgradeCard.CLUSTER_MINES, UpgradeCard.GUIDANCE_CHIPS]));
@@ -59,7 +59,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "p
       // - Jess Pava + R2-D6 + Integrated Astromech + Pattern Analyzer + Adaptability
       // - Braylen Stramm + Gunner + R3-A2 + Alliance Overhaul
       // - Captain Rex
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #4", 2017, "K-Wing/X-Wing/T-70 X-Wing", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #4", 2017, "K-Wing/X-Wing/T-70 X-Wing", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.BIGGS_DARKLIGHTER, agent, [UpgradeCard.R4_D6, UpgradeCard.INTEGRATED_ASTROMECH]));

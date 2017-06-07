@@ -38,8 +38,8 @@
 		var iconBase = resourceBase + "icons/";
 		var imageBase = resourceBase + "images/";
 
-		require(["arena/Action", "arena/Reducer", "arena/ui/Connector", "arena/ui/ArenaTable", "process/Game", "process/MediumAgent"],
-			function(Action, Reducer, Connector, ArenaTable, Game, MediumAgent)
+		require(["arena/Action", "arena/Reducer", "arena/ui/Connector", "arena/ui/ArenaTable", "process/Adjudicator", "process/Game", "process/MediumAgent"],
+			function(Action, Reducer, Connector, ArenaTable, Adjudicator, Game, MediumAgent)
 			{
 				var arenaStore = Redux.createStore(Reducer.root);
 
@@ -53,6 +53,7 @@
 
 				var squadBuilders = arenaStore.getState().squadBuilders;
 				var sbsGameOver = {};
+				var adjudicator = new Adjudicator();
 
 				for (var i = 0; i < squadBuilders.length; i++)
 				{
@@ -61,7 +62,15 @@
 					for (var j = i + 1; j < squadBuilders.length; j++)
 					{
 						var squadBuilder2 = squadBuilders[j];
-						compete(squadBuilder1, squadBuilder2);
+
+						if (adjudicator.compareInitiative(squadBuilder1, squadBuilder2) >= 0)
+						{
+							compete(squadBuilder1, squadBuilder2);
+						}
+						else
+						{
+							compete(squadBuilder2, squadBuilder1);
+						}
 					}
 				}
 
