@@ -6,18 +6,25 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
 
       QUnit.test("CoreSetFirstOrderSquadBuilder buildSquad()", function(assert)
       {
+         // Setup.
          var store = Redux.createStore(Reducer.root);
          var squadBuilder = SquadBuilder.CoreSetFirstOrderSquadBuilder;
          var agent = new SimpleAgent("FirstOrder Agent", Team.IMPERIAL);
-         var result = squadBuilder.buildSquad(store, agent);
-         assert.equal(result.length, 2);
 
-         assert.equal(result[0].pilotKey(), Pilot.EPSILON_LEADER);
-         assert.equal(result[1].pilotKey(), Pilot.ZETA_ACE);
+         // Run.
+         var result = squadBuilder.buildSquad(store, agent);
+
+         // Verify.
+         assert.ok(result);
+         var tokens = result.tokens();
+         assert.ok(tokens);
+         assert.equal(tokens.length, 2);
+         assert.equal(tokens[0].pilotKey(), Pilot.EPSILON_LEADER);
+         assert.equal(tokens[1].pilotKey(), Pilot.ZETA_ACE);
 
          for (var i = 0; i < 2; i++)
          {
-            assert.equal(result[i].pilot().shipTeam.shipKey, Ship.TIE_FO_FIGHTER);
+            assert.equal(tokens[i].pilot().shipTeam.shipKey, Ship.TIE_FO_FIGHTER);
          }
       });
 
@@ -44,18 +51,25 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
 
       QUnit.test("CoreSetImperialSquadBuilder buildSquad()", function(assert)
       {
+         // Setup.
          var store = Redux.createStore(Reducer.root);
          var squadBuilder = SquadBuilder.CoreSetImperialSquadBuilder;
          var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         var result = squadBuilder.buildSquad(store, agent);
-         assert.equal(result.length, 2);
 
-         assert.equal(result[0].pilotKey(), Pilot.MAULER_MITHEL);
-         assert.equal(result[1].pilotKey(), Pilot.DARK_CURSE);
+         // Run.
+         var result = squadBuilder.buildSquad(store, agent);
+
+         // Verify.
+         assert.ok(result);
+         var tokens = result.tokens();
+         assert.ok(tokens);
+         assert.equal(tokens.length, 2);
+         assert.equal(tokens[0].pilotKey(), Pilot.MAULER_MITHEL);
+         assert.equal(tokens[1].pilotKey(), Pilot.DARK_CURSE);
 
          for (var i = 0; i < 2; i++)
          {
-            assert.equal(result[i].pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
+            assert.equal(tokens[i].pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
          }
       });
 
@@ -82,15 +96,22 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
 
       QUnit.test("CoreSetRebelSquadBuilder buildSquad()", function(assert)
       {
+         // Setup.
          var store = Redux.createStore(Reducer.root);
          var squadBuilder = SquadBuilder.CoreSetRebelSquadBuilder;
          var imageBase = "../resources/images/";
          var agent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
-         var result = squadBuilder.buildSquad(store, agent);
-         assert.equal(result.length, 1);
 
-         assert.equal(result[0].pilotKey(), Pilot.LUKE_SKYWALKER);
-         assert.equal(result[0].pilot().shipTeam.shipKey, Ship.X_WING);
+         // Run.
+         var result = squadBuilder.buildSquad(store, agent);
+
+         // Verify.
+         assert.ok(result);
+         var tokens = result.tokens();
+         assert.ok(tokens);
+         assert.equal(tokens.length, 1);
+         assert.equal(tokens[0].pilotKey(), Pilot.LUKE_SKYWALKER);
+         assert.equal(tokens[0].pilot().shipTeam.shipKey, Ship.X_WING);
       });
 
       QUnit.test("CoreSetRebelSquadBuilder description()", function(assert)
@@ -116,15 +137,22 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
 
       QUnit.test("CoreSetResistanceSquadBuilder buildSquad()", function(assert)
       {
+         // Setup.
          var store = Redux.createStore(Reducer.root);
          var squadBuilder = SquadBuilder.CoreSetResistanceSquadBuilder;
          var imageBase = "../resources/images/";
          var agent = new HumanAgent("Resistance Agent", Team.REBEL, imageBase);
-         var result = squadBuilder.buildSquad(store, agent);
-         assert.equal(result.length, 1);
 
-         assert.equal(result[0].pilotKey(), Pilot.POE_DAMERON);
-         assert.equal(result[0].pilot().shipTeam.shipKey, Ship.T_70_X_WING);
+         // Run.
+         var result = squadBuilder.buildSquad(store, agent);
+
+         // Verify.
+         assert.ok(result);
+         var tokens = result.tokens();
+         assert.ok(tokens);
+         assert.equal(tokens.length, 1);
+         assert.equal(tokens[0].pilotKey(), Pilot.POE_DAMERON);
+         assert.equal(tokens[0].pilot().shipTeam.shipKey, Ship.T_70_X_WING);
       });
 
       QUnit.test("CoreSetResistanceSquadBuilder description()", function(assert)

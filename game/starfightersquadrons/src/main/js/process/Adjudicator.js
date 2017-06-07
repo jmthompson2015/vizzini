@@ -105,18 +105,12 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "proce
             var factionKey1 = squadBuilder1.faction();
             var agent1 = new SimpleAgent("Agent1", factionKey1);
             var squad1 = squadBuilder1.buildSquad(agent1);
-            var squadPointCost1 = squad1.reduce(function(accumulator, token)
-            {
-               return accumulator + token.squadPointCost();
-            }, 0);
+            var squadPointCost1 = squad1.squadPointCost();
 
             var factionKey2 = squadBuilder2.faction();
             var agent2 = new SimpleAgent("Agent2", factionKey2);
             var squad2 = squadBuilder2.buildSquad(agent2);
-            var squadPointCost2 = squad2.reduce(function(accumulator, token)
-            {
-               return accumulator + token.squadPointCost();
-            }, 0);
+            var squadPointCost2 = squad2.squadPointCost();
 
             answer = (squadPointCost2 - squadPointCost1);
 

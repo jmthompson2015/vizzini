@@ -1,21 +1,8 @@
-define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "process/Reducer"],
-   function(Pilot, Team, UpgradeCard, DualToken, Token, Reducer)
+define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", "process/Squad", "process/Token"],
+   function(Pilot, Team, UpgradeCard, DualToken, Reducer, Squad, Token)
    {
       "use strict";
       var SquadBuilders = [];
-
-      // TEST
-      // SquadBuilders.push(new SquadBuilder(Team.REBEL, "TEST", 2016, "YT-2400", function(store, agent)
-      // {
-      //     var answer = [];
-      //     // answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.K4_SECURITY_DROID,
-      //     //      UpgradeCard.KYLE_KATARN, UpgradeCard.OUTLAW_TECH, UpgradeCard.R2_D2,
-      //     //      UpgradeCard.RECON_SPECIALIST, UpgradeCard.TIE_V1
-      //     //   ]));
-      //     // answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.ADRENALINE_RUSH, UpgradeCard.INERTIAL_DAMPENERS, UpgradeCard.LIGHTNING_REFLEXES, UpgradeCard.MANEUVERING_FINS, UpgradeCard.TIE_X7]));
-      //     answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.ADVANCED_CLOAKING_DEVICE, UpgradeCard.BB_8, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.IMPETUOUS, UpgradeCard.LANDO_CALRISSIAN, UpgradeCard.TARGETING_ASTROMECH]));
-      //     return answer;
-      // }));
 
       // Justin Phua
       // - Dengar + Expertise + Extra Munitions + Plasma Torpedoes + K4 Security Droid + Unhinged Astromech + Guidance Chips + Punishing One
@@ -691,8 +678,9 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Token", "p
 
             // SquadBuilder uses its own separate store.
             var store = Redux.createStore(Reducer.root);
+            var tokens = buildFunction(store, agent);
 
-            return buildFunction(store, agent);
+            return new Squad(faction, name, year, description, tokens);
          };
       }
 

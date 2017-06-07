@@ -18,724 +18,724 @@
  * </dl>
  */
 define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler", "RectanglePath", "Team", "process/Action", "process/EventObserver", "process/Selector"],
-    function(DamageCard, ManeuverComputer, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, EventObserver, Selector)
-    {
-        "use strict";
+   function(DamageCard, ManeuverComputer, PlayFormat, Position, RangeRuler, RectanglePath, Team, Action, EventObserver, Selector)
+   {
+      "use strict";
 
-        function Environment(store, teamKey1, teamKey2)
-        {
-            InputValidator.validateNotNull("store", store);
-            InputValidator.validateNotNull("teamKey1", teamKey1);
-            InputValidator.validateNotNull("teamKey2", teamKey2);
+      function Environment(store, teamKey1, teamKey2)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("teamKey1", teamKey1);
+         InputValidator.validateNotNull("teamKey2", teamKey2);
 
-            this.store = function()
+         this.store = function()
+         {
+            return store;
+         };
+
+         var that = this;
+
+         // Initialize the damage deck.
+         store.dispatch(Action.setDamageDeck(DamageCard.createDeckV2()));
+
+         this.activeToken = function(newActiveToken)
+         {
+            if (newActiveToken)
             {
-                return store;
-            };
+               var oldValue = this.getTokenById(store.getState().activeTokenId);
+               store.dispatch(Action.setActiveToken(newActiveToken));
+            }
 
-            var that = this;
+            return this.getTokenById(store.getState().activeTokenId);
+         };
 
-            // Initialize the damage deck.
-            store.dispatch(Action.setDamageDeck(DamageCard.createDeckV2()));
+         this.createTokenPositions = function()
+         {
+            var answer = [];
 
-            this.activeToken = function(newActiveToken)
+            var tokens = this.tokens();
+
+            tokens.forEach(function(token)
             {
-                if (newActiveToken)
-                {
-                    var oldValue = this.getTokenById(store.getState().activeTokenId);
-                    store.dispatch(Action.setActiveToken(newActiveToken));
-                }
+               var position = this.getPositionFor(token);
+               answer.push(
+               {
+                  token: token,
+                  position: position
+               });
+            }, this);
 
-                return this.getTokenById(store.getState().activeTokenId);
-            };
+            return answer;
+         };
 
-            this.createTokenPositions = function()
+         this.createWeaponToRangeToDefenders = function(attacker)
+         {
+            var answer = [];
+
+            var attackerPosition = this.getPositionFor(attacker);
+
+            if (attackerPosition)
             {
-                var answer = [];
+               var primaryWeapon = attacker.primaryWeapon();
 
-                var tokens = this.tokens();
+               if (primaryWeapon)
+               {
+                  var rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, primaryWeapon);
 
-                tokens.forEach(function(token)
-                {
-                    var position = this.getPositionFor(token);
-                    answer.push(
-                    {
-                        token: token,
-                        position: position
-                    });
-                }, this);
+                  if (rangeToDefenders.length > 0)
+                  {
+                     answer.push(createWeaponData(primaryWeapon, rangeToDefenders));
+                  }
+               }
 
-                return answer;
-            };
+               var weapons = attacker.secondaryWeapons();
 
-            this.createWeaponToRangeToDefenders = function(attacker)
+               weapons.forEach(function(weapon)
+               {
+                  rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
+
+                  if (rangeToDefenders.length > 0)
+                  {
+                     answer.push(createWeaponData(weapon, rangeToDefenders));
+                  }
+               });
+            }
+
+            return answer;
+         };
+
+         this.discardAllDamage = function(damages)
+         {
+            damages.forEach(function(damage)
             {
-                var answer = [];
+               this.discardDamage(damage);
+            }, this);
+         };
 
-                var attackerPosition = this.getPositionFor(attacker);
+         this.discardDamage = function(damage)
+         {
+            store.dispatch(Action.discardDamage(damage));
+         };
 
-                if (attackerPosition)
-                {
-                    var primaryWeapon = attacker.primaryWeapon();
+         this.drawDamage = function()
+         {
+            var answer;
 
-                    if (primaryWeapon)
-                    {
-                        var rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, primaryWeapon);
-
-                        if (rangeToDefenders.length > 0)
-                        {
-                            answer.push(createWeaponData(primaryWeapon, rangeToDefenders));
-                        }
-                    }
-
-                    var weapons = attacker.secondaryWeapons();
-
-                    weapons.forEach(function(weapon)
-                    {
-                        rangeToDefenders = createRangeToDefenders(attacker, attackerPosition, weapon);
-
-                        if (rangeToDefenders.length > 0)
-                        {
-                            answer.push(createWeaponData(weapon, rangeToDefenders));
-                        }
-                    });
-                }
-
-                return answer;
-            };
-
-            this.discardAllDamage = function(damages)
+            if (store.getState().damageDeck.length === 0)
             {
-                damages.forEach(function(damage)
-                {
-                    this.discardDamage(damage);
-                }, this);
-            };
+               // Replenish the damage deck from the discard pile.
+               LOGGER.debug("Damage deck empty. Shuffling " + store.getState().damageDiscardPile.length +
+                  " discards into damage deck.");
+               store.dispatch(Action.replenishDamageDeck());
+            }
 
-            this.discardDamage = function(damage)
+            LOGGER.trace("damageDeck.length = " + store.getState().damageDeck.length);
+            answer = store.getState().damageDeck[0];
+            store.dispatch(Action.drawDamage(answer));
+
+            return answer;
+         };
+
+         this.firstAgent = function()
+         {
+            return store.getState().firstAgent;
+         };
+
+         this.firstTeam = function()
+         {
+            return teamKey1;
+         };
+
+         this.getDefenders = function(attackerTeam)
+         {
+            InputValidator.validateNotNull("attackerTeam", attackerTeam);
+
+            var defenderTeam;
+
+            if (Team.isFriendly(attackerTeam, teamKey1))
             {
-                store.dispatch(Action.discardDamage(damage));
-            };
-
-            this.drawDamage = function()
+               defenderTeam = teamKey2;
+            }
+            else if (Team.isFriendly(attackerTeam, teamKey2))
             {
-                var answer;
-
-                if (store.getState().damageDeck.length === 0)
-                {
-                    // Replenish the damage deck from the discard pile.
-                    LOGGER.debug("Damage deck empty. Shuffling " + store.getState().damageDiscardPile.length +
-                        " discards into damage deck.");
-                    store.dispatch(Action.replenishDamageDeck());
-                }
-
-                LOGGER.trace("damageDeck.length = " + store.getState().damageDeck.length);
-                answer = store.getState().damageDeck[0];
-                store.dispatch(Action.drawDamage(answer));
-
-                return answer;
-            };
-
-            this.firstAgent = function()
+               defenderTeam = teamKey1;
+            }
+            else
             {
-                return store.getState().firstAgent;
-            };
+               throw "Can't find defenderTeam for attackerTeam = " + attackerTeam;
+            }
 
-            this.firstTeam = function()
+            var isPure = true;
+
+            return this.getTokensForTeam(defenderTeam, isPure).filter(function(token)
             {
-                return teamKey1;
-            };
+               return !token.isDestroyed();
+            });
+         };
 
-            this.getDefenders = function(attackerTeam)
+         this.getDefendersInRange = function(attacker)
+         {
+            InputValidator.validateNotNull("attacker", attacker);
+
+            var answer;
+            var attackerPosition = this.getPositionFor(attacker);
+
+            if (attackerPosition)
             {
-                InputValidator.validateNotNull("attackerTeam", attackerTeam);
+               var defenders = this.getDefenders(attacker.pilot().shipTeam.teamKey);
 
-                var defenderTeam;
+               if (defenders && defenders.length > 0)
+               {
+                  answer = defenders.filter(function(defender)
+                  {
+                     var defenderPosition = this.getPositionFor(defender);
+                     var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
+                     return (RangeRuler.STANDARD_RANGES.vizziniContains(range));
+                  }, this);
+               }
+            }
 
-                if (Team.isFriendly(attackerTeam, teamKey1))
-                {
-                    defenderTeam = teamKey2;
-                }
-                else if (Team.isFriendly(attackerTeam, teamKey2))
-                {
-                    defenderTeam = teamKey1;
-                }
-                else
-                {
-                    throw "Can't find defenderTeam for attackerTeam = " + attackerTeam;
-                }
+            return answer;
+         };
 
-                var isPure = true;
-
-                return this.getTokensForTeam(defenderTeam, isPure).filter(function(token)
-                {
-                    return !token.isDestroyed();
-                });
-            };
-
-            this.getDefendersInRange = function(attacker)
+         this.getFriendlyTokensAtRange = function(token0, range)
+         {
+            return this.getTokensAtRange(token0, range).filter(function(token)
             {
-                InputValidator.validateNotNull("attacker", attacker);
+               return Team.isFriendly(token.agent().teamKey(), token0.agent().teamKey());
+            });
+         };
 
-                var answer;
-                var attackerPosition = this.getPositionFor(attacker);
+         this.getPositionFor = function(token)
+         {
+            InputValidator.validateNotNull("token", token);
 
-                if (attackerPosition)
-                {
-                    var defenders = this.getDefenders(attacker.pilot().shipTeam.teamKey);
+            var answer;
 
-                    if (defenders && defenders.length > 0)
-                    {
-                        answer = defenders.filter(function(defender)
-                        {
-                            var defenderPosition = this.getPositionFor(defender);
-                            var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
-                            return (RangeRuler.STANDARD_RANGES.vizziniContains(range));
-                        }, this);
-                    }
-                }
-
-                return answer;
-            };
-
-            this.getFriendlyTokensAtRange = function(token0, range)
+            if (token.parent)
             {
-                return this.getTokensAtRange(token0, range).filter(function(token)
-                {
-                    return Team.isFriendly(token.agent().teamKey(), token0.agent().teamKey());
-                });
-            };
+               var parentPosition = this.getPositionFor(token.parent);
 
-            this.getPositionFor = function(token)
+               if (parentPosition)
+               {
+                  var angle = parentPosition.heading() * Math.PI / 180.0;
+                  var length = 72;
+                  var x, y;
+
+                  if (token.pilot().value.endsWith("fore"))
+                  {
+                     x = parentPosition.x() + length * Math.cos(angle);
+                     y = parentPosition.y() + length * Math.sin(angle);
+                  }
+                  else
+                  {
+                     x = parentPosition.x() - length * Math.cos(angle);
+                     y = parentPosition.y() - length * Math.sin(angle);
+                  }
+
+                  if (PlayFormat.isPointInPlayArea(store.getState().playFormatKey, x, y))
+                  {
+                     answer = new Position(x, y, parentPosition.heading());
+                  }
+               }
+            }
+            else
             {
-                InputValidator.validateNotNull("token", token);
+               answer = Selector.position(store.getState(), token.id());
+            }
 
-                var answer;
+            return answer;
+         };
 
-                if (token.parent)
-                {
-                    var parentPosition = this.getPositionFor(token.parent);
+         this.getTargetableDefenders = function(attacker, attackerPosition, weapon)
+         {
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("attackerPosition", attackerPosition);
+            InputValidator.validateNotNull("weapon", weapon);
 
-                    if (parentPosition)
-                    {
-                        var angle = parentPosition.heading() * Math.PI / 180.0;
-                        var length = 72;
-                        var x, y;
-
-                        if (token.pilot().value.endsWith("fore"))
-                        {
-                            x = parentPosition.x() + length * Math.cos(angle);
-                            y = parentPosition.y() + length * Math.sin(angle);
-                        }
-                        else
-                        {
-                            x = parentPosition.x() - length * Math.cos(angle);
-                            y = parentPosition.y() - length * Math.sin(angle);
-                        }
-
-                        if (PlayFormat.isPointInPlayArea(store.getState().playFormatKey, x, y))
-                        {
-                            answer = new Position(x, y, parentPosition.heading());
-                        }
-                    }
-                }
-                else
-                {
-                    answer = Selector.position(store.getState(), token.id());
-                }
-
-                return answer;
-            };
-
-            this.getTargetableDefenders = function(attacker, attackerPosition, weapon)
+            var attackerTeam = attacker.pilot().shipTeam.teamKey;
+            var answer = this.getDefenders(attackerTeam);
+            LOGGER.trace("0 defenders = " + answer);
+            answer = answer.filter(function(defender)
             {
-                InputValidator.validateNotNull("attacker", attacker);
-                InputValidator.validateNotNull("attackerPosition", attackerPosition);
-                InputValidator.validateNotNull("weapon", weapon);
+               var defenderPosition = this.getPositionFor(defender);
+               return isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition);
+            }, this);
+            LOGGER.trace("1 targetable defenders = " + answer);
 
-                var attackerTeam = attacker.pilot().shipTeam.teamKey;
-                var answer = this.getDefenders(attackerTeam);
-                LOGGER.trace("0 defenders = " + answer);
-                answer = answer.filter(function(defender)
-                {
-                    var defenderPosition = this.getPositionFor(defender);
-                    return isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition);
-                }, this);
-                LOGGER.trace("1 targetable defenders = " + answer);
+            return answer;
+         };
 
-                return answer;
-            };
+         this.getTargetableDefendersAtRange = function(attacker, attackerPosition, weapon, range)
+         {
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("attackerPosition", attackerPosition);
+            InputValidator.validateNotNull("weapon", weapon);
+            InputValidator.validateNotNull("range", range);
 
-            this.getTargetableDefendersAtRange = function(attacker, attackerPosition, weapon, range)
+            var answer = this.getTargetableDefenders(attacker, attackerPosition, weapon);
+            LOGGER.trace("0 targetable defenders = " + answer);
+            answer = answer.filter(function(defender)
             {
-                InputValidator.validateNotNull("attacker", attacker);
-                InputValidator.validateNotNull("attackerPosition", attackerPosition);
-                InputValidator.validateNotNull("weapon", weapon);
-                InputValidator.validateNotNull("range", range);
+               var defenderPosition = this.getPositionFor(defender);
+               var myRange = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
+               return (myRange === range);
+            }, this);
+            LOGGER.trace("1 targetable defenders = " + answer);
 
-                var answer = this.getTargetableDefenders(attacker, attackerPosition, weapon);
-                LOGGER.trace("0 targetable defenders = " + answer);
-                answer = answer.filter(function(defender)
-                {
-                    var defenderPosition = this.getPositionFor(defender);
-                    var myRange = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
-                    return (myRange === range);
-                }, this);
-                LOGGER.trace("1 targetable defenders = " + answer);
+            return answer;
+         };
 
-                return answer;
-            };
+         this.getTokenAt = function(position)
+         {
+            return Selector.tokenAt(store.getState(), position);
+         };
 
-            this.getTokenAt = function(position)
+         this.getTokenById = function(tokenId)
+         {
+            var answer;
+
+            var tokens = that.tokens();
+
+            for (var i = 0; i < tokens.length; i++)
             {
-                return Selector.tokenAt(store.getState(), position);
-            };
+               var token = tokens[i];
 
-            this.getTokenById = function(tokenId)
+               if (token.id() === tokenId)
+               {
+                  answer = token;
+                  break;
+               }
+            }
+
+            return answer;
+         };
+
+         this.getTokensAtRange = function(token0, range)
+         {
+            InputValidator.validateNotNull("token0", token0);
+            InputValidator.validateNotNull("range", range);
+
+            var position0 = this.getPositionFor(token0);
+
+            return this.tokens().filter(function(token)
             {
-                var answer;
+               var answer;
+               if (token === token0)
+               {
+                  answer = false;
+               }
+               else
+               {
+                  var position = this.getPositionFor(token);
 
-                var tokens = that.tokens();
+                  if (position0 !== undefined && position !== undefined)
+                  {
+                     var myRange = RangeRuler.getRange(token0, position0, token, position);
+                     answer = (myRange === range);
+                  }
+                  else
+                  {
+                     answer = false;
+                  }
+               }
+               return answer;
+            }, this);
+         };
 
-                for (var i = 0; i < tokens.length; i++)
-                {
-                    var token = tokens[i];
+         this.getTokensForActivation = function(isPure)
+         {
+            return this.tokens(isPure).sort(
+               function(token0, token1)
+               {
+                  var answer;
+                  var isHuge0 = token0.isHuge();
+                  var isHuge1 = token1.isHuge();
 
-                    if (token.id() === tokenId)
-                    {
-                        answer = token;
-                        break;
-                    }
-                }
+                  if (isHuge0 === isHuge1)
+                  {
+                     answer = 0;
+                  }
+                  else if (isHuge0 && !isHuge1)
+                  {
+                     answer = 1;
+                  }
+                  else
+                  {
+                     answer = -1;
+                  }
 
-                return answer;
-            };
+                  if (answer === 0)
+                  {
+                     var skill0 = (token0.pilotSkillValue ? token0.pilotSkillValue() : token0.tokenFore()
+                        .pilotSkillValue());
+                     var skill1 = (token1.pilotSkillValue ? token1.pilotSkillValue() : token1.tokenFore()
+                        .pilotSkillValue());
+                     answer = skill0 - skill1;
 
-            this.getTokensAtRange = function(token0, range)
-            {
-                InputValidator.validateNotNull("token0", token0);
-                InputValidator.validateNotNull("range", range);
-
-                var position0 = this.getPositionFor(token0);
-
-                return this.tokens().filter(function(token)
-                {
-                    var answer;
-                    if (token === token0)
-                    {
-                        answer = false;
-                    }
-                    else
-                    {
-                        var position = this.getPositionFor(token);
-
-                        if (position0 !== undefined && position !== undefined)
-                        {
-                            var myRange = RangeRuler.getRange(token0, position0, token, position);
-                            answer = (myRange === range);
-                        }
-                        else
-                        {
-                            answer = false;
-                        }
-                    }
-                    return answer;
-                }, this);
-            };
-
-            this.getTokensForActivation = function(isPure)
-            {
-                return this.tokens(isPure).sort(
-                    function(token0, token1)
-                    {
-                        var answer;
-                        var isHuge0 = token0.isHuge();
-                        var isHuge1 = token1.isHuge();
-
-                        if (isHuge0 === isHuge1)
-                        {
-                            answer = 0;
-                        }
-                        else if (isHuge0 && !isHuge1)
-                        {
-                            answer = 1;
-                        }
-                        else
-                        {
-                            answer = -1;
-                        }
-
-                        if (answer === 0)
-                        {
-                            var skill0 = (token0.pilotSkillValue ? token0.pilotSkillValue() : token0.tokenFore()
-                                .pilotSkillValue());
-                            var skill1 = (token1.pilotSkillValue ? token1.pilotSkillValue() : token1.tokenFore()
-                                .pilotSkillValue());
-                            answer = skill0 - skill1;
-
-                            if (answer === 0)
-                            {
-                                var teamKey0 = token0.pilot().shipTeam.teamKey;
-                                var teamKey1 = token1.pilot().shipTeam.teamKey;
-
-                                if (Team.isFriendly(teamKey0, teamKey1))
-                                {
-                                    answer = 0;
-                                }
-                                else if (Team.isFriendly(teamKey0, Team.IMPERIAL))
-                                {
-                                    answer = -1;
-                                }
-                                else
-                                {
-                                    answer = 1;
-                                }
-                            }
-                        }
-
-                        return answer;
-                    });
-            };
-
-            this.getTokensForCombat = function()
-            {
-                var isPure = true;
-
-                return this.tokens(isPure).sort(function(token0, token1)
-                {
-                    var skill0 = token0.pilotSkillValue();
-                    var skill1 = token1.pilotSkillValue();
-                    var answer = skill1 - skill0;
-
-                    if (answer === 0)
-                    {
+                     if (answer === 0)
+                     {
                         var teamKey0 = token0.pilot().shipTeam.teamKey;
                         var teamKey1 = token1.pilot().shipTeam.teamKey;
 
                         if (Team.isFriendly(teamKey0, teamKey1))
                         {
-                            answer = 0;
+                           answer = 0;
                         }
                         else if (Team.isFriendly(teamKey0, Team.IMPERIAL))
                         {
-                            answer = -1;
+                           answer = -1;
                         }
                         else
                         {
-                            answer = 1;
+                           answer = 1;
                         }
-                    }
+                     }
+                  }
 
-                    if (answer === 0)
-                    {
-                        answer = token0.id() - token1.id();
-                    }
+                  return answer;
+               });
+         };
 
-                    return answer;
-                });
-            };
+         this.getTokensForCombat = function()
+         {
+            var isPure = true;
 
-            this.getTokensForTeam = function(teamKey, isPure)
+            return this.tokens(isPure).sort(function(token0, token1)
             {
-                return this.tokens(isPure).filter(function(token)
-                {
-                    return Team.isFriendly(token.pilot().shipTeam.teamKey, teamKey);
-                });
-            };
+               var skill0 = token0.pilotSkillValue();
+               var skill1 = token1.pilotSkillValue();
+               var answer = skill1 - skill0;
 
-            this.getTokensTouching = function(token)
+               if (answer === 0)
+               {
+                  var teamKey0 = token0.pilot().shipTeam.teamKey;
+                  var teamKey1 = token1.pilot().shipTeam.teamKey;
+
+                  if (Team.isFriendly(teamKey0, teamKey1))
+                  {
+                     answer = 0;
+                  }
+                  else if (Team.isFriendly(teamKey0, Team.IMPERIAL))
+                  {
+                     answer = -1;
+                  }
+                  else
+                  {
+                     answer = 1;
+                  }
+               }
+
+               if (answer === 0)
+               {
+                  answer = token0.id() - token1.id();
+               }
+
+               return answer;
+            });
+         };
+
+         this.getTokensForTeam = function(teamKey, isPure)
+         {
+            return this.tokens(isPure).filter(function(token)
             {
-                InputValidator.validateNotNull("token", token);
+               return Team.isFriendly(token.pilot().shipTeam.teamKey, teamKey);
+            });
+         };
 
-                var answer = [];
+         this.getTokensTouching = function(token)
+         {
+            InputValidator.validateNotNull("token", token);
 
-                var shipBase = token.pilot().shipTeam.ship.shipBase;
-                var tokenPosition = this.getPositionFor(token);
-                var polygon = ManeuverComputer.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition
-                    .heading());
-                var tokens = this.getTokensForActivation(false);
+            var answer = [];
 
-                tokens.forEach(function(token2)
-                {
-                    if (token !== token2)
-                    {
-                        var shipBase2 = token2.pilot().shipTeam.ship.shipBase;
-                        var tokenPosition2 = this.getPositionFor(token2);
-                        var polygon2 = ManeuverComputer.computePolygon(shipBase2, tokenPosition2.x(), tokenPosition2.y(),
-                            tokenPosition2.heading());
+            var shipBase = token.pilot().shipTeam.ship.shipBase;
+            var tokenPosition = this.getPositionFor(token);
+            var polygon = ManeuverComputer.computePolygon(shipBase, tokenPosition.x(), tokenPosition.y(), tokenPosition
+               .heading());
+            var tokens = this.getTokensForActivation(false);
 
-                        if (RectanglePath.doPolygonsCollide(polygon, polygon2))
-                        {
-                            answer.push(token2);
-                        }
-                    }
-                }, this);
-
-                return answer;
-            };
-
-            this.getUnfriendlyTokensAtRange = function(token0, range)
+            tokens.forEach(function(token2)
             {
-                return this.getTokensAtRange(token0, range).filter(function(token)
-                {
-                    return !Team.isFriendly(token.agent().teamKey(), token0.agent().teamKey());
-                });
-            };
+               if (token !== token2)
+               {
+                  var shipBase2 = token2.pilot().shipTeam.ship.shipBase;
+                  var tokenPosition2 = this.getPositionFor(token2);
+                  var polygon2 = ManeuverComputer.computePolygon(shipBase2, tokenPosition2.x(), tokenPosition2.y(),
+                     tokenPosition2.heading());
 
-            this.incrementRound = function()
+                  if (RectanglePath.doPolygonsCollide(polygon, polygon2))
+                  {
+                     answer.push(token2);
+                  }
+               }
+            }, this);
+
+            return answer;
+         };
+
+         this.getUnfriendlyTokensAtRange = function(token0, range)
+         {
+            return this.getTokensAtRange(token0, range).filter(function(token)
             {
-                store.dispatch(Action.addRound());
-            };
+               return !Team.isFriendly(token.agent().teamKey(), token0.agent().teamKey());
+            });
+         };
 
-            this.phase = function(newPhase)
+         this.incrementRound = function()
+         {
+            store.dispatch(Action.addRound());
+         };
+
+         this.phase = function(newPhase)
+         {
+            if (newPhase)
             {
-                if (newPhase)
-                {
-                    var oldValue = store.getState().phaseKey;
+               var oldValue = store.getState().phaseKey;
 
-                    if (oldValue !== newPhase)
-                    {
-                        store.dispatch(Action.setPhase(newPhase));
-                    }
-                }
-
-                return store.getState().phaseKey;
-            };
-
-            this.placeInitialTokens = function(agent1, squad1, agent2, squad2)
-            {
-                InputValidator.validateNotNull("agent1", agent1);
-                InputValidator.validateNotNull("squad1", squad1);
-                InputValidator.validateNotNull("agent2", agent2);
-                InputValidator.validateNotNull("squad2", squad2);
-
-                store.dispatch(Action.setFirstAgent(agent1));
-                store.dispatch(Action.setSecondAgent(agent2));
-
-                var firstSquad = squad1.map(function(token)
-                {
-                    return token.newInstance(store, agent1);
-                });
-                var secondSquad = squad2.map(function(token)
-                {
-                    return token.newInstance(store, agent2);
-                });
-
-                // Determine the play format.
-                var tokens = [];
-                tokens.vizziniAddAll(squad1);
-                tokens.vizziniAddAll(squad2);
-                var playFormatKey = determinePlayFormat(tokens);
-                store.dispatch(Action.setPlayFormat(playFormatKey));
-
-                placeTokens(firstSquad, true);
-                placeTokens(secondSquad, false);
-            };
-
-            this.placeToken = function(position, token)
-            {
-                store.dispatch(Action.placeToken(position, token));
-            };
-
-            this.playFormat = function()
-            {
-                return PlayFormat.properties[this.playFormatKey()];
-            };
-
-            this.playFormatKey = function()
-            {
-                var playFormatKey = store.getState().playFormatKey;
-
-                if (!playFormatKey)
-                {
-                    playFormatKey = determinePlayFormat(this.tokens());
-                    store.dispatch(Action.setPlayFormat(playFormatKey));
-                }
-
-                return playFormatKey;
-            };
-
-            this.removeToken = function(position)
-            {
-                InputValidator.validateNotNull("position", position);
-
-                store.dispatch(Action.removeTokenAt(position));
-            };
-
-            this.round = function()
-            {
-                return store.getState().round;
-            };
-
-            this.secondAgent = function()
-            {
-                return store.getState().secondAgent;
-            };
-
-            this.secondTeam = function()
-            {
-                return teamKey2;
-            };
-
-            this.tokens = function(isPure)
-            {
-                var answer = [];
-                var tokens = store.getState().tokens;
-
-                for (var tokenId in tokens)
-                {
-                    var myTokenId = Number.parseInt(tokenId);
-                    var token = Selector.token(store.getState(), myTokenId);
-
-                    if (isPure && token.tokenFore && token.tokenAft)
-                    {
-                        answer.push(token.tokenFore());
-                        answer.push(token.tokenAft());
-                    }
-                    else
-                    {
-                        answer.push(token);
-                    }
-                }
-
-                return answer;
-            };
-
-            this.toString = function()
-            {
-                var answer = "";
-                var tokens = store.getState().tokens;
-
-                for (var tokenId in tokens)
-                {
-                    var myTokenId = Number.parseInt(tokenId);
-                    var token = Selector.token(store.getState(), myTokenId);
-                    var position = Selector.position(store.getState(), myTokenId);
-                    answer += position.toString() + " " + token.toString() + "\n";
-                }
-
-                return answer;
-            };
-
-            // Initialize.
-            new EventObserver(store);
-
-            function createRangeData(range, defenders)
-            {
-                InputValidator.validateNotNull("range", range);
-                InputValidator.validateNotNull("defenders", defenders);
-                InputValidator.validateNotEmpty("defenders", defenders);
-
-                return (
-                {
-                    range: range,
-                    defenders: defenders,
-                });
+               if (oldValue !== newPhase)
+               {
+                  store.dispatch(Action.setPhase(newPhase));
+               }
             }
 
-            function createRangeToDefenders(attacker, attackerPosition, weapon)
+            return store.getState().phaseKey;
+         };
+
+         this.placeInitialTokens = function(agent1, squad1, agent2, squad2)
+         {
+            InputValidator.validateNotNull("agent1", agent1);
+            InputValidator.validateNotNull("squad1", squad1);
+            InputValidator.validateNotNull("agent2", agent2);
+            InputValidator.validateNotNull("squad2", squad2);
+
+            store.dispatch(Action.setFirstAgent(agent1));
+            store.dispatch(Action.setSecondAgent(agent2));
+
+            var firstTokens = squad1.tokens().map(function(token)
             {
-                var answer = [];
+               return token.newInstance(store, agent1);
+            });
+            var secondTokens = squad2.tokens().map(function(token)
+            {
+               return token.newInstance(store, agent2);
+            });
 
-                var ranges = weapon.ranges();
+            // Determine the play format.
+            var tokens = [];
+            tokens.vizziniAddAll(squad1.tokens());
+            tokens.vizziniAddAll(squad2.tokens());
+            var playFormatKey = determinePlayFormat(tokens);
+            store.dispatch(Action.setPlayFormat(playFormatKey));
 
-                ranges.forEach(function(range)
-                {
-                    LOGGER.trace("Environment.createRangeToDefenders() range = " + range);
-                    var defenders = that.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
-                    LOGGER.trace("Environment.createRangeToDefenders() defenders.length = " + defenders.length);
+            placeTokens(firstTokens, true);
+            placeTokens(secondTokens, false);
+         };
 
-                    if (defenders.length > 0)
-                    {
-                        answer.push(createRangeData(range, defenders));
-                    }
-                });
+         this.placeToken = function(position, token)
+         {
+            store.dispatch(Action.placeToken(position, token));
+         };
 
-                return answer;
+         this.playFormat = function()
+         {
+            return PlayFormat.properties[this.playFormatKey()];
+         };
+
+         this.playFormatKey = function()
+         {
+            var playFormatKey = store.getState().playFormatKey;
+
+            if (!playFormatKey)
+            {
+               playFormatKey = determinePlayFormat(this.tokens());
+               store.dispatch(Action.setPlayFormat(playFormatKey));
             }
 
-            function createWeaponData(weapon, rangeToDefenders)
-            {
-                InputValidator.validateNotNull("weapon", weapon);
-                InputValidator.validateNotNull("rangeToDefenders", rangeToDefenders);
+            return playFormatKey;
+         };
 
-                return (
-                {
-                    weapon: weapon,
-                    rangeToDefenders: rangeToDefenders,
-                });
+         this.removeToken = function(position)
+         {
+            InputValidator.validateNotNull("position", position);
+
+            store.dispatch(Action.removeTokenAt(position));
+         };
+
+         this.round = function()
+         {
+            return store.getState().round;
+         };
+
+         this.secondAgent = function()
+         {
+            return store.getState().secondAgent;
+         };
+
+         this.secondTeam = function()
+         {
+            return teamKey2;
+         };
+
+         this.tokens = function(isPure)
+         {
+            var answer = [];
+            var tokens = store.getState().tokens;
+
+            for (var tokenId in tokens)
+            {
+               var myTokenId = Number.parseInt(tokenId);
+               var token = Selector.token(store.getState(), myTokenId);
+
+               if (isPure && token.tokenFore && token.tokenAft)
+               {
+                  answer.push(token.tokenFore());
+                  answer.push(token.tokenAft());
+               }
+               else
+               {
+                  answer.push(token);
+               }
             }
 
-            function determinePlayFormat(tokens)
+            return answer;
+         };
+
+         this.toString = function()
+         {
+            var answer = "";
+            var tokens = store.getState().tokens;
+
+            for (var tokenId in tokens)
             {
-                InputValidator.validateNotNull("tokens", tokens);
-
-                var answer;
-
-                if (tokens.length > 0)
-                {
-                    answer = PlayFormat.STANDARD;
-
-                    for (var i = 0; i < tokens.length; i++)
-                    {
-                        var token = tokens[i];
-
-                        if (token.isHuge())
-                        {
-                            answer = PlayFormat.EPIC;
-                            break;
-                        }
-                    }
-                }
-
-                return answer;
+               var myTokenId = Number.parseInt(tokenId);
+               var token = Selector.token(store.getState(), myTokenId);
+               var position = Selector.position(store.getState(), myTokenId);
+               answer += position.toString() + " " + token.toString() + "\n";
             }
 
-            function isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition)
-            {
-                InputValidator.validateNotNull("attacker", attacker);
-                InputValidator.validateNotNull("attackerPosition", attackerPosition);
-                InputValidator.validateNotNull("weapon", weapon);
-                InputValidator.validateNotNull("defender", defender);
-                InputValidator.validateNotNull("defenderPosition", defenderPosition);
+            return answer;
+         };
 
-                return weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition) &&
-                    !isTouching(attacker, defender);
+         // Initialize.
+         new EventObserver(store);
+
+         function createRangeData(range, defenders)
+         {
+            InputValidator.validateNotNull("range", range);
+            InputValidator.validateNotNull("defenders", defenders);
+            InputValidator.validateNotEmpty("defenders", defenders);
+
+            return (
+            {
+               range: range,
+               defenders: defenders,
+            });
+         }
+
+         function createRangeToDefenders(attacker, attackerPosition, weapon)
+         {
+            var answer = [];
+
+            var ranges = weapon.ranges();
+
+            ranges.forEach(function(range)
+            {
+               LOGGER.trace("Environment.createRangeToDefenders() range = " + range);
+               var defenders = that.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
+               LOGGER.trace("Environment.createRangeToDefenders() defenders.length = " + defenders.length);
+
+               if (defenders.length > 0)
+               {
+                  answer.push(createRangeData(range, defenders));
+               }
+            });
+
+            return answer;
+         }
+
+         function createWeaponData(weapon, rangeToDefenders)
+         {
+            InputValidator.validateNotNull("weapon", weapon);
+            InputValidator.validateNotNull("rangeToDefenders", rangeToDefenders);
+
+            return (
+            {
+               weapon: weapon,
+               rangeToDefenders: rangeToDefenders,
+            });
+         }
+
+         function determinePlayFormat(tokens)
+         {
+            InputValidator.validateNotNull("tokens", tokens);
+
+            var answer;
+
+            if (tokens.length > 0)
+            {
+               answer = PlayFormat.STANDARD;
+
+               for (var i = 0; i < tokens.length; i++)
+               {
+                  var token = tokens[i];
+
+                  if (token.isHuge())
+                  {
+                     answer = PlayFormat.EPIC;
+                     break;
+                  }
+               }
             }
 
-            function isTouching(attacker, defender)
+            return answer;
+         }
+
+         function isTargetable(attacker, attackerPosition, weapon, defender, defenderPosition)
+         {
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("attackerPosition", attackerPosition);
+            InputValidator.validateNotNull("weapon", weapon);
+            InputValidator.validateNotNull("defender", defender);
+            InputValidator.validateNotNull("defenderPosition", defenderPosition);
+
+            return weapon.isDefenderTargetable(attacker, attackerPosition, defender, defenderPosition) &&
+               !isTouching(attacker, defender);
+         }
+
+         function isTouching(attacker, defender)
+         {
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("defender", defender);
+
+            var touches = that.getTokensTouching(attacker);
+
+            return touches.vizziniContains(defender);
+         }
+
+         function placeTokens(tokens, isTop)
+         {
+            var size = tokens.length;
+            var dx = that.playFormat().width / (size + 1);
+            var heading = isTop ? 90 : -90;
+
+            for (var i = 1; i <= tokens.length; i++)
             {
-                InputValidator.validateNotNull("attacker", attacker);
-                InputValidator.validateNotNull("defender", defender);
+               var token = tokens[i - 1];
+               var shipBase = token.pilot().shipTeam.ship.shipBase;
+               var x = i * dx;
+               var y = (shipBase.width / 2);
 
-                var touches = that.getTokensTouching(attacker);
+               if (!isTop)
+               {
+                  y = that.playFormat().height - y;
+               }
 
-                return touches.vizziniContains(defender);
+               var position = new Position(x, y, heading);
+               that.placeToken(position, token);
             }
+         }
+      }
 
-            function placeTokens(tokens, isTop)
-            {
-                var size = tokens.length;
-                var dx = that.playFormat().width / (size + 1);
-                var heading = isTop ? 90 : -90;
-
-                for (var i = 1; i <= tokens.length; i++)
-                {
-                    var token = tokens[i - 1];
-                    var shipBase = token.pilot().shipTeam.ship.shipBase;
-                    var x = i * dx;
-                    var y = (shipBase.width / 2);
-
-                    if (!isTop)
-                    {
-                        y = that.playFormat().height - y;
-                    }
-
-                    var position = new Position(x, y, heading);
-                    that.placeToken(position, token);
-                }
-            }
-        }
-
-        return Environment;
-    });
+      return Environment;
+   });
