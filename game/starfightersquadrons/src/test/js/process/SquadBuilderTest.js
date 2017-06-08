@@ -159,7 +159,7 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
       {
          var squadBuilder = SquadBuilder.CoreSetResistanceSquadBuilder;
          var result = squadBuilder.description();
-         assert.equal(result, "T-70 X-Wing");
+         assert.equal(result, "T-70");
       });
 
       QUnit.test("CoreSetResistanceSquadBuilder getName()", function(assert)
@@ -173,7 +173,7 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
       {
          var squadBuilder = SquadBuilder.CoreSetResistanceSquadBuilder;
          var result = squadBuilder.toString();
-         assert.equal(result, "2015 Resistance TFA Core Set: 39 Points (T-70 X-Wing)");
+         assert.equal(result, "2015 Resistance TFA Core Set: 39 Points (T-70)");
       });
 
       QUnit.test("SquadBuilder.findByTeam() First Order", function(assert)

@@ -99,6 +99,9 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "proce
 
          this.compareInitiative = function(squadBuilder1, squadBuilder2)
          {
+            InputValidator.validateNotNull("squadBuilder1", squadBuilder1);
+            InputValidator.validateNotNull("squadBuilder2", squadBuilder2);
+
             var answer = 1;
 
             // Compare squad point costs.

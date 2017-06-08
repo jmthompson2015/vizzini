@@ -19,7 +19,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Miranda Doni + Autoblaster Turret + Plasma Torpedoes + Extra Munitions + Rey + Ion Bombs + Cluster Mines + Guidance Chips
       // - Biggs Darklighter + R4-D6 + Integrated Astromech
       // - Jess Pava + M9-G8 + Integrated Astromech + Pattern Analyzer
-      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #2", 2017, "K-Wing/X-Wing/T-70 X-Wing", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #2", 2017, "K-Wing; T-70; X-Wing", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.MIRANDA_DONI, agent, [UpgradeCard.AUTOBLASTER_TURRET, UpgradeCard.PLASMA_TORPEDOES, UpgradeCard.EXTRA_MUNITIONS, UpgradeCard.REY, UpgradeCard.ION_BOMBS, UpgradeCard.CLUSTER_MINES, UpgradeCard.GUIDANCE_CHIPS]));
@@ -32,7 +32,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Fenn Rau + Attanni Mindlink + Concord Dawn Protector + Autothrusters
       // - Asajj Ventress + Attanni Mindlink + Latts Razzi
       // - Palob Godalhi + Attanni Mindlink + Twin Laser Turret
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "Worlds #3", 2017, "Protectorate/Lancer-class/HWK-290", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.SCUM, "Worlds #3", 2017, "HWK-290; Lancer-class; Protectorate", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.FENN_RAU, agent, [UpgradeCard.CONCORD_DAWN_PROTECTOR, UpgradeCard.ATTANNI_MINDLINK, UpgradeCard.AUTOTHRUSTERS]));
@@ -46,7 +46,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Jess Pava + R2-D6 + Integrated Astromech + Pattern Analyzer + Adaptability
       // - Braylen Stramm + Gunner + R3-A2 + Alliance Overhaul
       // - Captain Rex
-      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #4", 2017, "K-Wing/X-Wing/T-70 X-Wing", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #4", 2017, "ARC-170; T-70; TIE Fighter; X-Wing", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.BIGGS_DARKLIGHTER, agent, [UpgradeCard.R4_D6, UpgradeCard.INTEGRATED_ASTROMECH]));
@@ -60,7 +60,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Fenn Rau + Attanni Mindlink + Concord Dawn Protector + Autothrusters
       // - Asajj Ventress + Attanni Mindlink + Latts Razzi
       // - Contracted Scout + Attanni Mindlink + Inspiring Recruit + Unhinged Astromech
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "Worlds #5", 2017, "Protectorate/Lancer-class/HWK-290", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.SCUM, "Worlds #5", 2017, "JumpMaster; Lancer-class; Protectorate", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.FENN_RAU, agent, [UpgradeCard.CONCORD_DAWN_PROTECTOR, UpgradeCard.ATTANNI_MINDLINK, UpgradeCard.AUTOTHRUSTERS]));
@@ -83,7 +83,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Kevin Leintz
       // - Corran (48) + PtL + FCS + R2D2 + engine
       // - Miranda (52) + TLT + Advanced Slam + Sabine + Extra Munitions + Homing Missiles + Conner Net + Ion Bombs
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #2", 2016, "E-Wing/K-Wing", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #2", 2016, "E-Wing; K-Wing", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.CORRAN_HORN, agent, [UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE]));
@@ -95,7 +95,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Omega Leader + Juke + Comm Relay + Shield
       // - Vessery + Juke + x7 + Mk2
       // - Omicron Group Pilot + Palpatine + Sensor Jammer
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #3", 2016, "Lambda Shuttle/TIE/fo/TIE Defender", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.FIRST_ORDER, "Worlds #3", 2016, "Lambda-class; TIE/fo; TIE Defender", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.OMEGA_LEADER, agent, [UpgradeCard.JUKE, UpgradeCard.COMM_RELAY, UpgradeCard.SHIELD_UPGRADE]));
@@ -107,7 +107,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Thomas "Jack" Mooney
       // - Han + Predator + Luke + C3PO + Engine + Title
       // - Jake + PTL + VI + AT + Prockets
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #4", 2016, "A-Wing/YT-1300", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #4", 2016, "A-Wing; YT-1300", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HAN_SOLO, agent, [UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR, UpgradeCard.LUKE_SKYWALKER, UpgradeCard.C_3PO, UpgradeCard.ENGINE_UPGRADE]));
@@ -119,7 +119,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Vessery + Juke + x7
       // - Ryad + PtL + x7 + Mk2
       // - Omicron + Palpatine + Collision Detector
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #5", 2016, "Lambda Shuttle/TIE Defenders x2", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #5", 2016, "Lambda-class; TIE Defenders x2", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.COLONEL_VESSERY, agent, [UpgradeCard.TIE_X7, UpgradeCard.JUKE]));
@@ -132,7 +132,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Omicron Group Pilot + Sensor Jammer + Emperor Palpatine
       // - The Inquisitor + Push the Limit + Tie/v1 + Autothrusters
       // - Soontir Fel + Push the Limit + Royal Guard TIE + Autothrusters + Stealth Device
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #1", 2016, "Lambda Shuttle/TIE Adv. Prototype/Interceptor", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #1", 2016, "Lambda-class; TIE Prototype; TIE Interceptor", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.OMICRON_GROUP_PILOT, agent, [UpgradeCard.SENSOR_JAMMER, UpgradeCard.EMPEROR_PALPATINE]));
@@ -155,7 +155,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Preston Blitzer
       // - Whisper + Intelligence Agent + Fire-Control System + Advanced Cloaking Device + Veteran Instincts
       // - Captain Oicunn + Emperor Palpatine + Rebel Captive + Engine Upgrade + Predator
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #3", 2016, "Decimator/TIE Phantom", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #3", 2016, "Decimator; TIE Phantom", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.WHISPER, agent, [UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.INTELLIGENCE_AGENT, UpgradeCard.ADVANCED_CLOAKING_DEVICE]));
@@ -166,7 +166,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Derek Tokaz
       // - Bossk + Crack Shot + Concussion Missiles + Zuckuss + Dengar
       // - Tel Trevura + Push the Limit + Gonk + R5-P8 + Feedback Array + Hull Upgrade + Punishing One
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "US Nationals #4", 2016, "JumpMaster/YV-666", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.SCUM, "US Nationals #4", 2016, "JumpMaster; YV-666", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.BOSSK, agent, [UpgradeCard.CRACK_SHOT, UpgradeCard.CONCUSSION_MISSILES, UpgradeCard.ZUCKUSS, UpgradeCard.DENGAR]));
@@ -186,7 +186,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       }));
 
       // Experimental: Huge ships
-      var HugeShipImperialSquadBuilder = new SquadBuilder(Team.IMPERIAL, "Huge Ships: 168 Points", 2016, "Gozanti-class/Raider-class/TIE Advanced", function(store, agent)
+      var HugeShipImperialSquadBuilder = new SquadBuilder(Team.IMPERIAL, "Huge Ships: 168 Points", 2016, "Gozanti-class; Raider-class; TIE Advanced", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.GOZANTI_CLASS_CRUISER, agent));
@@ -197,7 +197,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       SquadBuilders.push(HugeShipImperialSquadBuilder);
 
       // Experimental: Huge ships
-      var HugeShipRebelSquadBuilder = new SquadBuilder(Team.REBEL, "Huge Ships: 219 Points", 2016, "CR90/G-75/X-Wing", function(store, agent)
+      var HugeShipRebelSquadBuilder = new SquadBuilder(Team.REBEL, "Huge Ships: 219 Points", 2016, "CR90; G-75; X-Wing", function(store, agent)
       {
          var answer = [];
          answer.push(new DualToken(store, Pilot.CR90_CORVETTE, agent, [UpgradeCard.HAN_SOLO,
@@ -215,7 +215,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - IG88B + IG-2000 + Flechette Canon + Autothrusters
       // - IG88C + IG-2000 + Ion Canon + Autothrusters;
       // - Tansarii Point Veteran + Lone Wolf
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2016, "Aggressors x2/M3-A", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2016, "Aggressors x2; M3-A", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.IG_88B, agent, [UpgradeCard.IG_2000, UpgradeCard.FLECHETTE_CANNON, UpgradeCard.AUTOTHRUSTERS]));
@@ -228,7 +228,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Winged Gundark
       // - Captain Oicunn + Predator + Ysanne Isard + Gunner + Rebel Captive + Engine Upgrade
       // - Omicron Group Pilot + Darth Vader
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "JMT", 2016, "Decimator/Lambda Shuttle/TIE Fighter", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "JMT", 2016, "Decimator; Lambda-class; TIE Fighter", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.WINGED_GUNDARK, agent));
@@ -242,7 +242,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Gold Squadron Pilot + R3‑A2 + BTL‑A4 Y‑wing + Twin Laser Turret
       // - Gold Squadron Pilot + Twin Laser Turret
       // - Bandit Squadron Pilot
-      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "World #1", 2015, "T-70 X-Wing/Y-Wings x2/Z-95", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #1", 2015, "T-70; Y-Wings x2; Z-95", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.POE_DAMERON, agent, [UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.R2_D2, UpgradeCard.AUTOTHRUSTERS]));
@@ -256,7 +256,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Corran Horn + R2-D2 + Engine Upgrade + Push The Limit + Fire Control Systems;
       // - Poe Dameron + Veteran Instincts + Autothrusters + R5-P9
       // - Prototype Pilot + Chardaan Refit
-      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "World #2", 2015, "A-Wing/E-Wing/T-70 X-Wing", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.RESISTANCE, "Worlds #2", 2015, "A-Wing; E-Wing; T-70", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.CORRAN_HORN, agent, [UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE]));
@@ -267,7 +267,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
 
       // Phillip Booth
       // - IG-88A&B + Heavy Laser Cannon + Autothrusters + Glitterstim + Crackshot + Fire Control Systems + IG-2000
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "World #3", 2015, "Aggressors x2", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.SCUM, "Worlds #3", 2015, "Aggressors x2", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.IG_88A, agent, [UpgradeCard.IG_2000, UpgradeCard.CRACK_SHOT, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.GLITTERSTIM, UpgradeCard.AUTOTHRUSTERS]));
@@ -279,7 +279,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Fel + PtL + Royal Guard Title + Stealth + Autothrusters
       // - Vader + Lone Wolf + title + ATC
       // - Omicron Group Shuttle + Palpatine + Sensor Jammer
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #4", 2015, "Lambda Shuttle/TIE Advanced/Interceptor", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #4", 2015, "Lambda-class; TIE Advanced; TIE Interceptor", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.SOONTIR_FEL, agent, [UpgradeCard.ROYAL_GUARD_TIE, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.AUTOTHRUSTERS, UpgradeCard.STEALTH_DEVICE]));
@@ -291,7 +291,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Aaron Bonar
       // - Miranda Doni + Tactician + Twin Laser Turret;
       // - Warden Squadron Pilot + Tactician + Twin Laser Turret x2
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #5", 2015, "K-Wings x3", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #5", 2015, "K-Wings x3", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.MIRANDA_DONI, agent, [UpgradeCard.TWIN_LASER_TURRET, UpgradeCard.TACTICIAN]));
@@ -303,7 +303,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Jeff Berling
       // - Dash + Lone Wolf + HLC + Outrider + R2-D2 crew + Anti-Pursuit Lasers
       // - Blue Squadron Pilot x2
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #1", 2015, "B-Wings x2/YT-2400", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #1", 2015, "B-Wings x2; YT-2400", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.DASH_RENDAR, agent, [UpgradeCard.OUTRIDER, UpgradeCard.LONE_WOLF, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.R2_D2_CREW, UpgradeCard.ANTI_PURSUIT_LASERS]));
@@ -315,7 +315,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Phillip Horny
       // - Oicunn + Predator + ysanne + gunner + rebel captive + engine + proximity mine
       // - Soontir + PtL + autothruster + stealth device + title
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #2", 2015, "Decimator/TIE Interceptor", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #2", 2015, "Decimator; TIE Interceptor", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.CAPTAIN_OICUNN, agent, [UpgradeCard.PREDATOR, UpgradeCard.YSANNE_ISARD, UpgradeCard.GUNNER, UpgradeCard.REBEL_CAPTIVE, UpgradeCard.PROXIMITY_MINES, UpgradeCard.ENGINE_UPGRADE]));
@@ -326,7 +326,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Jonathan Grasser
       // - Chewbacca + Predator + Luke + C-3PO + MF
       // - Vrill + HLC (no title) + Recon Specialist + Anti-pursuit Lasers
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2015, "YT-1300/YT-2400", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2015, "YT-1300; YT-2400", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.CHEWBACCA, agent, [UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR, UpgradeCard.LUKE_SKYWALKER, UpgradeCard.C_3PO]));
@@ -337,7 +337,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Kyle Adams
       // - Dash + Predator + Title + Mangler + Chewbacca crew
       // - Corran + PtL + FCS + R2-D2 + Engine
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #4", 2015, "E-Wing/YT-2400", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #4", 2015, "E-Wing; YT-2400", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.CORRAN_HORN, agent, [UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.R2_D2, UpgradeCard.ENGINE_UPGRADE]));
@@ -359,7 +359,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - IG88B + Flechette Canon; Cartel Spacer
       // - Binayre Pirate + Cluster Missiles
       // - Talonbane Cobra + Predator
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor/Kihraxz/M3-A/Z-95", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor; Kihraxz; M3-A; Z-95", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.IG_88B, agent, [UpgradeCard.FLECHETTE_CANNON]));
@@ -390,7 +390,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       });
       SquadBuilders.push(CoreSetFirstOrderSquadBuilder);
 
-      var CoreSetResistanceSquadBuilder = new SquadBuilder(Team.RESISTANCE, "Resistance TFA Core Set: 39 Points", 2015, "T-70 X-Wing", function(store, agent)
+      var CoreSetResistanceSquadBuilder = new SquadBuilder(Team.RESISTANCE, "Resistance TFA Core Set: 39 Points", 2015, "T-70", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.POE_DAMERON, agent, [UpgradeCard.BB_8, UpgradeCard.PROTON_TORPEDOES, UpgradeCard.WEAPONS_GUIDANCE]));
@@ -401,7 +401,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Paul Heaver
       // - Han Solo + Predator + C-3P0 + R2-D2 + MF + Engine Upgrade
       // - Tala Squadron Pilot x3
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #1", 2014, "YT-1300/Z-95s x3", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #1", 2014, "YT-1300; Z-95s x3", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HAN_SOLO, agent, [UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR, UpgradeCard.C_3PO, UpgradeCard.R2_D2_CREW, UpgradeCard.ENGINE_UPGRADE]));
@@ -414,7 +414,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Morgan Reid
       // - Whisper + VI + ACD + FCS + Rebel Captive
       // - Howlrunner + Swarm; 3x Academy
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #2", 2014, "TIE Fighters x4/TIE Phantom", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #2", 2014, "TIE Fighters x4; TIE Phantom", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.WHISPER, agent, [UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.REBEL_CAPTIVE, UpgradeCard.ADVANCED_CLOAKING_DEVICE]));
@@ -429,7 +429,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Han + MF + Gunner + C-3P0 + Engine + Predator
       // - Tala Squadron Pilot x2
       // - Bandit Squadron Pilot
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #3", 2014, "YT-1300/Z-95s x3", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #3", 2014, "YT-1300; Z-95s x3", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HAN_SOLO, agent, [UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.PREDATOR, UpgradeCard.GUNNER, UpgradeCard.C_3PO, UpgradeCard.ENGINE_UPGRADE]));
@@ -445,7 +445,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Black Squadron Pilot + DtF
       // - Obsidian x2
       // - Academy Pilot x2
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #4", 2014, "TIE Fighters x7", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #4", 2014, "TIE Fighters x7", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HOWLRUNNER, agent));
@@ -463,7 +463,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Cracken + VI
       // - Biggs
       // - Rookie
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #5", 2014, "X-Wings x3/Z-95", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #5", 2014, "X-Wings x3; Z-95", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.WEDGE_ANTILLES, agent, [UpgradeCard.DRAW_THEIR_FIRE, UpgradeCard.R2_D2]));
@@ -477,7 +477,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Whisper + Veteran Instincts + Fire-Control Systems + Advanced Cloaking Device + Gunner
       // - Soontir Fel + Push the Limit
       // - Captain Yorr
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #1", 2014, "Lambda Shuttle/TIE Interceptor/Phantom", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "US Nationals #1", 2014, "Lambda-class; TIE Interceptor; TIE Phantom", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.WHISPER, agent, [UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.GUNNER, UpgradeCard.ADVANCED_CLOAKING_DEVICE]));
@@ -501,7 +501,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Han Solo + Luke Skywalker + Veteran Instincts + C-3P0 + Millennium Falcon + Engine Upgrade
       // - Biggs
       // Tala Squadron Pilot
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2014, "X-Wing/YT-1300/Z-95", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #3", 2014, "X-Wing; YT-1300; Z-95", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HAN_SOLO, agent, [UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.LUKE_SKYWALKER, UpgradeCard.C_3PO, UpgradeCard.ENGINE_UPGRADE]));
@@ -529,7 +529,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // David Pontier
       // - Han Solo + Determination + Luke Skywalker + Millenium Falcon
       // - Corran Horn + Push the Limit + R2-D2 + Fire Control System
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #5", 2014, "E-Wing/YT-1300", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "US Nationals #5", 2014, "E-Wing; YT-1300", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HAN_SOLO, agent, [UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DETERMINATION, UpgradeCard.LUKE_SKYWALKER]));
@@ -554,7 +554,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Rookie Pilot in an X-wing
       // - Dagger Squadron Pilot in a B-wing + Advanced Sensors
       // - Dagger Squadron Pilot in a B-wing + Advanced Sensors
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #1", 2013, "B-Wings x2/X-Wings x2", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #1", 2013, "B-Wings x2; X-Wings x2", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.BIGGS_DARKLIGHTER, agent));
@@ -568,7 +568,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Howlrunner in a TIE-fighter + Stealth + Determination
       // - Dark Curse in a TIE-fighter
       // - Academy Pilot in a TIE-fighter x5
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #2", 2013, "TIE Fighters x7", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #2", 2013, "TIE Fighters x7", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HOWLRUNNER, agent, [UpgradeCard.STEALTH_DEVICE, UpgradeCard.DETERMINATION]));
@@ -584,7 +584,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // Jonathan Gomes
       // - Luke Skywalker in an X-wing + Shield Upgrade + R2-D2 + Draw Their Fire
       // - Rookie Pilot in an X-wing x3
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #3", 2013, "X-Wings x4", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #3", 2013, "X-Wings x4", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.LUKE_SKYWALKER, agent, [UpgradeCard.SHIELD_UPGRADE, UpgradeCard.R2_D2, UpgradeCard.DRAW_THEIR_FIRE]));
@@ -599,7 +599,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Backstabber in a TIE-fighter
       // - Obsidian Squadron Pilot in a TIE-fighter x3
       // - Academy Pilot in a TIE-fighter x2
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "World #4", 2013, "TIE Fighters x7", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "Worlds #4", 2013, "TIE Fighters x7", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.HOWLRUNNER, agent, [UpgradeCard.STEALTH_DEVICE]));
@@ -616,7 +616,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       // - Rookie Pilot in an X-wing x2
       // - Blue Squadron in an B-wing
       // - Gold Squadron in an Y-wing x2
-      SquadBuilders.push(new SquadBuilder(Team.REBEL, "World #5", 2013, "B-Wing/X-Wings x2/Y-Wings x2", function(store, agent)
+      SquadBuilders.push(new SquadBuilder(Team.REBEL, "Worlds #5", 2013, "B-Wing; X-Wings x2; Y-Wings x2", function(store, agent)
       {
          var answer = [];
          answer.push(new Token(store, Pilot.BLUE_SQUADRON_PILOT, agent));

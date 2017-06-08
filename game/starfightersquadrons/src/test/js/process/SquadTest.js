@@ -34,6 +34,78 @@ define(["Pilot", "Team", "UpgradeCard", "process/Reducer", "process/SimpleAgent"
          assert.equal(result.tokens()[2], token2);
       });
 
+      QUnit.test("pilotSkillValue()", function(assert)
+      {
+         // Setup.
+         var squad = createSquad0();
+
+         // Run.
+         var result = squad.pilotSkillValue();
+
+         // Verify.
+         assert.equal(result, 22);
+      });
+
+      QUnit.test("primaryWeaponValue()", function(assert)
+      {
+         // Setup.
+         var squad = createSquad0();
+
+         // Run.
+         var result = squad.primaryWeaponValue();
+
+         // Verify.
+         assert.equal(result, 10);
+      });
+
+      QUnit.test("energyValue()", function(assert)
+      {
+         // Setup.
+         var squad = createSquad0();
+
+         // Run.
+         var result = squad.energyValue();
+
+         // Verify.
+         assert.equal(result, 0);
+      });
+
+      QUnit.test("agilityValue()", function(assert)
+      {
+         // Setup.
+         var squad = createSquad0();
+
+         // Run.
+         var result = squad.agilityValue();
+
+         // Verify.
+         assert.equal(result, 6);
+      });
+
+      QUnit.test("hullValue()", function(assert)
+      {
+         // Setup.
+         var squad = createSquad0();
+
+         // Run.
+         var result = squad.hullValue();
+
+         // Verify.
+         assert.equal(result, 10);
+      });
+
+      QUnit.test("shieldValue()", function(assert)
+      {
+         // Setup.
+         var squad = createSquad0();
+
+         // Run.
+         var result = squad.shieldValue();
+
+         // Verify.
+         assert.equal(result, 7);
+      });
+
       QUnit.test("squadPointCost()", function(assert)
       {
          // Setup.
@@ -44,6 +116,18 @@ define(["Pilot", "Team", "UpgradeCard", "process/Reducer", "process/SimpleAgent"
 
          // Verify.
          assert.equal(result, 98);
+      });
+
+      QUnit.test("upgradeCount()", function(assert)
+      {
+         // Setup.
+         var squad = createSquad0();
+
+         // Run.
+         var result = squad.upgradeCount();
+
+         // Verify.
+         assert.equal(result, 5);
       });
 
       function createSquad0()

@@ -58,7 +58,7 @@ define(["process/Action", "process/Adjudicator", "process/EnvironmentFactory", "
          var adjudicator = new Adjudicator();
          var imperial = SquadBuilder.CoreSetImperialSquadBuilder; // 36 points
          var firstOrder = SquadBuilder.CoreSetFirstOrderSquadBuilder; // 38 points
-         var rebel = SquadBuilder.findByNameAndYear("World #5", 2013); // 100 squad points
+         var rebel = SquadBuilder.findByNameAndYear("Worlds #5", 2013); // 100 squad points
          var resistance = SquadBuilder.CoreSetResistanceSquadBuilder; // 39 points
          var scum = SquadBuilder.findByNameAndYear("Worlds #1", 2017); // 98 squad points
 
@@ -100,7 +100,7 @@ define(["process/Action", "process/Adjudicator", "process/EnvironmentFactory", "
          var adjudicator = new Adjudicator();
          var imperial = SquadBuilder.findByNameAndYear("Worlds #5", 2016); // 100 squad points
          var firstOrder = SquadBuilder.findByNameAndYear("Worlds #3", 2016); // 99 squad points
-         var rebel = SquadBuilder.findByNameAndYear("World #5", 2013); // 100 squad points
+         var rebel = SquadBuilder.findByNameAndYear("Worlds #5", 2013); // 100 squad points
          var resistance = SquadBuilder.findByNameAndYear("Worlds #2", 2017); // 100 squad points
          var scum = SquadBuilder.findByNameAndYear("Worlds #5", 2017); // 100 squad points
 

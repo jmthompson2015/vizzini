@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Squad Statistics</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/squadStatisticsStyle.css">
+
+  <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+  <script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+  <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+  <script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+  <script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+  <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../js/Team"></script>
+
+  <script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+  <script src="../../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
+
+  <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
+</head>
+<body>
+  <h1>Starfighter Squadrons Squad Statistics</h1>
+  <section id="tableContainer"></section>
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
+
+    var resourceBase = "../resources/";
+    var audioBase = resourceBase + "audio/";
+    var iconBase = resourceBase + "icons/";
+    var imageBase = resourceBase + "images/";
+
+    require(["squadstats/Reducer", "squadstats/ui/Connector", "squadstats/ui/SquadTable"],
+      function(Reducer, Connector, SquadTable)
+      {
+        var store = Redux.createStore(Reducer.root);
+
+        var connector = ReactRedux.connect(Connector.SquadTable.mapStateToProps)(SquadTable);
+        var element = React.createElement(ReactRedux.Provider,
+        {
+          store: store,
+        }, React.createElement(connector));
+
+        ReactDOM.render(element, document.getElementById("tableContainer"));
+      });
+  </script>
+</body>
+
+</html>
