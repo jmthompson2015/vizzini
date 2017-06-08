@@ -12,8 +12,9 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
                var upgrade = UpgradeCard.ADRENALINE_RUSH;
                var properties = UpgradeCard.properties[upgrade];
                assert.equal(properties.name, "Adrenaline Rush");
-               assert.equal(properties.type, UpgradeType.ELITE);
-               assert.ok(!properties.restrictions);
+               assert.equal(properties.typeKey, UpgradeType.ELITE);
+               assert.ok(properties.type);
+               assert.ok(!properties.restrictionKeys);
                assert
                   .equal(
                      properties.description,
@@ -36,10 +37,11 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
                // Verify.
                assert.ok(result);
                assert.equal(result.name, "C-3PO");
-               assert.equal(result.type, UpgradeType.CREW);
-               assert.ok(result.restrictions);
-               assert.equal(result.restrictions.length, 1);
-               assert.equal(result.restrictions[0], UpgradeRestriction.REBEL_ONLY);
+               assert.equal(result.typeKey, UpgradeType.CREW);
+               assert.ok(result.type);
+               assert.ok(result.restrictionKeys);
+               assert.equal(result.restrictionKeys.length, 1);
+               assert.equal(result.restrictionKeys[0], UpgradeRestriction.REBEL_ONLY);
                assert
                   .equal(
                      result.description,

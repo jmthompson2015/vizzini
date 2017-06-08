@@ -257,21 +257,21 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
          "yv666Only": new ShipRestriction(Ship.YV_666),
       },
 
-      passes: function(restrictions, pilotKey)
+      passes: function(restrictionKeys, pilotKey)
       {
          InputValidator.validateNotNull("pilotKey", pilotKey);
 
          var answer = true;
 
-         if (restrictions !== undefined)
+         if (restrictionKeys !== undefined)
          {
-            answer = restrictions.reduce(function(previousValue, restriction)
+            answer = restrictionKeys.reduce(function(previousValue, restrictionKey)
             {
-               if (!UpgradeRestriction.properties[restriction])
+               if (!UpgradeRestriction.properties[restrictionKey])
                {
-                  throw "Can't find properties for restriction: " + restriction;
+                  throw "Can't find properties for restrictionKey: " + restrictionKey;
                }
-               return previousValue && UpgradeRestriction.properties[restriction].passes(pilotKey);
+               return previousValue && UpgradeRestriction.properties[restrictionKey].passes(pilotKey);
             }, true);
          }
 

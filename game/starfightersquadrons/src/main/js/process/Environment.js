@@ -637,9 +637,9 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
          {
             var answer = [];
 
-            var ranges = weapon.ranges();
+            var rangeKeys = weapon.rangeKeys();
 
-            ranges.forEach(function(range)
+            rangeKeys.forEach(function(range)
             {
                LOGGER.trace("Environment.createRangeToDefenders() range = " + range);
                var defenders = that.getTargetableDefendersAtRange(attacker, attackerPosition, weapon, range);
