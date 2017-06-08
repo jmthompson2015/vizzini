@@ -644,17 +644,17 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
       });
       SquadBuilders.push(CoreSetRebelSquadBuilder);
 
-      function SquadBuilder(faction, name, year, description, buildFunction)
+      function SquadBuilder(factionKey, name, year, description, buildFunction)
       {
-         InputValidator.validateNotNull("faction", faction);
+         InputValidator.validateNotNull("factionKey", factionKey);
          InputValidator.validateNotNull("name", name);
          InputValidator.validateNotNull("year", year);
          InputValidator.validateNotNull("description", description);
          InputValidator.validateNotNull("buildFunction", buildFunction);
 
-         this.faction = function()
+         this.factionKey = function()
          {
-            return faction;
+            return factionKey;
          };
 
          this.name = function()
@@ -680,7 +680,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
             var store = Redux.createStore(Reducer.root);
             var tokens = buildFunction(store, agent);
 
-            return new Squad(faction, name, year, description, tokens);
+            return new Squad(factionKey, name, year, description, tokens);
          };
       }
 
@@ -714,7 +714,7 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
 
          return SquadBuilders.filter(function(squadBuilder)
          {
-            return Team.isFriendly(squadBuilder.faction(), teamKey);
+            return Team.isFriendly(squadBuilder.factionKey(), teamKey);
          });
       };
 

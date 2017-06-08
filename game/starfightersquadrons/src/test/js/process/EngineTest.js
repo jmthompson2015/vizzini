@@ -72,8 +72,8 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
          // Setup.
          var squadBuilder1 = SquadBuilder.findByNameAndYear("Worlds #2", 2014);
          var squadBuilder2 = SquadBuilder.findByNameAndYear("Worlds #1", 2015);
-         var agent1 = new SimpleAgent("1", squadBuilder1.faction());
-         var agent2 = new SimpleAgent("2", squadBuilder2.faction());
+         var agent1 = new SimpleAgent("1", squadBuilder1.factionKey());
+         var agent2 = new SimpleAgent("2", squadBuilder2.factionKey());
          var squad1 = squadBuilder1.buildSquad(agent1);
          var squad2 = squadBuilder2.buildSquad(agent2);
          var store = Redux.createStore(Reducer.root);
