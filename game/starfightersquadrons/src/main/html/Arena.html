@@ -26,6 +26,7 @@
 </head>
 <body>
 	<h1>Starfighter Squadrons: Arena</h1>
+	<div id="statusArea"></div>
 	<section id="tableContainer"></section>
 	<script>
 		"use strict";
@@ -54,6 +55,8 @@
 				var squadBuilders = arenaStore.getState().squadBuilders;
 				var sbsGameOver = {};
 				var adjudicator = new Adjudicator();
+				var competeCount = 0;
+				var doneCount = 0;
 
 				for (var i = 0; i < squadBuilders.length; i++)
 				{
@@ -71,8 +74,12 @@
 						{
 							compete(squadBuilder2, squadBuilder1);
 						}
+
+						competeCount++;
 					}
 				}
+
+				setStatusMessage();
 
 				function compete(squadBuilder1, squadBuilder2)
 				{
@@ -85,6 +92,12 @@
 
 					startNewGame(agent1, squadBuilder1, agent2, squadBuilder2);
 					LOGGER.info("compete() end");
+				}
+
+				function setStatusMessage()
+				{
+					var message = "Completed " + doneCount + " of " + competeCount + " competitions."
+					document.getElementById("statusArea").innerHTML = message;
 				}
 
 				function startNewGame(agent1, squadBuilder1, agent2, squadBuilder2)
@@ -134,6 +147,8 @@
 							}
 
 							sbsGameOver[key] = true;
+							doneCount++;
+							setStatusMessage();
 						}
 					};
 

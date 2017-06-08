@@ -43,3 +43,7 @@ table {
 #FONT_SMALL, .dataTable, .rowCount, .fontSmall {
   font-size: small;
 }
+
+#PADDING_BOTTOM_20, #statusArea, .paddingBottom20 {
+  padding-bottom: 20px;
+}
