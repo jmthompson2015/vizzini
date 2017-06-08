@@ -1,64 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Upgrade Cards</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../css/upgradeStatisticsStyle.css">
+  <title>Upgrade Cards</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/upgradeStatisticsStyle.css">
 
-    <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-    <script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
-    <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
-    <script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
-    <script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
-    <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../js/Team"></script>
+  <script src="../../../../../coreweb/lib/react/react-15.5.4.min.js"></script>
+  <script src="../../../../../coreweb/lib/react-dom/react-dom-15.5.4.min.js"></script>
+  <script src="../../../../../coreweb/lib/react-redux/react-redux-5.0.5.min.js"></script>
+  <script src="../../../../../coreweb/lib/reactable/reactable-0.14.1.js"></script>
+  <script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+  <script src="../../../../../coreweb/lib/require/require-2.3.3.min.js" data-main="../js/Team"></script>
 
-    <script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
-    <script src="../../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
+  <script src="../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
+  <script src="../../../../../coreweb/src/main/js/ui/CheckboxInputPanel.js"></script>
 
-    <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
 </head>
 <body>
-    <h1>Starfighter Squadrons Upgrade Cards</h1>
-    <div id="implementedStatistics"></div>
-    <section id="tableContainer"></section>
-    <script>
-        "use strict";
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        // LOGGER.setDebugEnabled(false);
+  <h1>Starfighter Squadrons Upgrade Cards</h1>
+  <div id="implementedStatistics"></div>
+  <section id="tableContainer"></section>
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
 
-        var resourceBase = "../resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
+    var resourceBase = "../resources/";
+    var audioBase = resourceBase + "audio/";
+    var iconBase = resourceBase + "icons/";
+    var imageBase = resourceBase + "images/";
 
-        require(["UpgradeCard", "upgradestats/Reducer", "upgradestats/ui/Connector", "upgradestats/ui/UpgradeTable"], function(UpgradeCard, Reducer, Connector,
-            UpgradeTable)
+    require(["UpgradeCard", "upgradestats/Reducer", "upgradestats/ui/Connector", "upgradestats/ui/UpgradeTable"],
+      function(UpgradeCard, Reducer, Connector, UpgradeTable)
+      {
+        var store = Redux.createStore(Reducer.root);
+        var implementedCount = UpgradeCard.values().reduce(function(previousValue, upgrade)
         {
-            var store = Redux.createStore(Reducer.root);
-            var implementedCount = UpgradeCard.values().reduce(function(previousValue, upgrade)
-            {
-                return previousValue + (UpgradeCard.properties[upgrade].isImplemented ? 1 : 0);
-            }, 0);
-            var upgradeCount = UpgradeCard.values().length;
-            var ratio = Math.vizziniRound(100.0 * implementedCount / upgradeCount, 0);
-            document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " +
-                upgradeCount + " = " + ratio + "%";
+          return previousValue + (UpgradeCard.properties[upgrade].isImplemented ? 1 : 0);
+        }, 0);
+        var upgradeCount = UpgradeCard.values().length;
+        var ratio = Math.vizziniRound(100.0 * implementedCount / upgradeCount, 0);
+        document.getElementById("implementedStatistics").innerHTML = "Implemented " + implementedCount + " / " +
+          upgradeCount + " = " + ratio + "%";
 
-            var connector = ReactRedux.connect(Connector.UpgradeTable.mapStateToProps)(UpgradeTable);
-            var element = React.createElement(ReactRedux.Provider,
-            {
-                store: store,
-            }, React.createElement(connector));
+        var connector = ReactRedux.connect(Connector.UpgradeTable.mapStateToProps)(UpgradeTable);
+        var element = React.createElement(ReactRedux.Provider,
+        {
+          store: store,
+        }, React.createElement(connector));
 
-            ReactDOM.render(element, document.getElementById("tableContainer"));
-        });
-    </script>
+        ReactDOM.render(element, document.getElementById("tableContainer"));
+      });
+  </script>
 </body>
 
 </html>

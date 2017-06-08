@@ -1,117 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Squad Builder</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../css/style.css">
-    <!--[if lt IE 9]>
+  <title>Squad Builder</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/style.css">
+  <!--[if lt IE 9]>
 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
 </script>
 <![endif]-->
 
-    <script src="../../../../../coreweb/lib/react/react-15.0.1.js"></script>
-    <script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.js"></script>
-    <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-    <script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-    <script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-    <script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/Team"></script>
+  <script src="../../../../../coreweb/lib/react/react-15.5.4.min.js"></script>
+  <script src="../../../../../coreweb/lib/react-dom/react-dom-15.5.4.min.js"></script>
+  <script src="../../../../../coreweb/lib/react-redux/react-redux-5.0.5.min.js"></script>
+  <script src="../../../../../coreweb/lib/reactable/reactable-0.14.1.js"></script>
+  <script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+  <script src="../../../../../coreweb/lib/require/require-2.3.3.min.js" data-main="../js/Team"></script>
 
-    <script src="../../../../../coreweb/src/main/js/ui/Select.js"></script>
+  <script src="../../../../../coreweb/src/main/js/ui/Select.js"></script>
 
-    <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
 
-    <style>
-        .factionTable {
-            background-color: #F0F0F0;
-        }
-    </style>
+  <style>
+    .factionTable {
+      background-color: #F0F0F0;
+    }
+  </style>
 </head>
 <body>
-    <table>
-        <tr>
-            <td>
-                <table class="factionTable">
-                    <tr>
-                        <td>Faction:</td>
-                        <td id="factionSelect"></td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-        <tr>
-            <td id="squadBuilderPanel"></td>
-        </tr>
-    </table>
-    <script>
-        "use strict";
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
+  <table>
+    <tr>
+      <td>
+        <table class="factionTable">
+          <tr>
+            <td>Faction:</td>
+            <td id="factionSelect"></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td id="squadBuilderPanel"></td>
+    </tr>
+  </table>
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
 
-        require(["Team", "process/Reducer", "process/ui/SquadBuilderUI"], function(Team, Reducer, SquadBuilderUI)
+    require(["Team", "process/Reducer", "process/ui/SquadBuilderUI"],
+      function(Team, Reducer, SquadBuilderUI)
+      {
+        var resourceBase = "../../main/resources/";
+        var iconBase = resourceBase + "icons/";
+        var imageBase = resourceBase + "images/";
+        var store = Redux.createStore(Reducer.root);
+        var team = Team.properties[Team.IMPERIAL];
+        ReactDOM.render(createTeamSelect(), document.getElementById("factionSelect"));
+        var element = React.createElement(ReactRedux.Provider,
         {
-            var resourceBase = "../../main/resources/";
-            var iconBase = resourceBase + "icons/";
-            var imageBase = resourceBase + "images/";
-            var store = Redux.createStore(Reducer.root);
-            var team = Team.properties[Team.IMPERIAL];
-            ReactDOM.render(createTeamSelect(), document.getElementById("factionSelect"));
-            var element = React.createElement(ReactRedux.Provider,
-            {
-                store: store,
-            }, React.createElement(SquadBuilderUI,
-            {
-                iconBase: iconBase,
-                imageBase: imageBase,
-                team: team,
-            }));
-            ReactDOM.render(element, document.getElementById("squadBuilderPanel"));
+          store: store,
+        }, React.createElement(SquadBuilderUI,
+        {
+          iconBase: iconBase,
+          imageBase: imageBase,
+          team: team,
+        }));
+        ReactDOM.render(element, document.getElementById("squadBuilderPanel"));
 
-            function handleTeamChange(event)
+        function handleTeamChange(event)
+        {
+          var teamKey = event.currentTarget.value;
+          team = Team.properties[teamKey];
+          LOGGER.debug("handleTeamChange() team = " + team);
+          ReactDOM.render(createTeamSelect(), document.getElementById("factionSelect"));
+          var element = React.createElement(ReactRedux.Provider,
+          {
+            store: store,
+          }, React.createElement(SquadBuilderUI,
+          {
+            iconBase: iconBase,
+            imageBase: imageBase,
+            team: team
+          }));
+          ReactDOM.render(element, document.getElementById("squadBuilderPanel"));
+        }
+
+        function createTeamSelect()
+        {
+          var teamValues = [Team.IMPERIAL, Team.REBEL, Team.SCUM];
+          var teamLabelFunction = function(value)
+          {
+            var answer = Team.properties[value].name;
+            var friend = Team.friend(value);
+            if (friend)
             {
-                var teamKey = event.currentTarget.value;
-                team = Team.properties[teamKey];
-                LOGGER.debug("handleTeamChange() team = " + team);
-                ReactDOM.render(createTeamSelect(), document.getElementById("factionSelect"));
-                var element = React.createElement(ReactRedux.Provider,
-                {
-                    store: store,
-                }, React.createElement(SquadBuilderUI,
-                {
-                    iconBase: iconBase,
-                    imageBase: imageBase,
-                    team: team
-                }));
-                ReactDOM.render(element, document.getElementById("squadBuilderPanel"));
+              answer += " + " + Team.properties[friend].name;
             }
+            return answer;
+          };
 
-            function createTeamSelect()
-            {
-                var teamValues = [Team.IMPERIAL, Team.REBEL, Team.SCUM];
-                var teamLabelFunction = function(value)
-                {
-                    var answer = Team.properties[value].name;
-                    var friend = Team.friend(value);
-                    if (friend)
-                    {
-                        answer += " + " + Team.properties[friend].name;
-                    }
-                    return answer;
-                };
-
-                return React.createElement(Select,
-                {
-                    values: teamValues,
-                    labelFunction: teamLabelFunction,
-                    initialSelectedValue: team.value,
-                    onChange: handleTeamChange,
-                });
-            }
-        });
-    </script>
+          return React.createElement(Select,
+          {
+            values: teamValues,
+            labelFunction: teamLabelFunction,
+            initialSelectedValue: team.value,
+            onChange: handleTeamChange,
+          });
+        }
+      });
+  </script>
 </body>
 
 </html>

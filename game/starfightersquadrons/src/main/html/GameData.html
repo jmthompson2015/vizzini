@@ -1,69 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Game Data</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../css/style.css">
+  <title>Game Data</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/style.css">
 
-    <script src="../../../../../coreweb/lib/react/react-15.0.1.js"></script>
-    <script src="../../../../../coreweb/lib/react-dom/react-dom-15.0.1.min.js"></script>
-    <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.2.min.js"></script>
-    <script src="../../../../../coreweb/lib/reactable/reactable-0.13.0.js"></script>
-    <script src="../../../../../coreweb/lib/redux/redux-3.4.0.min.js"></script>
-    <script src="../../../../../coreweb/lib/require/require-2.2.0.js" data-main="../js/Team"></script>
+  <script src="../../../../../coreweb/lib/react/react-15.5.4.min.js"></script>
+  <script src="../../../../../coreweb/lib/react-dom/react-dom-15.5.4.min.js"></script>
+  <script src="../../../../../coreweb/lib/react-redux/react-redux-5.0.5.min.js"></script>
+  <script src="../../../../../coreweb/lib/reactable/reactable-0.14.1.js"></script>
+  <script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+  <script src="../../../../../coreweb/lib/require/require-2.3.3.min.js" data-main="../js/Team"></script>
 
-    <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
-    <style>
-        #gameTable {
-            background-color: white;
-            border-collapse: collapse;
-            font-size: small;
-        }
+  <style>
+    #gameTable {
+      background-color: white;
+      border-collapse: collapse;
+      font-size: small;
+    }
 
-        #gameTable tbody tr:nth-child(2n) td {
-            background: lightCyan;
-        }
+    #gameTable tbody tr:nth-child(2n) td {
+      background: lightCyan;
+    }
 
-        #gameTable tbody tr:nth-child(2n+1) td {
-            background: white;
-        }
+    #gameTable tbody tr:nth-child(2n+1) td {
+      background: white;
+    }
 
-        #gameTable th {
-            background-color: #555555;
-            border: 1px solid lightGray;
-            color: white;
-        }
+    #gameTable th {
+      background-color: #555555;
+      border: 1px solid lightGray;
+      color: white;
+    }
 
-        #gameTable td {
-            border: 1px solid lightGray;
-        }
+    #gameTable td {
+      border: 1px solid lightGray;
+    }
 
-        .textCell {
-            text-align: left;
-        }
+    .textCell {
+      text-align: left;
+    }
 
-        .numberCell {
-            text-align: right;
-        }
-    </style>
+    .numberCell {
+      text-align: right;
+    }
+  </style>
 </head>
 <body>
-    <h1>Starfighter Squadrons Game Data</h1>
-    <section id="tableContainer"></section>
-    <script>
-        "use strict";
-        var LOGGER = new Logger();
+  <h1>Starfighter Squadrons Game Data</h1>
+  <section id="tableContainer"></section>
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
 
-        require(["process/ui/GameDataTable"], function(GameDataTable)
-        {
-            var element = React.createElement(GameDataTable);
-            ReactDOM.render(element, document.getElementById("tableContainer"));
-        });
-    </script>
+    require(["process/ui/GameDataTable"], function(GameDataTable)
+    {
+      var element = React.createElement(GameDataTable);
+      ReactDOM.render(element, document.getElementById("tableContainer"));
+    });
+  </script>
 </body>
 
 </html>
