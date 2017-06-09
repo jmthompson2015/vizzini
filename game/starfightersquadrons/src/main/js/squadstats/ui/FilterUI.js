@@ -1,5 +1,5 @@
-define(["Ship", "Team", "squadstats/Action", "squadstats/DefaultFilters", "squadstats/EntityFilter", "squadstats/RangeFilter"],
-   function(Ship, Team, Action, DefaultFilters, EntityFilter, RangeFilter)
+define(["Team", "squadstats/Action", "squadstats/DefaultFilters", "squadstats/EntityFilter", "squadstats/RangeFilter"],
+   function(Team, Action, DefaultFilters, EntityFilter, RangeFilter)
    {
       "use strict";
       var FilterUI = React.createClass(

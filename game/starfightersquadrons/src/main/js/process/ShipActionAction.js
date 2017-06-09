@@ -1,5 +1,5 @@
-define(["Event", "Maneuver", "UpgradeType", "process/ManeuverAction", "ShipAction", "process/Action", "process/TargetLock"],
-   function(Event, Maneuver, UpgradeType, ManeuverAction, ShipAction, Action, TargetLock)
+define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Action", "process/TargetLock"],
+   function(Event, Maneuver, ManeuverAction, ShipAction, Action, TargetLock)
    {
       "use strict";
 
@@ -481,11 +481,9 @@ define(["Event", "Maneuver", "UpgradeType", "process/ManeuverAction", "ShipActio
             return ability.sourceObject();
          };
 
-         var upgradeType = UpgradeType.properties[this.upgrade().typeKey];
-
          this.upgradeType = function()
          {
-            return upgradeType;
+            return this.upgrade().type;
          };
       }
 

@@ -63,8 +63,8 @@
     LOGGER.setTraceEnabled(false);
     LOGGER.setDebugEnabled(false);
 
-    require(["UpgradeCard", "UpgradeHeader", "UpgradeRestriction", "UpgradeType", "process/SquadBuilder"],
-      function(UpgradeCard, UpgradeHeader, UpgradeRestriction, UpgradeType, SquadBuilder)
+    require(["UpgradeCard", "UpgradeRestriction", "process/SquadBuilder"],
+      function(UpgradeCard, UpgradeRestriction, SquadBuilder)
       {
         var agent = {};
         var upgradeKeys = [];
@@ -215,7 +215,7 @@
 
         function createRowObject(upgrade)
         {
-          var header = (upgrade.headerKey === undefined ? " " : UpgradeHeader.properties[upgrade.headerKey].name);
+          var header = (upgrade.header === undefined ? " " : upgrade.header.name);
           var restrictions = "";
           if (upgrade.restrictionKeys !== undefined)
           {
@@ -233,7 +233,7 @@
           return (
           {
             count: counts[upgrade.value],
-            type: UpgradeType.properties[upgrade.typeKey].name,
+            type: upgrade.type.name,
             name: upgrade.name,
             restrictions: restrictions,
             header: header,

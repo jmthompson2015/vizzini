@@ -1,5 +1,5 @@
-define(["UpgradeHeader", "UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
-   function(UpgradeHeader, UpgradeType, FactionUI, UpgradeTypeUI)
+define(["process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
+   function(FactionUI, UpgradeTypeUI)
    {
       var AbilityUI = {};
 
@@ -107,7 +107,7 @@ define(["UpgradeHeader", "UpgradeType", "process/ui/FactionUI", "process/ui/Upgr
             var myKey = (this.props.myKey !== undefined ? this.props.myKey : upgrade.value);
             var icon = React.createElement(UpgradeTypeUI,
             {
-               upgradeType: UpgradeType.properties[upgrade.typeKey],
+               upgradeType: upgrade.type,
                imageBase: imageBase,
             });
 
@@ -115,7 +115,7 @@ define(["UpgradeHeader", "UpgradeType", "process/ui/FactionUI", "process/ui/Upgr
 
             if (upgrade.header)
             {
-               title = UpgradeHeader.properties[upgrade.headerKey].name + ": ";
+               title = upgrade.header.name + ": ";
             }
 
             title += upgrade.description;

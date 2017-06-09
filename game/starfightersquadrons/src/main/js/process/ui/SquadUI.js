@@ -1,5 +1,5 @@
-define(["UpgradeCard", "UpgradeType", "Value", "process/ui/ShipSilhouetteUI", "process/ui/UpgradeTypeUI"],
-   function(UpgradeCard, UpgradeType, Value, ShipSilhouetteUI, UpgradeTypeUI)
+define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/UpgradeTypeUI"],
+   function(UpgradeCard, Value, ShipSilhouetteUI, UpgradeTypeUI)
    {
       "use strict";
       var SquadColumns = [
@@ -287,7 +287,7 @@ define(["UpgradeCard", "UpgradeType", "Value", "process/ui/ShipSilhouetteUI", "p
             }
             var image = React.createElement(UpgradeTypeUI,
             {
-               upgradeType: UpgradeType.properties[upgrade.typeKey],
+               upgradeType: upgrade.type,
                imageBase: this.props.imageBase,
             });
             cells.push(this.Td(

@@ -1,5 +1,5 @@
-define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType", "process/ui/UpgradeTypeUI"],
-   function(RangeRuler, UpgradeCard, UpgradeHeader, UpgradeType, UpgradeTypeUI)
+define(["UpgradeCard", "process/ui/UpgradeTypeUI"],
+   function(UpgradeCard, UpgradeTypeUI)
    {
       "use strict";
       var UpgradeCardUI = React.createClass(
@@ -46,7 +46,7 @@ define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType", "process/ui
                   key: cells1.length,
                   colSpan: colspan1,
                   className: "upgradeCardUIHeader",
-               }, UpgradeHeader.properties[upgrade.headerKey].name));
+               }, upgrade.header.name));
 
                if (upgrade.ranges)
                {
@@ -79,7 +79,7 @@ define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType", "process/ui
                className: "upgradeCardUIImage"
             }, React.createElement(UpgradeTypeUI,
             {
-               upgradeType: UpgradeType.properties[upgrade.typeKey],
+               upgradeType: upgrade.type,
                imageBase: this.props.imageBase,
             })));
             cells3.push(React.DOM.td(
@@ -108,26 +108,26 @@ define(["RangeRuler", "UpgradeCard", "UpgradeHeader", "UpgradeType", "process/ui
          var upgrade = UpgradeCard.properties[upgradeKey];
          var minRange;
          var maxRange;
-         upgrade.rangeKeys.forEach(function(rangeKey)
+         upgrade.ranges.forEach(function(range)
          {
-            var myDistance = RangeRuler.properties[rangeKey].minDistance;
+            var myDistance = range.minDistance;
 
-            if (!minRange || myDistance < RangeRuler.properties[minRange].minDistance)
+            if (!minRange || myDistance < minRange.minDistance)
             {
-               minRange = rangeKey;
+               minRange = range;
             }
 
-            if (!maxRange || myDistance > RangeRuler.properties[maxRange].minDistance)
+            if (!maxRange || myDistance > maxRange.minDistance)
             {
-               maxRange = rangeKey;
+               maxRange = range;
             }
          });
 
-         var answer = RangeRuler.properties[minRange].name;
+         var answer = minRange.name;
 
          if (minRange !== maxRange)
          {
-            answer += "-" + RangeRuler.properties[maxRange].name;
+            answer += "-" + maxRange.name;
          }
 
          return answer;
