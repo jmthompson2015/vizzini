@@ -1,5 +1,5 @@
-define(["Ship", "Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstats/ui/FilterUI", "process/ui/FactionUI", "process/ui/ShipSilhouetteUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-   function(Ship, Team, SquadColumns, Connector, FilterUI, FactionUI, ShipSilhouetteUI, DataTable)
+define(["Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstats/ui/FilterUI", "process/ui/FactionUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+   function(Team, SquadColumns, Connector, FilterUI, FactionUI, DataTable)
    {
       "use strict";
 
@@ -29,63 +29,6 @@ define(["Ship", "Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "s
                isSmall: true,
             });
          },
-         //  "pilotName": function(data)
-         //  {
-         //     var src = "../resources/icons/Wikipedia16.png";
-         //     var searchString = data.pilotName.replace(/ /g, "_");
-         //     var href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
-         //     var link = createImageLink(src, href);
-         //     return React.DOM.span(
-         //     {
-         //        className: "textImageLink",
-         //     }, data.pilotName, link);
-         //  },
-         //  "shipKey": function(data)
-         //  {
-         //     var src = "../resources/icons/Wikipedia16.png";
-         //     var href = data.shipWikiUrl;
-         //     if (!href)
-         //     {
-         //        var searchString = data.shipName + "_Expansion_Pack";
-         //        searchString = searchString.replace(/ /g, "_");
-         //        href = "http://xwing-miniatures.wikia.com/wiki/" + searchString;
-         //     }
-         //     var link = createImageLink(src, href);
-         //     var silhouette = React.createElement(ShipSilhouetteUI,
-         //     {
-         //        ship: Ship.properties[data.shipKey],
-         //        imageBase: imageBase,
-         //        showName: true,
-         //     });
-         //     return React.DOM.span(
-         //     {
-         //        className: "textImageLink",
-         //     }, silhouette, link);
-         //  },
-         //  "description": function(data)
-         //  {
-         //     var answer = data.description;
-         //     if (data.isFlavorText)
-         //     {
-         //        answer = React.DOM.span(
-         //        {
-         //           className: "flavorText",
-         //        }, data.description);
-         //     }
-         //     return answer;
-         //  },
-         //  "isImplemented": function(data)
-         //  {
-         //     var implementedName = (data.isImplemented ? "accept" : "delete");
-         //     var fileString = iconBase + implementedName + ".png";
-         //     return React.DOM.img(
-         //     {
-         //        className: "isImplementedImage",
-         //        src: fileString,
-         //        title: data.isImplemented,
-         //        value: implementedName,
-         //     });
-         //  },
          "ratioPrimaryWeaponAgility": function(data)
          {
             var value = data.ratioPrimaryWeaponAgility;
@@ -98,7 +41,7 @@ define(["Ship", "Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "s
          },
       };
 
-      var PilotTable = React.createClass(
+      var SquadTable = React.createClass(
       {
          contextTypes:
          {
@@ -159,5 +102,5 @@ define(["Ship", "Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "s
          },
       });
 
-      return PilotTable;
+      return SquadTable;
    });
