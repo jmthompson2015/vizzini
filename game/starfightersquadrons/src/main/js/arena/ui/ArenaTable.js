@@ -1,9 +1,19 @@
-define(["arena/ArenaColumns", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-   function(ArenaColumns, DataTable)
+define(["Team", "arena/ArenaColumns", "process/ui/FactionUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+   function(Team, ArenaColumns, FactionUI, DataTable)
    {
       "use strict";
 
       var cellFunctions = {
+         "factionKey": function(data)
+         {
+            var faction = Team.properties[data.factionKey];
+            return React.createElement(FactionUI,
+            {
+               faction: faction,
+               imageBase: imageBase,
+               isSmall: true,
+            });
+         },
          "squadBuilder": function(data)
          {
             return data.squadBuilder.toString();

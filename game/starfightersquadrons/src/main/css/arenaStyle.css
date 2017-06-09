@@ -36,6 +36,10 @@ table {
   text-align: left;
 }
 
+#ALIGN_MIDDLE, .factionUIImage, .imageBlock, .alignMiddle {
+  vertical-align: middle;
+}
+
 #ALIGN_RIGHT, .numberCell, .alignRight {
   text-align: right;
 }

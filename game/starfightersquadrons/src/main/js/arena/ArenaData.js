@@ -16,6 +16,7 @@ define(function()
 
       return (
       {
+         factionKey: squadBuilder.factionKey(),
          squadBuilder: squadBuilder,
          winCount: winCount,
          loseCount: loseCount,
