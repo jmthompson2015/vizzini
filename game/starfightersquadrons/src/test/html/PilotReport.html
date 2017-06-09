@@ -1,222 +1,222 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>Pilot Report</title>
+  <meta charset="utf-8">
+  <title>Pilot Report</title>
 
-    <link rel="stylesheet" href="../../main/css/style.css">
+  <link rel="stylesheet" href="../../main/css/style.css">
 
-    <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-    <script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
-    <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
-    <script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
-    <script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
-    <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../main/js/Team"></script>
+  <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+  <script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+  <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+  <script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+  <script src="../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
+  <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../main/js/Team"></script>
 
-    <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+  <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 
-    <style>
-        #pilotTable {
-            background-color: white;
-            border-collapse: collapse;
-            font-size: small;
-        }
+  <style>
+    #pilotTable {
+      background-color: white;
+      border-collapse: collapse;
+      font-size: small;
+    }
 
-        #pilotTable tbody tr:nth-child(2n) td {
-            background: lightCyan;
-        }
+    #pilotTable tbody tr:nth-child(2n) td {
+      background: lightCyan;
+    }
 
-        #pilotTable tbody tr:nth-child(2n+1) td {
-            background: white;
-        }
+    #pilotTable tbody tr:nth-child(2n+1) td {
+      background: white;
+    }
 
-        #pilotTable th {
-            background-color: #555555;
-            border: 1px solid lightGray;
-            color: white;
-        }
+    #pilotTable th {
+      background-color: #555555;
+      border: 1px solid lightGray;
+      color: white;
+    }
 
-        #pilotTable td {
-            border: 1px solid lightGray;
-        }
-        
-        .textCell {
-            text-align: left;
-        }
+    #pilotTable td {
+      border: 1px solid lightGray;
+    }
 
-        .numberCell {
-            text-align: right;
-        }
-    </style>
+    .textCell {
+      text-align: left;
+    }
+
+    .numberCell {
+      text-align: right;
+    }
+  </style>
 </head>
 <body>
-    <h1>Pilots from Prefabricated SquadBuilders</h1>
-    <div id="count"></div>
-    <div id="panel"></div>
-    <script>
-        "use strict";
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
+  <h1>Pilots from Prefabricated SquadBuilders</h1>
+  <div id="count"></div>
+  <div id="panel"></div>
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
 
-        require(["Pilot", "Ship", "Team", "process/SquadBuilder"],
-            function(Pilot, Ship, Team, SquadBuilder)
+    require(["Pilot", "Ship", "Team", "process/SquadBuilder"],
+      function(Pilot, Ship, Team, SquadBuilder)
+      {
+        var agent = {};
+        var pilotKeys = [];
+        var counts = {};
+        SquadBuilder.SquadBuilders.forEach(function(squadBuilder)
+        {
+          var squad = squadBuilder.buildSquad(agent);
+          squad.tokens().forEach(function(token)
+          {
+            var myPilotKey = token.pilotKey();
+            addPilotKey(myPilotKey);
+          });
+        });
+
+        pilotKeys.sort(compare);
+        var pilotRows = [];
+        pilotKeys.forEach(function(pilotKey)
+        {
+          var pilot = Pilot.properties[pilotKey];
+          if (pilot.fore || pilot.aft)
+          {
+            pilotRows.push(createRowObject(pilot.fore));
+            pilotRows.push(createRowObject(pilot.aft));
+          }
+          else
+          {
+            pilotRows.push(createRowObject(pilot));
+          }
+        });
+
+        var PilotColumns = [
+        {
+          key: "count",
+          label: "Count",
+          className: "numberCell",
+        },
+        {
+          key: "faction",
+          label: "Faction",
+          className: "textCell",
+        },
+        {
+          key: "name",
+          label: "Name",
+          className: "textCell",
+        },
+        {
+          key: "ship",
+          label: "Ship",
+          className: "textCell",
+        },
+        {
+          key: "description",
+          label: "Description",
+          className: "textCell",
+        },
+        {
+          key: "isImplemented",
+          label: "Implemented",
+          className: "textCell",
+        },
+        {
+          key: "squadPointCost",
+          label: "Squad Point Cost",
+          className: "numberCell",
+        }, ];
+
+        // Factories.
+        var Table = React.createFactory(Reactable.Table);
+        var Tr = React.createFactory(Reactable.Tr);
+        var Td = React.createFactory(Reactable.Td);
+
+        var rows = pilotRows.map(function(pilotRow)
+        {
+          var cells = PilotColumns.map(function(column)
+          {
+            return createCell(column, pilotRow[column.key]);
+          });
+
+          return Tr(
+          {
+            key: pilotRow.name,
+          }, cells);
+        });
+
+        ReactDOM.render(React.DOM.span(
+        {}, pilotRows.length), document.getElementById("count"));
+        var element = Table(
+        {
+          id: "pilotTable",
+          columns: PilotColumns,
+          sortable: true,
+        }, rows);
+        ReactDOM.render(element, document.getElementById("panel"));
+
+        function addPilotKey(pilotKey)
+        {
+          if (pilotKeys.vizziniContains(pilotKey))
+          {
+            counts[pilotKey] = counts[pilotKey] + 1;
+          }
+          else
+          {
+            pilotKeys.push(pilotKey);
+            counts[pilotKey] = 1;
+          }
+        }
+
+        function compare(a, b)
+        {
+          var answer = counts[b] - counts[a];
+
+          if (answer === 0)
+          {
+            if (a > b)
             {
-                var agent = {};
-                var pilotKeys = [];
-                var counts = {};
-                SquadBuilder.SquadBuilders.forEach(function(squadBuilder)
-                {
-                    var squad = squadBuilder.buildSquad(agent);
-                    squad.forEach(function(token)
-                    {
-                        var myPilotKey = token.pilotKey();
-                        addPilotKey(myPilotKey);
-                    });
-                });
+              answer = 1;
+            }
+            else if (a < b)
+            {
+              answer = -1;
+            }
+          }
 
-                pilotKeys.sort(compare);
-                var pilotRows = [];
-                pilotKeys.forEach(function(pilotKey)
-                {
-                    var pilot = Pilot.properties[pilotKey];
-                    if (pilot.fore || pilot.aft)
-                    {
-                        pilotRows.push(createRowObject(pilot.fore));
-                        pilotRows.push(createRowObject(pilot.aft));
-                    }
-                    else
-                    {
-                        pilotRows.push(createRowObject(pilot));
-                    }
-                });
+          return answer;
+        }
 
-                var PilotColumns = [
-                {
-                    key: "count",
-                    label: "Count",
-                    className: "numberCell",
-                },
-                {
-                    key: "faction",
-                    label: "Faction",
-                    className: "textCell",
-                },
-                {
-                    key: "name",
-                    label: "Name",
-                    className: "textCell",
-                },
-                {
-                    key: "ship",
-                    label: "Ship",
-                    className: "textCell",
-                },
-                {
-                    key: "description",
-                    label: "Description",
-                    className: "textCell",
-                },
-                {
-                    key: "isImplemented",
-                    label: "Implemented",
-                    className: "textCell",
-                },
-                {
-                    key: "squadPointCost",
-                    label: "Squad Point Cost",
-                    className: "numberCell",
-                }, ];
+        function createCell(column, value)
+        {
+          return Td(
+          {
+            key: column.key,
+            className: column.className,
+            column: column.key,
+          }, (value !== undefined ? value : ""));
+        }
 
-                // Factories.
-                var Table = React.createFactory(Reactable.Table);
-                var Tr = React.createFactory(Reactable.Tr);
-                var Td = React.createFactory(Reactable.Td);
-
-                var rows = pilotRows.map(function(pilotRow)
-                {
-                    var cells = PilotColumns.map(function(column)
-                    {
-                        return createCell(column, pilotRow[column.key]);
-                    });
-
-                    return Tr(
-                    {
-                        key: pilotRow.name,
-                    }, cells);
-                });
-
-                ReactDOM.render(React.DOM.span(
-                {}, pilotRows.length), document.getElementById("count"));
-                var element = Table(
-                {
-                    id: "pilotTable",
-                    columns: PilotColumns,
-                    sortable: true,
-                }, rows);
-                ReactDOM.render(element, document.getElementById("panel"));
-
-                function addPilotKey(pilotKey)
-                {
-                    if (pilotKeys.vizziniContains(pilotKey))
-                    {
-                        counts[pilotKey] = counts[pilotKey] + 1;
-                    }
-                    else
-                    {
-                        pilotKeys.push(pilotKey);
-                        counts[pilotKey] = 1;
-                    }
-                }
-
-                function compare(a, b)
-                {
-                    var answer = counts[b] - counts[a];
-
-                    if (answer === 0)
-                    {
-                        if (a > b)
-                        {
-                            answer = 1;
-                        }
-                        else if (a < b)
-                        {
-                            answer = -1;
-                        }
-                    }
-
-                    return answer;
-                }
-
-                function createCell(column, value)
-                {
-                    return Td(
-                    {
-                        key: column.key,
-                        className: column.className,
-                        column: column.key,
-                    }, (value !== undefined ? value : ""));
-                }
-
-                function createRowObject(pilot)
-                {
-                    return (
-                    {
-                        count: counts[pilot.value],
-                        faction: Team.properties[pilot.shipTeam.teamKey].name,
-                        name: pilot.name,
-                        ship: Ship.properties[pilot.shipTeam.shipKey].name,
-                        description: pilot.description,
-                        isImplemented: pilot.isImplemented,
-                        squadPointCost: pilot.squadPointCost,
-                    });
-                }
-            });
-    </script>
+        function createRowObject(pilot)
+        {
+          return (
+          {
+            count: counts[pilot.value],
+            faction: Team.properties[pilot.shipTeam.teamKey].name,
+            name: pilot.name,
+            ship: Ship.properties[pilot.shipTeam.shipKey].name,
+            description: pilot.description,
+            isImplemented: pilot.isImplemented,
+            squadPointCost: pilot.squadPointCost,
+          });
+        }
+      });
+  </script>
 </body>
 
 </html>

@@ -84,10 +84,10 @@
 				function compete(squadBuilder1, squadBuilder2)
 				{
 					LOGGER.info("compete() " + squadBuilder1 + " vs " + squadBuilder2);
-					var factionKey1 = squadBuilder1.faction();
+					var factionKey1 = squadBuilder1.factionKey();
 					var agent1 = new MediumAgent("Agent1", factionKey1);
 
-					var factionKey2 = squadBuilder2.faction();
+					var factionKey2 = squadBuilder2.factionKey();
 					var agent2 = new MediumAgent("Agent2", factionKey2);
 
 					startNewGame(agent1, squadBuilder1, agent2, squadBuilder2);

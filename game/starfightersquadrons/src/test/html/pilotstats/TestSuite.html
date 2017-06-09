@@ -1,58 +1,58 @@
 <!doctype html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <title>TestSuite</title>
+  <meta charset="utf-8">
+  <title>TestSuite</title>
 
-    <link rel="stylesheet" href="../../../../../coreweb/lib/qunit/qunit-1.20.0.css">
-    <script src="../../../../../coreweb/lib/qunit/qunit-1.20.0.js"></script>
-    <script>
-        QUnit.config.autostart = false;
-    </script>
+  <link rel="stylesheet" href="../../../../../../coreweb/lib/qunit/qunit-1.20.0.css">
+  <script src="../../../../../../coreweb/lib/qunit/qunit-1.20.0.js"></script>
+  <script>
+    QUnit.config.autostart = false;
+  </script>
 
-    <link rel="stylesheet" href="../../../main/css/style.css">
+  <link rel="stylesheet" href="../../../main/css/style.css">
 
-    <script src="../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-    <script src="../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
-    <script src="../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
-    <script src="../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
-    <script src="../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
-    <script src="../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
+  <script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
+  <script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+  <script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
+  <script src="../../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
+  <script src="../../../../../../coreweb/lib/redux/redux-3.6.0.min.js"></script>
+  <script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-    <script src="../../../../../coreweb/src/main/js/util/Logger.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
-    <script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
+  <script src="../../../../../../coreweb/src/main/js/util/Logger.js"></script>
+  <script src="../../../../../../coreweb/src/main/js/util/InputValidator.js"></script>
+  <script src="../../../../../../coreweb/src/main/js/util/ArrayAugments.js"></script>
+  <script src="../../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
+  <script src="../../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
 
-    <script>
-        "use strict";
-        var LOGGER = new Logger();
-        LOGGER.setTraceEnabled(false);
-        LOGGER.setDebugEnabled(false);
+  <script>
+    "use strict";
+    var LOGGER = new Logger();
+    LOGGER.setTraceEnabled(false);
+    LOGGER.setDebugEnabled(false);
 
-        var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
-        var audioBase = resourceBase + "audio/";
-        var iconBase = resourceBase + "icons/";
-        var imageBase = resourceBase + "images/";
+    var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/master/starfightersquadronsweb/src/main/resources/";
+    var audioBase = resourceBase + "audio/";
+    var iconBase = resourceBase + "icons/";
+    var imageBase = resourceBase + "images/";
 
-        var prefix = "../../test/js/";
-        var suffix = "Test";
-        var testModules = ["pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/InitialState", "pilotstats/RangeFilter", "pilotstats/Reducer"];
-        testModules = testModules.map(function(testModule)
-        {
-            return prefix + testModule + suffix;
-        });
+    var prefix = "../../test/js/";
+    var suffix = "Test";
+    var testModules = ["pilotstats/Action", "pilotstats/EntityFilter", "pilotstats/InitialState", "pilotstats/RangeFilter", "pilotstats/Reducer"];
+    testModules = testModules.map(function(testModule)
+    {
+      return prefix + testModule + suffix;
+    });
 
-        require(testModules, function()
-        {
-            QUnit.start();
-        });
-    </script>
+    require(testModules, function()
+    {
+      QUnit.start();
+    });
+  </script>
 </head>
 <body>
-    <div id="qunit"></div>
-    <div id="qunit-fixture"></div>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
 </body>
 
 </html>

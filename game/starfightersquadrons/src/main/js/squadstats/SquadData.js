@@ -42,7 +42,7 @@ define(["process/SimpleAgent"],
       {
          InputValidator.validateNotNull("squadBuilder", squadBuilder);
 
-         var factionKey = squadBuilder.faction();
+         var factionKey = squadBuilder.factionKey();
          var agent = new SimpleAgent("Agent1", factionKey);
          var squad = squadBuilder.buildSquad(agent);
          var sumStats = SquadData.computeSumStats(squad);

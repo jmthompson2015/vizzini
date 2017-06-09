@@ -1,138 +1,138 @@
 define(["UpgradeHeader", "UpgradeType", "process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
-    function(UpgradeHeader, UpgradeType, FactionUI, UpgradeTypeUI)
-    {
-        var AbilityUI = {};
+   function(UpgradeHeader, UpgradeType, FactionUI, UpgradeTypeUI)
+   {
+      var AbilityUI = {};
 
-        AbilityUI.Damage = React.createClass(
-        {
-            propTypes:
+      AbilityUI.Damage = React.createClass(
+      {
+         propTypes:
+         {
+            damage: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
+
+            // default: damage value
+            myKey: React.PropTypes.string,
+         },
+
+         render: function()
+         {
+            var damage = this.props.damage;
+            var imageBase = this.props.imageBase;
+
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : damage.value);
+            var filename = imageBase + "pilotCard/CriticalDamage24.jpg";
+            var icon = React.DOM.img(
             {
-                damage: React.PropTypes.object.isRequired,
-                imageBase: React.PropTypes.string.isRequired,
+               src: filename,
+               className: "damageAbilityUIImage",
+               title: "Critical Damage",
+            });
 
-                // default: damage value
-                myKey: React.PropTypes.string,
-            },
+            var title = damage.description;
 
-            render: function()
+            if (damage.hasAction)
             {
-                var damage = this.props.damage;
-                var imageBase = this.props.imageBase;
+               title += " Action: ";
+               title += damage.actionDescription;
+            }
 
-                var myKey = (this.props.myKey !== undefined ? this.props.myKey : damage.value);
-                var filename = imageBase + "pilotCard/CriticalDamage24.jpg";
-                var icon = React.DOM.img(
-                {
-                    src: filename,
-                    className: "damageAbilityUIImage",
-                    title: "Critical Damage",
-                });
-
-                var title = damage.description;
-
-                if (damage.hasAction)
-                {
-                    title += " Action: ";
-                    title += damage.actionDescription;
-                }
-
-                var label = React.DOM.span(
-                {
-                    title: title,
-                }, damage.name);
-
-                return React.DOM.span(
-                {
-                    key: myKey,
-                }, icon, " ", label);
-            },
-        });
-
-        AbilityUI.Pilot = React.createClass(
-        {
-            propTypes:
+            var label = React.DOM.span(
             {
-                pilot: React.PropTypes.object.isRequired,
-                imageBase: React.PropTypes.string.isRequired,
+               title: title,
+            }, damage.name);
 
-                // default: pilot value
-                myKey: React.PropTypes.string,
-            },
-
-            render: function()
+            return React.DOM.span(
             {
-                var pilot = this.props.pilot;
-                var imageBase = this.props.imageBase;
+               key: myKey,
+            }, icon, " ", label);
+         },
+      });
 
-                var myKey = (this.props.myKey !== undefined ? this.props.myKey : pilot.value);
-                var icon = React.createElement(FactionUI,
-                {
-                    faction: pilot.shipTeam.team,
-                    imageBase: imageBase,
-                    isSmall: true,
-                });
+      AbilityUI.Pilot = React.createClass(
+      {
+         propTypes:
+         {
+            pilot: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
 
-                var title = pilot.description;
+            // default: pilot value
+            myKey: React.PropTypes.string,
+         },
 
-                var label = React.DOM.span(
-                {
-                    title: pilot.description,
-                }, pilot.name);
+         render: function()
+         {
+            var pilot = this.props.pilot;
+            var imageBase = this.props.imageBase;
 
-                return React.DOM.span(
-                {
-                    key: myKey,
-                    className: this.props.panelClass,
-                    style: this.props.panelStyle,
-                }, icon, " ", label);
-            },
-        });
-
-        AbilityUI.Upgrade = React.createClass(
-        {
-            propTypes:
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : pilot.value);
+            var icon = React.createElement(FactionUI,
             {
-                upgrade: React.PropTypes.object.isRequired,
-                imageBase: React.PropTypes.string.isRequired,
+               faction: pilot.shipTeam.team,
+               imageBase: imageBase,
+               isSmall: true,
+            });
 
-                // default: upgrade value
-                myKey: React.PropTypes.string,
-            },
+            var title = pilot.description;
 
-            render: function()
+            var label = React.DOM.span(
             {
-                var upgrade = this.props.upgrade;
-                var imageBase = this.props.imageBase;
+               title: pilot.description,
+            }, pilot.name);
 
-                var myKey = (this.props.myKey !== undefined ? this.props.myKey : upgrade.value);
-                var icon = React.createElement(UpgradeTypeUI,
-                {
-                    upgradeType: UpgradeType.properties[upgrade.type],
-                    imageBase: imageBase,
-                });
+            return React.DOM.span(
+            {
+               key: myKey,
+               className: this.props.panelClass,
+               style: this.props.panelStyle,
+            }, icon, " ", label);
+         },
+      });
 
-                var title = "";
+      AbilityUI.Upgrade = React.createClass(
+      {
+         propTypes:
+         {
+            upgrade: React.PropTypes.object.isRequired,
+            imageBase: React.PropTypes.string.isRequired,
 
-                if (upgrade.header)
-                {
-                    title = UpgradeHeader.properties[upgrade.header].name + ": ";
-                }
+            // default: upgrade value
+            myKey: React.PropTypes.string,
+         },
 
-                title += upgrade.description;
+         render: function()
+         {
+            var upgrade = this.props.upgrade;
+            var imageBase = this.props.imageBase;
 
-                var label = React.DOM.span(
-                {
-                    title: title,
-                }, upgrade.name);
+            var myKey = (this.props.myKey !== undefined ? this.props.myKey : upgrade.value);
+            var icon = React.createElement(UpgradeTypeUI,
+            {
+               upgradeType: UpgradeType.properties[upgrade.typeKey],
+               imageBase: imageBase,
+            });
 
-                return React.DOM.span(
-                {
-                    key: myKey,
-                    className: this.props.panelClass,
-                    style: this.props.panelStyle,
-                }, icon, " ", label);
-            },
-        });
+            var title = "";
 
-        return AbilityUI;
-    });
+            if (upgrade.header)
+            {
+               title = UpgradeHeader.properties[upgrade.headerKey].name + ": ";
+            }
+
+            title += upgrade.description;
+
+            var label = React.DOM.span(
+            {
+               title: title,
+            }, upgrade.name);
+
+            return React.DOM.span(
+            {
+               key: myKey,
+               className: this.props.panelClass,
+               style: this.props.panelStyle,
+            }, icon, " ", label);
+         },
+      });
+
+      return AbilityUI;
+   });

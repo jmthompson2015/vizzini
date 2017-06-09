@@ -287,7 +287,7 @@ define(["UpgradeCard", "UpgradeType", "Value", "process/ui/ShipSilhouetteUI", "p
             }
             var image = React.createElement(UpgradeTypeUI,
             {
-               upgradeType: UpgradeType.properties[upgrade.type],
+               upgradeType: UpgradeType.properties[upgrade.typeKey],
                imageBase: this.props.imageBase,
             });
             cells.push(this.Td(

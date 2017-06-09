@@ -28,10 +28,6 @@ define(["Pilot", "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "process/Acti
             var shipTeamKey = ShipTeam.valuesByTeam(team.value)[0];
             var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
             var token = this.createToken(team, pilotKey);
-            // var name = "name";
-            // var year = 2017;
-            // var description = "description";
-            // var squad = new Squad(team.value, name, year, description, []);
             var squad = this.createSquad(team.value, []);
 
             return (
@@ -59,11 +55,7 @@ define(["Pilot", "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "process/Acti
                var shipTeamKey = ShipTeam.valuesByTeam(newTeamKey)[0];
                var pilotKey = Pilot.valuesByShipTeam(shipTeamKey)[0];
                var token = this.createToken(newTeam, pilotKey);
-               //  var name = "name";
-               //  var year = 2017;
-               //  var description = "description";
-               //  var squad = new Squad(team.value, name, year, description, []);
-               var squad = this.createSquad(team.value, []);
+               var squad = this.createSquad(newTeam.value, []);
                LOGGER.debug("new state = " + pilotKey + ", " + token);
                this.setState(
                {
@@ -315,7 +307,7 @@ define(["Pilot", "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "process/Acti
                   var tokenUpgradeTypes = token.upgradeTypeKeys();
                   var tokenUpgradeCount = tokenUpgradeTypes.length;
                   LOGGER.debug(i + " tokenUpgradeCount = " + tokenUpgradeCount);
-                  var upgradeType = UpgradeCard.properties[upgrade].type;
+                  var upgradeType = UpgradeCard.properties[upgrade].typeKey;
 
                   if (i < tokenUpgradeCount && upgradeType === tokenUpgradeTypes[i])
                   {
