@@ -29,6 +29,7 @@
 		</tr>
 		<tr>
 			<td id="scumPilotCompact" style="vertical-align: top"></td>
+			<td id="scumPilotCompact2" style="vertical-align: top"></td>
 		</tr>
 		<tr>
 			<td id="gr75PilotCompact" style="vertical-align: top"></td>
@@ -45,8 +46,8 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/DualToken", "process/EnvironmentFactory",
-				"process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "process/Token", "process/ui/PilotCardCompactUI"
+		require(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/DualToken", "process/EnvironmentFactory", "process/SimpleAgent",
+				"process/SquadBuilder", "process/TargetLock", "process/Token", "process/ui/PilotCardCompactUI"
 			],
 			function(DamageCard, Pilot, Position, Team, UpgradeCard, Action, DualToken, EnvironmentFactory, SimpleAgent, SquadBuilder, TargetLock, Token,
 				PilotCardCompactUI)
@@ -65,13 +66,10 @@
 				store.dispatch(Action.addFocusCount(imperialToken, 3));
 				store.dispatch(Action.addTokenCriticalDamage(imperialToken, DamageCard.CONSOLE_FIRE));
 				store.dispatch(Action.addTokenCriticalDamage(imperialToken, DamageCard.DAMAGED_COCKPIT));
-				imperialToken.addDamage(DamageCard.BLINDED_PILOT);
-				imperialToken.addDamage(DamageCard.CONSOLE_FIRE);
 
 				var rebelToken = environment.tokens()[2]; // X-Wing.
 				store.dispatch(Action.addIonCount(rebelToken));
 				store.dispatch(Action.addStressCount(rebelToken));
-				rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 				store.dispatch(Action.addTokenCriticalDamage(rebelToken, DamageCard.DAMAGED_ENGINE));
 
 				var foToken = new Token(store, Pilot.EPSILON_LEADER, foAgent);
@@ -86,6 +84,9 @@
 				store.dispatch(Action.addTractorBeamCount(scumToken));
 				store.dispatch(Action.addWeaponsDisabledCount(scumToken));
 				environment.placeToken(new Position(200, 200, 0), scumToken);
+
+				var scumToken2 = new Token(store, Pilot.DENGAR, scumAgent);
+				environment.placeToken(new Position(200, 200, 0), scumToken2);
 
 				var cr90Token = new DualToken(store, Pilot.CR90_CORVETTE, environment.secondAgent(), [UpgradeCard.HAN_SOLO, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS], [
 					UpgradeCard.WEAPONS_ENGINEER, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.ENGINEERING_TEAM, UpgradeCard.TIBANNA_GAS_SUPPLIES
@@ -158,6 +159,13 @@
 					token: scumToken
 				});
 				ReactDOM.render(element, document.getElementById("scumPilotCompact"));
+
+				element = React.createElement(PilotCardCompactUI,
+				{
+					imageBase: imageBase,
+					token: scumToken2,
+				});
+				ReactDOM.render(element, document.getElementById("scumPilotCompact2"));
 
 				element = React.createElement(PilotCardCompactUI,
 				{

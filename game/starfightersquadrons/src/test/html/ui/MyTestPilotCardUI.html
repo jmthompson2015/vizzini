@@ -88,7 +88,6 @@
 				var rebelToken = environment.tokens()[2]; // X-Wing.
 				store.dispatch(Action.addIonCount(rebelToken));
 				store.dispatch(Action.addStressCount(rebelToken));
-				rebelToken.addDamage(DamageCard.BLINDED_PILOT);
 
 				var foAgent = new SimpleAgent("First Order Agent", Team.FIRST_ORDER);
 				var foToken = new Token(store, Pilot.EPSILON_LEADER, foAgent);
@@ -278,8 +277,8 @@
 				function updateImperialToken()
 				{
 					LOGGER.info("updateImperialToken() start");
-					imperialToken.addDamage(DamageCard.DIRECT_HIT);
-					imperialToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
+					// imperialToken.addDamage(DamageCard.DIRECT_HIT);
+					// imperialToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
 					store.dispatch(Action.addCloakCount(imperialToken));
 					store.dispatch(Action.addEvadeCount(imperialToken));
 					store.dispatch(Action.addFocusCount(imperialToken));
@@ -289,8 +288,8 @@
 				function updateRebelToken()
 				{
 					LOGGER.info("updateRebelToken() start");
-					rebelToken.addDamage(DamageCard.DIRECT_HIT);
-					rebelToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
+					// rebelToken.addDamage(DamageCard.DIRECT_HIT);
+					// rebelToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
 					store.dispatch(Action.addIonCount(rebelToken));
 					store.dispatch(Action.addShieldCount(rebelToken));
 					store.dispatch(Action.addStressCount(rebelToken));
@@ -300,8 +299,8 @@
 				function updateScumToken()
 				{
 					LOGGER.info("updateScumToken() start");
-					scumToken.addDamage(DamageCard.DIRECT_HIT);
-					scumToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
+					// scumToken.addDamage(DamageCard.DIRECT_HIT);
+					// scumToken.addCriticalDamage(DamageCard.BLINDED_PILOT);
 					store.dispatch(Action.addIonCount(scumToken));
 					store.dispatch(Action.addShieldCount(scumToken));
 					store.dispatch(Action.addStressCount(scumToken));
@@ -311,14 +310,14 @@
 				function updateCR90Token()
 				{
 					LOGGER.info("updateCR90Token() start");
-					cr90Token.tokenFore().addDamage(DamageCard.DIRECT_HIT);
+					// cr90Token.tokenFore().addDamage(DamageCard.DIRECT_HIT);
 					LOGGER.info("updateCR90Token() end");
 				}
 
 				function updateRaiderToken()
 				{
 					LOGGER.info("updateRaiderToken() start");
-					raiderToken.tokenFore().addDamage(DamageCard.DIRECT_HIT);
+					// raiderToken.tokenFore().addDamage(DamageCard.DIRECT_HIT);
 					LOGGER.info("updateRaiderToken() end");
 				}
 
