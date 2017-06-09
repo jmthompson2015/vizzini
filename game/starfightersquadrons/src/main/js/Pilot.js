@@ -2920,6 +2920,14 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       var pilot = Pilot.properties[pilotKey];
       pilot.shipTeam = ShipTeam.properties[pilot.shipTeamKey];
 
+      if (pilot.upgradeTypeKeys !== undefined)
+      {
+         pilot.upgradeTypes = pilot.upgradeTypeKeys.map(function(typeKey)
+         {
+            return UpgradeType.properties[typeKey];
+         });
+      }
+
       if (pilot.fore)
       {
          pilot.fore.parent = pilot;
