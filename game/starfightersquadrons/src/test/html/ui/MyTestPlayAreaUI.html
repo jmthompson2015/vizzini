@@ -52,7 +52,10 @@
 				var laserToPosition = Selector.position(store.getState(), token2.id());
 				var laserIsPrimary = true;
 				var laserTeamColor = token3.pilot().shipTeam.team.color;
-				var maneuver = Maneuver.properties[Maneuver.STRAIGHT_1_STANDARD];
+				// var maneuver = Maneuver.properties[Maneuver.STRAIGHT_1_STANDARD];
+				// var maneuver = Maneuver.properties[Maneuver.BANK_LEFT_2_EASY];
+				// var maneuver = Maneuver.properties[Maneuver.SEGNORS_LOOP_LEFT_2_HARD];
+				var maneuver = Maneuver.properties[Maneuver.TALLON_ROLL_LEFT_2_STANDARD];
 				var maneuverFromPosition = Selector.position(store.getState(), token1.id());
 				var maneuverShipBase = token1.pilot().shipTeam.ship.shipBase;
 				var scale = 0.75;
