@@ -1,365 +1,366 @@
-define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter"],
-    function(Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter)
-    {
-        "use strict";
-        var FilterUI = React.createClass(
-        {
-            contextTypes:
+define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/EntityFilter", "abilitystats/EventComparator", "abilitystats/RangeFilter", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+   function(Action, DefaultFilters, EntityFilter, EventComparator, RangeFilter, InputPanel)
+   {
+      "use strict";
+      var FilterUI = React.createClass(
+      {
+         contextTypes:
+         {
+            store: React.PropTypes.object.isRequired,
+         },
+
+         propTypes:
+         {
+            filters: React.PropTypes.object.isRequired,
+         },
+
+         getInitialState: function()
+         {
+            return (
             {
-                store: React.PropTypes.object.isRequired,
-            },
+               deckValues: (this.props.filters.deck ? this.props.filters.deck.values() : []),
+               typeValues: (this.props.filters.type ? this.props.filters.type.values() : []),
+               isImplementedValues: (this.props.filters.isImplemented ? this.props.filters.isImplemented.values() : []),
+               eventValues: (this.props.filters.event ? this.props.filters.event.values() : []),
+            });
+         },
 
-            propTypes:
+         render: function()
+         {
+            var cells = [];
+            cells.push(React.DOM.td(
             {
-                filters: React.PropTypes.object.isRequired,
-            },
-
-            getInitialState: function()
+               key: cells.length,
+               className: "filterTable",
+            }, this.createRangeTable()));
+            cells.push(React.DOM.td(
             {
-                return (
-                {
-                    deckValues: (this.props.filters.deck ? this.props.filters.deck.values() : []),
-                    typeValues: (this.props.filters.type ? this.props.filters.type.values() : []),
-                    isImplementedValues: (this.props.filters.isImplemented ? this.props.filters.isImplemented.values() : []),
-                    eventValues: (this.props.filters.event ? this.props.filters.event.values() : []),
-                });
-            },
+               key: cells.length,
+               className: "filtersUI",
+            }, this.createEntityTable()));
 
-            render: function()
+            var rows = [];
+            rows.push(React.DOM.tr(
             {
-                var cells = [];
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                    className: "filterTable",
-                }, this.createRangeTable()));
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                    className: "filtersUI",
-                }, this.createEntityTable()));
+               key: rows.length,
+            }, cells));
 
-                var rows = [];
-                rows.push(React.DOM.tr(
-                {
-                    key: rows.length,
-                }, cells));
-
-                rows.push(React.DOM.tr(
-                {
-                    key: rows.length,
-                }, React.DOM.td(
-                {
-                    colSpan: 6,
-                }, this.createButtonTable())));
-
-                return React.DOM.table(
-                {
-                    className: "filtersUI",
-                }, React.DOM.tbody(
-                {}, rows));
-            },
-
-            createButtonTable: function()
+            rows.push(React.DOM.tr(
             {
-                var restoreButton = React.DOM.button(
-                {
-                    onClick: this.restoreActionPerformed,
-                }, "Restore Defaults");
-                var unfilterButton = React.DOM.button(
-                {
-                    onClick: this.unfilterActionPerformed,
-                }, "Remove Filter");
-                var filterButton = React.DOM.button(
-                {
-                    onClick: this.filterActionPerformed,
-                }, "Apply Filter");
-
-                var cells = [];
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                }, restoreButton));
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                }, unfilterButton));
-                cells.push(React.DOM.td(
-                {
-                    key: cells.length,
-                }, filterButton));
-                var row = React.DOM.tr(
-                {}, cells);
-
-                return React.DOM.table(
-                {}, React.DOM.tbody(
-                {}, row));
-            },
-
-            createEntityTable: function()
+               key: rows.length,
+            }, React.DOM.td(
             {
-                var cells = [];
+               colSpan: 4,
+            }, this.createButtonTable())));
 
-                DefaultFilters.entityColumns.forEach(function(column)
-                    {
-                        var values;
-                        var labelFunction;
-                        var clientProps = {};
-                        clientProps["data-entitytype"] = column.key;
-
-                        switch (column.key)
-                        {
-                            case "deck":
-                                values = ["DamageCard", "Pilot", "UpgradeCard"];
-                                break;
-                            case "type":
-                                values = [];
-                                this.context.store.getState().abilityData.forEach(function(abilityData)
-                                {
-                                    if (abilityData.type && !values.vizziniContains(abilityData.type))
-                                    {
-                                        values.push(abilityData.type);
-                                    }
-                                });
-                                values.sort();
-                                break;
-                            case "isImplemented":
-                                values = [true, false];
-                                labelFunction = function(value)
-                                {
-                                    return (value ? "true" : "false");
-                                };
-                                break;
-                            case "event":
-                                values = [];
-                                this.context.store.getState().abilityData.forEach(function(abilityData)
-                                {
-                                    if (abilityData.event && !values.vizziniContains(abilityData.event))
-                                    {
-                                        values.push(abilityData.event);
-                                    }
-                                });
-                                values.sort(EventComparator);
-                                break;
-                            default:
-                                throw "Unknown entity column: " + column.key;
-                        }
-
-                        var oldFilter = this.context.store.getState().filters[column.key];
-                        var initialValues = [];
-
-                        if (oldFilter)
-                        {
-                            initialValues.vizziniAddAll(oldFilter.values());
-                        }
-
-                        var label = React.DOM.span(
-                        {
-                            className: "entityLabel",
-                        }, column.label);
-                        var checkboxPanel = React.createElement(CheckboxInputPanel,
-                        {
-                            values: values,
-                            labelFunction: labelFunction,
-                            initialValues: initialValues,
-                            onChange: this.handleEntityChange,
-                            panelClass: "entitiesTable",
-                            clientProps: clientProps,
-                        });
-
-                        cells.push(React.DOM.td(
-                        {
-                            key: cells.length,
-                            className: "entityFilterContainer",
-                        }, label, React.DOM.div(
-                        {
-                            className: "entitiesContainer",
-                        }, checkboxPanel)));
-                    },
-                    this);
-
-                var row = React.DOM.tr(
-                {}, cells);
-
-                return React.DOM.table(
-                {
-                    className: "filtersUI",
-                }, React.DOM.tbody(
-                {}, row));
-            },
-
-            createRangeTable: function()
+            return React.DOM.table(
             {
-                var rows = [];
+               className: "filtersUI",
+            }, React.DOM.tbody(
+            {}, rows));
+         },
 
-                DefaultFilters.rangeColumns.forEach(function(column)
-                {
-                    var filter = this.props.filters[column.key];
-                    var cells = [];
-                    cells.push(React.DOM.td(
-                    {
-                        key: cells.length,
-                    }, React.DOM.input(
-                    {
-                        id: column.key + "MinChecked",
-                        type: "checkbox",
-                        defaultChecked: (filter ? filter.isMinEnabled() : false),
-                        onChange: this.handleRangeChange,
-                    })));
-                    cells.push(React.DOM.td(
-                    {
-                        key: cells.length,
-                    }, React.DOM.input(
-                    {
-                        id: column.key + "Min",
-                        type: "number",
-                        className: "filterField",
-                        defaultValue: (filter ? filter.minValue() : 0),
-                        onChange: this.handleRangeChange,
-                    })));
-                    cells.push(React.DOM.td(
-                    {
-                        key: cells.length,
-                    }, "\u2264 " + column.label + " \u2264"));
-                    cells.push(React.DOM.td(
-                    {
-                        key: cells.length,
-                    }, React.DOM.input(
-                    {
-                        id: column.key + "MaxChecked",
-                        type: "checkbox",
-                        defaultChecked: (filter ? filter.isMaxEnabled() : false),
-                        onChange: this.handleRangeChange,
-                    })));
-                    cells.push(React.DOM.td(
-                    {
-                        key: cells.length,
-                    }, React.DOM.input(
-                    {
-                        id: column.key + "Max",
-                        type: "number",
-                        className: "filterField",
-                        defaultValue: (filter ? filter.maxValue() : 10),
-                        onChange: this.handleRangeChange,
-                    })));
-
-                    rows.push(React.DOM.tr(
-                    {
-                        key: rows.length,
-                    }, cells));
-                }, this);
-
-                return React.DOM.table(
-                {
-                    className: "filterTable",
-                }, React.DOM.tbody(
-                {}, rows));
-            },
-
-            filterActionPerformed: function(event)
+         createButtonTable: function()
+         {
+            var restoreButton = React.DOM.button(
             {
-                LOGGER.trace("FilterUI.filterActionPerformed() start");
-
-                var filters = {};
-
-                DefaultFilters.entityColumns.forEach(function(column)
-                {
-                    var values = [];
-
-                    switch (column.key)
-                    {
-                        case "deck":
-                            values.vizziniAddAll(this.state.deckValues);
-                            break;
-                        case "type":
-                            values.vizziniAddAll(this.state.typeValues);
-                            break;
-                        case "isImplemented":
-                            values.vizziniAddAll(this.state.isImplementedValues);
-                            break;
-                        case "event":
-                            values.vizziniAddAll(this.state.eventValues);
-                            break;
-                        default:
-                            throw "Unknown entity column: " + column.key;
-                    }
-
-                    var filter = new EntityFilter(column.key, values);
-                    filters[column.key] = filter;
-                }, this);
-
-                DefaultFilters.rangeColumns.forEach(function(column)
-                {
-                    var isMinEnabled = document.getElementById(column.key + "MinChecked").checked;
-                    var minValue = document.getElementById(column.key + "Min").value;
-                    var isMaxEnabled = document.getElementById(column.key + "MaxChecked").checked;
-                    var maxValue = document.getElementById(column.key + "Max").value;
-
-                    var filter = new RangeFilter(column.key, isMinEnabled, minValue, isMaxEnabled, maxValue);
-                    filters[column.key] = filter;
-                });
-
-                this.context.store.dispatch(Action.setFilters(filters));
-
-                LOGGER.trace("FilterUI.filterActionPerformed() end");
-            },
-
-            handleEntityChange: function(event, selected)
+               onClick: this.restoreActionPerformed,
+            }, "Restore Defaults");
+            var unfilterButton = React.DOM.button(
             {
-                LOGGER.trace("FilterUI.handleEntityChange() start");
+               onClick: this.unfilterActionPerformed,
+            }, "Remove Filter");
+            var filterButton = React.DOM.button(
+            {
+               onClick: this.filterActionPerformed,
+            }, "Apply Filter");
 
-                var entityType = event.target.dataset.entitytype;
-                LOGGER.debug("entityType = " + entityType);
-                var values = [];
-                values.vizziniAddAll(selected);
+            var cells = [];
+            cells.push(React.DOM.td(
+            {
+               key: cells.length,
+            }, restoreButton));
+            cells.push(React.DOM.td(
+            {
+               key: cells.length,
+            }, unfilterButton));
+            cells.push(React.DOM.td(
+            {
+               key: cells.length,
+            }, filterButton));
+            var row = React.DOM.tr(
+            {}, cells);
 
-                switch (entityType)
-                {
-                    case "deck":
-                        this.setState(
-                        {
-                            deckValues: values,
-                        });
+            return React.DOM.table(
+            {}, React.DOM.tbody(
+            {}, row));
+         },
+
+         createEntityTable: function()
+         {
+            var cells = [];
+
+            DefaultFilters.entityColumns.forEach(function(column)
+               {
+                  var values;
+                  var labelFunction;
+                  var clientProps = {};
+                  clientProps["data-entitytype"] = column.key;
+
+                  switch (column.key)
+                  {
+                     case "deck":
+                        values = ["DamageCard", "Pilot", "UpgradeCard"];
                         break;
-                    case "type":
-                        this.setState(
+                     case "type":
+                        values = [];
+                        this.context.store.getState().abilityData.forEach(function(abilityData)
                         {
-                            typeValues: values,
+                           if (abilityData.type && !values.vizziniContains(abilityData.type))
+                           {
+                              values.push(abilityData.type);
+                           }
                         });
+                        values.sort();
                         break;
-                    case "isImplemented":
-                        this.setState(
+                     case "isImplemented":
+                        values = [true, false];
+                        labelFunction = function(value)
                         {
-                            isImplementedValues: values,
-                        });
+                           return (value ? "true" : "false");
+                        };
                         break;
-                    case "event":
-                        this.setState(
+                     case "event":
+                        values = [];
+                        this.context.store.getState().abilityData.forEach(function(abilityData)
                         {
-                            eventValues: values,
+                           if (abilityData.event && !values.vizziniContains(abilityData.event))
+                           {
+                              values.push(abilityData.event);
+                           }
                         });
+                        values.sort(EventComparator);
                         break;
-                    default:
+                     default:
                         throw "Unknown entity column: " + column.key;
-                }
+                  }
 
-                LOGGER.trace("FilterUI.handleEntityChange() end");
-            },
+                  var oldFilter = this.context.store.getState().filters[column.key];
+                  var initialValues = [];
 
-            restoreActionPerformed: function(event)
+                  if (oldFilter)
+                  {
+                     initialValues.vizziniAddAll(oldFilter.values());
+                  }
+
+                  var label = React.DOM.span(
+                  {
+                     className: "entityLabel",
+                  }, column.label);
+                  var checkboxPanel = React.createElement(InputPanel,
+                  {
+                     type: InputPanel.Type.CHECKBOX,
+                     values: values,
+                     labelFunction: labelFunction,
+                     initialValues: initialValues,
+                     onChange: this.handleEntityChange,
+                     panelClass: "entitiesTable",
+                     clientProps: clientProps,
+                  });
+
+                  cells.push(React.DOM.td(
+                  {
+                     key: cells.length,
+                     className: "entityFilterContainer",
+                  }, label, React.DOM.div(
+                  {
+                     className: "entitiesContainer",
+                  }, checkboxPanel)));
+               },
+               this);
+
+            var row = React.DOM.tr(
+            {}, cells);
+
+            return React.DOM.table(
             {
-                LOGGER.trace("FilterUI.restoreActionPerformed() start");
-                this.context.store.dispatch(Action.setDefaultFilters());
-                LOGGER.trace("FilterUI.restoreActionPerformed() end");
-            },
+               className: "filtersUI",
+            }, React.DOM.tbody(
+            {}, row));
+         },
 
-            unfilterActionPerformed: function(event)
+         createRangeTable: function()
+         {
+            var rows = [];
+
+            DefaultFilters.rangeColumns.forEach(function(column)
             {
-                LOGGER.trace("FilterUI.unfilterActionPerformed() start");
-                this.context.store.dispatch(Action.removeFilters());
-                LOGGER.trace("FilterUI.unfilterActionPerformed() end");
-            },
-        });
+               var filter = this.props.filters[column.key];
+               var cells = [];
+               cells.push(React.DOM.td(
+               {
+                  key: cells.length,
+               }, React.DOM.input(
+               {
+                  id: column.key + "MinChecked",
+                  type: "checkbox",
+                  defaultChecked: (filter ? filter.isMinEnabled() : false),
+                  onChange: this.handleRangeChange,
+               })));
+               cells.push(React.DOM.td(
+               {
+                  key: cells.length,
+               }, React.DOM.input(
+               {
+                  id: column.key + "Min",
+                  type: "number",
+                  className: "filterField",
+                  defaultValue: (filter ? filter.minValue() : 0),
+                  onChange: this.handleRangeChange,
+               })));
+               cells.push(React.DOM.td(
+               {
+                  key: cells.length,
+               }, "\u2264 " + column.label + " \u2264"));
+               cells.push(React.DOM.td(
+               {
+                  key: cells.length,
+               }, React.DOM.input(
+               {
+                  id: column.key + "MaxChecked",
+                  type: "checkbox",
+                  defaultChecked: (filter ? filter.isMaxEnabled() : false),
+                  onChange: this.handleRangeChange,
+               })));
+               cells.push(React.DOM.td(
+               {
+                  key: cells.length,
+               }, React.DOM.input(
+               {
+                  id: column.key + "Max",
+                  type: "number",
+                  className: "filterField",
+                  defaultValue: (filter ? filter.maxValue() : 10),
+                  onChange: this.handleRangeChange,
+               })));
 
-        return FilterUI;
-    });
+               rows.push(React.DOM.tr(
+               {
+                  key: rows.length,
+               }, cells));
+            }, this);
+
+            return React.DOM.table(
+            {
+               className: "filterTable",
+            }, React.DOM.tbody(
+            {}, rows));
+         },
+
+         filterActionPerformed: function(event)
+         {
+            LOGGER.trace("FilterUI.filterActionPerformed() start");
+
+            var filters = {};
+
+            DefaultFilters.entityColumns.forEach(function(column)
+            {
+               var values = [];
+
+               switch (column.key)
+               {
+                  case "deck":
+                     values.vizziniAddAll(this.state.deckValues);
+                     break;
+                  case "type":
+                     values.vizziniAddAll(this.state.typeValues);
+                     break;
+                  case "isImplemented":
+                     values.vizziniAddAll(this.state.isImplementedValues);
+                     break;
+                  case "event":
+                     values.vizziniAddAll(this.state.eventValues);
+                     break;
+                  default:
+                     throw "Unknown entity column: " + column.key;
+               }
+
+               var filter = new EntityFilter(column.key, values);
+               filters[column.key] = filter;
+            }, this);
+
+            DefaultFilters.rangeColumns.forEach(function(column)
+            {
+               var isMinEnabled = document.getElementById(column.key + "MinChecked").checked;
+               var minValue = document.getElementById(column.key + "Min").value;
+               var isMaxEnabled = document.getElementById(column.key + "MaxChecked").checked;
+               var maxValue = document.getElementById(column.key + "Max").value;
+
+               var filter = new RangeFilter(column.key, isMinEnabled, minValue, isMaxEnabled, maxValue);
+               filters[column.key] = filter;
+            });
+
+            this.context.store.dispatch(Action.setFilters(filters));
+
+            LOGGER.trace("FilterUI.filterActionPerformed() end");
+         },
+
+         handleEntityChange: function(event, selected)
+         {
+            LOGGER.trace("FilterUI.handleEntityChange() start");
+
+            var entityType = event.target.dataset.entitytype;
+            LOGGER.debug("entityType = " + entityType);
+            var values = [];
+            values.vizziniAddAll(selected);
+
+            switch (entityType)
+            {
+               case "deck":
+                  this.setState(
+                  {
+                     deckValues: values,
+                  });
+                  break;
+               case "type":
+                  this.setState(
+                  {
+                     typeValues: values,
+                  });
+                  break;
+               case "isImplemented":
+                  this.setState(
+                  {
+                     isImplementedValues: values,
+                  });
+                  break;
+               case "event":
+                  this.setState(
+                  {
+                     eventValues: values,
+                  });
+                  break;
+               default:
+                  throw "Unknown entity column: " + column.key;
+            }
+
+            LOGGER.trace("FilterUI.handleEntityChange() end");
+         },
+
+         restoreActionPerformed: function(event)
+         {
+            LOGGER.trace("FilterUI.restoreActionPerformed() start");
+            this.context.store.dispatch(Action.setDefaultFilters());
+            LOGGER.trace("FilterUI.restoreActionPerformed() end");
+         },
+
+         unfilterActionPerformed: function(event)
+         {
+            LOGGER.trace("FilterUI.unfilterActionPerformed() start");
+            this.context.store.dispatch(Action.removeFilters());
+            LOGGER.trace("FilterUI.unfilterActionPerformed() end");
+         },
+      });
+
+      return FilterUI;
+   });

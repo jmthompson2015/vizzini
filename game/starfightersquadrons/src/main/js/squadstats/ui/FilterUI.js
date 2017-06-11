@@ -1,5 +1,5 @@
-define(["Team", "squadstats/Action", "squadstats/DefaultFilters", "squadstats/EntityFilter", "squadstats/RangeFilter"],
-   function(Team, Action, DefaultFilters, EntityFilter, RangeFilter)
+define(["Team", "squadstats/Action", "squadstats/DefaultFilters", "squadstats/EntityFilter", "squadstats/RangeFilter", "../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
+   function(Team, Action, DefaultFilters, EntityFilter, RangeFilter, InputPanel)
    {
       "use strict";
       var FilterUI = React.createClass(
@@ -46,7 +46,9 @@ define(["Team", "squadstats/Action", "squadstats/DefaultFilters", "squadstats/En
             {
                key: rows.length,
             }, React.DOM.td(
-            {}, this.createButtonTable())));
+            {
+               colSpan: 2,
+            }, this.createButtonTable())));
 
             return React.DOM.table(
             {
@@ -127,8 +129,9 @@ define(["Team", "squadstats/Action", "squadstats/DefaultFilters", "squadstats/En
                {
                   className: "entityLabel",
                }, column.label);
-               var checkboxPanel = React.createElement(CheckboxInputPanel,
+               var checkboxPanel = React.createElement(InputPanel,
                {
+                  type: InputPanel.Type.CHECKBOX,
                   values: values,
                   labelFunction: labelFunction,
                   initialValues: initialValues,

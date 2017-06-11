@@ -12,7 +12,6 @@
 	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
 	<script src="../../../../../../coreweb/lib/require/require-2.3.2.js" data-main="../../../main/js/Team"></script>
 
-	<script src="../../../../../../coreweb/src/main/js/ui/InputPanel.js"></script>
 	<script src="../../../../../../coreweb/src/main/js/ui/OptionPane.js"></script>
 
 	<script src="../../../../../../coreweb/src/main/js/util/JavaScriptAugments.js"></script>
@@ -30,8 +29,10 @@
 		LOGGER.setDebugEnabled(false);
 		LOGGER.setTraceEnabled(false);
 
-		require(["DamageCard", "Maneuver", "UpgradeCard", "process/EnvironmentFactory", "process/ShipActionAction", "process/ui/ShipActionChooser"],
-			function(DamageCard, Maneuver, UpgradeCard, EnvironmentFactory, ShipActionAction, ShipActionChooser)
+		require(["Ability", "DamageCard", "Maneuver", "Phase", "UpgradeCard", "process/DamageAbility2", "process/EnvironmentFactory", "process/ShipActionAction",
+				"process/UpgradeAbility2", "process/ui/ShipActionChooser"
+			],
+			function(Ability, DamageCard, Maneuver, Phase, UpgradeCard, DamageAbility2, EnvironmentFactory, ShipActionAction, UpgradeAbility2, ShipActionChooser)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
@@ -58,13 +59,15 @@
 				shipActions.push(new ShipActionAction.Jam(store, token1));
 				shipActions.push(new ShipActionAction.Recover(token2));
 				shipActions.push(new ShipActionAction.Reinforce(store, token2));
+				var ability = new Ability(DamageCard, DamageCard.CONSOLE_FIRE, DamageAbility2, Phase.ACTIVATION_PERFORM_ACTION);
+				shipActions.push(new ShipActionAction.SAADamageCard(store, token2, ability));
+				shipActions.push(new ShipActionAction.SAATargetLock(store, token2, token0));
+				shipActions.push(new ShipActionAction.SAATargetLock(store, token2, token1));
+				ability = new Ability(UpgradeCard, UpgradeCard.LANDO_CALRISSIAN, UpgradeAbility2, Phase.ACTIVATION_PERFORM_ACTION);
+				shipActions.push(new ShipActionAction.SAAUpgradeCard(store, token2, ability));
 				shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_LEFT_2_STANDARD));
 				shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.STRAIGHT_2_STANDARD));
 				shipActions.push(new ShipActionAction.Slam(environment, token2, Maneuver.BANK_RIGHT_2_STANDARD));
-				shipActions.push(new ShipActionAction.SAATargetLock(store, token2, token0));
-				shipActions.push(new ShipActionAction.SAATargetLock(store, token2, token1));
-				shipActions.push(new ShipActionAction.SAADamageCard(store, token2, DamageCard.CONSOLE_FIRE));
-				shipActions.push(new ShipActionAction.SAAUpgradeCard(store, token2, UpgradeCard.LANDO_CALRISSIAN));
 
 				var element = React.createElement(ShipActionChooser,
 				{
