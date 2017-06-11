@@ -1,572 +1,564 @@
-define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
-    function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
-    {
-        "use strict";
+define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+   function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
+   {
+      "use strict";
 
-        function SimpleAgent(name, teamKey)
-        {
-            InputValidator.validateNotEmpty("name", name);
-            InputValidator.validateNotNull("teamKey", teamKey);
+      function SimpleAgent(name, teamKey)
+      {
+         InputValidator.validateNotEmpty("name", name);
+         InputValidator.validateNotNull("teamKey", teamKey);
 
-            this.name = function()
-            {
-                return name;
-            };
+         this.name = function()
+         {
+            return name;
+         };
 
-            this.teamKey = function()
-            {
-                return teamKey;
-            };
-        }
+         this.teamKey = function()
+         {
+            return teamKey;
+         };
+      }
 
-        SimpleAgent.prototype.chooseAbility = function(environment, damageAbilities, pilotAbilities, upgradeAbilities, callback)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("damageAbilities", damageAbilities);
-            InputValidator.validateNotNull("pilotAbilities", pilotAbilities);
-            InputValidator.validateNotNull("upgradeAbilities", upgradeAbilities);
-            InputValidator.validateNotNull("callback", callback);
+      SimpleAgent.prototype.chooseAbility = function(environment, damageAbilities, pilotAbilities, upgradeAbilities, callback)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("damageAbilities", damageAbilities);
+         InputValidator.validateNotNull("pilotAbilities", pilotAbilities);
+         InputValidator.validateNotNull("upgradeAbilities", upgradeAbilities);
+         InputValidator.validateNotNull("callback", callback);
 
-            var ability = (damageAbilities.length > 0 ? damageAbilities.vizziniRandomElement() : undefined);
+         var ability = (damageAbilities.length > 0 ? damageAbilities.vizziniRandomElement() : undefined);
+
+         if (ability === undefined)
+         {
+            ability = (upgradeAbilities.length > 0 ? upgradeAbilities.vizziniRandomElement() : undefined);
 
             if (ability === undefined)
             {
-                ability = (upgradeAbilities.length > 0 ? upgradeAbilities.vizziniRandomElement() : undefined);
+               ability = (pilotAbilities.length > 0 ? pilotAbilities.vizziniRandomElement() : undefined);
+            }
+         }
 
-                if (ability === undefined)
-                {
-                    ability = (pilotAbilities.length > 0 ? pilotAbilities.vizziniRandomElement() : undefined);
-                }
+         var isAccepted = (ability !== undefined);
+
+         callback(ability, isAccepted);
+      };
+
+      SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("callback", callback);
+
+         var weapon;
+         var defender;
+         var attackerPosition = environment.getPositionFor(attacker);
+
+         if (attackerPosition)
+         {
+            var choices = environment.createWeaponToRangeToDefenders(attacker);
+
+            if (choices.length > 0)
+            {
+               var weaponData = choices.vizziniRandomElement();
+               var myWeapon = weaponData.weapon;
+
+               // The first entry should be the closest.
+               var rangeToDefenders = weaponData.rangeToDefenders;
+               var defenders = rangeToDefenders[0].defenders;
+               weapon = myWeapon;
+               defender = defenders[0];
+            }
+         }
+
+         callback(weapon, defender);
+      };
+
+      SimpleAgent.prototype.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
+         damageDealer, callback)
+      {
+         // Nothing to do.
+      };
+
+      SimpleAgent.prototype.determineValidDecloakActions = function(environment, adjudicator, token)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("token", token);
+
+         var answer = [];
+
+         if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD))
+         {
+            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
+         }
+
+         if (adjudicator.canDecloak(environment, token, Maneuver.STRAIGHT_2_STANDARD))
+         {
+            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD));
+         }
+
+         if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
+         {
+            answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
+         }
+
+         return answer;
+      };
+
+      SimpleAgent.prototype.determineValidManeuvers = function(environment, token)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("token", token);
+
+         var fromPosition = environment.getPositionFor(token);
+         var shipBase = token.pilot().shipTeam.ship.shipBase;
+         var maneuverKeys = token.maneuverKeys();
+         LOGGER.trace("maneuverKeys.length = " + maneuverKeys.length + " for " + token);
+
+         // Find the maneuvers which keep the ship on the battlefield.
+         return maneuverKeys.filter(function(maneuverKey)
+         {
+            var maneuver = Maneuver.properties[maneuverKey];
+            var toPosition = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition,
+               shipBase);
+            var polygon;
+
+            if (toPosition)
+            {
+               polygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition
+                  .heading());
             }
 
-            var isAccepted = (ability !== undefined);
+            return (toPosition && PlayFormat.isPathInPlayArea(environment.playFormatKey(), polygon));
+         });
+      };
 
-            callback(ability, isAccepted);
-        };
+      SimpleAgent.prototype.determineValidModifyAttackDiceActions = function(environment, attacker, attackDice, defender)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("attackDice", attackDice);
+         InputValidator.validateNotNull("defender", defender);
 
-        SimpleAgent.prototype.chooseWeaponAndDefender = function(environment, adjudicator, attacker, callback)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("callback", callback);
+         var answer = [];
+         var modificationKey;
+         var pilotKey;
+         var store = environment.store();
+         var targetLock = attacker.findTargetLockByDefender(defender);
 
-            var weapon;
-            var defender;
-            var attackerPosition = environment.getPositionFor(attacker);
+         if (targetLock)
+         {
+            var upgrade = attacker.combatAction().weapon().upgrade();
 
-            if (attackerPosition)
+            if (upgrade === undefined || upgrade.headerKey !== UpgradeHeader.ATTACK_TARGET_LOCK)
             {
-                var choices = environment.createWeaponToRangeToDefenders(attacker);
-
-                if (choices.length > 0)
-                {
-                    for (var i = 0; i < choices.length; i++)
-                    {
-                        var weaponData = choices[i];
-                        LOGGER.trace("weaponData = " + JSON.stringify(weaponData));
-                        var myWeapon = weaponData.weapon;
-                        LOGGER.trace("myWeapon = " + myWeapon);
-
-                        if (myWeapon.isPrimary())
-                        {
-                            // The first entry should be the closest.
-                            var rangeToDefenders = weaponData.rangeToDefenders;
-                            LOGGER.trace("rangeToDefenders = " + JSON.stringify(rangeToDefenders));
-                            LOGGER.trace("rangeToDefenders[0].range = " + rangeToDefenders[0].range);
-                            LOGGER.trace("rangeToDefenders[0].defenders = " + rangeToDefenders[0].defenders);
-                            var defenders = rangeToDefenders[0].defenders;
-                            LOGGER.trace("defenders = " + defenders);
-                            weapon = myWeapon;
-                            defender = defenders[0];
-                            break;
-                        }
-                    }
-                }
+               modificationKey = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
+               answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
             }
+         }
 
-            callback(weapon, defender);
-        };
+         if (attacker.focusCount() > 0)
+         {
+            modificationKey = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
+            answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
+         }
 
-        SimpleAgent.prototype.dealDamage = function(environment, adjudicator, attacker, attackDice, defender, defenseDice,
-            damageDealer, callback)
-        {
-            // Nothing to do.
-        };
+         var pilot = attacker.pilot();
+         pilotKey = pilot.value;
+         var attackerUsedPilots = Selector.attackerUsedPilots(store.getState(), attacker);
 
-        SimpleAgent.prototype.determineValidDecloakActions = function(environment, adjudicator, token)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("token", token);
+         if (!attackerUsedPilots.vizziniContains(pilotKey))
+         {
+            var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
 
-            var answer = [];
-
-            if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD))
+            if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
             {
-                answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD));
+               modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
+               answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
             }
+         }
 
-            if (adjudicator.canDecloak(environment, token, Maneuver.STRAIGHT_2_STANDARD))
+         modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+         pilotKey = undefined;
+         var attackerUsedUpgrades = Selector.attackerUsedUpgrades(store.getState(), attacker);
+
+         attacker.upgradeKeys().forEach(function(upgradeKey)
+         {
+            if (!attackerUsedUpgrades.vizziniContains(upgradeKey))
             {
-                answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD));
+               var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
+
+               if (upgradeAbility !== undefined && upgradeAbility.condition(store, attacker))
+               {
+                  answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey));
+               }
             }
+         });
 
-            if (adjudicator.canDecloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
+         return answer;
+      };
+
+      SimpleAgent.prototype.determineValidModifyDefenseDiceActions = function(environment, attacker, attackDice, defender, defenseDice)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("attackDice", attackDice);
+         InputValidator.validateNotNull("defender", defender);
+         InputValidator.validateNotNull("defenseDice", defenseDice);
+
+         var answer = [];
+         var modificationKey;
+         var pilotKey;
+         var store = environment.store();
+
+         if (defender.evadeCount() > 0)
+         {
+            modificationKey = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
+            answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+         }
+
+         if (defender.focusCount() > 0)
+         {
+            modificationKey = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
+            answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+         }
+
+         var pilot = defender.pilot();
+         pilotKey = pilot.value;
+         var defenderUsedPilots = Selector.defenderUsedPilots(store.getState(), attacker);
+
+         if (!defenderUsedPilots.vizziniContains(pilotKey))
+         {
+            var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
+
+            if (pilotAbility !== undefined && pilotAbility.condition(store, defender))
             {
-                answer.push(new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_RIGHT_2_STANDARD));
+               modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
+               answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
             }
+         }
 
-            return answer;
-        };
+         modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
+         pilotKey = undefined;
+         var defenderUsedUpgrades = Selector.defenderUsedUpgrades(store.getState(), attacker);
 
-        SimpleAgent.prototype.determineValidManeuvers = function(environment, token)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("token", token);
+         defender.upgradeKeys().forEach(function(upgradeKey)
+         {
+            var upgrade = UpgradeCard.properties[upgradeKey];
 
-            var fromPosition = environment.getPositionFor(token);
-            var shipBase = token.pilot().shipTeam.ship.shipBase;
-            var maneuverKeys = token.maneuverKeys();
-            LOGGER.trace("maneuverKeys.length = " + maneuverKeys.length + " for " + token);
-
-            // Find the maneuvers which keep the ship on the battlefield.
-            return maneuverKeys.filter(function(maneuverKey)
+            if (!defenderUsedUpgrades.vizziniContains(upgradeKey))
             {
-                var maneuver = Maneuver.properties[maneuverKey];
-                var toPosition = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition,
-                    shipBase);
-                var polygon;
+               var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
 
-                if (toPosition)
-                {
-                    polygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition
-                        .heading());
-                }
+               if (upgradeAbility !== undefined && upgradeAbility.condition(store, defender))
+               {
+                  answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey));
+               }
+            }
+         });
 
-                return (toPosition && PlayFormat.isPathInPlayArea(environment.playFormatKey(), polygon));
+         return answer;
+      };
+
+      SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token, shipActions0)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("token", token);
+
+         var shipActions = (shipActions0 !== undefined ? shipActions0 : token.shipActions());
+         var answer = [];
+         var store = environment.store();
+
+         if (shipActions.vizziniContains(ShipAction.FOCUS))
+         {
+            answer.push(new ShipActionAction.Focus(store, token));
+         }
+
+         if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
+         {
+            var defenders = environment.getDefendersInRange(token);
+
+            if (defenders && defenders.length > 0)
+            {
+               defenders.forEach(function(defender)
+               {
+                  // Only put choices without a current target lock.
+                  if (!token.findTargetLockByDefender(defender))
+                  {
+                     answer.push(new ShipActionAction.SAATargetLock(store, token, defender));
+                  }
+               });
+            }
+         }
+
+         if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
+            adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
+         {
+            answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
+         }
+
+         if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
+            adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
+         {
+            answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
+         }
+
+         if (shipActions.vizziniContains(ShipAction.BOOST) &&
+            adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
+         {
+            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD));
+         }
+
+         if (shipActions.vizziniContains(ShipAction.BOOST) &&
+            adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
+         {
+            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD));
+         }
+
+         if (shipActions.vizziniContains(ShipAction.BOOST) &&
+            adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
+         {
+            answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD));
+         }
+
+         if (shipActions.vizziniContains(ShipAction.SLAM))
+         {
+            var previousManeuver = token.maneuver();
+            var speed = previousManeuver.speed;
+            var ship = token.pilot().shipTeam.ship;
+            var maneuverKeys = ship.maneuverKeys;
+
+            maneuverKeys.forEach(function(maneuverKey)
+            {
+               // FIXME: check Adjudicator.canSlam()
+               if (Maneuver.properties[maneuverKey].speed === speed)
+               {
+                  answer.push(new ShipActionAction.Slam(environment, token, maneuverKey));
+               }
             });
-        };
+         }
 
-        SimpleAgent.prototype.determineValidModifyAttackDiceActions = function(environment, attacker, attackDice, defender)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("attackDice", attackDice);
-            InputValidator.validateNotNull("defender", defender);
+         if (shipActions.vizziniContains(ShipAction.EVADE))
+         {
+            answer.push(new ShipActionAction.Evade(store, token));
+         }
 
-            var answer = [];
-            var modificationKey;
-            var pilotKey;
-            var store = environment.store();
-            var targetLock = attacker.findTargetLockByDefender(defender);
+         if (shipActions.vizziniContains(ShipAction.CLOAK))
+         {
+            answer.push(new ShipActionAction.Cloak(store, token));
+         }
 
-            if (targetLock)
+         if (shipActions.vizziniContains(ShipAction.REINFORCE))
+         {
+            if (token.parent !== undefined)
             {
-                modificationKey = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
-                answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
+               if (!token.parent.tokenFore().isDestroyed())
+               {
+                  answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenFore()));
+               }
+               if (!token.parent.tokenAft().isDestroyed())
+               {
+                  answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenAft()));
+               }
             }
-
-            if (attacker.focusCount() > 0)
+            else
             {
-                modificationKey = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
-                answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
+               answer.push(new ShipActionAction.Reinforce(store, token));
             }
+         }
 
-            var pilot = attacker.pilot();
-            pilotKey = pilot.value;
-            var attackerUsedPilots = Selector.attackerUsedPilots(store.getState(), attacker);
+         var tokens;
 
-            if (!attackerUsedPilots.vizziniContains(pilotKey))
+         if (shipActions.vizziniContains(ShipAction.COORDINATE))
+         {
+            tokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
+            tokens.vizziniAddAll(environment.getFriendlyTokensAtRange(token, RangeRuler.TWO));
+
+            tokens.forEach(function(myToken)
             {
-                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
+               if (myToken !== token && (token.parent === undefined || token.parent !== myToken))
+               {
+                  answer.push(new ShipActionAction.Coordinate(myToken));
+               }
+            });
+         }
 
-                if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
-                {
-                    modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
-                    answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
-                }
+         if (shipActions.vizziniContains(ShipAction.JAM))
+         {
+            tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
+            tokens.vizziniAddAll(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
+
+            tokens.forEach(function(myToken)
+            {
+               var isHuge = myToken.isHuge();
+
+               if (!isHuge && myToken.stressCount() < 2)
+               {
+                  answer.push(new ShipActionAction.Jam(store, myToken));
+               }
+            });
+         }
+
+         if (shipActions.vizziniContains(ShipAction.RECOVER))
+         {
+            if (token.parent !== undefined)
+            {
+               if (!token.parent.tokenFore().isDestroyed())
+               {
+                  answer.push(new ShipActionAction.Recover(token.parent.tokenFore()));
+               }
+               if (!token.parent.tokenAft().isDestroyed())
+               {
+                  answer.push(new ShipActionAction.Recover(token.parent.tokenAft()));
+               }
             }
-
-            modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-            pilotKey = undefined;
-            var attackerUsedUpgrades = Selector.attackerUsedUpgrades(store.getState(), attacker);
-
-            attacker.upgradeKeys().forEach(function(upgradeKey)
+            else
             {
-                if (!attackerUsedUpgrades.vizziniContains(upgradeKey))
-                {
-                    var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
+               answer.push(new ShipActionAction.Recover(token));
+            }
+         }
 
-                    if (upgradeAbility !== undefined && upgradeAbility.condition(store, attacker))
-                    {
-                        answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey));
-                    }
-                }
+         if (shipActions0 === undefined)
+         {
+            var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
+
+            token.upgradeKeys().forEach(function(upgradeKey)
+            {
+               var myAbility = UpgradeAbility2[phaseKey][upgradeKey];
+
+               if (myAbility !== undefined && myAbility.condition(store, token))
+               {
+                  var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey);
+                  answer.push(new ShipActionAction.SAAUpgradeCard(store, token, ability));
+               }
             });
 
-            return answer;
-        };
-
-        SimpleAgent.prototype.determineValidModifyDefenseDiceActions = function(environment, attacker, attackDice, defender, defenseDice)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("attackDice", attackDice);
-            InputValidator.validateNotNull("defender", defender);
-            InputValidator.validateNotNull("defenseDice", defenseDice);
-
-            var answer = [];
-            var modificationKey;
-            var pilotKey;
-            var store = environment.store();
-
-            if (defender.evadeCount() > 0)
+            token.criticalDamages().forEach(function(damageKey)
             {
-                modificationKey = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
-                answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
-            }
+               var myAbility = DamageAbility2[phaseKey][damageKey];
 
-            if (defender.focusCount() > 0)
-            {
-                modificationKey = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
-                answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
-            }
-
-            var pilot = defender.pilot();
-            pilotKey = pilot.value;
-            var defenderUsedPilots = Selector.defenderUsedPilots(store.getState(), attacker);
-
-            if (!defenderUsedPilots.vizziniContains(pilotKey))
-            {
-                var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
-
-                if (pilotAbility !== undefined && pilotAbility.condition(store, defender))
-                {
-                    modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
-                    answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
-                }
-            }
-
-            modificationKey = ModifyDefenseDiceAction.Modification.USE_UPGRADE;
-            pilotKey = undefined;
-            var defenderUsedUpgrades = Selector.defenderUsedUpgrades(store.getState(), attacker);
-
-            defender.upgradeKeys().forEach(function(upgradeKey)
-            {
-                var upgrade = UpgradeCard.properties[upgradeKey];
-
-                if (!defenderUsedUpgrades.vizziniContains(upgradeKey))
-                {
-                    var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
-
-                    if (upgradeAbility !== undefined && upgradeAbility.condition(store, defender))
-                    {
-                        answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey));
-                    }
-                }
+               if (myAbility !== undefined && myAbility.condition(store, token))
+               {
+                  var ability = new Ability(DamageCard, damageKey, DamageAbility2, phaseKey);
+                  answer.push(new ShipActionAction.SAADamageCard(store, token, ability));
+               }
             });
+         }
 
-            return answer;
-        };
+         LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);
 
-        SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token, shipActions0)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("token", token);
+         return answer;
+      };
 
-            var shipActions = (shipActions0 !== undefined ? shipActions0 : token.shipActions());
-            var answer = [];
-            var store = environment.store();
+      SimpleAgent.prototype.getDecloakAction = function(environment, adjudicator, token, callback)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("token", token);
+         InputValidator.validateNotNull("callback", callback);
 
-            if (shipActions.vizziniContains(ShipAction.FOCUS))
+         var decloakActions = this.determineValidDecloakActions(environment, adjudicator, token);
+         var answer = decloakActions.vizziniRandomElement();
+
+         callback(token, answer);
+      };
+
+      SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice,
+         defender, callback)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("attackDice", attackDice);
+         InputValidator.validateNotNull("defender", defender);
+         InputValidator.validateNotNull("callback", callback);
+
+         var modifications = this.determineValidModifyAttackDiceActions(environment, attacker, attackDice, defender);
+         modifications.push(null);
+
+         var answer = modifications.vizziniRandomElement();
+
+         callback(answer);
+      };
+
+      SimpleAgent.prototype.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice,
+         defender, defenseDice, callback)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("attackDice", attackDice);
+         InputValidator.validateNotNull("defender", defender);
+         InputValidator.validateNotNull("defenseDice", defenseDice);
+         InputValidator.validateNotNull("callback", callback);
+
+         var modifications = this.determineValidModifyDefenseDiceActions(environment, attacker, attackDice, defender, defenseDice);
+         modifications.push(null);
+
+         var answer = modifications.vizziniRandomElement();
+
+         callback(answer);
+      };
+
+      SimpleAgent.prototype.getPlanningAction = function(environment, adjudicator, callback)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("callback", callback);
+
+         var team = this.teamKey();
+         var tokens = environment.getTokensForTeam(team);
+         var tokenToManeuver = {};
+
+         tokens.forEach(function(token)
+         {
+            var validManeuvers = this.determineValidManeuvers(environment, token);
+
+            LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
+            var maneuver = validManeuvers.vizziniRandomElement();
+
+            LOGGER.trace("0 maneuver = " + maneuver + " for " + token);
+
+            if (!maneuver)
             {
-                answer.push(new ShipActionAction.Focus(store, token));
+               // Ship fled the battlefield.
+               var maneuvers = token.maneuverKeys();
+               maneuver = maneuvers.vizziniRandomElement();
+               LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
             }
 
-            if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
-            {
-                var defenders = environment.getDefendersInRange(token);
+            tokenToManeuver[token] = maneuver;
+         }, this);
 
-                if (defenders && defenders.length > 0)
-                {
-                    defenders.forEach(function(defender)
-                    {
-                        // Only put choices without a current target lock.
-                        if (!token.findTargetLockByDefender(defender))
-                        {
-                            answer.push(new ShipActionAction.SAATargetLock(store, token, defender));
-                        }
-                    });
-                }
-            }
+         callback(tokenToManeuver);
+      };
 
-            if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
-                adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
-            {
-                answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
-            }
+      SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback, shipActions0)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("adjudicator", adjudicator);
+         InputValidator.validateNotNull("token", token);
+         // shipActions0 optional.
 
-            if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
-                adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
-            {
-                answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
-            }
+         var shipActions = this.determineValidShipActions(environment, adjudicator, token, shipActions0);
 
-            if (shipActions.vizziniContains(ShipAction.BOOST) &&
-                adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
-            {
-                answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD));
-            }
+         var answer = shipActions.vizziniRandomElement();
 
-            if (shipActions.vizziniContains(ShipAction.BOOST) &&
-                adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
-            {
-                answer.push(new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD));
-            }
+         callback(answer);
+      };
 
-            if (shipActions.vizziniContains(ShipAction.BOOST) &&
-                adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
-            {
-                answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD));
-            }
+      SimpleAgent.prototype.isComputerAgent = function()
+      {
+         return true;
+      };
 
-            if (shipActions.vizziniContains(ShipAction.SLAM))
-            {
-                var previousManeuver = token.maneuver();
-                var speed = previousManeuver.speed;
-                var ship = token.pilot().shipTeam.ship;
-                var maneuverKeys = ship.maneuverKeys;
+      SimpleAgent.prototype.toString = function()
+      {
+         return this.name() + ", SimpleAgent, " + this.teamKey();
+      };
 
-                maneuverKeys.forEach(function(maneuverKey)
-                {
-                    // FIXME: check Adjudicator.canSlam()
-                    if (Maneuver.properties[maneuverKey].speed === speed)
-                    {
-                        answer.push(new ShipActionAction.Slam(environment, token, maneuverKey));
-                    }
-                });
-            }
-
-            if (shipActions.vizziniContains(ShipAction.EVADE))
-            {
-                answer.push(new ShipActionAction.Evade(store, token));
-            }
-
-            if (shipActions.vizziniContains(ShipAction.CLOAK))
-            {
-                answer.push(new ShipActionAction.Cloak(store, token));
-            }
-
-            if (shipActions.vizziniContains(ShipAction.REINFORCE))
-            {
-                if (token.parent !== undefined)
-                {
-                    if (!token.parent.tokenFore().isDestroyed())
-                    {
-                        answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenFore()));
-                    }
-                    if (!token.parent.tokenAft().isDestroyed())
-                    {
-                        answer.push(new ShipActionAction.Reinforce(store, token.parent.tokenAft()));
-                    }
-                }
-                else
-                {
-                    answer.push(new ShipActionAction.Reinforce(store, token));
-                }
-            }
-
-            var tokens;
-
-            if (shipActions.vizziniContains(ShipAction.COORDINATE))
-            {
-                tokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
-                tokens.vizziniAddAll(environment.getFriendlyTokensAtRange(token, RangeRuler.TWO));
-
-                tokens.forEach(function(myToken)
-                {
-                    if (myToken !== token && (token.parent === undefined || token.parent !== myToken))
-                    {
-                        answer.push(new ShipActionAction.Coordinate(myToken));
-                    }
-                });
-            }
-
-            if (shipActions.vizziniContains(ShipAction.JAM))
-            {
-                tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
-                tokens.vizziniAddAll(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
-
-                tokens.forEach(function(myToken)
-                {
-                    var isHuge = myToken.isHuge();
-
-                    if (!isHuge && myToken.stressCount() < 2)
-                    {
-                        answer.push(new ShipActionAction.Jam(store, myToken));
-                    }
-                });
-            }
-
-            if (shipActions.vizziniContains(ShipAction.RECOVER))
-            {
-                if (token.parent !== undefined)
-                {
-                    if (!token.parent.tokenFore().isDestroyed())
-                    {
-                        answer.push(new ShipActionAction.Recover(token.parent.tokenFore()));
-                    }
-                    if (!token.parent.tokenAft().isDestroyed())
-                    {
-                        answer.push(new ShipActionAction.Recover(token.parent.tokenAft()));
-                    }
-                }
-                else
-                {
-                    answer.push(new ShipActionAction.Recover(token));
-                }
-            }
-
-            if (shipActions0 === undefined)
-            {
-                var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
-
-                token.upgradeKeys().forEach(function(upgradeKey)
-                {
-                    var myAbility = UpgradeAbility2[phaseKey][upgradeKey];
-
-                    if (myAbility !== undefined && myAbility.condition(store, token))
-                    {
-                        var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, phaseKey);
-                        answer.push(new ShipActionAction.SAAUpgradeCard(store, token, ability));
-                    }
-                });
-
-                token.criticalDamages().forEach(function(damageKey)
-                {
-                    var myAbility = DamageAbility2[phaseKey][damageKey];
-
-                    if (myAbility !== undefined && myAbility.condition(store, token))
-                    {
-                        var ability = new Ability(DamageCard, damageKey, DamageAbility2, phaseKey);
-                        answer.push(new ShipActionAction.SAADamageCard(store, token, ability));
-                    }
-                });
-            }
-
-            LOGGER.debug("SimpleAgent.determineValidShipActions() answer = " + answer);
-
-            return answer;
-        };
-
-        SimpleAgent.prototype.getDecloakAction = function(environment, adjudicator, token, callback)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("token", token);
-            InputValidator.validateNotNull("callback", callback);
-
-            var decloakActions = this.determineValidDecloakActions(environment, adjudicator, token);
-            var answer = decloakActions.vizziniRandomElement();
-
-            callback(token, answer);
-        };
-
-        SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice,
-            defender, callback)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("attackDice", attackDice);
-            InputValidator.validateNotNull("defender", defender);
-            InputValidator.validateNotNull("callback", callback);
-
-            var modifications = this.determineValidModifyAttackDiceActions(environment, attacker, attackDice, defender);
-            modifications.push(null);
-
-            var answer = modifications.vizziniRandomElement();
-
-            callback(answer);
-        };
-
-        SimpleAgent.prototype.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice,
-            defender, defenseDice, callback)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("attacker", attacker);
-            InputValidator.validateNotNull("attackDice", attackDice);
-            InputValidator.validateNotNull("defender", defender);
-            InputValidator.validateNotNull("defenseDice", defenseDice);
-            InputValidator.validateNotNull("callback", callback);
-
-            var modifications = this.determineValidModifyDefenseDiceActions(environment, attacker, attackDice, defender, defenseDice);
-            modifications.push(null);
-
-            var answer = modifications.vizziniRandomElement();
-
-            callback(answer);
-        };
-
-        SimpleAgent.prototype.getPlanningAction = function(environment, adjudicator, callback)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("callback", callback);
-
-            var team = this.teamKey();
-            var tokens = environment.getTokensForTeam(team);
-            var tokenToManeuver = {};
-
-            tokens.forEach(function(token)
-            {
-                var validManeuvers = this.determineValidManeuvers(environment, token);
-
-                LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
-                var maneuver = validManeuvers.vizziniRandomElement();
-
-                LOGGER.trace("0 maneuver = " + maneuver + " for " + token);
-
-                if (!maneuver)
-                {
-                    // Ship fled the battlefield.
-                    var maneuvers = token.maneuverKeys();
-                    maneuver = maneuvers.vizziniRandomElement();
-                    LOGGER.trace("1 maneuver = " + maneuver + " for " + token);
-                }
-
-                tokenToManeuver[token] = maneuver;
-            }, this);
-
-            callback(tokenToManeuver);
-        };
-
-        SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback, shipActions0)
-        {
-            InputValidator.validateNotNull("environment", environment);
-            InputValidator.validateNotNull("adjudicator", adjudicator);
-            InputValidator.validateNotNull("token", token);
-            // shipActions0 optional.
-
-            var shipActions = this.determineValidShipActions(environment, adjudicator, token, shipActions0);
-
-            var answer = shipActions.vizziniRandomElement();
-
-            callback(answer);
-        };
-
-        SimpleAgent.prototype.isComputerAgent = function()
-        {
-            return true;
-        };
-
-        SimpleAgent.prototype.toString = function()
-        {
-            return this.name() + ", SimpleAgent, " + this.teamKey();
-        };
-
-        return SimpleAgent;
-    });
+      return SimpleAgent;
+   });
