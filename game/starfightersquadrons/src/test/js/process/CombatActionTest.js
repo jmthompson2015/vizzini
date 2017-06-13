@@ -2,9 +2,9 @@
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
 define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value",
-       "process/Action", "process/Adjudicator", "process/CombatAction", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+       "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DamageCard, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value,
-      Action, Adjudicator, CombatAction, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction");
@@ -78,14 +78,14 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.findTargetLockByDefender(defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
-            var attackDice = Selector.attackDice(store.getState(), attacker);
+            var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attackDice.blankCount(), 0);
             assert.equal(attackDice.criticalHitCount(), 1);
             assert.equal(attackDice.focusCount(), 2);
             assert.equal(attackDice.hitCount(), 1);
 
             assert.ok(!defender.isDestroyed());
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
             assert.equal(defender.hullValue(), 3);
             done();
@@ -114,10 +114,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.secondaryWeapons().length, 0);
-            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             assert.ok(!defender.isDestroyed());
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
             assert.equal(defender.hullValue(), 3);
             done();
@@ -147,10 +147,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.equal(attacker.focusCount(), 0);
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 1);
-            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             assert.ok(!defender.isDestroyed());
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
             assert.equal(defender.hullValue(), 3);
             done();
@@ -190,9 +190,9 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.findTargetLockByDefender(defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
-            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
             assert.equal(defender.hullValue(), 3);
             if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2 && defender.criticalDamages()[1] === DamageCard.DIRECT_HIT_V2)
@@ -243,13 +243,13 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.findTargetLockByDefender(defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
-            var attackDice = Selector.attackDice(store.getState(), attacker);
+            var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attackDice.blankCount(), 0);
             assert.equal(attackDice.criticalHitCount(), 1);
             assert.equal(attackDice.focusCount(), 1);
             assert.equal(attackDice.hitCount(), 2);
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
             assert.equal(defender.hullValue(), 3);
             if (defender.criticalDamages()[0] === DamageCard.DIRECT_HIT_V2)
@@ -285,9 +285,9 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.findTargetLockByDefender(defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
-            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
             assert.ok(defender.isStressed());
             assert.equal(defender.stressCount(), 1);
@@ -350,12 +350,12 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.secondaryWeapons().length, 0);
-            assert.equal(Selector.attackDice(store.getState(), attacker).size(), 4);
+            assert.equal(AttackDice.get(store, attacker.id()).size(), 4);
             assert.equal(attacker.ionCount(), 0);
-            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
             assert.ok(Selector.isDefenderHit(store.getState(), attacker));
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
             assert.ok(!defender.isDestroyed());
             assert.equal(defender.ionCount(), 1);
@@ -416,11 +416,11 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.secondaryWeapons().length, 0);
-            assert.equal(Selector.attackDice(store.getState(), attacker).size(), 4);
-            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
+            assert.equal(AttackDice.get(store, attacker.id()).size(), 4);
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
             assert.ok(Selector.isDefenderHit(store.getState(), attacker));
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount(), 0);
             assert.equal(defender.criticalDamageCount(), 0);
             assert.ok(!defender.isDestroyed());
@@ -487,9 +487,9 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(true, "test resumed from async operation");
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
-            assert.equal(Selector.attackDice(store.getState(), attacker).size(), 2 + 2);
+            assert.equal(AttackDice.get(store, attacker.id()).size(), 2 + 2);
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             done();
          }, delay);
       });
@@ -528,13 +528,13 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!attacker.findTargetLockByDefender(defender));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
-            var attackDice = Selector.attackDice(store.getState(), attacker);
+            var attackDice = AttackDice.get(store, attacker.id());
             assert.equal(attackDice.blankCount(), 1);
             assert.equal(attackDice.criticalHitCount(), 2);
             assert.equal(attackDice.focusCount(), 0);
             assert.equal(attackDice.hitCount(), 1);
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
             done();
          }, delay);
@@ -565,10 +565,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(true, "test resumed from async operation");
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
-            verifyAttackDice(assert, Selector.attackDice(store.getState(), attacker));
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
             assert.ok(Selector.isDefenderHit(store.getState(), attacker));
 
-            verifyDefenseDice(assert, Selector.defenseDice(store.getState(), attacker));
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
             assert.equal(defender.damageCount(), 0);
             assert.equal(defender.criticalDamageCount(), 0);
 

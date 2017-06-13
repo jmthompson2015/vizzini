@@ -890,7 +890,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   tokenIdToActivationAction: newTokenIdToData,
                });
             case Action.SET_TOKEN_ATTACK_DICE:
-               newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToAttackDice, Action.SET_TOKEN_ATTACK_DICE, action.type, action.token.id(), action.attackDice);
+               newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToAttackDice, Action.SET_TOKEN_ATTACK_DICE, action.type, action.tokenId, action.attackDiceValues);
                return Object.assign(
                {}, state,
                {
@@ -918,7 +918,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   tokenIdToIsDefenderHit: newTokenIdToData,
                });
             case Action.SET_TOKEN_DEFENSE_DICE:
-               newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToDefenseDice, Action.SET_TOKEN_DEFENSE_DICE, action.type, action.token.id(), action.defenseDice);
+               newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToDefenseDice, Action.SET_TOKEN_DEFENSE_DICE, action.type, action.tokenId, action.defenseDiceValues);
                return Object.assign(
                {}, state,
                {

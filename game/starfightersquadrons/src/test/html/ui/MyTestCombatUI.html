@@ -44,7 +44,8 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["AttackDice", "DefenseDice", "Phase", "UpgradeCard", "process/Action", "process/Adjudicator", "process/CombatAction", "process/DamageDealer",
+		require(["process/AttackDice", "process/DefenseDice", "Phase", "UpgradeCard", "process/Action", "process/Adjudicator", "process/CombatAction",
+				"process/DamageDealer",
 				"process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/TargetLock", "process/ui/CombatUI"
 			],
 			function(AttackDice, DefenseDice, Phase, UpgradeCard, Action, Adjudicator, CombatAction, DamageDealer, EnvironmentFactory, ModifyAttackDiceAction,
@@ -59,7 +60,7 @@
 				LOGGER.debug("attacker = " + attacker);
 				store.dispatch(Action.addFocusCount(attacker));
 				var weapon = attacker.primaryWeapon();
-				var attackDice = new AttackDice(5);
+				var attackDice = new AttackDice(store, attacker.id(), 5);
 				var defender = environment.tokens()[2];
 				LOGGER.debug("defender = " + defender);
 				store.dispatch(Action.addFocusCount(defender));
@@ -92,7 +93,7 @@
 				});
 				ReactDOM.render(element0, document.getElementById("inputArea0"));
 
-				var defenseDice = new DefenseDice(4);
+				var defenseDice = new DefenseDice(store, attacker.id(), 4);
 				var modificationKeys1 = [ModifyDefenseDiceAction.Modification.SPEND_EVADE, ModifyDefenseDiceAction.Modification.SPEND_FOCUS];
 				var modifications1 = modificationKeys1.map(function(modificationKey)
 				{

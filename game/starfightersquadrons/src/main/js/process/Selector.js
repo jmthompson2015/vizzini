@@ -46,14 +46,6 @@ define(["Count", "Value"], function(Count, Value)
       });
    };
 
-   Selector.attackDice = function(state, attacker)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("attacker", attacker);
-
-      return state.tokenIdToAttackDice[attacker.id()];
-   };
-
    Selector.attackerUsedDamages = function(state, token)
    {
       InputValidator.validateNotNull("state", state);
@@ -169,14 +161,6 @@ define(["Count", "Value"], function(Count, Value)
       InputValidator.validateNotNull("token", token);
 
       return state.tokenIdToDefenderUsedUpgrades[token.id()];
-   };
-
-   Selector.defenseDice = function(state, attacker)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("attacker", attacker);
-
-      return state.tokenIdToDefenseDice[attacker.id()];
    };
 
    Selector.energyCount = function(state, tokenId)

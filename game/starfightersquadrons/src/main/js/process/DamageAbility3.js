@@ -1,70 +1,68 @@
 /*
  * Provides damage abilities for the Combat Phase.
  */
-define(["AttackDice", "DamageCard", "Phase", "process/Selector"],
-    function(AttackDice, DamageCard, Phase, Selector)
-    {
-        "use strict";
-        var DamageAbility3 = {};
+define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
+   function(AttackDice, DamageCard, Phase, Selector)
+   {
+      "use strict";
+      var DamageAbility3 = {};
 
-        ////////////////////////////////////////////////////////////////////////
-        DamageAbility3[Phase.COMBAT_START] = {};
+      ////////////////////////////////////////////////////////////////////////
+      DamageAbility3[Phase.COMBAT_START] = {};
 
-        DamageAbility3[Phase.COMBAT_START][DamageCard.CONSOLE_FIRE] = {
-            // At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage.
-            condition: function(store, token)
+      DamageAbility3[Phase.COMBAT_START][DamageCard.CONSOLE_FIRE] = {
+         // At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage.
+         condition: function(store, token)
+         {
+            var activeToken = getActiveToken(store);
+            return token === activeToken;
+         },
+         consequent: function(store, token, callback)
+         {
+            if (AttackDice.rollRandomValue() === AttackDice.Value.HIT)
             {
-                var activeToken = getActiveToken(store);
-                return token === activeToken;
-            },
-            consequent: function(store, token, callback)
+               var environment = store.getState().environment;
+               token.receiveDamage(environment.drawDamage());
+            }
+            callback();
+         },
+      };
+
+      DamageAbility3[Phase.COMBAT_START][DamageCard.CONSOLE_FIRE_V2] = {
+         // At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage.
+         condition: function(store, token)
+         {
+            var activeToken = getActiveToken(store);
+            return token === activeToken;
+         },
+         consequent: function(store, token, callback)
+         {
+            if (AttackDice.rollRandomValue() === AttackDice.Value.HIT)
             {
-                var attackDice = new AttackDice(1);
-                if (attackDice.hitCount() === 1)
-                {
-                    var environment = store.getState().environment;
-                    token.receiveDamage(environment.drawDamage());
-                }
-                callback();
-            },
-        };
+               var environment = store.getState().environment;
+               token.receiveDamage(environment.drawDamage());
+            }
+            callback();
+         },
+      };
 
-        DamageAbility3[Phase.COMBAT_START][DamageCard.CONSOLE_FIRE_V2] = {
-            // At the start of each Combat phase, roll 1 attack die. On a Hit result, suffer 1 damage.
-            condition: function(store, token)
-            {
-                var activeToken = getActiveToken(store);
-                return token === activeToken;
-            },
-            consequent: function(store, token, callback)
-            {
-                var attackDice = new AttackDice(1);
-                if (attackDice.hitCount() === 1)
-                {
-                    var environment = store.getState().environment;
-                    token.receiveDamage(environment.drawDamage());
-                }
-                callback();
-            },
-        };
+      ////////////////////////////////////////////////////////////////////////
+      function getActiveToken(store)
+      {
+         InputValidator.validateNotNull("store", store);
 
-        ////////////////////////////////////////////////////////////////////////
-        function getActiveToken(store)
-        {
-            InputValidator.validateNotNull("store", store);
+         return Selector.activeToken(store.getState());
+      }
 
-            return Selector.activeToken(store.getState());
-        }
+      DamageAbility3.toString = function()
+      {
+         return "DamageAbility3";
+      };
 
-        DamageAbility3.toString = function()
-        {
-            return "DamageAbility3";
-        };
+      if (Object.freeze)
+      {
+         Object.freeze(DamageAbility3);
+      }
 
-        if (Object.freeze)
-        {
-            Object.freeze(DamageAbility3);
-        }
-
-        return DamageAbility3;
-    });
+      return DamageAbility3;
+   });

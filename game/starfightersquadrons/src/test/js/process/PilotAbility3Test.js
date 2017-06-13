@@ -1,129 +1,129 @@
 define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/CombatAction", "process/EnvironmentFactory", "process/PilotAbility3", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-    function(Maneuver, Phase, Action, ActivationAction, Adjudicator, CombatAction, EnvironmentFactory, PilotAbility, MockAttackDice, MockDefenseDice)
-    {
-        "use strict";
-        QUnit.module("PilotAbility3");
+   function(Maneuver, Phase, Action, ActivationAction, Adjudicator, CombatAction, EnvironmentFactory, PilotAbility, MockAttackDice, MockDefenseDice)
+   {
+      "use strict";
+      QUnit.module("PilotAbility3");
 
-        QUnit.test("condition()", function(assert)
-        {
-            // Setup.
-            var environment = createEnvironment();
-            var store = environment.store();
-            var token = environment.tokens()[2]; // X-Wing.
+      QUnit.test("condition()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         var token = environment.tokens()[2]; // X-Wing.
 
-            // Run / Verify.
-            Phase.values().forEach(function(phaseKey)
+         // Run / Verify.
+         Phase.values().forEach(function(phaseKey)
+         {
+            var abilities = PilotAbility[phaseKey];
+
+            if (abilities)
             {
-                var abilities = PilotAbility[phaseKey];
+               Object.keys(abilities).forEach(function(pilotKey)
+               {
+                  var ability = abilities[pilotKey];
 
-                if (abilities)
-                {
-                    Object.keys(abilities).forEach(function(pilotKey)
-                    {
-                        var ability = abilities[pilotKey];
+                  if (ability.condition)
+                  {
+                     var result = ability.condition(store, token);
+                     assert.ok(result !== undefined, "phaseKey = " + phaseKey + " pilotKey = " + pilotKey);
+                  }
+               });
+            }
+         });
+      });
 
-                        if (ability.condition)
-                        {
-                            var result = ability.condition(store, token);
-                            assert.ok(result !== undefined, "phaseKey = " + phaseKey + " pilotKey = " + pilotKey);
-                        }
-                    });
-                }
-            });
-        });
+      QUnit.test("consequent()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         var token = environment.tokens()[2]; // X-Wing.
+         var callback = function()
+         {
+            LOGGER.info("in callback()");
+         };
 
-        QUnit.test("consequent()", function(assert)
-        {
-            // Setup.
-            var environment = createEnvironment();
-            var store = environment.store();
-            var token = environment.tokens()[2]; // X-Wing.
-            var callback = function()
+         // Run / Verify.
+         Phase.values().forEach(function(phaseKey)
+         {
+            var abilities = PilotAbility[phaseKey];
+
+            if (abilities)
             {
-                LOGGER.info("in callback()");
-            };
+               Object.keys(abilities).forEach(function(pilotKey)
+               {
+                  var ability = abilities[pilotKey];
 
-            // Run / Verify.
-            Phase.values().forEach(function(phaseKey)
+                  if (ability.condition && ability.condition(store, token))
+                  {
+                     ability.consequent(store, token, callback);
+                     assert.ok(true, "phaseKey = " + phaseKey + " pilotKey = " + pilotKey);
+                  }
+               });
+            }
+         });
+      });
+
+      QUnit.test("function()", function(assert)
+      {
+         // Setup.
+         var environment = createEnvironment();
+         var store = environment.store();
+         var token = environment.tokens()[2]; // X-Wing.
+
+         // Run / Verify.
+         Phase.values().forEach(function(phaseKey)
+         {
+            var abilities = PilotAbility[phaseKey];
+
+            if (abilities)
             {
-                var abilities = PilotAbility[phaseKey];
+               Object.keys(abilities).forEach(function(pilotKey)
+               {
+                  var ability = abilities[pilotKey];
 
-                if (abilities)
-                {
-                    Object.keys(abilities).forEach(function(pilotKey)
-                    {
-                        var ability = abilities[pilotKey];
+                  if (typeof ability === "function")
+                  {
+                     ability(store, token);
+                     assert.ok(true, "phaseKey = " + phaseKey + " pilotKey = " + pilotKey);
+                  }
+               });
+            }
+         });
 
-                        if (ability.condition && ability.condition(store, token))
-                        {
-                            ability.consequent(store, token, callback);
-                            assert.ok(true, "phaseKey = " + phaseKey + " pilotKey = " + pilotKey);
-                        }
-                    });
-                }
-            });
-        });
+         assert.ok(true);
+      });
 
-        QUnit.test("function()", function(assert)
-        {
-            // Setup.
-            var environment = createEnvironment();
-            var store = environment.store();
-            var token = environment.tokens()[2]; // X-Wing.
+      function createEnvironment()
+      {
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var adjudicator = new Adjudicator();
 
-            // Run / Verify.
-            Phase.values().forEach(function(phaseKey)
-            {
-                var abilities = PilotAbility[phaseKey];
+         var store = environment.store();
+         var attacker = environment.tokens()[2]; // X-Wing.
+         var attackerPosition = environment.getPositionFor(attacker);
+         var weapon = attacker.primaryWeapon();
+         var defender = environment.tokens()[0]; // TIE Fighter.
+         var defenderPosition = environment.getPositionFor(defender);
+         var callback = function()
+         {
+            LOGGER.info("in callback()");
+         };
 
-                if (abilities)
-                {
-                    Object.keys(abilities).forEach(function(pilotKey)
-                    {
-                        var ability = abilities[pilotKey];
+         store.dispatch(Action.setEnvironment(environment));
+         store.dispatch(Action.setAdjudicator(adjudicator));
+         store.dispatch(Action.setActiveToken(attacker));
+         store.dispatch(Action.addFocusCount(attacker));
+         store.dispatch(Action.addStressCount(attacker));
 
-                        if (typeof ability === "function")
-                        {
-                            ability(store, token);
-                            assert.ok(true, "phaseKey = " + phaseKey + " pilotKey = " + pilotKey);
-                        }
-                    });
-                }
-            });
+         store.dispatch(Action.setTokenAttackDice(attacker.id(), (new MockAttackDice()).values()));
+         store.dispatch(Action.setTokenDefenderHit(attacker, true));
+         store.dispatch(Action.setTokenDefenseDice(attacker.id(), (new MockDefenseDice()).values()));
+         store.dispatch(Action.setTokenInFiringArc(attacker, true));
 
-            assert.ok(true);
-        });
+         var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
 
-        function createEnvironment()
-        {
-            var environment = EnvironmentFactory.createCoreSetEnvironment();
-            var adjudicator = new Adjudicator();
-
-            var store = environment.store();
-            var attacker = environment.tokens()[2]; // X-Wing.
-            var attackerPosition = environment.getPositionFor(attacker);
-            var weapon = attacker.primaryWeapon();
-            var defender = environment.tokens()[0]; // TIE Fighter.
-            var defenderPosition = environment.getPositionFor(defender);
-            var callback = function()
-            {
-                LOGGER.info("in callback()");
-            };
-
-            store.dispatch(Action.setEnvironment(environment));
-            store.dispatch(Action.setAdjudicator(adjudicator));
-            store.dispatch(Action.setActiveToken(attacker));
-            store.dispatch(Action.addFocusCount(attacker));
-            store.dispatch(Action.addStressCount(attacker));
-
-            store.dispatch(Action.setTokenAttackDice(attacker, new MockAttackDice()));
-            store.dispatch(Action.setTokenDefenderHit(attacker, true));
-            store.dispatch(Action.setTokenDefenseDice(attacker, new MockDefenseDice()));
-            store.dispatch(Action.setTokenInFiringArc(attacker, true));
-
-            var combatAction = new CombatAction(store, attacker, weapon, defender, callback, MockAttackDice, MockDefenseDice);
-            store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
-
-            return environment;
-        }
-    });
+         return environment;
+      }
+   });

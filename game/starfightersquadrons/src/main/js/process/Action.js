@@ -823,16 +823,16 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.setTokenAttackDice = function(token, attackDice)
+   Action.setTokenAttackDice = function(tokenId, attackDiceValues)
    {
-      InputValidator.validateNotNull("token", token);
-      // attackDice optional.
+      InputValidator.validateIsNumber("tokenId", tokenId);
+      // attackDiceValues optional.
 
       return (
       {
          type: Action.SET_TOKEN_ATTACK_DICE,
-         token: token,
-         attackDice: attackDice,
+         tokenId: tokenId,
+         attackDiceValues: attackDiceValues,
       });
    };
 
@@ -875,16 +875,16 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.setTokenDefenseDice = function(token, defenseDice)
+   Action.setTokenDefenseDice = function(tokenId, defenseDiceValues)
    {
-      InputValidator.validateNotNull("token", token);
-      // defenseDice optional.
+      InputValidator.validateIsNumber("tokenId", tokenId);
+      // defenseDiceValues optional.
 
       return (
       {
          type: Action.SET_TOKEN_DEFENSE_DICE,
-         token: token,
-         defenseDice: defenseDice,
+         tokenId: tokenId,
+         defenseDiceValues: defenseDiceValues,
       });
    };
 
