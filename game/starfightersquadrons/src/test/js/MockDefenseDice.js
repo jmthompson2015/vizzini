@@ -1,119 +1,124 @@
-define(["process/DefenseDice"], function(DefenseDice)
-{
-   "use strict";
-
-   function MockDefenseDice()
+define(["process/Action", "process/DefenseDice"],
+   function(Action, DefenseDice)
    {
-      var values;
+      "use strict";
 
-      rerollAll();
-
-      this.blankCount = function()
+      function MockDefenseDice(store, attackerId)
       {
-         return valueCount(DefenseDice.Value.BLANK);
-      };
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("attackerId", attackerId);
 
-      this.changeOneToValue = function(oldValue, newValue)
-      {
-         for (var i = 0; i < values.length; i++)
+         var values;
+
+         rerollAll();
+         store.dispatch(Action.setTokenDefenseDice(attackerId, values));
+
+         this.blankCount = function()
          {
-            var value = values[i];
+            return valueCount(DefenseDice.Value.BLANK);
+         };
 
-            if (value === oldValue)
+         this.changeOneToValue = function(oldValue, newValue)
+         {
+            for (var i = 0; i < values.length; i++)
             {
-               values[i] = newValue;
-               break;
+               var value = values[i];
+
+               if (value === oldValue)
+               {
+                  values[i] = newValue;
+                  break;
+               }
             }
+         };
+
+         this.evadeCount = function()
+         {
+            return valueCount(DefenseDice.Value.EVADE);
+         };
+
+         this.focusCount = function()
+         {
+            return valueCount(DefenseDice.Value.FOCUS);
+         };
+
+         this.rerollBlank = function() {};
+
+         this.size = function()
+         {
+            return values.length;
+         };
+
+         this.sortedValues = function()
+         {
+            var answer = values.slice();
+
+            answer.sort(function(die0, die1)
+            {
+               var value0 = DefenseDice.Value.properties[die0].sortOrder;
+               var value1 = DefenseDice.Value.properties[die1].sortOrder;
+
+               return value0 - value1;
+            });
+
+            return answer;
+         };
+
+         this.spendEvadeToken = function()
+         {
+            // Add an evade result.
+            values.push(DefenseDice.Value.EVADE);
+         };
+
+         this.spendFocusToken = function()
+         {
+            // Change all focus results to evades.
+            changeAllToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+         };
+
+         this.toString = function()
+         {
+            return "size = " + values.length + ", values = " + values;
+         };
+
+         this.value = function(index)
+         {
+            return values[index];
+         };
+
+         this.values = function()
+         {
+            return values;
+         };
+
+         function changeAllToValue(oldValue, newValue)
+         {
+            values.forEach(function(value, i)
+            {
+               if (value === oldValue)
+               {
+                  values[i] = newValue;
+               }
+            });
          }
-      };
 
-      this.evadeCount = function()
-      {
-         return valueCount(DefenseDice.Value.EVADE);
-      };
-
-      this.focusCount = function()
-      {
-         return valueCount(DefenseDice.Value.FOCUS);
-      };
-
-      this.rerollBlank = function() {};
-
-      this.size = function()
-      {
-         return values.length;
-      };
-
-      this.sortedValues = function()
-      {
-         var answer = values.slice();
-
-         answer.sort(function(die0, die1)
+         function rerollAll()
          {
-            var value0 = DefenseDice.Value.properties[die0].sortOrder;
-            var value1 = DefenseDice.Value.properties[die1].sortOrder;
+            values = [];
 
-            return value0 - value1;
-         });
+            values.push(DefenseDice.Value.BLANK);
+            values.push(DefenseDice.Value.EVADE);
+            values.push(DefenseDice.Value.FOCUS);
+         }
 
-         return answer;
-      };
-
-      this.spendEvadeToken = function()
-      {
-         // Add an evade result.
-         values.push(DefenseDice.Value.EVADE);
-      };
-
-      this.spendFocusToken = function()
-      {
-         // Change all focus results to evades.
-         changeAllToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-      };
-
-      this.toString = function()
-      {
-         return "size = " + values.length + ", values = " + values;
-      };
-
-      this.value = function(index)
-      {
-         return values[index];
-      };
-
-      this.values = function()
-      {
-         return values;
-      };
-
-      function changeAllToValue(oldValue, newValue)
-      {
-         values.forEach(function(value, i)
+         function valueCount(target)
          {
-            if (value === oldValue)
+            return values.reduce(function(previousValue, currentValue)
             {
-               values[i] = newValue;
-            }
-         });
+               return previousValue + (currentValue === target ? 1 : 0);
+            }, 0);
+         }
       }
 
-      function rerollAll()
-      {
-         values = [];
-
-         values.push(DefenseDice.Value.BLANK);
-         values.push(DefenseDice.Value.EVADE);
-         values.push(DefenseDice.Value.FOCUS);
-      }
-
-      function valueCount(target)
-      {
-         return values.reduce(function(previousValue, currentValue)
-         {
-            return previousValue + (currentValue === target ? 1 : 0);
-         }, 0);
-      }
-   }
-
-   return MockDefenseDice;
-});
+      return MockDefenseDice;
+   });

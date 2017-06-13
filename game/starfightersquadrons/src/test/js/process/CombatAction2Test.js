@@ -287,7 +287,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
-         var attackDice = new MockAttackDice();
+         var attackDice = new MockAttackDice(store, attacker.id());
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
@@ -421,7 +421,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
-         var attackDice = new MockAttackDice();
+         var attackDice = new MockAttackDice(store, attacker.id());
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);

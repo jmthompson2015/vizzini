@@ -164,7 +164,6 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          var attackDiceCount = attacker.computeAttackDiceCount(environment, weapon, defender, rangeKey);
          var attackDiceClass = this.attackDiceClass();
          var attackDice = new attackDiceClass(store, attacker.id(), attackDiceCount);
-         store.dispatch(Action.setTokenAttackDice(attacker.id(), attackDice.values()));
 
          this.modifyAttackDice();
 
@@ -231,7 +230,6 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          var defenderDiceCount = defender.computeDefenseDiceCount(this.environment(), attacker, weapon, rangeKey);
          var defenseDiceClass = this.defenseDiceClass();
          var defenseDice = new defenseDiceClass(store, attacker.id(), defenderDiceCount);
-         store.dispatch(Action.setTokenDefenseDice(attacker.id(), defenseDice.values()));
 
          this.modifyDefenseDice();
 
