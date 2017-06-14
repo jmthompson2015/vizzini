@@ -85,7 +85,6 @@ define(["upgradestats/Action", "upgradestats/DefaultFilters", "upgradestats/Init
          {
             var propertyName = propertyNames[i];
             var filter = filters[propertyName];
-            console.log("propertyName = " + propertyName + " filter = " + filter);
 
             if (!filter.passes(data))
             {

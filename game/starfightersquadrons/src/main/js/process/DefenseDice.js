@@ -1,6 +1,8 @@
 define(["process/Action"],
    function(Action)
    {
+      "use strict";
+
       function DefenseDice(store, attackerId, sizeOrValues)
       {
          InputValidator.validateNotNull("store", store);
@@ -28,6 +30,10 @@ define(["process/Action"],
 
             this.save(newValues);
          }
+         else if (Array.isArray(sizeOrValues))
+         {
+            this.save(sizeOrValues);
+         }
       }
 
       //////////////////////////////////////////////////////////////////////////
@@ -50,29 +56,25 @@ define(["process/Action"],
 
       DefenseDice.prototype.size = function()
       {
-         return this.values().length;
+         return this.values().size;
       };
 
       DefenseDice.prototype.sortedValues = function()
       {
-         var answer = this.values().slice();
-
-         answer.sort(function(die0, die1)
+         return this.values().sort(function(die0, die1)
          {
             var value0 = DefenseDice.Value.properties[die0].sortOrder;
             var value1 = DefenseDice.Value.properties[die1].sortOrder;
 
             return value0 - value1;
          });
-
-         return answer;
       };
 
       DefenseDice.prototype.toString = function()
       {
          var values = this.values();
 
-         return "size = " + values.length + ", values = " + values;
+         return "size = " + values.size + ", values = " + values.toArray();
       };
 
       DefenseDice.prototype.value = function(index)
@@ -81,7 +83,7 @@ define(["process/Action"],
 
          var values = this.values();
 
-         return values[index];
+         return values.get(index);
       };
 
       DefenseDice.prototype.valueCount = function(target)
@@ -108,13 +110,13 @@ define(["process/Action"],
       DefenseDice.prototype.changeAllToValue = function(oldValue, newValue)
       {
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            if (oldValues[i] === oldValue)
+            if (oldValues.get(i) === oldValue)
             {
-               newValues[i] = newValue;
+               newValues = newValues.set(i, newValue);
             }
          }
 
@@ -124,13 +126,13 @@ define(["process/Action"],
       DefenseDice.prototype.changeOneToValue = function(oldValue, newValue)
       {
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            if (oldValues[i] === oldValue)
+            if (oldValues.get(i) === oldValue)
             {
-               newValues[i] = newValue;
+               newValues = newValues.set(i, newValue);
                break;
             }
          }
@@ -144,9 +146,9 @@ define(["process/Action"],
          var newValues = [];
 
          // Reroll all focus values.
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            var oldValue = oldValues[i];
+            var oldValue = oldValues.get(i);
 
             if (oldValue === DefenseDice.Value.FOCUS)
             {
@@ -208,11 +210,11 @@ define(["process/Action"],
          var myCount = (count === undefined ? 1 : count);
 
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            var oldValue = oldValues[i];
+            var oldValue = oldValues.get(i);
 
             if (oldValue === type)
             {
@@ -233,16 +235,17 @@ define(["process/Action"],
       {
          var store = this.store();
          var attackerId = this.attackerId();
-         store.dispatch(Action.setTokenDefenseDice(attackerId, newValues));
+         var values = (Array.isArray(newValues) ? Immutable.List(newValues) : newValues);
+         store.dispatch(Action.setTokenDefenseDice(attackerId, values));
       };
 
       DefenseDice.prototype.spendEvadeToken = function()
       {
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
          // Add an evade result.
-         newValues.push(DefenseDice.Value.EVADE);
+         newValues = newValues.push(DefenseDice.Value.EVADE);
          this.save(newValues);
       };
 

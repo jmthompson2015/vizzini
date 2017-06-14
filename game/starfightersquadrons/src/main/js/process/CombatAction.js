@@ -184,7 +184,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          var defender = this.defender();
          var agent = attacker.agent();
 
-         agent.getModifyAttackDiceAction(environment, adjudicator, attacker, attackDice, defender, this.finishModifyAttackDice.bind(this));
+         agent.getModifyAttackDiceAction(store, adjudicator, attacker, defender, this.finishModifyAttackDice.bind(this));
 
          LOGGER.trace("CombatAction.modifyAttackDice() end");
       };
@@ -257,7 +257,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             defenseDice.spendEvadeToken();
          }
 
-         defenderAgent.getModifyDefenseDiceAction(environment, adjudicator, attacker, attackDice, defender, defenseDice, this.finishModifyDefenseDice.bind(this));
+         defenderAgent.getModifyDefenseDiceAction(store, adjudicator, attacker, defender, this.finishModifyDefenseDice.bind(this));
 
          LOGGER.trace("CombatAction.modifyDefenseDice() end");
       };

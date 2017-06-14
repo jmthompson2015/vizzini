@@ -1,5 +1,5 @@
-define(["process/AttackDice", "process/DefenseDice", "Maneuver", "Position", "Team", "process/Action", "process/Adjudicator", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SquadBuilder"],
-   function(AttackDice, DefenseDice, Maneuver, Position, Team, Action, Adjudicator, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SquadBuilder)
+define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SquadBuilder", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SquadBuilder, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("MediumAgent");
@@ -58,17 +58,22 @@ define(["process/AttackDice", "process/DefenseDice", "Maneuver", "Position", "Te
          agent.chooseWeaponAndDefender(environment, adjudicator, token0, callback);
       });
 
-      QUnit.test("getModifyAttackDiceAction() evade", function(assert)
+      QUnit.test("getModifyAttackDiceAction() focus", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var environment = EnvironmentFactory.createCoreSetEnvironment(store, "MediumAgent");
+         var environment = EnvironmentFactory.createCoreSetEnvironment(store, "MediumAgent", "MediumAgent");
          var adjudicator = new Adjudicator();
          var attacker = environment.tokens()[0]; // TIE Fighter
          var agent = attacker.agent();
-         var attackDice = new AttackDice(store, attacker.id(), 3);
+         var attackDice = new MockAttackDice(store, attacker.id());
          var defender = environment.tokens()[2]; // X-Wing
-         var defenseDice = new DefenseDice(store, attacker.id(), 3);
+         var defenseDice = new MockDefenseDice(store, attacker.id());
+         store.dispatch(Action.setActiveToken(attacker));
+         var weapon = attacker.primaryWeapon();
+         var caCallback = function() {};
+         var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback);
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
          store.dispatch(Action.addFocusCount(attacker));
 
          var result;
@@ -79,33 +84,33 @@ define(["process/AttackDice", "process/DefenseDice", "Maneuver", "Position", "Te
             result = modifyAction;
 
             // Verify.
-            if (result)
-            {
-               assert.ok(result);
-               assert.equal(result.modificationKey(), ModifyAttackDiceAction.Modification.SPEND_FOCUS);
-            }
-            else
-            {
-               assert.ok(!result);
-            }
+            assert.ok(result);
+            assert.equal(result.modificationKey(), ModifyAttackDiceAction.Modification.SPEND_FOCUS);
+            assert.equal(result.pilotKey(), undefined);
+            assert.equal(result.upgradeKey(), undefined);
          }
 
          // Run.
-         agent.getModifyAttackDiceAction(environment, adjudicator, attacker, attackDice, defender, callback);
+         agent.getModifyAttackDiceAction(store, adjudicator, attacker, defender, callback);
       });
 
-      QUnit.test("getModifyDefenseDiceAction() evade", function(assert)
+      QUnit.test("getModifyAttackDiceAction() pilot", function(assert)
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var environment = EnvironmentFactory.createCoreSetEnvironment(store, "SimpleAgent", "MediumAgent");
+         var environment = EnvironmentFactory.createTFACoreSetEnvironment(undefined, store, "MediumAgent", "MediumAgent");
          var adjudicator = new Adjudicator();
          var attacker = environment.tokens()[2]; // X-Wing
-         var attackDice = new AttackDice(store, attacker.id(), 3);
+         var agent = attacker.agent();
+         var attackDice = new MockAttackDice(store, attacker.id());
          var defender = environment.tokens()[0]; // TIE Fighter
-         var agent = defender.agent();
-         var defenseDice = new DefenseDice(store, attacker.id(), 3);
-         store.dispatch(Action.addEvadeCount(defender));
+         var defenseDice = new MockDefenseDice(store, attacker.id());
+         store.dispatch(Action.setActiveToken(attacker));
+         var weapon = attacker.primaryWeapon();
+         var caCallback = function() {};
+         var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback);
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
+         store.dispatch(Action.addFocusCount(attacker));
 
          var result;
 
@@ -115,20 +120,86 @@ define(["process/AttackDice", "process/DefenseDice", "Maneuver", "Position", "Te
             result = modifyAction;
 
             // Verify.
-            if (result)
-            {
-               assert.ok(result);
-               assert.equal(result.modificationKey(), ModifyDefenseDiceAction.Modification.SPEND_EVADE);
-            }
-            else
-            {
-               assert.ok(!result);
-            }
+            assert.ok(result);
+            assert.equal(result.modificationKey(), ModifyAttackDiceAction.Modification.USE_PILOT);
+            assert.equal(result.pilotKey(), Pilot.POE_DAMERON);
+            assert.equal(result.upgradeKey(), undefined);
          }
 
          // Run.
-         agent.getModifyDefenseDiceAction(environment, adjudicator, attacker, attackDice, defender,
-            defenseDice, callback);
+         agent.getModifyAttackDiceAction(store, adjudicator, attacker, defender, callback);
+      });
+
+      QUnit.test("getModifyDefenseDiceAction() evade", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var environment = EnvironmentFactory.createCoreSetEnvironment(store, "MediumAgent", "MediumAgent");
+         var adjudicator = new Adjudicator();
+         var attacker = environment.tokens()[2]; // X-Wing
+         var attackDice = new MockAttackDice(store, attacker.id());
+         var defender = environment.tokens()[0]; // TIE Fighter
+         var agent = defender.agent();
+         var defenseDice = new MockDefenseDice(store, attacker.id());
+         store.dispatch(Action.setActiveToken(attacker));
+         store.dispatch(Action.addEvadeCount(defender));
+         var weapon = attacker.primaryWeapon();
+         var caCallback = function() {};
+         var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback);
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
+
+         var result;
+
+         function callback(modifyAction)
+         {
+            LOGGER.info("callback() modifyAction = " + modifyAction);
+            result = modifyAction;
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.modificationKey(), ModifyDefenseDiceAction.Modification.SPEND_EVADE);
+            assert.equal(result.pilotKey(), undefined);
+            assert.equal(result.upgradeKey(), undefined);
+         }
+
+         // Run.
+         agent.getModifyDefenseDiceAction(store, adjudicator, attacker, defender, callback);
+      });
+
+      QUnit.test("getModifyDefenseDiceAction() pilot", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var environment = EnvironmentFactory.createCoreSetEnvironment(store, "MediumAgent", "MediumAgent");
+         var adjudicator = new Adjudicator();
+         var attacker = environment.tokens()[0]; // TIE Fighter
+         var attackDice = new MockAttackDice(store, attacker.id());
+         var defender = environment.tokens()[2]; // X-Wing
+         var agent = defender.agent();
+         var defenseDice = new MockDefenseDice(store, attacker.id());
+         store.dispatch(Action.setActiveToken(attacker));
+         store.dispatch(Action.addEvadeCount(defender));
+         var weapon = attacker.primaryWeapon();
+         var caCallback = function() {};
+         var combatAction = new CombatAction(store, attacker, weapon, defender, caCallback);
+         store.dispatch(Action.setTokenCombatAction(attacker, combatAction));
+
+         var result;
+
+         function callback(modifyAction)
+         {
+            LOGGER.info("callback() modifyAction = " + modifyAction);
+            result = modifyAction;
+
+            // Verify.
+            assert.ok(result);
+            assert.equal(result.modificationKey(), ModifyDefenseDiceAction.Modification.USE_PILOT);
+            assert.equal(result.pilotKey(), Pilot.LUKE_SKYWALKER);
+            assert.equal(result.upgradeKey(), undefined);
+         }
+
+         // Run.
+         agent.getModifyDefenseDiceAction(store, adjudicator, attacker, defender, callback);
       });
 
       QUnit.test("getPlanningAction() Imperial", function(assert)

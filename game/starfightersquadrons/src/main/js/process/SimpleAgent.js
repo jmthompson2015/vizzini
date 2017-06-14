@@ -135,17 +135,15 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          });
       };
 
-      SimpleAgent.prototype.determineValidModifyAttackDiceActions = function(environment, attacker, attackDice, defender)
+      SimpleAgent.prototype.determineValidModifyAttackDiceActions = function(store, attacker, defender)
       {
-         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("attacker", attacker);
-         InputValidator.validateNotNull("attackDice", attackDice);
          InputValidator.validateNotNull("defender", defender);
 
          var answer = [];
          var modificationKey;
          var pilotKey;
-         var store = environment.store();
          var targetLock = attacker.findTargetLockByDefender(defender);
 
          if (targetLock)
@@ -155,14 +153,14 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             if (upgrade === undefined || upgrade.headerKey !== UpgradeHeader.ATTACK_TARGET_LOCK)
             {
                modificationKey = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
-               answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
+               answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey));
             }
          }
 
          if (attacker.focusCount() > 0)
          {
             modificationKey = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
-            answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey));
+            answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey));
          }
 
          var pilot = attacker.pilot();
@@ -176,7 +174,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             if (pilotAbility !== undefined && pilotAbility.condition(store, attacker))
             {
                modificationKey = ModifyAttackDiceAction.Modification.USE_PILOT;
-               answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey));
+               answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey));
             }
          }
 
@@ -192,7 +190,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
                if (upgradeAbility !== undefined && upgradeAbility.condition(store, attacker))
                {
-                  answer.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey));
+                  answer.push(new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey));
                }
             }
          });
@@ -200,29 +198,26 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          return answer;
       };
 
-      SimpleAgent.prototype.determineValidModifyDefenseDiceActions = function(environment, attacker, attackDice, defender, defenseDice)
+      SimpleAgent.prototype.determineValidModifyDefenseDiceActions = function(store, attacker, defender)
       {
-         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("attacker", attacker);
-         InputValidator.validateNotNull("attackDice", attackDice);
          InputValidator.validateNotNull("defender", defender);
-         InputValidator.validateNotNull("defenseDice", defenseDice);
 
          var answer = [];
          var modificationKey;
          var pilotKey;
-         var store = environment.store();
 
          if (defender.evadeCount() > 0)
          {
             modificationKey = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
-            answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+            answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey));
          }
 
          if (defender.focusCount() > 0)
          {
             modificationKey = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
-            answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey));
+            answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey));
          }
 
          var pilot = defender.pilot();
@@ -236,7 +231,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             if (pilotAbility !== undefined && pilotAbility.condition(store, defender))
             {
                modificationKey = ModifyDefenseDiceAction.Modification.USE_PILOT;
-               answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey));
+               answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey, pilotKey));
             }
          }
 
@@ -254,7 +249,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
                if (upgradeAbility !== undefined && upgradeAbility.condition(store, defender))
                {
-                  answer.push(new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey));
+                  answer.push(new ModifyDefenseDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey));
                }
             }
          });
@@ -466,17 +461,15 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          callback(token, answer);
       };
 
-      SimpleAgent.prototype.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice,
-         defender, callback)
+      SimpleAgent.prototype.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
       {
-         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("adjudicator", adjudicator);
          InputValidator.validateNotNull("attacker", attacker);
-         InputValidator.validateNotNull("attackDice", attackDice);
          InputValidator.validateNotNull("defender", defender);
          InputValidator.validateNotNull("callback", callback);
 
-         var modifications = this.determineValidModifyAttackDiceActions(environment, attacker, attackDice, defender);
+         var modifications = this.determineValidModifyAttackDiceActions(store, attacker, defender);
          modifications.push(null);
 
          var answer = modifications.vizziniRandomElement();
@@ -484,18 +477,15 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          callback(answer);
       };
 
-      SimpleAgent.prototype.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice,
-         defender, defenseDice, callback)
+      SimpleAgent.prototype.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
       {
-         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("adjudicator", adjudicator);
          InputValidator.validateNotNull("attacker", attacker);
-         InputValidator.validateNotNull("attackDice", attackDice);
          InputValidator.validateNotNull("defender", defender);
-         InputValidator.validateNotNull("defenseDice", defenseDice);
          InputValidator.validateNotNull("callback", callback);
 
-         var modifications = this.determineValidModifyDefenseDiceActions(environment, attacker, attackDice, defender, defenseDice);
+         var modifications = this.determineValidModifyDefenseDiceActions(store, attacker, defender);
          modifications.push(null);
 
          var answer = modifications.vizziniRandomElement();

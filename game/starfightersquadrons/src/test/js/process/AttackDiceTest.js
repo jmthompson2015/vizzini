@@ -4,6 +4,40 @@ define(["process/Action", "process/AttackDice", "process/Reducer"],
       "use strict";
       QUnit.module("AttackDice");
 
+      QUnit.test("AttackDice() size", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var attackerId = 1;
+         var size = 3;
+
+         // Run.
+         var dice = new AttackDice(store, attackerId, size);
+
+         // Verify.
+         for (var i = 0; i < size; i++)
+         {
+            assert.ok(dice.value(i));
+         }
+      });
+
+      QUnit.test("AttackDice() values", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var attackerId = 1;
+         var values = [AttackDice.Value.BLANK, AttackDice.Value.CRITICAL_HIT, AttackDice.Value.FOCUS, AttackDice.Value.HIT];
+
+         // Run.
+         var dice = new AttackDice(store, attackerId, values);
+
+         // Verify.
+         for (var i = 0; i < values.length; i++)
+         {
+            assert.equal(dice.value(i), values[i]);
+         }
+      });
+
       QUnit.test("AttackDice properties", function(assert)
       {
          var store = Redux.createStore(Reducer.root);
@@ -341,9 +375,18 @@ define(["process/Action", "process/AttackDice", "process/Reducer"],
          dice.spendTargetLock();
 
          // Verify.
-         console.log("dice = " + dice);
-         //  assert.equal(dice.focusCount(), 0);
-         //  assert.equal(dice.hitCount(), 2);
+         switch (dice.focusCount())
+         {
+            case 0:
+               assert.equal(dice.blankCount() + dice.criticalHitCount() + dice.hitCount(), 2);
+               break;
+            case 1:
+               assert.equal(dice.blankCount() + dice.criticalHitCount() + dice.hitCount(), 1);
+               break;
+            case 2:
+               assert.equal(dice.blankCount() + dice.criticalHitCount() + dice.hitCount(), 0);
+               break;
+         }
       });
 
       QUnit.test("toString()", function(assert)

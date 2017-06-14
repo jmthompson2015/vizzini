@@ -59,10 +59,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var attackDice = new MockAttackDice(store, attacker.id());
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
          var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(count++ === 0 ? modifyAttackDiceAction : null);
          };
@@ -170,10 +170,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var attackDice = new MockAttackDice(store, attacker.id());
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
          var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(count++ === 0 ? modifyAttackDiceAction : null);
          };
@@ -224,10 +224,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var attackDice = new MockAttackDice(store, attacker.id());
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
          var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(count++ === 0 ? modifyAttackDiceAction : null);
          };
@@ -374,7 +374,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };
@@ -382,7 +382,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var attackerPosition = new Position(458, 895, -90);
          var weapon = attacker.secondaryWeapons()[0];
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         imperialAgent.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, callback)
+         imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };
@@ -439,7 +439,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };
@@ -447,7 +447,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var attackerPosition = new Position(458, 895, -90);
          var weapon = attacker.secondaryWeapons()[0];
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         imperialAgent.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, callback)
+         imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };
@@ -469,10 +469,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var attackDice = new MockAttackDice(store, attacker.id());
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          // var rebelAgent = attacker.agent();
          var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(count++ === 0 ? modifyAttackDiceAction : null);
          };
@@ -510,10 +510,10 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var attackDice = new MockAttackDice(store, attacker.id());
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey, pilotKey, upgradeKey);
+         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
          var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(count++ === 0 ? modifyAttackDiceAction : null);
          };
@@ -584,7 +584,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var adjudicator = new Adjudicator();
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };
@@ -597,7 +597,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          }
 
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         imperialAgent.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, callback)
+         imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };
@@ -637,7 +637,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var adjudicator = new Adjudicator();
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         rebelAgent.getModifyAttackDiceAction = function(environment, adjudicator, attacker, attackDice, defender, callback)
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };
@@ -646,7 +646,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var weapon = attacker.primaryWeapon();
 
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         imperialAgent.getModifyDefenseDiceAction = function(environment, adjudicator, attacker, attackDice, defender, defenseDice, callback)
+         imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
             callback(null);
          };

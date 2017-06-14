@@ -39,7 +39,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             {
                shipActionAction.doIt();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -54,7 +54,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             store.dispatch(Action.addFocusCount(token));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -74,7 +74,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var attacker = getActiveToken(store);
             var targetLock = new TargetLock(token, attacker);
             token.addAttackerTargetLock(targetLock);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -95,7 +95,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var defender = getDefender(token);
             var targetLock = new TargetLock(store, token, defender);
             token.addAttackerTargetLock(targetLock);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -117,7 +117,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var attackDice = getAttackDice(token);
             var shipCount = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).length;
             attackDice.rerollBlankAndFocus(shipCount);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -134,7 +134,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attackDice = getAttackDice(token);
             attackDice.rerollAllBlank();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -157,7 +157,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             {
                attackDice.rerollFocus();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -174,7 +174,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             token.removeStress();
             var attackDice = getAttackDice(token);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -192,7 +192,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             store.dispatch(Action.addEvadeCount(token, -1));
             var attackDice = getAttackDice(token);
             attackDice.addDie(AttackDice.Value.HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -216,7 +216,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             {
                attackDice.rerollFocus();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -240,7 +240,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             attackDice.changeAllToValue(AttackDice.Value.BLANK, AttackDice.Value.CRITICAL_HIT);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
             attackDice.changeAllToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -256,7 +256,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -273,7 +273,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -290,7 +290,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -315,7 +315,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var environment = store.getState().environment;
             var shipCount = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE).length;
             defenseDice.rerollBlankAndFocus(shipCount);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -334,7 +334,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -359,7 +359,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             {
                defenseDice.rerollFocus();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -377,7 +377,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var attacker = getActiveToken(store);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -396,7 +396,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var defender = getDefender(attacker);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -413,7 +413,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             store.dispatch(Action.addFocusCount(token));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -431,7 +431,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             token.recoverShield();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -446,7 +446,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             store.dispatch(Action.addEvadeCount(token));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -479,7 +479,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             {
                shipActionAction.doIt();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -511,7 +511,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             {
                shipActionAction.doIt();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 

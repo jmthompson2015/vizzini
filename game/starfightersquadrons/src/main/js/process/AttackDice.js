@@ -30,6 +30,10 @@ define(["process/Action"],
 
             this.save(newValues);
          }
+         else if (Array.isArray(sizeOrValues))
+         {
+            this.save(sizeOrValues);
+         }
       }
 
       //////////////////////////////////////////////////////////////////////////
@@ -57,29 +61,25 @@ define(["process/Action"],
 
       AttackDice.prototype.size = function()
       {
-         return this.values().length;
+         return this.values().size;
       };
 
       AttackDice.prototype.sortedValues = function()
       {
-         var answer = this.values().slice();
-
-         answer.sort(function(die0, die1)
+         return this.values().sort(function(die0, die1)
          {
             var value0 = AttackDice.Value.properties[die0].sortOrder;
             var value1 = AttackDice.Value.properties[die1].sortOrder;
 
             return value0 - value1;
          });
-
-         return answer;
       };
 
       AttackDice.prototype.toString = function()
       {
          var values = this.values();
 
-         return "size = " + values.length + ", values = " + values;
+         return "size = " + values.size + ", values = " + values.toArray();
       };
 
       AttackDice.prototype.value = function(index)
@@ -88,7 +88,7 @@ define(["process/Action"],
 
          var values = this.values();
 
-         return values[index];
+         return values.get(index);
       };
 
       AttackDice.prototype.valueCount = function(target)
@@ -117,22 +117,20 @@ define(["process/Action"],
          // value optional.
 
          var myValue = (value !== undefined ? value : AttackDice.rollRandomValue());
-         var oldValues = this.values();
-         var newValues = oldValues.slice();
-         newValues.push(myValue);
+         var newValues = this.values().push(myValue);
          this.save(newValues);
       };
 
       AttackDice.prototype.changeAllToValue = function(oldValue, newValue)
       {
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            if (oldValues[i] === oldValue)
+            if (oldValues.get(i) === oldValue)
             {
-               newValues[i] = newValue;
+               newValues = newValues.set(i, newValue);
             }
          }
 
@@ -142,13 +140,13 @@ define(["process/Action"],
       AttackDice.prototype.changeOneToValue = function(oldValue, newValue)
       {
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            if (oldValues[i] === oldValue)
+            if (oldValues.get(i) === oldValue)
             {
-               newValues[i] = newValue;
+               newValues = newValues.set(i, newValue);
                break;
             }
          }
@@ -162,9 +160,9 @@ define(["process/Action"],
          var newValues = [];
 
          // Reroll all blank values.
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            var oldValue = oldValues[i];
+            var oldValue = oldValues.get(i);
 
             if (oldValue === AttackDice.Value.BLANK)
             {
@@ -185,9 +183,9 @@ define(["process/Action"],
          var newValues = [];
 
          // Reroll all focus values.
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            var oldValue = oldValues[i];
+            var oldValue = oldValues.get(i);
 
             if (oldValue === AttackDice.Value.FOCUS)
             {
@@ -253,15 +251,15 @@ define(["process/Action"],
          var myCount = (count === undefined ? 1 : count);
 
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
-         for (var i = 0; i < oldValues.length; i++)
+         for (var i = 0; i < oldValues.size; i++)
          {
-            var oldValue = oldValues[i];
+            var oldValue = oldValues.get(i);
 
             if (oldValue === type)
             {
-               newValues[i] = AttackDice.rollRandomValue();
+               newValues = newValues.set(i, AttackDice.rollRandomValue());
                myCount--;
 
                if (myCount === 0)
@@ -278,7 +276,8 @@ define(["process/Action"],
       {
          var store = this.store();
          var attackerId = this.attackerId();
-         store.dispatch(Action.setTokenAttackDice(attackerId, newValues));
+         var values = (Array.isArray(newValues) ? Immutable.List(newValues) : newValues);
+         store.dispatch(Action.setTokenAttackDice(attackerId, values));
       };
 
       AttackDice.prototype.spendFocusToken = function()
@@ -291,13 +290,13 @@ define(["process/Action"],
       {
          // Reroll any blank or focus values.
          var oldValues = this.values();
-         var newValues = oldValues.slice();
+         var newValues = oldValues;
 
          oldValues.forEach(function(oldValue, i)
          {
             if ([AttackDice.Value.BLANK, AttackDice.Value.FOCUS].includes(oldValue))
             {
-               newValues[i] = AttackDice.rollRandomValue();
+               newValues = newValues.set(i, AttackDice.rollRandomValue());
             }
          });
 
@@ -312,9 +311,7 @@ define(["process/Action"],
          InputValidator.validateNotNull("store", store);
          InputValidator.validateIsNumber("attackerId", attackerId);
 
-         var values = store.getState().tokenIdToAttackDice[attackerId];
-
-         return new AttackDice(store, attackerId, values);
+         return new AttackDice(store, attackerId);
       };
 
       AttackDice.rollRandomValue = function()

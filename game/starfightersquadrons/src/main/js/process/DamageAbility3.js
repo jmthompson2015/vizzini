@@ -24,7 +24,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
                var environment = store.getState().environment;
                token.receiveDamage(environment.drawDamage());
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -42,7 +42,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Selector"],
                var environment = store.getState().environment;
                token.receiveDamage(environment.drawDamage());
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 

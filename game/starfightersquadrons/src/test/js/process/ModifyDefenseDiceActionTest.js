@@ -14,7 +14,7 @@ define(["process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDefe
          store.dispatch(Action.addEvadeCount(defender));
          var defenseDice = new DefenseDice(store, attacker.id(), 3);
          var modification = ModifyDefenseDiceAction.Modification.SPEND_EVADE;
-         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+         var action = new ModifyDefenseDiceAction(store, attacker, defender, modification);
          assert.equal(defender.evadeCount(), 1);
          assert.equal(defender.focusCount(), 0);
          var evadeCount0 = defenseDice.evadeCount();
@@ -40,7 +40,7 @@ define(["process/DefenseDice", "process/EnvironmentFactory", "process/ModifyDefe
          store.dispatch(Action.addFocusCount(defender));
          var defenseDice = new DefenseDice(store, attacker.id(), 3);
          var modification = ModifyDefenseDiceAction.Modification.SPEND_FOCUS;
-         var action = new ModifyDefenseDiceAction(environment, defender, defenseDice, modification);
+         var action = new ModifyDefenseDiceAction(store, attacker, defender, modification);
          assert.equal(defender.evadeCount(), 0);
          assert.equal(defender.focusCount(), 1);
          var evadeCount0 = defenseDice.evadeCount();

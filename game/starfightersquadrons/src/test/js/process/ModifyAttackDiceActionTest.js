@@ -14,7 +14,7 @@ define(["process/AttackDice", "process/Action", "process/EnvironmentFactory", "p
          var attackDice = new AttackDice(store, attacker.id(), 3);
          var defender = environment.tokens()[2];
          var modificationKey = ModifyAttackDiceAction.Modification.SPEND_FOCUS;
-         var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey);
+         var action = new ModifyAttackDiceAction(store, attacker, defender, modificationKey);
          assert.equal(attacker.focusCount(), 1);
          var focusCount0 = attackDice.focusCount();
          var hitCount0 = attackDice.hitCount();
@@ -39,7 +39,7 @@ define(["process/AttackDice", "process/Action", "process/EnvironmentFactory", "p
          var modificationKey = ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK;
          var targetLock = new TargetLock(store, attacker, defender);
          attacker.addAttackerTargetLock(targetLock);
-         var action = new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey);
+         var action = new ModifyAttackDiceAction(store, attacker, defender, modificationKey);
          var blankCount0 = attackDice.blankCount();
          var focusCount0 = attackDice.focusCount();
          var hitCount0 = attackDice.hitCount();

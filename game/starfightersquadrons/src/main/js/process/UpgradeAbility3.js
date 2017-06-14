@@ -23,7 +23,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             spendFocusToken(store, attacker);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -40,7 +40,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             discardUpgrade(attacker);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -64,7 +64,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var defender = getDefender(attacker);
             attacker.receiveStress();
             defender.receiveStress();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -82,7 +82,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             attacker.receiveStress();
             store.dispatch(Action.addTokenUpgradePerRound(token, UpgradeCard.REBEL_CAPTIVE));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -106,7 +106,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -123,7 +123,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             spendFocusToken(store, token);
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -140,7 +140,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             spendTargetLockAndDiscardUpgrade(attacker);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -159,7 +159,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             spendTargetLockAndDiscardUpgrade(attacker);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -176,7 +176,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var defender = getDefender(token);
             var count = (defender.pilot().isUnique ? 2 : 1);
             attackDice.rerollBlankAndFocus(count);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -192,7 +192,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -216,7 +216,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var newValue = (weapon.weaponValue() >= 3 ? AttackDice.Value.CRITICAL_HIT : AttackDice.Value.HIT);
             attackDice.changeOneToValue(oldValue, newValue);
             store.dispatch(Action.addTokenUpgradePerRound(token, UpgradeCard.GUIDANCE_CHIPS));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -236,7 +236,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
             store.dispatch(Action.addTokenUpgradePerRound(token, UpgradeCard.GUNNERY_TEAM));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -256,7 +256,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             spendTargetLock(token, defender);
             var attackDice = getAttackDice(token);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -275,7 +275,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          },
          consequent: function(store, token, callback)
          {
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -294,7 +294,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attackDice = getAttackDice(token);
             attackDice.rerollBlank();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -312,7 +312,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -330,7 +330,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-            callback();
+            if (callback !== undefined) callback();
          }
       };
 
@@ -348,7 +348,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          }
       };
 
@@ -365,7 +365,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             token.receiveStress();
             var attackDice = getAttackDice(token);
             attackDice.addDie();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -383,7 +383,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attackDice = getAttackDice(token);
             var count = (defender.pilotSkillValue() <= 2 ? 2 : 1);
             attackDice.rerollBlankAndFocus(count);
-            callback();
+            if (callback !== undefined) callback();
          }
       };
 
@@ -400,7 +400,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             discardUpgrade(attacker);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -419,7 +419,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             spendTargetLockAndDiscardUpgrade(attacker);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -436,7 +436,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attackDice = getAttackDice(token);
             var count = Math.min(3, attackDice.blankCount() + attackDice.focusCount());
             attackDice.rerollBlankAndFocus(count);
-            callback();
+            if (callback !== undefined) callback();
          }
       };
 
@@ -454,7 +454,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
 
             var attackDice = getAttackDice(token);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -470,7 +470,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attackDice = getAttackDice(token);
             attackDice.rerollAllFocus();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -494,7 +494,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.BLANK, DefenseDice.Value.EVADE);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -522,7 +522,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             {
                defenseDice.rerollFocus();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -538,7 +538,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var defenseDice = getDefenseDice(token);
             defenseDice.changeOneToValue(DefenseDice.Value.EVADE, DefenseDice.Value.FOCUS);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -559,7 +559,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.rerollBlank();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -577,7 +577,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.HIT, AttackDice.Value.FOCUS);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -595,7 +595,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             var defenseDice = getDefenseDice(attacker);
             defenseDice.rerollAllFocus();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -621,7 +621,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                var environment = store.getState().environment;
                defender.receiveCriticalDamage(environment.drawDamage());
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -645,7 +645,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                defender.receiveDamage(environment.drawDamage());
                store.dispatch(Action.addIonCount(defender, 2));
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -683,7 +683,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                   });
                });
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -702,7 +702,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var shipActionAction = new ShipActionAction.Cloak(store, token);
             shipActionAction.doIt();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -728,7 +728,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                   token.receiveDamage(environment.drawDamage());
                });
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -750,7 +750,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var defender = getDefender(token);
             var targetLock = new TargetLock(store, token, defender);
             token.addAttackerTargetLock(targetLock);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -768,7 +768,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             {
                myToken.receiveDamage(environment.drawDamage());
             });
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -786,7 +786,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var defender = getDefender(attacker);
             var targetLock = new TargetLock(store, attacker, defender);
             attacker.addAttackerTargetLock(targetLock);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -813,7 +813,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                   defender.receiveStress();
                }
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -835,7 +835,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             {
                defender.receiveStress();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -868,7 +868,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             {
                shipActionAction.doIt();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -891,7 +891,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                defender.receiveDamage(environment.drawDamage());
                store.dispatch(Action.addIonCount(defender));
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -914,7 +914,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                defender.receiveDamage(environment.drawDamage());
                store.dispatch(Action.addIonCount(defender));
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -941,7 +941,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                   store.dispatch(Action.addIonCount(token));
                });
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -963,7 +963,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                var defender = getDefender(attacker);
                defender.removeShield();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -981,7 +981,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
             defender.recoverShield();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -996,7 +996,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             discardUpgrade(token, UpgradeCard.STEALTH_DEVICE);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -1013,7 +1013,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var defender = getDefender(token);
             defender.receiveStress();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -1034,7 +1034,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                var defender = getDefender(attacker);
                store.dispatch(Action.addTractorBeamCount(defender));
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -1056,7 +1056,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                var defender = getDefender(attacker);
                defender.receiveDamage(environment.drawDamage());
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 

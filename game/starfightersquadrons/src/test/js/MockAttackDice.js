@@ -1,5 +1,5 @@
-define(["process/Action", "process/AttackDice"],
-   function(Action, AttackDice)
+define(["process/AttackDice"],
+   function(AttackDice)
    {
       "use strict";
 
@@ -8,120 +8,22 @@ define(["process/Action", "process/AttackDice"],
          InputValidator.validateNotNull("store", store);
          InputValidator.validateIsNumber("attackerId", attackerId);
 
-         var values;
+         var values = [AttackDice.Value.BLANK, AttackDice.Value.CRITICAL_HIT, AttackDice.Value.FOCUS, AttackDice.Value.HIT];
+         var answer = new AttackDice(store, attackerId, values);
 
-         rerollAll();
-         store.dispatch(Action.setTokenAttackDice(attackerId, values));
+         answer.rerollAllBlank = function() {};
 
-         this.blankCount = function()
-         {
-            return valueCount(AttackDice.Value.BLANK);
-         };
+         answer.rerollAllFocus = function() {};
 
-         this.changeAllToValue = function(oldValue, newValue)
-         {
-            values.forEach(function(value, i)
-            {
-               if (value === oldValue)
-               {
-                  values[i] = newValue;
-               }
-            });
-         };
+         answer.rerollBlank = function(count) {};
 
-         this.changeOneToValue = function(oldValue, newValue)
-         {
-            for (var i = 0; i < values.length; i++)
-            {
-               var value = values[i];
+         answer.rerollBlankAndFocus = function(count) {};
 
-               if (value === oldValue)
-               {
-                  values[i] = newValue;
-                  break;
-               }
-            }
-         };
+         answer.rerollFocus = function(count) {};
 
-         this.criticalHitCount = function()
-         {
-            return valueCount(AttackDice.Value.CRITICAL_HIT);
-         };
+         answer.rerollType = function(type, count) {};
 
-         this.focusCount = function()
-         {
-            return valueCount(AttackDice.Value.FOCUS);
-         };
-
-         this.hitCount = function()
-         {
-            return valueCount(AttackDice.Value.HIT);
-         };
-
-         this.rerollBlank = function() {};
-
-         this.rerollBlankAndFocus = function() {};
-
-         this.size = function()
-         {
-            return values.length;
-         };
-
-         this.sortedValues = function()
-         {
-            var answer = values.slice();
-
-            answer.sort(function(die0, die1)
-            {
-               var value0 = AttackDice.Value.properties[die0].sortOrder;
-               var value1 = AttackDice.Value.properties[die1].sortOrder;
-
-               return value0 - value1;
-            });
-
-            return answer;
-         };
-
-         this.spendFocusToken = function()
-         {
-            // Change all focus results to hits.
-            this.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
-         };
-
-         this.spendTargetLock = function() {};
-
-         this.toString = function()
-         {
-            return "size = " + values.length + ", values = " + values;
-         };
-
-         this.value = function(index)
-         {
-            return values[index];
-         };
-
-         this.values = function()
-         {
-            return values;
-         };
-
-         function rerollAll()
-         {
-            values = [];
-
-            values.push(AttackDice.Value.BLANK);
-            values.push(AttackDice.Value.CRITICAL_HIT);
-            values.push(AttackDice.Value.FOCUS);
-            values.push(AttackDice.Value.HIT);
-         }
-
-         function valueCount(target)
-         {
-            return values.reduce(function(previousValue, currentValue, i)
-            {
-               return previousValue + (currentValue === target ? 1 : 0);
-            }, 0);
-         }
+         return answer;
       }
 
       return MockAttackDice;

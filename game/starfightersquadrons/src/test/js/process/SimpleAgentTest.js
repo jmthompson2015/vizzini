@@ -217,7 +217,7 @@ define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "
          }
 
          // Run.
-         agent.getModifyAttackDiceAction(environment, adjudicator, attacker, attackDice, defender, callback);
+         agent.getModifyAttackDiceAction(store, adjudicator, attacker, defender, callback);
       });
 
       QUnit.test("getModifyDefenseDiceAction() evade", function(assert)
@@ -253,8 +253,7 @@ define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "
          }
 
          // Run.
-         agent.getModifyDefenseDiceAction(environment, adjudicator, attacker, attackDice, defender,
-            defenseDice, callback);
+         agent.getModifyDefenseDiceAction(store, adjudicator, attacker, defender, callback);
       });
 
       QUnit.test("getPlanningAction() Imperial", function(assert)

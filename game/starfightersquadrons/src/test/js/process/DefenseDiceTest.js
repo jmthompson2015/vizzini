@@ -4,6 +4,40 @@ define(["process/Action", "process/DefenseDice", "process/Reducer"],
       "use strict";
       QUnit.module("DefenseDice");
 
+      QUnit.test("DefenseDice() size", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var attackerId = 1;
+         var size = 3;
+
+         // Run.
+         var dice = new DefenseDice(store, attackerId, size);
+
+         // Verify.
+         for (var i = 0; i < size; i++)
+         {
+            assert.ok(dice.value(i));
+         }
+      });
+
+      QUnit.test("DefenseDice() values", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var attackerId = 1;
+         var values = [DefenseDice.Value.BLANK, DefenseDice.Value.EVADE, DefenseDice.Value.FOCUS];
+
+         // Run.
+         var dice = new DefenseDice(store, attackerId, values);
+
+         // Verify.
+         for (var i = 0; i < values.length; i++)
+         {
+            assert.equal(dice.value(i), values[i]);
+         }
+      });
+
       QUnit.test("DefenseDice properties", function(assert)
       {
          // Setup.
@@ -32,6 +66,36 @@ define(["process/Action", "process/DefenseDice", "process/Reducer"],
          {
             assert.equal(dice.blankCount(), 0);
          }
+      });
+
+      QUnit.test("changeAllToValue()", function(assert)
+      {
+         // Setup.
+         var dice = createFocusDice(2);
+         assert.equal(dice.evadeCount(), 0);
+         assert.equal(dice.focusCount(), 2);
+
+         // Run.
+         dice.changeAllToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+
+         // Verify.
+         assert.equal(dice.evadeCount(), 2);
+         assert.equal(dice.focusCount(), 0);
+      });
+
+      QUnit.test("changeOneToValue()", function(assert)
+      {
+         // Setup.
+         var dice = createFocusDice(2);
+         assert.equal(dice.evadeCount(), 0);
+         assert.equal(dice.focusCount(), 2);
+
+         // Run.
+         dice.changeOneToValue(DefenseDice.Value.FOCUS, DefenseDice.Value.EVADE);
+
+         // Verify.
+         assert.equal(dice.evadeCount(), 1);
+         assert.equal(dice.focusCount(), 1);
       });
 
       QUnit.test("evadeCount()", function(assert)
