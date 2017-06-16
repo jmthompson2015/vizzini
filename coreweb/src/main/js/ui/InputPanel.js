@@ -3,25 +3,25 @@ var InputPanel = React.createClass(
     propTypes:
     {
         // Function called when the selection changes.
-        onChange: React.PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
         // Input type. (e.g. "checkbox", "radio", "text")
-        type: React.PropTypes.string.isRequired,
+        type: PropTypes.string.isRequired,
         // Option values.
-        values: React.PropTypes.array.isRequired,
+        values: PropTypes.array.isRequired,
 
         // Client properties.
-        clientProps: React.PropTypes.object,
+        clientProps: PropTypes.object,
         // Function which returns the id for a value. Defaults to simply return the value.
-        idFunction: React.PropTypes.func,
+        idFunction: PropTypes.func,
         // Initial values.
-        initialValues: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.array,
-                React.PropTypes.object ]),
+        initialValues: PropTypes.oneOfType([ PropTypes.string, PropTypes.array,
+                PropTypes.object ]),
         // Function which returns the label for a value. Defaults to simply return the value.
-        labelFunction: React.PropTypes.func,
+        labelFunction: PropTypes.func,
         // Button name. (required for radio)
-        name: React.PropTypes.string,
+        name: PropTypes.string,
         // Panel CSS class.
-        panelClass: React.PropTypes.string,
+        panelClass: PropTypes.string,
     },
 
     render: function()

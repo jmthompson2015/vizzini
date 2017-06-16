@@ -69,14 +69,14 @@ var Select = React.createClass(
 
 Select.propTypes = {
     // Option values. (required)
-    values: React.PropTypes.array.isRequired,
+    values: PropTypes.array.isRequired,
 
     // Client properties. (optional)
-    clientProps: React.PropTypes.object,
+    clientProps: PropTypes.object,
     // Initially selected value. (optional)
-    initialSelectedValue: React.PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.object]),
+    initialSelectedValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     // Function which returns the label for a value. Defaults to simply return the value. (optional)
-    labelFunction: React.PropTypes.func,
+    labelFunction: PropTypes.func,
     // Function called when the selection changes. (optional)
-    onChange: React.PropTypes.func,
+    onChange: PropTypes.func,
 };

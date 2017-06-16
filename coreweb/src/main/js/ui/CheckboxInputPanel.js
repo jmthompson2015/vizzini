@@ -3,22 +3,22 @@ var CheckboxInputPanel = React.createClass(
     propTypes:
     {
         // Function called when the selection changes.
-        onChange: React.PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
         // Option values.
-        values: React.PropTypes.array.isRequired,
+        values: PropTypes.array.isRequired,
 
         // Client properties.
-        clientProps: React.PropTypes.object,
+        clientProps: PropTypes.object,
         // Function which returns the id for a value. Defaults to simply return the value.
-        idFunction: React.PropTypes.func,
+        idFunction: PropTypes.func,
         // Initially selected values.
-        initialValues: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.array,
-                React.PropTypes.object ]),
+        initialValues: PropTypes.oneOfType([ PropTypes.string, PropTypes.array,
+                PropTypes.object ]),
         // Function which returns the label for a value. Defaults to simply return the value.
-        labelFunction: React.PropTypes.func,
-        name: React.PropTypes.string,
+        labelFunction: PropTypes.func,
+        name: PropTypes.string,
         // Panel CSS class.
-        panelClass: React.PropTypes.string,
+        panelClass: PropTypes.string,
     },
 
     getInitialState: function()

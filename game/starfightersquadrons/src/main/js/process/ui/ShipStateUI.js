@@ -5,20 +5,20 @@ define(["ShipState", "Team", "process/ui/LabeledImage"], function(ShipState, Tea
     {
         propTypes:
         {
-            faction: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            shipState: React.PropTypes.object.isRequired,
+            faction: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            shipState: PropTypes.object.isRequired,
 
             // default: undefined
-            label: React.PropTypes.string,
+            label: PropTypes.string,
             // default: undefined
-            labelClass: React.PropTypes.string,
+            labelClass: PropTypes.string,
             // default: ship state value
-            myKey: React.PropTypes.string,
+            myKey: PropTypes.string,
             // default: false
-            showName: React.PropTypes.bool,
+            showName: PropTypes.bool,
             // default: false
-            showOne: React.PropTypes.bool,
+            showOne: PropTypes.bool,
         },
 
         render: function()

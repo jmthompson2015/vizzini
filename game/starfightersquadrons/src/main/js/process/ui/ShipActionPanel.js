@@ -5,8 +5,8 @@ define(["ShipAction", "process/ui/ShipActionUI"], function(ShipAction, ShipActio
     {
         propTypes:
         {
-            shipActionKeys: React.PropTypes.array.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            shipActionKeys: PropTypes.array.isRequired,
+            imageBase: PropTypes.string.isRequired,
         },
 
         render: function()

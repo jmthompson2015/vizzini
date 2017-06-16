@@ -5,20 +5,20 @@ define(function()
     {
         propTypes:
         {
-            image: React.PropTypes.string.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            label: React.PropTypes.string.isRequired,
+            image: PropTypes.string.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            label: PropTypes.string.isRequired,
 
             // default: 32
-            height: React.PropTypes.number,
+            height: PropTypes.number,
             // default: undefined
-            labelClass: React.PropTypes.string,
+            labelClass: PropTypes.string,
             // default: false
-            showOne: React.PropTypes.bool,
+            showOne: PropTypes.bool,
             // default: undefined
-            title: React.PropTypes.string,
+            title: PropTypes.string,
             // default: 32
-            width: React.PropTypes.number,
+            width: PropTypes.number,
         },
 
         render: function()

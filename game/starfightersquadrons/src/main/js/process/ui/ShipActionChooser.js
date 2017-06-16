@@ -6,10 +6,10 @@ define(["ShipAction", "process/ui/AbilityUI", "process/ui/ShipActionUI", "../../
       {
          propTypes:
          {
-            callback: React.PropTypes.func.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            shipActions: React.PropTypes.array.isRequired,
-            token: React.PropTypes.object.isRequired,
+            callback: PropTypes.func.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            shipActions: PropTypes.array.isRequired,
+            token: PropTypes.object.isRequired,
          },
 
          getInitialState: function()

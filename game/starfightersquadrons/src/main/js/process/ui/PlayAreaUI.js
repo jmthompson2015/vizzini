@@ -6,17 +6,17 @@ define(["Difficulty", "ManeuverComputer", "ShipTeam", "process/ui/ShipImage"],
       {
          propTypes:
          {
-            height: React.PropTypes.number.isRequired,
-            image: React.PropTypes.string.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            playFormatKey: React.PropTypes.string.isRequired,
-            scale: React.PropTypes.number.isRequired,
-            tokenPositions: React.PropTypes.array.isRequired,
-            width: React.PropTypes.number.isRequired,
+            height: PropTypes.number.isRequired,
+            image: PropTypes.string.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            playFormatKey: PropTypes.string.isRequired,
+            scale: PropTypes.number.isRequired,
+            tokenPositions: PropTypes.array.isRequired,
+            width: PropTypes.number.isRequired,
 
-            explosion: React.PropTypes.object,
-            laserBeam: React.PropTypes.object,
-            maneuver: React.PropTypes.object,
+            explosion: PropTypes.object,
+            laserBeam: PropTypes.object,
+            maneuver: PropTypes.object,
          },
 
          explosionImage: undefined,

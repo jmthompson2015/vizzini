@@ -6,9 +6,9 @@ define(["process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/PilotsUI
         {
             propTypes:
             {
-                engine: React.PropTypes.object.isRequired,
-                environment: React.PropTypes.object.isRequired,
-                imageBase: React.PropTypes.string.isRequired,
+                engine: PropTypes.object.isRequired,
+                environment: PropTypes.object.isRequired,
+                imageBase: PropTypes.string.isRequired,
             },
 
             render: function()

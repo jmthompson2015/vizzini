@@ -6,12 +6,12 @@ define(["../../../../../../../coreweb/src/main/js/ui/InputPanel2"],
       {
          propTypes:
          {
-            tokens: React.PropTypes.array.isRequired,
-            callback: React.PropTypes.func.isRequired,
+            tokens: PropTypes.array.isRequired,
+            callback: PropTypes.func.isRequired,
 
-            attacker: React.PropTypes.object,
-            inputPanelName: React.PropTypes.string,
-            title: React.PropTypes.string,
+            attacker: PropTypes.object,
+            inputPanelName: PropTypes.string,
+            title: PropTypes.string,
          },
 
          getInitialState: function()

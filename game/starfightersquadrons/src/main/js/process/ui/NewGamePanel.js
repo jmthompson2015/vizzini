@@ -6,8 +6,8 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
         {
             propTypes:
             {
-                iconBase: React.PropTypes.string.isRequired,
-                imageBase: React.PropTypes.string.isRequired,
+                iconBase: PropTypes.string.isRequired,
+                imageBase: PropTypes.string.isRequired,
             },
 
             getInitialState: function()
@@ -120,15 +120,15 @@ define(["Team", "process/MediumAgent", "process/SimpleAgent", "process/SquadBuil
 
             propTypes:
             {
-                agentNumber: React.PropTypes.number.isRequired,
-                iconBase: React.PropTypes.string.isRequired,
-                imageBase: React.PropTypes.string.isRequired,
+                agentNumber: PropTypes.number.isRequired,
+                iconBase: PropTypes.string.isRequired,
+                imageBase: PropTypes.string.isRequired,
 
                 // default: Team.IMPERIAL
-                initialTeamKey: React.PropTypes.string,
+                initialTeamKey: PropTypes.string,
                 // default: SimpleAgent
-                initialType: React.PropTypes.string,
-                onChange: React.PropTypes.func,
+                initialType: PropTypes.string,
+                onChange: PropTypes.func,
             },
 
             getInitialState: function()

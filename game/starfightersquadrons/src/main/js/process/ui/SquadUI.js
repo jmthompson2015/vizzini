@@ -54,14 +54,14 @@ define(["UpgradeCard", "Value", "process/ui/ShipSilhouetteUI", "process/ui/Upgra
       {
          propTypes:
          {
-            iconBase: React.PropTypes.string.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            squad: React.PropTypes.object.isRequired,
+            iconBase: PropTypes.string.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            squad: PropTypes.object.isRequired,
 
             // default: false
-            isEditable: React.PropTypes.bool,
+            isEditable: PropTypes.bool,
             // Called after an item is removed.
-            removeFunction: React.PropTypes.func,
+            removeFunction: PropTypes.func,
          },
 
          // Factories.

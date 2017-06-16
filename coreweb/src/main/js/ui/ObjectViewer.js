@@ -396,21 +396,21 @@ define(function()
 
     ObjectViewer.propTypes =
     {
-        canvasId: React.PropTypes.string.isRequired,
-        width: React.PropTypes.number.isRequired,
-        height: React.PropTypes.number.isRequired,
-        root: React.PropTypes.object.isRequired,
+        canvasId: PropTypes.string.isRequired,
+        width: PropTypes.number.isRequired,
+        height: PropTypes.number.isRequired,
+        root: PropTypes.object.isRequired,
 
-        cameraFOV: React.PropTypes.number,
-        cameraPosition: React.PropTypes.object,
-        background: React.PropTypes.number,
-        ambientLightColor: React.PropTypes.number,
-        ambientLightIntensity: React.PropTypes.number,
-        pointLightColor: React.PropTypes.number,
-        pointLightIntensity: React.PropTypes.number,
-        pointLightPosition: React.PropTypes.object,
-        deltaAngle: React.PropTypes.number,
-        deltaRate: React.PropTypes.number,
+        cameraFOV: PropTypes.number,
+        cameraPosition: PropTypes.object,
+        background: PropTypes.number,
+        ambientLightColor: PropTypes.number,
+        ambientLightIntensity: PropTypes.number,
+        pointLightColor: PropTypes.number,
+        pointLightIntensity: PropTypes.number,
+        pointLightPosition: PropTypes.object,
+        deltaAngle: PropTypes.number,
+        deltaRate: PropTypes.number,
     };
 
     if (Object.freeze)

@@ -6,8 +6,8 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            token: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            token: PropTypes.object.isRequired,
          },
 
          render: function()
@@ -136,8 +136,8 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            token: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            token: PropTypes.object.isRequired,
          },
 
          render: function()
@@ -169,15 +169,15 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            pilotSkillValue: React.PropTypes.number.isRequired,
-            pilotName: React.PropTypes.string.isRequired,
-            shipName: React.PropTypes.string.isRequired,
-            team: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            pilotSkillValue: PropTypes.number.isRequired,
+            pilotName: PropTypes.string.isRequired,
+            shipName: PropTypes.string.isRequired,
+            team: PropTypes.object.isRequired,
 
-            pilotAftSkillValue: React.PropTypes.number,
-            pilotDescription: React.PropTypes.string,
-            shipAftName: React.PropTypes.string,
+            pilotAftSkillValue: PropTypes.number,
+            pilotDescription: PropTypes.string,
+            shipAftName: PropTypes.string,
          },
 
          render: function()
@@ -258,8 +258,8 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            token: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            token: PropTypes.object.isRequired,
          },
 
          render: function()
@@ -302,8 +302,8 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            token: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            token: PropTypes.object.isRequired,
          },
 
          render: function()
@@ -389,8 +389,8 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            token: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            token: PropTypes.object.isRequired,
          },
 
          render: function()

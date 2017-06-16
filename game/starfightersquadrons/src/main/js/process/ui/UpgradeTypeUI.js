@@ -5,13 +5,13 @@ define(function()
     {
         propTypes:
         {
-            upgradeType: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            upgradeType: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
 
             // default: upgrade type value
-            myKey: React.PropTypes.string,
+            myKey: PropTypes.string,
             // default: false
-            showName: React.PropTypes.string,
+            showName: PropTypes.string,
         },
 
         render: function()

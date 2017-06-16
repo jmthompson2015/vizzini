@@ -24,7 +24,7 @@ define(["Team", "arena/ArenaColumns", "process/ui/FactionUI", "../../../../../..
       {
          propTypes:
          {
-            rowData: React.PropTypes.array.isRequired,
+            rowData: PropTypes.array.isRequired,
          },
 
          render: function()

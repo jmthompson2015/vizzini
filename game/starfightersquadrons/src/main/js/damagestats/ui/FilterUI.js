@@ -6,12 +6,12 @@ define(["DamageCardTrait", "damagestats/Action", "damagestats/DefaultFilters", "
       {
          contextTypes:
          {
-            store: React.PropTypes.object.isRequired,
+            store: PropTypes.object.isRequired,
          },
 
          propTypes:
          {
-            filters: React.PropTypes.object.isRequired,
+            filters: PropTypes.object.isRequired,
          },
 
          getInitialState: function()

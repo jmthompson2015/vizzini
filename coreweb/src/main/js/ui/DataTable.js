@@ -5,11 +5,11 @@ define(function()
     {
         propTypes:
         {
-            columns: React.PropTypes.array.isRequired,
-            rowData: React.PropTypes.array.isRequired,
+            columns: PropTypes.array.isRequired,
+            rowData: PropTypes.array.isRequired,
 
-            cellFunctions: React.PropTypes.object,
-            valueFunctions: React.PropTypes.object,
+            cellFunctions: PropTypes.object,
+            valueFunctions: PropTypes.object,
         },
 
         // Factories.

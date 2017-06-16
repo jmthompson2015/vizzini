@@ -5,13 +5,13 @@ define(function()
     {
         propTypes:
         {
-            ship: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            ship: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
 
             // default: ship value
-            myKey: React.PropTypes.string,
+            myKey: PropTypes.string,
             // default: false
-            showName: React.PropTypes.bool,
+            showName: PropTypes.bool,
         },
 
         render: function()

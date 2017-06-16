@@ -6,11 +6,11 @@ define(["process/SimpleAgent", "process/SquadBuilder", "process/ui/SquadUI"],
       {
          propTypes:
          {
-            iconBase: React.PropTypes.string.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            squadBuilders: React.PropTypes.array.isRequired,
+            iconBase: PropTypes.string.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            squadBuilders: PropTypes.array.isRequired,
 
-            onChange: React.PropTypes.func,
+            onChange: PropTypes.func,
          },
 
          getInitialState: function()

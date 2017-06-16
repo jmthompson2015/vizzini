@@ -6,14 +6,14 @@ define(["Pilot", "Ship", "ShipTeam", "process/SimpleAgent", "process/TokenFactor
         {
             contextTypes:
             {
-                store: React.PropTypes.object.isRequired,
+                store: PropTypes.object.isRequired,
             },
 
             propTypes:
             {
-                imageBase: React.PropTypes.string.isRequired,
-                onChange: React.PropTypes.func.isRequired,
-                team: React.PropTypes.object.isRequired,
+                imageBase: PropTypes.string.isRequired,
+                onChange: PropTypes.func.isRequired,
+                team: PropTypes.object.isRequired,
             },
 
             getInitialState: function()

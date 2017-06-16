@@ -56,13 +56,13 @@ define(["DamageCardTrait", "damagestats/DamageColumns", "damagestats/ui/Connecto
         {
             contextTypes:
             {
-                store: React.PropTypes.object.isRequired,
+                store: PropTypes.object.isRequired,
             },
 
             propTypes:
             {
-                filters: React.PropTypes.object.isRequired,
-                rowData: React.PropTypes.array.isRequired,
+                filters: PropTypes.object.isRequired,
+                rowData: PropTypes.array.isRequired,
             },
 
             render: function()

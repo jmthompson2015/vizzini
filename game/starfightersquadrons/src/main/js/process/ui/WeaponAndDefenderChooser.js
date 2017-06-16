@@ -5,9 +5,9 @@ define(["RangeRuler"], function(RangeRuler)
    {
       propTypes:
       {
-         callback: React.PropTypes.func.isRequired,
-         choices: React.PropTypes.array.isRequired,
-         attacker: React.PropTypes.object.isRequired,
+         callback: PropTypes.func.isRequired,
+         choices: PropTypes.array.isRequired,
+         attacker: PropTypes.object.isRequired,
       },
 
       getInitialState: function()

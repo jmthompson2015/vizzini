@@ -5,8 +5,8 @@ define(["process/ui/Connector", "process/ui/PilotCardCompactUI"], function(Conne
     {
         propTypes:
         {
-            tokens: React.PropTypes.array.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            tokens: PropTypes.array.isRequired,
+            imageBase: PropTypes.string.isRequired,
         },
 
         render: function()

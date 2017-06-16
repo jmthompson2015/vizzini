@@ -5,11 +5,11 @@ define(["process/ui/ManeuverChooser"], function(ManeuverChooser)
     {
         propTypes:
         {
-            agent: React.PropTypes.object.isRequired,
-            callback: React.PropTypes.func.isRequired,
-            environment: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            tokens: React.PropTypes.array.isRequired,
+            agent: PropTypes.object.isRequired,
+            callback: PropTypes.func.isRequired,
+            environment: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            tokens: PropTypes.array.isRequired,
         },
 
         getInitialState: function()

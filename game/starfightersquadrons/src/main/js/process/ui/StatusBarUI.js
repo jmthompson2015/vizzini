@@ -5,10 +5,10 @@ define(function()
     {
         propTypes:
         {
-            round: React.PropTypes.number.isRequired,
+            round: PropTypes.number.isRequired,
 
-            activeShipName: React.PropTypes.string,
-            phase: React.PropTypes.object,
+            activeShipName: PropTypes.string,
+            phase: PropTypes.object,
         },
 
         render: function()

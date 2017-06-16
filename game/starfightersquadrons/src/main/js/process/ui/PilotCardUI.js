@@ -6,11 +6,11 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
       {
          propTypes:
          {
-            initialToken: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            initialToken: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
 
             // default: false
-            isCompact: React.PropTypes.bool,
+            isCompact: PropTypes.bool,
          },
 
          getInitialState: function()
@@ -379,8 +379,8 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
       {
          propTypes:
          {
-            pilot: React.PropTypes.object.isRequired,
-            myKey: React.PropTypes.string.isRequired,
+            pilot: PropTypes.object.isRequired,
+            myKey: PropTypes.string.isRequired,
          },
 
          render: function()
@@ -403,14 +403,14 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            pilotSkillValue: React.PropTypes.number.isRequired,
-            pilotName: React.PropTypes.string.isRequired,
-            shipName: React.PropTypes.string.isRequired,
-            team: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            pilotSkillValue: PropTypes.number.isRequired,
+            pilotName: PropTypes.string.isRequired,
+            shipName: PropTypes.string.isRequired,
+            team: PropTypes.object.isRequired,
 
-            pilotAftSkillValue: React.PropTypes.number,
-            shipAftName: React.PropTypes.string,
+            pilotAftSkillValue: PropTypes.number,
+            shipAftName: PropTypes.string,
          },
 
          render: function()
@@ -512,11 +512,11 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            token: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            token: PropTypes.object.isRequired,
 
             // default: false
-            isCompact: React.PropTypes.bool,
+            isCompact: PropTypes.bool,
          },
 
          render: function()
@@ -828,8 +828,8 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            upgradeTypes: React.PropTypes.array.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            upgradeTypes: PropTypes.array.isRequired,
          },
 
          render: function()
@@ -865,8 +865,8 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            token: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            token: PropTypes.object.isRequired,
          },
 
          render: function()

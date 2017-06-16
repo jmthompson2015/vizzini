@@ -7,11 +7,11 @@ define(["process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
       {
          propTypes:
          {
-            damage: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            damage: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
 
             // default: damage value
-            myKey: React.PropTypes.string,
+            myKey: PropTypes.string,
          },
 
          render: function()
@@ -52,11 +52,11 @@ define(["process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
       {
          propTypes:
          {
-            pilot: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            pilot: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
 
             // default: pilot value
-            myKey: React.PropTypes.string,
+            myKey: PropTypes.string,
          },
 
          render: function()
@@ -92,11 +92,11 @@ define(["process/ui/FactionUI", "process/ui/UpgradeTypeUI"],
       {
          propTypes:
          {
-            upgrade: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            upgrade: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
 
             // default: upgrade value
-            myKey: React.PropTypes.string,
+            myKey: PropTypes.string,
          },
 
          render: function()

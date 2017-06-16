@@ -6,8 +6,8 @@ define(["UpgradeCard", "process/ui/UpgradeTypeUI"],
       {
          propTypes:
          {
-            imageBase: React.PropTypes.string.isRequired,
-            upgradeCard: React.PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            upgradeCard: PropTypes.object.isRequired,
          },
 
          render: function()

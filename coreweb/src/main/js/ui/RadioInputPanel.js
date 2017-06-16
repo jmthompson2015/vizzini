@@ -3,22 +3,22 @@ var RadioInputPanel = React.createClass(
     propTypes:
     {
         // Button name.
-        name: React.PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
         // Function called when the selection changes.
-        onChange: React.PropTypes.func.isRequired,
+        onChange: PropTypes.func.isRequired,
         // Option values.
-        values: React.PropTypes.array.isRequired,
+        values: PropTypes.array.isRequired,
 
         // Client properties.
-        clientProps: React.PropTypes.object,
+        clientProps: PropTypes.object,
         // Function which returns the id for a value. Defaults to simply return the value.
-        idFunction: React.PropTypes.func,
+        idFunction: PropTypes.func,
         // Initial value.
-        initialValue: React.PropTypes.oneOfType([ React.PropTypes.string, React.PropTypes.object ]),
+        initialValue: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
         // Function which returns the label for a value. Defaults to simply return the value.
-        labelFunction: React.PropTypes.func,
+        labelFunction: PropTypes.func,
         // Panel CSS class.
-        panelClass: React.PropTypes.string,
+        panelClass: PropTypes.string,
     },
 
     getInitialState: function()

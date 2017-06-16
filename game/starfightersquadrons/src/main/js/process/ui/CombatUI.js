@@ -6,17 +6,17 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
       {
          propTypes:
          {
-            attacker: React.PropTypes.object.isRequired,
-            attackDice: React.PropTypes.object.isRequired,
-            defender: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            phase: React.PropTypes.object.isRequired,
+            attacker: PropTypes.object.isRequired,
+            attackDice: PropTypes.object.isRequired,
+            defender: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            phase: PropTypes.object.isRequired,
 
-            criticalHitCount: React.PropTypes.number,
-            defenseDice: React.PropTypes.object,
-            hitCount: React.PropTypes.number,
-            modifications: React.PropTypes.array,
-            okFunction: React.PropTypes.func,
+            criticalHitCount: PropTypes.number,
+            defenseDice: PropTypes.object,
+            hitCount: PropTypes.number,
+            modifications: PropTypes.array,
+            okFunction: PropTypes.func,
          },
 
          render: function()
@@ -214,8 +214,8 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
       {
          propTypes:
          {
-            dice: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            dice: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
          },
 
          render: function()
@@ -265,8 +265,8 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
       {
          propTypes:
          {
-            dice: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            dice: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
          },
 
          render: function()
@@ -313,10 +313,10 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
       {
          propTypes:
          {
-            attacker: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            modifications: React.PropTypes.array.isRequired,
-            onChange: React.PropTypes.func.isRequired,
+            attacker: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            modifications: PropTypes.array.isRequired,
+            onChange: PropTypes.func.isRequired,
          },
 
          render: function()
@@ -369,10 +369,10 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
       {
          propTypes:
          {
-            defender: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            modifications: React.PropTypes.array.isRequired,
-            onChange: React.PropTypes.func.isRequired,
+            defender: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            modifications: PropTypes.array.isRequired,
+            onChange: PropTypes.func.isRequired,
          },
 
          render: function()
@@ -432,9 +432,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "UpgradeC
       {
          propTypes:
          {
-            criticalHitCount: React.PropTypes.number.isRequired,
-            hitCount: React.PropTypes.number.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            criticalHitCount: PropTypes.number.isRequired,
+            hitCount: PropTypes.number.isRequired,
+            imageBase: PropTypes.string.isRequired,
          },
 
          render: function()

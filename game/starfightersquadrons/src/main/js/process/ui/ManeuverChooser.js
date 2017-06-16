@@ -5,12 +5,12 @@ define(["Bearing", "Maneuver"], function(Bearing, Maneuver)
    {
       propTypes:
       {
-         imageBase: React.PropTypes.string.isRequired,
-         token: React.PropTypes.object.isRequired,
+         imageBase: PropTypes.string.isRequired,
+         token: PropTypes.object.isRequired,
 
-         callback: React.PropTypes.func,
+         callback: PropTypes.func,
          // default: true
-         isPilotNameShown: React.PropTypes.bool,
+         isPilotNameShown: PropTypes.bool,
       },
 
       getInitialState: function()

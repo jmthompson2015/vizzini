@@ -4,10 +4,10 @@ define(["process/ui/ShipImage"], function(ShipImage)
     {
         propTypes:
         {
-            canvasId: React.PropTypes.string.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            position: React.PropTypes.object.isRequired,
-            shipTeam: React.PropTypes.object.isRequired,
+            canvasId: PropTypes.string.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            position: PropTypes.object.isRequired,
+            shipTeam: PropTypes.object.isRequired,
         },
 
         componentDidMount: function()

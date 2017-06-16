@@ -6,10 +6,10 @@ define(["UpgradeCard", "process/ui/UpgradeCardUI", "process/ui/UpgradeTypeUI"],
         {
             propTypes:
             {
-                imageBase: React.PropTypes.string.isRequired,
-                onChange: React.PropTypes.func.isRequired,
-                pilot: React.PropTypes.object.isRequired,
-                upgradeType: React.PropTypes.object.isRequired,
+                imageBase: PropTypes.string.isRequired,
+                onChange: PropTypes.func.isRequired,
+                pilot: PropTypes.object.isRequired,
+                upgradeType: PropTypes.object.isRequired,
             },
 
             getInitialState: function()

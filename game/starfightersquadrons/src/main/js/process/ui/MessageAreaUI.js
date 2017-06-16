@@ -5,7 +5,7 @@ define(function()
     {
         propTypes:
         {
-            userMessage: React.PropTypes.string.isRequired,
+            userMessage: PropTypes.string.isRequired,
         },
 
         render: function()

@@ -6,16 +6,16 @@ define(["Pilot", "ShipTeam", "Team", "UpgradeCard", "UpgradeType", "process/Acti
       {
          contextTypes:
          {
-            store: React.PropTypes.object.isRequired
+            store: PropTypes.object.isRequired
          },
 
          propTypes:
          {
-            iconBase: React.PropTypes.string.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
-            team: React.PropTypes.object.isRequired,
+            iconBase: PropTypes.string.isRequired,
+            imageBase: PropTypes.string.isRequired,
+            team: PropTypes.object.isRequired,
 
-            onChange: React.PropTypes.func,
+            onChange: PropTypes.func,
          },
 
          getInitialState: function()

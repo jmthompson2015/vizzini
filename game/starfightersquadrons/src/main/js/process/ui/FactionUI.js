@@ -5,15 +5,15 @@ define(function()
     {
         propTypes:
         {
-            faction: React.PropTypes.object.isRequired,
-            imageBase: React.PropTypes.string.isRequired,
+            faction: PropTypes.object.isRequired,
+            imageBase: PropTypes.string.isRequired,
 
             // default: false
-            isSmall: React.PropTypes.bool,
+            isSmall: PropTypes.bool,
             // default: faction value
-            myKey: React.PropTypes.string,
+            myKey: PropTypes.string,
             // default: false
-            showName: React.PropTypes.string,
+            showName: PropTypes.string,
         },
 
         render: function()
