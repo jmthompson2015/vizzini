@@ -4,6 +4,7 @@
 	<title>MyTestPilotCardCompactUI</title>
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
 	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
@@ -78,15 +79,15 @@
 
 				var resistanceToken = new Token(store, Pilot.POE_DAMERON, resistanceAgent);
 				store.dispatch(Action.setShieldCount(resistanceToken, 0));
-				environment.placeToken(new Position(200, 200, 0), resistanceToken);
+				environment.placeToken(new Position(201, 200, 0), resistanceToken);
 
 				var scumToken = new Token(store, Pilot.IG_88A, scumAgent);
 				store.dispatch(Action.addTractorBeamCount(scumToken));
 				store.dispatch(Action.addWeaponsDisabledCount(scumToken));
-				environment.placeToken(new Position(200, 200, 0), scumToken);
+				environment.placeToken(new Position(202, 200, 0), scumToken);
 
 				var scumToken2 = new Token(store, Pilot.DENGAR, scumAgent);
-				environment.placeToken(new Position(200, 200, 0), scumToken2);
+				environment.placeToken(new Position(203, 200, 0), scumToken2);
 
 				var cr90Token = new DualToken(store, Pilot.CR90_CORVETTE, environment.secondAgent(), [UpgradeCard.HAN_SOLO, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.QUAD_LASER_CANNONS], [
 					UpgradeCard.WEAPONS_ENGINEER, UpgradeCard.QUAD_LASER_CANNONS, UpgradeCard.ENGINEERING_TEAM, UpgradeCard.TIBANNA_GAS_SUPPLIES
@@ -113,17 +114,13 @@
 				store.dispatch(Action.addEnergyCount(raiderToken, 2));
 				environment.placeToken(new Position(250, 100, 0), raiderToken);
 
-				var targetLock0 = new TargetLock(store, imperialToken, rebelToken);
-				imperialToken.addAttackerTargetLock(targetLock0);
+				var targetLock0 = new TargetLock(store, imperialToken.id(), rebelToken.id());
 
-				var targetLock1 = new TargetLock(store, rebelToken, scumToken);
-				rebelToken.addAttackerTargetLock(targetLock1);
+				var targetLock1 = new TargetLock(store, rebelToken.id(), scumToken.id());
 
-				var targetLock2 = new TargetLock(store, scumToken, imperialToken);
-				scumToken.addAttackerTargetLock(targetLock2);
+				var targetLock2 = new TargetLock(store, scumToken.id(), imperialToken.id());
 
-				var targetLock3 = new TargetLock(store, cr90Token.tokenFore(), foToken);
-				cr90Token.tokenFore().addAttackerTargetLock(targetLock3);
+				var targetLock3 = new TargetLock(store, cr90Token.tokenFore().id(), foToken.id());
 
 				var element = React.createElement(PilotCardCompactUI,
 				{

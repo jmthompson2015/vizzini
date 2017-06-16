@@ -57,7 +57,7 @@ define(["Phase"], function(Phase)
 
       this.damageDeck = [];
       this.damageDiscardPile = [];
-      this.targetLocks = [];
+      this.targetLocks = Immutable.List();
 
       this.tokens = {};
 

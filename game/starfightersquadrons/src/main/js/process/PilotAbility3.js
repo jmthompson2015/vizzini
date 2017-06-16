@@ -72,8 +72,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            var targetLock = new TargetLock(token, attacker);
-            token.addAttackerTargetLock(targetLock);
+            var targetLock = new TargetLock(store, token.id(), attacker.id());
             if (callback !== undefined) callback();
          },
       };
@@ -87,14 +86,13 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
-            var targetLocks = Selector.defenderTargetLocks(store.getState(), defender);
+            var targetLocks = TargetLock.getByDefender(store, defender.id());
             return token === attacker && targetLocks.length > 0;
          },
          consequent: function(store, token, callback)
          {
             var defender = getDefender(token);
-            var targetLock = new TargetLock(store, token, defender);
-            token.addAttackerTargetLock(targetLock);
+            var targetLock = new TargetLock(store, token.id(), defender.id());
             if (callback !== undefined) callback();
          },
       };
@@ -226,16 +224,15 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
-            var targetLock = token.findTargetLockByDefender(defender);
+            var targetLocks = TargetLock.getByDefender(store, defender.id());
             var attackDice = getAttackDice(token);
-            return token === attacker && token.focusCount() > 0 && targetLock !== undefined && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0 || attackDice.hitCount() > 0);
+            return token === attacker && token.focusCount() > 0 && targetLocks.length > 0 && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0 || attackDice.hitCount() > 0);
          },
          consequent: function(store, token, callback)
          {
             var defender = getDefender(token);
-            store.dispatch(Action.addFocusCount(token, -1));
-            var targetLock = token.findTargetLockByDefender(defender);
-            token.removeAttackerTargetLock(targetLock);
+            spendFocusToken(store, token);
+            spendTargetLock(store, token, defender);
             var attackDice = getAttackDice(token);
             attackDice.changeAllToValue(AttackDice.Value.BLANK, AttackDice.Value.CRITICAL_HIT);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
@@ -578,6 +575,24 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          var store = attacker.store();
 
          return Selector.isDefenderHit(store.getState(), attacker);
+      }
+
+      function spendFocusToken(store, attacker)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("attacker", attacker);
+
+         store.dispatch(Action.addFocusCount(attacker, -1));
+      }
+
+      function spendTargetLock(store, attacker, defender)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("defender", defender);
+
+         var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+         targetLock.delete();
       }
 
       PilotAbility3.toString = function()

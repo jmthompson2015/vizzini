@@ -1,5 +1,5 @@
-define(["Phase", "process/Action", "process/AttackDice", "process/PilotAbility3", "process/UpgradeAbility3"],
-   function(Phase, Action, AttackDice, PilotAbility3, UpgradeAbility3)
+define(["Phase", "process/Action", "process/AttackDice", "process/PilotAbility3", "process/TargetLock", "process/UpgradeAbility3"],
+   function(Phase, Action, AttackDice, PilotAbility3, TargetLock, UpgradeAbility3)
    {
       "use strict";
 
@@ -42,20 +42,15 @@ define(["Phase", "process/Action", "process/AttackDice", "process/PilotAbility3"
             return upgradeKey;
          };
 
-         this.attackDice = function()
-         {
-            return AttackDice.get(store, attacker.id());
-         };
-
          this.doIt = function()
          {
-            var attackDice = this.attackDice();
+            var attackDice = AttackDice.get(store, attacker.id());
 
             if (modificationKey === ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK)
             {
                attackDice.spendTargetLock();
-               var targetLock = attacker.findTargetLockByDefender(defender);
-               attacker.removeAttackerTargetLock(targetLock);
+               var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+               targetLock.delete();
             }
             else if (modificationKey === ModifyAttackDiceAction.Modification.SPEND_FOCUS)
             {

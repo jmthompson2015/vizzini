@@ -36,11 +36,10 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
             newStore.dispatch(Action.setTokenDefenseDice(newAttacker.id(), newDefenseDice.values()));
 
             var oldTargetLocks = store.getState().targetLocks;
-            var oldTargetLock = Selector.targetLock(oldTargetLocks, attacker, defender);
+            var oldTargetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
             if (oldTargetLock !== undefined)
             {
-               var newTargetLock = new TargetLock(newStore, newAttacker, newDefender);
-               newAttacker.addAttackerTargetLock(newTargetLock);
+               var newTargetLock = new TargetLock(newStore, newAttacker.id(), newDefender.id());
             }
 
             return newStore;
@@ -293,14 +292,13 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
             var answer;
 
             var store = environment.store();
-            var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment, adjudicator,
-               token);
+            var shipActions = SimpleAgent.prototype.determineValidShipActions.call(this, environment, adjudicator, token);
             var targetLocks = shipActions.filter(function(shipAction)
             {
                return shipAction.defender;
             });
 
-            if (token.attackerTargetLocks().length === 0 && targetLocks.length > 0)
+            if (TargetLock.getByAttacker(store, token.id()).length === 0 && targetLocks.length > 0)
             {
                answer = targetLocks.vizziniRandomElement();
             }

@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "process/ui/AbilityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
-   function(Count, DamageCard, ShipState, UpgradeCard, Selector, AbilityUI, FactionUI, LabeledImage, ShipStateUI)
+define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "process/TargetLock", "process/ui/AbilityUI", "process/ui/FactionUI", "process/ui/LabeledImage", "process/ui/ShipStateUI"],
+   function(Count, DamageCard, ShipState, UpgradeCard, Selector, TargetLock, AbilityUI, FactionUI, LabeledImage, ShipStateUI)
    {
       "use strict";
       var PilotCardCompactUI = React.createClass(
@@ -310,8 +310,8 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
          {
             var myToken = this.props.token;
             var store = myToken.store();
-            var attackerTargetLocks = myToken.attackerTargetLocks();
-            var defenderTargetLocks = myToken.defenderTargetLocks();
+            var attackerTargetLocks = TargetLock.getByAttacker(store, myToken.id());
+            var defenderTargetLocks = TargetLock.getByDefender(store, myToken.id());
 
             var cells = [];
             var countKeys = Count.values();

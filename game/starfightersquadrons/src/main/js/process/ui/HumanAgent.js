@@ -1,5 +1,5 @@
-define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
-   function(Phase, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
+define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverAction", "process/SimpleAgent", "process/ui/AbilityChooser", "process/ui/CombatUI", "process/ui/PlanningPanel", "process/ui/ShipActionChooser", "process/ui/WeaponAndDefenderChooser"],
+   function(Phase, AttackDice, DefenseDice, ManeuverAction, SimpleAgent, AbilityChooser, CombatUI, PlanningPanel, ShipActionChooser, WeaponAndDefenderChooser)
    {
       "use strict";
 
@@ -161,23 +161,21 @@ define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/Ab
             // Wait for the user to respond.
          };
 
-         this.getModifyAttackDiceAction = function(storeIn, adjudicator, attackerIn, attackDiceIn,
-            defenderIn, callback)
+         this.getModifyAttackDiceAction = function(storeIn, adjudicator, attackerIn, defenderIn, callback)
          {
             InputValidator.validateNotNull("store", storeIn);
             InputValidator.validateNotNull("adjudicator", adjudicator);
             InputValidator.validateNotNull("attacker", attackerIn);
-            InputValidator.validateNotNull("attackDice", attackDiceIn);
             InputValidator.validateNotNull("defender", defenderIn);
             InputValidator.validateNotNull("callback", callback);
 
             store = storeIn;
             attacker = attackerIn;
-            attackDice = attackDiceIn;
+            attackDice = AttackDice.get(store, attacker.id());
             defender = defenderIn;
             modifyAttackCallback = callback;
 
-            var modifications = SimpleAgent.prototype.determineValidModifyAttackDiceActions.call(this, store, attacker, attackDice, defender);
+            var modifications = SimpleAgent.prototype.determineValidModifyAttackDiceActions.call(this, store, attacker, defender);
 
             if (modifications.length > 0)
             {
@@ -202,15 +200,16 @@ define(["Phase", "process/ManeuverAction", "process/SimpleAgent", "process/ui/Ab
             }
          };
 
-         this.getModifyDefenseDiceAction = function(storeIn, adjudicator, attacker, attackDice,
-            defenderIn, defenseDiceIn, callback)
+         this.getModifyDefenseDiceAction = function(storeIn, adjudicator, attackerIn, defenderIn, callback)
          {
             store = storeIn;
+            attacker = attackerIn;
+            attackDice = AttackDice.get(store, attacker.id());
             defender = defenderIn;
-            defenseDice = defenseDiceIn;
+            defenseDice = DefenseDice.get(store, attacker.id());
             modifyDefenseCallback = callback;
 
-            var modifications = SimpleAgent.prototype.determineValidModifyDefenseDiceActions.call(this, store, attacker, attackDice, defender, defenseDice);
+            var modifications = SimpleAgent.prototype.determineValidModifyDefenseDiceActions.call(this, store, attacker, defender);
 
             if (modifications.length > 0)
             {

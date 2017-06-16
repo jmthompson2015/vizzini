@@ -441,8 +441,7 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          var store = this.store();
          var attacker = this.attacker();
          var defender = this.defender();
-         var targetLock = new TargetLock(store, attacker, defender);
-         attacker.addAttackerTargetLock(targetLock);
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
       };
 
       SAATargetLock.prototype.toString = function()

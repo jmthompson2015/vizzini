@@ -1,5 +1,5 @@
-define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAction", "process/UpgradeAbility2", "process/UpgradeAbility3"],
-   function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAction, UpgradeAbility2, UpgradeAbility3)
+define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayFormat", "RangeRuler", "Ship", "ShipAction", "UpgradeCard", "UpgradeHeader", "process/DamageAbility2", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/PilotAbility3", "process/Selector", "process/ShipActionAction", "process/TargetLock", "process/UpgradeAbility2", "process/UpgradeAbility3"],
+   function(Ability, DamageCard, Maneuver, ManeuverComputer, Phase, PlayFormat, RangeRuler, Ship, ShipAction, UpgradeCard, UpgradeHeader, DamageAbility2, ModifyAttackDiceAction, ModifyDefenseDiceAction, PilotAbility3, Selector, ShipActionAction, TargetLock, UpgradeAbility2, UpgradeAbility3)
    {
       "use strict";
 
@@ -144,7 +144,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          var answer = [];
          var modificationKey;
          var pilotKey;
-         var targetLock = attacker.findTargetLockByDefender(defender);
+         var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
 
          if (targetLock)
          {
@@ -281,7 +281,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
                defenders.forEach(function(defender)
                {
                   // Only put choices without a current target lock.
-                  if (!token.findTargetLockByDefender(defender))
+                  if (TargetLock.getFirst(store, token.id(), defender.id()) === undefined)
                   {
                      answer.push(new ShipActionAction.SAATargetLock(store, token, defender));
                   }

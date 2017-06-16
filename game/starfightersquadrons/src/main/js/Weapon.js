@@ -1,5 +1,5 @@
-define(["FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeHeader"],
-   function(FiringArc, ManeuverComputer, RangeRuler, UpgradeCard, UpgradeHeader)
+define(["FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeHeader", "process/TargetLock"],
+   function(FiringArc, ManeuverComputer, RangeRuler, UpgradeCard, UpgradeHeader, TargetLock)
    {
       "use strict";
 
@@ -91,7 +91,7 @@ define(["FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeHe
                      answer = (attacker.focusCount() > 0);
                      break;
                   case UpgradeHeader.ATTACK_TARGET_LOCK:
-                     answer = (attacker.findTargetLockByDefender(defender) !== undefined);
+                     answer = (TargetLock.getFirst(attacker.store(), attacker.id(), defender.id()) !== undefined);
                      break;
                   default:
                      throw "Unknown upgrade header: " + header;

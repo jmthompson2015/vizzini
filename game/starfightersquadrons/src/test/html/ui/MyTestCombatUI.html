@@ -5,6 +5,7 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
 	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
@@ -45,8 +46,8 @@
 		LOGGER.setDebugEnabled(false);
 
 		require(["process/AttackDice", "process/DefenseDice", "Phase", "UpgradeCard", "process/Action", "process/Adjudicator", "process/CombatAction",
-				"process/DamageDealer",
-				"process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/TargetLock", "process/ui/CombatUI"
+				"process/DamageDealer", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/TargetLock",
+				"process/ui/CombatUI"
 			],
 			function(AttackDice, DefenseDice, Phase, UpgradeCard, Action, Adjudicator, CombatAction, DamageDealer, EnvironmentFactory, ModifyAttackDiceAction,
 				ModifyDefenseDiceAction, TargetLock, CombatUI)
@@ -65,8 +66,7 @@
 				LOGGER.debug("defender = " + defender);
 				store.dispatch(Action.addFocusCount(defender));
 				store.dispatch(Action.addEvadeCount(defender));
-				var targetLock = new TargetLock(store, attacker, defender);
-				attacker.addAttackerTargetLock(targetLock);
+				var targetLock = new TargetLock(store, attacker.id(), defender.id());
 				var callback = function()
 				{
 					LOGGER.info("callback() start");
@@ -76,9 +76,9 @@
 				var modificationKeys0 = [ModifyAttackDiceAction.Modification.SPEND_FOCUS, ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK];
 				var modifications0 = modificationKeys0.map(function(modificationKey)
 				{
-					return new ModifyAttackDiceAction(environment, attacker, attackDice, defender, modificationKey);
+					return new ModifyAttackDiceAction(store, attacker, defender, modificationKey);
 				});
-				modifications0.push(new ModifyAttackDiceAction(environment, attacker, attackDice, defender, ModifyAttackDiceAction.Modification.USE_UPGRADE, undefined,
+				modifications0.push(new ModifyAttackDiceAction(store, attacker, defender, ModifyAttackDiceAction.Modification.USE_UPGRADE, undefined,
 					UpgradeCard.WEAPONS_GUIDANCE));
 
 				var element0 = React.createElement(CombatUI,
@@ -99,7 +99,7 @@
 				{
 					var pilotKey;
 					var upgradeKey;
-					return new ModifyDefenseDiceAction(environment, defender, defenseDice, modificationKey, pilotKey, upgradeKey);
+					return new ModifyDefenseDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
 				});
 
 				var element1 = React.createElement(CombatUI,

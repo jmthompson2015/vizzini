@@ -185,8 +185,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.stressCount(), 0);
          assert.equal(attacker.focusCount(), 0);
-         assert.equal(attacker.attackerTargetLocks().length, 0);
-         assert.equal(defender.defenderTargetLocks().length, 0);
+         assert.equal(store.getState().targetLocks.size, 0);
 
          // Run.
          var done = assert.async();
@@ -201,16 +200,14 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
                assert.ok(Selector.isDefenderHit(store.getState(), attacker));
                assert.equal(attacker.stressCount(), 0);
                assert.equal(attacker.focusCount(), 0);
-               assert.equal(attacker.attackerTargetLocks().length, 0);
-               assert.equal(defender.defenderTargetLocks().length, 0);
+               assert.equal(store.getState().targetLocks.size, 0);
             }
             else
             {
                assert.ok(!Selector.isDefenderHit(store.getState(), attacker));
                assert.equal(attacker.stressCount(), 1);
                assert.equal(attacker.focusCount(), 1);
-               assert.equal(attacker.attackerTargetLocks().length, 1);
-               assert.equal(defender.defenderTargetLocks().length, 1);
+               assert.equal(store.getState().targetLocks.size, 0);
             }
             done();
          }, delay);
@@ -225,7 +222,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-         assert.ok(attacker.findTargetLockByDefender(defender));
+         assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
 
          // Run.
          var done = assert.async();
@@ -235,7 +232,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(attacker.findTargetLockByDefender(defender));
+            assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
@@ -263,7 +260,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(attacker.findTargetLockByDefender(defender));
+            assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 1);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
@@ -628,8 +625,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.addFocusCount(attacker));
 
-         var targetLock = new TargetLock(store, attacker, defender);
-         attacker.addAttackerTargetLock(targetLock);
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
 
          var callback = function()
          {

@@ -374,31 +374,9 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return Selector.activationAction(this.store().getState(), this);
       };
 
-      Token.prototype.addAttackerTargetLock = function(targetLock)
-      {
-         InputValidator.validateNotNull("targetLock", targetLock);
-
-         var attackerTargetLocks = this.attackerTargetLocks();
-
-         if (attackerTargetLocks.length > 0)
-         {
-            // Remove previous target lock.
-            var previous = attackerTargetLocks[0];
-            this.removeAttackerTargetLock(previous);
-         }
-
-         this.store().dispatch(Action.addTargetLock(targetLock));
-         this.store().dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, this));
-      };
-
       Token.prototype.agilityValue = function()
       {
          return Selector.agilityValue(this.store().getState(), this.id());
-      };
-
-      Token.prototype.attackerTargetLocks = function()
-      {
-         return Selector.attackerTargetLocks(this.store().getState(), this);
       };
 
       Token.prototype.cloakCount = function()
@@ -556,11 +534,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return Selector.damages(this.store().getState(), this.id());
       };
 
-      Token.prototype.defenderTargetLocks = function()
-      {
-         return Selector.defenderTargetLocks(this.store().getState(), this);
-      };
-
       Token.prototype.energyCount = function()
       {
          return Selector.energyCount(this.store().getState(), this.id());
@@ -581,11 +554,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       Token.prototype.evadeCount = function()
       {
          return Selector.evadeCount(this.store().getState(), this.id());
-      };
-
-      Token.prototype.findTargetLockByDefender = function(defender)
-      {
-         return Selector.targetLock(this.store().getState().targetLocks, this, defender);
       };
 
       Token.prototype.flipDamageCardFacedown = function(damageKey)
@@ -741,32 +709,6 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       Token.prototype.reinforceCount = function()
       {
          return Selector.reinforceCount(this.store().getState(), this.id());
-      };
-
-      Token.prototype.removeAllTargetLocks = function()
-      {
-         // Remove target locks which have this as the defender.
-         var targetLocks = this.defenderTargetLocks();
-         targetLocks.forEach(function(targetLock)
-         {
-            var attacker = targetLock.attacker();
-            attacker.removeAttackerTargetLock(targetLock);
-         }, this);
-
-         // Remove target locks which have this as the attacker.
-         targetLocks = this.attackerTargetLocks();
-         targetLocks.forEach(function(targetLock)
-         {
-            var defender = targetLock.defender();
-            this.removeAttackerTargetLock(targetLock);
-         }, this);
-      };
-
-      Token.prototype.removeAttackerTargetLock = function(targetLock)
-      {
-         InputValidator.validateNotNull("targetLock", targetLock);
-
-         this.store().dispatch(Action.removeTargetLock(targetLock));
       };
 
       Token.prototype.removeCriticalDamage = function(damageKey)

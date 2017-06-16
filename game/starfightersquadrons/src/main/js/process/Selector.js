@@ -35,17 +35,6 @@ define(["Count", "Value"], function(Count, Value)
       return Selector.value(state, tokenId, Value.AGILITY);
    };
 
-   Selector.attackerTargetLocks = function(state, attacker)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("attacker", attacker);
-
-      return state.targetLocks.filter(function(targetLock)
-      {
-         return targetLock.attacker().id() === attacker.id();
-      });
-   };
-
    Selector.attackerUsedDamages = function(state, token)
    {
       InputValidator.validateNotNull("state", state);
@@ -126,17 +115,6 @@ define(["Count", "Value"], function(Count, Value)
       var answer = state.tokenIdToDamages[tokenId];
 
       return (answer ? answer.slice() : []);
-   };
-
-   Selector.defenderTargetLocks = function(state, defender)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("defender", defender);
-
-      return state.targetLocks.filter(function(targetLock)
-      {
-         return targetLock.defender().id() === defender.id();
-      });
    };
 
    Selector.defenderUsedDamages = function(state, token)
@@ -284,34 +262,36 @@ define(["Count", "Value"], function(Count, Value)
       return Selector.count(state, tokenId, Count.STRESS);
    };
 
-   Selector.targetLock = function(targetLocks, attacker, defender)
-   {
-      InputValidator.validateNotNull("targetLocks", targetLocks);
-      InputValidator.validateNotNull("attacker", attacker);
-      InputValidator.validateNotNull("defender", defender);
-
-      var answer;
-
-      for (var i = 0; i < targetLocks.length; i++)
-      {
-         var targetLock = targetLocks[i];
-
-         if (targetLock.attacker().id() === attacker.id() && targetLock.defender().id() === defender.id())
-         {
-            answer = targetLock;
-            break;
-         }
-      }
-
-      return answer;
-   };
-
    Selector.token = function(state, tokenId)
    {
       InputValidator.validateNotNull("state", state);
       InputValidator.validateIsNumber("tokenId", tokenId);
 
-      return state.tokens[tokenId];
+      var tokens = state.tokens;
+      var answer = tokens[tokenId];
+
+      if (answer === undefined)
+      {
+         var keys = Object.keys(tokens);
+
+         for (var i = 0; i < keys.length; i++)
+         {
+            var token = tokens[keys[i]];
+
+            if (token.tokenFore && token.tokenFore().id() === tokenId)
+            {
+               answer = token.tokenFore();
+               break;
+            }
+            else if (token.tokenAft && token.tokenAft().id() === tokenId)
+            {
+               answer = token.tokenAft();
+               break;
+            }
+         }
+      }
+
+      return answer;
    };
 
    Selector.tokenAt = function(state, position)

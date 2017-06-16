@@ -20,7 +20,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.SHAKEN_PILOT_V2);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -37,7 +37,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.CONSOLE_FIRE);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -51,7 +51,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.CONSOLE_FIRE_V2);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -68,7 +68,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.DAMAGED_SENSOR_ARRAY);
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -86,7 +86,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.DAMAGED_SENSOR_ARRAY_V2);
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -100,7 +100,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.LOOSE_STABILIZER_V2);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -114,7 +114,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
          consequent: function(store, token, callback)
          {
             flipCardFacedown(store, token, DamageCard.MAJOR_HULL_BREACH_V2);
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -131,7 +131,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.STRUCTURAL_DAMAGE);
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -149,7 +149,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.STRUCTURAL_DAMAGE_V2);
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -167,7 +167,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.WEAPON_MALFUNCTION);
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -185,7 +185,7 @@ define(["process/AttackDice", "DamageCard", "Phase", "process/Action", "process/
             {
                flipCardFacedown(store, token, DamageCard.WEAPONS_FAILURE_V2);
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 

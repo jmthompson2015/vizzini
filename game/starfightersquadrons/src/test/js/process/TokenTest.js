@@ -48,70 +48,6 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          assert.equal(token.secondaryWeapons().length, 0);
       });
 
-      QUnit.test("addAttackerTargetLock()", function(assert)
-      {
-         // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
-         var attacker = environment.tokens()[0]; // TIE Fighter.
-         var defender = environment.tokens()[2]; // X-Wing.
-         assert.equal(attacker.attackerTargetLocks().length, 0);
-         assert.equal(defender.defenderTargetLocks().length, 0);
-         var targetLock = new TargetLock(store, attacker, defender);
-
-         // Run.
-         attacker.addAttackerTargetLock(targetLock);
-
-         // Verify.
-         assert.equal(attacker.attackerTargetLocks().length, 1);
-         assert.equal(defender.defenderTargetLocks().length, 1);
-      });
-
-      QUnit.test("addAttackerTargetLock() replace", function(assert)
-      {
-         // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
-         var attacker = environment.tokens()[2]; // X-Wing.
-         var defender0 = environment.tokens()[0]; // TIE Fighter.
-         var targetLock0 = new TargetLock(store, attacker, defender0);
-         attacker.addAttackerTargetLock(targetLock0);
-         assert.equal(attacker.attackerTargetLocks().length, 1);
-         assert.equal(defender0.defenderTargetLocks().length, 1);
-         var defender1 = environment.tokens()[1]; // TIE Fighter.
-         var targetLock1 = new TargetLock(store, attacker, defender1);
-
-         // Run.
-         attacker.addAttackerTargetLock(targetLock1);
-
-         // Verify.
-         assert.equal(attacker.attackerTargetLocks().length, 1);
-         assert.equal(defender0.defenderTargetLocks().length, 0);
-         assert.equal(defender1.defenderTargetLocks().length, 1);
-      });
-
-      QUnit.test("addAttackerTargetLock() TIE/v1", function(assert)
-      {
-         // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
-         var attacker = environment.tokens()[0]; // TIE Fighter.
-         var defender = environment.tokens()[2]; // X-Wing.
-         store.dispatch(Action.addTokenUpgrade(attacker, UpgradeCard.TIE_V1));
-         assert.equal(attacker.attackerTargetLocks().length, 0);
-         assert.equal(defender.defenderTargetLocks().length, 0);
-         assert.equal(attacker.evadeCount(), 0);
-         var targetLock = new TargetLock(store, attacker, defender);
-
-         // Run.
-         attacker.addAttackerTargetLock(targetLock);
-
-         // Verify.
-         assert.equal(attacker.attackerTargetLocks().length, 1);
-         assert.equal(defender.defenderTargetLocks().length, 1);
-         assert.equal(attacker.evadeCount(), 1);
-      });
-
       QUnit.test("agilityValue()", function(assert)
       {
          // Setup.
@@ -379,25 +315,6 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          assert.equal(token0.evadeCount(), 0);
          store.dispatch(Action.addEvadeCount(token0, -1));
          assert.equal(token0.evadeCount(), 0);
-      });
-
-      QUnit.test("findTargetLockByDefender()", function(assert)
-      {
-         // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
-         var attacker = environment.tokens()[0];
-         var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
-         attacker.addAttackerTargetLock(targetLock);
-
-         // Run.
-         var result = attacker.findTargetLockByDefender(defender);
-
-         // Verify.
-         assert.ok(result);
-         assert.equal(result.attacker(), attacker);
-         assert.equal(result.defender(), defender);
       });
 
       QUnit.test("flipDamageCardFacedown()", function(assert)
@@ -1005,65 +922,6 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          assert.equal(token.shieldCount(), 2);
          token.recoverShield();
          assert.equal(token.shieldCount(), 2); // stopped at limit
-      });
-
-      QUnit.test("removeAllTargetLocks()", function(assert)
-      {
-         // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
-         var token0 = environment.tokens()[0];
-         var token1 = environment.tokens()[1];
-         var token2 = environment.tokens()[2];
-
-         var targetLock02 = new TargetLock(store, token0, token2);
-         token0.addAttackerTargetLock(targetLock02);
-
-         var targetLock12 = new TargetLock(store, token1, token2);
-         token1.addAttackerTargetLock(targetLock12);
-
-         var targetLock20 = new TargetLock(store, token2, token0);
-         token2.addAttackerTargetLock(targetLock20);
-
-         assert.equal(token0.attackerTargetLocks().length, 1);
-         assert.equal(token1.attackerTargetLocks().length, 1);
-         assert.equal(token2.attackerTargetLocks().length, 1);
-
-         assert.equal(token0.defenderTargetLocks().length, 1);
-         assert.equal(token1.defenderTargetLocks().length, 0);
-         assert.equal(token2.defenderTargetLocks().length, 2);
-
-         // Run.
-         token2.removeAllTargetLocks();
-
-         // Verify.
-         assert.equal(token0.attackerTargetLocks().length, 0);
-         assert.equal(token1.attackerTargetLocks().length, 0);
-         assert.equal(token2.attackerTargetLocks().length, 0);
-
-         assert.equal(token0.defenderTargetLocks().length, 0);
-         assert.equal(token1.defenderTargetLocks().length, 0);
-         assert.equal(token2.defenderTargetLocks().length, 0);
-      });
-
-      QUnit.test("removeAttackerTargetLock()", function(assert)
-      {
-         // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
-         var store = environment.store();
-         var attacker = environment.tokens()[0];
-         var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
-         attacker.addAttackerTargetLock(targetLock);
-         assert.equal(attacker.attackerTargetLocks().length, 1);
-         assert.equal(defender.defenderTargetLocks().length, 1);
-
-         // Run.
-         attacker.removeAttackerTargetLock(targetLock);
-
-         // Verify.
-         assert.equal(attacker.attackerTargetLocks().length, 0);
-         assert.equal(defender.defenderTargetLocks().length, 0);
       });
 
       QUnit.test("removeCriticalDamage()", function(assert)

@@ -156,12 +156,11 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
          switch (action.type)
          {
             case Action.ADD_TARGET_LOCK:
-               newTargetLocks = state.slice();
-               newTargetLocks.push(action.targetLock);
+               newTargetLocks = state.push(action.targetLock);
                return newTargetLocks;
             case Action.REMOVE_TARGET_LOCK:
-               newTargetLocks = state.slice();
-               newTargetLocks.vizziniRemove(action.targetLock);
+               var index = state.indexOf(action.targetLock);
+               newTargetLocks = (index >= 0 ? state.delete(index) : state);
                return newTargetLocks;
             default:
                LOGGER.warn("Reducer.targetLocks: Unhandled action type: " + action.type);

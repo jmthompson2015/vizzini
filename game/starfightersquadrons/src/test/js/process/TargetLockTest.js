@@ -1,70 +1,304 @@
-define(["process/EnvironmentFactory", "Pilot", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "process/Reducer"],
-    function(EnvironmentFactory, Pilot, SimpleAgent, TargetLock, Team, Token, Reducer)
-    {
-        "use strict";
-        QUnit.module("TargetLock");
+define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
+   function(EnvironmentFactory, Reducer, TargetLock)
+   {
+      "use strict";
+      QUnit.module("TargetLock");
 
-        QUnit.test("TargetLock properties", function(assert)
-        {
-            // Setup.
-            var environment = EnvironmentFactory.createCoreSetEnvironment();
-            var store = environment.store();
+      QUnit.test("TargetLock()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var attackerId = 1;
+         var defenderId = 2;
 
-            var token0 = environment.tokens()[0]; // TIE Fighter
-            var token1 = environment.tokens()[1]; // TIE Fighter
-            var token2 = environment.tokens()[2]; // X-Wing
+         // Run.
+         var result = new TargetLock(store, attackerId, defenderId);
 
-            var targetLock02 = new TargetLock(store, token0, token2);
-            var targetLock12 = new TargetLock(store, token1, token2);
-            var targetLock20 = new TargetLock(store, token2, token0);
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.attackerId(), attackerId);
+         assert.equal(result.defenderId(), defenderId);
+         assert.equal(result.id(), "A");
+         assert.equal(store.getState().targetLocks.size, 1);
+      });
 
-            // Run / Verify.
-            assert.ok(targetLock02);
-            assert.equal(targetLock02.id(), "A");
-            assert.equal(targetLock02.attacker(), token0);
-            assert.equal(targetLock02.defender(), token2);
+      QUnit.test("attacker()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var attacker = environment.tokens()[0];
+         var defender = environment.tokens()[2];
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
 
-            assert.ok(targetLock12);
-            assert.equal(targetLock12.id(), "B");
-            assert.equal(targetLock12.attacker(), token1);
-            assert.equal(targetLock12.defender(), token2);
+         // Run.
+         var result = targetLock.attacker();
 
-            assert.ok(targetLock20);
-            assert.equal(targetLock20.id(), "C");
-            assert.equal(targetLock20.attacker(), token2);
-            assert.equal(targetLock20.defender(), token0);
-        });
+         // Verify.
+         assert.ok(result);
+         assert.equal(result, attacker);
+      });
 
-        QUnit.test("TargetLock ids past Z", function(assert)
-        {
-            // Setup.
-            var store = Redux.createStore(Reducer.root);
-            var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-            var attacker = new Token(store, Pilot.DARTH_VADER, imperialAgent);
-            var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-            var defender = new Token(store, Pilot.DASH_RENDAR, rebelAgent);
+      QUnit.test("defender()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var attacker = environment.tokens()[0];
+         var defender = environment.tokens()[2];
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
 
-            // Run / Verify.
-            var targetLock = new TargetLock(store, attacker, defender);
-            assert.equal(targetLock.id(), "A");
-            var i;
+         // Run.
+         var result = targetLock.defender();
 
-            for (i = 0; i < 25; i++)
-            {
-                targetLock = new TargetLock(store, attacker, defender);
-            }
+         // Verify.
+         assert.ok(result);
+         assert.equal(result, defender);
+      });
 
-            assert.equal(targetLock.id(), "Z");
-            targetLock = new TargetLock(store, attacker, defender);
-            assert.equal(targetLock.id(), "AA");
+      QUnit.test("delete()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var attackerId = 1;
+         var defenderId = 2;
+         var targetLock = new TargetLock(store, attackerId, defenderId);
+         assert.equal(store.getState().targetLocks.size, 1);
+         assert.equal(store.getState().targetLocks.get(0).get("id"), "A");
+         assert.equal(store.getState().targetLocks.get(0).get("attackerId"), attackerId);
+         assert.equal(store.getState().targetLocks.get(0).get("defenderId"), defenderId);
 
-            for (i = 0; i < 25; i++)
-            {
-                targetLock = new TargetLock(store, attacker, defender);
-            }
+         // Run.
+         targetLock.delete();
 
-            assert.equal(targetLock.id(), "ZZ");
-            targetLock = new TargetLock(store, attacker, defender);
-            assert.equal(targetLock.id(), "A");
-        });
-    });
+         // Verify.
+         assert.equal(store.getState().targetLocks.size, 0);
+      });
+
+      QUnit.test("get()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var attackerId = 1;
+         var defenderId = 2;
+         var targetLock = new TargetLock(store, attackerId, defenderId);
+
+         // Run.
+         var result = TargetLock.get(store, attackerId, defenderId);
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), attackerId);
+         assert.equal(result[0].defenderId(), defenderId);
+         assert.equal(result[0].id(), "A");
+         assert.equal(store.getState().targetLocks.size, 1);
+      });
+
+      QUnit.test("get() 2", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var targetLock0 = new TargetLock(store, environment.tokens()[0].id(), environment.tokens()[1].id());
+         var targetLock1 = new TargetLock(store, environment.tokens()[1].id(), environment.tokens()[2].id());
+         var targetLock2 = new TargetLock(store, environment.tokens()[2].id(), environment.tokens()[0].id());
+
+         // Run.
+         var result = TargetLock.get(store, environment.tokens()[0].id(), environment.tokens()[1].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[0].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[1].id());
+         assert.equal(result[0].id(), "A");
+
+         // Run.
+         result = TargetLock.get(store, environment.tokens()[1].id(), environment.tokens()[2].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[1].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[2].id());
+         assert.equal(result[0].id(), "B");
+
+         // Run.
+         result = TargetLock.get(store, environment.tokens()[2].id(), environment.tokens()[0].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[2].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[0].id());
+         assert.equal(result[0].id(), "C");
+
+         assert.equal(store.getState().targetLocks.size, 3);
+      });
+
+      QUnit.test("getByAttacker()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var targetLock0 = new TargetLock(store, environment.tokens()[0].id(), environment.tokens()[1].id());
+         var targetLock1 = new TargetLock(store, environment.tokens()[1].id(), environment.tokens()[2].id());
+         var targetLock2 = new TargetLock(store, environment.tokens()[2].id(), environment.tokens()[0].id());
+
+         // Run.
+         var result = TargetLock.getByAttacker(store, environment.tokens()[0].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[0].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[1].id());
+         assert.equal(result[0].id(), "A");
+
+         // Run.
+         result = TargetLock.getByAttacker(store, environment.tokens()[1].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[1].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[2].id());
+         assert.equal(result[0].id(), "B");
+
+         // Run.
+         result = TargetLock.getByAttacker(store, environment.tokens()[2].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[2].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[0].id());
+         assert.equal(result[0].id(), "C");
+
+         assert.equal(store.getState().targetLocks.size, 3);
+      });
+
+      QUnit.test("getByDefender()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var targetLock0 = new TargetLock(store, environment.tokens()[0].id(), environment.tokens()[1].id());
+         var targetLock1 = new TargetLock(store, environment.tokens()[1].id(), environment.tokens()[2].id());
+         var targetLock2 = new TargetLock(store, environment.tokens()[2].id(), environment.tokens()[0].id());
+
+         // Run.
+         var result = TargetLock.getByDefender(store, environment.tokens()[1].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[0].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[1].id());
+         assert.equal(result[0].id(), "A");
+
+         // Run.
+         result = TargetLock.getByDefender(store, environment.tokens()[2].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[1].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[2].id());
+         assert.equal(result[0].id(), "B");
+
+         // Run.
+         result = TargetLock.getByDefender(store, environment.tokens()[0].id());
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.length, 1);
+         assert.equal(result[0].attackerId(), environment.tokens()[2].id());
+         assert.equal(result[0].defenderId(), environment.tokens()[0].id());
+         assert.equal(result[0].id(), "C");
+
+         assert.equal(store.getState().targetLocks.size, 3);
+      });
+
+      QUnit.test("id()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var attacker = environment.tokens()[0];
+         var defender = environment.tokens()[2];
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
+
+         // Run.
+         var result = targetLock.id();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result, "A");
+      });
+
+      QUnit.test("nextId()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+
+         // Run / Verify.
+         assert.equal(TargetLock.nextId(store), "A");
+         var i;
+
+         for (i = 0; i < 24; i++)
+         {
+            TargetLock.nextId(store);
+         }
+
+         assert.equal(TargetLock.nextId(store), "Z");
+         assert.equal(TargetLock.nextId(store), "AA");
+
+         for (i = 0; i < 24; i++)
+         {
+            TargetLock.nextId(store);
+         }
+
+         assert.equal(TargetLock.nextId(store), "ZZ");
+         assert.equal(TargetLock.nextId(store), "A");
+      });
+
+      QUnit.test("removeAllTargetLocks()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var targetLock0 = new TargetLock(store, environment.tokens()[0].id(), environment.tokens()[1].id());
+         var targetLock1 = new TargetLock(store, environment.tokens()[1].id(), environment.tokens()[2].id());
+         var targetLock2 = new TargetLock(store, environment.tokens()[2].id(), environment.tokens()[0].id());
+         assert.equal(store.getState().targetLocks.size, 3);
+
+         // Run.
+         TargetLock.removeAllTargetLocks(store, environment.tokens()[0].id());
+
+         // Verify.
+         assert.equal(store.getState().targetLocks.size, 1);
+         assert.equal(TargetLock.getByAttacker(store, environment.tokens()[0].id()).length, 0);
+         assert.equal(TargetLock.getByDefender(store, environment.tokens()[0].id()).length, 0);
+      });
+
+      QUnit.test("values()", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         var attacker = environment.tokens()[0];
+         var defender = environment.tokens()[2];
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
+
+         // Run.
+         var result = targetLock.values();
+
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.get("attackerId"), attacker.id());
+         assert.equal(result.get("defenderId"), defender.id());
+         assert.equal(result.get("id"), "A");
+      });
+   });

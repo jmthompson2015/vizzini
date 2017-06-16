@@ -5,6 +5,7 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
 	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
 	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
@@ -120,17 +121,13 @@
 				store.dispatch(Action.addEnergyCount(raiderToken, 2));
 				environment.placeToken(new Position(250, 100, 0), raiderToken);
 
-				var targetLock0 = new TargetLock(store, imperialToken, rebelToken);
-				imperialToken.addAttackerTargetLock(targetLock0);
+				var targetLock0 = new TargetLock(store, imperialToken.id(), rebelToken.id());
 
-				var targetLock1 = new TargetLock(store, rebelToken, scumToken);
-				rebelToken.addAttackerTargetLock(targetLock1);
+				var targetLock1 = new TargetLock(store, rebelToken.id(), scumToken.id());
 
-				var targetLock2 = new TargetLock(store, scumToken, imperialToken);
-				scumToken.addAttackerTargetLock(targetLock2);
+				var targetLock2 = new TargetLock(store, scumToken.id(), imperialToken.id());
 
-				var targetLock3 = new TargetLock(store, cr90Token.tokenFore(), foToken);
-				cr90Token.tokenFore().addAttackerTargetLock(targetLock2);
+				var targetLock3 = new TargetLock(store, cr90Token.tokenFore().id(), foToken.id());
 
 				var element = React.createElement(PilotCardUI,
 				{

@@ -101,7 +101,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.FOCUS);
@@ -139,7 +139,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             if (callback !== undefined) callback();
          },
       };
@@ -156,7 +156,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.BLANK, AttackDice.Value.HIT);
             if (callback !== undefined) callback();
@@ -246,14 +246,14 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            var targetLock = token.findTargetLockByDefender(defender);
+            var targetLock = TargetLock.getFirst(store, token.id(), defender.id());
             var attackDice = getAttackDice(attacker);
             return token === attacker && targetLock !== undefined && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {
             var defender = getDefender(token);
-            spendTargetLock(token, defender);
+            spendTargetLock(store, token, defender);
             var attackDice = getAttackDice(token);
             attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
             if (callback !== undefined) callback();
@@ -416,7 +416,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             var attackDice = getAttackDice(attacker);
             attackDice.changeOneToValue(AttackDice.Value.FOCUS, AttackDice.Value.CRITICAL_HIT);
             if (callback !== undefined) callback();
@@ -677,8 +677,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
 
                      if (RangeRuler.STANDARD_RANGES.vizziniContains(myRangeKey))
                      {
-                        var targetLock = new TargetLock(store, token, defender);
-                        token.addAttackerTargetLock(targetLock);
+                        var targetLock = new TargetLock(store, token.id(), defender.id());
                      }
                   });
                });
@@ -718,7 +717,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             if (isDefenderHit(attacker))
             {
                var environment = store.getState().environment;
@@ -748,8 +747,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
 
             store.dispatch(Action.addFocusCount(token));
             var defender = getDefender(token);
-            var targetLock = new TargetLock(store, token, defender);
-            token.addAttackerTargetLock(targetLock);
+            var targetLock = new TargetLock(store, token.id(), defender.id());
             if (callback !== undefined) callback();
          },
       };
@@ -784,8 +782,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            var targetLock = new TargetLock(store, attacker, defender);
-            attacker.addAttackerTargetLock(targetLock);
+            var targetLock = new TargetLock(store, attacker.id(), defender.id());
             if (callback !== undefined) callback();
          },
       };
@@ -829,7 +826,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             var defender = getDefender(attacker);
             if (defender.hullValue() <= 4)
             {
@@ -930,7 +927,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             if (isDefenderHit(attacker))
             {
                var environment = store.getState().environment;
@@ -957,7 +954,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            spendTargetLockAndDiscardUpgrade(attacker);
+            spendTargetLockAndDiscardUpgrade(store, attacker);
             if (isDefenderHit(attacker))
             {
                var defender = getDefender(attacker);
@@ -1196,21 +1193,23 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          store.dispatch(Action.addFocusCount(attacker, -1));
       }
 
-      function spendTargetLock(attacker, defender)
+      function spendTargetLock(store, attacker, defender)
       {
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("attacker", attacker);
          InputValidator.validateNotNull("defender", defender);
 
-         var targetLock = attacker.findTargetLockByDefender(defender);
-         attacker.removeAttackerTargetLock(targetLock);
+         var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+         targetLock.delete();
       }
 
-      function spendTargetLockAndDiscardUpgrade(attacker)
+      function spendTargetLockAndDiscardUpgrade(store, attacker)
       {
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("attacker", attacker);
 
          var defender = getDefender(attacker);
-         spendTargetLock(attacker, defender);
+         spendTargetLock(store, attacker, defender);
          discardUpgrade(attacker);
       }
 

@@ -1,10 +1,8 @@
 /*
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
-define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value",
-       "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(DamageCard, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(DamageCard, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction");
@@ -17,6 +15,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var upgradeKey = UpgradeCard.ADVANCED_HOMING_MISSILES;
          var combatAction = createCombatActionRange2(upgradeKey);
          var environment = combatAction.environment();
+         var store = environment.store();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
@@ -28,7 +27,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(attacker.findTargetLockByDefender(defender));
+            assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
 
@@ -75,7 +74,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.equal(TargetLock.getFirst(store, attacker.id(), defender.id()), undefined);
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
             var attackDice = AttackDice.get(store, attacker.id());
@@ -110,7 +109,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.secondaryWeapons().length, 0);
@@ -187,7 +186,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          {
             assert.ok(true, "test resumed from async operation");
             assert.equal(combatAction.executionCount(), 2);
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
@@ -240,7 +239,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
             var attackDice = AttackDice.get(store, attacker.id());
@@ -282,7 +281,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
@@ -301,6 +300,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var upgradeKey = UpgradeCard.ION_PULSE_MISSILES;
          var combatAction = createCombatActionRange2(upgradeKey);
          var environment = combatAction.environment();
+         var store = environment.store();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
@@ -312,7 +312,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(attacker.findTargetLockByDefender(defender));
+            assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
 
@@ -346,7 +346,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.secondaryWeapons().length, 0);
@@ -396,8 +396,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             LOGGER.info("callback() start");
          };
          var delay = 1000;
-         var targetLock = new TargetLock(store, attacker, defender);
-         attacker.addAttackerTargetLock(targetLock);
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
          environment.activeToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
          assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -412,7 +411,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          setTimeout(function()
          {
             assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(attacker.secondaryWeapons().length, 0);
@@ -503,7 +502,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[1];
-         assert.ok(attacker.findTargetLockByDefender(defender));
+         assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
          assert.ok(attacker.isUpgradedWith(upgradeKey));
          assert.equal(attacker.secondaryWeapons().length, 1);
 
@@ -525,7 +524,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          // Verify.
          setTimeout(function()
          {
-            assert.ok(!attacker.findTargetLockByDefender(defender));
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
             assert.equal(attacker.secondaryWeapons().length, 0);
             var attackDice = AttackDice.get(store, attacker.id());
@@ -572,7 +571,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.equal(defender.damageCount(), 0);
             assert.equal(defender.criticalDamageCount(), 0);
 
-            assert.ok(token2.findTargetLockByDefender(defender));
+            assert.ok(TargetLock.getFirst(store, token2.id(), defender.id()));
             done();
          }, delay);
       });
@@ -612,8 +611,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.addFocusCount(attacker));
 
-         var targetLock = new TargetLock(store, attacker, defender);
-         attacker.addAttackerTargetLock(targetLock);
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
 
          var callback = function()
          {

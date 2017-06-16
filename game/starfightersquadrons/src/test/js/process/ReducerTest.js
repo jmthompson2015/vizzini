@@ -264,17 +264,22 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          var attacker = new Token(store, Pilot.LUKE_SKYWALKER, agent0);
          var agent1 = new SimpleAgent("Bravo", Team.IMPERIAL);
          var defender = new Token(store, Pilot.ACADEMY_PILOT, agent1);
-         assert.equal(store.getState().targetLocks.length, 0);
-         var targetLock = new TargetLock(store, attacker, defender);
+         assert.equal(store.getState().targetLocks.size, 0);
+         var targetLock = Immutable.Map(
+         {
+            attackerId: attacker.id(),
+            defenderId: defender.id(),
+            id: "A",
+         });
 
          // Run.
          store.dispatch(Action.addTargetLock(targetLock));
 
          // Verify.
-         assert.equal(store.getState().targetLocks.length, 1);
-         assert.equal(store.getState().targetLocks[0].id(), "A");
-         assert.equal(store.getState().targetLocks[0].attacker(), attacker);
-         assert.equal(store.getState().targetLocks[0].defender(), defender);
+         assert.equal(store.getState().targetLocks.size, 1);
+         assert.equal(store.getState().targetLocks.get(0).get("id"), "A");
+         assert.equal(store.getState().targetLocks.get(0).get("attackerId"), attacker.id());
+         assert.equal(store.getState().targetLocks.get(0).get("defenderId"), defender.id());
       });
 
       QUnit.test("addTokenCriticalDamage()", function(assert)
@@ -725,18 +730,19 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          var attacker = new Token(store, Pilot.LUKE_SKYWALKER, agent0);
          var agent1 = new SimpleAgent("Bravo", Team.IMPERIAL);
          var defender = new Token(store, Pilot.ACADEMY_PILOT, agent1);
-         var targetLock = new TargetLock(store, attacker, defender);
-         store.dispatch(Action.addTargetLock(targetLock));
-         assert.equal(store.getState().targetLocks.length, 1);
-         assert.equal(store.getState().targetLocks[0].id(), "A");
-         assert.equal(store.getState().targetLocks[0].attacker(), attacker);
-         assert.equal(store.getState().targetLocks[0].defender(), defender);
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
+         //  store.dispatch(Action.addTargetLock(targetLock));
+         assert.equal(store.getState().targetLocks.size, 1);
+         assert.equal(store.getState().targetLocks.get(0).get("id"), "A");
+         assert.equal(store.getState().targetLocks.get(0).get("attackerId"), attacker.id());
+         assert.equal(store.getState().targetLocks.get(0).get("defenderId"), defender.id());
 
          // Run.
-         store.dispatch(Action.removeTargetLock(targetLock));
+         //  store.dispatch(Action.removeTargetLock(targetLock));
+         targetLock.delete();
 
          // Verify.
-         assert.equal(store.getState().targetLocks.length, 0);
+         assert.equal(store.getState().targetLocks.size, 0);
       });
 
       QUnit.test("removeToken()", function(assert)

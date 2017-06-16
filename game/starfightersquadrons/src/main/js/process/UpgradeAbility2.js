@@ -1,8 +1,8 @@
 /*
  * Provides upgrade abilities for the Activation Phase.
  */
-define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/ManeuverAction", "process/Selector", "process/ShipActionAction"],
-   function(Bearing, DefenseDice, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, ManeuverAction, Selector, ShipActionAction)
+define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/DefenseDice", "process/ManeuverAction", "process/Selector", "process/ShipActionAction", "process/TargetLock"],
+   function(Bearing, Difficulty, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, DefenseDice, ManeuverAction, Selector, ShipActionAction, TargetLock)
    {
       "use strict";
       var UpgradeAbility2 = {};
@@ -30,7 +30,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             }
             var newManeuver = Maneuver.properties[newManeuverKey];
             store.dispatch(Action.setTokenManeuver(token, newManeuver));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -63,7 +63,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             {
                shipActionAction.doIt();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -81,7 +81,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             var newManeuver = Maneuver.properties[Maneuver.STATIONARY_0_STANDARD];
             store.dispatch(Action.setTokenManeuver(token, newManeuver));
             token.receiveStress();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -110,7 +110,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
             var newManeuver = Maneuver.properties[newManeuverKey];
             store.dispatch(Action.setTokenManeuver(token, newManeuver));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -134,7 +134,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             var toPosition = new Position(fromPosition.x(), fromPosition.y(), fromPosition.heading() + 180);
             store.dispatch(Action.moveToken(fromPosition, toPosition));
             token.receiveStress();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -169,7 +169,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             {
                shipActionAction.doIt();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -184,7 +184,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
          consequent: function(store, token, callback)
          {
             store.dispatch(Action.addEvadeCount(token));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -202,7 +202,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
          consequent: function(store, token, callback)
          {
             store.dispatch(Action.addEnergyCount(token));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -218,7 +218,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             discardUpgrade(token, UpgradeCard.TIBANNA_GAS_SUPPLIES);
 
             store.dispatch(Action.addEnergyCount(token, 3));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -238,7 +238,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             // var shipActionAction = new ShipActionAction.Cloak(store, token);
             // shipActionAction.doIt();
             store.dispatch(Action.addCloakCount(token));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -276,14 +276,12 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
                token.receiveStress();
             }
             // FIXME: removing the *first* enemy target lock.
-            var defenderTargetLocks = token.defenderTargetLocks();
+            var defenderTargetLocks = TargetLock.getByDefender(token.store(), token.id());
             if (defenderTargetLocks.length > 0)
             {
-               var targetLock = defenderTargetLocks[0];
-               var attacker = targetLock.attacker();
-               attacker.removeAttackerTargetLock(targetLock);
+               defenderTargetLocks[0].delete();
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -296,7 +294,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
          },
          consequent: function(store, token, callback)
          {
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -318,7 +316,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             {
                store.dispatch(Action.addEvadeCount(token, defenseDice.evadeCount()));
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -351,7 +349,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
                shipActionAction.doIt();
             }
             store.dispatch(Action.addIonCount(token));
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -364,7 +362,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
          },
          consequent: function(store, token, callback)
          {
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -377,7 +375,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
          },
          consequent: function(store, token, callback)
          {
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -396,7 +394,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
                var damageKey = token.damages()[0];
                store.dispatch(Action.removeTokenDamage(token.id(), damageKey));
             }
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -412,7 +410,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             store.dispatch(Action.addFocusCount(token));
             token.receiveStress();
             token.receiveStress();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 
@@ -429,7 +427,7 @@ define(["Bearing", "process/DefenseDice", "Difficulty", "Maneuver", "Phase", "Po
             var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
             var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
             maneuverAction.doIt();
-            callback();
+            if (callback !== undefined) callback();
          },
       };
 

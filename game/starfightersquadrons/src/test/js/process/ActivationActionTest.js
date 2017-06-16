@@ -125,7 +125,8 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          // Setup.
          var upgradeKey = UpgradeCard.K4_SECURITY_DROID;
          var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY);
-         assert.equal(action.token().attackerTargetLocks().length, 0);
+         var store = action.store();
+         assert.equal(store.getState().targetLocks.size, 0);
 
          // Run.
          var done = assert.async();
@@ -137,7 +138,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.ok(true, "test resumed from async operation");
 
             var token = action.token();
-            assert.equal(action.token().attackerTargetLocks().length, 1);
+            assert.equal(store.getState().targetLocks.size, 1);
 
             done();
          }, delay);
