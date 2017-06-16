@@ -5,8 +5,10 @@
 
 	<link rel="stylesheet" href="../../../main/css/style.css">
 
-	<script src="../../../../../../coreweb/lib/react/react-15.3.2.js"></script>
-	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.3.2.js"></script>
+	<script src="../../../../../../coreweb/lib/immutable/immutable-3.8.1.js"></script>
+	<script src="../../../../../../coreweb/lib/prop-types/prop-types-15.5.10.js"></script>
+	<script src="../../../../../../coreweb/lib/react/react-15.6.1.js"></script>
+	<script src="../../../../../../coreweb/lib/react-dom/react-dom-15.6.1.js"></script>
 	<script src="../../../../../../coreweb/lib/react-redux/react-redux-4.4.5.js"></script>
 	<script src="../../../../../../coreweb/lib/reactable/reactable-0.14.0.js"></script>
 	<script src="../../../../../../coreweb/lib/redux/redux-3.6.0.js"></script>
@@ -27,25 +29,30 @@
 		LOGGER.setTraceEnabled(false);
 		LOGGER.setDebugEnabled(false);
 
-		require(["DamageCard", "Pilot", "UpgradeCard", "process/EnvironmentFactory", "process/ui/AbilityChooser"],
-			function(DamageCard, Pilot, UpgradeCard, EnvironmentFactory, AbilityChooser)
+		require(["Ability", "DamageCard", "Phase", "Pilot", "UpgradeCard", "process/DamageAbility2", "process/EnvironmentFactory", "process/PilotAbility2",
+				"process/UpgradeAbility2", "process/ui/AbilityChooser"
+			],
+			function(Ability, DamageCard, Phase, Pilot, UpgradeCard, DamageAbility2, EnvironmentFactory, PilotAbility2, UpgradeAbility2, AbilityChooser)
 			{
 				var resourceBase = "../../../main/resources/";
 				var imageBase = resourceBase + "images/";
 				var damageKeys = [DamageCard.CONSOLE_FIRE, DamageCard.MINOR_HULL_BREACH];
 				var damages = damageKeys.map(function(damageKey)
 				{
-					return DamageCard.properties[damageKey];
+					// return DamageCard.properties[damageKey];
+					return new Ability(DamageCard, damageKey, DamageAbility2, Phase.ACTIVATION_EXECUTE_MANEUVER);
 				});
 				var pilotKeys = [Pilot.AIREN_CRACKEN, Pilot.BOSSK, Pilot.CAPTAIN_YORR];
 				var pilots = pilotKeys.map(function(pilotKey)
 				{
-					return Pilot.properties[pilotKey];
+					// return Pilot.properties[pilotKey];
+					return new Ability(Pilot, pilotKey, PilotAbility2, Phase.ACTIVATION_EXECUTE_MANEUVER);
 				});
 				var upgradeKeys = [UpgradeCard.LIGHTNING_REFLEXES, UpgradeCard.TIE_X7];
 				var upgrades = upgradeKeys.map(function(upgradeKey)
 				{
-					return UpgradeCard.properties[upgradeKey];
+					// return UpgradeCard.properties[upgradeKey];
+					return new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, Phase.ACTIVATION_EXECUTE_MANEUVER);
 				});
 
 				var environment = EnvironmentFactory.createCoreSetEnvironment();

@@ -36,7 +36,7 @@ define(["process/ui/AbilityUI", "../../../../../../../coreweb/src/main/js/ui/Inp
 
                if (value.isDamage())
                {
-                  answer = createDamageLabel(value, imageBase);
+                  answer = createDamageLabel(value.sourceObject(), imageBase);
                }
                else if (value.isPilot())
                {
