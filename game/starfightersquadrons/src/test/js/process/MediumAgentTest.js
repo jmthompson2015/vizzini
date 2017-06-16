@@ -98,7 +98,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
-         var environment = EnvironmentFactory.createTFACoreSetEnvironment(undefined, store, "MediumAgent", "MediumAgent");
+         var environment = EnvironmentFactory.createTFACoreSetEnvironment(store, "MediumAgent", "MediumAgent");
          var adjudicator = new Adjudicator();
          var attacker = environment.tokens()[2]; // X-Wing
          var agent = attacker.agent();
