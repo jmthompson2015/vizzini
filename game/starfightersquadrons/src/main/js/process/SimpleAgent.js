@@ -167,7 +167,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          pilotKey = pilot.value;
          var attackerUsedPilots = Selector.attackerUsedPilots(store.getState(), attacker);
 
-         if (!attackerUsedPilots.vizziniContains(pilotKey))
+         if (!attackerUsedPilots.includes(pilotKey))
          {
             var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][pilotKey];
 
@@ -184,7 +184,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
          attacker.upgradeKeys().forEach(function(upgradeKey)
          {
-            if (!attackerUsedUpgrades.vizziniContains(upgradeKey))
+            if (!attackerUsedUpgrades.includes(upgradeKey))
             {
                var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][upgradeKey];
 
@@ -224,7 +224,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          pilotKey = pilot.value;
          var defenderUsedPilots = Selector.defenderUsedPilots(store.getState(), attacker);
 
-         if (!defenderUsedPilots.vizziniContains(pilotKey))
+         if (!defenderUsedPilots.includes(pilotKey))
          {
             var pilotAbility = PilotAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][pilotKey];
 
@@ -243,7 +243,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          {
             var upgrade = UpgradeCard.properties[upgradeKey];
 
-            if (!defenderUsedUpgrades.vizziniContains(upgradeKey))
+            if (!defenderUsedUpgrades.includes(upgradeKey))
             {
                var upgradeAbility = UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][upgradeKey];
 
@@ -267,12 +267,12 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          var answer = [];
          var store = environment.store();
 
-         if (shipActions.vizziniContains(ShipAction.FOCUS))
+         if (shipActions.includes(ShipAction.FOCUS))
          {
             answer.push(new ShipActionAction.Focus(store, token));
          }
 
-         if (shipActions.vizziniContains(ShipAction.TARGET_LOCK))
+         if (shipActions.includes(ShipAction.TARGET_LOCK))
          {
             var defenders = environment.getDefendersInRange(token);
 
@@ -289,37 +289,37 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             }
          }
 
-         if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
+         if (shipActions.includes(ShipAction.BARREL_ROLL) &&
             adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
          {
             answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
          }
 
-         if (shipActions.vizziniContains(ShipAction.BARREL_ROLL) &&
+         if (shipActions.includes(ShipAction.BARREL_ROLL) &&
             adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
          {
             answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
          }
 
-         if (shipActions.vizziniContains(ShipAction.BOOST) &&
+         if (shipActions.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
          {
             answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD));
          }
 
-         if (shipActions.vizziniContains(ShipAction.BOOST) &&
+         if (shipActions.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
          {
             answer.push(new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD));
          }
 
-         if (shipActions.vizziniContains(ShipAction.BOOST) &&
+         if (shipActions.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
          {
             answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD));
          }
 
-         if (shipActions.vizziniContains(ShipAction.SLAM))
+         if (shipActions.includes(ShipAction.SLAM))
          {
             var previousManeuver = token.maneuver();
             var speed = previousManeuver.speed;
@@ -336,17 +336,17 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             });
          }
 
-         if (shipActions.vizziniContains(ShipAction.EVADE))
+         if (shipActions.includes(ShipAction.EVADE))
          {
             answer.push(new ShipActionAction.Evade(store, token));
          }
 
-         if (shipActions.vizziniContains(ShipAction.CLOAK))
+         if (shipActions.includes(ShipAction.CLOAK))
          {
             answer.push(new ShipActionAction.Cloak(store, token));
          }
 
-         if (shipActions.vizziniContains(ShipAction.REINFORCE))
+         if (shipActions.includes(ShipAction.REINFORCE))
          {
             if (token.parent !== undefined)
             {
@@ -367,7 +367,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
          var tokens;
 
-         if (shipActions.vizziniContains(ShipAction.COORDINATE))
+         if (shipActions.includes(ShipAction.COORDINATE))
          {
             tokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
             tokens.vizziniAddAll(environment.getFriendlyTokensAtRange(token, RangeRuler.TWO));
@@ -381,7 +381,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             });
          }
 
-         if (shipActions.vizziniContains(ShipAction.JAM))
+         if (shipActions.includes(ShipAction.JAM))
          {
             tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
             tokens.vizziniAddAll(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
@@ -397,7 +397,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             });
          }
 
-         if (shipActions.vizziniContains(ShipAction.RECOVER))
+         if (shipActions.includes(ShipAction.RECOVER))
          {
             if (token.parent !== undefined)
             {

@@ -556,7 +556,7 @@ define(["Ship", "Team"], function(Ship, Team)
          {
             var shipKey = ShipTeam.properties[shipTeamKey].shipKey;
 
-            if (!answer.vizziniContains(shipKey))
+            if (!answer.includes(shipKey))
             {
                answer.push(shipKey);
             }

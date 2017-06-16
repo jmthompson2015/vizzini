@@ -302,11 +302,11 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
             {
                answer = targetLocks.vizziniRandomElement();
             }
-            else if (token.focusCount() === 0 && shipActions.vizziniContains(ShipAction.FOCUS))
+            else if (token.focusCount() === 0 && shipActions.includes(ShipAction.FOCUS))
             {
                answer = ShipAction.FOCUS;
             }
-            else if (token.evadeCount() === 0 && shipActions.vizziniContains(ShipAction.EVADE))
+            else if (token.evadeCount() === 0 && shipActions.includes(ShipAction.EVADE))
             {
                answer = ShipAction.EVADE;
             }

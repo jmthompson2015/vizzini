@@ -116,7 +116,7 @@ define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/Enti
                         values = [];
                         this.context.store.getState().abilityData.forEach(function(abilityData)
                         {
-                           if (abilityData.type && !values.vizziniContains(abilityData.type))
+                           if (abilityData.type && !values.includes(abilityData.type))
                            {
                               values.push(abilityData.type);
                            }
@@ -134,7 +134,7 @@ define(["abilitystats/Action", "abilitystats/DefaultFilters", "abilitystats/Enti
                         values = [];
                         this.context.store.getState().abilityData.forEach(function(abilityData)
                         {
-                           if (abilityData.event && !values.vizziniContains(abilityData.event))
+                           if (abilityData.event && !values.includes(abilityData.event))
                            {
                               values.push(abilityData.event);
                            }

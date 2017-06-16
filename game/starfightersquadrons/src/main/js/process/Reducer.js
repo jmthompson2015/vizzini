@@ -1073,13 +1073,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                         newValue = 12;
                      }
                   }
-                  if (damage && [DamageCard.DAMAGED_COCKPIT, DamageCard.INJURED_PILOT].vizziniContains(damage.value))
+                  if (damage && [DamageCard.DAMAGED_COCKPIT, DamageCard.INJURED_PILOT].includes(damage.value))
                   {
                      newValue = 0;
                   }
                   break;
                case Value.PRIMARY_WEAPON:
-                  if (token && Selector.usedUpgrades(state, token).vizziniContains(UpgradeCard.EXPOSE))
+                  if (token && Selector.usedUpgrades(state, token).includes(UpgradeCard.EXPOSE))
                   {
                      newValue++;
                   }
@@ -1097,11 +1097,11 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   {
                      newValue++;
                   }
-                  if (token && Selector.usedUpgrades(state, token).vizziniContains(UpgradeCard.EXPOSE))
+                  if (token && Selector.usedUpgrades(state, token).includes(UpgradeCard.EXPOSE))
                   {
                      newValue--;
                   }
-                  if (token && Selector.usedUpgrades(state, token).vizziniContains(UpgradeCard.R2_F2))
+                  if (token && Selector.usedUpgrades(state, token).includes(UpgradeCard.R2_F2))
                   {
                      newValue++;
                   }

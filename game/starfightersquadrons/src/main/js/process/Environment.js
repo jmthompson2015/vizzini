@@ -190,7 +190,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
                   {
                      var defenderPosition = this.getPositionFor(defender);
                      var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
-                     return (RangeRuler.STANDARD_RANGES.vizziniContains(range));
+                     return (RangeRuler.STANDARD_RANGES.includes(range));
                   }, this);
                }
             }
@@ -710,7 +710,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
 
             var touches = that.getTokensTouching(attacker);
 
-            return touches.vizziniContains(defender);
+            return touches.includes(defender);
          }
 
          function placeTokens(tokens, isTop)

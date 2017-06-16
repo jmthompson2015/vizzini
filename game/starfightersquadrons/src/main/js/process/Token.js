@@ -487,7 +487,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       {
          var answer = this.agilityValue();
 
-         if ([RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE].vizziniContains(rangeKey) && weapon.isPrimary())
+         if ([RangeRuler.THREE, RangeRuler.FOUR, RangeRuler.FIVE].includes(rangeKey) && weapon.isPrimary())
          {
             // Bonus defense die at range three, four, and five.
             answer++;
@@ -585,7 +585,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
       Token.prototype.isCriticallyDamagedWith = function(damageKey)
       {
          var criticalDamages = this.criticalDamages();
-         return criticalDamages.vizziniContains(damageKey);
+         return criticalDamages.includes(damageKey);
       };
 
       Token.prototype.isDestroyed = function()
@@ -610,7 +610,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype.isUpgradedWith = function(upgradeKey)
       {
-         return this.upgradeKeys().vizziniContains(upgradeKey);
+         return this.upgradeKeys().includes(upgradeKey);
       };
 
       Token.prototype.maneuver = function()
@@ -760,7 +760,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
                answer.vizziniAddAll(this.ship().shipActionKeys);
             }
 
-            if (answer.vizziniContains(ShipAction.CLOAK) && this.isCloaked())
+            if (answer.includes(ShipAction.CLOAK) && this.isCloaked())
             {
                answer.vizziniRemove(ShipAction.CLOAK);
             }
@@ -820,7 +820,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
          answer += this.criticalDamages().reduce(function(accumulator, currentValue)
          {
-            return accumulator + ([DamageCard.DIRECT_HIT, DamageCard.DIRECT_HIT_V2].vizziniContains(currentValue) ? 2 : 1);
+            return accumulator + ([DamageCard.DIRECT_HIT, DamageCard.DIRECT_HIT_V2].includes(currentValue) ? 2 : 1);
          }, 0);
 
          return answer;
@@ -844,7 +844,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
          sourceKeys.forEach(function(sourceKey)
          {
-            if (!usedKeys.vizziniContains(sourceKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][sourceKey] !== undefined)
+            if (!usedKeys.includes(sourceKey) && abilityType[eventOrPhaseKey] !== undefined && abilityType[eventOrPhaseKey][sourceKey] !== undefined)
             {
                var myAbility = abilityType[eventOrPhaseKey][sourceKey];
 

@@ -157,7 +157,7 @@ define(["FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeHe
 
          var range = RangeRuler.getRange(attacker, attackerPosition, defender, defenderPosition);
 
-         return this.rangeKeys().vizziniContains(range);
+         return this.rangeKeys().includes(range);
       };
 
       Weapon.prototype.isDefenderTargetable = function(attacker, attackerPosition, defender, defenderPosition)

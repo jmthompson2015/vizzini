@@ -32,7 +32,7 @@ define(["process/AttackDice", "Phase", "UpgradeCard", "process/Action", "process
          condition: function(store, token)
          {
             var activeToken = getActiveToken(store);
-            var usedUpgrade = Selector.usedUpgrades(store.getState(), token).vizziniContains(UpgradeCard.CLOAKING_DEVICE);
+            var usedUpgrade = Selector.usedUpgrades(store.getState(), token).includes(UpgradeCard.CLOAKING_DEVICE);
             return token === activeToken && usedUpgrade && token.isCloaked();
          },
          consequent: function(store, token, callback)

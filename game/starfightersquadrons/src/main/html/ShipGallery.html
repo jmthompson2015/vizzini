@@ -254,7 +254,7 @@
 
             shipTeamKeys.forEach(function(shipTeamKey)
             {
-              if (!excludes.vizziniContains(shipTeamKey))
+              if (!excludes.includes(shipTeamKey))
               {
                 var element = React.createElement(ShipInstance,
                 {

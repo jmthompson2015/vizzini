@@ -473,7 +473,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          }
          else
          {
-            if (this.PERFORM_ATTACK_TWICE_UPGRADES.vizziniContains(weapon.upgradeKey()) && this.executionCount() < 2)
+            if (this.PERFORM_ATTACK_TWICE_UPGRADES.includes(weapon.upgradeKey()) && this.executionCount() < 2)
             {
                var store = this.store();
                store.dispatch(Action.removeAttackerUsedUpgrade(attacker, weapon.upgradeKey()));

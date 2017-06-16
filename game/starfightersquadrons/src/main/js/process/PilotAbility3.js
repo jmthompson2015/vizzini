@@ -126,7 +126,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && [RangeRuler.TWO, RangeRuler.THREE].vizziniContains(rangeKey) && attackDice.blankCount() > 0;
+            return token === attacker && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.blankCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -183,7 +183,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && [RangeRuler.TWO, RangeRuler.THREE].vizziniContains(rangeKey) && attackDice.evadeCount() > 0;
+            return token === attacker && [RangeRuler.TWO, RangeRuler.THREE].includes(rangeKey) && attackDice.evadeCount() > 0;
          },
          consequent: function(store, token, callback)
          {
@@ -264,7 +264,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             var attacker = getActiveToken(store);
             var rangeKey = getRangeKey(token);
             var attackDice = getAttackDice(token);
-            return token === attacker && [RangeRuler.ONE, RangeRuler.TWO].vizziniContains(rangeKey) && attackDice.focusCount() > 0;
+            return token === attacker && [RangeRuler.ONE, RangeRuler.TWO].includes(rangeKey) && attackDice.focusCount() > 0;
          },
          consequent: function(store, token, callback)
          {

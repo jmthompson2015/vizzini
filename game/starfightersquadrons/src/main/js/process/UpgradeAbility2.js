@@ -91,7 +91,7 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
          {
             var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && [Bearing.TURN_LEFT, Bearing.TURN_RIGHT].vizziniContains(maneuver.bearingKey);
+            return token === activeToken && [Bearing.TURN_LEFT, Bearing.TURN_RIGHT].includes(maneuver.bearingKey);
          },
          consequent: function(store, token, callback)
          {
@@ -123,7 +123,7 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
          {
             var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && [Difficulty.STANDARD, Difficulty.EASY].vizziniContains(maneuver.difficultyKey);
+            return token === activeToken && [Difficulty.STANDARD, Difficulty.EASY].includes(maneuver.difficultyKey);
          },
          consequent: function(store, token, callback)
          {
@@ -179,7 +179,7 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
          {
             var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && [3, 4, 5].vizziniContains(maneuver.speed);
+            return token === activeToken && [3, 4, 5].includes(maneuver.speed);
          },
          consequent: function(store, token, callback)
          {
@@ -197,7 +197,7 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
          {
             var activeToken = getActiveToken(store);
             var maneuver = getManeuver(token);
-            return token === activeToken && maneuver.bearingKey === Bearing.STRAIGHT;
+            return token === activeToken && maneuver !== undefined && maneuver.bearingKey === Bearing.STRAIGHT;
          },
          consequent: function(store, token, callback)
          {
@@ -270,7 +270,7 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
             {
                shipActionAction.doIt();
             }
-            var hasBarrelRoll = token.shipActions().vizziniContains(ShipAction.BARREL_ROLL);
+            var hasBarrelRoll = token.shipActions().includes(ShipAction.BARREL_ROLL);
             if (!hasBarrelRoll)
             {
                token.receiveStress();

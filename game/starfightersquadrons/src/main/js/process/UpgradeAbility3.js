@@ -204,7 +204,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var attacker = getActiveToken(store);
             var attackDice = getAttackDice(attacker);
             var weapon = getWeapon(attacker);
-            var isTorpedoOrMissile = (weapon.upgrade() !== undefined) && [UpgradeType.TORPEDO, UpgradeType.MISSILE].vizziniContains(weapon.upgrade().type);
+            var isTorpedoOrMissile = (weapon.upgrade() !== undefined) && [UpgradeType.TORPEDO, UpgradeType.MISSILE].includes(weapon.upgrade().type);
             return !usedThisRound(store, token, upgradeKey) && token === attacker && isTorpedoOrMissile &&
                (attackDice.blankCount() > 0 || attackDice.focusCount() > 0);
          },
@@ -321,7 +321,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          condition: function(store, token)
          {
             var attacker = getActiveToken(store);
-            var marksmanshipUsed = Selector.usedUpgrades(store.getState(), token).vizziniContains(UpgradeCard.MARKSMANSHIP);
+            var marksmanshipUsed = Selector.usedUpgrades(store.getState(), token).includes(UpgradeCard.MARKSMANSHIP);
             var attackDice = getAttackDice(token);
             return token === attacker && marksmanshipUsed && attackDice.focusCount() > 0;
          },
@@ -485,7 +485,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             var defender = getDefender(attacker);
             var rangeKey = getRangeKey(attacker);
             var defenseDice = getDefenseDice(attacker);
-            var isBeyondRange2 = ![RangeRuler.ONE, RangeRuler.TWO].vizziniContains(rangeKey);
+            var isBeyondRange2 = ![RangeRuler.ONE, RangeRuler.TWO].includes(rangeKey);
             var isOutsideFiringArc = !isInFiringArc(attacker);
             return token === defender && (isBeyondRange2 || isOutsideFiringArc) && defenseDice.blankCount() > 0;
          },
@@ -675,7 +675,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
                      var tokenPosition = environment.getPositionFor(token);
                      var myRangeKey = RangeRuler.getRange(token, tokenPosition, defender, defenderPosition);
 
-                     if (RangeRuler.STANDARD_RANGES.vizziniContains(myRangeKey))
+                     if (RangeRuler.STANDARD_RANGES.includes(myRangeKey))
                      {
                         var targetLock = new TargetLock(store, token.id(), defender.id());
                      }

@@ -173,7 +173,7 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
          InputValidator.validateNotNull("fromPosition", fromPosition);
          InputValidator.validateNotNull("shipBase", shipBase);
 
-         if ([Maneuver.STATIONARY_0_HARD, Maneuver.STATIONARY_0_STANDARD].vizziniContains(maneuver.value))
+         if ([Maneuver.STATIONARY_0_HARD, Maneuver.STATIONARY_0_STANDARD].includes(maneuver.value))
          {
             return fromPosition;
          }

@@ -277,7 +277,7 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
                {
                   shipStateKey = ShipState.TURRET_WEAPON;
                }
-               if (![undefined, null].vizziniContains(shipStateValue))
+               if (![undefined, null].includes(shipStateValue))
                {
                   var shipState = ShipState.properties[shipStateKey];
                   var image = React.createElement(ShipStateUI,

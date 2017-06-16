@@ -2,129 +2,129 @@
  * Provides pilot abilities for the Activation Phase.
  */
 define(["Bearing", "Maneuver", "Phase", "Pilot", "UpgradeCard", "process/Action", "process/Selector"],
-    function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Action, Selector)
-    {
-        "use strict";
-        var PilotAbility2 = {};
+   function(Bearing, Maneuver, Phase, Pilot, UpgradeCard, Action, Selector)
+   {
+      "use strict";
+      var PilotAbility2 = {};
 
-        ////////////////////////////////////////////////////////////////////////
-        PilotAbility2[Phase.ACTIVATION_REVEAL_DIAL] = {};
+      ////////////////////////////////////////////////////////////////////////
+      PilotAbility2[Phase.ACTIVATION_REVEAL_DIAL] = {};
 
-        PilotAbility2[Phase.ACTIVATION_REVEAL_DIAL][Pilot.COUNTESS_RYAD] = {
-            // When you reveal a Straight maneuver, you may treat it as a K-Turn maneuver.
-            condition: function(store, token)
+      PilotAbility2[Phase.ACTIVATION_REVEAL_DIAL][Pilot.COUNTESS_RYAD] = {
+         // When you reveal a Straight maneuver, you may treat it as a K-Turn maneuver.
+         condition: function(store, token)
+         {
+            var activeToken = getActiveToken(store);
+            var maneuver = getManeuver(activeToken);
+            return token === activeToken && maneuver.bearingKey === Bearing.STRAIGHT;
+         },
+         consequent: function(store, token, callback)
+         {
+            var oldManeuver = getManeuver(token);
+            var newManeuverKey = Maneuver.find(Bearing.KOIOGRAN_TURN, oldManeuver.speed, oldManeuver.difficultyKey);
+            if (newManeuverKey === undefined)
             {
-                var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
-                return token === activeToken && maneuver.bearingKey === Bearing.STRAIGHT;
-            },
-            consequent: function(store, token, callback)
-            {
-                var oldManeuver = getManeuver(token);
-                var newManeuverKey = Maneuver.find(Bearing.KOIOGRAN_TURN, oldManeuver.speed, oldManeuver.difficultyKey);
-                if (newManeuverKey === undefined)
-                {
-                    throw "Can't find K-Turn maneuver for oldManeuver = " + oldManeuver.bearingKey + " " + oldManeuver.speed + " " + oldManeuver.difficultyKey;
-                }
-                var newManeuver = Maneuver.properties[newManeuverKey];
-                store.dispatch(Action.setTokenManeuver(token, newManeuver));
-                callback();
-            },
-        };
-
-        PilotAbility2[Phase.ACTIVATION_REVEAL_DIAL][UpgradeCard.BOBA_FETT_IMPERIAL] = {
-            // When you reveal a bank maneuver, you may rotate your dial to the other bank maneuver of the same speed.
-            condition: function(store, token)
-            {
-                var activeToken = getActiveToken(store);
-                var maneuver = getManeuver(activeToken);
-                return token === activeToken && [Bearing.BANK_LEFT, Bearing.BANK_RIGHT].vizziniContains(maneuver.bearingKey);
-            },
-            consequent: function(store, token, callback)
-            {
-                var environment = store.getState().environment;
-                var oldManeuver = getManeuver(token);
-                var newBearingKey;
-                switch (oldManeuver.bearingKey)
-                {
-                    case Bearing.BANK_LEFT:
-                        newBearingKey = Bearing.BANK_RIGHT;
-                        break;
-                    case Bearing.BANK_RIGHT:
-                        newBearingKey = Bearing.BANK_LEFT;
-                        break;
-                }
-                var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
-                var newManeuver = Maneuver.properties[newManeuverKey];
-                store.dispatch(Action.setTokenManeuver(token, newManeuver));
-                callback();
-            },
-        };
-
-        ////////////////////////////////////////////////////////////////////////
-        function findManeuverByBearingSpeed(token, bearing, speed)
-        {
-            InputValidator.validateNotNull("token", token);
-            InputValidator.validateNotNull("bearing", bearing);
-            InputValidator.validateNotNull("speed", speed);
-
-            var answer;
-            var maneuverKeys = token.pilot().shipTeam.ship.maneuverKeys;
-
-            for (var i = 0; i < maneuverKeys.length; i++)
-            {
-                var maneuverKey = maneuverKeys[i];
-                var maneuver = Maneuver.properties[maneuverKey];
-
-                if (maneuver.bearingKey === bearing && maneuver.speed === speed)
-                {
-                    answer = maneuverKey;
-                    break;
-                }
+               throw "Can't find K-Turn maneuver for oldManeuver = " + oldManeuver.bearingKey + " " + oldManeuver.speed + " " + oldManeuver.difficultyKey;
             }
+            var newManeuver = Maneuver.properties[newManeuverKey];
+            store.dispatch(Action.setTokenManeuver(token, newManeuver));
+            callback();
+         },
+      };
 
-            return answer;
-        }
+      PilotAbility2[Phase.ACTIVATION_REVEAL_DIAL][UpgradeCard.BOBA_FETT_IMPERIAL] = {
+         // When you reveal a bank maneuver, you may rotate your dial to the other bank maneuver of the same speed.
+         condition: function(store, token)
+         {
+            var activeToken = getActiveToken(store);
+            var maneuver = getManeuver(activeToken);
+            return token === activeToken && [Bearing.BANK_LEFT, Bearing.BANK_RIGHT].includes(maneuver.bearingKey);
+         },
+         consequent: function(store, token, callback)
+         {
+            var environment = store.getState().environment;
+            var oldManeuver = getManeuver(token);
+            var newBearingKey;
+            switch (oldManeuver.bearingKey)
+            {
+               case Bearing.BANK_LEFT:
+                  newBearingKey = Bearing.BANK_RIGHT;
+                  break;
+               case Bearing.BANK_RIGHT:
+                  newBearingKey = Bearing.BANK_LEFT;
+                  break;
+            }
+            var newManeuverKey = findManeuverByBearingSpeed(token, newBearingKey, oldManeuver.speed);
+            var newManeuver = Maneuver.properties[newManeuverKey];
+            store.dispatch(Action.setTokenManeuver(token, newManeuver));
+            callback();
+         },
+      };
 
-        function getActivationAction(token)
-        {
-            InputValidator.validateNotNull("token", token);
+      ////////////////////////////////////////////////////////////////////////
+      function findManeuverByBearingSpeed(token, bearing, speed)
+      {
+         InputValidator.validateNotNull("token", token);
+         InputValidator.validateNotNull("bearing", bearing);
+         InputValidator.validateNotNull("speed", speed);
 
-            return token.activationAction();
-        }
+         var answer;
+         var maneuverKeys = token.pilot().shipTeam.ship.maneuverKeys;
 
-        function getActiveToken(store)
-        {
-            InputValidator.validateNotNull("store", store);
+         for (var i = 0; i < maneuverKeys.length; i++)
+         {
+            var maneuverKey = maneuverKeys[i];
+            var maneuver = Maneuver.properties[maneuverKey];
 
-            return Selector.activeToken(store.getState());
-        }
+            if (maneuver.bearingKey === bearing && maneuver.speed === speed)
+            {
+               answer = maneuverKey;
+               break;
+            }
+         }
 
-        function getManeuver(token)
-        {
-            InputValidator.validateNotNull("token", token);
+         return answer;
+      }
 
-            var maneuverKey = getManeuverKey(token);
-            return Maneuver.properties[maneuverKey];
-        }
+      function getActivationAction(token)
+      {
+         InputValidator.validateNotNull("token", token);
 
-        function getManeuverKey(token)
-        {
-            InputValidator.validateNotNull("token", token);
+         return token.activationAction();
+      }
 
-            var activationAction = getActivationAction(token);
-            return activationAction.maneuverKey();
-        }
+      function getActiveToken(store)
+      {
+         InputValidator.validateNotNull("store", store);
 
-        PilotAbility2.toString = function()
-        {
-            return "PilotAbility2";
-        };
+         return Selector.activeToken(store.getState());
+      }
 
-        if (Object.freeze)
-        {
-            Object.freeze(PilotAbility2);
-        }
+      function getManeuver(token)
+      {
+         InputValidator.validateNotNull("token", token);
 
-        return PilotAbility2;
-    });
+         var maneuverKey = getManeuverKey(token);
+         return Maneuver.properties[maneuverKey];
+      }
+
+      function getManeuverKey(token)
+      {
+         InputValidator.validateNotNull("token", token);
+
+         var activationAction = getActivationAction(token);
+         return activationAction.maneuverKey();
+      }
+
+      PilotAbility2.toString = function()
+      {
+         return "PilotAbility2";
+      };
+
+      if (Object.freeze)
+      {
+         Object.freeze(PilotAbility2);
+      }
+
+      return PilotAbility2;
+   });
