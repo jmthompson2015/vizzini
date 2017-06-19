@@ -1,5 +1,5 @@
-define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "RectanglePath", "process/Action", "process/ShipFledAction"],
-   function(Bearing, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, RectanglePath, Action, ShipFledAction)
+define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Position", "process/Action", "process/ShipFledAction"],
+   function(Bearing, Maneuver, ManeuverComputer, Pilot, PlayFormat, Position, Action, ShipFledAction)
    {
       "use strict";
 
@@ -257,13 +257,19 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
          var maneuverKey = this.maneuverKey();
          var isBoost = this.isBoost();
          var fromPosition = this.fromPosition();
+         var fromPosition0 = Immutable.Map(
+         {
+            x: fromPosition.x(),
+            y: fromPosition.y(),
+            heading: fromPosition.heading(),
+         });
 
          var values = Immutable.Map(
          {
             tokenId: tokenId,
             maneuverKey: maneuverKey,
             isBoost: isBoost,
-            fromPosition: fromPosition,
+            fromPosition: fromPosition0,
          });
 
          store.dispatch(Action.setTokenManeuverAction(tokenId, values));
@@ -281,7 +287,11 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
          {
             var maneuverKey = values.get("maneuverKey");
             var isBoost = values.get("isBoost");
-            var fromPosition = values.get("fromPosition");
+            var fromPosition0 = values.get("fromPosition");
+            var x = fromPosition0.get("x");
+            var y = fromPosition0.get("y");
+            var heading = fromPosition0.get("heading");
+            var fromPosition = new Position(x, y, heading);
 
             answer = new ManeuverAction(store, tokenId, maneuverKey, isBoost, fromPosition);
          }
