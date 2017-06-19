@@ -938,7 +938,8 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   tokenIdToManeuver: newTokenIdToData,
                });
             case Action.SET_TOKEN_MANEUVER_ACTION:
-               newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToManeuverAction, Action.SET_TOKEN_MANEUVER_ACTION, action.type, action.token.id(), action.maneuverAction);
+               // newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToManeuverAction, Action.SET_TOKEN_MANEUVER_ACTION, action.type, action.token.id(), action.maneuverAction);
+               newTokenIdToData = Reducer.tokenIdToData(state.tokenIdToManeuverAction, Action.SET_TOKEN_MANEUVER_ACTION, action.type, action.tokenId, action.maneuverActionValues);
                return Object.assign(
                {}, state,
                {

@@ -8,6 +8,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var tokenPosition = environment.getPositionFor(token);
          environment.removeToken(tokenPosition);
@@ -47,6 +49,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var tokenPosition = environment.getPositionFor(token);
          environment.removeToken(tokenPosition);
@@ -86,6 +90,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD);
 
@@ -122,6 +128,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD);
 
@@ -158,6 +166,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD);
 
@@ -242,6 +252,7 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var tokenPosition = environment.getPositionFor(token);
          environment.removeToken(tokenPosition);
@@ -285,6 +296,7 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          store.dispatch(Action.addCloakCount(token));
          var action = new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD);
@@ -620,6 +632,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
+         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Slam(environment, token, Maneuver.STRAIGHT_2_STANDARD);
 

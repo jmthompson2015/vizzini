@@ -618,10 +618,12 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          return Selector.maneuver(this.store().getState(), this);
       };
 
-      Token.prototype.maneuverAction = function()
-      {
-         return Selector.maneuverAction(this.store().getState(), this);
-      };
+      // Token.prototype.maneuverAction = function()
+      // {
+      //  return Selector.maneuverAction(this.store().getState(), this);
+      //    var values = this.store().getState().tokenIdToManeuverAction[this.id()];
+      //    return ManeuverAction.get(this.store(), this.id());
+      // };
 
       Token.prototype.name = function()
       {

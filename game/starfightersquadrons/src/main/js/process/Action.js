@@ -914,16 +914,29 @@ define(["Count"], function(Count)
       });
    };
 
-   Action.setTokenManeuverAction = function(token, maneuverAction)
+   //  Action.setTokenManeuverAction = function(token, maneuverAction)
+   //  {
+   //     InputValidator.validateNotNull("token", token);
+   //     // maneuverAction optional.
+   //
+   //     return (
+   //     {
+   //        type: Action.SET_TOKEN_MANEUVER_ACTION,
+   //        token: token,
+   //        maneuverAction: maneuverAction,
+   //     });
+   //  };
+
+   Action.setTokenManeuverAction = function(tokenId, maneuverActionValues)
    {
-      InputValidator.validateNotNull("token", token);
-      // maneuverAction optional.
+      InputValidator.validateIsNumber("tokenId", tokenId);
+      // maneuverActionValues optional.
 
       return (
       {
          type: Action.SET_TOKEN_MANEUVER_ACTION,
-         token: token,
-         maneuverAction: maneuverAction,
+         tokenId: tokenId,
+         maneuverActionValues: maneuverActionValues,
       });
    };
 

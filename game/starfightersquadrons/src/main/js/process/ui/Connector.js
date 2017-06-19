@@ -1,5 +1,5 @@
-define(["Phase", "PlayFormat", "Ship", "Team", "process/Selector"],
-   function(Phase, PlayFormat, Ship, Team, Selector)
+define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "process/Selector"],
+   function(Phase, PlayFormat, Ship, Team, ManeuverAction, Selector)
    {
       "use strict";
       var Connector = {};
@@ -211,7 +211,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/Selector"],
             {
                if (Connector.PlayAreaUI.MANEUVER_PHASES.includes(state.phaseKey))
                {
-                  var maneuverAction = activeToken.maneuverAction();
+                  var maneuverAction = ManeuverAction.get(activeToken.store(), activeToken.id());
 
                   if (maneuverAction)
                   {

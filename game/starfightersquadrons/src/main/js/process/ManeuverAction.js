@@ -3,21 +3,24 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
    {
       "use strict";
 
-      function ManeuverAction(environment, token, maneuverKey, isBoost)
+      function ManeuverAction(store, tokenId, maneuverKey, isBoostIn, fromPositionIn)
       {
-         InputValidator.validateNotNull("environment", environment);
-         InputValidator.validateNotNull("token", token);
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("tokenId", tokenId);
          InputValidator.validateNotNull("maneuverKey", maneuverKey);
-         // isBoost is optional
+         // isBoost is optional. default: false
+         // fromPosition is optional. default: lookup from environment
 
-         this.environment = function()
+         var isBoost = (isBoostIn !== undefined ? isBoostIn : false);
+
+         this.store = function()
          {
-            return environment;
+            return store;
          };
 
-         this.token = function()
+         this.tokenId = function()
          {
-            return token;
+            return tokenId;
          };
 
          this.maneuverKey = function()
@@ -30,430 +33,258 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
             return isBoost;
          };
 
-         var maneuver = Maneuver.properties[maneuverKey];
+         var environment = store.getState().environment;
+         var token = store.getState().tokens[tokenId];
+         var fromPosition = (fromPositionIn !== undefined ? fromPositionIn : environment.getPositionFor(token));
 
-         this.maneuver = function()
+         this.environment = function()
          {
-            return maneuver;
+            return environment;
          };
-
-         var fromPosition = environment.getPositionFor(token);
 
          this.fromPosition = function()
          {
             return fromPosition;
          };
 
-         var shipBase = token.pilot().shipTeam.ship.shipBase;
-
-         this.shipBase = function()
+         this.token = function()
          {
-            return shipBase;
+            return token;
          };
+      }
 
-         // Flag indicating if the maneuver is a barrel roll.
-         var isBarrelRoll = false;
+      //////////////////////////////////////////////////////////////////////////
+      // Accessor methods.
 
-         this.doIt = function()
+      ManeuverAction.prototype.maneuver = function()
+      {
+         var maneuverKey = this.maneuverKey();
+
+         return Maneuver.properties[maneuverKey];
+      };
+
+      ManeuverAction.prototype.shipBase = function()
+      {
+         var token = this.token();
+         var pilot = token.pilot();
+         var shipBase = pilot.shipTeam.ship.shipBase;
+
+         return shipBase;
+      };
+
+      ManeuverAction.prototype.toString = function()
+      {
+         return "ManeuverAction tokenId=" + this.tokenId() + ", maneuverKey=" + this.maneuverKey() + ", isBoost?" + this.isBoost() + ", fromPosition=" + this.fromPosition();
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Behavior methods.
+
+      ManeuverAction.prototype.doIt = function()
+      {
+         LOGGER.trace("ManeuverAction.doIt() start");
+
+         var token = this.token();
+
+         if (token)
          {
-            LOGGER.trace("ManeuverAction.doIt() start");
+            var store = this.store();
+            var environment = this.environment();
+            var maneuver = this.maneuver();
+            var shipBase = this.shipBase();
+            this._save();
+            store.dispatch(Action.setTokenTouching(token, false));
+            var bearingKey = maneuver.bearingKey;
+            var isBarrelRoll = [Bearing.BARREL_ROLL_LEFT, Bearing.BARREL_ROLL_RIGHT].includes(bearingKey);
+            var isBoost = this.isBoost();
+            var fromPosition = this.fromPosition();
+            var toPosition = this.determineToPosition(isBarrelRoll, isBoost);
+            var toPolygon;
 
-            if (token)
+            if (toPosition)
             {
-               var store = environment.store();
-               store.dispatch(Action.setTokenManeuverAction(token, this));
-               store.dispatch(Action.setTokenTouching(token, false));
-               var bearingKey = this.maneuver().bearingKey;
-               isBarrelRoll = (bearingKey === Bearing.BARREL_ROLL_LEFT || bearingKey === Bearing.BARREL_ROLL_RIGHT);
-
-               var toPosition = determineToPosition();
-               LOGGER.trace("toPosition = " + toPosition);
-
-               var toPolygon;
-
-               if (toPosition)
-               {
-                  toPolygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition
-                     .heading());
-               }
-
-               if (!toPosition && (isBarrelRoll || isBoost))
-               {
-                  // Maneuver failed.
-                  var message = isBarrelRoll ? "Barrel Roll failed." : "Boost failed.";
-                  LOGGER.info(message);
-               }
-               else if (!toPosition || !PlayFormat.isPathInPlayArea(environment.playFormatKey(), toPolygon))
-               {
-                  LOGGER.info("Ship fled the battlefield: " + token.name());
-                  var shipFledAction = new ShipFledAction(environment, token, fromPosition);
-                  shipFledAction.doIt();
-               }
-               else
-               {
-                  store.dispatch(Action.moveToken(fromPosition, toPosition));
-
-                  if (token.isIonized && token.isIonized())
-                  {
-                     store.dispatch(Action.setIonCount(token));
-                  }
-
-                  if (token.pilotKey() === Pilot.IG_88C && isBoost)
-                  {
-                     store.dispatch(Action.addEvadeCount(token));
-                  }
-               }
+               toPolygon = ManeuverComputer.computePolygon(shipBase, toPosition.x(), toPosition.y(), toPosition.heading());
             }
 
-            LOGGER.trace("ManeuverAction.doIt() end");
-         };
-
-         function ShipData(token, position, polygon)
-         {
-            this.token = function()
+            if (!toPosition && (isBarrelRoll || isBoost))
             {
-               return token;
-            };
-
-            this.position = function()
-            {
-               return position;
-            };
-
-            this.polygon = function()
-            {
-               return polygon;
-            };
-         }
-
-         function backOffFrom(shipData1, startIndex, shipDataMap)
-         {
-            InputValidator.validateNotNull("shipData1", shipData1);
-
-            var answer = -2;
-
-            var shipData0 = shipDataMap[token];
-            var position0 = shipData0.position();
-            var polygon1 = shipData1.polygon();
-
-            // Find the shortest path until collision.
-            var path = ManeuverComputer.computePath(maneuver, fromPosition, shipBase);
-            var pathPoints = [];
-            var points = path.points();
-            var i;
-            for (i = 0; i < points.length; i += 2)
-            {
-               pathPoints.push(
-               {
-                  x: points[i],
-                  y: points[i + 1],
-               });
+               // Maneuver failed.
+               var message = isBarrelRoll ? "Barrel Roll failed." : "Boost failed.";
+               LOGGER.info(message);
             }
-            var x0;
-            var y0;
-            var x1 = position0.x();
-            var y1 = position0.y();
-
-            LOGGER.trace("pathPoints.length = " + pathPoints.length);
-            var index = (startIndex < 0 ? pathPoints.length - 2 : startIndex);
-
-            for (i = index; i >= 0; i--)
+            else if (!toPosition || !PlayFormat.isPathInPlayArea(environment.playFormatKey(), toPolygon))
             {
-               var point1 = pathPoints[i];
-               x0 = point1.x;
-               y0 = point1.y;
-               var heading = Position.computeHeading(x0, y0, x1, y1);
-               LOGGER.trace(i + " x0, y0 = " + x0 + ", " + y0 + " x1, y1 = " + x1 + ", " + y1 + " heading = " +
-                  heading);
-               var polygon0 = ManeuverComputer.computePolygon(shipBase, Math.vizziniRound(x0, 0), Math.vizziniRound(
-                  y0, 0), heading);
-
-               if (!RectanglePath.doPolygonsCollide(polygon0, polygon1))
-               {
-                  var toPosition = interpolate(x0, y0, x1, y1, polygon1);
-                  shipData0 = new ShipData(token, toPosition, polygon0);
-                  shipDataMap[token] = shipData0;
-                  answer = i;
-                  break;
-               }
-
-               x1 = x0;
-               y1 = y0;
-            }
-
-            return answer;
-         }
-
-         /*
-          * @param x0 Non-collision X coordinate.
-          *
-          * @param y0 Non-collision Y coordinate.
-          *
-          * @param x1 Collision X coordinate.
-          *
-          * @param y1 Collision Y coordinate.
-          *
-          * @param polygon1 Colliding area.
-          *
-          * @return the closest non-collision point.
-          */
-         function interpolate(x0, y0, x1, y1, polygon1)
-         {
-            InputValidator.validateNotNull("polygon1", polygon1);
-
-            var answer;
-
-            LOGGER.trace("x0, y0 = " + x0 + ", " + y0 + " x1, y1 = " + x1 + ", " + y1 + " heading = " +
-               Position.computeHeading(x0, y0, x1, y1));
-
-            // Calculate the midpoint.
-            var t = 0.5;
-            var x01 = x0 + (t * (x1 - x0));
-            var y01 = y0 + (t * (y1 - y0));
-            var heading;
-
-            if (((Math.vizziniRound(x0 - x01, 0) === 0) && (Math.vizziniRound(y0 - y01, 0) === 0)) ||
-               ((Math.vizziniRound(x01 - x1, 0) === 0) && (Math.vizziniRound(y01 - y1, 0) === 0)))
-            {
-               heading = Position.computeHeading(x0, y0, x1, y1);
-               answer = new Position(Math.vizziniRound(x0, 0), Math.vizziniRound(y0, 0), heading);
+               LOGGER.info("Ship fled the battlefield: " + token.name());
+               var shipFledAction = new ShipFledAction(environment, token, fromPosition);
+               shipFledAction.doIt();
             }
             else
             {
-               var heading01 = Position.computeHeading(x0, y0, x01, y01);
-               var polygon01 = ManeuverComputer.computePolygon(shipBase, Math.vizziniRound(x01, 0), Math.vizziniRound(
-                  y01, 0), heading01);
+               store.dispatch(Action.moveToken(fromPosition, toPosition));
 
-               if (RectanglePath.doPolygonsCollide(polygon01, polygon1))
+               if (token.isIonized && token.isIonized())
                {
-                  x01 = x0 + (t * (x01 - x0));
-                  y01 = y0 + (t * (y01 - y0));
-                  answer = interpolate(x0, y0, x01, y01, polygon1);
+                  store.dispatch(Action.setIonCount(token));
                }
-               else
+
+               if (token.pilotKey() === Pilot.IG_88C && isBoost)
                {
-                  x01 = x01 + (t * (x1 - x01));
-                  y01 = y01 + (t * (y1 - y01));
-                  answer = interpolate(x01, y01, x1, y1, polygon1);
+                  store.dispatch(Action.addEvadeCount(token));
                }
             }
-
-            if (answer === undefined)
-            {
-               heading = Position.computeHeading(x0, y0, x1, y1);
-               answer = new Position(toInt(x1), toInt(y1), heading);
-            }
-
-            return answer;
          }
 
-         function createShipDataMap()
+         LOGGER.trace("ManeuverAction.doIt() end");
+      };
+
+      ManeuverAction.prototype.determineToPosition = function(isBarrelRoll, isBoost)
+      {
+         InputValidator.validateNotNull("isBarrelRoll", isBarrelRoll);
+         InputValidator.validateNotNull("isBoost", isBoost);
+
+         var answer;
+
+         if (isBarrelRoll || isBoost)
          {
-            var answer = {};
-
-            var tokens = environment.getTokensForActivation(false);
-
-            tokens.forEach(function(token1)
-            {
-               var position1;
-               var polygon1;
-
-               if (token1 == token)
-               {
-                  position1 = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition,
-                     shipBase);
-
-                  if (position1)
-                  {
-                     polygon1 = ManeuverComputer.computePolygon(shipBase, position1.x(), position1.y(), position1
-                        .heading());
-                  }
-               }
-               else
-               {
-                  position1 = environment.getPositionFor(token1);
-                  var shipBase1 = token1.pilot().shipTeam.ship.shipBase;
-                  polygon1 = ManeuverComputer.computePolygon(shipBase1, position1.x(), position1.y(), position1
-                     .heading());
-               }
-
-               var shipData = new ShipData(token1, position1, polygon1);
-               answer[token1] = shipData;
-            });
-
-            if (LOGGER.isDebugEnabled())
-            {
-               Object.getOwnPropertyNames(answer).forEach(function(tokenName)
-               {
-                  LOGGER.debug(tokenName + ": " + answer[tokenName]);
-               });
-            }
-
-            return answer;
+            answer = this.determineToPositionWithoutBackOff();
+         }
+         else
+         {
+            answer = this.determineToPositionWithBackOff();
          }
 
-         function determineToPosition()
+         return answer;
+      };
+
+      ManeuverAction.prototype.determineToPositionWithBackOff = function()
+      {
+         LOGGER.trace("determineToPositionWithBackOff() start");
+
+         var answer;
+         var environment = this.environment();
+         var token = this.token();
+         var maneuver = this.maneuver();
+         var fromPosition = this.fromPosition();
+         var shipDataMap = ManeuverComputer.createShipDataMap(environment, token, maneuver, fromPosition);
+         var shipData0 = shipDataMap[token];
+         var toPosition;
+
+         if (shipData0 !== undefined)
          {
-            var answer;
-
-            if (isBarrelRoll || isBoost)
-            {
-               answer = determineToPositionWithoutBackOff();
-            }
-            else
-            {
-               answer = determineToPositionWithBackOff();
-            }
-
-            return answer;
+            toPosition = shipData0.position;
          }
 
-         function determineToPositionWithBackOff()
+         if (toPosition === undefined)
          {
-            LOGGER.trace("determineToPositionWithBackOff() start");
-
-            var answer;
-
-            LOGGER.trace("fromPosition = " + fromPosition);
-
-            var shipDataMap = createShipDataMap();
-            var shipData0 = shipDataMap[token];
-            var toPosition;
-
-            if (shipData0 !== undefined)
-            {
-               toPosition = shipData0.position();
-               LOGGER.trace("nominal toPosition = " + toPosition);
-            }
-
-            if (toPosition === undefined)
-            {
-               // Ship fled the battlefield.
-               return undefined;
-            }
-
-            var shipData;
-            var index = -1;
-
-            var count = 0;
-
-            do {
-               shipData = findCollision(shipDataMap);
-               LOGGER.trace("index = " + index + " shipData = " + shipData);
-
-               if (shipData === undefined)
-               {
-                  // No collision.
-                  answer = shipDataMap[token].position();
-               }
-               else
-               {
-                  // Collision with shipData, at least.
-                  var store = token.store();
-                  store.dispatch(Action.setTokenTouching(token, true));
-                  index = backOffFrom(shipData, index, shipDataMap);
-               }
-
-               count++;
-
-               if (count > 100)
-               {
-                  LOGGER.info("token = " + token);
-                  LOGGER.info("maneuver = " + maneuver);
-                  LOGGER.info("index = " + index);
-                  LOGGER.info("shipData = " + shipData);
-                  throw new RuntimeException("Too long spent in do loop.");
-               }
-
-               if (index < -1)
-               {
-                  // Backoff failed.
-                  answer = fromPosition;
-               }
-
-            }
-            while (answer === undefined);
-
-            LOGGER.trace("determineToPositionWithBackOff() end");
-
-            return answer;
+            // Ship fled the battlefield.
+            return undefined;
          }
 
-         function determineToPositionWithoutBackOff()
-         {
-            var answer;
+         var shipData;
+         var index = -1;
+         var count = 0;
 
-            LOGGER.trace("fromPosition = " + fromPosition);
-
-            var shipDataMap = createShipDataMap();
-            var toPosition = shipDataMap[token].position();
-            LOGGER.trace("nominal toPosition = " + toPosition);
-
-            if (toPosition === undefined)
-            {
-               // Ship fled the battlefield.
-               return undefined;
-            }
-
-            var shipData;
-            var index = -1;
-
-            shipData = findCollision(shipDataMap);
-            LOGGER.trace("index = " + index + " shipData = " + shipData);
+         do {
+            shipData = ManeuverComputer.findCollision(shipDataMap, token);
 
             if (shipData === undefined)
             {
                // No collision.
-               answer = shipDataMap[token].position();
+               answer = shipDataMap[token].position;
             }
-
-            return answer;
-         }
-
-         function findCollision(shipDataMap)
-         {
-            var answer;
-
-            var shipData0 = shipDataMap[token];
-            var area0 = shipData0.polygon();
-
-            if (area0)
+            else
             {
-               var keys = Object.getOwnPropertyNames(shipDataMap);
-               for (var i = 0; i < keys.length; i++)
-               {
-                  var shipData1 = shipDataMap[keys[i]];
-
-                  if (shipData0 != shipData1)
-                  {
-                     LOGGER.trace("shipData1 = " + shipData1);
-                     var polygon1 = shipData1.polygon();
-
-                     if (polygon1)
-                     {
-                        if (RectanglePath.doPolygonsCollide(area0, polygon1))
-                        {
-                           answer = shipData1;
-                           break;
-                        }
-                     }
-                  }
-               }
+               // Collision with shipData, at least.
+               var store = token.store();
+               store.dispatch(Action.setTokenTouching(token, true));
+               index = ManeuverComputer.backOffFrom(environment, token, maneuver, fromPosition, shipData, index, shipDataMap);
             }
 
-            return answer;
+            count++;
+
+            if (count > 100)
+            {
+               throw new RuntimeException("Too long spent in do loop.");
+            }
+
+            if (index < -1)
+            {
+               // Backoff failed.
+               answer = fromPosition;
+            }
          }
-      }
+         while (answer === undefined);
 
-      ManeuverAction.prototype.toString = function()
+         LOGGER.trace("determineToPositionWithBackOff() end");
+
+         return answer;
+      };
+
+      ManeuverAction.prototype.determineToPositionWithoutBackOff = function()
       {
-         var answer = "ManeuverAction ";
+         var answer;
+         var environment = this.environment();
+         var token = this.token();
+         var maneuver = this.maneuver();
+         var fromPosition = this.fromPosition();
+         var shipDataMap = ManeuverComputer.createShipDataMap(environment, token, maneuver, fromPosition);
+         var toPosition = shipDataMap[token].position;
 
-         answer += this.token().name();
-         answer += " ";
-         answer += this.maneuverKey();
-         answer += " ";
-         answer += this.isBoost();
+         if (toPosition === undefined)
+         {
+            // Ship fled the battlefield.
+            return undefined;
+         }
+
+         var shipData = ManeuverComputer.findCollision(shipDataMap, token);
+
+         if (shipData === undefined)
+         {
+            // No collision.
+            answer = shipDataMap[token].position;
+         }
+
+         return answer;
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Mutator methods.
+
+      ManeuverAction.prototype._save = function()
+      {
+         var store = this.store();
+         var tokenId = this.tokenId();
+         var maneuverKey = this.maneuverKey();
+         var isBoost = this.isBoost();
+         var fromPosition = this.fromPosition();
+
+         var values = Immutable.Map(
+         {
+            tokenId: tokenId,
+            maneuverKey: maneuverKey,
+            isBoost: isBoost,
+            fromPosition: fromPosition,
+         });
+
+         store.dispatch(Action.setTokenManeuverAction(tokenId, values));
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Utility methods.
+
+      ManeuverAction.get = function(store, tokenId)
+      {
+         var values = store.getState().tokenIdToManeuverAction[tokenId];
+         var answer;
+
+         if (values !== undefined)
+         {
+            var maneuverKey = values.get("maneuverKey");
+            var isBoost = values.get("isBoost");
+            var fromPosition = values.get("fromPosition");
+
+            answer = new ManeuverAction(store, tokenId, maneuverKey, isBoost, fromPosition);
+         }
 
          return answer;
       };

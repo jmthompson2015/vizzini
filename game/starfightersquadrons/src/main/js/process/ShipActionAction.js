@@ -32,7 +32,7 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
       BarrelRoll.prototype.doIt = function()
       {
-         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
+         var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
          maneuverAction.doIt();
       };
 
@@ -70,7 +70,7 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
       Boost.prototype.doIt = function()
       {
-         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
+         var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
          maneuverAction.doIt();
       };
 
@@ -166,7 +166,7 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
       Decloak.prototype.doIt = function()
       {
-         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
+         var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
          maneuverAction.doIt();
          var store = this.environment().store();
          store.dispatch(Action.addCloakCount(this.token(), -1));
@@ -536,7 +536,7 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
       Slam.prototype.doIt = function()
       {
-         var maneuverAction = new ManeuverAction(this.environment(), this.token(), this.maneuverKey());
+         var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
          maneuverAction.doIt();
          var store = this.environment().store();
          store.dispatch(Action.addWeaponsDisabledCount(this.token()));

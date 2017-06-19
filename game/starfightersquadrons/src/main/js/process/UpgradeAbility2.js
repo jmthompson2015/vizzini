@@ -425,7 +425,7 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
          {
             var environment = store.getState().environment;
             var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
-            var maneuverAction = new ManeuverAction(environment, token, maneuverKey);
+            var maneuverAction = new ManeuverAction(environment.store(), token.id(), maneuverKey);
             maneuverAction.doIt();
             if (callback !== undefined) callback();
          },

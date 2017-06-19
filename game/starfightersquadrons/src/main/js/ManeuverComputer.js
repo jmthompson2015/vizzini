@@ -8,8 +8,75 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
       "use strict";
       var ManeuverComputer = {};
 
+      ManeuverComputer.backOffFrom = function(environment, token, maneuver, fromPosition, shipData1, startIndex, shipDataMap)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("token", token);
+         InputValidator.validateNotNull("maneuver", maneuver);
+         InputValidator.validateNotNull("fromPosition", fromPosition);
+         InputValidator.validateNotNull("shipData1", shipData1);
+         InputValidator.validateNotNull("startIndex", startIndex);
+         InputValidator.validateNotNull("shipDataMap", shipDataMap);
+
+         var answer = -2;
+         var shipBase = token.pilot().shipTeam.ship.shipBase;
+         var shipData0 = shipDataMap[token];
+         var position0 = shipData0.position;
+         var polygon1 = shipData1.polygon;
+
+         // Find the shortest path until collision.
+         var path = ManeuverComputer.computePath(maneuver, fromPosition, shipBase);
+         var pathPoints = [];
+         var points = path.points();
+         var i;
+
+         for (i = 0; i < points.length; i += 2)
+         {
+            pathPoints.push(
+            {
+               x: points[i],
+               y: points[i + 1],
+            });
+         }
+
+         var x0;
+         var y0;
+         var x1 = position0.x();
+         var y1 = position0.y();
+         var index = (startIndex < 0 ? pathPoints.length - 2 : startIndex);
+
+         for (i = index; i >= 0; i--)
+         {
+            var point1 = pathPoints[i];
+            x0 = point1.x;
+            y0 = point1.y;
+            var heading = Position.computeHeading(x0, y0, x1, y1);
+            var polygon0 = ManeuverComputer.computePolygon(shipBase, Math.vizziniRound(x0, 0), Math.vizziniRound(y0, 0), heading);
+
+            if (!RectanglePath.doPolygonsCollide(polygon0, polygon1))
+            {
+               var toPosition = ManeuverComputer._interpolate(x0, y0, x1, y1, polygon1, shipBase);
+               shipData0 = {
+                  position: toPosition,
+                  polygon: polygon0,
+               };
+               shipDataMap[token] = shipData0;
+               answer = i;
+               break;
+            }
+
+            x1 = x0;
+            y1 = y0;
+         }
+
+         return answer;
+      };
+
       ManeuverComputer.computeFromPolygon = function(fromPosition, shipBase)
       {
+         InputValidator.validateNotNull("fromPosition", fromPosition);
+         InputValidator.validateNotNull("shipBase", shipBase);
+
          return ManeuverComputer.computePolygon(shipBase, fromPosition.x(), fromPosition.y(), fromPosition.heading());
       };
 
@@ -194,7 +261,7 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
          var y1, y2, y3;
          var factor, angle;
 
-         if ((bearingKey === Bearing.STRAIGHT) || (bearingKey === Bearing.KOIOGRAN_TURN))
+         if ([Bearing.STRAIGHT, Bearing.KOIOGRAN_TURN].includes(bearingKey))
          {
             if (ShipBase.isHuge(shipBase.value))
             {
@@ -262,7 +329,7 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
                dy = y1 + y2 + y3;
             }
          }
-         else if (bearingKey === Bearing.SEGNORS_LOOP_LEFT || bearingKey === Bearing.SEGNORS_LOOP_RIGHT)
+         else if ([Bearing.SEGNORS_LOOP_LEFT, Bearing.SEGNORS_LOOP_RIGHT].includes(bearingKey))
          {
             // Half base.
             x1 = baseSize;
@@ -300,7 +367,7 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
          }
-         else if (bearingKey === Bearing.TALLON_ROLL_LEFT || bearingKey === Bearing.TALLON_ROLL_RIGHT)
+         else if ([Bearing.TALLON_ROLL_LEFT, Bearing.TALLON_ROLL_RIGHT].includes(bearingKey))
          {
             // Half base.
             x1 = baseSize;
@@ -319,13 +386,9 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
             dx = x1 + x2 + x3;
             dy = y1 + y2 + y3;
          }
-         else if ((maneuver.value === Maneuver.BARREL_ROLL_LEFT_1_STANDARD) ||
-            (maneuver.value === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD) ||
-            (maneuver.value === Maneuver.BARREL_ROLL_LEFT_2_STANDARD) ||
-            (maneuver.value === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD))
+         else if ([Bearing.BARREL_ROLL_LEFT, Bearing.BARREL_ROLL_RIGHT].includes(bearingKey))
          {
-            factor = (maneuver.value === Maneuver.BARREL_ROLL_RIGHT_1_STANDARD ||
-               maneuver.value === Maneuver.BARREL_ROLL_RIGHT_2_STANDARD ? 1.0 : -1.0);
+            factor = (bearingKey === Bearing.BARREL_ROLL_RIGHT ? 1.0 : -1.0);
             dx = 0;
             dy = factor * ((2 * baseSize) + (40 * speed));
             headingChange = 0;
@@ -336,6 +399,80 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
          }
 
          return ManeuverComputer._createPosition(playFormatKey, fromPosition, dx, dy, headingChange);
+      };
+
+      ManeuverComputer.createShipDataMap = function(environment, token, maneuver, fromPosition)
+      {
+         InputValidator.validateNotNull("environment", environment);
+         InputValidator.validateNotNull("token", token);
+         InputValidator.validateNotNull("maneuver", maneuver);
+         InputValidator.validateNotNull("fromPosition", fromPosition);
+
+         var answer = {};
+         var shipBase = token.pilot().shipTeam.ship.shipBase;
+         var tokens = environment.getTokensForActivation(false);
+
+         tokens.forEach(function(token1)
+         {
+            var position1;
+            var polygon1;
+
+            if (token1 === token)
+            {
+               position1 = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver, fromPosition, shipBase);
+
+               if (position1)
+               {
+                  polygon1 = ManeuverComputer.computePolygon(shipBase, position1.x(), position1.y(), position1.heading());
+               }
+            }
+            else
+            {
+               position1 = environment.getPositionFor(token1);
+               var shipBase1 = token1.pilot().shipTeam.ship.shipBase;
+               polygon1 = ManeuverComputer.computePolygon(shipBase1, position1.x(), position1.y(), position1.heading());
+            }
+
+            answer[token1] = {
+               position: position1,
+               polygon: polygon1,
+            };
+         });
+
+         return answer;
+      };
+
+      ManeuverComputer.findCollision = function(shipDataMap, token)
+      {
+         InputValidator.validateNotNull("shipDataMap", shipDataMap);
+         InputValidator.validateNotNull("token", token);
+
+         var shipData0 = shipDataMap[token];
+         var polygon0 = shipData0.polygon;
+         var answer;
+
+         if (polygon0 !== undefined)
+         {
+            var keys = Object.keys(shipDataMap);
+
+            for (var i = 0; i < keys.length; i++)
+            {
+               var shipData1 = shipDataMap[keys[i]];
+
+               if (shipData0 !== shipData1)
+               {
+                  var polygon1 = shipData1.polygon;
+
+                  if (polygon1 !== undefined && RectanglePath.doPolygonsCollide(polygon0, polygon1))
+                  {
+                     answer = shipData1;
+                     break;
+                  }
+               }
+            }
+         }
+
+         return answer;
       };
 
       ManeuverComputer._addSegments = function(maneuver, path, lastX, heading, segmentCount)
@@ -393,6 +530,70 @@ define(["Bearing", "Maneuver", "Path", "PlayFormat", "Position", "RectanglePath"
          if (PlayFormat.isPointInPlayArea(playFormatKey, x, y))
          {
             answer = new Position(x, y, heading);
+         }
+
+         return answer;
+      };
+
+      /*
+       * @param x0 Non-collision X coordinate.
+       *
+       * @param y0 Non-collision Y coordinate.
+       *
+       * @param x1 Collision X coordinate.
+       *
+       * @param y1 Collision Y coordinate.
+       *
+       * @param polygon1 Colliding area.
+       *
+       * @return the closest non-collision point.
+       */
+      ManeuverComputer._interpolate = function(x0, y0, x1, y1, polygon1, shipBase)
+      {
+         InputValidator.validateNotNull("x0", x0);
+         InputValidator.validateNotNull("y0", y0);
+         InputValidator.validateNotNull("x1", x1);
+         InputValidator.validateNotNull("y1", y1);
+         InputValidator.validateNotNull("polygon1", polygon1);
+         InputValidator.validateNotNull("shipBase", shipBase);
+
+         var answer;
+
+         // Calculate the midpoint.
+         var t = 0.5;
+         var x01 = x0 + (t * (x1 - x0));
+         var y01 = y0 + (t * (y1 - y0));
+         var heading;
+
+         if (((Math.vizziniRound(x0 - x01, 0) === 0) && (Math.vizziniRound(y0 - y01, 0) === 0)) ||
+            ((Math.vizziniRound(x01 - x1, 0) === 0) && (Math.vizziniRound(y01 - y1, 0) === 0)))
+         {
+            heading = Position.computeHeading(x0, y0, x1, y1);
+            answer = new Position(Math.vizziniRound(x0, 0), Math.vizziniRound(y0, 0), heading);
+         }
+         else
+         {
+            var heading01 = Position.computeHeading(x0, y0, x01, y01);
+            var polygon01 = ManeuverComputer.computePolygon(shipBase, Math.vizziniRound(x01, 0), Math.vizziniRound(y01, 0), heading01);
+
+            if (RectanglePath.doPolygonsCollide(polygon01, polygon1))
+            {
+               x01 = x0 + (t * (x01 - x0));
+               y01 = y0 + (t * (y01 - y0));
+               answer = ManeuverComputer._interpolate(x0, y0, x01, y01, polygon1, shipBase);
+            }
+            else
+            {
+               x01 = x01 + (t * (x1 - x01));
+               y01 = y01 + (t * (y1 - y01));
+               answer = ManeuverComputer._interpolate(x01, y01, x1, y1, polygon1, shipBase);
+            }
+         }
+
+         if (answer === undefined)
+         {
+            heading = Position.computeHeading(x0, y0, x1, y1);
+            answer = new Position(toInt(x1), toInt(y1), heading);
          }
 
          return answer;

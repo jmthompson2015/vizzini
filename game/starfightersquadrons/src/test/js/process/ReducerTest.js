@@ -1364,7 +1364,7 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          assert.ok(!store.getState().tokenIdToManeuverAction[token.id()]);
 
          // Run.
-         store.dispatch(Action.setTokenManeuverAction(token, maneuverAction));
+         store.dispatch(Action.setTokenManeuverAction(token.id(), maneuverAction));
 
          // Verify.
          assert.ok(store.getState().tokenIdToManeuverAction[token.id()]);

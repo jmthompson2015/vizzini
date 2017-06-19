@@ -327,7 +327,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
             LOGGER.debug("decloakAction = " + decloakAction);
             LOGGER.debug("decloakAction.maneuverKey() = " + decloakAction.maneuverKey());
 
-            var answer = new ManeuverAction(environment, attacker, decloakAction.maneuverKey());
+            var answer = new ManeuverAction(environment.store(), attacker.id(), decloakAction.maneuverKey());
 
             // Handle the user response.
             var element = document.getElementById("inputArea");

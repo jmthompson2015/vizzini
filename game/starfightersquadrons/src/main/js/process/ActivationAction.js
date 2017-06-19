@@ -122,7 +122,7 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
 
             if (fromPosition)
             {
-               var maneuverAction = new ManeuverAction(environment, parentToken, maneuverKey);
+               var maneuverAction = new ManeuverAction(environment.store(), parentToken.id(), maneuverKey);
                maneuverAction.doIt();
                var store = this.store();
                store.dispatch(Action.setEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken, this.finishExecuteManeuver.bind(this)));
