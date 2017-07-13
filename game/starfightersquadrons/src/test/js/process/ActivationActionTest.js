@@ -51,7 +51,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          {
             LOGGER.info("callback() start");
          };
-         var action = new ActivationAction(store, token, callback);
+         var action = new ActivationAction(store, token.id(), callback);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          var position = environment.getPositionFor(token);
@@ -165,7 +165,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          {
             LOGGER.info("callback() start");
          };
-         var action = new ActivationAction(store, token, callback);
+         var action = new ActivationAction(store, token.id(), callback);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          var position = environment.getPositionFor(token);
@@ -362,7 +362,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          {
             LOGGER.info("callback() start");
          };
-         var action = new ActivationAction(store, token, callback);
+         var action = new ActivationAction(store, token.id(), callback);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          var position = environment.getPositionFor(token);
@@ -410,7 +410,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          {
             LOGGER.info("callback() start");
          };
-         var action = new ActivationAction(store, token, callback);
+         var action = new ActivationAction(store, token.id(), callback);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          var position = environment.getPositionFor(token);
@@ -470,7 +470,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             LOGGER.info("callback() start");
          };
 
-         var answer = new ActivationAction(store, token, callback);
+         var answer = new ActivationAction(store, token.id(), callback);
          var maneuver = Maneuver.properties[myManeuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          return answer;

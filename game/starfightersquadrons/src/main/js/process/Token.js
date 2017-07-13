@@ -1,5 +1,5 @@
-define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/Selector"],
-   function(Ability, Bearing, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, Selector)
+define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "FiringArc", "Maneuver", "Pilot", "RangeRuler", "ShipAction", "ShipBase", "UpgradeCard", "UpgradeType", "Value", "Weapon", "process/Action", "process/ActivationAction", "process/Selector"],
+   function(Ability, Bearing, Count, DamageCard, Difficulty, Event, FiringArc, Maneuver, Pilot, RangeRuler, ShipAction, ShipBase, UpgradeCard, UpgradeType, Value, Weapon, Action, ActivationAction, Selector)
    {
       "use strict";
 
@@ -371,7 +371,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
 
       Token.prototype.activationAction = function()
       {
-         return Selector.activationAction(this.store().getState(), this);
+         return ActivationAction.get(this.store(), this.id());
       };
 
       Token.prototype.agilityValue = function()

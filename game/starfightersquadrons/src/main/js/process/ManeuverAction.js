@@ -280,6 +280,9 @@ define(["Bearing", "Maneuver", "ManeuverComputer", "Pilot", "PlayFormat", "Posit
 
       ManeuverAction.get = function(store, tokenId)
       {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("tokenId", tokenId);
+
          var values = store.getState().tokenIdToManeuverAction[tokenId];
          var answer;
 

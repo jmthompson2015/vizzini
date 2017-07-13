@@ -1218,7 +1218,7 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          assert.ok(!store.getState().tokenIdToActivationAction[token.id()]);
 
          // Run.
-         store.dispatch(Action.setTokenActivationAction(token, activationAction));
+         store.dispatch(Action.setTokenActivationAction(token.id(), activationAction));
 
          // Verify.
          assert.ok(store.getState().tokenIdToActivationAction[token.id()]);

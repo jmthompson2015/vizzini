@@ -197,7 +197,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                maneuverKey = secondTokenToManeuver[myToken];
             }
 
-            var activationAction = new ActivationAction(store, token, this.processActivationQueue.bind(this), delay);
+            var activationAction = new ActivationAction(store, token.id(), this.processActivationQueue.bind(this), delay);
             var maneuver = Maneuver.properties[maneuverKey];
             store.dispatch(Action.setTokenManeuver(token, maneuver));
 

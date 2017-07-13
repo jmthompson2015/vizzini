@@ -810,16 +810,16 @@ define(["Count"], function(Count)
       return Action.setCount(token, Count.STRESS, value);
    };
 
-   Action.setTokenActivationAction = function(token, activationAction)
+   Action.setTokenActivationAction = function(tokenId, activationActionValues)
    {
-      InputValidator.validateNotNull("token", token);
-      // activationAction optional.
+      InputValidator.validateIsNumber("tokenId", tokenId);
+      // activationActionValues optional.
 
       return (
       {
          type: Action.SET_TOKEN_ACTIVATION_ACTION,
-         token: token,
-         activationAction: activationAction,
+         tokenId: tokenId,
+         activationActionValues: activationActionValues,
       });
    };
 
@@ -913,19 +913,6 @@ define(["Count"], function(Count)
          maneuver: maneuver,
       });
    };
-
-   //  Action.setTokenManeuverAction = function(token, maneuverAction)
-   //  {
-   //     InputValidator.validateNotNull("token", token);
-   //     // maneuverAction optional.
-   //
-   //     return (
-   //     {
-   //        type: Action.SET_TOKEN_MANEUVER_ACTION,
-   //        token: token,
-   //        maneuverAction: maneuverAction,
-   //     });
-   //  };
 
    Action.setTokenManeuverAction = function(tokenId, maneuverActionValues)
    {

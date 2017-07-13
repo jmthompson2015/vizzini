@@ -22,6 +22,7 @@
 	<script src="../../../../../coreweb/src/main/js/util/MathAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/ObjectAugments.js"></script>
 	<script src="../../../../../coreweb/src/main/js/util/StringAugments.js"></script>
+	<script src="../../../../../coreweb/src/main/js/util/TimePrinter.js"></script>
 </head>
 <body>
 	<h1>Starfighter Squadrons: Arena</h1>
@@ -56,6 +57,7 @@
 				var adjudicator = new Adjudicator();
 				var competeCount = 0;
 				var doneCount = 0;
+				var start = Date.now();
 
 				for (var i = 0; i < squadBuilders.length; i++)
 				{
@@ -95,7 +97,12 @@
 
 				function setStatusMessage()
 				{
-					var message = "Completed " + doneCount + " of " + competeCount + " competitions."
+					var message = "Completed " + doneCount + " of " + competeCount + " competitions.";
+					if (competeCount === doneCount)
+					{
+						message += " ";
+						message += TimePrinter.formatElapsedTime(undefined, start, Date.now());
+					}
 					document.getElementById("statusArea").innerHTML = message;
 				}
 

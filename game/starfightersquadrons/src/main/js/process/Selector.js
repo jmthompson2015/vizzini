@@ -3,14 +3,6 @@ define(["Count", "Value"], function(Count, Value)
    "use strict";
    var Selector = {};
 
-   Selector.activationAction = function(state, token)
-   {
-      InputValidator.validateNotNull("state", state);
-      InputValidator.validateNotNull("token", token);
-
-      return state.tokenIdToActivationAction[token.id()];
-   };
-
    Selector.activeToken = function(state)
    {
       InputValidator.validateNotNull("state", state);
@@ -207,14 +199,6 @@ define(["Count", "Value"], function(Count, Value)
 
       return state.tokenIdToManeuver[token.id()];
    };
-
-   //  Selector.maneuverAction = function(state, token)
-   //  {
-   //     InputValidator.validateNotNull("state", state);
-   //     InputValidator.validateNotNull("token", token);
-   //
-   //     return state.tokenIdToManeuverAction[token.id()];
-   //  };
 
    Selector.pilotSkillValue = function(state, tokenId)
    {

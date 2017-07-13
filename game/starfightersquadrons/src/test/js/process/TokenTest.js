@@ -1316,10 +1316,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          {
             LOGGER.info("in callback()");
          };
-         var activationAction = new ActivationAction(store, token, callback);
+         var activationAction = new ActivationAction(store, token.id(), callback);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
-         store.dispatch(Action.setTokenActivationAction(token, activationAction));
          store.dispatch(Action.placeToken(new Position(400, 400, 0), token));
          store.dispatch(Action.setActiveToken(token));
 
@@ -1355,10 +1354,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          {
             LOGGER.info("in callback()");
          };
-         var activationAction = new ActivationAction(store, token, callback);
+         var activationAction = new ActivationAction(store, token.id(), callback);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
-         store.dispatch(Action.setTokenActivationAction(token, activationAction));
          store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.ADRENALINE_RUSH));
          store.dispatch(Action.setActiveToken(token));
 

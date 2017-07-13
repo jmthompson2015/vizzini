@@ -3,23 +3,25 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
    {
       "use strict";
 
-      function ActivationAction(store, token, callback, delayIn)
+      function ActivationAction(store, tokenId, callback, delayIn, isNewIn)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("token", token);
+         InputValidator.validateIsNumber("tokenId", tokenId);
          InputValidator.validateNotNull("callback", callback);
-         // delayIn optional.
+         // delayIn optional. default: 1000 ms
+         // isNew optional. default: true
 
          var delay = (delayIn !== undefined ? delayIn : 1000);
+         var isNew = (isNewIn !== undefined ? isNewIn : true);
 
          this.store = function()
          {
             return store;
          };
 
-         this.token = function()
+         this.tokenId = function()
          {
-            return token;
+            return tokenId;
          };
 
          this.callback = function()
@@ -27,32 +29,68 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
             return callback;
          };
 
-         this.maneuverKey = function()
-         {
-            var answer;
-            var maneuver = this.maneuver();
-
-            if (maneuver !== undefined)
-            {
-               answer = maneuver.value;
-            }
-
-            return answer;
-         };
-
          this.delay = function()
          {
             return delay;
          };
+
+         if (isNew)
+         {
+            this._save();
+         }
       }
+
+      //////////////////////////////////////////////////////////////////////////
+      // Accessor methods.
+
+      ActivationAction.prototype.adjudicator = function()
+      {
+         var store = this.store();
+
+         return store.getState().adjudicator;
+      };
+
+      ActivationAction.prototype.environment = function()
+      {
+         var store = this.store();
+
+         return store.getState().environment;
+      };
+
+      ActivationAction.prototype.maneuver = function()
+      {
+         var store = this.store();
+         var tokenId = this.tokenId();
+
+         return store.getState().tokenIdToManeuver[tokenId];
+      };
+
+      ActivationAction.prototype.maneuverKey = function()
+      {
+         var maneuver = this.maneuver();
+
+         return (maneuver !== undefined ? maneuver.value : undefined);
+      };
+
+      ActivationAction.prototype.token = function()
+      {
+         var store = this.store();
+         var tokenId = this.tokenId();
+
+         return Selector.token(store.getState(), tokenId);
+      };
+
+      ActivationAction.prototype.toString = function()
+      {
+         return "ActivationAction tokenId=" + this.tokenId() + ", delay=" + this.delay();
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Behavior methods.
 
       ActivationAction.prototype.doIt = function()
       {
          LOGGER.trace("ActivationAction.doIt() start");
-
-         var token = this.token();
-         var store = token.store();
-         store.dispatch(Action.setTokenActivationAction(token, this));
 
          this.revealDial();
 
@@ -155,29 +193,36 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
 
          this.environment().phase(Phase.ACTIVATION_CHECK_PILOT_STRESS);
 
-         var maneuverKey = this.maneuverKey();
+         var maneuver = this.maneuver();
 
-         if (maneuverKey)
+         if (maneuver)
          {
-            var maneuver = Maneuver.properties[maneuverKey];
+            var difficultyKey = maneuver.difficultyKey;
+            LOGGER.trace("difficultyKey = " + difficultyKey);
+            var token = this.token();
 
-            if (maneuver)
+            if (token)
             {
-               var difficultyKey = maneuver.difficultyKey;
-               LOGGER.trace("difficultyKey = " + difficultyKey);
-
                if (difficultyKey === Difficulty.EASY)
                {
-                  this.token().removeStress();
+                  token.removeStress();
                }
                else if (difficultyKey === Difficulty.HARD)
                {
-                  this.token().receiveStress();
+                  token.receiveStress();
                }
+
+               setTimeout(this.cleanUp.bind(this), this.delay());
+            }
+            else
+            {
+               setTimeout(this.callback(), this.delay());
             }
          }
-
-         setTimeout(this.cleanUp.bind(this), this.delay());
+         else
+         {
+            setTimeout(this.callback(), this.delay());
+         }
 
          LOGGER.trace("ActivationAction.checkPilotStress() end");
       };
@@ -353,26 +398,6 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
          LOGGER.trace("ActivationAction.finishPerformAction() end");
       };
 
-      ////////////////////////////////////////////////////////////////////////
-      ActivationAction.prototype.adjudicator = function()
-      {
-         var store = this.store();
-         return Selector.adjudicator(store.getState());
-      };
-
-      ActivationAction.prototype.environment = function()
-      {
-         var store = this.store();
-         return Selector.environment(store.getState());
-      };
-
-      ActivationAction.prototype.maneuver = function()
-      {
-         var store = this.store();
-         var token = this.token();
-         return Selector.maneuver(store.getState(), token);
-      };
-
       ActivationAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
       {
          InputValidator.validateNotNull("backFunction", backFunction);
@@ -403,6 +428,50 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
          {
             forwardFunction();
          }
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Mutator methods.
+
+      ActivationAction.prototype._save = function()
+      {
+         var store = this.store();
+         var tokenId = this.tokenId();
+         var callback = this.callback();
+         var delay = this.delay();
+
+         var values = Immutable.Map(
+         {
+            tokenId: tokenId,
+            callback: callback,
+            delay: delay,
+         });
+
+         store.dispatch(Action.setTokenActivationAction(tokenId, values));
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Utility methods.
+
+      ActivationAction.get = function(store, tokenId)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateIsNumber("tokenId", tokenId);
+
+         var values = store.getState().tokenIdToActivationAction[tokenId];
+
+         var answer;
+
+         if (values !== undefined)
+         {
+            var callback = values.get("callback");
+            var delay = values.get("delay");
+            var isNew = false;
+
+            answer = new ActivationAction(store, tokenId, callback, delay, isNew);
+         }
+
+         return answer;
       };
 
       return ActivationAction;
