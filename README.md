@@ -6,10 +6,6 @@
 
 ### JavaScript
 
-#### Entertainment
-
-* [Mystery Book Award Nominees](https://rawgit.com/jmthompson2015/vizzini/master/entertainment/bookaward/src/main/html/BookAward.html)
-
 #### Finance
 
 * [Finance Dashboard](https://rawgit.com/jmthompson2015/vizzini/master/finance/dashboard/src/main/html/dashboard.html)
@@ -57,7 +53,6 @@
 #### Science Fiction
 
 * [Doctor Who: The Key to Time](https://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/keytotime/src/main/html/KeyToTime.html)
-* [Science Fiction Book Award Nominees](https://rawgit.com/jmthompson2015/vizzini/master/entertainment/bookaward/src/main/html/SciFiBookAward.html)
 * [TARDIS Simulator](https://rawgit.com/jmthompson2015/vizzini/master/sciencefiction/tardissimulator/src/main/html/TARDISSimulator.html)
 
 #### Software Development
