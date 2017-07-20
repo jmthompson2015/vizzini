@@ -6,10 +6,6 @@
 
 ### JavaScript
 
-#### Finance
-
-* [Finance Dashboard](https://rawgit.com/jmthompson2015/vizzini/master/finance/dashboard/src/main/html/dashboard.html)
-
 #### Game
 
 * [BoardGameGeek Game Finder](https://rawgit.com/jmthompson2015/vizzini/master/game/boardgamegeek/src/main/html/boardGameGeek.html)
@@ -65,7 +61,6 @@
 
 ### JavaScript
 
-* [Chart.js](http://chartjs.org/) - Simple, clean and engaging charts for designers and developers.
 * [Immutable](https://facebook.github.io/immutable-js/) - Immutable collections for JavaScript.
 * [Moment.js](http://momentjs.com/) - Parse, validate, manipulate, and display dates in JavaScript.
 * [QUnit](https://qunitjs.com/) - JavaScript unit testing.
