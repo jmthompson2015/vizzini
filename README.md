@@ -8,7 +8,6 @@
 
 #### Game
 
-* [BoardGameGeek Game Finder](https://rawgit.com/jmthompson2015/vizzini/master/game/boardgamegeek/src/main/html/boardGameGeek.html)
 * [Learning Reversi](https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/html/boardgame/reversi.html)
 * [Learning Tic-Tac-Toe](https://rawgit.com/jmthompson2015/vizzini/master/webapp/src/main/html/boardgame/tictactoe.html)
 * The Lord of the Rings: The Card Game - An implementation of the Fantasy Flight [game](https://www.fantasyflightgames.com/en/products/the-lord-of-the-rings-the-card-game/).
