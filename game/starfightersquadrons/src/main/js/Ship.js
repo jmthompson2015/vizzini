@@ -8,6 +8,7 @@ define(["FiringArc", "Maneuver", "RangeRuler", "ShipAction", "ShipBase"],
          ARC_170: "arc170",
          ATTACK_SHUTTLE: "attackShuttle",
          B_WING: "bWing",
+         C_ROC_CRUISER: "cRocCruiser",
          CR90_CORVETTE: "cr90Corvette",
          E_WING: "eWing",
          FIRESPRAY_31: "firespray31",
@@ -146,6 +147,34 @@ define(["FiringArc", "Maneuver", "RangeRuler", "ShipAction", "ShipBase"],
                                 Maneuver.BANK_RIGHT_3_HARD, Maneuver.STRAIGHT_4_HARD],
                shipActionKeys: [ShipAction.FOCUS, ShipAction.TARGET_LOCK, ShipAction.BARREL_ROLL],
                value: "bWing",
+            },
+            "cRocCruiser":
+            {
+               fore:
+               {
+                  name: "C-ROC Cruiser (fore)",
+                  pilotSkillValue: 1,
+                  energyValue: 4,
+                  agilityValue: 0,
+                  hullValue: 10,
+                  shieldValue: 4,
+                  shipBaseKey: ShipBase.LARGE,
+                  value: "cRocCruiser.fore",
+               },
+               aft:
+               {
+                  name: "C-ROC Cruiser (aft)",
+                  shipBaseKey: ShipBase.LARGE,
+                  value: "cRocCruiser.aft",
+               },
+               name: "C-ROC Cruiser",
+               description: "A C-ROC Cruiser.",
+               shipBaseKey: ShipBase.HUGE1,
+               maneuverKeys: [Maneuver.BANK_LEFT_1_2, Maneuver.STRAIGHT_1_3, Maneuver.BANK_RIGHT_1_2,
+                                Maneuver.BANK_LEFT_2_1, Maneuver.STRAIGHT_2_2, Maneuver.BANK_RIGHT_2_1,
+                                Maneuver.STRAIGHT_3_2, Maneuver.STRAIGHT_4_1],
+               shipActionKeys: [ShipAction.RECOVER, ShipAction.REINFORCE, ShipAction.TARGET_LOCK, ShipAction.JAM],
+               value: "cRocCruiser",
             },
             "cr90Corvette":
             {

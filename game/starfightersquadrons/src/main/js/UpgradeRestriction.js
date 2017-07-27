@@ -120,6 +120,8 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
       AGGRESSOR_ONLY: "aggressorOnly",
       ARC_170_ONLY: "arc170Only",
       B_WING_ONLY: "bWingOnly",
+      C_ROC_CRUISER_AND_GR_75_ONLY: "cRocCruiserAndGr75Only",
+      C_ROC_CRUISER_ONLY: "cRocCruiserOnly",
       CR90_ONLY: "cr90Only",
       FIRESPRAY_31_ONLY: "firespray31Only",
       G_1A_STARFIGHTER_ONLY: "g1AStarfighterOnly",
@@ -157,6 +159,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
 
       // Team specific.
       IMPERIAL_ONLY: "imperialOnly",
+      REBEL_AND_SCUM_ONLY: "rebelAndScumOnly",
       REBEL_ONLY: "rebelOnly",
       SCUM_ONLY: "scumOnly",
 
@@ -170,6 +173,17 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
          "aggressorOnly": new ShipRestriction(Ship.AGGRESSOR),
          "arc170Only": new ShipRestriction(Ship.ARC_170),
          "bWingOnly": new ShipRestriction(Ship.B_WING),
+         "cRocCruiserAndGr75Only":
+         {
+            name: "C-ROC Cruiser and GR-75 only.",
+            passes: function(pilotKey)
+            {
+               var pilot = Pilot.properties[pilotKey];
+               var shipKey = pilot.shipTeam.shipKey;
+               return shipKey === Ship.C_ROC_CRUISER || shipKey === Ship.GR_75_MEDIUM_TRANSPORT;
+            }
+         },
+         "cRocCruiserOnly": new ShipRestriction(Ship.C_ROC_CRUISER),
          "cr90Only": new ShipRestriction(Ship.CR90_CORVETTE),
          "firespray31Only": new ShipRestriction(Ship.FIRESPRAY_31),
          "g1AStarfighterOnly": new ShipRestriction(Ship.G_1A_STARFIGHTER),
@@ -207,6 +221,16 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
          "pilotSkillAbove4": new PilotSkillRestriction(4),
          "protectorateStarfighterOnly": new ShipRestriction(Ship.PROTECTORATE_STARFIGHTER),
          "raiderClassCorvetteAftSectionOnly": new ShipRestriction("raiderClassCorvette.aft"),
+         "rebelAndScumOnly":
+         {
+            name: "Rebel and Scum only.",
+            passes: function(pilotKey)
+            {
+               var pilot = Pilot.properties[pilotKey];
+               var teamKey = pilot.shipTeam.teamKey;
+               return teamKey === Team.REBEL || teamKey === Team.SCUM;
+            }
+         },
          "rebelOnly": new TeamRestriction(Team.REBEL),
          "scumOnly": new TeamRestriction(Team.SCUM),
          "smallShipOnly": new ShipSizeRestriction(ShipBase.SMALL),

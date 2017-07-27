@@ -109,6 +109,14 @@
             {
               images.push(this.createShipImage(ShipTeam.REBEL_B_WING_ACE, images.length));
             }
+            else if (shipTeamKey === ShipTeam.SCUM_M3_A_INTERCEPTOR)
+            {
+              images.push(this.createShipImage(ShipTeam.SCUM_M3_A_INTERCEPTOR_V2, images.length));
+            }
+            else if (shipTeamKey === ShipTeam.RESISTANCE_T_70_X_WING)
+            {
+              images.push(this.createShipImage(ShipTeam.RESISTANCE_T_70_X_WING_V2, images.length));
+            }
 
             var silhouette = React.createElement(ShipSilhouetteUI,
             {
@@ -251,7 +259,9 @@
               ShipTeam.IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD,
               ShipTeam.IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON,
               ShipTeam.REBEL_A_WING_ACE,
-              ShipTeam.REBEL_B_WING_ACE
+              ShipTeam.REBEL_B_WING_ACE,
+              ShipTeam.SCUM_M3_A_INTERCEPTOR_V2,
+              ShipTeam.RESISTANCE_T_70_X_WING_V2,
             ];
 
             shipTeamKeys.forEach(function(shipTeamKey)

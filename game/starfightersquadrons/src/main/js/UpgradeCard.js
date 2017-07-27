@@ -18,6 +18,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          ALLIANCE_OVERHAUL: "allianceOverhaul",
          ANDRASTA: "andrasta",
          ANTI_PURSUIT_LASERS: "antiPursuitLasers",
+         ARC_CASTER: "arcCaster",
          ASSAILER: "assailer",
          ASSAULT_MISSILES: "assaultMissiles",
          ATTANNI_MINDLINK: "attanniMindlink",
@@ -25,6 +26,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          AUTOBLASTER_TURRET: "autoblasterTurret",
          AUTOMATED_PROTOCOLS: "automatedProtocols",
          AUTOTHRUSTERS: "autothrusters",
+         AZMORIGAN: "azmorigan",
          BACKUP_SHIELD_GENERATOR: "backupShieldGenerator",
          B_WING_E2: "bWingE2",
          BB_8: "bb8",
@@ -38,6 +40,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          BOSSK: "bossk",
          BRIGHT_HOPE: "brightHope",
          BROADCAST_ARRAY: "broadcastArray",
+         BROKEN_HORN: "brokenHorn",
          BTL_A4_Y_WING: "btlA4YWing",
          BURNOUT_SLAM: "burnoutSlam",
          C_3PO: "c3po",
@@ -47,6 +50,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          CHARDAAN_REFIT: "chardaanRefit",
          CHEWBACCA: "chewbacca",
          CHOPPER: "chopper",
+         CIKATRO_VIZAGO: "cikatroVizago",
          CLOAKING_DEVICE: "cloakingDevice",
          CLUSTER_BOMBS: "clusterBombs",
          CLUSTER_MINES: "clusterMines",
@@ -114,6 +118,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          GYROSCOPIC_TARGETING: "gyroscopicTargeting",
          HAN_SOLO: "hanSolo",
          HEAVY_LASER_CANNON: "heavyLaserCannon",
+         HEAVY_LASER_TURRET: "heavyLaserTurret",
          HEAVY_SCYK_INTERCEPTOR: "heavyScykInterceptor",
          HERA_SYNDULLA: "heraSyndulla",
          HOMING_MISSILES: "homingMissiles",
@@ -123,8 +128,10 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          HULL_UPGRADE: "hullUpgrade",
          IG_2000: "ig2000",
          IG_88D: "ig88D",
+         IG_RM_THUG_DROIDS: "igRmThugDroids",
          IMPETUOUS: "impetuous",
          INERTIAL_DAMPENERS: "inertialDampeners",
+         INSATIABLE_WORRT: "insatiableWorrt",
          INSPIRING_RECRUIT: "inspiringRecruit",
          INSTIGATOR: "instigator",
          INTEGRATED_ASTROMECH: "integratedAstromech",
@@ -138,6 +145,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          ION_PROJECTOR: "ionProjector",
          ION_PULSE_MISSILES: "ionPulseMissiles",
          ION_TORPEDOES: "ionTorpedoes",
+         JABBA_THE_HUTT: "jabbaTheHutt",
          JAINAS_LIGHT: "jainasLight",
          JAN_DODONNA: "janDodonna",
          JAN_ORS: "janOrs",
@@ -150,6 +158,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          LATTS_RAZZI: "lattsRazzi",
          LEEBO: "leebo",
          LEIA_ORGANA: "leiaOrgana",
+         LIGHT_SCYK_INTERCEPTOR: "lightScykInterceptor",
          LIGHTNING_REFLEXES: "lightningReflexes",
          LONE_WOLF: "loneWolf",
          LONG_RANGE_SCANNERS: "longRangeScanners",
@@ -160,6 +169,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          MARA_JADE: "maraJade",
          MARKSMANSHIP: "marksmanship",
          MERCENARY_COPILOT: "mercenaryCopilot",
+         MERCHANT_ONE: "merchantOne",
          MILLENNIUM_FALCON: "millenniumFalcon",
          MILLENNIUM_FALCON_HOTR: "millenniumFalconHotr",
          MIST_HUNTER: "mistHunter",
@@ -185,10 +195,12 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          PROTON_ROCKETS: "protonRockets",
          PROTON_TORPEDOES: "protonTorpedoes",
          PROXIMITY_MINES: "proximityMines",
+         PULSED_RAY_SHIELD: "pulsedRayShield",
          PUNISHING_ONE: "punishingOne",
          PUSH_THE_LIMIT: "pushTheLimit",
          QUAD_LASER_CANNONS: "quadLaserCannons",
          QUANTUM_STORM: "quantumStorm",
+         QUICK_RELEASE_CARGO_LOCKS: "quickReleaseCargoLocks",
          R2_ASTROMECH: "r2Astromech",
          R2_D2: "r2D2",
          R2_D2_CREW: "r2D2Crew",
@@ -241,6 +253,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          STAY_ON_TARGET: "stayOnTarget",
          STEALTH_DEVICE: "stealthDevice",
          STYGIUM_PARTICLE_ACCELERATOR: "stygiumParticleAccelerator",
+         SUPERCHARGED_POWER_CELLS: "superchargedPowerCells",
          SUPPRESSOR: "suppressor",
          SWARM_TACTICS: "swarmTactics",
          SYSTEMS_OFFICER: "systemsOfficer",
@@ -430,6 +443,18 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 2,
                value: "antiPursuitLasers",
             },
+            "arcCaster":
+            {
+               name: "Arc Caster",
+               typeKey: UpgradeType.CANNON,
+               headerKey: UpgradeHeader.ATTACK,
+               weaponValue: 4,
+               rangeKeys: [RangeRuler.ONE],
+               firingArcKey: FiringArc.FORWARD,
+               description: "Attack 1 ship. If this attack hits, you must choose 1 other ship at Range 1 of the defender to suffer 1 damage. Then flip this card. / At the start of the Combat phase, you may receive a weapons disabled token to flip this card.",
+               squadPointCost: 2,
+               value: "arcCaster",
+            },
             "assailer":
             {
                name: "Assailer",
@@ -506,6 +531,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 2,
                isImplemented: true,
                value: "autothrusters",
+            },
+            "azmorigan":
+            {
+               name: "Azmorigan",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.HUGE_SHIP_ONLY, UpgradeRestriction.SCUM_ONLY],
+               description: "At the start of the End phase, you may spend 1 energy to replace a faceup Crew or Team Upgrade card you have equipped with another Upgrade card of the same type of equal or fewer squad points.",
+               squadPointCost: 2,
+               value: "azmorigan",
             },
             "backupShieldGenerator":
             {
@@ -629,6 +664,17 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "broadcastArray",
             },
+            "brokenHorn":
+            {
+               name: "Broken Horn",
+               typeKey: UpgradeType.TITLE,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.C_ROC_CRUISER_ONLY],
+               description: "When defending, if you have a reinforce token, you may add 1 additional evade result. If you do, after defending, discard your reinforce token.",
+               energyValue: 2,
+               squadPointCost: 5,
+               value: "brokenHorn",
+            },
             "btlA4YWing":
             {
                name: "BTL-A4 Y-Wing",
@@ -726,6 +772,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                description: "You may perform actions even while you are stressed. After you perform an action while you are stressed, suffer 1 damage.",
                squadPointCost: 0,
                value: "chopper",
+            },
+            "cikatroVizago":
+            {
+               name: "Cikatro Vizago",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.SCUM_ONLY],
+               description: "At the start of the End phase, you may discard this card to replace a faceup Illicit or Cargo Upgrade card you have equipped with another Upgrade card of the same type of equal or fewer squad points.",
+               squadPointCost: 0,
+               value: "cikatroVizago",
             },
             "cloakingDevice":
             {
@@ -1387,6 +1443,19 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "heavyLaserCannon",
             },
+            "heavyLaserTurret":
+            {
+               name: "Heavy Laser Turret",
+               typeKey: UpgradeType.HARDPOINT,
+               headerKey: UpgradeHeader.ATTACK_ENERGY,
+               energyLimit: 2,
+               weaponValue: 4,
+               rangeKeys: [RangeRuler.TWO, RangeRuler.THREE],
+               firingArcKey: FiringArc.FORWARD,
+               description: "Spend 2 energy from this card to perform this attack against 1 ship (even a ship outside of your firing arc).",
+               squadPointCost: 5,
+               value: "heavyLaserTurret",
+            },
             "heavyScykInterceptor":
             {
                name: "\"Heavy Scyk\" Interceptor",
@@ -1481,6 +1550,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 1,
                value: "ig88D",
             },
+            "igRmThugDroids":
+            {
+               name: "IG-RM Thug Droids",
+               typeKey: UpgradeType.TEAM,
+               description: "When attacking, you may change 1 of your hit results to a critical result.",
+               squadPointCost: 1,
+               value: "igRmThugDroids",
+            },
             "impetuous":
             {
                name: "Impetuous",
@@ -1500,6 +1577,17 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 1,
                isImplemented: true,
                value: "inertialDampeners",
+            },
+            "insatiableWorrt":
+            {
+               name: "Insatiable Worrt",
+               typeKey: UpgradeType.TITLE,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.C_ROC_CRUISER_ONLY],
+               description: "After you perform the recover action, gain 3 energy.",
+               energyValue: -1,
+               squadPointCost: 1,
+               value: "insatiableWorrt",
             },
             "inspiringRecruit":
             {
@@ -1645,6 +1733,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "ionTorpedoes",
             },
+            "jabbaTheHutt":
+            {
+               name: "Jabba the Hutt",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.SCUM_ONLY],
+               description: "When you equip this card, place 1 illicit token on each illicit Upgrade card in your squad. When you are instructed to discard an Upgrade card, you may discard 1 illicit token on that card instead.",
+               squadPointCost: 5,
+               value: "jabbaTheHutt",
+            },
             "jainasLight":
             {
                name: "Jaina's Light",
@@ -1770,6 +1868,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "leebo",
             },
+            "lightScykInterceptor":
+            {
+               name: "\"Light Scyk\" Interceptor",
+               typeKey: UpgradeType.TITLE,
+               restrictionKeys: [UpgradeRestriction.M3_A_INTERCEPTOR_ONLY],
+               description: "All Damage cards dealt to you are dealt faceup. You may treat all bank maneuvers (Left Bank or Right Bank) as green maneuvers. You cannot equip Modification upgrades.",
+               squadPointCost: -2,
+               value: "lightScykInterceptor",
+            },
             "lightningReflexes":
             {
                name: "Lightning Reflexes",
@@ -1869,6 +1976,17 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 2,
                isImplemented: true,
                value: "mercenaryCopilot",
+            },
+            "merchantOne":
+            {
+               name: "Merchant One",
+               typeKey: UpgradeType.TITLE,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.C_ROC_CRUISER_ONLY],
+               description: "Your upgrade bar gains 1 additional Crew upgrade icon and 1 additional Team upgrade icon and loses 1 Cargo upgrade icon.",
+               energyValue: 1,
+               squadPointCost: 2,
+               value: "merchantOne",
             },
             "millenniumFalcon":
             {
@@ -2116,6 +2234,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 3,
                value: "proximityMines",
             },
+            "pulsedRayShield":
+            {
+               name: "Pulsed Ray Shield",
+               typeKey: UpgradeType.MODIFICATION,
+               restrictionKeys: [UpgradeRestriction.REBEL_AND_SCUM_ONLY],
+               description: "During the End phase, you may receive 1 ion token to recover 1 shield (up to your shield value). You can equip this upgrade only if your shield value is \"1\".",
+               squadPointCost: 2,
+               value: "pulsedRayShield",
+            },
             "punishingOne":
             {
                name: "Punishing One",
@@ -2159,6 +2286,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 4,
                isImplemented: true,
                value: "quantumStorm",
+            },
+            "quickReleaseCargoLocks":
+            {
+               name: "Quick-release Cargo Locks",
+               typeKey: UpgradeType.CARGO,
+               restrictionKeys: [UpgradeRestriction.C_ROC_CRUISER_AND_GR_75_ONLY, UpgradeRestriction.LIMITED],
+               description: "At the end of the Activation phase, you may discard this card to place 1 container token.",
+               squadPointCost: 2,
+               value: "quickReleaseCargoLocks",
             },
             "r2Astromech":
             {
@@ -2651,6 +2787,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                description: "When you either decloak or perform a cloak action, you may perform a free Evade action.",
                squadPointCost: 2,
                value: "stygiumParticleAccelerator",
+            },
+            "superchargedPowerCells":
+            {
+               name: "Supercharged Power Cells",
+               typeKey: UpgradeType.CARGO,
+               restrictionKeys: [UpgradeRestriction.LIMITED],
+               description: "When attacking, you may discard this card to roll 2 additional attack dice.",
+               squadPointCost: 3,
+               value: "superchargedPowerCells",
             },
             "suppressor":
             {

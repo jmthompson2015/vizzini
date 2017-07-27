@@ -29,6 +29,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       BOSSK: "bossk",
       BOUNTY_HUNTER: "bountyHunter",
       BRAYLEN_STRAMM: "braylenStramm",
+      C_ROC_CRUISER: "cRocCruiser",
       CAPTAIN_JONUS: "captainJonus",
       CAPTAIN_KAGI: "captainKagi",
       CAPTAIN_OICUNN: "captainOicunn",
@@ -81,6 +82,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       GAND_FINDSMAN: "gandFindsman",
       GARVEN_DREIS: "garvenDreis",
       GEMMER_SOJAN: "gemmerSojan",
+      GENESIS_RED: "genesisRed",
       GLAIVE_SQUADRON_PILOT: "glaiveSquadronPilot",
       GOLD_SQUADRON_PILOT: "goldSquadronPilot",
       GOZANTI_CLASS_CRUISER: "gozantiClassCruiser",
@@ -103,6 +105,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       IG_88B: "ig88B",
       IG_88C: "ig88C",
       IG_88D: "ig88D",
+      INALDRA: "inaldra",
       JAKE_FARRELL: "jakeFarrell",
       JAN_ORS: "janOrs",
       JEK_PORKINS: "jekPorkins",
@@ -159,6 +162,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       PRINCE_XIZOR: "princeXizor",
       PROTOTYPE_PILOT: "prototypePilot",
       QUICKDRAW: "quickdraw",
+      QUINN_JAST: "quinnJast",
       RAIDER_CLASS_CORVETTE: "raiderClassCorvette",
       REAR_ADMIRAL_CHIRANEAU: "rearAdmiralChiraneau",
       REBEL_OPERATIVE: "rebelOperative",
@@ -188,6 +192,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       SOONTIR_FEL: "soontirFel",
       SPICE_RUNNER: "spiceRunner",
       STORM_SQUADRON_PILOT: "stormSquadronPilot",
+      SUNNY_BOUNDER: "sunnyBounder",
       SYNDICATE_THUG: "syndicateThug",
       TALA_SQUADRON_PILOT: "talaSquadronPilot",
       TALONBANE_COBRA: "talonbaneCobra",
@@ -541,6 +546,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             squadPointCost: 25,
             upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.ASTROMECH],
             value: "braylenStramm",
+         },
+         "cRocCruiser":
+         {
+            name: "C-ROC Cruiser",
+            description: "The C-ROC cruiser possessed tremendous cargo capacity and powerful engines, making it a mainstay of merchants and smugglers.",
+            isFlavorText: true,
+            shipTeamKey: ShipTeam.SCUM_C_ROC_CRUISER,
+            pilotSkillValue: 1,
+            squadPointCost: 35,
+            upgradeTypeKeys: [UpgradeType.CREW, UpgradeType.CREW, UpgradeType.HARDPOINT, UpgradeType.TEAM, UpgradeType.CARGO, UpgradeType.CARGO, UpgradeType.CARGO],
+            value: "cRocCruiser",
          },
          "captainJonus":
          {
@@ -1183,6 +1199,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.MISSILE],
             value: "gemmerSojan",
          },
+         "genesisRed":
+         {
+            name: "Genesis Red",
+            description: "After you aquire a target lock, assign focus and evade tokens to your ship until you have the same number of each token as the locked ship.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.SCUM_M3_A_INTERCEPTOR_V2,
+            pilotSkillValue: 7,
+            squadPointCost: 19,
+            upgradeTypeKeys: [UpgradeType.ELITE],
+            value: "genesisRed",
+         },
          "glaiveSquadronPilot":
          {
             name: "Glaive Squadron Pilot",
@@ -1446,6 +1473,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
                                 UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.ILLICIT],
             value: "ig88D",
          },
+         "inaldra":
+         {
+            name: "Inaldra",
+            description: "When attacking or defending, you may spend 1 shield to reroll any number of your dice.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.SCUM_M3_A_INTERCEPTOR_V2,
+            pilotSkillValue: 3,
+            squadPointCost: 15,
+            upgradeTypeKeys: [UpgradeType.ELITE],
+            value: "inaldra",
+         },
          "jakeFarrell":
          {
             name: "Jake Farrell",
@@ -1485,7 +1523,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             name: "Jess Pava",
             description: "When attacking or defending, you may reroll 1 of your dice for each other friendly ship at Range 1.",
             isUnique: true,
-            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING_V2,
             pilotSkillValue: 3,
             squadPointCost: 25,
             upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
@@ -1881,7 +1919,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             name: "Nien Nunb",
             description: "When you recieve a stress token, if there is an enemy ship inside your firing arc at Range 1, you may discard that stress token.",
             isUnique: true,
-            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING_V2,
             pilotSkillValue: 7,
             squadPointCost: 29,
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
@@ -2060,7 +2098,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             name: "Poe Dameron (HotR)",
             description: "While attacking or defending, if you have a Focus token, you may change 1 of your Focus results to a Hit or Evade result.",
             isUnique: true,
-            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING_V2,
             pilotSkillValue: 9,
             squadPointCost: 33,
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
@@ -2099,6 +2137,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             squadPointCost: 29,
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.MISSILE, UpgradeType.TECH],
             value: "quickdraw",
+         },
+         "quinnJast":
+         {
+            name: "Quinn Jast",
+            description: "At the start of Combat phase, you may receive a weapons disabled token to flip one of your discarded Torpedo or Missile Upgrade cards faceup.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.SCUM_M3_A_INTERCEPTOR_V2,
+            pilotSkillValue: 6,
+            squadPointCost: 18,
+            upgradeTypeKeys: [UpgradeType.ELITE],
+            value: "quinnJast",
          },
          "raiderClassCorvette":
          {
@@ -2203,8 +2252,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
             pilotSkillValue: 4,
             squadPointCost: 26,
-            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH,
-                                UpgradeType.TECH],
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
             isImplemented: true,
             value: "redSquadronVeteran",
          },
@@ -2432,7 +2480,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             name: "\"Snap\" Wexley",
             description: "After you execute a 2-, 3- or 4-speed maneuver, if you are not touching a ship, you may perform a free boost action.",
             isUnique: true,
-            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING,
+            shipTeamKey: ShipTeam.RESISTANCE_T_70_X_WING_V2,
             pilotSkillValue: 6,
             squadPointCost: 28,
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
@@ -2473,6 +2521,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.MISSILE],
             isImplemented: true,
             value: "stormSquadronPilot",
+         },
+         "sunnyBounder":
+         {
+            name: "Sunny Bounder",
+            description: "Once per round, after you roll or reroll dice, if you have the same result on each of your dice, you may add 1 matching result.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.SCUM_M3_A_INTERCEPTOR_V2,
+            pilotSkillValue: 1,
+            squadPointCost: 14,
+            upgradeTypeKeys: [],
+            value: "sunnyBounder",
          },
          "syndicateThug":
          {

@@ -80,7 +80,7 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      var length = 52;
+      var length = 55;
       assert.equal(result.length, length);
       assert.equal(result[0], "firstOrderTieFoFighter");
       assert.equal(result[length - 1], "scumZ95Headhunter");
@@ -326,7 +326,7 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      var length = 20;
+      var length = 21;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], ShipTeam.REBEL_A_WING);
@@ -348,6 +348,7 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
       assert.equal(result[i++], ShipTeam.REBEL_YT_2400);
       assert.equal(result[i++], ShipTeam.REBEL_Z_95_HEADHUNTER);
       assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
+      assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING_V2);
       assert.equal(result[i++], ShipTeam.RESISTANCE_YT_1300);
    });
 
@@ -391,10 +392,11 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      var length = 20;
+      var length = 21;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
+      assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING_V2);
       assert.equal(result[i++], ShipTeam.RESISTANCE_YT_1300);
       assert.equal(result[i++], ShipTeam.REBEL_A_WING);
       assert.equal(result[i++], ShipTeam.REBEL_A_WING_ACE);
@@ -426,9 +428,10 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      assert.equal(result.length, 2);
+      assert.equal(result.length, 3);
       var i = 0;
       assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING);
+      assert.equal(result[i++], ShipTeam.RESISTANCE_T_70_X_WING_V2);
       assert.equal(result[i++], ShipTeam.RESISTANCE_YT_1300);
    });
 
@@ -439,10 +442,11 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
 
       // Verify.
       assert.ok(result);
-      var length = 13;
+      var length = 15;
       assert.equal(result.length, length);
       var i = 0;
       assert.equal(result[i++], ShipTeam.SCUM_AGGRESSOR);
+      assert.equal(result[i++], ShipTeam.SCUM_C_ROC_CRUISER);
       assert.equal(result[i++], ShipTeam.SCUM_FIRESPRAY_31);
       assert.equal(result[i++], ShipTeam.SCUM_G_1A_STARFIGHTER);
       assert.equal(result[i++], ShipTeam.SCUM_HWK_290);
@@ -450,6 +454,7 @@ define(["Ship", "ShipTeam", "Team"], function(Ship, ShipTeam, Team)
       assert.equal(result[i++], ShipTeam.SCUM_KIHRAXZ_FIGHTER);
       assert.equal(result[i++], ShipTeam.SCUM_LANCER_CLASS_PURSUIT_CRAFT);
       assert.equal(result[i++], ShipTeam.SCUM_M3_A_INTERCEPTOR);
+      assert.equal(result[i++], ShipTeam.SCUM_M3_A_INTERCEPTOR_V2);
       assert.equal(result[i++], ShipTeam.SCUM_PROTECTORATE_STARFIGHTER);
       assert.equal(result[i++], ShipTeam.SCUM_STAR_VIPER);
       assert.equal(result[i++], ShipTeam.SCUM_Y_WING);

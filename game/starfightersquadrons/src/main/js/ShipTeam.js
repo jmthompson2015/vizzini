@@ -47,10 +47,12 @@ define(["Ship", "Team"], function(Ship, Team)
 
       // Resistance.
       RESISTANCE_T_70_X_WING: "resistanceT70XWing",
+      RESISTANCE_T_70_X_WING_V2: "resistanceT70XWingV2",
       RESISTANCE_YT_1300: "resistanceYt1300",
 
       // Scum & Villainy.
       SCUM_AGGRESSOR: "scumAggressor",
+      SCUM_C_ROC_CRUISER: "scumCRocCruiser",
       SCUM_FIRESPRAY_31: "scumFirespray31",
       SCUM_G_1A_STARFIGHTER: "scumG1AStarfighter",
       SCUM_HWK_290: "scumHwk290",
@@ -58,6 +60,7 @@ define(["Ship", "Team"], function(Ship, Team)
       SCUM_KIHRAXZ_FIGHTER: "scumKihraxzFighter",
       SCUM_LANCER_CLASS_PURSUIT_CRAFT: "scumLancerClassPursuitCraft",
       SCUM_M3_A_INTERCEPTOR: "scumM3AInterceptor",
+      SCUM_M3_A_INTERCEPTOR_V2: "scumM3AInterceptorV2",
       SCUM_PROTECTORATE_STARFIGHTER: "scumProtectorateStarfighter",
       SCUM_STAR_VIPER: "scumStarViper",
       SCUM_Y_WING: "scumYWing",
@@ -415,6 +418,15 @@ define(["Ship", "Team"], function(Ship, Team)
             wave: "8",
             value: "resistanceT70XWing",
          },
+         "resistanceT70XWingV2":
+         {
+            name: "T-70 X-Wing v2",
+            shipKey: Ship.T_70_X_WING,
+            teamKey: Team.RESISTANCE,
+            image: "Resistance_T-70_X-Wing_v2.png",
+            wave: "Aces",
+            value: "resistanceT70XWingV2",
+         },
          "resistanceYt1300":
          {
             name: "YT-1300",
@@ -434,6 +446,15 @@ define(["Ship", "Team"], function(Ship, Team)
             image: "Scum_Aggressor.png",
             wave: "6",
             value: "scumAggressor",
+         },
+         "scumCRocCruiser":
+         {
+            name: "C-ROC Cruiser",
+            shipKey: Ship.C_ROC_CRUISER,
+            teamKey: Team.SCUM,
+            image: "Scum_C-ROC_Cruiser.png",
+            wave: "Huge",
+            value: "scumCRocCruiser",
          },
          "scumFirespray31":
          {
@@ -497,6 +518,15 @@ define(["Ship", "Team"], function(Ship, Team)
             image: "Scum_M3-A_Interceptor.png",
             wave: "6",
             value: "scumM3AInterceptor",
+         },
+         "scumM3AInterceptorV2":
+         {
+            name: "M3-A Interceptor v2",
+            shipKey: Ship.M3_A_INTERCEPTOR,
+            teamKey: Team.SCUM,
+            image: "Scum_M3-A_Interceptor_v2.png",
+            wave: "Huge",
+            value: "scumM3AInterceptorV2",
          },
          "scumProtectorateStarfighter":
          {

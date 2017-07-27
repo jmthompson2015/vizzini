@@ -141,13 +141,15 @@ define(["Pilot", "UpgradeRestriction"],
       {
          var result = UpgradeRestriction.values();
          assert.ok(result);
-         var length = 45;
+         var length = 48;
          assert.equal(result.length, length);
          var i = 0;
          assert.equal(result[i++], UpgradeRestriction.A_WING_ONLY);
          assert.equal(result[i++], UpgradeRestriction.AGGRESSOR_ONLY);
          assert.equal(result[i++], UpgradeRestriction.ARC_170_ONLY);
          assert.equal(result[i++], UpgradeRestriction.B_WING_ONLY);
+         assert.equal(result[i++], UpgradeRestriction.C_ROC_CRUISER_AND_GR_75_ONLY);
+         assert.equal(result[i++], UpgradeRestriction.C_ROC_CRUISER_ONLY);
          assert.equal(result[i++], UpgradeRestriction.CR90_ONLY);
          assert.equal(result[i++], UpgradeRestriction.FIRESPRAY_31_ONLY);
          assert.equal(result[i++], UpgradeRestriction.G_1A_STARFIGHTER_ONLY);
@@ -168,6 +170,7 @@ define(["Pilot", "UpgradeRestriction"],
          assert.equal(result[i++], UpgradeRestriction.PILOT_SKILL_ABOVE_4);
          assert.equal(result[i++], UpgradeRestriction.PROTECTORATE_STARFIGHTER_ONLY);
          assert.equal(result[i++], UpgradeRestriction.RAIDER_CLASS_CORVETTE_AFT_SECTION_ONLY);
+         assert.equal(result[i++], UpgradeRestriction.REBEL_AND_SCUM_ONLY);
          assert.equal(result[i++], UpgradeRestriction.REBEL_ONLY);
          assert.equal(result[i++], UpgradeRestriction.SCUM_ONLY);
          assert.equal(result[i++], UpgradeRestriction.SMALL_SHIP_ONLY);

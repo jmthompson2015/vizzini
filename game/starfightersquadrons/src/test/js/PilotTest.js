@@ -84,7 +84,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 219;
+      var length = 224;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.ACADEMY_PILOT);
       assert.equal(result[length - 1], Pilot.ZUCKUSS);
@@ -298,7 +298,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 55;
+      var length = 60;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.ASAJJ_VENTRESS);
       assert.equal(result[length - 1], Pilot.ZUCKUSS);
