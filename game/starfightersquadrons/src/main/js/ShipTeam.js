@@ -14,24 +14,24 @@ define(["Ship", "Team"], function(Ship, Team)
       IMPERIAL_TIE_ADVANCED: "imperialTieAdvanced",
       IMPERIAL_TIE_ADVANCED_PROTOTYPE: "imperialTieAdvancedPrototype",
       IMPERIAL_TIE_BOMBER: "imperialTieBomber",
-      IMPERIAL_TIE_BOMBER_VETERAN: "imperialTieBomberVeteran",
+      IMPERIAL_TIE_BOMBER_V2: "imperialTieBomberV2",
       IMPERIAL_TIE_DEFENDER: "imperialTieDefender",
-      IMPERIAL_TIE_DEFENDER_VETERAN: "imperialTieDefenderVeteran",
+      IMPERIAL_TIE_DEFENDER_V2: "imperialTieDefenderV2",
       IMPERIAL_TIE_FIGHTER: "imperialTieFighter",
       IMPERIAL_TIE_INTERCEPTOR: "imperialTieInterceptor",
-      IMPERIAL_TIE_INTERCEPTOR_ROYAL_GUARD: "imperialTieInterceptorRoyalGuard",
-      IMPERIAL_TIE_INTERCEPTOR_SABER_SQUADRON: "imperialTieInterceptorSaberSquadron",
+      IMPERIAL_TIE_INTERCEPTOR_V2: "imperialTieInterceptorV2",
+      IMPERIAL_TIE_INTERCEPTOR_V3: "imperialTieInterceptorV3",
       IMPERIAL_TIE_PHANTOM: "imperialTiePhantom",
       IMPERIAL_TIE_PUNISHER: "imperialTiePunisher",
       IMPERIAL_VT_49_DECIMATOR: "imperialVt49Decimator",
 
       // Rebel.
       REBEL_A_WING: "rebelAWing",
-      REBEL_A_WING_ACE: "rebelAWingAce",
+      REBEL_A_WING_V2: "rebelAWingV2",
       REBEL_ARC_170: "rebelArc170",
       REBEL_ATTACK_SHUTTLE: "rebelAttackShuttle",
       REBEL_B_WING: "rebelBWing",
-      REBEL_B_WING_ACE: "rebelBWingAce",
+      REBEL_B_WING_V2: "rebelBWingV2",
       REBEL_CR90_CORVETTE: "rebelCr90Corvette",
       REBEL_E_WING: "rebelEWing",
       REBEL_GR_75_MEDIUM_TRANSPORT: "rebelGr75MediumTransport",
@@ -153,14 +153,14 @@ define(["Ship", "Team"], function(Ship, Team)
             wave: "3",
             value: "imperialTieBomber",
          },
-         "imperialTieBomberVeteran":
+         "imperialTieBomberV2":
          {
             name: "TIE Bomber (Gamma Squadron)",
             shipKey: Ship.TIE_BOMBER,
             teamKey: Team.IMPERIAL,
-            image: "Imperial_Veterans_TIE_Bomber.png",
+            image: "Imperial_TIE_Bomber_v2.png",
             wave: "Aces",
-            value: "imperialTieBomberVeteran",
+            value: "imperialTieBomberV2",
          },
          "imperialTieDefender":
          {
@@ -171,14 +171,14 @@ define(["Ship", "Team"], function(Ship, Team)
             wave: "4",
             value: "imperialTieDefender",
          },
-         "imperialTieDefenderVeteran":
+         "imperialTieDefenderV2":
          {
             name: "TIE Defender (Glaive Squadron)",
             shipKey: Ship.TIE_DEFENDER,
             teamKey: Team.IMPERIAL,
-            image: "Imperial_Veterans_TIE_Defender.png",
+            image: "Imperial_TIE_Defender_v2.png",
             wave: "Aces",
-            value: "imperialTieDefenderVeteran",
+            value: "imperialTieDefenderV2",
          },
          "imperialTieFighter":
          {
@@ -198,23 +198,23 @@ define(["Ship", "Team"], function(Ship, Team)
             wave: "2",
             value: "imperialTieInterceptor",
          },
-         "imperialTieInterceptorRoyalGuard":
-         {
-            name: "TIE Interceptor (Royal Guard)",
-            shipKey: Ship.TIE_INTERCEPTOR,
-            teamKey: Team.IMPERIAL,
-            image: "Imperial_Royal_Guard_TIE.png",
-            wave: "Aces",
-            value: "imperialTieInterceptorRoyalGuard",
-         },
-         "imperialTieInterceptorSaberSquadron":
+         "imperialTieInterceptorV2":
          {
             name: "TIE Interceptor (Saber Squadron)",
             shipKey: Ship.TIE_INTERCEPTOR,
             teamKey: Team.IMPERIAL,
-            image: "Imperial_Saber_Squadron_TIE.png",
+            image: "Imperial_TIE_Interceptor_v2.png",
             wave: "Aces",
-            value: "imperialTieInterceptorSaberSquadron",
+            value: "imperialTieInterceptorV2",
+         },
+         "imperialTieInterceptorV3":
+         {
+            name: "TIE Interceptor (Royal Guard)",
+            shipKey: Ship.TIE_INTERCEPTOR,
+            teamKey: Team.IMPERIAL,
+            image: "Imperial_TIE_Interceptor_v3.png",
+            wave: "Aces",
+            value: "imperialTieInterceptorV3",
          },
          "imperialTiePhantom":
          {
@@ -254,14 +254,14 @@ define(["Ship", "Team"], function(Ship, Team)
             wave: "2",
             value: "rebelAWing",
          },
-         "rebelAWingAce":
+         "rebelAWingV2":
          {
             name: "A-Wing (Prototype)",
             shipKey: Ship.A_WING,
             teamKey: Team.REBEL,
-            image: "Rebel_Aces_A-Wing.png",
+            image: "Rebel_A-Wing_v2.png",
             wave: "Aces",
-            value: "rebelAWingAce",
+            value: "rebelAWingV2",
          },
          "rebelArc170":
          {
@@ -290,14 +290,14 @@ define(["Ship", "Team"], function(Ship, Team)
             wave: "3",
             value: "rebelBWing",
          },
-         "rebelBWingAce":
+         "rebelBWingV2":
          {
             name: "B-Wing (Dagger Squadron)",
             shipKey: Ship.B_WING,
             teamKey: Team.REBEL,
-            image: "Rebel_Aces_B-Wing.png",
+            image: "Rebel_B-Wing_v2.png",
             wave: "Aces",
-            value: "rebelBWingAce",
+            value: "rebelBWingV2",
          },
          "rebelCr90Corvette":
          {
