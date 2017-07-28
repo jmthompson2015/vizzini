@@ -26,7 +26,6 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
 
             return (
             {
-               // key: token.id(),
                imageBase: ownProps.imageBase,
                token: token,
             });
@@ -38,16 +37,13 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
          {
             InputValidator.validateNotNull("token", ownProps.token);
             InputValidator.validateNotNull("imageBase", ownProps.imageBase);
-            // isCompact is optional.
 
             var token = ownProps.token;
 
             return (
             {
-               // key: token.id(),
                imageBase: ownProps.imageBase,
                initialToken: token,
-               isCompact: ownProps.isCompact,
             });
          },
       };
@@ -85,11 +81,8 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
       Connector.PlayAreaUI = {
          EXPLOSION_PHASES: [Phase.COMBAT_AFTER_DEAL_DAMAGE],
          LASER_AUDIO_PHASES: [Phase.COMBAT_ROLL_ATTACK_DICE, ],
-         LASER_BEAM_PHASES: [Phase.COMBAT_DECLARE_TARGET, Phase.COMBAT_ROLL_ATTACK_DICE, Phase.COMBAT_MODIFY_ATTACK_DICE,
-              Phase.COMBAT_ROLL_DEFENSE_DICE, Phase.COMBAT_MODIFY_DEFENSE_DICE, Phase.COMBAT_COMPARE_RESULTS,
-              Phase.COMBAT_NOTIFY_DAMAGE, Phase.COMBAT_DEAL_DAMAGE, Phase.COMBAT_AFTER_DEAL_DAMAGE],
-         MANEUVER_PHASES: [Phase.ACTIVATION_REVEAL_DIAL, Phase.ACTIVATION_SET_TEMPLATE, Phase.ACTIVATION_EXECUTE_MANEUVER,
-              Phase.ACTIVATION_CHECK_PILOT_STRESS, Phase.ACTIVATION_CLEAN_UP],
+         LASER_BEAM_PHASES: [Phase.COMBAT_DECLARE_TARGET, Phase.COMBAT_ROLL_ATTACK_DICE, Phase.COMBAT_MODIFY_ATTACK_DICE, Phase.COMBAT_ROLL_DEFENSE_DICE, Phase.COMBAT_MODIFY_DEFENSE_DICE, Phase.COMBAT_COMPARE_RESULTS, Phase.COMBAT_NOTIFY_DAMAGE, Phase.COMBAT_DEAL_DAMAGE, Phase.COMBAT_AFTER_DEAL_DAMAGE],
+         MANEUVER_PHASES: [Phase.ACTIVATION_REVEAL_DIAL, Phase.ACTIVATION_SET_TEMPLATE, Phase.ACTIVATION_EXECUTE_MANEUVER, Phase.ACTIVATION_CHECK_PILOT_STRESS, Phase.ACTIVATION_CLEAN_UP],
 
          mapStateToProps: function(state, ownProps)
          {

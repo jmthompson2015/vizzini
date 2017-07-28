@@ -8,9 +8,6 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
          {
             initialToken: PropTypes.object.isRequired,
             imageBase: PropTypes.string.isRequired,
-
-            // default: false
-            isCompact: PropTypes.bool,
          },
 
          getInitialState: function()
@@ -25,83 +22,7 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
          {
             InputValidator.validateNotNull("initialToken", this.props.initialToken);
 
-            if (this.props.isCompact)
-            {
-               return this.renderCompact();
-            }
-            else
-            {
-               return this.renderLarge();
-            }
-         },
-
-         renderCompact: function()
-         {
-            var token = this.state.token;
-            var myToken, myTokenAft;
-
-            if (token.tokenFore && token.tokenAft)
-            {
-               myToken = token.tokenFore();
-               myTokenAft = token.tokenAft();
-            }
-            else
-            {
-               myToken = token;
-            }
-
-            var rows = [];
-            rows.push(React.DOM.tr(
-            {
-               key: rows.length,
-            }, this.createNamePanel(token, myToken, myTokenAft)));
-
-            var element = React.createElement(StatsPanel,
-            {
-               token: myToken,
-               imageBase: this.props.imageBase,
-               isCompact: true,
-            });
-            var cell = React.DOM.td(
-            {}, element);
-
-            if (myTokenAft)
-            {
-               var element2 = React.createElement(StatsPanel,
-               {
-                  token: myTokenAft,
-                  imageBase: this.props.imageBase,
-                  isCompact: true,
-               });
-               cell = React.DOM.td(
-               {}, React.DOM.table(
-               {}, React.DOM.tbody(
-               {}, React.DOM.tr(
-               {}, React.DOM.td(
-               {
-                  key: 0,
-               }, element), React.DOM.td(
-               {
-                  key: 1,
-               }, element2)))));
-            }
-
-            rows.push(React.DOM.tr(
-            {
-               key: rows.length,
-            }, cell));
-
-            rows.push(React.DOM.tr(
-            {
-               key: rows.length,
-            }, this.createTokensPanel(token, myToken, myTokenAft)));
-
-            return React.DOM.table(
-            {
-               key: token.id(),
-               className: "pilotCard",
-            }, React.DOM.tbody(
-            {}, rows));
+            return this.renderLarge();
          },
 
          renderLarge: function()
@@ -156,7 +77,6 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
             {
                token: myToken,
                imageBase: this.props.imageBase,
-               isCompact: this.props.isCompact,
             });
             cells.push(React.DOM.td(
             {
@@ -184,7 +104,6 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
                {
                   token: myTokenAft,
                   imageBase: this.props.imageBase,
-                  isCompact: this.props.isCompact,
                });
                cells.push(React.DOM.td(
                {
@@ -514,157 +433,11 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
          {
             imageBase: PropTypes.string.isRequired,
             token: PropTypes.object.isRequired,
-
-            // default: false
-            isCompact: PropTypes.bool,
          },
 
          render: function()
          {
-            var isCompact = this.props.isCompact;
-
-            if (isCompact)
-            {
-               return this.renderCompact();
-            }
-            else
-            {
-               return this.renderLarge();
-            }
-         },
-
-         renderCompact: function()
-         {
-            var myToken = this.props.token;
-
-            var faction = myToken.pilot().shipTeam.team;
-            var primaryWeaponValue = myToken.primaryWeaponValue();
-            var energyLimit = myToken.energyValue();
-            var agilityValue = myToken.agilityValue();
-            var hullValue = myToken.hullValue();
-            var shieldValue = myToken.shieldValue();
-
-            var cells = [];
-            var image;
-
-            if (primaryWeaponValue !== undefined)
-            {
-               var shipStateKey;
-               if (myToken.ship().isPrimaryWeaponTurret)
-               {
-                  shipStateKey = ShipState.TURRET_WEAPON;
-               }
-               else
-               {
-                  shipStateKey = ShipState.PRIMARY_WEAPON;
-               }
-               image = React.createElement(ShipStateUI,
-               {
-                  shipState: ShipState.properties[shipStateKey],
-                  faction: faction,
-                  imageBase: this.props.imageBase,
-               });
-               cells.push(React.DOM.td(
-               {
-                  key: cells.length,
-                  className: 'primaryWeaponValue',
-                  title: 'Primary Weapon'
-               }, image));
-               cells.push(React.DOM.td(
-               {
-                  key: cells.length,
-                  className: 'primaryWeaponValue',
-                  title: 'Primary Weapon'
-               }, primaryWeaponValue));
-            }
-
-            if (energyLimit !== undefined)
-            {
-               image = React.createElement(ShipStateUI,
-               {
-                  shipState: ShipState.properties[ShipState.ENERGY],
-                  faction: faction,
-                  imageBase: this.props.imageBase,
-               });
-               cells.push(React.DOM.td(
-               {
-                  key: cells.length,
-                  className: 'energyValue',
-                  title: 'Energy'
-               }, image));
-               cells.push(React.DOM.td(
-               {
-                  key: cells.length,
-                  className: 'energyValue',
-                  title: 'Energy'
-               }, energyLimit));
-            }
-
-            var image1 = React.createElement(ShipStateUI,
-            {
-               shipState: ShipState.properties[ShipState.AGILITY],
-               faction: faction,
-               imageBase: this.props.imageBase,
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-               className: 'agilityValue',
-               title: 'Agility'
-            }, image1));
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-               className: 'agilityValue',
-               title: 'Agility'
-            }, agilityValue));
-
-            var image2 = React.createElement(ShipStateUI,
-            {
-               shipState: ShipState.properties[ShipState.HULL],
-               faction: faction,
-               imageBase: this.props.imageBase,
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-               className: 'hullValue',
-               title: 'Hull'
-            }, image2));
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-               className: 'hullValue',
-               title: 'Hull'
-            }, hullValue));
-
-            var image3 = React.createElement(ShipStateUI,
-            {
-               shipState: ShipState.properties[ShipState.SHIELD],
-               faction: faction,
-               imageBase: this.props.imageBase,
-            });
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-               className: 'shieldValue',
-               title: 'Shield'
-            }, image3));
-            cells.push(React.DOM.td(
-            {
-               key: cells.length,
-               className: 'shieldValue',
-               title: 'Shield'
-            }, shieldValue));
-
-            var row = React.DOM.tr(
-            {}, cells);
-
-            return React.DOM.table(
-            {
-               className: "statsTable"
-            }, React.DOM.tbody(
-            {}, row));
+            return this.renderLarge();
          },
 
          renderLarge: function()
