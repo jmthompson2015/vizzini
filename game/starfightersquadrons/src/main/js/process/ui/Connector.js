@@ -61,7 +61,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
             {
                var pilotSkill0 = Selector.pilotSkillValue(state, token0.id());
                var pilotSkill1 = Selector.pilotSkillValue(state, token1.id());
-               var answer = pilotSkill1 - pilotSkill0;
+               var answer = pilotSkill0 - pilotSkill1;
 
                if (answer === 0)
                {

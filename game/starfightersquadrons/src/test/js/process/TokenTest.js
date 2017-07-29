@@ -21,8 +21,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
       QUnit.test("Token properties Dash Rendar", function(assert)
       {
          var store = Redux.createStore(Reducer.root);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [UpgradeCard.OUTRIDER, UpgradeCard.PREDATOR,
                 UpgradeCard.MANGLER_CANNON, UpgradeCard.CHEWBACCA]);
          assert.equal(token.id(), 1);
@@ -37,8 +38,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
       QUnit.test("Token properties GR-75 Medium Transport", function(assert)
       {
          var store = Redux.createStore(Reducer.root);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent, [UpgradeCard.CARLIST_RIEEKAN,
                 UpgradeCard.EM_EMITTER]);
          assert.equal(token.id(), 1);
@@ -53,8 +55,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
          var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -106,8 +109,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          assert.equal(token0.pilot().shipTeam.shipKey, Ship.TIE_FIGHTER);
          assert.equal(token0.name(), "1 Academy Pilot (TIE Fighter)");
 
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token1 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
          assert.equal(token1.id(), 2);
          assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
@@ -177,8 +181,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          store.dispatch(Action.placeToken(new Position(10, 20, 30), token));
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var defender = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
          assert.equal(token.damageCount(), 0);
          assert.equal(token.criticalDamageCount(), 0);
@@ -213,8 +218,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          assert.equal(token0.computeDefenseDiceCount(environment, token0, token0.primaryWeapon(), RangeRuler.FOUR), 4);
          assert.equal(token0.computeDefenseDiceCount(environment, token0, token0.primaryWeapon(), RangeRuler.FIVE), 4);
 
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token1 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
          assert.equal(token1.id(), 2);
          assert.equal(token1.pilotKey(), Pilot.ROOKIE_PILOT);
@@ -266,8 +272,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var token1 = new Token(store, Pilot.GOZANTI_CLASS_CRUISER, imperialAgent);
          var token2 = new Token(store, Pilot.GR_75_MEDIUM_TRANSPORT, rebelAgent);
@@ -283,8 +290,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var token1 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
          var token2 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
@@ -356,8 +364,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
          var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -721,8 +730,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
          var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -829,8 +839,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
          var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -1017,8 +1028,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token0 = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var token1 = new Token(store, Pilot.BOUNTY_HUNTER, imperialAgent);
          var token2 = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
@@ -1033,8 +1045,9 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
       {
          // Setup.
          var store = Redux.createStore(Reducer.root);
+         var inputAreaId = "firstPilotInputArea";
          var imageBase = "../resources/images/";
-         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, imageBase);
+         var rebelAgent = new HumanAgent("Rebel Agent", Team.REBEL, inputAreaId, imageBase);
          var token = new Token(store, Pilot.ROOKIE_PILOT, rebelAgent);
 
          // Run.

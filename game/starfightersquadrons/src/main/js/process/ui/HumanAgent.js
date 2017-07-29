@@ -3,10 +3,11 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
    {
       "use strict";
 
-      function HumanAgent(name, teamKey, imageBase)
+      function HumanAgent(name, teamKey, inputAreaId, imageBase)
       {
          InputValidator.validateNotEmpty("name", name);
          InputValidator.validateNotNull("teamKey", teamKey);
+         InputValidator.validateNotNull("inputAreaId", inputAreaId);
          InputValidator.validateNotNull("imageBase", imageBase);
 
          this.name = function()
@@ -17,6 +18,11 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
          this.teamKey = function()
          {
             return teamKey;
+         };
+
+         this.inputAreaId = function()
+         {
+            return inputAreaId;
          };
 
          this.imageBase = function()
@@ -35,14 +41,54 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
          var attackDice;
          var defender;
          var defenseDice;
-         var planningCallback;
+         var chooseAbilityCallback;
+         var dealDamageCallback;
          var decloakActionCallback;
-         var shipActionCallback;
-         var weaponAndDefenderCallback;
          var modifyAttackCallback;
          var modifyDefenseCallback;
-         var dealDamageCallback;
-         var chooseAbilityCallback;
+         var planningCallback;
+         var shipActionCallback;
+         var weaponAndDefenderCallback;
+
+         this.chooseAbilityCallback = function()
+         {
+            return chooseAbilityCallback;
+         };
+
+         this.dealDamageCallback = function()
+         {
+            return dealDamageCallback;
+         };
+
+         this.decloakActionCallback = function()
+         {
+            return decloakActionCallback;
+         };
+
+         this.modifyAttackCallback = function()
+         {
+            return modifyAttackCallback;
+         };
+
+         this.modifyDefenseCallback = function()
+         {
+            return modifyDefenseCallback;
+         };
+
+         this.planningCallback = function()
+         {
+            return planningCallback;
+         };
+
+         this.shipActionCallback = function()
+         {
+            return shipActionCallback;
+         };
+
+         this.weaponAndDefenderCallback = function()
+         {
+            return weaponAndDefenderCallback;
+         };
 
          this.chooseAbility = function(environment, damageAbilities, pilotAbilities, upgradeAbilities, callback)
          {
@@ -60,19 +106,19 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                {
                   damages: damageAbilities,
                   imageBase: imageBase,
-                  onChange: finishChooseAbility,
+                  onChange: this.finishChooseAbility.bind(this),
                   pilots: pilotAbilities,
                   token: environment.activeToken(),
                   upgrades: upgradeAbilities,
                });
-               ReactDOM.render(element, document.getElementById("inputArea"));
+               ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));
 
                // Wait for the user to respond.
             }
             else
             {
-               setTimeout(finishChooseAbility, 100);
+               setTimeout(this.finishChooseAbility.bind(this), 100);
             }
          };
 
@@ -93,9 +139,9 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                {
                   attacker: attacker,
                   choices: choices,
-                  callback: finishWeaponAndDefender
+                  callback: this.finishWeaponAndDefender.bind(this),
                });
-               ReactDOM.render(element, document.getElementById("inputArea"));
+               ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));
 
                // Wait for the user to respond.
@@ -123,11 +169,11 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                defenseDice: defenseDice,
                hitCount: damageDealer.hits(),
                imageBase: imageBase,
-               okFunction: finishDealDamage,
+               okFunction: this.finishDealDamage.bind(this),
                phase: Phase.properties[environment.phase()],
             });
 
-            ReactDOM.render(element, document.getElementById("inputArea"));
+            ReactDOM.render(element, document.getElementById(this.inputAreaId()));
             window.dispatchEvent(new Event('resize'));
          };
 
@@ -152,10 +198,10 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                shipActions: decloakActions,
                callback: function(decloakAction)
                {
-                  finishDecloakAction(attacker, decloakAction);
+                  this.finishDecloakAction(attacker, decloakAction).bind(this);
                }
             });
-            ReactDOM.render(element, document.getElementById("inputArea"));
+            ReactDOM.render(element, document.getElementById(this.inputAreaId()));
             window.dispatchEvent(new Event('resize'));
 
             // Wait for the user to respond.
@@ -189,7 +235,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                   okFunction: finishModifyAttackDice,
                   phase: Phase.properties[store.getState().phaseKey],
                });
-               ReactDOM.render(element, document.getElementById("inputArea"));
+               ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));
 
                // Wait for the user to respond.
@@ -224,7 +270,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                   okFunction: finishModifyDefenseDice,
                   phase: Phase.properties[store.getState().phaseKey],
                });
-               ReactDOM.render(element, document.getElementById("inputArea"));
+               ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));
 
                // Wait for the user to respond.
@@ -254,12 +300,12 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
             var element = React.createElement(PlanningPanel,
             {
                agent: self,
-               callback: finishPlanningAction,
+               callback: this.finishPlanningAction.bind(this),
                environment: environment,
                imageBase: imageBase,
                tokens: tokens,
             });
-            ReactDOM.render(element, document.getElementById("inputArea"));
+            ReactDOM.render(element, document.getElementById(this.inputAreaId()));
             window.dispatchEvent(new Event('resize'));
 
             // Wait for the user to respond.
@@ -279,64 +325,21 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
             {
                var element = React.createElement(ShipActionChooser,
                {
-                  callback: finishShipAction,
+                  callback: this.finishShipAction.bind(this),
                   imageBase: imageBase,
                   shipActions: shipActions,
                   token: token,
                });
-               ReactDOM.render(element, document.getElementById("inputArea"));
+               ReactDOM.render(element, document.getElementById(this.inputAreaId()));
                window.dispatchEvent(new Event('resize'));
 
                // Wait for the user to respond.
             }
             else
             {
-               setTimeout(finishShipAction, 1000);
+               setTimeout(finishShipAction.bind(this), 1000);
             }
          };
-
-         function finishChooseAbility(ability, isAccepted)
-         {
-            LOGGER.trace("HumanAgent.finishChooseAbility() start");
-
-            // Handle the user response.
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-            window.dispatchEvent(new Event('resize'));
-            LOGGER.trace("HumanAgent.finishChooseAbility() end");
-
-            chooseAbilityCallback(ability, isAccepted);
-         }
-
-         function finishDealDamage()
-         {
-            LOGGER.trace("HumanAgent.finishDealDamage() start");
-
-            // Handle the user response.
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-            window.dispatchEvent(new Event('resize'));
-            LOGGER.trace("HumanAgent.finishDealDamage() end");
-
-            dealDamageCallback();
-         }
-
-         function finishDecloakAction(token, decloakAction)
-         {
-            LOGGER.trace("HumanAgent.finishDecloakAction() start");
-            LOGGER.debug("decloakAction = " + decloakAction);
-            LOGGER.debug("decloakAction.maneuverKey() = " + decloakAction.maneuverKey());
-
-            var answer = new ManeuverAction(environment.store(), attacker.id(), decloakAction.maneuverKey());
-
-            // Handle the user response.
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-            window.dispatchEvent(new Event('resize'));
-            LOGGER.trace("HumanAgent.finishDecloakAction() end");
-
-            decloakActionCallback(token, answer);
-         }
 
          function finishModifyAttackDice(modification)
          {
@@ -361,46 +364,89 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
 
             modifyDefenseCallback(answer);
          }
-
-         function finishPlanningAction(tokenToManeuver)
-         {
-            LOGGER.trace("HumanAgent.finishPlanningAction() start");
-
-            // Handle the user response.
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-            window.dispatchEvent(new Event('resize'));
-            LOGGER.trace("HumanAgent.finishPlanningAction() end");
-
-            planningCallback(tokenToManeuver);
-         }
-
-         function finishShipAction(shipAction)
-         {
-            LOGGER.trace("HumanAgent.finishShipAction() start");
-
-            // Handle the user response.
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-            window.dispatchEvent(new Event('resize'));
-            LOGGER.trace("HumanAgent.finishShipAction() end");
-
-            shipActionCallback(shipAction);
-         }
-
-         function finishWeaponAndDefender(weapon, defender)
-         {
-            LOGGER.trace("HumanAgent.finishWeaponAndDefender() start");
-
-            // Handle the user response.
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
-            window.dispatchEvent(new Event('resize'));
-            LOGGER.trace("HumanAgent.finishWeaponAndDefender() end");
-
-            weaponAndDefenderCallback(weapon, defender);
-         }
       }
+
+      HumanAgent.prototype.finishChooseAbility = function(ability, isAccepted, inputAreaId)
+      {
+         LOGGER.trace("HumanAgent.finishChooseAbility() start");
+
+         // Handle the user response.
+         var element = document.getElementById(this.inputAreaId());
+         element.innerHTML = "";
+         window.dispatchEvent(new Event('resize'));
+         LOGGER.trace("HumanAgent.finishChooseAbility() end");
+
+         this.chooseAbilityCallback()(ability, isAccepted);
+      };
+
+      HumanAgent.prototype.finishDealDamage = function()
+      {
+         LOGGER.trace("HumanAgent.finishDealDamage() start");
+
+         // Handle the user response.
+         var element = document.getElementById(this.inputAreaId());
+         element.innerHTML = "";
+         window.dispatchEvent(new Event('resize'));
+         LOGGER.trace("HumanAgent.finishDealDamage() end");
+
+         this.dealDamageCallback()();
+      };
+
+      HumanAgent.prototype.finishDecloakAction = function(token, decloakAction)
+      {
+         LOGGER.trace("HumanAgent.finishDecloakAction() start");
+         LOGGER.debug("decloakAction = " + decloakAction);
+         LOGGER.debug("decloakAction.maneuverKey() = " + decloakAction.maneuverKey());
+
+         var answer = new ManeuverAction(environment.store(), attacker.id(), decloakAction.maneuverKey());
+
+         // Handle the user response.
+         var element = document.getElementById(this.inputAreaId());
+         element.innerHTML = "";
+         window.dispatchEvent(new Event('resize'));
+         LOGGER.trace("HumanAgent.finishDecloakAction() end");
+
+         this.decloakActionCallback()(token, answer);
+      };
+
+      HumanAgent.prototype.finishPlanningAction = function(tokenToManeuver)
+      {
+         LOGGER.trace("HumanAgent.finishPlanningAction() start");
+
+         // Handle the user response.
+         var element = document.getElementById(this.inputAreaId());
+         element.innerHTML = "";
+         window.dispatchEvent(new Event('resize'));
+         LOGGER.trace("HumanAgent.finishPlanningAction() end");
+
+         this.planningCallback()(tokenToManeuver);
+      };
+
+      HumanAgent.prototype.finishShipAction = function(shipAction)
+      {
+         LOGGER.trace("HumanAgent.finishShipAction() start");
+
+         // Handle the user response.
+         var element = document.getElementById(this.inputAreaId());
+         element.innerHTML = "";
+         window.dispatchEvent(new Event('resize'));
+         LOGGER.trace("HumanAgent.finishShipAction() end");
+
+         this.shipActionCallback()(shipAction);
+      };
+
+      HumanAgent.prototype.finishWeaponAndDefender = function(weapon, defender)
+      {
+         LOGGER.trace("HumanAgent.finishWeaponAndDefender() start");
+
+         // Handle the user response.
+         var element = document.getElementById(this.inputAreaId());
+         element.innerHTML = "";
+         window.dispatchEvent(new Event('resize'));
+         LOGGER.trace("HumanAgent.finishWeaponAndDefender() end");
+
+         this.weaponAndDefenderCallback()(weapon, defender);
+      };
 
       HumanAgent.prototype.toString = function()
       {

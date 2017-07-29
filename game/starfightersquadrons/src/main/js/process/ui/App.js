@@ -6,107 +6,163 @@ var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/mas
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
-require(["process/Action", "process/Game", "process/Reducer", "process/ui/EnvironmentUI", "process/ui/NewGamePanel"],
-    function(Action, Game, Reducer, EnvironmentUI, NewGamePanel)
-    {
-        "use strict";
+require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/NewGamePanel", "process/ui/PilotsUI", "process/ui/PlayAreaUI", "process/ui/StatusBarUI"],
+   function(Action, Game, Reducer, Connector, MessageAreaUI, NewGamePanel, PilotsUI, PlayAreaUI, StatusBarUI)
+   {
+      "use strict";
 
-        // Create initial agents and tokens.
-        var store0 = Redux.createStore(Reducer.root);
-        var newGamePanel = React.createElement(ReactRedux.Provider,
-        {
-            store: store0,
-        }, React.createElement(NewGamePanel,
-        {
-            callback: startNewGame,
-            iconBase: iconBase,
+      // Create initial agents and tokens.
+      var store0 = Redux.createStore(Reducer.root);
+      var newGamePanel = React.createElement(ReactRedux.Provider,
+      {
+         store: store0,
+      }, React.createElement(NewGamePanel,
+      {
+         callback: startNewGame,
+         iconBase: iconBase,
+         imageBase: imageBase,
+      }));
+
+      ReactDOM.render(newGamePanel, document.getElementById("secondPilotInputArea"));
+      var game;
+      var environmentUI;
+
+      function startNewGame(agent1, squad1, agent2, squad2)
+      {
+         LOGGER.info("startNewGame() start");
+
+         LOGGER.info("agent1 = " + agent1);
+         LOGGER.info("squad1 = " + squad1);
+         LOGGER.info("agent2 = " + agent2);
+         LOGGER.info("squad2 = " + squad2);
+
+         var element = document.getElementById("secondPilotInputArea");
+         element.innerHTML = "";
+
+         game = new Game(agent1, squad1, agent2, squad2);
+         var store = game.environment().store();
+         createEnvironmentUI(game.engine(), game.environment(), imageBase, store);
+
+         game.start();
+
+         updateSizes(environmentUI);
+
+         LOGGER.info("startNewGame() end");
+      }
+
+      function createEnvironmentUI(engine, environment, imageBase, store)
+      {
+         // Status bar.
+         var connector0 = ReactRedux.connect(Connector.StatusBarUI.mapStateToProps)(StatusBarUI);
+         var statusBarElement = React.createElement(ReactRedux.Provider,
+         {
+            store: store,
+         }, React.createElement(connector0,
+         {
+            environment: environment,
+         }));
+
+         // Message area.
+         var connector3 = ReactRedux.connect(Connector.MessageAreaUI.mapStateToProps)(MessageAreaUI);
+         var messageAreaElement = React.createElement(ReactRedux.Provider,
+         {
+            store: store,
+         }, React.createElement(connector3));
+
+         // First pilots.
+         var connector1 = ReactRedux.connect(Connector.PilotsUI.mapStateToProps)(PilotsUI);
+         var firstPilotsElement = React.createElement(ReactRedux.Provider,
+         {
+            store: store,
+         }, React.createElement(connector1,
+         {
+            environment: environment,
             imageBase: imageBase,
-        }));
+            team: environment.firstTeam(),
+         }));
 
-        ReactDOM.render(newGamePanel, document.getElementById("inputArea"));
-        var game;
-        var environmentUI;
+         // Play area.
+         var connector2 = ReactRedux.connect(Connector.PlayAreaUI.mapStateToProps)(PlayAreaUI);
+         var playAreaElement = React.createElement(ReactRedux.Provider,
+         {
+            store: store,
+         }, React.createElement(connector2,
+         {
+            environment: environment,
+            imageBase: imageBase,
+         }));
 
-        function startNewGame(agent1, squad1, agent2, squad2)
-        {
-            LOGGER.info("startNewGame() start");
+         // Second pilots.
+         var secondPilotsElement = React.createElement(ReactRedux.Provider,
+         {
+            store: store,
+         }, React.createElement(connector1,
+         {
+            environment: environment,
+            imageBase: imageBase,
+            team: environment.secondTeam(),
+         }));
 
-            LOGGER.info("agent1 = " + agent1);
-            LOGGER.info("squad1 = " + squad1);
-            LOGGER.info("agent2 = " + agent2);
-            LOGGER.info("squad2 = " + squad2);
+         ReactDOM.render(statusBarElement, document.getElementById("statusBarContainer"));
+         ReactDOM.render(messageAreaElement, document.getElementById("messageArea"));
+         ReactDOM.render(firstPilotsElement, document.getElementById("firstPilotArea"));
+         ReactDOM.render(playAreaElement, document.getElementById("playAreaContainer"));
+         ReactDOM.render(secondPilotsElement, document.getElementById("secondPilotArea"));
+      }
 
-            var element = document.getElementById("inputArea");
-            element.innerHTML = "";
+      /*
+       * @see https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements
+       */
+      function updateSizes(environmentUI)
+      {
+         var mainTable = document.getElementById("mainTable");
+         //  var windowWidth = Math.min(window.innerWidth - 8, mainTable.clientWidth);
+         var windowHeight = Math.min(window.innerHeight - 8, mainTable.clientHeight);
+         var firstPilots = document.getElementById("firstPilotArea");
+         var secondPilots = document.getElementById("secondPilotArea");
+         //  var newWidth = windowWidth;
+         var newHeight = windowHeight;
 
-            game = new Game(agent1, squad1, agent2, squad2);
-            var store = game.environment().store();
-            environmentUI = React.createElement(ReactRedux.Provider,
-            {
-                store: store,
-            }, React.createElement(EnvironmentUI,
-            {
-                engine: game.engine(),
-                environment: game.environment(),
-                imageBase: imageBase,
-            }));
-            ReactDOM.render(environmentUI, document.getElementById("environmentUI"));
+         if (firstPilots)
+         {
+            newHeight -= firstPilots.offsetHeight;
+         }
 
-            game.start();
+         if (secondPilots)
+         {
+            newHeight -= secondPilots.offsetHeight;
+         }
 
-            updateSizes(environmentUI);
+         // FIXME: use playFormat.height
+         newHeight = Math.max(newHeight, 0.5 * 915);
 
-            LOGGER.info("startNewGame() end");
-        }
+         var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
+         if (myPlayAreaCanvas)
+         {
+            myPlayAreaCanvas.height = newHeight;
+         }
 
-        /*
-         * @see https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements
-         */
-        function updateSizes(environmentUI)
-        {
-            var mainTable = document.getElementById("mainTable");
-            var windowWidth = Math.min(window.innerWidth - 8, mainTable.clientWidth);
-            var firstPilots = document.getElementById("firstPilots");
-            var secondPilots = document.getElementById("secondPilots");
-            var newWidth = windowWidth;
+         if (game)
+         {
+            var playFormat = game.environment().playFormat();
 
-            if (firstPilots)
-            {
-                newWidth -= firstPilots.offsetWidth;
-            }
-
-            if (secondPilots)
-            {
-                newWidth -= secondPilots.offsetWidth;
-            }
-
-            var myPlayAreaCanvas = document.getElementById("playAreaCanvas");
             if (myPlayAreaCanvas)
             {
-                myPlayAreaCanvas.width = newWidth;
+               var aspectRatio = playFormat.width / playFormat.height;
+               myPlayAreaCanvas.width = newHeight * aspectRatio;
             }
 
-            if (game)
-            {
-                var playFormat = game.environment().playFormat();
+            var store = game.environment().store();
+            store.dispatch(Action.setPlayAreaScale(newHeight / playFormat.height));
+         }
+      }
 
-                if (myPlayAreaCanvas)
-                {
-                    var aspectRatio = playFormat.width / playFormat.height;
-                    myPlayAreaCanvas.height = newWidth / aspectRatio;
-                }
-
-                var store = game.environment().store();
-                store.dispatch(Action.setPlayAreaScale(newWidth / playFormat.width));
-            }
-        }
-
-        window.addEventListener("resize", function()
-        {
-            updateSizes(environmentUI);
-        }, false);
-        window.addEventListener("orientationchange", function()
-        {
-            updateSizes(environmentUI);
-        }, false);
-    });
+      window.addEventListener("resize", function()
+      {
+         updateSizes(environmentUI);
+      }, false);
+      window.addEventListener("orientationchange", function()
+      {
+         updateSizes(environmentUI);
+      }, false);
+   });
