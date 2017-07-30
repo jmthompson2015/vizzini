@@ -408,13 +408,21 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
                   imageBase: this.props.imageBase,
                });
                var cellKey = upgrade.value + i;
-               var className = "pilotCardUpgradeCell";
-               var cell = createCell(element, cellKey, className);
-               var rowKey = cellKey;
-               rows.push(createRow(cell, rowKey));
+               var cell = React.DOM.div(
+               {
+                  key: cellKey,
+                  className: "pilotCardUpgradeCell",
+               }, element);
+               rows.push(cell);
             }, this);
 
-            return createTable(rows, "upgradesTable", "pilotCardUpgradesTable");
+            var heightClass = (token.upgradeKeys().length >= 2 ? " height48" : "");
+
+            return React.DOM.div(
+            {
+               key: "upgradesTable",
+               className: "pilotCardUpgradesTable" + heightClass,
+            }, rows);
          }
       });
 

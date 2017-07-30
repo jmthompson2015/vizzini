@@ -125,8 +125,9 @@ table {
   font-size: small;
 }
 
-#HEIGHT_32, .height32 {
-  height: 32px;
+#HEIGHT_48, .height48 {
+  /* Used by PilotCardCompactUI */
+  height: 48px;
 }
 
 #MARGIN_AUTO, .pilotCardUIShipActions, .pilotCardUIUpgrades, .pilotChooserFilter, .statsTable, .marginAuto {
@@ -140,6 +141,10 @@ table {
 
 #MARGIN_NONE, #firstPilots, #secondPilots, .marginNone {
   margin: 0px;
+}
+
+#OVERFLOW_Y_SCROLL, .pilotCardUpgradesTable, .overflowYScroll {
+  overflow-y: scroll;
 }
 
 #PADDING_1, #firstPilots, #secondPilots, .padding1 {
@@ -156,6 +161,10 @@ table {
 
 #PADDING_BOTTOM_5, .optionPaneButtons, .paddingBottom5 {
   padding-bottom: 5px;
+}
+
+#PADDING_RIGHT_1EM, .pilotCardUpgradeCell, .paddingRight1Em {
+  padding-right: 1em;
 }
 
 #PADDING_RIGHT_5, .optionPaneButtons, .paddingRight5 {
