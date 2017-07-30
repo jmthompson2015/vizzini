@@ -143,7 +143,8 @@ table {
   margin: 0px;
 }
 
-#OVERFLOW_Y_SCROLL, .pilotCardUpgradesTable, .overflowYScroll {
+#OVERFLOW_Y_SCROLL, .overflowYScroll {
+  /* Used by PilotCardCompactUI */
   overflow-y: scroll;
 }
 

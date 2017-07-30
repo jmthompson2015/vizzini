@@ -398,8 +398,9 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
             var token = this.props.token;
 
             var rows = [];
+            var upgradeKeys = token.upgradeKeys();
 
-            token.upgradeKeys().forEach(function(upgradeKey, i)
+            upgradeKeys.forEach(function(upgradeKey, i)
             {
                var upgrade = UpgradeCard.properties[upgradeKey];
                var element = React.createElement(AbilityUI.Upgrade,
@@ -416,12 +417,12 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
                rows.push(cell);
             }, this);
 
-            var heightClass = (token.upgradeKeys().length >= 2 ? " height48" : "");
+            var scrollClass = (upgradeKeys.length > 2 ? " height48 overflowYScroll" : "");
 
             return React.DOM.div(
             {
                key: "upgradesTable",
-               className: "pilotCardUpgradesTable" + heightClass,
+               className: "pilotCardUpgradesTable" + scrollClass,
             }, rows);
          }
       });
