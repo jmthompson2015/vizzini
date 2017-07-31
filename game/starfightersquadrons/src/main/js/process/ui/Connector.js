@@ -4,18 +4,6 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
       "use strict";
       var Connector = {};
 
-      Connector.MessageAreaUI = {
-         mapStateToProps: function(state, ownProps)
-         {
-            var userMessage = state.userMessage;
-
-            return (
-            {
-               userMessage: userMessage,
-            });
-         },
-      };
-
       Connector.PilotCardCompactUI = {
          mapStateToProps: function(state, ownProps)
          {
@@ -269,6 +257,7 @@ define(["Phase", "PlayFormat", "Ship", "Team", "process/ManeuverAction", "proces
                round: state.round,
                phase: Phase.properties[state.phaseKey],
                activeShipName: activeShipName,
+               userMessage: state.userMessage,
             });
          },
       };

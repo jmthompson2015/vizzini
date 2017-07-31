@@ -6,8 +6,8 @@ var resourceBase = "https://raw.githubusercontent.com/jmthompson2015/vizzini/mas
 var iconBase = resourceBase + "icons/";
 var imageBase = resourceBase + "images/";
 
-require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connector", "process/ui/MessageAreaUI", "process/ui/NewGamePanel", "process/ui/PilotsUI", "process/ui/PlayAreaUI", "process/ui/StatusBarUI"],
-   function(Action, Game, Reducer, Connector, MessageAreaUI, NewGamePanel, PilotsUI, PlayAreaUI, StatusBarUI)
+require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connector", "process/ui/NewGamePanel", "process/ui/PilotsUI", "process/ui/PlayAreaUI", "process/ui/StatusBarUI"],
+   function(Action, Game, Reducer, Connector, NewGamePanel, PilotsUI, PlayAreaUI, StatusBarUI)
    {
       "use strict";
 
@@ -62,13 +62,6 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
             environment: environment,
          }));
 
-         // Message area.
-         var connector3 = ReactRedux.connect(Connector.MessageAreaUI.mapStateToProps)(MessageAreaUI);
-         var messageAreaElement = React.createElement(ReactRedux.Provider,
-         {
-            store: store,
-         }, React.createElement(connector3));
-
          // First pilots.
          var connector1 = ReactRedux.connect(Connector.PilotsUI.mapStateToProps)(PilotsUI);
          var firstPilotsElement = React.createElement(ReactRedux.Provider,
@@ -104,7 +97,6 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
          }));
 
          ReactDOM.render(statusBarElement, document.getElementById("statusBarContainer"));
-         ReactDOM.render(messageAreaElement, document.getElementById("messageArea"));
          ReactDOM.render(firstPilotsElement, document.getElementById("firstPilotArea"));
          ReactDOM.render(playAreaElement, document.getElementById("playAreaContainer"));
          ReactDOM.render(secondPilotsElement, document.getElementById("secondPilotArea"));
