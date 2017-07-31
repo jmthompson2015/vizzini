@@ -321,15 +321,12 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
          if (shipActions.includes(ShipAction.SLAM))
          {
-            var previousManeuver = token.maneuver();
-            var speed = previousManeuver.speed;
             var ship = token.pilot().shipTeam.ship;
             var maneuverKeys = ship.maneuverKeys;
 
             maneuverKeys.forEach(function(maneuverKey)
             {
-               // FIXME: check Adjudicator.canSlam()
-               if (Maneuver.properties[maneuverKey].speed === speed)
+               if (adjudicator.canSlam(environment, token, maneuverKey))
                {
                   answer.push(new ShipActionAction.Slam(environment, token, maneuverKey));
                }

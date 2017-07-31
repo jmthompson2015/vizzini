@@ -97,6 +97,40 @@ define(["Maneuver", "ManeuverComputer", "Pilot", "RectanglePath", "Team", "proce
             return (attacker.pilotKey() === Pilot.TYCHO_CELCHU || !attacker.isStressed()) && !Selector.isTouching(state, attacker);
          };
 
+         this.canSlam = function(environment, token, maneuverKey)
+         {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("token", token);
+            InputValidator.validateNotNull("maneuverKey", maneuverKey);
+
+            // To SLAM, choose and execute a maneuver on the ship's dial.
+            // The chosen maneuver must be the same speed as the maneuver that ship executed this round.
+            // Performing a SLAM counts as executing a maneuver.
+            // A ship cannot perform SLAM as a free action.
+            var previousManeuver = token.maneuver();
+            var speed;
+
+            if (previousManeuver)
+            {
+               speed = previousManeuver.speed;
+            }
+
+            var ship = token.pilot().shipTeam.ship;
+            var maneuverKeys = ship.maneuverKeys;
+            var slamManeuver = Maneuver.properties[maneuverKey];
+            var fromPosition = environment.getPositionFor(token);
+            var toPolygon;
+
+            if (fromPosition)
+            {
+               var playFormatKey = environment.playFormatKey();
+               var shipBase = token.pilot().shipTeam.ship.shipBase;
+               toPolygon = ManeuverComputer.computeToPolygon(playFormatKey, slamManeuver, fromPosition, shipBase);
+            }
+
+            return (previousManeuver !== undefined) && (toPolygon !== undefined) && maneuverKeys.includes(maneuverKey) && (slamManeuver.speed === speed);
+         };
+
          this.compareInitiative = function(squadBuilder1, squadBuilder2)
          {
             InputValidator.validateNotNull("squadBuilder1", squadBuilder1);

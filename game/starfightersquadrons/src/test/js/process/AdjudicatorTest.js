@@ -1,5 +1,5 @@
-define(["process/Action", "process/Adjudicator", "process/EnvironmentFactory", "process/SquadBuilder"],
-   function(Action, Adjudicator, EnvironmentFactory, SquadBuilder)
+define(["Maneuver", "Position", "process/Action", "process/Adjudicator", "process/EnvironmentFactory", "process/SquadBuilder"],
+   function(Maneuver, Position, Action, Adjudicator, EnvironmentFactory, SquadBuilder)
    {
       "use strict";
       QUnit.module("Adjudicator");
@@ -50,6 +50,69 @@ define(["process/Action", "process/Adjudicator", "process/EnvironmentFactory", "
 
          // Run / Verify.
          assert.ok(adjudicator.canSelectShipAction(attacker));
+      });
+
+      QUnit.test("canSlam() yes", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var adjudicator = new Adjudicator();
+         var attacker = environment.tokens()[0];
+         var store = environment.store();
+         var previousManeuver = Maneuver.properties[Maneuver.STRAIGHT_3_EASY];
+         store.dispatch(Action.setTokenManeuver(attacker, previousManeuver));
+         var maneuverKey = Maneuver.BANK_LEFT_3_STANDARD;
+
+         // Run / Verify.
+         assert.equal(adjudicator.canSlam(environment, attacker, maneuverKey), true);
+      });
+
+      QUnit.test("canSlam() no (maneuver)", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var adjudicator = new Adjudicator();
+         var attacker = environment.tokens()[0];
+         var store = environment.store();
+         var previousManeuver = Maneuver.properties[Maneuver.TURN_LEFT_1_STANDARD];
+         store.dispatch(Action.setTokenManeuver(attacker, previousManeuver));
+         var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
+
+         // Run / Verify.
+         assert.equal(adjudicator.canSlam(environment, attacker, maneuverKey), false);
+      });
+
+      QUnit.test("canSlam() no (ship fled)", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var adjudicator = new Adjudicator();
+         var attacker = environment.tokens()[0];
+         var store = environment.store();
+         var fromPosition = environment.getPositionFor(attacker);
+         var toPosition = new Position(894, fromPosition.y(), fromPosition.heading());
+         store.dispatch(Action.moveToken(fromPosition, toPosition));
+         var previousManeuver = Maneuver.properties[Maneuver.STRAIGHT_3_EASY];
+         store.dispatch(Action.setTokenManeuver(attacker, previousManeuver));
+         var maneuverKey = Maneuver.BANK_LEFT_3_STANDARD;
+
+         // Run / Verify.
+         assert.equal(adjudicator.canSlam(environment, attacker, maneuverKey), false);
+      });
+
+      QUnit.test("canSlam() no (speed)", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var adjudicator = new Adjudicator();
+         var attacker = environment.tokens()[0];
+         var store = environment.store();
+         var previousManeuver = Maneuver.properties[Maneuver.STRAIGHT_3_EASY];
+         store.dispatch(Action.setTokenManeuver(attacker, previousManeuver));
+         var maneuverKey = Maneuver.BANK_LEFT_2_EASY;
+
+         // Run / Verify.
+         assert.equal(adjudicator.canSlam(environment, attacker, maneuverKey), false);
       });
 
       QUnit.test("compareInitiative() by squad points", function(assert)

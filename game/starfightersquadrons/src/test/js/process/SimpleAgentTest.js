@@ -150,6 +150,46 @@ define(["process/AttackDice", "DamageCard", "process/DefenseDice", "Maneuver", "
          assert.equal(result[2].ability().sourceKey(), DamageCard.CONSOLE_FIRE);
       });
 
+      QUnit.test("determineValidShipActions() Miranda Doni", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var adjudicator = new Adjudicator();
+         var token2 = environment.tokens()[2]; // X-Wing.
+         var agent = token2.agent();
+         var store = environment.store();
+         var token = new Token(store, Pilot.MIRANDA_DONI, agent);
+         store.dispatch(Action.placeToken(new Position(400, 400, 0), token));
+         var previousManeuver = Maneuver.properties[Maneuver.STRAIGHT_2_EASY];
+         store.dispatch(Action.setTokenManeuver(token, previousManeuver));
+
+         // Run.
+         var result = agent.determineValidShipActions(environment, adjudicator, token);
+
+         // Validate.
+         assert.ok(result);
+         assert.equal(result.length, 6);
+         result.forEach(function(maneuver, i)
+         {
+            LOGGER.info(i + " maneuver = " + maneuver);
+         });
+         assert.equal(result[0].shipActionKey(), ShipAction.FOCUS);
+         assert.ok(result[1]);
+         assert.equal(result[1].maneuverKey(), Maneuver.TURN_LEFT_2_STANDARD);
+
+         assert.ok(result[2]);
+         assert.equal(result[2].maneuverKey(), Maneuver.BANK_LEFT_2_STANDARD);
+
+         assert.ok(result[3]);
+         assert.equal(result[3].maneuverKey(), Maneuver.STRAIGHT_2_EASY);
+
+         assert.ok(result[4]);
+         assert.equal(result[4].maneuverKey(), Maneuver.BANK_RIGHT_2_STANDARD);
+
+         assert.ok(result[5]);
+         assert.equal(result[5].maneuverKey(), Maneuver.TURN_RIGHT_2_STANDARD);
+      });
+
       QUnit.test("getDecloakAction()", function(assert)
       {
          // Setup.
