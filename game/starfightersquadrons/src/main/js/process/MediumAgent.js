@@ -233,13 +233,31 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
 
                if (token.isStressed())
                {
-                  // Choose a green maneuver.
-                  var greenManeuvers = validManeuvers.filter(function(maneuverKey)
+                  // Choose an easy maneuver.
+                  var easyManeuvers = validManeuvers.filter(function(maneuverKey)
                   {
-                     return Maneuver.properties[maneuverKey].difficultyKey === Difficulty.GREEN;
+                     return Maneuver.properties[maneuverKey].difficultyKey === Difficulty.EASY;
                   });
 
-                  myManeuver = greenManeuvers.vizziniRandomElement();
+                  var intersection = easyManeuvers.vizziniIntersect(validManeuversR1);
+                  myManeuver = intersection.vizziniRandomElement();
+
+                  if (!myManeuver)
+                  {
+                     intersection = easyManeuvers.vizziniIntersect(validManeuversR2);
+                     myManeuver = intersection.vizziniRandomElement();
+                  }
+
+                  if (!myManeuver)
+                  {
+                     intersection = easyManeuvers.vizziniIntersect(validManeuversR3);
+                     myManeuver = intersection.vizziniRandomElement();
+                  }
+
+                  if (!myManeuver)
+                  {
+                     myManeuver = easyManeuvers.vizziniRandomElement();
+                  }
                }
 
                if (!myManeuver)

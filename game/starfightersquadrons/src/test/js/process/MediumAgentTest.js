@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SquadBuilder", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SquadBuilder, MockAttackDice, MockDefenseDice)
+define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SquadBuilder", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Difficulty, Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SquadBuilder, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("MediumAgent");
@@ -232,6 +232,38 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.ok(result[token1]);
             assert.ok(!result[token2]);
          }
+
+         // Run.
+         agent.getPlanningAction(environment, adjudicator, callback);
+      });
+
+      QUnit.test("getPlanningAction() Imperial stressed", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent");
+         var store = environment.store();
+         var adjudicator = new Adjudicator();
+         var tokens = environment.tokens();
+         var token0 = tokens[0];
+         var agent = token0.agent();
+         store.dispatch(Action.addStressCount(token0));
+         var token1 = tokens[1];
+         store.dispatch(Action.addStressCount(token1));
+         var token2 = tokens[2];
+         var callback = function(planningAction)
+         {
+            // Verify.
+            assert.ok(planningAction);
+            assert.ok(planningAction[token0]);
+            assert.equal(Maneuver.properties[planningAction[token0]].difficultyKey, Difficulty.EASY);
+            assert.ok(planningAction[token1]);
+            assert.equal(Maneuver.properties[planningAction[token1]].difficultyKey, Difficulty.EASY);
+            assert.ok(!planningAction[token2]);
+         };
+
+         assert.ok(token0.isStressed());
+         assert.ok(token1.isStressed());
+         assert.ok(!token2.isStressed());
 
          // Run.
          agent.getPlanningAction(environment, adjudicator, callback);
