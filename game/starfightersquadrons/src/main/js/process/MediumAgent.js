@@ -159,17 +159,15 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
             var tokens = environment.getTokensForTeam(team);
             var defenders = environment.getDefenders(team);
             var tokenToManeuver = {};
-            var store = environment.store();
+            var playFormatKey = environment.playFormatKey();
 
             tokens.forEach(function(token)
             {
                var fromPosition = environment.getPositionFor(token);
                var shipBase = token.pilot().shipTeam.ship.shipBase;
-               var maneuverKeys = token.maneuverKeys();
-               LOGGER.trace("maneuverKeys.length = " + maneuverKeys.length + " for " + token);
 
                // Find the maneuvers which keep the ship on the battlefield.
-               var validManeuvers = [];
+               var validManeuvers = SimpleAgent.prototype.determineValidManeuvers.call(this, environment, token);
                var closestManeuver;
                var minDistance;
 
@@ -178,56 +176,48 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
                var validManeuversR2 = [];
                var validManeuversR3 = [];
 
-               maneuverKeys.forEach(function(maneuverKey)
+               validManeuvers.forEach(function(maneuverKey)
                {
                   var maneuver = Maneuver.properties[maneuverKey];
-                  var toPosition = ManeuverComputer.computeToPosition(environment.playFormatKey(), maneuver,
-                     fromPosition, shipBase);
+                  var toPosition = ManeuverComputer.computeToPosition(playFormatKey, maneuver, fromPosition, shipBase);
+                  var weapon = token.primaryWeapon();
 
-                  if (toPosition &&
-                     PlayFormat.isPathInPlayArea(environment.playFormatKey(), ManeuverComputer.computePolygon(
-                        shipBase, toPosition.x(), toPosition.y(), toPosition.heading())))
+                  if (weapon)
                   {
-                     validManeuvers.push(maneuverKey);
-                     var weapon = token.primaryWeapon();
-
-                     if (weapon)
+                     for (var i = 0; i < defenders.length; i++)
                      {
-                        for (var i = 0; i < defenders.length; i++)
+                        var defender = defenders[i];
+                        var defenderPosition = environment.getPositionFor(defender);
+
+                        // Save the maneuver which has the minimum distance.
+                        var distance = toPosition.computeDistance(defenderPosition);
+
+                        if (!minDistance || distance < minDistance)
                         {
-                           var defender = defenders[i];
-                           var defenderPosition = environment.getPositionFor(defender);
+                           closestManeuver = maneuverKey;
+                           minDistance = distance;
+                        }
 
-                           // Save the maneuver which has the minimum distance.
-                           var distance = toPosition.computeDistance(defenderPosition);
+                        if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
+                        {
+                           var range = RangeRuler.getRange(token, toPosition, defender, defenderPosition);
 
-                           if (!minDistance || distance < minDistance)
+                           switch (range)
                            {
-                              closestManeuver = maneuverKey;
-                              minDistance = distance;
-                           }
-
-                           if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))
-                           {
-                              var range = RangeRuler.getRange(token, toPosition, defender, defenderPosition);
-
-                              if (range === RangeRuler.ONE)
-                              {
+                              case RangeRuler.ONE:
                                  validManeuversR1.push(maneuverKey);
-                              }
-                              else if (range === RangeRuler.TWO)
-                              {
+                                 break;
+                              case RangeRuler.TWO:
                                  validManeuversR2.push(maneuverKey);
-                              }
-                              else if (range === RangeRuler.THREE)
-                              {
+                                 break;
+                              case RangeRuler.THREE:
                                  validManeuversR3.push(maneuverKey);
-                              }
+                                 break;
                            }
                         }
                      }
                   }
-               });
+               }, this);
 
                var myManeuver;
 
@@ -242,65 +232,58 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
                   var intersection = easyManeuvers.vizziniIntersect(validManeuversR1);
                   myManeuver = intersection.vizziniRandomElement();
 
-                  if (!myManeuver)
+                  if (myManeuver === undefined)
                   {
                      intersection = easyManeuvers.vizziniIntersect(validManeuversR2);
                      myManeuver = intersection.vizziniRandomElement();
-                  }
 
-                  if (!myManeuver)
-                  {
-                     intersection = easyManeuvers.vizziniIntersect(validManeuversR3);
-                     myManeuver = intersection.vizziniRandomElement();
-                  }
+                     if (myManeuver === undefined)
+                     {
+                        intersection = easyManeuvers.vizziniIntersect(validManeuversR3);
+                        myManeuver = intersection.vizziniRandomElement();
 
-                  if (!myManeuver)
-                  {
-                     myManeuver = easyManeuvers.vizziniRandomElement();
+                        if (myManeuver === undefined)
+                        {
+                           myManeuver = easyManeuvers.vizziniRandomElement();
+                        }
+                     }
                   }
                }
 
-               if (!myManeuver)
+               if (myManeuver === undefined)
                {
-                  LOGGER.trace("validManeuversR1.length = " + validManeuversR1.length + " for " + token);
                   myManeuver = validManeuversR1.vizziniRandomElement();
-               }
 
-               if (!myManeuver)
-               {
-                  LOGGER.trace("validManeuversR2.length = " + validManeuversR2.length + " for " + token);
-                  myManeuver = validManeuversR2.vizziniRandomElement();
-               }
+                  if (myManeuver === undefined)
+                  {
+                     myManeuver = validManeuversR2.vizziniRandomElement();
 
-               if (!myManeuver)
-               {
-                  LOGGER.trace("validManeuversR3.length = " + validManeuversR3.length + " for " + token);
-                  myManeuver = validManeuversR3.vizziniRandomElement();
-               }
+                     if (myManeuver === undefined)
+                     {
+                        myManeuver = validManeuversR3.vizziniRandomElement();
 
-               if (!myManeuver && closestManeuver)
-               {
-                  LOGGER.trace("closestManeuver = " + closestManeuver + " for " + token);
-                  myManeuver = closestManeuver;
-               }
+                        if (myManeuver === undefined)
+                        {
+                           myManeuver = closestManeuver;
 
-               if (!myManeuver)
-               {
-                  LOGGER.trace("validManeuvers.length = " + validManeuvers.length + " for " + token);
-                  myManeuver = validManeuvers.vizziniRandomElement();
-               }
+                           if (myManeuver === undefined)
+                           {
+                              myManeuver = validManeuvers.vizziniRandomElement();
 
-               LOGGER.trace("0 myManeuver = " + myManeuver + " for " + token);
-
-               if (!myManeuver)
-               {
-                  // The ship fled the battlefield.
-                  myManeuver = maneuverKeys.vizziniRandomElement();
-                  LOGGER.trace("1 myManeuver = " + myManeuver + " for " + token);
+                              if (myManeuver === undefined)
+                              {
+                                 // The ship fled the battlefield.
+                                 var maneuverKeys = token.maneuverKeys();
+                                 myManeuver = maneuverKeys.vizziniRandomElement();
+                              }
+                           }
+                        }
+                     }
+                  }
                }
 
                tokenToManeuver[token] = myManeuver;
-            });
+            }, this);
 
             callback(tokenToManeuver);
          },

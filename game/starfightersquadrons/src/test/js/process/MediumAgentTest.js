@@ -17,7 +17,7 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
       QUnit.test("chooseWeaponAndDefender() Imperial", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent", "MediumAgent");
          var adjudicator = new Adjudicator();
          var name = "myAgent";
          var team = Team.IMPERIAL;
@@ -205,33 +205,23 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
       QUnit.test("getPlanningAction() Imperial", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent");
+         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent", "MediumAgent");
          var adjudicator = new Adjudicator();
-         var agent = new MediumAgent("myAgent", Team.IMPERIAL);
-
-         var position0 = new Position(305, 20, 90);
-         var token0 = environment.getTokenAt(position0);
-
-         var position1 = new Position(610, 20, 90);
-         var token1 = environment.getTokenAt(position1);
-
-         var position2 = new Position(458, 895, -90);
-         var token2 = environment.getTokenAt(position2);
-
-         var result;
-         var caller = {};
-
-         function callback(planningAction)
+         var tokens = environment.tokens();
+         var token0 = tokens[0];
+         var agent = token0.agent();
+         var token1 = tokens[1];
+         var token2 = tokens[2];
+         var callback = function(planningAction)
          {
-            LOGGER.debug("callback()");
-            result = planningAction;
-
             // Verify.
-            assert.ok(result);
-            assert.ok(result[token0]);
-            assert.ok(result[token1]);
-            assert.ok(!result[token2]);
-         }
+            assert.ok(planningAction);
+            assert.ok(planningAction[token0]);
+            assert.equal(planningAction[token0], "straight5Standard");
+            assert.ok(planningAction[token1]);
+            assert.equal(planningAction[token1], "straight5Standard");
+            assert.ok(!planningAction[token2]);
+         };
 
          // Run.
          agent.getPlanningAction(environment, adjudicator, callback);
@@ -240,7 +230,7 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
       QUnit.test("getPlanningAction() Imperial stressed", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent");
+         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent", "MediumAgent");
          var store = environment.store();
          var adjudicator = new Adjudicator();
          var tokens = environment.tokens();
@@ -272,39 +262,23 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
       QUnit.test("getPlanningAction() Rebel", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent", "MediumAgent");
          var adjudicator = new Adjudicator();
-         var name = "myAgent";
-         var team = Team.REBEL;
-         var squadBuilder = SquadBuilder.CoreSetRebelSquadBuilder;
-         var agent = new MediumAgent(name, team);
+         var tokens = environment.tokens();
+         var token0 = tokens[0];
+         var token1 = tokens[1];
+         var token2 = tokens[2];
+         var agent = token2.agent();
 
-         var position0 = new Position(305, 20, 90);
-         var token0 = environment.getTokenAt(position0);
-         var maneuver0 = Maneuver.STRAIGHT_1_STANDARD;
-
-         var position1 = new Position(610, 20, 90);
-         var token1 = environment.getTokenAt(position1);
-         var maneuver1 = Maneuver.STRAIGHT_1_STANDARD;
-
-         var position2 = new Position(458, 895, -90);
-         var token2 = environment.getTokenAt(position2);
-         var maneuver2 = Maneuver.STRAIGHT_1_STANDARD;
-
-         var result;
-         var caller = {};
-
-         function callback(planningAction)
+         var callback = function(planningAction)
          {
-            LOGGER.debug("callback()");
-            result = planningAction;
-
             // Verify.
-            assert.ok(result);
-            assert.ok(!result[token0]);
-            assert.ok(!result[token1]);
-            assert.ok(result[token2]);
-         }
+            assert.ok(planningAction);
+            assert.ok(!planningAction[token0]);
+            assert.ok(!planningAction[token1]);
+            assert.ok(planningAction[token2]);
+            assert.equal(planningAction[token2], "straight4Standard");
+         };
 
          // Run.
          agent.getPlanningAction(environment, adjudicator, callback);
@@ -313,23 +287,21 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
       QUnit.test("getPlanningAction() Rebel 2", function(assert)
       {
          // Setup.
-         var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent", "MediumAgent");
          var adjudicator = new Adjudicator();
-         var agent = new MediumAgent("myAgent", Team.REBEL);
-
          var oldPosition = new Position(458, 895, -90);
          var newPosition = new Position(20, 110, -90);
          var token = environment.getTokenAt(oldPosition);
          environment.removeToken(oldPosition);
          environment.placeToken(newPosition, token);
-
-         function callback(planningAction)
+         var agent = token.agent();
+         var callback = function(planningAction)
          {
             // Verify.
             assert.ok(planningAction);
             assert.ok(planningAction[token]);
             assert.equal(planningAction[token], Maneuver.TURN_RIGHT_2_STANDARD);
-         }
+         };
 
          // Run.
          agent.getPlanningAction(environment, adjudicator, callback);
