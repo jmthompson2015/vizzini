@@ -184,18 +184,23 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
 
                   if (weapon)
                   {
+                     var firingArc = weapon.primaryFiringArc();
+
                      for (var i = 0; i < defenders.length; i++)
                      {
                         var defender = defenders[i];
                         var defenderPosition = environment.getPositionFor(defender);
 
-                        // Save the maneuver which has the minimum distance.
-                        var distance = toPosition.computeDistance(defenderPosition);
-
-                        if (!minDistance || distance < minDistance)
+                        if (weapon.isDefenderInFiringArc(toPosition, firingArc, defender, defenderPosition))
                         {
-                           closestManeuver = maneuverKey;
-                           minDistance = distance;
+                           // Save the maneuver which has the minimum distance.
+                           var distance = toPosition.computeDistance(defenderPosition);
+
+                           if (!minDistance || distance < minDistance)
+                           {
+                              closestManeuver = maneuverKey;
+                              minDistance = distance;
+                           }
                         }
 
                         if (weapon.isDefenderTargetable(token, toPosition, defender, defenderPosition))

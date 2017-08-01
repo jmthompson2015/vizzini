@@ -1,5 +1,5 @@
-define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/SquadBuilder", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Difficulty, Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, SquadBuilder, MockAttackDice, MockDefenseDice)
+define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Difficulty, Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, Squad, SquadBuilder, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("MediumAgent");
@@ -305,6 +305,37 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
 
          // Run.
          agent.getPlanningAction(environment, adjudicator, callback);
+      });
+
+      QUnit.test("getPlanningAction() IG-88A", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var imageBase = "../../../main/resources/images/";
+         var firstAgent = EnvironmentFactory.createAgent("MediumAgent", "First Agent", Team.IMPERIAL, imageBase);
+         var firstTokens = [new Token(store, Pilot.MAULER_MITHEL, firstAgent)];
+         var firstSquad = new Squad(Team.IMPERIAL, "First Squad", 2017, "description", firstTokens);
+         var secondAgent = EnvironmentFactory.createAgent("MediumAgent", "Second Agent", Team.SCUM, imageBase);
+         var secondTokens = [new Token(store, Pilot.IG_88A, secondAgent)];
+         var secondSquad = new Squad(Team.SCUM, "Second Squad", 2017, "description", secondTokens);
+         var environment = new Environment(store, firstAgent.teamKey(), secondAgent.teamKey());
+         environment.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
+         console.log("environment.tokens() = " + environment.tokens());
+         var token = environment.tokens()[1];
+         var adjudicator = new Adjudicator();
+         var callback = function(tokenToManeuver)
+         {
+            // Verify.
+            assert.ok(tokenToManeuver);
+            console.log("tokenToManeuver = " + JSON.stringify(tokenToManeuver));
+            console.log("token = " + token);
+            assert.ok(tokenToManeuver[token]);
+            console.log("tokenToManeuver[token] = " + tokenToManeuver[token]);
+            assert.equal(tokenToManeuver[token], Maneuver.STRAIGHT_3_EASY);
+         };
+
+         // Run.
+         secondAgent.getPlanningAction(environment, adjudicator, callback);
       });
 
       QUnit.test("toString()", function(assert)
