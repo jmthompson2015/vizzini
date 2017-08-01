@@ -53,6 +53,71 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
       // of the same name from SimpleAgent.prototype.
       Vizzini.extend(MediumAgent.prototype,
       {
+         chooseWeaponAndDefender: function(environment, adjudicator, attacker, callback)
+         {
+            InputValidator.validateNotNull("environment", environment);
+            InputValidator.validateNotNull("adjudicator", adjudicator);
+            InputValidator.validateNotNull("attacker", attacker);
+            InputValidator.validateNotNull("callback", callback);
+
+            var weapon, defender;
+            var attackerPosition = environment.getPositionFor(attacker);
+
+            if (attackerPosition)
+            {
+               var choices = environment.createWeaponToRangeToDefenders(attacker);
+
+               if (choices.length > 0)
+               {
+                  // Choose strongest weapon.
+                  var weaponData, maxWeaponStrength;
+
+                  choices.forEach(function(myWeaponData)
+                  {
+                     var weaponValue = myWeaponData.weapon.weaponValue();
+
+                     if (maxWeaponStrength === undefined || weaponValue > maxWeaponStrength)
+                     {
+                        weaponData = myWeaponData;
+                        weapon = myWeaponData.weapon;
+                        maxWeaponStrength = weaponValue;
+                     }
+                     else if (weaponValue === maxWeaponStrength &&
+                        (myWeaponData.weapon.upgrade() === undefined || myWeaponData.weapon.upgrade().isImplemented) &&
+                        // attacker.primaryWeapon() !== myWeaponData.weapon &&
+                        Math.random() >= 0.5)
+                     {
+                        weaponData = myWeaponData;
+                        weapon = myWeaponData.weapon;
+                        maxWeaponStrength = weaponValue;
+                     }
+                  });
+
+                  // Choose weakest defender.
+                  var rangeToDefenders = weaponData.rangeToDefenders;
+                  var minHullShield;
+
+                  rangeToDefenders.forEach(function(rangeData)
+                  {
+                     var defenders = rangeData.defenders;
+
+                     defenders.forEach(function(myDefender)
+                     {
+                        var hullShield = myDefender.hullValue() + myDefender.shieldValue();
+
+                        if (minHullShield === undefined || hullShield < minHullShield)
+                        {
+                           defender = myDefender;
+                           minHullShield = hullShield;
+                        }
+                     });
+                  });
+               }
+            }
+
+            callback(weapon, defender);
+         },
+
          getModifyAttackDiceAction: function(store, adjudicator, attacker, defender, callback)
          {
             // Maximize the hits and critical hits.

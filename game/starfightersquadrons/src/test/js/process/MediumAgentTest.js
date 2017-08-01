@@ -1,5 +1,5 @@
-define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Difficulty, Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, Squad, SquadBuilder, Token, MockAttackDice, MockDefenseDice)
+define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/MediumAgent", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/Squad", "process/SquadBuilder", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Difficulty, Maneuver, Pilot, Position, Team, UpgradeCard, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, MediumAgent, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, Squad, SquadBuilder, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("MediumAgent");
@@ -56,6 +56,33 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
 
          // Run.
          agent.chooseWeaponAndDefender(environment, adjudicator, token0, callback);
+      });
+
+      QUnit.test("chooseWeaponAndDefender() Rebel", function(assert)
+      {
+         // Setup.
+         var environment = EnvironmentFactory.createCoreSetEnvironment(undefined, "MediumAgent", "MediumAgent");
+         var store = environment.store();
+         var adjudicator = new Adjudicator();
+         var oldPosition0 = new Position(305, 20, 90);
+         var position0 = new Position(458, 695, 90);
+         store.dispatch(Action.moveToken(oldPosition0, position0));
+         var token0 = environment.tokens()[0];
+         var token2 = environment.tokens()[2];
+         var targetLock = new TargetLock(store, token2.id(), token0.id());
+         var agent = token2.agent();
+
+         var callback = function(weapon, defender)
+         {
+            // Verify.
+            assert.ok(weapon);
+            assert.equal(weapon, token2.secondaryWeapons()[0]);
+            assert.ok(defender);
+            assert.equal(defender, token0);
+         };
+
+         // Run.
+         agent.chooseWeaponAndDefender(environment, adjudicator, token2, callback);
       });
 
       QUnit.test("getModifyAttackDiceAction() focus", function(assert)
