@@ -1129,6 +1129,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             pilotSkillValue: 9,
             squadPointCost: 28,
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO],
+            isImplemented: true,
             value: "fennRau",
          },
          "fourLom":

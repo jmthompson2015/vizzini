@@ -438,6 +438,11 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
                answer++;
             }
 
+            if (this.pilotKey() === Pilot.FENN_RAU && rangeKey === RangeRuler.ONE)
+            {
+               answer++;
+            }
+
             if (this.pilotKey() === Pilot.KAVIL)
             {
                firingArc = weapon.primaryFiringArc();
@@ -496,6 +501,11 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
             {
                answer++;
             }
+         }
+
+         if (this.pilotKey() === Pilot.FENN_RAU && rangeKey === RangeRuler.ONE)
+         {
+            answer++;
          }
 
          if (this.pilotKey() === Pilot.GRAZ_THE_HUNTER)
