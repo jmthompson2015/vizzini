@@ -180,6 +180,22 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          },
       };
 
+      UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.EXPERTISE] = {
+         // When attacking, if you are not stressed, you may change all of your focus results to hit results.
+         condition: function(store, token)
+         {
+            var attacker = getActiveToken(store);
+            var attackDice = getAttackDice(attacker);
+            return token === attacker && !token.isStressed() && attackDice.focusCount() > 0;
+         },
+         consequent: function(store, token, callback)
+         {
+            var attackDice = getAttackDice(token);
+            attackDice.changeAllToValue(AttackDice.Value.FOCUS, AttackDice.Value.HIT);
+            if (callback !== undefined) callback();
+         },
+      };
+
       UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.EZRA_BRIDGER] = {
          // When attacking, if you are stressed, you may change 1 of your Focus results to a Critical Hit result.
          condition: function(store, token)

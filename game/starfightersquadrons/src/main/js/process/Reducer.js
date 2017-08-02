@@ -1083,10 +1083,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   {
                      newValue++;
                   }
-                  if (token && token.isUpgradedWith(UpgradeCard.PUNISHING_ONE))
-                  {
-                     newValue++;
-                  }
                   break;
                case Value.AGILITY:
                   if (isCloaked)

@@ -1188,6 +1188,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                typeKey: UpgradeType.ELITE,
                description: "When attacking, if you are not stressed, you may change all of your focus results to hit results.",
                squadPointCost: 4,
+               isImplemented: true,
                value: "expertise",
             },
             "expose":
@@ -2250,6 +2251,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isUnique: true,
                restrictionKeys: [UpgradeRestriction.JUMPMASTER_5000_ONLY],
                description: "Increase your primary weapon value by 1.",
+               primaryWeaponValue: 1,
                squadPointCost: 12,
                isImplemented: true,
                value: "punishingOne",
