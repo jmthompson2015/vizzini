@@ -295,6 +295,26 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          },
       };
 
+      UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.JESS_PAVA] = {
+         // When attacking or defending, you may reroll 1 of your dice for each other friendly ship at Range 1.
+         condition: function(store, token)
+         {
+            var attacker = getActiveToken(store);
+            var attackDice = getAttackDice(token);
+            var environment = getEnvironment(store);
+            var friendlyCount = environment.getFriendlyTokensAtRange(attacker, RangeRuler.ONE).length;
+            return token === attacker && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0) && friendlyCount > 0;
+         },
+         consequent: function(store, token, callback)
+         {
+            var attackDice = getAttackDice(token);
+            var environment = getEnvironment(store);
+            var friendlyCount = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE).length;
+            attackDice.rerollBlankAndFocus(friendlyCount);
+            if (callback !== undefined) callback();
+         },
+      };
+
       UpgradeAbility3[Phase.COMBAT_MODIFY_ATTACK_DICE][UpgradeCard.LONE_WOLF] = {
          // When attacking or defending, if there are no friendly ships at Range 1-2, you may reroll 1 of your blank results.
          condition: function(store, token)
@@ -538,6 +558,27 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
             {
                defenseDice.rerollFocus();
             }
+            if (callback !== undefined) callback();
+         },
+      };
+
+      UpgradeAbility3[Phase.COMBAT_MODIFY_DEFENSE_DICE][UpgradeCard.JESS_PAVA] = {
+         // When attacking or defending, you may reroll 1 of your dice for each other friendly ship at Range 1.
+         condition: function(store, token)
+         {
+            var attacker = getActiveToken(store);
+            var defender = getDefender(attacker);
+            var defenseDice = getDefenseDice(attacker);
+            var environment = getEnvironment(store);
+            var friendlyCount = environment.getFriendlyTokensAtRange(defender, RangeRuler.ONE).length;
+            return token === defender && (defenseDice.blankCount() > 0 || defenseDice.focusCount() > 0) && friendlyCount > 0;
+         },
+         consequent: function(store, token, callback)
+         {
+            var defenseDice = getDefenseDice(token);
+            var environment = getEnvironment(store);
+            var friendlyCount = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE).length;
+            defenseDice.rerollBlankAndFocus(friendlyCount);
             if (callback !== undefined) callback();
          },
       };
@@ -1165,6 +1206,13 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          var store = attacker.store();
 
          return DefenseDice.get(store, attacker.id());
+      }
+
+      function getEnvironment(store)
+      {
+         InputValidator.validateNotNull("store", store);
+
+         return Selector.environment(store.getState());
       }
 
       function getRangeKey(attacker)

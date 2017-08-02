@@ -1528,6 +1528,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             pilotSkillValue: 3,
             squadPointCost: 25,
             upgradeTypeKeys: [UpgradeType.TORPEDO, UpgradeType.ASTROMECH, UpgradeType.TECH],
+            isImplemented: true,
             value: "jessPava",
          },
          "junoEclipse":
