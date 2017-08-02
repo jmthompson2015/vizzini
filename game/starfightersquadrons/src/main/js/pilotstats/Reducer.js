@@ -1,114 +1,121 @@
-define(["pilotstats/Action", "pilotstats/DefaultFilters", "pilotstats/InitialState"], function(Action, DefaultFilters, InitialState)
-{
-    "use strict";
-    var Reducer = {};
+define(["pilotstats/Action", "pilotstats/DefaultFilters", "pilotstats/InitialState"],
+   function(Action, DefaultFilters, InitialState)
+   {
+      "use strict";
+      var Reducer = {};
 
-    Reducer.root = function(state, action)
-    {
-        LOGGER.debug("root() type = " + action.type);
+      Reducer.root = function(state, action)
+      {
+         LOGGER.debug("root() type = " + action.type);
 
-        if (typeof state === 'undefined')
-        {
+         if (typeof state === 'undefined')
+         {
             return new InitialState();
-        }
+         }
 
-        var newFilters, newFilteredPilotData;
+         var newFilters, newFilteredPilotData;
 
-        switch (action.type)
-        {
+         switch (action.type)
+         {
             case Action.REMOVE_FILTERS:
-                newFilteredPilotData = [];
-                newFilteredPilotData.vizziniAddAll(state.pilotData);
-                return Object.assign(
-                {}, state,
-                {
-                    filteredPilotData: newFilteredPilotData,
-                });
+               newFilteredPilotData = [];
+               newFilteredPilotData.vizziniAddAll(state.pilotData);
+               return Object.assign(
+               {}, state,
+               {
+                  filteredPilotData: newFilteredPilotData,
+               });
             case Action.SET_DEFAULT_FILTERS:
-                newFilters = DefaultFilters.create();
-                return Object.assign(
-                {}, state,
-                {
-                    filters: newFilters,
-                });
+               newFilters = DefaultFilters.create();
+               return Object.assign(
+               {}, state,
+               {
+                  filters: newFilters,
+               });
             case Action.SET_FILTERS:
-                LOGGER.debug("Reducer filters = ");
-                Object.getOwnPropertyNames(action.filters).forEach(function(propertyName)
-                {
-                    LOGGER.debug(propertyName + ": " + action.filters[propertyName]);
-                });
-                newFilters = Object.assign(
-                {}, state.filters);
-                Object.vizziniMerge(newFilters, action.filters);
-                newFilteredPilotData = Reducer.filterPilotData(state.pilotData, newFilters);
-                Reducer.saveToLocalStorage(newFilters);
-                return Object.assign(
-                {}, state,
-                {
-                    filters: newFilters,
-                    filteredPilotData: newFilteredPilotData,
-                });
+               LOGGER.debug("Reducer filters = ");
+               Object.getOwnPropertyNames(action.filters).forEach(function(propertyName)
+               {
+                  LOGGER.debug(propertyName + ": " + action.filters[propertyName]);
+               });
+               newFilters = Object.assign(
+               {}, state.filters);
+               Object.vizziniMerge(newFilters, action.filters);
+               newFilteredPilotData = Reducer.filterPilotData(state.pilotData, newFilters);
+               Reducer.saveToLocalStorage(newFilters);
+               return Object.assign(
+               {}, state,
+               {
+                  filters: newFilters,
+                  filteredPilotData: newFilteredPilotData,
+               });
+            case Action.TOGGLE_FILTER_SHOWN:
+               return Object.assign(
+               {}, state,
+               {
+                  isFilterShown: !state.isFilterShown,
+               });
             default:
-                LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
-                return state;
-        }
-    };
+               LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
+               return state;
+         }
+      };
 
-    Reducer.filterPilotData = function(pilotData, filters)
-    {
-        InputValidator.validateNotNull("pilotData", pilotData);
-        InputValidator.validateNotNull("filters", filters);
+      Reducer.filterPilotData = function(pilotData, filters)
+      {
+         InputValidator.validateNotNull("pilotData", pilotData);
+         InputValidator.validateNotNull("filters", filters);
 
-        var answer = [];
+         var answer = [];
 
-        pilotData.forEach(function(data)
-        {
+         pilotData.forEach(function(data)
+         {
             if (Reducer.passes(data, filters))
             {
-                answer.push(data);
+               answer.push(data);
             }
-        });
+         });
 
-        return answer;
-    };
+         return answer;
+      };
 
-    Reducer.passes = function(data, filters)
-    {
-        InputValidator.validateNotNull("data", data);
-        InputValidator.validateNotNull("filters", filters);
+      Reducer.passes = function(data, filters)
+      {
+         InputValidator.validateNotNull("data", data);
+         InputValidator.validateNotNull("filters", filters);
 
-        var answer = true;
-        var propertyNames = Object.getOwnPropertyNames(filters);
+         var answer = true;
+         var propertyNames = Object.getOwnPropertyNames(filters);
 
-        for (var i = 0; i < propertyNames.length; i++)
-        {
+         for (var i = 0; i < propertyNames.length; i++)
+         {
             var propertyName = propertyNames[i];
             var filter = filters[propertyName];
 
             if (!filter.passes(data))
             {
-                answer = false;
-                break;
+               answer = false;
+               break;
             }
-        }
+         }
 
-        return answer;
-    };
+         return answer;
+      };
 
-    Reducer.saveToLocalStorage = function(filters)
-    {
-        InputValidator.validateNotNull("filters", filters);
+      Reducer.saveToLocalStorage = function(filters)
+      {
+         InputValidator.validateNotNull("filters", filters);
 
-        var filterObjects = [];
+         var filterObjects = [];
 
-        Object.getOwnPropertyNames(filters).forEach(function(columnKey)
-        {
+         Object.getOwnPropertyNames(filters).forEach(function(columnKey)
+         {
             var filter = filters[columnKey];
             filterObjects.push(filter.toObject());
-        });
+         });
 
-        localStorage.filters = JSON.stringify(filterObjects);
-    };
+         localStorage.filters = JSON.stringify(filterObjects);
+      };
 
-    return Reducer;
-});
+      return Reducer;
+   });

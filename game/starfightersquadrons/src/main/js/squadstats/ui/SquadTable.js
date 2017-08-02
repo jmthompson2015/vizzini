@@ -1,5 +1,5 @@
-define(["Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstats/ui/FilterUI", "process/ui/FactionUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
-   function(Team, SquadColumns, Connector, FilterUI, FactionUI, DataTable)
+define(["Team", "squadstats/Action", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstats/ui/FilterUI", "process/ui/FactionUI", "../../../../../../../coreweb/src/main/js/ui/DataTable"],
+   function(Team, Action, SquadColumns, Connector, FilterUI, FactionUI, DataTable)
    {
       "use strict";
 
@@ -50,12 +50,18 @@ define(["Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstat
 
          propTypes:
          {
+            isFilterShown: PropTypes.bool.isRequired,
             filters: PropTypes.object.isRequired,
             rowData: PropTypes.array.isRequired,
          },
 
          render: function()
          {
+            var filterShownButton = React.DOM.button(
+            {
+               onClick: this.toggleFilterShownActionPerformed,
+            }, (this.props.isFilterShown ? "Hide Filter" : "Show Filter"));
+
             var myRowData = [];
 
             this.props.rowData.forEach(function(pilot)
@@ -71,12 +77,6 @@ define(["Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstat
                }
             });
 
-            var connector = ReactRedux.connect(Connector.FilterUI.mapStateToProps)(FilterUI);
-            var filterUI = React.createElement(ReactRedux.Provider,
-            {
-               store: this.context.store,
-            }, React.createElement(connector));
-
             var table = React.createElement(DataTable,
             {
                columns: SquadColumns,
@@ -88,8 +88,25 @@ define(["Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstat
             rows.push(React.DOM.tr(
             {
                key: rows.length,
+               className: "alignLeft",
             }, React.DOM.td(
-            {}, filterUI)));
+            {}, filterShownButton)));
+
+            if (this.props.isFilterShown)
+            {
+               var connector = ReactRedux.connect(Connector.FilterUI.mapStateToProps)(FilterUI);
+               var filterUI = React.createElement(ReactRedux.Provider,
+               {
+                  store: this.context.store,
+               }, React.createElement(connector));
+
+               rows.push(React.DOM.tr(
+               {
+                  key: rows.length,
+               }, React.DOM.td(
+               {}, filterUI)));
+            }
+
             rows.push(React.DOM.tr(
             {
                key: rows.length,
@@ -99,6 +116,13 @@ define(["Team", "squadstats/SquadColumns", "squadstats/ui/Connector", "squadstat
             return React.DOM.table(
             {}, React.DOM.tbody(
             {}, rows));
+         },
+
+         toggleFilterShownActionPerformed: function(event)
+         {
+            LOGGER.trace("SquadTable.toggleFilterShownActionPerformed() start");
+            this.context.store.dispatch(Action.toggleFilterShown());
+            LOGGER.trace("SquadTable.toggleFilterShownActionPerformed() end");
          },
       });
 

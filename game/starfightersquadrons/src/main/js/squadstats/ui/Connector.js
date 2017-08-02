@@ -18,6 +18,7 @@ define(function()
       {
          return (
          {
+            isFilterShown: state.isFilterShown,
             filters: state.filters,
             rowData: state.filteredSquadData,
          });

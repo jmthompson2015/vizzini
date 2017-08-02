@@ -49,6 +49,12 @@ define(["upgradestats/Action", "upgradestats/DefaultFilters", "upgradestats/Init
                   filters: newFilters,
                   filteredUpgradeData: newFilteredUpgradeData,
                });
+            case Action.TOGGLE_FILTER_SHOWN:
+               return Object.assign(
+               {}, state,
+               {
+                  isFilterShown: !state.isFilterShown,
+               });
             default:
                LOGGER.warn("Reducer.root: Unhandled action type: " + action.type);
                return state;

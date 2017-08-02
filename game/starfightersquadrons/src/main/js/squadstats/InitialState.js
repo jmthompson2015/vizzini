@@ -15,6 +15,7 @@ define(["process/SquadBuilder", "squadstats/DefaultFilters", "squadstats/EntityF
             this.filteredSquadData.push(squadData);
          }, this);
 
+         this.isFilterShown = false;
          this.filters = DefaultFilters.create();
          var oldFilters = InitialState.loadFromLocalStorage();
 
