@@ -69,6 +69,14 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
          return answer;
       }));
 
+      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "JMT", 2017, "Decimator; TIE Defender", function(store, agent)
+      {
+         var answer = [];
+         answer.push(new Token(store, Pilot.CAPTAIN_OICUNN, agent, [UpgradeCard.PREDATOR, UpgradeCard.ION_TORPEDOES, UpgradeCard.YSANNE_ISARD, UpgradeCard.MARA_JADE, UpgradeCard.GUNNER, UpgradeCard.ION_PROJECTOR]));
+         answer.push(new Token(store, Pilot.COUNTESS_RYAD, agent, [UpgradeCard.TIE_X7, UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.TWIN_ION_ENGINE_MK_II]));
+         return answer;
+      }));
+
       // Nand Torfs
       // - Dengar (54) + LW + Title + OCR4 + Zuckuss + Countermeasures + Glitterstim
       // - Manaroo (43) + PTL + Gonk + R5-P8 + Engine + Seismic Torpedo + Feedback Array
@@ -224,19 +232,6 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
          return answer;
       }));
 
-      // Jeff Thompson
-      // - Winged Gundark
-      // - Captain Oicunn + Predator + Ysanne Isard + Gunner + Rebel Captive + Engine Upgrade
-      // - Omicron Group Pilot + Darth Vader
-      SquadBuilders.push(new SquadBuilder(Team.IMPERIAL, "JMT", 2016, "Decimator; Lambda-class; TIE Fighter", function(store, agent)
-      {
-         var answer = [];
-         answer.push(new Token(store, Pilot.WINGED_GUNDARK, agent));
-         answer.push(new Token(store, Pilot.CAPTAIN_OICUNN, agent, [UpgradeCard.PREDATOR, UpgradeCard.YSANNE_ISARD, UpgradeCard.GUNNER, UpgradeCard.REBEL_CAPTIVE, UpgradeCard.ENGINE_UPGRADE]));
-         answer.push(new Token(store, Pilot.OMICRON_GROUP_PILOT, agent, [UpgradeCard.DARTH_VADER]));
-         return answer;
-      }));
-
       // Paul Heaver
       // - Poe Dameron + R2‑D2 + Veteran Instincts + Autothrusters
       // - Gold Squadron Pilot + R3‑A2 + BTL‑A4 Y‑wing + Twin Laser Turret
@@ -352,20 +347,6 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
          var answer = [];
          answer.push(new Token(store, Pilot.IG_88B, agent, [UpgradeCard.IG_2000, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.INERTIAL_DAMPENERS, UpgradeCard.AUTOTHRUSTERS]));
          answer.push(new Token(store, Pilot.IG_88C, agent, [UpgradeCard.IG_2000, UpgradeCard.VETERAN_INSTINCTS, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.HEAVY_LASER_CANNON, UpgradeCard.INERTIAL_DAMPENERS, UpgradeCard.AUTOTHRUSTERS]));
-         return answer;
-      }));
-
-      // Kirk Mistr
-      // - IG88B + Flechette Canon; Cartel Spacer
-      // - Binayre Pirate + Cluster Missiles
-      // - Talonbane Cobra + Predator
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "EKM", 2015, "Aggressor; Kihraxz; M3-A; Z-95", function(store, agent)
-      {
-         var answer = [];
-         answer.push(new Token(store, Pilot.IG_88B, agent, [UpgradeCard.FLECHETTE_CANNON]));
-         answer.push(new Token(store, Pilot.TALONBANE_COBRA, agent, [UpgradeCard.PREDATOR]));
-         answer.push(new Token(store, Pilot.CARTEL_SPACER, agent, [UpgradeCard.CALCULATION]));
-         answer.push(new Token(store, Pilot.BINAYRE_PIRATE, agent, [UpgradeCard.CLUSTER_MISSILES]));
          return answer;
       }));
 
@@ -534,18 +515,6 @@ define(["Pilot", "Team", "UpgradeCard", "process/DualToken", "process/Reducer", 
          var answer = [];
          answer.push(new Token(store, Pilot.HAN_SOLO, agent, [UpgradeCard.MILLENNIUM_FALCON, UpgradeCard.DETERMINATION, UpgradeCard.LUKE_SKYWALKER]));
          answer.push(new Token(store, Pilot.CORRAN_HORN, agent, [UpgradeCard.PUSH_THE_LIMIT, UpgradeCard.FIRE_CONTROL_SYSTEM, UpgradeCard.R2_D2]));
-         return answer;
-      }));
-
-      // Thug Life
-      // - Syndicate Thug + BTL-A4 + Ion Cannon Turret + R4 Agromech x4
-      SquadBuilders.push(new SquadBuilder(Team.SCUM, "Thug Life v1", 2014, "Y-Wings x4", function(store, agent)
-      {
-         var answer = [];
-         answer.push(new Token(store, Pilot.SYNDICATE_THUG, agent, [UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.R4_AGROMECH]));
-         answer.push(new Token(store, Pilot.SYNDICATE_THUG, agent, [UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.R4_AGROMECH]));
-         answer.push(new Token(store, Pilot.SYNDICATE_THUG, agent, [UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.R4_AGROMECH]));
-         answer.push(new Token(store, Pilot.SYNDICATE_THUG, agent, [UpgradeCard.BTL_A4_Y_WING, UpgradeCard.ION_CANNON_TURRET, UpgradeCard.R4_AGROMECH]));
          return answer;
       }));
 
