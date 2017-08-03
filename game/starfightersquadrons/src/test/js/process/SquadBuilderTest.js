@@ -210,6 +210,6 @@ define(["Pilot", "Ship", "Team", "process/SimpleAgent", "process/SquadBuilder", 
       {
          var result = SquadBuilder.findByTeam(Team.SCUM);
          assert.ok(result);
-         assert.equal(result.length, 13);
+         assert.equal(result.length, 11);
       });
    });
