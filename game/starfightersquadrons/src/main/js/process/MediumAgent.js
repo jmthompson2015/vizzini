@@ -1,5 +1,5 @@
-define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler", "ShipAction", "process/Action", "process/AttackDice", "process/DefenseDice", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock"],
-   function(Difficulty, Maneuver, ManeuverComputer, PlayFormat, RangeRuler, ShipAction, Action, AttackDice, DefenseDice, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, Selector, SimpleAgent, TargetLock)
+define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler", "ShipAction", "process/Action", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/ModifyAttackDiceAction", "process/ModifyDefenseDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock"],
+   function(Difficulty, Maneuver, ManeuverComputer, PlayFormat, RangeRuler, ShipAction, Action, AttackDice, CombatAction, DefenseDice, ModifyAttackDiceAction, ModifyDefenseDiceAction, Reducer, Selector, SimpleAgent, TargetLock)
    {
       "use strict";
 
@@ -41,6 +41,10 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
             {
                var newTargetLock = new TargetLock(newStore, newAttacker.id(), newDefender.id());
             }
+
+            var oldCombatAction = Selector.combatAction(store.getState(), attacker);
+            var newCombatAction = new CombatAction(newStore, newAttacker, oldCombatAction.weapon(), newDefender, function() {});
+            newStore.dispatch(Action.setTokenCombatAction(newAttacker, newCombatAction));
 
             return newStore;
          };
