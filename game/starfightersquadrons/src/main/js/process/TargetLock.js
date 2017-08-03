@@ -1,5 +1,5 @@
-define(["Event", "process/Action", "process/Selector"],
-   function(Event, Action, Selector)
+define(["Event", "ShipAction", "process/Action", "process/Selector"],
+   function(Event, ShipAction, Action, Selector)
    {
       "use strict";
 
@@ -40,7 +40,7 @@ define(["Event", "process/Action", "process/Selector"],
             });
 
             store.dispatch(Action.addTargetLock(values));
-            store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attackerId));
+            store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attackerId, ShipAction.TARGET_LOCK));
          }
       }
 

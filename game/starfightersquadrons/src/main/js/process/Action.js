@@ -707,16 +707,19 @@ define(["Count"], function(Count)
       return Action.setCount(token, Count.EVADE, value);
    };
 
-   Action.setEvent = function(eventKey, token, callback)
+   Action.setEvent = function(eventKey, token, shipActionKey, callback)
    {
       InputValidator.validateNotNull("eventKey", eventKey);
       InputValidator.validateNotNull("token", token);
+      // shipActionKey optional.
+      // callback optional.
 
       return (
       {
          type: Action.SET_EVENT,
          eventKey: eventKey,
          eventToken: token,
+         eventShipActionKey: shipActionKey,
          eventCallback: callback,
       });
    };

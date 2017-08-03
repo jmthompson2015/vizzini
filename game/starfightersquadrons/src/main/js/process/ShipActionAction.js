@@ -41,6 +41,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          return Maneuver.properties[this.maneuverKey()].bearing.name;
       };
 
+      //////////////////////////////////////////////////////////////////////////
+
       function Boost(environment, token, maneuverKey)
       {
          InputValidator.validateNotNull("environment", environment);
@@ -81,6 +83,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          return "Boost " + parts[parts.length - 1];
       };
 
+      //////////////////////////////////////////////////////////////////////////
+
       function Cloak(store, token)
       {
          InputValidator.validateNotNull("store", store);
@@ -112,6 +116,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          return "Cloak";
       };
 
+      //////////////////////////////////////////////////////////////////////////
+
       function Coordinate(token)
       {
          InputValidator.validateNotNull("token", token);
@@ -136,6 +142,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
       {
          return "Coordinate: " + this.token().name();
       };
+
+      //////////////////////////////////////////////////////////////////////////
 
       function Decloak(environment, token, maneuverKey)
       {
@@ -179,6 +187,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          return "Decloak: " + maneuver.bearing.name + " " + maneuver.speed;
       };
 
+      //////////////////////////////////////////////////////////////////////////
+
       function Evade(store, token)
       {
          InputValidator.validateNotNull("store", store);
@@ -204,13 +214,15 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
       {
          var store = this.store();
          this.store().dispatch(Action.addEvadeCount(this.token()));
-         store.dispatch(Action.setEvent(Event.EVADE_ACTION_PERFORMED, this.token()));
+         store.dispatch(Action.setEvent(Event.SHIP_ACTION_PERFORMED, this.token(), ShipAction.EVADE));
       };
 
       Evade.prototype.toString = function()
       {
          return "Evade";
       };
+
+      //////////////////////////////////////////////////////////////////////////
 
       function Focus(store, token)
       {
@@ -237,13 +249,15 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
       {
          var store = this.store();
          store.dispatch(Action.addFocusCount(this.token()));
-         store.dispatch(Action.setEvent(Event.FOCUS_ACTION_PERFORMED, this.token()));
+         store.dispatch(Action.setEvent(Event.SHIP_ACTION_PERFORMED, this.token(), ShipAction.FOCUS));
       };
 
       Focus.prototype.toString = function()
       {
          return "Focus";
       };
+
+      //////////////////////////////////////////////////////////////////////////
 
       function Jam(store, defender)
       {
@@ -286,6 +300,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          return "Jam: " + this.defender().name();
       };
 
+      //////////////////////////////////////////////////////////////////////////
+
       function Recover(token)
       {
          InputValidator.validateNotNull("token", token);
@@ -317,6 +333,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
          return answer;
       };
+
+      //////////////////////////////////////////////////////////////////////////
 
       function Reinforce(store, token)
       {
@@ -355,6 +373,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
          return answer;
       };
+
+      //////////////////////////////////////////////////////////////////////////
 
       function SAADamageCard(store, token, ability)
       {
@@ -409,6 +429,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          return "Damage Action: " + damage.name;
       };
 
+      //////////////////////////////////////////////////////////////////////////
+
       function SAATargetLock(store, attacker, defender)
       {
          InputValidator.validateNotNull("store", store);
@@ -448,6 +470,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
       {
          return "Target Lock: " + this.defender().name();
       };
+
+      //////////////////////////////////////////////////////////////////////////
 
       function SAAUpgradeCard(store, token, ability)
       {
@@ -506,6 +530,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
          return "Upgrade Action: " + upgrade.name;
       };
+
+      //////////////////////////////////////////////////////////////////////////
 
       function Slam(environment, token, maneuverKey)
       {

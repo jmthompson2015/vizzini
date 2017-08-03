@@ -1,95 +1,91 @@
 define(function()
 {
-    var Event = {
-        AFTER_EXECUTE_MANEUVER: "afterExecuteManeuver",
-        EVADE_ACTION_PERFORMED: "evadeActionPerformed",
-        FOCUS_ACTION_PERFORMED: "focusActionPerformed",
-        RECEIVE_CRITICAL_DAMAGE: "receiveCriticalDamage",
-        RECEIVE_DAMAGE: "receiveDamage",
-        RECEIVE_STRESS: "receiveStress",
-        RECOVER_SHIELD: "recoverShield",
-        REMOVE_SHIELD: "removeShield",
-        REMOVE_STRESS: "removeStress",
-        TARGET_LOCK_ACQUIRED: "targetLockAcquired",
+   var Event = {
+      AFTER_EXECUTE_MANEUVER: "afterExecuteManeuver",
+      RECEIVE_CRITICAL_DAMAGE: "receiveCriticalDamage",
+      RECEIVE_DAMAGE: "receiveDamage",
+      RECEIVE_STRESS: "receiveStress",
+      RECOVER_SHIELD: "recoverShield",
+      REMOVE_SHIELD: "removeShield",
+      REMOVE_STRESS: "removeStress",
+      SHIP_ACTION_PERFORMED: "shipActionPerformed",
+      TARGET_LOCK_ACQUIRED: "targetLockAcquired",
 
-        properties:
-        {
-            "afterExecuteManeuver":
-            {
-                name: "After Execute Maneuver",
-                value: "afterExecuteManeuver",
-            },
-            "evadeActionPerformed":
-            {
-                name: "Evade Action Performed",
-                value: "evadeActionPerformed",
-            },
-            "focusActionPerformed":
-            {
-                name: "Focus Action Performed",
-                value: "focusActionPerformed",
-            },
-            "receiveCriticalDamage":
-            {
-                name: "Receive Critical Damage",
-                value: "receiveCriticalDamage",
-            },
-            "receiveDamage":
-            {
-                name: "Receive Damage",
-                value: "receiveDamage",
-            },
-            "receiveStress":
-            {
-                name: "Receive Stress",
-                value: "receiveStress",
-            },
-            "recoverShield":
-            {
-                name: "Recover Shield",
-                value: "recoverShield",
-            },
-            "removeShield":
-            {
-                name: "Remove Shield",
-                value: "removeShield",
-            },
-            "removeStress":
-            {
-                name: "Remove Stress",
-                value: "removeStress",
-            },
-            "targetLockAcquired":
-            {
-                name: "Target Lock Acquired",
-                value: "targetLockAcquired",
-            },
-        },
+      properties:
+      {
+         "afterExecuteManeuver":
+         {
+            name: "After Execute Maneuver",
+            value: "afterExecuteManeuver",
+         },
+         "receiveCriticalDamage":
+         {
+            name: "Receive Critical Damage",
+            value: "receiveCriticalDamage",
+         },
+         "receiveDamage":
+         {
+            name: "Receive Damage",
+            value: "receiveDamage",
+         },
+         "receiveStress":
+         {
+            name: "Receive Stress",
+            value: "receiveStress",
+         },
+         "recoverShield":
+         {
+            name: "Recover Shield",
+            value: "recoverShield",
+         },
+         "removeShield":
+         {
+            name: "Remove Shield",
+            value: "removeShield",
+         },
+         "removeStress":
+         {
+            name: "Remove Stress",
+            value: "removeStress",
+         },
+         "shipActionPerformed":
+         {
+            name: "Ship Action Performed",
+            value: "shipActionPerformed",
+         },
+         "targetLockAcquired":
+         {
+            name: "Target Lock Acquired",
+            value: "targetLockAcquired",
+         },
+      },
 
-        values: function()
-        {
-            return Object.getOwnPropertyNames(Event.properties);
-        },
-    };
+      values: function()
+      {
+         return Object.getOwnPropertyNames(Event.properties);
+      },
+   };
 
-    Event.createData = function(eventKey, eventToken, eventCallback)
-    {
-        InputValidator.validateNotNull("eventKey", eventKey);
-        InputValidator.validateNotNull("eventToken", eventToken);
-        // eventCallback optional.
+   Event.createData = function(eventKey, eventToken, eventShipActionKey, eventCallback)
+   {
+      InputValidator.validateNotNull("eventKey", eventKey);
+      InputValidator.validateNotNull("eventToken", eventToken);
+      // eventShipActionKey optional.
+      // eventCallback optional.
 
-        return (
-        {
-            eventKey: eventKey,
-            eventToken: eventToken,
-            eventCallback: eventCallback,
-        });
-    };
+      return (
+      {
+         eventKey: eventKey,
+         eventToken: eventToken,
+         eventShipActionKey: eventShipActionKey,
+         eventCallback: eventCallback,
+      });
+   };
 
-    if (Object.freeze)
-    {
-        Object.freeze(Event);
-    }
+   if (Object.freeze)
+   {
+      Object.freeze(Event);
+   }
 
-    return Event;
+   return Event;
 });

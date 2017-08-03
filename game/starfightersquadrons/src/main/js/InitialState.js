@@ -12,6 +12,7 @@ define(["Phase"], function(Phase)
       this.eventData = {
          eventKey: undefined,
          eventToken: undefined,
+         eventShipActionAction: undefined,
          eventCallback: undefined,
       };
       this.playAreaScale = 1.0;
