@@ -257,22 +257,22 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          return answer;
       };
 
-      SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token, shipActions0)
+      SimpleAgent.prototype.determineValidShipActions = function(environment, adjudicator, token, shipActionKeys0)
       {
          InputValidator.validateNotNull("environment", environment);
          InputValidator.validateNotNull("adjudicator", adjudicator);
          InputValidator.validateNotNull("token", token);
 
-         var shipActions = (shipActions0 !== undefined ? shipActions0 : token.shipActions());
+         var shipActionKeys = (shipActionKeys0 !== undefined ? shipActionKeys0 : token.shipActions());
          var answer = [];
          var store = environment.store();
 
-         if (shipActions.includes(ShipAction.FOCUS))
+         if (shipActionKeys.includes(ShipAction.FOCUS))
          {
             answer.push(new ShipActionAction.Focus(store, token));
          }
 
-         if (shipActions.includes(ShipAction.TARGET_LOCK))
+         if (shipActionKeys.includes(ShipAction.TARGET_LOCK))
          {
             var defenders = environment.getDefendersInRange(token);
 
@@ -289,37 +289,37 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             }
          }
 
-         if (shipActions.includes(ShipAction.BARREL_ROLL) &&
+         if (shipActionKeys.includes(ShipAction.BARREL_ROLL) &&
             adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD))
          {
             answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD));
          }
 
-         if (shipActions.includes(ShipAction.BARREL_ROLL) &&
+         if (shipActionKeys.includes(ShipAction.BARREL_ROLL) &&
             adjudicator.canBarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD))
          {
             answer.push(new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD));
          }
 
-         if (shipActions.includes(ShipAction.BOOST) &&
+         if (shipActionKeys.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.BANK_LEFT_1_STANDARD))
          {
             answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD));
          }
 
-         if (shipActions.includes(ShipAction.BOOST) &&
+         if (shipActionKeys.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.STRAIGHT_1_STANDARD))
          {
             answer.push(new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD));
          }
 
-         if (shipActions.includes(ShipAction.BOOST) &&
+         if (shipActionKeys.includes(ShipAction.BOOST) &&
             adjudicator.canBoost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD))
          {
             answer.push(new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD));
          }
 
-         if (shipActions.includes(ShipAction.SLAM))
+         if (shipActionKeys.includes(ShipAction.SLAM))
          {
             var ship = token.pilot().shipTeam.ship;
             var maneuverKeys = ship.maneuverKeys;
@@ -333,17 +333,17 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             });
          }
 
-         if (shipActions.includes(ShipAction.EVADE))
+         if (shipActionKeys.includes(ShipAction.EVADE))
          {
             answer.push(new ShipActionAction.Evade(store, token));
          }
 
-         if (shipActions.includes(ShipAction.CLOAK))
+         if (shipActionKeys.includes(ShipAction.CLOAK))
          {
             answer.push(new ShipActionAction.Cloak(store, token));
          }
 
-         if (shipActions.includes(ShipAction.REINFORCE))
+         if (shipActionKeys.includes(ShipAction.REINFORCE))
          {
             if (token.parent !== undefined)
             {
@@ -364,7 +364,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
 
          var tokens;
 
-         if (shipActions.includes(ShipAction.COORDINATE))
+         if (shipActionKeys.includes(ShipAction.COORDINATE))
          {
             tokens = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE);
             tokens.vizziniAddAll(environment.getFriendlyTokensAtRange(token, RangeRuler.TWO));
@@ -378,7 +378,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             });
          }
 
-         if (shipActions.includes(ShipAction.JAM))
+         if (shipActionKeys.includes(ShipAction.JAM))
          {
             tokens = environment.getUnfriendlyTokensAtRange(token, RangeRuler.ONE);
             tokens.vizziniAddAll(environment.getUnfriendlyTokensAtRange(token, RangeRuler.TWO));
@@ -394,7 +394,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             });
          }
 
-         if (shipActions.includes(ShipAction.RECOVER))
+         if (shipActionKeys.includes(ShipAction.RECOVER))
          {
             if (token.parent !== undefined)
             {
@@ -413,7 +413,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             }
          }
 
-         if (shipActions0 === undefined)
+         if (shipActionKeys0 === undefined)
          {
             var phaseKey = Phase.ACTIVATION_PERFORM_ACTION;
 
@@ -523,16 +523,16 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          callback(tokenToManeuver);
       };
 
-      SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback, shipActions0)
+      SimpleAgent.prototype.getShipAction = function(environment, adjudicator, token, callback, shipActionKeys0)
       {
          InputValidator.validateNotNull("environment", environment);
          InputValidator.validateNotNull("adjudicator", adjudicator);
          InputValidator.validateNotNull("token", token);
-         // shipActions0 optional.
+         // shipActionKeys0 optional.
 
-         var shipActions = this.determineValidShipActions(environment, adjudicator, token, shipActions0);
+         var shipActionKeys = this.determineValidShipActions(environment, adjudicator, token, shipActionKeys0);
 
-         var answer = shipActions.vizziniRandomElement();
+         var answer = shipActionKeys.vizziniRandomElement();
 
          callback(answer);
       };
