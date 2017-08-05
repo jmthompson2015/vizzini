@@ -4,20 +4,13 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
       "use strict";
       QUnit.module("ActivationAction");
 
-      var delay = 1000;
+      var delay = 10;
 
       QUnit.test("doIt() Adrenaline Rush", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.ADRENALINE_RUSH;
-         var action = createActivationAction(upgradeKey);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
             assert.ok(true, "test resumed from async operation");
 
@@ -27,7 +20,12 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.ok(!token.isStressed());
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, undefined, callback);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() Huge", function(assert)
@@ -49,26 +47,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var maneuverKey = Maneuver.STRAIGHT_1_3;
          var callback = function()
          {
-            LOGGER.info("callback() start");
-         };
-         var action = new ActivationAction(store, token.id(), callback);
-         var maneuver = Maneuver.properties[maneuverKey];
-         store.dispatch(Action.setTokenManeuver(token, maneuver));
-         var position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458);
-         assert.equal(position.y(), 96);
-         assert.equal(position.heading(), 90);
-         assert.equal(token.energyCount(), 4);
-         store.dispatch(Action.addEnergyCount(token, -2));
-         assert.equal(token.energyCount(), 2);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             // Execute maneuver.
@@ -88,21 +67,28 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(token.focusCount(), 0);
 
             done();
-         }, delay);
+         };
+         var action = new ActivationAction(store, token.id(), callback, delay);
+         var maneuver = Maneuver.properties[maneuverKey];
+         store.dispatch(Action.setTokenManeuver(token, maneuver));
+         var position = environment.getPositionFor(token);
+         assert.equal(position.x(), 458);
+         assert.equal(position.y(), 96);
+         assert.equal(position.heading(), 90);
+         assert.equal(token.energyCount(), 4);
+         store.dispatch(Action.addEnergyCount(token, -2));
+         assert.equal(token.energyCount(), 2);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() Inertial Dampeners", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.INERTIAL_DAMPENERS;
-         var action = createActivationAction(upgradeKey);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
             assert.ok(true, "test resumed from async operation");
 
@@ -117,23 +103,19 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.ok(token.isStressed());
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, undefined, callback);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() K4 Security Droid", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.K4_SECURITY_DROID;
-         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY);
-         var store = action.store();
-         assert.equal(store.getState().targetLocks.size, 0);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
             assert.ok(true, "test resumed from async operation");
 
@@ -141,7 +123,14 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(store.getState().targetLocks.size, 1);
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY, callback);
+         var store = action.store();
+         assert.equal(store.getState().targetLocks.size, 0);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() Lambda-class Shuttle stationary", function(assert)
@@ -163,23 +152,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var maneuverKey = Maneuver.STATIONARY_0_HARD;
          var callback = function()
          {
-            LOGGER.info("callback() start");
-         };
-         var action = new ActivationAction(store, token.id(), callback);
-         var maneuver = Maneuver.properties[maneuverKey];
-         store.dispatch(Action.setTokenManeuver(token, maneuver));
-         var position = environment.getPositionFor(token);
-         assert.equal(position.x(), 686);
-         assert.equal(position.y(), 40);
-         assert.equal(position.heading(), 90);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             // Execute maneuver.
@@ -196,22 +169,27 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(token.focusCount(), 0);
 
             done();
-         }, 600);
+         };
+         var action = new ActivationAction(store, token.id(), callback, delay);
+         var maneuver = Maneuver.properties[maneuverKey];
+         store.dispatch(Action.setTokenManeuver(token, maneuver));
+         var position = environment.getPositionFor(token);
+         assert.equal(position.x(), 686);
+         assert.equal(position.y(), 40);
+         assert.equal(position.heading(), 90);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() Lightning Reflexes", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.LIGHTNING_REFLEXES;
-         var action = createActivationAction(upgradeKey);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             var environment = action.environment();
@@ -224,23 +202,21 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.ok(token.isStressed());
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, undefined, callback);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() Maneuvering Fins", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.MANEUVERING_FINS;
-         var action = createActivationAction(upgradeKey, Maneuver.TURN_LEFT_2_STANDARD);
-         action.performAction = function() {};
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             var environment = action.environment();
@@ -250,37 +226,51 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(activationAction.maneuverKey(), Maneuver.BANK_LEFT_2_STANDARD);
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, Maneuver.TURN_LEFT_2_STANDARD, callback);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() Outlaw Tech", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.OUTLAW_TECH;
-         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_4_HARD);
-         assert.equal(action.token().focusCount(), 1);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             var token = action.token();
             assert.equal(token.focusCount(), 2);
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_4_HARD, callback);
+         assert.equal(action.token().focusCount(), 1);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() R2-D2", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.R2_D2;
-         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY);
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+
+            var token = action.token();
+            assert.equal(action.token().shieldCount(), 5);
+
+            done();
+         };
+         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY, callback);
          var store = action.environment().store();
          store.dispatch(Action.addShieldCount(action.token(), -1));
          assert.equal(action.token().shieldCount(), 4);
@@ -288,64 +278,50 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          // Run.
          var done = assert.async();
          action.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-
-            var token = action.token();
-            assert.equal(action.token().shieldCount(), 5);
-
-            done();
-         }, delay);
       });
 
       QUnit.test("doIt() R2-D2 at max", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.R2_D2;
-         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY);
-         var store = action.environment().store();
-         // store.dispatch(Action.addShieldCount(action.token(), -1));
-         assert.equal(action.token().shieldCount(), 5);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             var token = action.token();
             assert.equal(action.token().shieldCount(), 5);
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY, callback);
+         var store = action.environment().store();
+         assert.equal(action.token().shieldCount(), 5);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() TIE/x7", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.TIE_X7;
-         var action = createActivationAction(upgradeKey);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             var token = action.token();
             assert.ok(token.evadeCount(), 1);
 
             done();
-         }, delay);
+         };
+         var action = createActivationAction(upgradeKey, undefined, callback);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() X-Wing", function(assert)
@@ -360,23 +336,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
          var callback = function()
          {
-            LOGGER.info("callback() start");
-         };
-         var action = new ActivationAction(store, token.id(), callback);
-         var maneuver = Maneuver.properties[maneuverKey];
-         store.dispatch(Action.setTokenManeuver(token, maneuver));
-         var position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458);
-         assert.equal(position.y(), 895);
-         assert.equal(position.heading(), 270);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             // Execute maneuver.
@@ -393,7 +353,18 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(token.focusCount(), 1);
 
             done();
-         }, delay);
+         };
+         var action = new ActivationAction(store, token.id(), callback, delay);
+         var maneuver = Maneuver.properties[maneuverKey];
+         store.dispatch(Action.setTokenManeuver(token, maneuver));
+         var position = environment.getPositionFor(token);
+         assert.equal(position.x(), 458);
+         assert.equal(position.y(), 895);
+         assert.equal(position.heading(), 270);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
       QUnit.test("doIt() X-Wing K-turn", function(assert)
@@ -408,23 +379,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var maneuverKey = Maneuver.KOIOGRAN_TURN_4_HARD;
          var callback = function()
          {
-            LOGGER.info("callback() start");
-         };
-         var action = new ActivationAction(store, token.id(), callback);
-         var maneuver = Maneuver.properties[maneuverKey];
-         store.dispatch(Action.setTokenManeuver(token, maneuver));
-         var position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458);
-         assert.equal(position.y(), 895);
-         assert.equal(position.heading(), 270);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             // Execute maneuver.
@@ -441,10 +396,21 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(token.focusCount(), 0);
 
             done();
-         }, 600);
+         };
+         var action = new ActivationAction(store, token.id(), callback, delay);
+         var maneuver = Maneuver.properties[maneuverKey];
+         store.dispatch(Action.setTokenManeuver(token, maneuver));
+         var position = environment.getPositionFor(token);
+         assert.equal(position.x(), 458);
+         assert.equal(position.y(), 895);
+         assert.equal(position.heading(), 270);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
 
-      function createActivationAction(upgradeKey, maneuverKey)
+      function createActivationAction(upgradeKey, maneuverKey, callback0)
       {
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
@@ -465,12 +431,12 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
 
          var myManeuverKey = (maneuverKey !== undefined ? maneuverKey : Maneuver.STRAIGHT_3_STANDARD);
 
-         var callback = function()
+         var callback = (callback0 !== undefined ? callback0 : function()
          {
             LOGGER.info("callback() start");
-         };
+         });
 
-         var answer = new ActivationAction(store, token.id(), callback);
+         var answer = new ActivationAction(store, token.id(), callback, delay);
          var maneuver = Maneuver.properties[myManeuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          return answer;
