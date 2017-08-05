@@ -5,27 +5,17 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
    function(DamageCard, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
-      QUnit.module("CombatAction");
+      QUnit.module("CombatAction-1");
 
-      var delay = 1000;
+      var delay = 10;
 
       QUnit.test("CombatAction.doIt() Advanced Homing Missiles", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.ADVANCED_HOMING_MISSILES;
-         var combatAction = createCombatActionRange2(upgradeKey);
-         var environment = combatAction.environment();
-         var store = environment.store();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-
-         // Run.
-         var done = assert.async();
-         combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
@@ -42,37 +32,25 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             }
             assert.ok(!defender.isDestroyed());
             done();
-         }, delay);
+         };
+         var combatAction = createCombatActionRange2(upgradeKey, callback);
+         var environment = combatAction.environment();
+         var store = environment.store();
+         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
       });
 
       QUnit.test("CombatAction.doIt() Advanced Proton Torpedoes", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.ADVANCED_PROTON_TORPEDOES;
-         var combatAction = createCombatAction(upgradeKey);
-         var store = combatAction.store();
-         var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-
-         var attackDice = new MockAttackDice(store, attacker.id());
-         var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-         var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
-         var rebelAgent = attacker.agent();
-         var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
+         var callback = function()
          {
-            callback(count++ === 0 ? modifyAttackDiceAction : null);
-         };
-
-         // Run.
-         var done = assert.async();
-         combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.equal(TargetLock.getFirst(store, attacker.id(), defender.id()), undefined);
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
@@ -88,79 +66,8 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
             assert.equal(defender.hullValue(), 3);
             done();
-         }, delay);
-      });
-
-      QUnit.test("CombatAction.doIt() Assault Missiles", function(assert)
-      {
-         // Setup.
-         var upgradeKey = UpgradeCard.ASSAULT_MISSILES;
-         var combatAction = createCombatActionRange2(upgradeKey);
-         var store = combatAction.store();
-         var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-
-         // Run.
-         var done = assert.async();
-         combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
-            assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(combatAction.executionCount(), 1);
-            assert.equal(attacker.secondaryWeapons().length, 0);
-            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
-
-            assert.ok(!defender.isDestroyed());
-            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
-            assert.equal(defender.hullValue(), 3);
-            done();
-         }, delay);
-      });
-
-      QUnit.test("CombatAction.doIt() Blaster Turret", function(assert)
-      {
-         // Setup.
-         var upgradeKey = UpgradeCard.BLASTER_TURRET;
-         var combatAction = createCombatAction(upgradeKey);
-         var store = combatAction.store();
-         var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-         assert.equal(attacker.focusCount(), 1);
-
-         // Run.
-         var done = assert.async();
-         combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-            assert.equal(combatAction.executionCount(), 1);
-            assert.equal(attacker.focusCount(), 0);
-            assert.ok(attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 1);
-            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
-
-            assert.ok(!defender.isDestroyed());
-            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
-            assert.equal(defender.hullValue(), 3);
-            done();
-         }, delay);
-      });
-
-      QUnit.test("CombatAction.doIt() Cluster Missiles", function(assert)
-      {
-         // Setup.
-         var upgradeKey = UpgradeCard.CLUSTER_MISSILES;
-         var combatAction = createCombatAction(upgradeKey);
+         };
+         var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
@@ -180,10 +87,78 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          // Run.
          var done = assert.async();
          combatAction.doIt();
+      });
 
-         // Verify.
-         setTimeout(function()
+      QUnit.test("CombatAction.doIt() Assault Missiles", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.ASSAULT_MISSILES;
+         var callback = function()
          {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
+            assert.ok(!attacker.isUpgradedWith(upgradeKey));
+            assert.equal(combatAction.executionCount(), 1);
+            assert.equal(attacker.secondaryWeapons().length, 0);
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
+
+            assert.ok(!defender.isDestroyed());
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
+            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
+            assert.equal(defender.hullValue(), 3);
+            done();
+         };
+         var combatAction = createCombatActionRange2(upgradeKey, callback);
+         var store = combatAction.store();
+         var environment = combatAction.environment();
+         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
+      });
+
+      QUnit.test("CombatAction.doIt() Blaster Turret", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.BLASTER_TURRET;
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.equal(combatAction.executionCount(), 1);
+            assert.equal(attacker.focusCount(), 0);
+            assert.ok(attacker.isUpgradedWith(upgradeKey));
+            assert.equal(attacker.secondaryWeapons().length, 1);
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
+
+            assert.ok(!defender.isDestroyed());
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
+            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 1);
+            assert.equal(defender.hullValue(), 3);
+            done();
+         };
+         var combatAction = createCombatAction(upgradeKey, callback);
+         var store = combatAction.store();
+         var environment = combatAction.environment();
+         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         assert.equal(attacker.focusCount(), 1);
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
+      });
+
+      QUnit.test("CombatAction.doIt() Cluster Missiles", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.CLUSTER_MISSILES;
+         var callback = function()
+         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.equal(combatAction.executionCount(), 2);
             assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
@@ -207,14 +182,8 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                assert.ok(!defender.isDestroyed());
             }
             done();
-         }, 2200);
-      });
-
-      QUnit.test("CombatAction.doIt() Concussion Missiles", function(assert)
-      {
-         // Setup.
-         var upgradeKey = UpgradeCard.CONCUSSION_MISSILES;
-         var combatAction = createCombatActionRange2(upgradeKey);
+         };
+         var combatAction = createCombatAction(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
@@ -234,10 +203,15 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          // Run.
          var done = assert.async();
          combatAction.doIt();
+      });
 
-         // Verify.
-         setTimeout(function()
+      QUnit.test("CombatAction.doIt() Concussion Missiles", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.CONCUSSION_MISSILES;
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
@@ -260,26 +234,36 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
                assert.ok(!defender.isDestroyed());
             }
             done();
-         }, delay);
+         };
+         var combatAction = createCombatActionRange2(upgradeKey, callback);
+         var store = combatAction.store();
+         var environment = combatAction.environment();
+         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+         var attackDice = new MockAttackDice(store, attacker.id());
+         var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
+         var pilotKey;
+         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
+         var rebelAgent = attacker.agent();
+         var count = 0;
+         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
+         {
+            callback(count++ === 0 ? modifyAttackDiceAction : null);
+         };
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
       });
 
       QUnit.test("CombatAction.doIt() Flechette Torpedoes", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.FLECHETTE_TORPEDOES;
-         var combatAction = createCombatAction(upgradeKey);
-         var store = combatAction.store();
-         var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-
-         // Run.
-         var done = assert.async();
-         combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
@@ -291,26 +275,25 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(defender.isStressed());
             assert.equal(defender.stressCount(), 1);
             done();
-         }, delay);
-      });
-
-      QUnit.test("CombatAction.doIt() Ion Pulse Missiles", function(assert)
-      {
-         // Setup.
-         var upgradeKey = UpgradeCard.ION_PULSE_MISSILES;
-         var combatAction = createCombatActionRange2(upgradeKey);
+         };
+         var combatAction = createCombatAction(upgradeKey, callback);
+         var store = combatAction.store();
          var environment = combatAction.environment();
-         var store = environment.store();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
          // Run.
          var done = assert.async();
          combatAction.doIt();
+      });
 
-         // Verify.
-         setTimeout(function()
+      QUnit.test("CombatAction.doIt() Ion Pulse Missiles", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.ION_PULSE_MISSILES;
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
@@ -320,31 +303,25 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.equal(defender.criticalDamageCount(), 0);
             assert.equal(defender.ionCount(), 2);
             done();
-         }, delay);
+         };
+         var combatAction = createCombatActionRange2(upgradeKey, callback);
+         var environment = combatAction.environment();
+         var store = environment.store();
+         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
       });
 
       QUnit.test("CombatAction.doIt() Ion Torpedoes", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.ION_TORPEDOES;
-         var combatAction = createCombatActionRange2(upgradeKey);
-         var environment = combatAction.environment();
-         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
-         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
-         var store = environment.store();
-         var defenderPosition = combatAction.defenderPosition();
-         var token2 = new Token(store, Pilot.ACADEMY_PILOT, defender.agent());
-         var token2Position = new Position(defenderPosition.x() + 80, defenderPosition.y(), defenderPosition.heading());
-         environment.placeToken(token2Position, token2);
-         assert.equal(environment.tokens().length, 3);
-
-         // Run.
-         var done = assert.async();
-         combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
@@ -361,7 +338,21 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.equal(defender.ionCount(), 1);
             assert.equal(token2.ionCount(), 1);
             done();
-         }, delay);
+         };
+         var combatAction = createCombatActionRange2(upgradeKey, callback);
+         var environment = combatAction.environment();
+         var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
+         var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
+         var store = environment.store();
+         var defenderPosition = combatAction.defenderPosition();
+         var token2 = new Token(store, Pilot.ACADEMY_PILOT, defender.agent());
+         var token2Position = new Position(defenderPosition.x() + 80, defenderPosition.y(), defenderPosition.heading());
+         environment.placeToken(token2Position, token2);
+         assert.equal(environment.tokens().length, 3);
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
       });
 
       QUnit.test("CombatAction.doIt() Plasma Torpedoes", function(assert)
@@ -393,23 +384,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          store.dispatch(Action.addFocusCount(attacker));
          var callback = function()
          {
-            LOGGER.info("callback() start");
-         };
-         var delay = 1000;
-         var targetLock = new TargetLock(store, attacker.id(), defender.id());
-         environment.activeToken(attacker);
-         var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
-         assert.ok(attacker.isUpgradedWith(upgradeKey));
-         assert.equal(attacker.secondaryWeapons().length, 1);
-         assert.equal(defender.shieldCount(), 4);
-
-         // Run.
-         var done = assert.async();
-         combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
             assert.ok(!attacker.isUpgradedWith(upgradeKey));
@@ -425,7 +400,17 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.ok(!defender.isDestroyed());
             assert.equal(defender.shieldCount(), 2);
             done();
-         }, delay);
+         };
+         var targetLock = new TargetLock(store, attacker.id(), defender.id());
+         environment.activeToken(attacker);
+         var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
+         assert.ok(attacker.isUpgradedWith(upgradeKey));
+         assert.equal(attacker.secondaryWeapons().length, 1);
+         assert.equal(defender.shieldCount(), 4);
+
+         // Run.
+         var done = assert.async();
+         combatAction.doIt();
       });
 
       QUnit.test("CombatAction.doIt() Proton Rockets", function(assert)
@@ -457,9 +442,15 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          store.dispatch(Action.addFocusCount(attacker));
          var callback = function()
          {
-            LOGGER.info("callback() start");
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(!attacker.isUpgradedWith(upgradeKey));
+            assert.equal(attacker.secondaryWeapons().length, 0);
+            assert.equal(AttackDice.get(store, attacker.id()).size(), 2 + 2);
+
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
+            done();
          };
-         var delay = 1000;
          environment.activeToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, undefined, MockDefenseDice);
          assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -479,25 +470,29 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          // Run.
          var done = assert.async();
          combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
-            assert.equal(AttackDice.get(store, attacker.id()).size(), 2 + 2);
-
-            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            done();
-         }, delay);
       });
 
       QUnit.test("CombatAction.doIt() Proton Torpedoes", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.PROTON_TORPEDOES;
-         var combatAction = createCombatActionRange2(upgradeKey);
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
+            assert.ok(!attacker.isUpgradedWith(upgradeKey));
+            assert.equal(attacker.secondaryWeapons().length, 0);
+            var attackDice = AttackDice.get(store, attacker.id());
+            assert.equal(attackDice.blankCount(), 1);
+            assert.equal(attackDice.criticalHitCount(), 2);
+            assert.equal(attackDice.focusCount(), 0);
+            assert.equal(attackDice.hitCount(), 1);
+
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
+            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
+            done();
+         };
+         var combatAction = createCombatActionRange2(upgradeKey, callback);
          var store = combatAction.store();
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0];
@@ -520,30 +515,29 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          // Run.
          var done = assert.async();
          combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(!TargetLock.getFirst(store, attacker.id(), defender.id()));
-            assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
-            var attackDice = AttackDice.get(store, attacker.id());
-            assert.equal(attackDice.blankCount(), 1);
-            assert.equal(attackDice.criticalHitCount(), 2);
-            assert.equal(attackDice.focusCount(), 0);
-            assert.equal(attackDice.hitCount(), 1);
-
-            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount() + defender.criticalDamageCount(), 2);
-            done();
-         }, delay);
       });
 
       QUnit.test("CombatAction.doIt() XX-23 S-Thread Tracers", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.XX_23_S_THREAD_TRACERS;
-         var combatAction = createCombatActionRange2(upgradeKey);
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            assert.ok(!attacker.isUpgradedWith(upgradeKey));
+            assert.equal(attacker.secondaryWeapons().length, 0);
+            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
+            assert.ok(Selector.isDefenderHit(store.getState(), attacker));
+
+            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
+            assert.equal(defender.damageCount(), 0);
+            assert.equal(defender.criticalDamageCount(), 0);
+
+            assert.ok(TargetLock.getFirst(store, token2.id(), defender.id()));
+            done();
+         };
+         var combatAction = createCombatActionRange2(upgradeKey, callback);
          var environment = combatAction.environment();
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
@@ -557,26 +551,9 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          // Run.
          var done = assert.async();
          combatAction.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-            assert.ok(!attacker.isUpgradedWith(upgradeKey));
-            assert.equal(attacker.secondaryWeapons().length, 0);
-            verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
-            assert.ok(Selector.isDefenderHit(store.getState(), attacker));
-
-            verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.equal(defender.damageCount(), 0);
-            assert.equal(defender.criticalDamageCount(), 0);
-
-            assert.ok(TargetLock.getFirst(store, token2.id(), defender.id()));
-            done();
-         }, delay);
       });
 
-      function createCombatAction(upgradeKey, y)
+      function createCombatAction(upgradeKey, callback0, y)
       {
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
@@ -613,58 +590,17 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
 
          var targetLock = new TargetLock(store, attacker.id(), defender.id());
 
-         var callback = function()
+         var callback = (callback0 !== undefined ? callback0 : function()
          {
             LOGGER.info("callback() start");
-         };
-
-         var delay = 1000;
+         });
 
          return new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
       }
 
-      function createCombatActionRange2(upgradeKey)
+      function createCombatActionRange2(upgradeKey, callback0)
       {
-         return createCombatAction(upgradeKey, 700);
-      }
-
-      function createCombatAction2(upgradeKey)
-      {
-         var store = Redux.createStore(Reducer.root);
-         var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         var adjudicator = new Adjudicator();
-
-         var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(null);
-         };
-         var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
-         var attackerPosition = new Position(458, 895, -90);
-         var weapon = attacker.primaryWeapon();
-
-         var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
-         imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(null);
-         };
-         var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
-         var defenderPosition = new Position(450, 845, 90);
-
-         store.dispatch(Action.setEnvironment(environment));
-         store.dispatch(Action.setAdjudicator(adjudicator));
-         environment.placeToken(attackerPosition, attacker);
-         environment.placeToken(defenderPosition, defender);
-         environment.activeToken(attacker);
-
-         var callback = function()
-         {
-            LOGGER.info("callback() start");
-         };
-
-         var delay = 1000;
-
-         return new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
+         return createCombatAction(upgradeKey, callback0, 700);
       }
 
       function verifyAttackDice(assert, attackDice)
