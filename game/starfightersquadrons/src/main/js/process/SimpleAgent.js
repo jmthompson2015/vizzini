@@ -264,8 +264,13 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          InputValidator.validateNotNull("token", token);
 
          var shipActionKeys = (shipActionKeys0 !== undefined ? shipActionKeys0 : token.shipActions());
-         var answer = [];
          var store = environment.store();
+         var usedShipActions = Selector.usedShipActions(store.getState(), token);
+         shipActionKeys = shipActionKeys.filter(function(shipActionKey)
+         {
+            return !usedShipActions.includes(shipActionKey);
+         });
+         var answer = [];
 
          if (shipActionKeys.includes(ShipAction.FOCUS))
          {
@@ -400,16 +405,16 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
             {
                if (!token.parent.tokenFore().isDestroyed())
                {
-                  answer.push(new ShipActionAction.Recover(token.parent.tokenFore()));
+                  answer.push(new ShipActionAction.Recover(store, token.parent.tokenFore()));
                }
                if (!token.parent.tokenAft().isDestroyed())
                {
-                  answer.push(new ShipActionAction.Recover(token.parent.tokenAft()));
+                  answer.push(new ShipActionAction.Recover(store, token.parent.tokenAft()));
                }
             }
             else
             {
-               answer.push(new ShipActionAction.Recover(token));
+               answer.push(new ShipActionAction.Recover(store, token));
             }
          }
 

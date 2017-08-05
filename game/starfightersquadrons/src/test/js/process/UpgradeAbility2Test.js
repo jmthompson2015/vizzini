@@ -4,6 +4,8 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
       "use strict";
       QUnit.module("UpgradeAbility2");
 
+      var delay = 10;
+
       QUnit.test("condition()", function(assert)
       {
          // Setup.
@@ -112,7 +114,7 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(token));
 
-         var activationAction = new ActivationAction(store, token.id(), callback);
+         var activationAction = new ActivationAction(store, token.id(), callback, delay);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
 

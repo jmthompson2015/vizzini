@@ -474,9 +474,12 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             if (shipActionAction)
             {
-               shipActionAction.doIt();
+               shipActionAction.doIt(callback);
             }
-            if (callback !== undefined) callback();
+            else
+            {
+               callback();
+            }
          },
       };
 

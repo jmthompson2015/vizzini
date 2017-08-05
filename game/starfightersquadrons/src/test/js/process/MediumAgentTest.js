@@ -347,17 +347,13 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
          var secondSquad = new Squad(Team.SCUM, "Second Squad", 2017, "description", secondTokens);
          var environment = new Environment(store, firstAgent.teamKey(), secondAgent.teamKey());
          environment.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
-         console.log("environment.tokens() = " + environment.tokens());
          var token = environment.tokens()[1];
          var adjudicator = new Adjudicator();
          var callback = function(tokenToManeuver)
          {
             // Verify.
             assert.ok(tokenToManeuver);
-            console.log("tokenToManeuver = " + JSON.stringify(tokenToManeuver));
-            console.log("token = " + token);
             assert.ok(tokenToManeuver[token]);
-            console.log("tokenToManeuver[token] = " + tokenToManeuver[token]);
             assert.equal(tokenToManeuver[token], Maneuver.STRAIGHT_3_EASY);
          };
 

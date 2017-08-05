@@ -25,13 +25,13 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
             var agent = token.agent();
             var environment = store.getState().environment;
             var adjudicator = store.getState().adjudicator;
-            var shipActions0 = [ShipAction.TARGET_LOCK];
+            var shipActionKeys0 = [ShipAction.TARGET_LOCK];
             var that = this;
             var finishCallback = function(shipActionAction)
             {
                that.finishConsequent(shipActionAction, callback);
             };
-            agent.getShipAction(environment, adjudicator, token, finishCallback, shipActions0);
+            agent.getShipAction(environment, adjudicator, token, finishCallback, shipActionKeys0);
 
             // Wait for agent to respond.
          },
@@ -39,9 +39,12 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
          {
             if (shipActionAction)
             {
-               shipActionAction.doIt();
+               shipActionAction.doIt(callback);
             }
-            callback();
+            else
+            {
+               callback();
+            }
          },
       };
 
@@ -77,6 +80,46 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
 
       ////////////////////////////////////////////////////////////////////////
       UpgradeAbility0[Event.SHIP_ACTION_PERFORMED] = {};
+
+      UpgradeAbility0[Event.SHIP_ACTION_PERFORMED][UpgradeCard.PUSH_THE_LIMIT] = {
+         // Once per round, after you perform an action, you may perform 1 free action shown in your action bar. Then receive 1 stress token.
+         condition: function(store, token)
+         {
+            var eventToken = getEventToken(store);
+            var usedUpgrades = store.getState().tokenIdToUsedUpgrades[token.id()];
+            var isUsed = usedUpgrades.includes(UpgradeCard.PUSH_THE_LIMIT);
+            var adjudicator = store.getState().adjudicator;
+            var canSelectShipAction = adjudicator.canSelectShipAction(token);
+            return token === eventToken && !isUsed && canSelectShipAction;
+         },
+         consequent: function(store, token, callback)
+         {
+            var agent = token.agent();
+            var environment = store.getState().environment;
+            var adjudicator = store.getState().adjudicator;
+            var shipActionKeys0 = token.ship().shipActionKeys;
+            var that = this;
+            var finishCallback = function(shipActionAction)
+            {
+               that.finishConsequent(store, token, shipActionAction, callback);
+            };
+            agent.getShipAction(environment, adjudicator, token, finishCallback, shipActionKeys0);
+
+            // Wait for agent to respond.
+         },
+         finishConsequent: function(store, token, shipActionAction, callback)
+         {
+            if (shipActionAction)
+            {
+               store.dispatch(Action.addStressCount(token));
+               shipActionAction.doIt(callback);
+            }
+            else
+            {
+               callback();
+            }
+         },
+      };
 
       UpgradeAbility0[Event.SHIP_ACTION_PERFORMED][UpgradeCard.RECON_SPECIALIST] = {
          // When you perform a Focus action, assign 1 additional Focus token to your ship.
@@ -123,8 +166,7 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
          consequent: function(store, token, callback)
          {
             var evadeAction = new ShipActionAction.Evade(store, token);
-            evadeAction.doIt();
-            callback();
+            evadeAction.doIt(callback);
          },
       };
 
@@ -136,11 +178,26 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
          return token.activationAction();
       }
 
+      function getEventContext(store)
+      {
+         InputValidator.validateNotNull("store", store);
+
+         return store.getState().eventData.eventContext;
+      }
+
       function getEventShipActionKey(store)
       {
          InputValidator.validateNotNull("store", store);
 
-         return store.getState().eventData.eventShipActionKey;
+         var answer;
+         var eventContext = getEventContext(store);
+
+         if (eventContext)
+         {
+            answer = eventContext.shipActionKey;
+         }
+
+         return answer;
       }
 
       function getEventToken(store)

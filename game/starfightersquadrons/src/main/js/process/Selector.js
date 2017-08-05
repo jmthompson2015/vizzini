@@ -357,6 +357,16 @@ define(["Count", "Value"], function(Count, Value)
       return state.tokenIdToUsedPilots[token.id()];
    };
 
+   Selector.usedShipActions = function(state, token)
+   {
+      InputValidator.validateNotNull("state", state);
+      InputValidator.validateNotNull("token", token);
+
+      var usedShipActions = state.tokenIdToUsedShipActions[token.id()];
+
+      return (usedShipActions !== undefined ? usedShipActions : []);
+   };
+
    Selector.usedUpgrades = function(state, token)
    {
       InputValidator.validateNotNull("state", state);

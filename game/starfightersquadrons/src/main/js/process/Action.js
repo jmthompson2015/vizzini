@@ -20,6 +20,7 @@ define(["Count"], function(Count)
    Action.ADD_TOKEN_UPGRADE_PER_ROUND = "addTokenUpgradePerRound";
    Action.ADD_TOKEN_USED_DAMAGE = "addTokenUsedDamage";
    Action.ADD_TOKEN_USED_PILOT = "addTokenUsedPilot";
+   Action.ADD_TOKEN_USED_SHIP_ACTION = "addTokenUsedShipAction";
    Action.ADD_TOKEN_USED_UPGRADE = "addTokenUsedUpgrade";
    Action.CLEAR_ATTACKER_USED_DAMAGES = "clearAttackerUsedDamages";
    Action.CLEAR_ATTACKER_USED_PILOTS = "clearAttackerUsedPilots";
@@ -30,6 +31,7 @@ define(["Count"], function(Count)
    Action.CLEAR_EVENT = "clearEvent";
    Action.CLEAR_TOKEN_USED_DAMAGES = "clearTokenUsedDamages";
    Action.CLEAR_TOKEN_USED_PILOTS = "clearTokenUsedPilots";
+   Action.CLEAR_TOKEN_USED_SHIP_ACTIONS = "clearTokenUsedShipActions";
    Action.CLEAR_TOKEN_USED_UPGRADES = "clearTokenUsedUpgrades";
    Action.DISCARD_DAMAGE = "discardDamage";
    Action.DRAW_DAMAGE = "drawDamage";
@@ -340,6 +342,19 @@ define(["Count"], function(Count)
       });
    };
 
+   Action.addTokenUsedShipAction = function(token, shipActionKey)
+   {
+      InputValidator.validateNotNull("token", token);
+      InputValidator.validateNotNull("shipActionKey", shipActionKey);
+
+      return (
+      {
+         type: Action.ADD_TOKEN_USED_SHIP_ACTION,
+         token: token,
+         shipActionKey: shipActionKey,
+      });
+   };
+
    Action.addTokenUsedUpgrade = function(token, upgradeKey)
    {
       InputValidator.validateNotNull("token", token);
@@ -455,6 +470,17 @@ define(["Count"], function(Count)
       return (
       {
          type: Action.CLEAR_TOKEN_USED_PILOTS,
+         token: token,
+      });
+   };
+
+   Action.clearTokenUsedShipActions = function(token)
+   {
+      InputValidator.validateNotNull("token", token);
+
+      return (
+      {
+         type: Action.CLEAR_TOKEN_USED_SHIP_ACTIONS,
          token: token,
       });
    };
@@ -707,20 +733,20 @@ define(["Count"], function(Count)
       return Action.setCount(token, Count.EVADE, value);
    };
 
-   Action.setEvent = function(eventKey, token, shipActionKey, callback)
+   Action.setEvent = function(eventKey, eventToken, eventCallback, eventContext)
    {
       InputValidator.validateNotNull("eventKey", eventKey);
-      InputValidator.validateNotNull("token", token);
-      // shipActionKey optional.
-      // callback optional.
+      InputValidator.validateNotNull("eventToken", eventToken);
+      // eventCallback optional.
+      // eventContext optional.
 
       return (
       {
          type: Action.SET_EVENT,
          eventKey: eventKey,
-         eventToken: token,
-         eventShipActionKey: shipActionKey,
-         eventCallback: callback,
+         eventToken: eventToken,
+         eventCallback: eventCallback,
+         eventContext: eventContext,
       });
    };
 

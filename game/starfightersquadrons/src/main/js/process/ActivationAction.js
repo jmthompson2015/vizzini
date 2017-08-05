@@ -163,7 +163,7 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
                var maneuverAction = new ManeuverAction(environment.store(), parentToken.id(), maneuverKey);
                maneuverAction.doIt();
                var store = this.store();
-               store.dispatch(Action.setEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken, undefined, this.finishExecuteManeuver.bind(this)));
+               store.dispatch(Action.setEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken, this.finishExecuteManeuver.bind(this)));
             }
             else
             {
@@ -361,39 +361,48 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
 
          if (adjudicator.canSelectShipAction(token))
          {
-            agent.getShipAction(environment, adjudicator, token, this.finishPerformAction.bind(this));
+            agent.getShipAction(environment, adjudicator, token, this.executeShipAction.bind(this));
 
             // Wait for agent to respond.
          }
          else
          {
-            setTimeout(this.finishPerformAction.bind(this), this.delay());
+            setTimeout(this.executeShipAction.bind(this), this.delay());
          }
 
          LOGGER.trace("ActivationAction.performAction() end");
       };
 
-      ActivationAction.prototype.finishPerformAction = function(shipActionAction)
+      ActivationAction.prototype.executeShipAction = function(shipActionAction)
       {
-         LOGGER.trace("ActivationAction.finishPerformAction() start");
-
-         var environment = this.environment();
-         var myDelay = 0;
+         LOGGER.trace("ActivationAction.executeShipAction() start");
+         LOGGER.trace("shipActionAction = " + shipActionAction);
 
          if (shipActionAction !== undefined)
          {
+            var environment = this.environment();
             var token = this.token();
             var fromPosition = environment.getPositionFor(token);
 
             if (fromPosition)
             {
                environment.phase(Phase.ACTIVATION_PERFORM_ACTION);
-               shipActionAction.doIt(function() {});
-               myDelay = this.delay();
+               shipActionAction.doIt(this.finishPerformAction.bind(this));
             }
          }
+         else
+         {
+            this.finishPerformAction();
+         }
 
-         setTimeout(this.callback(), myDelay);
+         LOGGER.trace("ActivationAction.executeShipAction() end");
+      };
+
+      ActivationAction.prototype.finishPerformAction = function()
+      {
+         LOGGER.trace("ActivationAction.finishPerformAction() start");
+
+         setTimeout(this.callback(), this.delay());
 
          LOGGER.trace("ActivationAction.finishPerformAction() end");
       };

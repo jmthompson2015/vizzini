@@ -16,7 +16,8 @@ define(["process/SquadBuilder"],
          this.squadBuilders.push(SquadBuilder.SquadBuilders[1]);
          this.squadBuilders.push(SquadBuilder.SquadBuilders[2]);
          this.squadBuilders.push(SquadBuilder.SquadBuilders[3]);
-         this.squadBuilders.push(SquadBuilder.SquadBuilders[4]);
+         //  this.squadBuilders.push(SquadBuilder.SquadBuilders[4]);
+         this.squadBuilders.push(SquadBuilder.findByNameAndYear("JMT", 2017));
 
          this.squadBuilders.forEach(function(squadBuilder)
          {

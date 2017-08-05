@@ -4,6 +4,8 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
       "use strict";
       QUnit.module("Token");
 
+      var delay = 10;
+
       QUnit.test("Token properties Darth Vader", function(assert)
       {
          var store = Redux.createStore(Reducer.root);
@@ -1329,7 +1331,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          {
             LOGGER.info("in callback()");
          };
-         var activationAction = new ActivationAction(store, token.id(), callback);
+         var activationAction = new ActivationAction(store, token.id(), callback, delay);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          store.dispatch(Action.placeToken(new Position(400, 400, 0), token));
@@ -1367,7 +1369,7 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          {
             LOGGER.info("in callback()");
          };
-         var activationAction = new ActivationAction(store, token.id(), callback);
+         var activationAction = new ActivationAction(store, token.id(), callback, delay);
          var maneuver = Maneuver.properties[maneuverKey];
          store.dispatch(Action.setTokenManeuver(token, maneuver));
          store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.ADRENALINE_RUSH));

@@ -256,6 +256,29 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          action.doIt();
       });
 
+      QUnit.test("doIt() Push the Limit", function(assert)
+      {
+         // Setup.
+         var upgradeKey = UpgradeCard.PUSH_THE_LIMIT;
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+
+            assert.equal(token.isStressed(), true);
+
+            done();
+         };
+         var action = createActivationAction(upgradeKey, Maneuver.STRAIGHT_2_EASY, callback);
+         var store = action.store();
+         var token = action.token();
+         assert.equal(token.isStressed(), false);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
+      });
+
       QUnit.test("doIt() R2-D2", function(assert)
       {
          // Setup.

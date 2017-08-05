@@ -30,10 +30,15 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      BarrelRoll.prototype.doIt = function()
+      BarrelRoll.prototype.doIt = function(eventCallback)
       {
-         var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
+         var store = this.environment().store();
+         var token = this.token();
+         var maneuverAction = new ManeuverAction(store, token.id(), this.maneuverKey());
          maneuverAction.doIt();
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       BarrelRoll.prototype.toString = function()
@@ -70,10 +75,15 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Boost.prototype.doIt = function()
+      Boost.prototype.doIt = function(eventCallback)
       {
-         var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
+         var store = this.environment().store();
+         var token = this.token();
+         var maneuverAction = new ManeuverAction(store, token.id(), this.maneuverKey());
          maneuverAction.doIt();
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Boost.prototype.toString = function()
@@ -106,9 +116,14 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Cloak.prototype.doIt = function()
+      Cloak.prototype.doIt = function(eventCallback)
       {
-         this.store().dispatch(Action.addCloakCount(this.token()));
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
+         var store = this.store();
+         var token = this.token();
+         store.dispatch(Action.addCloakCount(token));
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Cloak.prototype.toString = function()
@@ -118,13 +133,19 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
       //////////////////////////////////////////////////////////////////////////
 
-      function Coordinate(token)
+      function Coordinate(store, token)
       {
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("token", token);
 
          this.shipActionKey = function()
          {
             return ShipAction.COORDINATE;
+         };
+
+         this.store = function()
+         {
+            return store;
          };
 
          this.token = function()
@@ -133,9 +154,14 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Coordinate.prototype.doIt = function()
+      Coordinate.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          LOGGER.warn("Coordinate.doIt() not yet implemented.");
+         var store = this.store();
+         var token = this.token();
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Coordinate.prototype.toString = function()
@@ -172,12 +198,16 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Decloak.prototype.doIt = function()
+      Decloak.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
          maneuverAction.doIt();
          var store = this.environment().store();
-         store.dispatch(Action.addCloakCount(this.token(), -1));
+         var token = this.token();
+         store.dispatch(Action.addCloakCount(token, -1));
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Decloak.prototype.toString = function()
@@ -210,11 +240,14 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Evade.prototype.doIt = function()
+      Evade.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          var store = this.store();
-         this.store().dispatch(Action.addEvadeCount(this.token()));
-         store.dispatch(Action.setEvent(Event.SHIP_ACTION_PERFORMED, this.token(), ShipAction.EVADE));
+         var token = this.token();
+         store.dispatch(Action.addEvadeCount(token));
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Evade.prototype.toString = function()
@@ -245,11 +278,14 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Focus.prototype.doIt = function()
+      Focus.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          var store = this.store();
-         store.dispatch(Action.addFocusCount(this.token()));
-         store.dispatch(Action.setEvent(Event.SHIP_ACTION_PERFORMED, this.token(), ShipAction.FOCUS));
+         var token = this.token();
+         store.dispatch(Action.addFocusCount(token));
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Focus.prototype.toString = function()
@@ -259,9 +295,10 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
       //////////////////////////////////////////////////////////////////////////
 
-      function Jam(store, defender)
+      function Jam(store, attacker, defender)
       {
          InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("attacker", attacker);
          InputValidator.validateNotNull("defender", defender);
 
          this.shipActionKey = function()
@@ -274,15 +311,23 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
             return store;
          };
 
+         this.attacker = function()
+         {
+            return attacker;
+         };
+
          this.defender = function()
          {
             return defender;
          };
       }
 
-      Jam.prototype.doIt = function()
+      Jam.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          var store = this.store();
+         var attacker = this.attacker();
          var defender = this.defender();
 
          if (defender.stressCount() < 2)
@@ -293,6 +338,8 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          {
             defender.receiveStress();
          }
+
+         notifyEvent(store, attacker, eventCallback, this.shipActionKey());
       };
 
       Jam.prototype.toString = function()
@@ -302,13 +349,19 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
       //////////////////////////////////////////////////////////////////////////
 
-      function Recover(token)
+      function Recover(store, token)
       {
+         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("token", token);
 
          this.shipActionKey = function()
          {
             return ShipAction.RECOVER;
+         };
+
+         this.store = function()
+         {
+            return store;
          };
 
          this.token = function()
@@ -317,9 +370,14 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Recover.prototype.doIt = function()
+      Recover.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          LOGGER.warn("Recover.doIt() not yet implemented.");
+         var store = this.store();
+         var token = this.token();
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Recover.prototype.toString = function()
@@ -357,9 +415,14 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Reinforce.prototype.doIt = function()
+      Reinforce.prototype.doIt = function(eventCallback)
       {
-         this.store().dispatch(Action.addReinforceCount(this.token()));
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
+         var store = this.store();
+         var token = this.token();
+         store.dispatch(Action.addReinforceCount(token));
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Reinforce.prototype.toString = function()
@@ -408,8 +471,10 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      SAADamageCard.prototype.doIt = function(callback)
+      SAADamageCard.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          // callback optional.
 
          var store = this.store();
@@ -418,6 +483,11 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
          if (ability !== undefined && ability.consequent() !== undefined)
          {
+            var shipActionKey = this.shipActionKey();
+            var callback = function()
+            {
+               notifyEvent(store, token, eventCallback, shipActionKey);
+            };
             ability.consequent()(store, token, callback);
          }
       };
@@ -458,12 +528,15 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      SAATargetLock.prototype.doIt = function()
+      SAATargetLock.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          var store = this.store();
          var attacker = this.attacker();
          var defender = this.defender();
          var targetLock = new TargetLock(store, attacker.id(), defender.id());
+         notifyEvent(store, attacker, eventCallback, this.shipActionKey());
       };
 
       SAATargetLock.prototype.toString = function()
@@ -510,9 +583,9 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      SAAUpgradeCard.prototype.doIt = function(callback)
+      SAAUpgradeCard.prototype.doIt = function(eventCallback)
       {
-         // callback optional.
+         InputValidator.validateNotNull("eventCallback", eventCallback);
 
          var store = this.store();
          var token = this.token();
@@ -520,6 +593,11 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
          if (ability !== undefined && ability.consequent() !== undefined)
          {
+            var shipActionKey = this.shipActionKey();
+            var callback = function()
+            {
+               notifyEvent(store, token, eventCallback, shipActionKey);
+            };
             ability.consequent()(store, token, callback);
          }
       };
@@ -560,12 +638,16 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          };
       }
 
-      Slam.prototype.doIt = function()
+      Slam.prototype.doIt = function(eventCallback)
       {
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+
          var maneuverAction = new ManeuverAction(this.environment().store(), this.token().id(), this.maneuverKey());
          maneuverAction.doIt();
          var store = this.environment().store();
-         store.dispatch(Action.addWeaponsDisabledCount(this.token()));
+         var token = this.token();
+         store.dispatch(Action.addWeaponsDisabledCount(token));
+         notifyEvent(store, token, eventCallback, this.shipActionKey());
       };
 
       Slam.prototype.toString = function()
@@ -574,6 +656,24 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
 
          return "SLAM: " + maneuver.bearing.name + " " + maneuver.speed;
       };
+
+      function notifyEvent(store, eventToken, eventCallback, shipActionKey)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("eventToken", eventToken);
+         InputValidator.validateNotNull("eventCallback", eventCallback);
+         InputValidator.validateNotNull("shipActionKey", shipActionKey);
+
+         // Mark as used.
+         store.dispatch(Action.addTokenUsedShipAction(eventToken, shipActionKey));
+
+         // Issue event.
+         var eventKey = Event.SHIP_ACTION_PERFORMED;
+         var eventContext = {
+            shipActionKey: shipActionKey,
+         };
+         store.dispatch(Action.setEvent(eventKey, eventToken, eventCallback, eventContext));
+      }
 
       return (
       {

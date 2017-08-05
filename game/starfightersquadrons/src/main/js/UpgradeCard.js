@@ -2262,6 +2262,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                typeKey: UpgradeType.ELITE,
                description: "Once per round, after you perform an action, you may perform 1 free action shown in your action bar. Then receive 1 stress token.",
                squadPointCost: 3,
+               isImplemented: true,
                value: "pushTheLimit",
             },
             "quadLaserCannons":

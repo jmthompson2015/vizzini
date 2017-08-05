@@ -1,5 +1,5 @@
-define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/DamageAbility2", "process/EnvironmentFactory", "process/ShipActionAction", "process/TargetLock", "process/UpgradeAbility2"],
-   function(Ability, DamageCard, Maneuver, Phase, Position, UpgradeCard, Action, DamageAbility2, EnvironmentFactory, ShipActionAction, TargetLock, UpgradeAbility2)
+define(["Ability", "DamageCard", "Event", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/DamageAbility2", "process/EnvironmentFactory", "process/ShipActionAction", "process/TargetLock", "process/UpgradeAbility2"],
+   function(Ability, DamageCard, Event, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, DamageAbility2, EnvironmentFactory, ShipActionAction, TargetLock, UpgradeAbility2)
    {
       "use strict";
       QUnit.module("ShipActionAction");
@@ -15,19 +15,21 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          environment.removeToken(tokenPosition);
          environment.placeToken(new Position(458, 890, 270), token);
          var action = new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_LEFT_1_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458 - 80);
+            assert.equal(position.y(), 890);
+            assert.equal(position.heading(), 270);
+         };
 
          // Run.
          var position = environment.getPositionFor(token);
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 890);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458 - 80);
-         assert.equal(position.y(), 890);
-         assert.equal(position.heading(), 270);
+         action.doIt(callback);
       });
 
       QUnit.test("BarrelRoll.toString() left", function(assert)
@@ -56,19 +58,21 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          environment.removeToken(tokenPosition);
          environment.placeToken(new Position(458, 890, 270), token);
          var action = new ShipActionAction.BarrelRoll(environment, token, Maneuver.BARREL_ROLL_RIGHT_1_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458 + 80);
+            assert.equal(position.y(), 890);
+            assert.equal(position.heading(), 270);
+         };
 
          // Run.
          var position = environment.getPositionFor(token);
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 890);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458 + 80);
-         assert.equal(position.y(), 890);
-         assert.equal(position.heading(), 270);
+         action.doIt(callback);
       });
 
       QUnit.test("BarrelRoll.toString() right", function(assert)
@@ -94,19 +98,21 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_LEFT_1_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458 - 38);
+            assert.equal(position.y(), 895 - 93);
+            assert.equal(position.heading(), 270 - 45);
+         };
 
          // Run.
          var position = environment.getPositionFor(token);
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 895);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458 - 38);
-         assert.equal(position.y(), 895 - 93);
-         assert.equal(position.heading(), 270 - 45);
+         action.doIt(callback);
       });
 
       QUnit.test("Boost.toString() left", function(assert)
@@ -132,19 +138,21 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Boost(environment, token, Maneuver.STRAIGHT_1_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458);
+            assert.equal(position.y(), 895 - 80);
+            assert.equal(position.heading(), 270);
+         };
 
          // Run.
          var position = environment.getPositionFor(token);
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 895);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458);
-         assert.equal(position.y(), 895 - 80);
-         assert.equal(position.heading(), 270);
+         action.doIt(callback);
       });
 
       QUnit.test("Boost.toString() straight", function(assert)
@@ -170,19 +178,21 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Boost(environment, token, Maneuver.BANK_RIGHT_1_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458 + 38);
+            assert.equal(position.y(), 895 - 93);
+            assert.equal(position.heading(), 270 + 45);
+         };
 
          // Run.
          var position = environment.getPositionFor(token);
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 895);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458 + 38);
-         assert.equal(position.y(), 895 - 93);
-         assert.equal(position.heading(), 270 + 45);
+         action.doIt(callback);
       });
 
       QUnit.test("Boost.toString() right", function(assert)
@@ -207,13 +217,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Cloak(store, token);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(token.cloakCount(), 1);
+         };
 
          // Run.
          assert.equal(token.cloakCount(), 0);
-         action.doIt();
-
-         // Verify.
-         assert.equal(token.cloakCount(), 1);
+         action.doIt(callback);
       });
 
       QUnit.test("Cloak.toString()", function(assert)
@@ -236,8 +248,9 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createHugeShipEnvironment();
+         var store = environment.store();
          var token = environment.tokens()[0]; // Gozanti-class
-         var action = new ShipActionAction.Coordinate(token);
+         var action = new ShipActionAction.Coordinate(store, token);
 
          // Run.
          var result = action.toString();
@@ -259,6 +272,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          environment.placeToken(new Position(458, 890, 270), token);
          store.dispatch(Action.addCloakCount(token));
          var action = new ShipActionAction.Decloak(environment, token, Maneuver.BARREL_ROLL_LEFT_2_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(token.cloakCount(), 0);
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458 - 120);
+            assert.equal(position.y(), 890);
+            assert.equal(position.heading(), 270);
+         };
 
          // Run.
          assert.equal(token.cloakCount(), 1);
@@ -266,14 +288,7 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 890);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         assert.equal(token.cloakCount(), 0);
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458 - 120);
-         assert.equal(position.y(), 890);
-         assert.equal(position.heading(), 270);
+         action.doIt(callback);
       });
 
       QUnit.test("Decloak.toString() left", function(assert)
@@ -300,6 +315,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          var token = environment.tokens()[2]; // X-Wing
          store.dispatch(Action.addCloakCount(token));
          var action = new ShipActionAction.Decloak(environment, token, Maneuver.STRAIGHT_2_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(token.cloakCount(), 0);
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458);
+            assert.equal(position.y(), 895 - 120);
+            assert.equal(position.heading(), 270);
+         };
 
          // Run.
          assert.equal(token.cloakCount(), 1);
@@ -307,14 +331,7 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 895);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         assert.equal(token.cloakCount(), 0);
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458);
-         assert.equal(position.y(), 895 - 120);
-         assert.equal(position.heading(), 270);
+         action.doIt(callback);
       });
 
       QUnit.test("Decloak.toString() straight", function(assert)
@@ -339,13 +356,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Evade(store, token);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(token.evadeCount(), 1);
+         };
 
          // Run.
          assert.equal(token.evadeCount(), 0);
-         action.doIt();
-
-         // Verify.
-         assert.equal(token.evadeCount(), 1);
+         action.doIt(callback);
       });
 
       QUnit.test("Evade.toString()", function(assert)
@@ -371,13 +390,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Focus(store, token);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(token.focusCount(), 1);
+         };
 
          // Run.
          assert.equal(token.focusCount(), 0);
-         action.doIt();
-
-         // Verify.
-         assert.equal(token.focusCount(), 1);
+         action.doIt(callback);
       });
 
       QUnit.test("Focus.doIt() Recon Specialist", function(assert)
@@ -388,13 +409,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          var token = environment.tokens()[2]; // X-Wing
          store.dispatch(Action.addTokenUpgrade(token, UpgradeCard.RECON_SPECIALIST));
          var action = new ShipActionAction.Focus(store, token);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(token.focusCount(), 2);
+         };
 
          // Run.
          assert.equal(token.focusCount(), 0);
-         action.doIt();
-
-         // Verify.
-         assert.equal(token.focusCount(), 2);
+         action.doIt(callback);
       });
 
       QUnit.test("Focus.toString()", function(assert)
@@ -418,15 +441,18 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
+         var attacker = environment.tokens()[2]; // X-Wing
          var defender = environment.tokens()[0]; // TIE Fighter
-         var action = new ShipActionAction.Jam(store, defender);
+         var action = new ShipActionAction.Jam(store, attacker, defender);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(defender.stressCount(), 2);
+         };
 
          // Run.
          assert.equal(defender.stressCount(), 0);
-         action.doIt();
-
-         // Verify.
-         assert.equal(defender.stressCount(), 2);
+         action.doIt(callback);
       });
 
       QUnit.test("Jam.toString()", function(assert)
@@ -434,8 +460,9 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var token = environment.tokens()[2]; // X-Wing
-         var action = new ShipActionAction.Jam(store, token);
+         var attacker = environment.tokens()[0]; // TIE Fighter
+         var defender = environment.tokens()[2]; // X-Wing
+         var action = new ShipActionAction.Jam(store, attacker, defender);
 
          // Run.
          var result = action.toString();
@@ -449,8 +476,9 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
       {
          // Setup.
          var environment = EnvironmentFactory.createHugeShipEnvironment();
+         var store = environment.store();
          var token = environment.tokens()[0]; // Gozanti-class
-         var action = new ShipActionAction.Recover(token);
+         var action = new ShipActionAction.Recover(store, token);
 
          // Run.
          var result = action.toString();
@@ -467,13 +495,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Reinforce(store, token);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(token.reinforceCount(), 1);
+         };
 
          // Run.
          assert.equal(token.reinforceCount(), 0);
-         action.doIt();
-
-         // Verify.
-         assert.equal(token.reinforceCount(), 1);
+         action.doIt(callback);
       });
 
       QUnit.test("Reinforce.toString() Gozanti-class", function(assert)
@@ -560,13 +590,15 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
          assert.equal(store.getState().targetLocks.size, 0);
          assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()) === undefined);
+         var callback = function()
+         {
+            // Verify.
+            assert.equal(store.getState().targetLocks.size, 1);
+            assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()) !== undefined);
+         };
 
          // Run.
-         action.doIt();
-
-         // Verify.
-         assert.equal(store.getState().targetLocks.size, 1);
-         assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()) !== undefined);
+         action.doIt(callback);
       });
 
       QUnit.test("SAATargetLock.toString()", function(assert)
@@ -636,19 +668,21 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.Slam(environment, token, Maneuver.STRAIGHT_2_STANDARD);
+         var callback = function()
+         {
+            // Verify.
+            position = environment.getPositionFor(token);
+            assert.equal(position.x(), 458);
+            assert.equal(position.y(), 895 - 120);
+            assert.equal(position.heading(), 270);
+         };
 
          // Run.
          var position = environment.getPositionFor(token);
          assert.equal(position.x(), 458);
          assert.equal(position.y(), 895);
          assert.equal(position.heading(), 270);
-         action.doIt();
-
-         // Verify.
-         position = environment.getPositionFor(token);
-         assert.equal(position.x(), 458);
-         assert.equal(position.y(), 895 - 120);
-         assert.equal(position.heading(), 270);
+         action.doIt(callback);
       });
 
       QUnit.test("Slam.toString()", function(assert)

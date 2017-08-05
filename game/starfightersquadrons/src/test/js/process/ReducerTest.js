@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "process/AttackDice", "process/DefenseDice", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
-   function(Count, DamageCard, Maneuver, Phase, Pilot, PlayFormat, Position, RangeRuler, AttackDice, DefenseDice, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
+define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "ShipAction", "process/AttackDice", "process/DefenseDice", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
+   function(Count, DamageCard, Maneuver, Phase, Pilot, PlayFormat, Position, RangeRuler, ShipAction, AttackDice, DefenseDice, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
    {
       "use strict";
       QUnit.module("Reducer");
@@ -476,6 +476,33 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          assert.equal(store.getState().tokenIdToUsedPilots[token.id()][1], pilotKey1);
       });
 
+      QUnit.test("addTokenUsedShipAction()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+         var shipActionKey0 = ShipAction.EVADE;
+         var shipActionKey1 = ShipAction.FOCUS;
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()].length, 0);
+
+         // Run.
+         store.dispatch(Action.addTokenUsedShipAction(token, shipActionKey0));
+
+         // Verify.
+         assert.ok(store.getState().tokenIdToUsedShipActions[token.id()]);
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()].length, 1);
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()][0], shipActionKey0);
+
+         // Run.
+         store.dispatch(Action.addTokenUsedShipAction(token, shipActionKey1));
+
+         // Verify.
+         assert.ok(store.getState().tokenIdToUsedShipActions[token.id()]);
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()].length, 2);
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()][0], shipActionKey0);
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()][1], shipActionKey1);
+      });
+
       QUnit.test("addTokenUsedUpgrade()", function(assert)
       {
          // Setup.
@@ -564,6 +591,25 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          // Verify.
          assert.ok(store.getState().tokenIdToUsedPilots[token.id()]);
          assert.equal(store.getState().tokenIdToUsedPilots[token.id()].length, 0);
+      });
+
+      QUnit.test("clearTokenUsedShipActions()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var token = new Token(store, Pilot.ACADEMY_PILOT, new SimpleAgent("Imperial", Team.IMPERIAL));
+         var shipActionKey0 = ShipAction.EVADE;
+         var shipActionKey1 = ShipAction.FOCUS;
+         store.dispatch(Action.addTokenUsedShipAction(token, shipActionKey0));
+         store.dispatch(Action.addTokenUsedShipAction(token, shipActionKey1));
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()].length, 2);
+
+         // Run.
+         store.dispatch(Action.clearTokenUsedShipActions(token));
+
+         // Verify.
+         assert.ok(store.getState().tokenIdToUsedShipActions[token.id()]);
+         assert.equal(store.getState().tokenIdToUsedShipActions[token.id()].length, 0);
       });
 
       QUnit.test("clearTokenUsedUpgrades()", function(assert)

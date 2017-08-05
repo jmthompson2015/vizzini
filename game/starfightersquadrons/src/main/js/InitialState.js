@@ -54,6 +54,7 @@ define(["Phase"], function(Phase)
       this.tokenIdToUpgradePerRound = {};
       this.tokenIdToUsedDamages = {};
       this.tokenIdToUsedPilots = {};
+      this.tokenIdToUsedShipActions = {};
       this.tokenIdToUsedUpgrades = {};
 
       this.damageDeck = [];

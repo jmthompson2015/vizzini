@@ -757,8 +757,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          consequent: function(store, token, callback)
          {
             var shipActionAction = new ShipActionAction.Cloak(store, token);
-            shipActionAction.doIt();
-            if (callback !== undefined) callback();
+            shipActionAction.doIt(callback);
          },
       };
 

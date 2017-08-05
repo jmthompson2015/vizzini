@@ -66,19 +66,19 @@ define(function()
       },
    };
 
-   Event.createData = function(eventKey, eventToken, eventShipActionKey, eventCallback)
+   Event.createData = function(eventKey, eventToken, eventCallback, eventContext)
    {
       InputValidator.validateNotNull("eventKey", eventKey);
       InputValidator.validateNotNull("eventToken", eventToken);
-      // eventShipActionKey optional.
       // eventCallback optional.
+      // eventContext optional.
 
       return (
       {
          eventKey: eventKey,
          eventToken: eventToken,
-         eventShipActionKey: eventShipActionKey,
          eventCallback: eventCallback,
+         eventContext: eventContext,
       });
    };
 

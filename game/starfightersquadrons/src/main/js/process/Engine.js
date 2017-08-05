@@ -325,7 +325,8 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
 
             if (decloakAction !== undefined)
             {
-               decloakAction.doIt();
+               // FIXME: dummy function
+               decloakAction.doIt(function() {});
                var store = this.environment().store();
                store.dispatch(Action.addCloakCount(token, -1));
                LOGGER.debug("token.isCloaked() ? " + token.isCloaked());

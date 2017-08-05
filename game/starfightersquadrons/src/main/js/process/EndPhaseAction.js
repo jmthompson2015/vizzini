@@ -111,6 +111,7 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
          store.dispatch(Action.clearDefenderUsedUpgrades(token));
          store.dispatch(Action.clearTokenUsedDamages(token));
          store.dispatch(Action.clearTokenUsedPilots(token));
+         store.dispatch(Action.clearTokenUsedShipActions(token));
          store.dispatch(Action.clearTokenUsedUpgrades(token));
 
          store.dispatch(Action.setTokenPilotPerRound(token, token.pilotKey()));

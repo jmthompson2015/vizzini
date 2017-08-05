@@ -266,10 +266,6 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
          },
          finishConsequent: function(token, shipActionAction, callback)
          {
-            if (shipActionAction)
-            {
-               shipActionAction.doIt();
-            }
             var hasBarrelRoll = token.shipActions().includes(ShipAction.BARREL_ROLL);
             if (!hasBarrelRoll)
             {
@@ -281,7 +277,14 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
             {
                defenderTargetLocks[0].delete();
             }
-            if (callback !== undefined) callback();
+            if (shipActionAction)
+            {
+               shipActionAction.doIt(callback);
+            }
+            else
+            {
+               callback();
+            }
          },
       };
 

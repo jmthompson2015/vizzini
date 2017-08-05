@@ -311,6 +311,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          store.dispatch(Action.clearDefenderUsedUpgrades(this));
          store.dispatch(Action.clearTokenUsedDamages(this));
          store.dispatch(Action.clearTokenUsedPilots(this));
+         store.dispatch(Action.clearTokenUsedShipActions(this));
          store.dispatch(Action.clearTokenUsedUpgrades(this));
 
          Value.values().forEach(function(property)

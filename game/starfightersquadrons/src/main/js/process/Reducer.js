@@ -705,6 +705,14 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {
                   tokenIdToUsedPilots: newTokenIdToData,
                });
+            case Action.ADD_TOKEN_USED_SHIP_ACTION:
+            case Action.CLEAR_TOKEN_USED_SHIP_ACTIONS:
+               newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedShipActions, action.type, action.token.id(), action.shipActionKey);
+               return Object.assign(
+               {}, state,
+               {
+                  tokenIdToUsedShipActions: newTokenIdToData,
+               });
             case Action.ADD_TOKEN_USED_UPGRADE:
             case Action.CLEAR_TOKEN_USED_UPGRADES:
                newTokenIdToData = Reducer.tokenIdToArray(state.tokenIdToUsedUpgrades, action.type, action.token.id(), action.upgradeKey);
@@ -837,7 +845,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                });
             case Action.SET_EVENT:
                LOGGER.info("Event: " + Event.properties[action.eventKey].name);
-               var newEventData = Event.createData(action.eventKey, action.eventToken, action.eventShipActionKey, action.eventCallback);
+               var newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback, action.eventContext);
                return Object.assign(
                {}, state,
                {
