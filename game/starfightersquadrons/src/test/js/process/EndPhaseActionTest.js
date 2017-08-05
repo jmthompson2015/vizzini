@@ -4,8 +4,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
       "use strict";
       QUnit.module("EndPhaseAction");
 
-      var delay = 1000;
-
       QUnit.test("doIt() X-Wing", function(assert)
       {
          // Setup.
@@ -22,17 +20,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var targetLock = new TargetLock(store, token.id(), defender.id());
          var callback = function()
          {
-            LOGGER.info("callback() start");
-         };
-         var action = new EndPhaseAction(environment, token, callback);
-
-         // Run.
-         var done = assert.async();
-         action.doIt();
-
-         // Verify.
-         setTimeout(function()
-         {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
 
             assert.equal(token.evadeCount(), 0);
@@ -48,6 +36,11 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(Selector.usedUpgrades(store.getState(), token).length, 0);
 
             done();
-         }, delay);
+         };
+         var action = new EndPhaseAction(environment, token, callback);
+
+         // Run.
+         var done = assert.async();
+         action.doIt();
       });
    });
