@@ -42,6 +42,8 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             store.dispatch(Action.addTargetLock(values));
             var eventCallback;
             var eventContext = {
+               defenderId: defender.id(),
+               id: newId,
                shipActionKey: ShipAction.TARGET_LOCK,
             };
             store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attacker, eventCallback, eventContext));
