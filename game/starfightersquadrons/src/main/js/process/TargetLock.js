@@ -99,10 +99,12 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
 
          var tlValues = store.getState().targetLocks;
          var isNew = false;
+         var attackerId = attacker.id();
+         var defenderId = defender.id();
 
          return tlValues.toArray().filter(function(values)
          {
-            return values.get("attackerId") === attacker.id() && values.get("defenderId") === defender.id();
+            return values.get("attackerId") === attackerId && values.get("defenderId") === defenderId;
          }).map(function(values)
          {
             return new TargetLock(store, attacker, defender, isNew);
@@ -116,10 +118,11 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
 
          var tlValues = store.getState().targetLocks;
          var isNew = false;
+         var attackerId = attacker.id();
 
          return tlValues.toArray().filter(function(values)
          {
-            return values.get("attackerId") === attacker.id();
+            return values.get("attackerId") === attackerId;
          }).map(function(values)
          {
             var defenderId = values.get("defenderId");
@@ -135,10 +138,11 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
 
          var tlValues = store.getState().targetLocks;
          var isNew = false;
+         var defenderId = defender.id();
 
          return tlValues.toArray().filter(function(values)
          {
-            return values.get("defenderId") === defender.id();
+            return values.get("defenderId") === defenderId;
          }).map(function(values)
          {
             var attackerId = values.get("attackerId");
