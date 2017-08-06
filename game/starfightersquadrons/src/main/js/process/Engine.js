@@ -70,8 +70,14 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             }
          };
 
-         this.performCombatPhase = function()
+         this.performCombatPhase = function(callback)
          {
+            // callback optional.
+            if (callback)
+            {
+               combatPhaseCallback = callback;
+            }
+
             if (!isGameOver())
             {
                LOGGER.trace("Engine.performCombatPhase() start");
@@ -117,10 +123,20 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                combatQueue = environment.getTokensForCombat();
                this.processCombatQueue();
             }
+            else
+            {
+               combatPhaseCallback();
+            }
          };
 
-         this.performEndPhase = function()
+         this.performEndPhase = function(callback)
          {
+            // callback optional.
+            if (callback)
+            {
+               endPhaseCallback = callback;
+            }
+
             if (!isGameOver())
             {
                LOGGER.trace("Engine.performEndPhase() start");
@@ -129,10 +145,27 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                endQueue = environment.getTokensForCombat();
                this.processEndQueue();
             }
+            else
+            {
+               endPhaseCallback();
+            }
          };
 
-         this.performPlanningPhase = function()
+         this.performPlanningPhase = function(planningCallback, activationCallback)
          {
+            // planningCallback optional.
+            // activationCallback optional.
+
+            if (planningCallback)
+            {
+               planningPhaseCallback = planningCallback;
+            }
+
+            if (activationCallback)
+            {
+               activationPhaseCallback = activationCallback;
+            }
+
             if (!isGameOver())
             {
                LOGGER.trace("Engine.performPlanningPhase() start");
@@ -141,16 +174,18 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                environment.incrementRound();
 
                var firstAgent = environment.firstAgent();
-               var firstPlanningAction = new PlanningAction(environment, adjudicator, firstAgent,
-                  that.setTokenToManeuver);
+               var firstPlanningAction = new PlanningAction(environment, adjudicator, firstAgent, that.setTokenToManeuver);
                firstPlanningAction.doIt();
 
                var secondAgent = environment.secondAgent();
-               var secondPlanningAction = new PlanningAction(environment, adjudicator, secondAgent,
-                  that.setTokenToManeuver);
+               var secondPlanningAction = new PlanningAction(environment, adjudicator, secondAgent, that.setTokenToManeuver);
                secondPlanningAction.doIt();
 
                // Wait for agents to respond.
+            }
+            else
+            {
+               planningPhaseCallback();
             }
          };
 
@@ -171,7 +206,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                environment.phase(Phase.ACTIVATION_END);
                setTimeout(function()
                {
-                  that.performCombatPhase();
+                  activationPhaseCallback();
                }, delay);
                return;
             }
@@ -204,7 +239,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             setTimeout(function()
             {
                activationAction.doIt();
-            }, 500);
+            }, delay);
 
             LOGGER.trace("Engine.processActivationQueue() end");
          };
@@ -240,7 +275,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                environment.phase(Phase.COMBAT_END);
                setTimeout(function()
                {
-                  that.performEndPhase();
+                  combatPhaseCallback();
                }, delay);
                return;
             }
@@ -286,7 +321,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                environment.phase(Phase.END_END);
                setTimeout(function()
                {
-                  that.performPlanningPhase();
+                  endPhaseCallback();
                }, delay);
                return;
             }
@@ -321,28 +356,33 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
 
             LOGGER.debug("token = " + token + " decloakAction = " + decloakAction);
 
-            var delay = 0;
-
             if (decloakAction !== undefined)
             {
-               // FIXME: dummy function
-               decloakAction.doIt(function() {});
-               var store = this.environment().store();
-               store.dispatch(Action.addCloakCount(token, -1));
+               decloakAction.doIt(this.finishDecloakAction.bind(this));
                LOGGER.debug("token.isCloaked() ? " + token.isCloaked());
                LOGGER.debug("token.cloakCount() = " + token.cloakCount());
-               delay = 1000;
             }
+            else
+            {
+               this.finishDecloakAction();
+            }
+
+            LOGGER.trace("Engine.setDecloakAction() end");
+         };
+
+         this.finishDecloakAction = function()
+         {
+            LOGGER.info("Engine.finishDecloakAction() start");
 
             decloakCount++;
 
-            if (decloakCount === this.environment().tokens().length)
+            if (decloakCount === environment.tokens().length)
             {
                activationQueue = environment.getTokensForActivation(true);
                setTimeout(this.processActivationQueue.bind(this), delay);
             }
 
-            LOGGER.trace("Engine.setDecloakAction() end");
+            LOGGER.trace("Engine.finishDecloakAction() end");
          };
 
          this.setTokenToManeuver = function(agent, tokenToManeuver)
@@ -368,7 +408,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                environment.phase(Phase.PLANNING_END);
                setTimeout(function()
                {
-                  that.performActivationPhase();
+                  planningPhaseCallback();
                }, delay);
             }
          };
@@ -389,7 +429,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                   setTimeout(function()
                   {
                      combatAction.doIt();
-                  }, 500);
+                  }, delay);
                }
             }
             else
@@ -397,6 +437,11 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                that.processCombatQueue();
             }
          };
+
+         var planningPhaseCallback = this.performActivationPhase.bind(this);
+         var activationPhaseCallback = this.performCombatPhase.bind(this);
+         var combatPhaseCallback = this.performEndPhase.bind(this);
+         var endPhaseCallback = this.performPlanningPhase.bind(this);
 
          function isGameOver()
          {

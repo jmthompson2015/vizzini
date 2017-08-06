@@ -844,7 +844,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                   environment: action.environment,
                });
             case Action.SET_EVENT:
-               LOGGER.info("Event: " + Event.properties[action.eventKey].name);
+               LOGGER.info("Event: " + Event.properties[action.eventKey].name + ", context = " + JSON.stringify(action.eventContext));
                var newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback, action.eventContext);
                return Object.assign(
                {}, state,

@@ -1,70 +1,49 @@
-define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
-   function(Maneuver, Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, Reducer, SimpleAgent, SquadBuilder)
+define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/ShipActionAction", "process/SimpleAgent", "process/SquadBuilder"],
+   function(Maneuver, Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, Reducer, ShipActionAction, SimpleAgent, SquadBuilder)
    {
       "use strict";
       QUnit.module("Engine");
+
+      var delay = 10;
 
       QUnit.test("performActivationPhase()", function(assert)
       {
          // Setup.
          var engine = createEngine();
-         var environment = engine.environment();
-         var firstAgent = environment.firstAgent();
-         var secondAgent = environment.secondAgent();
-         var firstTokenToManeuver = {};
-         firstTokenToManeuver[environment.tokens()[0].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         firstTokenToManeuver[environment.tokens()[1].toString()] = Maneuver.STRAIGHT_2_STANDARD;
-         var secondTokenToManeuver = {};
-         secondTokenToManeuver[environment.tokens()[2].toString()] = Maneuver.STRAIGHT_3_STANDARD;
          engine.performCombatPhase = function()
          {
             LOGGER.info("performCombatPhase() dummy");
          };
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            done();
+         };
 
          // Run.
          var done = assert.async();
-         engine.setTokenToManeuver(firstAgent, firstTokenToManeuver);
-         engine.setTokenToManeuver(secondAgent, secondTokenToManeuver);
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-            done();
-         });
+         engine.performPlanningPhase(undefined, callback);
       });
 
       QUnit.test("performActivationPhase() Huge", function(assert)
       {
          // Setup.
          var engine = createEngine(true);
-         var environment = engine.environment();
-         var firstAgent = environment.firstAgent();
-         var secondAgent = environment.secondAgent();
-         var firstTokenToManeuver = {};
-         firstTokenToManeuver[environment.tokens()[0].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         firstTokenToManeuver[environment.tokens()[1].toString()] = Maneuver.STRAIGHT_2_STANDARD;
-         firstTokenToManeuver[environment.tokens()[2].toString()] = Maneuver.STRAIGHT_3_STANDARD;
-         var secondTokenToManeuver = {};
-         secondTokenToManeuver[environment.tokens()[3].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         secondTokenToManeuver[environment.tokens()[4].toString()] = Maneuver.STRAIGHT_2_STANDARD;
-         secondTokenToManeuver[environment.tokens()[5].toString()] = Maneuver.STRAIGHT_3_STANDARD;
          engine.performCombatPhase = function()
          {
             LOGGER.info("performCombatPhase() dummy");
          };
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            done();
+         };
 
          // Run.
          var done = assert.async();
-         engine.setTokenToManeuver(firstAgent, firstTokenToManeuver);
-         engine.setTokenToManeuver(secondAgent, secondTokenToManeuver);
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-            done();
-         });
+         engine.performPlanningPhase(undefined, callback);
       });
 
       QUnit.test("performActivationPhase() decloak", function(assert)
@@ -82,49 +61,52 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
          store.dispatch(Action.setEnvironment(environment));
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
-         var engine = new Engine(environment, adjudicator);
-         var firstAgent = environment.firstAgent();
-         var secondAgent = environment.secondAgent();
+         var engine = new Engine(environment, adjudicator, delay);
          var token0 = environment.tokens()[0]; // TIE Phantom
          store.dispatch(Action.addCloakCount(token0));
-         var firstTokenToManeuver = {};
-         firstTokenToManeuver[environment.tokens()[0].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         firstTokenToManeuver[environment.tokens()[1].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         firstTokenToManeuver[environment.tokens()[2].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         firstTokenToManeuver[environment.tokens()[3].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         firstTokenToManeuver[environment.tokens()[4].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         var secondTokenToManeuver = {};
-         secondTokenToManeuver[environment.tokens()[5].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         secondTokenToManeuver[environment.tokens()[6].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         secondTokenToManeuver[environment.tokens()[7].toString()] = Maneuver.STRAIGHT_1_STANDARD;
-         secondTokenToManeuver[environment.tokens()[8].toString()] = Maneuver.STRAIGHT_1_STANDARD;
          engine.performCombatPhase = function()
          {
             LOGGER.info("performCombatPhase() dummy");
          };
-         assert.ok(token0.isCloaked());
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+
+            var token = environment.tokens()[0]; // TIE Phantom
+            if (token.pilotKey() === Pilot.WHISPER)
+            {
+               if (token.isCloaked())
+               {
+                  // Ship re-cloaked.
+                  console.log("ship re-cloaked");
+                  assert.equal(token.pilotKey(), Pilot.WHISPER);
+                  assert.equal(token.isCloaked(), true);
+                  assert.equal(token.cloakCount(), 1);
+               }
+               else
+               {
+                  assert.equal(token.pilotKey(), Pilot.WHISPER);
+                  assert.equal(token.isCloaked(), false);
+                  assert.equal(token.cloakCount(), 0);
+               }
+            }
+            else
+            {
+               // Ship fled the battlefield.
+            }
+
+            done();
+         };
+         assert.equal(token0.isCloaked(), true);
          assert.equal(token0.cloakCount(), 1);
 
          // Run.
          var done = assert.async();
-         engine.setTokenToManeuver(firstAgent, firstTokenToManeuver);
-         engine.setTokenToManeuver(secondAgent, secondTokenToManeuver);
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-
-            var token = environment.tokens()[0]; // TIE Phantom
-            assert.equal(token.pilotKey(), Pilot.WHISPER);
-            assert.ok(!token.isCloaked());
-            assert.equal(token.cloakCount(), 0);
-
-            done();
-         }, 1000);
+         engine.performPlanningPhase(undefined, callback);
       });
 
-      QUnit.skip("performCombatPhase()", function(assert)
+      QUnit.test("performCombatPhase()", function(assert)
       {
          // Setup.
          var engine = createEngine();
@@ -140,17 +122,16 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
          {
             LOGGER.info("performEndPhase() dummy");
          };
+         var callback = function()
+         {
+            // Verify.
+            assert.ok(true, "test resumed from async operation");
+            done();
+         };
 
          // Run.
          var done = assert.async();
-         engine.performCombatPhase();
-
-         // Verify.
-         setTimeout(function()
-         {
-            assert.ok(true, "test resumed from async operation");
-            done();
-         });
+         engine.performCombatPhase(callback);
       });
 
       QUnit.test("performEndPhase()", function(assert)
@@ -175,14 +156,9 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
          {
             LOGGER.info("performPlanningPhase() dummy");
          };
-
-         // Run.
-         var done = assert.async();
-         engine.performEndPhase();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.equal(token0.evadeCount(), 0, token0.name());
             assert.equal(token0.focusCount(), 0);
@@ -194,7 +170,11 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
             assert.equal(token2.focusCount(), 0);
             assert.equal(token2.weaponsDisabledCount(), 0);
             done();
-         });
+         };
+
+         // Run.
+         var done = assert.async();
+         engine.performEndPhase(callback);
       });
 
       QUnit.test("performPlanningPhase()", function(assert)
@@ -205,19 +185,18 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
          {
             LOGGER.info("performActivationPhase() dummy");
          };
-
-         // Run.
-         var done = assert.async();
-         engine.performPlanningPhase();
-
-         // Verify.
-         setTimeout(function()
+         var callback = function()
          {
+            // Verify.
             assert.ok(true, "test resumed from async operation");
             assert.ok(engine.firstTokenToManeuver());
             assert.ok(engine.secondTokenToManeuver());
             done();
-         });
+         };
+
+         // Run.
+         var done = assert.async();
+         engine.performPlanningPhase(callback);
       });
 
       function createEngine(isHuge)
@@ -238,6 +217,6 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
          store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
 
-         return new Engine(environment, adjudicator);
+         return new Engine(environment, adjudicator, delay);
       }
    });
