@@ -17,7 +17,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          store.dispatch(Action.addTractorBeamCount(token));
          store.dispatch(Action.addWeaponsDisabledCount(token));
          var defender = environment.tokens()[0];
-         var targetLock = new TargetLock(store, token.id(), defender.id());
+         var targetLock = new TargetLock(store, token, defender);
          var callback = function()
          {
             // Verify.
@@ -30,7 +30,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
             assert.equal(token.weaponsDisabledCount(), 0);
 
             assert.equal(token.stressCount(), 1);
-            assert.ok(TargetLock.getFirst(store, token.id(), defender.id()) !== undefined);
+            assert.ok(TargetLock.getFirst(store, token, defender) !== undefined);
             assert.equal(Selector.usedDamages(store.getState(), token).length, 0);
             assert.equal(Selector.usedPilots(store.getState(), token).length, 0);
             assert.equal(Selector.usedUpgrades(store.getState(), token).length, 0);

@@ -310,8 +310,8 @@ define(["Count", "DamageCard", "ShipState", "UpgradeCard", "process/Selector", "
          {
             var myToken = this.props.token;
             var store = myToken.store();
-            var attackerTargetLocks = TargetLock.getByAttacker(store, myToken.id());
-            var defenderTargetLocks = TargetLock.getByDefender(store, myToken.id());
+            var attackerTargetLocks = TargetLock.getByAttacker(store, myToken);
+            var defenderTargetLocks = TargetLock.getByDefender(store, myToken);
 
             var cells = [];
             var countKeys = Count.values();

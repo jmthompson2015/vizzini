@@ -648,8 +648,8 @@ define(["ShipState", "UpgradeType", "process/TargetLock", "process/ui/FactionUI"
 
             var myToken = this.props.token;
             var store = myToken.store();
-            var attackerTargetLocks = TargetLock.getByAttacker(store, myToken.id());
-            var defenderTargetLocks = TargetLock.getByDefender(store, myToken.id());
+            var attackerTargetLocks = TargetLock.getByAttacker(store, myToken);
+            var defenderTargetLocks = TargetLock.getByDefender(store, myToken);
 
             var cells = [];
             var element = React.createElement(LabeledImage,

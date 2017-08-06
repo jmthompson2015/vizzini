@@ -3,11 +3,11 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
    {
       "use strict";
 
-      function TargetLock(store, attackerId, defenderId, isNewIn)
+      function TargetLock(store, attacker, defender, isNewIn)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateIsNumber("attackerId", attackerId);
-         InputValidator.validateIsNumber("defenderId", defenderId);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("defender", defender);
          // isNew optional. default: true
 
          this.store = function()
@@ -15,14 +15,14 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             return store;
          };
 
-         this.attackerId = function()
+         this.attacker = function()
          {
-            return attackerId;
+            return attacker;
          };
 
-         this.defenderId = function()
+         this.defender = function()
          {
-            return defenderId;
+            return defender;
          };
 
          var isNew = (isNewIn !== undefined ? isNewIn : true);
@@ -34,8 +34,8 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
 
             var values = Immutable.Map(
             {
-               attackerId: attackerId,
-               defenderId: defenderId,
+               attackerId: attacker.id(),
+               defenderId: defender.id(),
                id: newId,
             });
 
@@ -44,28 +44,12 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             var eventContext = {
                shipActionKey: ShipAction.TARGET_LOCK,
             };
-            store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attackerId, eventCallback, eventContext));
+            store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attacker, eventCallback, eventContext));
          }
       }
 
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
-
-      TargetLock.prototype.attacker = function()
-      {
-         var store = this.store();
-         var attackerId = this.attackerId();
-
-         return Selector.token(store.getState(), attackerId);
-      };
-
-      TargetLock.prototype.defender = function()
-      {
-         var store = this.store();
-         var defenderId = this.defenderId();
-
-         return Selector.token(store.getState(), defenderId);
-      };
 
       TargetLock.prototype.id = function()
       {
@@ -77,8 +61,8 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
       TargetLock.prototype.values = function()
       {
          var store = this.store();
-         var attackerId = this.attackerId();
-         var defenderId = this.defenderId();
+         var attackerId = this.attacker().id();
+         var defenderId = this.defender().id();
 
          var targetLocks = store.getState().targetLocks;
 
@@ -107,67 +91,69 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
       //////////////////////////////////////////////////////////////////////////
       // Utility methods.
 
-      TargetLock.get = function(store, attackerId, defenderId)
+      TargetLock.get = function(store, attacker, defender)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateIsNumber("attackerId", attackerId);
-         InputValidator.validateIsNumber("defenderId", defenderId);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("defender", defender);
 
          var tlValues = store.getState().targetLocks;
          var isNew = false;
 
          return tlValues.toArray().filter(function(values)
          {
-            return values.get("attackerId") === attackerId && values.get("defenderId") === defenderId;
+            return values.get("attackerId") === attacker.id() && values.get("defenderId") === defender.id();
          }).map(function(values)
          {
-            return new TargetLock(store, attackerId, defenderId, isNew);
+            return new TargetLock(store, attacker, defender, isNew);
          });
       };
 
-      TargetLock.getByAttacker = function(store, attackerId)
+      TargetLock.getByAttacker = function(store, attacker)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateIsNumber("attackerId", attackerId);
+         InputValidator.validateNotNull("attacker", attacker);
 
          var tlValues = store.getState().targetLocks;
          var isNew = false;
 
          return tlValues.toArray().filter(function(values)
          {
-            return values.get("attackerId") === attackerId;
+            return values.get("attackerId") === attacker.id();
          }).map(function(values)
          {
             var defenderId = values.get("defenderId");
-            return new TargetLock(store, attackerId, defenderId, isNew);
+            var defender = Selector.token(store.getState(), defenderId);
+            return new TargetLock(store, attacker, defender, isNew);
          });
       };
 
-      TargetLock.getByDefender = function(store, defenderId)
+      TargetLock.getByDefender = function(store, defender)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateIsNumber("defenderId", defenderId);
+         InputValidator.validateNotNull("defender", defender);
 
          var tlValues = store.getState().targetLocks;
          var isNew = false;
 
          return tlValues.toArray().filter(function(values)
          {
-            return values.get("defenderId") === defenderId;
+            return values.get("defenderId") === defender.id();
          }).map(function(values)
          {
             var attackerId = values.get("attackerId");
-            return new TargetLock(store, attackerId, defenderId, isNew);
+            var attacker = Selector.token(store.getState(), attackerId);
+            return new TargetLock(store, attacker, defender, isNew);
          });
       };
 
-      TargetLock.getFirst = function(store, attackerId, defenderId)
+      TargetLock.getFirst = function(store, attacker, defender)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateIsNumber("attackerId", attackerId);
-         InputValidator.validateIsNumber("defenderId", defenderId);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("defender", defender);
 
-         var answer = TargetLock.get(store, attackerId, defenderId);
+         var answer = TargetLock.get(store, attacker, defender);
 
          if (answer.length === 0)
          {
@@ -194,14 +180,14 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          return answer;
       };
 
-      TargetLock.removeAllTargetLocks = function(store, tokenId)
+      TargetLock.removeAllTargetLocks = function(store, token)
       {
          InputValidator.validateNotNull("store", store);
-         InputValidator.validateIsNumber("tokenId", tokenId);
+         InputValidator.validateNotNull("token", token);
 
          var tlValues = store.getState().targetLocks.filter(function(targetLock)
          {
-            return targetLock.get("attackerId") === tokenId || targetLock.get("defenderId") === tokenId;
+            return targetLock.get("attackerId") === token.id() || targetLock.get("defenderId") === token.id();
          });
 
          for (var i = 0; i < tlValues.size; i++)

@@ -72,7 +72,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            var targetLock = new TargetLock(store, token.id(), attacker.id());
+            var targetLock = new TargetLock(store, token, attacker);
             if (callback !== undefined) callback();
          },
       };
@@ -86,13 +86,13 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
-            var targetLocks = TargetLock.getByDefender(store, defender.id());
+            var targetLocks = TargetLock.getByDefender(store, defender);
             return token === attacker && targetLocks.length > 0;
          },
          consequent: function(store, token, callback)
          {
             var defender = getDefender(token);
-            var targetLock = new TargetLock(store, token.id(), defender.id());
+            var targetLock = new TargetLock(store, token, defender);
             if (callback !== undefined) callback();
          },
       };
@@ -224,7 +224,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(token);
-            var targetLocks = TargetLock.getByDefender(store, defender.id());
+            var targetLocks = TargetLock.getByDefender(store, defender);
             var attackDice = getAttackDice(token);
             return token === attacker && token.focusCount() > 0 && targetLocks.length > 0 && (attackDice.blankCount() > 0 || attackDice.focusCount() > 0 || attackDice.hitCount() > 0);
          },
@@ -594,7 +594,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          InputValidator.validateNotNull("attacker", attacker);
          InputValidator.validateNotNull("defender", defender);
 
-         var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+         var targetLock = TargetLock.getFirst(store, attacker, defender);
          targetLock.delete();
       }
 

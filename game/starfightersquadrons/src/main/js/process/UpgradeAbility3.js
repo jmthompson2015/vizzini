@@ -262,7 +262,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            var targetLock = TargetLock.getFirst(store, token.id(), defender.id());
+            var targetLock = TargetLock.getFirst(store, token, defender);
             var attackDice = getAttackDice(attacker);
             return token === attacker && targetLock !== undefined && attackDice.focusCount() > 0;
          },
@@ -734,7 +734,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
 
                      if (RangeRuler.STANDARD_RANGES.includes(myRangeKey))
                      {
-                        var targetLock = new TargetLock(store, token.id(), defender.id());
+                        var targetLock = new TargetLock(store, token, defender);
                      }
                   });
                });
@@ -803,7 +803,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
 
             store.dispatch(Action.addFocusCount(token));
             var defender = getDefender(token);
-            var targetLock = new TargetLock(store, token.id(), defender.id());
+            var targetLock = new TargetLock(store, token, defender);
             if (callback !== undefined) callback();
          },
       };
@@ -838,7 +838,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            var targetLock = new TargetLock(store, attacker.id(), defender.id());
+            var targetLock = new TargetLock(store, attacker, defender);
             if (callback !== undefined) callback();
          },
       };
@@ -1262,7 +1262,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          InputValidator.validateNotNull("attacker", attacker);
          InputValidator.validateNotNull("defender", defender);
 
-         var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+         var targetLock = TargetLock.getFirst(store, attacker, defender);
          targetLock.delete();
       }
 

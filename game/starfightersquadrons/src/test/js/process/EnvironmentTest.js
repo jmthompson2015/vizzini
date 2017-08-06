@@ -70,7 +70,7 @@ define(["process/Environment", "process/EnvironmentFactory", "Phase", "Pilot", "
          var defender5 = new Token(store, Pilot.BLACK_SQUADRON_PILOT, imperialAgent);
 
          store.dispatch(Action.addFocusCount(attacker));
-         var targetLock = new TargetLock(store, attacker.id(), defender3.id());
+         var targetLock = new TargetLock(store, attacker, defender3);
 
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          environment.placeToken(new Position(458, 895, -90), attacker);

@@ -91,7 +91,7 @@ define(["FiringArc", "ManeuverComputer", "RangeRuler", "UpgradeCard", "UpgradeHe
                      answer = (attacker.focusCount() > 0);
                      break;
                   case UpgradeHeader.ATTACK_TARGET_LOCK:
-                     answer = (TargetLock.getFirst(attacker.store(), attacker.id(), defender.id()) !== undefined);
+                     answer = (TargetLock.getFirst(attacker.store(), attacker, defender) !== undefined);
                      break;
                   default:
                      throw "Unknown upgrade header: " + header;

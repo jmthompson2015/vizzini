@@ -13,7 +13,7 @@ define(["process/EnvironmentFactory", "Position", "process/ShipFledAction", "pro
          LOGGER.trace("fromPosition = " + fromPosition.toString());
          var token = environment.getTokenAt(fromPosition);
          var defender = environment.tokens()[2]; // X-Wing.
-         var targetLock = new TargetLock(store, token.id(), defender.id());
+         var targetLock = new TargetLock(store, token, defender);
          assert.equal(store.getState().targetLocks.size, 1);
          var shipFledAction = new ShipFledAction(environment, token, fromPosition);
 

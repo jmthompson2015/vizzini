@@ -589,12 +589,12 @@ define(["Ability", "DamageCard", "Event", "Maneuver", "Phase", "Position", "Ship
          var attacker = environment.tokens()[2]; // X-Wing
          var action = new ShipActionAction.SAATargetLock(store, attacker, defender);
          assert.equal(store.getState().targetLocks.size, 0);
-         assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()) === undefined);
+         assert.ok(TargetLock.getFirst(store, attacker, defender) === undefined);
          var callback = function()
          {
             // Verify.
             assert.equal(store.getState().targetLocks.size, 1);
-            assert.ok(TargetLock.getFirst(store, attacker.id(), defender.id()) !== undefined);
+            assert.ok(TargetLock.getFirst(store, attacker, defender) !== undefined);
          };
 
          // Run.

@@ -144,7 +144,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
          var answer = [];
          var modificationKey;
          var pilotKey;
-         var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+         var targetLock = TargetLock.getFirst(store, attacker, defender);
 
          if (targetLock)
          {
@@ -286,7 +286,7 @@ define(["Ability", "DamageCard", "Maneuver", "ManeuverComputer", "Phase", "PlayF
                defenders.forEach(function(defender)
                {
                   // Only put choices without a current target lock.
-                  if (TargetLock.getFirst(store, token.id(), defender.id()) === undefined)
+                  if (TargetLock.getFirst(store, token, defender) === undefined)
                   {
                      answer.push(new ShipActionAction.SAATargetLock(store, token, defender));
                   }

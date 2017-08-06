@@ -43,7 +43,7 @@ define(["process/Action", "process/TargetLock"],
             tokens.forEach(function(token)
             {
                var store = environment.store();
-               TargetLock.removeAllTargetLocks(store, token.id());
+               TargetLock.removeAllTargetLocks(store, token);
 
                // Return the damage cards.
                environment.discardAllDamage(token.damages());

@@ -12,7 +12,7 @@ define(["process/EnvironmentFactory", "Position", "process/ShipDestroyedAction",
          var fromPosition = new Position(305, 20, 90); // TIE Fighter.
          var token = environment.getTokenAt(fromPosition);
          var defender = environment.tokens()[2]; // X-Wing.
-         var targetLock = new TargetLock(store, token.id(), defender.id());
+         var targetLock = new TargetLock(store, token, defender);
          assert.equal(store.getState().targetLocks.size, 1);
          var shipDestroyedAction = new ShipDestroyedAction(environment, token, fromPosition);
 

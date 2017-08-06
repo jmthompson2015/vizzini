@@ -95,17 +95,17 @@ define(["Pilot", "process/Action", "process/TargetLock", "process/Token"],
 
          this.removeAllTargetLocks = function()
          {
-            TargetLock.removeAllTargetLocks(store, tokenFore.id());
-            TargetLock.removeAllTargetLocks(store, tokenAft.id());
+            TargetLock.removeAllTargetLocks(store, tokenFore);
+            TargetLock.removeAllTargetLocks(store, tokenAft);
 
             if (myCrippledTokenFore !== undefined)
             {
-               TargetLock.removeAllTargetLocks(store, myCrippledTokenFore.id());
+               TargetLock.removeAllTargetLocks(store, myCrippledTokenFore);
             }
 
             if (myCrippledTokenAft)
             {
-               TargetLock.removeAllTargetLocks(store, myCrippledTokenAft.id());
+               TargetLock.removeAllTargetLocks(store, myCrippledTokenAft);
             }
          };
 

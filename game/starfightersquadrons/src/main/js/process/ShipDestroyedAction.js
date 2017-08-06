@@ -25,7 +25,7 @@ define(["process/Action", "process/TargetLock"],
             LOGGER.trace("ShipDestroyedAction.doIt() start");
 
             var store = environment.store();
-            TargetLock.removeAllTargetLocks(store, token.id());
+            TargetLock.removeAllTargetLocks(store, token);
 
             // Return the damage cards.
             if (token.tokenFore && token.tokenAft)

@@ -133,7 +133,7 @@ define(["process/Environment", "process/EnvironmentFactory", "FiringArc", "Pilot
          assert.ok(weapon1.isUsable(attacker, defender));
          assert.ok(!weapon2.isUsable(attacker, defender));
 
-         var targetLock = new TargetLock(store, attacker.id(), defender.id());
+         var targetLock = new TargetLock(store, attacker, defender);
 
          // Run / Verify.
          assert.ok(weapon0.isUsable(attacker, defender));

@@ -49,7 +49,7 @@ define(["Phase", "process/Action", "process/AttackDice", "process/PilotAbility3"
             if (modificationKey === ModifyAttackDiceAction.Modification.SPEND_TARGET_LOCK)
             {
                attackDice.spendTargetLock();
-               var targetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+               var targetLock = TargetLock.getFirst(store, attacker, defender);
                targetLock.delete();
             }
             else if (modificationKey === ModifyAttackDiceAction.Modification.SPEND_FOCUS)

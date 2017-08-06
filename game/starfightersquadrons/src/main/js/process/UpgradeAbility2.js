@@ -272,7 +272,7 @@ define(["Bearing", "Difficulty", "Maneuver", "Phase", "Position", "ShipAction", 
                token.receiveStress();
             }
             // FIXME: removing the *first* enemy target lock.
-            var defenderTargetLocks = TargetLock.getByDefender(token.store(), token.id());
+            var defenderTargetLocks = TargetLock.getByDefender(token.store(), token);
             if (defenderTargetLocks.length > 0)
             {
                defenderTargetLocks[0].delete();

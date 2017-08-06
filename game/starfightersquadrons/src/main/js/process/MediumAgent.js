@@ -36,10 +36,10 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
             newStore.dispatch(Action.setTokenDefenseDice(newAttacker.id(), newDefenseDice.values()));
 
             var oldTargetLocks = store.getState().targetLocks;
-            var oldTargetLock = TargetLock.getFirst(store, attacker.id(), defender.id());
+            var oldTargetLock = TargetLock.getFirst(store, attacker, defender);
             if (oldTargetLock !== undefined)
             {
-               var newTargetLock = new TargetLock(newStore, newAttacker.id(), newDefender.id());
+               var newTargetLock = new TargetLock(newStore, newAttacker, newDefender);
             }
 
             var oldCombatAction = Selector.combatAction(store.getState(), attacker);
@@ -373,7 +373,7 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
                return shipAction.defender;
             });
 
-            if (TargetLock.getByAttacker(store, token.id()).length === 0 && targetLocks.length > 0)
+            if (TargetLock.getByAttacker(store, token).length === 0 && targetLocks.length > 0)
             {
                answer = targetLocks.vizziniRandomElement();
             }
