@@ -115,13 +115,13 @@
 				store.dispatch(Action.addEnergyCount(raiderToken, 2));
 				environment.placeToken(new Position(250, 100, 0), raiderToken);
 
-				var targetLock0 = new TargetLock(store, imperialToken, rebelToken);
+				var targetLock0 = TargetLock.newInstance(store, imperialToken, rebelToken);
 
-				var targetLock1 = new TargetLock(store, rebelToken, scumToken);
+				var targetLock1 = TargetLock.newInstance(store, rebelToken, scumToken);
 
-				var targetLock2 = new TargetLock(store, scumToken, imperialToken);
+				var targetLock2 = TargetLock.newInstance(store, scumToken, imperialToken);
 
-				var targetLock3 = new TargetLock(store, cr90Token.tokenFore(), foToken);
+				var targetLock3 = TargetLock.newInstance(store, cr90Token.tokenFore(), foToken);
 
 				var element = React.createElement(PilotCardCompactUI,
 				{

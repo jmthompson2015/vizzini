@@ -69,7 +69,7 @@ define(["Difficulty", "Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "p
          store.dispatch(Action.moveToken(oldPosition0, position0));
          var token0 = environment.tokens()[0];
          var token2 = environment.tokens()[2];
-         var targetLock = new TargetLock(store, token2, token0);
+         var targetLock = TargetLock.newInstance(store, token2, token0);
          var agent = token2.agent();
 
          var callback = function(weapon, defender)

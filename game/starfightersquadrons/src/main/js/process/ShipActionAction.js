@@ -535,7 +535,7 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          var store = this.store();
          var attacker = this.attacker();
          var defender = this.defender();
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
          notifyEvent(store, attacker, eventCallback, this.shipActionKey());
       };
 

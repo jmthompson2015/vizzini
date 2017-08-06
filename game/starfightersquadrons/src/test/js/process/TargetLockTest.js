@@ -7,16 +7,13 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
       QUnit.test("TargetLock()", function(assert)
       {
          // Setup.
-         //  var store = Redux.createStore(Reducer.root);
-         //  var attackerId = 1;
-         //  var defenderId = 2;
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[2];
 
          // Run.
-         var result = new TargetLock(store, attacker, defender);
+         var result = TargetLock.newInstance(store, attacker, defender);
 
          // Verify.
          assert.ok(result);
@@ -33,7 +30,7 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          var store = environment.store();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
 
          // Run.
          var result = targetLock.attacker();
@@ -50,7 +47,7 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          var store = environment.store();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
 
          // Run.
          var result = targetLock.defender();
@@ -63,14 +60,11 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
       QUnit.test("delete()", function(assert)
       {
          // Setup.
-         //  var store = Redux.createStore(Reducer.root);
-         //  var attackerId = 1;
-         //  var defenderId = 2;
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
          assert.equal(store.getState().targetLocks.size, 1);
          assert.equal(store.getState().targetLocks.get(0).get("id"), "A");
          assert.equal(store.getState().targetLocks.get(0).get("attackerId"), attacker.id());
@@ -86,14 +80,11 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
       QUnit.test("get()", function(assert)
       {
          // Setup.
-         //  var store = Redux.createStore(Reducer.root);
-         //  var attackerId = 1;
-         //  var defenderId = 2;
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
 
          // Run.
          var result = TargetLock.get(store, attacker, defender);
@@ -112,9 +103,9 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var targetLock0 = new TargetLock(store, environment.tokens()[0], environment.tokens()[1]);
-         var targetLock1 = new TargetLock(store, environment.tokens()[1], environment.tokens()[2]);
-         var targetLock2 = new TargetLock(store, environment.tokens()[2], environment.tokens()[0]);
+         var targetLock0 = TargetLock.newInstance(store, environment.tokens()[0], environment.tokens()[1]);
+         var targetLock1 = TargetLock.newInstance(store, environment.tokens()[1], environment.tokens()[2]);
+         var targetLock2 = TargetLock.newInstance(store, environment.tokens()[2], environment.tokens()[0]);
 
          // Run.
          var result = TargetLock.get(store, environment.tokens()[0], environment.tokens()[1]);
@@ -154,9 +145,9 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var targetLock0 = new TargetLock(store, environment.tokens()[0], environment.tokens()[1]);
-         var targetLock1 = new TargetLock(store, environment.tokens()[1], environment.tokens()[2]);
-         var targetLock2 = new TargetLock(store, environment.tokens()[2], environment.tokens()[0]);
+         var targetLock0 = TargetLock.newInstance(store, environment.tokens()[0], environment.tokens()[1]);
+         var targetLock1 = TargetLock.newInstance(store, environment.tokens()[1], environment.tokens()[2]);
+         var targetLock2 = TargetLock.newInstance(store, environment.tokens()[2], environment.tokens()[0]);
 
          // Run.
          var result = TargetLock.getByAttacker(store, environment.tokens()[0]);
@@ -196,9 +187,9 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var targetLock0 = new TargetLock(store, environment.tokens()[0], environment.tokens()[1]);
-         var targetLock1 = new TargetLock(store, environment.tokens()[1], environment.tokens()[2]);
-         var targetLock2 = new TargetLock(store, environment.tokens()[2], environment.tokens()[0]);
+         var targetLock0 = TargetLock.newInstance(store, environment.tokens()[0], environment.tokens()[1]);
+         var targetLock1 = TargetLock.newInstance(store, environment.tokens()[1], environment.tokens()[2]);
+         var targetLock2 = TargetLock.newInstance(store, environment.tokens()[2], environment.tokens()[0]);
 
          // Run.
          var result = TargetLock.getByDefender(store, environment.tokens()[1]);
@@ -240,7 +231,7 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          var store = environment.store();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
 
          // Run.
          var result = targetLock.id();
@@ -281,9 +272,9 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         var targetLock0 = new TargetLock(store, environment.tokens()[0], environment.tokens()[1]);
-         var targetLock1 = new TargetLock(store, environment.tokens()[1], environment.tokens()[2]);
-         var targetLock2 = new TargetLock(store, environment.tokens()[2], environment.tokens()[0]);
+         var targetLock0 = TargetLock.newInstance(store, environment.tokens()[0], environment.tokens()[1]);
+         var targetLock1 = TargetLock.newInstance(store, environment.tokens()[1], environment.tokens()[2]);
+         var targetLock2 = TargetLock.newInstance(store, environment.tokens()[2], environment.tokens()[0]);
          assert.equal(store.getState().targetLocks.size, 3);
 
          // Run.
@@ -302,7 +293,7 @@ define(["process/EnvironmentFactory", "process/Reducer", "process/TargetLock"],
          var store = environment.store();
          var attacker = environment.tokens()[0];
          var defender = environment.tokens()[2];
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
 
          // Run.
          var result = targetLock.values();

@@ -72,8 +72,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             var attacker = getActiveToken(store);
-            var targetLock = new TargetLock(store, token, attacker);
-            if (callback !== undefined) callback();
+            var targetLock = TargetLock.newInstance(store, token, attacker, callback);
          },
       };
 
@@ -92,8 +91,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          consequent: function(store, token, callback)
          {
             var defender = getDefender(token);
-            var targetLock = new TargetLock(store, token, defender);
-            if (callback !== undefined) callback();
+            var targetLock = TargetLock.newInstance(store, token, defender, callback);
          },
       };
 

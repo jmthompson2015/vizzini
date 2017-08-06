@@ -3,17 +3,10 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
    {
       "use strict";
 
-      function TargetLock(store, attacker, defender, isNewIn)
+      function TargetLock(attacker, defender)
       {
-         InputValidator.validateNotNull("store", store);
          InputValidator.validateNotNull("attacker", attacker);
          InputValidator.validateNotNull("defender", defender);
-         // isNew optional. default: true
-
-         this.store = function()
-         {
-            return store;
-         };
 
          this.attacker = function()
          {
@@ -24,30 +17,6 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          {
             return defender;
          };
-
-         var isNew = (isNewIn !== undefined ? isNewIn : true);
-
-         if (isNew)
-         {
-            // Initialize ID.
-            var newId = TargetLock.nextId(store);
-
-            var values = Immutable.Map(
-            {
-               attackerId: attacker.id(),
-               defenderId: defender.id(),
-               id: newId,
-            });
-
-            store.dispatch(Action.addTargetLock(values));
-            var eventCallback;
-            var eventContext = {
-               defenderId: defender.id(),
-               id: newId,
-               shipActionKey: ShipAction.TARGET_LOCK,
-            };
-            store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attacker, eventCallback, eventContext));
-         }
       }
 
       //////////////////////////////////////////////////////////////////////////
@@ -58,6 +27,13 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          var values = this.values();
 
          return values.get("id");
+      };
+
+      TargetLock.prototype.store = function()
+      {
+         var attacker = this.attacker();
+
+         return attacker.store();
       };
 
       TargetLock.prototype.values = function()
@@ -93,6 +69,38 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
       //////////////////////////////////////////////////////////////////////////
       // Utility methods.
 
+      TargetLock.newInstance = function(store, attacker, defender, eventCallback)
+      {
+         InputValidator.validateNotNull("store", store);
+         InputValidator.validateNotNull("attacker", attacker);
+         InputValidator.validateNotNull("defender", defender);
+         // eventCallback optional.
+
+         var answer = new TargetLock(attacker, defender);
+
+         // Initialize ID.
+         var newId = TargetLock.nextId(store);
+
+         var values = Immutable.Map(
+         {
+            attackerId: attacker.id(),
+            defenderId: defender.id(),
+            id: newId,
+         });
+
+         store.dispatch(Action.addTargetLock(values));
+
+         var eventContext = {
+            defenderId: defender.id(),
+            id: newId,
+            shipActionKey: ShipAction.TARGET_LOCK,
+         };
+
+         store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attacker, eventCallback, eventContext));
+
+         return answer;
+      };
+
       TargetLock.get = function(store, attacker, defender)
       {
          InputValidator.validateNotNull("store", store);
@@ -100,7 +108,6 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          InputValidator.validateNotNull("defender", defender);
 
          var tlValues = store.getState().targetLocks;
-         var isNew = false;
          var attackerId = attacker.id();
          var defenderId = defender.id();
 
@@ -109,7 +116,7 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             return values.get("attackerId") === attackerId && values.get("defenderId") === defenderId;
          }).map(function(values)
          {
-            return new TargetLock(store, attacker, defender, isNew);
+            return new TargetLock(attacker, defender);
          });
       };
 
@@ -119,7 +126,6 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          InputValidator.validateNotNull("attacker", attacker);
 
          var tlValues = store.getState().targetLocks;
-         var isNew = false;
          var attackerId = attacker.id();
 
          return tlValues.toArray().filter(function(values)
@@ -129,7 +135,7 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          {
             var defenderId = values.get("defenderId");
             var defender = Selector.token(store.getState(), defenderId);
-            return new TargetLock(store, attacker, defender, isNew);
+            return new TargetLock(attacker, defender);
          });
       };
 
@@ -139,7 +145,6 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          InputValidator.validateNotNull("defender", defender);
 
          var tlValues = store.getState().targetLocks;
-         var isNew = false;
          var defenderId = defender.id();
 
          return tlValues.toArray().filter(function(values)
@@ -149,7 +154,7 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          {
             var attackerId = values.get("attackerId");
             var attacker = Selector.token(store.getState(), attackerId);
-            return new TargetLock(store, attacker, defender, isNew);
+            return new TargetLock(attacker, defender);
          });
       };
 

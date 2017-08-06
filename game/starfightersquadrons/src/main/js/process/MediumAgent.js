@@ -39,7 +39,7 @@ define(["Difficulty", "Maneuver", "ManeuverComputer", "PlayFormat", "RangeRuler"
             var oldTargetLock = TargetLock.getFirst(store, attacker, defender);
             if (oldTargetLock !== undefined)
             {
-               var newTargetLock = new TargetLock(newStore, newAttacker, newDefender);
+               var newTargetLock = TargetLock.newInstance(newStore, newAttacker, newDefender);
             }
 
             var oldCombatAction = Selector.combatAction(store.getState(), attacker);

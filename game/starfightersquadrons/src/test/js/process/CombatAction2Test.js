@@ -600,7 +600,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.addFocusCount(attacker));
 
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
 
          var callback = (callback0 !== undefined ? callback0 : function()
          {

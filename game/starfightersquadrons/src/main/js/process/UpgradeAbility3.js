@@ -734,7 +734,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
 
                      if (RangeRuler.STANDARD_RANGES.includes(myRangeKey))
                      {
-                        var targetLock = new TargetLock(store, token, defender);
+                        var targetLock = TargetLock.newInstance(store, token, defender);
                      }
                   });
                });
@@ -803,8 +803,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
 
             store.dispatch(Action.addFocusCount(token));
             var defender = getDefender(token);
-            var targetLock = new TargetLock(store, token, defender);
-            if (callback !== undefined) callback();
+            var targetLock = TargetLock.newInstance(store, token, defender, callback);
          },
       };
 
@@ -838,8 +837,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          {
             var attacker = getActiveToken(store);
             var defender = getDefender(attacker);
-            var targetLock = new TargetLock(store, attacker, defender);
-            if (callback !== undefined) callback();
+            var targetLock = TargetLock.newInstance(store, attacker, defender, callback);
          },
       };
 

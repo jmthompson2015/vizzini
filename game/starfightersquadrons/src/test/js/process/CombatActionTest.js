@@ -401,7 +401,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
             assert.equal(defender.shieldCount(), 2);
             done();
          };
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
          environment.activeToken(attacker);
          var combatAction = new CombatAction(store, attacker, weapon, defender, callback, delay, MockAttackDice, MockDefenseDice);
          assert.ok(attacker.isUpgradedWith(upgradeKey));
@@ -588,7 +588,7 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.addFocusCount(attacker));
 
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
 
          var callback = (callback0 !== undefined ? callback0 : function()
          {

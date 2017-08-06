@@ -17,7 +17,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          store.dispatch(Action.addTractorBeamCount(token));
          store.dispatch(Action.addWeaponsDisabledCount(token));
          var defender = environment.tokens()[0];
-         var targetLock = new TargetLock(store, token, defender);
+         var targetLock = TargetLock.newInstance(store, token, defender);
          var callback = function()
          {
             // Verify.

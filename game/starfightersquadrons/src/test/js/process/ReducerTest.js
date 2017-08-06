@@ -776,7 +776,7 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          var attacker = new Token(store, Pilot.LUKE_SKYWALKER, agent0);
          var agent1 = new SimpleAgent("Bravo", Team.IMPERIAL);
          var defender = new Token(store, Pilot.ACADEMY_PILOT, agent1);
-         var targetLock = new TargetLock(store, attacker, defender);
+         var targetLock = TargetLock.newInstance(store, attacker, defender);
          //  store.dispatch(Action.addTargetLock(targetLock));
          assert.equal(store.getState().targetLocks.size, 1);
          assert.equal(store.getState().targetLocks.get(0).get("id"), "A");

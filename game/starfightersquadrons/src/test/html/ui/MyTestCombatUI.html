@@ -67,7 +67,7 @@
 				LOGGER.debug("defender = " + defender);
 				store.dispatch(Action.addFocusCount(defender));
 				store.dispatch(Action.addEvadeCount(defender));
-				var targetLock = new TargetLock(store, attacker, defender);
+				var targetLock = TargetLock.newInstance(store, attacker, defender);
 				var callback = function()
 				{
 					LOGGER.info("callback() start");
