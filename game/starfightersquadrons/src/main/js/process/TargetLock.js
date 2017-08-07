@@ -3,10 +3,16 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
    {
       "use strict";
 
-      function TargetLock(attacker, defender)
+      function TargetLock(id, attacker, defender)
       {
+         InputValidator.validateNotNull("id", id);
          InputValidator.validateNotNull("attacker", attacker);
          InputValidator.validateNotNull("defender", defender);
+
+         this.id = function()
+         {
+            return id;
+         };
 
          this.attacker = function()
          {
@@ -21,13 +27,6 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
 
       //////////////////////////////////////////////////////////////////////////
       // Accessor methods.
-
-      TargetLock.prototype.id = function()
-      {
-         var values = this.values();
-
-         return values.get("id");
-      };
 
       TargetLock.prototype.store = function()
       {
@@ -76,10 +75,10 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
          InputValidator.validateNotNull("defender", defender);
          // eventCallback optional.
 
-         var answer = new TargetLock(attacker, defender);
-
          // Initialize ID.
          var newId = TargetLock.nextId(store);
+
+         var answer = new TargetLock(newId, attacker, defender);
 
          var values = Immutable.Map(
          {
@@ -116,7 +115,8 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             return values.get("attackerId") === attackerId && values.get("defenderId") === defenderId;
          }).map(function(values)
          {
-            return new TargetLock(attacker, defender);
+            var id = values.get("id");
+            return new TargetLock(id, attacker, defender);
          });
       };
 
@@ -133,9 +133,10 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             return values.get("attackerId") === attackerId;
          }).map(function(values)
          {
+            var id = values.get("id");
             var defenderId = values.get("defenderId");
             var defender = Selector.token(store.getState(), defenderId);
-            return new TargetLock(attacker, defender);
+            return new TargetLock(id, attacker, defender);
          });
       };
 
@@ -152,9 +153,10 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             return values.get("defenderId") === defenderId;
          }).map(function(values)
          {
+            var id = values.get("id");
             var attackerId = values.get("attackerId");
             var attacker = Selector.token(store.getState(), attackerId);
-            return new TargetLock(attacker, defender);
+            return new TargetLock(id, attacker, defender);
          });
       };
 
