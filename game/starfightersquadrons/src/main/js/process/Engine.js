@@ -33,9 +33,86 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          var endQueue = [];
          var decloakCount = 0;
 
+         //////////////////////////////////////////////////////////////////////////
+         // Accessor methods.
+
          this.firstTokenToManeuver = function()
          {
             return firstTokenToManeuver;
+         };
+
+         this.secondTokenToManeuver = function()
+         {
+            return secondTokenToManeuver;
+         };
+
+         //////////////////////////////////////////////////////////////////////////
+         // Behavior methods.
+
+         this.performPlanningPhase = function(planningCallback, activationCallback)
+         {
+            // planningCallback optional.
+            // activationCallback optional.
+
+            if (planningCallback)
+            {
+               planningPhaseCallback = planningCallback;
+            }
+
+            if (activationCallback)
+            {
+               activationPhaseCallback = activationCallback;
+            }
+
+            if (!isGameOver())
+            {
+               LOGGER.trace("Engine.performPlanningPhase() start");
+
+               environment.phase(Phase.PLANNING_START);
+               environment.incrementRound();
+
+               var firstAgent = environment.firstAgent();
+               var firstPlanningAction = new PlanningAction(environment, adjudicator, firstAgent, that.setTokenToManeuver);
+               firstPlanningAction.doIt();
+
+               var secondAgent = environment.secondAgent();
+               var secondPlanningAction = new PlanningAction(environment, adjudicator, secondAgent, that.setTokenToManeuver);
+               secondPlanningAction.doIt();
+
+               // Wait for agents to respond.
+            }
+            else
+            {
+               planningPhaseCallback();
+            }
+         };
+
+         this.setTokenToManeuver = function(agent, tokenToManeuver)
+         {
+            if (agent === environment.firstAgent())
+            {
+               firstTokenToManeuver = tokenToManeuver;
+               LOGGER.trace("firstTokenToManeuver = " + firstTokenToManeuver);
+            }
+            else if (agent === environment.secondAgent())
+            {
+               secondTokenToManeuver = tokenToManeuver;
+               LOGGER.trace("secondTokenToManeuver = " + secondTokenToManeuver);
+            }
+            else
+            {
+               LOGGER.error("planningAction agent = " + agent);
+            }
+
+            if (firstTokenToManeuver && secondTokenToManeuver)
+            {
+               LOGGER.trace("Engine.performPlanningPhase() end");
+               environment.phase(Phase.PLANNING_END);
+               setTimeout(function()
+               {
+                  planningPhaseCallback();
+               }, delay);
+            }
          };
 
          this.performActivationPhase = function()
@@ -68,6 +145,98 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                   }
                }, this);
             }
+         };
+
+         this.setDecloakAction = function(token, decloakAction)
+         {
+            LOGGER.trace("Engine.setDecloakAction() start");
+
+            InputValidator.validateNotNull("token", token);
+
+            LOGGER.debug("token = " + token + " decloakAction = " + decloakAction);
+
+            if (decloakAction !== undefined)
+            {
+               decloakAction.doIt(this.finishDecloakAction.bind(this));
+               LOGGER.debug("token.isCloaked() ? " + token.isCloaked());
+               LOGGER.debug("token.cloakCount() = " + token.cloakCount());
+            }
+            else
+            {
+               this.finishDecloakAction();
+            }
+
+            LOGGER.trace("Engine.setDecloakAction() end");
+         };
+
+         this.finishDecloakAction = function()
+         {
+            LOGGER.trace("Engine.finishDecloakAction() start");
+
+            decloakCount++;
+
+            if (decloakCount === environment.tokens().length)
+            {
+               activationQueue = environment.getTokensForActivation(true);
+               setTimeout(this.processActivationQueue.bind(this), delay);
+            }
+
+            LOGGER.trace("Engine.finishDecloakAction() end");
+         };
+
+         this.processActivationQueue = function()
+         {
+            LOGGER.trace("Engine.processActivationQueue() start");
+
+            var store = environment.store();
+
+            if (activationQueue.length === 0)
+            {
+               firstTokenToManeuver = undefined;
+               secondTokenToManeuver = undefined;
+
+               environment.activeToken(undefined);
+               store.dispatch(Action.setUserMessage(""));
+               LOGGER.trace("Engine.processActivationQueue() done");
+               environment.phase(Phase.ACTIVATION_END);
+               setTimeout(function()
+               {
+                  activationPhaseCallback();
+               }, delay);
+               return;
+            }
+
+            var token = activationQueue.shift();
+            environment.activeToken(token);
+            var factionKey = token.pilot().shipTeam.teamKey;
+            var myToken = token;
+
+            if (token.parent && token.pilot().value.endsWith("fore"))
+            {
+               myToken = token.parent;
+            }
+
+            var maneuverKey;
+
+            if (Team.isFriendly(factionKey, environment.firstTeam()))
+            {
+               maneuverKey = firstTokenToManeuver[myToken];
+            }
+            else
+            {
+               maneuverKey = secondTokenToManeuver[myToken];
+            }
+
+            var activationAction = new ActivationAction(store, token.id(), this.processActivationQueue.bind(this), delay);
+            var maneuver = Maneuver.properties[maneuverKey];
+            store.dispatch(Action.setTokenManeuver(token, maneuver));
+
+            setTimeout(function()
+            {
+               activationAction.doIt();
+            }, delay);
+
+            LOGGER.trace("Engine.processActivationQueue() end");
          };
 
          this.performCombatPhase = function(callback)
@@ -127,121 +296,6 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             {
                combatPhaseCallback();
             }
-         };
-
-         this.performEndPhase = function(callback)
-         {
-            // callback optional.
-            if (callback)
-            {
-               endPhaseCallback = callback;
-            }
-
-            if (!isGameOver())
-            {
-               LOGGER.trace("Engine.performEndPhase() start");
-               environment.phase(Phase.END_START);
-
-               endQueue = environment.getTokensForCombat();
-               this.processEndQueue();
-            }
-            else
-            {
-               endPhaseCallback();
-            }
-         };
-
-         this.performPlanningPhase = function(planningCallback, activationCallback)
-         {
-            // planningCallback optional.
-            // activationCallback optional.
-
-            if (planningCallback)
-            {
-               planningPhaseCallback = planningCallback;
-            }
-
-            if (activationCallback)
-            {
-               activationPhaseCallback = activationCallback;
-            }
-
-            if (!isGameOver())
-            {
-               LOGGER.trace("Engine.performPlanningPhase() start");
-
-               environment.phase(Phase.PLANNING_START);
-               environment.incrementRound();
-
-               var firstAgent = environment.firstAgent();
-               var firstPlanningAction = new PlanningAction(environment, adjudicator, firstAgent, that.setTokenToManeuver);
-               firstPlanningAction.doIt();
-
-               var secondAgent = environment.secondAgent();
-               var secondPlanningAction = new PlanningAction(environment, adjudicator, secondAgent, that.setTokenToManeuver);
-               secondPlanningAction.doIt();
-
-               // Wait for agents to respond.
-            }
-            else
-            {
-               planningPhaseCallback();
-            }
-         };
-
-         this.processActivationQueue = function()
-         {
-            LOGGER.trace("Engine.processActivationQueue() start");
-
-            var store = environment.store();
-
-            if (activationQueue.length === 0)
-            {
-               firstTokenToManeuver = undefined;
-               secondTokenToManeuver = undefined;
-
-               environment.activeToken(undefined);
-               store.dispatch(Action.setUserMessage(""));
-               LOGGER.trace("Engine.processActivationQueue() done");
-               environment.phase(Phase.ACTIVATION_END);
-               setTimeout(function()
-               {
-                  activationPhaseCallback();
-               }, delay);
-               return;
-            }
-
-            var token = activationQueue.shift();
-            environment.activeToken(token);
-            var factionKey = token.pilot().shipTeam.teamKey;
-            var myToken = token;
-
-            if (token.parent && token.pilot().value.endsWith("fore"))
-            {
-               myToken = token.parent;
-            }
-
-            var maneuverKey;
-
-            if (Team.isFriendly(factionKey, environment.firstTeam()))
-            {
-               maneuverKey = firstTokenToManeuver[myToken];
-            }
-            else
-            {
-               maneuverKey = secondTokenToManeuver[myToken];
-            }
-
-            var activationAction = new ActivationAction(store, token.id(), this.processActivationQueue.bind(this), delay);
-            var maneuver = Maneuver.properties[maneuverKey];
-            store.dispatch(Action.setTokenManeuver(token, maneuver));
-
-            setTimeout(function()
-            {
-               activationAction.doIt();
-            }, delay);
-
-            LOGGER.trace("Engine.processActivationQueue() end");
          };
 
          this.processCombatQueue = function()
@@ -307,6 +361,53 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             LOGGER.trace("Engine.processCombatQueue() end");
          };
 
+         this.setWeaponAndDefender = function(weapon, defender)
+         {
+            if (weapon && defender)
+            {
+               var attacker = environment.activeToken();
+
+               if (defender)
+               {
+                  var store = environment.store();
+                  store.dispatch(Action.setUserMessage(attacker + " fires upon " + defender));
+
+                  var combatAction = new CombatAction(store, attacker, weapon, defender, that.processCombatQueue, delay);
+
+                  setTimeout(function()
+                  {
+                     combatAction.doIt();
+                  }, delay);
+               }
+            }
+            else
+            {
+               that.processCombatQueue();
+            }
+         };
+
+         this.performEndPhase = function(callback)
+         {
+            // callback optional.
+            if (callback)
+            {
+               endPhaseCallback = callback;
+            }
+
+            if (!isGameOver())
+            {
+               LOGGER.trace("Engine.performEndPhase() start");
+               environment.phase(Phase.END_START);
+
+               endQueue = environment.getTokensForCombat();
+               this.processEndQueue();
+            }
+            else
+            {
+               endPhaseCallback();
+            }
+         };
+
          this.processEndQueue = function()
          {
             LOGGER.trace("Engine.processEndQueue() start");
@@ -343,105 +444,13 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             LOGGER.trace("Engine.processEndQueue() end");
          };
 
-         this.secondTokenToManeuver = function()
-         {
-            return secondTokenToManeuver;
-         };
-
-         this.setDecloakAction = function(token, decloakAction)
-         {
-            LOGGER.trace("Engine.setDecloakAction() start");
-
-            InputValidator.validateNotNull("token", token);
-
-            LOGGER.debug("token = " + token + " decloakAction = " + decloakAction);
-
-            if (decloakAction !== undefined)
-            {
-               decloakAction.doIt(this.finishDecloakAction.bind(this));
-               LOGGER.debug("token.isCloaked() ? " + token.isCloaked());
-               LOGGER.debug("token.cloakCount() = " + token.cloakCount());
-            }
-            else
-            {
-               this.finishDecloakAction();
-            }
-
-            LOGGER.trace("Engine.setDecloakAction() end");
-         };
-
-         this.finishDecloakAction = function()
-         {
-            LOGGER.info("Engine.finishDecloakAction() start");
-
-            decloakCount++;
-
-            if (decloakCount === environment.tokens().length)
-            {
-               activationQueue = environment.getTokensForActivation(true);
-               setTimeout(this.processActivationQueue.bind(this), delay);
-            }
-
-            LOGGER.trace("Engine.finishDecloakAction() end");
-         };
-
-         this.setTokenToManeuver = function(agent, tokenToManeuver)
-         {
-            if (agent === environment.firstAgent())
-            {
-               firstTokenToManeuver = tokenToManeuver;
-               LOGGER.trace("firstTokenToManeuver = " + firstTokenToManeuver);
-            }
-            else if (agent === environment.secondAgent())
-            {
-               secondTokenToManeuver = tokenToManeuver;
-               LOGGER.trace("secondTokenToManeuver = " + secondTokenToManeuver);
-            }
-            else
-            {
-               LOGGER.error("planningAction agent = " + agent);
-            }
-
-            if (firstTokenToManeuver && secondTokenToManeuver)
-            {
-               LOGGER.trace("Engine.performPlanningPhase() end");
-               environment.phase(Phase.PLANNING_END);
-               setTimeout(function()
-               {
-                  planningPhaseCallback();
-               }, delay);
-            }
-         };
-
-         this.setWeaponAndDefender = function(weapon, defender)
-         {
-            if (weapon && defender)
-            {
-               var attacker = environment.activeToken();
-
-               if (defender)
-               {
-                  var store = environment.store();
-                  store.dispatch(Action.setUserMessage(attacker + " fires upon " + defender));
-
-                  var combatAction = new CombatAction(store, attacker, weapon, defender, that.processCombatQueue, delay);
-
-                  setTimeout(function()
-                  {
-                     combatAction.doIt();
-                  }, delay);
-               }
-            }
-            else
-            {
-               that.processCombatQueue();
-            }
-         };
-
          var planningPhaseCallback = this.performActivationPhase.bind(this);
          var activationPhaseCallback = this.performCombatPhase.bind(this);
          var combatPhaseCallback = this.performEndPhase.bind(this);
          var endPhaseCallback = this.performPlanningPhase.bind(this);
+
+         //////////////////////////////////////////////////////////////////////////
+         // Utility methods.
 
          function isGameOver()
          {
