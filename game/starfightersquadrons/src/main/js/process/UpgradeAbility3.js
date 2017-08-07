@@ -575,7 +575,8 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          },
          consequent: function(store, token, callback)
          {
-            var defenseDice = getDefenseDice(token);
+            var attacker = getActiveToken(store);
+            var defenseDice = getDefenseDice(attacker);
             var environment = getEnvironment(store);
             var friendlyCount = environment.getFriendlyTokensAtRange(token, RangeRuler.ONE).length;
             defenseDice.rerollBlankAndFocus(friendlyCount);
@@ -593,7 +594,8 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "RangeRuler", "Shi
          },
          consequent: function(store, token, callback)
          {
-            var defenseDice = getDefenseDice(token);
+            var attacker = getActiveToken(store);
+            var defenseDice = getDefenseDice(attacker);
             defenseDice.changeOneToValue(DefenseDice.Value.EVADE, DefenseDice.Value.FOCUS);
             if (callback !== undefined) callback();
          },
