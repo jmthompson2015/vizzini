@@ -12,12 +12,11 @@ define(["process/SquadBuilder"],
 
          // FIXME
          // this.squadBuilders = SquadBuilder.SquadBuilders.slice();
-         this.squadBuilders.push(SquadBuilder.SquadBuilders[0]);
-         this.squadBuilders.push(SquadBuilder.SquadBuilders[1]);
-         this.squadBuilders.push(SquadBuilder.SquadBuilders[2]);
-         this.squadBuilders.push(SquadBuilder.SquadBuilders[3]);
-         //  this.squadBuilders.push(SquadBuilder.SquadBuilders[4]);
-         this.squadBuilders.push(SquadBuilder.findByNameAndYear("JMT", 2017));
+
+         for (var i = 0; i < 10; i++)
+         {
+            this.squadBuilders.push(SquadBuilder.SquadBuilders[i]);
+         }
 
          this.squadBuilders.forEach(function(squadBuilder)
          {
