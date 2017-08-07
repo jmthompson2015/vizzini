@@ -9,7 +9,6 @@ define(["Maneuver", "Pilot", "Position", "ShipBase", "process/Action", "process/
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var maneuverKey = Maneuver.STRAIGHT_1_EASY;
          var token = environment.tokens()[2]; // X-Wing
          var fromPosition = environment.getPositionFor(token);
@@ -38,7 +37,6 @@ define(["Maneuver", "Pilot", "Position", "ShipBase", "process/Action", "process/
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var fromPosition = environment.getPositionFor(token);
          environment.removeToken(fromPosition);
@@ -63,7 +61,6 @@ define(["Maneuver", "Pilot", "Position", "ShipBase", "process/Action", "process/
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2]; // X-Wing
          var fromPosition = environment.getPositionFor(token);
          environment.removeToken(fromPosition);
@@ -88,7 +85,6 @@ define(["Maneuver", "Pilot", "Position", "ShipBase", "process/Action", "process/
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var token0 = environment.tokens()[0]; // TIE Fighter
          var fromPosition0 = environment.getPositionFor(token0);
          var token2 = environment.tokens()[2]; // X-Wing
@@ -119,7 +115,6 @@ define(["Maneuver", "Pilot", "Position", "ShipBase", "process/Action", "process/
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var agent = environment.tokens()[2].agent(); // X-Wing
          var token = new Token(environment.store(), Pilot.IG_88C, agent);
          var position = new Position(450, 450, 0);
@@ -141,7 +136,6 @@ define(["Maneuver", "Pilot", "Position", "ShipBase", "process/Action", "process/
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var token = environment.tokens()[2];
          var maneuverKey = Maneuver.STRAIGHT_1_STANDARD;
          var isBoost = true;

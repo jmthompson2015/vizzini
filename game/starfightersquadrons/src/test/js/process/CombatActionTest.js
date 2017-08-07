@@ -362,7 +362,6 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          var adjudicator = new Adjudicator();
-         store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
@@ -420,7 +419,6 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          var adjudicator = new Adjudicator();
-         store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
@@ -585,7 +583,6 @@ define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "T
          environment.placeToken(defenderPosition, defender);
          environment.activeToken(attacker);
 
-         store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.addFocusCount(attacker));
 
          var targetLock = TargetLock.newInstance(store, attacker, defender);

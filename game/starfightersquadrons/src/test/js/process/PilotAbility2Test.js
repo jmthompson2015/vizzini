@@ -110,7 +110,6 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             LOGGER.info("in callback()");
          };
 
-         store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setActiveToken(token));
 
          var activationAction = new ActivationAction(store, token.id(), callback, delay);

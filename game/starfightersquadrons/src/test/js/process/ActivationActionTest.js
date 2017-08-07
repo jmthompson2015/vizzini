@@ -40,7 +40,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
-         store.dispatch(Action.setEnvironment(environment));
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var token = environment.tokens()[0]; // Gozanti-class Cruiser
@@ -145,7 +144,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
-         store.dispatch(Action.setEnvironment(environment));
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var token = environment.tokens()[2]; // Lambda-class Shuttle
@@ -352,7 +350,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var token = environment.tokens()[2]; // X-Wing
@@ -395,7 +392,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var token = environment.tokens()[2]; // X-Wing
@@ -448,7 +444,6 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          environment.placeToken(new Position(400, 500, 90), defender);
 
          environment.activeToken(token);
-         store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.addFocusCount(token));
 

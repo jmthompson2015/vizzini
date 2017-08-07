@@ -58,7 +58,6 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
-         store.dispatch(Action.setEnvironment(environment));
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var engine = new Engine(environment, adjudicator, delay);
@@ -214,7 +213,6 @@ define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator"
 
          var adjudicator = new Adjudicator();
          var store = environment.store();
-         store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
 
          return new Engine(environment, adjudicator, delay);

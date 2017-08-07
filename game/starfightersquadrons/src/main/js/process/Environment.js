@@ -33,6 +33,7 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             return store;
          };
 
+         store.dispatch(Action.setEnvironment(this));
          var that = this;
 
          // Initialize the damage deck.

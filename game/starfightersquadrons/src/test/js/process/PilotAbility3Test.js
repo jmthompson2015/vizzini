@@ -110,7 +110,6 @@ define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "proc
             LOGGER.info("in callback()");
          };
 
-         store.dispatch(Action.setEnvironment(environment));
          store.dispatch(Action.setAdjudicator(adjudicator));
          store.dispatch(Action.setActiveToken(attacker));
          store.dispatch(Action.addFocusCount(attacker));

@@ -443,7 +443,6 @@ define(["Bearing", "DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pi
          // Setup.
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
-         store.dispatch(Action.setEnvironment(environment));
          var agent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          var token = new Token(store, Pilot.ACADEMY_PILOT, agent);
          var fromPosition = new Position(200, 200, 0);
