@@ -25,7 +25,6 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
 
       ReactDOM.render(newGamePanel, document.getElementById("secondPilotInputArea"));
       var game;
-      var environmentUI;
 
       function startNewGame(agent1, squad1, agent2, squad2)
       {
@@ -45,7 +44,7 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
 
          game.start();
 
-         updateSizes(environmentUI);
+         updateSizes();
 
          LOGGER.info("startNewGame() end");
       }
@@ -105,7 +104,7 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
       /*
        * @see https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model/Determining_the_dimensions_of_elements
        */
-      function updateSizes(environmentUI)
+      function updateSizes()
       {
          var mainTable = document.getElementById("mainTable");
          //  var windowWidth = Math.min(window.innerWidth - 8, mainTable.clientWidth);
@@ -151,10 +150,10 @@ require(["process/Action", "process/Game", "process/Reducer", "process/ui/Connec
 
       window.addEventListener("resize", function()
       {
-         updateSizes(environmentUI);
+         updateSizes();
       }, false);
       window.addEventListener("orientationchange", function()
       {
-         updateSizes(environmentUI);
+         updateSizes();
       }, false);
    });
