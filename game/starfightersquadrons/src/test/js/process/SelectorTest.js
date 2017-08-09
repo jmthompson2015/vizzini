@@ -1,5 +1,5 @@
-define(["DamageCard", "process/EnvironmentFactory", "Pilot", "Position", "process/TargetLock", "UpgradeCard", "Value", "process/Action", "process/Selector"],
-   function(DamageCard, EnvironmentFactory, Pilot, Position, TargetLock, UpgradeCard, Value, Action, Selector)
+define(["DamageCard", "process/EnvironmentFactory", "Pilot", "Position", "UpgradeCard", "Value", "process/Action", "process/Selector"],
+   function(DamageCard, EnvironmentFactory, Pilot, Position, UpgradeCard, Value, Action, Selector)
    {
       "use strict";
       QUnit.module("Selector");

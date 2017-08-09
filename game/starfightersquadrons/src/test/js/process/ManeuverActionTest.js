@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "ShipBase", "process/Action", "process/EnvironmentFactory", "process/ManeuverAction", "process/Token"],
-   function(Maneuver, Pilot, Position, ShipBase, Action, EnvironmentFactory, ManeuverAction, Token)
+define(["Maneuver", "Pilot", "Position", "ShipBase", "process/EnvironmentFactory", "process/ManeuverAction", "process/Token"],
+   function(Maneuver, Pilot, Position, ShipBase, EnvironmentFactory, ManeuverAction, Token)
    {
       "use strict";
       QUnit.module("ManeuverAction");

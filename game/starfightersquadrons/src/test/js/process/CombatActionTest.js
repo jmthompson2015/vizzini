@@ -1,8 +1,10 @@
 /*
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
-define(["DamageCard", "Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value", "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(DamageCard, Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value, Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(DamageCard, Pilot, Position, Team, UpgradeCard,
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-1");

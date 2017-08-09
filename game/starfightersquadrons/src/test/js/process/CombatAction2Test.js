@@ -1,6 +1,6 @@
-define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard", "Value",
-  "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard, Value,
+define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard",
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard,
       Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";

@@ -1,5 +1,5 @@
-define(["Ability", "DamageCard", "Event", "Maneuver", "Phase", "Position", "ShipAction", "UpgradeCard", "process/Action", "process/DamageAbility2", "process/EnvironmentFactory", "process/ShipActionAction", "process/TargetLock", "process/UpgradeAbility2"],
-   function(Ability, DamageCard, Event, Maneuver, Phase, Position, ShipAction, UpgradeCard, Action, DamageAbility2, EnvironmentFactory, ShipActionAction, TargetLock, UpgradeAbility2)
+define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard", "process/Action", "process/DamageAbility2", "process/EnvironmentFactory", "process/ShipActionAction", "process/TargetLock", "process/UpgradeAbility2"],
+   function(Ability, DamageCard, Maneuver, Phase, Position, UpgradeCard, Action, DamageAbility2, EnvironmentFactory, ShipActionAction, TargetLock, UpgradeAbility2)
    {
       "use strict";
       QUnit.module("ShipActionAction");

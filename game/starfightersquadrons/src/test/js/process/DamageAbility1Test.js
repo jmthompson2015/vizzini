@@ -1,5 +1,5 @@
-define(["Maneuver", "Phase", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/CombatAction", "process/DamageAbility1", "process/EnvironmentFactory", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
-   function(Maneuver, Phase, Action, ActivationAction, Adjudicator, CombatAction, DamageAbility, EnvironmentFactory, MockAttackDice, MockDefenseDice)
+define(["Phase", "process/Action", "process/DamageAbility1", "process/EnvironmentFactory", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   function(Phase, Action, DamageAbility, EnvironmentFactory, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("DamageAbility1");

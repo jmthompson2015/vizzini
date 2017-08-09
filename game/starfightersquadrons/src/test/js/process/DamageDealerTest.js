@@ -1,5 +1,5 @@
-define(["DamageCard", "DamageCardTrait", "Pilot", "Position", "UpgradeCard", "process/Action", "process/DamageDealer", "process/EnvironmentFactory", "process/Token"],
-   function(DamageCard, DamageCardTrait, Pilot, Position, UpgradeCard, Action, DamageDealer, EnvironmentFactory, Token)
+define(["Pilot", "Position", "UpgradeCard", "process/Action", "process/DamageDealer", "process/EnvironmentFactory", "process/Token"],
+   function(Pilot, Position, UpgradeCard, Action, DamageDealer, EnvironmentFactory, Token)
    {
       "use strict";
       QUnit.module("DamageDealer");

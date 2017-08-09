@@ -1,5 +1,5 @@
-define(["Event", "Pilot", "Position", "Team", "process/Action", "process/EventObserver", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/Token"],
-   function(Event, Pilot, Position, Team, Action, EventObserver, EnvironmentFactory, Reducer, SimpleAgent, Token)
+define(["Event", "process/Action", "process/EventObserver", "process/EnvironmentFactory"],
+   function(Event, Action, EventObserver, EnvironmentFactory)
    {
       "use strict";
       QUnit.module("EventObserver");

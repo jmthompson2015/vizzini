@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/ShipActionAction", "process/SimpleAgent", "process/SquadBuilder"],
-   function(Maneuver, Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, Reducer, ShipActionAction, SimpleAgent, SquadBuilder)
+define(["Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
+   function(Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, Reducer, SimpleAgent, SquadBuilder)
    {
       "use strict";
       QUnit.module("Engine");

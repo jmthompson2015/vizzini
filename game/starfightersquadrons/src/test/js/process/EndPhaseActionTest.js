@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/EndPhaseAction", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/SquadBuilder", "process/TargetLock", "process/Token"],
-   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, EndPhaseAction, Environment, EnvironmentFactory, Reducer, Selector, SimpleAgent, SquadBuilder, TargetLock, Token)
+define(["process/Action", "process/EndPhaseAction", "process/EnvironmentFactory", "process/Selector", "process/TargetLock"],
+   function(Action, EndPhaseAction, EnvironmentFactory, Selector, TargetLock)
    {
       "use strict";
       QUnit.module("EndPhaseAction");
