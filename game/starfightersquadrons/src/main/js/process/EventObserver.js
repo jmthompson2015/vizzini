@@ -18,9 +18,9 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
 
                if (eventData !== undefined)
                {
-                  var eventKey = eventData.eventKey;
-                  var token = eventData.eventToken;
-                  var callback = eventData.eventCallback;
+                  var eventKey = eventData.get("eventKey");
+                  var token = eventData.get("eventToken");
+                  var callback = eventData.get("eventCallback");
 
                   if (eventKey !== undefined && token !== undefined)
                   {

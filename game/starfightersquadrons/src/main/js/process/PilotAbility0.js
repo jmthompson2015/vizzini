@@ -101,7 +101,7 @@ define(["Event", "Maneuver", "Pilot", "process/Action", "process/AttackDice", "p
 
          var eventData = getEventData(store);
 
-         return (eventData !== undefined ? eventData.eventToken : undefined);
+         return (eventData !== undefined ? eventData.get("eventToken") : undefined);
       }
 
       function getManeuver(token)

@@ -73,7 +73,7 @@ define(function()
       // eventCallback optional.
       // eventContext optional.
 
-      return (
+      return Immutable.Map(
       {
          eventKey: eventKey,
          eventToken: eventToken,

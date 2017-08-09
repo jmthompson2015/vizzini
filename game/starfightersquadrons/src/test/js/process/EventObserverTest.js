@@ -15,10 +15,10 @@ define(["Event", "process/Action", "process/EventObserver", "process/Environment
          {
             // Verify.
             assert.equal(store.getState().eventQueue.size, 0);
-            store.getState().eventQueue.forEach(function(element, i)
-            {
-               console.log(i + " " + JSON.stringify(element) + " token = " + element.eventToken);
-            });
+            // store.getState().eventQueue.forEach(function(element, i)
+            // {
+            //    console.log(i + " " + JSON.stringify(element) + " token = " + element.get("eventToken"));
+            // });
          };
          store.dispatch(Action.enqueueEvent(eventKey, token, eventCallback));
          var eventObserver = new EventObserver(store);

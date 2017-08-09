@@ -647,12 +647,12 @@ define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayForma
          assert.equal(store.getState().eventQueue.size, 2);
          var eventData0 = store.getState().eventQueue.get(0);
          assert.ok(eventData0);
-         assert.equal(eventData0.eventKey, Event.AFTER_EXECUTE_MANEUVER);
-         assert.equal(eventData0.eventToken, token);
+         assert.equal(eventData0.get("eventKey"), Event.AFTER_EXECUTE_MANEUVER);
+         assert.equal(eventData0.get("eventToken"), token);
          var eventData1 = store.getState().eventQueue.get(1);
          assert.ok(eventData1);
-         assert.equal(eventData1.eventKey, Event.SHIP_ACTION_PERFORMED);
-         assert.equal(eventData1.eventToken, token2);
+         assert.equal(eventData1.get("eventKey"), Event.SHIP_ACTION_PERFORMED);
+         assert.equal(eventData1.get("eventToken"), token2);
 
          // Run.
          store.dispatch(Action.dequeueEvent());
@@ -661,8 +661,8 @@ define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayForma
          assert.equal(store.getState().eventQueue.size, 1);
          eventData0 = store.getState().eventQueue.get(0);
          assert.ok(eventData0);
-         assert.equal(eventData0.eventKey, Event.SHIP_ACTION_PERFORMED);
-         assert.equal(eventData0.eventToken, token2);
+         assert.equal(eventData0.get("eventKey"), Event.SHIP_ACTION_PERFORMED);
+         assert.equal(eventData0.get("eventToken"), token2);
 
          // Run.
          store.dispatch(Action.dequeueEvent());
@@ -724,8 +724,8 @@ define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayForma
          assert.equal(store.getState().eventQueue.size, 1);
          var eventData0 = store.getState().eventQueue.get(0);
          assert.ok(eventData0);
-         assert.equal(eventData0.eventKey, Event.AFTER_EXECUTE_MANEUVER);
-         assert.equal(eventData0.eventToken, token);
+         assert.equal(eventData0.get("eventKey"), Event.AFTER_EXECUTE_MANEUVER);
+         assert.equal(eventData0.get("eventToken"), token);
 
          // Run.
          var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
@@ -736,12 +736,12 @@ define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayForma
          assert.equal(store.getState().eventQueue.size, 2);
          eventData0 = store.getState().eventQueue.get(0);
          assert.ok(eventData0);
-         assert.equal(eventData0.eventKey, Event.AFTER_EXECUTE_MANEUVER);
-         assert.equal(eventData0.eventToken, token);
+         assert.equal(eventData0.get("eventKey"), Event.AFTER_EXECUTE_MANEUVER);
+         assert.equal(eventData0.get("eventToken"), token);
          var eventData1 = store.getState().eventQueue.get(1);
          assert.ok(eventData1);
-         assert.equal(eventData1.eventKey, Event.SHIP_ACTION_PERFORMED);
-         assert.equal(eventData1.eventToken, token2);
+         assert.equal(eventData1.get("eventKey"), Event.SHIP_ACTION_PERFORMED);
+         assert.equal(eventData1.get("eventToken"), token2);
       });
 
       QUnit.test("incrementNextTargetLockId()", function(assert)

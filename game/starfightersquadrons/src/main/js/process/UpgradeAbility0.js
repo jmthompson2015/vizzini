@@ -184,7 +184,7 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
 
          var eventData = getEventData(store);
 
-         return (eventData !== undefined ? eventData.eventContext : undefined);
+         return (eventData !== undefined ? eventData.get("eventContext") : undefined);
       }
 
       function getEventData(store)
@@ -215,7 +215,7 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
 
          var eventData = getEventData(store);
 
-         return (eventData !== undefined ? eventData.eventToken : undefined);
+         return (eventData !== undefined ? eventData.get("eventToken") : undefined);
       }
 
       function getManeuver(token)
