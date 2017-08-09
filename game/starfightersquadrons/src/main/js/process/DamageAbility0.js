@@ -136,11 +136,20 @@ define(["process/AttackDice", "DamageCard", "Difficulty", "Event", "Maneuver", "
          return token.activationAction();
       }
 
+      function getEventData(store)
+      {
+         InputValidator.validateNotNull("store", store);
+
+         return store.getState().eventData;
+      }
+
       function getEventToken(store)
       {
          InputValidator.validateNotNull("store", store);
 
-         return store.getState().eventData.eventToken;
+         var eventData = getEventData(store);
+
+         return (eventData !== undefined ? eventData.eventToken : undefined);
       }
 
       function getManeuver(token)

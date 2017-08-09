@@ -672,7 +672,7 @@ define(["Event", "Maneuver", "process/ManeuverAction", "ShipAction", "process/Ac
          var eventContext = {
             shipActionKey: shipActionKey,
          };
-         store.dispatch(Action.setEvent(eventKey, eventToken, eventCallback, eventContext));
+         store.dispatch(Action.enqueueEvent(eventKey, eventToken, eventCallback, eventContext));
       }
 
       return (

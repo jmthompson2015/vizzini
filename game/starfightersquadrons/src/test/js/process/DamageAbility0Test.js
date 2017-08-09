@@ -74,7 +74,7 @@ define(["DamageCard", "Event", "Maneuver", "process/Action", "process/Activation
 
          store.dispatch(Action.setActiveToken(token));
          store.dispatch(Action.addTokenCriticalDamage(token, DamageCard.MINOR_EXPLOSION));
-         store.dispatch(Action.setEvent(Event.RECEIVE_CRITICAL_DAMAGE, token));
+         store.dispatch(Action.enqueueEvent(Event.RECEIVE_CRITICAL_DAMAGE, token));
 
          return environment;
       }

@@ -9,12 +9,8 @@ define(["Phase"], function(Phase)
       this.playFormatKey = undefined;
       this.round = 0;
       this.phaseKey = Phase.SETUP;
-      this.eventData = {
-         eventKey: undefined,
-         eventToken: undefined,
-         eventShipActionAction: undefined,
-         eventCallback: undefined,
-      };
+      this.eventData = undefined;
+      this.eventQueue = Immutable.List();
       this.playAreaScale = 1.0;
       this.activeTokenId = undefined;
       this.userMessage = "";

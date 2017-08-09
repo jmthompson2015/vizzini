@@ -692,7 +692,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          else
          {
             this.store().dispatch(Action.addTokenCriticalDamage(this, damageKey));
-            this.store().dispatch(Action.setEvent(Event.RECEIVE_CRITICAL_DAMAGE, this));
+            this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_CRITICAL_DAMAGE, this));
          }
       };
 
@@ -701,13 +701,13 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("damageKey", damageKey);
 
          this.store().dispatch(Action.addTokenDamage(this, damageKey));
-         this.store().dispatch(Action.setEvent(Event.RECEIVE_DAMAGE, this));
+         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_DAMAGE, this));
       };
 
       Token.prototype.receiveStress = function()
       {
          this.store().dispatch(Action.addStressCount(this));
-         this.store().dispatch(Action.setEvent(Event.RECEIVE_STRESS, this));
+         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_STRESS, this));
       };
 
       Token.prototype.recoverShield = function()
@@ -715,7 +715,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          if (this.shieldCount() < this.shieldValue())
          {
             this.store().dispatch(Action.addShieldCount(this));
-            this.store().dispatch(Action.setEvent(Event.RECOVER_SHIELD, this));
+            this.store().dispatch(Action.enqueueEvent(Event.RECOVER_SHIELD, this));
          }
       };
 
@@ -737,7 +737,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          {
             var myCount = (count !== undefined ? count : 1);
             this.store().dispatch(Action.addShieldCount(this, -myCount));
-            this.store().dispatch(Action.setEvent(Event.REMOVE_SHIELD, this));
+            this.store().dispatch(Action.enqueueEvent(Event.REMOVE_SHIELD, this));
          }
       };
 
@@ -746,7 +746,7 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          if (this.stressCount() > 0)
          {
             this.store().dispatch(Action.addStressCount(this, -1));
-            this.store().dispatch(Action.setEvent(Event.REMOVE_STRESS, this));
+            this.store().dispatch(Action.enqueueEvent(Event.REMOVE_STRESS, this));
          }
       };
 

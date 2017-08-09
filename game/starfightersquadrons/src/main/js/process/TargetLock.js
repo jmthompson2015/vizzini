@@ -95,7 +95,7 @@ define(["Event", "ShipAction", "process/Action", "process/Selector"],
             shipActionKey: ShipAction.TARGET_LOCK,
          };
 
-         store.dispatch(Action.setEvent(Event.TARGET_LOCK_ACQUIRED, attacker, eventCallback, eventContext));
+         store.dispatch(Action.enqueueEvent(Event.TARGET_LOCK_ACQUIRED, attacker, eventCallback, eventContext));
 
          return answer;
       };

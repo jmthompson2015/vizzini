@@ -552,7 +552,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
             return new InitialState();
          }
 
-         var newPositionToTokenId, newTokenIdToData, newTokenIdToValues, newTokens, action2, tokenId;
+         var newEventQueue, newPositionToTokenId, newTokenIdToData, newTokenIdToValues, newTokens, action2, tokenId;
 
          switch (action.type)
          {
@@ -726,9 +726,17 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                return Object.assign(
                {}, state,
                {
-                  eventKey: undefined,
-                  eventToken: undefined,
-                  eventCallback: undefined,
+                  eventData: undefined,
+               });
+            case Action.DEQUEUE_EVENT:
+               LOGGER.info("EventQueue: (dequeue)");
+               newEventData = state.eventQueue.first();
+               newEventQueue = state.eventQueue.shift();
+               return Object.assign(
+               {}, state,
+               {
+                  eventData: newEventData,
+                  eventQueue: newEventQueue,
                });
             case Action.DISCARD_DAMAGE:
                return Object.assign(
@@ -742,6 +750,15 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {}, state,
                {
                   damageDeck: Reducer.damageDeck(state.damageDeck, action),
+               });
+            case Action.ENQUEUE_EVENT:
+               LOGGER.info("EventQueue: " + Event.properties[action.eventKey].name + ", token = " + action.eventToken + ", context = " + JSON.stringify(action.eventContext));
+               var newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback, action.eventContext);
+               newEventQueue = state.eventQueue.push(newEventData);
+               return Object.assign(
+               {}, state,
+               {
+                  eventQueue: newEventQueue,
                });
             case Action.INCREMENT_NEXT_TARGET_LOCK_ID:
                var newNextTargetLockId = state.nextTargetLockId + 1;
@@ -842,14 +859,6 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {}, state,
                {
                   environment: action.environment,
-               });
-            case Action.SET_EVENT:
-               LOGGER.info("Event: " + Event.properties[action.eventKey].name + ", context = " + JSON.stringify(action.eventContext));
-               var newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback, action.eventContext);
-               return Object.assign(
-               {}, state,
-               {
-                  eventData: newEventData,
                });
             case Action.SET_FIRST_AGENT:
                return Object.assign(

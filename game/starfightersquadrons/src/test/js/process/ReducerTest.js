@@ -1,5 +1,5 @@
-define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "ShipAction", "process/AttackDice", "process/DefenseDice", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
-   function(Count, DamageCard, Maneuver, Phase, Pilot, PlayFormat, Position, RangeRuler, ShipAction, AttackDice, DefenseDice, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
+define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayFormat", "Position", "RangeRuler", "ShipAction", "process/AttackDice", "process/DefenseDice", "process/SimpleAgent", "process/TargetLock", "Team", "process/Token", "UpgradeCard", "Value", "process/Action", "process/Reducer"],
+   function(Count, DamageCard, Event, Maneuver, Phase, Pilot, PlayFormat, Position, RangeRuler, ShipAction, AttackDice, DefenseDice, SimpleAgent, TargetLock, Team, Token, UpgradeCard, Value, Action, Reducer)
    {
       "use strict";
       QUnit.module("Reducer");
@@ -631,6 +631,46 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          assert.equal(store.getState().tokenIdToUsedUpgrades[token.id()].length, 0);
       });
 
+      QUnit.test("dequeueEvent()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var agent = new SimpleAgent("Rebel", Team.REBEL);
+         var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
+         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
+         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+
+         store.dispatch(Action.enqueueEvent(Event.AFTER_EXECUTE_MANEUVER, token));
+         store.dispatch(Action.enqueueEvent(Event.SHIP_ACTION_PERFORMED, token2));
+
+         assert.equal(store.getState().eventQueue.size, 2);
+         var eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.eventKey, Event.AFTER_EXECUTE_MANEUVER);
+         assert.equal(eventData0.eventToken, token);
+         var eventData1 = store.getState().eventQueue.get(1);
+         assert.ok(eventData1);
+         assert.equal(eventData1.eventKey, Event.SHIP_ACTION_PERFORMED);
+         assert.equal(eventData1.eventToken, token2);
+
+         // Run.
+         store.dispatch(Action.dequeueEvent());
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 1);
+         eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.eventKey, Event.SHIP_ACTION_PERFORMED);
+         assert.equal(eventData0.eventToken, token2);
+
+         // Run.
+         store.dispatch(Action.dequeueEvent());
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 0);
+      });
+
       QUnit.test("discardDamage()", function(assert)
       {
          // Setup.
@@ -666,6 +706,42 @@ define(["Count", "DamageCard", "Maneuver", "Phase", "Pilot", "PlayFormat", "Posi
          // Verify.
          assert.equal(store.getState().damageDeck.length, 32);
          assert.equal(store.getState().damageDiscardPile.length, 0);
+      });
+
+      QUnit.test("enqueueEvent()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var agent = new SimpleAgent("Rebel", Team.REBEL);
+         var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
+         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         assert.equal(store.getState().eventQueue.size, 0);
+
+         // Run.
+         store.dispatch(Action.enqueueEvent(Event.AFTER_EXECUTE_MANEUVER, token));
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 1);
+         var eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.eventKey, Event.AFTER_EXECUTE_MANEUVER);
+         assert.equal(eventData0.eventToken, token);
+
+         // Run.
+         var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
+         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+         store.dispatch(Action.enqueueEvent(Event.SHIP_ACTION_PERFORMED, token2));
+
+         // Verify.
+         assert.equal(store.getState().eventQueue.size, 2);
+         eventData0 = store.getState().eventQueue.get(0);
+         assert.ok(eventData0);
+         assert.equal(eventData0.eventKey, Event.AFTER_EXECUTE_MANEUVER);
+         assert.equal(eventData0.eventToken, token);
+         var eventData1 = store.getState().eventQueue.get(1);
+         assert.ok(eventData1);
+         assert.equal(eventData1.eventKey, Event.SHIP_ACTION_PERFORMED);
+         assert.equal(eventData1.eventToken, token2);
       });
 
       QUnit.test("incrementNextTargetLockId()", function(assert)

@@ -182,7 +182,16 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
       {
          InputValidator.validateNotNull("store", store);
 
-         return store.getState().eventData.eventContext;
+         var eventData = getEventData(store);
+
+         return (eventData !== undefined ? eventData.eventContext : undefined);
+      }
+
+      function getEventData(store)
+      {
+         InputValidator.validateNotNull("store", store);
+
+         return store.getState().eventData;
       }
 
       function getEventShipActionKey(store)
@@ -204,7 +213,9 @@ define(["Difficulty", "Event", "Maneuver", "ShipAction", "UpgradeCard", "process
       {
          InputValidator.validateNotNull("store", store);
 
-         return store.getState().eventData.eventToken;
+         var eventData = getEventData(store);
+
+         return (eventData !== undefined ? eventData.eventToken : undefined);
       }
 
       function getManeuver(token)

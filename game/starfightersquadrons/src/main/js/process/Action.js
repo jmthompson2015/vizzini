@@ -33,8 +33,10 @@ define(["Count"], function(Count)
    Action.CLEAR_TOKEN_USED_PILOTS = "clearTokenUsedPilots";
    Action.CLEAR_TOKEN_USED_SHIP_ACTIONS = "clearTokenUsedShipActions";
    Action.CLEAR_TOKEN_USED_UPGRADES = "clearTokenUsedUpgrades";
+   Action.DEQUEUE_EVENT = "dequeueEvent";
    Action.DISCARD_DAMAGE = "discardDamage";
    Action.DRAW_DAMAGE = "drawDamage";
+   Action.ENQUEUE_EVENT = "enqueueEvent";
    Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
    Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
    Action.MOVE_TOKEN = "moveToken";
@@ -53,7 +55,6 @@ define(["Count"], function(Count)
    Action.SET_COUNT = "setCount";
    Action.SET_DAMAGE_DECK = "setDamageDeck";
    Action.SET_ENVIRONMENT = "setEnvironment";
-   Action.SET_EVENT = "setEvent";
    Action.SET_FIRST_AGENT = "setFirstAgent";
    Action.SET_GAME_OVER = "setGameOver";
    Action.SET_PHASE = "setPhase";
@@ -496,6 +497,14 @@ define(["Count"], function(Count)
       });
    };
 
+   Action.dequeueEvent = function()
+   {
+      return (
+      {
+         type: Action.DEQUEUE_EVENT,
+      });
+   };
+
    Action.discardDamage = function(damage)
    {
       InputValidator.validateNotNull("damage", damage);
@@ -515,6 +524,23 @@ define(["Count"], function(Count)
       {
          type: Action.DRAW_DAMAGE,
          damage: damage,
+      });
+   };
+
+   Action.enqueueEvent = function(eventKey, eventToken, eventCallback, eventContext)
+   {
+      InputValidator.validateNotNull("eventKey", eventKey);
+      InputValidator.validateNotNull("eventToken", eventToken);
+      // eventCallback optional.
+      // eventContext optional.
+
+      return (
+      {
+         type: Action.ENQUEUE_EVENT,
+         eventKey: eventKey,
+         eventToken: eventToken,
+         eventCallback: eventCallback,
+         eventContext: eventContext,
       });
    };
 
@@ -731,23 +757,6 @@ define(["Count"], function(Count)
    Action.setEvadeCount = function(token, value)
    {
       return Action.setCount(token, Count.EVADE, value);
-   };
-
-   Action.setEvent = function(eventKey, eventToken, eventCallback, eventContext)
-   {
-      InputValidator.validateNotNull("eventKey", eventKey);
-      InputValidator.validateNotNull("eventToken", eventToken);
-      // eventCallback optional.
-      // eventContext optional.
-
-      return (
-      {
-         type: Action.SET_EVENT,
-         eventKey: eventKey,
-         eventToken: eventToken,
-         eventCallback: eventCallback,
-         eventContext: eventContext,
-      });
    };
 
    Action.setFirstAgent = function(agent)
