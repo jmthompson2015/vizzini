@@ -29,11 +29,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          AZMORIGAN: "azmorigan",
          BACKUP_SHIELD_GENERATOR: "backupShieldGenerator",
          B_WING_E2: "bWingE2",
+         BAZE_MALBUS: "bazeMalbus",
          BB_8: "bb8",
+         BISTAN: "bistan",
          BLACK_MARKET_SLICER_TOOLS: "blackMarketSlicerTools",
          BLACK_ONE: "blackOne",
          BLASTER_TURRET: "blasterTurret",
          BOBA_FETT: "bobaFett",
+         BODHI_ROOK: "bodhiRook",
          BODYGUARD: "bodyguard",
          BOMB_LOADOUT: "bombLoadout",
          BOMBARDIER: "bombardier",
@@ -47,6 +50,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          CALCULATION: "calculation",
          CAPTAIN_NEEDA: "captainNeeda",
          CARLIST_RIEEKAN: "carlistRieekan",
+         CASSIAN_ANDOR: "cassianAndor",
          CHARDAAN_REFIT: "chardaanRefit",
          CHEWBACCA: "chewbacca",
          CHOPPER: "chopper",
@@ -150,6 +154,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          JAN_DODONNA: "janDodonna",
          JAN_ORS: "janOrs",
          JUKE: "juke",
+         JYN_ERSO: "jynErso",
          K4_SECURITY_DROID: "k4SecurityDroid",
          KANAN_JARRUS: "kananJarrus",
          KETSU_ONYO: "ketsuOnyo",
@@ -188,6 +193,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          OVERCLOCKED_R4: "overclockedR4",
          PATTERN_ANALYZER: "patternAnalyzer",
          PHANTOM: "phantom",
+         PIVOT_WING: "pivotWing",
          PLASMA_TORPEDOES: "plasmaTorpedoes",
          PREDATOR: "predator",
          PRIMED_THRUSTERS: "primedThrusters",
@@ -203,7 +209,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          QUICK_RELEASE_CARGO_LOCKS: "quickReleaseCargoLocks",
          R2_ASTROMECH: "r2Astromech",
          R2_D2: "r2D2",
-         R2_D2_CREW: "r2D2Crew",
+         R2_D2_: "r2D2Crew",
          R2_D6: "r2D6",
          R2_F2: "r2F2",
          R3_A2: "r3A2",
@@ -551,6 +557,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 3,
                value: "backupShieldGenerator",
             },
+            "bazeMalbus":
+            {
+               name: "Baze Malbus",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.REBEL_ONLY],
+               description: "After you perform an attack that does not hit, you may immediately perform a primary weapon attack against a different ship. You cannot perform another attack this round.",
+               squadPointCost: 3,
+               value: "bazeMalbus",
+            },
             "bb8":
             {
                name: "BB-8",
@@ -560,6 +576,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 2,
                isImplemented: true,
                value: "bb8",
+            },
+            "bistan":
+            {
+               name: "Bistan",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.REBEL_ONLY],
+               description: "When attacking at Range 1-2, you may change 1 of your hit results to a critical result.",
+               squadPointCost: 2,
+               value: "bistan",
             },
             "blackMarketSlicerTools":
             {
@@ -604,6 +630,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                description: "After performing an attack, if the defender was dealt a faceup Damage card, you may discard this card to choose and discard 1 of the defender's Upgrade cards.",
                squadPointCost: 1,
                value: "bobaFett",
+            },
+            "bodhiRook":
+            {
+               name: "Bodhi Rook",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.REBEL_ONLY],
+               description: "When you acquire a target lock, you can lock onto an enemy ship at Range 1-3 of any friendly ship.",
+               squadPointCost: 1,
+               value: "bodhiRook",
             },
             "bodyguard":
             {
@@ -741,6 +777,16 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                description: "At the start of the Activation phase, you may discard this card to treat each friendly ship's pilot skill value as \"12\" until the end of the phase.",
                squadPointCost: 3,
                value: "carlistRieekan",
+            },
+            "cassianAndor":
+            {
+               name: "Cassian Andor",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.REBEL_ONLY],
+               description: "At the end of the Planning phase, you may choose an enemy ship at Range 1-2. Guess aloud that ship's bearing and speed, then look at its dial. If you are correct, you may rotate your dial to another maneuver.",
+               squadPointCost: 2,
+               value: "cassianAndor",
             },
             // Effect implemented through squad point cost.
             "chardaanRefit":
@@ -1784,6 +1830,17 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "juke",
             },
+            "jynErso":
+            {
+               name: "Jyn Erso",
+               typeKey: UpgradeType.CREW,
+               headerKey: UpgradeHeader.ACTION,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.REBEL_ONLY],
+               description: "Action: Choose 1 friendly ship at Range 1-2. Assign 1 focus token to that ship for each enemy ship inside your firing arc at Range 1-3. You cannot assign more than 3 tokens in this way.",
+               squadPointCost: 2,
+               value: "jynErso",
+            },
             "k4SecurityDroid":
             {
                name: "K4 Security Droid",
@@ -2155,6 +2212,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                description: "While you are docked, the Ghost can perform primary weapon attacks from its special firing arc and, at the end of the Combat phase, it may perform an additional attack with an equipped Turret. If it performs this attack, it cannot attack again this round.",
                squadPointCost: undefined,
                value: "phantom",
+            },
+            "pivotWing":
+            {
+               name: "Pivot Wing",
+               typeKey: UpgradeType.TITLE,
+               restrictionKeys: [UpgradeRestriction.U_WING_ONLY],
+               description: "Increase your agility value by 1. After you execute a maneuver, you may flip this card. / When you reveal a [Stop 0] maneuver, you may rotate your ship 180°. After you execute a maneuver, you may flip this card.",
+               squadPointCost: 0,
+               value: "pivotWing",
             },
             "plasmaTorpedoes":
             {

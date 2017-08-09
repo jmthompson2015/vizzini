@@ -98,7 +98,7 @@ define(["FiringArc", "Ship", "ShipBase"], function(FiringArc, Ship, ShipBase)
 
       // Verify.
       assert.ok(result);
-      var length = 41;
+      var length = 42;
       assert.equal(result.length, length);
       assert.equal(result[0], "aWing");
       assert.equal(result[length - 1], "z95Headhunter");

@@ -93,7 +93,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 287;
+         var length = 293;
          assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
          assert.equal(result[length - 1], UpgradeCard.ZUCKUSS);

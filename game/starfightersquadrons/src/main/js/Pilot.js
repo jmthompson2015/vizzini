@@ -23,9 +23,11 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       BLACKMOON_SQUADRON_PILOT: "blackmoonSquadronPilot",
       BLUE_ACE: "blueAce",
       BLUE_SQUADRON_NOVICE: "blueSquadronNovice",
+      BLUE_SQUADRON_PATHFINDER: "blueSquadronPathfinder",
       BLUE_SQUADRON_PILOT: "blueSquadronPilot",
       BOBA_FETT_IMPERIAL: "bobaFettImperial",
       BOBA_FETT_SCUM: "bobaFettScum",
+      BODHI_ROOK: "bodhiRook",
       BOSSK: "bossk",
       BOUNTY_HUNTER: "bountyHunter",
       BRAYLEN_STRAMM: "braylenStramm",
@@ -38,6 +40,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       CARNOR_JAX: "carnorJax",
       CARTEL_MARAUDER: "cartelMarauder",
       CARTEL_SPACER: "cartelSpacer",
+      CASSIAN_ANDOR: "cassianAndor",
       CHASER: "chaser",
       CHEWBACCA: "chewbacca",
       CHEWBACCA_HOTR: "chewbaccaHotr",
@@ -94,6 +97,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       GURI: "guri",
       HAN_SOLO: "hanSolo",
       HAN_SOLO_HOTR: "hanSoloHotr",
+      HEFF_TOBBER: "heffTobber",
       HERA_SYNDULLA_ATTACK_SHUTTLE: "heraSyndullaAttackShuttle",
       HERA_SYNDULLA_VCX_100: "heraSyndullaVcx100",
       HIRED_GUN: "hiredGun",
@@ -475,6 +479,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             isImplemented: true,
             value: "blueSquadronNovice",
          },
+         "blueSquadronPathfinder":
+         {
+            name: "Blue Squadron Pathfinder",
+            description: "Used for deploying troops under the cover of darkness or into the heat of battle, the U-wing fulfilled the Rebel Alliance's need for a hardy transport craft.",
+            isFlavorText: true,
+            shipTeamKey: ShipTeam.REBEL_U_WING,
+            pilotSkillValue: 2,
+            squadPointCost: 23,
+            upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW],
+            value: "blueSquadronPathfinder",
+         },
          "blueSquadronPilot":
          {
             name: "Blue Squadron Pilot",
@@ -511,6 +526,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.CANNON, UpgradeType.BOMB, UpgradeType.CREW, UpgradeType.MISSILE, UpgradeType.ILLICIT],
             isImplemented: true,
             value: "bobaFettScum",
+         },
+         "bodhiRook":
+         {
+            name: "Bodhi Rook",
+            description: "When a friendly ship acquires a target lock, that ship can lock onto an enemy ship at Range 1-3 of any friendly ship.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.REBEL_U_WING,
+            pilotSkillValue: 4,
+            squadPointCost: 25,
+            upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW],
+            value: "bodhiRook",
          },
          "bossk":
          {
@@ -649,6 +675,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [],
             isImplemented: true,
             value: "cartelSpacer",
+         },
+         "cassianAndor":
+         {
+            name: "Cassian Andor",
+            description: "At the start of the Activation phase, you may remove 1 stress token from 1 other friendly ship at Range 1-2.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.REBEL_U_WING,
+            pilotSkillValue: 6,
+            squadPointCost: 27,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW],
+            value: "cassianAndor",
          },
          "chaser":
          {
@@ -1341,6 +1378,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             squadPointCost: 46,
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.MISSILE, UpgradeType.CREW, UpgradeType.CREW],
             value: "hanSoloHotr",
+         },
+         "heffTobber":
+         {
+            name: "Heff Tobber",
+            description: "After an enemy ship executes a maneuver that causes it to overlap your ship, you may perform a free action.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.REBEL_U_WING,
+            pilotSkillValue: 3,
+            squadPointCost: 24,
+            upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.TORPEDO, UpgradeType.CREW, UpgradeType.CREW],
+            value: "heffTobber",
          },
          "heraSyndullaAttackShuttle":
          {
