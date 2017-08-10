@@ -11,7 +11,7 @@ define(["Event", "process/Action", "process/EventObserver", "process/Environment
          var store = environment.store();
          var token = environment.tokens()[2]; // X-Wing Luke Skywalker
          var eventKey = Event.AFTER_EXECUTE_MANEUVER;
-         var eventCallback = function()
+         var eventCallback = function(eventData)
          {
             // Verify.
             assert.equal(store.getState().eventQueue.size, 0);
@@ -19,6 +19,9 @@ define(["Event", "process/Action", "process/EventObserver", "process/Environment
             // {
             //    console.log(i + " " + JSON.stringify(element) + " token = " + element.get("eventToken"));
             // });
+            assert.ok(eventData);
+            assert.equal(eventData.get("eventKey"), eventKey);
+            assert.equal(eventData.get("eventToken"), token);
          };
          store.dispatch(Action.enqueueEvent(eventKey, token, eventCallback));
          assert.equal(store.getState().eventQueue.size, 1);

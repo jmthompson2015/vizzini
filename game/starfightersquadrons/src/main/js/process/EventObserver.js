@@ -27,13 +27,8 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
          if (eventQueue.size > 0)
          {
             var store = this.store();
+            store.dispatch(Action.dequeueEvent());
             var eventData = store.getState().eventData;
-
-            if (eventData === undefined)
-            {
-               store.dispatch(Action.dequeueEvent());
-               eventData = store.getState().eventData;
-            }
 
             LOGGER.debug("eventData = " + JSON.stringify(eventData));
 
@@ -41,35 +36,30 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
             {
                var eventKey = eventData.get("eventKey");
                var token = eventData.get("eventToken");
-               var callback = eventData.get("eventCallback");
+               var queue = [];
 
-               if (eventKey !== undefined && token !== undefined)
+               if (token.usableDamageAbilities)
                {
-                  var queue = [];
+                  queue = queue.concat(token.usableDamageAbilities(DamageAbility0, eventKey));
+               }
 
-                  if (token.usableDamageAbilities)
-                  {
-                     queue.vizziniAddAll(token.usableDamageAbilities(DamageAbility0, eventKey));
-                  }
+               if (token.usablePilotAbilities)
+               {
+                  queue = queue.concat(token.usablePilotAbilities(PilotAbility0, eventKey));
+               }
 
-                  if (token.usablePilotAbilities)
-                  {
-                     queue.vizziniAddAll(token.usablePilotAbilities(PilotAbility0, eventKey));
-                  }
+               if (token.usableUpgradeAbilities)
+               {
+                  queue = queue.concat(token.usableUpgradeAbilities(UpgradeAbility0, eventKey));
+               }
 
-                  if (token.usableUpgradeAbilities)
-                  {
-                     queue.vizziniAddAll(token.usableUpgradeAbilities(UpgradeAbility0, eventKey));
-                  }
-
-                  if (queue.length > 0)
-                  {
-                     this.processAbilityQueue(store, token, queue, callback);
-                  }
-                  else
-                  {
-                     this.finishOnChange(store, callback);
-                  }
+               if (queue.length > 0)
+               {
+                  this.processAbilityQueue(eventData, queue);
+               }
+               else
+               {
+                  this.finishOnChange(eventData);
                }
             }
          }
@@ -77,26 +67,26 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
          LOGGER.trace("EventObserver.onChange() end");
       };
 
-      EventObserver.prototype.processAbilityQueue = function(store, token, queue, callback)
+      EventObserver.prototype.processAbilityQueue = function(eventData, queue)
       {
          LOGGER.trace("EventObserver.processAbilityQueue() start");
 
-         InputValidator.validateNotNull("store", store);
-         InputValidator.validateNotNull("token", token);
+         InputValidator.validateNotNull("eventData", eventData);
          InputValidator.validateNotNull("queue", queue);
-         // callback optional.
 
          if (queue.length === 0)
          {
-            setTimeout(this.finishOnChange(store, callback), 10);
+            setTimeout(this.finishOnChange(eventData), 10);
          }
          else
          {
+            var store = this.store();
+            var token = eventData.get("eventToken");
             var ability = queue.shift();
             var that = this;
             var myCallback = function()
             {
-               that.processAbilityQueue(store, token, queue, callback);
+               that.processAbilityQueue(eventData, queue);
             };
 
             if (ability.conditionPasses(store, token))
@@ -119,18 +109,20 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
          LOGGER.trace("EventObserver.processAbilityQueue() end");
       };
 
-      EventObserver.prototype.finishOnChange = function(store, callback)
+      EventObserver.prototype.finishOnChange = function(eventData)
       {
          LOGGER.trace("EventObserver.finishOnChange() start");
 
-         InputValidator.validateNotNull("store", store);
-         // callback optional.
+         InputValidator.validateNotNull("eventData", eventData);
 
+         var store = this.store();
          store.dispatch(Action.clearEvent());
 
-         if (callback)
+         var callback = eventData.get("eventCallback");
+
+         if (callback !== undefined)
          {
-            callback();
+            callback(eventData);
          }
 
          LOGGER.trace("EventObserver.finishOnChange() end");
