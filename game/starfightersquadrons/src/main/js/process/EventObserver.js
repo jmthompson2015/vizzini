@@ -17,7 +17,7 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
             return state.eventQueue;
          };
 
-         var unsubscribe = Observer.observeStore(store, this.select, this.onChange.bind(this), false);
+         var unsubscribe = Observer.observeStore(store, this.select, this.onChange.bind(this));
       }
 
       EventObserver.prototype.onChange = function(eventQueue)
@@ -27,8 +27,15 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
          if (eventQueue.size > 0)
          {
             var store = this.store();
-            store.dispatch(Action.dequeueEvent());
             var eventData = store.getState().eventData;
+
+            if (eventData === undefined)
+            {
+               store.dispatch(Action.dequeueEvent());
+               eventData = store.getState().eventData;
+            }
+
+            LOGGER.debug("eventData = " + JSON.stringify(eventData));
 
             if (eventData !== undefined)
             {

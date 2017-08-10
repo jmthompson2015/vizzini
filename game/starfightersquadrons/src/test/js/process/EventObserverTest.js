@@ -1,5 +1,5 @@
-define(["Event", "process/Action", "process/Adjudicator", "process/EventObserver", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
-   function(Event, Action, Adjudicator, EventObserver, Environment, Reducer, SimpleAgent, SquadBuilder)
+define(["Event", "process/Action", "process/EventObserver", "process/Environment", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
+   function(Event, Action, EventObserver, Environment, Reducer, SimpleAgent, SquadBuilder)
    {
       "use strict";
       QUnit.module("EventObserver");
@@ -8,9 +8,7 @@ define(["Event", "process/Action", "process/Adjudicator", "process/EventObserver
       {
          // Setup.
          var environment = createEnvironment();
-         var adjudicator = new Adjudicator();
          var store = environment.store();
-         store.dispatch(Action.setAdjudicator(adjudicator));
          var token = environment.tokens()[2]; // X-Wing Luke Skywalker
          var eventKey = Event.AFTER_EXECUTE_MANEUVER;
          var eventCallback = function()
@@ -24,10 +22,9 @@ define(["Event", "process/Action", "process/Adjudicator", "process/EventObserver
          };
          store.dispatch(Action.enqueueEvent(eventKey, token, eventCallback));
          assert.equal(store.getState().eventQueue.size, 1);
-         var eventObserver = new EventObserver(store);
 
          // Run.
-         eventObserver.onChange(store.getState().eventQueue);
+         var eventObserver = new EventObserver(store);
       });
 
       function createEnvironment()
