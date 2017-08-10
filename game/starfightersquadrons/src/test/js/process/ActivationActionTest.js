@@ -1,5 +1,5 @@
-define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
-   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, Reducer, SimpleAgent, SquadBuilder, Token)
+define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action", "process/ActivationAction", "process/Adjudicator", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/Token"],
+   function(Maneuver, Pilot, Position, Team, UpgradeCard, Action, ActivationAction, Adjudicator, Environment, EnvironmentFactory, EventObserver, Reducer, SimpleAgent, SquadBuilder, Token)
    {
       "use strict";
       QUnit.module("ActivationAction");
@@ -39,6 +39,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var squad2 = squadBuilder2.buildSquad(agent2);
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
+         new EventObserver(store);
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
@@ -143,6 +144,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
          var squad2 = squadBuilder2.buildSquad(agent2);
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
+         new EventObserver(store);
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
@@ -433,6 +435,7 @@ define(["Maneuver", "Pilot", "Position", "Team", "UpgradeCard", "process/Action"
       {
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
+         new EventObserver(store);
          var adjudicator = new Adjudicator();
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          var token = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
