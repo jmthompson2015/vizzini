@@ -1,5 +1,5 @@
-define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
-   function(Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
+define(["DamageCard", "Pilot", "UpgradeCard", "process/Action", "process/DamageAbility0", "process/PilotAbility0", "process/Observer", "process/UpgradeAbility0"],
+   function(DamageCard, Pilot, UpgradeCard, Action, DamageAbility0, PilotAbility0, Observer, UpgradeAbility0)
    {
       "use strict";
 
@@ -34,79 +34,106 @@ define(["process/Action", "process/DamageAbility0", "process/PilotAbility0", "pr
 
             if (eventData !== undefined)
             {
-               var eventKey = eventData.get("eventKey");
-               var token = eventData.get("eventToken");
-               var queue = [];
-
-               if (token.usableDamageAbilities)
-               {
-                  queue = queue.concat(token.usableDamageAbilities(DamageAbility0, eventKey));
-               }
-
-               if (token.usablePilotAbilities)
-               {
-                  queue = queue.concat(token.usablePilotAbilities(PilotAbility0, eventKey));
-               }
-
-               if (token.usableUpgradeAbilities)
-               {
-                  queue = queue.concat(token.usableUpgradeAbilities(UpgradeAbility0, eventKey));
-               }
-
-               if (queue.length > 0)
-               {
-                  this.processAbilityQueue(eventData, queue);
-               }
-               else
-               {
-                  this.finishOnChange(eventData);
-               }
+               this.chooseAbility(eventData);
             }
          }
 
          LOGGER.trace("EventObserver.onChange() end");
       };
 
-      EventObserver.prototype.processAbilityQueue = function(eventData, queue)
+      EventObserver.prototype.chooseAbility = function(eventData)
       {
-         LOGGER.trace("EventObserver.processAbilityQueue() start");
+         LOGGER.trace("EventObserver.chooseAbility() start");
 
          InputValidator.validateNotNull("eventData", eventData);
-         InputValidator.validateNotNull("queue", queue);
 
-         if (queue.length === 0)
+         var eventKey = eventData.get("eventKey");
+         var token = eventData.get("eventToken");
+
+         var damageAbilities = (token.usableDamageAbilities !== undefined ? token.usableDamageAbilities(DamageAbility0, eventKey) : []);
+         var pilotAbilities = (token.usablePilotAbilities !== undefined ? token.usablePilotAbilities(PilotAbility0, eventKey) : []);
+         var upgradeAbilities = (token.usableUpgradeAbilities !== undefined ? token.usableUpgradeAbilities(UpgradeAbility0, eventKey) : []);
+
+         if (damageAbilities.length > 0 || pilotAbilities.length > 0 || upgradeAbilities.length > 0)
          {
-            setTimeout(this.finishOnChange(eventData), 10);
+            var that = this;
+            var agentCallback = function(ability, isAccepted)
+            {
+               that.finishChooseAbility(eventData, ability, isAccepted);
+            };
+            var store = this.store();
+            var environment = store.getState().environment;
+            var agent = token.agent();
+            agent.chooseAbility(environment, damageAbilities, pilotAbilities, upgradeAbilities, agentCallback);
          }
          else
          {
-            var store = this.store();
-            var token = eventData.get("eventToken");
-            var ability = queue.shift();
-            var that = this;
-            var myCallback = function()
-            {
-               that.processAbilityQueue(eventData, queue);
-            };
-
-            if (ability.conditionPasses(store, token))
-            {
-               var consequent = ability.consequent();
-               consequent(store, token, myCallback);
-               var usedAbilities = ability.usedAbilities(token);
-
-               if (usedAbilities !== undefined)
-               {
-                  usedAbilities.push(ability.abilityKey);
-               }
-            }
-            else
-            {
-               myCallback();
-            }
+            this.finishOnChange(eventData);
          }
 
-         LOGGER.trace("EventObserver.processAbilityQueue() end");
+         LOGGER.trace("EventObserver.chooseAbility() end");
+      };
+
+      EventObserver.prototype.finishChooseAbility = function(eventData, ability, isAccepted)
+      {
+         LOGGER.trace("EventObserver.finishChooseAbility() start");
+
+         InputValidator.validateNotNull("eventData", eventData);
+         // ability optional.
+         // isAccepted optional.
+
+         LOGGER.debug("ActivationAction.finishRevealDial() ability = " + ability + " isAccepted ? " + isAccepted);
+
+         var that = this;
+         var backFunction = function()
+         {
+            that.chooseAbility(eventData);
+         };
+         var forwardFunction = function()
+         {
+            that.finishOnChange(eventData);
+         };
+
+         this.finish(eventData, ability, isAccepted, backFunction, forwardFunction);
+
+         LOGGER.trace("EventObserver.finishChooseAbility() end");
+      };
+
+      EventObserver.prototype.finish = function(eventData, ability, isAccepted, backFunction, forwardFunction)
+      {
+         InputValidator.validateNotNull("eventData", eventData);
+         // ability optional.
+         // isAccepted optional.
+         InputValidator.validateNotNull("backFunction", backFunction);
+         InputValidator.validateNotNull("forwardFunction", forwardFunction);
+
+         if (ability !== undefined && isAccepted === true)
+         {
+            var store = this.store();
+            var token = eventData.get("eventToken");
+
+            switch (ability.source())
+            {
+               case DamageCard:
+                  store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
+                  break;
+               case Pilot:
+                  store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
+                  break;
+               case UpgradeCard:
+                  store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
+                  break;
+               default:
+                  throw "Unknown source: " + source + " " + (typeof source);
+            }
+
+            var consequent = ability.consequent();
+            consequent(store, token, backFunction);
+         }
+         else
+         {
+            forwardFunction();
+         }
       };
 
       EventObserver.prototype.finishOnChange = function(eventData)
