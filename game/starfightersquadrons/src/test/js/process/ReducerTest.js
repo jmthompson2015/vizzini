@@ -671,6 +671,46 @@ define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayForma
          assert.equal(store.getState().eventQueue.size, 0);
       });
 
+      QUnit.test("dequeuePhase()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var agent = new SimpleAgent("Rebel", Team.REBEL);
+         var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
+         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
+         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_REVEAL_DIAL, token));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_EXECUTE_MANEUVER, token2));
+
+         assert.equal(store.getState().phaseQueue.size, 2);
+         var phaseData0 = store.getState().phaseQueue.get(0);
+         assert.ok(phaseData0);
+         assert.equal(phaseData0.get("phaseKey"), Phase.ACTIVATION_REVEAL_DIAL);
+         assert.equal(phaseData0.get("phaseToken"), token);
+         var phaseData1 = store.getState().phaseQueue.get(1);
+         assert.ok(phaseData1);
+         assert.equal(phaseData1.get("phaseKey"), Phase.ACTIVATION_EXECUTE_MANEUVER);
+         assert.equal(phaseData1.get("phaseToken"), token2);
+
+         // Run.
+         store.dispatch(Action.dequeuePhase());
+
+         // Verify.
+         assert.equal(store.getState().phaseQueue.size, 1);
+         phaseData0 = store.getState().phaseQueue.get(0);
+         assert.ok(phaseData0);
+         assert.equal(phaseData0.get("phaseKey"), Phase.ACTIVATION_EXECUTE_MANEUVER);
+         assert.equal(phaseData0.get("phaseToken"), token2);
+
+         // Run.
+         store.dispatch(Action.dequeuePhase());
+
+         // Verify.
+         assert.equal(store.getState().phaseQueue.size, 0);
+      });
+
       QUnit.test("discardDamage()", function(assert)
       {
          // Setup.
@@ -742,6 +782,42 @@ define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayForma
          assert.ok(eventData1);
          assert.equal(eventData1.get("eventKey"), Event.SHIP_ACTION_PERFORMED);
          assert.equal(eventData1.get("eventToken"), token2);
+      });
+
+      QUnit.test("enqueuePhase()", function(assert)
+      {
+         // Setup.
+         var store = Redux.createStore(Reducer.root);
+         var agent = new SimpleAgent("Rebel", Team.REBEL);
+         var token = new Token(store, Pilot.LUKE_SKYWALKER, agent);
+         store.dispatch(Action.placeToken(new Position(100, 200, 45), token));
+         assert.equal(store.getState().phaseQueue.size, 0);
+
+         // Run.
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_REVEAL_DIAL, token));
+
+         // Verify.
+         assert.equal(store.getState().phaseQueue.size, 1);
+         var phaseData0 = store.getState().phaseQueue.get(0);
+         assert.ok(phaseData0);
+         assert.equal(phaseData0.get("phaseKey"), Phase.ACTIVATION_REVEAL_DIAL);
+         assert.equal(phaseData0.get("phaseToken"), token);
+
+         // Run.
+         var token2 = new Token(store, Pilot.BIGGS_DARKLIGHTER, agent);
+         store.dispatch(Action.placeToken(new Position(200, 200, 45), token2));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_EXECUTE_MANEUVER, token2));
+
+         // Verify.
+         assert.equal(store.getState().phaseQueue.size, 2);
+         phaseData0 = store.getState().phaseQueue.get(0);
+         assert.ok(phaseData0);
+         assert.equal(phaseData0.get("phaseKey"), Phase.ACTIVATION_REVEAL_DIAL);
+         assert.equal(phaseData0.get("phaseToken"), token);
+         var phaseData1 = store.getState().phaseQueue.get(1);
+         assert.ok(phaseData1);
+         assert.equal(phaseData1.get("phaseKey"), Phase.ACTIVATION_EXECUTE_MANEUVER);
+         assert.equal(phaseData1.get("phaseToken"), token2);
       });
 
       QUnit.test("incrementNextTargetLockId()", function(assert)
@@ -1207,25 +1283,6 @@ define(["Count", "DamageCard", "Event", "Maneuver", "Phase", "Pilot", "PlayForma
          // Verify.
          assert.ok(store.getState().tokenIdToCounts[token.id()]);
          assert.equal(store.getState().tokenIdToCounts[token.id()][property], 12);
-      });
-
-      QUnit.test("setPhase()", function(assert)
-      {
-         // Setup.
-         var store = Redux.createStore(Reducer.root);
-         assert.equal(store.getState().phaseKey, Phase.SETUP);
-
-         // Run.
-         store.dispatch(Action.setPhase(Phase.ACTIVATION_START));
-
-         // Verify.
-         assert.equal(store.getState().phaseKey, Phase.ACTIVATION_START);
-
-         // Run.
-         store.dispatch(Action.setPhase(Phase.COMBAT_MODIFY_ATTACK_DICE));
-
-         // Verify.
-         assert.equal(store.getState().phaseKey, Phase.COMBAT_MODIFY_ATTACK_DICE);
       });
 
       QUnit.test("setPlayAreaScale()", function(assert)

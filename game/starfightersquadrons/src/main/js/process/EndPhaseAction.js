@@ -36,9 +36,10 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
       {
          LOGGER.trace("EndPhaseAction.cleanUp() start");
 
-         this.environment().phase(Phase.END_CLEAN_UP);
-
          var token = this.token();
+
+         this.environment().phase(Phase.END_CLEAN_UP, token);
+
          var store = token.store();
 
          store.dispatch(Action.setEvadeCount(token));
@@ -51,36 +52,18 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
             store.dispatch(Action.setFocusCount(token));
          }
 
-         this.cleanUp2();
+         this.roundEnd();
 
          LOGGER.trace("EndPhaseAction.cleanUp() end");
-      };
-
-      EndPhaseAction.prototype.cleanUp2 = function()
-      {
-         LOGGER.trace("EndPhaseAction.cleanUp2() start");
-
-         this.chooseAbility(this.finishCleanUp.bind(this));
-
-         LOGGER.trace("EndPhaseAction.cleanUp2() end");
-      };
-
-      EndPhaseAction.prototype.finishCleanUp = function(ability, isAccepted)
-      {
-         LOGGER.trace("EndPhaseAction.finishCleanUp() start");
-         LOGGER.debug("EndPhaseAction.finishCleanUp() ability = " + ability + " isAccepted ? " + isAccepted);
-
-         this.finish(ability, isAccepted, this.cleanUp2.bind(this), this.roundEnd.bind(this));
-
-         LOGGER.trace("EndPhaseAction.finishCleanUp() end");
       };
 
       EndPhaseAction.prototype.roundEnd = function()
       {
          LOGGER.trace("EndPhaseAction.roundEnd() start");
 
-         this.environment().phase(Phase.END_ROUND_END);
-         this.chooseAbility(this.finishRoundEnd.bind(this));
+         var token = this.token();
+         this.environment().phase(Phase.END_ROUND_END, token);
+         this.finishRoundEnd();
 
          LOGGER.trace("EndPhaseAction.roundEnd() end");
       };
@@ -124,7 +107,7 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
          // FIXME: force a recompute.
          store.dispatch(Action.setEvadeCount(token));
 
-         this.finish(ability, isAccepted, this.roundEnd.bind(this), this.finishIt.bind(this));
+         this.finishIt();
 
          LOGGER.trace("EndPhaseAction.finishRoundEnd() end");
       };
@@ -137,42 +120,6 @@ define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "pro
          callback();
 
          LOGGER.trace("EndPhaseAction.finishIt() end");
-      };
-
-      ////////////////////////////////////////////////////////////////////////
-      EndPhaseAction.prototype.chooseAbility = function(callback)
-      {
-         InputValidator.validateNotNull("callback", callback);
-
-         var token = this.token();
-         var agent = token.agent();
-         var environment = this.environment();
-         var phaseKey = this.environment().phase();
-         var damageAbilities = token.usableDamageAbilities(DamageAbility4, phaseKey);
-         var pilotAbilities = token.usablePilotAbilities(PilotAbility4, phaseKey);
-         var upgradeAbilities = token.usableUpgradeAbilities(UpgradeAbility4, phaseKey);
-         agent.chooseAbility(environment, damageAbilities, pilotAbilities, upgradeAbilities, callback);
-
-         // Wait for agent to respond.
-      };
-
-      EndPhaseAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
-      {
-         InputValidator.validateNotNull("backFunction", backFunction);
-         InputValidator.validateNotNull("forwardFunction", forwardFunction);
-
-         if (ability && isAccepted)
-         {
-            var store = this.environment().store();
-            var token = this.token();
-            ability.usedAbilities(token).push(ability.sourceKey());
-            var consequent = ability.consequent();
-            consequent(store, token, backFunction);
-         }
-         else
-         {
-            forwardFunction();
-         }
       };
 
       return EndPhaseAction;

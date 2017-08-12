@@ -91,7 +91,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.declareTarget() start");
 
-         this.environment().phase(Phase.COMBAT_DECLARE_TARGET);
+         this.environment().phase(Phase.COMBAT_DECLARE_TARGET, this.attacker());
 
          var store = this.store();
          var attacker = this.attacker();
@@ -111,26 +111,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          var isInFiringArc = weapon.isDefenderInFiringArc(attackerPosition, firingArc, defender, defenderPosition);
          store.dispatch(Action.setTokenInFiringArc(attacker, isInFiringArc));
 
-         this.declareTarget2();
+         this.rollAttackDice();
 
          LOGGER.trace("CombatAction.declareTarget() end");
-      };
-
-      CombatAction.prototype.declareTarget2 = function()
-      {
-         LOGGER.trace("CombatAction.declareTarget2() start");
-
-         var attacker = this.attacker();
-         var agent = attacker.agent();
-         var phaseKey = this.environment().phase();
-         var damageAbilities = attacker.usableAttackerDamageAbilities(DamageAbility3, phaseKey);
-         var pilotAbilities = attacker.usableAttackerPilotAbilities(PilotAbility3, phaseKey);
-         var upgradeAbilities = attacker.usableAttackerUpgradeAbilities(UpgradeAbility3, phaseKey);
-         agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishDeclareTarget.bind(this));
-
-         // Wait for agent to respond.
-
-         LOGGER.trace("CombatAction.declareTarget2() end");
       };
 
       CombatAction.prototype.environment = function()
@@ -139,21 +122,11 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          return Selector.environment(store.getState());
       };
 
-      CombatAction.prototype.finishDeclareTarget = function(ability, isAccepted)
-      {
-         LOGGER.trace("CombatAction.finishDeclareTarget() start");
-         LOGGER.debug("CombatAction.finishDeclareTarget() ability = " + ability + " isAccepted ? " + isAccepted);
-
-         this.finish(ability, isAccepted, this.declareTarget2.bind(this), this.rollAttackDice.bind(this));
-
-         LOGGER.trace("CombatAction.finishDeclareTarget() end");
-      };
-
       CombatAction.prototype.rollAttackDice = function()
       {
          LOGGER.trace("CombatAction.rollAttackDice() start");
 
-         this.environment().phase(Phase.COMBAT_ROLL_ATTACK_DICE);
+         this.environment().phase(Phase.COMBAT_ROLL_ATTACK_DICE, this.attacker());
 
          var store = this.store();
          var environment = this.environment();
@@ -174,7 +147,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.modifyAttackDice() start");
 
-         this.environment().phase(Phase.COMBAT_MODIFY_ATTACK_DICE);
+         this.environment().phase(Phase.COMBAT_MODIFY_ATTACK_DICE, this.attacker());
 
          var store = this.store();
          var environment = this.environment();
@@ -220,7 +193,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.rollDefenseDice() start");
 
-         this.environment().phase(Phase.COMBAT_ROLL_DEFENSE_DICE);
+         this.environment().phase(Phase.COMBAT_ROLL_DEFENSE_DICE, this.attacker());
 
          var store = this.store();
          var attacker = this.attacker();
@@ -240,7 +213,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.modifyDefenseDice() start");
 
-         this.environment().phase(Phase.COMBAT_MODIFY_DEFENSE_DICE);
+         this.environment().phase(Phase.COMBAT_MODIFY_DEFENSE_DICE, this.attacker());
 
          var store = this.store();
          var environment = this.environment();
@@ -289,7 +262,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.compareResults() start");
 
-         this.environment().phase(Phase.COMBAT_COMPARE_RESULTS);
+         this.environment().phase(Phase.COMBAT_COMPARE_RESULTS, this.attacker());
 
          var store = this.store();
          var environment = this.environment();
@@ -315,7 +288,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.dealDamage() start");
 
-         this.environment().phase(Phase.COMBAT_NOTIFY_DAMAGE);
+         this.environment().phase(Phase.COMBAT_NOTIFY_DAMAGE, this.attacker());
 
          var store = this.store();
          var environment = this.environment();
@@ -361,7 +334,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.dealDamage() start");
 
-         this.environment().phase(Phase.COMBAT_DEAL_DAMAGE);
+         this.environment().phase(Phase.COMBAT_DEAL_DAMAGE, this.attacker());
 
          var store = this.store();
          var attacker = this.attacker();
@@ -377,65 +350,18 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             }
          }
 
-         this.dealDamage2();
+         this.afterDealDamage();
 
          LOGGER.trace("CombatAction.dealDamage() end");
-      };
-
-      CombatAction.prototype.dealDamage2 = function()
-      {
-         LOGGER.trace("CombatAction.declareTarget2() start");
-
-         var attacker = this.attacker();
-         var agent = attacker.agent();
-         var phaseKey = this.environment().phase();
-         var damageAbilities = attacker.usableAttackerDamageAbilities(DamageAbility3, phaseKey);
-         var pilotAbilities = attacker.usableAttackerPilotAbilities(PilotAbility3, phaseKey);
-         var upgradeAbilities = attacker.usableAttackerUpgradeAbilities(UpgradeAbility3, phaseKey);
-         agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishDealDamage.bind(this));
-
-         // Wait for agent to respond.
-
-         LOGGER.trace("CombatAction.declareTarget2() end");
-      };
-
-      CombatAction.prototype.finishDealDamage = function(ability, isAccepted)
-      {
-         LOGGER.trace("CombatAction.finishDealDamage() start");
-         LOGGER.debug("CombatAction.finishDealDamage() ability = " + ability + " isAccepted ? " + isAccepted);
-
-         this.finish(ability, isAccepted, this.dealDamage2.bind(this), this.afterDealDamage.bind(this));
-
-         LOGGER.trace("CombatAction.finishDealDamage() end");
       };
 
       CombatAction.prototype.afterDealDamage = function()
       {
          LOGGER.trace("CombatAction.afterDealDamage() start");
 
-         this.environment().phase(Phase.COMBAT_AFTER_DEAL_DAMAGE);
-
-         var attacker = this.attacker();
-         var agent = attacker.agent();
-         var phaseKey = this.environment().phase();
-         var damageAbilities = attacker.usableAttackerDamageAbilities(DamageAbility3, phaseKey);
-         var pilotAbilities = attacker.usableAttackerPilotAbilities(PilotAbility3, phaseKey);
-         var upgradeAbilities = attacker.usableAttackerUpgradeAbilities(UpgradeAbility3, phaseKey);
-         agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.afterDealDamage2.bind(this));
-
-         // Wait for agent to respond.
+         this.environment().phase(Phase.COMBAT_AFTER_DEAL_DAMAGE, this.attacker(), this.finishAfterDealDamage.bind(this));
 
          LOGGER.trace("CombatAction.afterDealDamage() end");
-      };
-
-      CombatAction.prototype.afterDealDamage2 = function(ability, isAccepted)
-      {
-         LOGGER.trace("CombatAction.afterDealDamage2() start");
-         LOGGER.debug("CombatAction.afterDealDamage2() ability = " + ability + " isAccepted ? " + isAccepted);
-
-         this.finish(ability, isAccepted, this.afterDealDamage.bind(this), this.finishAfterDealDamage.bind(this));
-
-         LOGGER.trace("CombatAction.afterDealDamage2() end");
       };
 
       CombatAction.prototype.finishAfterDealDamage = function()
@@ -507,45 +433,6 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          var environment = this.environment();
          var defender = this.defender();
          return environment.getPositionFor(defender);
-      };
-
-      CombatAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
-      {
-         InputValidator.validateNotNull("backFunction", backFunction);
-         InputValidator.validateNotNull("forwardFunction", forwardFunction);
-
-         LOGGER.debug("CombatAction.finish() ability = " + ability);
-         LOGGER.debug("CombatAction.finish() isAccepted ? " + isAccepted);
-
-         if (ability && isAccepted)
-         {
-            var store = this.store();
-            var attacker = this.attacker();
-
-            if (ability.isDamage())
-            {
-               store.dispatch(Action.addAttackerUsedDamage(attacker, ability.sourceKey()));
-            }
-            else if (ability.isPilot())
-            {
-               store.dispatch(Action.addAttackerUsedPilot(attacker, ability.sourceKey()));
-            }
-            else if (ability.isUpgrade())
-            {
-               store.dispatch(Action.addAttackerUsedUpgrade(attacker, ability.sourceKey()));
-            }
-            else
-            {
-               throw "Unknown source: " + source + " " + (typeof source);
-            }
-
-            var consequent = ability.consequent();
-            consequent(store, attacker, backFunction);
-         }
-         else
-         {
-            forwardFunction();
-         }
       };
 
       return CombatAction;

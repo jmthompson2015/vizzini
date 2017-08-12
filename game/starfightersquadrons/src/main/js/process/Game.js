@@ -1,5 +1,5 @@
-define(["process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EventObserver", "process/Reducer"],
-   function(Action, Adjudicator, Engine, Environment, EventObserver, Reducer)
+define(["process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EventObserver", "process/PhaseObserver", "process/Reducer"],
+   function(Action, Adjudicator, Engine, Environment, EventObserver, PhaseObserver, Reducer)
    {
       "use strict";
 
@@ -14,6 +14,7 @@ define(["process/Action", "process/Adjudicator", "process/Engine", "process/Envi
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
          new EventObserver(store);
+         new PhaseObserver(store);
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
 
          var adjudicator = new Adjudicator();

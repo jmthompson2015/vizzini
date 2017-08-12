@@ -29,14 +29,17 @@ define(["Count"], function(Count)
    Action.CLEAR_DEFENDER_USED_PILOTS = "clearDefenderUsedPilots";
    Action.CLEAR_DEFENDER_USED_UPGRADES = "clearDefenderUsedUpgrades";
    Action.CLEAR_EVENT = "clearEvent";
+   Action.CLEAR_PHASE = "clearPhase";
    Action.CLEAR_TOKEN_USED_DAMAGES = "clearTokenUsedDamages";
    Action.CLEAR_TOKEN_USED_PILOTS = "clearTokenUsedPilots";
    Action.CLEAR_TOKEN_USED_SHIP_ACTIONS = "clearTokenUsedShipActions";
    Action.CLEAR_TOKEN_USED_UPGRADES = "clearTokenUsedUpgrades";
    Action.DEQUEUE_EVENT = "dequeueEvent";
+   Action.DEQUEUE_PHASE = "dequeuePhase";
    Action.DISCARD_DAMAGE = "discardDamage";
    Action.DRAW_DAMAGE = "drawDamage";
    Action.ENQUEUE_EVENT = "enqueueEvent";
+   Action.ENQUEUE_PHASE = "enqueuePhase";
    Action.INCREMENT_NEXT_TARGET_LOCK_ID = "incrementNextTargetLockId";
    Action.INCREMENT_NEXT_TOKEN_ID = "incrementNextTokenId";
    Action.MOVE_TOKEN = "moveToken";
@@ -57,7 +60,6 @@ define(["Count"], function(Count)
    Action.SET_ENVIRONMENT = "setEnvironment";
    Action.SET_FIRST_AGENT = "setFirstAgent";
    Action.SET_GAME_OVER = "setGameOver";
-   Action.SET_PHASE = "setPhase";
    Action.SET_PLAY_AREA_SCALE = "setPlayAreaScale";
    Action.SET_PLAY_FORMAT = "setPlayFormat";
    Action.SET_SECOND_AGENT = "setSecondAgent";
@@ -453,6 +455,14 @@ define(["Count"], function(Count)
       });
    };
 
+   Action.clearPhase = function()
+   {
+      return (
+      {
+         type: Action.CLEAR_PHASE,
+      });
+   };
+
    Action.clearTokenUsedDamages = function(token)
    {
       InputValidator.validateNotNull("token", token);
@@ -505,6 +515,14 @@ define(["Count"], function(Count)
       });
    };
 
+   Action.dequeuePhase = function()
+   {
+      return (
+      {
+         type: Action.DEQUEUE_PHASE,
+      });
+   };
+
    Action.discardDamage = function(damage)
    {
       InputValidator.validateNotNull("damage", damage);
@@ -541,6 +559,23 @@ define(["Count"], function(Count)
          eventToken: eventToken,
          eventCallback: eventCallback,
          eventContext: eventContext,
+      });
+   };
+
+   Action.enqueuePhase = function(phaseKey, phaseToken, phaseCallback, phaseContext)
+   {
+      InputValidator.validateNotNull("phaseKey", phaseKey);
+      // phaseToken optional.
+      // phaseCallback optional.
+      // phaseContext optional.
+
+      return (
+      {
+         type: Action.ENQUEUE_PHASE,
+         phaseKey: phaseKey,
+         phaseToken: phaseToken,
+         phaseCallback: phaseCallback,
+         phaseContext: phaseContext,
       });
    };
 
@@ -787,17 +822,6 @@ define(["Count"], function(Count)
    Action.setIonCount = function(token, value)
    {
       return Action.setCount(token, Count.ION, value);
-   };
-
-   Action.setPhase = function(phaseKey)
-   {
-      InputValidator.validateNotNull("phaseKey", phaseKey);
-
-      return (
-      {
-         type: Action.SET_PHASE,
-         phaseKey: phaseKey,
-      });
    };
 
    Action.setPlayAreaScale = function(scale)

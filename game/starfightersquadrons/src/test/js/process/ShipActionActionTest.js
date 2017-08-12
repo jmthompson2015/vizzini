@@ -534,8 +534,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setPhase(Phase.ACTIVATION_PERFORM_ACTION));
          var token = environment.tokens()[2]; // X-Wing
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, token));
          var damageKey = DamageCard.CONSOLE_FIRE;
          store.dispatch(Action.addTokenCriticalDamage(token, damageKey));
          var ability = new Ability(DamageCard, damageKey, DamageAbility2, Phase.ACTIVATION_PERFORM_ACTION);
@@ -616,8 +616,8 @@ define(["Ability", "DamageCard", "Maneuver", "Phase", "Position", "UpgradeCard",
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
          var store = environment.store();
-         store.dispatch(Action.setPhase(Phase.ACTIVATION_PERFORM_ACTION));
          var token = environment.tokens()[2]; // X-Wing
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, token));
          var upgradeKey = UpgradeCard.LANDO_CALRISSIAN;
          var ability = new Ability(UpgradeCard, upgradeKey, UpgradeAbility2, Phase.ACTIVATION_PERFORM_ACTION);
          var action = new ShipActionAction.SAAUpgradeCard(store, token, ability);

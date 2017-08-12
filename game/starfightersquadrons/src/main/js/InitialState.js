@@ -11,6 +11,8 @@ define(["Phase"], function(Phase)
       this.phaseKey = Phase.SETUP;
       this.eventData = undefined;
       this.eventQueue = Immutable.List();
+      this.phaseData = undefined;
+      this.phaseQueue = Immutable.List();
       this.playAreaScale = 1.0;
       this.activeTokenId = undefined;
       this.userMessage = "";

@@ -101,37 +101,19 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
       {
          LOGGER.trace("ActivationAction.revealDial() start");
 
-         this.environment().phase(Phase.ACTIVATION_REVEAL_DIAL);
-
+         var store = this.store();
          var token = this.token();
-         var agent = token.agent();
-         var phaseKey = this.environment().phase();
-         var damageAbilities = token.usableDamageAbilities(DamageAbility2, phaseKey);
-         var pilotAbilities = token.usablePilotAbilities(PilotAbility2, phaseKey);
-         var upgradeAbilities = token.usableUpgradeAbilities(UpgradeAbility2, phaseKey);
-         agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishRevealDial.bind(this));
-
-         // Wait for agent to respond.
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_REVEAL_DIAL, token, this.setTemplate.bind(this)));
 
          LOGGER.trace("ActivationAction.revealDial() end");
-      };
-
-      ActivationAction.prototype.finishRevealDial = function(ability, isAccepted)
-      {
-         LOGGER.trace("ActivationAction.finishRevealDial() start");
-         LOGGER.debug("ActivationAction.finishRevealDial() ability = " + ability + " isAccepted ? " + isAccepted);
-
-         this.finish(ability, isAccepted, this.revealDial.bind(this), this.setTemplate.bind(this));
-         LOGGER.debug("ActivationAction.finishRevealDial() maneuverKey = " + this.maneuverKey());
-
-         LOGGER.trace("ActivationAction.finishRevealDial() end");
       };
 
       ActivationAction.prototype.setTemplate = function()
       {
          LOGGER.trace("ActivationAction.setTemplate() start");
 
-         this.environment().phase(Phase.ACTIVATION_SET_TEMPLATE);
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_SET_TEMPLATE, this.token()));
 
          this.executeManeuver();
 
@@ -142,7 +124,8 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
       {
          LOGGER.trace("ActivationAction.executeManeuver() start");
 
-         this.environment().phase(Phase.ACTIVATION_EXECUTE_MANEUVER);
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_EXECUTE_MANEUVER, this.token()));
 
          var environment = this.environment();
          var token = this.token();
@@ -162,7 +145,6 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
             {
                var maneuverAction = new ManeuverAction(environment.store(), parentToken.id(), maneuverKey);
                maneuverAction.doIt();
-               var store = this.store();
                store.dispatch(Action.enqueueEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken, this.finishExecuteManeuver.bind(this)));
             }
             else
@@ -191,7 +173,9 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
       {
          LOGGER.trace("ActivationAction.checkPilotStress() start");
 
-         this.environment().phase(Phase.ACTIVATION_CHECK_PILOT_STRESS);
+         var store = this.store();
+         var token = this.token();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_CHECK_PILOT_STRESS, token));
 
          var maneuver = this.maneuver();
 
@@ -199,7 +183,6 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
          {
             var difficultyKey = maneuver.difficultyKey;
             LOGGER.trace("difficultyKey = " + difficultyKey);
-            var token = this.token();
 
             if (token)
             {
@@ -231,38 +214,20 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
       {
          LOGGER.trace("ActivationAction.cleanUp() start");
 
-         this.environment().phase(Phase.ACTIVATION_CLEAN_UP);
-
+         var store = this.store();
          var token = this.token();
-         var agent = token.agent();
-         var phaseKey = this.environment().phase();
-         var damageAbilities = token.usableDamageAbilities(DamageAbility2, phaseKey);
-         var pilotAbilities = token.usablePilotAbilities(PilotAbility2, phaseKey);
-         var upgradeAbilities = token.usableUpgradeAbilities(UpgradeAbility2, phaseKey);
-         agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishCleanUp.bind(this));
-
-         // Wait for agent to respond.
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_CLEAN_UP, token, this.gainEnergy.bind(this)));
 
          LOGGER.trace("ActivationAction.cleanUp() end");
-      };
-
-      ActivationAction.prototype.finishCleanUp = function(ability, isAccepted)
-      {
-         LOGGER.trace("ActivationAction.finishCleanUp() start");
-         LOGGER.debug("ActivationAction.finishCleanUp() ability = " + ability + " isAccepted ? " + isAccepted);
-
-         this.finish(ability, isAccepted, this.cleanUp.bind(this), this.gainEnergy.bind(this));
-
-         LOGGER.trace("ActivationAction.finishCleanUp() end");
       };
 
       ActivationAction.prototype.gainEnergy = function()
       {
          LOGGER.trace("ActivationAction.gainEnergy() start");
 
-         this.environment().phase(Phase.ACTIVATION_GAIN_ENERGY);
-
+         var store = this.store();
          var token = this.token();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_GAIN_ENERGY, token));
 
          if (token.isHuge() || (token.parent && token.parent.isHuge()))
          {
@@ -281,40 +246,23 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
                   if (diff > 0)
                   {
                      var value = Math.min(diff, maneuver.energy);
-                     var store = token.store();
                      store.dispatch(Action.addEnergyCount(token, value));
                   }
                }
             }
          }
 
-         var agent = token.agent();
-         var phaseKey = this.environment().phase();
-         var damageAbilities = token.usableDamageAbilities(DamageAbility2, phaseKey);
-         var pilotAbilities = token.usablePilotAbilities(PilotAbility2, phaseKey);
-         var upgradeAbilities = token.usableUpgradeAbilities(UpgradeAbility2, phaseKey);
-         agent.chooseAbility(this.environment(), damageAbilities, pilotAbilities, upgradeAbilities, this.finishGainEnergy.bind(this));
-
-         // Wait for agent to respond.
+         this.allocateEnergy();
 
          LOGGER.trace("ActivationAction.gainEnergy() end");
-      };
-
-      ActivationAction.prototype.finishGainEnergy = function(ability, isAccepted)
-      {
-         LOGGER.trace("ActivationAction.finishGainEnergy() start");
-         LOGGER.debug("ActivationAction.finishGainEnergy() ability = " + ability + " isAccepted ? " + isAccepted);
-
-         this.finish(ability, isAccepted, this.gainEnergy.bind(this), this.allocateEnergy.bind(this));
-
-         LOGGER.trace("ActivationAction.finishGainEnergy() end");
       };
 
       ActivationAction.prototype.allocateEnergy = function()
       {
          LOGGER.trace("ActivationAction.allocateEnergy() start");
 
-         this.environment().phase(Phase.ACTIVATION_ALLOCATE_ENERGY);
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_ALLOCATE_ENERGY, this.token()));
 
          var token = this.token();
 
@@ -332,7 +280,8 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
       {
          LOGGER.trace("ActivationAction.useEnergy() start");
 
-         this.environment().phase(Phase.ACTIVATION_USE_ENERGY);
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_USE_ENERGY, this.token()));
 
          var token = this.token();
 
@@ -350,7 +299,8 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
       {
          LOGGER.trace("ActivationAction.performAction() start");
 
-         this.environment().phase(Phase.ACTIVATION_PERFORM_ACTION);
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, this.token()));
 
          var environment = this.environment();
          var adjudicator = this.adjudicator();
@@ -386,7 +336,8 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
 
             if (fromPosition)
             {
-               environment.phase(Phase.ACTIVATION_PERFORM_ACTION);
+               var store = this.store();
+               store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, token));
                shipActionAction.doIt(this.finishPerformAction.bind(this));
             }
          }
@@ -405,38 +356,6 @@ define(["DamageCard", "Difficulty", "Event", "Maneuver", "Phase", "Pilot", "Upgr
          setTimeout(this.callback(), this.delay());
 
          LOGGER.trace("ActivationAction.finishPerformAction() end");
-      };
-
-      ActivationAction.prototype.finish = function(ability, isAccepted, backFunction, forwardFunction)
-      {
-         InputValidator.validateNotNull("backFunction", backFunction);
-         InputValidator.validateNotNull("forwardFunction", forwardFunction);
-
-         if (ability && isAccepted)
-         {
-            var store = this.store();
-            var token = this.token();
-            switch (ability.source())
-            {
-               case DamageCard:
-                  store.dispatch(Action.addTokenUsedDamage(token, ability.sourceKey()));
-                  break;
-               case Pilot:
-                  store.dispatch(Action.addTokenUsedPilot(token, ability.sourceKey()));
-                  break;
-               case UpgradeCard:
-                  store.dispatch(Action.addTokenUsedUpgrade(token, ability.sourceKey()));
-                  break;
-               default:
-                  throw "Unknown source: " + source + " " + (typeof source);
-            }
-            var consequent = ability.consequent();
-            consequent(store, token, backFunction);
-         }
-         else
-         {
-            forwardFunction();
-         }
       };
 
       //////////////////////////////////////////////////////////////////////////

@@ -1,7 +1,7 @@
 define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/ModifyAttackDiceAction", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(Maneuver, Phase, Pilot, Position, RangeRuler, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, EventObserver, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EnvironmentFactory, EventObserver, ModifyAttackDiceAction, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-2");
@@ -260,7 +260,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          combatAction.doIt();
       });
 
-      QUnit.skip("CombatAction.doIt() Heavy Laser Cannon", function(assert)
+      QUnit.test("CombatAction.doIt() Heavy Laser Cannon", function(assert)
       {
          // Setup.
          var upgradeKey = UpgradeCard.HEAVY_LASER_CANNON;
@@ -292,12 +292,6 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
-         var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            // console.log("calling back with " + (count++ === 0 ? modifyAttackDiceAction : null));
-            callback(count++ === 0 ? modifyAttackDiceAction : null);
-         };
 
          // Run.
          var done = assert.async();
@@ -506,10 +500,9 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
-            assert.ok(0 <= defender.damageCount() && defender.damageCount() <= 2, "defender.damageCount() = " +
-               defender.damageCount());
-            assert.equal(defender.damageCount(), 2);
-            assert.equal(defender.criticalDamageCount(), 0);
+            assert.ok(0 <= defender.damageCount() && defender.damageCount() <= 2, "defender.damageCount() = " + defender.damageCount());
+            assert.equal(defender.damageCount(), 2, "defender.damageCount() = " + defender.damageCount());
+            assert.equal(defender.criticalDamageCount(), 0, "defender.criticalDamageCount() = " + defender.criticalDamageCount());
             done();
          };
          var combatAction = createCombatActionRange2(upgradeKey, callback);
@@ -532,6 +525,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          new EventObserver(store);
+         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
@@ -567,6 +561,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          new EventObserver(store);
+         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -617,6 +612,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          new EventObserver(store);
+         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);

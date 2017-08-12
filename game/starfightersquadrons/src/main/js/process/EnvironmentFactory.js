@@ -1,5 +1,5 @@
-define(["Team", "process/Environment", "process/EventObserver", "process/MediumAgent", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/ui/HumanAgent"],
-   function(Team, Environment, EventObserver, MediumAgent, Reducer, SimpleAgent, SquadBuilder, HumanAgent)
+define(["Team", "process/Environment", "process/EventObserver", "process/MediumAgent", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder", "process/ui/HumanAgent"],
+   function(Team, Environment, EventObserver, MediumAgent, PhaseObserver, Reducer, SimpleAgent, SquadBuilder, HumanAgent)
    {
       "use strict";
       var EnvironmentFactory = {};
@@ -21,6 +21,7 @@ define(["Team", "process/Environment", "process/EventObserver", "process/MediumA
          var answer = new Environment(myStore, firstAgent.teamKey(), secondAgent.teamKey());
 
          new EventObserver(myStore);
+         new PhaseObserver(myStore);
          answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
 
          return answer;
@@ -43,6 +44,7 @@ define(["Team", "process/Environment", "process/EventObserver", "process/MediumA
          var answer = new Environment(myStore, firstAgent.teamKey(), secondAgent.teamKey());
 
          new EventObserver(myStore);
+         new PhaseObserver(myStore);
          answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
 
          return answer;
@@ -65,6 +67,7 @@ define(["Team", "process/Environment", "process/EventObserver", "process/MediumA
          var answer = new Environment(myStore, firstAgent.teamKey(), secondAgent.teamKey());
 
          new EventObserver(myStore);
+         new PhaseObserver(myStore);
          answer.placeInitialTokens(firstAgent, firstSquad, secondAgent, secondSquad);
 
          return answer;

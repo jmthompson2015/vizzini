@@ -692,7 +692,10 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          else
          {
             this.store().dispatch(Action.addTokenCriticalDamage(this, damageKey));
-            this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_CRITICAL_DAMAGE, this));
+            var eventContext = {
+               damageKey: damageKey,
+            };
+            this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_CRITICAL_DAMAGE, this, undefined, eventContext));
          }
       };
 
@@ -701,7 +704,10 @@ define(["Ability", "Bearing", "Count", "DamageCard", "Difficulty", "Event", "Fir
          InputValidator.validateNotNull("damageKey", damageKey);
 
          this.store().dispatch(Action.addTokenDamage(this, damageKey));
-         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_DAMAGE, this));
+         var eventContext = {
+            damageKey: damageKey,
+         };
+         this.store().dispatch(Action.enqueueEvent(Event.RECEIVE_DAMAGE, this, undefined, eventContext));
       };
 
       Token.prototype.receiveStress = function()

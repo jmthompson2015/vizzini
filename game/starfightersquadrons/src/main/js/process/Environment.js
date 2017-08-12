@@ -488,19 +488,16 @@ define(["DamageCard", "ManeuverComputer", "PlayFormat", "Position", "RangeRuler"
             store.dispatch(Action.addRound());
          };
 
-         this.phase = function(newPhase)
+         this.phase = function(phaseKey, phaseToken, phaseCallback, phaseContext)
          {
-            if (newPhase)
+            if (phaseKey)
             {
-               var oldValue = store.getState().phaseKey;
-
-               if (oldValue !== newPhase)
-               {
-                  store.dispatch(Action.setPhase(newPhase));
-               }
+               store.dispatch(Action.enqueuePhase(phaseKey, phaseToken, phaseCallback, phaseContext));
             }
 
-            return store.getState().phaseKey;
+            var phaseData = store.getState().phaseQueue.last();
+
+            return (phaseData !== undefined ? phaseData.get("phaseKey") : store.getState().phaseKey);
          };
 
          this.placeInitialTokens = function(agent1, squad1, agent2, squad2)

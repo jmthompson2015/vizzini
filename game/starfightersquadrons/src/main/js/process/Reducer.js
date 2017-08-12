@@ -552,7 +552,7 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
             return new InitialState();
          }
 
-         var newEventQueue, newPositionToTokenId, newTokenIdToData, newTokenIdToValues, newTokens, action2, tokenId;
+         var newEventData, newEventQueue, newPhaseData, newPhaseQueue, newPositionToTokenId, newTokenIdToData, newTokenIdToValues, newTokens, action2, tokenId;
 
          switch (action.type)
          {
@@ -728,6 +728,13 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {
                   eventData: undefined,
                });
+            case Action.CLEAR_PHASE:
+               LOGGER.info("Phase: (cleared)");
+               return Object.assign(
+               {}, state,
+               {
+                  phaseData: undefined,
+               });
             case Action.DEQUEUE_EVENT:
                LOGGER.info("EventQueue: (dequeue)");
                newEventData = state.eventQueue.first();
@@ -737,6 +744,17 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                {
                   eventData: newEventData,
                   eventQueue: newEventQueue,
+               });
+            case Action.DEQUEUE_PHASE:
+               LOGGER.info("PhaseQueue: (dequeue)");
+               newPhaseData = state.phaseQueue.first();
+               newPhaseQueue = state.phaseQueue.shift();
+               return Object.assign(
+               {}, state,
+               {
+                  phaseData: newPhaseData,
+                  phaseKey: newPhaseData.get("phaseKey"),
+                  phaseQueue: newPhaseQueue,
                });
             case Action.DISCARD_DAMAGE:
                return Object.assign(
@@ -753,12 +771,21 @@ define(["Count", "DamageCard", "Event", "InitialState", "Phase", "Pilot", "Upgra
                });
             case Action.ENQUEUE_EVENT:
                LOGGER.info("EventQueue: " + Event.properties[action.eventKey].name + ", token = " + action.eventToken + ", context = " + JSON.stringify(action.eventContext));
-               var newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback, action.eventContext);
+               newEventData = Event.createData(action.eventKey, action.eventToken, action.eventCallback, action.eventContext);
                newEventQueue = state.eventQueue.push(newEventData);
                return Object.assign(
                {}, state,
                {
                   eventQueue: newEventQueue,
+               });
+            case Action.ENQUEUE_PHASE:
+               LOGGER.info("PhaseQueue: " + Phase.properties[action.phaseKey].name + ", token = " + action.phaseToken + ", callback " + (action.phaseCallback === undefined ? " === undefined" : " !== undefined") + ", context = " + JSON.stringify(action.phaseContext));
+               newPhaseData = Phase.createData(action.phaseKey, action.phaseToken, action.phaseCallback, action.phaseContext);
+               newPhaseQueue = state.phaseQueue.push(newPhaseData);
+               return Object.assign(
+               {}, state,
+               {
+                  phaseQueue: newPhaseQueue,
                });
             case Action.INCREMENT_NEXT_TARGET_LOCK_ID:
                var newNextTargetLockId = state.nextTargetLockId + 1;

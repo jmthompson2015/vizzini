@@ -1,5 +1,5 @@
-define(["Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
-   function(Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, Reducer, SimpleAgent, SquadBuilder)
+define(["Pilot", "Position", "process/Action", "process/Adjudicator", "process/Engine", "process/Environment", "process/EnvironmentFactory", "process/EventObserver", "process/PhaseObserver", "process/Reducer", "process/SimpleAgent", "process/SquadBuilder"],
+   function(Pilot, Position, Action, Adjudicator, Engine, Environment, EnvironmentFactory, EventObserver, PhaseObserver, Reducer, SimpleAgent, SquadBuilder)
    {
       "use strict";
       QUnit.module("Engine");
@@ -58,6 +58,7 @@ define(["Pilot", "Position", "process/Action", "process/Adjudicator", "process/E
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, agent1.teamKey(), agent2.teamKey());
          new EventObserver(store);
+         new PhaseObserver(store);
          environment.placeInitialTokens(agent1, squad1, agent2, squad2);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));

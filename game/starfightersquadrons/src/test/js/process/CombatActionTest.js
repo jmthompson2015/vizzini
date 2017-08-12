@@ -2,9 +2,9 @@
  * Test upgrades with headers Attack [Focus] and Attack [Target Lock].
  */
 define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
-   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/ModifyAttackDiceAction", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
+   "process/Action", "process/Adjudicator", "process/AttackDice", "process/CombatAction", "process/DefenseDice", "process/Environment", "process/EventObserver", "process/ModifyAttackDiceAction", "process/PhaseObserver", "process/Reducer", "process/Selector", "process/SimpleAgent", "process/TargetLock", "process/Token", "../../../test/js/MockAttackDice", "../../../test/js/MockDefenseDice"],
    function(DamageCard, Pilot, Position, Team, UpgradeCard,
-      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, ModifyAttackDiceAction, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
+      Action, Adjudicator, AttackDice, CombatAction, DefenseDice, Environment, EventObserver, ModifyAttackDiceAction, PhaseObserver, Reducer, Selector, SimpleAgent, TargetLock, Token, MockAttackDice, MockDefenseDice)
    {
       "use strict";
       QUnit.module("CombatAction-1");
@@ -80,11 +80,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
-         var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(count++ === 0 ? modifyAttackDiceAction : null);
-         };
 
          // Run.
          var done = assert.async();
@@ -196,11 +191,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
-         var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(count++ === 0 ? modifyAttackDiceAction : null);
-         };
 
          // Run.
          var done = assert.async();
@@ -248,11 +238,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
-         var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(count++ === 0 ? modifyAttackDiceAction : null);
-         };
 
          // Run.
          var done = assert.async();
@@ -364,6 +349,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          new EventObserver(store);
+         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -422,6 +408,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          new EventObserver(store);
+         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
          store.dispatch(Action.setAdjudicator(adjudicator));
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
@@ -462,12 +449,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
-         // var rebelAgent = attacker.agent();
-         var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(count++ === 0 ? modifyAttackDiceAction : null);
-         };
 
          // Run.
          var done = assert.async();
@@ -508,11 +489,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var pilotKey;
          var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
          var rebelAgent = attacker.agent();
-         var count = 0;
-         rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
-         {
-            callback(count++ === 0 ? modifyAttackDiceAction : null);
-         };
 
          // Run.
          var done = assert.async();
@@ -560,6 +536,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var store = Redux.createStore(Reducer.root);
          var environment = new Environment(store, Team.IMPERIAL, Team.REBEL);
          new EventObserver(store);
+         new PhaseObserver(store);
          var adjudicator = new Adjudicator();
 
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
