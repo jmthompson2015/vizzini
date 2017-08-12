@@ -1,5 +1,5 @@
-define(["Phase", "UpgradeCard", "process/Action", "process/DamageAbility4", "process/PilotAbility4", "process/UpgradeAbility4"],
-   function(Phase, UpgradeCard, Action, DamageAbility4, PilotAbility4, UpgradeAbility4)
+define(["Phase", "UpgradeCard", "process/Action"],
+   function(Phase, UpgradeCard, Action)
    {
       function EndPhaseAction(environment, token, callback)
       {
