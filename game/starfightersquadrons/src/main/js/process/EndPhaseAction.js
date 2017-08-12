@@ -36,11 +36,9 @@ define(["Phase", "UpgradeCard", "process/Action"],
       {
          LOGGER.trace("EndPhaseAction.cleanUp() start");
 
+         var store = this.environment().store();
          var token = this.token();
-
-         this.environment().phase(Phase.END_CLEAN_UP, token);
-
-         var store = token.store();
+         store.dispatch(Action.enqueuePhase(Phase.END_CLEAN_UP, token));
 
          store.dispatch(Action.setEvadeCount(token));
          store.dispatch(Action.setReinforceCount(token));
@@ -61,8 +59,10 @@ define(["Phase", "UpgradeCard", "process/Action"],
       {
          LOGGER.trace("EndPhaseAction.roundEnd() start");
 
+         var store = this.environment().store();
          var token = this.token();
-         this.environment().phase(Phase.END_ROUND_END, token);
+         store.dispatch(Action.enqueuePhase(Phase.END_ROUND_END, token));
+
          this.finishRoundEnd();
 
          LOGGER.trace("EndPhaseAction.roundEnd() end");

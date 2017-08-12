@@ -955,12 +955,13 @@ define(["process/Environment", "process/EnvironmentFactory", "Phase", "Pilot", "
       {
          // Setup.
          var environment = EnvironmentFactory.createCoreSetEnvironment();
+         var store = environment.store();
 
          // Run.
-         environment.phase(Phase.ACTIVATION_REVEAL_DIAL);
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_REVEAL_DIAL));
 
          // Verify.
-         assert.equal(environment.phase(), Phase.ACTIVATION_REVEAL_DIAL);
+         assert.equal(store.getState().phaseKey, Phase.ACTIVATION_REVEAL_DIAL);
       });
 
       QUnit.test("tokens()", function(assert)

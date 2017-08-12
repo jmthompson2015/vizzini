@@ -170,7 +170,7 @@ define(["Phase", "process/AttackDice", "process/DefenseDice", "process/ManeuverA
                hitCount: damageDealer.hits(),
                imageBase: imageBase,
                okFunction: this.finishDealDamage.bind(this),
-               phase: Phase.properties[environment.phase()],
+               phase: Phase.properties[store.getState().phaseKey],
             });
 
             ReactDOM.render(element, document.getElementById(this.inputAreaId()));

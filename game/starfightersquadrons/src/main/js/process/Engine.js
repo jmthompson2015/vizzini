@@ -184,8 +184,9 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          {
             LOGGER.trace("Engine.performPlanningPhase() start");
 
+            var store = this.store();
+            store.dispatch(Action.enqueuePhase(Phase.PLANNING_START));
             var environment = this.environment();
-            environment.phase(Phase.PLANNING_START);
             environment.incrementRound();
             var adjudicator = this.adjudicator();
 
@@ -225,7 +226,8 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          if (this.firstTokenToManeuver() && this.secondTokenToManeuver())
          {
             LOGGER.trace("Engine.performPlanningPhase() end");
-            environment.phase(Phase.PLANNING_END);
+            var store = this.store();
+            store.dispatch(Action.enqueuePhase(Phase.PLANNING_END));
             var planningPhaseCallback = this.planningPhaseCallback();
             setTimeout(function()
             {
@@ -239,13 +241,14 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          if (!this.isGameOver())
          {
             LOGGER.trace("Engine.performActivationPhase() start");
-            var environment = this.environment();
-            environment.phase(Phase.ACTIVATION_START);
+            var store = this.store();
+            store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_START));
 
             // FIXME: Perform start of activation phase actions.
 
             // Perform decloak action for all ships.
             this.decloakCount(0);
+            var environment = this.environment();
             var tokens = environment.getTokensForActivation(true);
 
             tokens.forEach(function(token)
@@ -326,7 +329,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             environment.activeToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processActivationQueue() done");
-            environment.phase(Phase.ACTIVATION_END);
+            store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_END));
             var activationPhaseCallback = this.activationPhaseCallback();
             setTimeout(function()
             {
@@ -381,7 +384,8 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          if (!this.isGameOver())
          {
             LOGGER.trace("Engine.performCombatPhase() start");
-            environment.phase(Phase.COMBAT_START);
+            var store = this.store();
+            store.dispatch(Action.enqueuePhase(Phase.COMBAT_START));
 
             // FIXME: Perform start of combat phase actions.
 
@@ -415,7 +419,6 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
                if (ysanneIsard.shieldCount() === 0 &&
                   (ysanneIsard.damageCount() > 0 || ysanneIsard.criticalDamageCount() > 0))
                {
-                  var store = this.store();
                   store.dispatch(Action.addEvadeCount(ysanneIsard));
                }
             }
@@ -459,7 +462,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             environment.activeToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processCombatQueue() done");
-            environment.phase(Phase.COMBAT_END);
+            store.dispatch(Action.enqueuePhase(Phase.COMBAT_END));
             var combatPhaseCallback = this.combatPhaseCallback();
             setTimeout(function()
             {
@@ -532,9 +535,10 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
          if (!this.isGameOver())
          {
             LOGGER.trace("Engine.performEndPhase() start");
-            var environment = this.environment();
-            environment.phase(Phase.END_START);
+            var store = this.store();
+            store.dispatch(Action.enqueuePhase(Phase.END_START));
 
+            var environment = this.environment();
             this.endQueue(environment.getTokensForCombat());
             this.processEndQueue();
          }
@@ -556,7 +560,7 @@ define(["Maneuver", "Phase", "Pilot", "RangeRuler", "Team", "UpgradeCard", "proc
             environment.activeToken(undefined);
             store.dispatch(Action.setUserMessage(""));
             LOGGER.trace("Engine.processEndQueue() done");
-            environment.phase(Phase.END_END);
+            store.dispatch(Action.enqueuePhase(Phase.END_END));
             var endPhaseCallback = this.endPhaseCallback();
             setTimeout(function()
             {

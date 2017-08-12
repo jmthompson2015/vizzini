@@ -91,9 +91,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.declareTarget() start");
 
-         this.environment().phase(Phase.COMBAT_DECLARE_TARGET, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DECLARE_TARGET, this.attacker()));
+
          var attacker = this.attacker();
          var attackerPosition = this.attackerPosition();
          var weapon = this.weapon();
@@ -126,9 +126,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.rollAttackDice() start");
 
-         this.environment().phase(Phase.COMBAT_ROLL_ATTACK_DICE, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ROLL_ATTACK_DICE, this.attacker()));
+
          var environment = this.environment();
          var attacker = this.attacker();
          var defender = this.defender();
@@ -147,9 +147,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.modifyAttackDice() start");
 
-         this.environment().phase(Phase.COMBAT_MODIFY_ATTACK_DICE, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_MODIFY_ATTACK_DICE, this.attacker()));
+
          var environment = this.environment();
          var adjudicator = this.adjudicator();
          var attacker = this.attacker();
@@ -193,9 +193,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.rollDefenseDice() start");
 
-         this.environment().phase(Phase.COMBAT_ROLL_DEFENSE_DICE, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ROLL_DEFENSE_DICE, this.attacker()));
+
          var attacker = this.attacker();
          var defender = this.defender();
          var weapon = this.weapon();
@@ -213,9 +213,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.modifyDefenseDice() start");
 
-         this.environment().phase(Phase.COMBAT_MODIFY_DEFENSE_DICE, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_MODIFY_DEFENSE_DICE, this.attacker()));
+
          var environment = this.environment();
          var adjudicator = this.adjudicator();
          var attacker = this.attacker();
@@ -262,9 +262,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.compareResults() start");
 
-         this.environment().phase(Phase.COMBAT_COMPARE_RESULTS, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_COMPARE_RESULTS, this.attacker()));
+
          var environment = this.environment();
          var attacker = this.attacker();
          var defender = this.defender();
@@ -288,9 +288,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.dealDamage() start");
 
-         this.environment().phase(Phase.COMBAT_NOTIFY_DAMAGE, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_NOTIFY_DAMAGE, this.attacker()));
+
          var environment = this.environment();
          var adjudicator = this.adjudicator();
          var attacker = this.attacker();
@@ -334,9 +334,9 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.dealDamage() start");
 
-         this.environment().phase(Phase.COMBAT_DEAL_DAMAGE, this.attacker());
-
          var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEAL_DAMAGE, this.attacker()));
+
          var attacker = this.attacker();
          var damageDealer = Selector.damageDealer(store.getState(), attacker);
          var weapon = this.weapon();
@@ -359,7 +359,8 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
       {
          LOGGER.trace("CombatAction.afterDealDamage() start");
 
-         this.environment().phase(Phase.COMBAT_AFTER_DEAL_DAMAGE, this.attacker(), this.finishAfterDealDamage.bind(this));
+         var store = this.store();
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_AFTER_DEAL_DAMAGE, this.attacker(), this.finishAfterDealDamage.bind(this)));
 
          LOGGER.trace("CombatAction.afterDealDamage() end");
       };

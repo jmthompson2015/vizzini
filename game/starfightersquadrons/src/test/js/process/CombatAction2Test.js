@@ -52,7 +52,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
 
          // Verify.
          assert.equal(Selector.rangeKey(store.getState(), attacker), RangeRuler.ONE);
-         assert.equal(environment.phase(), Phase.COMBAT_MODIFY_ATTACK_DICE);
+         assert.equal(store.getState().phaseKey, Phase.COMBAT_MODIFY_ATTACK_DICE);
          verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
          assert.ok(!defender.isDestroyed());
          var defenseDice = DefenseDice.get(store, attacker.id());
@@ -103,7 +103,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
 
          // Verify.
          assert.equal(Selector.rangeKey(store.getState(), attacker), RangeRuler.ONE);
-         assert.equal(environment.phase(), Phase.COMBAT_MODIFY_DEFENSE_DICE);
+         assert.equal(store.getState().phaseKey, Phase.COMBAT_MODIFY_DEFENSE_DICE);
          verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
          assert.ok(!defender.isDestroyed());
          verifyDefenseDice(assert, DefenseDice.get(store, attacker.id()));
@@ -144,7 +144,7 @@ define(["Maneuver", "Phase", "Pilot", "Position", "RangeRuler", "Team", "Upgrade
             assert.ok(true, "test resumed from async operation");
             assert.equal(combatAction.executionCount(), 1);
             assert.equal(Selector.rangeKey(store.getState(), attacker), RangeRuler.ONE);
-            assert.equal(environment.phase(), Phase.COMBAT_AFTER_DEAL_DAMAGE);
+            assert.equal(store.getState().phaseKey, Phase.COMBAT_AFTER_DEAL_DAMAGE);
             verifyAttackDice(assert, AttackDice.get(store, attacker.id()));
 
             assert.ok(!defender.isDestroyed());
