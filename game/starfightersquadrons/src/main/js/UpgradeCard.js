@@ -209,7 +209,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          QUICK_RELEASE_CARGO_LOCKS: "quickReleaseCargoLocks",
          R2_ASTROMECH: "r2Astromech",
          R2_D2: "r2D2",
-         R2_D2_: "r2D2Crew",
+         R2_D2_CREW: "r2D2Crew",
          R2_D6: "r2D6",
          R2_F2: "r2F2",
          R3_A2: "r3A2",
