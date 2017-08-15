@@ -71,7 +71,39 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          };
       }
 
+      //////////////////////////////////////////////////////////////////////////
+      // Accessor methods.
+
       CombatAction.prototype.PERFORM_ATTACK_TWICE_UPGRADES = [UpgradeCard.CLUSTER_MISSILES, UpgradeCard.TWIN_LASER_TURRET];
+
+      CombatAction.prototype.adjudicator = function()
+      {
+         var store = this.store();
+         return Selector.adjudicator(store.getState());
+      };
+
+      CombatAction.prototype.attackerPosition = function()
+      {
+         var environment = this.environment();
+         var attacker = this.attacker();
+         return environment.getPositionFor(attacker);
+      };
+
+      CombatAction.prototype.defenderPosition = function()
+      {
+         var environment = this.environment();
+         var defender = this.defender();
+         return environment.getPositionFor(defender);
+      };
+
+      CombatAction.prototype.environment = function()
+      {
+         var store = this.store();
+         return Selector.environment(store.getState());
+      };
+
+      //////////////////////////////////////////////////////////////////////////
+      // Behavior methods.
 
       CombatAction.prototype.doIt = function()
       {
@@ -92,8 +124,16 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          LOGGER.trace("CombatAction.declareTarget() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DECLARE_TARGET, this.attacker()));
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DECLARE_TARGET, this.attacker(), this.finishDeclareTarget.bind(this)));
 
+         LOGGER.trace("CombatAction.declareTarget() end");
+      };
+
+      CombatAction.prototype.finishDeclareTarget = function()
+      {
+         LOGGER.trace("CombatAction.finishDeclareTarget() start");
+
+         var store = this.store();
          var attacker = this.attacker();
          var attackerPosition = this.attackerPosition();
          var weapon = this.weapon();
@@ -113,13 +153,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
 
          this.rollAttackDice();
 
-         LOGGER.trace("CombatAction.declareTarget() end");
-      };
-
-      CombatAction.prototype.environment = function()
-      {
-         var store = this.store();
-         return Selector.environment(store.getState());
+         LOGGER.trace("CombatAction.finishDeclareTarget() end");
       };
 
       CombatAction.prototype.rollAttackDice = function()
@@ -127,8 +161,16 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          LOGGER.trace("CombatAction.rollAttackDice() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ROLL_ATTACK_DICE, this.attacker()));
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ROLL_ATTACK_DICE, this.attacker(), this.finishRollAttackDice.bind(this)));
 
+         LOGGER.trace("CombatAction.rollAttackDice() end");
+      };
+
+      CombatAction.prototype.finishRollAttackDice = function()
+      {
+         LOGGER.trace("CombatAction.finishRollAttackDice() start");
+
+         var store = this.store();
          var environment = this.environment();
          var attacker = this.attacker();
          var defender = this.defender();
@@ -140,7 +182,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
 
          this.modifyAttackDice();
 
-         LOGGER.trace("CombatAction.rollAttackDice() end");
+         LOGGER.trace("CombatAction.finishRollAttackDice() end");
       };
 
       CombatAction.prototype.modifyAttackDice = function()
@@ -194,8 +236,16 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          LOGGER.trace("CombatAction.rollDefenseDice() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ROLL_DEFENSE_DICE, this.attacker()));
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_ROLL_DEFENSE_DICE, this.attacker(), this.finishRollDefenseDice.bind(this)));
 
+         LOGGER.trace("CombatAction.rollDefenseDice() end");
+      };
+
+      CombatAction.prototype.finishRollDefenseDice = function()
+      {
+         LOGGER.trace("CombatAction.finishRollDefenseDice() start");
+
+         var store = this.store();
          var attacker = this.attacker();
          var defender = this.defender();
          var weapon = this.weapon();
@@ -206,7 +256,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
 
          this.modifyDefenseDice();
 
-         LOGGER.trace("CombatAction.rollDefenseDice() end");
+         LOGGER.trace("CombatAction.finishRollDefenseDice() end");
       };
 
       CombatAction.prototype.modifyDefenseDice = function()
@@ -263,8 +313,16 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          LOGGER.trace("CombatAction.compareResults() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_COMPARE_RESULTS, this.attacker()));
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_COMPARE_RESULTS, this.attacker(), this.finishCompareResults.bind(this)));
 
+         LOGGER.trace("CombatAction.compareResults() end");
+      };
+
+      CombatAction.prototype.finishCompareResults = function()
+      {
+         LOGGER.trace("CombatAction.finishCompareResults() start");
+
+         var store = this.store();
          var environment = this.environment();
          var attacker = this.attacker();
          var defender = this.defender();
@@ -281,7 +339,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
 
          this.notifyDamage();
 
-         LOGGER.trace("CombatAction.compareResults() end");
+         LOGGER.trace("CombatAction.finishCompareResults() end");
       };
 
       CombatAction.prototype.notifyDamage = function()
@@ -289,8 +347,14 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          LOGGER.trace("CombatAction.dealDamage() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_NOTIFY_DAMAGE, this.attacker()));
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_NOTIFY_DAMAGE, this.attacker(), this.finishNotifyDamage.bind(this)));
+      };
 
+      CombatAction.prototype.finishNotifyDamage = function()
+      {
+         LOGGER.trace("CombatAction.finishNotifyDamage() start");
+
+         var store = this.store();
          var environment = this.environment();
          var adjudicator = this.adjudicator();
          var attacker = this.attacker();
@@ -328,6 +392,8 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
             // Both human agents.
             attackerAgent.dealDamage(environment, adjudicator, attacker, attackDice, defender, defenseDice, damageDealer, callback);
          }
+
+         LOGGER.trace("CombatAction.finishNotifyDamage() end");
       };
 
       CombatAction.prototype.dealDamage = function()
@@ -335,8 +401,16 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          LOGGER.trace("CombatAction.dealDamage() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEAL_DAMAGE, this.attacker()));
+         store.dispatch(Action.enqueuePhase(Phase.COMBAT_DEAL_DAMAGE, this.attacker(), this.finishDealDamage.bind(this)));
 
+         LOGGER.trace("CombatAction.dealDamage() end");
+      };
+
+      CombatAction.prototype.finishDealDamage = function()
+      {
+         LOGGER.trace("CombatAction.finishDealDamage() start");
+
+         var store = this.store();
          var attacker = this.attacker();
          var damageDealer = Selector.damageDealer(store.getState(), attacker);
          var weapon = this.weapon();
@@ -352,7 +426,7 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
 
          this.afterDealDamage();
 
-         LOGGER.trace("CombatAction.dealDamage() end");
+         LOGGER.trace("CombatAction.finishDealDamage() end");
       };
 
       CombatAction.prototype.afterDealDamage = function()
@@ -413,27 +487,6 @@ define(["process/AttackDice", "process/DefenseDice", "Phase", "Pilot", "RangeRul
          }
 
          LOGGER.trace("CombatAction.finishAfterDealDamage() end");
-      };
-
-      ////////////////////////////////////////////////////////////////////////
-      CombatAction.prototype.adjudicator = function()
-      {
-         var store = this.store();
-         return Selector.adjudicator(store.getState());
-      };
-
-      CombatAction.prototype.attackerPosition = function()
-      {
-         var environment = this.environment();
-         var attacker = this.attacker();
-         return environment.getPositionFor(attacker);
-      };
-
-      CombatAction.prototype.defenderPosition = function()
-      {
-         var environment = this.environment();
-         var defender = this.defender();
-         return environment.getPositionFor(defender);
       };
 
       return CombatAction;

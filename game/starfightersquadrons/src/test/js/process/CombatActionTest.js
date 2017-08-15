@@ -75,12 +75,6 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var attacker = environment.tokens()[0]; // Dash Rendar YT-2400
          var defender = environment.tokens()[1]; // Academy Pilot TIE Fighter
 
-         var attackDice = new MockAttackDice(store, attacker.id());
-         var modificationKey = ModifyAttackDiceAction.Modification.USE_UPGRADE;
-         var pilotKey;
-         var modifyAttackDiceAction = new ModifyAttackDiceAction(store, attacker, defender, modificationKey, pilotKey, upgradeKey);
-         var rebelAgent = attacker.agent();
-
          // Run.
          var done = assert.async();
          combatAction.doIt();
@@ -355,7 +349,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined);
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
@@ -363,7 +357,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined);
          };
          var defender = new Token(store, Pilot.PATROL_LEADER, imperialAgent);
          var defenderPosition = new Position(450, 845, 90);
@@ -414,7 +408,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined);
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
@@ -422,7 +416,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined);
          };
          var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var defenderPosition = new Position(450, 845, 90);
@@ -542,7 +536,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var rebelAgent = new SimpleAgent("Rebel Agent", Team.REBEL);
          rebelAgent.getModifyAttackDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined);
          };
          var attacker = new Token(store, Pilot.DASH_RENDAR, rebelAgent, [upgradeKey]);
          var attackerPosition = new Position(458, 895, -90);
@@ -555,7 +549,7 @@ define(["DamageCard", "Pilot", "Position", "Team", "UpgradeCard",
          var imperialAgent = new SimpleAgent("Imperial Agent", Team.IMPERIAL);
          imperialAgent.getModifyDefenseDiceAction = function(store, adjudicator, attacker, defender, callback)
          {
-            callback(null);
+            callback(undefined);
          };
          var defender = new Token(store, Pilot.ACADEMY_PILOT, imperialAgent);
          var myY = (y !== undefined ? y : 845);

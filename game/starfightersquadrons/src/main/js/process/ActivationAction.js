@@ -113,9 +113,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          LOGGER.trace("ActivationAction.setTemplate() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_SET_TEMPLATE, this.token()));
-
-         this.executeManeuver();
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_SET_TEMPLATE, this.token(), this.executeManeuver.bind(this)));
 
          LOGGER.trace("ActivationAction.setTemplate() end");
       };
@@ -125,8 +123,16 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          LOGGER.trace("ActivationAction.executeManeuver() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_EXECUTE_MANEUVER, this.token()));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_EXECUTE_MANEUVER, this.token(), this.finishExecuteManeuver.bind(this)));
 
+         LOGGER.trace("ActivationAction.executeManeuver() end");
+      };
+
+      ActivationAction.prototype.finishExecuteManeuver = function()
+      {
+         LOGGER.trace("ActivationAction.finishExecuteManeuver() start");
+
+         var store = this.store();
          var environment = this.environment();
          var token = this.token();
          var maneuverKey = this.maneuverKey();
@@ -145,7 +151,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
             {
                var maneuverAction = new ManeuverAction(environment.store(), parentToken.id(), maneuverKey);
                maneuverAction.doIt();
-               store.dispatch(Action.enqueueEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken, this.finishExecuteManeuver.bind(this)));
+               store.dispatch(Action.enqueueEvent(Event.AFTER_EXECUTE_MANEUVER, parentToken, this.checkPilotStress.bind(this)));
             }
             else
             {
@@ -157,15 +163,6 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
             this.checkPilotStress();
          }
 
-         LOGGER.trace("ActivationAction.executeManeuver() end");
-      };
-
-      ActivationAction.prototype.finishExecuteManeuver = function()
-      {
-         LOGGER.trace("ActivationAction.finishExecuteManeuver() start");
-
-         this.checkPilotStress();
-
          LOGGER.trace("ActivationAction.finishExecuteManeuver() end");
       };
 
@@ -175,7 +172,14 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
 
          var store = this.store();
          var token = this.token();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_CHECK_PILOT_STRESS, token));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_CHECK_PILOT_STRESS, token, this.finishCheckPilotStress.bind(this)));
+
+         LOGGER.trace("ActivationAction.checkPilotStress() end");
+      };
+
+      ActivationAction.prototype.finishCheckPilotStress = function()
+      {
+         LOGGER.trace("ActivationAction.finishCheckPilotStress() start");
 
          var maneuver = this.maneuver();
 
@@ -183,6 +187,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          {
             var difficultyKey = maneuver.difficultyKey;
             LOGGER.trace("difficultyKey = " + difficultyKey);
+            var token = this.token();
 
             if (token)
             {
@@ -207,7 +212,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
             setTimeout(this.callback(), this.delay());
          }
 
-         LOGGER.trace("ActivationAction.checkPilotStress() end");
+         LOGGER.trace("ActivationAction.finishCheckPilotStress() end");
       };
 
       ActivationAction.prototype.cleanUp = function()
@@ -227,7 +232,16 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
 
          var store = this.store();
          var token = this.token();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_GAIN_ENERGY, token));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_GAIN_ENERGY, token, this.finishGainEnergy.bind(this)));
+
+         LOGGER.trace("ActivationAction.gainEnergy() end");
+      };
+
+      ActivationAction.prototype.finishGainEnergy = function()
+      {
+         LOGGER.trace("ActivationAction.finishGainEnergy() start");
+
+         var token = this.token();
 
          if (token.isHuge() || (token.parent && token.parent.isHuge()))
          {
@@ -245,6 +259,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
 
                   if (diff > 0)
                   {
+                     var store = this.store();
                      var value = Math.min(diff, maneuver.energy);
                      store.dispatch(Action.addEnergyCount(token, value));
                   }
@@ -254,7 +269,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
 
          this.allocateEnergy();
 
-         LOGGER.trace("ActivationAction.gainEnergy() end");
+         LOGGER.trace("ActivationAction.finishGainEnergy() end");
       };
 
       ActivationAction.prototype.allocateEnergy = function()
@@ -262,18 +277,25 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          LOGGER.trace("ActivationAction.allocateEnergy() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_ALLOCATE_ENERGY, this.token()));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_ALLOCATE_ENERGY, this.token(), this.finishAllocateEnergy.bind(this)));
+
+         LOGGER.trace("ActivationAction.allocateEnergy() end");
+      };
+
+      ActivationAction.prototype.finishAllocateEnergy = function()
+      {
+         LOGGER.trace("ActivationAction.finishAllocateEnergy() start");
 
          var token = this.token();
 
          if (token.isHuge() || (token.parent && token.parent.isHuge()))
          {
-            // FIXME: implement allocateEnergy()
+            // FIXME: implement finishAllocateEnergy()
          }
 
          this.useEnergy();
 
-         LOGGER.trace("ActivationAction.allocateEnergy() end");
+         LOGGER.trace("ActivationAction.finishAllocateEnergy() end");
       };
 
       ActivationAction.prototype.useEnergy = function()
@@ -281,18 +303,25 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          LOGGER.trace("ActivationAction.useEnergy() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_USE_ENERGY, this.token()));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_USE_ENERGY, this.token(), this.finishUseEnergy.bind(this)));
+
+         LOGGER.trace("ActivationAction.useEnergy() end");
+      };
+
+      ActivationAction.prototype.finishUseEnergy = function()
+      {
+         LOGGER.trace("ActivationAction.finishUseEnergy() start");
 
          var token = this.token();
 
          if (token.isHuge() || (token.parent && token.parent.isHuge()))
          {
-            // FIXME: implement useEnergy()
+            // FIXME: implement finishUseEnergy()
          }
 
          this.performAction();
 
-         LOGGER.trace("ActivationAction.useEnergy() end");
+         LOGGER.trace("ActivationAction.finishUseEnergy() end");
       };
 
       ActivationAction.prototype.performAction = function()
@@ -300,7 +329,14 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
          LOGGER.trace("ActivationAction.performAction() start");
 
          var store = this.store();
-         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, this.token()));
+         store.dispatch(Action.enqueuePhase(Phase.ACTIVATION_PERFORM_ACTION, this.token(), this.selectShipAction.bind(this)));
+
+         LOGGER.trace("ActivationAction.performAction() end");
+      };
+
+      ActivationAction.prototype.selectShipAction = function()
+      {
+         LOGGER.trace("ActivationAction.selectShipAction() start");
 
          var environment = this.environment();
          var adjudicator = this.adjudicator();
@@ -320,7 +356,7 @@ define(["Difficulty", "Event", "Maneuver", "Phase", "process/Action", "process/M
             setTimeout(this.executeShipAction.bind(this), this.delay());
          }
 
-         LOGGER.trace("ActivationAction.performAction() end");
+         LOGGER.trace("ActivationAction.selectShipAction() end");
       };
 
       ActivationAction.prototype.executeShipAction = function(shipActionAction)

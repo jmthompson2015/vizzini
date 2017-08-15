@@ -38,8 +38,17 @@ define(["Phase", "UpgradeCard", "process/Action"],
 
          var store = this.environment().store();
          var token = this.token();
-         store.dispatch(Action.enqueuePhase(Phase.END_CLEAN_UP, token));
+         store.dispatch(Action.enqueuePhase(Phase.END_CLEAN_UP, token, this.finishCleanup.bind(this)));
 
+         LOGGER.trace("EndPhaseAction.cleanUp() end");
+      };
+
+      EndPhaseAction.prototype.finishCleanup = function()
+      {
+         LOGGER.trace("EndPhaseAction.finishCleanup() start");
+
+         var store = this.environment().store();
+         var token = this.token();
          store.dispatch(Action.setEvadeCount(token));
          store.dispatch(Action.setReinforceCount(token));
          store.dispatch(Action.setTractorBeamCount(token));
@@ -52,7 +61,7 @@ define(["Phase", "UpgradeCard", "process/Action"],
 
          this.roundEnd();
 
-         LOGGER.trace("EndPhaseAction.cleanUp() end");
+         LOGGER.trace("EndPhaseAction.finishCleanup() end");
       };
 
       EndPhaseAction.prototype.roundEnd = function()
@@ -61,9 +70,7 @@ define(["Phase", "UpgradeCard", "process/Action"],
 
          var store = this.environment().store();
          var token = this.token();
-         store.dispatch(Action.enqueuePhase(Phase.END_ROUND_END, token));
-
-         this.finishRoundEnd();
+         store.dispatch(Action.enqueuePhase(Phase.END_ROUND_END, token, this.finishRoundEnd.bind(this)));
 
          LOGGER.trace("EndPhaseAction.roundEnd() end");
       };
