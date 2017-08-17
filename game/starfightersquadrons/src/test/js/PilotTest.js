@@ -84,7 +84,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 228;
+      var length = 232;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.ACADEMY_PILOT);
       assert.equal(result[length - 1], Pilot.ZUCKUSS);
@@ -183,7 +183,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 85;
+      var length = 89;
       assert.equal(result.length, length);
       assert.equal(result[length - 1], Pilot.ZERTIK_STROM);
    });
@@ -198,7 +198,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 13;
+      var length = 17;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.BACKDRAFT);
       assert.equal(result[length - 1], Pilot.ZETA_SQUADRON_PILOT);
@@ -211,7 +211,7 @@ define(["Pilot", "Ship", "ShipTeam", "Team"], function(Pilot, Ship, ShipTeam, Te
 
       // Verify.
       assert.ok(result);
-      var length = 85;
+      var length = 89;
       assert.equal(result.length, length);
       assert.equal(result[0], Pilot.ACADEMY_PILOT);
       assert.equal(result[length - 1], Pilot.ZETA_SQUADRON_PILOT);

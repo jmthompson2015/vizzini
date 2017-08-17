@@ -110,6 +110,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          FLIGHT_INSTRUCTOR: "flightInstructor",
          FOUR_LOM: "fourLom",
          FREQUENCY_JAMMER: "frequencyJammer",
+         GENERAL_HUX: "generalHux",
          GENIUS: "genius",
          GHOST: "ghost",
          GLITTERSTIM: "glitterstim",
@@ -130,6 +131,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          HOTSHOT_CO_PILOT: "hotshotCoPilot",
          HOUNDS_TOOTH: "houndsTooth",
          HULL_UPGRADE: "hullUpgrade",
+         HYPERWAVE_COMM_SCANNER: "hyperwaveCommScanner",
          IG_2000: "ig2000",
          IG_88D: "ig88D",
          IG_RM_THUG_DROIDS: "igRmThugDroids",
@@ -159,6 +161,8 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          KANAN_JARRUS: "kananJarrus",
          KETSU_ONYO: "ketsuOnyo",
          KYLE_KATARN: "kyleKatarn",
+         KYLO_REN: "kyloRen",
+         KYLO_RENS_SHUTTLE: "kyloRensShuttle",
          LANDO_CALRISSIAN: "landoCalrissian",
          LATTS_RAZZI: "lattsRazzi",
          LEEBO: "leebo",
@@ -183,6 +187,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          MUNITIONS_FAILSAFE: "munitionsFailsafe",
          NAVIGATOR: "navigator",
          NIEN_NUNB: "nienNunb",
+         OPERATIONS_SPECIALIST: "operationsSpecialist",
          OPPORTUNIST: "opportunist",
          OPTIMIZED_GENERATORS: "optimizedGenerators",
          ORDNANCE_EXPERTS: "ordnanceExperts",
@@ -270,6 +275,7 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
          TARGETING_ASTROMECH: "targetingAstromech",
          TARGETING_COMPUTER: "targetingComputer",
          TARGETING_COORDINATOR: "targetingCoordinator",
+         TARGETING_SYNCHRONIZER: "targetingSynchronizer",
          THERMAL_DETONATORS: "thermalDetonators",
          TIBANNA_GAS_SUPPLIES: "tibannaGasSupplies",
          TIE_D: "tieD",
@@ -1370,6 +1376,17 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 4,
                value: "frequencyJammer",
             },
+            "generalHux":
+            {
+               name: "General Hux",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.IMPERIAL_ONLY],
+               headerKey: UpgradeHeader.ACTION,
+               description: "Choose up to 3 friendly ships at Range 1-2. Assign 1 focus token to each of those ships and assign the \"Fanatical Devotion\" Condition card to 1 of them. Then receive 1 stress token.",
+               squadPointCost: 5,
+               value: "generalHux",
+            },
             "genius":
             {
                name: "\"Genius\"",
@@ -1577,6 +1594,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 3,
                isImplemented: true,
                value: "hullUpgrade",
+            },
+            "hyperwaveCommScanner":
+            {
+               name: "Hyperwave Comm Scanner",
+               typeKey: UpgradeType.TECH,
+               description: "At the start of the 'Place Forces' step, you may choose to treat your pilot skill value as \"0,\" \"6,\" or \"12,\" until the end of the step. During setup, after another friendly ship is placed at Range 1-2, you may assign 1 focus or evade token to it.",
+               squadPointCost: 1,
+               value: "hyperwaveCommScanner",
             },
             "ig2000":
             {
@@ -1882,6 +1907,27 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                isImplemented: true,
                value: "kyleKatarn",
             },
+            "kyloRen":
+            {
+               name: "Kylo Ren",
+               typeKey: UpgradeType.CREW,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.IMPERIAL_ONLY],
+               headerKey: UpgradeHeader.ACTION,
+               description: "Assign the \"I'll Show You the Dark Side\" Condition card to an enemy ship at Range 1-3.",
+               squadPointCost: 3,
+               value: "kyloRen",
+            },
+            "kyloRensShuttle":
+            {
+               name: "Kylo Ren's Shuttle",
+               typeKey: UpgradeType.TITLE,
+               isUnique: true,
+               restrictionKeys: [UpgradeRestriction.UPSILON_CLASS_SHUTTLE_ONLY],
+               description: "At the end of the Combat phase, choose an unstressed enemy ship at Range 1-2. Its owner must assign a stress token to it, or assign a stress token to another ship at Range 1-2 of you that that player controls.",
+               squadPointCost: 2,
+               value: "kyloRensShuttle",
+            },
             "landoCalrissian":
             {
                name: "Lando Calrissian",
@@ -2123,6 +2169,15 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                squadPointCost: 1,
                isImplemented: true,
                value: "nienNunb",
+            },
+            "operationsSpecialist":
+            {
+               name: "Operations Specialist",
+               typeKey: UpgradeType.CREW,
+               restrictionKeys: [UpgradeRestriction.LIMITED],
+               description: "After a friendly ship at Range 1-2 performs an attack that does not hit, you may assign 1 focus token to a friendly ship at Range 1-3 of the attacker.",
+               squadPointCost: 3,
+               value: "operationsSpecialist",
             },
             "opportunist":
             {
@@ -2958,6 +3013,14 @@ define(["FiringArc", "Pilot", "RangeRuler", "UpgradeHeader", "UpgradeRestriction
                description: "You may spend 1 energy to choose 1 friendly ship at Range 1-2. Acquire a Target Lock, then assign the blue Target Lock token to the chosen ship.",
                squadPointCost: 4,
                value: "targetingCoordinator",
+            },
+            "targetingSynchronizer":
+            {
+               name: "Targeting Synchronizer",
+               typeKey: UpgradeType.TECH,
+               description: "When a friendly ship at Range 1-2 is attacking a ship you have locked, the friendly ship treats the 'ATTACK (TARGET LOCK):' header as 'ATTACK:'. If a game effect instructs that ship to spend a target lock, it may spend your target lock instead.",
+               squadPointCost: 3,
+               value: "targetingSynchronizer",
             },
             "thermalDetonators":
             {

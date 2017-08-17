@@ -5,6 +5,7 @@ define(["Ship", "Team"], function(Ship, Team)
       // First Order.
       FIRST_ORDER_TIE_FO_FIGHTER: "firstOrderTieFoFighter",
       FIRST_ORDER_TIE_SF_FIGHTER: "firstOrderTieSfFighter",
+      FIRST_ORDER_UPSILON_CLASS_SHUTTLE: "firstOrderUpsilonClassShuttle",
 
       // Imperial.
       IMPERIAL_FIRESPRAY_31: "imperialFirespray31",
@@ -88,6 +89,15 @@ define(["Ship", "Team"], function(Ship, Team)
             image: "FirstOrder_TIE_sf_Fighter.png",
             wave: "9",
             value: "firstOrderTieSfFighter",
+         },
+         "firstOrderUpsilonClassShuttle":
+         {
+            name: "Upsilon-class Shuttle",
+            shipKey: Ship.UPSILON_CLASS_SHUTTLE,
+            teamKey: Team.FIRST_ORDER,
+            image: "FirstOrder_Upsilon-class_Shuttle.png",
+            wave: "10",
+            value: "firstOrderUpsilonClassShuttle",
          },
 
          // Imperial.

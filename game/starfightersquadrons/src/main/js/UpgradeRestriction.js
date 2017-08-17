@@ -144,6 +144,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
       TIE_PHANTOM_ONLY: "tiePhantomOnly",
       TIE_SF_ONLY: "tieSfOnly",
       U_WING_ONLY: "uWingOnly",
+      UPSILON_CLASS_SHUTTLE_ONLY: "upsilonClassShuttleOnly",
       VCX_100_ONLY: "vcx100Only",
       VT_49_DECIMATOR_ONLY: "vt49DecimatorOnly",
       X_WING_ONLY: "xWingOnly",
@@ -255,6 +256,7 @@ define(["Pilot", "Ship", "ShipBase", "Team"], function(Pilot, Ship, ShipBase, Te
          "tiePhantomOnly": new ShipRestriction(Ship.TIE_PHANTOM),
          "tieSfOnly": new ShipRestriction(Ship.TIE_SF_FIGHTER),
          "uWingOnly": new ShipRestriction(Ship.U_WING),
+         "upsilonClassShuttleOnly": new ShipRestriction(Ship.UPSILON_CLASS_SHUTTLE),
          "vcx100Only": new ShipRestriction(Ship.VCX_100),
          "vt49DecimatorOnly": new ShipRestriction(Ship.VT_49_DECIMATOR),
          "xWingOnly":

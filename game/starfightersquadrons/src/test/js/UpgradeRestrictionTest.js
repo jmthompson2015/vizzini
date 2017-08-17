@@ -141,7 +141,7 @@ define(["Pilot", "UpgradeRestriction"],
       {
          var result = UpgradeRestriction.values();
          assert.ok(result);
-         var length = 49;
+         var length = 50;
          assert.equal(result.length, length);
          var i = 0;
          assert.equal(result[i++], UpgradeRestriction.A_WING_ONLY);
@@ -185,6 +185,7 @@ define(["Pilot", "UpgradeRestriction"],
          assert.equal(result[i++], UpgradeRestriction.TIE_PHANTOM_ONLY);
          assert.equal(result[i++], UpgradeRestriction.TIE_SF_ONLY);
          assert.equal(result[i++], UpgradeRestriction.U_WING_ONLY);
+         assert.equal(result[i++], UpgradeRestriction.UPSILON_CLASS_SHUTTLE_ONLY);
          assert.equal(result[i++], UpgradeRestriction.VCX_100_ONLY);
          assert.equal(result[i++], UpgradeRestriction.VT_49_DECIMATOR_ONLY);
          assert.equal(result[i++], UpgradeRestriction.X_WING_ONLY);

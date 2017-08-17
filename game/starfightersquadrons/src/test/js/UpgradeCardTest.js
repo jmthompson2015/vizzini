@@ -4,51 +4,45 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
       "use strict";
       QUnit.module("UpgradeCard");
 
-      QUnit
-         .test(
-            "UpgradeCard properties Adrenaline Rush",
-            function(assert)
-            {
-               var upgrade = UpgradeCard.ADRENALINE_RUSH;
-               var properties = UpgradeCard.properties[upgrade];
-               assert.equal(properties.name, "Adrenaline Rush");
-               assert.equal(properties.typeKey, UpgradeType.ELITE);
-               assert.ok(properties.type);
-               assert.ok(!properties.restrictionKeys);
-               assert
-                  .equal(
-                     properties.description,
-                     "When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.");
-               assert.equal(properties.squadPointCost, 1);
-               assert.equal(properties.value, "adrenalineRush");
-            });
+      QUnit.test("UpgradeCard properties Adrenaline Rush", function(assert)
+      {
+         var upgrade = UpgradeCard.ADRENALINE_RUSH;
+         var properties = UpgradeCard.properties[upgrade];
+         assert.equal(properties.name, "Adrenaline Rush");
+         assert.equal(properties.typeKey, UpgradeType.ELITE);
+         assert.ok(properties.type);
+         assert.ok(!properties.restrictionKeys);
+         assert
+            .equal(
+               properties.description,
+               "When you reveal a red maneuver, you may discard this card to treat that maneuver as a white maneuver until the end of the Activation phase.");
+         assert.equal(properties.squadPointCost, 1);
+         assert.equal(properties.value, "adrenalineRush");
+      });
 
-      QUnit
-         .test(
-            "UpgradeCard properties C-3PO",
-            function(assert)
-            {
-               // Setup.
-               var upgradeCard = UpgradeCard.C_3PO;
+      QUnit.test("UpgradeCard properties C-3PO", function(assert)
+      {
+         // Setup.
+         var upgradeCard = UpgradeCard.C_3PO;
 
-               // Run.
-               var result = UpgradeCard.properties[upgradeCard];
+         // Run.
+         var result = UpgradeCard.properties[upgradeCard];
 
-               // Verify.
-               assert.ok(result);
-               assert.equal(result.name, "C-3PO");
-               assert.equal(result.typeKey, UpgradeType.CREW);
-               assert.ok(result.type);
-               assert.ok(result.restrictionKeys);
-               assert.equal(result.restrictionKeys.length, 1);
-               assert.equal(result.restrictionKeys[0], UpgradeRestriction.REBEL_ONLY);
-               assert
-                  .equal(
-                     result.description,
-                     "Once per round, before you roll 1 or more defense dice, you may guess aloud a number of Evade results. If you roll that many Evade results (before modifying dice), add 1 Evade result.");
-               assert.equal(result.squadPointCost, 3);
-               assert.equal(result.value, upgradeCard);
-            });
+         // Verify.
+         assert.ok(result);
+         assert.equal(result.name, "C-3PO");
+         assert.equal(result.typeKey, UpgradeType.CREW);
+         assert.ok(result.type);
+         assert.ok(result.restrictionKeys);
+         assert.equal(result.restrictionKeys.length, 1);
+         assert.equal(result.restrictionKeys[0], UpgradeRestriction.REBEL_ONLY);
+         assert
+            .equal(
+               result.description,
+               "Once per round, before you roll 1 or more defense dice, you may guess aloud a number of Evade results. If you roll that many Evade results (before modifying dice), add 1 Evade result.");
+         assert.equal(result.squadPointCost, 3);
+         assert.equal(result.value, upgradeCard);
+      });
 
       QUnit.test("getName()", function(assert)
       {
@@ -93,7 +87,7 @@ define(["Pilot", "UpgradeCard", "UpgradeRestriction", "UpgradeType"],
 
          // Verify.
          assert.ok(result);
-         var length = 293;
+         var length = 299;
          assert.equal(result.length, length);
          assert.equal(result[0], UpgradeCard.A_WING_TEST_PILOT);
          assert.equal(result[length - 1], UpgradeCard.ZUCKUSS);

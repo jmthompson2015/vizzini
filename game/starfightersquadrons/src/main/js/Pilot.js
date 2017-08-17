@@ -127,18 +127,21 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       KNAVE_SQUADRON_PILOT: "knaveSquadronPilot",
       KRASSIS_TRELIX: "krassisTrelix",
       KYLE_KATARN: "kyleKatarn",
+      KYLO_REN: "kyloRen",
       LAETIN_ASHERA: "laetinAshera",
       LANDO_CALRISSIAN: "landoCalrissian",
       LATTS_RAZZI: "lattsRazzi",
       LEEBO: "leebo",
       LIEUTENANT_BLOUNT: "lieutenantBlount",
       LIEUTENANT_COLZET: "lieutenantColzet",
+      LIEUTENANT_DORMITZ: "lieutenantDormitz",
       LIEUTENANT_LORRIR: "lieutenantLorrir",
       LOTHAL_REBEL: "lothalRebel",
       LUKE_SKYWALKER: "lukeSkywalker",
       MAAREK_STELE_TIE_ADVANCED: "maarekSteleTieAdvanced",
       MAAREK_STELE_TIE_DEFENDER: "maarekSteleTieDefender",
       MAJOR_RHYMER: "majorRhymer",
+      MAJOR_STRIDAN: "majorStridan",
       MANAROO: "manaroo",
       MANDALORIAN_MERCENARY: "mandalorianMercenary",
       MAULER_MITHEL: "maulerMithel",
@@ -195,6 +198,7 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
       SNAP_WEXLEY: "snapWexley",
       SOONTIR_FEL: "soontirFel",
       SPICE_RUNNER: "spiceRunner",
+      STARKILLER_BASE_PILOT: "starkillerBasePilot",
       STORM_SQUADRON_PILOT: "stormSquadronPilot",
       SUNNY_BOUNDER: "sunnyBounder",
       SYNDICATE_THUG: "syndicateThug",
@@ -1730,6 +1734,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TURRET, UpgradeType.CREW],
             value: "kyleKatarn",
          },
+         "kyloRen":
+         {
+            name: "Kylo Ren",
+            description: "The first time you are hit by an attack each round, assign the \"I'll Show You the Dark Side\" Condition card to the attacker.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.FIRST_ORDER_UPSILON_CLASS_SHUTTLE,
+            pilotSkillValue: 6,
+            squadPointCost: 34,
+            upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.SYSTEM, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.TECH, UpgradeType.TECH],
+            value: "kyloRen",
+         },
          "laetinAshera":
          {
             name: "Laetin A'shera",
@@ -1799,6 +1814,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.MISSILE],
             value: "lieutenantColzet",
          },
+         "lieutenantDormitz":
+         {
+            name: "Lieutenant Dormitz",
+            description: "During setup, friendly ships may be placed anywhere in the play area at Range 1-2 of you.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.FIRST_ORDER_UPSILON_CLASS_SHUTTLE,
+            pilotSkillValue: 3,
+            squadPointCost: 31,
+            upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.TECH, UpgradeType.TECH],
+            value: "lieutenantDormitz",
+         },
          "lieutenantLorrir":
          {
             name: "Lieutenant Lorrir",
@@ -1867,6 +1893,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.ELITE, UpgradeType.TORPEDO, UpgradeType.TORPEDO,
                                 UpgradeType.MISSILE, UpgradeType.MISSILE, UpgradeType.BOMB],
             value: "majorRhymer",
+         },
+         "majorStridan":
+         {
+            name: "Major Stridan",
+            description: "For the purpose of your actions and Upgrade cards, you may treat friendly ships at Range 2-3 as being at Range 1.",
+            isUnique: true,
+            shipTeamKey: ShipTeam.FIRST_ORDER_UPSILON_CLASS_SHUTTLE,
+            pilotSkillValue: 4,
+            squadPointCost: 32,
+            upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.TECH, UpgradeType.TECH],
+            value: "majorStridan",
          },
          "manaroo":
          {
@@ -2559,6 +2596,17 @@ define(["ShipTeam", "Team", "UpgradeType"], function(ShipTeam, Team, UpgradeType
             upgradeTypeKeys: [UpgradeType.TURRET, UpgradeType.CREW, UpgradeType.ILLICIT],
             isImplemented: true,
             value: "spiceRunner",
+         },
+         "starkillerBasePilot":
+         {
+            name: "Starkiller Base Pilot",
+            description: "The Upsilon-class shuttle served as a command ship for many of the First Order's elite officers and agents as they spread terror across the galaxy.",
+            isFlavorText: true,
+            shipTeamKey: ShipTeam.FIRST_ORDER_UPSILON_CLASS_SHUTTLE,
+            pilotSkillValue: 2,
+            squadPointCost: 30,
+            upgradeTypeKeys: [UpgradeType.SYSTEM, UpgradeType.CREW, UpgradeType.CREW, UpgradeType.TECH, UpgradeType.TECH],
+            value: "starkillerBasePilot",
          },
          "stormSquadronPilot":
          {
