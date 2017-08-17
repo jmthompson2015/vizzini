@@ -86,36 +86,36 @@
             var token = TokenFactory.create(store, pilotKey, agent);
 
             var images = [];
-            images.push(this.createShipImage(shipTeamKey, images.length));
+            images.push(this.createShipImage(shipTeamKey));
 
             if (shipTeamKey === ShipTeam.IMPERIAL_TIE_BOMBER)
             {
-              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_BOMBER_V2, images.length));
+              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_BOMBER_V2));
             }
             else if (shipTeamKey === ShipTeam.IMPERIAL_TIE_DEFENDER)
             {
-              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_DEFENDER_V2, images.length));
+              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_DEFENDER_V2));
             }
             else if (shipTeamKey === ShipTeam.IMPERIAL_TIE_INTERCEPTOR)
             {
-              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_V2, images.length));
-              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_V3, images.length));
+              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_V2));
+              images.push(this.createShipImage(ShipTeam.IMPERIAL_TIE_INTERCEPTOR_V3));
             }
             else if (shipTeamKey === ShipTeam.REBEL_A_WING)
             {
-              images.push(this.createShipImage(ShipTeam.REBEL_A_WING_V2, images.length));
+              images.push(this.createShipImage(ShipTeam.REBEL_A_WING_V2));
             }
             else if (shipTeamKey === ShipTeam.REBEL_B_WING)
             {
-              images.push(this.createShipImage(ShipTeam.REBEL_B_WING_V2, images.length));
+              images.push(this.createShipImage(ShipTeam.REBEL_B_WING_V2));
             }
             else if (shipTeamKey === ShipTeam.SCUM_M3_A_INTERCEPTOR)
             {
-              images.push(this.createShipImage(ShipTeam.SCUM_M3_A_INTERCEPTOR_V2, images.length));
+              images.push(this.createShipImage(ShipTeam.SCUM_M3_A_INTERCEPTOR_V2));
             }
             else if (shipTeamKey === ShipTeam.RESISTANCE_T_70_X_WING)
             {
-              images.push(this.createShipImage(ShipTeam.RESISTANCE_T_70_X_WING_V2, images.length));
+              images.push(this.createShipImage(ShipTeam.RESISTANCE_T_70_X_WING_V2));
             }
 
             var silhouette = React.createElement(ShipSilhouetteUI,
@@ -221,14 +221,16 @@
             {
               key: rows.length,
             }, cell3));
+
             return React.DOM.table(
             {
-              className: "galleryTable"
+              key: this.props.myKey,
+              className: "galleryTable",
             }, React.DOM.tbody(
             {}, rows));
           },
 
-          createShipImage: function(shipTeamKey, key)
+          createShipImage: function(shipTeamKey)
           {
             var shipTeam = ShipTeam.properties[shipTeamKey];
             var shipBase = shipTeam.ship.shipBase;
@@ -236,7 +238,6 @@
 
             return React.createElement(ShipUI,
             {
-              key: key,
               canvasId: shipTeam.name,
               imageBase: imageBase,
               position: position,
@@ -262,6 +263,8 @@
               ShipTeam.REBEL_B_WING_V2,
               ShipTeam.SCUM_M3_A_INTERCEPTOR_V2,
               ShipTeam.RESISTANCE_T_70_X_WING_V2,
+              // FIXME: add Sabine's TIE Fighter
+              ShipTeam.REBEL_SABINES_TIE_FIGHTER,
             ];
 
             shipTeamKeys.forEach(function(shipTeamKey)
@@ -270,7 +273,7 @@
               {
                 var element = React.createElement(ShipInstance,
                 {
-                  key: "instance" + shipTeamKey,
+                  myKey: "instance" + shipTeamKey,
                   agent: agent,
                   shipTeamKey: shipTeamKey,
                 });

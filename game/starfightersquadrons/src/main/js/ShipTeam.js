@@ -402,7 +402,7 @@ define(["Ship", "Team"], function(Ship, Team)
          },
          "rebelYt1300":
          {
-            name: "YT-1300",
+            name: "YT-1300 (Rebel)",
             shipKey: Ship.YT_1300,
             teamKey: Team.REBEL,
             image: "Rebel_YT-1300.png",
@@ -449,7 +449,7 @@ define(["Ship", "Team"], function(Ship, Team)
          },
          "resistanceYt1300":
          {
-            name: "YT-1300",
+            name: "YT-1300 (Resistance)",
             shipKey: Ship.YT_1300,
             teamKey: Team.RESISTANCE,
             image: "Resistance_YT-1300.png",
